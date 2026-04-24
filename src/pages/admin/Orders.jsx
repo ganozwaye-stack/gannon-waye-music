@@ -9,7 +9,7 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
-import { Package, Eye } from 'lucide-react';
+import { Package, Send } from 'lucide-react';
 import { format } from 'date-fns';
 
 const STATUS_COLORS = {
@@ -25,6 +25,19 @@ export default function Orders() {
   const queryClient = useQueryClient();
   const [selected, setSelected] = useState(null);
   const [statusFilter, setStatusFilter] = useState('all');
+  const [sendingEmail, setSendingEmail] = useState(false);
+
+  const sendTrackingEmail = async () => {
+    if (!selected?.customer_email || !selected?.tracking_number) return;
+    setSendingEmail(true);
+    await base44.integrations.Core.SendEmail({
+      to: selected.customer_email,
+      subject: `Your order has shipped! Tracking: ${selected.tracking_number}`,
+      body: `Hi ${selected.customer_name},\n\nGreat news — your Gannon Waye merch is on its way!\n\nTracking number: ${selected.tracking_number}\n\nYou can use this number to track your package with the carrier.\n\nThank you for your support!\n\nGannon Waye`,
+    });
+    setSendingEmail(false);
+    toast({ title: 'Tracking email sent!', description: `Email sent to ${selected.customer_email}` });
+  };
 
   const { data: orders } = useQuery({
     queryKey: ['merchOrders'], queryFn: () => base44.entities.MerchOrder.list('-created_date'), initialData: [],
@@ -143,12 +156,24 @@ export default function Orders() {
               </div>
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase">Tracking Number</Label>
-                <Input
-                  value={selected.tracking_number || ''}
-                  onChange={e => setSelected({ ...selected, tracking_number: e.target.value })}
-                  onBlur={() => updateMutation.mutate({ id: selected.id, data: { tracking_number: selected.tracking_number } })}
-                  placeholder="Enter tracking number"
-                />
+                <div className="flex gap-2 mt-1">
+                  <Input
+                    value={selected.tracking_number || ''}
+                    onChange={e => setSelected({ ...selected, tracking_number: e.target.value })}
+                    onBlur={() => updateMutation.mutate({ id: selected.id, data: { tracking_number: selected.tracking_number } })}
+                    placeholder="Enter tracking number"
+                  />
+                  <Button
+                    onClick={sendTrackingEmail}
+                    disabled={!selected.tracking_number || sendingEmail}
+                    className="gap-2 shrink-0"
+                    title="Send tracking email to customer"
+                  >
+                    <Send className="w-4 h-4" />
+                    {sendingEmail ? 'Sending…' : 'Email'}
+                  </Button>
+                </div>
+                <p className="font-body text-[10px] text-muted-foreground mt-1">Sends tracking number to {selected.customer_email}</p>
               </div>
             </div>
           )}
