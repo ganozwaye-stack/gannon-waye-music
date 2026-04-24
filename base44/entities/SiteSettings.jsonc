@@ -1,0 +1,43 @@
+{
+  "name": "SiteSettings",
+  "type": "object",
+  "properties": {
+    "artist_name": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "hero_image_url": {
+      "type": "string"
+    },
+    "profile_image_url": {
+      "type": "string"
+    },
+    "instagram_url": {
+      "type": "string"
+    },
+    "facebook_url": {
+      "type": "string"
+    },
+    "twitter_url": {
+      "type": "string"
+    },
+    "tiktok_url": {
+      "type": "string"
+    },
+    "youtube_url": {
+      "type": "string"
+    },
+    "spotify_url": {
+      "type": "string"
+    },
+    "apple_music_url": {
+      "type": "string"
+    },
+    "email_contact": {
+      "type": "string"
+    }
+  },
+  "required": []
+}

@@ -1,0 +1,49 @@
+{
+  "name": "MerchProduct",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "apparel",
+        "accessories",
+        "vinyl",
+        "cd",
+        "poster",
+        "bundle",
+        "other"
+      ],
+      "default": "apparel"
+    },
+    "price": {
+      "type": "number"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "sizes_available": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "stock_quantity": {
+      "type": "number",
+      "default": 0
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "name",
+    "price"
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "name": "Release",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Song or album title"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "single",
+        "ep",
+        "album"
+      ],
+      "default": "single"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "idea",
+        "writing",
+        "pre_production",
+        "recording",
+        "mixing",
+        "mastering",
+        "ready",
+        "released"
+      ],
+      "default": "idea"
+    },
+    "release_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "artwork_url": {
+      "type": "string",
+      "description": "Cover artwork image URL"
+    },
+    "description": {
+      "type": "string"
+    },
+    "lyrics": {
+      "type": "string"
+    },
+    "credits": {
+      "type": "string",
+      "description": "Production credits"
+    },
+    "distributor": {
+      "type": "string",
+      "description": "Distribution partner name"
+    },
+    "distributor_link": {
+      "type": "string",
+      "description": "Link to distributor portal"
+    },
+    "spotify_link": {
+      "type": "string"
+    },
+    "apple_music_link": {
+      "type": "string"
+    },
+    "youtube_link": {
+      "type": "string"
+    },
+    "other_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "price": {
+      "type": "number",
+      "description": "Digital purchase price"
+    },
+    "is_published": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "title"
+  ]
+}
