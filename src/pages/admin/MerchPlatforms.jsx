@@ -1,0 +1,135 @@
+import React from 'react';
+import { ExternalLink } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+
+const PLATFORMS = [
+  {
+    name: 'Printful',
+    url: 'https://www.printful.com',
+    description: 'High-quality on-demand printing. Integrates with Shopify, Etsy & more. Great for apparel, posters, and accessories.',
+    tags: ['Dropship', 'No minimums', 'Global shipping'],
+    recommended: true,
+  },
+  {
+    name: 'Printify',
+    url: 'https://printify.com',
+    description: 'Large network of print providers worldwide. Often cheaper than Printful. Wide product range.',
+    tags: ['Dropship', 'No minimums', 'Competitive pricing'],
+    recommended: true,
+  },
+  {
+    name: 'Spring (Teespring)',
+    url: 'https://www.sprisng.com',
+    description: 'Built for creators & musicians. Sell directly via a storefront link — no separate store needed.',
+    tags: ['Creator-focused', 'Free storefront', 'Music merch'],
+    recommended: true,
+  },
+  {
+    name: 'Redbubble',
+    url: 'https://www.redbubble.com',
+    description: 'Upload your art once, fans buy on-demand. Good for stickers, prints, phone cases.',
+    tags: ['Marketplace', 'Passive income', 'Wide products'],
+    recommended: false,
+  },
+  {
+    name: 'Merch by Amazon',
+    url: 'https://merch.amazon.com',
+    description: 'Sell your designs on Amazon with no upfront cost. Requires approval — best for t-shirts.',
+    tags: ['Amazon reach', 'Approval required', 'T-shirts'],
+    recommended: false,
+  },
+  {
+    name: 'Spreadshirt',
+    url: 'https://www.spreadshirt.com',
+    description: 'Design and sell custom merch. Has a marketplace and your own shop option.',
+    tags: ['Dropship', 'EU & US', 'Marketplace'],
+    recommended: false,
+  },
+  {
+    name: 'GOOTEN',
+    url: 'https://www.gooten.com',
+    description: 'Enterprise-grade print-on-demand. Good for scaling up with consistent quality.',
+    tags: ['Dropship', 'Scalable', 'API integrations'],
+    recommended: false,
+  },
+  {
+    name: 'Gelato',
+    url: 'https://www.gelato.com',
+    description: 'Prints locally in 32 countries — faster delivery, lower carbon footprint. Great quality.',
+    tags: ['Dropship', 'Global local print', 'Eco-friendly'],
+    recommended: true,
+  },
+  {
+    name: 'Vistaprint',
+    url: 'https://www.vistaprint.com.au',
+    description: 'Best for bulk physical orders you ship yourself — business cards, stickers, posters, apparel.',
+    tags: ['Bulk orders', 'Self-fulfil', 'Australia'],
+    recommended: false,
+  },
+  {
+    name: 'Canva Merch',
+    url: 'https://www.canva.com/print/',
+    description: 'Design and print directly from Canva. Great if you already use Canva for artwork.',
+    tags: ['Design + print', 'Easy', 'Self-fulfil'],
+    recommended: false,
+  },
+];
+
+export default function MerchPlatforms() {
+  return (
+    <div>
+      <div className="mb-8">
+        <h1 className="font-display text-3xl text-foreground">Merch Platforms</h1>
+        <p className="font-body text-sm text-muted-foreground mt-2">
+          Click any platform to open it, design your products, and order to sell. Recommended picks are highlighted.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {PLATFORMS.map(p => (
+          <a
+            key={p.name}
+            href={p.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group block"
+          >
+            <Card className={`bg-card border-border/40 h-full transition-all group-hover:border-primary/40 group-hover:shadow-lg ${p.recommended ? 'border-primary/20' : ''}`}>
+              <CardHeader className="pb-2">
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-2">
+                    <CardTitle className="font-display text-lg text-foreground group-hover:text-primary transition-colors">
+                      {p.name}
+                    </CardTitle>
+                    {p.recommended && (
+                      <Badge className="bg-primary/20 text-primary border-0 text-[10px] tracking-wider uppercase">
+                        Recommended
+                      </Badge>
+                    )}
+                  </div>
+                  <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-0.5" />
+                </div>
+                <CardDescription className="font-body text-sm text-muted-foreground leading-relaxed">
+                  {p.description}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <div className="flex flex-wrap gap-1.5">
+                  {p.tags.map(tag => (
+                    <span
+                      key={tag}
+                      className="font-body text-[10px] tracking-wider uppercase px-2 py-0.5 rounded-full bg-secondary/60 text-muted-foreground"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}

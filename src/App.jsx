@@ -21,6 +21,7 @@ import MerchManagement from '@/pages/admin/MerchManagement';
 import Orders from '@/pages/admin/Orders';
 import FanManagement from '@/pages/admin/FanManagement';
 import SiteSettings from '@/pages/admin/SiteSettings';
+import MerchPlatforms from '@/pages/admin/MerchPlatforms';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -63,6 +64,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/admin/fans" element={<FanManagement />} />
         <Route path="/admin/settings" element={<SiteSettings />} />
+        <Route path="/admin/merch-platforms" element={<MerchPlatforms />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 const NAV_ITEMS = [
@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { label: 'Orders', path: '/admin/orders', icon: Package },
   { label: 'Fan Community', path: '/admin/fans', icon: Users },
   { label: 'Site Settings', path: '/admin/settings', icon: Settings },
+  { label: 'Merch Platforms', path: '/admin/merch-platforms', icon: Printer },
 ];
 
 export default function AdminLayout() {
