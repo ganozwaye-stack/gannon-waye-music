@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background z-10" />
         <AnimatePresence>
           <motion.img
@@ -63,10 +63,10 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Singer · Songwriter</p>
-            <h1 className="font-display text-5xl md:text-8xl font-bold text-foreground leading-tight">
+            <h1 className="font-display text-6xl sm:text-7xl md:text-8xl font-bold text-foreground leading-tight">
               Gannon<br />Waye
             </h1>
-            <p className="font-body text-base md:text-lg text-foreground/60 mt-6 max-w-xl mx-auto leading-relaxed">
+            <p className="font-body text-sm md:text-lg text-foreground/60 mt-4 max-w-xl mx-auto leading-relaxed px-2">
               {site.bio || 'Australian singer-songwriter crafting honest stories through melody and verse.'}
             </p>
           </motion.div>
@@ -92,15 +92,15 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
+            className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
           >
-            <Link to="/music">
-              <Button className="gap-2 px-8 py-6 text-sm tracking-wider uppercase font-body rounded-full">
+            <Link to="/music" className="w-full sm:w-auto">
+              <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full">
                 <Play className="w-4 h-4" /> Explore Music
               </Button>
             </Link>
-            <Link to="/community">
-              <Button variant="outline" className="gap-2 px-8 py-6 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
+            <Link to="/community" className="w-full sm:w-auto">
+              <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
                 Join the Community <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
@@ -109,7 +109,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section className="py-24 px-6 relative">
+      <section className="py-16 md:py-24 px-4 md:px-6 relative">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -140,11 +140,11 @@ export default function Home() {
 
       {/* Latest Releases Preview */}
       {releases.length > 0 && (
-        <section className="py-24 px-6 bg-secondary/10">
+        <section className="py-16 md:py-24 px-4 md:px-6 bg-secondary/10">
           <div className="max-w-6xl mx-auto">
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4 text-center">Latest</p>
             <h2 className="font-display text-3xl md:text-5xl text-foreground mb-12 text-center">Music</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
               {releases.filter(r => r.is_published).slice(0, 2).map(release => (
                 <motion.div
                   key={release.id}

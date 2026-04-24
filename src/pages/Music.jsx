@@ -27,7 +27,7 @@ export default function Music() {
   const published = releases.filter(r => r.is_published);
 
   return (
-    <div className="min-h-screen py-24 px-6">
+    <div className="min-h-screen py-20 px-4 md:px-6">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -51,9 +51,9 @@ export default function Music() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8 bg-card border border-border/40 rounded-2xl overflow-hidden hover:border-primary/20 transition-all"
+                className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-0 bg-card border border-border/40 rounded-2xl overflow-hidden hover:border-primary/20 transition-all"
               >
-                <div className="aspect-square bg-secondary/50 overflow-hidden">
+                <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden">
                   {release.artwork_url ? (
                     <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover" />
                   ) : (
@@ -62,7 +62,7 @@ export default function Music() {
                     </div>
                   )}
                 </div>
-                <div className="p-6 md:py-8 flex flex-col justify-center">
+                <div className="p-5 md:p-8 flex flex-col justify-center">
                   <div className="flex items-center gap-3 mb-2">
                     <Badge variant="outline" className="font-body text-[10px] tracking-widest uppercase border-primary/30 text-primary">
                       {release.type}

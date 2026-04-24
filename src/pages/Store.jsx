@@ -53,7 +53,7 @@ export default function Store() {
   };
 
   return (
-    <div className="min-h-screen py-24 px-6">
+    <div className="min-h-screen py-20 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
           <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Official</p>
@@ -103,7 +103,7 @@ export default function Store() {
 
       {/* Order Dialog */}
       <Dialog open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
-        <DialogContent className="bg-card border-border/40 max-w-md">
+        <DialogContent className="bg-card border-border/40 max-w-md mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl">{selectedProduct?.name}</DialogTitle>
             <DialogDescription className="font-body text-muted-foreground">
