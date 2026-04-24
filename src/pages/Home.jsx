@@ -43,7 +43,7 @@ export default function Home() {
     <div className="min-h-screen">
       {/* Hero */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/30 to-background z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/15 to-background z-10" />
         <AnimatePresence>
           <motion.img
             key={currentImg}
