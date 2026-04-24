@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from '@/components/public/CountdownTimer';
 import SocialLinks from '@/components/public/SocialLinks';
+
+const HERO_IMAGES = [
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9fed1279f_00.jpg',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b70ae752d_0.jpg',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/91d4c63a5_b5c0ca59-a71f-469f-94f6-a6aede6ccdf5.jpg',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0e3e9d3bd_WhatsAppImage2026-04-18at6016PM.jpg',
+];
 
 export default function Home() {
   const { data: settings } = useQuery({
@@ -24,16 +31,31 @@ export default function Home() {
   const site = settings[0] || {};
   const upcomingRelease = releases.find(r => r.status !== 'released' && r.release_date);
 
+  const [currentImg, setCurrentImg] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImg(i => (i + 1) % HERO_IMAGES.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen">
       {/* Hero */}
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background z-10" />
-        <img
-          src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4f9d0c45f_VKTBV9ZIbVCIjdSyvcMu--0--sMw5h.jpg"
-          alt="Gannon Waye"
-          className="absolute inset-0 w-full h-full object-cover object-center opacity-60"
-        />
+        <AnimatePresence>
+          <motion.img
+            key={currentImg}
+            src={HERO_IMAGES[currentImg]}
+            alt="Gannon Waye"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.65 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5 }}
+            className="absolute inset-0 w-full h-full object-cover object-top"
+          />
+        </AnimatePresence>
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
