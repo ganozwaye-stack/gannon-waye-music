@@ -30,7 +30,7 @@ export default function Home() {
       <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background z-10" />
         <img
-          src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/8898bf49e_generated_389af247.png"
+          src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4f9d0c45f_VKTBV9ZIbVCIjdSyvcMu--0--sMw5h.jpg"
           alt="Gannon Waye"
           className="absolute inset-0 w-full h-full object-cover object-center opacity-60"
         />
