@@ -42,8 +42,8 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/15 to-background z-10" />
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/70 to-background z-10" />
         <AnimatePresence>
           <motion.img
             key={currentImg}
@@ -53,7 +53,7 @@ export default function Home() {
             animate={{ opacity: 0.65 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5 }}
-            className="absolute inset-0 w-full h-full object-cover object-top"
+            className="absolute inset-0 w-full h-full object-cover object-top opacity-100"
           />
         </AnimatePresence>
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
@@ -109,7 +109,7 @@ export default function Home() {
       </section>
 
       {/* About Section */}
-      <section className="py-24 px-6">
+      <section className="py-24 px-6 relative">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -140,7 +140,7 @@ export default function Home() {
 
       {/* Latest Releases Preview */}
       {releases.length > 0 && (
-        <section className="py-24 px-6 bg-secondary/30">
+        <section className="py-24 px-6 bg-secondary/10">
           <div className="max-w-6xl mx-auto">
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4 text-center">Latest</p>
             <h2 className="font-display text-3xl md:text-5xl text-foreground mb-12 text-center">Music</h2>
