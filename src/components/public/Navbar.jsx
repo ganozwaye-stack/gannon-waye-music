@@ -22,18 +22,28 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-8">
-          {NAV_LINKS.map(link => (
-            <Link
-              key={link.path}
-              to={link.path}
-              className={`font-body text-sm tracking-widest uppercase transition-colors ${
-                location.pathname === link.path ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+        <div className="hidden md:flex items-center gap-6">
+          {NAV_LINKS.map(link => {
+            const active = location.pathname === link.path;
+            const isHighlighted = link.path === '/store' || link.path === '/community';
+            return (
+              <Link
+                key={link.path}
+                to={link.path}
+                className={`font-body text-sm tracking-widest uppercase transition-colors ${
+                  isHighlighted
+                    ? active
+                      ? 'px-4 py-1.5 rounded-full bg-primary text-primary-foreground'
+                      : 'px-4 py-1.5 rounded-full border border-primary/40 text-primary hover:bg-primary/10'
+                    : active
+                      ? 'text-primary'
+                      : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Mobile toggle */}
