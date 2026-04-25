@@ -222,15 +222,15 @@ export default function Home() {
           </motion.div>
 
           {/* Magazine-style 3-column layout */}
-          <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] gap-10 items-start">
+          <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] gap-10 items-stretch">
 
-            {/* Left column */}
+            {/* Left column — left-justified, lines hug right toward centre */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="space-y-5 font-body text-foreground/70 leading-relaxed text-sm"
+              className="space-y-5 font-body text-foreground/70 leading-relaxed text-sm text-left"
             >
               <p>
                 I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. 
@@ -252,29 +252,29 @@ export default function Home() {
               </p>
             </motion.div>
 
-            {/* Centre — pull quote centrepiece */}
+            {/* Centre — pull quote centrepiece, fully centred */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="w-[220px] xl:w-[260px] flex-shrink-0 flex flex-col items-center text-center gap-5 px-6 border-x border-primary/20 self-stretch justify-center py-4"
+              className="w-[200px] xl:w-[240px] flex-shrink-0 flex flex-col items-center text-center gap-4 px-6 border-x border-primary/20 justify-center py-4"
             >
-              <span className="font-display text-primary text-6xl leading-none select-none">"</span>
-              <p className="font-display text-lg xl:text-xl text-foreground leading-snug italic">
+              <span className="font-display text-primary text-5xl leading-none select-none opacity-60">"</span>
+              <p className="font-display text-base xl:text-lg text-foreground leading-snug italic text-center">
                 I didn't truly love myself until I was 33. Before that, I woke up every day wishing I could be someone else. That fear of abandonment ran my life. Then something shifted — and for the first time, I didn't want to be anyone else.
               </p>
-              <span className="font-display text-primary text-6xl leading-none rotate-180 select-none">"</span>
-              <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary/60 mt-1">Gannon Waye</p>
+              <span className="font-display text-primary text-5xl leading-none rotate-180 select-none opacity-60">"</span>
+              <p className="font-body text-[9px] tracking-[0.3em] uppercase text-primary/50">Gannon Waye</p>
             </motion.div>
 
-            {/* Right column */}
+            {/* Right column — right-justified, lines hug left toward centre */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="space-y-5 font-body text-foreground/70 leading-relaxed text-sm"
+              className="space-y-5 font-body text-foreground/70 leading-relaxed text-sm text-right"
             >
               <p>
                 I began singing at a young age — runner-up in Adelaide Search for a Star, Top 100 in the early days of 
@@ -289,7 +289,7 @@ export default function Home() {
                 Music, for me, is about impact. If one song reaches someone at the right moment — if one lyric 
                 shifts how they feel about themselves — then it's done exactly what it was meant to do.
               </p>
-              <div className="pt-4">
+              <div className="pt-4 flex justify-end">
                 <SocialLinks settings={site} />
               </div>
             </motion.div>
