@@ -88,7 +88,7 @@ export default function Home() {
             </div>
             <p className="font-display text-lg text-foreground italic">"Thank You"</p>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
-            <CountdownTimer targetDate="2026-06-10T00:00:00" />
+            <CountdownTimer targetDate="2026-05-10T00:00:00" />
           </motion.div>
 
           <motion.div
