@@ -79,7 +79,7 @@ export default function Music() {
                     </Badge>
                   </div>
                   <h2 className="font-display text-3xl md:text-4xl text-foreground">{release.title}</h2>
-                  {release.release_date && (
+                  {release.release_date && (release.status === 'released' || new Date() >= new Date('2026-05-10')) && (
                     <p className="font-body text-sm text-muted-foreground mt-2">
                       {new Date(release.release_date).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' })}
                     </p>

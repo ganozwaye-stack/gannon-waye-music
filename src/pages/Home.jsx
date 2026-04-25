@@ -131,7 +131,9 @@ export default function Home() {
                   <div className="mb-8">
                     <p className="font-body text-xs tracking-[0.25em] uppercase text-muted-foreground mb-4">Artwork reveal in</p>
                     <CountdownTimer targetDate="2026-05-10" />
-                    <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60 mt-3">Release date: 10 June 2026</p>
+                    {new Date() >= new Date('2026-05-10') && (
+                      <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60 mt-3">Release date: 10 June 2026</p>
+                    )}
                   </div>
 
                   {/* Badges */}
@@ -347,7 +349,7 @@ export default function Home() {
                     <p className="font-body text-xs tracking-widest uppercase text-primary">{release.type}</p>
                     <h3 className="font-display text-2xl text-foreground mt-1">{release.title}</h3>
                     <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.description}</p>
-                    {release.release_date && (
+                    {release.release_date && (release.status === 'released' || new Date() >= new Date('2026-05-10')) && (
                       <p className="font-body text-xs text-muted-foreground mt-3">
                         {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}
                         {new Date(release.release_date).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' })}
