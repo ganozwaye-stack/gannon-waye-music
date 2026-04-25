@@ -9,10 +9,7 @@ import CountdownTimer from '@/components/public/CountdownTimer';
 import SocialLinks from '@/components/public/SocialLinks';
 
 const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0a28f6997_image.png',
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fa14e601d_image.png',
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f7a3e85d9_image.png',
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0c73c36e5_image.png',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/20dc6f1b7_generated_image.png',
 ];
 
 export default function Home() {
