@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Play, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from '@/components/public/CountdownTimer';
 import SocialLinks from '@/components/public/SocialLinks';
@@ -226,7 +226,12 @@ export default function Home() {
                   className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 hover:border-primary/30 transition-all"
                 >
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
-                    {release.artwork_url ? (
+                    {release.artwork_url && new Date() < new Date('2026-05-10T00:00:00') ? (
+                      <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-secondary/80">
+                        <Lock className="w-10 h-10 text-primary/60" />
+                        <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Artwork Hidden</p>
+                      </div>
+                    ) : release.artwork_url ? (
                       <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
