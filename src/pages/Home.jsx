@@ -7,6 +7,8 @@ import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from '@/components/public/CountdownTimer';
 import SocialLinks from '@/components/public/SocialLinks';
+import ThankYouSingle from '@/components/public/ThankYouSingle';
+import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/20dc6f1b7_generated_image.png',
@@ -195,6 +197,12 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* Thank You Single */}
+      <ThankYouSingle />
+
+      {/* Safe Space Banner */}
+      <SafeSpaceBanner />
 
       {/* Latest Releases Preview */}
       {releases.length > 0 && (
