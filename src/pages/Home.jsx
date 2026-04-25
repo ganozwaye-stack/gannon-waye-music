@@ -255,7 +255,7 @@ export default function Home() {
               className="flex-shrink-0 flex flex-col items-center text-center gap-3 px-5 border-x border-primary/20 py-2"
             >
               <span className="font-display text-primary text-4xl leading-none select-none opacity-50">"</span>
-              <div className="font-display text-sm text-primary leading-loose italic text-center space-y-1">
+              <div className="font-display text-xs text-primary leading-loose italic text-center space-y-1">
                 <p>I didn't truly love myself until I was 33.</p>
                 <p>Before that, I woke up every day</p>
                 <p>wishing I could be someone else.</p>
