@@ -7,7 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Upload, Save } from 'lucide-react';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Upload, Save, Trash2 } from 'lucide-react';
 
 export default function SiteSettings() {
   const { toast } = useToast();
@@ -114,15 +115,42 @@ export default function SiteSettings() {
         </Card>
 
         <Card className="bg-card border-border/40">
-          <CardHeader><CardTitle className="font-display text-lg">Contact</CardTitle></CardHeader>
-          <CardContent>
-            <div>
-              <Label className="font-body text-xs tracking-wider uppercase">Contact Email</Label>
-              <Input value={form.email_contact || ''} onChange={e => update('email_contact', e.target.value)} placeholder="hello@gannonwaye.com" />
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
-}
+           <CardHeader><CardTitle className="font-display text-lg">Contact</CardTitle></CardHeader>
+           <CardContent>
+             <div>
+               <Label className="font-body text-xs tracking-wider uppercase">Contact Email</Label>
+               <Input value={form.email_contact || ''} onChange={e => update('email_contact', e.target.value)} placeholder="hello@gannonwaye.com" />
+             </div>
+           </CardContent>
+         </Card>
+
+         <Card className="bg-destructive/5 border border-destructive/20">
+           <CardHeader><CardTitle className="font-display text-lg text-destructive">Danger Zone</CardTitle></CardHeader>
+           <CardContent>
+             <AlertDialog>
+               <AlertDialogTrigger asChild>
+                 <Button variant="destructive" size="sm" className="gap-2">
+                   <Trash2 className="w-4 h-4" /> Delete Account
+                 </Button>
+               </AlertDialogTrigger>
+               <AlertDialogContent>
+                 <AlertDialogHeader>
+                   <AlertDialogTitle>Delete Account</AlertDialogTitle>
+                   <AlertDialogDescription>
+                     This action cannot be undone. All site data will be permanently deleted.
+                   </AlertDialogDescription>
+                 </AlertDialogHeader>
+                 <div className="flex gap-3">
+                   <AlertDialogCancel>Cancel</AlertDialogCancel>
+                   <AlertDialogAction onClick={() => base44.auth.logout()} className="bg-destructive hover:bg-destructive/90">
+                     Delete
+                   </AlertDialogAction>
+                 </div>
+               </AlertDialogContent>
+             </AlertDialog>
+           </CardContent>
+         </Card>
+        </div>
+        </div>
+        );
+        }

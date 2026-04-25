@@ -87,5 +87,19 @@
 
   body {
     @apply bg-background text-foreground;
+    overscroll-behavior: none;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  html {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  button, a, [role="button"] {
+    @apply select-none;
+  }
+
+  p, span, h1, h2, h3, h4, h5, h6 {
+    @apply select-text;
   }
 }

@@ -23,6 +23,19 @@ export default function Community() {
 
   const createPost = useMutation({
     mutationFn: (data) => base44.entities.FanPost.create(data),
+    onMutate: async (newPost) => {
+      await queryClient.cancelQueries({ queryKey: ['fanPosts'] });
+      const prev = queryClient.getQueryData(['fanPosts']);
+      queryClient.setQueryData(['fanPosts'], (old) => [
+        { ...newPost, id: Date.now(), created_date: new Date().toISOString() },
+        ...(old || []),
+      ]);
+      return { prev };
+    },
+    onError: (err, newPost, ctx) => {
+      queryClient.setQueryData(['fanPosts'], ctx.prev);
+      toast({ title: 'Error posting message', variant: 'destructive' });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fanPosts'] });
       setNewPost({ author_name: '', author_email: '', content: '' });

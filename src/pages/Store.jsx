@@ -11,14 +11,18 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from '@/components/ui/drawer';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export default function Store() {
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [orderForm, setOrderForm] = useState({ customer_name: '', customer_email: '', shipping_address: '', size: '' });
   const [submitting, setSubmitting] = useState(false);
+  const [sizeDrawerOpen, setSizeDrawerOpen] = useState(false);
 
   const { data: products } = useQuery({
     queryKey: ['merchProducts'],
@@ -116,14 +120,44 @@ export default function Store() {
             {selectedProduct?.sizes_available?.length > 0 && (
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase">Size</Label>
-                <Select value={orderForm.size} onValueChange={v => setOrderForm({ ...orderForm, size: v })}>
-                  <SelectTrigger><SelectValue placeholder="Select size" /></SelectTrigger>
-                  <SelectContent>
-                    {selectedProduct.sizes_available.map(s => (
-                      <SelectItem key={s} value={s}>{s}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                {isMobile ? (
+                  <>
+                    <Button variant="outline" className="w-full" onClick={() => setSizeDrawerOpen(true)}>
+                      {orderForm.size || 'Select size'}
+                    </Button>
+                    <Drawer open={sizeDrawerOpen} onOpenChange={setSizeDrawerOpen}>
+                      <DrawerContent className="bg-card">
+                        <DrawerHeader>
+                          <DrawerTitle className="font-display">Choose Size</DrawerTitle>
+                        </DrawerHeader>
+                        <div className="space-y-2 p-4">
+                          {selectedProduct.sizes_available.map(s => (
+                            <Button
+                              key={s}
+                              variant={orderForm.size === s ? 'default' : 'outline'}
+                              className="w-full"
+                              onClick={() => {
+                                setOrderForm({ ...orderForm, size: s });
+                                setSizeDrawerOpen(false);
+                              }}
+                            >
+                              {s}
+                            </Button>
+                          ))}
+                        </div>
+                      </DrawerContent>
+                    </Drawer>
+                  </>
+                ) : (
+                  <Select value={orderForm.size} onValueChange={v => setOrderForm({ ...orderForm, size: v })}>
+                    <SelectTrigger><SelectValue placeholder="Select size" /></SelectTrigger>
+                    <SelectContent>
+                      {selectedProduct.sizes_available.map(s => (
+                        <SelectItem key={s} value={s}>{s}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
               </div>
             )}
             <div>
