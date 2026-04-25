@@ -108,31 +108,87 @@ Waye
         </div>
       </section>
 
-      {/* About Section */}
+      {/* About Section — magazine 3-column */}
       <section className="py-16 md:py-24 px-4 md:px-6 relative">
-        <div className="max-w-4xl mx-auto text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}>
-            
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-10">
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">About</p>
-            <h2 className="font-display text-3xl md:text-5xl text-foreground mb-8">The Story</h2>
-            <p className="font-body text-foreground/60 leading-relaxed text-base md:text-lg max-w-2xl mx-auto">
-              From the sun-drenched coasts of Australia to the intimate confines of the recording studio, 
-              Gannon Waye has spent years honing his craft as a songwriter. At 38, he's ready to share his 
-              music with the world. Every song tells a story — raw, honest, and unapologetically real.
+            <h2 className="font-display text-3xl md:text-5xl text-foreground">The Story</h2>
+          </div>
+
+          {/* 3-column magazine layout — hidden on mobile */}
+          <div className="hidden md:grid grid-cols-[1fr_auto_1fr] gap-8 items-start">
+            {/* Left column — left aligned */}
+            <motion.div
+              initial={{ opacity: 0, x: -16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="font-body text-foreground/60 leading-relaxed text-sm text-left space-y-3"
+            >
+              <p>Born and raised in Adelaide, now calling Melbourne home for over 13 years.</p>
+              <p>A deep thinker and feeler who sees beyond the limitations of the mind into things others often miss.</p>
+              <p>Obsessed with travel, culture, and the creative spaces where people express who they truly are.</p>
+              <p>Often misunderstood — but so were many who changed the world.</p>
+            </motion.div>
+
+            {/* Centre — quote centrepiece */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="w-56 flex flex-col items-center gap-2 pt-1"
+            >
+              <div className="w-px h-8 bg-primary/40" />
+              <div className="font-display text-[11px] text-primary leading-6 italic text-center space-y-0">
+                <p>I didn't truly love myself</p>
+                <p>until I was 33.</p>
+                <p>Before that, I woke up every day</p>
+                <p>wishing I could be someone else.</p>
+                <p>That fear of abandonment</p>
+                <p>ran my life.</p>
+                <p>Then something shifted —</p>
+                <p>and for the first time,</p>
+                <p>I didn't want to be anyone else.</p>
+              </div>
+              <div className="w-px h-8 bg-primary/40" />
+            </motion.div>
+
+            {/* Right column — right aligned */}
+            <motion.div
+              initial={{ opacity: 0, x: 16 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="font-body text-foreground/60 leading-relaxed text-sm text-right space-y-3"
+            >
+              <p>Music has always been more than sound — it's a way of understanding people and emotion.</p>
+              <p>Over a decade of songwriting, shaped by grief, growth, and an unshakeable belief in human connection.</p>
+              <p>If one song reaches someone at the right moment and shifts how they feel about themselves —</p>
+              <p>then it has done exactly what it was meant to do.</p>
+            </motion.div>
+          </div>
+
+          {/* Mobile fallback — stacked */}
+          <div className="md:hidden space-y-6">
+            <p className="font-body text-foreground/60 leading-relaxed text-sm text-center">
+              Born and raised in Adelaide, now calling Melbourne home for over 13 years. A deep thinker who sees beyond what others often miss — obsessed with travel, culture, and the creative world.
             </p>
-          </motion.div>
+            <div className="border-l-2 border-primary/50 pl-4 font-display text-sm text-primary italic leading-7">
+              "I didn't truly love myself until I was 33. Before that, I woke up every day wishing I could be someone else. That fear of abandonment ran my life. Then something shifted — and for the first time, I didn't want to be anyone else."
+            </div>
+            <p className="font-body text-foreground/60 leading-relaxed text-sm text-center">
+              Over a decade of songwriting, shaped by grief, growth, and an unshakeable belief in human connection. If one song can reach someone at the right moment — it's done what it was meant to do.
+            </p>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mt-12">
-            
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mt-12 flex justify-center">
             <SocialLinks settings={site} className="justify-center" />
           </motion.div>
         </div>
