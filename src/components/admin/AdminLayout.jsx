@@ -3,14 +3,39 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
-const NAV_ITEMS = [
-  { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-  { label: 'Releases', path: '/admin/releases', icon: Music },
-  { label: 'Merch Products', path: '/admin/merch', icon: ShoppingBag },
-  { label: 'Orders', path: '/admin/orders', icon: Package },
-  { label: 'Fan Community', path: '/admin/fans', icon: Users },
-  { label: 'Site Settings', path: '/admin/settings', icon: Settings },
-  { label: 'Merch Platforms', path: '/admin/merch-platforms', icon: Printer },
+const NAV_SECTIONS = [
+  {
+    title: 'Overview',
+    items: [
+      { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+    ]
+  },
+  {
+    title: 'Music',
+    items: [
+      { label: 'My Releases', path: '/admin/releases', icon: Music },
+    ]
+  },
+  {
+    title: 'Merchandise',
+    items: [
+      { label: 'My Products', path: '/admin/merch', icon: ShoppingBag },
+      { label: 'Design & Source', path: '/admin/merch-platforms', icon: Printer },
+      { label: 'Orders & Shipping', path: '/admin/orders', icon: Package },
+    ]
+  },
+  {
+    title: 'Community',
+    items: [
+      { label: 'Fan Messages', path: '/admin/fans', icon: Users },
+    ]
+  },
+  {
+    title: 'Settings',
+    items: [
+      { label: 'Site Settings', path: '/admin/settings', icon: Settings },
+    ]
+  },
 ];
 
 export default function AdminLayout() {
@@ -24,23 +49,30 @@ export default function AdminLayout() {
           <h2 className="font-display text-lg text-foreground">Gannon Waye</h2>
           <p className="font-body text-xs text-muted-foreground tracking-wider uppercase mt-1">Admin Panel</p>
         </div>
-        <nav className="flex-1 p-4 space-y-1">
-          {NAV_ITEMS.map(item => {
-            const Icon = item.icon;
-            const active = location.pathname === item.path;
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-body text-sm transition-colors ${
-                  active ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                {item.label}
-              </Link>
-            );
-          })}
+        <nav className="flex-1 p-4 space-y-6">
+          {NAV_SECTIONS.map(section => (
+            <div key={section.title}>
+              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground px-3 mb-2">{section.title}</p>
+              <div className="space-y-1">
+                {section.items.map(item => {
+                  const Icon = item.icon;
+                  const active = location.pathname === item.path;
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-body text-sm transition-colors ${
+                        active ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
+                      }`}
+                    >
+                      <Icon className="w-4 h-4" />
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
         <div className="p-4 border-t border-border/40 space-y-1">
           <Link to="/" className="flex items-center gap-3 px-3 py-2.5 rounded-lg font-body text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors">
@@ -62,7 +94,7 @@ export default function AdminLayout() {
           <Link to="/" className="font-body text-xs text-primary">View Site</Link>
         </div>
         <div className="flex gap-2 mt-2 overflow-x-auto pb-1">
-          {NAV_ITEMS.map(item => {
+          {NAV_SECTIONS.flatMap(s => s.items).map(item => {
             const active = location.pathname === item.path;
             return (
               <Link
