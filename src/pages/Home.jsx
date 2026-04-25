@@ -209,7 +209,7 @@ export default function Home() {
 
       {/* ── ABOUT / BIO ── */}
       <section className="py-16 md:py-28 px-4 md:px-6 relative">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -221,14 +221,16 @@ export default function Home() {
             <h2 className="font-display text-3xl md:text-5xl text-foreground">The Story</h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
-            {/* Left — personal story */}
+          {/* Magazine-style 3-column layout */}
+          <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] gap-10 items-start">
+
+            {/* Left column */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="space-y-5 font-body text-foreground/70 leading-relaxed"
+              className="space-y-5 font-body text-foreground/70 leading-relaxed text-sm"
             >
               <p>
                 I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. 
@@ -244,23 +246,35 @@ export default function Home() {
                 I've been misunderstood and mislabelled more times than I can count. But I've learned that being 
                 misunderstood doesn't mean you're wrong — it often means you're seeing something others aren't ready for yet.
               </p>
-              <p className="text-primary font-medium italic">
-                "I didn't truly love myself until I was 33. Before that, I woke up every day wishing I could be someone else. 
-                That fear of abandonment ran my life. Then something shifted — and for the first time, I didn't want to be anyone else."
-              </p>
               <p>
                 My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. 
                 But those experiences shaped me. They gave me something real to say.
               </p>
             </motion.div>
 
-            {/* Right — music journey + mission */}
+            {/* Centre — pull quote centrepiece */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="w-[220px] xl:w-[260px] flex-shrink-0 flex flex-col items-center text-center gap-5 px-6 border-x border-primary/20 self-stretch justify-center py-4"
+            >
+              <span className="font-display text-primary text-6xl leading-none select-none">"</span>
+              <p className="font-display text-lg xl:text-xl text-foreground leading-snug italic">
+                I didn't truly love myself until I was 33. Before that, I woke up every day wishing I could be someone else. That fear of abandonment ran my life. Then something shifted — and for the first time, I didn't want to be anyone else.
+              </p>
+              <span className="font-display text-primary text-6xl leading-none rotate-180 select-none">"</span>
+              <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary/60 mt-1">Gannon Waye</p>
+            </motion.div>
+
+            {/* Right column */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="space-y-5 font-body text-foreground/70 leading-relaxed"
+              className="space-y-5 font-body text-foreground/70 leading-relaxed text-sm"
             >
               <p>
                 I began singing at a young age — runner-up in Adelaide Search for a Star, Top 100 in the early days of 
@@ -279,6 +293,51 @@ export default function Home() {
                 <SocialLinks settings={site} />
               </div>
             </motion.div>
+          </div>
+
+          {/* Mobile fallback — stacked */}
+          <div className="md:hidden space-y-6 font-body text-foreground/70 leading-relaxed text-sm">
+            <p>
+              I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. 
+              Music has always been more than sound to me — it's the language I use to understand people, emotion, 
+              and the parts of life that don't always have words.
+            </p>
+            <p>
+              I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. 
+              I care about people's wellbeing — sometimes more than they even realise about themselves. 
+              That perspective finds its way into everything I write.
+            </p>
+            {/* Mobile quote */}
+            <div className="border-l-2 border-primary/40 pl-5 py-2 my-4">
+              <p className="font-display text-xl text-foreground italic leading-snug">
+                "I didn't truly love myself until I was 33. Before that, I woke up every day wishing I could be someone else. 
+                That fear of abandonment ran my life. Then something shifted — and for the first time, I didn't want to be anyone else."
+              </p>
+            </div>
+            <p>
+              I've been misunderstood and mislabelled more times than I can count. But I've learned that being 
+              misunderstood doesn't mean you're wrong — it often means you're seeing something others aren't ready for yet.
+            </p>
+            <p>
+              My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. 
+              But those experiences shaped me. They gave me something real to say.
+            </p>
+            <p>
+              I began singing at a young age — runner-up in Adelaide Search for a Star, Top 100 in the early days of 
+              Australian Idol, and a few others. But this isn't about trophies. The past decade has been about 
+              something far more personal: developing my own voice and writing from lived experience.
+            </p>
+            <p>
+              That work is now becoming an album — a collection for anyone who needs a message of hope, or just 
+              an anthem that reminds them they're not alone.
+            </p>
+            <p>
+              Music, for me, is about impact. If one song reaches someone at the right moment — if one lyric 
+              shifts how they feel about themselves — then it's done exactly what it was meant to do.
+            </p>
+            <div className="pt-2">
+              <SocialLinks settings={site} />
+            </div>
           </div>
         </div>
       </section>
