@@ -9,10 +9,10 @@ import CountdownTimer from '@/components/public/CountdownTimer';
 import SocialLinks from '@/components/public/SocialLinks';
 
 const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9fed1279f_00.jpg',
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b70ae752d_0.jpg',
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/91d4c63a5_b5c0ca59-a71f-469f-94f6-a6aede6ccdf5.jpg',
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0e3e9d3bd_WhatsAppImage2026-04-18at6016PM.jpg',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0a28f6997_image.png',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fa14e601d_image.png',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f7a3e85d9_image.png',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0c73c36e5_image.png',
 ];
 
 export default function Home() {
@@ -52,7 +52,7 @@ export default function Home() {
             animate={{ opacity: 0.45 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5 }}
-            className="absolute inset-0 w-full h-full object-cover object-top"
+            className="absolute inset-0 w-full h-full object-cover object-[center_20%]"
           />
         </AnimatePresence>
       </div>
