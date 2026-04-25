@@ -50,7 +50,7 @@ export default function Community() {
       return;
     }
     if (containsProfanity(newPost.content) || containsProfanity(newPost.author_name)) {
-      toast({ title: 'Please keep it respectful 🙏', description: 'This is a safe space — no profanity allowed.', variant: 'destructive' });
+      toast({ title: 'Please keep it respectful 🙏', description: 'This is a safe space, no profanity allowed.', variant: 'destructive' });
       return;
     }
     createPost.mutate(newPost);
@@ -63,8 +63,8 @@ export default function Community() {
           <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Connect</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-6">Community</h1>
           <p className="font-body text-foreground/60 mt-4 max-w-lg mx-auto leading-relaxed">
-            This is a safe space — for everyone. Whether you're here for the music, the message, or because something in 
-            a lyric hit a little too close to home, you belong here. No judgement. Just connection.
+            This is a safe space for everyone. Whether you're here for the music, the message, or because something in 
+            a lyric hit a little too close to home, you belong here. No judgement, just connection.
           </p>
           <p className="font-body text-muted-foreground text-sm mt-3 max-w-md mx-auto">
             You are not alone. Share your thoughts, your story, or just say hello.
