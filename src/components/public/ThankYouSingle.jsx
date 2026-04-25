@@ -57,11 +57,12 @@ export default function ThankYouSingle() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">New Single</p>
-          <h2 className="font-display text-4xl md:text-6xl text-foreground italic">Thank You</h2>
-          <p className="font-body text-sm text-muted-foreground mt-3 max-w-lg mx-auto leading-relaxed">
-            A song born from the hardest and most transformative moments of a life lived honestly.
+          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-2">Single</p>
+          <h2 className="font-display text-5xl md:text-7xl text-foreground italic mb-1">Thank You</h2>
+          <p className="font-body text-sm text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
+            The debut single from Gannon Waye. A heartfelt expression of gratitude woven through acoustic melodies and honest lyrics.
           </p>
+          <p className="font-body text-sm text-primary font-medium tracking-wider">Coming 10 June 2026</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
@@ -103,11 +104,13 @@ export default function ThankYouSingle() {
             className="space-y-6"
           >
             <div>
-              <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2">About the song</p>
+              <p className="font-body text-xs tracking-[0.2em] uppercase text-primary mb-3">Artwork Reveal Date</p>
+              <div className="mb-6">
+                <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
+              </div>
+              <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2">About the single</p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm">
-                "Thank You" is a deeply personal release, a reflection on growth, gratitude, and the quiet strength
-                it takes to keep moving forward. Written from lived experience, it explores the complexity of being
-                thankful not just for the beautiful moments, but for the ones that broke you open and rebuilt you.
+                "Thank You" is a deeply personal reflection on growth, gratitude, and the quiet strength it takes to keep moving forward. Written from lived experience, it explores the complexity of being thankful, not just for the beautiful moments, but for the ones that broke you open and rebuilt you.
               </p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm mt-3">
                 At its core, this song is about transformation. Turning pain into purpose. Experience into connection.
