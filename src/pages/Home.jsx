@@ -258,10 +258,10 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="w-[200px] xl:w-[240px] flex-shrink-0 flex flex-col items-center text-center gap-4 px-6 border-x border-primary/20 justify-center py-4"
+              className="w-[240px] xl:w-[280px] flex-shrink-0 flex flex-col items-center text-center gap-4 px-6 border-x border-primary/20 justify-center py-4"
             >
               <span className="font-display text-primary text-5xl leading-none select-none opacity-60">"</span>
-              <p className="font-display text-base xl:text-lg text-foreground leading-snug italic text-center">
+              <p className="font-display text-base xl:text-lg text-primary leading-snug italic text-center">
                 I didn't truly love myself until I was 33. Before that, I woke up every day wishing I could be someone else. That fear of abandonment ran my life. Then something shifted — and for the first time, I didn't want to be anyone else.
               </p>
               <span className="font-display text-primary text-5xl leading-none rotate-180 select-none opacity-60">"</span>
