@@ -63,7 +63,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}>
             
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Singer · Songwriter</p>
-            <h1 className="text-foreground text-sm font-bold uppercase leading-tight sm:text-7xl md:text-8xl">Gannon
+            <h1 className="text-foreground text-sm font-bold uppercase leading-tight opacity-45 sm:text-7xl md:text-8xl">Gannon
 Waye
             </h1>
             <p className="font-body text-sm md:text-lg text-foreground/60 mt-4 max-w-xl mx-auto leading-relaxed px-2">
