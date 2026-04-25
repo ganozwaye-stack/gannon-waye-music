@@ -2,7 +2,7 @@ import React from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Play, ExternalLink, Music2 } from 'lucide-react';
+import { Play, ExternalLink, Music2, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
@@ -54,7 +54,12 @@ export default function Music() {
                 className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-0 bg-card border border-border/40 rounded-2xl overflow-hidden hover:border-primary/20 transition-all"
               >
                 <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden">
-                  {release.artwork_url ? (
+                  {release.artwork_url && release.status !== 'released' ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-secondary/80 min-h-[200px]">
+                      <Lock className="w-10 h-10 text-primary/60" />
+                      <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Artwork Hidden</p>
+                    </div>
+                  ) : release.artwork_url ? (
                     <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">

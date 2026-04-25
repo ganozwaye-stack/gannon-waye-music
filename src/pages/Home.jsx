@@ -54,19 +54,8 @@ export default function Home() {
       {/* ── THANK YOU BANNER HERO ── */}
       {upcomingRelease ? (
         <section className="relative min-h-[100svh] flex items-end overflow-hidden">
-          {/* Artwork as full background — blurred & dark */}
-          {upcomingRelease.artwork_url && (
-            <>
-              <img
-                src={upcomingRelease.artwork_url}
-                alt="Thank You"
-                className="absolute inset-0 w-full h-full object-cover object-center scale-105 blur-sm"
-              />
-              {/* Multi-layer gradient for cinematic feel */}
-              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/20" />
-              <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/60" />
-            </>
-          )}
+          {/* Solid dark background — artwork fully hidden */}
+          <div className="absolute inset-0 bg-gradient-to-br from-background via-secondary/30 to-background" />
 
           {/* Pulsing glow orb */}
           <motion.div
@@ -88,13 +77,9 @@ export default function Home() {
                   className="flex justify-center md:justify-start"
                 >
                   <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border border-primary/30 shadow-2xl shadow-primary/10">
-                    {/* Slightly visible blurred artwork hint */}
-                    <img
-                      src={upcomingRelease.artwork_url}
-                      alt="Coming soon"
-                      className="absolute inset-0 w-full h-full object-cover blur-md opacity-30 scale-110"
-                    />
-                    <div className="absolute inset-0 bg-background/70 flex flex-col items-center justify-center gap-3">
+                    {/* Artwork fully hidden */}
+                    <div className="absolute inset-0 bg-secondary/80" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
                       {/* Pulsing lock */}
                       <motion.div
                         animate={{ scale: [1, 1.1, 1] }}
@@ -142,13 +127,12 @@ export default function Home() {
                     Gannon Waye
                   </p>
 
-                  {/* Countdown */}
-                  {upcomingRelease.release_date && (
-                    <div className="mb-8">
-                      <p className="font-body text-xs tracking-[0.25em] uppercase text-muted-foreground mb-4">Drops in</p>
-                      <CountdownTimer targetDate={upcomingRelease.release_date} />
-                    </div>
-                  )}
+                  {/* Countdown — to artwork reveal on 10 May */}
+                  <div className="mb-8">
+                    <p className="font-body text-xs tracking-[0.25em] uppercase text-muted-foreground mb-4">Artwork reveal in</p>
+                    <CountdownTimer targetDate="2026-05-10" />
+                    <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60 mt-3">Release date: 10 June 2026</p>
+                  </div>
 
                   {/* Badges */}
                   <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-8">
@@ -341,8 +325,13 @@ export default function Home() {
                   viewport={{ once: true }}
                   className="group relative overflow-hidden rounded-2xl bg-card border border-border/40 hover:border-primary/30 transition-all"
                 >
-                  <div className="aspect-square bg-secondary/50 overflow-hidden">
-                    {release.artwork_url ? (
+                  <div className="aspect-square bg-secondary/50 overflow-hidden relative">
+                    {release.artwork_url && release.status !== 'released' ? (
+                      <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-secondary/80">
+                        <Lock className="w-10 h-10 text-primary/60" />
+                        <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Artwork Hidden</p>
+                      </div>
+                    ) : release.artwork_url ? (
                       <img
                         src={release.artwork_url}
                         alt={release.title}
