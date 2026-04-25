@@ -1,6 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Heart, ArrowRight } from 'lucide-react';
+
+// Corner ribbon decoration
+function CornerRibbon() {
+  return (
+    <>
+      <div className="absolute top-0 left-0 w-28 h-28 overflow-hidden pointer-events-none z-20">
+        <div
+          className="absolute bg-primary text-primary-foreground font-body text-[8px] tracking-[0.15em] uppercase font-semibold text-center shadow-md"
+          style={{ width: '130px', top: '20px', left: '-28px', transform: 'rotate(-45deg)', padding: '4px 0' }}
+        >
+          Coming Soon
+        </div>
+      </div>
+      <div className="absolute top-0 right-0 w-28 h-28 overflow-hidden pointer-events-none z-20">
+        <div
+          className="absolute bg-primary/70 text-primary-foreground font-body text-[8px] tracking-[0.15em] uppercase font-semibold text-center shadow-md"
+          style={{ width: '130px', top: '20px', right: '-28px', transform: 'rotate(45deg)', padding: '4px 0' }}
+        >
+          New Single
+        </div>
+      </div>
+    </>
+  );
+}
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
@@ -49,6 +73,7 @@ export default function ThankYouSingle() {
             transition={{ duration: 0.6 }}
             className="relative aspect-square rounded-2xl overflow-hidden border border-border/40 bg-secondary/60"
           >
+            {!artworkRevealed && <CornerRibbon />}
             {artworkRevealed ? (
               /* Once artwork is revealed, show the actual artwork image */
               <div className="w-full h-full flex items-center justify-center bg-secondary/80">

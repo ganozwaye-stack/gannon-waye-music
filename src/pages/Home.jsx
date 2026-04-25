@@ -9,9 +9,10 @@ import CountdownTimer from '@/components/public/CountdownTimer';
 import SocialLinks from '@/components/public/SocialLinks';
 import ThankYouSingle from '@/components/public/ThankYouSingle';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
+import ThankYouHeroBanner from '@/components/public/ThankYouHeroBanner';
 
 const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/20dc6f1b7_generated_image.png',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a5ef50136_generated_image.png',
 ];
 
 export default function Home() {
@@ -197,6 +198,9 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* Thank You Hero Banner — just below the hero */}
+      <ThankYouHeroBanner />
 
       {/* Thank You Single */}
       <ThankYouSingle />
