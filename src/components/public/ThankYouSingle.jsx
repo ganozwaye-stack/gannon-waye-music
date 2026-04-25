@@ -105,7 +105,7 @@ export default function ThankYouSingle() {
             <div>
               <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2">About the song</p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm">
-                "Thank You" is a deeply personal release — a reflection on growth, gratitude, and the quiet strength
+                "Thank You" is a deeply personal release, a reflection on growth, gratitude, and the quiet strength
                 it takes to keep moving forward. Written from lived experience, it explores the complexity of being
                 thankful not just for the beautiful moments, but for the ones that broke you open and rebuilt you.
               </p>
@@ -145,7 +145,7 @@ export default function ThankYouSingle() {
             {/* Pre-save / notify */}
             {!released && (
               <div className="border-t border-border/30 pt-6">
-                <p className="font-body text-xs text-muted-foreground mb-3">Be the first to know when it drops —</p>
+                <p className="font-body text-xs text-muted-foreground mb-3">Be the first to know when it drops</p>
                 <Link to="/community">
                   <Button variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-foreground/20">
                     Join the Community <ArrowRight className="w-3 h-3" />

@@ -29,7 +29,7 @@ export default function SafeSpaceBanner() {
 
             <p className="font-body text-foreground/60 leading-relaxed max-w-xl mx-auto mb-4 text-sm">
               This space was built for anyone who has ever felt unseen, misunderstood, or too much for the world around them.
-              Whether you're here for the music, for the message, or because something in a lyric hit a little too close to home — you belong here.
+              Whether you're here for the music, for the message, or because something in a lyric hit a little too close to home, you belong here.
             </p>
             <p className="font-body text-foreground/60 leading-relaxed max-w-xl mx-auto mb-8 text-sm">
               No judgement. No noise. Just connection.

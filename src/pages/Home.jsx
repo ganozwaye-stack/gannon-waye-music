@@ -70,8 +70,9 @@ export default function Home() {
             <h1 className="font-display text-5xl sm:text-7xl md:text-8xl text-foreground font-bold uppercase leading-tight whitespace-nowrap">
               Gannon Waye
             </h1>
-            <p className="font-body text-sm md:text-base text-foreground/60 mt-5 max-w-xl mx-auto leading-relaxed px-2">
-              Born in Adelaide. Now home in Melbourne. Writing songs from the parts of life that don't always have words, grief, growth, and what it means to finally feel like yourself.
+            <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Singer, Songwriter, Storyteller</p>
+            <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
+              I write songs about the messy, real parts of being human. The grief that transforms you. The growth that comes from breaking open. The quiet power of finally becoming yourself. My music is built from lived experience, written for anyone who's felt unseen. This is a space where vulnerability becomes strength.
             </p>
           </motion.div>
 
