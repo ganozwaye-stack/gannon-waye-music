@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Play, Heart, Lock } from 'lucide-react';
+import { ArrowRight, Play, Heart, Lock, Sparkles, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from '@/components/public/CountdownTimer';
 import SocialLinks from '@/components/public/SocialLinks';
@@ -51,109 +51,171 @@ export default function Home() {
   return (
     <div className="min-h-screen">
 
-      {/* ── HERO ── */}
-      <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/65 to-background z-10" />
-        <AnimatePresence>
-          <motion.img
-            key={currentImg}
-            src={HERO_IMAGES[currentImg]}
-            alt="Gannon Waye"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.65 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
-            className="absolute inset-0 w-full h-full object-cover object-top"
-          />
-        </AnimatePresence>
-
-        <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
-            <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Singer · Songwriter</p>
-            <h1 className="font-display text-6xl sm:text-7xl md:text-8xl text-foreground leading-tight">
-              Gannon<br />Waye
-            </h1>
-            <p className="font-body text-sm md:text-base text-foreground/60 mt-5 max-w-xl mx-auto leading-relaxed px-2">
-              Born in Adelaide. Calling Melbourne home. Writing songs to change lives.
-            </p>
-          </motion.div>
-
-          {/* Countdown for upcoming release */}
-          {upcomingRelease && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-10"
-            >
-              <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2">
-                Something is coming
-              </p>
-              <p className="font-display text-2xl text-primary mb-4">"{upcomingRelease.title}"</p>
-              <div className="flex justify-center">
-                <CountdownTimer targetDate={upcomingRelease.release_date} />
-              </div>
-            </motion.div>
+      {/* ── THANK YOU BANNER HERO ── */}
+      {upcomingRelease ? (
+        <section className="relative min-h-[100svh] flex items-end overflow-hidden">
+          {/* Artwork as full background — blurred & dark */}
+          {upcomingRelease.artwork_url && (
+            <>
+              <img
+                src={upcomingRelease.artwork_url}
+                alt="Thank You"
+                className="absolute inset-0 w-full h-full object-cover object-center scale-105 blur-sm"
+              />
+              {/* Multi-layer gradient for cinematic feel */}
+              <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/20" />
+              <div className="absolute inset-0 bg-gradient-to-r from-background/60 via-transparent to-background/60" />
+            </>
           )}
 
+          {/* Pulsing glow orb */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
-          >
-            <Link to="/music" className="w-full sm:w-auto">
-              <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full">
-                <Play className="w-4 h-4" /> Explore Music
-              </Button>
-            </Link>
-            <Link to="/community" className="w-full sm:w-auto">
-              <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
-                Join the Community <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-          </motion.div>
-        </div>
-      </section>
+            animate={{ scale: [1, 1.15, 1], opacity: [0.15, 0.3, 0.15] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-primary/20 blur-3xl pointer-events-none"
+          />
 
-      {/* ── THANK YOU SINGLE — ARTWORK HIDDEN ── */}
-      {upcomingRelease && (
-        <section className="py-16 md:py-24 px-4 md:px-6 bg-secondary/10">
-          <div className="max-w-4xl mx-auto text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-            >
-              <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">New Single</p>
-              <h2 className="font-display text-3xl md:text-5xl text-foreground mb-10">"{upcomingRelease.title}"</h2>
+          {/* Content */}
+          <div className="relative z-10 w-full px-4 md:px-8 pb-16 md:pb-24">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 items-end">
 
-              {/* Hidden artwork */}
-              <div className="relative max-w-xs mx-auto aspect-square rounded-2xl overflow-hidden border border-border/40">
-                {/* Blurred artwork underneath */}
-                {upcomingRelease.artwork_url && (
-                  <img
-                    src={upcomingRelease.artwork_url}
-                    alt="Coming soon"
-                    className="absolute inset-0 w-full h-full object-cover scale-110 blur-2xl opacity-40"
-                  />
-                )}
-                {/* Dark cover */}
-                <div className="absolute inset-0 bg-background/80 flex flex-col items-center justify-center gap-4">
-                  <Lock className="w-10 h-10 text-primary/60" />
-                  <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground">Artwork Reveal Coming</p>
-                  <div className="mt-2">
-                    <CountdownTimer targetDate={upcomingRelease.release_date} />
+                {/* Left — locked artwork tile */}
+                <motion.div
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 1 }}
+                  className="flex justify-center md:justify-start"
+                >
+                  <div className="relative w-52 h-52 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden border border-primary/30 shadow-2xl shadow-primary/10">
+                    {/* Slightly visible blurred artwork hint */}
+                    <img
+                      src={upcomingRelease.artwork_url}
+                      alt="Coming soon"
+                      className="absolute inset-0 w-full h-full object-cover blur-md opacity-30 scale-110"
+                    />
+                    <div className="absolute inset-0 bg-background/70 flex flex-col items-center justify-center gap-3">
+                      {/* Pulsing lock */}
+                      <motion.div
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 2.5, repeat: Infinity }}
+                      >
+                        <Lock className="w-10 h-10 text-primary" />
+                      </motion.div>
+                      <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary/70 text-center px-4">
+                        Artwork Reveal
+                      </p>
+                      <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground text-center">
+                        Coming Soon
+                      </p>
+                    </div>
+                    {/* Shimmer border animation */}
+                    <motion.div
+                      animate={{ opacity: [0.3, 0.8, 0.3] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="absolute inset-0 rounded-2xl border-2 border-primary/40 pointer-events-none"
+                    />
                   </div>
-                </div>
-              </div>
+                </motion.div>
 
-              {upcomingRelease.description && (
-                <p className="font-body text-foreground/50 text-sm leading-relaxed max-w-lg mx-auto mt-8">
-                  {upcomingRelease.description}
-                </p>
-              )}
+                {/* Right — text content */}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 1, delay: 0.2 }}
+                  className="text-center md:text-left"
+                >
+                  {/* Eyebrow */}
+                  <div className="flex items-center gap-2 justify-center md:justify-start mb-3">
+                    <motion.div
+                      animate={{ opacity: [1, 0.3, 1] }}
+                      transition={{ duration: 1.2, repeat: Infinity }}
+                      className="w-2 h-2 rounded-full bg-primary"
+                    />
+                    <p className="font-body text-xs tracking-[0.3em] uppercase text-primary">New Single · Coming Soon</p>
+                  </div>
+
+                  <h1 className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-foreground leading-none mb-2">
+                    "{upcomingRelease.title}"
+                  </h1>
+                  <p className="font-body text-sm tracking-[0.2em] uppercase text-muted-foreground mb-8">
+                    Gannon Waye
+                  </p>
+
+                  {/* Countdown */}
+                  {upcomingRelease.release_date && (
+                    <div className="mb-8">
+                      <p className="font-body text-xs tracking-[0.25em] uppercase text-muted-foreground mb-4">Drops in</p>
+                      <CountdownTimer targetDate={upcomingRelease.release_date} />
+                    </div>
+                  )}
+
+                  {/* Badges */}
+                  <div className="flex flex-wrap gap-2 justify-center md:justify-start mb-8">
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-primary/30 bg-primary/10 font-body text-xs text-primary tracking-wider uppercase">
+                      <Sparkles className="w-3 h-3" /> First Release
+                    </span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border/50 bg-secondary/50 font-body text-xs text-muted-foreground tracking-wider uppercase">
+                      <Music2 className="w-3 h-3" /> Single
+                    </span>
+                    <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-border/50 bg-secondary/50 font-body text-xs text-muted-foreground tracking-wider uppercase">
+                      <Lock className="w-3 h-3" /> Artwork Hidden
+                    </span>
+                  </div>
+
+                  {/* CTAs */}
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                    <Link to="/music" className="w-full sm:w-auto">
+                      <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full">
+                        <Play className="w-4 h-4" /> Explore Music
+                      </Button>
+                    </Link>
+                    <Link to="/community" className="w-full sm:w-auto">
+                      <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
+                        Community <ArrowRight className="w-4 h-4" />
+                      </Button>
+                    </Link>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : (
+        /* ── FALLBACK HERO (no upcoming release) ── */
+        <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/65 to-background z-10" />
+          <AnimatePresence>
+            <motion.img
+              key={currentImg}
+              src={HERO_IMAGES[currentImg]}
+              alt="Gannon Waye"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.65 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 1.5 }}
+              className="absolute inset-0 w-full h-full object-cover object-top"
+            />
+          </AnimatePresence>
+          <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
+              <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Singer · Songwriter</p>
+              <h1 className="font-display text-6xl sm:text-7xl md:text-8xl text-foreground leading-tight">
+                Gannon<br />Waye
+              </h1>
+            </motion.div>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.6 }}
+              className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4">
+              <Link to="/music" className="w-full sm:w-auto">
+                <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full">
+                  <Play className="w-4 h-4" /> Explore Music
+                </Button>
+              </Link>
+              <Link to="/community" className="w-full sm:w-auto">
+                <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
+                  Community <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
             </motion.div>
           </div>
         </section>
