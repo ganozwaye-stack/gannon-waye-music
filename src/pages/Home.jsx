@@ -7,6 +7,7 @@ import { ArrowRight, Play, Heart, Lock, Sparkles, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from '@/components/public/CountdownTimer';
 import SocialLinks from '@/components/public/SocialLinks';
+import HomeCharts from '@/components/public/HomeCharts';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9fed1279f_00.jpg',
@@ -222,78 +223,77 @@ export default function Home() {
           </motion.div>
 
           {/* Magazine-style 3-column layout */}
-          <div className="hidden md:grid md:grid-cols-[1fr_auto_1fr] gap-10 items-stretch">
+          <div className="hidden md:grid md:grid-cols-[1fr_260px_1fr] gap-12 items-start">
 
-            {/* Left column — left-justified, lines hug right toward centre */}
+            {/* Left column — left-aligned */}
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="space-y-5 font-body text-foreground/70 leading-relaxed text-sm text-left"
+              className="font-body text-foreground/70 leading-loose text-sm text-left space-y-4"
             >
-              <p>
-                I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. 
-                Music has always been more than sound to me — it's the language I use to understand people, emotion, 
-                and the parts of life that don't always have words.
-              </p>
-              <p>
-                I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. 
-                I care about people's wellbeing — sometimes more than they even realise about themselves. 
-                That perspective finds its way into everything I write.
-              </p>
-              <p>
-                I've been misunderstood and mislabelled more times than I can count. But I've learned that being 
-                misunderstood doesn't mean you're wrong — it often means you're seeing something others aren't ready for yet.
-              </p>
-              <p>
-                My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. 
-                But those experiences shaped me. They gave me something real to say.
-              </p>
+              <p>I'm a singer-songwriter born and raised in Adelaide,</p>
+              <p>now calling Melbourne home for over 13 years.</p>
+              <p>Music has always been more than sound to me —</p>
+              <p>it's the language I use to understand people, emotion,</p>
+              <p>and the parts of life that don't always have words.</p>
+              <p>&nbsp;</p>
+              <p>I think deeply, feel deeply, and notice what others often miss.</p>
+              <p>I'm obsessed with travel and culture.</p>
+              <p>I care about people's wellbeing —</p>
+              <p>sometimes more than they even realise about themselves.</p>
+              <p>That perspective finds its way into everything I write.</p>
             </motion.div>
 
-            {/* Centre — pull quote centrepiece, fully centred */}
+            {/* Centre — pull quote, display font, gold */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="w-[320px] xl:w-[360px] flex-shrink-0 flex flex-col items-center text-center gap-3 px-8 border-x border-primary/20 justify-center py-4"
+              className="flex-shrink-0 flex flex-col items-center text-center gap-3 px-5 border-x border-primary/20 py-2"
             >
-              <span className="font-display text-primary text-5xl leading-none select-none opacity-60">"</span>
-              <div className="space-y-1.5 font-display text-base xl:text-lg text-primary leading-snug italic text-center">
+              <span className="font-display text-primary text-4xl leading-none select-none opacity-50">"</span>
+              <div className="font-display text-sm text-primary leading-loose italic text-center space-y-1">
                 <p>I didn't truly love myself until I was 33.</p>
-                <p>Before that, I woke up every day wishing I could be someone else.</p>
+                <p>Before that, I woke up every day</p>
+                <p>wishing I could be someone else.</p>
                 <p>That fear of abandonment ran my life.</p>
                 <p>Then something shifted —</p>
-                <p>and for the first time, I didn't want to be anyone else.</p>
+                <p>and for the first time,</p>
+                <p>I didn't want to be anyone else.</p>
               </div>
-              <span className="font-display text-primary text-5xl leading-none rotate-180 select-none opacity-60">"</span>
-              <p className="font-body text-[9px] tracking-[0.3em] uppercase text-primary/50">Gannon Waye</p>
+              <span className="font-display text-primary text-4xl leading-none rotate-180 select-none opacity-50">"</span>
+              <p className="font-body text-[8px] tracking-[0.3em] uppercase text-primary/40 mt-1">Gannon Waye</p>
             </motion.div>
 
-            {/* Right column — right-justified, lines hug left toward centre */}
+            {/* Right column — right-aligned */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="space-y-5 font-body text-foreground/70 leading-relaxed text-sm text-right"
+              className="font-body text-foreground/70 leading-loose text-sm text-right space-y-4"
             >
-              <p>
-                I began singing at a young age — runner-up in Adelaide Search for a Star, Top 100 in the early days of 
-                Australian Idol, and a few others. But this isn't about trophies. The past decade has been about 
-                something far more personal: developing my own voice and writing from lived experience.
-              </p>
-              <p>
-                That work is now becoming an album — a collection for anyone who needs a message of hope, or just 
-                an anthem that reminds them they're not alone.
-              </p>
-              <p>
-                Music, for me, is about impact. If one song reaches someone at the right moment — if one lyric 
-                shifts how they feel about themselves — then it's done exactly what it was meant to do.
-              </p>
-              <div className="pt-4 flex justify-end">
+              <p>My journey hasn't been simple.</p>
+              <p>I've experienced loss, grief,</p>
+              <p>and environments that challenged my sense of self.</p>
+              <p>But those experiences shaped me.</p>
+              <p>They gave me something real to say.</p>
+              <p>&nbsp;</p>
+              <p>I began singing at a young age —</p>
+              <p>runner-up in Adelaide Search for a Star,</p>
+              <p>Top 100 in the early days of Australian Idol.</p>
+              <p>But this isn't about trophies.</p>
+              <p>The past decade has been about something far more personal:</p>
+              <p>developing my own voice and writing from lived experience.</p>
+              <p>&nbsp;</p>
+              <p>That work is now becoming an album —</p>
+              <p>a collection for anyone who needs a message of hope,</p>
+              <p>or just an anthem that reminds them they're not alone.</p>
+              <p>&nbsp;</p>
+              <div className="flex justify-end pt-2">
                 <SocialLinks settings={site} />
               </div>
             </motion.div>
@@ -345,6 +345,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ── CHARTS DASHBOARD ── */}
+      <HomeCharts />
 
       {/* ── SAFE SPACE / COMMUNITY CALLOUT ── */}
       <section className="py-16 md:py-24 px-4 md:px-6 bg-secondary/10">
