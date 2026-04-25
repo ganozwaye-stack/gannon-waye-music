@@ -40,13 +40,31 @@ export default function Community() {
   };
 
   return (
-    <div className="min-h-screen py-24 px-6">
+    <div className="min-h-screen py-20 px-4 md:px-6">
       <div className="max-w-3xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
           <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Connect</p>
-          <h1 className="font-display text-4xl md:text-6xl text-foreground">Community</h1>
-          <p className="font-body text-muted-foreground mt-4 max-w-lg mx-auto">
-            Join the conversation. Share your thoughts, connect with fellow fans, and be part of the journey.
+          <h1 className="font-display text-4xl md:text-6xl text-foreground mb-6">Community</h1>
+          <p className="font-body text-foreground/60 mt-4 max-w-lg mx-auto leading-relaxed">
+            This is a safe space — for everyone. Whether you're here for the music, the message, or because something in 
+            a lyric hit a little too close to home, you belong here. No judgement. Just connection.
+          </p>
+          <p className="font-body text-muted-foreground text-sm mt-3 max-w-md mx-auto">
+            You are not alone. Share your thoughts, your story, or just say hello.
+          </p>
+        </motion.div>
+
+        {/* Crisis support note */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.15 }}
+          className="mb-10 bg-primary/5 border border-primary/20 rounded-2xl p-5 text-center"
+        >
+          <p className="font-body text-xs tracking-widest uppercase text-primary mb-1">If you need support right now</p>
+          <p className="font-body text-sm text-foreground/60">
+            Australia: <a href="tel:1800737732" className="text-primary hover:underline">1800RESPECT (1800 737 732)</a> · 
+            Lifeline: <a href="tel:131114" className="text-primary hover:underline">13 11 14</a>
           </p>
         </motion.div>
 
