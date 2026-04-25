@@ -134,7 +134,7 @@ export default function Home() {
             >
               <p>I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me — it's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
               <p>I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing — sometimes more than they even realise about themselves. That perspective finds its way into everything I write.</p>
-              <p className="text-foreground/40 italic text-xs">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong — it often means you're seeing something others aren't ready for yet.</p>
+              <p className="text-foreground/60 italic text-sm">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong — it often means you're seeing something others aren't ready for yet.</p>
             </motion.div>
 
             {/* Centre — quote centrepiece */}
