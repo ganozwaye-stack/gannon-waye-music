@@ -74,6 +74,41 @@ const PLATFORMS = [
     tags: ['Design + print', 'Easy', 'Self-fulfil'],
     recommended: false,
   },
+  {
+    name: 'Teelaunch',
+    url: 'https://www.teelaunch.com',
+    description: 'Budget-friendly POD with low prices. Great for basic apparel and bulk orders.',
+    tags: ['Budget', 'Low cost', 'Dropship'],
+    recommended: true,
+  },
+  {
+    name: 'Prodigi (formerly Prodigi)',
+    url: 'https://www.prodigi.com',
+    description: 'Affordable on-demand with global print partners. Lower prices than competitors.',
+    tags: ['Budget', 'Affordable', 'Global'],
+    recommended: true,
+  },
+  {
+    name: 'Kunaki',
+    url: 'https://www.kunaki.com',
+    description: 'Cheap CD/DVD duplication and physical media manufacturing. Perfect for indie musicians.',
+    tags: ['CDs', 'DVDs', 'Budget manufacturing'],
+    recommended: true,
+  },
+  {
+    name: 'DiscMakers',
+    url: 'https://www.discmakers.com',
+    description: 'Professional CD and vinyl manufacturing. Competitive pricing for physical music releases.',
+    tags: ['CDs', 'Vinyl', 'Music manufacturing'],
+    recommended: true,
+  },
+  {
+    name: 'CD Baby',
+    url: 'https://www.cdbaby.com',
+    description: 'Sell your music on all platforms + physical CDs. Distribution + manufacturing combined.',
+    tags: ['Music distribution', 'Physical CDs', 'All stores'],
+    recommended: true,
+  },
 ];
 
 export default function MerchPlatforms() {
