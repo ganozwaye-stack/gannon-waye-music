@@ -52,7 +52,7 @@ export default function Home() {
             animate={{ opacity: 0.45 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5 }}
-            className="absolute inset-0 w-full h-full object-cover object-[center_top]"
+            className="absolute inset-0 w-full h-full object-cover object-[center_top] transform -translate-y-[5cm]"
           />
         </AnimatePresence>
       </div>
