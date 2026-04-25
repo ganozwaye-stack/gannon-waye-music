@@ -3,7 +3,8 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Music, ShoppingBag, Package, Users, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Music, ShoppingBag, Package, Users, ArrowRight, ExternalLink } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 export default function Dashboard() {
@@ -55,7 +56,14 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1 className="font-display text-3xl text-foreground mb-8">Dashboard</h1>
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="font-display text-3xl text-foreground">Dashboard</h1>
+        <a href="/store" target="_blank" rel="noopener noreferrer">
+          <Button className="gap-2 rounded-full font-body tracking-wider uppercase">
+            <ShoppingBag className="w-4 h-4" /> Order Merch
+          </Button>
+        </a>
+      </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         {stats.map(stat => {
