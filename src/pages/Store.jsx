@@ -65,44 +65,52 @@ export default function Store() {
         </motion.div>
 
         {products.length === 0 ? (
-          <div className="text-center py-20">
-            <Package className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-            <p className="font-body text-muted-foreground">Merchandise coming soon.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product, i) => (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="group bg-card border border-border/40 rounded-2xl overflow-hidden hover:border-primary/20 transition-all cursor-pointer"
-                onClick={() => setSelectedProduct(product)}
-              >
-                <div className="aspect-square bg-secondary/50 overflow-hidden">
-                  {product.image_url ? (
-                    <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <ShoppingBag className="w-12 h-12 text-muted-foreground/20" />
-                    </div>
-                  )}
-                </div>
-                <div className="p-5">
-                  <Badge variant="outline" className="font-body text-[10px] tracking-widest uppercase border-border/60 text-muted-foreground mb-2">
-                    {product.category?.replace(/_/g, ' ')}
-                  </Badge>
-                  <h3 className="font-display text-lg text-foreground">{product.name}</h3>
-                  <p className="font-display text-xl text-primary mt-1">${product.price?.toFixed(2)}</p>
-                  {product.stock_quantity <= 0 && (
-                    <p className="font-body text-xs text-destructive mt-1">Sold Out</p>
-                  )}
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+           <div className="text-center py-20">
+             <Package className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+             <p className="font-body text-muted-foreground">Merchandise coming soon.</p>
+           </div>
+         ) : (
+           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+             {products.map((product, i) => (
+               <motion.div
+                 key={product.id}
+                 initial={{ opacity: 0, y: 24 }}
+                 whileInView={{ opacity: 1, y: 0 }}
+                 viewport={{ once: true }}
+                 transition={{ delay: i * 0.1, duration: 0.5 }}
+                 className="group cursor-pointer"
+                 onClick={() => setSelectedProduct(product)}
+               >
+                 <div className="relative rounded-3xl overflow-hidden bg-card border border-border/40 group-hover:border-primary/40 transition-all duration-300 shadow-sm group-hover:shadow-lg">
+                   <div className="aspect-square bg-secondary/50 overflow-hidden">
+                     {product.image_url ? (
+                       <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                     ) : (
+                       <div className="w-full h-full flex items-center justify-center">
+                         <ShoppingBag className="w-12 h-12 text-muted-foreground/20" />
+                       </div>
+                     )}
+                   </div>
+                   <div className="p-6">
+                     <Badge variant="outline" className="font-body text-[10px] tracking-widest uppercase border-border/60 text-muted-foreground mb-3">
+                       {product.category?.replace(/_/g, ' ')}
+                     </Badge>
+                     <h3 className="font-display text-lg text-foreground mb-2">{product.name}</h3>
+                     <p className="font-body text-sm text-muted-foreground mb-4 line-clamp-2">{product.description}</p>
+                     <div className="flex items-center justify-between">
+                       <p className="font-display text-2xl text-primary">${product.price?.toFixed(2)}</p>
+                       {product.stock_quantity <= 0 ? (
+                         <Badge className="bg-destructive/10 text-destructive border-0">Sold Out</Badge>
+                       ) : product.stock_quantity < 5 ? (
+                         <Badge className="bg-accent/10 text-accent border-0 text-[10px]">Low Stock</Badge>
+                       ) : null}
+                     </div>
+                   </div>
+                 </div>
+               </motion.div>
+             ))}
+           </div>
+         )}
       </div>
 
       {/* Order Dialog */}

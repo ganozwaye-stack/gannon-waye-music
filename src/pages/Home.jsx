@@ -117,10 +117,16 @@ export default function Home() {
       {/* About Section — magazine 3-column */}
       <section className="py-16 md:py-24 px-4 md:px-6 relative">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-10">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-10"
+          >
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">About</p>
             <h2 className="font-display text-3xl md:text-5xl text-foreground">The Story</h2>
-          </div>
+          </motion.div>
 
           {/* 3-column magazine layout — hidden on mobile */}
           <div className="hidden md:grid grid-cols-[1fr_auto_1fr] gap-4 items-start">
@@ -213,8 +219,16 @@ export default function Home() {
       {releases.length > 0 && (
         <section className="py-16 md:py-24 px-4 md:px-6">
           <div className="max-w-6xl mx-auto">
-            <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4 text-center">Latest</p>
-            <h2 className="font-display text-3xl md:text-5xl text-foreground mb-12 text-center">Music</h2>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-12"
+            >
+              <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Latest</p>
+              <h2 className="font-display text-3xl md:text-5xl text-foreground">Music</h2>
+            </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
               {releases.filter((r) => r.is_published).slice(0, 2).map((release) => (
                 <motion.div
