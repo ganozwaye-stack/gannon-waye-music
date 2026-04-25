@@ -67,30 +67,29 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Singer · Songwriter</p>
-            <h1 className="font-display text-5xl sm:text-7xl md:text-8xl text-foreground font-bold uppercase leading-tight">
-              Gannon<br />Waye
+            <h1 className="font-display text-5xl sm:text-7xl md:text-8xl text-foreground font-bold uppercase leading-tight whitespace-nowrap">
+              Gannon Waye
             </h1>
-            <p className="font-body text-sm md:text-lg text-foreground/60 mt-4 max-w-xl mx-auto leading-relaxed px-2">
-              {site.bio || 'Australian singer-songwriter crafting honest stories through melody and verse.'}
+            <p className="font-body text-sm md:text-base text-foreground/60 mt-5 max-w-xl mx-auto leading-relaxed px-2">
+              Born in Adelaide. Now home in Melbourne. Writing songs from the parts of life that don't always have words — grief, growth, and what it means to finally feel like yourself.
             </p>
           </motion.div>
 
-          {/* Countdown */}
-          {upcomingRelease && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="mt-12"
-            >
-              <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">
-                "{upcomingRelease.title}" drops
-              </p>
-              <div className="flex justify-center">
-                <CountdownTimer targetDate={upcomingRelease.release_date} />
-              </div>
-            </motion.div>
-          )}
+          {/* "Thank You" teaser strip in the hero */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.35 }}
+            className="mt-10 inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-5 bg-card/40 backdrop-blur-sm border border-primary/20 rounded-2xl px-6 py-4 mx-auto"
+          >
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary">New Single</p>
+            </div>
+            <p className="font-display text-lg text-foreground italic">"Thank You"</p>
+            <div className="w-px h-4 bg-border/60 hidden sm:block" />
+            <CountdownTimer targetDate="2026-06-10T00:00:00" />
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0 }}
@@ -122,18 +121,17 @@ export default function Home() {
 
           {/* 3-column magazine layout — hidden on mobile */}
           <div className="hidden md:grid grid-cols-[1fr_auto_1fr] gap-8 items-start">
-            {/* Left column — left aligned */}
+            {/* Left column */}
             <motion.div
               initial={{ opacity: 0, x: -16 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="font-body text-foreground/60 leading-relaxed text-sm text-left space-y-3"
+              className="font-body text-foreground/60 leading-relaxed text-sm text-left space-y-4"
             >
-              <p>Born and raised in Adelaide, now calling Melbourne home for over 13 years.</p>
-              <p>A deep thinker and feeler who sees beyond the limitations of the mind into things others often miss.</p>
-              <p>Obsessed with travel, culture, and the creative spaces where people express who they truly are.</p>
-              <p>Often misunderstood — but so were many who changed the world.</p>
+              <p>I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me — it's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
+              <p>I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing — sometimes more than they even realise about themselves. That perspective finds its way into everything I write.</p>
+              <p className="text-foreground/40 italic text-xs">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong — it often means you're seeing something others aren't ready for yet.</p>
             </motion.div>
 
             {/* Centre — quote centrepiece */}
@@ -142,7 +140,7 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="w-56 flex flex-col items-center gap-2 pt-1"
+              className="w-52 flex flex-col items-center gap-2 pt-1"
             >
               <div className="w-px h-8 bg-primary/40" />
               <div className="font-display text-[11px] text-primary leading-6 italic text-center space-y-0">
@@ -155,35 +153,35 @@ export default function Home() {
                 <p>Then something shifted —</p>
                 <p>and for the first time,</p>
                 <p>I didn't want to be anyone else.</p>
+                <p className="mt-3 text-primary/50 not-italic tracking-widest uppercase text-[9px]">Gannon Waye</p>
               </div>
               <div className="w-px h-8 bg-primary/40" />
             </motion.div>
 
-            {/* Right column — right aligned */}
+            {/* Right column */}
             <motion.div
               initial={{ opacity: 0, x: 16 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-body text-foreground/60 leading-relaxed text-sm text-right space-y-3"
+              className="font-body text-foreground/60 leading-relaxed text-sm text-right space-y-4"
             >
-              <p>Music has always been more than sound — it's a way of understanding people and emotion.</p>
-              <p>Over a decade of songwriting, shaped by grief, growth, and an unshakeable belief in human connection.</p>
-              <p>If one song reaches someone at the right moment and shifts how they feel about themselves —</p>
-              <p>then it has done exactly what it was meant to do.</p>
+              <p>My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me. They gave me something real to say.</p>
+              <p>I began singing at a young age — runner-up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.</p>
+              <p>That work is now becoming an album — a collection for anyone who needs a message of hope, or just an anthem that reminds them they're not alone.</p>
             </motion.div>
           </div>
 
           {/* Mobile fallback — stacked */}
           <div className="md:hidden space-y-6">
             <p className="font-body text-foreground/60 leading-relaxed text-sm text-center">
-              Born and raised in Adelaide, now calling Melbourne home for over 13 years. A deep thinker who sees beyond what others often miss — obsessed with travel, culture, and the creative world.
+              I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me — it's the language I use to understand people, emotion, and the parts of life that don't always have words.
             </p>
             <div className="border-l-2 border-primary/50 pl-4 font-display text-sm text-primary italic leading-7">
               "I didn't truly love myself until I was 33. Before that, I woke up every day wishing I could be someone else. That fear of abandonment ran my life. Then something shifted — and for the first time, I didn't want to be anyone else."
             </div>
             <p className="font-body text-foreground/60 leading-relaxed text-sm text-center">
-              Over a decade of songwriting, shaped by grief, growth, and an unshakeable belief in human connection. If one song can reach someone at the right moment — it's done what it was meant to do.
+              My journey hasn't been simple — loss, grief, and environments that challenged my sense of self. But those experiences gave me something real to say. That work is now becoming an album: a collection for anyone who needs a message of hope, or just an anthem that reminds them they're not alone.
             </p>
           </div>
 
