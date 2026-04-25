@@ -120,7 +120,7 @@ export default function Home() {
           </div>
 
           {/* 3-column magazine layout — hidden on mobile */}
-          <div className="hidden md:grid grid-cols-[1fr_auto_1fr] gap-8 items-start">
+          <div className="hidden md:grid grid-cols-[1fr_auto_1fr] gap-4 items-start">
             {/* Left column */}
             <motion.div
               initial={{ opacity: 0, x: -16 }}
@@ -143,7 +143,7 @@ export default function Home() {
               className="w-52 flex flex-col items-center gap-2 pt-1"
             >
               <div className="w-px h-8 bg-primary/40" />
-              <div className="font-display text-[11px] text-primary leading-6 italic text-center space-y-0">
+              <div className="font-display text-sm text-primary leading-6 italic text-center space-y-0">
                 <p>I didn't truly love myself</p>
                 <p>until I was 33.</p>
                 <p>Before that, I woke up every day</p>
