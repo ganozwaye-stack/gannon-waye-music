@@ -30,10 +30,27 @@ export default function Community() {
     },
   });
 
+  const PROFANITY_LIST = [
+    'fuck','shit','cunt','bitch','asshole','bastard','damn','dick','pussy','cock',
+    'ass','piss','bollocks','wanker','twat','arsehole','motherfucker','faggot','slut','whore'
+  ];
+
+  const containsProfanity = (text) => {
+    const lower = text.toLowerCase();
+    return PROFANITY_LIST.some(word => {
+      const regex = new RegExp(`\\b${word}\\b`, 'i');
+      return regex.test(lower);
+    });
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!newPost.content.trim() || !newPost.author_name.trim()) {
       toast({ title: 'Please fill in your name and message', variant: 'destructive' });
+      return;
+    }
+    if (containsProfanity(newPost.content) || containsProfanity(newPost.author_name)) {
+      toast({ title: 'Please keep it respectful 🙏', description: 'This is a safe space — no profanity allowed.', variant: 'destructive' });
       return;
     }
     createPost.mutate(newPost);
