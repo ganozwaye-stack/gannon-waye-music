@@ -20,9 +20,14 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           to="/"
-          className="px-4 py-1.5 rounded-full border border-primary/40 text-primary hover:bg-primary/10 font-display text-lg italic font-bold tracking-wide transition-all duration-200 hover:scale-105"
+          className="flex items-center justify-center w-11 h-11 rounded-full border border-primary/40 hover:bg-primary/10 transition-all duration-200 hover:scale-105 overflow-hidden"
         >
-          GW
+          <span
+            className="font-body font-bold uppercase text-sm tracking-widest text-transparent bg-clip-text"
+            style={{ backgroundImage: 'linear-gradient(135deg, #8b6914 0%, #c9a84c 25%, #f5d06e 50%, #c9a84c 75%, #8b6914 100%)' }}
+          >
+            GW
+          </span>
         </Link>
 
         {/* Desktop */}
