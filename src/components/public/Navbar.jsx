@@ -18,12 +18,8 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <img
-            src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f040bd17f_generated_image.png"
-            alt="GW"
-            className="h-9 w-9 object-contain mix-blend-screen"
-          />
+        <Link to="/" className="hover:opacity-80 transition-opacity">
+          <span className="font-display text-2xl text-primary tracking-widest italic">GW</span>
         </Link>
 
         {/* Desktop */}
