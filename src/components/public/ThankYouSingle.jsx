@@ -108,10 +108,10 @@ export default function ThankYouSingle() {
               </div>
               <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">About the single</p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm">
-                "Thank You" is a deeply personal anthem born from heartbreak and transformation. Written from lived experience, it explores the journey from devastating loss to unexpected gratitude—not despite the pain, but because of it. It's about the strength required when rose-colored glasses shatter and you finally see clearly.
+                "Thank You" is a deeply personal anthem born from tragic heartbreak and devastating loss. Written from lived experience, it chronicles the journey from shattering truth to unexpected gratitude—what happens when the rose-colored glasses fall away and you finally see clearly.
               </p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm mt-3">
-                At its core, this song is about transformation. Turning pain into purpose. Experience into connection.
+                At its core, this song is about resilience. Finding strength in the wreckage. Learning that some of life's greatest gifts come wrapped in heartbreak.
               </p>
             </div>
 
@@ -155,10 +155,10 @@ export default function ThankYouSingle() {
               <div className="border-t border-border/30 pt-6">
                 <p className="font-body text-xs gradient-gold-glow mb-3">Be the first to know when it drops</p>
                 <Link to="/community">
-                  <Button variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-foreground/20">
-                    Join the Community <ArrowRight className="w-3 h-3" />
-                  </Button>
-                </Link>
+                   <Button className="rounded-full gap-2 font-body text-xs tracking-wider uppercase gradient-gold-button border-0 hover:shadow-lg">
+                     Join the Community <ArrowRight className="w-3 h-3" />
+                   </Button>
+                 </Link>
               </div>
             )}
           </motion.div>
