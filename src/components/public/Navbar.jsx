@@ -20,9 +20,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <img
-            src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0fac46594_generated_image.png"
-            alt="Gannon Waye"
-            className="h-9 w-auto object-contain"
+            src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f040bd17f_generated_image.png"
+            alt="GW"
+            className="h-9 w-9 object-contain mix-blend-screen"
           />
         </Link>
 

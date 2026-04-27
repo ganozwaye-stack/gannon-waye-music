@@ -68,9 +68,9 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <img
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0fac46594_generated_image.png"
+              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1037698b1_generated_image.png"
               alt="Gannon Waye"
-              className="w-full max-w-xs sm:max-w-lg md:max-w-2xl object-contain mx-auto mix-blend-screen"
+              className="w-full max-w-xs sm:max-w-lg md:max-w-2xl mx-auto object-contain mix-blend-screen"
             />
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-8 mt-6">Singer, Songwriter, Storyteller</p>
             <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
