@@ -109,6 +109,55 @@ const PLATFORMS = [
     tags: ['Music distribution', 'Physical CDs', 'All stores'],
     recommended: true,
   },
+  {
+    name: 'Alibaba',
+    url: 'https://www.alibaba.com',
+    description: 'Source custom merchandise directly from manufacturers at rock-bottom wholesale prices. Order branded apparel, accessories, and more with your own designs. Minimum order quantities apply but per-unit cost is extremely cheap.',
+    tags: ['Wholesale', 'Bulk orders', 'Ultra cheap', 'Self-fulfil'],
+    recommended: true,
+  },
+  {
+    name: 'AliExpress',
+    url: 'https://www.aliexpress.com',
+    description: 'Alibaba\'s retail arm — lower minimums, sometimes no minimums. Great for sampling products before committing to a bulk Alibaba order. Many suppliers offer custom print and branding.',
+    tags: ['Low minimums', 'Custom print', 'Cheap', 'Self-fulfil'],
+    recommended: true,
+  },
+  {
+    name: 'Faire',
+    url: 'https://www.faire.com',
+    description: 'Wholesale marketplace connecting independent brands with manufacturers. Good for unique, boutique-style merch at wholesale prices with smaller order runs.',
+    tags: ['Wholesale', 'Independent brands', 'Low MOQ'],
+    recommended: false,
+  },
+  {
+    name: 'DHgate',
+    url: 'https://www.dhgate.com',
+    description: 'Chinese wholesale marketplace similar to Alibaba with lower minimums. Great for custom clothing, accessories, and promotional items at very low cost.',
+    tags: ['Wholesale', 'Ultra cheap', 'Low MOQ', 'Custom'],
+    recommended: true,
+  },
+  {
+    name: 'Zazzle',
+    url: 'https://www.zazzle.com',
+    description: 'Upload designs, sell on-demand or order for yourself at discounted creator rates. Wide range of products from apparel to homewares.',
+    tags: ['On-demand', 'Creator discount', 'Wide range'],
+    recommended: false,
+  },
+  {
+    name: 'Apliiq',
+    url: 'https://www.apliiq.com',
+    description: 'Private label clothing manufacturer specialising in custom streetwear and cut-and-sew pieces. Low minimums and high-quality finished garments with your own labels.',
+    tags: ['Private label', 'Streetwear', 'Low MOQ', 'Premium'],
+    recommended: false,
+  },
+  {
+    name: 'Sticker Mule',
+    url: 'https://www.stickermule.com',
+    description: 'Cheap, fast, high-quality custom stickers, buttons, packaging, and branded merchandise. Popular with musicians for affordable fan merch add-ons.',
+    tags: ['Stickers', 'Buttons', 'Affordable', 'Fast shipping'],
+    recommended: true,
+  },
 ];
 
 export default function MerchPlatforms() {
