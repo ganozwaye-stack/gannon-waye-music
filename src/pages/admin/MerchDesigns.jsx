@@ -14,7 +14,7 @@ const DESIGNS = [
   {
     title: 'Oversized Tee Design — "Thank You"',
     description: 'Cinematic moody portrait graphic with bold "THANK YOU / GANNON WAYE" typography for the front chest of an oversized heavy cotton tee.',
-    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/51e471375_generated_image.png',
+    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/75839ab3f_generated_image.png',
     products: [
       {
         label: 'Alibaba — Oversized Heavy Cotton Tee',
