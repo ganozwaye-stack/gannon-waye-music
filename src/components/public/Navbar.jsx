@@ -20,7 +20,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           to="/"
-          className="px-4 py-1.5 rounded-full border border-primary/40 text-primary hover:bg-primary/10 font-display text-lg italic font-bold tracking-wide transition-colors"
+          className="px-4 py-1.5 rounded-full border border-primary/40 text-primary hover:bg-primary/10 font-display text-lg italic font-bold tracking-wide transition-all duration-200 hover:scale-105"
         >
           GW
         </Link>
@@ -34,7 +34,7 @@ export default function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-body text-sm tracking-widest uppercase transition-colors ${
+                className={`font-body text-sm tracking-widest uppercase transition-all duration-200 hover:scale-105 ${
                   isHighlighted
                     ? active
                       ? 'px-4 py-1.5 rounded-full bg-primary text-primary-foreground'
