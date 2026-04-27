@@ -67,7 +67,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="font-display text-4xl sm:text-6xl md:text-8xl text-transparent bg-clip-text font-bold tracking-[0.15em] leading-none whitespace-nowrap" style={{ backgroundImage: 'linear-gradient(135deg, #c9a84c 0%, #f5d06e 40%, #c9a84c 70%, #8b6914 100%)' }}>
+            <h1 className="font-body text-4xl sm:text-6xl md:text-8xl text-transparent bg-clip-text font-bold tracking-[0.12em] leading-none whitespace-nowrap uppercase" style={{ backgroundImage: 'linear-gradient(135deg, #8b6914 0%, #c9a84c 25%, #f5d06e 50%, #c9a84c 75%, #8b6914 100%)' }}>
               Gannon Waye
             </h1>
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-8 mt-6">Singer, Songwriter, Storyteller</p>
