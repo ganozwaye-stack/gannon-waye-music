@@ -64,7 +64,7 @@ export default function Store() {
     <div className="min-h-screen py-20 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Official</p>
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Official</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground">Merch Store</h1>
         </motion.div>
 

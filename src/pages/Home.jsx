@@ -68,7 +68,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
           >
             <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/172f64a6b_0fac46594_generated_image-Edited.png" alt="Gannon Waye" className="max-w-full h-auto" style={{ maxHeight: '120px' }} />
-            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text mb-8 mt-6">Singer, Songwriter, Storyteller</p>
+            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-8 mt-6">Singer, Songwriter, Storyteller</p>
             <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
               I write songs about the messy, real parts of being human. The grief that transforms you. The growth that comes from breaking open. The quiet power of finally becoming yourself. My music is built from lived experience, written for anyone who's felt unseen. This is a space where vulnerability becomes strength.
             </p>
@@ -83,7 +83,7 @@ export default function Home() {
           >
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Debut Single</p>
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow">Debut Single</p>
             </div>
             <p className="font-display text-lg text-foreground italic">"Thank You"</p>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
@@ -123,7 +123,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-10"
           >
-            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text mb-4">About</p>
+            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">About</p>
             <h2 className="font-display text-3xl md:text-5xl text-foreground">The Story</h2>
           </motion.div>
 
@@ -228,7 +228,7 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               className="text-center mb-12"
             >
-              <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text mb-4">Latest</p>
+              <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Latest</p>
               <h2 className="font-display text-3xl md:text-5xl text-foreground">Music</h2>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">

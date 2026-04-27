@@ -27,7 +27,7 @@ export default function VideoPreviewSection() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Social</p>
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Social</p>
           <h2 className="font-display text-3xl md:text-5xl text-foreground">Latest Videos</h2>
         </motion.div>
 

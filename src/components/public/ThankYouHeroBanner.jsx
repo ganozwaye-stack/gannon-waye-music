@@ -130,7 +130,7 @@ export default function ThankYouHeroBanner() {
           >
             <div className="flex items-center gap-2 justify-center md:justify-start mb-3">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text">Debut Single</p>
+              <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow">Debut Single</p>
             </div>
 
             <h2 className="font-display text-4xl md:text-6xl text-foreground italic mb-2">Thank You</h2>

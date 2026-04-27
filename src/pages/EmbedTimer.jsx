@@ -27,7 +27,7 @@ export default function EmbedTimer() {
     return (
       <div className="flex flex-col items-center justify-center gap-4 p-8 bg-gradient-to-b from-background/95 to-background/80 min-h-screen">
         <div className="text-center">
-          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text mb-4">
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">
             Artwork & Release Reveal
           </p>
           <h2 className="font-display text-3xl md:text-5xl text-foreground italic mb-8">
@@ -56,7 +56,7 @@ export default function EmbedTimer() {
         <div className="bg-card border border-border/40 rounded-2xl p-8 mb-8">
           <p className="font-body text-xs text-muted-foreground uppercase tracking-widest mb-4">Preview</p>
           <div className="rounded-xl overflow-hidden bg-gradient-to-b from-background/95 to-background/80 p-8 text-center">
-            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text mb-4">
+            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">
               Artwork & Release Reveal
             </p>
             <h2 className="font-display text-3xl text-foreground italic mb-6">
