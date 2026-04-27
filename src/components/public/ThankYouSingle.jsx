@@ -81,14 +81,12 @@ export default function ThankYouSingle() {
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Artwork Revealed</p>
               </div>
             ) : (
-              /* Hidden — not yet revealed */
-              <div className="w-full h-full flex flex-col items-center justify-center gap-5 p-8">
-                <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
-                  <Lock className="w-8 h-8 text-primary/60" />
-                </div>
-                <div className="text-center">
-                  <p className="font-display text-lg text-foreground italic mb-1">Artwork Incoming</p>
-                  <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-6">Revealed in</p>
+              /* Hidden — gift wrapped until May 10 */
+              <div className="relative w-full h-full">
+                <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/40 p-6">
+                  <p className="font-display text-xl text-foreground italic text-center">Artwork Incoming</p>
+                  <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary">Revealed May 10</p>
                   <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
                 </div>
               </div>

@@ -110,16 +110,12 @@ export default function ThankYouHeroBanner() {
                   <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Artwork Revealed</p>
                 </div>
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center gap-3 p-5">
-                  <motion.div
-                    animate={{ scale: [1, 1.08, 1] }}
-                    transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-                    className="w-14 h-14 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center"
-                  >
-                    <Lock className="w-6 h-6 text-primary/70" />
-                  </motion.div>
-                  <p className="font-display text-sm text-foreground italic text-center">Artwork Hidden</p>
-                  <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground text-center">Artwork & Release Date Reveal May 10th</p>
+                <div className="relative w-full h-full">
+                  <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/40">
+                    <p className="font-display text-sm text-foreground italic text-center">Artwork Hidden</p>
+                    <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary text-center">Revealed May 10</p>
+                  </div>
                 </div>
               )}
             </div>
