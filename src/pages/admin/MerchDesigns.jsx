@@ -12,16 +12,40 @@ const DESIGNS = [
     tags: ['Logo', 'Branding', 'All products'],
   },
   {
-    title: 'Oversized Tee Design — "Thank You"',
-    description: 'Cinematic moody portrait graphic with bold "THANK YOU / GANNON WAYE" typography for the front chest of an oversized heavy cotton tee.',
-    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/75839ab3f_generated_image.png',
+    title: 'Oversized Tee — "Thank You" Version 1',
+    description: 'Official single cover artwork (dark moody portrait, amber lighting) printed on the front chest of an oversized black heavy cotton tee.',
+    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4765f5793_generated_image.png',
     products: [
       {
         label: 'Alibaba — Oversized Heavy Cotton Tee',
         url: 'https://www.alibaba.com/product-detail/High-Quality-100-Cotton-Oversized-Heavy_1601048746639.html',
       },
     ],
-    tags: ['Apparel', 'T-Shirt', 'Oversized'],
+    tags: ['Apparel', 'T-Shirt', 'Version 1'],
+  },
+  {
+    title: 'Oversized Tee — "Thank You" Version 2',
+    description: 'Gold sunray light burst edition of the single cover printed on the front chest of an oversized black heavy cotton tee.',
+    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/07939bc63_generated_image.png',
+    products: [
+      {
+        label: 'Alibaba — Oversized Heavy Cotton Tee',
+        url: 'https://www.alibaba.com/product-detail/High-Quality-100-Cotton-Oversized-Heavy_1601048746639.html',
+      },
+    ],
+    tags: ['Apparel', 'T-Shirt', 'Version 2'],
+  },
+  {
+    title: 'Oversized Tee — "Thank You" Version 3',
+    description: 'Rainbow prismatic lens flare edition of the single cover printed on the front chest of an oversized black heavy cotton tee.',
+    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4d61d4d2d_generated_image.png',
+    products: [
+      {
+        label: 'Alibaba — Oversized Heavy Cotton Tee',
+        url: 'https://www.alibaba.com/product-detail/High-Quality-100-Cotton-Oversized-Heavy_1601048746639.html',
+      },
+    ],
+    tags: ['Apparel', 'T-Shirt', 'Version 3'],
   },
   {
     title: 'Tote Bag Design — "Thank You"',
