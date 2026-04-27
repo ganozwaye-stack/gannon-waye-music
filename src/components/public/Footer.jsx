@@ -21,7 +21,11 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <h3 className="font-display text-lg text-foreground mb-3">Gannon Waye</h3>
+            <img
+              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0fac46594_generated_image.png"
+              alt="Gannon Waye"
+              className="h-14 w-auto object-contain mb-3"
+            />
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
               Australian singer-songwriter crafting honest stories through melody and verse.
             </p>

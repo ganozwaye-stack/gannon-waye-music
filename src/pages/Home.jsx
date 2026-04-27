@@ -13,7 +13,7 @@ import ThankYouHeroBanner from '@/components/public/ThankYouHeroBanner';
 import VideoPreviewSection from '@/components/public/VideoPreviewSection';
 
 const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a5ef50136_generated_image.png',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1061d7ed2_generated_image.png',
 ];
 
 export default function Home() {

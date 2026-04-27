@@ -18,8 +18,12 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="font-display text-xl tracking-wide text-foreground hover:text-primary transition-colors">
-          Gannon Waye
+        <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <img
+            src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0fac46594_generated_image.png"
+            alt="Gannon Waye"
+            className="h-9 w-auto object-contain"
+          />
         </Link>
 
         {/* Desktop */}
