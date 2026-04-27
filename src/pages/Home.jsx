@@ -257,7 +257,7 @@ export default function Home() {
                   <div className="p-6">
                     <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">{release.type}</p>
                     <h3 className="font-display text-2xl text-foreground mt-1">{release.title}</h3>
-                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.description}</p>
+                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? 'A deeply personal anthem born from tragic heartbreak and devastating loss. A journey from shattering truth to unexpected gratitude.' : release.description}</p>
                     {release.release_date && (
                       <p className="font-body text-xs text-muted-foreground mt-3">
                         {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}
@@ -270,7 +270,7 @@ export default function Home() {
             </div>
             <div className="text-center mt-10">
               <Link to="/music">
-                <Button variant="outline" className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase border-foreground/20">
+                <Button className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase gradient-gold-button border-0">
                   View All Music <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
