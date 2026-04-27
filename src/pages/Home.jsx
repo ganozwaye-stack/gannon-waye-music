@@ -67,9 +67,11 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="font-display text-5xl sm:text-7xl md:text-8xl text-foreground font-bold uppercase leading-tight whitespace-nowrap">
-              Gannon Waye
-            </h1>
+            <img
+              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0fac46594_generated_image.png"
+              alt="Gannon Waye"
+              className="h-20 sm:h-28 md:h-36 w-auto object-contain mx-auto"
+            />
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-8 mt-6">Singer, Songwriter, Storyteller</p>
             <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
               I write songs about the messy, real parts of being human. The grief that transforms you. The growth that comes from breaking open. The quiet power of finally becoming yourself. My music is built from lived experience, written for anyone who's felt unseen. This is a space where vulnerability becomes strength.
