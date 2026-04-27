@@ -150,8 +150,8 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="w-52 flex flex-col items-center gap-2 pt-1"
             >
-              <div className="w-px h-8 bg-primary/40" />
-              <div className="font-display text-base gradient-gold-glow leading-7 italic text-center space-y-0">
+              <div className="w-px h-8 gradient-gold-glow" />
+              <div className="font-display text-base gradient-gold-glow leading-5 italic text-center space-y-0">
                 <p>I didn't truly love myself</p>
                 <p>until I was 33.</p>
                 <p>Before that, I woke up every day</p>
@@ -161,9 +161,9 @@ export default function Home() {
                 <p>Then something shifted</p>
                 <p>and for the first time,</p>
                 <p>I didn't want to be anyone else.</p>
-                <p className="mt-3 text-primary/50 not-italic tracking-widest uppercase text-[9px]">Gannon Waye</p>
+                <p className="mt-2 text-primary/50 not-italic tracking-widest uppercase text-[9px]">Gannon Waye</p>
               </div>
-              <div className="w-px h-8 bg-primary/40" />
+              <div className="w-px h-8 gradient-gold-glow" />
             </motion.div>
 
             {/* Right column */}
@@ -185,8 +185,16 @@ export default function Home() {
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me, it's the language I use to understand people, emotion, and the parts of life that don't always have words.
             </p>
-            <div className="border-l-2 border-primary/50 pl-4 font-display text-sm gradient-gold-glow italic leading-7">
-              "I didn't truly love myself until I was 33. Before that, I woke up every day wishing I could be someone else. That fear of abandonment ran my life. Then something shifted and for the first time, I didn't want to be anyone else."
+            <div className="border-l-2 border-primary pl-4 font-display text-sm gradient-gold-glow italic leading-6">
+              <p>I didn't truly love myself</p>
+              <p>until I was 33.</p>
+              <p>Before that, I woke up every day</p>
+              <p>wishing I could be someone else.</p>
+              <p>That fear of abandonment</p>
+              <p>ran my life.</p>
+              <p>Then something shifted</p>
+              <p>and for the first time,</p>
+              <p>I didn't want to be anyone else.</p>
             </div>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say. That work is now becoming an album, a collection for anyone who needs a message of hope or just an anthem that reminds them they're not alone.
