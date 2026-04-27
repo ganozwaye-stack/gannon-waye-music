@@ -70,7 +70,7 @@ export default function Home() {
             <img
               src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0fac46594_generated_image.png"
               alt="Gannon Waye"
-              className="h-20 sm:h-28 md:h-36 w-auto object-contain mx-auto"
+              className="w-full max-w-xs sm:max-w-lg md:max-w-2xl object-contain mx-auto mix-blend-screen"
             />
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-8 mt-6">Singer, Songwriter, Storyteller</p>
             <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
