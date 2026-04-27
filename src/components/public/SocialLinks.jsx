@@ -28,7 +28,7 @@ export default function SocialLinks({ settings, className = '' }) {
           href={link.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 px-4 py-2 rounded-full border border-border/60 bg-secondary/50 hover:bg-primary/10 hover:border-primary/40 transition-all font-body text-sm text-foreground/80 hover:text-primary"
+          className="flex items-center gap-2 px-4 py-2 rounded-full gradient-gold-button hover:shadow-lg transition-all font-body text-sm border-0"
         >
           <span className="text-sm">{link.icon}</span>
           {link.label}
