@@ -136,7 +136,7 @@ export default function ThankYouSingle() {
               ) : (
                <div className="space-y-4">
                  <a href="https://open.spotify.com/search/Gannon%20Waye%20Thank%20You" target="_blank" rel="noopener noreferrer">
-                   <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 bg-[#1DB954] hover:bg-[#1ed760] text-white border-0">
+                   <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0 hover:shadow-lg">
                      <Music className="w-4 h-4" /> Listen on Spotify
                    </Button>
                  </a>
