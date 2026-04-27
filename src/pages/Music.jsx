@@ -55,9 +55,12 @@ export default function Music() {
               >
                 <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden">
                   {release.artwork_url && release.status !== 'released' ? (
-                    <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-secondary/80 min-h-[200px]">
-                      <Gift className="w-10 h-10 text-primary" />
-                      <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Artwork Hidden</p>
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-secondary/80 min-h-[200px]" style={{ backgroundImage: 'url(https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                      <div className="absolute inset-0 bg-black/40" />
+                      <div className="relative z-10 flex flex-col items-center justify-center gap-3">
+                        <Gift className="w-10 h-10 text-primary" />
+                        <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Artwork Hidden</p>
+                      </div>
                     </div>
                   ) : release.artwork_url ? (
                     <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover" />
