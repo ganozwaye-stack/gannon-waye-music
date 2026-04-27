@@ -34,7 +34,7 @@ export default function Music() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Discography</p>
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Discography</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground">Music</h1>
         </motion.div>
 

@@ -73,7 +73,7 @@ export default function Community() {
     <div className="min-h-screen py-20 px-4 md:px-6">
       <div className="max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Connect</p>
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Connect</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-6">Community</h1>
           <p className="font-body text-foreground/60 mt-4 max-w-lg mx-auto leading-relaxed">
             This is a safe space for everyone. Whether you're here for the music, the message, or because something in 
@@ -139,7 +139,7 @@ export default function Community() {
                 className="bg-secondary/50 min-h-[100px]"
               />
             </div>
-            <Button type="submit" className="rounded-full gap-2 font-body tracking-wider uppercase" disabled={createPost.isPending}>
+            <Button type="submit" className="rounded-full gap-2 font-body tracking-wider uppercase gradient-gold-button border-0" disabled={createPost.isPending}>
               <Send className="w-4 h-4" /> {createPost.isPending ? 'Posting...' : 'Post'}
             </Button>
           </form>
