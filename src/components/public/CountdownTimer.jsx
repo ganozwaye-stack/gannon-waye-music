@@ -30,7 +30,7 @@ export default function CountdownTimer({ targetDate }) {
     <div className="flex gap-4 md:gap-6">
       {units.map(unit => (
         <div key={unit.label} className="text-center">
-          <div className="font-display text-3xl md:text-5xl text-primary tabular-nums">
+          <div className="font-display text-3xl md:text-5xl tabular-nums gradient-gold-glow">
             {String(unit.value).padStart(2, '0')}
           </div>
           <div className="font-body text-[10px] md:text-xs tracking-widest uppercase text-muted-foreground mt-1">

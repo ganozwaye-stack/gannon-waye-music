@@ -114,7 +114,7 @@ export default function ThankYouHeroBanner() {
                   <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/40">
                     <p className="font-display text-sm text-foreground italic text-center">Artwork Hidden</p>
-                    <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary text-center">Revealed May 10</p>
+                    <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text text-center">Revealed May 10</p>
                   </div>
                 </div>
               )}
@@ -130,7 +130,7 @@ export default function ThankYouHeroBanner() {
           >
             <div className="flex items-center gap-2 justify-center md:justify-start mb-3">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <p className="font-body text-xs tracking-[0.3em] uppercase text-primary">Debut Single</p>
+              <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text">Debut Single</p>
             </div>
 
             <h2 className="font-display text-4xl md:text-6xl text-foreground italic mb-2">Thank You</h2>
@@ -141,7 +141,7 @@ export default function ThankYouHeroBanner() {
             {/* Countdown logic */}
             {released ? (
               <div className="space-y-4">
-                <p className="font-body text-xs tracking-widest uppercase text-primary">Out Now</p>
+                <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Out Now</p>
                 <Link to="/music">
                   <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7">
                     Listen Now <ArrowRight className="w-4 h-4" />

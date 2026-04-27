@@ -80,6 +80,20 @@
   }
 }
 
+@layer components {
+  .gradient-gold-text {
+    @apply text-transparent bg-clip-text;
+    background-image: linear-gradient(90deg, #c9a84c 0%, #f5d06e 40%, #ffe08a 50%, #f5d06e 60%, #c9a84c 100%);
+    filter: drop-shadow(0 0 8px rgba(249, 208, 110, 0.3));
+  }
+
+  .gradient-gold-glow {
+    @apply text-transparent bg-clip-text;
+    background-image: linear-gradient(90deg, #c9a84c 0%, #f5d06e 40%, #ffe08a 50%, #f5d06e 60%, #c9a84c 100%);
+    filter: drop-shadow(0 0 12px rgba(255, 224, 138, 0.4)) drop-shadow(0 0 6px rgba(249, 208, 110, 0.3));
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

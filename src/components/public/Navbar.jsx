@@ -23,8 +23,7 @@ export default function Navbar() {
           className="flex items-center justify-center w-11 h-11 rounded-full border border-primary/40 hover:bg-primary/10 transition-all duration-200 hover:scale-105 overflow-hidden"
         >
           <span
-            className="font-body font-bold uppercase text-sm tracking-widest text-transparent bg-clip-text"
-            style={{ backgroundImage: 'linear-gradient(135deg, #c9a84c 0%, #f5d06e 40%, #ffe08a 60%, #c9a84c 100%)' }}
+            className="font-body font-bold uppercase text-sm tracking-widest gradient-gold-glow"
           >
             GW
           </span>
@@ -43,18 +42,11 @@ export default function Navbar() {
                   isHighlighted
                     ? active
                       ? 'px-4 py-1.5 rounded-full bg-primary text-primary-foreground'
-                      : 'px-4 py-1.5 rounded-full border border-primary/60 hover:bg-primary/10'
+                      : 'px-4 py-1.5 rounded-full border border-primary/60 hover:bg-primary/10 gradient-gold-text'
                     : active
-                      ? ''
+                      ? 'gradient-gold-text'
                       : 'text-muted-foreground hover:text-foreground'
                 }`}
-                style={
-                  isHighlighted && !active
-                    ? { background: 'linear-gradient(135deg, #c9a84c 0%, #f5d06e 40%, #ffe08a 60%, #c9a84c 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }
-                    : active && !isHighlighted
-                      ? { background: 'linear-gradient(135deg, #c9a84c 0%, #f5d06e 40%, #ffe08a 60%, #c9a84c 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }
-                      : {}
-                }
               >
                 {link.label}
               </Link>

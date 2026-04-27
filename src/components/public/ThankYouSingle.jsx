@@ -57,12 +57,12 @@ export default function ThankYouSingle() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-2">Debut Single</p>
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text mb-2">Debut Single</p>
           <h2 className="font-display text-5xl md:text-7xl text-foreground italic mb-1">Thank You</h2>
           <p className="font-body text-sm text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
             The debut single from Gannon Waye. A heartfelt expression of gratitude woven through acoustic melodies and honest lyrics.
           </p>
-          <p className="font-body text-sm text-primary font-medium tracking-wider">Coming 10 June 2026</p>
+          <p className="font-body text-sm gradient-gold-text font-medium tracking-wider">Coming 10 June 2026</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
@@ -102,7 +102,7 @@ export default function ThankYouSingle() {
             className="space-y-6"
           >
             <div>
-              <p className="font-body text-xs tracking-[0.2em] uppercase text-primary mb-3">Artwork & Release Date Reveal</p>
+              <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-text mb-3">Artwork & Release Date Reveal</p>
               <div className="mb-6">
                 <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
               </div>
@@ -119,7 +119,7 @@ export default function ThankYouSingle() {
             <div className="border-t border-border/30 pt-6">
               {released ? (
                 <div className="space-y-4">
-                  <p className="font-body text-xs tracking-[0.2em] uppercase text-primary">Out Now</p>
+                  <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-text">Out Now</p>
                   <Link to="/music">
                     <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7">
                       Listen Now <ArrowRight className="w-4 h-4" />

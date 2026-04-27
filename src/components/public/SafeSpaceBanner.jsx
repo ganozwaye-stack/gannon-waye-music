@@ -24,7 +24,7 @@ export default function SafeSpaceBanner() {
               <Heart className="w-4 h-4 text-primary" />
             </div>
 
-            <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">A Safe Space</p>
+            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text mb-4">A Safe Space</p>
             <h2 className="font-display text-3xl md:text-4xl text-foreground mb-6">You Are Not Alone</h2>
 
             <p className="font-body text-foreground/60 leading-relaxed max-w-xl mx-auto mb-4 text-sm">
