@@ -33,7 +33,7 @@ export default function CountdownTimer({ targetDate }) {
           <div className="font-display text-3xl md:text-5xl tabular-nums gradient-gold-glow">
             {String(unit.value).padStart(2, '0')}
           </div>
-          <div className="font-body text-[10px] md:text-xs tracking-widest uppercase text-muted-foreground mt-1">
+          <div className="font-body text-[10px] md:text-xs tracking-widest uppercase gradient-gold-glow mt-1">
             {unit.label}
           </div>
         </div>

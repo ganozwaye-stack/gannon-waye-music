@@ -62,7 +62,7 @@ export default function ThankYouSingle() {
           <p className="font-body text-sm text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
             The debut single from Gannon Waye. A heartfelt expression of gratitude woven through acoustic melodies and honest lyrics.
           </p>
-          <p className="font-body text-sm gradient-gold-text font-medium tracking-wider">Coming 10 June 2026</p>
+          <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">Coming 10 June 2026</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
@@ -78,7 +78,7 @@ export default function ThankYouSingle() {
             {artworkRevealed ? (
               /* Once artwork is revealed, show the actual artwork image */
               <div className="w-full h-full flex items-center justify-center bg-secondary/80">
-                <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Artwork Revealed</p>
+                <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow">Artwork Revealed</p>
               </div>
             ) : (
               /* Hidden — gift wrapped until May 10 */
@@ -86,7 +86,7 @@ export default function ThankYouSingle() {
                 <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/40 p-6">
                   <p className="font-display text-xl text-foreground italic text-center">Artwork Incoming</p>
-                  <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary">Revealed May 10</p>
+                  <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-glow">Revealed May 10</p>
                   <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
                 </div>
               </div>
@@ -106,7 +106,7 @@ export default function ThankYouSingle() {
               <div className="mb-6">
                 <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
               </div>
-              <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-2">About the single</p>
+              <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">About the single</p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm">
                 "Thank You" is a deeply personal reflection on growth, gratitude, and the quiet strength it takes to keep moving forward. Written from lived experience, it explores the complexity of being thankful, not just for the beautiful moments, but for the ones that broke you open and rebuilt you.
               </p>
@@ -119,7 +119,7 @@ export default function ThankYouSingle() {
             <div className="border-t border-border/30 pt-6">
               {released ? (
                 <div className="space-y-4">
-                  <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-text">Out Now</p>
+                  <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow">Out Now</p>
                   <Link to="/music">
                     <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
                       Listen Now <ArrowRight className="w-4 h-4" />
@@ -128,7 +128,7 @@ export default function ThankYouSingle() {
                 </div>
               ) : artworkRevealed ? (
                 <div>
-                  <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">
+                  <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-4">
                     Drops in
                   </p>
                   <CountdownTimer targetDate={RELEASE_DATE} />
@@ -136,7 +136,7 @@ export default function ThankYouSingle() {
               ) : (
                 <div className="flex items-center gap-3">
                   <Heart className="w-4 h-4 text-primary/60 flex-shrink-0" />
-                  <p className="font-body text-sm text-muted-foreground italic">
+                  <p className="font-body text-sm gradient-gold-glow italic">
                     Artwork & release date reveal on May 10th.
                   </p>
                 </div>
@@ -146,7 +146,7 @@ export default function ThankYouSingle() {
             {/* Pre-save / notify */}
             {!released && (
               <div className="border-t border-border/30 pt-6">
-                <p className="font-body text-xs text-muted-foreground mb-3">Be the first to know when it drops</p>
+                <p className="font-body text-xs gradient-gold-glow mb-3">Be the first to know when it drops</p>
                 <Link to="/community">
                   <Button variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-foreground/20">
                     Join the Community <ArrowRight className="w-3 h-3" />

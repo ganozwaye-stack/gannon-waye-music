@@ -150,16 +150,16 @@ export default function ThankYouHeroBanner() {
               </div>
             ) : artworkRevealed ? (
               <div>
-                <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Drops in</p>
+                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-4">Drops in</p>
                 <CountdownTimer targetDate={RELEASE_DATE} />
               </div>
             ) : (
               <div>
-                <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Artwork & Release Date Reveal</p>
+                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-4">Artwork & Release Date Reveal</p>
                 <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
                 <div className="flex items-center gap-2 mt-5 justify-center md:justify-start">
                   <Heart className="w-3.5 h-3.5 text-primary/60" />
-                  <p className="font-body text-xs text-muted-foreground italic">
+                  <p className="font-body text-xs gradient-gold-glow italic">
                     Artwork & release date reveal on May 10th
                   </p>
                 </div>
