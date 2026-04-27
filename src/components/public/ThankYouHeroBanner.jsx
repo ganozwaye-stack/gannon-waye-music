@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Lock, Sparkles, ArrowRight, Heart } from 'lucide-react';
+import { Gift, Sparkles, ArrowRight, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
@@ -107,13 +107,13 @@ export default function ThankYouHeroBanner() {
 
               {artworkRevealed ? (
                 <div className="w-full h-full flex items-center justify-center">
-                  <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Artwork Revealed</p>
+                  <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Artwork Revealed</p>
                 </div>
               ) : (
                 <div className="relative w-full h-full">
                   <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
                   <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/40">
-                    <p className="font-display text-sm text-foreground italic text-center">Artwork Hidden</p>
+                    <Gift className="w-8 h-8 text-primary" />
                     <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text text-center">Revealed May 10</p>
                   </div>
                 </div>

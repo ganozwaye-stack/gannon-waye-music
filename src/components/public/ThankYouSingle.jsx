@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, Heart, ArrowRight, Music } from 'lucide-react';
+import { Gift, Heart, ArrowRight, Music } from 'lucide-react';
 
 // Corner ribbon decoration
 function CornerRibbon() {
@@ -85,7 +85,7 @@ export default function ThankYouSingle() {
               <div className="relative w-full h-full">
                 <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/40 p-6">
-                  <p className="font-display text-xl text-foreground italic text-center">Artwork Incoming</p>
+                  <Gift className="w-8 h-8 text-primary" />
                   <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-glow">Revealed May 10</p>
                   <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
                 </div>

@@ -2,7 +2,7 @@ import React from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Play, ExternalLink, Music2, Lock } from 'lucide-react';
+import { Play, ExternalLink, Music2, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
@@ -56,8 +56,8 @@ export default function Music() {
                 <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden">
                   {release.artwork_url && release.status !== 'released' ? (
                     <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-secondary/80 min-h-[200px]">
-                      <Lock className="w-10 h-10 text-primary/60" />
-                      <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground">Artwork Hidden</p>
+                      <Gift className="w-10 h-10 text-primary" />
+                      <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Artwork Hidden</p>
                     </div>
                   ) : release.artwork_url ? (
                     <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover" />
@@ -94,31 +94,31 @@ export default function Music() {
                   {/* Streaming Links */}
                   <div className="flex flex-wrap gap-3 mt-6">
                     {release.spotify_link && (
-                      <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
-                        <Button size="sm" variant="outline" className="rounded-full gap-2 font-body text-xs">
-                          🎧 Spotify <ExternalLink className="w-3 h-3" />
-                        </Button>
-                      </a>
-                    )}
-                    {release.apple_music_link && (
-                      <a href={release.apple_music_link} target="_blank" rel="noopener noreferrer">
-                        <Button size="sm" variant="outline" className="rounded-full gap-2 font-body text-xs">
-                          🍎 Apple Music <ExternalLink className="w-3 h-3" />
-                        </Button>
-                      </a>
-                    )}
-                    {release.youtube_link && (
-                      <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
-                        <Button size="sm" variant="outline" className="rounded-full gap-2 font-body text-xs">
-                          ▶️ YouTube <ExternalLink className="w-3 h-3" />
-                        </Button>
-                      </a>
-                    )}
-                    {release.price && release.status === 'released' && (
-                      <Button size="sm" className="rounded-full gap-2 font-body text-xs">
-                        Buy ${release.price.toFixed(2)}
-                      </Button>
-                    )}
+                       <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
+                         <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
+                           🎧 Spotify <ExternalLink className="w-3 h-3" />
+                         </Button>
+                       </a>
+                     )}
+                     {release.apple_music_link && (
+                       <a href={release.apple_music_link} target="_blank" rel="noopener noreferrer">
+                         <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
+                           🍎 Apple Music <ExternalLink className="w-3 h-3" />
+                         </Button>
+                       </a>
+                     )}
+                     {release.youtube_link && (
+                       <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
+                         <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
+                           ▶️ YouTube <ExternalLink className="w-3 h-3" />
+                         </Button>
+                       </a>
+                     )}
+                     {release.price && release.status === 'released' && (
+                       <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
+                         Buy ${release.price.toFixed(2)}
+                       </Button>
+                     )}
                   </div>
                 </div>
               </motion.div>
