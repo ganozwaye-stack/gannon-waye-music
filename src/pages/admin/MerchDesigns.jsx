@@ -7,14 +7,14 @@ const DESIGNS = [
   {
     title: 'Gannon Waye — Artist Logo',
     description: 'Typographic logo for use across all merchandise, social media, and branding. Gold metallic "GANNON WAYE" on dark background with GW monogram accent. Use this on any product label, tag, or packaging.',
-    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9c09dbde3_generated_image.png',
+    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bb3be7d82_generated_image.png',
     products: [],
     tags: ['Logo', 'Branding', 'All products'],
   },
   {
     title: 'Oversized Tee Design — "Thank You"',
     description: 'Cinematic moody portrait graphic with bold "THANK YOU / GANNON WAYE" typography for the front chest of an oversized heavy cotton tee.',
-    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0ccf82c73_generated_image.png',
+    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e7513fc03_generated_image.png',
     products: [
       {
         label: 'Alibaba — Oversized Heavy Cotton Tee',
@@ -26,7 +26,7 @@ const DESIGNS = [
   {
     title: 'Tote Bag Design — "Thank You"',
     description: 'Single cover inspired artwork adapted for a large folding tote bag. Moody portrait with gold and white typography on dark background.',
-    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/7883254c5_generated_image.png',
+    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d8cdb0033_generated_image.png',
     products: [
       {
         label: 'Alibaba — Custom Printed Folding Tote Bag',
@@ -38,7 +38,7 @@ const DESIGNS = [
   {
     title: 'Notebook / Journal Design — "Thank You"',
     description: 'Dark matte cover with cinematic portrait artwork, "THANK YOU / GANNON WAYE" in geometric sans-serif, and GW monogram on the spine. Perfect for a branded journal or notebook gift.',
-    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f7fe36b49_generated_image.png',
+    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9f5162ff8_generated_image.png',
     products: [
       {
         label: 'Alibaba — Custom Corporate Logo Notebook',
