@@ -24,6 +24,7 @@ import FanManagement from '@/pages/admin/FanManagement';
 import SiteSettings from '@/pages/admin/SiteSettings';
 import MerchPlatforms from '@/pages/admin/MerchPlatforms';
 import VideoManagement from '@/pages/admin/VideoManagement';
+import Newsletter from '@/pages/admin/Newsletter';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -69,6 +70,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/settings" element={<SiteSettings />} />
         <Route path="/admin/merch-platforms" element={<MerchPlatforms />} />
         <Route path="/admin/videos" element={<VideoManagement />} />
+        <Route path="/admin/newsletter" element={<Newsletter />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
