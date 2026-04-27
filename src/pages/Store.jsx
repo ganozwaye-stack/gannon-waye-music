@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Package } from 'lucide-react';
+import { ShoppingBag, Package, Clock, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -59,9 +59,27 @@ export default function Store() {
   return (
     <div className="min-h-screen py-20 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-10">
           <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-4">Official</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground">Merch Store</h1>
+        </motion.div>
+
+        {/* Preorder banner */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mb-12 rounded-2xl border border-primary/30 bg-primary/5 px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4"
+        >
+          <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
+            <Clock className="w-5 h-5 text-primary" />
+          </div>
+          <div>
+            <p className="font-body text-sm font-semibold text-foreground tracking-wide">Preorder Now — Payment Processed 1 June 2026</p>
+            <p className="font-body text-xs text-muted-foreground mt-1 leading-relaxed">
+              All items are available for preorder. Your order is reserved today but <strong className="text-foreground">payment will not be charged until 1 June 2026</strong>. All prices are in AUD and include GST. Shipping is calculated and added at checkout.
+            </p>
+          </div>
         </motion.div>
 
         {products.length === 0 ? (
@@ -98,12 +116,15 @@ export default function Store() {
                      <h3 className="font-display text-lg text-foreground mb-2">{product.name}</h3>
                      <p className="font-body text-sm text-muted-foreground mb-4 line-clamp-2">{product.description}</p>
                      <div className="flex items-center justify-between">
-                       <p className="font-display text-2xl text-primary">${product.price?.toFixed(2)}</p>
+                       <div>
+                         <p className="font-display text-2xl text-primary">${product.price?.toFixed(2)} <span className="font-body text-xs text-muted-foreground">AUD incl. GST</span></p>
+                         <p className="font-body text-[10px] text-muted-foreground mt-0.5">+ shipping</p>
+                       </div>
                        {product.stock_quantity <= 0 ? (
                          <Badge className="bg-destructive/10 text-destructive border-0">Sold Out</Badge>
-                       ) : product.stock_quantity < 5 ? (
-                         <Badge className="bg-accent/10 text-accent border-0 text-[10px]">Low Stock</Badge>
-                       ) : null}
+                       ) : (
+                         <Badge className="bg-primary/15 text-primary border-0 text-[10px] tracking-wider uppercase">Preorder</Badge>
+                       )}
                      </div>
                    </div>
                  </div>
@@ -117,13 +138,19 @@ export default function Store() {
       <Dialog open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
         <DialogContent className="bg-card border-border/40 max-w-md mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="font-display text-2xl">{selectedProduct?.name}</DialogTitle>
-            <DialogDescription className="font-body text-muted-foreground">
-              {selectedProduct?.description}
-            </DialogDescription>
+           <DialogTitle className="font-display text-2xl">{selectedProduct?.name}</DialogTitle>
+           <DialogDescription className="font-body text-muted-foreground">
+             {selectedProduct?.description}
+           </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 mt-4">
-            <p className="font-display text-2xl text-primary">${selectedProduct?.price?.toFixed(2)}</p>
+           <div className="rounded-xl bg-primary/8 border border-primary/20 px-4 py-3 flex items-start gap-3">
+             <Clock className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+             <p className="font-body text-xs text-muted-foreground leading-relaxed">
+               <strong className="text-foreground">Preorder</strong> — Payment will not be charged until <strong className="text-foreground">1 June 2026</strong>. Shipping calculated separately.
+             </p>
+           </div>
+           <p className="font-display text-2xl text-primary">${selectedProduct?.price?.toFixed(2)} <span className="font-body text-sm text-muted-foreground">AUD incl. GST</span></p>
 
             {selectedProduct?.sizes_available?.length > 0 && (
               <div>
@@ -181,7 +208,7 @@ export default function Store() {
               <Textarea value={orderForm.shipping_address} onChange={e => setOrderForm({ ...orderForm, shipping_address: e.target.value })} />
             </div>
             <Button className="w-full rounded-full font-body tracking-wider uppercase" onClick={handleOrder} disabled={submitting || selectedProduct?.stock_quantity <= 0}>
-              {submitting ? 'Placing Order...' : selectedProduct?.stock_quantity <= 0 ? 'Sold Out' : 'Place Order'}
+              {submitting ? 'Placing Preorder...' : selectedProduct?.stock_quantity <= 0 ? 'Sold Out' : 'Place Preorder'}
             </Button>
           </div>
         </DialogContent>
