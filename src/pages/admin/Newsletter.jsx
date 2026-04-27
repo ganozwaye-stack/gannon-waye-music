@@ -5,39 +5,35 @@ import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import { Mail, Send, Copy, Check, Users } from 'lucide-react';
 
-const NEWSLETTER_SUBJECT = "Welcome — You're part of something real 🤍";
+const NEWSLETTER_SUBJECT = "Welcome. You're part of something real 🤍";
 
 const NEWSLETTER_BODY = `Hi there,
 
-I don't know exactly what brought you here — maybe it was a post, a reel, a song, a feeling. But whatever it was, I'm so glad you found your way to this page. And I mean that from the very bottom of my heart.
+I don't know exactly what brought you here. Maybe it was a post, a reel, a song, a feeling. But whatever it was, I'm so glad you found your way to this page. And I mean that from the very bottom of my heart.
 
 Welcome. You belong here.
 
----
-
 I want to share something with you, because you've trusted me with your inbox and I think you deserve to know what this moment actually means to me.
 
-I'm about to release my debut single — "Thank You" — on the 10th of June 2026. And I know that might sound like just another release date, another countdown, another announcement. But for me? This is everything.
+I'm about to release my debut single, "Thank You", on the 10th of June 2026. And I know that might sound like just another release date, another countdown, another announcement. But for me? This is everything.
 
 This song didn't come from nowhere. It came from one of the hardest chapters of my life.
 
-For a long time, I was in a relationship where I experienced abuse. I stayed longer than I should have, not because I was weak, but because I genuinely didn't know what I deserved. I had spent so many years shrinking myself, quieting my own voice, moulding to what someone else needed me to be — that I had lost sight of who I actually was.
+For a long time, I was in a relationship where I experienced abuse. I stayed longer than I should have, not because I was weak, but because I genuinely didn't know what I deserved. I had spent so many years shrinking myself, quieting my own voice, moulding to what someone else needed me to be, that I had lost sight of who I actually was.
 
 Leaving was hard. Healing has been harder in some ways. But it has also been the most profound, life-changing, and ultimately empowering thing I have ever done for myself.
 
-Through professional help — therapy, support, and the courage to sit with the uncomfortable parts of myself — I began to rebuild. And through that rebuilding, music became something different for me. It stopped being a dream I was chasing and became a lifeline I was holding onto.
+Through professional help, therapy, support, and the courage to sit with the uncomfortable parts of myself, I began to rebuild. And through that rebuilding, music became something different for me. It stopped being a dream I was chasing and became a lifeline I was holding onto.
 
 "Thank You" is that lifeline made into a song.
 
-It's not a bitter song. It's not an angry song. It's actually — and this surprised even me — a song of gratitude. Gratitude for the pain that forced me to grow. Gratitude for the people who held me when I couldn't hold myself. Gratitude for the version of me that refused to disappear, even when everything in my life was telling me to.
+It's not a bitter song. It's not an angry song. It's actually (and this surprised even me) a song of gratitude. Gratitude for the pain that forced me to grow. Gratitude for the people who held me when I couldn't hold myself. Gratitude for the version of me that refused to disappear, even when everything in my life was telling me to.
 
-I didn't truly love myself until I was 33. Before that, I woke up every day wishing I could be someone else. That fear of abandonment ran my life. Then something shifted — and for the first time, I didn't want to be anyone else.
+I didn't truly love myself until I was 33. Before that, I woke up every day wishing I could be someone else. That fear of abandonment ran my life. Then something shifted and for the first time, I didn't want to be anyone else.
 
 That shift is what this song is about.
 
----
-
-So when I tell you that releasing this single is the most meaningful thing I have ever done — I mean it on a level that goes far beyond music.
+So when I tell you that releasing this single is the most meaningful thing I have ever done, I mean it on a level that goes far beyond music.
 
 This is me saying: I made it through. I'm still here. And I have something to say.
 
@@ -45,7 +41,7 @@ The artwork and official release date will be revealed on the 10th of May. I can
 
 I would love for you to be there when it drops. To listen. To share it. To let it find whoever needs to hear it.
 
-If that's you — if you're in the middle of your own rebuilding — I just want you to know that this song was written for you too.
+If that's you, if you're in the middle of your own rebuilding, I just want you to know that this song was written for you too.
 
 You are not alone in this.
 
@@ -55,9 +51,7 @@ All my love,
 
 Gannon 🤍
 
----
-
-P.S. The artwork reveal is May 10th — keep an eye on your inbox and socials. Something beautiful is coming. 🎶`;
+P.S. The artwork reveal is May 10th. Keep an eye on your inbox and socials. Something beautiful is coming. 🎶`;
 
 export default function Newsletter() {
   const { toast } = useToast();
@@ -107,7 +101,7 @@ export default function Newsletter() {
       <div className="flex items-start justify-between mb-8 flex-wrap gap-4">
         <div>
           <h1 className="font-display text-2xl text-foreground">Newsletter</h1>
-          <p className="font-body text-sm text-muted-foreground mt-1">Your welcome newsletter — ready to send</p>
+          <p className="font-body text-sm text-muted-foreground mt-1">Your welcome newsletter, ready to send</p>
         </div>
         <div className="flex items-center gap-2 bg-secondary/60 border border-border/40 rounded-full px-4 py-2">
           <Users className="w-4 h-4 text-primary" />
@@ -166,7 +160,7 @@ export default function Newsletter() {
 
       {subscribers.length === 0 && (
         <p className="font-body text-xs text-muted-foreground mt-4 text-center">
-          No subscribers yet — share your site so fans can sign up!
+          No subscribers yet. Share your site so fans can sign up!
         </p>
       )}
     </div>
