@@ -10,6 +10,7 @@ import SocialLinks from '@/components/public/SocialLinks';
 import ThankYouSingle from '@/components/public/ThankYouSingle';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
 import ThankYouHeroBanner from '@/components/public/ThankYouHeroBanner';
+import VideoPreviewSection from '@/components/public/VideoPreviewSection';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a5ef50136_generated_image.png',
@@ -211,6 +212,9 @@ export default function Home() {
 
       {/* Thank You Single */}
       <ThankYouSingle />
+
+      {/* Social Videos Preview */}
+      <VideoPreviewSection />
 
       {/* Safe Space Banner */}
       <SafeSpaceBanner />

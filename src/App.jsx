@@ -11,6 +11,7 @@ import Home from '@/pages/Home';
 import Music from '@/pages/Music';
 import Store from '@/pages/Store';
 import Community from '@/pages/Community';
+import Videos from '@/pages/Videos';
 import PublicLayout from '@/components/public/PublicLayout';
 
 // Admin pages
@@ -22,6 +23,7 @@ import Orders from '@/pages/admin/Orders';
 import FanManagement from '@/pages/admin/FanManagement';
 import SiteSettings from '@/pages/admin/SiteSettings';
 import MerchPlatforms from '@/pages/admin/MerchPlatforms';
+import VideoManagement from '@/pages/admin/VideoManagement';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -54,6 +56,7 @@ const AuthenticatedApp = () => {
         <Route path="/music" element={<Music />} />
         <Route path="/store" element={<Store />} />
         <Route path="/community" element={<Community />} />
+        <Route path="/videos" element={<Videos />} />
       </Route>
 
       {/* Admin routes */}
@@ -65,6 +68,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/fans" element={<FanManagement />} />
         <Route path="/admin/settings" element={<SiteSettings />} />
         <Route path="/admin/merch-platforms" element={<MerchPlatforms />} />
+        <Route path="/admin/videos" element={<VideoManagement />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
