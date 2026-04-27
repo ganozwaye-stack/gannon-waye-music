@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Lock, Heart, ArrowRight } from 'lucide-react';
+import { Lock, Heart, ArrowRight, Music } from 'lucide-react';
 
 // Corner ribbon decoration
 function CornerRibbon() {
@@ -134,12 +134,19 @@ export default function ThankYouSingle() {
                   <CountdownTimer targetDate={RELEASE_DATE} />
                 </div>
               ) : (
-                <div className="flex items-center gap-3">
-                  <Heart className="w-4 h-4 text-primary/60 flex-shrink-0" />
-                  <p className="font-body text-sm gradient-gold-glow italic">
-                    Artwork & release date reveal on May 10th.
-                  </p>
-                </div>
+               <div className="space-y-4">
+                 <a href="https://open.spotify.com/search/Gannon%20Waye%20Thank%20You" target="_blank" rel="noopener noreferrer">
+                   <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 bg-[#1DB954] hover:bg-[#1ed760] text-white border-0">
+                     <Music className="w-4 h-4" /> Listen on Spotify
+                   </Button>
+                 </a>
+                 <div className="flex items-center gap-3 pt-2">
+                   <Heart className="w-4 h-4 text-primary/60 flex-shrink-0" />
+                   <p className="font-body text-sm gradient-gold-glow italic">
+                     Artwork & release date reveal on May 10th.
+                   </p>
+                 </div>
+               </div>
               )}
             </div>
 

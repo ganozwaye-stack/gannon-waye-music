@@ -135,7 +135,7 @@ export default function ThankYouHeroBanner() {
 
             <h2 className="font-display text-4xl md:text-6xl text-foreground italic mb-2">Thank You</h2>
             <p className="font-body text-sm text-foreground/50 mb-6 max-w-md">
-              A song born from grief, growth, and the quiet strength of becoming yourself.
+              A powerful expression of gratitude born from tragic heartbreak—where the rose-colored glasses fell away and the hard truths became clear. A song about healing, growth, and the lessons learned through breaking open.
             </p>
 
             {/* Countdown logic */}
