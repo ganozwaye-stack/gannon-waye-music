@@ -67,9 +67,7 @@ export default function Home() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="font-body text-4xl sm:text-6xl md:text-8xl text-transparent bg-clip-text font-bold tracking-[0.12em] leading-none whitespace-nowrap uppercase" style={{ backgroundImage: 'linear-gradient(135deg, #8b6914 0%, #c9a84c 25%, #f5d06e 50%, #c9a84c 75%, #8b6914 100%)' }}>
-              Gannon Waye
-            </h1>
+            <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/172f64a6b_0fac46594_generated_image-Edited.png" alt="Gannon Waye" className="max-w-full h-auto" style={{ maxHeight: '120px' }} />
             <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-8 mt-6">Singer, Songwriter, Storyteller</p>
             <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
               I write songs about the messy, real parts of being human. The grief that transforms you. The growth that comes from breaking open. The quiet power of finally becoming yourself. My music is built from lived experience, written for anyone who's felt unseen. This is a space where vulnerability becomes strength.
