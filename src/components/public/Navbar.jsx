@@ -18,30 +18,11 @@ export default function Navbar() {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="hover:opacity-80 transition-opacity">
-          <svg viewBox="0 0 80 36" className="h-8 w-auto" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="goldNav" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#c9a84c" />
-                <stop offset="40%" stopColor="#f5d06e" />
-                <stop offset="70%" stopColor="#c9a84c" />
-                <stop offset="100%" stopColor="#8b6914" />
-              </linearGradient>
-            </defs>
-            <text
-              x="40"
-              y="28"
-              textAnchor="middle"
-              fill="url(#goldNav)"
-              fontFamily="'Playfair Display', serif"
-              fontSize="28"
-              fontStyle="italic"
-              fontWeight="700"
-              letterSpacing="2"
-            >
-              GW
-            </text>
-          </svg>
+        <Link
+          to="/"
+          className="px-4 py-1.5 rounded-full border border-primary/40 text-primary hover:bg-primary/10 font-display text-lg italic font-bold tracking-wide transition-colors"
+        >
+          GW
         </Link>
 
         {/* Desktop */}
