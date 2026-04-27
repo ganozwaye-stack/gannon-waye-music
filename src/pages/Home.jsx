@@ -84,12 +84,12 @@ export default function Home() {
           >
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary">New Single</p>
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary">Debut Single</p>
             </div>
             <p className="font-display text-lg text-foreground italic">"Thank You"</p>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
             <div className="flex flex-col items-center gap-1">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Artwork Reveal Date</p>
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Artwork & Release Date Reveal</p>
               <CountdownTimer targetDate="2026-05-10T00:00:00" />
             </div>
           </motion.div>

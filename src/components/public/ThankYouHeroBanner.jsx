@@ -39,7 +39,7 @@ function Ribbon() {
             padding: '5px 0',
           }}
         >
-          New Single
+          Debut Single
         </div>
       </div>
       {/* Sparkle dots scattered */}
@@ -119,7 +119,7 @@ export default function ThankYouHeroBanner() {
                     <Lock className="w-6 h-6 text-primary/70" />
                   </motion.div>
                   <p className="font-display text-sm text-foreground italic text-center">Artwork Hidden</p>
-                  <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground text-center">Revealed May 10th</p>
+                  <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground text-center">Artwork & Release Date Reveal May 10th</p>
                 </div>
               )}
             </div>
@@ -134,7 +134,7 @@ export default function ThankYouHeroBanner() {
           >
             <div className="flex items-center gap-2 justify-center md:justify-start mb-3">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <p className="font-body text-xs tracking-[0.3em] uppercase text-primary">New Single</p>
+              <p className="font-body text-xs tracking-[0.3em] uppercase text-primary">Debut Single</p>
             </div>
 
             <h2 className="font-display text-4xl md:text-6xl text-foreground italic mb-2">Thank You</h2>
@@ -159,12 +159,12 @@ export default function ThankYouHeroBanner() {
               </div>
             ) : (
               <div>
-                <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Artwork revealed in</p>
+                <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-4">Artwork & Release Date Reveal</p>
                 <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
                 <div className="flex items-center gap-2 mt-5 justify-center md:justify-start">
                   <Heart className="w-3.5 h-3.5 text-primary/60" />
                   <p className="font-body text-xs text-muted-foreground italic">
-                    Release date revealed with the artwork on May 10th
+                    Artwork & release date reveal on May 10th
                   </p>
                 </div>
               </div>

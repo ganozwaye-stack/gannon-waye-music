@@ -57,7 +57,7 @@ export default function ThankYouSingle() {
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-2">Single</p>
+          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary mb-2">Debut Single</p>
           <h2 className="font-display text-5xl md:text-7xl text-foreground italic mb-1">Thank You</h2>
           <p className="font-body text-sm text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
             The debut single from Gannon Waye. A heartfelt expression of gratitude woven through acoustic melodies and honest lyrics.
@@ -104,7 +104,7 @@ export default function ThankYouSingle() {
             className="space-y-6"
           >
             <div>
-              <p className="font-body text-xs tracking-[0.2em] uppercase text-primary mb-3">Artwork Reveal Date</p>
+              <p className="font-body text-xs tracking-[0.2em] uppercase text-primary mb-3">Artwork & Release Date Reveal</p>
               <div className="mb-6">
                 <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
               </div>
@@ -139,7 +139,7 @@ export default function ThankYouSingle() {
                 <div className="flex items-center gap-3">
                   <Heart className="w-4 h-4 text-primary/60 flex-shrink-0" />
                   <p className="font-body text-sm text-muted-foreground italic">
-                    Release date revealed with the artwork on May 10th.
+                    Artwork & release date reveal on May 10th.
                   </p>
                 </div>
               )}
