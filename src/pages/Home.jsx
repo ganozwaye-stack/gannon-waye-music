@@ -151,7 +151,7 @@ export default function Home() {
               className="w-52 flex flex-col items-center gap-2 pt-1"
             >
               <div className="w-px h-8 gradient-gold-glow" />
-              <div className="font-display text-base gradient-gold-glow leading-5 italic text-center space-y-0">
+              <div className="font-display text-base gradient-gold-glow leading-7 italic text-center space-y-0">
                 <p>I didn't truly love myself</p>
                 <p>until I was 33.</p>
                 <p>Before that, I woke up</p>
@@ -187,7 +187,7 @@ export default function Home() {
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me, it's the language I use to understand people, emotion, and the parts of life that don't always have words.
             </p>
-            <div className="border-l-2 border-primary pl-4 font-display text-sm gradient-gold-glow italic leading-5">
+            <div className="border-l-2 border-primary pl-4 font-display text-sm gradient-gold-glow italic leading-7">
               <p>I didn't truly love myself</p>
               <p>until I was 33.</p>
               <p>Before that, I woke up</p>
