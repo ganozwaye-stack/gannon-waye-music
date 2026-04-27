@@ -150,7 +150,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="w-52 flex flex-col items-center gap-1"
             >
-              <div className="w-px h-6 gradient-gold-glow" />
+              <div className="w-0.5 h-6 bg-gradient-to-b from-primary to-primary/30" />
               <div className="font-display text-base gradient-gold-glow leading-7 italic text-center space-y-0">
                 <p>I didn't truly love myself</p>
                 <p>until I was 33.</p>
@@ -165,7 +165,7 @@ export default function Home() {
                 <p>anyone else.</p>
                 <p className="mt-2 text-primary/50 not-italic tracking-widest uppercase text-[9px]">Gannon Waye</p>
               </div>
-              <div className="w-px h-6 gradient-gold-glow" />
+              <div className="w-0.5 h-6 bg-gradient-to-b from-primary/30 to-primary" />
             </motion.div>
 
             {/* Right column */}
