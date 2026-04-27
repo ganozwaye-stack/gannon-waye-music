@@ -135,7 +135,7 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="font-body text-foreground/70 leading-relaxed text-sm text-left space-y-4"
+              className="font-body text-foreground/70 leading-relaxed text-sm text-left space-y-4 pt-8"
             >
               <p>I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me, it's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
               <p>I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.</p>
@@ -174,7 +174,7 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-body text-foreground/70 leading-relaxed text-sm text-right space-y-4"
+              className="font-body text-foreground/70 leading-relaxed text-sm text-right space-y-4 pt-8"
             >
               <p>My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say.</p>
               <p>I began singing at a young age, runner-up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.</p>
