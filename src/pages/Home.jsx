@@ -100,7 +100,7 @@ export default function Home() {
             className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
           >
             <Link to="/music" className="w-full sm:w-auto">
-              <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full">
+              <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
                 <Play className="w-4 h-4" /> Explore Music
               </Button>
             </Link>

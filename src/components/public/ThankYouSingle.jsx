@@ -121,7 +121,7 @@ export default function ThankYouSingle() {
                 <div className="space-y-4">
                   <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-text">Out Now</p>
                   <Link to="/music">
-                    <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7">
+                    <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
                       Listen Now <ArrowRight className="w-4 h-4" />
                     </Button>
                   </Link>

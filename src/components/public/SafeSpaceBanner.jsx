@@ -37,7 +37,7 @@ export default function SafeSpaceBanner() {
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/community">
-                <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-8 py-5">
+                <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-8 py-5 gradient-gold-button border-0">
                   Join the Community <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
