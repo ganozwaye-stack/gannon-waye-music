@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Package, Clock, Info } from 'lucide-react';
+import { ShoppingBag, Package, Clock, Gift } from 'lucide-react';
+
+const PREORDER_OPEN_DATE = new Date('2026-05-10T00:00:00');
+const GIFT_WRAP_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png';
+const isPreorderOpen = () => new Date() >= PREORDER_OPEN_DATE;
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -72,12 +76,12 @@ export default function Store() {
           className="mb-12 rounded-2xl border border-primary/30 bg-primary/5 px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center gap-4"
         >
           <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center flex-shrink-0">
-            <Clock className="w-5 h-5 text-primary" />
+            <Gift className="w-5 h-5 text-primary" />
           </div>
           <div>
-            <p className="font-body text-sm font-semibold text-foreground tracking-wide">Preorder Now — Payment Processed 1 June 2026</p>
+            <p className="font-body text-sm font-semibold text-foreground tracking-wide">Preorder Opens 10 May 2026 — Payment Processed 1 June 2026</p>
             <p className="font-body text-xs text-muted-foreground mt-1 leading-relaxed">
-              All items are available for preorder. Your order is reserved today but <strong className="text-foreground">payment will not be charged until 1 June 2026</strong>. All prices are in AUD and include GST. Shipping is calculated and added at checkout.
+              Merch preorders and the debut single both open on <strong className="text-foreground">10 May 2026</strong>. Products are gift-wrapped until the big reveal. Payment will not be charged until <strong className="text-foreground">1 June 2026</strong>. All prices in AUD incl. GST. Shipping calculated at checkout.
             </p>
           </div>
         </motion.div>
@@ -96,12 +100,20 @@ export default function Store() {
                  whileInView={{ opacity: 1, y: 0 }}
                  viewport={{ once: true }}
                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                 className="group cursor-pointer"
-                 onClick={() => setSelectedProduct(product)}
+                 className={`group ${isPreorderOpen() ? 'cursor-pointer' : 'cursor-default'}`}
+                 onClick={() => isPreorderOpen() && setSelectedProduct(product)}
                >
                  <div className="relative rounded-3xl overflow-hidden bg-card border border-border/40 group-hover:border-primary/40 transition-all duration-300 shadow-sm group-hover:shadow-lg">
-                   <div className="aspect-square bg-secondary/50 overflow-hidden">
-                     {product.image_url ? (
+                   <div className="aspect-square bg-secondary/50 overflow-hidden relative">
+                     {!isPreorderOpen() ? (
+                       <div className="relative w-full h-full">
+                         <img src={GIFT_WRAP_IMAGE} alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 gap-2">
+                           <Gift className="w-8 h-8 text-primary" />
+                           <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary/90">Revealed May 10</p>
+                         </div>
+                       </div>
+                     ) : product.image_url ? (
                        <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                      ) : (
                        <div className="w-full h-full flex items-center justify-center">
@@ -120,7 +132,9 @@ export default function Store() {
                          <p className="font-display text-2xl text-primary">${product.price?.toFixed(2)} <span className="font-body text-xs text-muted-foreground">AUD incl. GST</span></p>
                          <p className="font-body text-[10px] text-muted-foreground mt-0.5">+ shipping</p>
                        </div>
-                       {product.stock_quantity <= 0 ? (
+                       {!isPreorderOpen() ? (
+                         <Badge className="bg-secondary text-muted-foreground border-0 text-[10px] tracking-wider uppercase">Opens May 10</Badge>
+                       ) : product.stock_quantity <= 0 ? (
                          <Badge className="bg-destructive/10 text-destructive border-0">Sold Out</Badge>
                        ) : (
                          <Badge className="bg-primary/15 text-primary border-0 text-[10px] tracking-wider uppercase">Preorder</Badge>
