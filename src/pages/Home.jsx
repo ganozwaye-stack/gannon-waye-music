@@ -148,9 +148,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="w-52 flex flex-col items-center gap-2 pt-1"
+              className="w-52 flex flex-col items-center gap-1"
             >
-              <div className="w-px h-8 gradient-gold-glow" />
+              <div className="w-px h-6 gradient-gold-glow" />
               <div className="font-display text-base gradient-gold-glow leading-7 italic text-center space-y-0">
                 <p>I didn't truly love myself</p>
                 <p>until I was 33.</p>
@@ -165,7 +165,7 @@ export default function Home() {
                 <p>anyone else.</p>
                 <p className="mt-2 text-primary/50 not-italic tracking-widest uppercase text-[9px]">Gannon Waye</p>
               </div>
-              <div className="w-px h-8 gradient-gold-glow" />
+              <div className="w-px h-6 gradient-gold-glow" />
             </motion.div>
 
             {/* Right column */}
