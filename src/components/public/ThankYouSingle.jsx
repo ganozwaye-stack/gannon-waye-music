@@ -60,7 +60,7 @@ export default function ThankYouSingle() {
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2">Debut Single</p>
           <h2 className="font-display text-5xl md:text-7xl text-foreground italic mb-1">Thank You</h2>
           <p className="font-body text-sm text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-            The debut single from Gannon Waye. A heartfelt expression of gratitude woven through acoustic melodies and honest lyrics.
+            The debut single from Gannon Waye. A powerful expression of gratitude born from tragic heartbreak—where the rose-colored glasses fell away and the hard truths became clear. A song about healing, growth, and the lessons learned through breaking open.
           </p>
           <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">Coming 10 June 2026</p>
         </motion.div>
@@ -108,7 +108,7 @@ export default function ThankYouSingle() {
               </div>
               <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">About the single</p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm">
-                "Thank You" is a deeply personal reflection on growth, gratitude, and the quiet strength it takes to keep moving forward. Written from lived experience, it explores the complexity of being thankful, not just for the beautiful moments, but for the ones that broke you open and rebuilt you.
+                "Thank You" is a deeply personal anthem born from heartbreak and transformation. Written from lived experience, it explores the journey from devastating loss to unexpected gratitude—not despite the pain, but because of it. It's about the strength required when rose-colored glasses shatter and you finally see clearly.
               </p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm mt-3">
                 At its core, this song is about transformation. Turning pain into purpose. Experience into connection.
