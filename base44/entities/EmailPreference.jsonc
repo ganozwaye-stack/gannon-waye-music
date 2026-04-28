@@ -1,0 +1,53 @@
+{
+  "name": "EmailPreference",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "consent_new_music": {
+      "type": "boolean",
+      "default": false
+    },
+    "consent_behind_scenes": {
+      "type": "boolean",
+      "default": false
+    },
+    "consent_tour_events": {
+      "type": "boolean",
+      "default": false
+    },
+    "consent_merch_drops": {
+      "type": "boolean",
+      "default": false
+    },
+    "consent_exclusive_content": {
+      "type": "boolean",
+      "default": false
+    },
+    "consent_personal_stories": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "email"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {},
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

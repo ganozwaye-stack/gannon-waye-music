@@ -10,7 +10,8 @@ import EmbedTimer from '@/pages/EmbedTimer';
 // Public pages
 import Home from '@/pages/Home';
 import Music from '@/pages/Music';
-import Store from '@/pages/Store';
+import Store from '@/pages/Store.jsx';
+import EmailPreferences from '@/pages/EmailPreferences';
 import Community from '@/pages/Community';
 import Videos from '@/pages/Videos';
 import PublicLayout from '@/components/public/PublicLayout';
@@ -60,6 +61,7 @@ const AuthenticatedApp = () => {
         <Route path="/store" element={<Store />} />
         <Route path="/community" element={<Community />} />
         <Route path="/videos" element={<Videos />} />
+        <Route path="/email-preferences" element={<EmailPreferences />} />
       </Route>
 
       {/* Embed timer (no layout) */}

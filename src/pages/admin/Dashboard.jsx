@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Music, ShoppingBag, Package, Users, ArrowRight, ExternalLink } from 'lucide-react';
+import { Music, ShoppingBag, Package, Users, ArrowRight, ExternalLink, Heart, TrendingUp } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 export default function Dashboard() {
@@ -13,6 +13,7 @@ export default function Dashboard() {
   const { data: orders } = useQuery({ queryKey: ['merchOrders'], queryFn: () => base44.entities.MerchOrder.list(), initialData: [] });
   const { data: posts } = useQuery({ queryKey: ['fanPosts'], queryFn: () => base44.entities.FanPost.list(), initialData: [] });
   const { data: subscribers } = useQuery({ queryKey: ['subscribers'], queryFn: () => base44.entities.EmailSubscriber.list(), initialData: [] });
+  const { data: interests } = useQuery({ queryKey: ['merchInterests'], queryFn: () => base44.entities.MerchInterest.list(), initialData: [] });
 
   // Build last-6-month sales chart data
   const salesChartData = useMemo(() => {
@@ -44,11 +45,13 @@ export default function Dashboard() {
     return months;
   }, [subscribers, posts]);
 
+  const totalRevenue = orders.reduce((s, o) => s + (o.total_amount || 0), 0);
+
   const stats = [
-    { label: 'Releases', value: releases.length, icon: Music, path: '/admin/releases', color: 'text-primary' },
-    { label: 'Products', value: products.length, icon: ShoppingBag, path: '/admin/merch', color: 'text-chart-2' },
+    { label: 'Total Revenue', value: `$${totalRevenue.toFixed(0)}`, icon: TrendingUp, path: '/admin/orders', color: 'text-primary' },
     { label: 'Orders', value: orders.length, icon: Package, path: '/admin/orders', color: 'text-chart-4' },
-    { label: 'Fan Posts', value: posts.length, icon: Users, path: '/admin/fans', color: 'text-chart-5' },
+    { label: 'Subscribers', value: subscribers.length, icon: Users, path: '/admin/fans', color: 'text-chart-2' },
+    { label: 'Interests', value: interests.length, icon: Heart, path: '/admin/fans', color: 'text-chart-5' },
   ];
 
   const pendingOrders = orders.filter(o => o.status === 'pending');
@@ -117,6 +120,37 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Top Merch Interests */}
+      {interests.length > 0 && (() => {
+        const byProduct = interests.reduce((acc, i) => { acc[i.product_name] = (acc[i.product_name] || 0) + 1; return acc; }, {});
+        const sorted = Object.entries(byProduct).sort((a, b) => b[1] - a[1]);
+        return (
+          <Card className="bg-card border-border/40 mb-6">
+            <CardHeader className="pb-2 flex flex-row items-center justify-between">
+              <CardTitle className="font-display text-lg flex items-center gap-2"><Heart className="w-4 h-4 text-primary" /> Fan Interest by Product</CardTitle>
+              <span className="font-body text-xs text-muted-foreground">{interests.length} total interests</span>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {sorted.map(([name, count]) => (
+                  <div key={name} className="flex items-center gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="font-body text-sm text-foreground">{name}</p>
+                        <p className="font-body text-xs text-primary font-medium">{count} interested</p>
+                      </div>
+                      <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+                        <div className="h-full bg-primary rounded-full" style={{ width: `${(count / interests.length) * 100}%` }} />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        );
+      })()}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Pending Orders */}

@@ -40,6 +40,8 @@ export default function Footer() {
             </div>
           </div>
           <div>
+            <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Email Preferences</h4>
+            <a href="/email-preferences" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors block mb-4">Choose what you hear from us</a>
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Contact</h4>
             <p className="font-body text-sm text-foreground/70">For bookings and enquiries</p>
             <p className="font-body text-sm text-primary mt-1">hello@gannonwaye.com</p>
