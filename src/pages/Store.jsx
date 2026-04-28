@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Lock } from 'lucide-react';
+import { ShoppingBag, Lock, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
 import ProductCard from '@/components/store/ProductCard';
@@ -34,7 +34,17 @@ function StoreLocked() {
 
         <CountdownTimer targetDate={UNLOCK_DATE.toISOString()} />
 
-        <div className="mt-12 pt-8 border-t border-border/30">
+        {/* Launch promo teaser */}
+        <div className="mt-10 bg-primary/10 border border-primary/30 rounded-2xl px-6 py-5 max-w-sm mx-auto">
+          <p className="font-body text-[10px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">Launch Offer · First 20 Orders Only</p>
+          <p className="font-body text-sm text-foreground/70 mb-3 leading-relaxed">Save this code — 15% off your first order when the store opens May 10.</p>
+          <div className="flex items-center justify-center gap-3 bg-card/60 border border-border/40 rounded-xl px-4 py-3">
+            <Tag className="w-4 h-4 text-primary" />
+            <span className="font-display text-xl tracking-widest gradient-gold-glow">LAUNCH15</span>
+          </div>
+        </div>
+
+        <div className="mt-8 pt-8 border-t border-border/30">
           <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Want to be first in line?</p>
           <a href="/community">
             <Button className="rounded-full font-body text-sm tracking-wider uppercase px-8 gradient-gold-button border-0">
@@ -80,11 +90,18 @@ export default function Store() {
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Official</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Merch Store</h1>
-          <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2.5">
+          <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             <p className="font-body text-xs text-muted-foreground tracking-wide">
               Register your interest · Be first in line when the store opens
             </p>
+          </div>
+          {/* Launch promo code teaser — visible now */}
+          <div className="inline-flex items-center gap-3 bg-primary/10 border border-primary/30 rounded-xl px-5 py-3">
+            <Tag className="w-4 h-4 text-primary flex-shrink-0" />
+            <span className="font-body text-xs text-foreground/70">Launch offer · First 20 orders:</span>
+            <span className="font-display text-base tracking-widest gradient-gold-glow">LAUNCH15</span>
+            <span className="font-body text-xs text-primary">= 15% off</span>
           </div>
         </motion.div>
 
