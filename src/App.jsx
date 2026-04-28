@@ -20,6 +20,7 @@ import PublicLayout from '@/components/public/PublicLayout';
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
 import Dashboard from '@/pages/admin/Dashboard';
+import Summary from '@/pages/Summary';
 import Releases from '@/pages/admin/Releases';
 import MerchManagement from '@/pages/admin/MerchManagement';
 import Orders from '@/pages/admin/Orders';
@@ -64,6 +65,7 @@ const AuthenticatedApp = () => {
         <Route path="/videos" element={<Videos />} />
         <Route path="/email-preferences" element={<EmailPreferences />} />
         <Route path="/fan-profile" element={<FanProfile />} />
+        <Route path="/summary" element={<Summary />} />
       </Route>
 
       {/* Embed timer (no layout) */}
