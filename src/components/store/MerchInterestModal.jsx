@@ -1,17 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
 import { useToast } from '@/components/ui/use-toast';
-import { Heart, CheckCircle2 } from 'lucide-react';
+import { Heart, CheckCircle2, LogIn } from 'lucide-react';
 
 export default function MerchInterestModal({ product, open, onClose }) {
   const { toast } = useToast();
   const [form, setForm] = useState({ name: '', email: '', phone: '', consent_email: false, consent_news: false, consent_events: false, consent_merch: false });
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(null); // null = checking
+
+  useEffect(() => {
+    if (open) {
+      base44.auth.isAuthenticated().then(setIsAuthed);
+    }
+  }, [open]);
+
+  const handleSignIn = () => {
+    base44.auth.redirectToLogin(window.location.pathname);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,7 +37,7 @@ export default function MerchInterestModal({ product, open, onClose }) {
     setLoading(false);
   };
 
-  const handleClose = () => { setDone(false); setForm({ name: '', email: '', phone: '', consent_email: false, consent_news: false, consent_events: false, consent_merch: false }); onClose(); };
+  const handleClose = () => { setDone(false); setIsAuthed(null); setForm({ name: '', email: '', phone: '', consent_email: false, consent_news: false, consent_events: false, consent_merch: false }); onClose(); };
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -36,7 +47,7 @@ export default function MerchInterestModal({ product, open, onClose }) {
             {done ? 'Interest Registered!' : `I'm Interested: ${product?.name}`}
           </DialogTitle>
           <DialogDescription className="font-body text-muted-foreground text-sm">
-            {done ? 'We\'ll let you know the moment this is available.' : 'Register your interest and be first to know when this drops on May 10.'}
+            {done ? "We'll let you know the moment this is available." : 'Register your interest and be first to know when this drops on May 10.'}
           </DialogDescription>
         </DialogHeader>
 
@@ -44,6 +55,21 @@ export default function MerchInterestModal({ product, open, onClose }) {
           <div className="text-center py-6">
             <CheckCircle2 className="w-12 h-12 text-primary mx-auto mb-3" />
             <p className="font-body text-sm text-muted-foreground">You're on the list. Watch your inbox on May 10!</p>
+          </div>
+        ) : isAuthed === null ? (
+          <div className="text-center py-8">
+            <div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto" />
+          </div>
+        ) : !isAuthed ? (
+          <div className="text-center py-8 space-y-4">
+            <LogIn className="w-10 h-10 text-primary mx-auto" />
+            <p className="font-body text-sm text-foreground/70 leading-relaxed max-w-xs mx-auto">
+              Create a free account to register your interest and be first in line when the store drops on May 10.
+            </p>
+            <Button onClick={handleSignIn} className="rounded-full gradient-gold-button border-0 font-body tracking-wider uppercase px-8">
+              Sign Up / Log In
+            </Button>
+            <p className="font-body text-xs text-muted-foreground">It's free — takes 30 seconds.</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 mt-2">

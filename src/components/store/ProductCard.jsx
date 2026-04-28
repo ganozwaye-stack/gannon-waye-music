@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Star, Package } from 'lucide-react';
+import { ShoppingBag, Star, Lock, Gift } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 
@@ -37,20 +37,17 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
         </div>
       )}
 
-      {/* Image */}
+      {/* Image — always gift-wrapped until store opens */}
       <div className="relative aspect-square bg-secondary/40 overflow-hidden">
-        {product.image_url ? (
-          <img
-            src={product.image_url}
-            alt={product.name}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          />
-        ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-gradient-to-br from-secondary/60 to-secondary/30">
-            <Package className="w-12 h-12 text-muted-foreground/20" />
-          </div>
-        )}
-        {/* Subtle gradient overlay at bottom of image */}
+        <img
+          src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png"
+          alt="Coming soon"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-2">
+          <Gift className="w-8 h-8 text-primary" />
+          <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text">Revealed May 10</p>
+        </div>
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card/60 to-transparent pointer-events-none" />
       </div>
 
