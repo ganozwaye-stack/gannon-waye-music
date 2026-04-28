@@ -6,7 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="/manifest.json" />
     <title>Base44 APP</title>
+
+    <!-- ✅ METRICOOL TRACKING SCRIPT -->
+    <script>
+      function loadScript(a){
+        var b=document.getElementsByTagName("head")[0],
+            c=document.createElement("script");
+        c.type="text/javascript",
+        c.src="https://tracker.metricool.com/resources/be.js",
+        c.onreadystatechange=a,
+        c.onload=a,
+        b.appendChild(c)
+      }
+      loadScript(function(){
+        beTracker.t({hash:"43e1b8642d4b57b01f381dc3811a224c"})
+      });
+    </script>
+
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
