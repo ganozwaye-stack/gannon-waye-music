@@ -1,0 +1,57 @@
+{
+  "name": "PromoCode",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "The promo code string e.g. LAUNCH15"
+    },
+    "discount_percent": {
+      "type": "number",
+      "description": "Discount percentage e.g. 15"
+    },
+    "max_uses": {
+      "type": "number",
+      "description": "Maximum number of times this code can be used (null = unlimited)"
+    },
+    "times_used": {
+      "type": "number",
+      "default": 0,
+      "description": "How many times this code has been used"
+    },
+    "description": {
+      "type": "string",
+      "description": "Internal description of what this code is for"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "code",
+    "discount_percent"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

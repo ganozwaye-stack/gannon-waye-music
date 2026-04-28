@@ -97,23 +97,17 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
         )}
 
         {/* Divider */}
-        <div className="border-t border-border/30 pt-4 flex flex-col gap-2">
+        <div className="border-t border-border/30 pt-4">
           <Button
-            onClick={() => onPreorder(product)}
+            onClick={() => onInterest(product)}
             className={`w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 ${
               isDeluxe
                 ? 'gradient-gold-button'
                 : 'bg-secondary/80 text-foreground hover:bg-secondary'
             }`}
           >
-            <ShoppingBag className="w-4 h-4" /> Preorder Now
+            <ShoppingBag className="w-4 h-4" /> Register My Interest
           </Button>
-          <button
-            onClick={() => onInterest(product)}
-            className="font-body text-xs text-muted-foreground hover:text-primary transition-colors text-center py-1.5 tracking-wide"
-          >
-            Register interest only →
-          </button>
         </div>
       </div>
     </motion.div>

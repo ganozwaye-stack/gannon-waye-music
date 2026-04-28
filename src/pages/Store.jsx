@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 import { ShoppingBag, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
-import CheckoutModal from '@/components/store/CheckoutModal';
 import ProductCard from '@/components/store/ProductCard';
 import CountdownTimer from '@/components/public/CountdownTimer';
 
@@ -50,7 +49,6 @@ function StoreLocked() {
 
 export default function Store() {
   const [interestProduct, setInterestProduct] = useState(null);
-  const [checkoutProduct, setCheckoutProduct] = useState(null);
 
   const isLocked = new Date() < UNLOCK_DATE;
 
@@ -85,7 +83,7 @@ export default function Store() {
           <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2.5">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             <p className="font-body text-xs text-muted-foreground tracking-wide">
-              Preorders open · Payment charged <strong className="text-foreground">1 June 2026</strong> · Prices include GST
+              Register your interest · Be first in line when the store opens
             </p>
           </div>
         </motion.div>
@@ -109,7 +107,6 @@ export default function Store() {
                 key={product.id}
                 product={product}
                 index={i}
-                onPreorder={setCheckoutProduct}
                 onInterest={setInterestProduct}
               />
             ))}
@@ -118,7 +115,7 @@ export default function Store() {
 
         {/* Footer note */}
         <p className="text-center font-body text-xs text-muted-foreground/50 mt-16 tracking-wide">
-          All purchases are preorders. You will receive an order confirmation by email. Shipping calculated at checkout.
+          Register your interest and you'll be first to know when the store officially opens.
         </p>
       </div>
 
@@ -129,12 +126,7 @@ export default function Store() {
         />
       )}
 
-      {checkoutProduct && (
-        <CheckoutModal
-          product={checkoutProduct}
-          onClose={() => setCheckoutProduct(null)}
-        />
-      )}
+
     </div>
   );
 }
