@@ -62,7 +62,7 @@ export default function ThankYouSingle() {
           <p className="font-body text-sm text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
             The debut single from Gannon Waye. A powerful expression of gratitude born from tragic heartbreak—where the rose-colored glasses fell away and the hard truths became clear. A song about healing, growth, and the lessons learned through breaking open.
           </p>
-          <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">Coming 10 June 2026</p>
+          <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">Release date revealed May 10</p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
