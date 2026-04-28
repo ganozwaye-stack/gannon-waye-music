@@ -2,74 +2,21 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Lock, Tag } from 'lucide-react';
+import { ShoppingBag, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
 import ProductCard from '@/components/store/ProductCard';
-import CountdownTimer from '@/components/public/CountdownTimer';
-
-// May 10 2026 at 6pm AEST = 08:00 UTC
-const UNLOCK_DATE = new Date('2026-05-10T08:00:00Z');
 
 
-function StoreLocked() {
-  return (
-    <div className="min-h-screen py-20 px-4 md:px-6 flex items-center justify-center">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7 }}
-        className="text-center max-w-xl mx-auto"
-      >
-        <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto mb-8">
-          <Lock className="w-8 h-8 text-primary" />
-        </div>
-
-        <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">Official Merch</p>
-        <h1 className="font-display text-4xl md:text-6xl text-foreground mb-4">Store Opens</h1>
-        <p className="font-body text-sm text-muted-foreground mb-2">May 10 · 6pm AEST</p>
-        <p className="font-body text-sm text-foreground/50 max-w-sm mx-auto mb-10 leading-relaxed">
-          Exclusive merchandise drops alongside the artwork and release date reveal. Come back then.
-        </p>
-
-        <CountdownTimer targetDate={UNLOCK_DATE.toISOString()} />
-
-        {/* Launch promo teaser */}
-        <div className="mt-10 bg-primary/10 border border-primary/30 rounded-2xl px-6 py-5 max-w-sm mx-auto">
-          <p className="font-body text-[10px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">Launch Offer · First 20 Orders Only</p>
-          <p className="font-body text-sm text-foreground/70 mb-3 leading-relaxed">Save this code — 15% off your first order when the store opens May 10.</p>
-          <div className="flex items-center justify-center gap-3 bg-card/60 border border-border/40 rounded-xl px-4 py-3">
-            <Tag className="w-4 h-4 text-primary" />
-            <span className="font-display text-xl tracking-widest gradient-gold-glow">LAUNCH15</span>
-          </div>
-        </div>
-
-        <div className="mt-8 pt-8 border-t border-border/30">
-          <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Want to be first in line?</p>
-          <a href="/community">
-            <Button className="rounded-full font-body text-sm tracking-wider uppercase px-8 gradient-gold-button border-0">
-              Join the Community
-            </Button>
-          </a>
-        </div>
-      </motion.div>
-    </div>
-  );
-}
 
 export default function Store() {
   const [interestProduct, setInterestProduct] = useState(null);
-
-  const isLocked = new Date() < UNLOCK_DATE;
 
   const { data: products } = useQuery({
     queryKey: ['merchProducts'],
     queryFn: () => base44.entities.MerchProduct.filter({ is_active: true }),
     initialData: [],
-    enabled: !isLocked,
   });
-
-  if (isLocked) return <StoreLocked />;
 
   const sorted = [...products].sort((a, b) => {
     if (a.category === 'cd' && b.category !== 'cd') return -1;
