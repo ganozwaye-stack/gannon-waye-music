@@ -10,7 +10,7 @@ import EmbedTimer from '@/pages/EmbedTimer';
 // Public pages
 import Home from '@/pages/Home';
 import Music from '@/pages/Music';
-import Store from '@/pages/Store.jsx';
+import Store from '@/pages/Store';
 import EmailPreferences from '@/pages/EmailPreferences';
 import Community from '@/pages/Community';
 import Videos from '@/pages/Videos';
