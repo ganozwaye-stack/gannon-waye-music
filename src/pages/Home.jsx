@@ -230,17 +230,17 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Thank You Hero Banner — just below the hero */}
-      <ThankYouHeroBanner />
-
       {/* Thank You Single */}
       <ThankYouSingle />
 
-      {/* Social Videos Preview */}
-      <VideoPreviewSection />
-
       {/* Merch Teaser */}
       <MerchTeaserSection />
+
+      {/* Thank You Hero Banner */}
+      <ThankYouHeroBanner />
+
+      {/* Social Videos Preview */}
+      <VideoPreviewSection />
 
       {/* Safe Space Banner */}
       <SafeSpaceBanner />
