@@ -260,6 +260,42 @@ export default function Home() {
               <h2 className="font-display text-3xl md:text-5xl text-foreground">Music</h2>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+              {/* Mystery next song card — always shown alongside releases */}
+              {releases.filter((r) => r.is_published).length > 0 && releases.filter((r) => r.is_published).length < 2 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 border-dashed"
+                >
+                  <div className="aspect-square bg-secondary/30 overflow-hidden flex flex-col items-center justify-center gap-4 relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
+                    <motion.div
+                      animate={{ opacity: [0.4, 1, 0.4] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                      className="relative z-10 flex flex-col items-center gap-3"
+                    >
+                      <div className="flex gap-1.5">
+                        {[0, 0.2, 0.4].map((d, i) => (
+                          <motion.div
+                            key={i}
+                            className="w-1 rounded-full bg-primary"
+                            animate={{ height: ['8px', '24px', '8px'] }}
+                            transition={{ duration: 1.2, repeat: Infinity, delay: d, ease: 'easeInOut' }}
+                          />
+                        ))}
+                      </div>
+                      <p className="font-body text-[10px] tracking-[0.25em] uppercase gradient-gold-glow">Recording in progress</p>
+                    </motion.div>
+                  </div>
+                  <div className="p-6">
+                    <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Single</p>
+                    <h3 className="font-display text-2xl text-foreground/60 mt-1 italic">Next Song Underway</h3>
+                    <p className="font-body text-sm text-muted-foreground/60 mt-2">Something new is being written. No hints. Just know it's coming.</p>
+                    <p className="font-body text-xs text-muted-foreground/40 mt-3">Details revealed when it's ready.</p>
+                  </div>
+                </motion.div>
+              )}
               {releases.filter((r) => r.is_published).slice(0, 2).map((release) => (
                 <motion.div
                   key={release.id}
