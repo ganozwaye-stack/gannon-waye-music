@@ -12,6 +12,7 @@ import Home from '@/pages/Home';
 import Music from '@/pages/Music';
 import Store from '@/pages/Store';
 import EmailPreferences from '@/pages/EmailPreferences';
+import FanProfile from '@/pages/FanProfile';
 import Community from '@/pages/Community';
 import Videos from '@/pages/Videos';
 import PublicLayout from '@/components/public/PublicLayout';
@@ -62,6 +63,7 @@ const AuthenticatedApp = () => {
         <Route path="/community" element={<Community />} />
         <Route path="/videos" element={<Videos />} />
         <Route path="/email-preferences" element={<EmailPreferences />} />
+        <Route path="/fan-profile" element={<FanProfile />} />
       </Route>
 
       {/* Embed timer (no layout) */}

@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { label: 'Store', path: '/store' },
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
+  { label: 'My Preferences', path: '/fan-profile' },
 ];
 
 export default function Navbar() {
