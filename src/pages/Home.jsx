@@ -183,10 +183,16 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* Mobile fallback — stacked */}
+          {/* Mobile fallback — stacked, full story */}
           <div className="md:hidden space-y-6">
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me, it's the language I use to understand people, emotion, and the parts of life that don't always have words.
+            </p>
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
+              I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.
+            </p>
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center italic">
+              I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong, it often means you're seeing something others aren't ready for yet.
             </p>
             <div className="border-l-2 border-primary pl-4 font-display text-sm gradient-gold-glow italic leading-7">
               <p>I didn't truly love myself</p>
@@ -202,7 +208,13 @@ export default function Home() {
               <p>anyone else.</p>
             </div>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
-              My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say. That work is now becoming an album, a collection for anyone who needs a message of hope or just an anthem that reminds them they're not alone.
+              My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say.
+            </p>
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
+              I began singing at a young age, runner-up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.
+            </p>
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
+              That work is now becoming an album, a collection for anyone who needs a message of hope or just an anthem that reminds them they're not alone.
             </p>
           </div>
 
