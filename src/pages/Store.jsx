@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
 import ProductCard from '@/components/store/ProductCard';
@@ -37,11 +37,17 @@ export default function Store() {
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Official</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Merch Store</h1>
-          <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2.5">
+          <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             <p className="font-body text-xs text-muted-foreground tracking-wide">
               Register your interest · Be first in line when the store opens
             </p>
+          </div>
+          <div className="inline-flex items-center gap-3 bg-primary/10 border border-primary/30 rounded-xl px-5 py-3">
+            <Tag className="w-4 h-4 text-primary flex-shrink-0" />
+            <span className="font-body text-xs text-foreground/70">Launch offer · First 20 orders:</span>
+            <span className="font-display text-base tracking-widest gradient-gold-glow">LAUNCH15</span>
+            <span className="font-body text-xs text-primary">= 15% off</span>
           </div>
         </motion.div>
 
