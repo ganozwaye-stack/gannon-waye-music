@@ -37,7 +37,9 @@ export default function MerchTeaserSection() {
               <p className="font-body text-sm text-muted-foreground max-w-md mx-auto mb-6 leading-relaxed">
                 The official Gannon Waye merch store drops on May 10 at 6pm AEST — the same moment as the artwork and release date reveal.
               </p>
-              <CountdownTimer targetDate={UNLOCK_DATE} />
+              <div className="flex justify-center">
+                <CountdownTimer targetDate={UNLOCK_DATE} />
+              </div>
             </>
           )}
         </motion.div>
