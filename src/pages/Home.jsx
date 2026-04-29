@@ -14,7 +14,7 @@ import VideoPreviewSection from '@/components/public/VideoPreviewSection';
 import MerchTeaserSection from '@/components/public/MerchTeaserSection';
 
 const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9da833f2a_a5ef50136_generated_image1.png',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
 ];
 
 export default function Home() {
