@@ -61,7 +61,7 @@ export default function Home() {
 
       {/* Hero */}
       <section className="relative min-h-[100svh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/65 to-background/95 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/40 to-background/95 z-10" />
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
