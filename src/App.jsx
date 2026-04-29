@@ -30,6 +30,7 @@ import MerchPlatforms from '@/pages/admin/MerchPlatforms';
 import VideoManagement from '@/pages/admin/VideoManagement';
 import Newsletter from '@/pages/admin/Newsletter';
 import MerchDesigns from '@/pages/admin/MerchDesigns';
+import ThankYouCards from '@/pages/admin/ThankYouCards';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -83,6 +84,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/videos" element={<VideoManagement />} />
         <Route path="/admin/newsletter" element={<Newsletter />} />
         <Route path="/admin/merch-designs" element={<MerchDesigns />} />
+        <Route path="/admin/thank-you-cards" element={<ThankYouCards />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

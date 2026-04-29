@@ -22,9 +22,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <img
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/172f64a6b_0fac46594_generated_image-Edited.png"
-              alt="Gannon Waye"
-              className="h-14 w-auto object-contain mb-3"
+              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/85b671cc8_generated_image.png"
+              alt="GW"
+              className="h-16 w-16 object-contain mb-3"
             />
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
               Australian singer-songwriter crafting honest stories through melody and verse.
