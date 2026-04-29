@@ -30,7 +30,7 @@ import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
 
 const ARTWORK_REVEAL_DATE = '2026-05-10T00:00:00';
-const RELEASE_DATE = '2026-06-10T02:00:00Z'; // 12 noon AEST = 02:00 UTC
+const RELEASE_DATE = '2026-05-10T02:00:00Z'; // 12 noon AEST = 02:00 UTC
 
 export default function ThankYouSingle() {
   const [now, setNow] = useState(new Date());
@@ -143,7 +143,7 @@ export default function ThankYouSingle() {
                  <div className="flex items-center gap-3 pt-2">
                    <Heart className="w-4 h-4 text-primary/60 flex-shrink-0" />
                    <p className="font-body text-sm gradient-gold-glow italic">
-                     Artwork & release date reveal on May 10th.
+                     Artwork & release date reveal on May 10th — out same day.
                    </p>
                  </div>
                </div>

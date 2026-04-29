@@ -15,7 +15,7 @@ Welcome. You belong here.
 
 I want to share something with you, because you've trusted me with your inbox and I think you deserve to know what this moment actually means to me.
 
-I'm about to release my debut single, "Thank You", on the 10th of June 2026. And I know that might sound like just another release date, another countdown, another announcement. But for me? This is everything.
+I'm about to release my debut single, "Thank You", on the 10th of May 2026. And I know that might sound like just another release date, another countdown, another announcement. But for me? This is everything.
 
 This song didn't come from nowhere. It came from one of the hardest chapters of my life.
 
