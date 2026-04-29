@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
 
 const ARTWORK_REVEAL_DATE = '2026-05-10T00:00:00';
-const RELEASE_DATE = '2026-06-10T00:00:00';
+const RELEASE_DATE = '2026-06-10T02:00:00Z'; // 12 noon AEST = 02:00 UTC
 
 // Ribbon / celebration decoration
 function Ribbon() {
@@ -150,8 +150,7 @@ export default function ThankYouHeroBanner() {
               </div>
             ) : artworkRevealed ? (
               <div>
-                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Releasing</p>
-                <p className="font-display text-2xl text-foreground mb-4">10 June 2026</p>
+                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Release countdown</p>
                 <CountdownTimer targetDate={RELEASE_DATE} />
               </div>
             ) : (
