@@ -14,7 +14,7 @@ import VideoPreviewSection from '@/components/public/VideoPreviewSection';
 import MerchTeaserSection from '@/components/public/MerchTeaserSection';
 
 const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a5ef50136_generated_image.png',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9da833f2a_a5ef50136_generated_image1.png',
 ];
 
 export default function Home() {
@@ -51,7 +51,7 @@ export default function Home() {
             src={HERO_IMAGES[currentImg]}
             alt="Gannon Waye"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.45 }}
+            animate={{ opacity: 0.55 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.5 }}
             className="absolute inset-0 w-full h-full object-cover object-[center_50%]"
@@ -61,7 +61,7 @@ export default function Home() {
 
       {/* Hero */}
       <section className="relative min-h-[100svh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/50 to-background/80 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/65 to-background/95 z-10" />
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
