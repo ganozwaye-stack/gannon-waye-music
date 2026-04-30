@@ -12,6 +12,7 @@ import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
 import ThankYouHeroBanner from '@/components/public/ThankYouHeroBanner';
 import VideoPreviewSection from '@/components/public/VideoPreviewSection';
 import MerchTeaserSection from '@/components/public/MerchTeaserSection';
+import { useSiteReveal } from '@/hooks/useSiteReveal';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
@@ -32,6 +33,7 @@ export default function Home() {
 
   const site = settings[0] || {};
   const upcomingRelease = releases.find((r) => r.status !== 'released' && r.release_date);
+  const { artworkRevealed } = useSiteReveal();
 
 
   const [currentImg, setCurrentImg] = useState(0);
@@ -306,7 +308,7 @@ export default function Home() {
                   className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 hover:border-primary/30 transition-all"
                 >
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
-                    {release.artwork_url && new Date() < new Date('2026-05-10T02:00:00Z') ? (
+                    {release.artwork_url && !artworkRevealed ? (
                        <div className="w-full h-full flex flex-col items-center justify-center gap-3" style={{ backgroundImage: 'url(https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
                          <div className="absolute inset-0 bg-black/40" />
                          <div className="relative z-10 flex flex-col items-center justify-center gap-3">

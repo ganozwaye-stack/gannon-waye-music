@@ -1,48 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { Gift, Sparkles, ArrowRight, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
+import { useSiteReveal } from '@/hooks/useSiteReveal';
 
-const ARTWORK_REVEAL_DATE = '2026-05-10T00:00:00';
-const RELEASE_DATE = '2026-05-10T02:00:00Z'; // 12 noon AEST = 02:00 UTC
+const ARTWORK_REVEAL_DATE = '2026-05-10T02:00:00Z';
 
 // Ribbon / celebration decoration
 function Ribbon() {
   return (
     <>
-      {/* Top-left ribbon corner */}
       <div className="absolute top-0 left-0 w-32 h-32 overflow-hidden pointer-events-none z-20">
         <div
           className="absolute bg-primary text-primary-foreground font-body text-[9px] tracking-[0.2em] uppercase font-semibold text-center shadow-lg"
-          style={{
-            width: '140px',
-            top: '22px',
-            left: '-32px',
-            transform: 'rotate(-45deg)',
-            padding: '5px 0',
-          }}
+          style={{ width: '140px', top: '22px', left: '-32px', transform: 'rotate(-45deg)', padding: '5px 0' }}
         >
           Coming Soon
         </div>
       </div>
-      {/* Top-right ribbon corner */}
       <div className="absolute top-0 right-0 w-32 h-32 overflow-hidden pointer-events-none z-20">
         <div
           className="absolute bg-primary/80 text-primary-foreground font-body text-[9px] tracking-[0.2em] uppercase font-semibold text-center shadow-lg"
-          style={{
-            width: '140px',
-            top: '22px',
-            right: '-32px',
-            transform: 'rotate(45deg)',
-            padding: '5px 0',
-          }}
+          style={{ width: '140px', top: '22px', right: '-32px', transform: 'rotate(45deg)', padding: '5px 0' }}
         >
           Debut Single
         </div>
       </div>
-      {/* Sparkle dots scattered */}
       {[
         { top: '8%', left: '12%', size: 'w-1.5 h-1.5', delay: 0 },
         { top: '15%', right: '10%', size: 'w-1 h-1', delay: 0.4 },
@@ -64,19 +49,10 @@ function Ribbon() {
 }
 
 export default function ThankYouHeroBanner() {
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    const t = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(t);
-  }, []);
-
-  const artworkRevealed = now >= new Date(ARTWORK_REVEAL_DATE);
-  const released = now >= new Date(RELEASE_DATE);
+  const { artworkRevealed, released, releaseDateIso, releaseDateText } = useSiteReveal();
 
   return (
     <section className="relative w-full overflow-hidden bg-card border-b border-border/40">
-      {/* Background glow pulse */}
       <div className="absolute inset-0 pointer-events-none">
         <motion.div
           className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-primary/6 blur-3xl"
@@ -88,23 +64,20 @@ export default function ThankYouHeroBanner() {
       <div className="max-w-6xl mx-auto px-4 md:px-8 py-10 md:py-14 relative">
         <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 md:gap-14 items-center">
 
-          {/* Artwork box with ribbon */}
+          {/* Artwork box */}
           <motion.div
             initial={{ opacity: 0, scale: 0.94 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7 }}
             className="relative w-52 h-52 md:w-64 md:h-64 mx-auto md:mx-0 flex-shrink-0"
           >
-            {/* Glowing border ring */}
             <motion.div
               className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-primary/60 via-primary/20 to-primary/60"
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             />
-
             <div className="relative w-full h-full rounded-2xl overflow-hidden bg-secondary/80 border border-border/40">
-              <Ribbon />
-
+              {!artworkRevealed && <Ribbon />}
               {artworkRevealed ? (
                 <div className="w-full h-full flex items-center justify-center">
                   <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Artwork Revealed</p>
@@ -135,10 +108,9 @@ export default function ThankYouHeroBanner() {
 
             <h2 className="font-display text-4xl md:text-6xl text-foreground italic mb-2">Thank You</h2>
             <p className="font-body text-sm text-foreground/50 mb-6 max-w-md">
-              A powerful expression of gratitude born from tragic heartbreak—where the rose-colored glasses fell away and the hard truths became clear. A song about healing, growth, and the lessons learned through breaking open.
+              A powerful expression of gratitude born from tragic heartbreak—where the rose-colored glasses fell away and the hard truths became clear.
             </p>
 
-            {/* Countdown logic */}
             {released ? (
               <div className="space-y-4">
                 <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Out Now</p>
@@ -150,8 +122,8 @@ export default function ThankYouHeroBanner() {
               </div>
             ) : artworkRevealed ? (
               <div>
-                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Release countdown</p>
-                <CountdownTimer targetDate={RELEASE_DATE} />
+                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Release countdown — {releaseDateText}</p>
+                <CountdownTimer targetDate={releaseDateIso} />
               </div>
             ) : (
               <div>

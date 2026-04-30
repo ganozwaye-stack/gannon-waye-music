@@ -1,0 +1,43 @@
+{
+  "name": "SiteReveal",
+  "type": "object",
+  "properties": {
+    "artwork_revealed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the Thank You single artwork has been revealed"
+    },
+    "merch_revealed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the merch store is open for pre-orders"
+    },
+    "release_date_text": {
+      "type": "string",
+      "description": "Human-readable release date shown on site e.g. June 10, 2026"
+    },
+    "release_date_iso": {
+      "type": "string",
+      "description": "ISO date for countdown e.g. 2026-06-10T02:00:00Z"
+    }
+  },
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  },
+  "required": []
+}

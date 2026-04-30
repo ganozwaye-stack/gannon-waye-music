@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ShoppingBag, Star, Lock, Gift } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useSiteReveal } from '@/hooks/useSiteReveal';
 
 const CATEGORY_LABELS = {
   apparel: 'Apparel',
@@ -15,7 +16,9 @@ const CATEGORY_LABELS = {
 };
 
 export default function ProductCard({ product, index, onPreorder, onInterest }) {
+  const { merchRevealed } = useSiteReveal();
   const isDeluxe = product.name?.toLowerCase().includes('deluxe') || product.name?.toLowerCase().includes('signed');
+  const isCD = product.category === 'cd';
 
   return (
     <motion.div
@@ -94,17 +97,33 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
         )}
 
         {/* Divider */}
-        <div className="border-t border-border/30 pt-4">
-          <Button
-            onClick={() => onInterest(product)}
-            className={`w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 ${
-              isDeluxe
-                ? 'gradient-gold-button'
-                : 'bg-secondary/80 text-foreground hover:bg-secondary'
-            }`}
-          >
-            <ShoppingBag className="w-4 h-4" /> Register My Interest
-          </Button>
+        <div className="border-t border-border/30 pt-4 space-y-2">
+          {merchRevealed ? (
+            <>
+              {isCD && (
+                <p className="font-body text-[10px] tracking-wide text-primary/80 text-center">
+                  Pre-order · Full payment now · Ships before June 9 via tracked post
+                </p>
+              )}
+              <Button
+                onClick={() => onPreorder ? onPreorder(product) : onInterest(product)}
+                className={`w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 gradient-gold-button`}
+              >
+                <ShoppingBag className="w-4 h-4" /> {isCD ? 'Pre-order Now' : 'Add to Cart'}
+              </Button>
+            </>
+          ) : (
+            <Button
+              onClick={() => onInterest(product)}
+              className={`w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 ${
+                isDeluxe
+                  ? 'gradient-gold-button'
+                  : 'bg-secondary/80 text-foreground hover:bg-secondary'
+              }`}
+            >
+              <ShoppingBag className="w-4 h-4" /> Register My Interest
+            </Button>
+          )}
         </div>
       </div>
     </motion.div>

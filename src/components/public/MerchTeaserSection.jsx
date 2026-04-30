@@ -4,11 +4,10 @@ import { Lock, ShoppingBag, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
+import { useSiteReveal } from '@/hooks/useSiteReveal';
 
-// May 10 2026 at 6pm AEST = 08:00 UTC
-const UNLOCK_DATE = '2026-05-10T08:00:00Z';
+const UNLOCK_DATE = '2026-05-10T02:00:00Z'; // midday AEST May 10
 
-// Teaser "silhouette" items — NO real names, prices, or images revealed
 const TEASER_ITEMS = [
   { label: 'Apparel', hint: 'Something to wear' },
   { label: 'Accessories', hint: 'Carry it with you' },
@@ -17,7 +16,8 @@ const TEASER_ITEMS = [
 ];
 
 export default function MerchTeaserSection() {
-  const isUnlocked = new Date() >= new Date(UNLOCK_DATE);
+  const { merchRevealed } = useSiteReveal();
+  const isUnlocked = merchRevealed;
 
   return (
     <section className="py-16 md:py-24 px-4 md:px-6">

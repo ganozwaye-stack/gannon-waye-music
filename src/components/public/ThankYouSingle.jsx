@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Gift, Heart, ArrowRight, Music } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import CountdownTimer from './CountdownTimer';
+import { useSiteReveal } from '@/hooks/useSiteReveal';
 
 // Corner ribbon decoration
 function CornerRibbon() {
@@ -25,23 +29,11 @@ function CornerRibbon() {
     </>
   );
 }
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import CountdownTimer from './CountdownTimer';
 
-const ARTWORK_REVEAL_DATE = '2026-05-10T00:00:00';
-const RELEASE_DATE = '2026-05-10T02:00:00Z'; // 12 noon AEST = 02:00 UTC
+const ARTWORK_REVEAL_DATE = '2026-05-10T02:00:00Z';
 
 export default function ThankYouSingle() {
-  const [now, setNow] = useState(new Date());
-
-  useEffect(() => {
-    const t = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(t);
-  }, []);
-
-  const artworkRevealed = now >= new Date(ARTWORK_REVEAL_DATE);
-  const released = now >= new Date(RELEASE_DATE);
+  const { artworkRevealed, released, releaseDateIso, releaseDateText } = useSiteReveal();
 
   return (
     <section className="py-16 md:py-28 px-4 md:px-6 relative overflow-hidden">
@@ -62,7 +54,14 @@ export default function ThankYouSingle() {
           <p className="font-body text-sm text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
             The debut single from Gannon Waye. A powerful expression of gratitude born from tragic heartbreak—where the rose-colored glasses fell away and the hard truths became clear. A song about healing, growth, and the lessons learned through breaking open.
           </p>
-          <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">Release date revealed May 10</p>
+          {artworkRevealed && (
+            <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">
+              Out {releaseDateText}
+            </p>
+          )}
+          {!artworkRevealed && (
+            <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">Release date revealed May 10</p>
+          )}
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
@@ -76,12 +75,10 @@ export default function ThankYouSingle() {
           >
             {!artworkRevealed && <CornerRibbon />}
             {artworkRevealed ? (
-              /* Once artwork is revealed, show the actual artwork image */
               <div className="w-full h-full flex items-center justify-center bg-secondary/80">
                 <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow">Artwork Revealed</p>
               </div>
             ) : (
-              /* Hidden — gift wrapped until May 10 */
               <div className="relative w-full h-full">
                 <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/40 p-6">
@@ -102,10 +99,16 @@ export default function ThankYouSingle() {
             className="space-y-6"
           >
             <div>
-              <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-3">Artwork & Release Date Reveal</p>
-              <div className="mb-6">
-                <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
-              </div>
+              {artworkRevealed ? (
+                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-3">Release Date</p>
+              ) : (
+                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-3">Artwork & Release Date Reveal</p>
+              )}
+              {!artworkRevealed && (
+                <div className="mb-6">
+                  <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
+                </div>
+              )}
               <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">About the single</p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm">
                 "Thank You" is a deeply personal anthem born from tragic heartbreak and devastating loss. Written from lived experience, it chronicles the journey from shattering truth to unexpected gratitude—what happens when the rose-colored glasses fall away and you finally see clearly.
@@ -129,24 +132,27 @@ export default function ThankYouSingle() {
               ) : artworkRevealed ? (
                 <div>
                   <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">
-                      Release countdown
-                    </p>
-                    <CountdownTimer targetDate={RELEASE_DATE} />
+                    Release countdown
+                  </p>
+                  <CountdownTimer targetDate={releaseDateIso} />
+                  <p className="font-body text-sm gradient-gold-glow italic mt-3">
+                    Out {releaseDateText}
+                  </p>
                 </div>
               ) : (
-               <div className="space-y-4">
-                 <a href="https://open.spotify.com/search/Gannon%20Waye%20Thank%20You" target="_blank" rel="noopener noreferrer">
-                   <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0 hover:shadow-lg">
-                     <Music className="w-4 h-4" /> Listen on Spotify
-                   </Button>
-                 </a>
-                 <div className="flex items-center gap-3 pt-2">
-                   <Heart className="w-4 h-4 text-primary/60 flex-shrink-0" />
-                   <p className="font-body text-sm gradient-gold-glow italic">
-                     Artwork & release date reveal on May 10th — out same day.
-                   </p>
-                 </div>
-               </div>
+                <div className="space-y-4">
+                  <a href="https://open.spotify.com/search/Gannon%20Waye%20Thank%20You" target="_blank" rel="noopener noreferrer">
+                    <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0 hover:shadow-lg">
+                      <Music className="w-4 h-4" /> Listen on Spotify
+                    </Button>
+                  </a>
+                  <div className="flex items-center gap-3 pt-2">
+                    <Heart className="w-4 h-4 text-primary/60 flex-shrink-0" />
+                    <p className="font-body text-sm gradient-gold-glow italic">
+                      Artwork & release date reveal on May 10th — out same day.
+                    </p>
+                  </div>
+                </div>
               )}
             </div>
 
@@ -155,10 +161,10 @@ export default function ThankYouSingle() {
               <div className="border-t border-border/30 pt-6">
                 <p className="font-body text-xs gradient-gold-glow mb-3">Be the first to know when it drops</p>
                 <Link to="/community">
-                   <Button className="rounded-full gap-2 font-body text-xs tracking-wider uppercase gradient-gold-button border-0 hover:shadow-lg">
-                     Join the Community <ArrowRight className="w-3 h-3" />
-                   </Button>
-                 </Link>
+                  <Button className="rounded-full gap-2 font-body text-xs tracking-wider uppercase gradient-gold-button border-0 hover:shadow-lg">
+                    Join the Community <ArrowRight className="w-3 h-3" />
+                  </Button>
+                </Link>
               </div>
             )}
           </motion.div>
