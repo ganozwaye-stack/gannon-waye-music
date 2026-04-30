@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 const NAV_SECTIONS = [
@@ -30,8 +30,10 @@ const NAV_SECTIONS = [
     title: 'Community',
     items: [
       { label: 'Fan Messages', path: '/admin/fans', icon: Users },
+      { label: 'Fan Media Wall', path: '/admin/fan-media', icon: Camera },
       { label: 'Social Videos', path: '/admin/videos', icon: Video },
       { label: 'Newsletter', path: '/admin/newsletter', icon: Mail },
+      { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
     ]
   },
   {
