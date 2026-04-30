@@ -5,8 +5,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { ShoppingBag, CheckCircle2, Tag, X } from 'lucide-react';
+import { ShoppingBag, CheckCircle2, Tag, X, ArrowLeft } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
+import StripePaymentForm from './StripePaymentForm';
 
 // Pricing constants
 const GST_RATE = 0.10;
@@ -27,14 +28,13 @@ function calcPricing(basePrice, category, discountPercent = 0) {
 export default function CheckoutModal({ product, onClose }) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [step, setStep] = useState('details'); // 'details' | 'payment' | 'done'
   const [selectedSize, setSelectedSize] = useState('');
   const [form, setForm] = useState({ customer_name: '', customer_email: '', shipping_address: '' });
 
   // Promo code state
   const [promoInput, setPromoInput] = useState('');
-  const [appliedPromo, setAppliedPromo] = useState(null); // { code, discount_percent, id }
+  const [appliedPromo, setAppliedPromo] = useState(null);
   const [promoLoading, setPromoLoading] = useState(false);
 
   const hasSize = product.sizes_available?.length > 0;
@@ -43,12 +43,6 @@ export default function CheckoutModal({ product, onClose }) {
   const applyPromo = async () => {
     if (!promoInput.trim()) return;
     setPromoLoading(true);
-    // PromoCode is admin-only read — use a backend-safe approach via service role isn't available on frontend
-    // So we validate by calling the public-readable fields indirectly:
-    // Since PromoCode RLS is admin-only, we use InvokeLLM? No — we need a backend function.
-    // Instead: store the raw code locally and validate at order submission time via a backend function.
-    // For now we do a simple frontend lookup by fetching all (will fail for non-admins due to RLS)
-    // We'll build a lightweight validatePromo backend function call.
     try {
       const res = await base44.functions.invoke('validatePromoCode', { code: promoInput.trim().toUpperCase() });
       if (res.data?.valid) {
@@ -68,7 +62,7 @@ export default function CheckoutModal({ product, onClose }) {
     setPromoInput('');
   };
 
-  const handleSubmit = async (e) => {
+  const handleDetailsSubmit = (e) => {
     e.preventDefault();
     if (!form.customer_name || !form.customer_email || !form.shipping_address) {
       toast({ title: 'Please fill in all fields', variant: 'destructive' });
@@ -78,7 +72,10 @@ export default function CheckoutModal({ product, onClose }) {
       toast({ title: 'Please select a size', variant: 'destructive' });
       return;
     }
-    setLoading(true);
+    setStep('payment');
+  };
+
+  const handlePaymentSuccess = async (paymentIntent) => {
     await base44.entities.MerchOrder.create({
       customer_name: form.customer_name,
       customer_email: form.customer_email,
@@ -86,40 +83,46 @@ export default function CheckoutModal({ product, onClose }) {
       items: [{ product_id: product.id, product_name: product.name, size: selectedSize, quantity: 1, price: product.price }],
       total_amount: pricing.total,
       promo_code: appliedPromo?.code || null,
-      notes: appliedPromo ? `Promo: ${appliedPromo.code} (${appliedPromo.discount_percent}% off)` : '',
-      status: 'pending',
+      notes: appliedPromo
+        ? `Promo: ${appliedPromo.code} (${appliedPromo.discount_percent}% off) | Stripe: ${paymentIntent.id}`
+        : `Stripe: ${paymentIntent.id}`,
+      status: 'confirmed',
     });
-    // Increment promo times_used if applied
-    if (appliedPromo?.id) {
-      // Handled server-side by validatePromoCode function
-    }
     queryClient.invalidateQueries({ queryKey: ['orders'] });
-    setSubmitted(true);
-    setLoading(false);
+    setStep('done');
+  };
+
+  const handlePaymentError = (message) => {
+    toast({ title: message || 'Payment failed. Please try again.', variant: 'destructive' });
   };
 
   return (
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="bg-card border-border/40 max-w-md max-h-[90vh] overflow-y-auto">
-        {submitted ? (
+
+        {/* SUCCESS */}
+        {step === 'done' && (
           <div className="text-center py-8 space-y-4">
             <CheckCircle2 className="w-14 h-14 text-primary mx-auto" />
-            <h3 className="font-display text-2xl text-foreground">Preorder Confirmed!</h3>
+            <h3 className="font-display text-2xl text-foreground">Order Confirmed!</h3>
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
-              You'll receive a confirmation email shortly. Payment won't be charged until <strong className="text-foreground">1 June 2026</strong>.
+              Payment successful! You'll receive a confirmation email shortly. Your order will ship before June 9, 2026.
             </p>
             <Button onClick={onClose} className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">
               Done
             </Button>
           </div>
-        ) : (
+        )}
+
+        {/* DETAILS STEP */}
+        {step === 'details' && (
           <>
             <DialogHeader>
-              <DialogTitle className="font-display text-2xl text-foreground">Preorder</DialogTitle>
+              <DialogTitle className="font-display text-2xl text-foreground">Order Details</DialogTitle>
               <p className="font-body text-sm text-muted-foreground">{product.name} — <span className="gradient-gold-glow">${product.price?.toFixed(2)}</span></p>
             </DialogHeader>
 
-            <form onSubmit={handleSubmit} className="space-y-4 mt-2">
+            <form onSubmit={handleDetailsSubmit} className="space-y-4 mt-2">
               {hasSize && (
                 <div>
                   <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-2 block">Size *</Label>
@@ -172,7 +175,7 @@ export default function CheckoutModal({ product, onClose }) {
                 ) : (
                   <div className="flex gap-2">
                     <Input
-                      placeholder="Enter code e.g. LAUNCH15"
+                      placeholder="e.g. LAUNCH15"
                       value={promoInput}
                       onChange={e => setPromoInput(e.target.value.toUpperCase())}
                       className="bg-secondary/50 border-border/40 font-body tracking-widest uppercase"
@@ -215,15 +218,48 @@ export default function CheckoutModal({ product, onClose }) {
                 </div>
               </div>
 
-              <p className="font-body text-xs text-muted-foreground leading-relaxed">
-                ⚠️ This is a preorder. Payment will not be charged until 1 June 2026. You'll receive an email confirmation.
-              </p>
-
-              <Button type="submit" disabled={loading} className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">
-                <ShoppingBag className="w-4 h-4 mr-2" />
-                {loading ? 'Placing Preorder...' : `Confirm Preorder — $${pricing.total.toFixed(2)}`}
+              <Button type="submit" className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">
+                <ShoppingBag className="w-4 h-4 mr-2" /> Continue to Payment — ${pricing.total.toFixed(2)}
               </Button>
             </form>
+          </>
+        )}
+
+        {/* PAYMENT STEP */}
+        {step === 'payment' && (
+          <>
+            <DialogHeader>
+              <DialogTitle className="font-display text-2xl text-foreground">Payment</DialogTitle>
+              <p className="font-body text-sm text-muted-foreground">{product.name} — <span className="gradient-gold-glow">${pricing.total.toFixed(2)} AUD</span></p>
+            </DialogHeader>
+
+            <button
+              onClick={() => setStep('details')}
+              className="flex items-center gap-1.5 font-body text-xs text-muted-foreground hover:text-foreground transition-colors mt-1"
+            >
+              <ArrowLeft className="w-3 h-3" /> Back to details
+            </button>
+
+            <div className="mt-4">
+              <StripePaymentForm
+                amount={pricing.total}
+                customerEmail={form.customer_email}
+                customerName={form.customer_name}
+                productName={product.name}
+                metadata={{
+                  product_id: product.id,
+                  size: selectedSize,
+                  shipping_address: form.shipping_address,
+                  promo_code: appliedPromo?.code || '',
+                }}
+                onSuccess={handlePaymentSuccess}
+                onError={handlePaymentError}
+              />
+            </div>
+
+            <p className="font-body text-xs text-muted-foreground text-center mt-2">
+              🔒 Payments secured by Stripe
+            </p>
           </>
         )}
       </DialogContent>

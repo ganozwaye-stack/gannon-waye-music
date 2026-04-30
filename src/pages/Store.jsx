@@ -5,12 +5,14 @@ import { motion } from 'framer-motion';
 import { ShoppingBag, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
+import CheckoutModal from '@/components/store/CheckoutModal';
 import ProductCard from '@/components/store/ProductCard';
 
 
 
 export default function Store() {
   const [interestProduct, setInterestProduct] = useState(null);
+  const [checkoutProduct, setCheckoutProduct] = useState(null);
 
   const { data: products } = useQuery({
     queryKey: ['merchProducts'],
@@ -71,6 +73,7 @@ export default function Store() {
                 product={product}
                 index={i}
                 onInterest={setInterestProduct}
+                onPreorder={setCheckoutProduct}
               />
             ))}
           </div>
@@ -86,6 +89,13 @@ export default function Store() {
         <MerchInterestModal
           product={interestProduct}
           onClose={() => setInterestProduct(null)}
+        />
+      )}
+
+      {checkoutProduct && (
+        <CheckoutModal
+          product={checkoutProduct}
+          onClose={() => setCheckoutProduct(null)}
         />
       )}
 
