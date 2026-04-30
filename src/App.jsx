@@ -31,8 +31,8 @@ import VideoManagement from '@/pages/admin/VideoManagement';
 import Newsletter from '@/pages/admin/Newsletter';
 import MerchDesigns from '@/pages/admin/MerchDesigns';
 import ThankYouCards from '@/pages/admin/ThankYouCards';
-import FanMedia from '@/pages/admin/FanMedia.js';
-import PromoCodes from '@/pages/admin/PromoCodes.js';
+import FanMedia from '@/pages/admin/FanMedia.jsx';
+import PromoCodes from '@/pages/admin/PromoCodes.jsx';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
