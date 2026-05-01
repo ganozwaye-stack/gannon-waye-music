@@ -5,6 +5,18 @@ import { Button } from '@/components/ui/button';
 
 const DESIGNS = [
   {
+    title: 'Oversized Jumper / Hoodie — "Thank You"',
+    description: 'Premium heavyweight oversized hoodie / jumper in washed black with the GW monogram embroidered on the chest and "THANK YOU — GANNON WAYE" printed down the sleeve. Cosy, luxurious, and built to last.',
+    imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/85b671cc8_generated_image.png',
+    products: [
+      {
+        label: 'Alibaba — Heavyweight Oversized Hoodie',
+        url: 'https://www.alibaba.com/product-detail/Custom-Logo-400gsm-Heavyweight-Oversized-Hoodie_1601145878452.html',
+      },
+    ],
+    tags: ['Jumper', 'Hoodie', 'Apparel', 'Featured'],
+  },
+  {
     title: 'Gannon Waye — Artist Logo',
     description: 'Typographic logo for use across all merchandise, social media, and branding. Gold metallic "GANNON WAYE" on dark background with GW monogram accent. Use this on any product label, tag, or packaging.',
     imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0fac46594_generated_image.png',

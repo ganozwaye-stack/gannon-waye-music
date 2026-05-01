@@ -33,6 +33,8 @@ import MerchDesigns from '@/pages/admin/MerchDesigns';
 import ThankYouCards from '@/pages/admin/ThankYouCards';
 import FanMedia from '@/pages/admin/FanMedia';
 import PromoCodes from '@/pages/admin/PromoCodes';
+import BackOfHouseReport from '@/pages/admin/BackOfHouseReport';
+import RevealNewsletter from '@/pages/admin/RevealNewsletter';
 
 
 const AuthenticatedApp = () => {
@@ -90,6 +92,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/thank-you-cards" element={<ThankYouCards />} />
         <Route path="/admin/fan-media" element={<FanMedia />} />
         <Route path="/admin/promo-codes" element={<PromoCodes />} />
+        <Route path="/admin/report" element={<BackOfHouseReport />} />
+        <Route path="/admin/reveal-newsletter" element={<RevealNewsletter />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
