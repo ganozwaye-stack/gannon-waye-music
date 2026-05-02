@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
-import { Trash2, MessageCircle } from 'lucide-react';
+import { Trash2, MessageCircle, CheckCircle2, XCircle, Clock } from 'lucide-react';
 import { format } from 'date-fns';
+
+const STATUS_TABS = ['pending', 'approved', 'rejected'];
 
 export default function FanManagement() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [tab, setTab] = useState('pending');
 
   const { data: posts } = useQuery({
-    queryKey: ['fanPosts'], queryFn: () => base44.entities.FanPost.list('-created_date'), initialData: [],
+    queryKey: ['fanPosts'],
+    queryFn: () => base44.entities.FanPost.list('-created_date'),
+    initialData: [],
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, status }) => base44.entities.FanPost.update(id, { status }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['fanPosts'] });
+    },
   });
 
   const deleteMutation = useMutation({
@@ -23,15 +36,43 @@ export default function FanManagement() {
     },
   });
 
+  const filtered = posts.filter(p => (p.status || 'pending') === tab);
+  const pendingCount = posts.filter(p => (p.status || 'pending') === 'pending').length;
+
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
-        <h1 className="font-display text-3xl text-foreground">Fan Community</h1>
-        <p className="font-body text-sm text-muted-foreground">{posts.length} posts</p>
+      <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+        <div>
+          <h1 className="font-display text-3xl text-foreground">Fan Community</h1>
+          <p className="font-body text-sm text-muted-foreground mt-1">{posts.length} total posts</p>
+        </div>
+        {pendingCount > 0 && (
+          <div className="flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-2">
+            <Clock className="w-4 h-4 text-primary" />
+            <span className="font-body text-sm text-primary font-medium">{pendingCount} awaiting review</span>
+          </div>
+        )}
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-2 mb-6">
+        {STATUS_TABS.map(s => (
+          <button
+            key={s}
+            onClick={() => setTab(s)}
+            className={`px-4 py-1.5 rounded-full font-body text-xs tracking-wider uppercase transition-all ${
+              tab === s
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-secondary/60 text-muted-foreground hover:bg-secondary'
+            }`}
+          >
+            {s} ({posts.filter(p => (p.status || 'pending') === s).length})
+          </button>
+        ))}
       </div>
 
       <div className="space-y-3">
-        {posts.map(post => (
+        {filtered.map(post => (
           <Card key={post.id} className="bg-card border-border/40">
             <CardContent className="p-4 flex items-start justify-between gap-4">
               <div className="flex items-start gap-3 flex-1">
@@ -49,16 +90,58 @@ export default function FanManagement() {
                   <p className="font-body text-sm text-foreground/80 mt-1">{post.content}</p>
                 </div>
               </div>
-              <Button size="icon" variant="ghost" onClick={() => deleteMutation.mutate(post.id)}>
-                <Trash2 className="w-4 h-4 text-destructive" />
-              </Button>
+              <div className="flex items-center gap-2 flex-shrink-0">
+                {tab === 'pending' && (
+                  <>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="gap-1.5 rounded-full font-body text-xs border-green-500/30 text-green-400 hover:bg-green-500/10"
+                      onClick={() => updateMutation.mutate({ id: post.id, status: 'approved' })}
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5" /> Approve
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="gap-1.5 rounded-full font-body text-xs border-destructive/30 text-destructive hover:bg-destructive/10"
+                      onClick={() => updateMutation.mutate({ id: post.id, status: 'rejected' })}
+                    >
+                      <XCircle className="w-3.5 h-3.5" /> Reject
+                    </Button>
+                  </>
+                )}
+                {tab === 'approved' && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="gap-1.5 rounded-full font-body text-xs border-destructive/30 text-destructive hover:bg-destructive/10"
+                    onClick={() => updateMutation.mutate({ id: post.id, status: 'rejected' })}
+                  >
+                    <XCircle className="w-3.5 h-3.5" /> Reject
+                  </Button>
+                )}
+                {tab === 'rejected' && (
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="gap-1.5 rounded-full font-body text-xs border-green-500/30 text-green-400 hover:bg-green-500/10"
+                    onClick={() => updateMutation.mutate({ id: post.id, status: 'approved' })}
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Approve
+                  </Button>
+                )}
+                <Button size="icon" variant="ghost" onClick={() => deleteMutation.mutate(post.id)}>
+                  <Trash2 className="w-4 h-4 text-destructive" />
+                </Button>
+              </div>
             </CardContent>
           </Card>
         ))}
-        {posts.length === 0 && (
+        {filtered.length === 0 && (
           <div className="text-center py-16">
             <MessageCircle className="w-12 h-12 text-muted-foreground/20 mx-auto mb-4" />
-            <p className="font-body text-muted-foreground">No community posts yet.</p>
+            <p className="font-body text-muted-foreground">No {tab} posts.</p>
           </div>
         )}
       </div>

@@ -17,7 +17,7 @@ export default function Community() {
 
   const { data: posts } = useQuery({
     queryKey: ['fanPosts'],
-    queryFn: () => base44.entities.FanPost.list('-created_date', 50),
+    queryFn: () => base44.entities.FanPost.filter({ status: 'approved' }, '-created_date', 50),
     initialData: [],
   });
 
@@ -39,7 +39,7 @@ export default function Community() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fanPosts'] });
       setNewPost({ author_name: '', author_email: '', content: '' });
-      toast({ title: 'Posted!', description: 'Your message is live.' });
+      toast({ title: 'Message received! 🤍', description: 'Your message is pending review and will appear shortly.' });
     },
   });
 
@@ -66,7 +66,7 @@ export default function Community() {
       toast({ title: 'Please keep it respectful 🙏', description: 'This is a safe space, no profanity allowed.', variant: 'destructive' });
       return;
     }
-    createPost.mutate(newPost);
+    createPost.mutate({ ...newPost, status: 'pending' });
   };
 
   return (
