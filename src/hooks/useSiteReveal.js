@@ -16,7 +16,7 @@ export function useSiteReveal() {
   const record = data[0];
 
   // Fallback: if no DB record yet, use hardcoded dates
-  const ARTWORK_REVEAL_DATE = '2026-05-10T02:00:00Z'; // midday AEST
+  const ARTWORK_REVEAL_DATE = '2026-05-10T04:00:00Z'; // 2pm AEST May 10
   const RELEASE_DATE = '2026-06-10T02:00:00Z'; // midday AEST June 10
 
   const artworkRevealed = record?.artwork_revealed ?? (new Date() >= new Date(ARTWORK_REVEAL_DATE));

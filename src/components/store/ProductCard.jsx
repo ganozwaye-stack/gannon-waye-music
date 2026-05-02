@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Star, Lock, Gift } from 'lucide-react';
+import { ShoppingBag, Star, Gift, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
@@ -15,10 +15,22 @@ const CATEGORY_LABELS = {
   other: 'Other',
 };
 
+// Products that are sold out at launch
+function isSoldOutAtLaunch(product) {
+  const name = product.name?.toLowerCase() || '';
+  return (
+    product.category === 'cd' ||
+    name.includes('hoodie') ||
+    name.includes('jumper') ||
+    name.includes('journal') ||
+    name.includes('notebook')
+  );
+}
+
 export default function ProductCard({ product, index, onPreorder, onInterest }) {
   const { merchRevealed } = useSiteReveal();
   const isDeluxe = product.name?.toLowerCase().includes('deluxe') || product.name?.toLowerCase().includes('signed');
-  const isCD = product.category === 'cd';
+  const soldOut = merchRevealed && isSoldOutAtLaunch(product);
 
   return (
     <motion.div
@@ -31,7 +43,7 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
           : 'border-border/40 hover:border-primary/25'
       }`}
     >
-      {/* Special Edition ribbon */}
+      {/* Limited Edition ribbon */}
       {isDeluxe && (
         <div className="absolute top-4 left-4 z-10">
           <span className="flex items-center gap-1 bg-primary text-primary-foreground font-body text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 rounded-full font-semibold shadow-md">
@@ -40,17 +52,40 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
         </div>
       )}
 
-      {/* Image — always gift-wrapped until store opens */}
-      <div className="relative aspect-square bg-secondary/40 overflow-hidden">
-        <img
-          src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png"
-          alt="Coming soon"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-2">
-          <Gift className="w-8 h-8 text-primary" />
-          <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text">Revealed May 10</p>
+      {/* Sold Out ribbon */}
+      {soldOut && (
+        <div className="absolute top-4 right-4 z-10">
+          <span className="flex items-center gap-1 bg-destructive/90 text-white font-body text-[10px] tracking-[0.15em] uppercase px-3 py-1.5 rounded-full font-semibold shadow-md">
+            Sold Out
+          </span>
         </div>
+      )}
+
+      {/* Image — gift-wrapped until store opens, then real image */}
+      <div className="relative aspect-square bg-secondary/40 overflow-hidden">
+        {!merchRevealed ? (
+          <>
+            <img
+              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png"
+              alt="Coming soon"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-2">
+              <Gift className="w-8 h-8 text-primary" />
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text">Revealed May 10</p>
+            </div>
+          </>
+        ) : product.image_url ? (
+          <img
+            src={product.image_url}
+            alt={product.name}
+            className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${soldOut ? 'opacity-60 grayscale' : ''}`}
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center bg-secondary/40">
+            <ShoppingBag className="w-12 h-12 text-muted-foreground/20" />
+          </div>
+        )}
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card/60 to-transparent pointer-events-none" />
       </div>
 
@@ -65,7 +100,7 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
           >
             {CATEGORY_LABELS[product.category] || product.category}
           </Badge>
-          <span className="font-display text-2xl gradient-gold-glow">
+          <span className={`font-display text-2xl ${soldOut ? 'text-muted-foreground/50 line-through' : 'gradient-gold-glow'}`}>
             ${product.price?.toFixed(2)}
           </span>
         </div>
@@ -96,33 +131,48 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
           </div>
         )}
 
-        {/* Divider */}
+        {/* Actions */}
         <div className="border-t border-border/30 pt-4 space-y-2">
-          {merchRevealed ? (
-            <>
-              {isCD && (
-                <p className="font-body text-[10px] tracking-wide text-primary/80 text-center">
-                  Pre-order · Full payment now · Ships before June 9 via tracked post
-                </p>
-              )}
-              <Button
-                onClick={() => onPreorder ? onPreorder(product) : onInterest(product)}
-                className={`w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 gradient-gold-button`}
-              >
-                <ShoppingBag className="w-4 h-4" /> {isCD ? 'Pre-order Now' : 'Add to Cart'}
-              </Button>
-            </>
-          ) : (
+          {!merchRevealed ? (
+            // Before reveal — register interest only
             <Button
               onClick={() => onInterest(product)}
               className={`w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 ${
-                isDeluxe
-                  ? 'gradient-gold-button'
-                  : 'bg-secondary/80 text-foreground hover:bg-secondary'
+                isDeluxe ? 'gradient-gold-button' : 'bg-secondary/80 text-foreground hover:bg-secondary'
               }`}
             >
               <ShoppingBag className="w-4 h-4" /> Register My Interest
             </Button>
+          ) : soldOut ? (
+            // After reveal, sold out — show sold out + interest button
+            <>
+              <div className="flex items-center justify-center gap-2 py-2 rounded-full bg-destructive/10 border border-destructive/20">
+                <AlertCircle className="w-4 h-4 text-destructive/70" />
+                <span className="font-body text-sm text-destructive/70 tracking-wider uppercase">Sold Out</span>
+              </div>
+              <Button
+                onClick={() => onInterest(product)}
+                variant="outline"
+                className="w-full rounded-full font-body text-xs tracking-wider uppercase py-4 border-primary/30 text-primary hover:bg-primary/10"
+              >
+                Notify Me If Restocked
+              </Button>
+            </>
+          ) : (
+            // After reveal, available
+            <>
+              {product.category === 'cd' && (
+                <p className="font-body text-[10px] tracking-wide text-primary/80 text-center">
+                  Pre-order · Ships before June 9 via tracked post
+                </p>
+              )}
+              <Button
+                onClick={() => onPreorder(product)}
+                className="w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 gradient-gold-button"
+              >
+                <ShoppingBag className="w-4 h-4" /> {product.category === 'cd' ? 'Pre-order Now' : 'Add to Cart'}
+              </Button>
+            </>
           )}
         </div>
       </div>

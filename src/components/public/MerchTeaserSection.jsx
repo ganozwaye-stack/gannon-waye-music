@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 
-const UNLOCK_DATE = '2026-05-10T02:00:00Z'; // midday AEST May 10
+const UNLOCK_DATE = '2026-05-10T04:00:00Z'; // 2pm AEST May 10
 
 const TEASER_ITEMS = [
   { label: 'Apparel', hint: 'Something to wear' },
@@ -35,7 +35,7 @@ export default function MerchTeaserSection() {
           {!isUnlocked && (
             <>
               <p className="font-body text-sm text-muted-foreground max-w-md mx-auto mb-6 leading-relaxed">
-                The official Gannon Waye merch store drops on May 10 at 6pm AEST — the same moment as the artwork and release date reveal.
+                The official Gannon Waye merch store drops on May 10 at 2pm AEST — the same moment as the artwork and release date reveal.
               </p>
               <div className="flex justify-center">
                 <CountdownTimer targetDate={UNLOCK_DATE} />
