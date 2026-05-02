@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
+import { useQuery } from '@tanstack/react-query';
 
 export default function Footer() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const { data: settings } = useQuery({
+    queryKey: ['siteSettings'],
+    queryFn: () => base44.entities.SiteSettings.list(),
+    initialData: [],
+  });
+  const contactEmail = settings[0]?.email_contact || 'hello@gannonwaye.com';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +45,8 @@ export default function Footer() {
               <Link to="/music" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Music</Link>
               <Link to="/store" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Store</Link>
               <Link to="/community" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Community</Link>
+              <Link to="/back-this" className="font-body text-sm text-primary hover:text-primary/80 transition-colors">Back This Project 🤍</Link>
+              <Link to="/orders" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Order History</Link>
             </div>
           </div>
           <div>
@@ -44,7 +54,7 @@ export default function Footer() {
             <a href="/email-preferences" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors block mb-4">Choose what you hear from us</a>
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Contact</h4>
             <p className="font-body text-sm text-foreground/70">For bookings and enquiries</p>
-            <p className="font-body text-sm text-primary mt-1">hello@gannonwaye.com</p>
+            <a href={`mailto:${contactEmail}`} className="font-body text-sm text-primary mt-1 hover:underline block">{contactEmail}</a>
           </div>
         </div>
         {/* Email Signup */}

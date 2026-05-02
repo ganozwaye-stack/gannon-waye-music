@@ -1,0 +1,63 @@
+{
+  "name": "SupportContribution",
+  "type": "object",
+  "properties": {
+    "supporter_name": {
+      "type": "string"
+    },
+    "supporter_email": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number",
+      "description": "Base amount in AUD"
+    },
+    "total_charged": {
+      "type": "number",
+      "description": "Total including fees"
+    },
+    "frequency": {
+      "type": "string",
+      "enum": [
+        "once",
+        "fortnightly",
+        "monthly"
+      ],
+      "default": "once"
+    },
+    "tier_label": {
+      "type": "string",
+      "description": "e.g. 'I'm with you' or 'Custom'"
+    },
+    "stripe_payment_id": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string",
+      "description": "Optional message from supporter"
+    }
+  },
+  "required": [
+    "supporter_email",
+    "amount",
+    "frequency"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
