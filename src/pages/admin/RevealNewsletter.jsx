@@ -113,22 +113,15 @@ export default function RevealNewsletter() {
       return;
     }
     setSending(true);
-    let successCount = 0;
-    for (const sub of subscribers) {
-      try {
-        await base44.integrations.Core.SendEmail({
-          to: sub.email,
-          subject: NEWSLETTER_SUBJECT,
-          body: NEWSLETTER_BODY,
-        });
-        successCount++;
-      } catch (e) {
-        console.error('Failed to send to', sub.email, e);
-      }
+    try {
+      const res = await base44.functions.invoke('sendRevealNewsletter', {});
+      const { sent, failed } = res.data || {};
+      setSent(true);
+      toast({ title: `Sent to ${sent} subscriber${sent !== 1 ? 's' : ''}! 🎉${failed ? ` (${failed} failed)` : ''}` });
+    } catch (e) {
+      toast({ title: 'Failed to send. Check Gmail connector.', variant: 'destructive' });
     }
     setSending(false);
-    setSent(true);
-    toast({ title: `Sent to ${successCount} subscriber${successCount !== 1 ? 's' : ''}! 🎉` });
   };
 
   return (

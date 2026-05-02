@@ -31,14 +31,25 @@ Deno.serve(async (req) => {
     const sheetId = Deno.env.get('GOOGLE_SHEET_ID');
 
     const settings = await base44.asServiceRole.entities.SiteSettings.list();
-    const adminEmail = settings[0]?.email_contact || 'contact@gannonwaye.com';
+    const adminEmail = settings[0]?.email_contact || 'ganozwaye@gmail.com';
 
     const items = (data.items || []);
     const itemsHtml = items.map(i =>
-      `<tr><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;">${i.product_name}</td><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;">${i.size || '—'}</td><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;">x${i.quantity || 1}</td><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;color:#f5d06e;">$${i.price}</td></tr>`
+      `<tr><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;">${i.product_name}</td><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;">${i.size || '—'}</td><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;">x${i.quantity || 1}</td><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;color:#f5d06e;">$${Number(i.price).toFixed(2)}</td></tr>`
     ).join('');
 
-    // 1) Admin alert email
+    // 1) Decrement stock for each item ordered
+    for (const item of items) {
+      if (!item.product_id) continue;
+      const products = await base44.asServiceRole.entities.MerchProduct.list();
+      const product = products.find(p => p.id === item.product_id);
+      if (product && product.stock_quantity > 0) {
+        const newQty = Math.max(0, product.stock_quantity - (item.quantity || 1));
+        await base44.asServiceRole.entities.MerchProduct.update(item.product_id, { stock_quantity: newQty });
+      }
+    }
+
+    // 2) Admin alert email
     const adminHtml = `<!DOCTYPE html><html><body style="background:#0e1117;color:#f0ead6;font-family:sans-serif;padding:32px;margin:0;">
 <div style="max-width:520px;margin:0 auto;">
   <h2 style="color:#f5d06e;margin-bottom:4px;">🛍️ New Merch Order!</h2>
@@ -47,6 +58,7 @@ Deno.serve(async (req) => {
     <p style="margin:4px 0;"><strong>Customer:</strong> ${data.customer_name}</p>
     <p style="margin:4px 0;"><strong>Email:</strong> ${data.customer_email}</p>
     <p style="margin:4px 0;"><strong>Address:</strong> ${data.shipping_address}</p>
+    ${data.notes ? `<p style="margin:4px 0;color:#999;font-size:12px;"><strong>Notes:</strong> ${data.notes}</p>` : ''}
   </div>
   <table style="width:100%;border-collapse:collapse;background:#1a1f2e;border-radius:8px;overflow:hidden;">
     <thead><tr style="background:#252a3a;">
@@ -67,7 +79,8 @@ Deno.serve(async (req) => {
       body: JSON.stringify({ raw: buildMimeMessage({ to: adminEmail, subject: `🛍️ New Order — ${data.customer_name} ($${(data.total_amount || 0).toFixed(2)})`, htmlBody: adminHtml }) })
     });
 
-    // 2) Customer confirmation email
+    // 3) Customer confirmation email with unsubscribe link
+    const unsubUrl = `https://gannonwaye.com/email-preferences`;
     const customerHtml = `<!DOCTYPE html><html><body style="background:#0e1117;color:#f0ead6;font-family:Georgia,serif;margin:0;padding:0;">
 <div style="max-width:600px;margin:0 auto;padding:40px 24px;">
   <div style="text-align:center;margin-bottom:28px;">
@@ -85,6 +98,10 @@ Deno.serve(async (req) => {
   </div>
   <p style="color:#c9b99a;font-size:14px;line-height:1.7;text-align:center;">Payment won't be charged until <strong style="color:#f5d06e;">1 June 2026</strong>. We'll send shipping details when your order is on its way.</p>
   <p style="text-align:center;color:#666;font-size:12px;margin-top:32px;">Questions? Reply to this email or visit <a href="https://gannonwaye.com" style="color:#f5d06e;">gannonwaye.com</a></p>
+  <p style="text-align:center;color:#555;font-size:11px;margin-top:16px;">
+    You're receiving this because you placed an order at gannonwaye.com.<br/>
+    <a href="${unsubUrl}" style="color:#888;">Manage email preferences</a>
+  </p>
 </div></body></html>`;
 
     await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
@@ -93,7 +110,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({ raw: buildMimeMessage({ to: data.customer_email, subject: `Your Gannon Waye preorder is confirmed ✨`, htmlBody: customerHtml }) })
     });
 
-    // 3) Sync to Google Sheet
+    // 4) Sync to Google Sheet — fix URL (use slash not colon before append)
     const checkRes = await fetch(
       `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1!A1`,
       { headers: { Authorization: `Bearer ${sheetAccessToken}` } }
@@ -101,7 +118,7 @@ Deno.serve(async (req) => {
     const checkData = await checkRes.json();
     if (!checkData.values || checkData.values.length === 0) {
       await fetch(
-        `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1!A1:J1?valueInputOption=RAW`,
+        `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1!A1:H1?valueInputOption=RAW`,
         {
           method: 'PUT',
           headers: { Authorization: `Bearer ${sheetAccessToken}`, 'Content-Type': 'application/json' },
@@ -112,7 +129,7 @@ Deno.serve(async (req) => {
 
     const itemsText = items.map(i => `${i.product_name}${i.size ? ` (${i.size})` : ''} x${i.quantity || 1}`).join('; ');
     await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1!A:H:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
+      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1!A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
       {
         method: 'POST',
         headers: { Authorization: `Bearer ${sheetAccessToken}`, 'Content-Type': 'application/json' },
