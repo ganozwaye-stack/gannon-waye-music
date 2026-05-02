@@ -46,12 +46,27 @@ export default function FanManagement() {
           <h1 className="font-display text-3xl text-foreground">Fan Community</h1>
           <p className="font-body text-sm text-muted-foreground mt-1">{posts.length} total posts</p>
         </div>
-        {pendingCount > 0 && (
-          <div className="flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-2">
-            <Clock className="w-4 h-4 text-primary" />
-            <span className="font-body text-sm text-primary font-medium">{pendingCount} awaiting review</span>
-          </div>
-        )}
+        <div className="flex items-center gap-3 flex-wrap">
+          {pendingCount > 0 && (
+            <div className="flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-full px-4 py-2">
+              <Clock className="w-4 h-4 text-primary" />
+              <span className="font-body text-sm text-primary font-medium">{pendingCount} awaiting review</span>
+            </div>
+          )}
+          {pendingCount > 1 && (
+            <Button
+              size="sm"
+              variant="outline"
+              className="rounded-full font-body text-xs gap-1.5 border-green-500/30 text-green-400 hover:bg-green-500/10"
+              onClick={() => {
+                const pending = posts.filter(p => (p.status || 'pending') === 'pending');
+                pending.forEach(p => updateMutation.mutate({ id: p.id, status: 'approved' }));
+              }}
+            >
+              <CheckCircle2 className="w-3.5 h-3.5" /> Approve All
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Tabs */}

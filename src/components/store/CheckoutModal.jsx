@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { ShoppingBag, CheckCircle2, Tag, X, ArrowLeft } from 'lucide-react';
+import { ShoppingBag, CheckCircle2, Tag, X, ArrowLeft, Minus, Plus } from 'lucide-react';
 import { useQueryClient } from '@tanstack/react-query';
 import StripePaymentForm from './StripePaymentForm';
 
@@ -37,8 +37,9 @@ export default function CheckoutModal({ product, onClose }) {
   const [appliedPromo, setAppliedPromo] = useState(null);
   const [promoLoading, setPromoLoading] = useState(false);
 
+  const [quantity, setQuantity] = useState(1);
   const hasSize = product.sizes_available?.length > 0;
-  const pricing = calcPricing(product.price, product.category, appliedPromo?.discount_percent || 0);
+  const pricing = calcPricing(product.price * quantity, product.category, appliedPromo?.discount_percent || 0);
 
   const applyPromo = async () => {
     if (!promoInput.trim()) return;
@@ -80,7 +81,7 @@ export default function CheckoutModal({ product, onClose }) {
       customer_name: form.customer_name,
       customer_email: form.customer_email,
       shipping_address: form.shipping_address,
-      items: [{ product_id: product.id, product_name: product.name, size: selectedSize, quantity: 1, price: product.price }],
+      items: [{ product_id: product.id, product_name: product.name, size: selectedSize, quantity, price: product.price }],
       total_amount: pricing.total,
       promo_code: appliedPromo?.code || null,
       notes: appliedPromo
@@ -155,6 +156,20 @@ export default function CheckoutModal({ product, onClose }) {
                 <Input type="email" placeholder="you@example.com" value={form.customer_email} onChange={e => setForm(f => ({ ...f, customer_email: e.target.value }))} className="bg-secondary/50 border-border/40" />
               </div>
 
+              {/* Quantity */}
+              <div>
+                <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Quantity</Label>
+                <div className="flex items-center gap-3">
+                  <button type="button" onClick={() => setQuantity(q => Math.max(1, q - 1))} className="w-8 h-8 rounded-full border border-border/50 flex items-center justify-center hover:border-primary/50 transition-colors">
+                    <Minus className="w-3 h-3" />
+                  </button>
+                  <span className="font-body text-sm text-foreground w-4 text-center">{quantity}</span>
+                  <button type="button" onClick={() => setQuantity(q => Math.min(10, q + 1))} className="w-8 h-8 rounded-full border border-border/50 flex items-center justify-center hover:border-primary/50 transition-colors">
+                    <Plus className="w-3 h-3" />
+                  </button>
+                </div>
+              </div>
+
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Shipping Address *</Label>
                 <Input placeholder="Street, City, State, Postcode" value={form.shipping_address} onChange={e => setForm(f => ({ ...f, shipping_address: e.target.value }))} className="bg-secondary/50 border-border/40" />
@@ -191,8 +206,8 @@ export default function CheckoutModal({ product, onClose }) {
               {/* Price Breakdown */}
               <div className="bg-secondary/40 rounded-xl p-4 space-y-2 text-sm font-body">
                 <div className="flex justify-between text-foreground/70">
-                  <span>Item</span>
-                  <span>${product.price?.toFixed(2)}</span>
+                  <span>Item{quantity > 1 ? ` × ${quantity}` : ''}</span>
+                  <span>${(product.price * quantity).toFixed(2)}</span>
                 </div>
                 {appliedPromo && (
                   <div className="flex justify-between text-primary">

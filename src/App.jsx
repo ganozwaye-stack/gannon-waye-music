@@ -13,6 +13,7 @@ import Music from '@/pages/Music';
 import Store from '@/pages/Store';
 import EmailPreferences from '@/pages/EmailPreferences';
 import FanProfile from '@/pages/FanProfile';
+import OrderHistory from '@/pages/OrderHistory';
 import Community from '@/pages/Community';
 import Videos from '@/pages/Videos';
 import PublicLayout from '@/components/public/PublicLayout';
@@ -71,6 +72,7 @@ const AuthenticatedApp = () => {
         <Route path="/videos" element={<Videos />} />
         <Route path="/email-preferences" element={<EmailPreferences />} />
         <Route path="/fan-profile" element={<FanProfile />} />
+        <Route path="/orders" element={<OrderHistory />} />
         <Route path="/summary" element={<Summary />} />
       </Route>
 
