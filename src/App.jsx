@@ -37,6 +37,7 @@ import FanMedia from '@/pages/admin/FanMedia';
 import PromoCodes from '@/pages/admin/PromoCodes';
 import BackOfHouseReport from '@/pages/admin/BackOfHouseReport';
 import RevealNewsletter from '@/pages/admin/RevealNewsletter';
+import ProductInsights from '@/pages/admin/ProductInsights';
 
 
 const AuthenticatedApp = () => {
@@ -98,6 +99,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/promo-codes" element={<PromoCodes />} />
         <Route path="/admin/report" element={<BackOfHouseReport />} />
         <Route path="/admin/reveal-newsletter" element={<RevealNewsletter />} />
+        <Route path="/admin/product-insights" element={<ProductInsights />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

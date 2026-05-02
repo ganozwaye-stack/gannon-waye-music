@@ -15,6 +15,7 @@ import MerchTeaserSection from '@/components/public/MerchTeaserSection';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import FanMediaUpload from '@/components/public/FanMediaUpload';
+import TikTokWelcomeBanner from '@/components/public/TikTokWelcomeBanner';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
@@ -48,6 +49,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
+      <TikTokWelcomeBanner />
       {/* Fixed background — visible behind ALL sections */}
       <div className="fixed inset-0 -z-10">
         <AnimatePresence>

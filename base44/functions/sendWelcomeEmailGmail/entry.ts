@@ -4,6 +4,7 @@ function buildMimeMessage({ to, subject, htmlBody, fromName }) {
   const boundary = `boundary_${Date.now()}`;
   const raw = [
     `From: ${fromName} <me>`,
+    `Reply-To: hello@gannonwaye.com`,
     `To: ${to}`,
     `Subject: ${subject}`,
     `MIME-Version: 1.0`,

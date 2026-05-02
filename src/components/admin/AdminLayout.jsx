@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 const NAV_SECTIONS = [
@@ -24,6 +24,7 @@ const NAV_SECTIONS = [
       { label: 'My Designs', path: '/admin/merch-designs', icon: Palette },
       { label: 'Orders & Shipping', path: '/admin/orders', icon: Package },
       { label: 'Thank You Cards', path: '/admin/thank-you-cards', icon: Heart },
+      { label: 'Product Intelligence', path: '/admin/product-insights', icon: Sparkles },
     ]
   },
   {
