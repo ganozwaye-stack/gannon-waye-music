@@ -38,6 +38,7 @@ import PromoCodes from '@/pages/admin/PromoCodes';
 import BackOfHouseReport from '@/pages/admin/BackOfHouseReport';
 import RevealNewsletter from '@/pages/admin/RevealNewsletter';
 import ProductInsights from '@/pages/admin/ProductInsights';
+import ContentEngine from '@/pages/admin/ContentEngine';
 
 
 const AuthenticatedApp = () => {
@@ -100,6 +101,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/report" element={<BackOfHouseReport />} />
         <Route path="/admin/reveal-newsletter" element={<RevealNewsletter />} />
         <Route path="/admin/product-insights" element={<ProductInsights />} />
+        <Route path="/admin/content-engine" element={<ContentEngine />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
