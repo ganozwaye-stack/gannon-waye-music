@@ -53,7 +53,7 @@ Gannon 🤍
 
 P.S. The artwork reveal is May 10th. Keep an eye on your inbox and socials. Something beautiful is coming. 🎶`;
 
-export default function Newsletter() {
+export default function FanNewsletterDashboard() {
   const { toast } = useToast();
   const [sending, setSending] = useState(false);
   const [copied, setCopied] = useState(false);

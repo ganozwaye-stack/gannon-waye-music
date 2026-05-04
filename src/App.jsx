@@ -34,7 +34,10 @@ import FanManagement from '@/pages/admin/FanManagement';
 import SiteSettings from '@/pages/admin/SiteSettings';
 import MerchPlatforms from '@/pages/admin/MerchPlatforms';
 import VideoManagement from '@/pages/admin/VideoManagement';
-import Newsletter from '@/pages/admin/Newsletter';
+import FanNewsletterDashboard from '@/pages/admin/Newsletter';
+import LyricsPage from '@/pages/LyricsPage';
+import FAQSection from '@/pages/FAQSection';
+import RecentFanActivity from '@/pages/RecentFanActivity';
 import MerchDesigns from '@/pages/admin/MerchDesigns';
 import ThankYouCards from '@/pages/admin/ThankYouCards';
 import FanMedia from '@/pages/admin/FanMedia';
@@ -85,6 +88,9 @@ const AuthenticatedApp = () => {
         <Route path="/contact" element={<ContactGannon />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/lyrics" element={<LyricsPage />} />
+        <Route path="/faq" element={<FAQSection />} />
+        <Route path="/fan-activity" element={<RecentFanActivity />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -100,7 +106,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/settings" element={<SiteSettings />} />
         <Route path="/admin/merch-platforms" element={<MerchPlatforms />} />
         <Route path="/admin/videos" element={<VideoManagement />} />
-        <Route path="/admin/newsletter" element={<Newsletter />} />
+        <Route path="/admin/newsletter" element={<FanNewsletterDashboard />} />
         <Route path="/admin/merch-designs" element={<MerchDesigns />} />
         <Route path="/admin/thank-you-cards" element={<ThankYouCards />} />
         <Route path="/admin/fan-media" element={<FanMedia />} />

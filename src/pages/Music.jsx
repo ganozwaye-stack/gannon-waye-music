@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Play, ExternalLink, Music2, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { Link } from 'react-router-dom';
 
 const STATUS_LABELS = {
   idea: 'In the works',
@@ -36,6 +37,11 @@ export default function Music() {
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Discography</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground">Music</h1>
+          <Link to="/lyrics" className="inline-block mt-5">
+            <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10">
+              Read Lyrics →
+            </Button>
+          </Link>
         </motion.div>
 
         {published.length === 0 ? (

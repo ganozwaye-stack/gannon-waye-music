@@ -33,7 +33,7 @@ const NAV_SECTIONS = [
       { label: 'Fan Messages', path: '/admin/fans', icon: Users },
       { label: 'Fan Media Wall', path: '/admin/fan-media', icon: Camera },
       { label: 'Social Videos', path: '/admin/videos', icon: Video },
-      { label: 'Newsletter', path: '/admin/newsletter', icon: Mail },
+      { label: 'Fan Newsletter', path: '/admin/newsletter', icon: Mail },
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
       { label: 'Report & Data', path: '/admin/report', icon: TrendingUp },
       { label: 'Reveal Newsletter', path: '/admin/reveal-newsletter', icon: Mail },

@@ -7,9 +7,11 @@ const NAV_LINKS = [
   { label: 'Home', path: '/' },
   { label: 'About', path: '/about' },
   { label: 'Music', path: '/music' },
+  { label: 'Lyrics', path: '/lyrics' },
   { label: 'Store', path: '/store' },
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
+  { label: 'FAQ', path: '/faq' },
   { label: 'Contact', path: '/contact' },
 ];
 

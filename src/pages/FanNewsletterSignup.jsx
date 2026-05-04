@@ -1,2 +1,2 @@
-// Renamed from Newsletter — FanNewsletterSignup
+// FanNewsletterSignup — re-exports the admin newsletter dashboard
 export { default } from './admin/Newsletter';
