@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Music, Heart, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import GannonSignature from '@/components/global/GannonSignature';
 
 const STORY_PARAGRAPHS = [
   "I was born and raised in Adelaide, one of four kids, and I have called Melbourne home for over 13 years now.",
@@ -31,19 +32,37 @@ export default function AboutGannon() {
           <div className="w-16 h-px bg-primary/40 mx-auto" />
         </motion.div>
 
-        {/* Photo */}
+        {/* Photo — gold-rimmed */}
         <motion.div
           initial={{ opacity: 0, scale: 0.97 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.7, delay: 0.1 }}
           className="mb-14 flex justify-center"
         >
-          <div className="w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden border border-primary/20 shadow-xl">
-            <img
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/74a4ae1c3_0.jpg"
-              alt="Gannon Waye"
-              className="w-full h-full object-cover object-top"
+          <div className="relative">
+            {/* Outer gold glow ring */}
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                padding: '3px',
+                background: 'linear-gradient(135deg, #c9a84c 0%, #ffe08a 35%, #f5d06e 50%, #ffe08a 65%, #c9a84c 100%)',
+                borderRadius: '9999px',
+                boxShadow: '0 0 18px 4px rgba(201,168,76,0.45), 0 0 6px 1px rgba(255,224,138,0.3)',
+              }}
             />
+            {/* Inner black separator ring */}
+            <div
+              className="absolute rounded-full bg-background"
+              style={{ inset: '3px', borderRadius: '9999px' }}
+            />
+            {/* Photo */}
+            <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden" style={{ margin: '5px' }}>
+              <img
+                src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/74a4ae1c3_0.jpg"
+                alt="Gannon Waye"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
           </div>
         </motion.div>
 
@@ -74,6 +93,17 @@ export default function AboutGannon() {
             "For them, it was about appearance. For me, I was breaking inside."
           </p>
           <p className="font-body text-xs text-muted-foreground mt-3 tracking-widest uppercase">Gannon Waye</p>
+        </motion.div>
+
+        {/* Signature */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="flex justify-end mt-6 pr-8 md:pr-16"
+        >
+          <GannonSignature />
         </motion.div>
 
         {/* CTAs */}
