@@ -3,6 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import SocialVideoEmbed from '@/components/public/SocialVideoEmbed';
+import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 
 const PLATFORMS = ['all', 'instagram', 'tiktok'];
 
@@ -66,6 +67,8 @@ export default function Videos() {
             ))}
           </div>
         )}
+
+        <BePartOfThisCTA context="Enjoy the content? You can help fund more of it — directly." />
       </div>
     </div>
   );

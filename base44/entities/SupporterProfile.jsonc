@@ -1,0 +1,66 @@
+{
+  "name": "SupporterProfile",
+  "type": "object",
+  "properties": {
+    "supporter_name": {
+      "type": "string",
+      "description": "Display name of the supporter"
+    },
+    "supporter_email": {
+      "type": "string",
+      "description": "Email address"
+    },
+    "tier": {
+      "type": "string",
+      "enum": [
+        "with_you",
+        "movement",
+        "inner_circle",
+        "day_one"
+      ],
+      "default": "with_you",
+      "description": "Support tier"
+    },
+    "total_contributed": {
+      "type": "number",
+      "default": 0,
+      "description": "Total AUD contributed"
+    },
+    "message": {
+      "type": "string",
+      "description": "Message left by supporter"
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether to show on public leaderboard"
+    },
+    "badge": {
+      "type": "string",
+      "enum": [
+        "day_one",
+        "top_supporter",
+        "inner_circle",
+        "supporter"
+      ],
+      "default": "supporter"
+    }
+  },
+  "required": [
+    "supporter_email"
+  ],
+  "rls": {
+    "create": {},
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { format } from 'date-fns';
+import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 
 export default function Community() {
   const { toast } = useToast();
@@ -188,6 +189,8 @@ export default function Community() {
             </div>
           )}
         </div>
+
+        <BePartOfThisCTA context="This community exists because of people who care. If you want to go deeper, you can support the project." />
       </div>
     </div>
   );

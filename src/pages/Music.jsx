@@ -6,6 +6,7 @@ import { Play, ExternalLink, Music2, Gift } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
+import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 
 const STATUS_LABELS = {
   idea: 'In the works',
@@ -134,6 +135,8 @@ export default function Music() {
             ))}
           </div>
         )}
+
+        <BePartOfThisCTA context="If this music means something to you, you can help make more of it happen." />
       </div>
     </div>
   );

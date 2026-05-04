@@ -71,16 +71,41 @@ export default function BackThis() {
   };
 
   const handlePaymentSuccess = async (paymentIntent) => {
+    const tierLabel = selectedTier === 'custom' ? 'Custom' : TIERS.find(t => t.amount === selectedTier)?.label;
+    const tierKey = baseAmount >= 25 ? 'inner_circle' : baseAmount >= 10 ? 'movement' : 'with_you';
+    const badge = baseAmount >= 25 ? 'inner_circle' : baseAmount >= 10 ? 'top_supporter' : 'supporter';
+
     await base44.entities.SupportContribution.create({
       supporter_name: form.name || null,
       supporter_email: form.email,
       amount: baseAmount,
       total_charged: pricing.total,
       frequency,
-      tier_label: selectedTier === 'custom' ? 'Custom' : TIERS.find(t => t.amount === selectedTier)?.label,
+      tier_label: tierLabel,
       stripe_payment_id: paymentIntent.id,
       message: form.message || null,
     });
+
+    // Upsert SupporterProfile
+    const existing = await base44.entities.SupporterProfile.filter({ supporter_email: form.email });
+    if (existing.length > 0) {
+      await base44.entities.SupporterProfile.update(existing[0].id, {
+        total_contributed: (existing[0].total_contributed || 0) + baseAmount,
+        supporter_name: form.name || existing[0].supporter_name,
+        message: form.message || existing[0].message,
+      });
+    } else {
+      await base44.entities.SupporterProfile.create({
+        supporter_name: form.name || null,
+        supporter_email: form.email,
+        tier: tierKey,
+        total_contributed: baseAmount,
+        message: form.message || null,
+        badge,
+        is_public: true,
+      });
+    }
+
     setStep('done');
   };
 

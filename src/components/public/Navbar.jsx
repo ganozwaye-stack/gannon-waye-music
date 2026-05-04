@@ -5,14 +5,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
-  { label: 'About', path: '/about' },
   { label: 'Music', path: '/music' },
-  { label: 'Lyrics', path: '/lyrics' },
-  { label: 'Store', path: '/store' },
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
-  { label: 'FAQ', path: '/faq' },
+  { label: 'Store', path: '/store' },
+  { label: 'About', path: '/about' },
   { label: 'Contact', path: '/contact' },
+  { label: 'Back This 🤍', path: '/back-this', highlight: true },
 ];
 
 export default function Navbar() {
@@ -37,7 +36,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-6">
           {NAV_LINKS.map(link => {
             const active = location.pathname === link.path;
-            const isHighlighted = link.path === '/store' || link.path === '/community';
+            const isHighlighted = link.highlight || link.path === '/store';
             return (
               <Link
                 key={link.path}
