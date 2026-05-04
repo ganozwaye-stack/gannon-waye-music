@@ -35,7 +35,7 @@ const FAQS = [
   },
   {
     q: 'How does the AI reply work on my community post?',
-    a: 'When you post in the Community section and include your email, Gannon\'s system sends a personalised reply based on the tone and meaning of your message. It\'s not a bot template — it\'s crafted to feel genuine and considered.',
+    a: "When you post in the Community section and include your email, Gannon's system sends a personalised reply based on the tone and meaning of your message. It's not a bot template — it's crafted to feel genuine and considered.",
   },
   {
     q: 'Where can I follow Gannon on social media?',
