@@ -23,13 +23,12 @@ export default function GannonSignature({ className = '' }) {
 
       {/* Signature image */}
       <img
-        src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/74a4ae1c3_0.jpg"
+        src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6eda965a4_image.png"
         alt="Gannon Waye signature"
         style={{
-          width: '130px',
-          filter:
-            'invert(1) sepia(1) saturate(2) hue-rotate(5deg) brightness(1.1) drop-shadow(0 0 8px rgba(201,168,76,0.7))',
-          opacity: 0.88,
+          width: '160px',
+          filter: 'drop-shadow(0 0 8px rgba(201,168,76,0.6)) drop-shadow(0 0 3px rgba(255,224,138,0.4))',
+          opacity: 0.92,
         }}
       />
 
