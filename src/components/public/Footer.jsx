@@ -42,19 +42,24 @@ export default function Footer() {
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Navigate</h4>
             <div className="flex flex-col gap-2">
               <Link to="/" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Home</Link>
+              <Link to="/about" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">About</Link>
               <Link to="/music" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Music</Link>
               <Link to="/store" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Store</Link>
+              <Link to="/videos" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Videos</Link>
               <Link to="/community" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Community</Link>
+              <Link to="/contact" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Contact</Link>
               <Link to="/back-this" className="font-body text-sm text-primary hover:text-primary/80 transition-colors">Back This Project 🤍</Link>
-              <Link to="/orders" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Order History</Link>
             </div>
           </div>
           <div>
-            <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Email Preferences</h4>
-            <a href="/email-preferences" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors block mb-4">Choose what you hear from us</a>
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Contact</h4>
-            <p className="font-body text-sm text-foreground/70">For bookings and enquiries</p>
-            <a href={`mailto:${contactEmail}`} className="font-body text-sm text-primary mt-1 hover:underline block">{contactEmail}</a>
+            <p className="font-body text-sm text-foreground/70 mb-1">For bookings and enquiries</p>
+            <a href={`mailto:${contactEmail}`} className="font-body text-sm text-primary hover:underline block mb-4">{contactEmail}</a>
+            <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Legal</h4>
+            <div className="flex flex-col gap-2">
+              <Link to="/privacy-policy" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Privacy Policy</Link>
+              <Link to="/terms-of-service" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Terms of Service</Link>
+            </div>
           </div>
         </div>
         {/* Email Signup */}

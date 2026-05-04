@@ -1,56 +1,45 @@
 {
-  "name": "MerchInterest",
+  "name": "FanMedia",
   "type": "object",
   "properties": {
-    "product_id": {
-      "type": "string"
-    },
-    "product_name": {
-      "type": "string"
-    },
     "name": {
       "type": "string"
     },
-    "email": {
+    "caption": {
       "type": "string"
     },
-    "phone": {
+    "file_url": {
       "type": "string"
     },
-    "consent_email": {
+    "file_type": {
+      "type": "string",
+      "enum": [
+        "photo",
+        "video"
+      ],
+      "default": "photo"
+    },
+    "consent_feature": {
       "type": "boolean",
       "default": false
     },
-    "consent_news": {
-      "type": "boolean",
-      "default": false
-    },
-    "consent_events": {
-      "type": "boolean",
-      "default": false
-    },
-    "consent_merch": {
+    "is_featured": {
       "type": "boolean",
       "default": false
     },
     "description": {
       "type": "string",
       "maxLength": 1000,
-      "description": "Optional notes or message from the interested fan"
+      "description": "Optional description or story behind the fan media submission"
     }
   },
   "required": [
-    "product_id",
     "name",
-    "email"
+    "file_url"
   ],
   "rls": {
     "create": {},
-    "read": {
-      "user_condition": {
-        "role": "admin"
-      }
-    },
+    "read": {},
     "update": {
       "user_condition": {
         "role": "admin"

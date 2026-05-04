@@ -5,11 +5,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
+  { label: 'About', path: '/about' },
   { label: 'Music', path: '/music' },
   { label: 'Store', path: '/store' },
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
-  { label: 'My Preferences', path: '/fan-profile' },
+  { label: 'Contact', path: '/contact' },
 ];
 
 export default function Navbar() {
