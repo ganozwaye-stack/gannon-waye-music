@@ -116,6 +116,7 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
         <p className="font-body text-sm text-foreground/55 leading-relaxed line-clamp-3 flex-1">
           {product.description}
         </p>
+        <p className="font-body text-xs text-muted-foreground/50 mt-1">Not your style? You can still support this.</p>
 
         {/* Sizes */}
         {product.sizes_available?.length > 0 && (

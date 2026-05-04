@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Tag } from 'lucide-react';
+import { ShoppingBag, Tag, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useNavigate } from 'react-router-dom';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
 import CheckoutModal from '@/components/store/CheckoutModal';
 import ProductCard from '@/components/store/ProductCard';
@@ -13,6 +14,7 @@ import ProductCard from '@/components/store/ProductCard';
 export default function Store() {
   const [interestProduct, setInterestProduct] = useState(null);
   const [checkoutProduct, setCheckoutProduct] = useState(null);
+  const navigate = useNavigate();
 
   const { data: products } = useQuery({
     queryKey: ['merchProducts'],
@@ -53,6 +55,27 @@ export default function Store() {
           </div>
         </motion.div>
 
+        {/* Support fallback — top */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="mt-8 bg-card border border-primary/20 rounded-2xl p-5 text-center"
+        >
+          <p className="font-body text-sm text-foreground/70 mb-4">If nothing here is for you, you can still be part of this.</p>
+          <div className="flex justify-center gap-3 flex-wrap">
+            {[5, 10, 25].map(amount => (
+              <button
+                key={amount}
+                onClick={() => navigate('/back-this')}
+                className="gradient-gold-button rounded-full px-5 py-2 font-body text-sm tracking-wider"
+              >
+                ${amount} AUD
+              </button>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Divider */}
         <div className="flex items-center gap-4 my-12">
           <div className="flex-1 h-px bg-border/40" />
@@ -81,8 +104,24 @@ export default function Store() {
 
         {/* Footer note */}
         <p className="text-center font-body text-xs text-muted-foreground/50 mt-16 tracking-wide">
-          Register your interest and you'll be first to know when the store officially opens.
+          Register your interest and you will be first to know when the store officially opens.
         </p>
+
+        {/* Support bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-8 text-center"
+        >
+          <p className="font-body text-sm text-muted-foreground mb-4">Still want to support? You can back the music directly.</p>
+          <button
+            onClick={() => navigate('/back-this')}
+            className="gradient-gold-button rounded-full px-8 py-3 font-body text-sm tracking-wider uppercase inline-flex items-center gap-2"
+          >
+            <Heart className="w-4 h-4" /> Be Part of This 🤍
+          </button>
+        </motion.div>
       </div>
 
       {interestProduct && (

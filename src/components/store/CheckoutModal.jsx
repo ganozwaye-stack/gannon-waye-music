@@ -38,8 +38,10 @@ export default function CheckoutModal({ product, onClose }) {
   const [promoLoading, setPromoLoading] = useState(false);
 
   const [quantity, setQuantity] = useState(1);
+  const [addSupport, setAddSupport] = useState(0);
   const hasSize = product.sizes_available?.length > 0;
-  const pricing = calcPricing(product.price * quantity, product.category, appliedPromo?.discount_percent || 0);
+  const basePricing = calcPricing(product.price * quantity, product.category, appliedPromo?.discount_percent || 0);
+  const pricing = { ...basePricing, total: basePricing.total + addSupport };
 
   const applyPromo = async () => {
     if (!promoInput.trim()) return;
@@ -203,6 +205,27 @@ export default function CheckoutModal({ product, onClose }) {
                 )}
               </div>
 
+              {/* Support add-on */}
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
+                <p className="font-body text-xs tracking-wider uppercase text-primary mb-3">Add a contribution to support the music 🤍</p>
+                <div className="flex gap-2 flex-wrap">
+                  {[0, 5, 10, 25].map(amount => (
+                    <button
+                      key={amount}
+                      type="button"
+                      onClick={() => setAddSupport(amount)}
+                      className={`px-4 py-1.5 rounded-full font-body text-xs tracking-wider border transition-all ${
+                        addSupport === amount
+                          ? 'border-primary bg-primary/20 text-primary'
+                          : 'border-border/50 text-muted-foreground hover:border-primary/30'
+                      }`}
+                    >
+                      {amount === 0 ? 'No thanks' : `+$${amount}`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Price Breakdown */}
               <div className="bg-secondary/40 rounded-xl p-4 space-y-2 text-sm font-body">
                 <div className="flex justify-between text-foreground/70">
@@ -227,6 +250,12 @@ export default function CheckoutModal({ product, onClose }) {
                   <span>Service & handling (5%)</span>
                   <span>${pricing.fee.toFixed(2)}</span>
                 </div>
+                {addSupport > 0 && (
+                  <div className="flex justify-between text-primary">
+                    <span>Support contribution</span>
+                    <span>+${addSupport.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between font-semibold text-foreground border-t border-border/40 pt-2">
                   <span>Total</span>
                   <span className="gradient-gold-glow">${pricing.total.toFixed(2)}</span>

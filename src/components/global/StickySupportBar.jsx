@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Heart, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function StickySupportBar() {
   const [dismissed, setDismissed] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Don't show on the back-this page itself or admin pages
   if (location.pathname === '/back-this' || location.pathname.startsWith('/admin')) return null;
@@ -28,11 +28,9 @@ export default function StickySupportBar() {
           Be part of this.
         </p>
         <div className="flex items-center gap-3 flex-shrink-0">
-          <Link to="/back-this">
-            <button className="gradient-gold-button rounded-full px-5 py-2 font-body text-xs tracking-wider uppercase flex items-center gap-2">
-              <Heart className="w-3.5 h-3.5" /> Support 🤍
-            </button>
-          </Link>
+          <button onClick={() => navigate('/back-this')} className="gradient-gold-button rounded-full px-5 py-2 font-body text-xs tracking-wider uppercase flex items-center gap-2">
+            <Heart className="w-3.5 h-3.5" /> Support 🤍
+          </button>
           <button
             onClick={() => setDismissed(true)}
             className="text-muted-foreground hover:text-foreground transition-colors"
