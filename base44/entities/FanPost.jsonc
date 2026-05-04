@@ -35,7 +35,21 @@
     "content"
   ],
   "rls": {
-    "create": {},
+    "create": {
+      "created_by": "{{user.email}}",
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "created_by": {
+            "$exists": true
+          }
+        }
+      ]
+    },
     "read": {
       "$or": [
         {
@@ -45,18 +59,35 @@
           "user_condition": {
             "role": "admin"
           }
+        },
+        {
+          "created_by": "{{user.email}}"
         }
       ]
     },
     "update": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "created_by": "{{user.email}}"
+        }
+      ]
     },
     "delete": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "created_by": "{{user.email}}"
+        }
+      ]
     }
   }
 }
