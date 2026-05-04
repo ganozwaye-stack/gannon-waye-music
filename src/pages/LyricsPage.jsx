@@ -15,7 +15,7 @@ export default function LyricsPage() {
     initialData: [],
   });
 
-  const withLyrics = releases.filter(r => r.is_published && r.lyrics);
+  const withLyrics = releases.filter(r => r.is_published && r.lyrics && r.status === 'released');
 
   return (
     <div className="min-h-screen py-24 px-4 md:px-8">
@@ -36,7 +36,7 @@ export default function LyricsPage() {
         {withLyrics.length === 0 ? (
           <div className="text-center py-20">
             <Music2 className="w-14 h-14 text-muted-foreground/20 mx-auto mb-4" />
-            <p className="font-body text-muted-foreground">Lyrics will appear here once music is released.</p>
+            <p className="font-body text-muted-foreground">Lyrics will be revealed when "Thank You" — Gannon Waye drops on June 10, 2026.</p>
             <Link to="/music" className="mt-4 inline-block">
               <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase mt-4">
                 Go to Music

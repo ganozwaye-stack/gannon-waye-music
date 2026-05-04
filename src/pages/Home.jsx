@@ -323,7 +323,7 @@ export default function Home() {
                 >
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
                     {release.artwork_url && !artworkRevealed ? (
-                       <div className="w-full h-full flex flex-col items-center justify-center gap-3" style={{ backgroundImage: 'url(https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                       <div className="w-full h-full flex flex-col items-center justify-center gap-3" style={{ backgroundImage: 'url(https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b406a2525_gannonwayecomwrappedgiftGOLDribbon.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
                          <div className="absolute inset-0 bg-black/40" />
                          <div className="relative z-10 flex flex-col items-center justify-center gap-3">
                            <Gift className="w-10 h-10 text-primary" />
@@ -341,7 +341,7 @@ export default function Home() {
                   <div className="p-6">
                     <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">{release.type}</p>
                     <h3 className="font-display text-2xl text-foreground mt-1">{release.title}</h3>
-                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? 'A deeply personal anthem born from tragic heartbreak and devastating loss. A journey from shattering truth to unexpected gratitude.' : release.description}</p>
+                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" — Gannon Waye. Written at a turning point, when staying any longer would have meant abandoning himself all over again. The moment of choosing self respect over repetition.' : release.description}</p>
                     {release.release_date && (
                       <p className="font-body text-xs text-muted-foreground mt-3">
                         {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}

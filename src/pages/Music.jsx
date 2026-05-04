@@ -62,7 +62,7 @@ export default function Music() {
               >
                 <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden">
                   {release.artwork_url && release.status !== 'released' ? (
-                    <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-secondary/80 min-h-[200px]" style={{ backgroundImage: 'url(https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-secondary/80 min-h-[200px]" style={{ backgroundImage: 'url(https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b406a2525_gannonwayecomwrappedgiftGOLDribbon.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
                       <div className="absolute inset-0 bg-black/40" />
                       <div className="relative z-10 flex flex-col items-center justify-center gap-3">
                         <Gift className="w-10 h-10 text-primary" />
@@ -95,7 +95,11 @@ export default function Music() {
                     </p>
                   )}
                   {release.description && (
-                    <p className="font-body text-foreground/60 mt-4 leading-relaxed">{release.description}</p>
+                    <p className="font-body text-foreground/60 mt-4 leading-relaxed">
+                      {release.title === 'Thank You'
+                        ? '"Thank You" — Gannon Waye. Written at a turning point, when staying any longer would have meant abandoning himself all over again. This is what it sounds like when you break a cycle and refuse to return to it.'
+                        : release.description}
+                    </p>
                   )}
                   {release.credits && (
                     <p className="font-body text-xs text-muted-foreground mt-3">{release.credits}</p>

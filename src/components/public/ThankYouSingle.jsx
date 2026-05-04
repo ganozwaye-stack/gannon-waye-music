@@ -52,7 +52,7 @@ export default function ThankYouSingle() {
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2">Debut Single</p>
           <h2 className="font-display text-5xl md:text-7xl text-foreground italic mb-1">Thank You</h2>
           <p className="font-body text-sm text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-            The debut single from Gannon Waye. A powerful expression of gratitude born from tragic heartbreak—where the rose-colored glasses fell away and the hard truths became clear. A song about healing, growth, and the lessons learned through breaking open.
+            "Thank You" — Gannon Waye. Written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. The moment of choosing self respect over repetition.
           </p>
           {artworkRevealed && (
             <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">
@@ -80,7 +80,7 @@ export default function ThankYouSingle() {
               </div>
             ) : (
               <div className="relative w-full h-full">
-                <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
+                <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b406a2525_gannonwayecomwrappedgiftGOLDribbon.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/40 p-6">
                   <Gift className="w-8 h-8 text-primary" />
                   <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-glow">Revealed May 10</p>
@@ -111,10 +111,10 @@ export default function ThankYouSingle() {
               )}
               <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">About the single</p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm">
-                "Thank You" is a deeply personal anthem born from tragic heartbreak and devastating loss. Written from lived experience, it chronicles the journey from shattering truth to unexpected gratitude—what happens when the rose-colored glasses fall away and you finally see clearly.
+                "Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. The dynamic mirrored something already fought hard to outgrow — and in recognising that, the decision became simple.
               </p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm mt-3">
-                At its core, this song is about resilience. Finding strength in the wreckage. Learning that some of life's greatest gifts come wrapped in heartbreak.
+                This is what it sounds like when you break a cycle and refuse to return to it. "Thank You" — Gannon Waye.
               </p>
             </div>
 

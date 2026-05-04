@@ -22,6 +22,7 @@ import ContactGannon from '@/pages/ContactGannon';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsOfService from '@/pages/TermsOfService';
 import PublicLayout from '@/components/public/PublicLayout';
+import StickySupportBar from '@/components/global/StickySupportBar';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -72,6 +73,8 @@ const AuthenticatedApp = () => {
   }
 
   return (
+    <>
+    <StickySupportBar />
     <Routes>
       {/* Public routes */}
       <Route element={<PublicLayout />}>
@@ -120,6 +123,7 @@ const AuthenticatedApp = () => {
 
       <Route path="*" element={<PageNotFound />} />
     </Routes>
+    </>
   );
 };
 
