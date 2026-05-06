@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Star, Gift, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -31,6 +31,14 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
   const { merchRevealed } = useSiteReveal();
   const isDeluxe = product.name?.toLowerCase().includes('deluxe') || product.name?.toLowerCase().includes('signed');
   const soldOut = merchRevealed && isSoldOutAtLaunch(product);
+  const [showBack, setShowBack] = useState(false);
+  const hasBackImage = !!product.back_image_url;
+
+  useEffect(() => {
+    if (!hasBackImage || !merchRevealed) return;
+    const interval = setInterval(() => setShowBack(prev => !prev), 3000);
+    return () => clearInterval(interval);
+  }, [hasBackImage, merchRevealed]);
 
   return (
     <motion.div
@@ -61,8 +69,8 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
         </div>
       )}
 
-      {/* Image — gift-wrapped until store opens, then real image */}
-      <div className="relative aspect-square bg-secondary/40 overflow-hidden">
+      {/* Image — gift-wrapped until store opens, then real image with optional flip */}
+      <div className="relative aspect-square bg-secondary/40 overflow-hidden perspective">
         {!merchRevealed ? (
           <>
             <img
@@ -75,15 +83,37 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
               <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text">Revealed May 10</p>
             </div>
           </>
-        ) : product.image_url ? (
-          <img
-            src={product.image_url}
-            alt={product.name}
-            className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${soldOut ? 'opacity-60 grayscale' : ''}`}
-          />
         ) : (
-          <div className="w-full h-full flex items-center justify-center bg-secondary/40">
-            <ShoppingBag className="w-12 h-12 text-muted-foreground/20" />
+          <div className="w-full h-full relative">
+            {product.image_url && (
+              <motion.img
+                key="front"
+                src={product.image_url}
+                alt={product.name}
+                initial={{ opacity: 1, rotateY: 0 }}
+                animate={{ opacity: showBack ? 0 : 1, rotateY: showBack ? -90 : 0 }}
+                transition={{ duration: 1.2, ease: 'easeInOut' }}
+                className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${soldOut ? 'opacity-60 grayscale' : ''}`}
+                style={{ backfaceVisibility: 'hidden' }}
+              />
+            )}
+            {product.back_image_url && (
+              <motion.img
+                key="back"
+                src={product.back_image_url}
+                alt={`${product.name} back`}
+                initial={{ opacity: 0, rotateY: 90 }}
+                animate={{ opacity: showBack ? 1 : 0, rotateY: showBack ? 0 : 90 }}
+                transition={{ duration: 1.2, ease: 'easeInOut' }}
+                className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${soldOut ? 'opacity-60 grayscale' : ''}`}
+                style={{ backfaceVisibility: 'hidden' }}
+              />
+            )}
+            {!product.image_url && !product.back_image_url && (
+              <div className="w-full h-full flex items-center justify-center bg-secondary/40">
+                <ShoppingBag className="w-12 h-12 text-muted-foreground/20" />
+              </div>
+            )}
           </div>
         )}
         <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card/60 to-transparent pointer-events-none" />
