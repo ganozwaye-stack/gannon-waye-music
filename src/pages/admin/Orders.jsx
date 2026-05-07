@@ -13,6 +13,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { Package, Send, Mail, FileText, MapPin, User, DollarSign, Calendar, TrendingUp, ShoppingBag, Printer, Download, Eye, Pencil, CheckCircle, Clock, Truck } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
+import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
 
 const STATUS_COLORS = {
   pending: 'bg-chart-4/20 text-chart-4',
@@ -54,7 +55,20 @@ export default function Orders() {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.MerchOrder.update(id, data),
+    mutationFn: async ({ id, data }) => {
+      const oldOrder = orders.find(o => o.id === id);
+      const result = await base44.entities.MerchOrder.update(id, data);
+      
+      // Emit event for status changes
+      if (data.status && data.status !== oldOrder?.status) {
+        if (data.status === 'shipped') {
+          await emitEvent(EVENT_TYPES.ORDER_SHIPPED, { ...oldOrder, ...data, id });
+        }
+        await emitEvent(EVENT_TYPES.ORDER_UPDATED, { ...oldOrder, ...data, id });
+      }
+      
+      return result;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['merchOrders'] });
       toast({ title: 'Order updated successfully' });

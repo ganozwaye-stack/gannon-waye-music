@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { motion } from 'framer-motion';
 import { Play, AlertCircle, CheckCircle2, AlertTriangle, RefreshCw } from 'lucide-react';
+import { runPlatformHealthCheck, TEST_RESULTS } from '@/lib/platformTesting';
 
 export default function SiteHealthDashboard() {
   const { toast } = useToast();
@@ -13,12 +14,12 @@ export default function SiteHealthDashboard() {
   const runTests = async () => {
     setLoading(true);
     try {
-      const res = await base44.functions.invoke('automatedSiteTests', {});
-      setResults(res);
+      const healthResults = await runPlatformHealthCheck();
+      setResults(healthResults);
 
-      if (res.health.score === 100) {
+      if (healthResults.healthScore === 100) {
         toast({ title: 'All tests passed! ✅' });
-      } else if (res.health.score >= 80) {
+      } else if (healthResults.healthScore >= 80) {
         toast({ title: 'Tests passed with warnings ⚠️' });
       } else {
         toast({ title: 'Some tests failed ❌', variant: 'destructive' });
@@ -30,8 +31,8 @@ export default function SiteHealthDashboard() {
   };
 
   const getStatusIcon = (status) => {
-    if (status === 'pass') return <CheckCircle2 className="w-4 h-4 text-green-500" />;
-    if (status === 'warning') return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
+    if (status === TEST_RESULTS.PASS) return <CheckCircle2 className="w-4 h-4 text-green-500" />;
+    if (status === TEST_RESULTS.WARN) return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
     return <AlertCircle className="w-4 h-4 text-red-500" />;
   };
 
@@ -41,12 +42,23 @@ export default function SiteHealthDashboard() {
     return 'text-red-500';
   };
 
+  const getSuiteColor = (suite) => {
+    const colors = {
+      core: 'text-blue-500',
+      commerce: 'text-primary',
+      automation: 'text-purple-500',
+      integration: 'text-green-500',
+      security: 'text-red-500',
+    };
+    return colors[suite] || 'text-muted-foreground';
+  };
+
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-display text-3xl text-foreground">Site Health Dashboard</h1>
-          <p className="font-body text-sm text-muted-foreground mt-1">Automated testing & verification system</p>
+          <p className="font-body text-sm text-muted-foreground mt-1">Real operational testing & verification</p>
         </div>
         <Button
           onClick={runTests}
@@ -65,7 +77,7 @@ export default function SiteHealthDashboard() {
         </Button>
       </div>
 
-      {results && results.health && (
+      {results && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -76,94 +88,113 @@ export default function SiteHealthDashboard() {
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Health Score</p>
-                <p className={`font-display text-4xl ${getHealthColor(results.health?.score || 0)}`}>
-                  {results.health?.score || 0}%
+                <p className={`font-display text-4xl ${getHealthColor(results.healthScore || 0)}`}>
+                  {results.healthScore || 0}%
+                </p>
+              </div>
+              <div>
+                <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Tests Passed</p>
+                <p className="font-display text-3xl text-foreground">
+                  {results.passed}/{results.totalTests}
                 </p>
               </div>
               <div>
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Status</p>
-                <p className="font-display text-lg text-foreground capitalize">{results.health?.status || 'unknown'}</p>
-              </div>
-              <div>
-                <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Passed/Total</p>
-                <p className="font-display text-lg text-foreground">
-                  {results.summary?.passed || 0}/{results.tests?.length || 0}
+                <p className="font-display text-lg text-foreground capitalize">
+                  {results.failed === 0 ? 'operational' : results.failed > 2 ? 'critical' : 'warnings'}
                 </p>
               </div>
-            </div>
-            <div className="mt-4 pt-4 border-t border-border/30">
-              <p className="font-body text-sm text-foreground/70">{results.health?.recommendation || 'Review results'}</p>
             </div>
           </div>
 
           {/* Summary Stats */}
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-4 gap-4">
+            <div className="bg-card border border-border/40 rounded-xl p-4">
+              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-1">Total</p>
+              <p className="font-display text-2xl text-foreground">{results.totalTests}</p>
+            </div>
             <div className="bg-card border border-green-500/30 rounded-xl p-4">
               <p className="font-body text-xs tracking-widest uppercase text-green-500/70 mb-1">Passed</p>
-              <p className="font-display text-3xl text-green-500">{results.summary?.passed || 0}</p>
+              <p className="font-display text-2xl text-green-500">{results.passed}</p>
             </div>
             <div className="bg-card border border-yellow-500/30 rounded-xl p-4">
               <p className="font-body text-xs tracking-widest uppercase text-yellow-500/70 mb-1">Warnings</p>
-              <p className="font-display text-3xl text-yellow-500">{results.summary?.warnings || 0}</p>
+              <p className="font-display text-2xl text-yellow-500">{results.warnings}</p>
             </div>
             <div className="bg-card border border-red-500/30 rounded-xl p-4">
               <p className="font-body text-xs tracking-widest uppercase text-red-500/70 mb-1">Failed</p>
-              <p className="font-display text-3xl text-red-500">{results.summary?.failed || 0}</p>
+              <p className="font-display text-2xl text-red-500">{results.failed}</p>
             </div>
           </div>
 
-          {/* Detailed Results */}
-          <div className="space-y-3">
-            <h3 className="font-display text-lg text-foreground">Test Results</h3>
-            {results.tests?.map((test, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05 }}
-                className="bg-card border border-border/40 rounded-xl p-4 flex items-start gap-3"
-              >
-                <div className="mt-1 flex-shrink-0">{getStatusIcon(test.status)}</div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-body font-medium text-foreground">{test.name}</p>
-                  <p className="font-body text-sm text-muted-foreground mt-1">
-                    {test.detail || test.error}
-                  </p>
+          {/* Tests by Suite */}
+          <div className="space-y-4">
+            {['core', 'commerce', 'automation', 'integration'].map(suite => {
+              const suiteTests = results.tests.filter(t => t.suite === suite);
+              if (suiteTests.length === 0) return null;
+              
+              const suitePassed = suiteTests.filter(t => t.result === TEST_RESULTS.PASS).length;
+              
+              return (
+                <div key={suite} className="bg-card border border-border/40 rounded-xl p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className={`font-display text-sm uppercase tracking-wider ${getSuiteColor(suite)}`}>
+                      {suite}
+                    </h3>
+                    <Badge variant="outline" className="text-xs">
+                      {suitePassed}/{suiteTests.length} passed
+                    </Badge>
+                  </div>
+                  <div className="space-y-2">
+                    {suiteTests.map((test, i) => (
+                      <div key={i} className="flex items-start gap-3 py-2 border-t border-border/30 first:border-0">
+                        <div className="mt-0.5 flex-shrink-0">
+                          {getStatusIcon(test.result)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-body text-sm font-medium text-foreground">{test.name}</p>
+                          {test.details && (
+                            <p className="font-body text-xs text-muted-foreground mt-1">
+                              {test.details.status || test.details.summary || JSON.stringify(test.details)}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex-shrink-0">
-                  <span className={`font-body text-xs font-medium capitalize px-2 py-1 rounded-full 
-                    ${test.status === 'pass' ? 'bg-green-500/10 text-green-600' : test.status === 'warning' ? 'bg-yellow-500/10 text-yellow-600' : 'bg-red-500/10 text-red-600'}`}>
-                    {test.status}
-                  </span>
-                </div>
-              </motion.div>
-            ))}
+              );
+            })}
           </div>
 
-          {/* Recommendations */}
-          {(results.summary?.failed || 0) > 0 || (results.summary?.warnings || 0) > 0 ? (
+          {/* Action Items */}
+          {(results.failed > 0 || results.warnings > 0) ? (
             <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
-              <p className="font-display text-sm text-yellow-600 mb-3">⚠️ Action Items</p>
+              <p className="font-display text-sm text-yellow-600 mb-3">⚠️ Action Required</p>
               <ul className="space-y-2 font-body text-sm text-foreground/70">
-                {(results.summary?.warnings || 0) > 0 && (
-                  <li>• Fill in cost/delivery fields for all products in Merch Management</li>
-                )}
-                {(results.summary?.failed || 0) > 0 && (
-                  <li>• Check function permissions and ensure all backend functions are properly configured</li>
-                )}
-                <li>• Create test orders and contributions to validate order flow</li>
-                <li>• Run tests again after making changes</li>
+                {results.tests.filter(t => t.result === TEST_RESULTS.FAIL).map((test, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-red-500">•</span>
+                    <span><strong className="text-foreground">{test.name}:</strong> {test.details?.error || 'Failed'}</span>
+                  </li>
+                ))}
+                {results.tests.filter(t => t.result === TEST_RESULTS.WARN).map((test, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-yellow-500">•</span>
+                    <span><strong className="text-foreground">{test.name}:</strong> {test.details?.summary || test.details?.status}</span>
+                  </li>
+                ))}
               </ul>
             </div>
           ) : (
             <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
-              <p className="font-display text-sm text-green-600">✅ All systems operational. Ready for launch!</p>
+              <p className="font-display text-sm text-green-600">✅ All systems operational. Platform ready for production.</p>
             </div>
           )}
 
           {/* Last Run */}
           <p className="font-body text-xs text-muted-foreground text-center">
-            Last run: {results.timestamp ? new Date(results.timestamp).toLocaleString() : 'N/A'}
+            Last run: {new Date(results.timestamp).toLocaleString()}
           </p>
         </motion.div>
       )}
@@ -171,9 +202,19 @@ export default function SiteHealthDashboard() {
       {!results && !loading && (
         <div className="text-center py-16">
           <AlertCircle className="w-12 h-12 text-muted-foreground/20 mx-auto mb-4" />
-          <p className="font-body text-muted-foreground">Click "Run Tests" to start system health check</p>
+          <p className="font-body text-muted-foreground">Click "Run Tests" to execute comprehensive platform health check</p>
         </div>
       )}
     </div>
+  );
+}
+
+function Badge({ children, variant, className }) {
+  return (
+    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+      variant === 'outline' ? 'border border-border/40' : 'bg-primary/10 text-primary'
+    } ${className || ''}`}>
+      {children}
+    </span>
   );
 }

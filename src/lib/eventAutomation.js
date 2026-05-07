@@ -66,26 +66,34 @@ export const initializeEventSystem = () => {
   // ORDER_CREATED automation
   registerEventHandler(EVENT_TYPES.ORDER_CREATED, async (order) => {
     try {
-      // 1. Decrement inventory (handled by order creation)
-      
-      // 2. Create audit log
+      // 1. Create audit log
       await createAuditLog('MerchOrder', order.id, 'create', order);
+      
+      // 2. Decrement inventory
+      if (order.items) {
+        for (const item of order.items) {
+          if (item.product_id) {
+            const products = await base44.entities.MerchProduct.filter({ id: item.product_id });
+            if (products.length > 0) {
+              const product = products[0];
+              await base44.entities.MerchProduct.update(product.id, {
+                stock_quantity: Math.max(0, (product.stock_quantity || 0) - item.quantity),
+              });
+            }
+          }
+        }
+      }
       
       // 3. Send receipt email
       await base44.functions.invoke('sendOrderReceipt', { orderId: order.id });
       
-      // 4. Calculate and allocate charity % (for donations)
-      if (order.is_donation) {
-        await allocateCharityDonation(order);
-      }
-      
-      // 5. Update supporter score
+      // 4. Update supporter score
       await updateSupporterScore(order.customer_email, 'purchase', order.total_amount);
       
-      // 6. Notify admin
+      // 5. Notify admin
       await base44.functions.invoke('notifyAdminNewOrder', { order });
       
-      // 7. Sync to Google Sheets
+      // 6. Sync to Google Sheets
       await base44.functions.invoke('syncOrderToSheets', { order });
       
       console.log(`Order ${order.id} automation complete`);
@@ -161,11 +169,42 @@ export const initializeEventSystem = () => {
 };
 
 /**
- * Create audit log entry
+ * Create audit log entry with proper change tracking
  */
-const createAuditLog = async (entityName, entityId, action, changes) => {
+const createAuditLog = async (entityName, entityId, action, newData, oldData = null) => {
   try {
     const user = await base44.auth.me();
+    const changes = [];
+    
+    if (oldData) {
+      // Compare old and new values
+      const allFields = new Set([...Object.keys(newData || {}), ...Object.keys(oldData || {})]);
+      allFields.forEach(field => {
+        if (field === 'id' || field === 'created_date' || field === 'updated_date') return;
+        
+        const oldValue = oldData[field];
+        const newValue = newData?.[field];
+        
+        if (JSON.stringify(oldValue) !== JSON.stringify(newValue)) {
+          changes.push({
+            field,
+            old_value: oldValue,
+            new_value: newValue,
+          });
+        }
+      });
+    } else {
+      // Create action - all fields are new
+      Object.keys(newData || {}).forEach(field => {
+        if (field === 'id' || field === 'created_date' || field === 'updated_date') return;
+        changes.push({
+          field,
+          old_value: null,
+          new_value: newData[field],
+        });
+      });
+    }
+    
     await base44.entities.AuditLog.create({
       entity_name: entityName,
       entity_id: entityId,
@@ -173,12 +212,14 @@ const createAuditLog = async (entityName, entityId, action, changes) => {
       user_email: user?.email || 'system',
       user_role: user?.role || 'system',
       timestamp: new Date().toISOString(),
-      changes: Object.keys(changes).map(field => ({
-        field,
-        old_value: null,
-        new_value: changes[field],
-      })),
-      description: `${action.toUpperCase()} ${entityName} #${entityId.slice(-6)}`,
+      changes,
+      description: `${action.toUpperCase()} ${entityName} #${entityId.slice(-6)}${changes.length > 0 ? ` (${changes.length} fields changed)` : ''}`,
+      metadata: {
+        ip_address: 'system',
+        user_agent: 'automation',
+        session_id: 'event-automation',
+        rollback_available: action !== 'delete',
+      },
     });
   } catch (error) {
     console.error('Audit log creation failed:', error);

@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import StripePaymentForm from '@/components/store/StripePaymentForm';
+import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
 
 // Fee constants (same as merch checkout)
 const GST_RATE = 0.10;
@@ -77,7 +78,7 @@ export default function BackThis() {
     const tierKey = baseAmount >= 25 ? 'inner_circle' : baseAmount >= 10 ? 'movement' : 'with_you';
     const badge = baseAmount >= 25 ? 'inner_circle' : baseAmount >= 10 ? 'top_supporter' : 'supporter';
 
-    await base44.entities.SupportContribution.create({
+    const contribution = await base44.entities.SupportContribution.create({
       supporter_name: form.name || null,
       supporter_email: form.email,
       amount: baseAmount,
@@ -86,6 +87,16 @@ export default function BackThis() {
       tier_label: tierLabel,
       stripe_payment_id: paymentIntent.id,
       message: form.message || null,
+    });
+
+    // Emit event for automation
+    await emitEvent(EVENT_TYPES.CONTRIBUTION_RECEIVED, {
+      id: contribution.id,
+      supporter_name: form.name,
+      supporter_email: form.email,
+      amount: baseAmount,
+      total_charged: pricing.total,
+      frequency,
     });
 
     // Upsert SupporterProfile
