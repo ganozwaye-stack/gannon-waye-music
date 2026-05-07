@@ -14,14 +14,19 @@ export default function FeaturedVideoSection() {
   const featured = videos[0];
   if (!featured) return null;
 
-  const isYoutube = featured.url?.includes('youtube');
+  const isYoutube = featured.url?.includes('youtube') || featured.url?.includes('youtu.be');
+  const isVimeo = featured.url?.includes('vimeo');
   const isTiktok = featured.url?.includes('tiktok');
   const isInstagram = featured.url?.includes('instagram');
 
   let embedUrl = featured.url;
   if (isYoutube && !featured.url.includes('embed')) {
     const videoId = featured.url.split('v=')[1] || featured.url.split('youtu.be/')[1];
-    embedUrl = `https://www.youtube.com/embed/${videoId}`;
+    embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1`;
+  }
+  if (isVimeo && !featured.url.includes('player.vimeo')) {
+    const videoId = featured.url.split('vimeo.com/')[1];
+    embedUrl = `https://player.vimeo.com/video/${videoId}`;
   }
 
   return (
@@ -43,14 +48,14 @@ export default function FeaturedVideoSection() {
           viewport={{ once: true }}
           className="relative rounded-2xl overflow-hidden bg-black shadow-2xl"
         >
-          {isYoutube ? (
+          {isYoutube || isVimeo ? (
             <iframe
               width="100%"
               height="600"
               src={embedUrl}
               title={featured.title}
               frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; autoplay"
               allowFullScreen
               className="w-full aspect-video"
             />

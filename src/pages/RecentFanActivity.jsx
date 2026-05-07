@@ -36,9 +36,9 @@ export default function RecentFanActivity() {
           className="text-center mb-14"
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Live Feed</p>
-          <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Fan Activity</h1>
+          <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Supporter Activity</h1>
           <p className="font-body text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
-            Real messages, real photos, real connection. This is the community building in real time.
+            Real supporters, real stories, real connection. This is the movement building in real time.
           </p>
         </motion.div>
 
@@ -52,7 +52,7 @@ export default function RecentFanActivity() {
           <div className="bg-card border border-border/40 rounded-2xl p-5 text-center">
             <Camera className="w-6 h-6 text-primary mx-auto mb-2" />
             <p className="font-display text-2xl text-foreground">{media.length}</p>
-            <p className="font-body text-xs text-muted-foreground tracking-wider uppercase mt-1">Fan Media</p>
+            <p className="font-body text-xs text-muted-foreground tracking-wider uppercase mt-1">Supporter Media</p>
           </div>
         </div>
 
@@ -88,7 +88,7 @@ export default function RecentFanActivity() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2 mb-1 flex-wrap">
                     <p className="font-body text-sm font-medium text-foreground">
-                      {item._type === 'post' ? (item.author_name || 'A fan') : item.name}
+                      {item._type === 'post' ? (item.author_name || 'A supporter') : item.name}
                     </p>
                     <p className="font-body text-xs text-muted-foreground flex-shrink-0">
                       {item.created_date ? format(new Date(item.created_date), 'MMM d, yyyy') : ''}

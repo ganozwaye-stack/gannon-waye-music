@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
 import CountdownTimer from '@/components/public/CountdownTimer';
+import WrappedGiftPlaceholder from '@/components/store/WrappedGiftPlaceholder';
 
 
 
@@ -80,8 +81,8 @@ export default function Store() {
           <div className="flex-1 h-px bg-border/40" />
         </div>
 
-        {/* Locked teaser grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {/* Wrapped Gift Collection Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
           {TEASER_ITEMS.map((item, i) => (
             <motion.div
               key={item.label}
@@ -89,16 +90,16 @@ export default function Store() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="rounded-2xl border border-border/30 bg-card/60 overflow-hidden"
+              className="rounded-2xl border border-border/30 bg-card/40 overflow-hidden backdrop-blur-sm"
             >
-              <div className="aspect-square bg-secondary/60 flex flex-col items-center justify-center gap-2 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
-                <Lock className="w-6 h-6 text-primary/40" />
-                <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60">Locked</p>
+              <div className="aspect-square bg-gradient-to-br from-secondary/20 to-secondary/60 flex flex-col items-center justify-center gap-4 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
+                <WrappedGiftPlaceholder index={i} />
               </div>
-              <div className="p-3 text-center">
-                <p className="font-display text-sm text-foreground/70">{item.label}</p>
-                <p className="font-body text-[11px] text-muted-foreground/50 mt-0.5">{item.hint}</p>
+              <div className="p-4 text-center border-t border-border/30">
+                <p className="font-display text-sm text-foreground">{item.label}</p>
+                <p className="font-body text-[10px] text-muted-foreground/60 mt-1 tracking-wide">{item.hint}</p>
+                <p className="font-body text-[9px] text-primary/70 mt-2 tracking-[0.2em] uppercase">Premium Mystery Item</p>
               </div>
             </motion.div>
           ))}

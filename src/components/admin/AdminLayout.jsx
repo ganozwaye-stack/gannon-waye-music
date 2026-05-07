@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 const NAV_SECTIONS = [
@@ -28,15 +28,15 @@ const NAV_SECTIONS = [
     ]
   },
   {
-    title: 'Community',
+    title: 'CRM & Community',
     items: [
-      { label: 'Supporters', path: '/admin/supporters', icon: Heart },
-      { label: 'Fan Messages', path: '/admin/fans', icon: Users },
-      { label: 'Fan Media Wall', path: '/admin/fan-media', icon: Camera },
+      { label: 'Supporter Registry', path: '/admin/subscribers', icon: Users },
+      { label: 'Community Messages', path: '/admin/fans', icon: MessageCircle },
+      { label: 'Community Media Wall', path: '/admin/fan-media', icon: Camera },
       { label: 'Social Videos', path: '/admin/videos', icon: Video },
-      { label: 'Fan Newsletter', path: '/admin/newsletter', icon: Mail },
+      { label: 'Subscriber Newsletter', path: '/admin/newsletter', icon: Mail },
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
-      { label: 'Report & Data', path: '/admin/report', icon: TrendingUp },
+      { label: 'Engagement Reports', path: '/admin/report', icon: TrendingUp },
       { label: 'Reveal Newsletter', path: '/admin/reveal-newsletter', icon: Mail },
     ]
   },

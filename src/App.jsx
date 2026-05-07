@@ -35,6 +35,7 @@ import Dashboard from '@/pages/admin/Dashboard';
 import Releases from '@/pages/admin/Releases';
 import MerchManagement from '@/pages/admin/MerchManagement';
 import Orders from '@/pages/admin/Orders';
+import Subscribers from '@/pages/admin/Subscribers';
 import FanManagement from '@/pages/admin/FanManagement';
 import SiteSettings from '@/pages/admin/SiteSettings';
 import MerchPlatforms from '@/pages/admin/MerchPlatforms';
@@ -102,6 +103,7 @@ const AuthenticatedApp = () => {
         <Route path="/lyrics" element={<LyricsPage />} />
         <Route path="/this-is-my-life" element={<ThisIsMyLife />} />
         <Route path="/faq" element={<FAQSection />} />
+        <Route path="/supporter-activity" element={<RecentFanActivity />} />
         <Route path="/fan-activity" element={<RecentFanActivity />} />
         <Route path="/member-tiers" element={<MemberTiers />} />
       </Route>
@@ -116,6 +118,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/releases" element={<Releases />} />
         <Route path="/admin/merch" element={<MerchManagement />} />
         <Route path="/admin/orders" element={<Orders />} />
+        <Route path="/admin/subscribers" element={<Subscribers />} />
         <Route path="/admin/fans" element={<FanManagement />} />
         <Route path="/admin/settings" element={<SiteSettings />} />
         <Route path="/admin/merch-platforms" element={<MerchPlatforms />} />

@@ -99,7 +99,7 @@ export default function Community() {
           className="bg-card border border-border/40 rounded-2xl p-6 mb-10"
         >
           <h3 className="font-display text-xl text-foreground mb-4 flex items-center gap-2">
-            <MessageCircle className="w-5 h-5 text-primary" /> Leave a Message
+            <MessageCircle className="w-5 h-5 text-primary" /> Share With the Community
           </h3>
           <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
