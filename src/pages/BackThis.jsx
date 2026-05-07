@@ -203,7 +203,7 @@ export default function BackThis() {
                 Download Official Receipt 📄
               </Button>
               <p className="font-body text-[10px] text-muted-foreground">
-                Includes tax-deductible amount and your 10% charity impact
+                Official receipt provided. 10% of your contribution supports 1800RESPECT.
               </p>
             </div>
             
