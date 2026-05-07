@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 
 export default function Footer() {
-  const [email, setEmail] = useState('');
+  const [form, setForm] = useState({ name: '', email: '', phone: '', how_found: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -17,9 +17,9 @@ export default function Footer() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email) return;
+    if (!form.name || !form.email || !form.phone || !form.how_found) return;
     setLoading(true);
-    await base44.entities.EmailSubscriber.create({ email });
+    await base44.entities.EmailSubscriber.create(form);
     setSubmitted(true);
     setLoading(false);
   };
@@ -71,19 +71,51 @@ export default function Footer() {
           {submitted ? (
             <p className="font-body text-sm text-primary">You're in. Thanks for subscribing.</p>
           ) : (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2 max-w-sm mx-auto">
+            <form onSubmit={handleSubmit} className="max-w-sm mx-auto space-y-3">
+              <input
+                type="text"
+                required
+                placeholder="Your name"
+                value={form.name}
+                onChange={e => setForm({...form, name: e.target.value})}
+                className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
+              />
               <input
                 type="email"
                 required
                 placeholder="your@email.com"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                className="flex-1 bg-secondary/50 border border-border/40 rounded-full px-4 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
+                value={form.email}
+                onChange={e => setForm({...form, email: e.target.value})}
+                className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
               />
+              <input
+                type="tel"
+                required
+                placeholder="Phone (incl. country code)"
+                value={form.phone}
+                onChange={e => setForm({...form, phone: e.target.value})}
+                className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
+              />
+              <select
+                required
+                value={form.how_found}
+                onChange={e => setForm({...form, how_found: e.target.value})}
+                className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
+              >
+                <option value="">How did you find us?</option>
+                <option value="google">Google</option>
+                <option value="instagram">Instagram</option>
+                <option value="facebook">Facebook</option>
+                <option value="tiktok">TikTok</option>
+                <option value="x_twitter">X (Twitter)</option>
+                <option value="friend_word_of_mouth">Friend / Word of Mouth</option>
+                <option value="i_know_gannon">I know Gannon</option>
+                <option value="other">Other</option>
+              </select>
               <button
                 type="submit"
                 disabled={loading}
-                className="px-6 py-2 rounded-full bg-primary text-primary-foreground font-body text-sm tracking-wider hover:bg-primary/90 transition-colors disabled:opacity-50"
+                className="w-full px-6 py-2 rounded-lg bg-primary text-primary-foreground font-body text-sm tracking-wider hover:bg-primary/90 transition-colors disabled:opacity-50"
               >
                 {loading ? '...' : 'Subscribe'}
               </button>
