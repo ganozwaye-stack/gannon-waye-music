@@ -9,6 +9,7 @@ import { base44 } from '@/api/base44Client';
 const SOCIAL_LINKS = [
   { label: 'Instagram', handle: '@gannonwaye', url: 'https://instagram.com/gannonwaye', icon: Instagram },
   { label: 'TikTok', handle: '@gannonwaye', url: 'https://tiktok.com/@gannonwaye', icon: Music2 },
+  { label: 'Spotify', handle: 'Gannon Waye', url: 'https://open.spotify.com/search/Gannon%20Waye', icon: Music2 },
 ];
 
 export default function ContactGannon() {

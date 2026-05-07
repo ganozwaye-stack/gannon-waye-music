@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 
-const UNLOCK_DATE = '2026-05-10T04:00:00Z'; // 2pm AEST May 10
+const UNLOCK_DATE = '2026-05-10T08:00:00Z'; // 6pm AEST May 10
 
 const TEASER_ITEMS = [
   { label: 'Apparel', hint: 'Something to wear' },

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
+import ShareButtons from '@/components/public/ShareButtons';
 
 const STATUS_LABELS = {
   idea: 'In the works',
@@ -140,6 +141,9 @@ export default function Music() {
           </div>
         )}
 
+        <div className="flex justify-center mt-10 mb-4">
+          <ShareButtons url="https://gannonwaye.com/music" text="Gannon Waye — debut single 'Thank You' coming soon." />
+        </div>
         <BePartOfThisCTA context="If this music means something to you, you can help make more of it happen." />
       </div>
     </div>

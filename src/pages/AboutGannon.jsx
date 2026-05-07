@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Heart, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import GannonSignature from '@/components/global/GannonSignature';
+import ShareButtons from '@/components/public/ShareButtons';
 
 const STORY_PARAGRAPHS = [
   "I was born in Adelaide and now call Melbourne home.",
@@ -101,6 +102,16 @@ export default function AboutGannon() {
           className="flex justify-end mt-6 pr-4 md:pr-12"
         >
           <GannonSignature />
+        </motion.div>
+
+        {/* Share */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="mt-10"
+        >
+          <ShareButtons url="https://gannonwaye.com/about" text="Gannon Waye — a story worth knowing." />
         </motion.div>
 
         {/* CTAs */}

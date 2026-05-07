@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 import { Heart, CheckCircle2, ArrowLeft, Info } from 'lucide-react';
+import ShareButtons from '@/components/public/ShareButtons';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -135,6 +136,15 @@ export default function BackThis() {
             <Button onClick={() => window.location.href = '/'} className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase px-8">
               Back to Home
             </Button>
+            <div className="pt-2">
+              <p className="font-body text-xs text-muted-foreground mb-3">Help spread the word 🤍</p>
+              <div className="flex justify-center">
+                <ShareButtons
+                  url="https://gannonwaye.com/back-this"
+                  text="I just backed Gannon Waye's debut single 'Thank You' — you can too."
+                />
+              </div>
+            </div>
           </motion.div>
         )}
 

@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import { Lock, Play, Heart, ChevronDown, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SignatureQuoteDivider from '@/components/public/SignatureQuoteDivider';
+import ShareButtons from '@/components/public/ShareButtons';
+import EpisodeNotifyModal from '@/components/public/EpisodeNotifyModal';
 
 const EPISODES = [
   {
@@ -98,7 +100,7 @@ const EPISODES = [
   },
 ];
 
-function EpisodeCard({ episode, index }) {
+function EpisodeCard({ episode, index, onNotify }) {
   const [expanded, setExpanded] = useState(false);
   const isAvailable = episode.status === 'available';
 
@@ -129,9 +131,12 @@ function EpisodeCard({ episode, index }) {
               <Play className="w-2.5 h-2.5" /> Read Now
             </span>
           ) : (
-            <span className="flex items-center gap-1.5 font-body text-[10px] tracking-widest uppercase text-muted-foreground/50 bg-secondary/50 px-3 py-1 rounded-full">
-              <Lock className="w-2.5 h-2.5" /> Coming Soon
-            </span>
+            <button
+              onClick={(e) => { e.stopPropagation(); onNotify && onNotify(episode); }}
+              className="flex items-center gap-1.5 font-body text-[10px] tracking-widest uppercase text-muted-foreground/70 bg-secondary/50 px-3 py-1 rounded-full hover:text-primary hover:border-primary/30 border border-transparent transition-all"
+            >
+              <Lock className="w-2.5 h-2.5" /> Notify Me
+            </button>
           )}
         </div>
 
@@ -184,6 +189,8 @@ function EpisodeCard({ episode, index }) {
 }
 
 export default function ThisIsMyLife() {
+  const [notifyEpisode, setNotifyEpisode] = useState(null);
+
   return (
     <div className="min-h-screen">
 
@@ -243,7 +250,7 @@ export default function ThisIsMyLife() {
           <div className="space-y-6">
             {EPISODES.map((episode, i) => (
               <div key={episode.number}>
-                <EpisodeCard episode={episode} index={i} />
+                <EpisodeCard episode={episode} index={i} onNotify={setNotifyEpisode} />
                 {(i === 2 || i === 5 || i === 8) && (
                   <SignatureQuoteDivider quoteIndex={Math.floor(i / 3)} />
                 )}
@@ -278,8 +285,18 @@ export default function ThisIsMyLife() {
               </Button>
             </Link>
           </div>
+          <div className="mt-8 flex justify-center">
+            <ShareButtons
+              url="https://gannonwaye.com/this-is-my-life"
+              text="This Is My Life — Gannon Waye. A true story in ten parts."
+            />
+          </div>
         </motion.div>
       </section>
+
+      {notifyEpisode && (
+        <EpisodeNotifyModal episode={notifyEpisode} onClose={() => setNotifyEpisode(null)} />
+      )}
 
     </div>
   );
