@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Heart } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import SocialVideoEmbed from '@/components/public/SocialVideoEmbed';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 
@@ -63,6 +66,18 @@ export default function Videos() {
                 {video.title && (
                   <p className="font-body text-sm text-foreground/60 mt-2 px-1">{video.title}</p>
                 )}
+                <div className="flex gap-2 mt-3 px-1">
+                  <Link to="/this-is-my-life" className="flex-1">
+                    <Button variant="outline" size="sm" className="w-full rounded-full font-body text-xs tracking-wider uppercase border-border/40 hover:border-primary/40">
+                      See Full Story <ArrowRight className="w-3 h-3" />
+                    </Button>
+                  </Link>
+                  <Link to="/back-this" className="flex-1">
+                    <Button size="sm" className="w-full rounded-full font-body text-xs tracking-wider uppercase gradient-gold-button border-0">
+                      <Heart className="w-3 h-3" /> Be Part Of This
+                    </Button>
+                  </Link>
+                </div>
               </motion.div>
             ))}
           </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Send, Users, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -77,11 +78,10 @@ export default function Community() {
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Connect</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-6">Community</h1>
           <p className="font-body text-foreground/60 mt-4 max-w-lg mx-auto leading-relaxed">
-            This is a safe space for everyone. Whether you're here for the music, the message, or because something in 
-            a lyric hit a little too close to home, you belong here. No judgement, just connection.
+            This is a space built on support, respect, and honesty.
           </p>
           <p className="font-body text-muted-foreground text-sm mt-3 max-w-md mx-auto">
-            You are not alone. Share your thoughts, your story, or just say hello.
+            Whether you're here for the music, the message, or because something in a lyric hit a little too close to home — you belong here. No judgement, just connection. You are not alone.
           </p>
         </motion.div>
 
@@ -179,6 +179,14 @@ export default function Community() {
                 </div>
               </div>
               <p className="font-body text-foreground/80 leading-relaxed text-sm pl-11">{post.content}</p>
+              <div className="flex gap-3 mt-3 pl-11">
+                <Link to="/this-is-my-life" className="font-body text-xs text-muted-foreground hover:text-primary transition-colors">
+                  Hear The Story →
+                </Link>
+                <Link to="/back-this" className="font-body text-xs text-primary hover:text-primary/80 transition-colors">
+                  Support This 🤍
+                </Link>
+              </div>
             </motion.div>
           ))}
 

@@ -19,6 +19,7 @@ import FanMediaUpload from '@/components/public/FanMediaUpload';
 import RecentActivityStrip from '@/components/public/RecentActivityStrip';
 import TikTokWelcomeBanner from '@/components/public/TikTokWelcomeBanner';
 import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
+import LiveFeedSection from '@/components/public/LiveFeedSection';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
@@ -134,6 +135,9 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* Live Feed */}
+      <LiveFeedSection />
 
       {/* About Section — magazine 3-column */}
       <section className="py-16 md:py-24 px-4 md:px-6 relative">
