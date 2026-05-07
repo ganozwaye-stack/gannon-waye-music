@@ -54,12 +54,12 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-card border-r border-border/40 flex flex-col fixed inset-y-0 left-0 z-40 hidden lg:flex">
-        <div className="p-6 border-b border-border/40">
+      <aside className="w-64 bg-card border-r border-border/40 flex flex-col fixed inset-y-0 left-0 z-40 hidden lg:flex overflow-y-auto">
+        <div className="p-6 border-b border-border/40 flex-shrink-0">
           <h2 className="font-display text-lg text-foreground">Gannon Waye</h2>
           <p className="font-body text-xs text-muted-foreground tracking-wider uppercase mt-1">Admin Panel</p>
         </div>
-        <nav className="flex-1 p-4 space-y-6">
+        <nav className="flex-1 p-4 space-y-6 overflow-y-auto">
           {NAV_SECTIONS.map(section => (
             <div key={section.title}>
               <p className="font-body text-xs tracking-widest uppercase text-muted-foreground px-3 mb-2">{section.title}</p>
@@ -100,7 +100,9 @@ export default function AdminLayout() {
       {/* Mobile header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 bg-card border-b border-border/40 z-40 px-4 py-3">
         <div className="flex items-center justify-between">
-          <h2 className="font-display text-lg text-foreground">Admin</h2>
+          <div className="w-8 h-8 rounded-full border border-primary/60 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
+            <span className="font-display text-xs gradient-gold-text font-semibold tracking-wider">GW</span>
+          </div>
           <Link to="/" className="font-body text-xs text-primary">View Site</Link>
         </div>
         <div className="flex gap-2 mt-2 overflow-x-auto pb-1">
@@ -122,8 +124,8 @@ export default function AdminLayout() {
       </div>
 
       {/* Main content */}
-      <main className="flex-1 lg:ml-64 pt-24 lg:pt-0">
-        <div className="p-6 lg:p-8">
+      <main className="flex-1 lg:ml-64 pt-24 lg:pt-0 overflow-y-auto">
+        <div className="min-h-screen p-6 lg:p-8">
           <Outlet />
         </div>
       </main>
