@@ -1,7 +1,7 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
@@ -17,17 +17,20 @@ import OrderHistory from '@/pages/OrderHistory';
 import BackThis from '@/pages/BackThis';
 import Community from '@/pages/Community';
 import Videos from '@/pages/Videos';
-import { Navigate } from 'react-router-dom';
 import ContactGannon from '@/pages/ContactGannon';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsOfService from '@/pages/TermsOfService';
 import PublicLayout from '@/components/public/PublicLayout';
 import StickySupportBar from '@/components/global/StickySupportBar';
+import LyricsPage from '@/pages/LyricsPage';
+import ThisIsMyLife from '@/pages/ThisIsMyLife';
+import FAQSection from '@/pages/FAQSection';
+import RecentFanActivity from '@/pages/RecentFanActivity';
+import Summary from '@/pages/Summary';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
 import Dashboard from '@/pages/admin/Dashboard';
-import Summary from '@/pages/Summary';
 import Releases from '@/pages/admin/Releases';
 import MerchManagement from '@/pages/admin/MerchManagement';
 import Orders from '@/pages/admin/Orders';
@@ -36,10 +39,6 @@ import SiteSettings from '@/pages/admin/SiteSettings';
 import MerchPlatforms from '@/pages/admin/MerchPlatforms';
 import VideoManagement from '@/pages/admin/VideoManagement';
 import FanNewsletterDashboard from '@/pages/admin/Newsletter';
-import LyricsPage from '@/pages/LyricsPage';
-import ThisIsMyLife from '@/pages/ThisIsMyLife';
-import FAQSection from '@/pages/FAQSection';
-import RecentFanActivity from '@/pages/RecentFanActivity';
 import MerchDesigns from '@/pages/admin/MerchDesigns';
 import ThankYouCards from '@/pages/admin/ThankYouCards';
 import FanMedia from '@/pages/admin/FanMedia';

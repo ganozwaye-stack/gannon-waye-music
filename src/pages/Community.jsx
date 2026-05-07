@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Send, Users, MessageCircle } from 'lucide-react';
+import { Send, Users, MessageCircle, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -11,6 +11,14 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { format } from 'date-fns';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
+
+const PROFANITY_LIST = [
+  'fuck','shit','cunt','bitch','asshole','bastard','damn','dick','pussy','cock',
+  'ass','piss','bollocks','wanker','twat','arsehole','motherfucker','faggot','slut','whore'
+];
+
+const containsProfanity = (text) =>
+  PROFANITY_LIST.some(word => new RegExp(`\\b${word}\\b`, 'i').test(text));
 
 export default function Community() {
   const { toast } = useToast();
@@ -23,40 +31,27 @@ export default function Community() {
     initialData: [],
   });
 
+  // Real-time subscription — new approved posts appear instantly
+  useEffect(() => {
+    const unsub = base44.entities.FanPost.subscribe((event) => {
+      if (event.type === 'create' || event.type === 'update') {
+        queryClient.invalidateQueries({ queryKey: ['fanPosts'] });
+      }
+    });
+    return unsub;
+  }, [queryClient]);
+
   const createPost = useMutation({
     mutationFn: (data) => base44.entities.FanPost.create(data),
-    onMutate: async (newPost) => {
-      await queryClient.cancelQueries({ queryKey: ['fanPosts'] });
-      const prev = queryClient.getQueryData(['fanPosts']);
-      queryClient.setQueryData(['fanPosts'], (old) => [
-        { ...newPost, id: Date.now(), created_date: new Date().toISOString() },
-        ...(old || []),
-      ]);
-      return { prev };
-    },
-    onError: (err, newPost, ctx) => {
-      queryClient.setQueryData(['fanPosts'], ctx.prev);
-      toast({ title: 'Error posting message', variant: 'destructive' });
-    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['fanPosts'] });
       setNewPost({ author_name: '', author_email: '', content: '' });
       toast({ title: 'Message received! 🤍', description: 'Your message is pending review and will appear shortly.' });
     },
+    onError: () => {
+      toast({ title: 'Something went wrong. Please try again.', variant: 'destructive' });
+    },
   });
-
-  const PROFANITY_LIST = [
-    'fuck','shit','cunt','bitch','asshole','bastard','damn','dick','pussy','cock',
-    'ass','piss','bollocks','wanker','twat','arsehole','motherfucker','faggot','slut','whore'
-  ];
-
-  const containsProfanity = (text) => {
-    const lower = text.toLowerCase();
-    return PROFANITY_LIST.some(word => {
-      const regex = new RegExp(`\\b${word}\\b`, 'i');
-      return regex.test(lower);
-    });
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -65,7 +60,7 @@ export default function Community() {
       return;
     }
     if (containsProfanity(newPost.content) || containsProfanity(newPost.author_name)) {
-      toast({ title: 'Please keep it respectful 🙏', description: 'This is a safe space, no profanity allowed.', variant: 'destructive' });
+      toast({ title: 'Please keep it respectful 🙏', description: 'This is a safe space.', variant: 'destructive' });
       return;
     }
     createPost.mutate({ ...newPost, status: 'pending' });
@@ -78,10 +73,7 @@ export default function Community() {
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Connect</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-6">Community</h1>
           <p className="font-body text-foreground/60 mt-4 max-w-lg mx-auto leading-relaxed">
-            This is a space built on support, respect, and honesty.
-          </p>
-          <p className="font-body text-muted-foreground text-sm mt-3 max-w-md mx-auto">
-            Whether you're here for the music, the message, or because something in a lyric hit a little too close to home — you belong here. No judgement, just connection. You are not alone.
+            This is a space built on support, respect, and honesty. Whether you're here for the music, the message, or because something hit a little too close to home — you belong here. You are not alone.
           </p>
         </motion.div>
 
@@ -109,39 +101,45 @@ export default function Community() {
           <h3 className="font-display text-xl text-foreground mb-4 flex items-center gap-2">
             <MessageCircle className="w-5 h-5 text-primary" /> Leave a Message
           </h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <Label className="font-body text-xs tracking-wider uppercase">Name *</Label>
+                <Label className="font-body text-xs tracking-wider uppercase mb-1 block">Name *</Label>
                 <Input
                   value={newPost.author_name}
                   onChange={e => setNewPost({ ...newPost, author_name: e.target.value })}
                   placeholder="Your name"
-                  className="bg-secondary/50"
+                  className="bg-secondary/50 text-base"
+                  autoComplete="name"
                 />
               </div>
               <div>
-                <Label className="font-body text-xs tracking-wider uppercase">Email (optional)</Label>
+                <Label className="font-body text-xs tracking-wider uppercase mb-1 block">Email (optional)</Label>
                 <Input
                   type="email"
                   value={newPost.author_email}
                   onChange={e => setNewPost({ ...newPost, author_email: e.target.value })}
                   placeholder="your@email.com"
-                  className="bg-secondary/50"
+                  className="bg-secondary/50 text-base"
+                  inputMode="email"
                 />
               </div>
             </div>
             <div>
-              <Label className="font-body text-xs tracking-wider uppercase">Message *</Label>
+              <Label className="font-body text-xs tracking-wider uppercase mb-1 block">Message *</Label>
               <Textarea
                 value={newPost.content}
                 onChange={e => setNewPost({ ...newPost, content: e.target.value })}
-                placeholder="Share your thoughts..."
-                className="bg-secondary/50 min-h-[100px]"
+                placeholder="Share your thoughts, your story, or just say hi..."
+                className="bg-secondary/50 min-h-[100px] text-base"
               />
             </div>
-            <Button type="submit" className="rounded-full gap-2 font-body tracking-wider uppercase gradient-gold-button border-0" disabled={createPost.isPending}>
-              <Send className="w-4 h-4" /> {createPost.isPending ? 'Posting...' : 'Post'}
+            <Button
+              type="submit"
+              className="rounded-full gap-2 font-body tracking-wider uppercase gradient-gold-button border-0 py-5"
+              disabled={createPost.isPending}
+            >
+              <Send className="w-4 h-4" /> {createPost.isPending ? 'Posting...' : 'Post Message'}
             </Button>
           </form>
         </motion.div>
@@ -165,7 +163,7 @@ export default function Community() {
             >
               <div className="flex items-start justify-between mb-2">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                     <span className="font-display text-sm text-primary">
                       {post.author_name?.[0]?.toUpperCase() || '?'}
                     </span>
@@ -183,8 +181,8 @@ export default function Community() {
                 <Link to="/this-is-my-life" className="font-body text-xs text-muted-foreground hover:text-primary transition-colors">
                   Hear The Story →
                 </Link>
-                <Link to="/back-this" className="font-body text-xs text-primary hover:text-primary/80 transition-colors">
-                  Support This 🤍
+                <Link to="/back-this" className="font-body text-xs text-primary hover:text-primary/80 transition-colors flex items-center gap-1">
+                  <Heart className="w-3 h-3" /> Support This
                 </Link>
               </div>
             </motion.div>
