@@ -1,0 +1,78 @@
+{
+  "name": "CharityDonationTracker",
+  "type": "object",
+  "properties": {
+    "month": {
+      "type": "string",
+      "description": "Month in YYYY-MM format"
+    },
+    "total_support_received": {
+      "type": "number",
+      "description": "Total support contributions received this month"
+    },
+    "donation_amount_owed": {
+      "type": "number",
+      "description": "10% of total support (amount to donate)"
+    },
+    "donation_amount_paid": {
+      "type": "number",
+      "default": 0,
+      "description": "Amount actually donated to charity"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "paid",
+        "verified"
+      ],
+      "default": "pending",
+      "description": "Donation status"
+    },
+    "contribution_count": {
+      "type": "number",
+      "description": "Number of individual contributions this month"
+    },
+    "payment_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date when donation was made to charity"
+    },
+    "payment_reference": {
+      "type": "string",
+      "description": "Payment reference number from 1800RESPECT"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Internal notes about this month's donation"
+    }
+  },
+  "required": [
+    "month",
+    "total_support_received",
+    "donation_amount_owed"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

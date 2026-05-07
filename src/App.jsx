@@ -29,6 +29,7 @@ import RecentFanActivity from '@/pages/RecentFanActivity';
 import Summary from '@/pages/Summary';
 import MemberTiers from '@/pages/MemberTiers';
 import PortraitGallery from '@/pages/PortraitGallery';
+import Impact from '@/pages/Impact';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -114,6 +115,7 @@ const AuthenticatedApp = () => {
         <Route path="/fan-activity" element={<RecentFanActivity />} />
         <Route path="/member-tiers" element={<MemberTiers />} />
         <Route path="/portrait-gallery" element={<PortraitGallery />} />
+        <Route path="/impact" element={<Impact />} />
       </Route>
 
       {/* Embed timer (no layout) */}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 import { Heart, CheckCircle2, ArrowLeft, Info } from 'lucide-react';
@@ -124,7 +125,6 @@ export default function BackThis() {
         {step === 'done' && (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16 space-y-6">
             <Heart className="w-16 h-16 text-primary mx-auto" />
-            <Heart className="w-16 h-16 text-primary mx-auto" />
             <h2 className="font-display text-4xl text-foreground">Thank you.</h2>
             <p className="font-body text-foreground/60 leading-relaxed max-w-md mx-auto">
               {form.name ? `${form.name}, you're` : "You're"} part of this now. Your support means more than you know. 🤍
@@ -154,7 +154,7 @@ export default function BackThis() {
             
             {/* Tax Invoice Download */}
             <div className="mt-6 space-y-3">
-              <p className="font-body text-xs text-muted-foreground">Need a receipt for tax purposes?</p>
+              <p className="font-body text-xs text-muted-foreground">Need your receipt?</p>
               <Button 
                 variant="outline" 
                 onClick={async () => {
@@ -163,35 +163,37 @@ export default function BackThis() {
                       supporter_email: form.email 
                     }, '-created_date', 1);
                     
-                    if (contributions.length > 0 && contributions[0].stripe_payment_id) {
-                      const res = await base44.functions.invoke('generateTaxInvoice', {
-                        paymentIntentId: contributions[0].stripe_payment_id
+                    if (contributions.length > 0) {
+                      const res = await base44.functions.invoke('generateDonorReceipt', {
+                        contributionId: contributions[0].id
                       });
                       
                       if (res.data.success) {
-                        // Open invoice in new window
-                        const blob = new Blob([res.data.invoiceHtml], { type: 'text/html' });
+                        const blob = new Blob([res.data.receiptHtml], { type: 'text/html' });
                         const url = URL.createObjectURL(blob);
                         window.open(url, '_blank');
                         
                         toast({ 
-                          title: 'Invoice generated!', 
-                          description: `Invoice #${res.data.invoiceNumber} opened in new tab` 
+                          title: 'Receipt generated!', 
+                          description: `Receipt #${res.data.receiptNumber} opened` 
                         });
                       }
                     }
                   } catch (err) {
                     toast({ 
-                      title: 'Could not generate invoice', 
-                      description: 'Please contact hello@gannonwaye.com', 
+                      title: 'Could not generate receipt', 
+                      description: 'Email hello@gannonwaye.com', 
                       variant: 'destructive' 
                     });
                   }
                 }}
                 className="rounded-full font-body text-sm border-primary/40 text-primary hover:bg-primary/10 gap-2"
               >
-                Download Tax Invoice 📄
+                Download Official Receipt 📄
               </Button>
+              <p className="font-body text-[10px] text-muted-foreground">
+                Includes tax-deductible amount and your 10% charity impact
+              </p>
             </div>
             
             <Button onClick={() => window.location.href = '/'} className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase px-8 mt-4">
@@ -199,12 +201,15 @@ export default function BackThis() {
             </Button>
             <div className="pt-2">
               <p className="font-body text-xs text-muted-foreground mb-3">Help spread the word 🤍</p>
-              <div className="flex justify-center">
+              <div className="flex justify-center gap-3">
                 <ShareButtons
                   url="https://gannonwaye.com/back-this"
                   text="I just backed Gannon Waye's debut single 'Thank You' — you can too."
                 />
               </div>
+              <Link to="/impact" className="inline-flex items-center gap-2 mt-4 text-primary font-body text-xs hover:underline">
+                See your community impact →
+              </Link>
             </div>
           </motion.div>
         )}

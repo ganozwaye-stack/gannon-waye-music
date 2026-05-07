@@ -13,7 +13,7 @@ export default function TermsOfService() {
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Legal</p>
           <h1 className="font-display text-4xl md:text-5xl text-foreground mb-4">Terms of Service</h1>
-          <p className="font-body text-sm text-muted-foreground">Last updated: May 2026</p>
+          <p className="font-body text-sm text-muted-foreground">Last updated: May 7, 2026</p>
         </motion.div>
 
         <div className="space-y-8 font-body text-foreground/75 leading-relaxed text-sm">
@@ -39,6 +39,18 @@ export default function TermsOfService() {
           </section>
 
           <section>
+            <h2 className="font-display text-xl text-foreground mb-3">3A. Donations & Support Contributions</h2>
+            <p className="mb-2">Support contributions ("donations") made through this website are voluntary payments to support independent music creation. By making a donation, you acknowledge:</p>
+            <ul className="list-disc pl-5 space-y-1">
+              <li>Donations are tax-deductible to the extent permitted by Australian law</li>
+              <li>You will receive an official receipt via email for tax purposes</li>
+              <li>10% of all donations received each month will be donated to 1800RESPECT</li>
+              <li>Donations are non-refundable unless required by Australian Consumer Law</li>
+              <li>Recurring donations (fortnightly/monthly) will continue until you cancel by emailing hello@gannonwaye.com</li>
+            </ul>
+          </section>
+
+          <section>
             <h2 className="font-display text-xl text-foreground mb-3">4. Fan-Submitted Content</h2>
             <p>By submitting a message, photo, or video to this platform, you grant Gannon Waye a non-exclusive right to display and share that content on this site and associated social channels. All submissions are subject to moderation and may be removed at our discretion.</p>
           </section>
@@ -59,8 +71,24 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="font-display text-xl text-foreground mb-3">8. Contact</h2>
+            <h2 className="font-display text-xl text-foreground mb-3">8. Australian Consumer Law</h2>
+            <p>Our goods and services come with guarantees that cannot be excluded under the Australian Consumer Law. You are entitled to a replacement or refund for a major failure and compensation for any other reasonably foreseeable loss or damage.</p>
+          </section>
+
+          <section>
+            <h2 className="font-display text-xl text-foreground mb-3">9. Privacy</h2>
+            <p>Your use of this website is also governed by our <a href="/privacy-policy" className="text-primary hover:underline">Privacy Policy</a>, which outlines how we collect, use, and protect your personal information.</p>
+          </section>
+
+          <section>
+            <h2 className="font-display text-xl text-foreground mb-3">10. Changes to Terms</h2>
+            <p>We may update these terms from time to time. Changes will be posted on this page with an updated "Last updated" date. Your continued use of the website after changes constitutes acceptance of the new terms.</p>
+          </section>
+
+          <section>
+            <h2 className="font-display text-xl text-foreground mb-3">11. Contact</h2>
             <p>Questions about these terms? Email <a href="mailto:hello@gannonwaye.com" className="text-primary hover:underline">hello@gannonwaye.com</a>.</p>
+            <p className="mt-2 text-xs text-muted-foreground">Gannon Waye | Melbourne, Victoria, Australia | ABN: [To be advised]</p>
           </section>
         </div>
       </div>
