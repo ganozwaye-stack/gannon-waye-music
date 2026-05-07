@@ -80,8 +80,11 @@ export default function Home() {
           >
             <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/172f64a6b_0fac46594_generated_image-Edited.png" alt="Gannon Waye" className="max-w-full h-auto" style={{ maxHeight: '120px' }} />
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-8 mt-6">Singer, Songwriter, Storyteller</p>
+            <h2 className="font-display text-2xl md:text-3xl text-foreground italic leading-snug mt-2 mb-2">
+              "For them, it was about appearance.<br className="hidden sm:block" /> For me, I was breaking inside."
+            </h2>
             <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
-              I write songs about the messy, real parts of being human. The grief that transforms you. The growth that comes from breaking open. The quiet power of finally becoming yourself. My music is built from lived experience, written for anyone who's felt unseen. This is a space where vulnerability becomes strength.
+              This is more than music. This is choosing yourself.
             </p>
             <div className="mt-6">
               <HeroQuoteRotator />
@@ -113,14 +116,19 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
           >
-            <Link to="/music" className="w-full sm:w-auto">
+            <Link to="/videos" className="w-full sm:w-auto">
               <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
-                <Play className="w-4 h-4" /> Explore Music
+                <Play className="w-4 h-4" /> Watch
               </Button>
             </Link>
-            <Link to="/community" className="w-full sm:w-auto">
+            <Link to="/this-is-my-life" className="w-full sm:w-auto">
               <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
-                Join the Community <ArrowRight className="w-4 h-4" />
+                My Story <ArrowRight className="w-4 h-4" />
+              </Button>
+            </Link>
+            <Link to="/back-this" className="w-full sm:w-auto">
+              <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10">
+                Be Part Of This 🤍
               </Button>
             </Link>
           </motion.div>
