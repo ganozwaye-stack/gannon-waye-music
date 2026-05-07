@@ -76,11 +76,32 @@ export default function BackThis() {
   };
 
   const handlePaymentSuccess = async (paymentIntent) => {
+    // ACQUIRE LOCK before payment
+    try {
+      const lockRes = await base44.functions.invoke('orderLockingMiddleware', {
+        customerEmail: form.email,
+        action: 'acquire',
+      });
+      
+      if (lockRes.data.locked) {
+        toast({ title: lockRes.data.message, variant: 'destructive' });
+        return;
+      }
+    } catch (err) {
+      console.error('Lock acquisition failed:', err);
+    }
+
     // GDPR: Verify consent before proceeding
     const emailPrefs = await base44.entities.EmailPreference.filter({ email: form.email });
     const hasConsent = emailPrefs.length > 0 || window.confirm('Can we send you updates about your support?');
     
     if (!hasConsent) {
+      // Release lock
+      await base44.functions.invoke('orderLockingMiddleware', {
+        customerEmail: form.email,
+        action: 'release',
+      }).catch(() => {});
+      
       toast({ title: 'Email consent required', variant: 'destructive' });
       return;
     }
@@ -133,6 +154,12 @@ export default function BackThis() {
         is_public: true,
       });
     }
+
+    // RELEASE LOCK after success
+    await base44.functions.invoke('orderLockingMiddleware', {
+      customerEmail: form.email,
+      action: 'release',
+    }).catch(() => {});
 
     setStep('done');
   };

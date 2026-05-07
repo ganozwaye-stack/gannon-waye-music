@@ -71,6 +71,7 @@ import BirthdayDiscounts from '@/pages/admin/BirthdayDiscounts';
 import CharityTracking from '@/pages/admin/CharityTracking';
 import TrainingHub from '@/pages/admin/TrainingHub';
 import AuditLog from '@/pages/admin/AuditLog';
+import OperationalStatus from '@/pages/admin/OperationalStatus';
 
 
 const AuthenticatedApp = () => {
@@ -165,6 +166,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/charity-tracking" element={<CharityTracking />} />
         <Route path="/admin/training" element={<TrainingHub />} />
         <Route path="/admin/audit-log" element={<AuditLog />} />
+        <Route path="/admin/operational-status" element={<OperationalStatus />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

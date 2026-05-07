@@ -27,6 +27,16 @@ Deno.serve(async (req) => {
 
     if (!data?.email) return Response.json({ skipped: true });
 
+    // IDEMPOTENCE CHECK
+    const idempotenceKey = `welcome_${data.email}`;
+    const existing = await base44.asServiceRole.entities.IdempotenceLog.filter({
+      idempotence_key: idempotenceKey,
+    });
+    
+    if (existing.length > 0) {
+      return Response.json({ skipped: true, reason: 'Already sent' });
+    }
+
     const { accessToken } = await base44.asServiceRole.connectors.getConnection('gmail');
     const unsubUrl = `https://gannonwaye.com/email-preferences`;
     const firstName = data.name ? data.name.split(' ')[0] : 'beautiful human';
@@ -75,6 +85,12 @@ Deno.serve(async (req) => {
       method: 'POST',
       headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ raw: buildMimeMessage({ to: data.email, subject: `Welcome to the inner circle 🤍 — Gannon Waye`, htmlBody: html }) })
+    });
+
+    // RECORD IDEMPOTENCE
+    await base44.asServiceRole.entities.IdempotenceLog.create({
+      idempotence_key: idempotenceKey,
+      result: { success: true, email: data.email },
     });
 
     return Response.json({ success: true });
