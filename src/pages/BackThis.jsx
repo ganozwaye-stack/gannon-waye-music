@@ -124,16 +124,77 @@ export default function BackThis() {
         {step === 'done' && (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16 space-y-6">
             <Heart className="w-16 h-16 text-primary mx-auto" />
+            <Heart className="w-16 h-16 text-primary mx-auto" />
             <h2 className="font-display text-4xl text-foreground">Thank you.</h2>
             <p className="font-body text-foreground/60 leading-relaxed max-w-md mx-auto">
               {form.name ? `${form.name}, you're` : "You're"} part of this now. Your support means more than you know. 🤍
             </p>
+            
+            {/* 1800RESPECT Commitment */}
+            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mt-8 max-w-lg mx-auto text-left">
+              <p className="font-body text-xs tracking-widest uppercase text-blue-600 mb-3">10% Giving Commitment</p>
+              <p className="font-body text-sm text-foreground/80 leading-relaxed mb-3">
+                Every month, I donate 10% of all support received to <strong>1800RESPECT</strong> — Australia's national sexual assault, domestic and family violence counselling service.
+              </p>
+              <p className="font-body text-sm text-foreground/70 leading-relaxed mb-3">
+                As a man in a same-sex relationship, I know how isolating violence can feel when you don't see yourself reflected in the stories being told. 1800RESPECT provides inclusive, confidential support for everyone — women, men, and children fleeing violence, including specialised LGBTQIA+ support that understands the unique challenges of leaving abusive situations when you're already marginalised.
+              </p>
+              <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                Your support doesn't just fund my music — it helps fund safety, healing, and hope for others walking similar paths. Thank you for being part of this ripple effect. 🤍
+              </p>
+              <p className="font-body text-xs text-muted-foreground mt-4">
+                <a href="https://www.1800respect.org.au" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Learn more about 1800RESPECT →</a>
+              </p>
+            </div>
             {frequency !== 'once' && (
               <p className="font-body text-xs text-muted-foreground">
                 Your {frequency} contribution of ${pricing.total.toFixed(2)} AUD will continue automatically. You can cancel anytime by emailing hello@gannonwaye.com
               </p>
             )}
-            <Button onClick={() => window.location.href = '/'} className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase px-8">
+            
+            {/* Tax Invoice Download */}
+            <div className="mt-6 space-y-3">
+              <p className="font-body text-xs text-muted-foreground">Need a receipt for tax purposes?</p>
+              <Button 
+                variant="outline" 
+                onClick={async () => {
+                  try {
+                    const contributions = await base44.entities.SupportContribution.filter({ 
+                      supporter_email: form.email 
+                    }, '-created_date', 1);
+                    
+                    if (contributions.length > 0 && contributions[0].stripe_payment_id) {
+                      const res = await base44.functions.invoke('generateTaxInvoice', {
+                        paymentIntentId: contributions[0].stripe_payment_id
+                      });
+                      
+                      if (res.data.success) {
+                        // Open invoice in new window
+                        const blob = new Blob([res.data.invoiceHtml], { type: 'text/html' });
+                        const url = URL.createObjectURL(blob);
+                        window.open(url, '_blank');
+                        
+                        toast({ 
+                          title: 'Invoice generated!', 
+                          description: `Invoice #${res.data.invoiceNumber} opened in new tab` 
+                        });
+                      }
+                    }
+                  } catch (err) {
+                    toast({ 
+                      title: 'Could not generate invoice', 
+                      description: 'Please contact hello@gannonwaye.com', 
+                      variant: 'destructive' 
+                    });
+                  }
+                }}
+                className="rounded-full font-body text-sm border-primary/40 text-primary hover:bg-primary/10 gap-2"
+              >
+                Download Tax Invoice 📄
+              </Button>
+            </div>
+            
+            <Button onClick={() => window.location.href = '/'} className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase px-8 mt-4">
               Back to Home
             </Button>
             <div className="pt-2">
@@ -160,6 +221,13 @@ export default function BackThis() {
               <p className="font-body text-foreground/50 text-sm mt-4 max-w-md mx-auto leading-relaxed">
                 If something in this journey has resonated with you — if you've felt seen, even for a moment — this is your way to be part of it.
               </p>
+              
+              {/* 1800RESPECT Note in Header */}
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-6 max-w-lg mx-auto text-left">
+                <p className="font-body text-xs text-blue-700 leading-relaxed">
+                  <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children — including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
+                </p>
+              </div>
             </motion.div>
 
             {/* What your support does */}
