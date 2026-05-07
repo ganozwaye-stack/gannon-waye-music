@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SiteSearch from '@/components/public/SiteSearch';
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
@@ -17,6 +18,7 @@ const NAV_LINKS = [
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const location = useLocation();
 
   return (
@@ -58,11 +60,23 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Mobile toggle */}
-        <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
-          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+        {/* Search + Mobile toggle */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="flex items-center justify-center w-9 h-9 rounded-full border border-border/40 hover:border-primary/40 text-muted-foreground hover:text-primary transition-all"
+          >
+            <Search className="w-4 h-4" />
+          </button>
+          <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
+            {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
       </div>
+
+      <AnimatePresence>
+        {searchOpen && <SiteSearch onClose={() => setSearchOpen(false)} />}
+      </AnimatePresence>
 
       {/* Mobile menu */}
       <AnimatePresence>

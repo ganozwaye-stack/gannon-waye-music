@@ -16,6 +16,7 @@ import { useSiteReveal } from '@/hooks/useSiteReveal';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import HeroQuoteRotator from '@/components/public/HeroQuoteRotator';
 import FanMediaUpload from '@/components/public/FanMediaUpload';
+import RecentActivityStrip from '@/components/public/RecentActivityStrip';
 import TikTokWelcomeBanner from '@/components/public/TikTokWelcomeBanner';
 import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
 
@@ -262,6 +263,9 @@ export default function Home() {
 
       {/* Supporter Leaderboard */}
       <SupporterLeaderboard />
+
+      {/* Recent Activity */}
+      <RecentActivityStrip />
 
       {/* Safe Space Banner */}
       <SafeSpaceBanner />
