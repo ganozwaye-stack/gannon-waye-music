@@ -2,32 +2,28 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Tag, Heart } from 'lucide-react';
+import { ShoppingBag, Tag, Heart, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import { useSiteReveal } from '@/hooks/useSiteReveal';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
-import CheckoutModal from '@/components/store/CheckoutModal';
-import ProductCard from '@/components/store/ProductCard';
-import MerchShowcase from '@/components/store/MerchShowcase';
+import CountdownTimer from '@/components/public/CountdownTimer';
 
 
+
+const UNLOCK_DATE = '2026-05-10T08:00:00Z';
+
+const TEASER_ITEMS = [
+  { label: 'Apparel', hint: 'Something to wear' },
+  { label: 'Accessories', hint: 'Carry it with you' },
+  { label: 'CD Singles', hint: 'Hold the music' },
+  { label: 'Collectibles', hint: 'Limited & signed' },
+];
 
 export default function Store() {
   const [interestProduct, setInterestProduct] = useState(null);
-  const [checkoutProduct, setCheckoutProduct] = useState(null);
   const navigate = useNavigate();
-
-  const { data: products } = useQuery({
-    queryKey: ['merchProducts'],
-    queryFn: () => base44.entities.MerchProduct.filter({ is_active: true }),
-    initialData: [],
-  });
-
-  const sorted = [...products].sort((a, b) => {
-    if (a.category === 'cd' && b.category !== 'cd') return -1;
-    if (a.category !== 'cd' && b.category === 'cd') return 1;
-    return 0;
-  });
+  const { merchRevealed } = useSiteReveal();
 
   return (
     <div className="min-h-screen py-24 px-4 md:px-8">
@@ -84,14 +80,29 @@ export default function Store() {
           <div className="flex-1 h-px bg-border/40" />
         </div>
 
-        {sorted.length === 0 ? (
-          <div className="text-center py-24">
-            <ShoppingBag className="w-16 h-16 text-muted-foreground/20 mx-auto mb-4" />
-            <p className="font-body text-muted-foreground">Store coming soon.</p>
-          </div>
-        ) : (
-          <MerchShowcase />
-        )}
+        {/* Locked teaser grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {TEASER_ITEMS.map((item, i) => (
+            <motion.div
+              key={item.label}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.08 }}
+              className="rounded-2xl border border-border/30 bg-card/60 overflow-hidden"
+            >
+              <div className="aspect-square bg-secondary/60 flex flex-col items-center justify-center gap-2 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
+                <Lock className="w-6 h-6 text-primary/40" />
+                <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60">Locked</p>
+              </div>
+              <div className="p-3 text-center">
+                <p className="font-display text-sm text-foreground/70">{item.label}</p>
+                <p className="font-body text-[11px] text-muted-foreground/50 mt-0.5">{item.hint}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
 
         {/* Footer note */}
         <p className="text-center font-body text-xs text-muted-foreground/50 mt-16 tracking-wide">
@@ -119,13 +130,6 @@ export default function Store() {
         <MerchInterestModal
           product={interestProduct}
           onClose={() => setInterestProduct(null)}
-        />
-      )}
-
-      {checkoutProduct && (
-        <CheckoutModal
-          product={checkoutProduct}
-          onClose={() => setCheckoutProduct(null)}
         />
       )}
 
