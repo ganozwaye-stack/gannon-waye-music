@@ -37,6 +37,7 @@ import MerchPlatforms from '@/pages/admin/MerchPlatforms';
 import VideoManagement from '@/pages/admin/VideoManagement';
 import FanNewsletterDashboard from '@/pages/admin/Newsletter';
 import LyricsPage from '@/pages/LyricsPage';
+import ThisIsMyLife from '@/pages/ThisIsMyLife';
 import FAQSection from '@/pages/FAQSection';
 import RecentFanActivity from '@/pages/RecentFanActivity';
 import MerchDesigns from '@/pages/admin/MerchDesigns';
@@ -93,6 +94,7 @@ const AuthenticatedApp = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/lyrics" element={<LyricsPage />} />
+        <Route path="/this-is-my-life" element={<ThisIsMyLife />} />
         <Route path="/faq" element={<FAQSection />} />
         <Route path="/fan-activity" element={<RecentFanActivity />} />
       </Route>

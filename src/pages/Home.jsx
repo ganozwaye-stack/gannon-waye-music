@@ -14,6 +14,7 @@ import VideoPreviewSection from '@/components/public/VideoPreviewSection';
 import MerchTeaserSection from '@/components/public/MerchTeaserSection';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
+import HeroQuoteRotator from '@/components/public/HeroQuoteRotator';
 import FanMediaUpload from '@/components/public/FanMediaUpload';
 import TikTokWelcomeBanner from '@/components/public/TikTokWelcomeBanner';
 import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
@@ -81,6 +82,9 @@ export default function Home() {
             <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
               I write songs about the messy, real parts of being human. The grief that transforms you. The growth that comes from breaking open. The quiet power of finally becoming yourself. My music is built from lived experience, written for anyone who's felt unseen. This is a space where vulnerability becomes strength.
             </p>
+            <div className="mt-6">
+              <HeroQuoteRotator />
+            </div>
           </motion.div>
 
           {/* "Thank You" teaser strip in the hero */}
