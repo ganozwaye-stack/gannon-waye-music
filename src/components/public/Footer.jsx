@@ -29,11 +29,9 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <img
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/85b671cc8_generated_image.png"
-              alt="GW"
-              className="h-16 w-16 object-contain mb-3"
-            />
+            <div className="w-12 h-12 rounded-full border border-primary/60 flex items-center justify-center mb-3" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
+              <span className="font-display text-base gradient-gold-text font-semibold tracking-wider">GW</span>
+            </div>
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
               Australian singer-songwriter crafting honest stories through melody and verse.
             </p>

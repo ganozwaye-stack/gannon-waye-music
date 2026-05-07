@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SiteSearch from '@/components/public/SiteSearch';
-import AnimatedGWSignature from '@/components/signature/AnimatedGWSignature';
+
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
@@ -27,9 +27,11 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           to="/"
-          className="flex items-center justify-center h-11 hover:opacity-80 transition-all duration-200 hover:scale-105"
+          className="flex items-center justify-center hover:opacity-80 transition-all duration-200 hover:scale-105"
         >
-          <AnimatedGWSignature size="sm" />
+          <div className="w-10 h-10 rounded-full border border-primary/60 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
+            <span className="font-display text-sm gradient-gold-text font-semibold tracking-wider">GW</span>
+          </div>
         </Link>
 
         {/* Desktop */}

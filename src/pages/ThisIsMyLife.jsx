@@ -116,7 +116,10 @@ function EpisodeCard({ episode, index }) {
     >
       <div className={`absolute inset-0 bg-gradient-to-br ${episode.color} to-transparent pointer-events-none`} />
 
-      <div className="relative p-6 md:p-8">
+      <div
+        className="relative p-6 md:p-8"
+        onClick={isAvailable ? () => setExpanded(!expanded) : undefined}
+      >
         <div className="flex items-center justify-between mb-4">
           <span className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/60">
             Episode {String(episode.number).padStart(2, '0')}
@@ -161,8 +164,15 @@ function EpisodeCard({ episode, index }) {
                     {episode.excerpt}
                   </p>
                   <Link to="/about" className="inline-flex items-center gap-1.5 mt-4 font-body text-xs text-primary hover:underline">
-                    Continue reading the full story <ArrowRight className="w-3 h-3" />
+                    Read the full story on About <ArrowRight className="w-3 h-3" />
                   </Link>
+                  <div className="mt-3 flex gap-3">
+                    <Link to="/back-this">
+                      <button className="font-body text-xs tracking-wider uppercase text-muted-foreground hover:text-primary transition-colors">
+                        Support this project 🤍
+                      </button>
+                    </Link>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -232,12 +242,12 @@ export default function ThisIsMyLife() {
 
           <div className="space-y-6">
             {EPISODES.map((episode, i) => (
-              <React.Fragment key={episode.number}>
+              <div key={episode.number}>
                 <EpisodeCard episode={episode} index={i} />
                 {(i === 2 || i === 5 || i === 8) && (
                   <SignatureQuoteDivider quoteIndex={Math.floor(i / 3)} />
                 )}
-              </React.Fragment>
+              </div>
             ))}
           </div>
         </div>
