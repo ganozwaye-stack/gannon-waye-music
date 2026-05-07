@@ -21,11 +21,32 @@
       ],
       "default": "apparel"
     },
-    "price": {
-      "type": "number"
+    "sale_price": {
+      "type": "number",
+      "description": "Retail price charged to customer"
+    },
+    "cost_price": {
+      "type": "number",
+      "description": "Base cost from supplier"
+    },
+    "delivery_cost": {
+      "type": "number",
+      "description": "Cost per unit to deliver"
+    },
+    "merchant_fee_percent": {
+      "type": "number",
+      "default": 3.5,
+      "description": "Payment processor fee %"
     },
     "image_url": {
       "type": "string"
+    },
+    "images_array": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Multiple product images"
     },
     "sizes_available": {
       "type": "array",
@@ -40,10 +61,47 @@
     "is_active": {
       "type": "boolean",
       "default": true
+    },
+    "profit_margin_percent": {
+      "type": "number",
+      "description": "Calculated: (sale_price - cost_price - delivery_cost - fees) / sale_price * 100"
+    },
+    "total_profit_per_unit": {
+      "type": "number",
+      "description": "Calculated: sale_price - cost_price - delivery_cost - merchant_fee"
     }
   },
   "required": [
     "name",
-    "price"
-  ]
+    "sale_price"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.is_active": true
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
 }

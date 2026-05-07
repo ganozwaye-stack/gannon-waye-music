@@ -20,7 +20,7 @@ import RecentActivityStrip from '@/components/public/RecentActivityStrip';
 import TikTokWelcomeBanner from '@/components/public/TikTokWelcomeBanner';
 import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
 import LiveFeedSection from '@/components/public/LiveFeedSection';
-import FanHighlightWall from '@/components/public/FanHighlightWall';
+import FanHighlightCommunity from '@/components/public/FanHighlightCommunity';
 import FeaturedVideoSection from '@/components/public/FeaturedVideoSection';
 
 const HERO_IMAGES = [
@@ -260,8 +260,8 @@ export default function Home() {
       {/* Merch Teaser */}
       <MerchTeaserSection />
 
-      {/* Fan Highlight Wall */}
-      <FanHighlightWall />
+      {/* Fan Highlight Wall + Join Community (Merged) */}
+      <FanHighlightCommunity />
 
       {/* Thank You Hero Banner */}
       <ThankYouHeroBanner />

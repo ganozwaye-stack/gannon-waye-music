@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 const NAV_SECTIONS = [
@@ -20,8 +20,10 @@ const NAV_SECTIONS = [
     title: 'Merchandise',
     items: [
       { label: 'My Products', path: '/admin/merch', icon: ShoppingBag },
+      { label: 'Product Financials', path: '/admin/merch-financials', icon: DollarSign },
       { label: 'Design & Source', path: '/admin/merch-platforms', icon: Printer },
       { label: 'My Designs', path: '/admin/merch-designs', icon: Palette },
+      { label: 'Image Editor', path: '/admin/image-editor', icon: Image },
       { label: 'Orders & Shipping', path: '/admin/orders', icon: Package },
       { label: 'Thank You Cards', path: '/admin/thank-you-cards', icon: Heart },
       { label: 'Product Intelligence', path: '/admin/product-insights', icon: Sparkles },
@@ -51,6 +53,12 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Hoodie Gift Offer', path: '/admin/hoodie-offer', icon: Gift },
       { label: 'Gift Verification', path: '/admin/gift-verification', icon: Gift },
+    ]
+  },
+  {
+    title: 'Monitoring',
+    items: [
+      { label: 'Site Health', path: '/admin/site-health', icon: Activity },
     ]
   },
   {

@@ -55,6 +55,9 @@ import HoodieOffer from '@/pages/admin/HoodieOffer';
 import FinancialDashboard from '@/pages/admin/FinancialDashboard';
 import GiftVerification from '@/pages/admin/GiftVerification';
 import GiftChecklistPage from '@/pages/GiftChecklistPage';
+import MerchFinancials from '@/pages/admin/MerchFinancials';
+import ImageEditor from '@/pages/admin/ImageEditor';
+import SiteHealthDashboard from '@/pages/admin/SiteHealthDashboard';
 
 
 const AuthenticatedApp = () => {
@@ -137,6 +140,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/hoodie-offer" element={<HoodieOffer />} />
         <Route path="/admin/financials" element={<FinancialDashboard />} />
         <Route path="/admin/gift-verification" element={<GiftVerification />} />
+        <Route path="/admin/merch-financials" element={<MerchFinancials />} />
+        <Route path="/admin/image-editor" element={<ImageEditor />} />
+        <Route path="/admin/site-health" element={<SiteHealthDashboard />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
