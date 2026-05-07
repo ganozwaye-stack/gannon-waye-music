@@ -65,7 +65,7 @@ export default function SiteHealthDashboard() {
         </Button>
       </div>
 
-      {results && (
+      {results && results.health && (
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -76,23 +76,23 @@ export default function SiteHealthDashboard() {
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Health Score</p>
-                <p className={`font-display text-4xl ${getHealthColor(results.health.score)}`}>
-                  {results.health.score}%
+                <p className={`font-display text-4xl ${getHealthColor(results.health?.score || 0)}`}>
+                  {results.health?.score || 0}%
                 </p>
               </div>
               <div>
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Status</p>
-                <p className="font-display text-lg text-foreground capitalize">{results.health.status}</p>
+                <p className="font-display text-lg text-foreground capitalize">{results.health?.status || 'unknown'}</p>
               </div>
               <div>
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Passed/Total</p>
                 <p className="font-display text-lg text-foreground">
-                  {results.summary.passed}/{results.tests.length}
+                  {results.summary?.passed || 0}/{results.tests?.length || 0}
                 </p>
               </div>
             </div>
             <div className="mt-4 pt-4 border-t border-border/30">
-              <p className="font-body text-sm text-foreground/70">{results.health.recommendation}</p>
+              <p className="font-body text-sm text-foreground/70">{results.health?.recommendation || 'Review results'}</p>
             </div>
           </div>
 
@@ -100,22 +100,22 @@ export default function SiteHealthDashboard() {
           <div className="grid grid-cols-3 gap-4">
             <div className="bg-card border border-green-500/30 rounded-xl p-4">
               <p className="font-body text-xs tracking-widest uppercase text-green-500/70 mb-1">Passed</p>
-              <p className="font-display text-3xl text-green-500">{results.summary.passed}</p>
+              <p className="font-display text-3xl text-green-500">{results.summary?.passed || 0}</p>
             </div>
             <div className="bg-card border border-yellow-500/30 rounded-xl p-4">
               <p className="font-body text-xs tracking-widest uppercase text-yellow-500/70 mb-1">Warnings</p>
-              <p className="font-display text-3xl text-yellow-500">{results.summary.warnings}</p>
+              <p className="font-display text-3xl text-yellow-500">{results.summary?.warnings || 0}</p>
             </div>
             <div className="bg-card border border-red-500/30 rounded-xl p-4">
               <p className="font-body text-xs tracking-widest uppercase text-red-500/70 mb-1">Failed</p>
-              <p className="font-display text-3xl text-red-500">{results.summary.failed}</p>
+              <p className="font-display text-3xl text-red-500">{results.summary?.failed || 0}</p>
             </div>
           </div>
 
           {/* Detailed Results */}
           <div className="space-y-3">
             <h3 className="font-display text-lg text-foreground">Test Results</h3>
-            {results.tests.map((test, i) => (
+            {results.tests?.map((test, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, x: -10 }}
@@ -141,14 +141,14 @@ export default function SiteHealthDashboard() {
           </div>
 
           {/* Recommendations */}
-          {results.summary.failed > 0 || results.summary.warnings > 0 ? (
+          {(results.summary?.failed || 0) > 0 || (results.summary?.warnings || 0) > 0 ? (
             <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
               <p className="font-display text-sm text-yellow-600 mb-3">⚠️ Action Items</p>
               <ul className="space-y-2 font-body text-sm text-foreground/70">
-                {results.summary.warnings > 0 && (
+                {(results.summary?.warnings || 0) > 0 && (
                   <li>• Fill in cost/delivery fields for all products in Merch Management</li>
                 )}
-                {results.summary.failed > 0 && (
+                {(results.summary?.failed || 0) > 0 && (
                   <li>• Check function permissions and ensure all backend functions are properly configured</li>
                 )}
                 <li>• Create test orders and contributions to validate order flow</li>
@@ -163,7 +163,7 @@ export default function SiteHealthDashboard() {
 
           {/* Last Run */}
           <p className="font-body text-xs text-muted-foreground text-center">
-            Last run: {new Date(results.timestamp).toLocaleString()}
+            Last run: {results.timestamp ? new Date(results.timestamp).toLocaleString() : 'N/A'}
           </p>
         </motion.div>
       )}
