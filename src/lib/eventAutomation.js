@@ -4,6 +4,7 @@
 import { base44 } from '@/api/base44Client';
 import { calculateOrderFinancials, calculateCustomerLTV } from './businessLogic';
 import { AUDIT_CONFIG } from './platformConfig';
+import { createAuditLog } from './auditSystem';
 
 // Event types registry - ALL platform events
 export const EVENT_TYPES = {
@@ -94,8 +95,9 @@ export const initializeEventSystem = () => {
   // ORDER_CREATED automation
   registerEventHandler(EVENT_TYPES.ORDER_CREATED, async (order) => {
     try {
-      // 1. Create audit log
-      await createAuditLog('MerchOrder', order.id, 'create', order);
+      // 1. Create audit log (moved to auditSystem.js)
+      // Already created automatically via auditedCreate()
+      // await createAuditLog('MerchOrder', order.id, 'create', order);
       
       // 2. Decrement inventory
       if (order.items) {
@@ -217,9 +219,10 @@ export const initializeEventSystem = () => {
 };
 
 /**
- * Create audit log entry with proper change tracking and rollback capability
+ * DEPRECATED: Use lib/auditSystem.js instead
+ * Legacy audit log wrapper (kept for compatibility)
  */
-const createAuditLog = async (entityName, entityId, action, newData, oldData = null, options = {}) => {
+const createAuditLogLegacy = async (entityName, entityId, action, newData, oldData = null, options = {}) => {
   if (!AUDIT_CONFIG.ENABLED) return;
   
   try {
