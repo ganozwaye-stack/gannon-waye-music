@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { CheckCircle2, Mail, Loader2, ChevronDown } from 'lucide-react';
 
 const HOW_FOUND_OPTIONS = [
@@ -16,10 +17,29 @@ const HOW_FOUND_OPTIONS = [
   { value: 'other', label: 'Other' },
 ];
 
+// Get today's date in Australia/Sydney timezone
+const getSydneyDate = () => {
+  return new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' });
+};
+
+// Calculate minimum age (13+)
+const getMinDate = () => {
+  const minDate = new Date();
+  minDate.setFullYear(minDate.getFullYear() - 13);
+  return minDate.toISOString().split('T')[0];
+};
+
+// Calculate max date (100 years ago)
+const getMaxDate = () => {
+  const maxDate = new Date();
+  maxDate.setFullYear(maxDate.getFullYear() - 100);
+  return maxDate.toISOString().split('T')[0];
+};
+
 // Multi-step signup: step 1 = name+email, step 2 = phone+how_found
 export default function HomeEmailSignup() {
   const [step, setStep] = useState(1);
-  const [form, setForm] = useState({ name: '', email: '', phone: '', how_found: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', date_of_birth: '', how_found: '' });
   const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -51,16 +71,17 @@ export default function HomeEmailSignup() {
       // Create subscriber
       let subscriberId;
       const existing = await base44.entities.EmailSubscriber.filter({ email: form.email });
+      const subscriberData = {
+        ...form,
+        date_of_birth: form.date_of_birth || null,
+      };
+      
       if (existing.length === 0) {
-        const newSub = await base44.entities.EmailSubscriber.create(form);
+        const newSub = await base44.entities.EmailSubscriber.create(subscriberData);
         subscriberId = newSub.id;
       } else {
         subscriberId = existing[0].id;
-        await base44.entities.EmailSubscriber.update(existing[0].id, {
-          name: form.name,
-          phone: form.phone,
-          how_found: form.how_found,
-        });
+        await base44.entities.EmailSubscriber.update(existing[0].id, subscriberData);
       }
 
       // Create gift tracker
@@ -227,6 +248,23 @@ P.S. Questions? Just reply to this email or DM me on social.`,
                   type="tel"
                 />
                 {errors.phone && <p className="font-body text-xs text-destructive mt-1">Phone number is required</p>}
+              </div>
+
+              <div>
+                <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-2 block">
+                  Date of Birth (Optional - Get Birthday Discounts!)
+                </Label>
+                <Input
+                  type="date"
+                  value={form.date_of_birth}
+                  onChange={e => set('date_of_birth', e.target.value)}
+                  className={inputCls('date_of_birth')}
+                  min={getMaxDate()}
+                  max={getMinDate()}
+                />
+                <p className="font-body text-[10px] text-muted-foreground mt-1">
+                  Must be 13+ to sign up. We'll send you a special birthday discount! 🎂
+                </p>
               </div>
 
               <div>

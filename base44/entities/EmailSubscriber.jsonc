@@ -12,6 +12,11 @@
       "type": "string",
       "description": "Phone number including country code"
     },
+    "date_of_birth": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of birth for birthday discounts"
+    },
     "how_found": {
       "type": "string",
       "enum": [

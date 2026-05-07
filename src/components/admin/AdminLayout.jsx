@@ -64,6 +64,12 @@ const NAV_SECTIONS = [
     ]
   },
   {
+    title: 'Marketing',
+    items: [
+      { label: 'Birthday Discounts', path: '/admin/birthdays', icon: Gift },
+    ]
+  },
+  {
     title: 'Settings',
     items: [
       { label: 'Site Settings', path: '/admin/settings', icon: Settings },

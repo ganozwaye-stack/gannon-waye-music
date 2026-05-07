@@ -61,6 +61,7 @@ import ImageEditor from '@/pages/admin/ImageEditor';
 import SiteHealthDashboard from '@/pages/admin/SiteHealthDashboard';
 import GiftProgressAdmin from '@/pages/admin/GiftProgressAdmin';
 import ReleaseCountdown from '@/pages/admin/ReleaseCountdown';
+import BirthdayDiscounts from '@/pages/admin/BirthdayDiscounts';
 
 
 const AuthenticatedApp = () => {
@@ -149,6 +150,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/site-health" element={<SiteHealthDashboard />} />
         <Route path="/admin/gift-progress" element={<GiftProgressAdmin />} />
         <Route path="/admin/release-countdown" element={<ReleaseCountdown />} />
+        <Route path="/admin/birthdays" element={<BirthdayDiscounts />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
