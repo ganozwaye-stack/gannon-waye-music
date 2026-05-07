@@ -15,6 +15,12 @@ export const EVENT_TYPES = {
   ORDER_CANCELLED: 'order.cancelled',
   ORDER_REFUNDED: 'order.refunded',
   
+  // Booking events
+  BOOKING_CREATED: 'booking.created',
+  BOOKING_UPDATED: 'booking.updated',
+  BOOKING_CONFIRMED: 'booking.confirmed',
+  BOOKING_DECLINED: 'booking.declined',
+  
   // Product events
   PRODUCT_CREATED: 'product.created',
   PRODUCT_UPDATED: 'product.updated',
@@ -184,6 +190,26 @@ export const initializeEventSystem = () => {
       console.log(`Order ${order.id} shipped automation complete`);
     } catch (error) {
       console.error('ORDER_SHIPPED automation failed:', error);
+    }
+  });
+
+  // BOOKING_CREATED automation
+  registerEventHandler(EVENT_TYPES.BOOKING_CREATED, async (booking) => {
+    try {
+      // 1. Create audit log
+      await createAuditLog('BookingEnquiry', booking.id, 'create', booking);
+      
+      // 2. Send confirmation email (already done in createBookingEnquiry)
+      
+      // 3. Notify admin
+      await base44.functions.invoke('notifyAdminBookingEnquiry', { booking });
+      
+      // 4. Update analytics
+      await updateAnalytics('booking_created', booking);
+      
+      console.log(`Booking ${booking.id} automation complete`);
+    } catch (error) {
+      console.error('BOOKING_CREATED automation failed:', error);
     }
   });
 

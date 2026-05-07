@@ -34,6 +34,7 @@ import Summary from '@/pages/Summary';
 import MemberTiers from '@/pages/MemberTiers';
 import PortraitGallery from '@/pages/PortraitGallery';
 import Impact from '@/pages/Impact';
+import Bookings from '@/pages/Bookings';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -123,6 +124,7 @@ const AuthenticatedApp = () => {
         <Route path="/member-tiers" element={<MemberTiers />} />
         <Route path="/portrait-gallery" element={<PortraitGallery />} />
         <Route path="/impact" element={<Impact />} />
+        <Route path="/bookings" element={<Bookings />} />
       </Route>
 
       {/* Embed timer (no layout) */}

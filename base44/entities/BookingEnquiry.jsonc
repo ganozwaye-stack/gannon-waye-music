@@ -1,0 +1,161 @@
+{
+  "name": "BookingEnquiry",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "description": "Full name of enquirer"
+    },
+    "company_venue": {
+      "type": "string",
+      "description": "Company or venue name"
+    },
+    "email": {
+      "type": "string",
+      "description": "Contact email"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "booking_type": {
+      "type": "string",
+      "enum": [
+        "live_performance",
+        "festival",
+        "private_event",
+        "corporate_event",
+        "wedding",
+        "lgbtqia_event",
+        "charity_event",
+        "interview",
+        "podcast",
+        "media_appearance",
+        "brand_collaboration",
+        "partnership",
+        "songwriting_session",
+        "creative_collaboration"
+      ],
+      "description": "Type of booking requested"
+    },
+    "event_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Requested event date"
+    },
+    "budget_range": {
+      "type": "string",
+      "enum": [
+        "under_5k",
+        "5k_10k",
+        "10k_25k",
+        "25k_50k",
+        "50k_plus",
+        "negotiable"
+      ],
+      "description": "Budget range for the event"
+    },
+    "location": {
+      "type": "string",
+      "description": "Event location (city/venue)"
+    },
+    "audience_size": {
+      "type": "number",
+      "description": "Expected audience size"
+    },
+    "event_details": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Detailed event description"
+    },
+    "accessibility_needs": {
+      "type": "string",
+      "description": "Accessibility requirements"
+    },
+    "technical_requirements": {
+      "type": "string",
+      "description": "Technical rider requirements"
+    },
+    "social_links": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Social media or website links"
+    },
+    "referral_source": {
+      "type": "string",
+      "enum": [
+        "google",
+        "instagram",
+        "facebook",
+        "tiktok",
+        "friend_referral",
+        "past_client",
+        "media",
+        "agency",
+        "other"
+      ],
+      "description": "How they found Gannon"
+    },
+    "attachment_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Uploaded files (briefs, contracts, moodboards)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new_enquiry",
+        "reviewing",
+        "contacted",
+        "negotiating",
+        "confirmed",
+        "completed",
+        "declined",
+        "archived"
+      ],
+      "default": "new_enquiry",
+      "description": "Booking pipeline status"
+    },
+    "assigned_to": {
+      "type": "string",
+      "description": "Email of team member handling enquiry"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Internal notes"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp"
+    }
+  },
+  "required": [
+    "full_name",
+    "email",
+    "booking_type"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
