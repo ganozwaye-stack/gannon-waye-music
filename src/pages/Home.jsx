@@ -103,7 +103,7 @@ export default function Home() {
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
             <div className="flex flex-col items-center gap-1">
               <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Artwork & Release Date Reveal</p>
-              <CountdownTimer targetDate="2026-05-10T04:00:00Z" />
+              <CountdownTimer targetDate="2026-05-10T08:00:00Z" />
             </div>
           </motion.div>
 

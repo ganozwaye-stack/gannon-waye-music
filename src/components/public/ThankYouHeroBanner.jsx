@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 
-const ARTWORK_REVEAL_DATE = '2026-05-10T02:00:00Z';
+const ARTWORK_REVEAL_DATE = '2026-05-10T08:00:00Z';
 
 // Ribbon / celebration decoration
 function Ribbon() {

@@ -30,7 +30,7 @@ function CornerRibbon() {
   );
 }
 
-const ARTWORK_REVEAL_DATE = '2026-05-10T02:00:00Z';
+const ARTWORK_REVEAL_DATE = '2026-05-10T08:00:00Z';
 
 export default function ThankYouSingle() {
   const { artworkRevealed, released, releaseDateIso, releaseDateText } = useSiteReveal();
@@ -84,7 +84,7 @@ export default function ThankYouSingle() {
                 <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/40 p-6">
                   <Gift className="w-8 h-8 text-primary" />
                   <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-glow">Revealed May 10</p>
-                  <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
+                  <CountdownTimer targetDate="2026-05-10T08:00:00Z" />
                 </div>
               </div>
             )}
@@ -106,7 +106,7 @@ export default function ThankYouSingle() {
               )}
               {!artworkRevealed && (
                 <div className="mb-6">
-                  <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
+                  <CountdownTimer targetDate="2026-05-10T08:00:00Z" />
                 </div>
               )}
               <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">About the single</p>
