@@ -17,7 +17,7 @@ import OrderHistory from '@/pages/OrderHistory';
 import BackThis from '@/pages/BackThis';
 import Community from '@/pages/Community';
 import Videos from '@/pages/Videos';
-import AboutGannon from '@/pages/AboutGannon';
+import { Navigate } from 'react-router-dom';
 import ContactGannon from '@/pages/ContactGannon';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsOfService from '@/pages/TermsOfService';
@@ -89,7 +89,7 @@ const AuthenticatedApp = () => {
         <Route path="/orders" element={<OrderHistory />} />
         <Route path="/back-this" element={<BackThis />} />
         <Route path="/summary" element={<Summary />} />
-        <Route path="/about" element={<AboutGannon />} />
+        <Route path="/about" element={<Navigate to="/this-is-my-life" replace />} />
         <Route path="/contact" element={<ContactGannon />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />

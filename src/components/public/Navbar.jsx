@@ -7,12 +7,11 @@ import SiteSearch from '@/components/public/SiteSearch';
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
+  { label: 'My Story', path: '/this-is-my-life' },
   { label: 'Music', path: '/music' },
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
   { label: 'Store', path: '/store' },
-  { label: 'My Story', path: '/this-is-my-life' },
-  { label: 'About', path: '/about' },
   { label: 'Contact', path: '/contact' },
   { label: 'Back This 🤍', path: '/back-this', highlight: true },
 ];

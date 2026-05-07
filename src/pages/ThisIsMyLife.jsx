@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Lock, Play, Heart, ChevronDown, ArrowRight } from 'lucide-react';
+import { Lock, Play, Heart, ChevronDown, ArrowRight, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SignatureQuoteDivider from '@/components/public/SignatureQuoteDivider';
 import ShareButtons from '@/components/public/ShareButtons';
 import EpisodeNotifyModal from '@/components/public/EpisodeNotifyModal';
+import GannonSignature from '@/components/global/GannonSignature';
 
 const EPISODES = [
   {
@@ -230,6 +231,61 @@ export default function ThisIsMyLife() {
             </Link>
           </div>
         </motion.div>
+      </section>
+
+      {/* About / Bio section */}
+      <section className="py-16 md:py-20 px-4 md:px-8 border-b border-border/20">
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-10"
+          >
+            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">About Gannon</p>
+            <h2 className="font-display text-3xl md:text-5xl text-foreground mb-6">Singer. Songwriter. Storyteller.</h2>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 items-start">
+            <div className="space-y-4 font-body text-foreground/75 leading-relaxed text-base">
+              <p>I was born in Adelaide and now call Melbourne home — a city I've lived in for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
+              <p>I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing — sometimes more than they even realise about themselves. That perspective finds its way into everything I write.</p>
+              <p>There has been a lot of loss in my world. Losing my Mum not too long ago, who was my best friend and my biggest fan. Also people I love that took their own life and others with diagnoses no one saw coming — these experiences did not just hurt, they reshaped me.</p>
+              <p className="italic">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong — it often means you're seeing something others aren't ready for yet.</p>
+              <p>Everything I create now comes from that moment of choosing myself. This is not just music. This is choosing yourself.</p>
+            </div>
+
+            <div className="flex flex-col items-center gap-6 md:w-52">
+              <div className="border-l-2 border-primary pl-4 py-2">
+                <p className="font-display text-base gradient-gold-glow italic leading-7">
+                  "For them, it was about appearance.<br/>For me, I was breaking inside."
+                </p>
+                <p className="font-body text-xs text-muted-foreground mt-2 tracking-widest uppercase">Gannon Waye</p>
+              </div>
+              <div className="flex justify-center">
+                <GannonSignature />
+              </div>
+            </div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            className="mt-10 flex flex-col sm:flex-row gap-3 justify-center"
+          >
+            <Link to="/music">
+              <Button className="rounded-full px-7 py-4 font-body text-sm tracking-wider uppercase gradient-gold-button border-0 w-full sm:w-auto">
+                Hear the Music <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+            <Link to="/back-this">
+              <Button variant="outline" className="rounded-full px-7 py-4 font-body text-sm tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10 w-full sm:w-auto">
+                <Heart className="w-4 h-4 mr-2" /> Support the Project 🤍
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
       </section>
 
       <section className="py-16 md:py-24 px-4 md:px-8">
