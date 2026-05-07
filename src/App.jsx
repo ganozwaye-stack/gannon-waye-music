@@ -28,6 +28,7 @@ import FAQSection from '@/pages/FAQSection';
 import RecentFanActivity from '@/pages/RecentFanActivity';
 import Summary from '@/pages/Summary';
 import MemberTiers from '@/pages/MemberTiers';
+import PortraitGallery from '@/pages/PortraitGallery';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -58,6 +59,8 @@ import GiftChecklistPage from '@/pages/GiftChecklistPage';
 import MerchFinancials from '@/pages/admin/MerchFinancials';
 import ImageEditor from '@/pages/admin/ImageEditor';
 import SiteHealthDashboard from '@/pages/admin/SiteHealthDashboard';
+import GiftProgressAdmin from '@/pages/admin/GiftProgressAdmin';
+import ReleaseCountdown from '@/pages/admin/ReleaseCountdown';
 
 
 const AuthenticatedApp = () => {
@@ -109,6 +112,7 @@ const AuthenticatedApp = () => {
         <Route path="/supporter-activity" element={<RecentFanActivity />} />
         <Route path="/fan-activity" element={<RecentFanActivity />} />
         <Route path="/member-tiers" element={<MemberTiers />} />
+        <Route path="/portrait-gallery" element={<PortraitGallery />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -143,6 +147,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/merch-financials" element={<MerchFinancials />} />
         <Route path="/admin/image-editor" element={<ImageEditor />} />
         <Route path="/admin/site-health" element={<SiteHealthDashboard />} />
+        <Route path="/admin/gift-progress" element={<GiftProgressAdmin />} />
+        <Route path="/admin/release-countdown" element={<ReleaseCountdown />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
