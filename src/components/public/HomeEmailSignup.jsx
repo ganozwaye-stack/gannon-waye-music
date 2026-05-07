@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { CheckCircle2, Mail, Loader2 } from 'lucide-react';
+import { CheckCircle2, Mail, Loader2, ChevronDown } from 'lucide-react';
 
 const HOW_FOUND_OPTIONS = [
   { value: 'google', label: 'Google' },
@@ -23,6 +23,7 @@ export default function HomeEmailSignup() {
   const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const [showGiftInfo, setShowGiftInfo] = useState(false);
 
   const set = (field, val) => {
     setForm(f => ({ ...f, [field]: val }));
@@ -76,12 +77,23 @@ export default function HomeEmailSignup() {
     return (
       <section className="py-16 md:py-24 px-4 md:px-6">
         <div className="max-w-lg mx-auto text-center">
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}>
-            <CheckCircle2 className="w-14 h-14 text-primary mx-auto mb-4" />
-            <h2 className="font-display text-3xl text-foreground mb-2">You're in. 🤍</h2>
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4">
+            <CheckCircle2 className="w-14 h-14 text-primary mx-auto" />
+            <h2 className="font-display text-3xl text-foreground">You're in. 🤍</h2>
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
               Welcome to the inner circle, {form.name.split(' ')[0]}. You'll be the first to know when new music drops.
             </p>
+            <div className="bg-primary/10 border border-primary/30 rounded-2xl p-5 mt-6 space-y-2">
+              <p className="font-display text-base gradient-gold-glow">Special Gift Offer 🎁</p>
+              <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                To claim your exclusive gift from me, follow these steps:
+              </p>
+              <ol className="font-body text-xs text-foreground/60 space-y-1 text-left max-w-xs mx-auto">
+                <li>✓ Follow me on <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">TikTok</a> & <a href="https://www.instagram.com/gannonwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Instagram</a></li>
+                <li>✓ Like, comment & share my latest post</li>
+                <li>✓ Watch for an email from me with your gift 🤍</li>
+              </ol>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -100,9 +112,29 @@ export default function HomeEmailSignup() {
           <Mail className="w-8 h-8 text-primary mx-auto mb-4" />
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">Stay Connected</p>
           <h2 className="font-display text-3xl md:text-4xl text-foreground mb-3">Join the Inner Circle</h2>
-          <p className="font-body text-sm text-muted-foreground mb-8 leading-relaxed">
+          <p className="font-body text-sm text-muted-foreground mb-3 leading-relaxed">
             Be the first to hear about new music, behind-the-scenes stories, and exclusive updates.
           </p>
+          <motion.button
+            onClick={() => setShowGiftInfo(!showGiftInfo)}
+            className="inline-flex items-center gap-2 text-primary font-body text-xs tracking-widest uppercase hover:underline mb-6"
+          >
+            🎁 Sign up today & get a gift from me
+            <ChevronDown className={`w-3 h-3 transition-transform ${showGiftInfo ? 'rotate-180' : ''}`} />
+          </motion.button>
+          <AnimatePresence>
+            {showGiftInfo && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6 text-sm font-body text-foreground/70 leading-relaxed"
+              >
+                <p className="mb-2">When you sign up here, follow me on TikTok & Instagram, and engage with my latest post, I'll send you something special as a thank you for getting in early. 🤍</p>
+                <p className="text-xs text-muted-foreground">No purchase necessary — just genuine support.</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Step indicator */}
           <div className="flex items-center justify-center gap-2 mb-6">

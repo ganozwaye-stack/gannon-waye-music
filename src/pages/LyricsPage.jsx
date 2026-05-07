@@ -6,6 +6,7 @@ import { Music2, ChevronDown } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import GannonSignature from '@/components/global/GannonSignature';
+import LyricsScroller from '@/components/public/LyricsScroller';
 
 export default function LyricsPage() {
   const [openId, setOpenId] = useState(null);
@@ -79,10 +80,17 @@ export default function LyricsPage() {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 pb-8 border-t border-border/30 pt-6">
-                        <pre className="font-display text-foreground/80 leading-loose text-base whitespace-pre-wrap italic">
-                          {release.lyrics}
-                        </pre>
+                      <div className="px-6 pb-8 border-t border-border/30 pt-6 space-y-6">
+                        {/* Scroller */}
+                        <LyricsScroller release={release} />
+
+                        {/* Traditional view */}
+                        <div>
+                          <p className="font-body text-xs text-muted-foreground uppercase tracking-widest mb-4">Traditional View</p>
+                          <pre className="font-display text-foreground/80 leading-loose text-base whitespace-pre-wrap italic bg-secondary/20 rounded-xl p-6">
+                            {release.lyrics}
+                          </pre>
+                        </div>
                         {release.credits && (
                           <p className="font-body text-xs text-muted-foreground mt-6 pt-4 border-t border-border/30">
                             {release.credits}

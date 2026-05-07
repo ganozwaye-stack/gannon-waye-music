@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
 import CheckoutModal from '@/components/store/CheckoutModal';
 import ProductCard from '@/components/store/ProductCard';
+import MerchShowcase from '@/components/store/MerchShowcase';
 
 
 
@@ -89,17 +90,7 @@ export default function Store() {
             <p className="font-body text-muted-foreground">Store coming soon.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {sorted.map((product, i) => (
-              <ProductCard
-                key={product.id}
-                product={product}
-                index={i}
-                onInterest={setInterestProduct}
-                onPreorder={setCheckoutProduct}
-              />
-            ))}
-          </div>
+          <MerchShowcase />
         )}
 
         {/* Footer note */}

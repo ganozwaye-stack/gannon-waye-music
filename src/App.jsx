@@ -27,6 +27,7 @@ import ThisIsMyLife from '@/pages/ThisIsMyLife';
 import FAQSection from '@/pages/FAQSection';
 import RecentFanActivity from '@/pages/RecentFanActivity';
 import Summary from '@/pages/Summary';
+import MemberTiers from '@/pages/MemberTiers';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -47,6 +48,8 @@ import BackOfHouseReport from '@/pages/admin/BackOfHouseReport';
 import RevealNewsletter from '@/pages/admin/RevealNewsletter';
 import ProductInsights from '@/pages/admin/ProductInsights';
 import Supporters from '@/pages/admin/Supporters';
+import GiftClaims from '@/pages/admin/GiftClaims';
+import TunecoreIntegration from '@/pages/admin/TunecoreIntegration';
 
 
 const AuthenticatedApp = () => {
@@ -96,6 +99,7 @@ const AuthenticatedApp = () => {
         <Route path="/this-is-my-life" element={<ThisIsMyLife />} />
         <Route path="/faq" element={<FAQSection />} />
         <Route path="/fan-activity" element={<RecentFanActivity />} />
+        <Route path="/member-tiers" element={<MemberTiers />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -120,6 +124,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/reveal-newsletter" element={<RevealNewsletter />} />
         <Route path="/admin/product-insights" element={<ProductInsights />} />
         <Route path="/admin/supporters" element={<Supporters />} />
+        <Route path="/admin/gift-claims" element={<GiftClaims />} />
+        <Route path="/admin/tunecore" element={<TunecoreIntegration />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

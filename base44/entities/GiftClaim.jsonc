@@ -1,0 +1,74 @@
+{
+  "name": "GiftClaim",
+  "type": "object",
+  "properties": {
+    "subscriber_email": {
+      "type": "string",
+      "description": "Email address of the subscriber claiming the gift"
+    },
+    "subscriber_name": {
+      "type": "string",
+      "description": "Name of the subscriber"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "verified",
+        "gift_sent",
+        "completed"
+      ],
+      "default": "pending",
+      "description": "Claim status tracking"
+    },
+    "tiktok_handle": {
+      "type": "string",
+      "description": "TikTok handle to verify follow"
+    },
+    "instagram_handle": {
+      "type": "string",
+      "description": "Instagram handle to verify follow"
+    },
+    "post_url": {
+      "type": "string",
+      "description": "Link to post they commented/liked/shared"
+    },
+    "gift_description": {
+      "type": "string",
+      "description": "What gift was sent to them"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Admin notes about verification or gift"
+    }
+  },
+  "required": [
+    "subscriber_email"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "data.subscriber_email": "{{user.email}}"
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -20,6 +20,7 @@ import RecentActivityStrip from '@/components/public/RecentActivityStrip';
 import TikTokWelcomeBanner from '@/components/public/TikTokWelcomeBanner';
 import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
 import LiveFeedSection from '@/components/public/LiveFeedSection';
+import FanHighlightWall from '@/components/public/FanHighlightWall';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
@@ -135,6 +136,9 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* Fan Highlight Wall */}
+      <FanHighlightWall />
 
       {/* Live Feed */}
       <LiveFeedSection />
