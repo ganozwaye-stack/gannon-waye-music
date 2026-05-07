@@ -40,20 +40,20 @@ Deno.serve(async (req) => {
         ? age - 1 
         : age;
       
-      // Create personalized discount code
-      const discountCode = `BDAY${adjustedAge}-${sub.name.split(' ')[0].toUpperCase().slice(0, 3)}${format(today, 'yy')}`;
-      
+      // Create personalized discount code (20% flat rate, excludes CDs)
+      const discountCode = `BDAY20-${sub.name.split(' ')[0].toUpperCase().slice(0, 3)}${format(today, 'yy')}`;
+
       // Create or update promo code
       const existingCodes = await base44.entities.PromoCode.filter({ code: discountCode });
-      
+
       let promoCode;
       if (existingCodes.length === 0) {
         promoCode = await base44.entities.PromoCode.create({
           code: discountCode,
-          discount_percent: Math.min(adjustedAge, 30), // Max 30% discount
+          discount_percent: 20, // Fixed 20% discount
           max_uses: 1,
           times_used: 0,
-          description: `Birthday discount for ${sub.name} - ${adjustedAge}th birthday`,
+          description: `Birthday discount for ${sub.name} - 20% OFF (excludes CDs)`,
           is_active: true,
         });
       } else {
@@ -64,7 +64,7 @@ Deno.serve(async (req) => {
         subscriber: sub,
         age: adjustedAge,
         discountCode: discountCode,
-        discountPercent: Math.min(adjustedAge, 30),
+        discountPercent: 20,
         promoCodeId: promoCode.id,
       });
       
@@ -79,10 +79,10 @@ Happy Birthday! 🎉🎂
 
 Wishing you an amazing day filled with joy and music. As a special birthday gift from me, here's an exclusive discount for the merch store:
 
-**Your Birthday Discount: ${Math.min(adjustedAge, 30)}% OFF**
+**Your Birthday Gift: 20% OFF**
 **Code: ${discountCode}**
 
-This code is valid for 7 days and can be used once on any merchandise item.
+Valid for 7 days, one-time use. Excludes CD purchases.
 
 🎁 **Shop here:** [Your Store URL]
 

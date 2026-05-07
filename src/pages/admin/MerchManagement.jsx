@@ -551,7 +551,11 @@ export default function MerchManagement() {
           </DialogHeader>
           <DialogFooter>
             <Button variant="outline" onClick={() => setBulkAction(null)}>Cancel</Button>
-            <Button variant="destructive" onClick={() => bulkUpdateMutation.mutate({ ids: selectedProducts, updates: { _delete: true } })}>
+            <Button variant="destructive" onClick={() => {
+              Promise.all(selectedProducts.map(id => deleteMutation.mutateAsync(id))).then(() => {
+                setBulkAction(null);
+              });
+            }}>
               Delete All
             </Button>
           </DialogFooter>
