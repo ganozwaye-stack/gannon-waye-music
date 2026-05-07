@@ -141,8 +141,9 @@ export const initializeEventSystem = () => {
       // 2. Generate donor receipt
       await base44.functions.invoke('generateDonorReceipt', { contributionId: contribution.id });
       
-      // 3. Update supporter profile
-      await updateSupporterProfile(contribution);
+      // 3. Sync supporter profile using centralized customer identity logic
+      const { syncSupporterProfile } = await import('@/lib/customerIdentity');
+      await syncSupporterProfile(contribution.supporter_email);
       
       // 4. Allocate charity donation (10%)
       await allocateCharityDonation(contribution);
@@ -363,34 +364,9 @@ const updateSupporterScore = async (email, actionType, value) => {
 };
 
 /**
- * Update supporter profile with contribution data
+ * DEPRECATED: Use lib/customerIdentity.js syncSupporterProfile instead
+ * This function is kept for reference but should not be called
  */
-const updateSupporterProfile = async (contribution) => {
-  try {
-    const profiles = await base44.entities.SupporterProfile.filter({
-      supporter_email: contribution.supporter_email
-    });
-    
-    if (profiles.length > 0) {
-      const profile = profiles[0];
-      const newTotal = (profile.total_contributed || 0) + contribution.amount;
-      
-      await base44.entities.SupporterProfile.update(profile.id, {
-        total_contributed: newTotal,
-        tier: newTotal >= 500 ? 'inner_circle' : newTotal >= 200 ? 'movement' : newTotal >= 50 ? 'with_you' : 'day_one',
-      });
-    } else {
-      await base44.entities.SupporterProfile.create({
-        supporter_email: contribution.supporter_email,
-        supporter_name: contribution.supporter_name,
-        total_contributed: contribution.amount,
-        tier: contribution.amount >= 500 ? 'inner_circle' : contribution.amount >= 200 ? 'movement' : 'with_you',
-      });
-    }
-  } catch (error) {
-    console.error('Supporter profile update failed:', error);
-  }
-};
 
 /**
  * Create gift tracker for new subscriber

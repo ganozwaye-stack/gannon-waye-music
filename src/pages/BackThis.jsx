@@ -10,16 +10,18 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import StripePaymentForm from '@/components/store/StripePaymentForm';
 import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
+import { calculateCheckoutTotal } from '@/lib/checkoutCalculations';
 
-// Fee constants (same as merch checkout)
-const GST_RATE = 0.10;
-const FEE_RATE = 0.05;
-
-function calcTotal(base) {
-  const gst = base * GST_RATE;
-  const fee = base * FEE_RATE;
-  return { gst, fee, total: base + gst + fee };
-}
+// Use centralized calculation
+const calcTotal = (base) => {
+  const calc = calculateCheckoutTotal(base, true);
+  return {
+    gst: calc.gst,
+    fee: calc.merchantFee,
+    total: calc.total,
+    charity: calc.charityAllocation,
+  };
+};
 
 const TIERS = [
   { amount: 5,  label: "I'm with you",          desc: "A small contribution that helps keep this going" },
