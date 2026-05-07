@@ -27,8 +27,22 @@ Deno.serve(async (req) => {
 
     if (!data) return Response.json({ skipped: true });
 
-    const { accessToken } = await base44.asServiceRole.connectors.getConnection('gmail');
-    const sheetAccessToken = (await base44.asServiceRole.connectors.getConnection('googlesheets')).accessToken;
+    // IDEMPOTENCE: Check if already processed
+    const idempotenceKey = `order_${data.id}`;
+    const existing = await base44.asServiceRole.entities.IdempotenceLog.filter({
+      idempotence_key: idempotenceKey,
+    });
+    
+    if (existing.length > 0) {
+      return Response.json({ skipped: true, reason: 'Already processed', cached: existing[0].result });
+    }
+
+    // PRE-FETCH & REFRESH TOKENS before long operation
+    const gmailConn = await base44.asServiceRole.connectors.getConnection('gmail');
+    const sheetsConn = await base44.asServiceRole.connectors.getConnection('googlesheets');
+    
+    const { accessToken } = gmailConn;
+    const { accessToken: sheetAccessToken } = sheetsConn;
     const sheetId = Deno.env.get('GOOGLE_SHEET_ID');
 
     const settings = await base44.asServiceRole.entities.SiteSettings.list();
@@ -137,6 +151,12 @@ Deno.serve(async (req) => {
         body: JSON.stringify({ values: [[new Date().toLocaleDateString('en-AU'), data.customer_name, data.customer_email, data.shipping_address, itemsText, `$${(data.total_amount || 0).toFixed(2)}`, data.status, data.id]] })
       }
     );
+
+    // RECORD IDEMPOTENCE for retry safety
+    await base44.asServiceRole.entities.IdempotenceLog.create({
+      idempotence_key: idempotenceKey,
+      result: { success: true, timestamp: new Date().toISOString() },
+    });
 
     return Response.json({ success: true });
   } catch (error) {

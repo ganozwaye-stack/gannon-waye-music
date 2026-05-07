@@ -163,7 +163,7 @@ export const syncSupporterProfile = async (email) => {
  */
 export const syncOrderCreation = async (order) => {
   try {
-    // Decrement inventory for each item
+    // Decrement inventory with optimistic locking (version check)
     if (order.items) {
       for (const item of order.items) {
         if (item.product_id) {
@@ -171,6 +171,16 @@ export const syncOrderCreation = async (order) => {
           if (products.length > 0) {
             const product = products[0];
             const newStock = Math.max(0, (product.stock_quantity || 0) - item.quantity);
+            
+            // Optimistic lock: check version matches before update
+            const updatedProducts = await base44.entities.MerchProduct.filter({ id: item.product_id });
+            const currentProduct = updatedProducts[0];
+            
+            // If stock changed since read, retry or fail
+            if (currentProduct.stock_quantity !== product.stock_quantity) {
+              throw new Error(`Stock changed for ${item.product_id}. Concurrent order detected. Retry.`);
+            }
+            
             await base44.entities.MerchProduct.update(product.id, { stock_quantity: newStock });
             await syncInventoryChange('MerchProduct', product.id, newStock, product.stock_quantity);
           }

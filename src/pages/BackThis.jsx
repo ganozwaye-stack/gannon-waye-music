@@ -76,10 +76,21 @@ export default function BackThis() {
   };
 
   const handlePaymentSuccess = async (paymentIntent) => {
+    // GDPR: Verify consent before proceeding
+    const emailPrefs = await base44.entities.EmailPreference.filter({ email: form.email });
+    const hasConsent = emailPrefs.length > 0 || window.confirm('Can we send you updates about your support?');
+    
+    if (!hasConsent) {
+      toast({ title: 'Email consent required', variant: 'destructive' });
+      return;
+    }
+
     const tierLabel = selectedTier === 'custom' ? 'Custom' : TIERS.find(t => t.amount === selectedTier)?.label;
     const tierKey = baseAmount >= 25 ? 'inner_circle' : baseAmount >= 10 ? 'movement' : 'with_you';
     const badge = baseAmount >= 25 ? 'inner_circle' : baseAmount >= 10 ? 'top_supporter' : 'supporter';
 
+    const idempotenceKey = `contribution_${paymentIntent.id}`;
+    
     const contribution = await base44.entities.SupportContribution.create({
       supporter_name: form.name || null,
       supporter_email: form.email,
@@ -89,6 +100,7 @@ export default function BackThis() {
       tier_label: tierLabel,
       stripe_payment_id: paymentIntent.id,
       message: form.message || null,
+      idempotence_key: idempotenceKey,
     });
 
     // Emit event for automation
@@ -99,6 +111,7 @@ export default function BackThis() {
       amount: baseAmount,
       total_charged: pricing.total,
       frequency,
+      idempotence_key: idempotenceKey,
     });
 
     // Upsert SupporterProfile

@@ -36,6 +36,10 @@
       "type": "string",
       "description": "Optional message from supporter"
     },
+    "idempotence_key": {
+      "type": "string",
+      "description": "For retry safety"
+    },
     "description": {
       "type": "string",
       "maxLength": 1000,

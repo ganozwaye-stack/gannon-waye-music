@@ -1,0 +1,33 @@
+{
+  "name": "OrderLock",
+  "type": "object",
+  "properties": {
+    "customer_email": {
+      "type": "string",
+      "description": "Customer email (unique constraint)"
+    },
+    "locked_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "locked_until": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Lock expires after 5 mins"
+    },
+    "order_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "customer_email",
+    "locked_at",
+    "locked_until"
+  ],
+  "rls": {
+    "create": {},
+    "read": {},
+    "update": {},
+    "delete": {}
+  }
+}

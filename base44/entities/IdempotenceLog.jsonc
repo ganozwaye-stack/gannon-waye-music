@@ -1,0 +1,39 @@
+{
+  "name": "IdempotenceLog",
+  "type": "object",
+  "properties": {
+    "idempotence_key": {
+      "type": "string",
+      "description": "Unique key for idempotent operation"
+    },
+    "result": {
+      "type": "object",
+      "description": "Result of the operation"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "idempotence_key"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
