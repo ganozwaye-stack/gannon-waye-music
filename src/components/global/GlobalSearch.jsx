@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
-import { Search, FileText, Users, ShoppingBag, DollarSign, Heart, Package, Tag, Mail, TrendingUp, Gift, Calendar } from 'lucide-react';
+import { Search, FileText, Users, ShoppingBag, DollarSign, Heart, Package, Tag, Mail, TrendingUp, Gift, Calendar, Briefcase, Camera, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -13,10 +13,13 @@ const SEARCH_TYPES = [
   { id: 'supporters', label: 'Supporters', icon: Users },
   { id: 'products', label: 'Products', icon: ShoppingBag },
   { id: 'contributions', label: 'Donations', icon: DollarSign },
+  { id: 'bookings', label: 'Bookings', icon: Briefcase },
   { id: 'gift_claims', label: 'Gift Claims', icon: Gift },
   { id: 'promo_codes', label: 'Promo Codes', icon: Tag },
   { id: 'subscribers', label: 'Subscribers', icon: Mail },
   { id: 'charity', label: 'Charity', icon: Heart },
+  { id: 'media', label: 'Media', icon: Camera },
+  { id: 'audit', label: 'Audit Logs', icon: Activity },
 ];
 
 export default function GlobalSearch({ onClose }) {
@@ -113,6 +116,42 @@ export default function GlobalSearch({ onClose }) {
         );
       }
 
+      if (type === 'all' || type === 'bookings') {
+        searchPromises.push(
+          base44.entities.BookingEnquiry.filter({}).then(bookings =>
+            bookings.filter(b => 
+              b.full_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              b.email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              b.company_venue?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              b.location?.toLowerCase().includes(searchQuery.toLowerCase())
+            ).map(b => ({ type: 'booking', data: b }))
+          )
+        );
+      }
+
+      if (type === 'all' || type === 'media') {
+        searchPromises.push(
+          base44.entities.FanMedia.filter({}).then(media =>
+            media.filter(m => 
+              m.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              m.caption?.toLowerCase().includes(searchQuery.toLowerCase())
+            ).map(m => ({ type: 'media', data: m }))
+          )
+        );
+      }
+
+      if (type === 'all' || type === 'audit') {
+        searchPromises.push(
+          base44.entities.AuditLog.filter({}).then(logs =>
+            logs.filter(l => 
+              l.entity_name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              l.user_email?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              l.description?.toLowerCase().includes(searchQuery.toLowerCase())
+            ).map(l => ({ type: 'audit', data: l }))
+          )
+        );
+      }
+
       const allResults = await Promise.all(searchPromises);
       const flattened = allResults.flat().slice(0, 50); // Limit results
       setResults(flattened);
@@ -138,6 +177,9 @@ export default function GlobalSearch({ onClose }) {
       contribution: `/admin/supporters`,
       gift_claim: `/admin/gift-verification`,
       promo_code: `/admin/promo-codes`,
+      booking: `/admin`, // Bookings managed from dashboard initially
+      media: `/admin/fan-media`,
+      audit: `/admin/audit-log`,
     };
     
     navigate(routes[result.type] || '/admin');
@@ -152,6 +194,9 @@ export default function GlobalSearch({ onClose }) {
       contribution: DollarSign,
       gift_claim: Gift,
       promo_code: Tag,
+      booking: Briefcase,
+      media: Camera,
+      audit: Activity,
     };
     const Icon = icons[type] || Search;
     return <Icon className="w-4 h-4" />;
@@ -165,6 +210,9 @@ export default function GlobalSearch({ onClose }) {
       contribution: 'bg-yellow-500/20 text-yellow-500',
       gift_claim: 'bg-pink-500/20 text-pink-500',
       promo_code: 'bg-orange-500/20 text-orange-500',
+      booking: 'bg-indigo-500/20 text-indigo-500',
+      media: 'bg-red-500/20 text-red-500',
+      audit: 'bg-slate-500/20 text-slate-500',
     };
     return colors[type] || 'bg-gray-500/20 text-gray-500';
   };
@@ -261,8 +309,11 @@ export default function GlobalSearch({ onClose }) {
                       {result.type === 'subscriber' && result.data.email}
                       {result.type === 'product' && `$${result.data.sale_price?.toFixed(2)}`}
                       {result.type === 'contribution' && `$${result.data.amount?.toFixed(2)}`}
+                      {result.type === 'booking' && `${result.data.booking_type?.replace(/_/g, ' ')} · ${result.data.location || 'TBD'}`}
                       {result.type === 'gift_claim' && result.data.status}
                       {result.type === 'promo_code' && `${result.data.discount_percent}% off`}
+                      {result.type === 'media' && result.data.file_type}
+                      {result.type === 'audit' && `${result.data.action} · ${result.data.entity_name}`}
                     </p>
                   </div>
                   <Badge variant="outline" className="text-[10px] capitalize">

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Plus, Edit2, Trash2, DollarSign, Package, Users, Heart, Gift, Tag, Mail, TrendingUp, FileText, ExternalLink, Command, ShoppingBag } from 'lucide-react';
+import { Search, Plus, Edit2, Trash2, DollarSign, Package, Users, Heart, Gift, Tag, Mail, TrendingUp, FileText, ExternalLink, Command, ShoppingBag, Briefcase, Camera, Activity, BarChart3, RefreshCw, Download, Upload } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 
@@ -15,19 +15,32 @@ const COMMANDS = [
   { id: 'nav_charity', label: 'View Charity Tracking', shortcut: 'G C', icon: Heart, action: '/admin/charity-tracking' },
   { id: 'nav_gifts', label: 'View Gift Claims', shortcut: 'G G', icon: Gift, action: '/admin/gift-verification' },
   { id: 'nav_promos', label: 'View Promo Codes', shortcut: 'G K', icon: Tag, action: '/admin/promo-codes' },
+  { id: 'nav_bookings', label: 'View Bookings', shortcut: 'G B', icon: Briefcase, action: '/admin' },
+  { id: 'nav_media', label: 'View Fan Media', shortcut: 'G M', icon: Camera, action: '/admin/fan-media' },
+  { id: 'nav_audit', label: 'View Audit Logs', shortcut: 'G A', icon: Activity, action: '/admin/audit-log' },
   { id: 'nav_newsletter', label: 'Send Newsletter', shortcut: 'G N', icon: Mail, action: '/admin/newsletter' },
   { id: 'nav_training', label: 'Open Training Hub', shortcut: 'G T', icon: FileText, action: '/admin/training' },
+  { id: 'nav_health', label: 'Site Health', shortcut: 'G H', icon: Activity, action: '/admin/site-health' },
   { id: 'nav_site', label: 'View Public Site', shortcut: 'G V', icon: ExternalLink, action: '/' },
   
   // Create Actions
   { id: 'create_product', label: 'Create New Product', shortcut: 'C P', icon: Plus, action: '/admin/merch?action=new' },
   { id: 'create_promo', label: 'Create Promo Code', shortcut: 'C K', icon: Plus, action: '/admin/promo-codes?action=new' },
   { id: 'create_release', label: 'Create New Release', shortcut: 'C R', icon: Plus, action: '/admin/releases?action=new' },
+  { id: 'create_subscriber', label: 'Add Subscriber', shortcut: 'C S', icon: Plus, action: '/admin/subscribers?action=new' },
   
   // Quick Actions
   { id: 'run_health', label: 'Run Site Health Check', shortcut: 'R H', icon: Search, action: '/admin/site-health?action=check' },
   { id: 'run_charity', label: 'Run Charity Tracking', shortcut: 'R C', icon: Heart, action: '/admin/charity-tracking?action=track' },
   { id: 'run_birthday', label: 'Run Birthday Process', shortcut: 'R B', icon: Gift, action: '/admin/birthdays?action=run' },
+  { id: 'export_orders', label: 'Export Orders', shortcut: 'E O', icon: Download, action: '/admin/orders?export=true' },
+  { id: 'export_supporters', label: 'Export Supporters', shortcut: 'E S', icon: Download, action: '/admin/subscribers?export=true' },
+  { id: 'refresh_data', label: 'Refresh All Data', shortcut: 'F5', icon: RefreshCw, action: '?refresh=all' },
+  
+  // Analytics
+  { id: 'analytics_revenue', label: 'Revenue Analytics', shortcut: 'A R', icon: BarChart3, action: '/admin/financials' },
+  { id: 'analytics_products', label: 'Product Performance', shortcut: 'A P', icon: BarChart3, action: '/admin/merch-financials' },
+  { id: 'analytics_supporters', label: 'Supporter Analytics', shortcut: 'A S', icon: BarChart3, action: '/admin/subscribers' },
 ];
 
 export default function CommandPalette({ isOpen, onClose }) {
