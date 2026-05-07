@@ -102,7 +102,7 @@ export default function Footer() {
                 onChange={e => setForm({...form, how_found: e.target.value})}
                 className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
               >
-                <option value="">How did you find us?</option>
+                <option value="">How did you find me?</option>
                 <option value="google">Google</option>
                 <option value="instagram">Instagram</option>
                 <option value="facebook">Facebook</option>
