@@ -50,7 +50,7 @@ export default function Dashboard() {
   const stats = [
     { label: 'Total Revenue', value: `$${totalRevenue.toFixed(0)}`, icon: TrendingUp, path: '/admin/orders', color: 'text-primary' },
     { label: 'Orders', value: orders.length, icon: Package, path: '/admin/orders', color: 'text-chart-4' },
-    { label: 'Subscribers', value: subscribers.length, icon: Users, path: '/admin/fans', color: 'text-chart-2' },
+    { label: 'Subscribers', value: subscribers.length, icon: Users, path: '/admin/newsletter', color: 'text-chart-2' },
     { label: 'Interests', value: interests.length, icon: Heart, path: '/admin/fans', color: 'text-chart-5' },
   ];
 
