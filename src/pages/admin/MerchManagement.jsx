@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
-import { Plus, Pencil, Trash2, Upload, ShoppingBag, DollarSign, TrendingUp, Package, Zap, Eye, Copy, Calculator, BarChart3, Globe, MapPin, Users, Tag } from 'lucide-react';
+import { Plus, Pencil, Trash2, Upload, ShoppingBag, DollarSign, TrendingUp, Package, Zap, Eye, Copy, Calculator, BarChart3, Globe, MapPin, Users, Tag, Image as ImageIcon, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const CATEGORIES = ['apparel', 'accessories', 'vinyl', 'cd', 'poster', 'bundle', 'other'];
@@ -39,9 +39,10 @@ export default function MerchManagement() {
   const [form, setForm] = useState(emptyProduct);
   const [sizeInput, setSizeInput] = useState('');
   const [uploading, setUploading] = useState(false);
-  const [viewMode, setViewMode] = useState('grid'); // grid, list, analytics
+  const [viewMode, setViewMode] = useState('grid');
   const [bulkAction, setBulkAction] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const { data: products, isLoading } = useQuery({
     queryKey: ['merchProducts'],
@@ -59,7 +60,6 @@ export default function MerchManagement() {
         merchant_fee_percent: Number(data.merchant_fee_percent) || 3.5,
         stock_quantity: Number(data.stock_quantity) || 0,
       };
-      // Auto-calculate profit metrics
       const merchantFee = payload.sale_price * (payload.merchant_fee_percent / 100);
       payload.total_profit_per_unit = payload.sale_price - payload.cost_price - payload.delivery_cost - merchantFee;
       payload.profit_margin_percent = payload.sale_price > 0 
@@ -102,8 +102,22 @@ export default function MerchManagement() {
     if (!file) return;
     setUploading(true);
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    setForm({ ...form, image_url: file_url, images_array: [...(form.images_array || []), file_url] });
+    const newImagesArray = [...(form.images_array || []), file_url];
+    setForm({ 
+      ...form, 
+      image_url: form.image_url || file_url,
+      images_array: newImagesArray 
+    });
     setUploading(false);
+  };
+
+  const removeImage = (index) => {
+    const newImagesArray = form.images_array.filter((_, i) => i !== index);
+    setForm({ 
+      ...form, 
+      images_array: newImagesArray,
+      image_url: newImagesArray.length > 0 ? newImagesArray[0] : ''
+    });
   };
 
   const addSize = () => {
@@ -118,6 +132,7 @@ export default function MerchManagement() {
   const openEdit = (product) => {
     setEditing(product ? product.id : 'new');
     setForm(product ? { ...emptyProduct, ...product } : emptyProduct);
+    setCurrentImageIndex(0);
   };
 
   const toggleSelect = (id) => {
@@ -133,6 +148,18 @@ export default function MerchManagement() {
     const margin = form.sale_price > 0 ? (profit / form.sale_price) * 100 : 0;
     return { ...form, calculated_profit: profit, calculated_margin: margin };
   }, [form.sale_price, form.cost_price, form.delivery_cost, form.merchant_fee_percent]);
+
+  const nextImage = () => {
+    if (form.images_array.length > 0) {
+      setCurrentImageIndex((prev) => (prev + 1) % form.images_array.length);
+    }
+  };
+
+  const prevImage = () => {
+    if (form.images_array.length > 0) {
+      setCurrentImageIndex((prev) => (prev - 1 + form.images_array.length) % form.images_array.length);
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -206,12 +233,17 @@ export default function MerchManagement() {
                 {!product.is_active && <Badge variant="destructive" className="text-[10px]">Inactive</Badge>}
                 {product.stock_quantity < 10 && <Badge variant="secondary" className="text-[10px]">Low Stock</Badge>}
               </div>
-              <div className="aspect-square bg-secondary/50 overflow-hidden relative">
+              <div className="aspect-square bg-secondary/50 overflow-hidden relative group">
                 {product.image_url ? (
                   <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
                     <ShoppingBag className="w-10 h-10 text-muted-foreground/20" />
+                  </div>
+                )}
+                {product.images_array && product.images_array.length > 1 && (
+                  <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+                    {product.images_array.length} images
                   </div>
                 )}
               </div>
@@ -320,16 +352,17 @@ export default function MerchManagement() {
         </div>
       )}
 
-      {/* Edit Dialog */}
+      {/* Edit Dialog with Advanced Multi-Image Gallery */}
       <Dialog open={!!editing} onOpenChange={() => setEditing(null)}>
-        <DialogContent className="bg-card border-border/40 max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="bg-card border-border/40 max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl">{editing === 'new' ? 'Add New Product' : 'Edit Product'}</DialogTitle>
             <DialogDescription>
-              Enter product details. Profit metrics auto-calculate as you type.
+              Enterprise-grade product management with multi-image gallery and real-time financial calculations.
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-4 mt-4">
+          <div className="space-y-6 mt-4">
+            {/* Basic Info */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase">Product Name *</Label>
@@ -351,7 +384,88 @@ export default function MerchManagement() {
               <Textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} placeholder="Product description, materials, features..." />
             </div>
 
-            {/* Financial Fields - Premium Feature */}
+            {/* Professional Multi-Image Gallery */}
+            <div className="bg-gradient-to-br from-primary/5 to-transparent border border-primary/20 rounded-xl p-4">
+              <div className="flex items-center gap-2 mb-4">
+                <ImageIcon className="w-4 h-4 text-primary" />
+                <p className="font-display text-sm text-primary">Product Image Gallery</p>
+              </div>
+              
+              {/* Main Image Display with Navigation */}
+              {form.images_array && form.images_array.length > 0 ? (
+                <div className="relative mb-4">
+                  <div className="aspect-square rounded-lg overflow-hidden bg-secondary/50 relative">
+                    <img 
+                      src={form.images_array[currentImageIndex]} 
+                      alt={`Product view ${currentImageIndex + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    {form.images_array.length > 1 && (
+                      <>
+                        <button
+                          onClick={prevImage}
+                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition-colors"
+                        >
+                          <ChevronLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                          onClick={nextImage}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition-colors"
+                        >
+                          <ChevronRight className="w-5 h-5" />
+                        </button>
+                        <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
+                          {currentImageIndex + 1} / {form.images_array.length}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  
+                  {/* Thumbnail Strip */}
+                  <div className="flex gap-2 mt-3 overflow-x-auto">
+                    {form.images_array.map((url, index) => (
+                      <div 
+                        key={index}
+                        className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden cursor-pointer border-2 transition-colors ${
+                          index === currentImageIndex ? 'border-primary' : 'border-transparent hover:border-primary/50'
+                        }`}
+                        onClick={() => setCurrentImageIndex(index)}
+                      >
+                        <img src={url} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
+                        <button
+                          onClick={(e) => { e.stopPropagation(); removeImage(index); }}
+                          className="absolute top-0 right-0 bg-destructive text-white rounded-br-lg p-1 opacity-0 hover:opacity-100 transition-opacity"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      </div>
+                    ))}
+                    
+                    {/* Upload Button in Thumbnail Strip */}
+                    <label className="flex-shrink-0 w-16 h-16 rounded-lg border-2 border-dashed border-primary/40 hover:border-primary cursor-pointer flex items-center justify-center bg-secondary/30">
+                      <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploading} />
+                      <Upload className={`w-5 h-5 ${uploading ? 'text-muted-foreground' : 'text-primary'}`} />
+                    </label>
+                  </div>
+                </div>
+              ) : (
+                <div className="aspect-square rounded-lg border-2 border-dashed border-primary/40 flex flex-col items-center justify-center bg-secondary/30 mb-4">
+                  <label className="cursor-pointer flex flex-col items-center">
+                    <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploading} />
+                    <Upload className="w-8 h-8 text-primary mb-2" />
+                    <p className="font-body text-sm text-primary">Upload Product Images</p>
+                    <p className="font-body text-xs text-muted-foreground mt-1">Drag & drop or click to upload</p>
+                  </label>
+                </div>
+              )}
+              
+              <div className="flex items-center justify-between text-xs text-muted-foreground">
+                <p>Supports multiple images. First image is the primary display.</p>
+                {uploading && <p className="text-primary">Uploading...</p>}
+              </div>
+            </div>
+
+            {/* Financial Fields */}
             <div className="bg-gradient-to-br from-primary/5 to-transparent border border-primary/20 rounded-xl p-4 space-y-4">
               <div className="flex items-center gap-2 mb-2">
                 <DollarSign className="w-4 h-4 text-primary" />
@@ -407,37 +521,6 @@ export default function MerchManagement() {
                   ))}
                 </div>
               </div>
-            </div>
-
-            {/* Images */}
-            <div>
-              <Label className="font-body text-xs tracking-wider uppercase">Product Images</Label>
-              <div className="flex items-center gap-4 mt-2">
-                {form.image_url && (
-                  <div className="relative group">
-                    <img src={form.image_url} alt="product" className="w-20 h-20 rounded-lg object-cover" />
-                    <button
-                      onClick={() => setForm({ ...form, image_url: '' })}
-                      className="absolute -top-2 -right-2 bg-destructive text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-                  </div>
-                )}
-                <label className="cursor-pointer">
-                  <input type="file" accept="image/*" className="hidden" onChange={handleUpload} />
-                  <Button variant="outline" size="sm" className="gap-2" asChild>
-                    <span><Upload className="w-3 h-3" /> {uploading ? 'Uploading...' : 'Upload Image'}</span>
-                  </Button>
-                </label>
-              </div>
-              {form.images_array && form.images_array.length > 0 && (
-                <div className="flex gap-2 mt-3 overflow-x-auto">
-                  {form.images_array.map((url, i) => (
-                    <img key={i} src={url} alt={`product ${i}`} className="w-16 h-16 rounded-lg object-cover" />
-                  ))}
-                </div>
-              )}
             </div>
 
             {/* Toggle */}
