@@ -143,7 +143,7 @@ export default function BackThis() {
               {form.name ? `${form.name}, you're` : "You're"} part of this now. Your support means more than you know. 🤍
             </p>
             
-            {/* 1800RESPECT Commitment */}
+            {/* 1800RESPECT Commitment - LEGAL SAFE */}
             <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mt-8 max-w-lg mx-auto text-left">
               <p className="font-body text-xs tracking-widest uppercase text-blue-600 mb-3">10% Giving Commitment</p>
               <p className="font-body text-sm text-foreground/80 leading-relaxed mb-3">
@@ -155,7 +155,10 @@ export default function BackThis() {
               <p className="font-body text-sm text-foreground/70 leading-relaxed">
                 Your support doesn't just fund my music — it helps fund safety, healing, and hope for others walking similar paths. Thank you for being part of this ripple effect. 🤍
               </p>
-              <p className="font-body text-xs text-muted-foreground mt-4">
+              <p className="font-body text-[11px] text-red-600 mt-3 font-medium">
+                ⚠️ This is a voluntary donation. Not tax-deductible unless verified through Australian DGR eligibility.
+              </p>
+              <p className="font-body text-xs text-muted-foreground mt-2">
                 <a href="https://www.1800respect.org.au" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Learn more about 1800RESPECT →</a>
               </p>
             </div>
