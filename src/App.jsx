@@ -51,6 +51,7 @@ import Supporters from '@/pages/admin/Supporters';
 import GiftClaims from '@/pages/admin/GiftClaims';
 import TunecoreIntegration from '@/pages/admin/TunecoreIntegration';
 import HoodieOffer from '@/pages/admin/HoodieOffer';
+import FinancialDashboard from '@/pages/admin/FinancialDashboard';
 
 
 const AuthenticatedApp = () => {
@@ -128,6 +129,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/gift-claims" element={<GiftClaims />} />
         <Route path="/admin/tunecore" element={<TunecoreIntegration />} />
         <Route path="/admin/hoodie-offer" element={<HoodieOffer />} />
+        <Route path="/admin/financials" element={<FinancialDashboard />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

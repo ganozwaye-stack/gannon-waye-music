@@ -41,6 +41,12 @@ const NAV_SECTIONS = [
     ]
   },
   {
+    title: 'Finance',
+    items: [
+      { label: 'Financial Dashboard', path: '/admin/financials', icon: Sparkles },
+    ]
+  },
+  {
     title: 'Campaigns',
     items: [
       { label: 'Hoodie Gift Offer', path: '/admin/hoodie-offer', icon: Gift },
