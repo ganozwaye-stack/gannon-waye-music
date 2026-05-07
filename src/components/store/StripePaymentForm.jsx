@@ -19,11 +19,14 @@ function PaymentForm({ total, onSuccess, onError, promoCode }) {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!stripe || !elements) return;
+    if (!stripe || !elements || isProcessing) return;
+    
     setLoading(true);
+    setIsProcessing(true);
 
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
@@ -34,8 +37,14 @@ function PaymentForm({ total, onSuccess, onError, promoCode }) {
     if (error) {
       onError(error.message);
       setLoading(false);
+      setIsProcessing(false);
     } else if (paymentIntent?.status === 'succeeded') {
+      // Payment succeeded - do NOT allow re-submission
       onSuccess(paymentIntent);
+    } else if (paymentIntent?.status === 'processing') {
+      // Still processing - don't allow second submission
+      onError('Payment is processing. Please wait...');
+      setLoading(false);
     }
   };
 

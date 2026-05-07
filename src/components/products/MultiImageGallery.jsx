@@ -12,13 +12,22 @@ export default function MultiImageGallery({ images = [], onChange }) {
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    // Prevent duplicate uploads of same file
+    if (images.some(img => img === file.name)) {
+      return;
+    }
     
     const { file_url } = await base44.integrations.Core.UploadFile({ file });
     onChange([...images, file_url]);
   };
 
   const removeImage = (index) => {
-    onChange(images.filter((_, i) => i !== index));
+    // Remove from local state
+    const updatedImages = images.filter((_, i) => i !== index);
+    onChange(updatedImages);
+    // Note: Actual file deletion from storage should be handled by backend
+    // when product is saved to database
   };
 
   const setHeroImage = (index) => {
