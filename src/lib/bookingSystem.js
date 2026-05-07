@@ -242,6 +242,8 @@ const buildStatusUpdateEmail = (enquiry, status, notes) => {
   return `Hi ${enquiry.full_name},\n\nThank you for your booking enquiry.\n\nStatus Update: ${status.replace(/_/g, ' ')}\n\nEnquiry ID: ${enquiry.id}\n\n${notes ? `Notes: ${notes}\n\n` : ''}If you have any questions, please don't hesitate to reach out.\n\nWarm regards,\nGannon Waye Team`;
 };
 
+export { BOOKING_TYPES, BOOKING_STATUSES };
+
 const bookingSystem = {
   createBookingEnquiry,
   updateBookingStatus,
