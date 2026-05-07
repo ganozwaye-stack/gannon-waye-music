@@ -63,6 +63,8 @@ import SiteHealthDashboard from '@/pages/admin/SiteHealthDashboard';
 import GiftProgressAdmin from '@/pages/admin/GiftProgressAdmin';
 import ReleaseCountdown from '@/pages/admin/ReleaseCountdown';
 import BirthdayDiscounts from '@/pages/admin/BirthdayDiscounts';
+import CharityTracking from '@/pages/admin/CharityTracking';
+import TrainingHub from '@/pages/admin/TrainingHub';
 
 
 const AuthenticatedApp = () => {
@@ -153,6 +155,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/gift-progress" element={<GiftProgressAdmin />} />
         <Route path="/admin/release-countdown" element={<ReleaseCountdown />} />
         <Route path="/admin/birthdays" element={<BirthdayDiscounts />} />
+        <Route path="/admin/charity-tracking" element={<CharityTracking />} />
+        <Route path="/admin/training" element={<TrainingHub />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
