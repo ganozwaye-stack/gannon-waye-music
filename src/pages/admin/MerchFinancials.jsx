@@ -12,9 +12,10 @@ import { useToast } from '@/components/ui/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import {
-  calculateMerchFinancials,
-  calculateStoreTotals,
-} from '@/lib/financialCalculations';
+  calculateProductProfitability,
+  calculateOrderFinancials,
+  calculateInventoryValuation,
+} from '@/lib/businessLogic';
 
 export default function MerchFinancials() {
   const { toast } = useToast();
@@ -62,11 +63,30 @@ export default function MerchFinancials() {
     },
   });
 
-  const storeTotals = useMemo(() => calculateStoreTotals(products, orders), [products, orders]);
+  // Calculate store totals and product financials
+  const storeTotals = useMemo(() => {
+    const totalRevenue = orders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
+    const totalCosts = orders.reduce((sum, o) => {
+      const itemsCost = o.items?.reduce((itemSum, item) => {
+        const product = products.find(p => p.id === item.product_id);
+        return itemSum + ((product?.cost_price || 0) + (product?.delivery_cost || 0)) * (item.quantity || 1);
+      }, 0) || 0;
+      return sum + itemsCost;
+    }, 0);
+    const totalProfit = totalRevenue - totalCosts;
+    const profitMarginPercent = totalRevenue > 0 ? (totalProfit / totalRevenue) * 100 : 0;
+
+    return {
+      totalRevenue,
+      totalCosts,
+      totalProfit,
+      profitMarginPercent,
+    };
+  }, [products, orders]);
 
   const productsWithFinancials = useMemo(() => {
     return products.map(p => {
-      const financials = calculateMerchFinancials(p);
+      const profitability = calculateProductProfitability(p);
       const unitsSold = orders.reduce((sum, order) => {
         const item = order.items?.find(i => i.product_id === p.id);
         return sum + (item?.quantity || 0);
@@ -74,10 +94,17 @@ export default function MerchFinancials() {
 
       return {
         ...p,
-        ...financials,
+        salePrice: p.sale_price,
+        costPrice: p.cost_price,
+        deliveryCost: p.delivery_cost,
+        merchantFeePercent: p.merchant_fee_percent || 3.5,
+        merchantFee: profitability.pricing.merchantFee,
+        subtotal: p.sale_price - p.cost_price - p.delivery_cost,
+        totalProfit: profitability.profitability.profit,
+        profitMarginPercent: profitability.profitability.marginPercent,
         unitsSold,
-        totalUnitRevenue: financials.salePrice * unitsSold,
-        totalUnitCost: (financials.costPrice + financials.deliveryCost) * unitsSold,
+        totalUnitRevenue: p.sale_price * unitsSold,
+        totalUnitCost: (p.cost_price + p.delivery_cost) * unitsSold,
         missingCosts: !p.cost_price || !p.delivery_cost,
       };
     });

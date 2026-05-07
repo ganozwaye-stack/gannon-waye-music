@@ -243,10 +243,13 @@ export default function BackThis() {
                 If something in this journey has resonated with you — if you've felt seen, even for a moment — this is your way to be part of it.
               </p>
               
-              {/* 1800RESPECT Note in Header */}
+              {/* 1800RESPECT Note in Header - LEGAL COMPLIANT */}
               <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-6 max-w-lg mx-auto text-left">
-                <p className="font-body text-xs text-blue-700 leading-relaxed">
+                <p className="font-body text-xs text-blue-700 leading-relaxed mb-2">
                   <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children — including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
+                </p>
+                <p className="font-body text-[10px] text-red-600 font-medium">
+                  ⚠️ Not tax-deductible. See terms for details.
                 </p>
               </div>
             </motion.div>
