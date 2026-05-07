@@ -15,8 +15,9 @@ import { Plus, Pencil, Trash2, Upload, ShoppingBag, DollarSign, TrendingUp, Pack
 import { motion, AnimatePresence } from 'framer-motion';
 import MultiImageGallery from '@/components/products/MultiImageGallery';
 import ProductFinancials from '@/components/products/ProductFinancials';
-import { calculateProductProfitability, calculateInventoryValuation } from '@/lib/enterpriseFinancials';
+import { calculateProductProfitability } from '@/lib/businessLogic';
 import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
+import { syncProductUpdate } from '@/lib/dataSync';
 
 const CATEGORIES = ['apparel', 'accessories', 'vinyl', 'cd', 'poster', 'bundle', 'other'];
 const emptyProduct = {
@@ -62,11 +63,6 @@ export default function MerchManagement() {
         merchant_fee_percent: Number(data.merchant_fee_percent) || 3.5,
         stock_quantity: Number(data.stock_quantity) || 0,
       };
-      
-      // Use centralized calculation
-      const profitability = calculateProductProfitability(payload);
-      payload.total_profit_per_unit = profitability.profitability.profit;
-      payload.profit_margin_percent = profitability.profitability.marginPercent;
 
       if (editing === 'new') {
         const result = await base44.entities.MerchProduct.create(payload);
@@ -75,21 +71,28 @@ export default function MerchManagement() {
         return result;
       }
       
-      const result = await base44.entities.MerchProduct.update(editing, payload);
-      // Trigger event automation
-      await emitEvent(EVENT_TYPES.PRODUCT_UPDATED, { ...payload, id: editing });
-      return result;
+      // Use centralized sync for updates (handles profitability + inventory)
+      const syncResult = await syncProductUpdate(editing, payload);
+      if (!syncResult.success) throw new Error(syncResult.error);
+      return syncResult.product;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['merchProducts'] });
       setEditing(null);
-      toast({ title: 'Product saved successfully', description: 'All calculations updated' });
+      toast({ title: 'Product saved successfully', description: 'All systems synchronized' });
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: async (id) => {
       const product = products.find(p => p.id === id);
+      
+      // Check inventory before delete
+      if (product.stock_quantity > 0) {
+        const confirmed = window.confirm(`This product has ${product.stock_quantity} units in stock. Delete anyway?`);
+        if (!confirmed) return;
+      }
+      
       const result = await base44.entities.MerchProduct.delete(id);
       // Trigger event automation
       await emitEvent(EVENT_TYPES.PRODUCT_DELETED, { id, name: product?.name });

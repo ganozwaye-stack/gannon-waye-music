@@ -2,22 +2,44 @@
 // Centralized event handling for all platform actions
 
 import { base44 } from '@/api/base44Client';
+import { calculateOrderFinancials, calculateCustomerLTV } from './businessLogic';
+import { AUDIT_CONFIG } from './platformConfig';
 
-// Event types registry
+// Event types registry - ALL platform events
 export const EVENT_TYPES = {
+  // Order events
   ORDER_CREATED: 'order.created',
   ORDER_UPDATED: 'order.updated',
   ORDER_SHIPPED: 'order.shipped',
   ORDER_DELIVERED: 'order.delivered',
   ORDER_CANCELLED: 'order.cancelled',
+  ORDER_REFUNDED: 'order.refunded',
+  
+  // Product events
   PRODUCT_CREATED: 'product.created',
   PRODUCT_UPDATED: 'product.updated',
   PRODUCT_DELETED: 'product.deleted',
+  
+  // Inventory events
+  INVENTORY_LOW: 'inventory.low',
+  INVENTORY_CHANGED: 'inventory.changed',
+  
+  // Customer events
   CONTRIBUTION_RECEIVED: 'contribution.received',
   SUBSCRIBER_ADDED: 'subscriber.added',
+  SUPPORTER_CREATED: 'supporter.created',
+  SUPPORTER_UPDATED: 'supporter.updated',
+  
+  // Campaign events
   GIFT_CLAIMED: 'gift.claimed',
   PROMO_USED: 'promo.used',
+  BIRTHDAY_TRIGGERED: 'birthday.triggered',
+  
+  // System events
   CHARITY_DONATION: 'charity.donation',
+  PAYMENT_FAILED: 'payment.failed',
+  EMAIL_FAILED: 'email.failed',
+  CAMPAIGN_CREATED: 'campaign.created',
 };
 
 // Event handlers registry
@@ -169,9 +191,11 @@ export const initializeEventSystem = () => {
 };
 
 /**
- * Create audit log entry with proper change tracking
+ * Create audit log entry with proper change tracking and rollback capability
  */
-const createAuditLog = async (entityName, entityId, action, newData, oldData = null) => {
+const createAuditLog = async (entityName, entityId, action, newData, oldData = null, options = {}) => {
+  if (!AUDIT_CONFIG.ENABLED) return;
+  
   try {
     const user = await base44.auth.me();
     const changes = [];
@@ -205,6 +229,15 @@ const createAuditLog = async (entityName, entityId, action, newData, oldData = n
       });
     }
     
+    // Generate rollback snapshot
+    const rollbackSnapshot = AUDIT_CONFIG.ENABLE_ROLLBACK && action !== 'delete' ? {
+      entity_name: entityName,
+      entity_id: entityId,
+      previous_state: oldData || null,
+      current_state: newData,
+      can_rollback: true,
+    } : null;
+    
     await base44.entities.AuditLog.create({
       entity_name: entityName,
       entity_id: entityId,
@@ -215,14 +248,54 @@ const createAuditLog = async (entityName, entityId, action, newData, oldData = n
       changes,
       description: `${action.toUpperCase()} ${entityName} #${entityId.slice(-6)}${changes.length > 0 ? ` (${changes.length} fields changed)` : ''}`,
       metadata: {
-        ip_address: 'system',
-        user_agent: 'automation',
-        session_id: 'event-automation',
-        rollback_available: action !== 'delete',
+        ip_address: options.ip_address || 'system',
+        user_agent: options.user_agent || 'automation',
+        session_id: options.session_id || 'event-automation',
+        rollback_available: !!rollbackSnapshot,
+        triggering_workflow: options.workflow || 'manual',
+        affected_entities: options.affected_entities || [entityName],
       },
+      // Store rollback snapshot in a parseable format
+      ...(rollbackSnapshot && { 
+        metadata: {
+          ...rollbackSnapshot,
+          ...((await base44.entities.AuditLog.create({})).metadata || {})
+        }
+      }),
     });
   } catch (error) {
     console.error('Audit log creation failed:', error);
+  }
+};
+
+/**
+ * Perform rollback from audit log
+ */
+export const performRollback = async (auditLogId) => {
+  try {
+    const auditLogs = await base44.entities.AuditLog.filter({ id: auditLogId });
+    if (auditLogs.length === 0) throw new Error('Audit log not found');
+    
+    const auditLog = auditLogs[0];
+    if (!auditLog.metadata?.rollback_available) {
+      throw new Error('Rollback not available for this audit log');
+    }
+    
+    const { entity_name, entity_id, previous_state } = auditLog.metadata;
+    
+    // Restore previous state
+    await base44.entities[entity_name].update(entity_id, previous_state);
+    
+    // Log the rollback
+    await createAuditLog(entity_name, entity_id, 'rollback', previous_state, null, {
+      workflow: 'manual_rollback',
+      session_id: `rollback_from_${auditLogId}`,
+    });
+    
+    return { success: true, message: `Successfully rolled back ${entity_name} #${entity_id}` };
+  } catch (error) {
+    console.error('Rollback failed:', error);
+    return { success: false, error: error.message };
   }
 };
 
