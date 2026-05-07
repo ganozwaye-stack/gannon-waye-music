@@ -48,6 +48,17 @@ export default function CommandPalette({ isOpen, onClose }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
 
+  const filteredCommands = COMMANDS.filter(cmd =>
+    cmd.label.toLowerCase().includes(query.toLowerCase())
+  );
+
+  const executeCommand = (command) => {
+    if (command.action) {
+      navigate(command.action);
+      if (onClose) onClose();
+    }
+  };
+
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -75,18 +86,7 @@ export default function CommandPalette({ isOpen, onClose }) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [query, selectedIndex, filteredCommands]);
-
-  const filteredCommands = COMMANDS.filter(cmd =>
-    cmd.label.toLowerCase().includes(query.toLowerCase())
-  );
-
-  const executeCommand = (command) => {
-    if (command.action) {
-      navigate(command.action);
-      if (onClose) onClose();
-    }
-  };
+  }, [query, selectedIndex, filteredCommands, onClose, executeCommand]);
 
   if (!isOpen) return null;
 
