@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 import { TrendingUp, DollarSign, Package, AlertTriangle, CheckCircle2, Info } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { calculateProductProfitability, calculateInventoryValuation } from '@/lib/enterpriseFinancials';
+import { calculateProductProfitability } from '@/lib/enterpriseFinancials';
 
 export default function ProductFinancials({ product }) {
   const [financials, setFinancials] = useState(null);

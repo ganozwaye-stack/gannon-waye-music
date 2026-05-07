@@ -65,6 +65,7 @@ import ReleaseCountdown from '@/pages/admin/ReleaseCountdown';
 import BirthdayDiscounts from '@/pages/admin/BirthdayDiscounts';
 import CharityTracking from '@/pages/admin/CharityTracking';
 import TrainingHub from '@/pages/admin/TrainingHub';
+import AuditLog from '@/pages/admin/AuditLog';
 
 
 const AuthenticatedApp = () => {
@@ -157,6 +158,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/birthdays" element={<BirthdayDiscounts />} />
         <Route path="/admin/charity-tracking" element={<CharityTracking />} />
         <Route path="/admin/training" element={<TrainingHub />} />
+        <Route path="/admin/audit-log" element={<AuditLog />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
