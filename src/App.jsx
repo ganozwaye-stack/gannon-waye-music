@@ -52,6 +52,8 @@ import GiftClaims from '@/pages/admin/GiftClaims';
 import TunecoreIntegration from '@/pages/admin/TunecoreIntegration';
 import HoodieOffer from '@/pages/admin/HoodieOffer';
 import FinancialDashboard from '@/pages/admin/FinancialDashboard';
+import GiftVerification from '@/pages/admin/GiftVerification';
+import GiftChecklistPage from '@/pages/GiftChecklistPage';
 
 
 const AuthenticatedApp = () => {
@@ -106,6 +108,7 @@ const AuthenticatedApp = () => {
 
       {/* Embed timer (no layout) */}
       <Route path="/embed-timer" element={<EmbedTimer />} />
+      <Route path="/gift-checklist" element={<GiftChecklistPage />} />
 
       {/* Admin routes */}
       <Route element={<AdminLayout />}>
@@ -130,6 +133,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/tunecore" element={<TunecoreIntegration />} />
         <Route path="/admin/hoodie-offer" element={<HoodieOffer />} />
         <Route path="/admin/financials" element={<FinancialDashboard />} />
+        <Route path="/admin/gift-verification" element={<GiftVerification />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

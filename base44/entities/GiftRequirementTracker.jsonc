@@ -1,0 +1,87 @@
+{
+  "name": "GiftRequirementTracker",
+  "type": "object",
+  "properties": {
+    "subscriber_email": {
+      "type": "string",
+      "description": "Email from EmailSubscriber"
+    },
+    "subscriber_name": {
+      "type": "string",
+      "description": "Name from signup"
+    },
+    "tiktok_followed": {
+      "type": "boolean",
+      "default": false,
+      "description": "User confirmed TikTok follow @gannonwaye"
+    },
+    "instagram_followed": {
+      "type": "boolean",
+      "default": false,
+      "description": "User confirmed Instagram follow @gannonwaye"
+    },
+    "post_engaged": {
+      "type": "boolean",
+      "default": false,
+      "description": "User confirmed like/comment/share on latest post"
+    },
+    "screenshot_submitted": {
+      "type": "string",
+      "description": "URL to screenshot proof (or 'pending', 'verified')"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "in_progress",
+        "all_requirements_met",
+        "gift_claimed",
+        "gift_sent"
+      ],
+      "default": "not_started",
+      "description": "Tracker status"
+    },
+    "checklist_token": {
+      "type": "string",
+      "description": "Unique token to access their personal checklist (no login needed)"
+    },
+    "gift_sent_date": {
+      "type": "string",
+      "format": "date",
+      "description": "When the gift was actually sent"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Admin notes during verification"
+    }
+  },
+  "required": [
+    "subscriber_email"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.subscriber_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

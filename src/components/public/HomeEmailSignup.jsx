@@ -47,25 +47,64 @@ export default function HomeEmailSignup() {
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
 
     setLoading(true);
-    // Fire and forget the duplicate check — don't block UX on it
-    base44.entities.EmailSubscriber.filter({ email: form.email })
-      .then(existing => {
-        if (existing.length === 0) {
-          return base44.entities.EmailSubscriber.create(form);
-        }
-        // Already subscribed — silently update with new details
-        return base44.entities.EmailSubscriber.update(existing[0].id, {
+    try {
+      // Create subscriber
+      let subscriberId;
+      const existing = await base44.entities.EmailSubscriber.filter({ email: form.email });
+      if (existing.length === 0) {
+        const newSub = await base44.entities.EmailSubscriber.create(form);
+        subscriberId = newSub.id;
+      } else {
+        subscriberId = existing[0].id;
+        await base44.entities.EmailSubscriber.update(existing[0].id, {
           name: form.name,
           phone: form.phone,
           how_found: form.how_found,
         });
-      })
-      .catch(() => {
-        // Best-effort — if filter fails just create
-        base44.entities.EmailSubscriber.create(form).catch(() => {});
+      }
+
+      // Create gift tracker
+      const trackerRes = await base44.functions.invoke('createGiftTracker', {
+        subscriber_email: form.email,
+        subscriber_name: form.name,
       });
 
-    // Show success immediately — don't wait for server
+      // Send email with checklist link
+      if (trackerRes?.data?.checklist_url) {
+        await base44.integrations.Core.SendEmail({
+          to: form.email,
+          subject: 'Your Gift Awaits—Here\'s How to Claim It 🎁',
+          body: `Hi ${form.name},
+
+Thank you for signing up. You're now part of something special.
+
+Because you got in early, I have a gift waiting for you. It's simple to claim—just follow these steps:
+
+**Your Gift Checklist:**
+${trackerRes.data.checklist_url}
+
+(Save this link—you'll use it to track your progress)
+
+**Quick Steps:**
+1. Follow me on TikTok @gannonwaye & Instagram @gannonwaye
+2. Like, comment & share my latest post
+3. Take a screenshot & submit it via the link above
+4. I'll verify & send your gift directly
+
+No purchase needed. This is my way of saying thank you for believing in this from the beginning.
+
+See you on May 10 when "Thank You" drops.
+
+Gannon 🤍
+
+P.S. Questions? Just reply to this email or DM me on social.`,
+          from_name: 'Gannon Waye',
+        });
+      }
+    } catch (err) {
+      console.error('Signup error:', err);
+    }
+
     setDone(true);
     setLoading(false);
   };

@@ -50,6 +50,7 @@ const NAV_SECTIONS = [
     title: 'Campaigns',
     items: [
       { label: 'Hoodie Gift Offer', path: '/admin/hoodie-offer', icon: Gift },
+      { label: 'Gift Verification', path: '/admin/gift-verification', icon: Gift },
     ]
   },
   {
