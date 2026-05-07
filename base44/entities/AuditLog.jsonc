@@ -1,0 +1,106 @@
+{
+  "name": "AuditLog",
+  "type": "object",
+  "properties": {
+    "entity_name": {
+      "type": "string",
+      "description": "Which entity was changed (e.g., 'MerchProduct', 'MerchOrder')"
+    },
+    "entity_id": {
+      "type": "string",
+      "description": "ID of the entity that was changed"
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "create",
+        "update",
+        "delete"
+      ],
+      "description": "Type of action performed"
+    },
+    "user_email": {
+      "type": "string",
+      "description": "Email of user who made the change"
+    },
+    "user_role": {
+      "type": "string",
+      "description": "Role of user who made the change"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the change occurred"
+    },
+    "changes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Field name that changed"
+          },
+          "old_value": {
+            "description": "Previous value (any type)"
+          },
+          "new_value": {
+            "description": "New value (any type)"
+          }
+        },
+        "required": [
+          "field"
+        ]
+      },
+      "description": "Array of field changes with old/new values"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "ip_address": {
+          "type": "string"
+        },
+        "user_agent": {
+          "type": "string"
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "rollback_available": {
+          "type": "boolean",
+          "default": true
+        }
+      },
+      "description": "Additional context about the change"
+    },
+    "description": {
+      "type": "string",
+      "description": "Human-readable description of what changed"
+    }
+  },
+  "required": [
+    "entity_name",
+    "entity_id",
+    "action",
+    "user_email",
+    "timestamp"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

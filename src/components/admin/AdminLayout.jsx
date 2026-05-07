@@ -1,7 +1,10 @@
-import React from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
+import { Badge } from '@/components/ui/badge';
+import GlobalSearch from '@/components/global/GlobalSearch';
+import CommandPalette from '@/components/global/CommandPalette';
 
 const NAV_SECTIONS = [
   {
@@ -79,6 +82,29 @@ const NAV_SECTIONS = [
 
 export default function AdminLayout() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [showSearch, setShowSearch] = useState(false);
+  const [showCommand, setShowCommand] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Cmd/Ctrl + K: Open command palette
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setShowCommand(true);
+      }
+      // Cmd/Ctrl + F: Open global search
+      if ((e.metaKey || e.ctrlKey) && e.key === 'f') {
+        e.preventDefault();
+        setShowSearch(true);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   return (
     <div className="min-h-screen flex">
@@ -132,32 +158,104 @@ export default function AdminLayout() {
           <div className="w-8 h-8 rounded-full border border-primary/60 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
             <span className="font-display text-xs gradient-gold-text font-semibold tracking-wider">GW</span>
           </div>
-          <Link to="/" className="font-body text-xs text-primary">View Site</Link>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setShowCommand(true)}
+              className="p-2 hover:bg-secondary/50 rounded-lg"
+            >
+              <Command className="w-4 h-4 text-primary" />
+            </button>
+            <Link to="/" className="font-body text-xs text-primary">View Site</Link>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 hover:bg-secondary/50 rounded-lg"
+            >
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
+          </div>
         </div>
-        <div className="flex gap-2 mt-2 overflow-x-auto pb-1">
-          {NAV_SECTIONS.flatMap(s => s.items).map(item => {
-            const active = location.pathname === item.path;
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex-shrink-0 px-3 py-1.5 rounded-full font-body text-xs ${
-                  active ? 'bg-primary/10 text-primary' : 'text-muted-foreground bg-secondary/50'
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
-        </div>
+        
+        {/* Mobile menu */}
+        {mobileMenuOpen && (
+          <div className="mt-3 space-y-1 pb-2">
+            {NAV_SECTIONS.flatMap(s => s.items).map(item => {
+              const active = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`block px-3 py-2 rounded-lg font-body text-sm ${
+                    active ? 'bg-primary/10 text-primary' : 'text-muted-foreground'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Main content */}
       <main className="flex-1 lg:ml-64 pt-24 lg:pt-0 overflow-y-auto">
         <div className="min-h-screen p-6 lg:p-8">
+          {/* Breadcrumbs and Actions Bar */}
+          <div className="mb-6 flex items-center justify-between flex-wrap gap-4">
+            <div className="flex items-center gap-2 text-sm">
+              <Link to="/admin" className="text-muted-foreground hover:text-foreground">Admin</Link>
+              {location.pathname.split('/').filter(Boolean).slice(1).map((segment, i, arr) => {
+                const path = `/admin/${arr.slice(0, i + 1).join('/')}`;
+                const isLast = i === arr.length - 1;
+                return (
+                  <React.Fragment key={path}>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                    {isLast ? (
+                      <span className="font-display text-foreground capitalize">{segment.replace(/-/g, ' ')}</span>
+                    ) : (
+                      <Link to={path} className="text-muted-foreground hover:text-foreground capitalize">
+                        {segment.replace(/-/g, ' ')}
+                      </Link>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
+            
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setShowSearch(true)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border/40 hover:border-primary/40 transition-colors"
+              >
+                <Search className="w-4 h-4 text-muted-foreground" />
+                <span className="font-body text-xs text-muted-foreground hidden sm:inline">Search</span>
+                <Badge variant="outline" className="text-[10px]">⌘F</Badge>
+              </button>
+              <button
+                onClick={() => setShowCommand(true)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border/40 hover:border-primary/40 transition-colors"
+              >
+                <Command className="w-4 h-4 text-primary" />
+                <span className="font-body text-xs text-muted-foreground hidden sm:inline">Commands</span>
+                <Badge variant="outline" className="text-[10px]">⌘K</Badge>
+              </button>
+            </div>
+          </div>
+          
           <Outlet />
         </div>
       </main>
+
+      {/* Global Search Modal */}
+      {showSearch && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-start justify-center pt-[10vh] p-4" onClick={() => setShowSearch(false)}>
+          <div onClick={e => e.stopPropagation()} className="w-full max-w-3xl">
+            <GlobalSearch onClose={() => setShowSearch(false)} />
+          </div>
+        </div>
+      )}
+
+      {/* Command Palette */}
+      <CommandPalette isOpen={showCommand} onClose={() => setShowCommand(false)} />
     </div>
   );
 }
