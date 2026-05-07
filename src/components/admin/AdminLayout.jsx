@@ -207,17 +207,17 @@ export default function AdminLayout() {
                 const path = `/admin/${arr.slice(0, i + 1).join('/')}`;
                 const isLast = i === arr.length - 1;
                 return (
-                  <React.Fragment key={path}>
-                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                    {isLast ? (
-                      <span className="font-display text-foreground capitalize">{segment.replace(/-/g, ' ')}</span>
-                    ) : (
-                      <Link to={path} className="text-muted-foreground hover:text-foreground capitalize">
-                        {segment.replace(/-/g, ' ')}
-                      </Link>
-                    )}
-                  </React.Fragment>
-                );
+                   <div key={path} className="flex items-center gap-2">
+                     <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                     {isLast ? (
+                       <span className="font-display text-foreground capitalize">{segment.replace(/-/g, ' ')}</span>
+                     ) : (
+                       <Link to={path} className="text-muted-foreground hover:text-foreground capitalize">
+                         {segment.replace(/-/g, ' ')}
+                       </Link>
+                     )}
+                   </div>
+                 );
               })}
             </div>
             
