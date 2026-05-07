@@ -15,7 +15,7 @@ async function getStripe() {
   return stripePromise;
 }
 
-function PaymentForm({ total, onSuccess, onError }) {
+function PaymentForm({ total, onSuccess, onError, promoCode }) {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
@@ -41,6 +41,15 @@ function PaymentForm({ total, onSuccess, onError }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {promoCode && (
+        <div className="bg-primary/10 border border-primary/30 rounded-lg p-3 flex items-center justify-between">
+          <div>
+            <p className="font-body text-xs tracking-widest uppercase text-primary">Promo Applied</p>
+            <p className="font-display text-sm text-foreground">{promoCode.code}</p>
+          </div>
+          <p className="font-display text-lg text-primary">-${promoCode.discount.toFixed(2)}</p>
+        </div>
+      )}
       <PaymentElement />
       <Button
         type="submit"
@@ -54,7 +63,7 @@ function PaymentForm({ total, onSuccess, onError }) {
   );
 }
 
-export default function StripePaymentForm({ amount, customerEmail, customerName, productName, metadata, onSuccess, onError }) {
+export default function StripePaymentForm({ amount, customerEmail, customerName, productName, metadata, onSuccess, onError, promoCode }) {
   const [clientSecret, setClientSecret] = useState(null);
   const [stripeInstance, setStripeInstance] = useState(null);
   const [loadingIntent, setLoadingIntent] = useState(true);
@@ -110,7 +119,7 @@ export default function StripePaymentForm({ amount, customerEmail, customerName,
 
   return (
     <Elements stripe={stripeInstance} options={{ clientSecret, appearance }}>
-      <PaymentForm total={amount} onSuccess={onSuccess} onError={onError} />
+      <PaymentForm total={amount} onSuccess={onSuccess} onError={onError} promoCode={promoCode} />
     </Elements>
   );
 }

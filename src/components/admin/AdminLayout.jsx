@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 const NAV_SECTIONS = [
@@ -38,6 +38,12 @@ const NAV_SECTIONS = [
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
       { label: 'Report & Data', path: '/admin/report', icon: TrendingUp },
       { label: 'Reveal Newsletter', path: '/admin/reveal-newsletter', icon: Mail },
+    ]
+  },
+  {
+    title: 'Campaigns',
+    items: [
+      { label: 'Hoodie Gift Offer', path: '/admin/hoodie-offer', icon: Gift },
     ]
   },
   {
