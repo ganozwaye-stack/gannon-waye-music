@@ -6,6 +6,10 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import EmbedTimer from '@/pages/EmbedTimer';
+import { initializeEventSystem } from '@/lib/eventAutomation';
+
+// Initialize event-driven automation system
+initializeEventSystem();
 
 // Public pages
 import Home from '@/pages/Home';

@@ -13,6 +13,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { useToast } from '@/components/ui/use-toast';
 import { Plus, Pencil, Trash2, Upload, ShoppingBag, DollarSign, TrendingUp, Package, Zap, Eye, Copy, Calculator, BarChart3, Globe, MapPin, Users, Tag, Image as ImageIcon, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import MultiImageGallery from '@/components/products/MultiImageGallery';
+import ProductFinancials from '@/components/products/ProductFinancials';
+import { calculateProductProfitability, calculateInventoryValuation } from '@/lib/enterpriseFinancials';
+import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
 
 const CATEGORIES = ['apparel', 'accessories', 'vinyl', 'cd', 'poster', 'bundle', 'other'];
 const emptyProduct = {
@@ -28,8 +32,6 @@ const emptyProduct = {
   sizes_available: [],
   stock_quantity: 0,
   is_active: true,
-  profit_margin_percent: 0,
-  total_profit_per_unit: 0,
 };
 
 export default function MerchManagement() {
@@ -60,14 +62,23 @@ export default function MerchManagement() {
         merchant_fee_percent: Number(data.merchant_fee_percent) || 3.5,
         stock_quantity: Number(data.stock_quantity) || 0,
       };
-      const merchantFee = payload.sale_price * (payload.merchant_fee_percent / 100);
-      payload.total_profit_per_unit = payload.sale_price - payload.cost_price - payload.delivery_cost - merchantFee;
-      payload.profit_margin_percent = payload.sale_price > 0 
-        ? (payload.total_profit_per_unit / payload.sale_price) * 100 
-        : 0;
+      
+      // Use centralized calculation
+      const profitability = calculateProductProfitability(payload);
+      payload.total_profit_per_unit = profitability.profitability.profit;
+      payload.profit_margin_percent = profitability.profitability.marginPercent;
 
-      if (editing === 'new') return base44.entities.MerchProduct.create(payload);
-      return base44.entities.MerchProduct.update(editing, payload);
+      if (editing === 'new') {
+        const result = await base44.entities.MerchProduct.create(payload);
+        // Trigger event automation
+        await emitEvent(EVENT_TYPES.PRODUCT_CREATED, { ...payload, id: result.id });
+        return result;
+      }
+      
+      const result = await base44.entities.MerchProduct.update(editing, payload);
+      // Trigger event automation
+      await emitEvent(EVENT_TYPES.PRODUCT_UPDATED, { ...payload, id: editing });
+      return result;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['merchProducts'] });
@@ -77,7 +88,13 @@ export default function MerchManagement() {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id) => base44.entities.MerchProduct.delete(id),
+    mutationFn: async (id) => {
+      const product = products.find(p => p.id === id);
+      const result = await base44.entities.MerchProduct.delete(id);
+      // Trigger event automation
+      await emitEvent(EVENT_TYPES.PRODUCT_DELETED, { id, name: product?.name });
+      return result;
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['merchProducts'] });
       toast({ title: 'Product deleted' });
@@ -97,26 +114,11 @@ export default function MerchManagement() {
     },
   });
 
-  const handleUpload = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setUploading(true);
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
-    const newImagesArray = [...(form.images_array || []), file_url];
+  const handleImagesChange = (newImages) => {
     setForm({ 
       ...form, 
-      image_url: form.image_url || file_url,
-      images_array: newImagesArray 
-    });
-    setUploading(false);
-  };
-
-  const removeImage = (index) => {
-    const newImagesArray = form.images_array.filter((_, i) => i !== index);
-    setForm({ 
-      ...form, 
-      images_array: newImagesArray,
-      image_url: newImagesArray.length > 0 ? newImagesArray[0] : ''
+      images_array: newImages,
+      image_url: newImages.length > 0 ? newImages[0] : ''
     });
   };
 
@@ -142,24 +144,14 @@ export default function MerchManagement() {
   };
 
   const calculatedForm = useMemo(() => {
-    if (!form.sale_price) return form;
-    const merchantFee = form.sale_price * ((form.merchant_fee_percent || 3.5) / 100);
-    const profit = form.sale_price - (form.cost_price || 0) - (form.delivery_cost || 0) - merchantFee;
-    const margin = form.sale_price > 0 ? (profit / form.sale_price) * 100 : 0;
-    return { ...form, calculated_profit: profit, calculated_margin: margin };
+    if (!form.sale_price || !form.cost_price || !form.delivery_cost) return null;
+    return calculateProductProfitability({
+      sale_price: Number(form.sale_price),
+      cost_price: Number(form.cost_price),
+      delivery_cost: Number(form.delivery_cost),
+      merchant_fee_percent: Number(form.merchant_fee_percent),
+    });
   }, [form.sale_price, form.cost_price, form.delivery_cost, form.merchant_fee_percent]);
-
-  const nextImage = () => {
-    if (form.images_array.length > 0) {
-      setCurrentImageIndex((prev) => (prev + 1) % form.images_array.length);
-    }
-  };
-
-  const prevImage = () => {
-    if (form.images_array.length > 0) {
-      setCurrentImageIndex((prev) => (prev - 1 + form.images_array.length) % form.images_array.length);
-    }
-  };
 
   return (
     <div className="space-y-6">
@@ -384,88 +376,19 @@ export default function MerchManagement() {
               <Textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })} rows={3} placeholder="Product description, materials, features..." />
             </div>
 
-            {/* Professional Multi-Image Gallery */}
+            {/* Professional Multi-Image Gallery - Integrated Component */}
             <div className="bg-gradient-to-br from-primary/5 to-transparent border border-primary/20 rounded-xl p-4">
               <div className="flex items-center gap-2 mb-4">
                 <ImageIcon className="w-4 h-4 text-primary" />
                 <p className="font-display text-sm text-primary">Product Image Gallery</p>
               </div>
-              
-              {/* Main Image Display with Navigation */}
-              {form.images_array && form.images_array.length > 0 ? (
-                <div className="relative mb-4">
-                  <div className="aspect-square rounded-lg overflow-hidden bg-secondary/50 relative">
-                    <img 
-                      src={form.images_array[currentImageIndex]} 
-                      alt={`Product view ${currentImageIndex + 1}`}
-                      className="w-full h-full object-cover"
-                    />
-                    {form.images_array.length > 1 && (
-                      <>
-                        <button
-                          onClick={prevImage}
-                          className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition-colors"
-                        >
-                          <ChevronLeft className="w-5 h-5" />
-                        </button>
-                        <button
-                          onClick={nextImage}
-                          className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 transition-colors"
-                        >
-                          <ChevronRight className="w-5 h-5" />
-                        </button>
-                        <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded-full">
-                          {currentImageIndex + 1} / {form.images_array.length}
-                        </div>
-                      </>
-                    )}
-                  </div>
-                  
-                  {/* Thumbnail Strip */}
-                  <div className="flex gap-2 mt-3 overflow-x-auto">
-                    {form.images_array.map((url, index) => (
-                      <div 
-                        key={index}
-                        className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden cursor-pointer border-2 transition-colors ${
-                          index === currentImageIndex ? 'border-primary' : 'border-transparent hover:border-primary/50'
-                        }`}
-                        onClick={() => setCurrentImageIndex(index)}
-                      >
-                        <img src={url} alt={`Thumbnail ${index + 1}`} className="w-full h-full object-cover" />
-                        <button
-                          onClick={(e) => { e.stopPropagation(); removeImage(index); }}
-                          className="absolute top-0 right-0 bg-destructive text-white rounded-br-lg p-1 opacity-0 hover:opacity-100 transition-opacity"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ))}
-                    
-                    {/* Upload Button in Thumbnail Strip */}
-                    <label className="flex-shrink-0 w-16 h-16 rounded-lg border-2 border-dashed border-primary/40 hover:border-primary cursor-pointer flex items-center justify-center bg-secondary/30">
-                      <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploading} />
-                      <Upload className={`w-5 h-5 ${uploading ? 'text-muted-foreground' : 'text-primary'}`} />
-                    </label>
-                  </div>
-                </div>
-              ) : (
-                <div className="aspect-square rounded-lg border-2 border-dashed border-primary/40 flex flex-col items-center justify-center bg-secondary/30 mb-4">
-                  <label className="cursor-pointer flex flex-col items-center">
-                    <input type="file" accept="image/*" className="hidden" onChange={handleUpload} disabled={uploading} />
-                    <Upload className="w-8 h-8 text-primary mb-2" />
-                    <p className="font-body text-sm text-primary">Upload Product Images</p>
-                    <p className="font-body text-xs text-muted-foreground mt-1">Drag & drop or click to upload</p>
-                  </label>
-                </div>
-              )}
-              
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
-                <p>Supports multiple images. First image is the primary display.</p>
-                {uploading && <p className="text-primary">Uploading...</p>}
-              </div>
+              <MultiImageGallery
+                images={form.images_array || []}
+                onChange={handleImagesChange}
+              />
             </div>
 
-            {/* Financial Fields */}
+            {/* Financial Fields with Real-time Calculations */}
             <div className="bg-gradient-to-br from-primary/5 to-transparent border border-primary/20 rounded-xl p-4 space-y-4">
               <div className="flex items-center gap-2 mb-2">
                 <DollarSign className="w-4 h-4 text-primary" />
@@ -485,22 +408,23 @@ export default function MerchManagement() {
                   <Input type="number" step="0.01" value={form.delivery_cost} onChange={e => setForm({ ...form, delivery_cost: e.target.value })} placeholder="Shipping per unit" />
                 </div>
               </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label className="font-body text-xs tracking-wider uppercase">Merchant Fee (%)</Label>
-                  <Input type="number" step="0.1" value={form.merchant_fee_percent} onChange={e => setForm({ ...form, merchant_fee_percent: e.target.value })} />
-                  <p className="font-body text-[10px] text-muted-foreground mt-1">Payment processor fee (default 3.5%)</p>
-                </div>
-                <div className="bg-secondary/40 rounded-lg p-3">
-                  <p className="font-body text-xs text-muted-foreground mb-1">Auto-Calculated Profit</p>
-                  <p className={`font-display text-lg ${calculatedForm.calculated_profit >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                    ${calculatedForm.calculated_profit?.toFixed(2) || '0.00'}
-                  </p>
-                  <p className={`font-body text-xs ${calculatedForm.calculated_margin >= 30 ? 'text-green-500' : calculatedForm.calculated_margin >= 15 ? 'text-yellow-500' : 'text-red-500'}`}>
-                    {calculatedForm.calculated_margin?.toFixed(1) || '0.0'}% margin
-                  </p>
-                </div>
+              <div>
+                <Label className="font-body text-xs tracking-wider uppercase">Merchant Fee (%)</Label>
+                <Input type="number" step="0.1" value={form.merchant_fee_percent} onChange={e => setForm({ ...form, merchant_fee_percent: e.target.value })} />
+                <p className="font-body text-[10px] text-muted-foreground mt-1">Payment processor fee (default 3.5%)</p>
               </div>
+              
+              {/* Live Profitability Analysis - Integrated Component */}
+              {calculatedForm && (
+                <ProductFinancials product={{
+                  sale_price: Number(form.sale_price),
+                  cost_price: Number(form.cost_price),
+                  delivery_cost: Number(form.delivery_cost),
+                  merchant_fee_percent: Number(form.merchant_fee_percent),
+                  stock_quantity: Number(form.stock_quantity),
+                  sizes_available: form.sizes_available,
+                }} />
+              )}
             </div>
 
             {/* Inventory */}
