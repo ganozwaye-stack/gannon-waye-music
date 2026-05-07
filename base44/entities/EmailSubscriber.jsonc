@@ -8,6 +8,24 @@
     "name": {
       "type": "string"
     },
+    "phone": {
+      "type": "string",
+      "description": "Phone number including country code"
+    },
+    "how_found": {
+      "type": "string",
+      "enum": [
+        "google",
+        "instagram",
+        "facebook",
+        "tiktok",
+        "x_twitter",
+        "friend_word_of_mouth",
+        "i_know_gannon",
+        "other"
+      ],
+      "description": "How the subscriber found the page"
+    },
     "description": {
       "type": "string",
       "maxLength": 1000,
@@ -15,7 +33,10 @@
     }
   },
   "required": [
-    "email"
+    "email",
+    "name",
+    "phone",
+    "how_found"
   ],
   "rls": {
     "create": {},
