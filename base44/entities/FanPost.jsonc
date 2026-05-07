@@ -36,16 +36,16 @@
   ],
   "rls": {
     "create": {
-      "created_by": "{{user.email}}",
       "$or": [
+        {
+          "created_by": "{{user.email}}"
+        },
+        {
+          "created_by": null
+        },
         {
           "user_condition": {
             "role": "admin"
-          }
-        },
-        {
-          "created_by": {
-            "$exists": true
           }
         }
       ]
