@@ -349,7 +349,7 @@ export default function Home() {
                   <div className="p-6">
                     <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">{release.type}</p>
                     <h3 className="font-display text-2xl text-foreground mt-1">{release.title}</h3>
-                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" — Gannon Waye. Written at a turning point, when staying any longer would have meant abandoning himself all over again. The moment of choosing self respect over repetition.' : release.description}</p>
+                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
                     {release.release_date && (
                       <p className="font-body text-xs text-muted-foreground mt-3">
                         {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}

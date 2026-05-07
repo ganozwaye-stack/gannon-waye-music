@@ -1,4 +1,6 @@
 import React from 'react';
+// Static signature image — used in lyrics, about page, etc.
+// For animated version use components/signature/AnimatedGWSignature
 
 export default function GannonSignature({ className = '' }) {
   return (
