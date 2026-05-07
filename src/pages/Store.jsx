@@ -37,7 +37,7 @@ export default function Store() {
           className="text-center mb-6"
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Official</p>
-          <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Merch Store</h1>
+          <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Merch</h1>
           <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             <p className="font-body text-xs text-muted-foreground tracking-wide">
@@ -52,14 +52,14 @@ export default function Store() {
           </div>
         </motion.div>
 
-        {/* Support fallback — top */}
+        {/* Support CTA — top */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
           className="mt-8 bg-card border border-primary/20 rounded-2xl p-5 text-center"
         >
-          <p className="font-body text-sm text-foreground/70 mb-4">If nothing here is for you, you can still be part of this.</p>
+          <p className="font-body text-sm text-foreground/70 mb-4">Support this project directly and become part of the movement.</p>
           <div className="flex justify-center gap-3 flex-wrap">
             {[5, 10, 25].map(amount => (
               <button
@@ -106,7 +106,7 @@ export default function Store() {
 
         {/* Footer note */}
         <p className="text-center font-body text-xs text-muted-foreground/50 mt-16 tracking-wide">
-          Register your interest and you will be first to know when the store officially opens.
+          Be a supporter. Help bring this story to life.
         </p>
 
         {/* Support bottom CTA */}
@@ -116,12 +116,12 @@ export default function Store() {
           viewport={{ once: true }}
           className="mt-8 text-center"
         >
-          <p className="font-body text-sm text-muted-foreground mb-4">Still want to support? You can back the music directly.</p>
+          <p className="font-body text-sm text-muted-foreground mb-4">Every contribution matters. Support the debut single.</p>
           <button
             onClick={() => navigate('/back-this')}
             className="gradient-gold-button rounded-full px-8 py-3 font-body text-sm tracking-wider uppercase inline-flex items-center gap-2"
           >
-            <Heart className="w-4 h-4" /> Be Part of This 🤍
+            <Heart className="w-4 h-4" /> Support Now 🤍
           </button>
         </motion.div>
       </div>

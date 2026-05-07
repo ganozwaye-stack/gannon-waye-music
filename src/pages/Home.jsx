@@ -21,6 +21,7 @@ import TikTokWelcomeBanner from '@/components/public/TikTokWelcomeBanner';
 import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
 import LiveFeedSection from '@/components/public/LiveFeedSection';
 import FanHighlightWall from '@/components/public/FanHighlightWall';
+import FeaturedVideoSection from '@/components/public/FeaturedVideoSection';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
@@ -136,12 +137,6 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
-
-      {/* Fan Highlight Wall */}
-      <FanHighlightWall />
-
-      {/* Live Feed */}
-      <LiveFeedSection />
 
       {/* About Section — magazine 3-column */}
       <section className="py-16 md:py-24 px-4 md:px-6 relative">
@@ -265,8 +260,14 @@ export default function Home() {
       {/* Merch Teaser */}
       <MerchTeaserSection />
 
+      {/* Fan Highlight Wall */}
+      <FanHighlightWall />
+
       {/* Thank You Hero Banner */}
       <ThankYouHeroBanner />
+
+      {/* Featured Video */}
+      <FeaturedVideoSection />
 
       {/* Social Videos Preview */}
       <VideoPreviewSection />
