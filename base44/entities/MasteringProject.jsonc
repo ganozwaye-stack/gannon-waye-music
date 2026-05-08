@@ -1,0 +1,168 @@
+{
+  "name": "MasteringProject",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Track title"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "artist_email": {
+      "type": "string"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "URL of the uploaded audio file"
+    },
+    "file_name": {
+      "type": "string"
+    },
+    "file_format": {
+      "type": "string",
+      "enum": [
+        "wav",
+        "aiff",
+        "flac",
+        "mp3"
+      ]
+    },
+    "file_size_mb": {
+      "type": "number"
+    },
+    "duration_seconds": {
+      "type": "number"
+    },
+    "mastering_profile": {
+      "type": "string",
+      "enum": [
+        "streaming_master",
+        "loud_club",
+        "warm_analog",
+        "vocal_forward",
+        "cinematic",
+        "acoustic",
+        "aggressive_modern"
+      ],
+      "default": "streaming_master"
+    },
+    "settings": {
+      "type": "object",
+      "description": "Mastering controls: loudness, stereo_width, warmth, brightness, punch, vocal_presence, limiter_intensity"
+    },
+    "analysis": {
+      "type": "object",
+      "description": "Audio analysis results: lufs, peak_db, dynamic_range, stereo_width, clipping_detected, mono_compatible"
+    },
+    "mastering_score": {
+      "type": "number",
+      "description": "0-100 readiness score"
+    },
+    "streaming_score": {
+      "type": "number",
+      "description": "0-100 streaming readiness"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "uploaded",
+        "analysing",
+        "ready_to_master",
+        "mastering",
+        "mastered",
+        "exported",
+        "failed"
+      ],
+      "default": "uploaded"
+    },
+    "mastered_file_url": {
+      "type": "string",
+      "description": "URL of mastered output file"
+    },
+    "export_format": {
+      "type": "string",
+      "enum": [
+        "wav",
+        "mp3",
+        "flac"
+      ],
+      "default": "wav"
+    },
+    "export_quality": {
+      "type": "string",
+      "enum": [
+        "streaming",
+        "cd",
+        "high_resolution",
+        "social_preview"
+      ],
+      "default": "streaming"
+    },
+    "revision_count": {
+      "type": "number",
+      "default": 0
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Artist or engineer notes"
+    },
+    "is_stem_project": {
+      "type": "boolean",
+      "default": false
+    },
+    "stems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "file_url": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Stem files for stem mastering"
+    }
+  },
+  "required": [
+    "title",
+    "artist_email",
+    "file_url"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.artist_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.artist_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
