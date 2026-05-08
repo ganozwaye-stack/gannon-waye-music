@@ -195,8 +195,8 @@ export default function BackThis() {
               <p className="font-body text-sm text-foreground/70 leading-relaxed">
                 Your support doesn't just fund my music — it helps fund safety, healing, and hope for others walking similar paths. Thank you for being part of this ripple effect. 🤍
               </p>
-              <p className="font-body text-[11px] text-red-600 mt-3 font-medium">
-                ⚠️ This is a voluntary donation. Not tax-deductible unless verified through Australian DGR eligibility.
+              <p className="font-body text-[11px] text-amber-600 mt-3 font-medium">
+                ⚠️ This is a voluntary support contribution, not a tax-deductible donation. DGR tax deductibility is not confirmed. Please seek independent advice if required.
               </p>
               <p className="font-body text-xs text-muted-foreground mt-2">
                 <a href="https://www.1800respect.org.au" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Learn more about 1800RESPECT →</a>
@@ -245,10 +245,10 @@ export default function BackThis() {
                 }}
                 className="rounded-full font-body text-sm border-primary/40 text-primary hover:bg-primary/10 gap-2"
               >
-                Download Official Receipt 📄
+                Download Contribution Receipt 📄
               </Button>
               <p className="font-body text-[10px] text-muted-foreground">
-                Official receipt provided. 10% of your contribution supports 1800RESPECT.
+                A receipt is provided for your records. 10% of contributions support 1800RESPECT. Not tax-deductible unless DGR status is confirmed.
               </p>
             </div>
             
@@ -288,8 +288,8 @@ export default function BackThis() {
                 <p className="font-body text-xs text-blue-700 leading-relaxed mb-2">
                   <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children — including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
                 </p>
-                <p className="font-body text-[10px] text-red-600 font-medium">
-                  ⚠️ Not tax-deductible. See terms for details.
+                <p className="font-body text-[10px] text-amber-600 font-medium">
+                  ⚠️ Not tax-deductible. Support contribution only. See terms for details.
                 </p>
               </div>
             </motion.div>
