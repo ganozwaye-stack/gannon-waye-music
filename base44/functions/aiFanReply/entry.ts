@@ -30,7 +30,7 @@ Deno.serve(async (req) => {
 
     // Use LLM to classify sentiment and generate a personalised reply
     const analysis = await base44.asServiceRole.integrations.Core.InvokeLLM({
-      prompt: `You are Gannon Waye, an singer-songwriter. A fan left this message on your community wall:
+      prompt: `You are Gannon Waye, a POP singer-songwriter. A fan left this message on your community wall:
 
 "${data.content}"
 
