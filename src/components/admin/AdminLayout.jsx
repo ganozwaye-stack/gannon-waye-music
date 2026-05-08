@@ -61,6 +61,12 @@ const NAV_SECTIONS = [
     ]
   },
   {
+    title: 'Mastering',
+    items: [
+      { label: 'Mastering Projects', path: '/admin/mastering', icon: Music },
+    ]
+  },
+  {
     title: 'Monitoring',
     items: [
       { label: 'Site Health', path: '/admin/site-health', icon: Activity },

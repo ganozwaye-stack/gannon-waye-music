@@ -72,6 +72,8 @@ import CharityTracking from '@/pages/admin/CharityTracking';
 import TrainingHub from '@/pages/admin/TrainingHub';
 import AuditLog from '@/pages/admin/AuditLog';
 import OperationalStatus from '@/pages/admin/OperationalStatus';
+import Mastering from '@/pages/Mastering.jsx';
+import MasteringAdmin from '@/pages/admin/MasteringAdmin.jsx';
 
 
 const AuthenticatedApp = () => {
@@ -126,6 +128,7 @@ const AuthenticatedApp = () => {
         <Route path="/portrait-gallery" element={<PortraitGallery />} />
         <Route path="/impact" element={<Impact />} />
         <Route path="/bookings" element={<Bookings />} />
+        <Route path="/mastering" element={<Mastering />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -167,6 +170,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/training" element={<TrainingHub />} />
         <Route path="/admin/audit-log" element={<AuditLog />} />
         <Route path="/admin/operational-status" element={<OperationalStatus />} />
+        <Route path="/admin/mastering" element={<MasteringAdmin />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
