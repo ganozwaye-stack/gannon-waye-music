@@ -21,6 +21,13 @@ function buildMimeMessage({ to, subject, htmlBody }) {
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+
+    // Security: only callable by authenticated admin users or service-role automations
+    const user = await base44.auth.me().catch(() => null);
+    if (user && user.role !== 'admin') {
+      return Response.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
     const body = await req.json();
     const data = body.data || body;
 

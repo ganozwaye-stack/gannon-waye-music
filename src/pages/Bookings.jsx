@@ -85,8 +85,27 @@ export default function Bookings() {
     }
   };
 
+  const [errors, setErrors] = useState({});
+
+  const validate = () => {
+    const e = {};
+    if (!form.full_name.trim()) e.full_name = 'Full name is required';
+    if (!form.email.trim()) e.email = 'Email is required';
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email address';
+    if (!form.booking_type) e.booking_type = 'Please select a booking type';
+    if (!form.event_details.trim()) e.event_details = 'Please describe your event';
+    return e;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      toast({ title: 'Please fix the errors below', variant: 'destructive' });
+      return;
+    }
+    setErrors({});
     
     const result = await createBookingEnquiry(form);
     
@@ -203,10 +222,11 @@ export default function Bookings() {
                   <Label className="font-body text-xs tracking-wider uppercase">Full Name *</Label>
                   <Input 
                     value={form.full_name} 
-                    onChange={e => setForm({ ...form, full_name: e.target.value })} 
-                    required 
-                    placeholder="Your name" 
+                    onChange={e => { setForm({ ...form, full_name: e.target.value }); setErrors(er => ({ ...er, full_name: '' })); }}
+                    placeholder="Your name"
+                    className={errors.full_name ? 'border-destructive' : ''}
                   />
+                  {errors.full_name && <p className="font-body text-xs text-destructive mt-1">{errors.full_name}</p>}
                 </div>
                 <div>
                   <Label className="font-body text-xs tracking-wider uppercase">Company/Venue</Label>
@@ -224,10 +244,11 @@ export default function Bookings() {
                   <Input 
                     type="email"
                     value={form.email} 
-                    onChange={e => setForm({ ...form, email: e.target.value })} 
-                    required 
-                    placeholder="you@example.com" 
+                    onChange={e => { setForm({ ...form, email: e.target.value }); setErrors(er => ({ ...er, email: '' })); }}
+                    placeholder="you@example.com"
+                    className={errors.email ? 'border-destructive' : ''}
                   />
+                  {errors.email && <p className="font-body text-xs text-destructive mt-1">{errors.email}</p>}
                 </div>
                 <div>
                   <Label className="font-body text-xs tracking-wider uppercase">Phone</Label>
@@ -254,16 +275,16 @@ export default function Bookings() {
                   <Label className="font-body text-xs tracking-wider uppercase">Booking Type *</Label>
                   <Select 
                     value={form.booking_type} 
-                    onValueChange={v => setForm({ ...form, booking_type: v })}
-                    required
+                    onValueChange={v => { setForm({ ...form, booking_type: v }); setErrors(er => ({ ...er, booking_type: '' })); }}
                   >
-                    <SelectTrigger><SelectValue placeholder="Select type" /></SelectTrigger>
+                    <SelectTrigger className={errors.booking_type ? 'border-destructive' : ''}><SelectValue placeholder="Select type" /></SelectTrigger>
                     <SelectContent>
                       {Object.entries(BOOKING_TYPE_LABELS).map(([key, label]) => (
                         <SelectItem key={key} value={key}>{label}</SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
+                  {errors.booking_type && <p className="font-body text-xs text-destructive mt-1">{errors.booking_type}</p>}
                 </div>
                 <div>
                   <Label className="font-body text-xs tracking-wider uppercase">Event Date</Label>
@@ -314,11 +335,12 @@ export default function Bookings() {
                 <Label className="font-body text-xs tracking-wider uppercase">Event Details *</Label>
                 <Textarea 
                   value={form.event_details} 
-                  onChange={e => setForm({ ...form, event_details: e.target.value })} 
-                  required
+                  onChange={e => { setForm({ ...form, event_details: e.target.value }); setErrors(er => ({ ...er, event_details: '' })); }}
                   rows={4} 
-                  placeholder="Tell us about your event, vision, and what you're looking for..." 
+                  placeholder="Tell us about your event, vision, and what you're looking for..."
+                  className={errors.event_details ? 'border-destructive' : ''}
                 />
+                {errors.event_details && <p className="font-body text-xs text-destructive mt-1">{errors.event_details}</p>}
               </div>
 
               <div>
