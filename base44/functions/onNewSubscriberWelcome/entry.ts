@@ -62,9 +62,30 @@ Deno.serve(async (req) => {
 
   <p style="color:#c9b99a;font-size:15px;line-height:1.8;">Until then — check out the site, join the community wall, and know that showing up here early means the world to me. Truly.</p>
 
-  <div style="text-align:center;margin:32px 0;">
-    <a href="https://gannonwaye.com" style="display:inline-block;background:#f5d06e;color:#0e1117;padding:14px 32px;border-radius:50px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:0.1em;">Visit gannonwaye.com →</a>
+  <div style="background:#1a1f2e;border:1px solid #2a2f3e;border-radius:12px;padding:24px;margin:28px 0;">
+    <p style="color:#f5d06e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 16px;">Follow me on socials 📱</p>
+    <p style="color:#c9b99a;font-size:14px;margin:0 0 10px;">📱 TikTok: <a href="https://www.tiktok.com/@gannonwaye" style="color:#f5d06e;">@gannonwaye</a></p>
+    <p style="color:#c9b99a;font-size:14px;margin:0 0 10px;">📷 Instagram: <a href="https://www.instagram.com/gannonwaye" style="color:#f5d06e;">@gannonwaye</a></p>
+    <p style="color:#c9b99a;font-size:14px;margin:0;">📘 Facebook: <a href="https://www.facebook.com/gannonwaye" style="color:#f5d06e;">Gannon Waye</a></p>
   </div>
+
+  <div style="background:#0e1a0e;border:1px solid #2a3e2a;border-radius:12px;padding:24px;margin:28px 0;">
+    <p style="color:#7ecf7e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 12px;">🎁 Want a gift from me?</p>
+    <p style="color:#c9b99a;font-size:14px;line-height:1.8;margin:0 0 12px;">Here's how to claim something special:</p>
+    <ol style="color:#c9b99a;font-size:14px;line-height:2;margin:0;padding-left:20px;">
+      <li>Follow me on TikTok &amp; Instagram (links above)</li>
+      <li>Like, comment &amp; share my latest post</li>
+      <li>Help bring 10 friends to <a href="https://gannonwaye.com" style="color:#f5d06e;">gannonwaye.com</a></li>
+    </ol>
+    <p style="color:#999;font-size:13px;margin:16px 0 0;">If you help bring 10 new people into this community, I will personally send you a gift as a thank you. You're building an army of people who love like never before — and that means everything. 🤍</p>
+  </div>
+
+  <div style="text-align:center;margin:32px 0;">
+    <a href="https://gannonwaye.com/community" style="display:inline-block;background:#f5d06e;color:#0e1117;padding:14px 32px;border-radius:50px;text-decoration:none;font-weight:700;font-size:14px;letter-spacing:0.1em;margin-right:12px;">Join the Community →</a>
+    <a href="https://gannonwaye.com/back-this" style="display:inline-block;background:transparent;color:#f5d06e;border:2px solid #f5d06e;padding:12px 24px;border-radius:50px;text-decoration:none;font-weight:600;font-size:14px;letter-spacing:0.1em;">Back This 🤍</a>
+  </div>
+
+  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">All are welcome here — regardless of who you are, who you love, or where you've been. The only thing that isn't welcome is cruelty.</p>
 
   <p style="color:#c9b99a;font-size:15px;line-height:1.8;">With so much love,</p>
   <p style="color:#f5d06e;font-size:18px;font-style:italic;margin-top:4px;">Gannon 🤍</p>
