@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import MobileBottomTabs from './MobileBottomTabs';
+import AmbientPlayer from '@/components/global/AmbientPlayer';
 
 const ROOT_ROUTES = ['/', '/music', '/store', '/community'];
 
@@ -21,6 +22,7 @@ export default function PublicLayout() {
       </main>
       <Footer />
       {isRootRoute && <MobileBottomTabs />}
+      <AmbientPlayer />
     </div>
   );
 }
