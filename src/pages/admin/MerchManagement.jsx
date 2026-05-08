@@ -17,7 +17,6 @@ import MultiImageGallery from '@/components/products/MultiImageGallery';
 import ProductFinancials from '@/components/products/ProductFinancials';
 import { calculateProductProfitability } from '@/lib/businessLogic';
 import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
-import { syncProductUpdate } from '@/lib/dataSync';
 
 const CATEGORIES = ['apparel', 'accessories', 'vinyl', 'cd', 'poster', 'bundle', 'other'];
 const emptyProduct = {
@@ -71,10 +70,7 @@ export default function MerchManagement() {
         return result;
       }
       
-      // Use centralized sync for updates (handles profitability + inventory)
-      const syncResult = await syncProductUpdate(editing, payload);
-      if (!syncResult.success) throw new Error(syncResult.error);
-      return syncResult.product;
+      return await base44.entities.MerchProduct.update(editing, payload);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['merchProducts'] });

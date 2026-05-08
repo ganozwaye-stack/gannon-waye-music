@@ -72,8 +72,8 @@ import CharityTracking from '@/pages/admin/CharityTracking';
 import TrainingHub from '@/pages/admin/TrainingHub';
 import AuditLog from '@/pages/admin/AuditLog';
 import OperationalStatus from '@/pages/admin/OperationalStatus';
-import Mastering from '@/pages/Mastering.jsx';
-import MasteringAdmin from '@/pages/admin/MasteringAdmin.jsx';
+import Mastering from '@/pages/Mastering';
+import MasteringAdmin from '@/pages/admin/MasteringAdmin';
 
 
 const AuthenticatedApp = () => {
