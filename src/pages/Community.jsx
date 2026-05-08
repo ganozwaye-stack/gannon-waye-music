@@ -75,6 +75,27 @@ export default function Community() {
           <p className="font-body text-foreground/60 mt-4 max-w-lg mx-auto leading-relaxed">
             This is a space built on support, respect, and honesty. Whether you're here for the music, the message, or because something hit a little too close to home — you belong here. You are not alone.
           </p>
+          <div className="flex justify-center gap-4 mt-5 flex-wrap">
+            <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline tracking-widest uppercase">TikTok @gannonwaye</a>
+            <a href="https://www.instagram.com/gannonwaye" target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline tracking-widest uppercase">Instagram @gannonwaye</a>
+            <a href="https://www.facebook.com/gannonwaye" target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline tracking-widest uppercase">Facebook</a>
+          </div>
+        </motion.div>
+
+        {/* No abuse policy */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="mb-6 bg-destructive/10 border border-destructive/30 rounded-2xl p-5 text-center"
+        >
+          <p className="font-body text-xs tracking-widest uppercase text-destructive mb-2">🚫 Zero Tolerance Policy</p>
+          <p className="font-body text-sm text-foreground/80 leading-relaxed">
+            <strong>NO ABUSE. NO BULLYING. NO SWEARING. NO HARASSMENT.</strong>
+          </p>
+          <p className="font-body text-xs text-foreground/60 mt-2 leading-relaxed">
+            This is a safe space for everyone. Any abusive, hateful, or threatening behaviour will result in immediate and permanent removal from this community. Your IP address will be recorded and access blocked. All messages are moderated before appearing publicly.
+          </p>
         </motion.div>
 
         {/* Crisis support note */}
