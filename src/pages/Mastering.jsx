@@ -247,15 +247,15 @@ export default function Mastering() {
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Engineer Suite</p>
           <h1 className="font-display text-4xl md:text-5xl text-foreground mb-4">Master Your Track</h1>
           <p className="font-body text-foreground/60 leading-relaxed max-w-md mx-auto">
-            Real browser-side DSP mastering. EQ, stereo width, limiter, and loudness normalisation applied to your actual audio. Exports a processed WAV file.
+            Studio-grade mastering chain running in your browser. 4-band EQ, multi-band compression, M/S stereo processing, true-peak limiting, TPDF dither, and K-weighted LUFS normalisation. Exports 24-bit WAV.
           </p>
           <div className="flex items-center justify-center gap-2 mt-3 text-xs text-muted-foreground/60">
             <Info className="w-3 h-3" />
             <span>WAV · AIFF · FLAC · MP3 · Max {MAX_SIZE_MB}MB</span>
           </div>
-          <div className="mt-2 inline-flex items-center gap-1.5 bg-yellow-500/10 border border-yellow-500/20 rounded-full px-3 py-1">
-            <Activity className="w-3 h-3 text-yellow-400" />
-            <span className="font-body text-[10px] text-yellow-400">Browser DSP · Not studio-grade hardware processing</span>
+          <div className="mt-2 inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-3 py-1">
+            <Activity className="w-3 h-3 text-primary" />
+            <span className="font-body text-[10px] text-primary">Studio-grade DSP · 24-bit export · K-weighted LUFS · True-peak limiting · TPDF dither</span>
           </div>
         </motion.div>
 
@@ -376,7 +376,7 @@ export default function Mastering() {
                   <div className="bg-primary h-1.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
                 </div>
                 <p className="font-body text-[10px] text-muted-foreground mt-1.5">
-                  EQ → Saturation → Stereo Width → Normalisation → Limiter → WAV encode
+                  HPF → 4-band EQ → Saturation → M/S Width → Multi-band Comp → LUFS Normalise → True-Peak Limit → Dither → 24-bit WAV
                 </p>
               </div>
             )}
@@ -399,7 +399,7 @@ export default function Mastering() {
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12 space-y-6">
             <CheckCircle2 className="w-16 h-16 text-primary mx-auto" />
             <h2 className="font-display text-4xl text-foreground">Mastered</h2>
-            <p className="font-body text-foreground/60">DSP chain applied. Your processed WAV is ready to download.</p>
+            <p className="font-body text-foreground/60">Full studio mastering chain applied. Your 24-bit WAV is ready to download.</p>
 
             <div className="bg-card border border-border/40 rounded-2xl p-6 text-left space-y-3">
               <div className="flex justify-between text-sm font-body">
@@ -422,7 +422,7 @@ export default function Mastering() {
                   </div>
                   <div className="flex justify-between text-sm font-body">
                     <span className="text-muted-foreground">Format</span>
-                    <span className="text-foreground">WAV · 16-bit PCM</span>
+                    <span className="text-foreground">WAV · 24-bit PCM</span>
                   </div>
                 </>
               )}
@@ -437,9 +437,9 @@ export default function Mastering() {
               )}
             </div>
 
-            <div className="bg-yellow-500/5 border border-yellow-500/20 rounded-xl px-4 py-3 text-left">
-              <p className="font-body text-xs text-yellow-400">
-                Browser DSP — biquad EQ, mid/side stereo, soft-knee limiter, and gain normalisation applied to actual audio samples. Not hardware DSP or AI mastering. For professional release, use a studio engineer.
+            <div className="bg-primary/5 border border-primary/20 rounded-xl px-4 py-3 text-left">
+              <p className="font-body text-xs text-primary/80">
+                Processing chain: HPF · 4-band parametric EQ · harmonic saturation · multi-band compression · M/S stereo width · K-weighted LUFS normalisation · true-peak look-ahead limiter · TPDF dither · 24-bit WAV export.
               </p>
             </div>
 
