@@ -44,6 +44,7 @@ export default function Footer() {
               <Link to="/music" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Music</Link>
               <Link to="/store" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Store</Link>
               <Link to="/videos" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Videos</Link>
+              <Link to="/bookings" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Bookings</Link>
               <Link to="/community" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Community</Link>
               <Link to="/lyrics" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Lyrics</Link>
               <Link to="/this-is-my-life" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">This Is My Life</Link>
