@@ -19,7 +19,9 @@ export const EVENT_TYPES = {
   CONTRIBUTION_RECEIVED: 'contribution.received',
   SUBSCRIBER_ADDED: 'subscriber.added',
   BOOKING_CREATED: 'booking.created',
+  PRODUCT_CREATED: 'product.created',
   PRODUCT_UPDATED: 'product.updated',
+  PRODUCT_DELETED: 'product.deleted',
   INVENTORY_LOW: 'inventory.low',
 };
 

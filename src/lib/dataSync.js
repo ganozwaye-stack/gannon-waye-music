@@ -39,4 +39,20 @@ export const syncSupporterProfile = async (email) => {
   return { totalLTV, tier, badge };
 };
 
-export default { syncSupporterProfile };
+export async function syncProductUpdate(productId, updates = {}) {
+  return { success: true, productId, updates, note: 'Compatibility hook. Direct update already performed by caller.' };
+}
+
+export async function syncInventoryChange(productId, change = {}) {
+  return { success: true, productId, change, note: 'Compatibility hook. Inventory recalculation deferred.' };
+}
+
+export async function syncOrderCreation(order = {}) {
+  return { success: true, orderId: order.id, note: 'Compatibility hook. Order automation handled by backend functions.' };
+}
+
+export async function syncContributionReceived(contribution = {}) {
+  return { success: true, contributionId: contribution.id, note: 'Compatibility hook. Supporter profile sync handled separately.' };
+}
+
+export default { syncSupporterProfile, syncProductUpdate, syncInventoryChange, syncOrderCreation, syncContributionReceived };
