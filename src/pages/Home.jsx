@@ -358,14 +358,8 @@ export default function Home() {
                   className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 hover:border-primary/30 transition-all"
                 >
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
-                    {release.artwork_url && !artworkRevealed ? (
-                       <div className="w-full h-full flex flex-col items-center justify-center gap-3" style={{ backgroundImage: 'url(https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b406a2525_gannonwayecomwrappedgiftGOLDribbon.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                         <div className="absolute inset-0 bg-black/40" />
-                         <div className="relative z-10 flex flex-col items-center justify-center gap-3">
-                           <Gift className="w-10 h-10 text-primary" />
-                           <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Artwork Hidden</p>
-                         </div>
-                       </div>
+                    {release.title === 'Thank You' ? (
+                      <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a6aefb394_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : release.artwork_url ? (
                       <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (

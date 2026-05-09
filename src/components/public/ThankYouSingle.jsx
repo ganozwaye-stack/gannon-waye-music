@@ -73,21 +73,7 @@ export default function ThankYouSingle() {
             transition={{ duration: 0.6 }}
             className="relative aspect-square rounded-2xl overflow-hidden border border-border/40 bg-secondary/60"
           >
-            {!artworkRevealed && <CornerRibbon />}
-            {artworkRevealed ? (
-              <div className="w-full h-full flex items-center justify-center bg-secondary/80">
-                <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow">Artwork Revealed</p>
-              </div>
-            ) : (
-              <div className="relative w-full h-full">
-                <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b406a2525_gannonwayecomwrappedgiftGOLDribbon.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-black/40 p-6">
-                  <Gift className="w-8 h-8 text-primary" />
-                  <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-glow">Revealed May 10</p>
-                  <CountdownTimer targetDate="2026-05-10T08:00:00Z" />
-                </div>
-              </div>
-            )}
+            <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a6aefb394_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover" />
           </motion.div>
 
           {/* Info panel */}

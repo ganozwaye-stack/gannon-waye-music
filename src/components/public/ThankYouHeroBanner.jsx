@@ -77,20 +77,7 @@ export default function ThankYouHeroBanner() {
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             />
             <div className="relative w-full h-full rounded-2xl overflow-hidden bg-secondary/80 border border-border/40">
-              {!artworkRevealed && <Ribbon />}
-              {artworkRevealed ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Artwork Revealed</p>
-                </div>
-              ) : (
-                <div className="relative w-full h-full">
-                  <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png" alt="Gift wrapped — revealed May 10" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-black/40">
-                    <Gift className="w-8 h-8 text-primary" />
-                    <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text text-center">Revealed May 10</p>
-                  </div>
-                </div>
-              )}
+              <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a6aefb394_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover" />
             </div>
           </motion.div>
 
