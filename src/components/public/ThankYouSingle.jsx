@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Heart, ArrowRight, Music } from 'lucide-react';
+import { ArrowRight, Music, CheckCircle2, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
+import { base44 } from '@/api/base44Client';
 
 
 
