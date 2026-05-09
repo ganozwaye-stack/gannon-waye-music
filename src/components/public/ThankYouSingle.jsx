@@ -142,88 +142,111 @@ export default function ThankYouSingle() {
           </motion.div>
         </div>
 
-        {/* Email Signup — embedded below the single */}
+        {/* Email Signup — banner style matching ThankYouHeroBanner */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-14 border-t border-border/30 pt-10"
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-12"
         >
-          {signupDone ? (
-            <div className="text-center space-y-3">
-              <CheckCircle2 className="w-10 h-10 text-primary mx-auto" />
-              <p className="font-display text-2xl text-foreground">You're in. 🤍</p>
-              <p className="font-body text-sm text-muted-foreground">Welcome to the inner circle, {form.name.split(' ')[0]}. Check your email for a message from Gannon.</p>
-            </div>
-          ) : (
-            <div className="max-w-xl mx-auto">
-              <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2 text-center">Stay Connected</p>
-              <h3 className="font-display text-2xl md:text-3xl text-foreground text-center mb-2">Join the Inner Circle</h3>
-              <p className="font-body text-sm text-muted-foreground text-center mb-6 leading-relaxed">
-                Be the first to hear new music, behind-the-scenes stories, and exclusive updates. 🎁 Sign up today for a chance at a gift from me.
-              </p>
+          <div className="relative w-full overflow-hidden bg-card border border-border/40 rounded-2xl">
+            {/* Ambient glow */}
+            <motion.div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[200px] rounded-full bg-primary/6 blur-3xl pointer-events-none"
+              animate={{ opacity: [0.4, 0.8, 0.4] }}
+              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+            />
 
-              {/* Step dots */}
-              <div className="flex justify-center gap-2 mb-5">
-                <div className={`w-2 h-2 rounded-full transition-all ${signupStep === 1 ? 'bg-primary' : 'bg-primary/40'}`} />
-                <div className={`w-2 h-2 rounded-full transition-all ${signupStep === 2 ? 'bg-primary' : 'bg-muted-foreground/30'}`} />
-              </div>
-
-              {signupStep === 1 ? (
-                <form onSubmit={handleStep1} className="flex flex-col gap-3" noValidate>
-                  <Input
-                    placeholder="Your full name *"
-                    value={form.name}
-                    onChange={e => set('name', e.target.value)}
-                    className={`bg-secondary/50 border-border/40 ${errors.name ? 'border-destructive' : ''}`}
-                  />
-                  {errors.name && <p className="font-body text-xs text-destructive -mt-2">Please enter your name</p>}
-                  <Input
-                    type="email"
-                    placeholder="Email address *"
-                    value={form.email}
-                    onChange={e => set('email', e.target.value)}
-                    className={`bg-secondary/50 border-border/40 ${errors.email ? 'border-destructive' : ''}`}
-                    inputMode="email"
-                  />
-                  {errors.email && <p className="font-body text-xs text-destructive -mt-2">Please enter a valid email</p>}
-                  <Button type="submit" className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
-                    Continue →
-                  </Button>
-                </form>
+            <div className="relative px-6 md:px-10 py-8 md:py-10">
+              {signupDone ? (
+                <div className="text-center py-4 space-y-2">
+                  <CheckCircle2 className="w-10 h-10 text-primary mx-auto" />
+                  <p className="font-display text-2xl text-foreground">You're in. 🤍</p>
+                  <p className="font-body text-sm text-muted-foreground">Welcome to the inner circle, {form.name.split(' ')[0]}. Check your email for a message from Gannon.</p>
+                </div>
               ) : (
-                <form onSubmit={handleSubmit} className="flex flex-col gap-3" noValidate>
-                  <Input
-                    placeholder="Phone incl. country code e.g. +61 400 000 000 *"
-                    value={form.phone}
-                    onChange={e => set('phone', e.target.value)}
-                    className={`bg-secondary/50 border-border/40 ${errors.phone ? 'border-destructive' : ''}`}
-                    type="tel"
-                  />
-                  {errors.phone && <p className="font-body text-xs text-destructive -mt-2">Phone number is required</p>}
-                  <div>
-                    <p className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-2">How did you find me? *</p>
-                    <div className="flex flex-wrap gap-2">
-                      {HOW_FOUND_OPTIONS.map(opt => (
-                        <button key={opt.value} type="button" onClick={() => set('how_found', opt.value)}
-                          className={`px-3 py-2 rounded-full border font-body text-xs transition-all ${form.how_found === opt.value ? 'border-primary bg-primary/20 text-primary' : 'border-border/50 text-muted-foreground hover:border-primary/40'}`}>
-                          {opt.label}
-                        </button>
-                      ))}
+                <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] gap-8 md:gap-12 items-center">
+
+                  {/* Artwork thumbnail */}
+                  <div className="relative w-24 h-24 md:w-32 md:h-32 mx-auto md:mx-0 flex-shrink-0">
+                    <motion.div
+                      className="absolute -inset-1 rounded-xl bg-gradient-to-br from-primary/60 via-primary/20 to-primary/60"
+                      animate={{ opacity: [0.5, 1, 0.5] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                    />
+                    <div className="relative w-full h-full rounded-xl overflow-hidden border border-border/40">
+                      <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg" alt="Thank You single cover" className="w-full h-full object-cover" />
                     </div>
-                    {errors.how_found && <p className="font-body text-xs text-destructive mt-1">Please choose an option</p>}
                   </div>
-                  <div className="flex gap-2">
-                    <Button type="button" variant="outline" onClick={() => setSignupStep(1)} className="rounded-full border-border/40">← Back</Button>
-                    <Button type="submit" disabled={signupLoading} className="flex-1 rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
-                      {signupLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Subscribe 🤍'}
-                    </Button>
+
+                  {/* Form */}
+                  <div className="text-center md:text-left">
+                    <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">🎁 Get a gift from Gannon</p>
+                    <h3 className="font-display text-2xl md:text-3xl text-foreground italic mb-1">Stay in the Loop</h3>
+                    <p className="font-body text-sm text-foreground/50 mb-5 max-w-md">
+                      New music, behind-the-scenes stories, exclusive updates — and a chance at a personal gift.
+                    </p>
+
+                    {/* Step dots */}
+                    <div className="flex gap-1.5 justify-center md:justify-start mb-4">
+                      <div className={`w-1.5 h-1.5 rounded-full transition-all ${signupStep === 1 ? 'bg-primary' : 'bg-primary/40'}`} />
+                      <div className={`w-1.5 h-1.5 rounded-full transition-all ${signupStep === 2 ? 'bg-primary' : 'bg-muted-foreground/30'}`} />
+                    </div>
+
+                    {signupStep === 1 ? (
+                      <form onSubmit={handleStep1} className="flex flex-col sm:flex-row gap-2 max-w-lg" noValidate>
+                        <Input
+                          placeholder="Your name *"
+                          value={form.name}
+                          onChange={e => set('name', e.target.value)}
+                          className={`bg-secondary/50 border-border/40 text-sm flex-1 ${errors.name ? 'border-destructive' : ''}`}
+                        />
+                        <Input
+                          type="email"
+                          placeholder="Email address *"
+                          value={form.email}
+                          onChange={e => set('email', e.target.value)}
+                          className={`bg-secondary/50 border-border/40 text-sm flex-1 ${errors.email ? 'border-destructive' : ''}`}
+                          inputMode="email"
+                        />
+                        <Button type="submit" className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase whitespace-nowrap">
+                          Continue →
+                        </Button>
+                      </form>
+                    ) : (
+                      <form onSubmit={handleSubmit} className="flex flex-col gap-3 max-w-lg" noValidate>
+                        <Input
+                          placeholder="Phone incl. country code e.g. +61 400 000 000 *"
+                          value={form.phone}
+                          onChange={e => set('phone', e.target.value)}
+                          className={`bg-secondary/50 border-border/40 text-sm ${errors.phone ? 'border-destructive' : ''}`}
+                          type="tel"
+                        />
+                        <div>
+                          <p className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-2">How did you find me? *</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {HOW_FOUND_OPTIONS.map(opt => (
+                              <button key={opt.value} type="button" onClick={() => set('how_found', opt.value)}
+                                className={`px-2.5 py-1 rounded-full border font-body text-[10px] transition-all ${form.how_found === opt.value ? 'border-primary bg-primary/20 text-primary' : 'border-border/50 text-muted-foreground hover:border-primary/40'}`}>
+                                {opt.label}
+                              </button>
+                            ))}
+                          </div>
+                          {errors.how_found && <p className="font-body text-xs text-destructive mt-1">Please choose an option</p>}
+                        </div>
+                        <div className="flex gap-2">
+                          <Button type="button" variant="outline" onClick={() => setSignupStep(1)} className="rounded-full border-border/40 font-body text-sm">← Back</Button>
+                          <Button type="submit" disabled={signupLoading} className="flex-1 rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">
+                            {signupLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Subscribe 🤍'}
+                          </Button>
+                        </div>
+                      </form>
+                    )}
                   </div>
-                </form>
+                </div>
               )}
             </div>
-          )}
+          </div>
         </motion.div>
       </div>
     </section>
