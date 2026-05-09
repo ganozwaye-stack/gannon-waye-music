@@ -3,7 +3,7 @@ import { Volume2, VolumeX, Music } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // 🎵 Replace this URL with the actual "Thank You" audio file when ready
-const AUDIO_URL = null; // e.g. "https://cdn.example.com/thank-you-loop.mp3"
+const AUDIO_URL = "https://media.base44.com/.../thank-you-chorus-1m30s-2m12s-site-loop.mp3";
 
 export default function AmbientPlayer() {
   const [playing, setPlaying] = useState(false);
