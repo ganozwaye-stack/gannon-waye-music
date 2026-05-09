@@ -1,36 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Gift, Heart, ArrowRight, Music } from 'lucide-react';
+import { Heart, ArrowRight, Music } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 
-// Corner ribbon decoration
-function CornerRibbon() {
-  return (
-    <>
-      <div className="absolute top-0 left-0 w-28 h-28 overflow-hidden pointer-events-none z-20">
-        <div
-          className="absolute bg-primary text-primary-foreground font-body text-[8px] tracking-[0.15em] uppercase font-semibold text-center shadow-md"
-          style={{ width: '130px', top: '20px', left: '-28px', transform: 'rotate(-45deg)', padding: '4px 0' }}
-        >
-          Coming Soon
-        </div>
-      </div>
-      <div className="absolute top-0 right-0 w-28 h-28 overflow-hidden pointer-events-none z-20">
-        <div
-          className="absolute bg-primary/70 text-primary-foreground font-body text-[8px] tracking-[0.15em] uppercase font-semibold text-center shadow-md"
-          style={{ width: '130px', top: '20px', right: '-28px', transform: 'rotate(45deg)', padding: '4px 0' }}
-        >
-          New Single
-        </div>
-      </div>
-    </>
-  );
-}
 
-const ARTWORK_REVEAL_DATE = '2026-05-10T08:00:00Z';
 
 export default function ThankYouSingle() {
   const { artworkRevealed, released, releaseDateIso, releaseDateText } = useSiteReveal();
@@ -54,14 +30,9 @@ export default function ThankYouSingle() {
           <p className="font-body text-sm text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
             "Thank You" — Gannon Waye. Written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. The moment of choosing self respect over repetition.
           </p>
-          {artworkRevealed && (
-            <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">
-              Out {releaseDateText}
-            </p>
-          )}
-          {!artworkRevealed && (
-            <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">Release date revealed May 10</p>
-          )}
+          <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">
+            Out Now · {releaseDateText}
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center">
@@ -85,16 +56,7 @@ export default function ThankYouSingle() {
             className="space-y-6"
           >
             <div>
-              {artworkRevealed ? (
-                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-3">Release Date</p>
-              ) : (
-                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-3">Artwork & Release Date Reveal</p>
-              )}
-              {!artworkRevealed && (
-                <div className="mb-6">
-                  <CountdownTimer targetDate="2026-05-10T08:00:00Z" />
-                </div>
-              )}
+              <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-3">Out Now · Debut Single</p>
               <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">About the single</p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm">
                 "Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. The dynamic mirrored something already fought hard to outgrow — and in recognising that, the decision became simple.
@@ -105,54 +67,33 @@ export default function ThankYouSingle() {
             </div>
 
             {/* Release countdown or release date */}
-            <div className="border-t border-border/30 pt-6">
+            <div className="border-t border-border/30 pt-6 space-y-4">
               {released ? (
-                <div className="space-y-4">
-                  <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow">Out Now</p>
-                  <Link to="/music">
-                    <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                      Listen Now <ArrowRight className="w-4 h-4" />
-                    </Button>
-                  </Link>
-                </div>
-              ) : artworkRevealed ? (
-                <div>
-                  <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">
-                    Release countdown
-                  </p>
-                  <CountdownTimer targetDate={releaseDateIso} />
-                  <p className="font-body text-sm gradient-gold-glow italic mt-3">
-                    Out {releaseDateText}
-                  </p>
-                </div>
+                <Link to="/music">
+                  <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
+                    Listen Now <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
               ) : (
-                <div className="space-y-4">
+                <>
+                  <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow">Release countdown — {releaseDateText}</p>
+                  <CountdownTimer targetDate={releaseDateIso} />
                   <a href="https://open.spotify.com/search/Gannon%20Waye%20Thank%20You" target="_blank" rel="noopener noreferrer">
                     <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0 hover:shadow-lg">
                       <Music className="w-4 h-4" /> Listen on Spotify
                     </Button>
                   </a>
-                  <div className="flex items-center gap-3 pt-2">
-                    <Heart className="w-4 h-4 text-primary/60 flex-shrink-0" />
-                    <p className="font-body text-sm gradient-gold-glow italic">
-                      Artwork & release date reveal on May 10th — out same day.
-                    </p>
-                  </div>
-                </div>
+                </>
               )}
             </div>
 
-            {/* Pre-save / notify */}
-            {!released && (
-              <div className="border-t border-border/30 pt-6">
-                <p className="font-body text-xs gradient-gold-glow mb-3">Be the first to know when it drops</p>
-                <Link to="/community">
-                  <Button className="rounded-full gap-2 font-body text-xs tracking-wider uppercase gradient-gold-button border-0 hover:shadow-lg">
-                    Join the Community <ArrowRight className="w-3 h-3" />
-                  </Button>
-                </Link>
-              </div>
-            )}
+            <div className="border-t border-border/30 pt-6">
+              <Link to="/community">
+                <Button variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-foreground/20">
+                  Join the Community <ArrowRight className="w-3 h-3" />
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </div>

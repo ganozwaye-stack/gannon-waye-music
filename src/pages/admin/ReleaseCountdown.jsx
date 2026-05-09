@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Edit2, Save, Play, Pause } from 'lucide-react';
+import { Calendar, Clock, Edit2, Save, Play, Pause, Send, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -14,12 +14,10 @@ export default function ReleaseCountdown() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [editing, setEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    release_date_text: '',
-    release_date_iso: '',
-    artwork_revealed: false,
-    merch_revealed: false,
-  });
+  const [formData, setFormData] = useState({ release_date_text: '', release_date_iso: '', artwork_revealed: false, merch_revealed: false });
+  const [sendingNewsletter, setSendingNewsletter] = useState(false);
+  const [newsletterResult, setNewsletterResult] = useState(null);
+  const [triggeringReveal, setTriggeringReveal] = useState(false);
 
   const { data: settings } = useQuery({
     queryKey: ['siteReveal'],
@@ -28,6 +26,23 @@ export default function ReleaseCountdown() {
   });
 
   const currentSettings = settings[0] || {};
+
+  const handleTriggerReveal = async () => {
+    setTriggeringReveal(true);
+    const res = await base44.functions.invoke('triggerMay10Reveal', {});
+    queryClient.invalidateQueries({ queryKey: ['siteReveal'] });
+    toast({ title: res.data?.message || 'Reveal triggered!' });
+    setTriggeringReveal(false);
+  };
+
+  const handleSendNewsletter = async () => {
+    setSendingNewsletter(true);
+    setNewsletterResult(null);
+    const res = await base44.functions.invoke('sendRevealNewsletter', {});
+    setNewsletterResult(res.data);
+    toast({ title: `Newsletter sent to ${res.data?.sent ?? 0} subscribers` });
+    setSendingNewsletter(false);
+  };
 
   const saveMutation = useMutation({
     mutationFn: async (data) => {
@@ -144,6 +159,36 @@ export default function ReleaseCountdown() {
           </div>
         </div>
       </motion.div>
+
+      {/* One-click reveal + newsletter */}
+      <div className="bg-primary/10 border border-primary/30 rounded-2xl p-6 space-y-4">
+        <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow">🚀 Launch Actions</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <Button
+            onClick={handleTriggerReveal}
+            disabled={triggeringReveal || (currentSettings.artwork_revealed && currentSettings.merch_revealed)}
+            className="rounded-full gap-2 gradient-gold-button border-0"
+          >
+            <Zap className="w-4 h-4" />
+            {triggeringReveal ? 'Triggering...' : currentSettings.artwork_revealed ? 'Reveal Active ✓' : 'Trigger Full Reveal'}
+          </Button>
+          <Button
+            onClick={handleSendNewsletter}
+            disabled={sendingNewsletter}
+            variant="outline"
+            className="rounded-full gap-2 border-primary/40 text-primary hover:bg-primary/10"
+          >
+            <Send className="w-4 h-4" />
+            {sendingNewsletter ? 'Sending...' : 'Send Reveal Newsletter'}
+          </Button>
+        </div>
+        {newsletterResult && (
+          <p className="font-body text-xs text-muted-foreground">
+            ✓ Sent: {newsletterResult.sent} · Failed: {newsletterResult.failed ?? 0}
+            {newsletterResult.errors?.length > 0 && ` · Errors: ${newsletterResult.errors.join(', ')}`}
+          </p>
+        )}
+      </div>
 
       {/* Quick Actions */}
       <div className="grid grid-cols-2 gap-4">

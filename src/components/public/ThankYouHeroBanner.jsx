@@ -1,55 +1,15 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Gift, Sparkles, ArrowRight, Heart } from 'lucide-react';
+import { Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 
-const ARTWORK_REVEAL_DATE = '2026-05-10T08:00:00Z';
 
-// Ribbon / celebration decoration
-function Ribbon() {
-  return (
-    <>
-      <div className="absolute top-0 left-0 w-32 h-32 overflow-hidden pointer-events-none z-20">
-        <div
-          className="absolute bg-primary text-primary-foreground font-body text-[9px] tracking-[0.2em] uppercase font-semibold text-center shadow-lg"
-          style={{ width: '140px', top: '22px', left: '-32px', transform: 'rotate(-45deg)', padding: '5px 0' }}
-        >
-          Coming Soon
-        </div>
-      </div>
-      <div className="absolute top-0 right-0 w-32 h-32 overflow-hidden pointer-events-none z-20">
-        <div
-          className="absolute bg-primary/80 text-primary-foreground font-body text-[9px] tracking-[0.2em] uppercase font-semibold text-center shadow-lg"
-          style={{ width: '140px', top: '22px', right: '-32px', transform: 'rotate(45deg)', padding: '5px 0' }}
-        >
-          Debut Single
-        </div>
-      </div>
-      {[
-        { top: '8%', left: '12%', size: 'w-1.5 h-1.5', delay: 0 },
-        { top: '15%', right: '10%', size: 'w-1 h-1', delay: 0.4 },
-        { bottom: '12%', left: '8%', size: 'w-1 h-1', delay: 0.8 },
-        { bottom: '18%', right: '14%', size: 'w-1.5 h-1.5', delay: 0.2 },
-        { top: '40%', left: '4%', size: 'w-1 h-1', delay: 1.1 },
-        { top: '55%', right: '5%', size: 'w-1 h-1', delay: 0.6 },
-      ].map((dot, i) => (
-        <motion.div
-          key={i}
-          className={`absolute ${dot.size} rounded-full bg-primary pointer-events-none z-10`}
-          style={{ top: dot.top, left: dot.left, right: dot.right, bottom: dot.bottom }}
-          animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.3, 0.8] }}
-          transition={{ duration: 2, repeat: Infinity, delay: dot.delay, ease: 'easeInOut' }}
-        />
-      ))}
-    </>
-  );
-}
 
 export default function ThankYouHeroBanner() {
-  const { artworkRevealed, released, releaseDateIso, releaseDateText } = useSiteReveal();
+  const { released, releaseDateIso, releaseDateText } = useSiteReveal();
 
   return (
     <section className="relative w-full overflow-hidden bg-card border-b border-border/40">
@@ -107,29 +67,13 @@ export default function ThankYouHeroBanner() {
                   </Button>
                 </Link>
               </div>
-            ) : artworkRevealed ? (
-              <div>
-                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Release countdown — {releaseDateText}</p>
-                <CountdownTimer targetDate={releaseDateIso} />
-              </div>
             ) : (
-              <div>
-                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-4">Artwork & Release Date Reveal</p>
-                <CountdownTimer targetDate={ARTWORK_REVEAL_DATE} />
-                <div className="flex items-center gap-2 mt-5 justify-center md:justify-start">
-                  <Heart className="w-3.5 h-3.5 text-primary/60" />
-                  <p className="font-body text-xs gradient-gold-glow italic">
-                    Artwork & release — May 10th
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {!released && (
-              <div className="mt-6">
-                <Link to="/community">
-                  <Button variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-foreground/20">
-                    Be First to Know <ArrowRight className="w-3 h-3" />
+              <div className="space-y-4">
+                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Release Countdown — {releaseDateText}</p>
+                <CountdownTimer targetDate={releaseDateIso} />
+                <Link to="/music" className="inline-block mt-3">
+                  <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
+                    Listen on Spotify <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
               </div>
