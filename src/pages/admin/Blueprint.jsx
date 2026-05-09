@@ -219,17 +219,17 @@ export default function Blueprint() {
       {/* Live Stats */}
       <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
         {[
-          { label: 'Mastering Jobs', value: counts.projects ?? '—', color: 'text-primary' },
-          { label: 'Products', value: counts.products ?? '—', color: 'text-blue-400' },
-          { label: 'Subscribers', value: counts.subscribers ?? '—', color: 'text-green-400' },
-          { label: 'Supporters', value: counts.supporters ?? '—', color: 'text-yellow-400' },
-          { label: 'Orders', value: counts.orders ?? '—', color: 'text-orange-400' },
-          { label: 'Bookings', value: counts.enquiries ?? '—', color: 'text-purple-400' },
+          { label: 'Mastering Jobs', value: counts.projects ?? '—', color: 'text-primary', to: '/admin/mastering' },
+          { label: 'Products', value: counts.products ?? '—', color: 'text-blue-400', to: '/admin/merch' },
+          { label: 'Subscribers', value: counts.subscribers ?? '—', color: 'text-green-400', to: '/admin/subscribers' },
+          { label: 'Supporters', value: counts.supporters ?? '—', color: 'text-yellow-400', to: '/admin/supporters' },
+          { label: 'Orders', value: counts.orders ?? '—', color: 'text-orange-400', to: '/admin/orders' },
+          { label: 'Bookings', value: counts.enquiries ?? '—', color: 'text-purple-400', to: '/admin/fans' },
         ].map(s => (
-          <div key={s.label} className="bg-card border border-border/40 rounded-xl p-3 text-center">
+          <Link key={s.label} to={s.to} className="bg-card border border-border/40 rounded-xl p-3 text-center hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer">
             <p className={`font-display text-2xl ${s.color}`}>{s.value}</p>
             <p className="font-body text-[10px] text-muted-foreground uppercase tracking-wider mt-0.5">{s.label}</p>
-          </div>
+          </Link>
         ))}
       </div>
 

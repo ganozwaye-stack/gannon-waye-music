@@ -42,7 +42,7 @@ export default function Store() {
           <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             <p className="font-body text-xs text-muted-foreground tracking-wide">
-              Store opens May 10 at 6pm AEST · Register your interest to be first in line
+              Pre-order only · Payment scheduled for June 1, 2026 · No charge today
             </p>
           </div>
           <div className="inline-flex items-center gap-3 bg-primary/10 border border-primary/30 rounded-xl px-5 py-3">

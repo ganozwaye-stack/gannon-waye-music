@@ -58,26 +58,15 @@ export default function ThankYouHeroBanner() {
               A powerful expression of gratitude born from tragic heartbreak—where the rose-colored glasses fell away and the hard truths became clear.
             </p>
 
-            {released ? (
-              <div className="space-y-4">
-                <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Out Now</p>
-                <Link to="/music">
-                  <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                    Listen Now <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Release Countdown — {releaseDateText}</p>
-                <CountdownTimer targetDate={releaseDateIso} />
-                <Link to="/music" className="inline-block mt-3">
-                  <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                    Listen on Spotify <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-              </div>
-            )}
+            <div className="space-y-4">
+              <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Coming {releaseDateText} · All leading platforms</p>
+              {!released && <CountdownTimer targetDate={releaseDateIso} />}
+              <Link to="/music" className="inline-block mt-3">
+                <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
+                  {released ? 'Listen Now' : 'Pre-save Coming Soon'} <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         </div>
       </div>

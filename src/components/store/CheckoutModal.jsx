@@ -40,7 +40,8 @@ export default function CheckoutModal({ product, onClose }) {
   const [quantity, setQuantity] = useState(1);
   const [addSupport, setAddSupport] = useState(0);
   const hasSize = product.sizes_available?.length > 0;
-  const basePricing = calcPricing(product.price * quantity, product.category, appliedPromo?.discount_percent || 0);
+  const productPrice = product.sale_price ?? product.price ?? 0;
+  const basePricing = calcPricing(productPrice * quantity, product.category, appliedPromo?.discount_percent || 0);
   const pricing = { ...basePricing, total: basePricing.total + addSupport };
 
   const applyPromo = async () => {
@@ -122,7 +123,7 @@ export default function CheckoutModal({ product, onClose }) {
           <>
             <DialogHeader>
               <DialogTitle className="font-display text-2xl text-foreground">Order Details</DialogTitle>
-              <p className="font-body text-sm text-muted-foreground">{product.name} — <span className="gradient-gold-glow">${product.price?.toFixed(2)}</span></p>
+              <p className="font-body text-sm text-muted-foreground">{product.name} — <span className="gradient-gold-glow">${productPrice.toFixed(2)}</span></p>
             </DialogHeader>
 
             <form onSubmit={handleDetailsSubmit} className="space-y-4 mt-2">
@@ -230,7 +231,7 @@ export default function CheckoutModal({ product, onClose }) {
               <div className="bg-secondary/40 rounded-xl p-4 space-y-2 text-sm font-body">
                 <div className="flex justify-between text-foreground/70">
                   <span>Item{quantity > 1 ? ` × ${quantity}` : ''}</span>
-                  <span>${(product.price * quantity).toFixed(2)}</span>
+                  <span>${(productPrice * quantity).toFixed(2)}</span>
                 </div>
                 {appliedPromo && (
                   <div className="flex justify-between text-primary">

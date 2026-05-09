@@ -130,7 +130,7 @@ export default function MerchShowcase() {
                         {product.description}
                       </p>
                       <div className="flex items-center justify-between mt-3">
-                        <p className="font-display text-xl gradient-gold-glow">${product.price?.toFixed(2)}</p>
+                        <p className="font-display text-xl gradient-gold-glow">${(product.sale_price ?? product.price ?? 0).toFixed(2)}</p>
                         <button className="text-primary hover:text-primary/80 transition-colors">
                           <ShoppingBag className="w-4 h-4" />
                         </button>
@@ -185,7 +185,7 @@ export default function MerchShowcase() {
                     {selectedProduct.category}
                   </p>
                   <h2 className="font-display text-3xl text-foreground mb-3">{selectedProduct.name}</h2>
-                  <p className="font-display text-2xl gradient-gold-glow mb-4">${selectedProduct.price?.toFixed(2)}</p>
+                  <p className="font-display text-2xl gradient-gold-glow mb-4">${(selectedProduct.sale_price ?? selectedProduct.price ?? 0).toFixed(2)}</p>
                   <p className="font-body text-foreground/70 leading-relaxed mb-6">{selectedProduct.description}</p>
 
                   {selectedProduct.sizes_available?.length > 0 && (

@@ -17,7 +17,7 @@ const STATUS_LABELS = {
   mixing: 'Mixing',
   mastering: 'Mastering',
   ready: 'Coming Soon',
-  released: 'Out Now',
+  released: 'Coming June 10, 2026',
 };
 
 export default function Music() {
@@ -108,31 +108,30 @@ export default function Music() {
 
                   {/* Streaming Links */}
                   <div className="flex flex-wrap gap-3 mt-6">
-                    {release.spotify_link && (
+                    {release.status === 'released' && release.spotify_link ? (
                        <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
-                           🎧 Spotify <ExternalLink className="w-3 h-3" />
+                           🎧 Listen on Spotify <ExternalLink className="w-3 h-3" />
                          </Button>
                        </a>
+                     ) : (
+                       <Button size="sm" disabled className="rounded-full gap-2 font-body text-xs opacity-60 cursor-not-allowed border border-border/40">
+                         Available June 10, 2026 — All leading platforms
+                       </Button>
                      )}
-                     {release.apple_music_link && (
+                     {release.status === 'released' && release.apple_music_link && (
                        <a href={release.apple_music_link} target="_blank" rel="noopener noreferrer">
                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
                            🍎 Apple Music <ExternalLink className="w-3 h-3" />
                          </Button>
                        </a>
                      )}
-                     {release.youtube_link && (
+                     {release.status === 'released' && release.youtube_link && (
                        <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
                            ▶️ YouTube <ExternalLink className="w-3 h-3" />
                          </Button>
                        </a>
-                     )}
-                     {release.price && release.status === 'released' && (
-                       <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
-                         Buy ${release.price.toFixed(2)}
-                       </Button>
                      )}
                   </div>
                 </div>
