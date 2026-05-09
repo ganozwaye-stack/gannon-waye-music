@@ -68,64 +68,16 @@ export default function HomeEmailSignup() {
 
     setLoading(true);
     try {
-      // Create subscriber
-      let subscriberId;
-      const existing = await base44.entities.EmailSubscriber.filter({ email: form.email });
-      const subscriberData = {
-        ...form,
+      await base44.entities.EmailSubscriber.create({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
         date_of_birth: form.date_of_birth || null,
-      };
-      
-      if (existing.length === 0) {
-        const newSub = await base44.entities.EmailSubscriber.create(subscriberData);
-        subscriberId = newSub.id;
-      } else {
-        subscriberId = existing[0].id;
-        await base44.entities.EmailSubscriber.update(existing[0].id, subscriberData);
-      }
-
-      // Create gift tracker
-      const trackerRes = await base44.functions.invoke('createGiftTracker', {
-        subscriber_email: form.email,
-        subscriber_name: form.name,
+        how_found: form.how_found,
       });
-
-      // Send email with checklist link
-      if (trackerRes?.data?.checklist_url) {
-        await base44.integrations.Core.SendEmail({
-          to: form.email,
-          subject: 'Your Gift Awaits—Here\'s How to Claim It 🎁',
-          body: `Hi ${form.name},
-
-Thank you for signing up. You're now part of something special.
-
-Because you got in early, I have a gift waiting for you. It's simple to claim—just follow these steps:
-
-**Your Gift Checklist:**
-${trackerRes.data.checklist_url}
-
-(Save this link—you'll use it to track your progress)
-
-**Quick Steps:**
-1. Follow me on TikTok @gannonwaye & Instagram @gannonwaye
-2. Like, comment & share my latest post
-3. Take a screenshot & submit it via the link above
-4. I'll verify & send your gift directly
-
-No purchase needed. This is my way of saying thank you for believing in this from the beginning.
-
-See you on May 10 when "Thank You" drops.
-
-Gannon 🤍
-
-P.S. Questions? Just reply to this email or DM me on social.`,
-          from_name: 'Gannon Waye',
-        });
-      }
-    } catch (err) {
-      console.error('Signup error:', err);
+    } catch {
+      // Non-blocking — may already exist
     }
-
     setDone(true);
     setLoading(false);
   };
@@ -141,18 +93,26 @@ P.S. Questions? Just reply to this email or DM me on social.`,
             <CheckCircle2 className="w-14 h-14 text-primary mx-auto" />
             <h2 className="font-display text-3xl text-foreground">You're in. 🤍</h2>
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
-              Welcome to the inner circle, {form.name.split(' ')[0]}. You'll be the first to know when new music drops.
+              You're in. Thank you for joining Gannon Waye Music, {form.name.split(' ')[0]}. Check your email for a welcome message from Gannon.
             </p>
-            <div className="bg-primary/10 border border-primary/30 rounded-2xl p-5 mt-6 space-y-2">
-              <p className="font-display text-base gradient-gold-glow">Special Gift Offer 🎁</p>
+            <div className="bg-primary/10 border border-primary/30 rounded-2xl p-5 mt-6 space-y-3 text-left max-w-md mx-auto">
+              <p className="font-display text-base gradient-gold-glow text-center">Gift Offer 🎁</p>
               <p className="font-body text-sm text-foreground/70 leading-relaxed">
-                To claim your exclusive gift from me, follow these steps:
+                Thank you for getting in early. If you'd like to be considered for a thank-you gift from me:
               </p>
-              <ol className="font-body text-xs text-foreground/60 space-y-1 text-left max-w-xs mx-auto">
-                <li>✓ Follow me on <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">TikTok</a> & <a href="https://www.instagram.com/gannonwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Instagram</a></li>
-                <li>✓ Like, comment & share my latest post</li>
-                <li>✓ Watch for an email from me with your gift 🤍</li>
+              <ol className="font-body text-xs text-foreground/60 space-y-1.5 list-decimal list-inside">
+                <li>Subscribe on <a href="https://www.gannonwaye.com" className="text-primary hover:underline">www.gannonwaye.com</a> ✓ (done)</li>
+                <li>Follow Gannon on Instagram: <a href="https://www.instagram.com/ganozwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@ganozwaye</a></li>
+                <li>Follow Gannon on TikTok: <a href="https://www.tiktok.com/@ganozwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@ganozwaye</a></li>
+                <li>Find the "Sing Along Here" video</li>
+                <li>Like it</li>
+                <li>Comment something you love about the song and tag Gannon</li>
+                <li>Share the post publicly</li>
+                <li>Reply to the welcome email with screenshots so Gannon can review it</li>
               </ol>
+              <p className="font-body text-[10px] text-muted-foreground leading-relaxed">
+                Instagram and TikTok actions are not automatically verified. Proof is reviewed manually by Gannon. The gift is subject to approval and not guaranteed until reviewed.
+              </p>
             </div>
           </motion.div>
         </div>
@@ -190,8 +150,8 @@ P.S. Questions? Just reply to this email or DM me on social.`,
                 exit={{ opacity: 0, height: 0 }}
                 className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6 text-sm font-body text-foreground/70 leading-relaxed"
               >
-                <p className="mb-2">When you sign up here, follow me on TikTok & Instagram, and engage with my latest post, I'll send you something special as a thank you for getting in early. 🤍</p>
-                <p className="text-xs text-muted-foreground">No purchase necessary — just genuine support.</p>
+                <p className="mb-2">Sign up, follow me on Instagram <a href="https://www.instagram.com/ganozwaye" target="_blank" rel="noopener noreferrer" className="text-primary">@ganozwaye</a> and TikTok <a href="https://www.tiktok.com/@ganozwaye" target="_blank" rel="noopener noreferrer" className="text-primary">@ganozwaye</a>, engage with the "Sing Along Here" video, then reply to the welcome email with proof. Gannon reviews all claims manually. Subject to approval.</p>
+                <p className="text-xs text-muted-foreground">No purchase necessary. Social actions are not automatically verified.</p>
               </motion.div>
             )}
           </AnimatePresence>
@@ -269,7 +229,7 @@ P.S. Questions? Just reply to this email or DM me on social.`,
 
               <div>
                 <p className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-2">
-                  How did you find this page? *
+                  How did you find me? *
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {HOW_FOUND_OPTIONS.map(opt => (

@@ -48,36 +48,33 @@ Deno.serve(async (req) => {
   </div>
 
   <h1 style="color:#f5d06e;font-size:28px;text-align:center;font-style:italic;">You're in. 🤍</h1>
-  <p style="text-align:center;color:#c9b99a;font-size:15px;margin-bottom:28px;">Welcome to the inner circle, ${firstName}.</p>
+  <p style="text-align:center;color:#c9b99a;font-size:15px;margin-bottom:28px;">Welcome, ${firstName}.</p>
 
   <p style="color:#c9b99a;font-size:15px;line-height:1.8;">I'm genuinely glad you're here. This isn't just a mailing list — it's a community of people who believe in something honest, something real, something that matters.</p>
 
-  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">My debut single <strong style="color:#f5d06e;">"Thank You"</strong> is on its way — the artwork and release date will be revealed on <strong style="color:#f5d06e;">May 10, 2026</strong>. You'll be one of the very first to see it.</p>
-
-  <div style="background:#1a1f2e;border:1px solid #2a2f3e;border-radius:12px;padding:24px;margin:28px 0;text-align:center;">
-    <p style="color:#f5d06e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 12px;">Mark your calendar</p>
-    <p style="font-size:28px;color:#f0ead6;font-style:italic;margin:0;">May 10, 2026</p>
-    <p style="color:#999;font-size:13px;margin:8px 0 0;">Artwork Reveal + Release Date Announcement</p>
-  </div>
-
-  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">Until then — check out the site, join the community wall, and know that showing up here early means the world to me. Truly.</p>
+  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">My debut single <strong style="color:#f5d06e;">"Thank You"</strong> is out now. Thank you for being part of this. Check out the site, join the community wall, and know that showing up here means the world to me. Truly.</p>
 
   <div style="background:#1a1f2e;border:1px solid #2a2f3e;border-radius:12px;padding:24px;margin:28px 0;">
-    <p style="color:#f5d06e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 16px;">Follow me on socials 📱</p>
-    <p style="color:#c9b99a;font-size:14px;margin:0 0 10px;">📱 TikTok: <a href="https://www.tiktok.com/@gannonwaye" style="color:#f5d06e;">@gannonwaye</a></p>
-    <p style="color:#c9b99a;font-size:14px;margin:0 0 10px;">📷 Instagram: <a href="https://www.instagram.com/gannonwaye" style="color:#f5d06e;">@gannonwaye</a></p>
+    <p style="color:#f5d06e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 16px;">Find me on socials</p>
+    <p style="color:#c9b99a;font-size:14px;margin:0 0 10px;">📱 TikTok: <a href="https://www.tiktok.com/@ganozwaye" style="color:#f5d06e;">@ganozwaye</a></p>
+    <p style="color:#c9b99a;font-size:14px;margin:0 0 10px;">📷 Instagram: <a href="https://www.instagram.com/ganozwaye" style="color:#f5d06e;">@ganozwaye</a></p>
     <p style="color:#c9b99a;font-size:14px;margin:0;">📘 Facebook: <a href="https://www.facebook.com/gannonwaye" style="color:#f5d06e;">Gannon Waye</a></p>
   </div>
 
   <div style="background:#0e1a0e;border:1px solid #2a3e2a;border-radius:12px;padding:24px;margin:28px 0;">
-    <p style="color:#7ecf7e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 12px;">🎁 Want a gift from me?</p>
-    <p style="color:#c9b99a;font-size:14px;line-height:1.8;margin:0 0 12px;">Here's how to claim something special:</p>
-    <ol style="color:#c9b99a;font-size:14px;line-height:2;margin:0;padding-left:20px;">
-      <li>Follow me on TikTok &amp; Instagram (links above)</li>
-      <li>Like, comment &amp; share my latest post</li>
-      <li>Help bring 10 friends to <a href="https://gannonwaye.com" style="color:#f5d06e;">gannonwaye.com</a></li>
+    <p style="color:#7ecf7e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 12px;">🎁 A thank-you gift — if you'd like one</p>
+    <p style="color:#c9b99a;font-size:14px;line-height:1.8;margin:0 0 12px;">Thank you for getting in early. If you'd like to be considered for a thank-you gift from me:</p>
+    <ol style="color:#c9b99a;font-size:14px;line-height:2.2;margin:0;padding-left:20px;">
+      <li>Subscribe on <a href="https://www.gannonwaye.com" style="color:#f5d06e;">www.gannonwaye.com</a> ✓ (done)</li>
+      <li>Follow Gannon on Instagram: <a href="https://www.instagram.com/ganozwaye" style="color:#f5d06e;">@ganozwaye</a></li>
+      <li>Follow Gannon on TikTok: <a href="https://www.tiktok.com/@ganozwaye" style="color:#f5d06e;">@ganozwaye</a></li>
+      <li>Find the "Sing Along Here" video</li>
+      <li>Like it</li>
+      <li>Comment something you love about the song and tag Gannon</li>
+      <li>Share the post publicly</li>
+      <li>Once you've done that, reply to this email or upload proof so Gannon can review and approve the thank-you gift</li>
     </ol>
-    <p style="color:#999;font-size:13px;margin:16px 0 0;">If you help bring 10 new people into this community, I will personally send you a gift as a thank you. You're building an army of people who love like never before — and that means everything. 🤍</p>
+    <p style="color:#888;font-size:12px;margin:16px 0 0;line-height:1.7;">Instagram and TikTok actions cannot be automatically verified reliably without approved platform APIs, so proof is reviewed manually. The gift is subject to approval and not guaranteed until reviewed.</p>
   </div>
 
   <div style="text-align:center;margin:32px 0;">
@@ -87,8 +84,9 @@ Deno.serve(async (req) => {
 
   <p style="color:#c9b99a;font-size:15px;line-height:1.8;">All are welcome here — regardless of who you are, who you love, or where you've been. The only thing that isn't welcome is cruelty.</p>
 
-  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">With so much love,</p>
-  <p style="color:#f5d06e;font-size:18px;font-style:italic;margin-top:4px;">Gannon 🤍</p>
+  <p style="color:#c9b99a;font-size:15px;line-height:1.8;margin-top:28px;">With so much love,</p>
+  <p style="color:#f5d06e;font-size:20px;font-style:italic;margin-top:4px;">Gannon 🤍</p>
+  <p style="color:#888;font-size:13px;margin-top:4px;">Instagram: <a href="https://www.instagram.com/ganozwaye" style="color:#f5d06e;">@ganozwaye</a> &nbsp;·&nbsp; TikTok: <a href="https://www.tiktok.com/@ganozwaye" style="color:#f5d06e;">@ganozwaye</a></p>
 
   <div style="border-top:1px solid #2a2f3e;margin-top:40px;padding-top:20px;text-align:center;">
     <p style="color:#555;font-size:11px;line-height:1.7;">

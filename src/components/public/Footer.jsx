@@ -4,9 +4,10 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 
 export default function Footer() {
-  const [form, setForm] = useState({ name: '', email: '', phone: '', how_found: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', date_of_birth: '', how_found: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const { data: settings } = useQuery({
     queryKey: ['siteSettings'],
@@ -17,9 +18,23 @@ export default function Footer() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name || !form.email || !form.phone || !form.how_found) return;
+    if (!form.name || !form.email || !form.phone || !form.how_found) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+    setError('');
     setLoading(true);
-    await base44.entities.EmailSubscriber.create(form);
+    try {
+      await base44.entities.EmailSubscriber.create({
+        name: form.name,
+        email: form.email,
+        phone: form.phone,
+        date_of_birth: form.date_of_birth || null,
+        how_found: form.how_found,
+      });
+    } catch {
+      // Non-blocking — still show success if duplicate
+    }
     setSubmitted(true);
     setLoading(false);
   };
@@ -40,17 +55,13 @@ export default function Footer() {
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Navigate</h4>
             <div className="flex flex-col gap-2">
               <Link to="/" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Home</Link>
-              <Link to="/about" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">About</Link>
+              <Link to="/this-is-my-life" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">My Story</Link>
               <Link to="/music" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Music</Link>
-              <Link to="/store" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Store</Link>
               <Link to="/videos" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Videos</Link>
-              <Link to="/bookings" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Bookings</Link>
+              <Link to="/store" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Store</Link>
               <Link to="/community" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Community</Link>
-              <Link to="/lyrics" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Lyrics</Link>
-              <Link to="/this-is-my-life" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">This Is My Life</Link>
-              <Link to="/faq" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">FAQ</Link>
+              <Link to="/bookings" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Bookings</Link>
               <Link to="/contact" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Contact</Link>
-              <Link to="/fan-activity" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Fan Activity</Link>
               <Link to="/back-this" className="font-body text-sm text-primary hover:text-primary/80 transition-colors">Back This Project 🤍</Link>
             </div>
           </div>
@@ -70,40 +81,47 @@ export default function Footer() {
           <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Stay in the loop</p>
           <h3 className="font-display text-xl text-foreground mb-4">Tour updates & new music</h3>
           {submitted ? (
-            <p className="font-body text-sm text-primary">You're in. Thanks for subscribing.</p>
+            <div className="space-y-2">
+              <p className="font-body text-base text-primary">You're in. Thank you for joining Gannon Waye Music. 🤍</p>
+              <p className="font-body text-sm text-muted-foreground">Check your email for a welcome message from Gannon.</p>
+            </div>
           ) : (
             <form onSubmit={handleSubmit} className="max-w-sm mx-auto space-y-3">
               <input
                 type="text"
-                required
-                placeholder="Your name"
+                placeholder="Your name *"
                 value={form.name}
                 onChange={e => setForm({...form, name: e.target.value})}
                 className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
               />
               <input
                 type="email"
-                required
-                placeholder="your@email.com"
+                placeholder="your@email.com *"
                 value={form.email}
                 onChange={e => setForm({...form, email: e.target.value})}
                 className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
               />
               <input
                 type="tel"
-                required
-                placeholder="Phone (incl. country code)"
+                placeholder="Phone incl. country code e.g. +61 400 000 000 *"
                 value={form.phone}
                 onChange={e => setForm({...form, phone: e.target.value})}
                 className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
               />
+              <input
+                type="date"
+                value={form.date_of_birth}
+                onChange={e => setForm({...form, date_of_birth: e.target.value})}
+                className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
+                title="Birthday (optional — we'll send you something special)"
+              />
+              <p className="font-body text-[10px] text-muted-foreground -mt-1">Birthday optional — we'll send you something special 🎂</p>
               <select
-                required
                 value={form.how_found}
                 onChange={e => setForm({...form, how_found: e.target.value})}
                 className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
               >
-                <option value="">How did you find me?</option>
+                <option value="">How did you find me? *</option>
                 <option value="google">Google</option>
                 <option value="instagram">Instagram</option>
                 <option value="facebook">Facebook</option>
@@ -113,6 +131,7 @@ export default function Footer() {
                 <option value="i_know_gannon">I know Gannon</option>
                 <option value="other">Other</option>
               </select>
+              {error && <p className="font-body text-xs text-destructive">{error}</p>}
               <button
                 type="submit"
                 disabled={loading}

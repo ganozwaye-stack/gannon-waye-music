@@ -109,8 +109,8 @@ export default function Home() {
             <p className="font-display text-lg text-foreground italic">"Thank You"</p>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
             <div className="flex flex-col items-center gap-1">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Artwork & Release Date Reveal</p>
-              <CountdownTimer targetDate="2026-05-10T08:00:00Z" />
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Debut Single — Out Now</p>
+              <p className="font-display text-base text-primary italic">Listen Now</p>
             </div>
           </motion.div>
 

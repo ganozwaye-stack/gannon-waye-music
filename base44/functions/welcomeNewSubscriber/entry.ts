@@ -17,44 +17,47 @@ Deno.serve(async (req) => {
     await base44.integrations.Core.SendEmail({
       to: data.email,
       from_name: 'Gannon Waye',
-      subject: `Hey ${firstName} — welcome to the inner circle 🤍`,
+      subject: `Hey ${firstName} — welcome 🤍`,
       body: `Hey ${firstName},
 
 Welcome. I'm so glad you're here.
 
-You've just joined a community built on real stories, real emotion, and real connection. This isn't just a mailing list — it's a movement of people who believe music can change how we feel about ourselves.
-
-My debut single "Thank You" is coming soon, and you'll be first to know when it drops.
+My debut single "Thank You" is out now. Thank you for being part of this from the beginning — it means more than I can say.
 
 ---
 
-FOLLOW ME ON SOCIALS
+FIND ME ON SOCIALS
 
-I'd love to connect with you there too. Here's where to find me:
-
-📱 TikTok: @gannonwaye — https://www.tiktok.com/@gannonwaye
-📷 Instagram: @gannonwaye — https://www.instagram.com/gannonwaye
+📱 TikTok: @ganozwaye — https://www.tiktok.com/@ganozwaye
+📷 Instagram: @ganozwaye — https://www.instagram.com/ganozwaye
 📘 Facebook: Gannon Waye — https://www.facebook.com/gannonwaye
 
 ---
 
-🎁 WANT A GIFT FROM ME?
+🎁 A THANK-YOU GIFT — IF YOU'D LIKE ONE
 
-Here's how to claim something special:
+Thank you for getting in early. If you'd like to be considered for a thank-you gift from me:
 
-1. Follow me on TikTok & Instagram (links above)
-2. Like, comment & share my latest post
-3. Get 10 friends to sign up at gannonwaye.com
+1. Subscribe on www.gannonwaye.com (done ✓)
+2. Follow Gannon on Instagram: @ganozwaye
+3. Follow Gannon on TikTok: @ganozwaye
+4. Choose the "Sing Along Here" video
+5. Like it
+6. Comment something you love about the song and tag Gannon
+7. Share the post publicly
+8. Once you've done that, reply to this email or upload proof so Gannon can review and approve the thank-you gift
 
-If you help bring 10 new people into this community, I will personally send you a gift as a thank you for the love and support. You're building an army of people who love like never before — and that means everything to me.
+Instagram and TikTok actions cannot be automatically verified reliably without approved platform APIs, so proof is reviewed manually. The gift is subject to approval and not guaranteed until reviewed.
 
 ---
 
-This is a safe and inclusive space. All are welcome here — regardless of who you are, who you love, or where you've been. The only thing that isn't welcome is cruelty.
+All are welcome here — regardless of who you are, who you love, or where you've been. The only thing that isn't welcome is cruelty.
 
-See you soon,
+With love,
 Gannon 🤍
 
+Instagram: @ganozwaye — https://www.instagram.com/ganozwaye
+TikTok: @ganozwaye — https://www.tiktok.com/@ganozwaye
 gannonwaye.com
 hello@gannonwaye.com`
     });
