@@ -359,7 +359,7 @@ export default function Home() {
                 >
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
                     {release.title === 'Thank You' ? (
-                      <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a6aefb394_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : release.artwork_url ? (
                       <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (

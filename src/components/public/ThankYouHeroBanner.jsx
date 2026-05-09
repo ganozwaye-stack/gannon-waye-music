@@ -37,7 +37,7 @@ export default function ThankYouHeroBanner() {
               transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
             />
             <div className="relative w-full h-full rounded-2xl overflow-hidden bg-secondary/80 border border-border/40">
-              <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a6aefb394_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover" />
+              <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover" />
             </div>
           </motion.div>
 
