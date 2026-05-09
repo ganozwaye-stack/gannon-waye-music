@@ -10,8 +10,130 @@ import { base44 } from '@/api/base44Client';
 
 
 
+const HOW_FOUND_OPTIONS = [
+  { value: 'google', label: 'Google' },
+  { value: 'instagram', label: 'Instagram' },
+  { value: 'tiktok', label: 'TikTok' },
+  { value: 'friend_word_of_mouth', label: 'Friend / Word of Mouth' },
+  { value: 'i_know_gannon', label: 'I know Gannon' },
+  { value: 'other', label: 'Other' },
+];
+
+function InlineSignup() {
+  const [step, setStep] = useState(1);
+  const [form, setForm] = useState({ name: '', email: '', phone: '', how_found: '' });
+  const [done, setDone] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const set = (f, v) => { setForm(p => ({ ...p, [f]: v })); setErrors(e => ({ ...e, [f]: false })); };
+
+  const handleStep1 = (e) => {
+    e.preventDefault();
+    const errs = {};
+    if (!form.name.trim()) errs.name = true;
+    if (!form.email.includes('@')) errs.email = true;
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    setStep(2);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errs = {};
+    if (!form.phone.trim()) errs.phone = true;
+    if (!form.how_found) errs.how_found = true;
+    if (Object.keys(errs).length) { setErrors(errs); return; }
+    setLoading(true);
+    try { await base44.entities.EmailSubscriber.create({ ...form }); } catch {}
+    setDone(true);
+    setLoading(false);
+  };
+
+  if (done) return (
+    <div className="flex flex-col items-center gap-2 py-4">
+      <CheckCircle2 className="w-8 h-8 text-primary" />
+      <p className="font-display text-lg text-foreground">You're in. 🤍</p>
+      <p className="font-body text-xs text-muted-foreground text-center">Check your email for a welcome from Gannon.</p>
+    </div>
+  );
+
+  return (
+    <div className="border-t border-border/30 pt-6 space-y-4">
+      <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow">🎁 Join the Inner Circle — Get a Gift</p>
+      {step === 1 ? (
+        <form onSubmit={handleStep1} className="space-y-2" noValidate>
+          <Input placeholder="Your name *" value={form.name} onChange={e => set('name', e.target.value)} className={`bg-secondary/50 border-border/40 text-sm ${errors.name ? 'border-destructive' : ''}`} />
+          <Input type="email" placeholder="Email address *" value={form.email} onChange={e => set('email', e.target.value)} className={`bg-secondary/50 border-border/40 text-sm ${errors.email ? 'border-destructive' : ''}`} />
+          <Button type="submit" className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">Continue →</Button>
+        </form>
+      ) : (
+        <form onSubmit={handleSubmit} className="space-y-2" noValidate>
+          <Input type="tel" placeholder="Phone incl. country code *" value={form.phone} onChange={e => set('phone', e.target.value)} className={`bg-secondary/50 border-border/40 text-sm ${errors.phone ? 'border-destructive' : ''}`} />
+          <div className="flex flex-wrap gap-1.5">
+            {HOW_FOUND_OPTIONS.map(opt => (
+              <button key={opt.value} type="button" onClick={() => set('how_found', opt.value)}
+                className={`px-2.5 py-1 rounded-full border font-body text-[10px] transition-all ${form.how_found === opt.value ? 'border-primary bg-primary/20 text-primary' : 'border-border/50 text-muted-foreground'}`}>
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          {errors.how_found && <p className="font-body text-xs text-destructive">Please choose how you found us</p>}
+          <div className="flex gap-2">
+            <Button type="button" variant="outline" onClick={() => setStep(1)} className="rounded-full font-body text-sm border-border/40">← Back</Button>
+            <Button type="submit" disabled={loading} className="flex-1 rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">
+              {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Subscribe 🤍'}
+            </Button>
+          </div>
+        </form>
+      )}
+    </div>
+  );
+}
+
+const HOW_FOUND_OPTIONS = [
+  { value: 'google', label: 'Google' },
+  { value: 'instagram', label: 'Instagram' },
+  { value: 'tiktok', label: 'TikTok' },
+  { value: 'friend_word_of_mouth', label: 'Friend / Word of Mouth' },
+  { value: 'i_know_gannon', label: 'I know Gannon' },
+  { value: 'other', label: 'Other' },
+];
+
 export default function ThankYouSingle() {
   const { artworkRevealed, released, releaseDateIso, releaseDateText } = useSiteReveal();
+  const [signupStep, setSignupStep] = useState(1);
+  const [form, setForm] = useState({ name: '', email: '', phone: '', how_found: '' });
+  const [signupDone, setSignupDone] = useState(false);
+  const [signupLoading, setSignupLoading] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const set = (field, val) => {
+    setForm(f => ({ ...f, [field]: val }));
+    setErrors(e => ({ ...e, [field]: false }));
+  };
+
+  const handleStep1 = (e) => {
+    e.preventDefault();
+    const errs = {};
+    if (!form.name.trim()) errs.name = true;
+    if (!form.email.trim() || !form.email.includes('@')) errs.email = true;
+    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    setSignupStep(2);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const errs = {};
+    if (!form.phone.trim()) errs.phone = true;
+    if (!form.how_found) errs.how_found = true;
+    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    setSignupLoading(true);
+    try {
+      await base44.entities.EmailSubscriber.create({ name: form.name, email: form.email, phone: form.phone, how_found: form.how_found });
+    } catch { /* may already exist */ }
+    setSignupDone(true);
+    setSignupLoading(false);
+  };
 
   return (
     <section className="py-16 md:py-28 px-4 md:px-6 relative overflow-hidden">
@@ -71,11 +193,11 @@ export default function ThankYouSingle() {
             {/* Release countdown or release date */}
             <div className="border-t border-border/30 pt-6 space-y-4">
               {released ? (
-                <Link to="/music">
+                <a href="https://open.spotify.com/search/Gannon%20Waye%20Thank%20You" target="_blank" rel="noopener noreferrer">
                   <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                    Listen Now <ArrowRight className="w-4 h-4" />
+                    <Music className="w-4 h-4" /> Listen on Spotify
                   </Button>
-                </Link>
+                </a>
               ) : (
                 <>
                   <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow">Release countdown — {releaseDateText}</p>
@@ -98,6 +220,90 @@ export default function ThankYouSingle() {
             </div>
           </motion.div>
         </div>
+
+        {/* Email Signup — embedded below the single */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="mt-14 border-t border-border/30 pt-10"
+        >
+          {signupDone ? (
+            <div className="text-center space-y-3">
+              <CheckCircle2 className="w-10 h-10 text-primary mx-auto" />
+              <p className="font-display text-2xl text-foreground">You're in. 🤍</p>
+              <p className="font-body text-sm text-muted-foreground">Welcome to the inner circle, {form.name.split(' ')[0]}. Check your email for a message from Gannon.</p>
+            </div>
+          ) : (
+            <div className="max-w-xl mx-auto">
+              <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2 text-center">Stay Connected</p>
+              <h3 className="font-display text-2xl md:text-3xl text-foreground text-center mb-2">Join the Inner Circle</h3>
+              <p className="font-body text-sm text-muted-foreground text-center mb-6 leading-relaxed">
+                Be the first to hear new music, behind-the-scenes stories, and exclusive updates. 🎁 Sign up today for a chance at a gift from me.
+              </p>
+
+              {/* Step dots */}
+              <div className="flex justify-center gap-2 mb-5">
+                <div className={`w-2 h-2 rounded-full transition-all ${signupStep === 1 ? 'bg-primary' : 'bg-primary/40'}`} />
+                <div className={`w-2 h-2 rounded-full transition-all ${signupStep === 2 ? 'bg-primary' : 'bg-muted-foreground/30'}`} />
+              </div>
+
+              {signupStep === 1 ? (
+                <form onSubmit={handleStep1} className="flex flex-col gap-3" noValidate>
+                  <Input
+                    placeholder="Your full name *"
+                    value={form.name}
+                    onChange={e => set('name', e.target.value)}
+                    className={`bg-secondary/50 border-border/40 ${errors.name ? 'border-destructive' : ''}`}
+                  />
+                  {errors.name && <p className="font-body text-xs text-destructive -mt-2">Please enter your name</p>}
+                  <Input
+                    type="email"
+                    placeholder="Email address *"
+                    value={form.email}
+                    onChange={e => set('email', e.target.value)}
+                    className={`bg-secondary/50 border-border/40 ${errors.email ? 'border-destructive' : ''}`}
+                    inputMode="email"
+                  />
+                  {errors.email && <p className="font-body text-xs text-destructive -mt-2">Please enter a valid email</p>}
+                  <Button type="submit" className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
+                    Continue →
+                  </Button>
+                </form>
+              ) : (
+                <form onSubmit={handleSubmit} className="flex flex-col gap-3" noValidate>
+                  <Input
+                    placeholder="Phone incl. country code e.g. +61 400 000 000 *"
+                    value={form.phone}
+                    onChange={e => set('phone', e.target.value)}
+                    className={`bg-secondary/50 border-border/40 ${errors.phone ? 'border-destructive' : ''}`}
+                    type="tel"
+                  />
+                  {errors.phone && <p className="font-body text-xs text-destructive -mt-2">Phone number is required</p>}
+                  <div>
+                    <p className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-2">How did you find me? *</p>
+                    <div className="flex flex-wrap gap-2">
+                      {HOW_FOUND_OPTIONS.map(opt => (
+                        <button key={opt.value} type="button" onClick={() => set('how_found', opt.value)}
+                          className={`px-3 py-2 rounded-full border font-body text-xs transition-all ${form.how_found === opt.value ? 'border-primary bg-primary/20 text-primary' : 'border-border/50 text-muted-foreground hover:border-primary/40'}`}>
+                          {opt.label}
+                        </button>
+                      ))}
+                    </div>
+                    {errors.how_found && <p className="font-body text-xs text-destructive mt-1">Please choose an option</p>}
+                  </div>
+                  <div className="flex gap-2">
+                    <Button type="button" variant="outline" onClick={() => setSignupStep(1)} className="rounded-full border-border/40">← Back</Button>
+                    <Button type="submit" disabled={signupLoading} className="flex-1 rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
+                      {signupLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Subscribe 🤍'}
+                    </Button>
+                  </div>
+                </form>
+              )}
+            </div>
+          )}
+        </motion.div>
       </div>
     </section>
   );

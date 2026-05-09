@@ -13,7 +13,6 @@ import ThankYouHeroBanner from '@/components/public/ThankYouHeroBanner';
 import VideoPreviewSection from '@/components/public/VideoPreviewSection';
 import MerchTeaserSection from '@/components/public/MerchTeaserSection';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
-import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import HeroQuoteRotator from '@/components/public/HeroQuoteRotator';
 import FanMediaUpload from '@/components/public/FanMediaUpload';
 import RecentActivityStrip from '@/components/public/RecentActivityStrip';
@@ -149,6 +148,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Thank You Single — moved up */}
+      <ThankYouSingle />
+
       {/* About Section — magazine 3-column */}
       <section className="py-16 md:py-24 px-4 md:px-6 relative">
         <div className="max-w-6xl mx-auto">
@@ -265,8 +267,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Thank You Single */}
-      <ThankYouSingle />
+
 
       {/* Merch Teaser */}
       <MerchTeaserSection />
@@ -283,8 +284,7 @@ export default function Home() {
       {/* Social Videos Preview */}
       <VideoPreviewSection />
 
-      {/* Email Signup */}
-      <HomeEmailSignup />
+
 
       {/* Fan Media Upload */}
       <FanMediaUpload />
