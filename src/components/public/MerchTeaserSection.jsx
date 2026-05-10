@@ -118,12 +118,14 @@ export default function MerchTeaserSection() {
                 </div>
                 <div className="p-3 text-center">
                   <p className="font-display text-sm text-foreground leading-snug">{product.name}</p>
-                  <p className="font-body text-xs gradient-gold-glow mt-1">${(product.sale_price ?? product.price ?? 0).toFixed(2)}</p>
+                  <p className="font-body text-xs gradient-gold-glow mt-1">
+                    {product.sale_price != null ? `$${product.sale_price} plus shipping and fees` : product.price != null ? `$${product.price} plus shipping and fees` : 'Price coming soon'}
+                  </p>
                   <button
                     onClick={e => { e.stopPropagation(); setInterestProduct(product); }}
                     className="mt-2 w-full gradient-gold-button rounded-full py-1.5 font-body text-[10px] tracking-wider uppercase"
                   >
-                    Register Interest
+                    View in Store
                   </button>
                 </div>
               </motion.div>
