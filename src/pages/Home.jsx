@@ -21,7 +21,6 @@ import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
 import LiveFeedSection from '@/components/public/LiveFeedSection';
 import FanHighlightCommunity from '@/components/public/FanHighlightCommunity';
 import FeaturedVideoSection from '@/components/public/FeaturedVideoSection';
-import BookingCTA from '@/components/global/BookingCTA';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
@@ -136,15 +135,7 @@ export default function Home() {
             </Link>
           </motion.div>
           
-          {/* Booking CTA */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="mt-6 flex justify-center"
-          >
-            <BookingCTA variant="outline" />
-          </motion.div>
+
         </div>
       </section>
 

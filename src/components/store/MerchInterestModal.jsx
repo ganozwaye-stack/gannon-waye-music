@@ -69,8 +69,8 @@ export default function MerchInterestModal({ product, onClose }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.name.trim() || !form.email.trim()) {
-      toast({ title: 'Name and email are required', variant: 'destructive' });
+    if (!form.name.trim() || !form.email.trim() || !form.phone.trim()) {
+      toast({ title: 'Name, email and phone are required', variant: 'destructive' });
       return;
     }
     setLoading(true);
@@ -153,7 +153,7 @@ export default function MerchInterestModal({ product, onClose }) {
                   />
                 </div>
                 <div>
-                  <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1 block">Phone (optional)</Label>
+                  <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1 block">Phone *</Label>
                   <Input
                     value={form.phone}
                     onChange={e => set('phone', e.target.value)}
