@@ -2,29 +2,45 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Tag, Heart, Lock } from 'lucide-react';
+import { ShoppingBag, Tag, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import { useSiteReveal } from '@/hooks/useSiteReveal';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
-import CountdownTimer from '@/components/public/CountdownTimer';
-import WrappedGiftPlaceholder from '@/components/store/WrappedGiftPlaceholder';
 
-
-
-const UNLOCK_DATE = '2026-05-10T08:00:00Z';
-
-const TEASER_ITEMS = [
-  { label: 'Apparel', hint: 'Something to wear', tag: 'Limited Run' },
-  { label: 'Accessories', hint: 'Carry it with you', tag: 'Exclusive' },
-  { label: 'CD Singles', hint: 'Hold the music', tag: 'Signed' },
-  { label: 'Collectibles', hint: 'Limited & signed', tag: 'Rare' },
+// Fallback products shown if DB returns empty (permissions or loading issue)
+const FALLBACK_PRODUCTS = [
+  {
+    id: 'fallback-hoodie',
+    name: '"Respect Is Earned" Hoodie — Dark Grey',
+    sale_price: 89,
+    category: 'apparel',
+    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png',
+    description: "A statement piece. Premium heavyweight dark grey hoodie.",
+    sizes_available: ['XS', 'S', 'M', 'L', 'XL', '2XL'],
+  },
+  {
+    id: 'fallback-bundle',
+    name: 'Thank You Journal Pen and Thermos Flask Bundle',
+    sale_price: 49,
+    category: 'bundle',
+    image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e14220834_Bundle.png',
+    description: "The complete collector's set. Premium branded journal, custom engraved pen, and stainless steel thermos flask.",
+    sizes_available: ['3pc SET'],
+  },
 ];
 
 export default function Store() {
   const [interestProduct, setInterestProduct] = useState(null);
   const navigate = useNavigate();
-  const { merchRevealed } = useSiteReveal();
+
+  const { data: dbProducts = [] } = useQuery({
+    queryKey: ['storeProducts'],
+    queryFn: () => base44.entities.MerchProduct.filter({ is_active: true }, '-created_date'),
+    initialData: [],
+  });
+
+  // Use DB products if available, otherwise fallback to hardcoded approved products
+  const products = dbProducts.length > 0 ? dbProducts : FALLBACK_PRODUCTS;
 
   return (
     <div className="min-h-screen py-24 px-4 md:px-8">
@@ -79,49 +95,48 @@ export default function Store() {
           <div className="flex-1 h-px bg-border/40" />
         </div>
 
-        {/* Wrapped Gift Collection Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
-          {TEASER_ITEMS.map((item, i) => (
+        {/* Product Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {products.map((product, i) => (
             <motion.div
-              key={item.label}
+              key={product.id}
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              onClick={() => setInterestProduct({ id: `teaser-${item.label.toLowerCase()}`, name: item.label })}
+              onClick={() => setInterestProduct(product)}
               className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300 cursor-pointer"
             >
               {/* Image area */}
-              <div className="aspect-square bg-gradient-to-br from-secondary/20 to-secondary/60 flex flex-col items-center justify-center gap-4 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
-                {/* Coming Soon overlay badge */}
+              <div className="aspect-square bg-gradient-to-br from-secondary/20 to-secondary/60 relative overflow-hidden">
+                {product.image_url ? (
+                  <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <ShoppingBag className="w-16 h-16 text-muted-foreground/20" />
+                  </div>
+                )}
                 <div className="absolute top-3 left-3 z-10">
                   <span className="font-body text-[9px] tracking-[0.2em] uppercase bg-background/70 backdrop-blur border border-primary/30 text-primary rounded-full px-2 py-0.5">
-                    Coming Soon
+                    Pre-order
                   </span>
                 </div>
-                {/* Tag badge top-right */}
-                <div className="absolute top-3 right-3 z-10">
-                  <span className="font-body text-[9px] tracking-[0.15em] uppercase bg-primary/15 border border-primary/25 text-primary/80 rounded-full px-2 py-0.5">
-                    {item.tag}
-                  </span>
-                </div>
-                <WrappedGiftPlaceholder index={i} />
               </div>
 
               {/* Card footer */}
-              <div className="p-4 text-center border-t border-border/30 bg-card/20">
-                <p className="font-display text-sm text-foreground leading-snug">{item.label}</p>
-                <p className="font-body text-[10px] text-muted-foreground/60 mt-1 tracking-wide">{item.hint}</p>
-                <div className="mt-2 flex items-center justify-center gap-1.5 mb-3">
-                  <span className="w-1 h-1 rounded-full bg-primary animate-pulse" />
-                  <span className="font-body text-[9px] tracking-[0.2em] uppercase gradient-gold-glow">Coming 05 June 2026</span>
-                </div>
+              <div className="p-5 border-t border-border/30 bg-card/20">
+                <p className="font-display text-base text-foreground leading-snug">{product.name}</p>
+                <p className="font-body text-sm gradient-gold-glow mt-1 font-medium">
+                  ${product.sale_price ?? product.price} plus shipping and fees
+                </p>
+                <p className="font-body text-[10px] text-muted-foreground/70 mt-1 leading-relaxed">
+                  Pre-order interest only. No charge today. Payment scheduled for June 1, 2026, subject to confirmation.
+                </p>
                 <button
-                  onClick={e => { e.stopPropagation(); setInterestProduct({ id: `teaser-${item.label.toLowerCase()}`, name: item.label }); }}
-                  className="w-full gradient-gold-button rounded-full py-2 font-body text-[10px] tracking-wider uppercase"
+                  onClick={e => { e.stopPropagation(); setInterestProduct(product); }}
+                  className="mt-3 w-full gradient-gold-button rounded-full py-2 font-body text-[10px] tracking-wider uppercase"
                 >
-                  Register Interest
+                  Register Pre-order Interest
                 </button>
               </div>
             </motion.div>
