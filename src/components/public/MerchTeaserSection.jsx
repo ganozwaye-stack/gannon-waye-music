@@ -82,6 +82,12 @@ export default function MerchTeaserSection() {
                 <div className="p-3 text-center">
                   <p className="font-display text-sm text-foreground/70">{item.label}</p>
                   <p className="font-body text-[11px] text-muted-foreground/50 mt-0.5">{item.hint}</p>
+                  <button
+                    onClick={e => { e.stopPropagation(); setInterestProduct({ id: `teaser-${item.label.toLowerCase()}`, name: item.label }); }}
+                    className="mt-2 w-full gradient-gold-button rounded-full py-1.5 font-body text-[10px] tracking-wider uppercase"
+                  >
+                    Register Interest
+                  </button>
                 </div>
               </motion.div>
             ))}
@@ -113,6 +119,12 @@ export default function MerchTeaserSection() {
                 <div className="p-3 text-center">
                   <p className="font-display text-sm text-foreground leading-snug">{product.name}</p>
                   <p className="font-body text-xs gradient-gold-glow mt-1">${(product.sale_price ?? product.price ?? 0).toFixed(2)}</p>
+                  <button
+                    onClick={e => { e.stopPropagation(); setInterestProduct(product); }}
+                    className="mt-2 w-full gradient-gold-button rounded-full py-1.5 font-body text-[10px] tracking-wider uppercase"
+                  >
+                    Register Interest
+                  </button>
                 </div>
               </motion.div>
             ))}

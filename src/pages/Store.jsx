@@ -115,10 +115,16 @@ export default function Store() {
               <div className="p-4 text-center border-t border-border/30 bg-card/20">
                 <p className="font-display text-sm text-foreground leading-snug">{item.label}</p>
                 <p className="font-body text-[10px] text-muted-foreground/60 mt-1 tracking-wide">{item.hint}</p>
-                <div className="mt-3 flex items-center justify-center gap-1.5">
+                <div className="mt-2 flex items-center justify-center gap-1.5 mb-3">
                   <span className="w-1 h-1 rounded-full bg-primary animate-pulse" />
                   <span className="font-body text-[9px] tracking-[0.2em] uppercase gradient-gold-glow">June 10, 2026</span>
                 </div>
+                <button
+                  onClick={e => { e.stopPropagation(); setInterestProduct({ id: `teaser-${item.label.toLowerCase()}`, name: item.label }); }}
+                  className="w-full gradient-gold-button rounded-full py-2 font-body text-[10px] tracking-wider uppercase"
+                >
+                  Register Interest
+                </button>
               </div>
             </motion.div>
           ))}
