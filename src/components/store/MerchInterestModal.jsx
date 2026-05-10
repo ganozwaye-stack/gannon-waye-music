@@ -124,7 +124,7 @@ export default function MerchInterestModal({ product, onClose }) {
                 <div className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-lg px-3 py-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse flex-shrink-0" />
                   <p className="font-body text-xs text-foreground/70 leading-relaxed">
-                    <strong>No charge today.</strong> Payment scheduled June 5, 2026 — subject to confirmation.
+                    Pre-order interest only. <strong>No charge today.</strong> Payment scheduled for June 1, 2026, subject to confirmation.
                   </p>
                 </div>
               </div>

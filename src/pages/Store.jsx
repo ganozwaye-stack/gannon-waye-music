@@ -42,7 +42,7 @@ export default function Store() {
           <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2.5 mb-4">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             <p className="font-body text-xs text-muted-foreground tracking-wide">
-              Pre-order only · Payment scheduled for June 1, 2026 · No charge today
+              Pre-order interest only · No charge today · Payment scheduled for June 1, 2026, subject to confirmation
             </p>
           </div>
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-xl px-5 py-3">
@@ -115,7 +115,7 @@ export default function Store() {
                 <p className="font-body text-[10px] text-muted-foreground/60 mt-1 tracking-wide">{item.hint}</p>
                 <div className="mt-2 flex items-center justify-center gap-1.5 mb-3">
                   <span className="w-1 h-1 rounded-full bg-primary animate-pulse" />
-                  <span className="font-body text-[9px] tracking-[0.2em] uppercase gradient-gold-glow">June 5, 2026</span>
+                  <span className="font-body text-[9px] tracking-[0.2em] uppercase gradient-gold-glow">Coming 05 June 2026</span>
                 </div>
                 <button
                   onClick={e => { e.stopPropagation(); setInterestProduct({ id: `teaser-${item.label.toLowerCase()}`, name: item.label }); }}
