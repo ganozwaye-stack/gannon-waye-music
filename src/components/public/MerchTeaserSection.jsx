@@ -47,7 +47,7 @@ export default function MerchTeaserSection() {
           {!merchRevealed && (
             <>
               <p className="font-body text-sm text-muted-foreground max-w-md mx-auto mb-6 leading-relaxed">
-                The official Gannon Waye merch store opens June 10 — the same moment as the debut single drop.
+                The official Gannon Waye merch store opens June 5 — the same moment as the debut single drop.
               </p>
               <div className="flex justify-center">
                 <CountdownTimer targetDate={UNLOCK_DATE} />

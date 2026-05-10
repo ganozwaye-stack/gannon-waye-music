@@ -95,7 +95,7 @@ export default function CheckoutModal({ product, onClose }) {
       total_amount: pricing.total,
       promo_code: appliedPromo?.code || null,
       notes: isPreorder
-        ? `PRE-ORDER · Card saved · Charge $${pricing.total.toFixed(2)} AUD on 2026-06-01 | SetupIntent: ${intent.id}${appliedPromo ? ` | Promo: ${appliedPromo.code}` : ''}`
+        ? `PRE-ORDER · Card saved · Charge $${pricing.total.toFixed(2)} AUD on 2026-06-05 | SetupIntent: ${intent.id}${appliedPromo ? ` | Promo: ${appliedPromo.code}` : ''}`
         : `Stripe PaymentIntent: ${intent.id}${appliedPromo ? ` | Promo: ${appliedPromo.code} (${appliedPromo.discount_percent}% off)` : ''}`,
       status: isPreorder ? 'pending' : 'confirmed',
     });
@@ -121,10 +121,10 @@ export default function CheckoutModal({ product, onClose }) {
                 Your card has been saved securely. <strong>No charge today.</strong>
               </p>
               <p className="font-body text-sm text-foreground/70 leading-relaxed">
-                Your payment of <span className="gradient-gold-glow font-semibold">${pricing.total.toFixed(2)} AUD</span> will be processed on <strong>June 1, 2026</strong> — ahead of the June 10 single launch.
+                Your payment of <span className="gradient-gold-glow font-semibold">${pricing.total.toFixed(2)} AUD</span> will be processed on <strong>June 5, 2026</strong> — the day of the single launch.
               </p>
               <p className="font-body text-xs text-muted-foreground mt-1">
-                A confirmation email is on its way. Your order ships from June 10.
+                A confirmation email is on its way. Your order ships from June 5.
               </p>
             </div>
             <Button onClick={onClose} className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">
