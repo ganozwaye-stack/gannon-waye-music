@@ -81,6 +81,12 @@ export default function CheckoutModal({ product, onClose }) {
 
   const handlePaymentSuccess = async (intent) => {
     const isPreorder = intent.type === 'setup';
+
+    // Record promo usage now that payment is confirmed
+    if (appliedPromo) {
+      await base44.functions.invoke('recordPromoUsage', { promo_id: appliedPromo.id, email: form.customer_email });
+    }
+
     await base44.entities.MerchOrder.create({
       customer_name: form.customer_name,
       customer_email: form.customer_email,

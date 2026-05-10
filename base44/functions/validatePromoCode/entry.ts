@@ -69,17 +69,6 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Record usage (increment count, add email to used_by_emails)
-    const updateData = {
-      times_used: (promo.times_used || 0) + 1,
-    };
-    if (promo.one_use_per_email && email) {
-      const usedBy = promo.used_by_emails || [];
-      updateData.used_by_emails = [...usedBy, email.toLowerCase().trim()];
-    }
-
-    await base44.asServiceRole.entities.PromoCode.update(promo.id, updateData);
-
     return Response.json({
       valid: true,
       code: promo.code,

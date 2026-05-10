@@ -45,11 +45,9 @@ export default function Store() {
               Pre-order only · Payment scheduled for June 1, 2026 · No charge today
             </p>
           </div>
-          <div className="inline-flex items-center gap-3 bg-primary/10 border border-primary/30 rounded-xl px-5 py-3">
+          <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-xl px-5 py-3">
             <Tag className="w-4 h-4 text-primary flex-shrink-0" />
-            <span className="font-body text-xs text-foreground/70">Launch offer · First 20 orders:</span>
-            <span className="font-display text-base tracking-widest gradient-gold-glow">LAUNCH15</span>
-            <span className="font-body text-xs text-primary">= 15% off</span>
+            <span className="font-body text-xs text-foreground/70">Have a promo code? Enter it at checkout for your discount.</span>
           </div>
         </motion.div>
 
