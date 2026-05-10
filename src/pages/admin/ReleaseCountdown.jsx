@@ -250,7 +250,7 @@ export default function ReleaseCountdown() {
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase">Release Date (Human Readable)</Label>
                 <Input
-                  placeholder="e.g. June 10, 2026"
+                  placeholder="e.g. 5 June 2026"
                   value={formData.release_date_text}
                   onChange={e => setFormData({ ...formData, release_date_text: e.target.value })}
                 />

@@ -17,7 +17,7 @@ const STATUS_LABELS = {
   mixing: 'Mixing',
   mastering: 'Mastering',
   ready: 'Coming Soon',
-  released: 'Coming June 10, 2026',
+  released: 'Out 5 June 2026',
 };
 
 export default function Music() {
@@ -116,7 +116,7 @@ export default function Music() {
                        </a>
                      ) : (
                        <Button size="sm" disabled className="rounded-full gap-2 font-body text-xs opacity-60 cursor-not-allowed border border-border/40">
-                         Available June 10, 2026 — All leading platforms
+                         Available 5 June 2026 — All leading platforms
                        </Button>
                      )}
                      {release.status === 'released' && release.apple_music_link && (

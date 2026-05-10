@@ -107,7 +107,7 @@ export default function Home() {
             <p className="font-display text-lg text-foreground italic">"Thank You"</p>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
             <div className="flex flex-col items-center gap-1">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Debut Single — Out June 10, 2026</p>
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Debut Single — Out 5 June 2026</p>
               <a href="https://open.spotify.com/search/Gannon%20Waye%20Thank%20You" target="_blank" rel="noopener noreferrer" className="font-display text-base text-primary italic hover:underline">Listen on Spotify →</a>
             </div>
           </motion.div>
