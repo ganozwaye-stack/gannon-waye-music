@@ -16,12 +16,12 @@ export function useSiteReveal() {
   const record = data[0];
 
   // Fallback: if no DB record yet, default to revealed (May 10 has passed)
-  const RELEASE_DATE = '2026-06-10T02:00:00Z'; // midday AEST June 10
+  const RELEASE_DATE = '2026-06-05T00:00:00Z'; // 5 June 2026
 
   const artworkRevealed = record?.artwork_revealed ?? true;
   const merchRevealed = record?.merch_revealed ?? true;
   const releaseDateIso = record?.release_date_iso ?? RELEASE_DATE;
-  const releaseDateText = record?.release_date_text ?? 'June 10, 2026';
+  const releaseDateText = record?.release_date_text ?? '5 June 2026';
   const released = new Date() >= new Date(releaseDateIso);
 
   return { artworkRevealed, merchRevealed, releaseDateIso, releaseDateText, released };

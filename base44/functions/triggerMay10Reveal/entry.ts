@@ -11,15 +11,15 @@ Deno.serve(async (req) => {
       await base44.asServiceRole.entities.SiteReveal.update(existing[0].id, {
         artwork_revealed: true,
         merch_revealed: true,
-        release_date_text: 'June 10, 2026',
-        release_date_iso: '2026-06-10T02:00:00Z',
+        release_date_text: '5 June 2026',
+        release_date_iso: '2026-06-05T00:00:00Z',
       });
     } else {
       await base44.asServiceRole.entities.SiteReveal.create({
         artwork_revealed: true,
         merch_revealed: true,
-        release_date_text: 'June 10, 2026',
-        release_date_iso: '2026-06-10T02:00:00Z',
+        release_date_text: '5 June 2026',
+        release_date_iso: '2026-06-05T00:00:00Z',
       });
     }
 
