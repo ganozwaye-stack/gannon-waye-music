@@ -79,18 +79,19 @@ export default function CheckoutModal({ product, onClose }) {
     setStep('payment');
   };
 
-  const handlePaymentSuccess = async (paymentIntent) => {
+  const handlePaymentSuccess = async (intent) => {
+    const isPreorder = intent.type === 'setup';
     await base44.entities.MerchOrder.create({
       customer_name: form.customer_name,
       customer_email: form.customer_email,
       shipping_address: form.shipping_address,
-      items: [{ product_id: product.id, product_name: product.name, size: selectedSize, quantity, price: product.price }],
+      items: [{ product_id: product.id, product_name: product.name, size: selectedSize, quantity, price: productPrice }],
       total_amount: pricing.total,
       promo_code: appliedPromo?.code || null,
-      notes: appliedPromo
-        ? `Promo: ${appliedPromo.code} (${appliedPromo.discount_percent}% off) | Stripe: ${paymentIntent.id}`
-        : `Stripe: ${paymentIntent.id}`,
-      status: 'confirmed',
+      notes: isPreorder
+        ? `PRE-ORDER · Card saved · Charge $${pricing.total.toFixed(2)} AUD on 2026-06-01 | SetupIntent: ${intent.id}${appliedPromo ? ` | Promo: ${appliedPromo.code}` : ''}`
+        : `Stripe PaymentIntent: ${intent.id}${appliedPromo ? ` | Promo: ${appliedPromo.code} (${appliedPromo.discount_percent}% off)` : ''}`,
+      status: isPreorder ? 'pending' : 'confirmed',
     });
     queryClient.invalidateQueries({ queryKey: ['orders'] });
     setStep('done');
@@ -108,10 +109,18 @@ export default function CheckoutModal({ product, onClose }) {
         {step === 'done' && (
           <div className="text-center py-8 space-y-4">
             <CheckCircle2 className="w-14 h-14 text-primary mx-auto" />
-            <h3 className="font-display text-2xl text-foreground">Order Confirmed!</h3>
-            <p className="font-body text-sm text-muted-foreground leading-relaxed">
-              Payment successful! You'll receive a confirmation email shortly. Your order will ship before June 9, 2026.
-            </p>
+            <h3 className="font-display text-2xl text-foreground">Pre-order Locked In! 🤍</h3>
+            <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-left space-y-2">
+              <p className="font-body text-sm text-foreground/80 leading-relaxed">
+                Your card has been saved securely. <strong>No charge today.</strong>
+              </p>
+              <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                Your payment of <span className="gradient-gold-glow font-semibold">${pricing.total.toFixed(2)} AUD</span> will be processed on <strong>June 1, 2026</strong> — ahead of the June 10 single launch.
+              </p>
+              <p className="font-body text-xs text-muted-foreground mt-1">
+                A confirmation email is on its way. Your order ships from June 10.
+              </p>
+            </div>
             <Button onClick={onClose} className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">
               Done
             </Button>
@@ -287,6 +296,7 @@ export default function CheckoutModal({ product, onClose }) {
 
             <div className="mt-4">
               <StripePaymentForm
+                mode="setup"
                 amount={pricing.total}
                 customerEmail={form.customer_email}
                 customerName={form.customer_name}

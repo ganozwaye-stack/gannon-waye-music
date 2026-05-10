@@ -15,19 +15,43 @@ async function getStripe() {
   return stripePromise;
 }
 
-function PaymentForm({ total, onSuccess, onError, promoCode }) {
+function PaymentForm({ total, mode, onSuccess, onError, promoCode }) {
   const stripe = useStripe();
   const elements = useElements();
   const [loading, setLoading] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const isSetup = mode === 'setup';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements || isProcessing) return;
-    
+
     setLoading(true);
     setIsProcessing(true);
 
+    if (isSetup) {
+      // SetupIntent — save card only, NO charge today
+      const { error, setupIntent } = await stripe.confirmSetup({
+        elements,
+        confirmParams: { return_url: window.location.origin + '/store' },
+        redirect: 'if_required',
+      });
+
+      if (error) {
+        onError(error.message);
+        setLoading(false);
+        setIsProcessing(false);
+      } else if (setupIntent?.status === 'succeeded') {
+        onSuccess({ id: setupIntent.id, type: 'setup', setupIntentId: setupIntent.id });
+      } else {
+        onError('Card setup incomplete. Please try again.');
+        setLoading(false);
+        setIsProcessing(false);
+      }
+      return;
+    }
+
+    // Immediate PaymentIntent flow
     const { error, paymentIntent } = await stripe.confirmPayment({
       elements,
       confirmParams: { return_url: window.location.origin + '/store' },
@@ -39,10 +63,8 @@ function PaymentForm({ total, onSuccess, onError, promoCode }) {
       setLoading(false);
       setIsProcessing(false);
     } else if (paymentIntent?.status === 'succeeded') {
-      // Payment succeeded - do NOT allow re-submission
       onSuccess(paymentIntent);
     } else if (paymentIntent?.status === 'processing') {
-      // Still processing - don't allow second submission
       onError('Payment is processing. Please wait...');
       setLoading(false);
     }
@@ -50,6 +72,13 @@ function PaymentForm({ total, onSuccess, onError, promoCode }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {isSetup && (
+        <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 text-center">
+          <p className="font-body text-xs text-primary leading-relaxed">
+            🔒 Your card details are saved securely. <strong>No charge today.</strong> Payment of ${total.toFixed(2)} AUD processed on <strong>June 1, 2026</strong>.
+          </p>
+        </div>
+      )}
       {promoCode && (
         <div className="bg-primary/10 border border-primary/30 rounded-lg p-3 flex items-center justify-between">
           <div>
@@ -66,13 +95,18 @@ function PaymentForm({ total, onSuccess, onError, promoCode }) {
         className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase mt-4"
       >
         <ShoppingBag className="w-4 h-4 mr-2" />
-        {loading ? 'Processing...' : `Pay $${total.toFixed(2)}`}
+        {loading
+          ? (isSetup ? 'Saving card...' : 'Processing...')
+          : isSetup
+            ? `Pre-order — Pay $${total.toFixed(2)} on June 1`
+            : `Pay $${total.toFixed(2)}`
+        }
       </Button>
     </form>
   );
 }
 
-export default function StripePaymentForm({ amount, customerEmail, customerName, productName, metadata, onSuccess, onError, promoCode }) {
+export default function StripePaymentForm({ amount, customerEmail, customerName, productName, metadata, onSuccess, onError, promoCode, mode = 'payment' }) {
   const [clientSecret, setClientSecret] = useState(null);
   const [stripeInstance, setStripeInstance] = useState(null);
   const [loadingIntent, setLoadingIntent] = useState(true);
@@ -90,6 +124,7 @@ export default function StripePaymentForm({ amount, customerEmail, customerName,
             customerName,
             productName,
             metadata,
+            mode,
           }),
         ]);
         setStripeInstance(stripe);
@@ -100,7 +135,7 @@ export default function StripePaymentForm({ amount, customerEmail, customerName,
       setLoadingIntent(false);
     };
     init();
-  }, [amount]);
+  }, [amount, mode]);
 
   if (loadingIntent) {
     return (
@@ -128,7 +163,7 @@ export default function StripePaymentForm({ amount, customerEmail, customerName,
 
   return (
     <Elements stripe={stripeInstance} options={{ clientSecret, appearance }}>
-      <PaymentForm total={amount} onSuccess={onSuccess} onError={onError} promoCode={promoCode} />
+      <PaymentForm total={amount} mode={mode} onSuccess={onSuccess} onError={onError} promoCode={promoCode} />
     </Elements>
   );
 }
