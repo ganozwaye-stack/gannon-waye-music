@@ -45,7 +45,7 @@ export default function MerchTeaserSection() {
           {!merchRevealed && (
             <>
               <p className="font-body text-sm text-muted-foreground max-w-md mx-auto mb-6 leading-relaxed">
-                The official Gannon Waye merch store drops May 10 — the same moment as the artwork reveal.
+                The official Gannon Waye merch store opens June 10 — the same moment as the debut single drop.
               </p>
               <div className="flex justify-center">
                 <CountdownTimer targetDate={UNLOCK_DATE} />
@@ -108,7 +108,7 @@ export default function MerchTeaserSection() {
                 </div>
                 <div className="p-3 text-center">
                   <p className="font-display text-sm text-foreground leading-snug">{product.name}</p>
-                  <p className="font-body text-xs gradient-gold-glow mt-1">${product.price?.toFixed(2)}</p>
+                  <p className="font-body text-xs gradient-gold-glow mt-1">${(product.sale_price ?? product.price ?? 0).toFixed(2)}</p>
                 </div>
               </motion.div>
             ))}
