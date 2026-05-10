@@ -90,7 +90,8 @@ export default function Store() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
+              onClick={() => setInterestProduct({ id: `teaser-${item.label.toLowerCase()}`, name: item.label })}
+              className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300 cursor-pointer"
             >
               {/* Image area */}
               <div className="aspect-square bg-gradient-to-br from-secondary/20 to-secondary/60 flex flex-col items-center justify-center gap-4 relative overflow-hidden">
@@ -151,6 +152,7 @@ export default function Store() {
           onClose={() => setInterestProduct(null)}
         />
       )}
+
 
 
     </div>

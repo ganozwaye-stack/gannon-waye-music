@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, ShoppingBag, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
+import MerchInterestModal from '@/components/store/MerchInterestModal';
 
 const UNLOCK_DATE = '2026-05-10T08:00:00Z';
 
@@ -19,6 +20,7 @@ const TEASER_ITEMS = [
 
 export default function MerchTeaserSection() {
   const { merchRevealed } = useSiteReveal();
+  const [interestProduct, setInterestProduct] = useState(null);
 
   const { data: products = [] } = useQuery({
     queryKey: ['merchProducts'],
@@ -69,12 +71,13 @@ export default function MerchTeaserSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                className="rounded-2xl border border-border/30 bg-card/60 overflow-hidden"
+                onClick={() => setInterestProduct({ id: `teaser-${item.label.toLowerCase()}`, name: item.label })}
+                className="rounded-2xl border border-border/30 hover:border-primary/30 bg-card/60 overflow-hidden cursor-pointer transition-all"
               >
                 <div className="aspect-square bg-secondary/60 flex flex-col items-center justify-center gap-2 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
                   <Lock className="w-6 h-6 text-primary/40" />
-                  <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60">Locked</p>
+                  <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground/60">Pre-order</p>
                 </div>
                 <div className="p-3 text-center">
                   <p className="font-display text-sm text-foreground/70">{item.label}</p>
@@ -95,7 +98,8 @@ export default function MerchTeaserSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                className="rounded-2xl border border-border/30 bg-card/60 overflow-hidden hover:border-primary/30 transition-all"
+                onClick={() => setInterestProduct(product)}
+                className="rounded-2xl border border-border/30 bg-card/60 overflow-hidden hover:border-primary/30 transition-all cursor-pointer"
               >
                 <div className="aspect-square bg-secondary/60 overflow-hidden">
                   {product.image_url ? (
@@ -136,6 +140,13 @@ export default function MerchTeaserSection() {
           )}
         </motion.div>
       </div>
+
+      {interestProduct && (
+        <MerchInterestModal
+          product={interestProduct}
+          onClose={() => setInterestProduct(null)}
+        />
+      )}
     </section>
   );
 }
