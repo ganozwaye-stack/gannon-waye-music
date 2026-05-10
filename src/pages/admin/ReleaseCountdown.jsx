@@ -142,7 +142,7 @@ export default function ReleaseCountdown() {
               className="bg-primary/10 border border-primary/30 rounded-2xl p-6 inline-block"
             >
               <p className="font-display text-2xl text-primary">🎉 Release Day!</p>
-              <p className="font-body text-sm text-muted-foreground mt-2">The wait is over. "Thank You" is out now.</p>
+              <p className="font-body text-sm text-muted-foreground mt-2">It's time. "Thank You" is coming soon — ready to launch.</p>
             </motion.div>
           ) : (
             <p className="font-body text-muted-foreground">No release date set</p>
