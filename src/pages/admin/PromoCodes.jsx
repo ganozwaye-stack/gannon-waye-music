@@ -97,32 +97,76 @@ export default function PromoCodes() {
           <p className="font-body text-muted-foreground">No promo codes yet.</p>
         </div>
       ) : (
-        <div className="space-y-3">
-          {codes.map((code) => (
-            <div key={code.id} className={`bg-card border rounded-2xl p-5 flex items-center justify-between gap-4 flex-wrap ${code.is_active ? 'border-border/40' : 'border-border/20 opacity-60'}`}>
-              <div className="flex items-center gap-4">
-                <div className="bg-primary/10 rounded-xl px-4 py-2">
-                  <p className="font-body text-base font-bold tracking-widest gradient-gold-glow">{code.code}</p>
+        <div className="space-y-6">
+          {/* Active codes */}
+          <div>
+            <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-3">Active</p>
+            <div className="space-y-3">
+              {codes.filter(c => c.is_active).map((code) => (
+                <div key={code.id} className="bg-card border border-border/40 rounded-2xl p-5 flex items-center justify-between gap-4 flex-wrap">
+                  <div className="flex items-center gap-4">
+                    <div className="bg-primary/10 rounded-xl px-4 py-2">
+                      <p className="font-body text-base font-bold tracking-widest gradient-gold-glow">{code.code}</p>
+                    </div>
+                    <div>
+                      <p className="font-body text-sm text-foreground font-medium">{code.discount_percent}% off</p>
+                      <p className="font-body text-xs text-muted-foreground">
+                        {code.times_used || 0} used{code.max_uses ? ` / ${code.max_uses} max` : ' / unlimited'}
+                        {code.description ? ` · ${code.description}` : ''}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button size="sm" variant="outline" onClick={() => toggleActive(code)} className="rounded-full font-body text-xs gap-1.5">
+                      <ToggleRight className="w-3.5 h-3.5 text-primary" /> Active
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => handleDelete(code.id)} className="rounded-full font-body text-xs border-destructive/30 text-destructive hover:bg-destructive/10">
+                      <Trash2 className="w-3 h-3" />
+                    </Button>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-body text-sm text-foreground font-medium">{code.discount_percent}% off</p>
-                  <p className="font-body text-xs text-muted-foreground">
-                    {code.times_used || 0} used{code.max_uses ? ` / ${code.max_uses} max` : ' / unlimited'}
-                    {code.description ? ` · ${code.description}` : ''}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Button size="sm" variant="outline" onClick={() => toggleActive(code)} className="rounded-full font-body text-xs gap-1.5">
-                  {code.is_active ? <ToggleRight className="w-3.5 h-3.5 text-primary" /> : <ToggleLeft className="w-3.5 h-3.5" />}
-                  {code.is_active ? 'Active' : 'Inactive'}
-                </Button>
-                <Button size="sm" variant="outline" onClick={() => handleDelete(code.id)} className="rounded-full font-body text-xs border-destructive/30 text-destructive hover:bg-destructive/10">
-                  <Trash2 className="w-3 h-3" />
-                </Button>
+              ))}
+              {codes.filter(c => c.is_active).length === 0 && (
+                <p className="font-body text-sm text-muted-foreground py-4">No active codes.</p>
+              )}
+            </div>
+          </div>
+
+          {/* Retired / inactive codes */}
+          {codes.filter(c => !c.is_active).length > 0 && (
+            <div>
+              <p className="font-body text-xs tracking-[0.2em] uppercase text-muted-foreground mb-3">Retired / Inactive</p>
+              <div className="space-y-3">
+                {codes.filter(c => !c.is_active).map((code) => (
+                  <div key={code.id} className="bg-card border border-border/20 rounded-2xl p-5 flex items-center justify-between gap-4 flex-wrap opacity-50">
+                    <div className="flex items-center gap-4">
+                      <div className="bg-secondary/50 rounded-xl px-4 py-2">
+                        <p className="font-body text-base font-bold tracking-widest text-muted-foreground line-through">{code.code}</p>
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p className="font-body text-sm text-muted-foreground font-medium">{code.discount_percent}% off</p>
+                          <span className="font-body text-[10px] tracking-wider uppercase bg-secondary rounded-full px-2 py-0.5 text-muted-foreground">Retired</span>
+                        </div>
+                        <p className="font-body text-xs text-muted-foreground">
+                          {code.times_used || 0} used{code.max_uses ? ` / ${code.max_uses} max` : ''}
+                          {code.description ? ` · ${code.description}` : ''}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button size="sm" variant="outline" onClick={() => toggleActive(code)} className="rounded-full font-body text-xs gap-1.5">
+                        <ToggleLeft className="w-3.5 h-3.5" /> Reactivate
+                      </Button>
+                      <Button size="sm" variant="outline" onClick={() => handleDelete(code.id)} className="rounded-full font-body text-xs border-destructive/30 text-destructive hover:bg-destructive/10">
+                        <Trash2 className="w-3 h-3" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>
