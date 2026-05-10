@@ -19,6 +19,54 @@
       "default": 0,
       "description": "How many times this code has been used"
     },
+    "one_use_per_email": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, each email address can only use this code once"
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, admin must manually approve before code is valid"
+    },
+    "approved_emails": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of emails approved to use this code (used when requires_approval is true)"
+    },
+    "used_by_emails": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Emails that have already used this code (for one_use_per_email enforcement)"
+    },
+    "allowed_categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Product categories this code applies to (empty = all). e.g. ['apparel','accessories']"
+    },
+    "excluded_categories": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Product categories explicitly excluded from this code e.g. ['cd','other']"
+    },
+    "excludes_shipping": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, discount does not apply to shipping costs"
+    },
+    "excludes_support": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, cannot be used on the support/back-this page"
+    },
     "description": {
       "type": "string",
       "description": "Internal description of what this code is for"
