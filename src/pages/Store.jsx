@@ -15,10 +15,10 @@ import WrappedGiftPlaceholder from '@/components/store/WrappedGiftPlaceholder';
 const UNLOCK_DATE = '2026-05-10T08:00:00Z';
 
 const TEASER_ITEMS = [
-  { label: 'Apparel', hint: 'Something to wear' },
-  { label: 'Accessories', hint: 'Carry it with you' },
-  { label: 'CD Singles', hint: 'Hold the music' },
-  { label: 'Collectibles', hint: 'Limited & signed' },
+  { label: 'Apparel', hint: 'Something to wear', tag: 'Limited Run' },
+  { label: 'Accessories', hint: 'Carry it with you', tag: 'Exclusive' },
+  { label: 'CD Singles', hint: 'Hold the music', tag: 'Signed' },
+  { label: 'Collectibles', hint: 'Limited & signed', tag: 'Rare' },
 ];
 
 export default function Store() {
@@ -90,16 +90,34 @@ export default function Store() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="rounded-2xl border border-border/30 bg-card/40 overflow-hidden backdrop-blur-sm"
+              className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
             >
+              {/* Image area */}
               <div className="aspect-square bg-gradient-to-br from-secondary/20 to-secondary/60 flex flex-col items-center justify-center gap-4 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
+                {/* Coming Soon overlay badge */}
+                <div className="absolute top-3 left-3 z-10">
+                  <span className="font-body text-[9px] tracking-[0.2em] uppercase bg-background/70 backdrop-blur border border-primary/30 text-primary rounded-full px-2 py-0.5">
+                    Coming Soon
+                  </span>
+                </div>
+                {/* Tag badge top-right */}
+                <div className="absolute top-3 right-3 z-10">
+                  <span className="font-body text-[9px] tracking-[0.15em] uppercase bg-primary/15 border border-primary/25 text-primary/80 rounded-full px-2 py-0.5">
+                    {item.tag}
+                  </span>
+                </div>
                 <WrappedGiftPlaceholder index={i} />
               </div>
-              <div className="p-4 text-center border-t border-border/30">
-                <p className="font-display text-sm text-foreground">{item.label}</p>
+
+              {/* Card footer */}
+              <div className="p-4 text-center border-t border-border/30 bg-card/20">
+                <p className="font-display text-sm text-foreground leading-snug">{item.label}</p>
                 <p className="font-body text-[10px] text-muted-foreground/60 mt-1 tracking-wide">{item.hint}</p>
-                <p className="font-body text-[9px] text-primary/70 mt-2 tracking-[0.2em] uppercase">Premium Mystery Item</p>
+                <div className="mt-3 flex items-center justify-center gap-1.5">
+                  <span className="w-1 h-1 rounded-full bg-primary animate-pulse" />
+                  <span className="font-body text-[9px] tracking-[0.2em] uppercase gradient-gold-glow">June 10, 2026</span>
+                </div>
               </div>
             </motion.div>
           ))}
