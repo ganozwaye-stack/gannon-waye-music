@@ -185,7 +185,7 @@ export default function Store() {
               className="mt-4 bg-amber-500/10 border border-amber-500/40 rounded-xl px-5 py-3 max-w-xl mx-auto"
             >
               <p className="font-body text-xs text-amber-300 text-center leading-relaxed">
-                🔥 <strong>Launch discount available on all orders until 5pm Sunday.</strong> Hurry — only while stocks last. Who's in?
+                🔥 <strong>Launch discount available until 5pm Sunday — use code THANKYOU15 at checkout for 15% off.</strong> Hurry — only while stocks last. Who's in?
               </p>
             </motion.div>
           )}

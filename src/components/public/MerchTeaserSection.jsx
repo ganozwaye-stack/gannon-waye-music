@@ -56,7 +56,7 @@ export default function MerchTeaserSection() {
           </p>
           {isLaunchActive() && (
             <p className="font-body text-xs text-amber-300 max-w-sm mx-auto mt-2">
-              🔥 <strong>Launch discount available on all orders until 5pm Sunday.</strong> Hurry — only while stocks last. Who's in?
+              🔥 <strong>Use code THANKYOU15 at checkout for 15% off — until 5pm Sunday only.</strong> Hurry — only while stocks last. Who's in?
             </p>
           )}
         </motion.div>

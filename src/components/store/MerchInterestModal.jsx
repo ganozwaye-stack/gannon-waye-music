@@ -129,7 +129,7 @@ export default function MerchInterestModal({ product, onClose }) {
                 </div>
                 <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg px-3 py-2">
                   <p className="font-body text-xs text-amber-300 leading-relaxed">
-                    🔥 <strong>Launch discount available on all orders until 5pm Sunday.</strong> Hurry — only while stocks last. Who's in?
+                    🔥 <strong>Use code THANKYOU15 for 15% off — until 5pm Sunday only.</strong> Hurry — only while stocks last. Who's in?
                   </p>
                 </div>
                 <div className="bg-card border border-border/30 rounded-lg px-3 py-2">
