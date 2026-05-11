@@ -78,6 +78,7 @@ const NAV_SECTIONS = [
     title: 'Marketing',
     items: [
       { label: 'Birthday Discounts', path: '/admin/birthdays', icon: Gift },
+      { label: 'Social Content Generator', path: '/admin/social-content', icon: Sparkles },
     ]
   },
   {
