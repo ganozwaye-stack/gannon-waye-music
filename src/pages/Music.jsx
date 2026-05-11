@@ -2,12 +2,40 @@ import React from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Play, ExternalLink, Music2, Gift } from 'lucide-react';
+import { Play, ExternalLink, Music2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 import ShareButtons from '@/components/public/ShareButtons';
+
+const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
+
+function ThankYouFallbackCard() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-0 bg-card border border-border/40 rounded-2xl overflow-hidden">
+      <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden">
+        <img src={THANK_YOU_COVER} alt="Thank You — Gannon Waye" className="w-full h-full object-cover" />
+      </div>
+      <div className="p-5 md:p-8 flex flex-col justify-center">
+        <div className="flex items-center gap-3 mb-2">
+          <Badge variant="outline" className="font-body text-[10px] tracking-widest uppercase border-primary/30 text-primary">Single</Badge>
+          <Badge className="font-body text-[10px] tracking-widest uppercase bg-secondary text-muted-foreground">Coming Soon</Badge>
+        </div>
+        <h2 className="font-display text-3xl md:text-4xl text-foreground">Thank You</h2>
+        <p className="font-body text-sm text-muted-foreground mt-2">5 June 2026</p>
+        <p className="font-body text-foreground/60 mt-4 leading-relaxed">
+          "Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.
+        </p>
+        <div className="flex flex-wrap gap-3 mt-6">
+          <Button size="sm" disabled className="rounded-full gap-2 font-body text-xs opacity-60 cursor-not-allowed border border-border/40">
+            Available on all leading platforms from 05 June 2026
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const RELEASE_DATE = new Date('2026-06-05T00:00:00+10:00');
 const isReleased = () => new Date() >= RELEASE_DATE;
@@ -50,10 +78,8 @@ export default function Music() {
         </motion.div>
 
         {published.length === 0 ? (
-          <div className="text-center py-20">
-            <Music2 className="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-            <p className="font-body text-muted-foreground">Music coming soon. Stay tuned.</p>
-          </div>
+          /* Safe fallback — shows Thank You even if DB returns empty */
+          <ThankYouFallbackCard />
         ) : (
           <div className="space-y-12">
             {published.map((release, i) => (
@@ -65,16 +91,12 @@ export default function Music() {
                 className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-0 bg-card border border-border/40 rounded-2xl overflow-hidden hover:border-primary/20 transition-all"
               >
                 <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden">
-                  {release.artwork_url && release.status !== 'released' ? (
-                    <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-secondary/80 min-h-[200px]" style={{ backgroundImage: 'url(https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b406a2525_gannonwayecomwrappedgiftGOLDribbon.png)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                      <div className="absolute inset-0 bg-black/40" />
-                      <div className="relative z-10 flex flex-col items-center justify-center gap-3">
-                        <Gift className="w-10 h-10 text-primary" />
-                        <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Artwork Hidden</p>
-                      </div>
-                    </div>
-                  ) : release.artwork_url ? (
-                    <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover" />
+                  {release.title === 'Thank You' || release.artwork_url ? (
+                    <img
+                      src={release.title === 'Thank You' ? THANK_YOU_COVER : release.artwork_url}
+                      alt={release.title}
+                      className="w-full h-full object-cover"
+                    />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <Play className="w-16 h-16 text-muted-foreground/20" />

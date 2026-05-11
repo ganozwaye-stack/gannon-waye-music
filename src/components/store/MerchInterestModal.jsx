@@ -129,13 +129,7 @@ export default function MerchInterestModal({ product, onClose }) {
                 </div>
                 <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg px-3 py-2">
                   <p className="font-body text-xs text-amber-300 leading-relaxed">
-                    🔥 <strong>Use code THANKYOU15 for 15% off — until 5pm Sunday only.</strong> Hurry — only while stocks last. Who's in?
-                  </p>
-                </div>
-                <div className="bg-card border border-border/30 rounded-lg px-3 py-2">
-                  <p className="font-body text-[11px] text-foreground/60 leading-relaxed">
-                    <span className="text-primary font-semibold">Want an even better deal? 📲</span><br />
-                    Follow Gannon on Instagram, comment <em>"Yes! Me please!"</em> on his latest post, like the <em>"Sing Along Here"</em> video, then comment <em>"yes please"</em>. Reply to your welcome email with screenshot proof. Reviewed manually — extra code sent after approval. <strong>Instagram actions are not automatically verified.</strong> Do the steps in order or the offer may not be approved.
+                    🔥 <strong>Launch offer: use code THANKYOU15 for 15% off eligible Thank You merch until 5pm Sunday.</strong> While stocks last.
                   </p>
                 </div>
               </div>

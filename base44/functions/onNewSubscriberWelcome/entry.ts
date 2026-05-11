@@ -63,18 +63,7 @@ Deno.serve(async (req) => {
 
   <div style="background:#0e1a0e;border:1px solid #2a3e2a;border-radius:12px;padding:24px;margin:28px 0;">
     <p style="color:#7ecf7e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 12px;">🎁 A thank-you gift — if you'd like one</p>
-    <p style="color:#c9b99a;font-size:14px;line-height:1.8;margin:0 0 12px;">Thank you for getting in early. If you'd like to be considered for a thank-you gift from me:</p>
-    <ol style="color:#c9b99a;font-size:14px;line-height:2.2;margin:0;padding-left:20px;">
-      <li>Subscribe on <a href="https://www.gannonwaye.com" style="color:#f5d06e;">www.gannonwaye.com</a> ✓ (done)</li>
-      <li>Follow Gannon on Instagram: <a href="https://www.instagram.com/ganozwaye" style="color:#f5d06e;">@ganozwaye</a></li>
-      <li>Follow Gannon on TikTok: <a href="https://www.tiktok.com/@ganozwaye" style="color:#f5d06e;">@ganozwaye</a></li>
-      <li>Find the "Sing Along Here" video</li>
-      <li>Like it</li>
-      <li>Comment something you love about the song and tag Gannon</li>
-      <li>Share the post publicly</li>
-      <li>Once you've done that, reply to this email or upload proof so Gannon can review and approve the thank-you gift</li>
-    </ol>
-    <p style="color:#888;font-size:12px;margin:16px 0 0;line-height:1.7;">Instagram and TikTok actions cannot be automatically verified reliably without approved platform APIs, so proof is reviewed manually. The gift is subject to approval and not guaranteed until reviewed.</p>
+    <p style="color:#c9b99a;font-size:14px;line-height:1.8;margin:0 0 12px;">For a further discounted rate: You must have subscribed to the website <a href="https://www.gannonwaye.com" style="color:#f5d06e;">www.gannonwaye.com</a>, follow Gannon on Instagram <a href="https://www.instagram.com/ganozwaye" style="color:#f5d06e;">@ganozwaye</a> and also on TikTok <a href="https://www.tiktok.com/@gannonwaye" style="color:#f5d06e;">@gannonwaye</a>, like, comment and share the pinned <em>"Sing Along Here"</em> video tagging Gannon. Send <strong style="color:#f5d06e;">'DONE'</strong> and a message of support in response to this welcome email and when reviewed. The gift will be advised via email, sent after manual approval. Instagram and TikTok actions are not automatically verified. Do the steps in order or the offer may not be approved.</p>
   </div>
 
   <div style="text-align:center;margin:32px 0;">

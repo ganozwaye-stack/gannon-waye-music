@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const AUDIO_URL = "https://media.base44.com/audio/public/69eb7905ca6eb4180010f794/thank-you-chorus-1m30s-2m12s-site-loop.mp3";
 const VOLUME = 0.18;
@@ -8,38 +8,46 @@ const PREF_KEY = 'gw_ambient_playing';
 
 export default function AmbientPlayer() {
   const audioRef = useRef(null);
-  // Default: play (unless user previously paused)
   const savedPref = typeof window !== 'undefined' ? localStorage.getItem(PREF_KEY) : null;
   const [playing, setPlaying] = useState(savedPref === 'false' ? false : true);
+  const [tapToPlay, setTapToPlay] = useState(false);
+  const [audioError, setAudioError] = useState(false);
   const interactionFiredRef = useRef(false);
 
-  // Set volume on mount
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     audio.volume = VOLUME;
+    audio.muted = false;
 
-    // Attempt autoplay if user preference is "play" (or no preference yet)
     if (playing) {
       audio.play().catch(() => {
-        // Browser blocked autoplay — UI still shows play button, no error shown
         setPlaying(false);
+        setTapToPlay(true);
       });
     }
+
+    const handleError = () => setAudioError(true);
+    audio.addEventListener('error', handleError);
+    return () => audio.removeEventListener('error', handleError);
   }, []);
 
-  // First-interaction fallback: start audio on first user gesture if pref is play
+  // First-interaction fallback
   useEffect(() => {
     const handleFirstInteraction = () => {
       if (interactionFiredRef.current) return;
       interactionFiredRef.current = true;
 
       const pref = localStorage.getItem(PREF_KEY);
-      // Only autostart if pref is NOT explicitly 'false'
       if (pref !== 'false') {
         const audio = audioRef.current;
         if (audio && audio.paused) {
-          audio.play().then(() => setPlaying(true)).catch(() => {});
+          audio.muted = false;
+          audio.volume = VOLUME;
+          audio.play().then(() => {
+            setPlaying(true);
+            setTapToPlay(false);
+          }).catch(() => {});
         }
       }
 
@@ -59,17 +67,30 @@ export default function AmbientPlayer() {
   const toggle = () => {
     const audio = audioRef.current;
     if (!audio) return;
+
     if (playing) {
       audio.pause();
       setPlaying(false);
+      setTapToPlay(false);
       localStorage.setItem(PREF_KEY, 'false');
     } else {
+      // Always unmute and restore volume before playing
+      audio.muted = false;
+      audio.volume = VOLUME;
       audio.play().then(() => {
         setPlaying(true);
+        setTapToPlay(false);
         localStorage.setItem(PREF_KEY, 'true');
-      }).catch(() => {});
+      }).catch(() => {
+        setTapToPlay(true);
+      });
     }
   };
+
+  // If audio asset failed to load, show honest message
+  if (audioError) {
+    return null;
+  }
 
   return (
     <>
@@ -88,7 +109,7 @@ export default function AmbientPlayer() {
         transition={{ delay: 1.5, duration: 0.5 }}
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2"
       >
-        {/* Label — always visible, waveform animates when playing */}
+        {/* Label */}
         <div className="bg-card/90 backdrop-blur border border-border/40 rounded-full px-3 py-1.5 flex items-center gap-2">
           <div className="flex items-end gap-0.5 h-3" aria-hidden="true">
             {[0, 0.15, 0.3, 0.45].map((delay, i) => (
@@ -105,7 +126,7 @@ export default function AmbientPlayer() {
             ))}
           </div>
           <span className="font-body text-[10px] tracking-widest uppercase text-muted-foreground select-none">
-            Thank You — Gannon Waye
+            {tapToPlay ? 'Tap to play' : 'Thank You — Gannon Waye'}
           </span>
         </div>
 

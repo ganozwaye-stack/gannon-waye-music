@@ -10,6 +10,11 @@
       "type": "number",
       "description": "Discount percentage e.g. 15"
     },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional expiry datetime (ISO 8601). Code automatically becomes invalid after this time."
+    },
     "max_uses": {
       "type": "number",
       "description": "Maximum number of times this code can be used (null = unlimited)"

@@ -36,18 +36,7 @@ FIND ME ON SOCIALS
 
 🎁 A THANK-YOU GIFT — IF YOU'D LIKE ONE
 
-Thank you for getting in early. If you'd like to be considered for a thank-you gift from me:
-
-1. Subscribe on www.gannonwaye.com (done ✓)
-2. Follow Gannon on Instagram: @ganozwaye
-3. Follow Gannon on TikTok: @ganozwaye
-4. Choose the "Sing Along Here" video
-5. Like it
-6. Comment something you love about the song and tag Gannon
-7. Share the post publicly
-8. Once you've done that, reply to this email or upload proof so Gannon can review and approve the thank-you gift
-
-Instagram and TikTok actions cannot be automatically verified reliably without approved platform APIs, so proof is reviewed manually. The gift is subject to approval and not guaranteed until reviewed.
+For a further discounted rate: You must have subscribed to the website www.gannonwaye.com, follow Gannon on Instagram @ganozwaye and also on TikTok @gannonwaye, like, comment and share the pinned "Sing Along Here" video tagging Gannon. Send 'DONE' and a message of support in response to this welcome email and when reviewed. The gift will be advised via email, sent after manual approval. Instagram and TikTok actions are not automatically verified. Do the steps in order or the offer may not be approved.
 
 ---
 

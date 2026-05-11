@@ -185,18 +185,10 @@ export default function Store() {
               className="mt-4 bg-amber-500/10 border border-amber-500/40 rounded-xl px-5 py-3 max-w-xl mx-auto"
             >
               <p className="font-body text-xs text-amber-300 text-center leading-relaxed">
-                🔥 <strong>Launch discount available until 5pm Sunday — use code THANKYOU15 at checkout for 15% off.</strong> Hurry — only while stocks last. Who's in?
+                🔥 <strong>Launch offer: use code THANKYOU15 for 15% off eligible Thank You merch until 5pm Sunday.</strong> While stocks last.
               </p>
             </motion.div>
           )}
-
-          {/* Instagram extra discount offer */}
-          <div className="mt-3 bg-card border border-border/40 rounded-xl px-5 py-4 max-w-xl mx-auto text-left">
-            <p className="font-body text-xs text-primary font-semibold mb-1">Want an even better deal? 📲</p>
-            <p className="font-body text-xs text-foreground/70 leading-relaxed">
-              For a further discounted rate: follow Gannon on Instagram, comment <em>"Yes! Me please!"</em> on his latest post, like the <em>"Sing Along Here"</em> video, then comment <em>"yes please"</em>. Send your screenshot proof by replying to your welcome email — it's reviewed manually. The extra discount code is sent after manual approval. <strong>Instagram actions are not automatically verified.</strong> Do the steps in order or the offer may not be approved.
-            </p>
-          </div>
         </motion.div>
 
         {/* CD Row — centred, slightly larger */}

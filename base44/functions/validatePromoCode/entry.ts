@@ -21,6 +21,14 @@ Deno.serve(async (req) => {
 
     const promo = codes[0];
 
+    // Check expiry date (ISO string stored in expires_at field)
+    if (promo.expires_at) {
+      const expiry = new Date(promo.expires_at);
+      if (new Date() > expiry) {
+        return Response.json({ valid: false, reason: 'This code has expired' });
+      }
+    }
+
     // Check global usage limit
     if (promo.max_uses !== null && promo.max_uses !== undefined && promo.times_used >= promo.max_uses) {
       return Response.json({ valid: false, reason: 'This code has reached its maximum uses' });
