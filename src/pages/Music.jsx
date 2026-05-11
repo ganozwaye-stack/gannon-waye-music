@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 import ShareButtons from '@/components/public/ShareButtons';
 
+const RELEASE_DATE = new Date('2026-06-05T00:00:00+10:00');
+const isReleased = () => new Date() >= RELEASE_DATE;
+
 const STATUS_LABELS = {
   idea: 'In the works',
   writing: 'Writing',
@@ -108,7 +111,7 @@ export default function Music() {
 
                   {/* Streaming Links */}
                   <div className="flex flex-wrap gap-3 mt-6">
-                    {release.status === 'released' && release.spotify_link ? (
+                    {isReleased() && release.spotify_link ? (
                        <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
                            🎧 Listen on Spotify <ExternalLink className="w-3 h-3" />
@@ -116,17 +119,17 @@ export default function Music() {
                        </a>
                      ) : (
                        <Button size="sm" disabled className="rounded-full gap-2 font-body text-xs opacity-60 cursor-not-allowed border border-border/40">
-                         Available 5 June 2026 — All leading platforms
+                         Available on all leading platforms from 05 June 2026
                        </Button>
                      )}
-                     {release.status === 'released' && release.apple_music_link && (
+                     {isReleased() && release.apple_music_link && (
                        <a href={release.apple_music_link} target="_blank" rel="noopener noreferrer">
                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
                            🍎 Apple Music <ExternalLink className="w-3 h-3" />
                          </Button>
                        </a>
                      )}
-                     {release.status === 'released' && release.youtube_link && (
+                     {isReleased() && release.youtube_link && (
                        <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
                            ▶️ YouTube <ExternalLink className="w-3 h-3" />

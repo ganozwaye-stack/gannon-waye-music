@@ -8,8 +8,12 @@ import { useSiteReveal } from '@/hooks/useSiteReveal';
 
 
 
+const RELEASE_DATE = new Date('2026-06-05T00:00:00+10:00');
+const isReleased = () => new Date() >= RELEASE_DATE;
+
 export default function ThankYouHeroBanner() {
-  const { released, releaseDateIso, releaseDateText } = useSiteReveal();
+  const { releaseDateIso, releaseDateText } = useSiteReveal();
+  const released = isReleased();
 
   return (
     <section className="relative w-full overflow-hidden bg-card border-b border-border/40">
@@ -63,7 +67,7 @@ export default function ThankYouHeroBanner() {
               {!released && <CountdownTimer targetDate={releaseDateIso} />}
               <Link to="/music" className="inline-block mt-3">
                 <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                  {released ? 'Listen Now' : 'Pre-save Coming Soon'} <ArrowRight className="w-4 h-4" />
+                  {released ? 'Listen Now →' : 'Pre-save Coming Soon'} <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
             </div>
