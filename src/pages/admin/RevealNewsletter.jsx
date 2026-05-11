@@ -11,15 +11,15 @@ const NEWSLETTER_BODY = `Hi beautiful human,
 
 I've been counting down to this moment for a long time. And now, here we are.
 
-Today — May 10 — I am officially revealing the artwork for my debut single, "Thank You", along with the release date. This isn't just a song. It's the most honest thing I've ever created. And I can't wait for you to finally see the full picture.
+Today I am officially revealing the artwork for my debut single, "Thank You", along with the release date. This isn't just a song. It's the most honest thing I've ever created. And I can't wait for you to finally see the full picture.
 
 🎨 THE ARTWORK IS LIVE
 
 Head to gannonwaye.com right now to see the cover for the very first time. I'm genuinely emotional about this. The artwork captures something I couldn't put into words — and somehow, it says everything.
 
-📅 RELEASE DATE: JUNE 10, 2026
+📅 RELEASE DATE: JUNE 5, 2026
 
-Mark it. Save it. Scream it at someone you love. "Thank You" drops into the world on June 10, 2026. Pre-orders are open now at the store — and the first 20 orders get 15% off with code LAUNCH15.
+Mark it. Save it. Tell someone you care about. "Thank You" arrives on June 5, 2026. Pre-orders are open now at the store — and the first 20 orders get 15% off with code LAUNCH15.
 
 ---
 
@@ -85,7 +85,7 @@ All my love,
 
 Gannon 🤍
 
-P.S. Go stream it. Go buy it. Go share it with someone who needs to hear it. Let's get "Thank You" heard. 🎶
+P.S. June 5 is coming. Share this with someone who needs to hear it before the world catches on. Let's get "Thank You" heard. 🎶
 
 gannonwaye.com`;
 

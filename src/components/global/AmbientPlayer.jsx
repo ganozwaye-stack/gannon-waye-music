@@ -88,38 +88,32 @@ export default function AmbientPlayer() {
         transition={{ delay: 1.5, duration: 0.5 }}
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2"
       >
-        {/* Waveform label — only when playing */}
-        <AnimatePresence>
-          {playing && (
-            <motion.div
-              key="label"
-              initial={{ opacity: 0, x: 10 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: 10 }}
-              className="bg-card/90 backdrop-blur border border-border/40 rounded-full px-3 py-1.5 flex items-center gap-2"
-            >
-              <div className="flex items-end gap-0.5 h-3" aria-hidden="true">
-                {[0, 0.15, 0.3, 0.45].map((delay, i) => (
-                  <motion.div
-                    key={i}
-                    className="w-0.5 bg-primary rounded-full"
-                    animate={{ height: ['4px', '10px', '4px'] }}
-                    transition={{ duration: 0.8, repeat: Infinity, delay, ease: 'easeInOut' }}
-                  />
-                ))}
-              </div>
-              <span className="font-body text-[10px] tracking-widest uppercase text-muted-foreground select-none">
-                Thank You
-              </span>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Label — always visible, waveform animates when playing */}
+        <div className="bg-card/90 backdrop-blur border border-border/40 rounded-full px-3 py-1.5 flex items-center gap-2">
+          <div className="flex items-end gap-0.5 h-3" aria-hidden="true">
+            {[0, 0.15, 0.3, 0.45].map((delay, i) => (
+              playing ? (
+                <motion.div
+                  key={i}
+                  className="w-0.5 bg-primary rounded-full"
+                  animate={{ height: ['4px', '10px', '4px'] }}
+                  transition={{ duration: 0.8, repeat: Infinity, delay, ease: 'easeInOut' }}
+                />
+              ) : (
+                <div key={i} className="w-0.5 bg-muted-foreground/40 rounded-full" style={{ height: '4px' }} />
+              )
+            ))}
+          </div>
+          <span className="font-body text-[10px] tracking-widest uppercase text-muted-foreground select-none">
+            Thank You — Gannon Waye
+          </span>
+        </div>
 
         {/* Play / Pause button */}
         <button
           onClick={toggle}
-          aria-label={playing ? 'Pause ambient music' : 'Play ambient music — Thank You by Gannon Waye'}
-          title={playing ? 'Pause ambient music' : 'Play ambient music'}
+          aria-label={playing ? 'Pause ambient music' : 'Play Thank You by Gannon Waye'}
+          title={playing ? 'Pause' : 'Play Thank You — Gannon Waye'}
           className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 ${
             playing
               ? 'bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/20'

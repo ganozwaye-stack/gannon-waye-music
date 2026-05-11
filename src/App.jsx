@@ -75,6 +75,7 @@ import OperationalStatus from '@/pages/admin/OperationalStatus';
 import Mastering from '@/pages/Mastering';
 import MasteringAdmin from '@/pages/admin/MasteringAdmin';
 import Blueprint from '@/pages/admin/Blueprint';
+import SocialContentGenerator from '@/pages/admin/SocialContentGenerator';
 
 
 const AuthenticatedApp = () => {
@@ -173,6 +174,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/operational-status" element={<OperationalStatus />} />
         <Route path="/admin/mastering" element={<MasteringAdmin />} />
         <Route path="/admin/blueprint" element={<Blueprint />} />
+        <Route path="/admin/social-content" element={<SocialContentGenerator />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
