@@ -17,6 +17,11 @@
     },
     "order_id": {
       "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional notes about this order lock"
     }
   },
   "required": [
