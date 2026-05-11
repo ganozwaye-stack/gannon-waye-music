@@ -120,11 +120,22 @@ export default function MerchInterestModal({ product, onClose }) {
               <h2 className="font-display text-xl text-foreground leading-snug">
                 {product?.name || 'Gannon Waye Merch'}
               </h2>
-              <div className="flex flex-col gap-1 mt-1">
+              <div className="flex flex-col gap-2 mt-1">
                 <div className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-lg px-3 py-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse flex-shrink-0" />
                   <p className="font-body text-xs text-foreground/70 leading-relaxed">
                     Pre-order interest only. <strong>No charge today.</strong> Payment scheduled for June 1, 2026, subject to confirmation.
+                  </p>
+                </div>
+                <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg px-3 py-2">
+                  <p className="font-body text-xs text-amber-300 leading-relaxed">
+                    🔥 <strong>Launch discount available on all orders until 5pm Sunday.</strong> Hurry — only while stocks last. Who's in?
+                  </p>
+                </div>
+                <div className="bg-card border border-border/30 rounded-lg px-3 py-2">
+                  <p className="font-body text-[11px] text-foreground/60 leading-relaxed">
+                    <span className="text-primary font-semibold">Want an even better deal? 📲</span><br />
+                    Follow Gannon on Instagram, comment <em>"Yes! Me please!"</em> on his latest post, like the <em>"Sing Along Here"</em> video, then comment <em>"yes please"</em>. Reply to your welcome email with screenshot proof. Reviewed manually — extra code sent after approval. <strong>Instagram actions are not automatically verified.</strong> Do the steps in order or the offer may not be approved.
                   </p>
                 </div>
               </div>

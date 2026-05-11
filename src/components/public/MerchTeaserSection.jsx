@@ -54,6 +54,11 @@ export default function MerchTeaserSection() {
           <p className="font-body text-sm text-muted-foreground max-w-md mx-auto mb-2 leading-relaxed">
             Pre-order interest open now. No charge today. Payment scheduled for June 1, 2026.
           </p>
+          {isLaunchActive() && (
+            <p className="font-body text-xs text-amber-300 max-w-sm mx-auto mt-2">
+              🔥 <strong>Launch discount available on all orders until 5pm Sunday.</strong> Hurry — only while stocks last. Who's in?
+            </p>
+          )}
         </motion.div>
 
         {/* Product grid — always shows real products with prices */}

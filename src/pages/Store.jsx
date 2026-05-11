@@ -43,7 +43,7 @@ const FALLBACK_PRODUCTS = [
   {
     id: '69f11d1fc43e13c61fe6b9d7',
     name: '"Respect Is Earned" Hoodie — Dark Grey',
-    sale_price: 89,
+    sale_price: 98,
     category: 'apparel',
     stock_quantity: 50,
     sizes_available: ['XS', 'S', 'M', 'L', 'XL', '2XL'],
@@ -63,7 +63,7 @@ const FALLBACK_PRODUCTS = [
   {
     id: '69fbd261b760426cede1b7a3',
     name: 'Thank You Journal Pen and Thermos Flask Bundle',
-    sale_price: 55,
+    sale_price: 54,
     category: 'bundle',
     stock_quantity: 20,
     image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e14220834_Bundle.png',
@@ -175,6 +175,27 @@ export default function Store() {
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-xl px-5 py-3">
             <Tag className="w-4 h-4 text-primary flex-shrink-0" />
             <span className="font-body text-xs text-foreground/70">Have a promo code? Enter it at checkout for your discount.</span>
+          </div>
+
+          {/* Launch discount banner */}
+          {isLaunchActive() && (
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-4 bg-amber-500/10 border border-amber-500/40 rounded-xl px-5 py-3 max-w-xl mx-auto"
+            >
+              <p className="font-body text-xs text-amber-300 text-center leading-relaxed">
+                🔥 <strong>Launch discount available on all orders until 5pm Sunday.</strong> Hurry — only while stocks last. Who's in?
+              </p>
+            </motion.div>
+          )}
+
+          {/* Instagram extra discount offer */}
+          <div className="mt-3 bg-card border border-border/40 rounded-xl px-5 py-4 max-w-xl mx-auto text-left">
+            <p className="font-body text-xs text-primary font-semibold mb-1">Want an even better deal? 📲</p>
+            <p className="font-body text-xs text-foreground/70 leading-relaxed">
+              For a further discounted rate: follow Gannon on Instagram, comment <em>"Yes! Me please!"</em> on his latest post, like the <em>"Sing Along Here"</em> video, then comment <em>"yes please"</em>. Send your screenshot proof by replying to your welcome email — it's reviewed manually. The extra discount code is sent after manual approval. <strong>Instagram actions are not automatically verified.</strong> Do the steps in order or the offer may not be approved.
+            </p>
           </div>
         </motion.div>
 
