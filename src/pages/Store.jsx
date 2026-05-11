@@ -16,6 +16,10 @@ const PRODUCT_BADGES = {
   '69eed3e64e2da78ae4418a9a': { label: 'Limited series · Almost sold out', color: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
 };
 
+// Launch discount deadline: Sunday 5pm AEST
+const LAUNCH_DEADLINE = new Date('2026-05-17T17:00:00+10:00');
+const isLaunchActive = () => new Date() < LAUNCH_DEADLINE;
+
 // Fallback if DB returns empty
 const FALLBACK_PRODUCTS = [
   {

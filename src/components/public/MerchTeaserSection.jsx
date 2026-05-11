@@ -7,18 +7,21 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import MerchInterestModal from '@/components/store/MerchInterestModal';
 
+const LAUNCH_DEADLINE = new Date('2026-05-17T17:00:00+10:00');
+const isLaunchActive = () => new Date() < LAUNCH_DEADLINE;
+
 const FALLBACK_PRODUCTS = [
   {
     id: 'fallback-hoodie',
     name: '"Respect Is Earned" Hoodie — Dark Grey',
-    sale_price: 89,
+    sale_price: 98,
     category: 'apparel',
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png',
   },
   {
     id: 'fallback-bundle',
     name: 'Thank You Journal Pen and Thermos Flask Bundle',
-    sale_price: 49,
+    sale_price: 54,
     category: 'bundle',
     image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e14220834_Bundle.png',
   },
