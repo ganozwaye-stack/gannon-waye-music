@@ -27,10 +27,8 @@ function ThankYouFallbackCard() {
         <p className="font-body text-foreground/60 mt-4 leading-relaxed">
           "Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.
         </p>
-        <div className="flex flex-wrap gap-3 mt-6">
-          <Button size="sm" disabled className="rounded-full gap-2 font-body text-xs opacity-60 cursor-not-allowed border border-border/40">
-            Available on all leading platforms from 05 June 2026
-          </Button>
+        <div className="mt-6 text-xs font-body text-muted-foreground leading-relaxed max-w-sm">
+          Available on all leading platforms from 05 June 2026, including Spotify, Apple Music, YouTube Music, Amazon Music, TikTok, Instagram/Facebook Reels, TIDAL and more.
         </div>
       </div>
     </div>
@@ -134,16 +132,16 @@ export default function Music() {
                   {/* Streaming Links */}
                   <div className="flex flex-wrap gap-3 mt-6">
                     {isReleased() && release.spotify_link ? (
-                       <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
-                         <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
-                           🎧 Listen on Spotify <ExternalLink className="w-3 h-3" />
-                         </Button>
-                       </a>
-                     ) : (
-                       <Button size="sm" disabled className="rounded-full gap-2 font-body text-xs opacity-60 cursor-not-allowed border border-border/40">
-                         Available on all leading platforms from 05 June 2026
-                       </Button>
-                     )}
+                      <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
+                        <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
+                          🎧 Spotify <ExternalLink className="w-3 h-3" />
+                        </Button>
+                      </a>
+                    ) : (
+                      <div className="text-xs font-body text-muted-foreground leading-relaxed max-w-sm">
+                        Available on all leading platforms from 05 June 2026, including Spotify, Apple Music, YouTube Music, Amazon Music, TikTok, Instagram/Facebook Reels, TIDAL and more.
+                      </div>
+                    )}
                      {isReleased() && release.apple_music_link && (
                        <a href={release.apple_music_link} target="_blank" rel="noopener noreferrer">
                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">

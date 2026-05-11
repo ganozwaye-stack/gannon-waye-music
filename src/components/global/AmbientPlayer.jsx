@@ -9,59 +9,46 @@ const PREF_KEY = 'gw_ambient_playing';
 export default function AmbientPlayer() {
   const audioRef = useRef(null);
   const savedPref = typeof window !== 'undefined' ? localStorage.getItem(PREF_KEY) : null;
-  const [playing, setPlaying] = useState(savedPref === 'false' ? false : true);
-  const [tapToPlay, setTapToPlay] = useState(false);
-  const [audioError, setAudioError] = useState(false);
-  const interactionFiredRef = useRef(false);
+  const [playing, setPlaying] = useState(false);
+  const [audioMissing, setAudioMissing] = useState(false);
+  const [tapToPlay, setTapToPlay] = useState(savedPref !== 'false');
+  const startedRef = useRef(false);
 
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.volume = VOLUME;
-    audio.muted = false;
 
-    if (playing) {
-      audio.play().catch(() => {
-        setPlaying(false);
-        setTapToPlay(true);
-      });
-    }
-
-    const handleError = () => setAudioError(true);
+    const handleError = () => setAudioMissing(true);
     audio.addEventListener('error', handleError);
+
+    // Always muted autoplay (browser-safe), volume pre-set for when unmuted
+    audio.volume = VOLUME;
+    audio.muted = true;
+    audio.play().then(() => {
+      setPlaying(true);
+      startedRef.current = true;
+    }).catch(() => {
+      // Autoplay blocked entirely — show tap to play
+    });
+
     return () => audio.removeEventListener('error', handleError);
   }, []);
 
-  // First-interaction fallback
+  // First-interaction: start audio if not yet started
   useEffect(() => {
     const handleFirstInteraction = () => {
-      if (interactionFiredRef.current) return;
-      interactionFiredRef.current = true;
-
-      const pref = localStorage.getItem(PREF_KEY);
-      if (pref !== 'false') {
-        const audio = audioRef.current;
-        if (audio && audio.paused) {
-          audio.muted = false;
-          audio.volume = VOLUME;
-          audio.play().then(() => {
-            setPlaying(true);
-            setTapToPlay(false);
-          }).catch(() => {});
-        }
-      }
-
-      window.removeEventListener('pointerdown', handleFirstInteraction);
-      window.removeEventListener('keydown', handleFirstInteraction);
+      const audio = audioRef.current;
+      if (!audio || startedRef.current) return;
+      audio.volume = VOLUME;
+      audio.muted = true;
+      audio.play().then(() => {
+        setPlaying(true);
+        startedRef.current = true;
+        setTapToPlay(false);
+      }).catch(() => {});
     };
-
-    window.addEventListener('pointerdown', handleFirstInteraction, { passive: true });
-    window.addEventListener('keydown', handleFirstInteraction, { passive: true });
-
-    return () => {
-      window.removeEventListener('pointerdown', handleFirstInteraction);
-      window.removeEventListener('keydown', handleFirstInteraction);
-    };
+    window.addEventListener('pointerdown', handleFirstInteraction, { passive: true, once: true });
+    return () => window.removeEventListener('pointerdown', handleFirstInteraction);
   }, []);
 
   const toggle = () => {
@@ -69,39 +56,50 @@ export default function AmbientPlayer() {
     if (!audio) return;
 
     if (playing) {
+      // Pause
       audio.pause();
       setPlaying(false);
       setTapToPlay(false);
       localStorage.setItem(PREF_KEY, 'false');
     } else {
-      // Always unmute and restore volume before playing
+      // Play / unmute
       audio.muted = false;
       audio.volume = VOLUME;
-      audio.play().then(() => {
+      setTapToPlay(false);
+
+      if (audio.paused) {
+        audio.play().then(() => {
+          setPlaying(true);
+          localStorage.setItem(PREF_KEY, 'true');
+        }).catch(() => {
+          setTapToPlay(true);
+        });
+      } else {
+        // Was muted-playing — just unmute
         setPlaying(true);
-        setTapToPlay(false);
         localStorage.setItem(PREF_KEY, 'true');
-      }).catch(() => {
-        setTapToPlay(true);
-      });
+      }
     }
   };
 
-  // If audio asset failed to load, show honest message
-  if (audioError) {
-    return null;
-  }
+  const statusText = audioMissing
+    ? 'Chorus audio not uploaded yet'
+    : tapToPlay && !playing
+      ? 'Tap to play'
+      : 'Thank You — Gannon Waye';
 
   return (
     <>
-      <audio
-        ref={audioRef}
-        src={AUDIO_URL}
-        loop
-        preload="auto"
-        style={{ display: 'none' }}
-        aria-label="Ambient background music: Thank You by Gannon Waye"
-      />
+      {!audioMissing && (
+        <audio
+          ref={audioRef}
+          src={AUDIO_URL}
+          loop
+          preload="auto"
+          style={{ display: 'none' }}
+          aria-label="Ambient background music: Thank You by Gannon Waye"
+        />
+      )}
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -109,11 +107,10 @@ export default function AmbientPlayer() {
         transition={{ delay: 1.5, duration: 0.5 }}
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2"
       >
-        {/* Label */}
         <div className="bg-card/90 backdrop-blur border border-border/40 rounded-full px-3 py-1.5 flex items-center gap-2">
           <div className="flex items-end gap-0.5 h-3" aria-hidden="true">
             {[0, 0.15, 0.3, 0.45].map((delay, i) => (
-              playing ? (
+              playing && !audioMissing ? (
                 <motion.div
                   key={i}
                   className="w-0.5 bg-primary rounded-full"
@@ -126,22 +123,23 @@ export default function AmbientPlayer() {
             ))}
           </div>
           <span className="font-body text-[10px] tracking-widest uppercase text-muted-foreground select-none">
-            {tapToPlay ? 'Tap to play' : 'Thank You — Gannon Waye'}
+            {statusText}
           </span>
         </div>
 
-        {/* Play / Pause button */}
         <button
-          onClick={toggle}
+          onClick={audioMissing ? undefined : toggle}
+          disabled={audioMissing}
           aria-label={playing ? 'Pause ambient music' : 'Play Thank You by Gannon Waye'}
-          title={playing ? 'Pause' : 'Play Thank You — Gannon Waye'}
           className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 ${
-            playing
-              ? 'bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/20'
-              : 'bg-card/80 backdrop-blur border-border/40 text-muted-foreground hover:border-primary/40 hover:text-primary'
+            audioMissing
+              ? 'bg-card/50 border-border/20 text-muted-foreground/40 cursor-not-allowed'
+              : playing
+                ? 'bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/20'
+                : 'bg-card/80 backdrop-blur border-border/40 text-muted-foreground hover:border-primary/40 hover:text-primary'
           }`}
         >
-          {playing ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+          {playing && !audioMissing ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
         </button>
       </motion.div>
     </>

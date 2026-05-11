@@ -21,12 +21,22 @@ This is more than a music page. It's a community built for people who've felt un
 
 My debut single "Thank You" is coming soon — you'll be the first to know when it drops.
 
+---
+
+🎁 A THANK-YOU GIFT — IF YOU'D LIKE ONE
+
+For a further discounted rate: You must have subscribed to the website www.gannonwaye.com, follow Gannon on Instagram @ganozwaye and also on TikTok @gannonwaye, like, comment and share the pinned "Sing Along Here" video tagging Gannon. Send 'DONE' and a message of support in response to this welcome email and when reviewed. The gift will be advised via email, sent after manual approval. Instagram and TikTok actions are not automatically verified. Do the steps in order or the offer may not be approved.
+
+---
+
 Until then, stay connected:
 🎵 Music: https://gannonwaye.com/music
 💬 Community: https://gannonwaye.com/community
 
 With love,
-Gannon Waye`
+Gannon Waye
+
+hello@gannonwaye.com`
     });
 
     return Response.json({ success: true });
