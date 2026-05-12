@@ -3,12 +3,24 @@ import { Link } from 'react-router-dom';
 import { Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+// TODO: Upload a GW heart support mark asset and set this URL
+// e.g. https://media.base44.com/files/public/69eb7905ca6eb4180010f794/gw-heart-support-mark.png
+const GW_HEART_SUPPORT_LOGO_URL = null;
+
 export default function StickySupportBar() {
   return (
     <div className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-sm border-t border-border/40 px-4 py-3 z-50">
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Heart className="w-5 h-5 text-primary" />
+          {GW_HEART_SUPPORT_LOGO_URL ? (
+            <img
+              src={GW_HEART_SUPPORT_LOGO_URL}
+              alt="Support the Thank You Project"
+              className="w-8 h-8 object-contain"
+            />
+          ) : (
+            <Heart className="w-5 h-5 text-primary" />
+          )}
           <div>
             <p className="font-body text-xs text-foreground font-medium">Support the "Thank You" Project</p>
             <p className="font-body text-[10px] text-muted-foreground">10% → 1800RESPECT</p>

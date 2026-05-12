@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import {
   LayoutDashboard, FileCode, Database, Zap, Component, Globe, Shield,
   ChevronDown, ChevronRight, ExternalLink, RefreshCw, Music, ShoppingBag,
-  Users, Settings, Mail, DollarSign, Activity, Gift, Video, Book
+  Users, Settings, Mail, DollarSign, Activity, Gift, Video, Book,
+  CreditCard, CheckSquare, AlertTriangle
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -324,6 +325,88 @@ export default function Blueprint() {
             <div key={step} className="flex items-center gap-2 px-3 py-1.5 bg-secondary/50 rounded-full border border-border/30">
               <span className="font-body text-[10px] text-primary font-bold">{i + 1}</span>
               <span className="font-body text-xs text-foreground">{step}</span>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Payment Test Checklist — ADMIN ONLY */}
+      <Section icon={CreditCard} title="Stripe Payment Test Checklist" count={6} color="bg-blue-500/10 text-blue-400">
+        <div className="space-y-4">
+          <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3">
+            <p className="font-body text-xs text-amber-400 leading-relaxed">
+              <strong>Admin only — not visible publicly.</strong> Use these Stripe test cards in the Stripe test/sandbox environment before going live. Use a small test amount (e.g. $5). Confirm in Stripe Dashboard → Payments that each result is as expected.
+            </p>
+          </div>
+          <div className="space-y-2">
+            {[
+              { card: '4242 4242 4242 4242', result: 'Success — payment completes', color: 'text-green-400', check: 'SupportContribution created once · SupporterProfile upserted (no duplicate) · receipt email sends or logs sandbox note · admin notification sends or logs sandbox note' },
+              { card: '4000 0000 0000 9995', result: 'Decline — insufficient funds', color: 'text-red-400', check: 'Visible error shown to user · No SupportContribution or MerchOrder created · No promo usage recorded' },
+              { card: '4000 0000 0000 3220', result: '3D Secure / authentication required', color: 'text-yellow-400', check: 'Auth popup appears · After completing auth, payment succeeds · SupportContribution created once only' },
+            ].map(({ card, result, color, check }) => (
+              <div key={card} className="bg-secondary/30 rounded-xl p-4 border border-border/30">
+                <div className="flex items-start gap-3">
+                  <CreditCard className={`w-4 h-4 mt-0.5 flex-shrink-0 ${color}`} />
+                  <div className="flex-1">
+                    <p className="font-body text-sm text-foreground font-mono tracking-wider">{card}</p>
+                    <p className={`font-body text-xs font-medium mt-0.5 ${color}`}>{result}</p>
+                    <p className="font-body text-[11px] text-muted-foreground mt-1 leading-relaxed">{check}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="bg-secondary/40 rounded-xl p-3 border border-border/30">
+            <p className="font-body text-[10px] tracking-widest uppercase text-muted-foreground mb-2">For all test cards, use:</p>
+            <div className="flex flex-wrap gap-4 font-body text-xs text-foreground/70">
+              <span>Expiry: <strong className="text-foreground">any future date</strong> e.g. 12/29</span>
+              <span>CVC: <strong className="text-foreground">any 3 digits</strong> e.g. 123</span>
+              <span>ZIP/postcode: <strong className="text-foreground">any value</strong></span>
+            </div>
+          </div>
+          <div className="bg-secondary/30 rounded-xl p-3 border border-border/30">
+            <p className="font-body text-[10px] tracking-widest uppercase text-muted-foreground mb-2">After each successful test — verify:</p>
+            <div className="space-y-1.5">
+              {[
+                'SupportContribution record created exactly once (check /admin/supporters)',
+                'SupporterProfile upserted by email — not duplicated',
+                'Promo code usage recorded only after payment success (check /admin/promo-codes)',
+                'Failed payments show visible user-facing error and create no paid record',
+                'Customer receipt email sends (or logs "sandbox restricted" — expected in test mode)',
+                'Admin notification sends (or logs expected sandbox note)',
+                'Order/pre-order status visible in /admin/orders',
+              ].map(item => (
+                <div key={item} className="flex items-start gap-2">
+                  <CheckSquare className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" />
+                  <p className="font-body text-xs text-foreground/70">{item}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Owner Launch Checklist */}
+      <Section icon={CheckSquare} title="Pre-Launch Owner Checklist" count={7} color="bg-green-500/10 text-green-400">
+        <div className="space-y-3">
+          <p className="font-body text-xs text-muted-foreground">Complete these steps before going live. Check them off manually as you go.</p>
+          {[
+            { item: 'Upload chorus MP3 to Base44 files and confirm AmbientPlayer URL is correct', note: 'File uploaded: 297c2c434_thank-you-chorus-1m30s-2m12s-site-loop.mp3 ✓' },
+            { item: 'Upload gold circular GW mark logo — set URL in Navbar (components/public/Navbar.jsx)', note: 'TODO: replace fallback text GW badge with image src once asset is confirmed' },
+            { item: 'Upload GW heart support mark — set GW_HEART_SUPPORT_LOGO_URL in StickySupportBar', note: 'TODO: update const GW_HEART_SUPPORT_LOGO_URL with uploaded asset URL' },
+            { item: 'Publish the app after any asset/config changes in Base44 dashboard', note: 'Changes do not go live until published' },
+            { item: 'Run Stripe test cards (see Payment Test Checklist above) and verify all scenarios', note: 'Test both success and failure flows before switching to live keys' },
+            { item: 'Submit a test subscriber signup and verify welcome email sends or logs expected sandbox note', note: 'Check /admin/subscribers after signup' },
+            { item: 'Submit a test merch pre-order interest and verify admin + customer emails', note: 'Store pre-orders do NOT charge today — payment not collected until June 1 2026 manually' },
+            { item: 'Submit a test contact/community item and verify moderation flow', note: 'Check /admin/fans and /community' },
+            { item: 'Verify all public pages load: /, /music, /store, /community, /contact, /back-this', note: 'Thank You official release date: 05 June 2026 — verify this is correct everywhere' },
+          ].map(({ item, note }, i) => (
+            <div key={i} className="flex items-start gap-3 bg-secondary/30 rounded-xl p-3 border border-border/30">
+              <div className="w-5 h-5 rounded border border-border/50 flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="font-body text-sm text-foreground">{item}</p>
+                <p className="font-body text-[11px] text-muted-foreground mt-0.5">{note}</p>
+              </div>
             </div>
           ))}
         </div>

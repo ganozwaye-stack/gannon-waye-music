@@ -26,10 +26,15 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           to="/"
+          aria-label="Gannon Waye — Home"
           className="flex items-center justify-center hover:opacity-80 transition-all duration-200 hover:scale-105"
         >
-          <div className="w-10 h-10 rounded-full border border-primary/60 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
-            <span className="font-display text-sm gradient-gold-text font-semibold tracking-wider">GW</span>
+          {/* TODO: replace src with uploaded gold circular GW mark — set gwLogoUrl in SiteSettings or upload to /files/public/... */}
+          {/* Using text fallback until asset is uploaded */}
+          <div className="h-11 md:h-12 w-auto flex items-center justify-center">
+            <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-primary/60 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
+              <span className="font-display text-sm gradient-gold-text font-semibold tracking-wider">GW</span>
+            </div>
           </div>
         </Link>
 
