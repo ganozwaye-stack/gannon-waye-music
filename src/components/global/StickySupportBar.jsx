@@ -9,7 +9,7 @@ const VOLUME = 0.18;
 const PREF_KEY = 'gw_ambient_playing';
 
 // Custom GW heart asset (matches the designed heart)
-const GW_HEART_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/25e89e553_image.png';
+const GW_HEART_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/094c64c87_image.png';
 
 export default function StickySupportBar() {
   const audioRef = useRef(null);
