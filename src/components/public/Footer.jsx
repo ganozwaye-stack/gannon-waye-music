@@ -144,7 +144,26 @@ export default function Footer() {
           )}
         </div>
 
-        <div className="mt-8 pt-6 border-t border-border/40 text-center">
+        {/* Support the project — centred with GW heart */}
+        <div className="mt-8 pt-6 border-t border-border/40 flex flex-col items-center gap-3 text-center">
+          <div className="flex items-center gap-3">
+            <img
+              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e5ad17697_WhatsApp_Image_2025-05-08_at_09.06.09.jpeg"
+              alt="GW Heart"
+              className="w-10 h-10 rounded-full object-cover border border-primary/30"
+            />
+            <Link
+              to="/back-this"
+              className="font-body text-sm text-primary hover:text-primary/80 transition-colors"
+            >
+              Support the project 🤍
+            </Link>
+            <img
+              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e5ad17697_WhatsApp_Image_2025-05-08_at_09.06.09.jpeg"
+              alt="GW Heart"
+              className="w-10 h-10 rounded-full object-cover border border-primary/30"
+            />
+          </div>
           <p className="font-body text-xs text-muted-foreground">
             © {new Date().getFullYear()} Gannon Waye. All rights reserved.
           </p>
