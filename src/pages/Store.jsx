@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Tag, Heart, Bell } from 'lucide-react';
+import { ShoppingBag, Heart, Bell, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import CheckoutModal from '@/components/store/CheckoutModal';
 import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
 
@@ -17,14 +16,17 @@ const PRODUCT_BADGES = {
   '69eed3e64e2da78ae4418a99': { label: 'Open for Orders', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
 };
 
-// Per-product config: mode + messaging
+// Store is closed — all products show interest/notify button only
+const STORE_OPEN = false;
+
+// Per-product config: sub-label only (no buy mode while store closed)
 const PRODUCT_CONFIG = {
-  '69f11d1fc43e13c61fe6b9d6': { mode: 'buy', label: 'Order Now — $10', sub: 'Pre-order · Ships June 2026' },
-  '69eed3e64e2da78ae4418a9d': { mode: 'buy', label: 'Order Now — $20', sub: 'Pre-order · Signed · Ships June 2026' },
-  '69f11d1fc43e13c61fe6b9d7': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships June 2026' },
-  '69eed3e64e2da78ae4418a99': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships July 2026' },
-  '69fbd261b760426cede1b7a3': { mode: 'buy', label: 'Order Now', sub: 'Ships June 2026' },
-  '69eed3e64e2da78ae4418a9a': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships July 2026' },
+  '69f11d1fc43e13c61fe6b9d6': { sub: 'Available June 2026 · $10' },
+  '69eed3e64e2da78ae4418a9d': { sub: 'Limited · Hand-signed · $20' },
+  '69f11d1fc43e13c61fe6b9d7': { sub: 'Premium heavyweight hoodie · $98' },
+  '69eed3e64e2da78ae4418a99': { sub: 'Oversized premium tee · $59' },
+  '69fbd261b760426cede1b7a3': { sub: 'Journal, pen & thermos bundle · $54' },
+  '69eed3e64e2da78ae4418a9a': { sub: 'Large tote bag · $15' },
 };
 
 // Multi-image galleries per product id (auto-rotates in card)
@@ -127,53 +129,62 @@ function InterestButton({ productId, productName }) {
       await base44.entities.MerchInterest.create({ product_id: productId, product_name: productName, name: 'Interest', email, phone: '', consent_merch: true });
       localStorage.setItem(key, '1');
       setDone(true);
-      toast({ title: "You're on the list! We'll notify you when available. 🤍" });
+      toast({ title: "You're on the list! We'll let you know the moment orders open. 🤍" });
     } catch {
-      toast({ title: 'Already registered or error — try again.', variant: 'destructive' });
+      toast({ title: 'Already registered — we have you! 🤍' });
+      localStorage.setItem(key, '1');
+      setDone(true);
     }
     setLoading(false);
   };
 
   if (done) {
     return (
-      <div className="mt-3 w-full rounded-full py-2 font-body text-[10px] tracking-wider uppercase flex items-center justify-center gap-2 border border-primary/40 text-primary bg-primary/10">
-        <Bell className="w-3.5 h-3.5" /> You're on the list
+      <div className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase flex items-center justify-center gap-2 border border-primary/40 text-primary bg-primary/10">
+        <Heart className="w-3.5 h-3.5 fill-primary" /> I love this — I'm on the list!
       </div>
     );
   }
 
   if (showForm) {
     return (
-      <form onSubmit={submit} className="mt-3 flex gap-1.5">
+      <form onSubmit={submit} className="mt-3 space-y-2">
         <input
           type="email"
           placeholder="your@email.com"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          className="flex-1 bg-secondary/50 border border-border/40 rounded-lg px-2 py-1.5 font-body text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40 min-w-0"
+          autoFocus
+          className="w-full bg-secondary/50 border border-border/40 rounded-lg px-3 py-2 font-body text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
         />
-        <button type="submit" disabled={loading} className="shrink-0 px-3 py-1.5 rounded-lg gradient-gold-button font-body text-[10px] tracking-wider uppercase">
-          {loading ? '...' : 'Notify me'}
-        </button>
+        <div className="flex gap-1.5">
+          <button type="submit" disabled={loading} className="flex-1 py-2 rounded-full gradient-gold-button font-body text-[10px] tracking-wider uppercase">
+            {loading ? '...' : '🤍 Notify me when open'}
+          </button>
+          <button type="button" onClick={() => setShowForm(false)} className="px-3 py-2 rounded-full border border-border/40 font-body text-[10px] text-muted-foreground">
+            ✕
+          </button>
+        </div>
       </form>
     );
   }
 
   return (
-    <button
-      onClick={() => setShowForm(true)}
-      className="mt-3 w-full rounded-full py-2 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 border border-border/50 text-muted-foreground hover:border-primary/40 hover:text-primary"
-    >
-      <Bell className="w-3.5 h-3.5" /> Register Interest
-    </button>
+    <div className="mt-3 space-y-1.5">
+      <button
+        onClick={() => setShowForm(true)}
+        className="w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 gradient-gold-button hover:opacity-90"
+      >
+        <Sparkles className="w-3.5 h-3.5" /> I love this! Notify me
+      </button>
+      <p className="text-center font-body text-[9px] text-muted-foreground/50 tracking-wide">Orders open soon — be first to know</p>
+    </div>
   );
 }
 
-function ProductCard({ product, onSelect }) {
+function ProductCard({ product }) {
   const price = product.sale_price ?? product.price;
   const cfg = PRODUCT_CONFIG[product.id];
-  const isInterest = cfg?.mode === 'interest';
-  const soldOut = !isInterest && (product.stock_quantity === 0 || cfg?.mode === 'soldout');
   const badge = PRODUCT_BADGES[product.id];
   const isCd = product.category === 'cd';
   const galleryImages = PRODUCT_GALLERIES[product.id] || (product.images_array?.length > 0 ? product.images_array : null);
@@ -203,47 +214,28 @@ function ProductCard({ product, onSelect }) {
             <ShoppingBag className="w-16 h-16 text-muted-foreground/20" />
           </div>
         )}
-        {badge && (
-          <div className="absolute top-3 left-3 z-10">
-            <span className={`font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 ${badge.color}`}>
-              {badge.label}
-            </span>
-          </div>
-        )}
-        {soldOut && !isInterest && (
-          <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
-            <span className="font-body text-xs tracking-widest uppercase text-muted-foreground border border-border rounded-full px-3 py-1">Coming soon</span>
-          </div>
-        )}
+        <div className="absolute top-3 left-3 z-10">
+          <span className="font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 bg-amber-500/15 text-amber-400 border-amber-500/30">
+            Coming Soon
+          </span>
+        </div>
       </div>
 
       {/* Footer */}
       <div className="p-4 border-t border-border/30 bg-card/20">
         <p className="font-display text-sm text-foreground leading-snug">{product.name}</p>
         <p className="font-body text-sm gradient-gold-glow mt-1 font-medium">${price} AUD</p>
-        {cfg?.sub && !soldOut && (
+        {cfg?.sub && (
           <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
         )}
 
-        {isInterest ? (
-          <InterestButton productId={product.id} productName={product.name} />
-        ) : soldOut ? (
-          <InterestButton productId={product.id} productName={product.name} />
-        ) : (
-          <button
-            onClick={() => onSelect(product)}
-            className="mt-3 w-full rounded-full py-2 font-body text-[10px] tracking-wider uppercase transition-all gradient-gold-button"
-          >
-            {cfg?.label || 'Order Now'}
-          </button>
-        )}
+        <InterestButton productId={product.id} productName={product.name} />
       </div>
     </motion.div>
   );
 }
 
 export default function Store() {
-  const [checkoutProduct, setCheckoutProduct] = useState(null);
   const navigate = useNavigate();
 
   const { data: dbProducts = [] } = useQuery({
@@ -268,15 +260,11 @@ export default function Store() {
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Official</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Merch</h1>
-          <div className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-xl px-5 py-3 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <p className="font-body text-xs text-foreground/70">
-              Pre-orders open · Payment processed on or after <strong>June 1, 2026</strong> · Orders updated with shipping info
+          <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-xl px-5 py-3 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+            <p className="font-body text-xs text-amber-300">
+              Store opening soon — register your interest below and be <strong>first to order</strong> when we go live.
             </p>
-          </div>
-          <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2">
-            <Tag className="w-3.5 h-3.5 text-primary" />
-            <span className="font-body text-xs text-muted-foreground">Have a promo code? Enter it at checkout.</span>
           </div>
         </motion.div>
 
@@ -291,8 +279,8 @@ export default function Store() {
             <div className="flex justify-center">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
                 {cdProducts.map(product => (
-                  <ProductCard key={product.id} product={product} onSelect={setCheckoutProduct} />
-                ))}
+                   <ProductCard key={product.id} product={product} />
+                 ))}
               </div>
             </div>
           </>
@@ -308,8 +296,8 @@ export default function Store() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {merchProducts.map(product => (
-                <ProductCard key={product.id} product={product} onSelect={setCheckoutProduct} />
-              ))}
+                 <ProductCard key={product.id} product={product} />
+               ))}
             </div>
           </>
         )}
@@ -335,12 +323,7 @@ export default function Store() {
         </p>
       </div>
 
-      {checkoutProduct && (
-        <CheckoutModal
-          product={checkoutProduct}
-          onClose={() => setCheckoutProduct(null)}
-        />
-      )}
+
     </div>
   );
 }

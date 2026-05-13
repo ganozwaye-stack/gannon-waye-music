@@ -108,7 +108,7 @@ export default function Home() {
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
             <div className="flex flex-col items-center gap-1">
               <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Available on all leading platforms from 05 June 2026</p>
-              <Link to="/music" className="font-display text-base text-primary italic hover:underline">Pre-save Coming Soon →</Link>
+              <Link to="/music" className="font-display text-base text-primary italic hover:underline">Hear more about it →</Link>
             </div>
           </motion.div>
 
