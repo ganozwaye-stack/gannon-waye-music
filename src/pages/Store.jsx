@@ -1,26 +1,31 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Tag, Heart } from 'lucide-react';
+import { ShoppingBag, Tag, Heart, ThumbsUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import MerchInterestModal from '@/components/store/MerchInterestModal';
+import CheckoutModal from '@/components/store/CheckoutModal';
+import { useToast } from '@/components/ui/use-toast';
 
-// Badge config per product id or category
+// Badge config per product id
 const PRODUCT_BADGES = {
   '69f11d1fc43e13c61fe6b9d6': { label: 'Deluxe · Signed', color: 'bg-primary/20 text-primary border-primary/40' },
-  '69eed3e64e2da78ae4418a9d': { label: 'Collector\'s Edition', color: 'bg-primary/20 text-primary border-primary/40' },
-  '69f11d1fc43e13c61fe6b9d7': { label: 'Taking pre-orders now', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
-  '69eed3e64e2da78ae4418a99': { label: 'Taking pre-orders now', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
-  '69fbd261b760426cede1b7a3': { label: 'Limited series · Almost sold out', color: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
-  '69eed3e64e2da78ae4418a9a': { label: 'Limited series · Almost sold out', color: 'bg-amber-500/15 text-amber-400 border-amber-500/30' },
+  '69eed3e64e2da78ae4418a9d': { label: 'Slim Case', color: 'bg-secondary text-muted-foreground border-border/40' },
+  '69f11d1fc43e13c61fe6b9d7': { label: 'Pre-order Open', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
+  '69eed3e64e2da78ae4418a9a': { label: 'Open for Orders', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
 };
 
-// Launch discount deadline: Sunday 5pm AEST
-const LAUNCH_DEADLINE = new Date('2026-05-17T17:00:00+10:00');
-const isLaunchActive = () => new Date() < LAUNCH_DEADLINE;
+// Per-product config: mode + messaging
+const PRODUCT_CONFIG = {
+  '69f11d1fc43e13c61fe6b9d6': { mode: 'buy', label: 'Order Now — $10', sub: 'Pre-order · Ships from 05 June 2026' },
+  '69eed3e64e2da78ae4418a9d': { mode: 'buy', label: 'Order Now — $20', sub: 'Pre-order · Ships from 05 June 2026' },
+  '69f11d1fc43e13c61fe6b9d7': { mode: 'buy', label: 'Pre-order Interest', sub: 'Shipping currently delayed — details at checkout' },
+  '69eed3e64e2da78ae4418a99': { mode: 'soldout', label: 'Sold Out', sub: null },
+  '69fbd261b760426cede1b7a3': { mode: 'buy', label: 'Order Now', sub: 'Ships from 05 June 2026' },
+  '69eed3e64e2da78ae4418a9a': { mode: 'buy', label: 'Order Now', sub: 'Ships from 05 June 2026' },
+};
 
-// Fallback if DB returns empty
+// Corrected static product data
 const FALLBACK_PRODUCTS = [
   {
     id: '69f11d1fc43e13c61fe6b9d6',
@@ -29,7 +34,7 @@ const FALLBACK_PRODUCTS = [
     category: 'cd',
     stock_quantity: 50,
     image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6fbecc91f_THANKYOUOfficialSingleCover.bmp',
-    description: "This is more than a CD. It's a moment. Hand-signed by Gannon Waye himself.",
+    description: 'Hand-signed by Gannon Waye. A limited, personal piece of this moment.',
   },
   {
     id: '69eed3e64e2da78ae4418a9d',
@@ -38,7 +43,7 @@ const FALLBACK_PRODUCTS = [
     category: 'cd',
     stock_quantity: 40,
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c2a1369c4_1.png',
-    description: "Physical CD single presented in a slim clear plastic jewel case.",
+    description: 'Presented in a slim clear plastic jewel case. Official debut single.',
   },
   {
     id: '69f11d1fc43e13c61fe6b9d7',
@@ -48,17 +53,17 @@ const FALLBACK_PRODUCTS = [
     stock_quantity: 50,
     sizes_available: ['XS', 'S', 'M', 'L', 'XL', '2XL'],
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png',
-    description: "A statement piece. Premium heavyweight dark grey hoodie.",
+    description: 'Premium heavyweight dark grey hoodie. Statement piece.',
   },
   {
     id: '69eed3e64e2da78ae4418a99',
     name: 'Respect Is Earned Oversized Tee',
     sale_price: 59,
     category: 'apparel',
-    stock_quantity: 20,
+    stock_quantity: 0,
     sizes_available: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4765f5793_generated_image.png',
-    description: "Official debut single artwork on a premium oversized tee.",
+    description: 'Official debut single artwork on a premium oversized tee.',
   },
   {
     id: '69fbd261b760426cede1b7a3',
@@ -67,7 +72,7 @@ const FALLBACK_PRODUCTS = [
     category: 'bundle',
     stock_quantity: 20,
     image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e14220834_Bundle.png',
-    description: "For anyone journaling, processing, or needing a safe-space bundle, this kit is all you need.",
+    description: 'Journaling, processing, or needing a safe-space kit — this is it.',
   },
   {
     id: '69eed3e64e2da78ae4418a9a',
@@ -80,21 +85,62 @@ const FALLBACK_PRODUCTS = [
   },
 ];
 
-function ProductCard({ product, onSelect, large }) {
+function VoteButton({ productId }) {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const key = `voted_${productId}`;
+  const [voted, setVoted] = useState(() => !!localStorage.getItem(key));
+  const { data: votes = 0 } = useQuery({
+    queryKey: ['votes', productId],
+    queryFn: async () => {
+      const items = await base44.entities.MerchInterest.filter({ product_id: productId });
+      return items.length;
+    },
+    initialData: 0,
+  });
+
+  const castVote = useMutation({
+    mutationFn: () => base44.entities.MerchInterest.create({ product_id: productId, product_name: 'Vote for restock', name: 'Anonymous', email: 'vote@vote', phone: '000', consent_merch: false }),
+    onSuccess: () => {
+      localStorage.setItem(key, '1');
+      setVoted(true);
+      queryClient.invalidateQueries({ queryKey: ['votes', productId] });
+      toast({ title: 'Vote counted! 👍' });
+    },
+  });
+
+  return (
+    <button
+      onClick={() => !voted && castVote.mutate()}
+      disabled={voted}
+      className={`mt-3 w-full rounded-full py-2 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 border ${
+        voted
+          ? 'border-primary/40 text-primary bg-primary/10'
+          : 'border-border/50 text-muted-foreground hover:border-primary/40 hover:text-primary'
+      }`}
+    >
+      <ThumbsUp className="w-3.5 h-3.5" />
+      {voted ? `You voted · ${votes + 1} want this` : `Vote to bring this back · ${votes} votes`}
+    </button>
+  );
+}
+
+function ProductCard({ product, onSelect }) {
   const price = product.sale_price ?? product.price;
-  const soldOut = product.stock_quantity === 0 || product.is_active === false;
+  const cfg = PRODUCT_CONFIG[product.id];
+  const soldOut = product.stock_quantity === 0 || cfg?.mode === 'soldout';
   const badge = PRODUCT_BADGES[product.id];
+  const isCd = product.category === 'cd';
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      onClick={() => !soldOut && onSelect(product)}
-      className={`group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300 ${soldOut ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
+      className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
     >
       {/* Image */}
-      <div className={`${large ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 relative overflow-hidden`}>
+      <div className={`${isCd ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 relative overflow-hidden`}>
         {product.image_url ? (
           <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
         ) : (
@@ -102,7 +148,6 @@ function ProductCard({ product, onSelect, large }) {
             <ShoppingBag className="w-16 h-16 text-muted-foreground/20" />
           </div>
         )}
-        {/* Top-left badge */}
         {badge && (
           <div className="absolute top-3 left-3 z-10">
             <span className={`font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 ${badge.color}`}>
@@ -120,26 +165,28 @@ function ProductCard({ product, onSelect, large }) {
       {/* Footer */}
       <div className="p-4 border-t border-border/30 bg-card/20">
         <p className="font-display text-sm text-foreground leading-snug">{product.name}</p>
-        <p className="font-body text-sm gradient-gold-glow mt-1 font-medium">
-          ${price} plus shipping and fees
-        </p>
-        <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">
-          Pre-order interest only. No charge today. Payment scheduled for June 1, 2026, subject to confirmation.
-        </p>
-        <button
-          onClick={e => { e.stopPropagation(); if (!soldOut) onSelect(product); }}
-          disabled={soldOut}
-          className={`mt-3 w-full rounded-full py-2 font-body text-[10px] tracking-wider uppercase transition-all ${soldOut ? 'bg-secondary/50 text-muted-foreground cursor-not-allowed' : 'gradient-gold-button'}`}
-        >
-          {soldOut ? 'Sold Out' : 'Register Pre-order Interest'}
-        </button>
+        <p className="font-body text-sm gradient-gold-glow mt-1 font-medium">${price} AUD</p>
+        {cfg?.sub && !soldOut && (
+          <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
+        )}
+
+        {soldOut ? (
+          <VoteButton productId={product.id} />
+        ) : (
+          <button
+            onClick={() => onSelect(product)}
+            className="mt-3 w-full rounded-full py-2 font-body text-[10px] tracking-wider uppercase transition-all gradient-gold-button"
+          >
+            {cfg?.label || 'Order Now'}
+          </button>
+        )}
       </div>
     </motion.div>
   );
 }
 
 export default function Store() {
-  const [interestProduct, setInterestProduct] = useState(null);
+  const [checkoutProduct, setCheckoutProduct] = useState(null);
   const navigate = useNavigate();
 
   const { data: dbProducts = [] } = useQuery({
@@ -149,7 +196,6 @@ export default function Store() {
   });
 
   const products = dbProducts.length > 0 ? dbProducts : FALLBACK_PRODUCTS;
-
   const cdProducts = products.filter(p => p.category === 'cd');
   const merchProducts = products.filter(p => p.category !== 'cd');
 
@@ -161,37 +207,23 @@ export default function Store() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
           className="text-center mb-6"
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Official</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Merch</h1>
-          <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2.5 mb-4">
+          <div className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-xl px-5 py-3 mb-3">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <p className="font-body text-xs text-muted-foreground tracking-wide">
-              Pre-order interest only · No charge today · Payment scheduled for June 1, 2026, subject to confirmation
+            <p className="font-body text-xs text-foreground/70">
+              Pre-orders open · Payment processed on or after <strong>June 1, 2026</strong> · Orders updated with shipping info
             </p>
           </div>
-          <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-xl px-5 py-3">
-            <Tag className="w-4 h-4 text-primary flex-shrink-0" />
-            <span className="font-body text-xs text-foreground/70">Have a promo code? Enter it at checkout for your discount.</span>
+          <div className="inline-flex items-center gap-2 bg-card border border-border/40 rounded-full px-5 py-2">
+            <Tag className="w-3.5 h-3.5 text-primary" />
+            <span className="font-body text-xs text-muted-foreground">Have a promo code? Enter it at checkout.</span>
           </div>
-
-          {/* Launch discount banner */}
-          {isLaunchActive() && (
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-4 bg-amber-500/10 border border-amber-500/40 rounded-xl px-5 py-3 max-w-xl mx-auto"
-            >
-              <p className="font-body text-xs text-amber-300 text-center leading-relaxed">
-                🔥 <strong>Launch offer: use code THANKYOU15 for 15% off eligible Thank You merch until 5pm Sunday.</strong> While stocks last.
-              </p>
-            </motion.div>
-          )}
         </motion.div>
 
-        {/* CD Row — centred, slightly larger */}
+        {/* CD Row */}
         {cdProducts.length > 0 && (
           <>
             <div className="flex items-center gap-4 mt-12 mb-6">
@@ -202,7 +234,7 @@ export default function Store() {
             <div className="flex justify-center">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
                 {cdProducts.map(product => (
-                  <ProductCard key={product.id} product={product} onSelect={setInterestProduct} large />
+                  <ProductCard key={product.id} product={product} onSelect={setCheckoutProduct} />
                 ))}
               </div>
             </div>
@@ -219,7 +251,7 @@ export default function Store() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {merchProducts.map(product => (
-                <ProductCard key={product.id} product={product} onSelect={setInterestProduct} />
+                <ProductCard key={product.id} product={product} onSelect={setCheckoutProduct} />
               ))}
             </div>
           </>
@@ -237,19 +269,19 @@ export default function Store() {
             onClick={() => navigate('/back-this')}
             className="mt-3 gradient-gold-button rounded-full px-8 py-2.5 font-body text-sm tracking-wider uppercase inline-flex items-center gap-2"
           >
-            <Heart className="w-4 h-4" /> Support Now 🤍
+            <Heart className="w-4 h-4" /> Support Now
           </button>
         </motion.div>
 
         <p className="text-center font-body text-xs text-muted-foreground/40 mt-10 tracking-wide">
-          Thank You, official release date 05 June 2026. Available on all leading platforms from 05 June 2026.
+          Thank You, official release date 05 June 2026.
         </p>
       </div>
 
-      {interestProduct && (
-        <MerchInterestModal
-          product={interestProduct}
-          onClose={() => setInterestProduct(null)}
+      {checkoutProduct && (
+        <CheckoutModal
+          product={checkoutProduct}
+          onClose={() => setCheckoutProduct(null)}
         />
       )}
     </div>

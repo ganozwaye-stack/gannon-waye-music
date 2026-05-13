@@ -300,6 +300,15 @@ export default function CheckoutModal({ product, onClose }) {
               <ArrowLeft className="w-3 h-3" /> Back to details
             </button>
 
+            {/* Shipping delay notice for apparel pre-orders */}
+            {product.category === 'apparel' && (
+              <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-3 mt-2">
+                <p className="font-body text-xs text-amber-300 leading-relaxed">
+                  ⚠️ <strong>Shipping notice:</strong> Pre-order interest accepted — shipping for apparel items is currently delayed. Your card will not be charged until we confirm dispatch availability. We'll email you first.
+                </p>
+              </div>
+            )}
+
             <div className="mt-4">
               <StripePaymentForm
                 mode="setup"

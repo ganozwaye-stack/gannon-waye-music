@@ -4,8 +4,6 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import MobileBottomTabs from './MobileBottomTabs';
-import AmbientPlayer from '@/components/global/AmbientPlayer';
-
 const ROOT_ROUTES = ['/', '/music', '/store', '/community'];
 
 export default function PublicLayout() {
@@ -13,7 +11,7 @@ export default function PublicLayout() {
   const isRootRoute = ROOT_ROUTES.includes(pathname);
 
   return (
-    <div className="min-h-screen flex flex-col pb-16 md:pb-0">
+    <div className="min-h-screen flex flex-col pb-14">
       <Navbar />
       <main className="flex-1 pt-16">
         <AnimatePresence mode="wait">
@@ -22,7 +20,6 @@ export default function PublicLayout() {
       </main>
       <Footer />
       {isRootRoute && <MobileBottomTabs />}
-      <AmbientPlayer />
     </div>
   );
 }

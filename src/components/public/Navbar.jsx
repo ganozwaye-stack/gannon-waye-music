@@ -26,15 +26,6 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
-      {/* Banner strip */}
-      <div className="relative overflow-hidden" style={{ height: 48 }}>
-        <img src={BANNER_URL} alt="Thank You — Gannon Waye · 05 June 2026" className="absolute inset-0 w-full h-full object-cover object-center" style={{ objectPosition: 'center 40%' }} />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, hsl(220,15%,6%) 0%, transparent 20%, transparent 80%, hsl(220,15%,6%) 100%)' }} />
-        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, hsl(220,15%,6%) 0%, transparent 30%, transparent 70%, hsl(220,15%,6%) 100%)' }} />
-        <div className="relative z-10 h-full flex items-center justify-center">
-          <p className="font-body text-[9px] tracking-[0.35em] uppercase text-foreground/60">Thank You · 05 June 2026 · All Platforms</p>
-        </div>
-      </div>
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           to="/"
