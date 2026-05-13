@@ -10,7 +10,8 @@ import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 import ShareButtons from '@/components/public/ShareButtons';
 import GoldShards from '@/components/public/GoldShards';
 
-const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cff3bb798_Untitleddesign.jpg';
+// Clean gold glow banner — blends into dark background on Music page
+const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
 
 const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
 

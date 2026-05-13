@@ -11,7 +11,8 @@ import GoldShards from '@/components/public/GoldShards';
 
 // Reveal audio track (WAV) — plays on the Videos page featured card
 const THANK_YOU_REVEAL_AUDIO_URL = 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/26bba59da_REVEALDAY.WAV';
-const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cff3bb798_Untitleddesign.jpg';
+// 3D gold letters hero banner — used on Videos featured card
+const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5de42a778_60a7df62-cfa1-4cba-9280-c5ac4dfcbfa5.png';
 const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
 
 const PLATFORMS = ['all', 'instagram', 'tiktok'];

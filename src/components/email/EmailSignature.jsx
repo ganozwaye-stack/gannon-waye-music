@@ -1,6 +1,7 @@
 // Email signature component for all outbound emails
 
-const BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cff3bb798_Untitleddesign.jpg';
+// Clean gold glow banner — fades well into dark email backgrounds
+const BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
 
 export const GANNON_SIGNATURE_HTML = `
 <div style="margin-top: 32px; padding-top: 0; border-top: none;">
