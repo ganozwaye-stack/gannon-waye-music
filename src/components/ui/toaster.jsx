@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { useToast } from "@/components/ui/use-toast";
 import {
   Toast,
@@ -9,11 +10,23 @@ import {
 } from "@/components/ui/toast";
 
 export function Toaster() {
-  const { toasts } = useToast();
+  const { toasts, dismiss } = useToast();
+
+  // Auto-dismiss after 4 seconds
+  useEffect(() => {
+    toasts.forEach((t) => {
+      if (t.open) {
+        const timer = setTimeout(() => dismiss(t.id), 4000);
+        return () => clearTimeout(timer);
+      }
+    });
+  }, [toasts]);
+
+  const visibleToasts = toasts.filter((t) => t.open !== false);
 
   return (
     <ToastProvider>
-      {toasts.map(function ({ id, title, description, action, ...props }) {
+      {visibleToasts.map(function ({ id, title, description, action, ...props }) {
         return (
           <Toast key={id} {...props}>
             <div className="grid gap-1">
@@ -23,11 +36,11 @@ export function Toaster() {
               )}
             </div>
             {action}
-            <ToastClose />
+            <ToastClose onClick={() => dismiss(id)} />
           </Toast>
         );
       })}
       <ToastViewport />
     </ToastProvider>
   );
-} 
+}
