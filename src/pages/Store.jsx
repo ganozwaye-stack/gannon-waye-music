@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Tag, Heart, ThumbsUp } from 'lucide-react';
+import { ShoppingBag, Tag, Heart, Bell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import CheckoutModal from '@/components/store/CheckoutModal';
 import { useToast } from '@/components/ui/use-toast';
@@ -19,10 +19,10 @@ const PRODUCT_BADGES = {
 const PRODUCT_CONFIG = {
   '69f11d1fc43e13c61fe6b9d6': { mode: 'buy', label: 'Order Now — $10', sub: 'Pre-order · Ships from 05 June 2026' },
   '69eed3e64e2da78ae4418a9d': { mode: 'buy', label: 'Order Now — $20', sub: 'Pre-order · Signed · Ships from 05 June 2026' },
-  '69f11d1fc43e13c61fe6b9d7': { mode: 'buy', label: 'Pre-order Interest', sub: 'Shipping currently delayed — details at checkout' },
-  '69eed3e64e2da78ae4418a99': { mode: 'soldout', label: 'Sold Out', sub: null },
+  '69f11d1fc43e13c61fe6b9d7': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships from 05 June 2026' },
+  '69eed3e64e2da78ae4418a99': { mode: 'interest', label: 'Register Interest', sub: 'Not available yet — register to be notified' },
   '69fbd261b760426cede1b7a3': { mode: 'buy', label: 'Order Now', sub: 'Ships from 05 June 2026' },
-  '69eed3e64e2da78ae4418a9a': { mode: 'buy', label: 'Order Now', sub: 'Ships from 05 June 2026' },
+  '69eed3e64e2da78ae4418a9a': { mode: 'interest', label: 'Register Interest', sub: 'Not available yet — register to be notified' },
 };
 
 // Corrected static product data
@@ -85,42 +85,60 @@ const FALLBACK_PRODUCTS = [
   },
 ];
 
-function VoteButton({ productId }) {
+function InterestButton({ productId, productName }) {
   const { toast } = useToast();
-  const queryClient = useQueryClient();
-  const key = `voted_${productId}`;
-  const [voted, setVoted] = useState(() => !!localStorage.getItem(key));
-  const { data: votes = 0 } = useQuery({
-    queryKey: ['votes', productId],
-    queryFn: async () => {
-      const items = await base44.entities.MerchInterest.filter({ product_id: productId });
-      return items.length;
-    },
-    initialData: 0,
-  });
+  const key = `interest_${productId}`;
+  const [done, setDone] = useState(() => !!localStorage.getItem(key));
+  const [showForm, setShowForm] = useState(false);
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const castVote = useMutation({
-    mutationFn: () => base44.entities.MerchInterest.create({ product_id: productId, product_name: 'Vote for restock', name: 'Anonymous', email: 'vote@vote', phone: '000', consent_merch: false }),
-    onSuccess: () => {
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setLoading(true);
+    try {
+      await base44.entities.MerchInterest.create({ product_id: productId, product_name: productName, name: 'Interest', email, phone: '', consent_merch: true });
       localStorage.setItem(key, '1');
-      setVoted(true);
-      queryClient.invalidateQueries({ queryKey: ['votes', productId] });
-      toast({ title: 'Vote counted! 👍' });
-    },
-  });
+      setDone(true);
+      toast({ title: "You're on the list! We'll notify you when available. 🤍" });
+    } catch {
+      toast({ title: 'Already registered or error — try again.', variant: 'destructive' });
+    }
+    setLoading(false);
+  };
+
+  if (done) {
+    return (
+      <div className="mt-3 w-full rounded-full py-2 font-body text-[10px] tracking-wider uppercase flex items-center justify-center gap-2 border border-primary/40 text-primary bg-primary/10">
+        <Bell className="w-3.5 h-3.5" /> You're on the list
+      </div>
+    );
+  }
+
+  if (showForm) {
+    return (
+      <form onSubmit={submit} className="mt-3 flex gap-1.5">
+        <input
+          type="email"
+          placeholder="your@email.com"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          className="flex-1 bg-secondary/50 border border-border/40 rounded-lg px-2 py-1.5 font-body text-xs text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40 min-w-0"
+        />
+        <button type="submit" disabled={loading} className="shrink-0 px-3 py-1.5 rounded-lg gradient-gold-button font-body text-[10px] tracking-wider uppercase">
+          {loading ? '...' : 'Notify me'}
+        </button>
+      </form>
+    );
+  }
 
   return (
     <button
-      onClick={() => !voted && castVote.mutate()}
-      disabled={voted}
-      className={`mt-3 w-full rounded-full py-2 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 border ${
-        voted
-          ? 'border-primary/40 text-primary bg-primary/10'
-          : 'border-border/50 text-muted-foreground hover:border-primary/40 hover:text-primary'
-      }`}
+      onClick={() => setShowForm(true)}
+      className="mt-3 w-full rounded-full py-2 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 border border-border/50 text-muted-foreground hover:border-primary/40 hover:text-primary"
     >
-      <ThumbsUp className="w-3.5 h-3.5" />
-      {voted ? `You voted · ${votes + 1} want this` : `Vote to bring this back · ${votes} votes`}
+      <Bell className="w-3.5 h-3.5" /> Register Interest
     </button>
   );
 }
@@ -128,7 +146,8 @@ function VoteButton({ productId }) {
 function ProductCard({ product, onSelect }) {
   const price = product.sale_price ?? product.price;
   const cfg = PRODUCT_CONFIG[product.id];
-  const soldOut = product.stock_quantity === 0 || cfg?.mode === 'soldout';
+  const isInterest = cfg?.mode === 'interest';
+  const soldOut = !isInterest && (product.stock_quantity === 0 || cfg?.mode === 'soldout');
   const badge = PRODUCT_BADGES[product.id];
   const isCd = product.category === 'cd';
 
@@ -155,9 +174,9 @@ function ProductCard({ product, onSelect }) {
             </span>
           </div>
         )}
-        {soldOut && (
+        {soldOut && !isInterest && (
           <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
-            <span className="font-body text-xs tracking-widest uppercase text-muted-foreground border border-border rounded-full px-3 py-1">Sold out</span>
+            <span className="font-body text-xs tracking-widest uppercase text-muted-foreground border border-border rounded-full px-3 py-1">Coming soon</span>
           </div>
         )}
       </div>
@@ -170,8 +189,10 @@ function ProductCard({ product, onSelect }) {
           <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
         )}
 
-        {soldOut ? (
-          <VoteButton productId={product.id} />
+        {isInterest ? (
+          <InterestButton productId={product.id} productName={product.name} />
+        ) : soldOut ? (
+          <InterestButton productId={product.id} productName={product.name} />
         ) : (
           <button
             onClick={() => onSelect(product)}

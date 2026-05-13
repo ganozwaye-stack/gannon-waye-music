@@ -10,19 +10,20 @@ import { useQueryClient } from '@tanstack/react-query';
 import StripePaymentForm from './StripePaymentForm';
 
 // Pricing constants
-const GST_RATE = 0.10;
-const FEE_RATE = 0.05;
-const SHIPPING_CD = 15;
-const SHIPPING_OTHER = 20;
+// GST is INCLUDED in the listed price (Australian law — prices are GST-inclusive)
+// GST component = price / 11  (i.e. 10/110)
+const SHIPPING_CD = 4;      // AUD letter/padded envelope
+const SHIPPING_APPAREL = 9; // AUD standard parcel
+const SHIPPING_OTHER = 7;   // AUD standard
 
 function calcPricing(basePrice, category, discountPercent = 0) {
-  const shipping = category === 'cd' ? SHIPPING_CD : SHIPPING_OTHER;
+  const shipping = category === 'cd' ? SHIPPING_CD : category === 'apparel' ? SHIPPING_APPAREL : SHIPPING_OTHER;
   const discounted = basePrice * (1 - discountPercent / 100);
   const subtotal = discounted + shipping;
-  const gst = subtotal * GST_RATE;
-  const fee = subtotal * FEE_RATE;
-  const total = subtotal + gst + fee;
-  return { discounted, shipping, gst, fee, total, discount: basePrice - discounted };
+  // GST is already included in Australian prices — extract for disclosure only
+  const gstIncluded = subtotal / 11;
+  const total = subtotal;
+  return { discounted, shipping, gstIncluded, total, discount: basePrice - discounted };
 }
 
 export default function CheckoutModal({ product, onClose }) {
@@ -42,7 +43,7 @@ export default function CheckoutModal({ product, onClose }) {
   const hasSize = product.sizes_available?.length > 0;
   const productPrice = product.sale_price ?? product.price ?? 0;
   const basePricing = calcPricing(productPrice * quantity, product.category, appliedPromo?.discount_percent || 0);
-  const pricing = { ...basePricing, total: basePricing.total + addSupport };
+  const pricing = { ...basePricing, total: Number((basePricing.total + addSupport).toFixed(2)) };
 
   const applyPromo = async () => {
     if (!promoInput.trim()) return;
@@ -255,17 +256,13 @@ export default function CheckoutModal({ product, onClose }) {
                   </div>
                 )}
                 <div className="flex justify-between text-foreground/70">
-                  <span>Shipping</span>
-                  <span>${pricing.shipping.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-foreground/70">
-                  <span>GST (10%)</span>
-                  <span>${pricing.gst.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between text-foreground/70">
-                  <span>Service & handling (5%)</span>
-                  <span>${pricing.fee.toFixed(2)}</span>
-                </div>
+                   <span>Shipping</span>
+                   <span>${pricing.shipping.toFixed(2)}</span>
+                 </div>
+                 <div className="flex justify-between text-muted-foreground text-xs">
+                   <span>GST included in price</span>
+                   <span>(${pricing.gstIncluded.toFixed(2)})</span>
+                 </div>
                 {addSupport > 0 && (
                   <div className="flex justify-between text-primary">
                     <span>Support contribution</span>
