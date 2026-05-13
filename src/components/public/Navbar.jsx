@@ -14,7 +14,6 @@ const NAV_LINKS = [
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
   { label: 'Store', path: '/store' },
-  { label: 'Order Status', path: '/order-status' },
   { label: 'Contact', path: '/contact' },
   { label: 'Back This 🤍', path: '/back-this', highlight: true },
 ];

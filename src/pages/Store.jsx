@@ -9,8 +9,8 @@ import { useToast } from '@/components/ui/use-toast';
 
 // Badge config per product id
 const PRODUCT_BADGES = {
-  '69f11d1fc43e13c61fe6b9d6': { label: 'Deluxe · Signed', color: 'bg-primary/20 text-primary border-primary/40' },
-  '69eed3e64e2da78ae4418a9d': { label: 'Slim Case', color: 'bg-secondary text-muted-foreground border-border/40' },
+  '69f11d1fc43e13c61fe6b9d6': { label: 'Slim Case', color: 'bg-secondary text-muted-foreground border-border/40' },
+  '69eed3e64e2da78ae4418a9d': { label: 'Deluxe · Signed', color: 'bg-primary/20 text-primary border-primary/40' },
   '69f11d1fc43e13c61fe6b9d7': { label: 'Pre-order Open', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
   '69eed3e64e2da78ae4418a9a': { label: 'Open for Orders', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
 };
@@ -18,7 +18,7 @@ const PRODUCT_BADGES = {
 // Per-product config: mode + messaging
 const PRODUCT_CONFIG = {
   '69f11d1fc43e13c61fe6b9d6': { mode: 'buy', label: 'Order Now — $10', sub: 'Pre-order · Ships from 05 June 2026' },
-  '69eed3e64e2da78ae4418a9d': { mode: 'buy', label: 'Order Now — $20', sub: 'Pre-order · Ships from 05 June 2026' },
+  '69eed3e64e2da78ae4418a9d': { mode: 'buy', label: 'Order Now — $20', sub: 'Pre-order · Signed · Ships from 05 June 2026' },
   '69f11d1fc43e13c61fe6b9d7': { mode: 'buy', label: 'Pre-order Interest', sub: 'Shipping currently delayed — details at checkout' },
   '69eed3e64e2da78ae4418a99': { mode: 'soldout', label: 'Sold Out', sub: null },
   '69fbd261b760426cede1b7a3': { mode: 'buy', label: 'Order Now', sub: 'Ships from 05 June 2026' },
@@ -29,21 +29,21 @@ const PRODUCT_CONFIG = {
 const FALLBACK_PRODUCTS = [
   {
     id: '69f11d1fc43e13c61fe6b9d6',
-    name: 'Thank You — Deluxe Signed CD Single',
+    name: '"Thank You" CD Single — Slim Case',
     sale_price: 10,
     category: 'cd',
     stock_quantity: 50,
     image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6fbecc91f_THANKYOUOfficialSingleCover.bmp',
-    description: 'Hand-signed by Gannon Waye. A limited, personal piece of this moment.',
+    description: 'Official debut single in a slim clear plastic jewel case.',
   },
   {
     id: '69eed3e64e2da78ae4418a9d',
-    name: '"Thank You" CD Single — Slim Case',
+    name: 'Thank You — Deluxe Signed CD Single',
     sale_price: 20,
     category: 'cd',
     stock_quantity: 40,
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c2a1369c4_1.png',
-    description: 'Presented in a slim clear plastic jewel case. Official debut single.',
+    description: 'Hand-signed by Gannon Waye. A limited, personal piece of this moment.',
   },
   {
     id: '69f11d1fc43e13c61fe6b9d7',
