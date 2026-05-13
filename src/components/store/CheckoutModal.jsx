@@ -125,7 +125,7 @@ export default function CheckoutModal({ product, onClose }) {
                 Your payment of <span className="gradient-gold-glow font-semibold">${pricing.total.toFixed(2)} AUD</span> will be processed on <strong>June 5, 2026</strong> — the day of the single launch.
               </p>
               <p className="font-body text-xs text-muted-foreground mt-1">
-                A confirmation email is on its way. Your order ships from June 5.
+                A confirmation email is on its way. Your order ships June 2026.
               </p>
             </div>
             <Button onClick={onClose} className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">
@@ -296,15 +296,6 @@ export default function CheckoutModal({ product, onClose }) {
             >
               <ArrowLeft className="w-3 h-3" /> Back to details
             </button>
-
-            {/* Shipping delay notice for apparel pre-orders */}
-            {product.category === 'apparel' && (
-              <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl px-4 py-3 mt-2">
-                <p className="font-body text-xs text-amber-300 leading-relaxed">
-                  ⚠️ <strong>Shipping notice:</strong> Pre-order interest accepted — shipping for apparel items is currently delayed. Your card will not be charged until we confirm dispatch availability. We'll email you first.
-                </p>
-              </div>
-            )}
 
             <div className="mt-4">
               <StripePaymentForm

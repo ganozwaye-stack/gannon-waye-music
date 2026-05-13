@@ -6,6 +6,7 @@ import { ShoppingBag, Tag, Heart, Bell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import CheckoutModal from '@/components/store/CheckoutModal';
 import { useToast } from '@/components/ui/use-toast';
+import ProductImageRotator from '@/components/store/ProductImageRotator';
 
 // Badge config per product id
 const PRODUCT_BADGES = {
@@ -18,12 +19,26 @@ const PRODUCT_BADGES = {
 
 // Per-product config: mode + messaging
 const PRODUCT_CONFIG = {
-  '69f11d1fc43e13c61fe6b9d6': { mode: 'buy', label: 'Order Now — $10', sub: 'Pre-order · Ships from 05 June 2026' },
-  '69eed3e64e2da78ae4418a9d': { mode: 'buy', label: 'Order Now — $20', sub: 'Pre-order · Signed · Ships from 05 June 2026' },
-  '69f11d1fc43e13c61fe6b9d7': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships from 05 June 2026' },
+  '69f11d1fc43e13c61fe6b9d6': { mode: 'buy', label: 'Order Now — $10', sub: 'Pre-order · Ships June 2026' },
+  '69eed3e64e2da78ae4418a9d': { mode: 'buy', label: 'Order Now — $20', sub: 'Pre-order · Signed · Ships June 2026' },
+  '69f11d1fc43e13c61fe6b9d7': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships June 2026' },
   '69eed3e64e2da78ae4418a99': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships July 2026' },
-  '69fbd261b760426cede1b7a3': { mode: 'buy', label: 'Order Now', sub: 'Ships from 05 June 2026' },
+  '69fbd261b760426cede1b7a3': { mode: 'buy', label: 'Order Now', sub: 'Ships June 2026' },
   '69eed3e64e2da78ae4418a9a': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships July 2026' },
+};
+
+// Multi-image galleries per product id (auto-rotates in card)
+const PRODUCT_GALLERIES = {
+  '69eed3e64e2da78ae4418a9a': [
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/39dab5737_RespectisEarnedToteBagBack.png',
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9259d695b_RespectisEarnedToteBag-Copy.png',
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6e67c609a_RespectisEarnedToteBag.png',
+  ],
+  '69eed3e64e2da78ae4418a99': [
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4b7f96472_IMG_1725.JPG',
+  ],
 };
 
 // Corrected static product data
@@ -63,7 +78,11 @@ const FALLBACK_PRODUCTS = [
     category: 'apparel',
     stock_quantity: 50,
     sizes_available: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4765f5793_generated_image.png',
+    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
+    images_array: [
+      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
+      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4b7f96472_IMG_1725.JPG',
+    ],
     description: 'Official debut single artwork on a premium oversized tee.',
   },
   {
@@ -81,7 +100,13 @@ const FALLBACK_PRODUCTS = [
     sale_price: 15,
     category: 'accessories',
     stock_quantity: 100,
-    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fe7b6b744_generated_image.png',
+    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
+    images_array: [
+      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
+      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/39dab5737_RespectisEarnedToteBagBack.png',
+      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9259d695b_RespectisEarnedToteBag-Copy.png',
+      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6e67c609a_RespectisEarnedToteBag.png',
+    ],
     description: "Large folding tote bag featuring the official 'Thank You' single cover artwork.",
   },
 ];
@@ -151,6 +176,8 @@ function ProductCard({ product, onSelect }) {
   const soldOut = !isInterest && (product.stock_quantity === 0 || cfg?.mode === 'soldout');
   const badge = PRODUCT_BADGES[product.id];
   const isCd = product.category === 'cd';
+  const galleryImages = PRODUCT_GALLERIES[product.id] || (product.images_array?.length > 0 ? product.images_array : null);
+  const singleImage = product.image_url;
 
   return (
     <motion.div
@@ -160,11 +187,19 @@ function ProductCard({ product, onSelect }) {
       className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
     >
       {/* Image */}
-      <div className={`${isCd ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 relative overflow-hidden`}>
-        {product.image_url ? (
-          <img src={product.image_url} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+      <div className="relative">
+        {galleryImages ? (
+          <ProductImageRotator
+            images={galleryImages}
+            alt={product.name}
+            aspectClass={isCd ? 'aspect-[4/3]' : 'aspect-square'}
+          />
+        ) : singleImage ? (
+          <div className={`${isCd ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 overflow-hidden`}>
+            <img src={singleImage} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          </div>
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
+          <div className={`${isCd ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 flex items-center justify-center`}>
             <ShoppingBag className="w-16 h-16 text-muted-foreground/20" />
           </div>
         )}
