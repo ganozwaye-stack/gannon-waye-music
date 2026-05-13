@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ProductReviewSection from '@/components/store/ProductReviewSection';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -98,7 +99,7 @@ export default function MerchInterestModal({ product, onClose }) {
 
   return (
     <Dialog open onOpenChange={handleClose}>
-      <DialogContent className="bg-card border-border/40 max-w-md max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-card border-border/40 max-w-lg max-h-[90vh] overflow-y-auto">
         {done ? (
           <div className="text-center py-8 space-y-4">
             <CheckCircle2 className="w-14 h-14 text-primary mx-auto" />
@@ -195,6 +196,10 @@ export default function MerchInterestModal({ product, onClose }) {
                 We'll email you before any payment is processed. Your details are never shared.
               </p>
             </form>
+
+            {product?.id && (
+              <ProductReviewSection productId={product.id} productName={product.name} />
+            )}
           </>
         )}
       </DialogContent>

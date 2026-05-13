@@ -23,11 +23,18 @@ function getEmbedInfo(url, platform) {
   return null;
 }
 
-// Native MP4 preview card with autoplay muted loop + unmute toggle
+// Native MP4 preview card with hover-to-play + unmute toggle
 function Mp4PreviewCard({ video, platformLabel, platformColor }) {
   const videoRef = useRef(null);
   const [muted, setMuted] = useState(true);
+  const [playing, setPlaying] = useState(false);
 
+  const handleMouseEnter = () => {
+    if (videoRef.current) { videoRef.current.play().catch(() => {}); setPlaying(true); }
+  };
+  const handleMouseLeave = () => {
+    if (videoRef.current) { videoRef.current.pause(); videoRef.current.currentTime = 0; setPlaying(false); }
+  };
   const toggleMute = (e) => {
     e.stopPropagation();
     if (videoRef.current) {
@@ -40,6 +47,8 @@ function Mp4PreviewCard({ video, platformLabel, platformColor }) {
     <div
       className="relative rounded-2xl overflow-hidden border border-border/40 hover:border-primary/40 transition-all bg-black group"
       style={{ aspectRatio: video.platform === 'tiktok' ? '9/16' : '1/1' }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <video
         ref={videoRef}
@@ -47,7 +56,6 @@ function Mp4PreviewCard({ video, platformLabel, platformColor }) {
         muted
         playsInline
         loop
-        autoPlay
         preload="metadata"
         className="w-full h-full object-cover"
       />

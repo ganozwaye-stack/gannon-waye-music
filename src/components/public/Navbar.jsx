@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SiteSearch from '@/components/public/SiteSearch';
 
 
+const BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5de42a778_60a7df62-cfa1-4cba-9280-c5ac4dfcbfa5.png';
+
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
   { label: 'My Story', path: '/this-is-my-life' },
@@ -12,6 +14,7 @@ const NAV_LINKS = [
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
   { label: 'Store', path: '/store' },
+  { label: 'Order Status', path: '/order-status' },
   { label: 'Contact', path: '/contact' },
   { label: 'Back This 🤍', path: '/back-this', highlight: true },
 ];
@@ -23,6 +26,15 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
+      {/* Banner strip */}
+      <div className="relative overflow-hidden" style={{ height: 48 }}>
+        <img src={BANNER_URL} alt="Thank You — Gannon Waye · 05 June 2026" className="absolute inset-0 w-full h-full object-cover object-center" style={{ objectPosition: 'center 40%' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, hsl(220,15%,6%) 0%, transparent 20%, transparent 80%, hsl(220,15%,6%) 100%)' }} />
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, hsl(220,15%,6%) 0%, transparent 30%, transparent 70%, hsl(220,15%,6%) 100%)' }} />
+        <div className="relative z-10 h-full flex items-center justify-center">
+          <p className="font-body text-[9px] tracking-[0.35em] uppercase text-foreground/60">Thank You · 05 June 2026 · All Platforms</p>
+        </div>
+      </div>
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link
           to="/"

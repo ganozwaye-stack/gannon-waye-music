@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { format } from 'date-fns';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
+import RecentActivityFeed from '@/components/community/RecentActivityFeed';
 
 const PROFANITY_LIST = [
   'fuck','shit','cunt','bitch','asshole','bastard','damn','dick','pussy','cock',
@@ -111,6 +112,8 @@ export default function Community() {
             Lifeline: <a href="tel:131114" className="text-primary hover:underline">13 11 14</a>
           </p>
         </motion.div>
+
+        <RecentActivityFeed />
 
         {/* Post Form */}
         <motion.div

@@ -1,0 +1,63 @@
+{
+  "name": "ProductReview",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "reviewer_name": {
+      "type": "string"
+    },
+    "reviewer_email": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number",
+      "description": "1-5 stars"
+    },
+    "comment": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "order_number": {
+      "type": "string"
+    },
+    "is_approved": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "product_id",
+    "reviewer_name",
+    "rating"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.is_approved": true
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -73,6 +73,7 @@ import TrainingHub from '@/pages/admin/TrainingHub';
 import AuditLog from '@/pages/admin/AuditLog';
 import OperationalStatus from '@/pages/admin/OperationalStatus';
 import Mastering from '@/pages/Mastering';
+import OrderStatus from '@/pages/OrderStatus';
 import MasteringAdmin from '@/pages/admin/MasteringAdmin';
 import Blueprint from '@/pages/admin/Blueprint';
 import SocialContentGenerator from '@/pages/admin/SocialContentGenerator';
@@ -131,6 +132,7 @@ const AuthenticatedApp = () => {
         <Route path="/impact" element={<Impact />} />
         <Route path="/bookings" element={<Bookings />} />
         <Route path="/mastering" element={<Mastering />} />
+        <Route path="/order-status" element={<OrderStatus />} />
       </Route>
 
       {/* Embed timer (no layout) */}
