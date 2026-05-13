@@ -400,6 +400,11 @@ export default function Blueprint() {
             { item: 'Submit a test merch pre-order interest and verify admin + customer emails', note: 'Store pre-orders do NOT charge today — payment not collected until June 1 2026 manually' },
             { item: 'Submit a test contact/community item and verify moderation flow', note: 'Check /admin/fans and /community' },
             { item: 'Verify all public pages load: /, /music, /store, /community, /contact, /back-this', note: 'Thank You official release date: 05 June 2026 — verify this is correct everywhere' },
+            { item: 'Connect Gmail/Google Drive integrations under gannonwayemusic@gmail.com — NOT personal Gmail', note: 'Go to Base44 Dashboard → Integrations and reconnect under the correct account before going live' },
+            { item: 'Update Gmail sender/reply-to to hello@gannonwaye.com or an authorised Gmail alias if available', note: 'Set up alias in Gmail Settings → Accounts → Send mail as, then verify ownership' },
+            { item: 'Reconnect Google Drive/Sheets integration under gannonwayemusic@gmail.com before using Drive docs or syncing orders', note: 'Any existing Google Sheets linked under personal Gmail will stop working after reconnection — update GOOGLE_SHEET_ID secret if sheet changes' },
+            { item: 'Manually migrate working docs from personal Drive to gannonwayemusic@gmail.com Drive (share-copy or Google Drive Transfer)', note: 'Base44 cannot migrate Drive files — this must be done manually in Google Drive' },
+            { item: 'Verify all backend functions using Gmail/Drive (welcomeEmail, syncOrderToSheets, sendOrderReceipt etc.) send correctly under new account', note: 'Run a test subscriber signup and test order after reconnecting to confirm' },
           ].map(({ item, note }, i) => (
             <div key={i} className="flex items-start gap-3 bg-secondary/30 rounded-xl p-3 border border-border/30">
               <div className="w-5 h-5 rounded border border-border/50 flex-shrink-0 mt-0.5" />
@@ -411,6 +416,20 @@ export default function Blueprint() {
           ))}
         </div>
       </Section>
+
+      {/* Site URLs for owner reference */}
+      <div className="bg-card border border-border/40 rounded-2xl p-5 space-y-2">
+        <p className="font-body text-[10px] tracking-widest uppercase text-muted-foreground mb-3">Site URLs</p>
+        {[
+          { label: 'Live Site', url: 'https://gannonwaye.base44.app/' },
+          { label: 'Editor / Preview', url: 'https://app.base44.com/apps/69eb7905ca6eb4180010f794/editor/preview' },
+        ].map(({ label, url }) => (
+          <div key={label} className="flex items-center justify-between gap-4 bg-secondary/30 rounded-xl px-4 py-2.5">
+            <span className="font-body text-xs text-muted-foreground uppercase tracking-wider">{label}</span>
+            <a href={url} target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline truncate">{url}</a>
+          </div>
+        ))}
+      </div>
 
       <p className="font-body text-[10px] text-muted-foreground text-center pb-4">
         Blueprint auto-refreshes live counts every 60 seconds. Static architecture reflects the current codebase.

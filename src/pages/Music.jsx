@@ -8,6 +8,10 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 import ShareButtons from '@/components/public/ShareButtons';
+import GoldShards from '@/components/public/GoldShards';
+
+// TODO: Set this to the uploaded wide Thank You black/gold banner URL when available
+const THANK_YOU_BANNER_URL = null;
 
 const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
 
@@ -61,19 +65,38 @@ export default function Music() {
   return (
     <div className="min-h-screen py-20 px-4 md:px-6">
       <div className="max-w-5xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
-          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Discography</p>
-          <h1 className="font-display text-4xl md:text-6xl text-foreground">Music</h1>
-          <Link to="/lyrics" className="inline-block mt-5">
-            <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10">
-              Read Lyrics →
-            </Button>
-          </Link>
-        </motion.div>
+        {/* Music hero with gold shards + optional banner */}
+        <div className="relative text-center mb-16 py-4">
+          <GoldShards className="rounded-3xl" />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative z-10"
+          >
+            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Discography</p>
+            <h1 className="font-display text-4xl md:text-6xl text-foreground">Music</h1>
+            {THANK_YOU_BANNER_URL && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="mt-8 max-w-3xl mx-auto rounded-2xl overflow-hidden border border-primary/20 shadow-2xl"
+              >
+                <img
+                  src={THANK_YOU_BANNER_URL}
+                  alt="Thank You — Gannon Waye · 05 June 2026"
+                  className="w-full object-cover"
+                  style={{ maxHeight: 280 }}
+                />
+              </motion.div>
+            )}
+            <Link to="/lyrics" className="inline-block mt-5">
+              <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10">
+                Read Lyrics →
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
 
         {published.length === 0 ? (
           /* Safe fallback — shows Thank You even if DB returns empty */

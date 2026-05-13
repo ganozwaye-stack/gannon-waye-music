@@ -1,32 +1,77 @@
-import React, { useState } from 'react';
-import { Play, ExternalLink } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Play, ExternalLink, Volume2, VolumeX } from 'lucide-react';
+
+const isMp4 = (url) => url && (url.endsWith('.mp4') || url.includes('.mp4?'));
 
 function getEmbedInfo(url, platform) {
   if (!url) return null;
 
   if (platform === 'instagram') {
-    // Extract shortcode from Instagram URL
     const match = url.match(/instagram\.com\/(?:reel|p)\/([A-Za-z0-9_-]+)/);
     if (match) {
-      return {
-        type: 'iframe',
-        src: `https://www.instagram.com/p/${match[1]}/embed/`,
-      };
+      return { type: 'iframe', src: `https://www.instagram.com/p/${match[1]}/embed/` };
     }
   }
 
   if (platform === 'tiktok') {
-    // Extract video ID from TikTok URL
     const match = url.match(/tiktok\.com\/@[^/]+\/video\/(\d+)/);
     if (match) {
-      return {
-        type: 'iframe',
-        src: `https://www.tiktok.com/embed/v2/${match[1]}`,
-      };
+      return { type: 'iframe', src: `https://www.tiktok.com/embed/v2/${match[1]}` };
     }
   }
 
   return null;
+}
+
+// Native MP4 preview card with autoplay muted loop + unmute toggle
+function Mp4PreviewCard({ video, platformLabel, platformColor }) {
+  const videoRef = useRef(null);
+  const [muted, setMuted] = useState(true);
+
+  const toggleMute = (e) => {
+    e.stopPropagation();
+    if (videoRef.current) {
+      videoRef.current.muted = !muted;
+      setMuted(m => !m);
+    }
+  };
+
+  return (
+    <div
+      className="relative rounded-2xl overflow-hidden border border-border/40 hover:border-primary/40 transition-all bg-black group"
+      style={{ aspectRatio: video.platform === 'tiktok' ? '9/16' : '1/1' }}
+    >
+      <video
+        ref={videoRef}
+        src={video.url || video.file_url}
+        muted
+        playsInline
+        loop
+        autoPlay
+        preload="metadata"
+        className="w-full h-full object-cover"
+      />
+      {/* Platform badge */}
+      <div className="absolute top-3 left-3 z-10">
+        <span className={`font-body text-[10px] tracking-widest uppercase px-2 py-1 rounded-full bg-background/70 ${platformColor}`}>
+          {platformLabel}
+        </span>
+      </div>
+      {/* Mute toggle */}
+      <button
+        onClick={toggleMute}
+        aria-label={muted ? 'Unmute video' : 'Mute video'}
+        className="absolute bottom-3 right-3 z-10 w-8 h-8 rounded-full bg-background/70 flex items-center justify-center text-foreground/80 hover:text-primary transition-colors"
+      >
+        {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+      </button>
+      {video.title && (
+        <div className="absolute bottom-3 left-3 right-12 z-10">
+          <p className="font-body text-xs text-white/80 truncate">{video.title}</p>
+        </div>
+      )}
+    </div>
+  );
 }
 
 export default function SocialVideoEmbed({ video, compact = false }) {
@@ -36,6 +81,11 @@ export default function SocialVideoEmbed({ video, compact = false }) {
 
   const platformColor = video.platform === 'instagram' ? 'text-pink-400' : 'text-foreground';
   const platformLabel = video.platform === 'instagram' ? 'Instagram Reel' : 'TikTok';
+
+  // Native MP4 — autoplay muted loop
+  if (isMp4(video.url || video.file_url)) {
+    return <Mp4PreviewCard video={video} platformLabel={platformLabel} platformColor={platformColor} />;
+  }
 
   if (!embedInfo) {
     // Fallback: just show a link card
