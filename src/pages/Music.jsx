@@ -10,8 +10,7 @@ import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 import ShareButtons from '@/components/public/ShareButtons';
 import GoldShards from '@/components/public/GoldShards';
 
-// TODO: Set this to the uploaded wide Thank You black/gold banner URL when available
-const THANK_YOU_BANNER_URL = null;
+const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cff3bb798_Untitleddesign.jpg';
 
 const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
 
@@ -80,14 +79,21 @@ export default function Music() {
                 initial={{ opacity: 0, scale: 0.97 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.2 }}
-                className="mt-8 max-w-3xl mx-auto rounded-2xl overflow-hidden border border-primary/20 shadow-2xl"
+                className="mt-8 max-w-3xl mx-auto relative overflow-hidden"
               >
                 <img
                   src={THANK_YOU_BANNER_URL}
                   alt="Thank You — Gannon Waye · 05 June 2026"
-                  className="w-full object-cover"
+                  className="w-full object-cover rounded-2xl"
                   style={{ maxHeight: 280 }}
                 />
+                {/* Fade all four edges into the background */}
+                <div className="absolute inset-0 rounded-2xl" style={{
+                  background: 'linear-gradient(to bottom, hsl(220,15%,6%) 0%, transparent 18%, transparent 72%, hsl(220,15%,6%) 100%)'
+                }} />
+                <div className="absolute inset-0 rounded-2xl" style={{
+                  background: 'linear-gradient(to right, hsl(220,15%,6%) 0%, transparent 15%, transparent 85%, hsl(220,15%,6%) 100%)'
+                }} />
               </motion.div>
             )}
             <Link to="/lyrics" className="inline-block mt-5">

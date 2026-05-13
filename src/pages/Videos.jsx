@@ -3,16 +3,15 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Heart, Play } from 'lucide-react';
+import { ArrowRight, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SocialVideoEmbed from '@/components/public/SocialVideoEmbed';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 import GoldShards from '@/components/public/GoldShards';
 
-// TODO: Upload the Thank You cover reveal video and replace null with the MP4/hosted URL
-const THANK_YOU_REVEAL_VIDEO_URL = null;
-// New wide banner — set URL after owner uploads the asset
-const THANK_YOU_BANNER_URL = null; // TODO: set to uploaded banner URL e.g. 'https://media.base44.com/...'
+// Reveal audio track (WAV) — plays on the Videos page featured card
+const THANK_YOU_REVEAL_AUDIO_URL = 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/26bba59da_REVEALDAY.WAV';
+const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cff3bb798_Untitleddesign.jpg';
 const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
 
 const PLATFORMS = ['all', 'instagram', 'tiktok'];
@@ -50,39 +49,30 @@ export default function Videos() {
           className="mb-12"
         >
           <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-4 text-center">Featured</p>
-          {THANK_YOU_REVEAL_VIDEO_URL ? (
-            <div className="relative rounded-2xl overflow-hidden border border-primary/30 bg-black max-w-2xl mx-auto shadow-2xl">
-              <video
-                src={THANK_YOU_REVEAL_VIDEO_URL}
-                muted playsInline loop autoPlay preload="metadata"
+          <div className="max-w-3xl mx-auto rounded-2xl overflow-hidden border border-primary/20 shadow-2xl bg-black">
+            {/* Banner image with bottom fade */}
+            <div className="relative">
+              <img
+                src={THANK_YOU_BANNER_URL}
+                alt="Thank You — Gannon Waye"
                 className="w-full object-cover"
-                style={{ maxHeight: 480 }}
+                style={{ maxHeight: 340 }}
               />
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-5">
-                <p className="font-display text-xl text-white">Thank You — Cover Reveal</p>
-                <p className="font-body text-xs text-primary mt-1">05 June 2026</p>
-              </div>
+              <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent" />
             </div>
-          ) : (
-            <div className="max-w-2xl mx-auto rounded-2xl border border-primary/20 bg-card/60 overflow-hidden">
-              {THANK_YOU_BANNER_URL ? (
-                <img src={THANK_YOU_BANNER_URL} alt="Thank You — Gannon Waye" className="w-full object-cover" style={{ maxHeight: 320 }} />
-              ) : (
-                <div className="relative aspect-video bg-gradient-to-br from-secondary/60 to-background overflow-hidden flex items-center justify-center">
-                  <img src={THANK_YOU_COVER} alt="Thank You — Gannon Waye" className="h-full w-auto object-contain opacity-70" />
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center">
-                      <Play className="w-7 h-7 text-primary" />
-                    </div>
-                  </div>
-                </div>
-              )}
-              <div className="p-5 text-center">
-                <p className="font-display text-lg text-foreground">Thank You — Cover Reveal Video</p>
-                <p className="font-body text-xs text-muted-foreground mt-1">Upload asset to enable preview · 05 June 2026</p>
-              </div>
+            {/* Audio player strip */}
+            <div className="bg-black px-6 pb-6 pt-2">
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-3">Listen — Thank You (Reveal)</p>
+              <audio
+                src={THANK_YOU_REVEAL_AUDIO_URL}
+                controls
+                className="w-full"
+                style={{ accentColor: '#f5d06e' }}
+                preload="metadata"
+              />
+              <p className="font-body text-xs text-muted-foreground mt-3 text-center">05 June 2026 · All platforms</p>
             </div>
-          )}
+          </div>
         </motion.div>
 
         {/* Filter tabs */}
