@@ -35,6 +35,7 @@ import MemberTiers from '@/pages/MemberTiers';
 import PortraitGallery from '@/pages/PortraitGallery';
 import Impact from '@/pages/Impact';
 import Bookings from '@/pages/Bookings';
+import SevenDayStandard from '@/pages/SevenDayStandard';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -131,6 +132,7 @@ const AuthenticatedApp = () => {
         <Route path="/portrait-gallery" element={<PortraitGallery />} />
         <Route path="/impact" element={<Impact />} />
         <Route path="/bookings" element={<Bookings />} />
+        <Route path="/7-day-standard" element={<SevenDayStandard />} />
         <Route path="/mastering" element={<Mastering />} />
         <Route path="/order-status" element={<OrderStatus />} />
       </Route>

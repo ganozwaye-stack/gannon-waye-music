@@ -283,8 +283,17 @@ export default function BackThis() {
                 If something in this journey has resonated with you — if you've felt seen, even for a moment — this is your way to be part of it.
               </p>
               
+              {/* Heart image */}
+              <div className="flex justify-center mt-6 mb-2">
+                <img
+                  src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/adcdec40c_GWheartlacewrap.png"
+                  alt="GW Heart"
+                  className="w-28 h-28 object-contain"
+                />
+              </div>
+
               {/* 1800RESPECT Note in Header - LEGAL COMPLIANT */}
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-6 max-w-lg mx-auto text-left">
+              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-4 max-w-lg mx-auto text-left">
                 <p className="font-body text-xs text-blue-700 leading-relaxed mb-2">
                   <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children — including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
                 </p>

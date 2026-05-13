@@ -13,6 +13,7 @@ const PRODUCT_BADGES = {
   '69eed3e64e2da78ae4418a9d': { label: 'Deluxe · Signed', color: 'bg-primary/20 text-primary border-primary/40' },
   '69f11d1fc43e13c61fe6b9d7': { label: 'Pre-order Open', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
   '69eed3e64e2da78ae4418a9a': { label: 'Open for Orders', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
+  '69eed3e64e2da78ae4418a99': { label: 'Open for Orders', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
 };
 
 // Per-product config: mode + messaging
@@ -20,9 +21,9 @@ const PRODUCT_CONFIG = {
   '69f11d1fc43e13c61fe6b9d6': { mode: 'buy', label: 'Order Now — $10', sub: 'Pre-order · Ships from 05 June 2026' },
   '69eed3e64e2da78ae4418a9d': { mode: 'buy', label: 'Order Now — $20', sub: 'Pre-order · Signed · Ships from 05 June 2026' },
   '69f11d1fc43e13c61fe6b9d7': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships from 05 June 2026' },
-  '69eed3e64e2da78ae4418a99': { mode: 'interest', label: 'Register Interest', sub: 'Not available yet — register to be notified' },
+  '69eed3e64e2da78ae4418a99': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships July 2026' },
   '69fbd261b760426cede1b7a3': { mode: 'buy', label: 'Order Now', sub: 'Ships from 05 June 2026' },
-  '69eed3e64e2da78ae4418a9a': { mode: 'interest', label: 'Register Interest', sub: 'Not available yet — register to be notified' },
+  '69eed3e64e2da78ae4418a9a': { mode: 'buy', label: 'Order Now', sub: 'Pre-order · Ships July 2026' },
 };
 
 // Corrected static product data
@@ -60,7 +61,7 @@ const FALLBACK_PRODUCTS = [
     name: 'Respect Is Earned Oversized Tee',
     sale_price: 59,
     category: 'apparel',
-    stock_quantity: 0,
+    stock_quantity: 50,
     sizes_available: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4765f5793_generated_image.png',
     description: 'Official debut single artwork on a premium oversized tee.',
