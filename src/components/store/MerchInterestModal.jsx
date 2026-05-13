@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import ProductReviewSection from '@/components/store/ProductReviewSection';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
@@ -102,6 +102,7 @@ export default function MerchInterestModal({ product, onClose }) {
       <DialogContent className="bg-card border-border/40 max-w-lg max-h-[90vh] overflow-y-auto">
         {done ? (
           <div className="text-center py-8 space-y-4">
+            <DialogTitle className="sr-only">Pre-order registered</DialogTitle>
             <CheckCircle2 className="w-14 h-14 text-primary mx-auto" />
             <h3 className="font-display text-2xl text-foreground">You're on the Pre-order List 🤍</h3>
             <p className="font-body text-sm text-foreground/70 leading-relaxed max-w-xs mx-auto">
@@ -118,9 +119,9 @@ export default function MerchInterestModal({ product, onClose }) {
                 <ShoppingBag className="w-4 h-4 text-primary" />
                 <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow">Register Pre-order Interest</p>
               </div>
-              <h2 className="font-display text-xl text-foreground leading-snug">
+              <DialogTitle className="font-display text-xl text-foreground leading-snug">
                 {product?.name || 'Gannon Waye Merch'}
-              </h2>
+              </DialogTitle>
               <div className="flex flex-col gap-2 mt-1">
                 <div className="inline-flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-lg px-3 py-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse flex-shrink-0" />

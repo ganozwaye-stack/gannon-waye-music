@@ -115,6 +115,7 @@ export default function CheckoutModal({ product, onClose }) {
         {/* SUCCESS */}
         {step === 'done' && (
           <div className="text-center py-8 space-y-4">
+            <DialogTitle className="sr-only">Order Confirmed</DialogTitle>
             <CheckCircle2 className="w-14 h-14 text-primary mx-auto" />
             <h3 className="font-display text-2xl text-foreground">Pre-order Locked In! 🤍</h3>
             <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-left space-y-2">

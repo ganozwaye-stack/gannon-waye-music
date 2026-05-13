@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
@@ -48,6 +48,7 @@ export default function EpisodeNotifyModal({ episode, onClose }) {
       <DialogContent className="bg-card border-border/40 max-w-sm">
         {done ? (
           <div className="text-center py-6 space-y-3">
+            <DialogTitle className="sr-only">Notification registered</DialogTitle>
             <CheckCircle2 className="w-12 h-12 text-primary mx-auto" />
             <p className="font-display text-xl text-foreground">You're on the list 🤍</p>
             <p className="font-body text-sm text-muted-foreground">
