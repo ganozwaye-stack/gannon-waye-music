@@ -15,10 +15,8 @@ import MerchTeaserSection from '@/components/public/MerchTeaserSection';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 import HeroQuoteRotator from '@/components/public/HeroQuoteRotator';
 import FanMediaUpload from '@/components/public/FanMediaUpload';
-import RecentActivityStrip from '@/components/public/RecentActivityStrip';
 import TikTokWelcomeBanner from '@/components/public/TikTokWelcomeBanner';
 import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
-import LiveFeedSection from '@/components/public/LiveFeedSection';
 import FanHighlightCommunity from '@/components/public/FanHighlightCommunity';
 import FeaturedVideoSection from '@/components/public/FeaturedVideoSection';
 
@@ -282,9 +280,6 @@ export default function Home() {
 
       {/* Supporter Leaderboard */}
       <SupporterLeaderboard />
-
-      {/* Recent Activity */}
-      <RecentActivityStrip />
 
       {/* Safe Space Banner */}
       <SafeSpaceBanner />
