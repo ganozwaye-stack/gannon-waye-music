@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { AGENT_REGISTRY_SEED } from '@/lib/agentRegistrySeed';
 import {
-  AlertTriangle, CheckCircle2, Clock, Brain, Shield, DollarSign,
+  AlertTriangle, CheckCircle2, Brain, Shield, DollarSign,
   Zap, TrendingUp, FileText, Globe, Music, Users, Megaphone,
   Eye, Lock, Activity, ChevronRight, Bell, Star
 } from 'lucide-react';
@@ -38,7 +37,7 @@ export default function CommandCentre() {
     queryKey: ['risk-alerts-open'],
     queryFn: () => base44.entities.RiskAlert.filter({ status: 'open' }),
   });
-  const { data: agents = [], isLoading: agentsLoading } = useQuery({
+  const { data: dbAgents = [], isLoading: agentsLoading } = useQuery({
     queryKey: ['agent-registry'],
     queryFn: () => base44.entities.AgentRegistry.list('-created_date', 200),
   });
@@ -47,9 +46,12 @@ export default function CommandCentre() {
     queryFn: () => base44.entities.AgentTaskLog.list('-created_date', 5),
   });
 
+  // Fallback to static seed if DB returns empty
+  const usingFallback = !agentsLoading && dbAgents.length === 0;
+  const agents = usingFallback ? AGENT_REGISTRY_SEED : dbAgents;
+
   const activeAgents = agents.filter(a => a.status === 'active').length;
   const criticalAlerts = openAlerts.filter(a => a.severity === 'critical').length;
-  const highAlerts = openAlerts.filter(a => a.severity === 'high').length;
 
   return (
     <div className="p-6 space-y-8 min-h-screen bg-background">
@@ -80,7 +82,14 @@ export default function CommandCentre() {
       </div>
 
       {/* Diagnostic */}
-      <p className="text-xs text-muted-foreground">Agent records loaded: {agentsLoading ? 'loading…' : agents.length}</p>
+      <p className="text-xs text-muted-foreground">
+        {agentsLoading
+          ? 'Agent records: loading…'
+          : usingFallback
+            ? `Base registry agents: ${agents.length} (DB unavailable — showing canonical seed)`
+            : `Agent records loaded: ${agents.length}`
+        }
+      </p>
 
       {/* Do Not Spend Rule Banner */}
       <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-4 flex items-start gap-3">
@@ -182,7 +191,7 @@ export default function CommandCentre() {
   );
 }
 
-function StatusCard({ icon: Icon, color, bg, label, value, link }) { // eslint-disable-line
+function StatusCard({ icon: Icon, color, bg, label, value, link }) {
   return (
     <Link to={link}>
       <Card className="hover:border-primary/30 transition-all cursor-pointer">
