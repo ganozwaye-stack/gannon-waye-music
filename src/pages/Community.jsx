@@ -53,7 +53,7 @@ export default function Community() {
     },
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newPost.content.trim() || !newPost.author_name.trim()) {
       toast({ title: 'Please fill in your name and message', variant: 'destructive' });
@@ -63,7 +63,24 @@ export default function Community() {
       toast({ title: 'Please keep it respectful 🙏', description: 'This is a safe space.', variant: 'destructive' });
       return;
     }
-    createPost.mutate({ ...newPost, status: 'pending' });
+
+    // Check if email is blocked (if email provided)
+    if (newPost.author_email?.trim()) {
+      const blocked = await base44.entities.FanPost.filter({ author_email: newPost.author_email.trim().toLowerCase(), is_blocked: true });
+      if (blocked && blocked.length > 0) {
+        toast({ title: 'Access restricted', description: 'This account has been blocked from posting.', variant: 'destructive' });
+        return;
+      }
+    }
+
+    const userAgent = navigator.userAgent || 'unavailable';
+    createPost.mutate({
+      ...newPost,
+      status: 'pending',
+      moderation_status: 'unreviewed',
+      ip_address: 'unavailable', // Base44 frontend does not expose client IP
+      user_agent: userAgent.substring(0, 500),
+    });
   };
 
   return (

@@ -1,19 +1,104 @@
 import Stripe from 'npm:stripe@14.21.0';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
 const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
 
+// ── Pricing constants (must mirror CheckoutModal) ──────────────────────────
+const AU_SHIPPING_FLAT = 12.95;
+const FREE_SHIPPING_THRESHOLD = 150;
+const DIGITAL_CATEGORIES = ['digital', 'support', 'donation'];
+
+function isInternational(address) {
+  if (!address) return false;
+  const lower = address.toLowerCase();
+  const intlKeywords = ['usa', 'united states', 'uk', 'united kingdom', 'canada', 'new zealand', 'nz', 'europe', 'india', 'singapore'];
+  return intlKeywords.some(k => lower.includes(k));
+}
+
+function serverCalcTotal({ productPrice, quantity, category, discountPercent, shippingAddress, addSupport }) {
+  const isDigital = DIGITAL_CATEGORIES.includes((category || '').toLowerCase());
+  const itemTotal = productPrice * quantity;
+  const discounted = itemTotal * (1 - discountPercent / 100);
+
+  let shipping = 0;
+  if (!isDigital) {
+    if (isInternational(shippingAddress)) {
+      shipping = 0; // Will be quoted manually — do not block payment
+    } else if (discounted >= FREE_SHIPPING_THRESHOLD) {
+      shipping = 0;
+    } else {
+      shipping = AU_SHIPPING_FLAT;
+    }
+  }
+
+  const total = discounted + shipping + (addSupport || 0);
+  return Math.round(total * 100); // cents
+}
+
+// ── CD / vinyl / music promo guard ────────────────────────────────────────
+const PROMO_EXCLUDED_FROM_MERCH = ['THANKYOU15', 'FAMILYFRIENDS30'];
+const MERCH_ONLY_CATEGORIES = ['apparel', 'accessories', 'bundle', 'poster', 'other'];
+const MUSIC_CATEGORIES = ['cd', 'vinyl', 'digital'];
+
+function validatePromoForCategory(promoCode, category) {
+  if (!promoCode) return true;
+  const code = promoCode.toUpperCase();
+  // GIFTAPPROVED25 — always requires approval (handled in validatePromoCode fn)
+  // THANKYOU15 / FAMILYFRIENDS30 — must not apply to CDs/vinyl/digital
+  if (PROMO_EXCLUDED_FROM_MERCH.includes(code) && MUSIC_CATEGORIES.includes((category || '').toLowerCase())) {
+    return false;
+  }
+  return true;
+}
+
 Deno.serve(async (req) => {
   try {
-    const { amount, currency, customerEmail, customerName, productName, metadata, mode } = await req.json();
+    const base44 = createClientFromRequest(req);
+    const body = await req.json();
+    const { amount, currency, customerEmail, customerName, productName, metadata, mode } = body;
 
     if (!customerEmail) {
       return Response.json({ error: 'Missing customerEmail' }, { status: 400 });
     }
 
-    // ── PRE-ORDER / SETUP MODE ──────────────────────────────────────────────
-    // Saves the card now. Actual charge happens June 1 2026 (off-session).
+    // ── Server-side price recalculation ───────────────────────────────────
+    let verifiedAmountCents = null;
+
+    if (metadata?.product_id) {
+      // Fetch product from DB to get authoritative price
+      const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: metadata.product_id });
+      if (products && products.length > 0) {
+        const product = products[0];
+        const productPrice = product.sale_price ?? product.price ?? 0;
+        const quantity = parseInt(metadata.quantity || '1', 10);
+        const category = product.category || metadata.product_category || '';
+
+        // Validate promo eligibility for category
+        const promoCode = metadata.promo_code || '';
+        const discountPercent = validatePromoForCategory(promoCode, category)
+          ? parseFloat(metadata.promo_discount_percent || '0')
+          : 0;
+
+        const addSupport = parseFloat(metadata.add_support || '0');
+        const shippingAddress = metadata.shipping_address || '';
+
+        verifiedAmountCents = serverCalcTotal({
+          productPrice,
+          quantity,
+          category,
+          discountPercent,
+          shippingAddress,
+          addSupport,
+        });
+      }
+    }
+
+    // Fall back to client-provided amount if we can't verify (e.g. support-only orders)
+    const clientAmountCents = Math.round((amount || 0) * 100);
+    const finalAmountCents = verifiedAmountCents !== null ? verifiedAmountCents : clientAmountCents;
+
+    // ── PRE-ORDER / SETUP MODE ─────────────────────────────────────────────
     if (mode === 'setup') {
-      // Find or create Stripe customer so we can charge off-session later
       const existing = await stripe.customers.list({ email: customerEmail, limit: 1 });
       const customer = existing.data.length > 0
         ? existing.data[0]
@@ -29,8 +114,8 @@ Deno.serve(async (req) => {
         metadata: {
           customer_name: customerName || '',
           product_name: productName || '',
-          charge_amount_cents: String(Math.round((amount || 0) * 100)),
-          charge_date: '2026-06-01',
+          charge_amount_cents: String(finalAmountCents),
+          charge_date: '2026-06-05',
           ...(metadata || {}),
         },
       });
@@ -40,16 +125,17 @@ Deno.serve(async (req) => {
         setupIntentId: setupIntent.id,
         customerId: customer.id,
         mode: 'setup',
+        verified_amount_aud: (finalAmountCents / 100).toFixed(2),
       });
     }
 
-    // ── IMMEDIATE PAYMENT MODE ──────────────────────────────────────────────
-    if (!amount) {
+    // ── IMMEDIATE PAYMENT MODE ─────────────────────────────────────────────
+    if (!finalAmountCents || finalAmountCents <= 0) {
       return Response.json({ error: 'Amount required for payment mode' }, { status: 400 });
     }
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount * 100),
+      amount: finalAmountCents,
       currency: currency || 'aud',
       receipt_email: customerEmail,
       description: `${productName || 'Purchase'} — Gannon Waye`,
@@ -65,6 +151,7 @@ Deno.serve(async (req) => {
       clientSecret: paymentIntent.client_secret,
       paymentIntentId: paymentIntent.id,
       mode: 'payment',
+      verified_amount_aud: (finalAmountCents / 100).toFixed(2),
     });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });

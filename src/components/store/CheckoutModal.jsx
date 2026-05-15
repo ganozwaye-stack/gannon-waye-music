@@ -9,21 +9,53 @@ import { ShoppingBag, CheckCircle2, Tag, X, ArrowLeft, Minus, Plus } from 'lucid
 import { useQueryClient } from '@tanstack/react-query';
 import StripePaymentForm from './StripePaymentForm';
 
-// Pricing constants
-// GST is INCLUDED in the listed price (Australian law — prices are GST-inclusive)
-// GST component = price / 11  (i.e. 10/110)
-const SHIPPING_CD = 4;      // AUD letter/padded envelope
-const SHIPPING_APPAREL = 9; // AUD standard parcel
-const SHIPPING_OTHER = 7;   // AUD standard
+// Pricing constants — flat-rate Australian shipping
+// GST is INCLUDED in listed prices (Australian law — prices are GST-inclusive)
+// GST component = total / 11 (i.e. 10/110)
+const AU_SHIPPING_FLAT = 12.95;
+const FREE_SHIPPING_THRESHOLD = 150; // AUD merch subtotal after discount
 
-function calcPricing(basePrice, category, discountPercent = 0) {
-  const shipping = category === 'cd' ? SHIPPING_CD : category === 'apparel' ? SHIPPING_APPAREL : SHIPPING_OTHER;
+// Digital/support-only categories that never attract shipping
+const DIGITAL_CATEGORIES = ['digital', 'support', 'donation'];
+
+function isInternational(address) {
+  if (!address) return false;
+  const lower = address.toLowerCase();
+  // If address contains known non-AU indicators
+  const intlKeywords = ['usa', 'united states', 'uk', 'united kingdom', 'canada', 'new zealand', 'nz', 'europe', 'india', 'singapore'];
+  return intlKeywords.some(k => lower.includes(k));
+}
+
+function calcPricing(basePrice, category, discountPercent = 0, shippingAddress = '') {
+  const isDigital = DIGITAL_CATEGORIES.includes((category || '').toLowerCase());
   const discounted = basePrice * (1 - discountPercent / 100);
+  // Discount applies to product only, not shipping
+  const discount = basePrice - discounted;
+
+  let shipping = 0;
+  let shippingLabel = 'Free';
+  let internationalQuote = false;
+
+  if (!isDigital) {
+    if (isInternational(shippingAddress)) {
+      shipping = 0;
+      shippingLabel = 'Quote required';
+      internationalQuote = true;
+    } else if (discounted >= FREE_SHIPPING_THRESHOLD) {
+      shipping = 0;
+      shippingLabel = 'Free (order ≥ $150)';
+    } else {
+      shipping = AU_SHIPPING_FLAT;
+      shippingLabel = `$${AU_SHIPPING_FLAT.toFixed(2)} AUD`;
+    }
+  }
+
   const subtotal = discounted + shipping;
-  // GST is already included in Australian prices — extract for disclosure only
-  const gstIncluded = subtotal / 11;
+  // GST is already included in Australian prices — extract for display only
+  const gstIncluded = isDigital ? 0 : subtotal / 11;
   const total = subtotal;
-  return { discounted, shipping, gstIncluded, total, discount: basePrice - discounted };
+
+  return { discounted, discount, shipping, shippingLabel, internationalQuote, gstIncluded, total };
 }
 
 export default function CheckoutModal({ product, onClose }) {
@@ -40,9 +72,10 @@ export default function CheckoutModal({ product, onClose }) {
 
   const [quantity, setQuantity] = useState(1);
   const [addSupport, setAddSupport] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
   const hasSize = product.sizes_available?.length > 0;
   const productPrice = product.sale_price ?? product.price ?? 0;
-  const basePricing = calcPricing(productPrice * quantity, product.category, appliedPromo?.discount_percent || 0);
+  const basePricing = calcPricing(productPrice * quantity, product.category, appliedPromo?.discount_percent || 0, form.shipping_address);
   const pricing = { ...basePricing, total: Number((basePricing.total + addSupport).toFixed(2)) };
 
   const applyPromo = async () => {
@@ -105,6 +138,7 @@ export default function CheckoutModal({ product, onClose }) {
   };
 
   const handlePaymentError = (message) => {
+    setSubmitting(false);
     toast({ title: message || 'Payment failed. Please try again.', variant: 'destructive' });
   };
 
@@ -247,7 +281,7 @@ export default function CheckoutModal({ product, onClose }) {
               {/* Price Breakdown */}
               <div className="bg-secondary/40 rounded-xl p-4 space-y-2 text-sm font-body">
                 <div className="flex justify-between text-foreground/70">
-                  <span>Item{quantity > 1 ? ` × ${quantity}` : ''}</span>
+                  <span>Subtotal{quantity > 1 ? ` × ${quantity}` : ''}</span>
                   <span>${(productPrice * quantity).toFixed(2)}</span>
                 </div>
                 {appliedPromo && (
@@ -257,22 +291,29 @@ export default function CheckoutModal({ product, onClose }) {
                   </div>
                 )}
                 <div className="flex justify-between text-foreground/70">
-                   <span>Shipping</span>
-                   <span>${pricing.shipping.toFixed(2)}</span>
-                 </div>
-                 <div className="flex justify-between text-muted-foreground text-xs">
-                   <span>GST included in price</span>
-                   <span>(${pricing.gstIncluded.toFixed(2)})</span>
-                 </div>
+                  <span>Shipping (Australia)</span>
+                  <span className={pricing.shipping === 0 && !pricing.internationalQuote ? 'text-green-400' : ''}>
+                    {pricing.internationalQuote ? 'Quote required' : pricing.shipping === 0 ? 'Free' : `$${pricing.shipping.toFixed(2)}`}
+                  </span>
+                </div>
+                {pricing.internationalQuote && (
+                  <p className="text-xs text-amber-400">International shipping: we'll contact you with a quote before dispatch.</p>
+                )}
+                {pricing.gstIncluded > 0 && (
+                  <div className="flex justify-between text-muted-foreground text-xs">
+                    <span>Includes GST</span>
+                    <span>(${pricing.gstIncluded.toFixed(2)})</span>
+                  </div>
+                )}
                 {addSupport > 0 && (
                   <div className="flex justify-between text-primary">
-                    <span>Support contribution</span>
+                    <span>Support contribution 🤍</span>
                     <span>+${addSupport.toFixed(2)}</span>
                   </div>
                 )}
                 <div className="flex justify-between font-semibold text-foreground border-t border-border/40 pt-2">
                   <span>Total</span>
-                  <span className="gradient-gold-glow">${pricing.total.toFixed(2)}</span>
+                  <span className="gradient-gold-glow">${pricing.total.toFixed(2)} AUD</span>
                 </div>
               </div>
 
@@ -307,9 +348,15 @@ export default function CheckoutModal({ product, onClose }) {
                 productName={product.name}
                 metadata={{
                   product_id: product.id,
+                  product_category: product.category,
                   size: selectedSize,
+                  quantity: String(quantity),
                   shipping_address: form.shipping_address,
                   promo_code: appliedPromo?.code || '',
+                  promo_discount_percent: String(appliedPromo?.discount_percent || 0),
+                  add_support: String(addSupport),
+                  shipping_amount: String(pricing.internationalQuote ? 0 : pricing.shipping),
+                  gst_included: String(pricing.gstIncluded.toFixed(2)),
                 }}
                 onSuccess={handlePaymentSuccess}
                 onError={handlePaymentError}

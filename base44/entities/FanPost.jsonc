@@ -29,6 +29,38 @@
       ],
       "default": "pending",
       "description": "Moderation status"
+    },
+    "is_blocked": {
+      "type": "boolean",
+      "default": false,
+      "description": "Set true to block this submitter from future posts"
+    },
+    "blocked_reason": {
+      "type": "string",
+      "description": "Admin reason for block"
+    },
+    "ip_address": {
+      "type": "string",
+      "description": "Submitter IP address if available from request context, else 'unavailable'"
+    },
+    "ip_hash": {
+      "type": "string",
+      "description": "SHA-256 hash of IP for privacy-safe deduplication"
+    },
+    "user_agent": {
+      "type": "string",
+      "description": "Browser user agent string at time of submission"
+    },
+    "moderation_status": {
+      "type": "string",
+      "enum": [
+        "unreviewed",
+        "clean",
+        "flagged",
+        "blocked"
+      ],
+      "default": "unreviewed",
+      "description": "Admin moderation flag"
     }
   },
   "required": [
