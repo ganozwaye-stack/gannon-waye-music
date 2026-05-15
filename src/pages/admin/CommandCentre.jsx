@@ -40,7 +40,7 @@ export default function CommandCentre() {
   });
   const { data: agents = [] } = useQuery({
     queryKey: ['agent-registry'],
-    queryFn: () => base44.entities.AgentRegistry.list(),
+    queryFn: () => base44.entities.AgentRegistry.list('-created_date', 200),
   });
   const { data: recentLogs = [] } = useQuery({
     queryKey: ['agent-task-log-recent'],
