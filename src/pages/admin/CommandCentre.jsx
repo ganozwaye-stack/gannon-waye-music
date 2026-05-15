@@ -38,9 +38,10 @@ export default function CommandCentre() {
     queryKey: ['risk-alerts-open'],
     queryFn: () => base44.entities.RiskAlert.filter({ status: 'open' }),
   });
-  const { data: agents = [] } = useQuery({
-    queryKey: ['agent-registry'],
+  const { data: agents = [], isLoading: agentsLoading } = useQuery({
+    queryKey: ['agent-registry-command', 200],
     queryFn: () => base44.entities.AgentRegistry.list('-created_date', 200),
+    staleTime: 0,
   });
   const { data: recentLogs = [] } = useQuery({
     queryKey: ['agent-task-log-recent'],
@@ -66,7 +67,7 @@ export default function CommandCentre() {
             </Badge>
           )}
           <Badge className="bg-primary/20 text-primary border-primary/30">
-            {activeAgents} Active Agents
+            {agentsLoading ? '…' : activeAgents} Active / {agentsLoading ? '…' : agents.length} Total
           </Badge>
         </div>
       </div>
@@ -78,6 +79,9 @@ export default function CommandCentre() {
         <StatusCard icon={Brain} color="text-purple-400" bg="bg-purple-500/10" label="Agents Registered" value={agents.length} link="/admin/agent-registry" />
         <StatusCard icon={Activity} color="text-green-400" bg="bg-green-500/10" label="Tasks Logged Today" value={recentLogs.length} link="/admin/agent-task-log" />
       </div>
+
+      {/* Diagnostic */}
+      <p className="text-xs text-muted-foreground">Agent records loaded: {agentsLoading ? 'loading…' : agents.length}</p>
 
       {/* Do Not Spend Rule Banner */}
       <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-4 flex items-start gap-3">
