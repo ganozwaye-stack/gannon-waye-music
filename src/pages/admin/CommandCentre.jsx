@@ -39,9 +39,8 @@ export default function CommandCentre() {
     queryFn: () => base44.entities.RiskAlert.filter({ status: 'open' }),
   });
   const { data: agents = [], isLoading: agentsLoading } = useQuery({
-    queryKey: ['agent-registry-command', 200],
+    queryKey: ['agent-registry'],
     queryFn: () => base44.entities.AgentRegistry.list('-created_date', 200),
-    staleTime: 0,
   });
   const { data: recentLogs = [] } = useQuery({
     queryKey: ['agent-task-log-recent'],
