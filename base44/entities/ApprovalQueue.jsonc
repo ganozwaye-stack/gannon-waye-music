@@ -1,0 +1,114 @@
+{
+  "name": "ApprovalQueue",
+  "type": "object",
+  "properties": {
+    "agent_name": {
+      "type": "string"
+    },
+    "action_title": {
+      "type": "string"
+    },
+    "action_description": {
+      "type": "string"
+    },
+    "risk_type": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "financial",
+          "legal",
+          "reputation",
+          "brand",
+          "data_deletion",
+          "commitment",
+          "publishing",
+          "payment_settings",
+          "pricing",
+          "subscription",
+          "ads"
+        ]
+      }
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "edited",
+        "scheduled",
+        "archived",
+        "escalated",
+        "in_review"
+      ],
+      "default": "pending"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "proposed_output": {
+      "type": "string"
+    },
+    "final_output": {
+      "type": "string"
+    },
+    "decision_note": {
+      "type": "string"
+    },
+    "decided_by": {
+      "type": "string"
+    },
+    "decided_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "auto_eligible": {
+      "type": "boolean",
+      "default": false
+    },
+    "escalate_to_professional": {
+      "type": "boolean",
+      "default": false
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "agent_name",
+    "action_title",
+    "risk_level"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

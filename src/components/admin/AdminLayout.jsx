@@ -1,12 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X, Zap, Book } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
 import GlobalSearch from '@/components/global/GlobalSearch';
 import CommandPalette from '@/components/global/CommandPalette';
 
 const NAV_SECTIONS = [
+  {
+    title: '⚡ AI Operating System',
+    items: [
+      { label: '🧠 Command Centre', path: '/admin/command-centre', icon: Brain },
+      { label: 'Orchestrator AI', path: '/admin/orchestrator-chat', icon: Zap },
+      { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain },
+      { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
+      { label: 'Risk Alerts', path: '/admin/risk-alerts', icon: Eye },
+      { label: 'Knowledge Vault', path: '/admin/knowledge-vault', icon: Lock },
+      { label: 'Legal Dashboard', path: '/admin/legal-dashboard', icon: Shield },
+      { label: 'Wealth Dashboard', path: '/admin/wealth-dashboard', icon: DollarSign },
+      { label: 'Research Hub', path: '/admin/research-hub', icon: Eye },
+      { label: 'Creative Studio', path: '/admin/creative-studio', icon: Sparkles },
+      { label: 'Marketing Centre', path: '/admin/marketing-centre', icon: Megaphone },
+      { label: 'Social Command', path: '/admin/social-command', icon: Users },
+      { label: 'Security Centre', path: '/admin/security-centre', icon: Lock },
+      { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp },
+      { label: 'Website Ops', path: '/admin/website-ops', icon: Globe },
+      { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Activity },
+    ]
+  },
   {
     title: 'Overview',
     items: [

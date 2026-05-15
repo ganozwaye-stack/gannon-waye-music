@@ -1,0 +1,71 @@
+{
+  "name": "AgentTaskLog",
+  "type": "object",
+  "properties": {
+    "agent_name": {
+      "type": "string"
+    },
+    "task_title": {
+      "type": "string"
+    },
+    "task_description": {
+      "type": "string"
+    },
+    "outcome": {
+      "type": "string"
+    },
+    "was_automatic": {
+      "type": "boolean",
+      "default": true
+    },
+    "required_approval": {
+      "type": "boolean",
+      "default": false
+    },
+    "approval_id": {
+      "type": "string"
+    },
+    "source_used": {
+      "type": "string"
+    },
+    "risk_check_result": {
+      "type": "string",
+      "enum": [
+        "pass",
+        "blocked",
+        "escalated"
+      ]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "duration_ms": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "agent_name",
+    "task_title"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

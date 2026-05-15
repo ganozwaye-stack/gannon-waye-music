@@ -1,0 +1,99 @@
+{
+  "name": "KnowledgeVault",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "personal_profile",
+        "brand_profile",
+        "business_profile",
+        "legal",
+        "creative",
+        "website",
+        "email_archive",
+        "social_archive",
+        "research",
+        "financial",
+        "decision_history",
+        "action_history",
+        "evidence",
+        "important_dates",
+        "risks_protections",
+        "other"
+      ]
+    },
+    "content": {
+      "type": "string",
+      "maxLength": 50000
+    },
+    "summary": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "file_url": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "is_sensitive": {
+      "type": "boolean",
+      "default": false
+    },
+    "access_level": {
+      "type": "string",
+      "enum": [
+        "admin_only",
+        "team",
+        "public"
+      ],
+      "default": "admin_only"
+    },
+    "linked_agent": {
+      "type": "string"
+    },
+    "version": {
+      "type": "number",
+      "default": 1
+    },
+    "is_archived": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "title",
+    "category"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,147 @@
+{
+  "name": "AgentRegistry",
+  "type": "object",
+  "properties": {
+    "agent_name": {
+      "type": "string"
+    },
+    "group": {
+      "type": "string",
+      "enum": [
+        "personal",
+        "communication",
+        "legal",
+        "research",
+        "creative",
+        "website",
+        "marketing",
+        "social",
+        "business",
+        "finance",
+        "systems",
+        "security",
+        "orchestrator"
+      ]
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "testing",
+        "error",
+        "disabled"
+      ],
+      "default": "inactive"
+    },
+    "approval_level": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "low_risk_auto",
+        "always_approve"
+      ],
+      "default": "low_risk_auto"
+    },
+    "financial_risk": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "none"
+    },
+    "legal_risk": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "none"
+    },
+    "reputation_risk": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "none"
+    },
+    "tools_allowed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tools_blocked": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "connected_systems": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "memory_access": {
+      "type": "string",
+      "enum": [
+        "none",
+        "read",
+        "read_write"
+      ],
+      "default": "read"
+    },
+    "last_action": {
+      "type": "string"
+    },
+    "last_output": {
+      "type": "string"
+    },
+    "owner": {
+      "type": "string",
+      "default": "ganozwaye@gmail.com"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "agent_name",
+    "group",
+    "purpose"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

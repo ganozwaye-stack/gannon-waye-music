@@ -78,6 +78,22 @@ import OrderStatus from '@/pages/OrderStatus';
 import MasteringAdmin from '@/pages/admin/MasteringAdmin';
 import Blueprint from '@/pages/admin/Blueprint';
 import SocialContentGenerator from '@/pages/admin/SocialContentGenerator';
+import CommandCentre from '@/pages/admin/CommandCentre';
+import AgentRegistryPage from '@/pages/admin/AgentRegistry';
+import ApprovalQueuePage from '@/pages/admin/ApprovalQueue';
+import KnowledgeVaultPage from '@/pages/admin/KnowledgeVault';
+import RiskAlertsPage from '@/pages/admin/RiskAlerts';
+import OrchestratorChat from '@/pages/admin/OrchestratorChat';
+import LegalDashboard from '@/pages/admin/LegalDashboard';
+import WealthDashboard from '@/pages/admin/WealthDashboard';
+import ResearchHub from '@/pages/admin/ResearchHub';
+import CreativeStudio from '@/pages/admin/CreativeStudio';
+import MarketingCentre from '@/pages/admin/MarketingCentre';
+import SocialCommand from '@/pages/admin/SocialCommand';
+import SecurityCentre from '@/pages/admin/SecurityCentre';
+import AgentTaskLogPage from '@/pages/admin/AgentTaskLog';
+import TrendMonitor from '@/pages/admin/TrendMonitor';
+import WebsiteOps from '@/pages/admin/WebsiteOps';
 
 
 const AuthenticatedApp = () => {
@@ -179,6 +195,22 @@ const AuthenticatedApp = () => {
         <Route path="/admin/mastering" element={<MasteringAdmin />} />
         <Route path="/admin/blueprint" element={<Blueprint />} />
         <Route path="/admin/social-content" element={<SocialContentGenerator />} />
+        <Route path="/admin/command-centre" element={<CommandCentre />} />
+        <Route path="/admin/agent-registry" element={<AgentRegistryPage />} />
+        <Route path="/admin/approval-queue" element={<ApprovalQueuePage />} />
+        <Route path="/admin/knowledge-vault" element={<KnowledgeVaultPage />} />
+        <Route path="/admin/risk-alerts" element={<RiskAlertsPage />} />
+        <Route path="/admin/orchestrator-chat" element={<OrchestratorChat />} />
+        <Route path="/admin/legal-dashboard" element={<LegalDashboard />} />
+        <Route path="/admin/wealth-dashboard" element={<WealthDashboard />} />
+        <Route path="/admin/research-hub" element={<ResearchHub />} />
+        <Route path="/admin/creative-studio" element={<CreativeStudio />} />
+        <Route path="/admin/marketing-centre" element={<MarketingCentre />} />
+        <Route path="/admin/social-command" element={<SocialCommand />} />
+        <Route path="/admin/security-centre" element={<SecurityCentre />} />
+        <Route path="/admin/agent-task-log" element={<AgentTaskLogPage />} />
+        <Route path="/admin/trend-monitor" element={<TrendMonitor />} />
+        <Route path="/admin/website-ops" element={<WebsiteOps />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
