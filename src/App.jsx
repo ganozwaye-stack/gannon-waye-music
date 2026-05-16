@@ -95,6 +95,7 @@ import AgentTaskLogPage from '@/pages/admin/AgentTaskLog';
 import TrendMonitor from '@/pages/admin/TrendMonitor';
 import WebsiteOps from '@/pages/admin/WebsiteOps';
 import SocialMonitor from '@/pages/admin/SocialMonitor';
+import ContentDashboard from '@/pages/admin/ContentDashboard';
 
 
 const AuthenticatedApp = () => {
@@ -213,6 +214,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/trend-monitor" element={<TrendMonitor />} />
         <Route path="/admin/website-ops" element={<WebsiteOps />} />
         <Route path="/admin/social-monitor" element={<SocialMonitor />} />
+        <Route path="/admin/content-dashboard" element={<ContentDashboard />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

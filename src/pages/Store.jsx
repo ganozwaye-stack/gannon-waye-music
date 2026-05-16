@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Heart, Bell, Sparkles } from 'lucide-react';
+import { ShoppingBag, Heart, Bell, Sparkles, ShoppingCart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
+import CheckoutModal from '@/components/store/CheckoutModal';
 
 // Badge config per product id
 const PRODUCT_BADGES = {
@@ -16,8 +17,8 @@ const PRODUCT_BADGES = {
   '69eed3e64e2da78ae4418a99': { label: 'Open for Orders', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
 };
 
-// Store is closed — all products show interest/notify button only
-const STORE_OPEN = false;
+// Store is OPEN — products show buy button
+const STORE_OPEN = true;
 
 // Per-product config: sub-label only (no buy mode while store closed)
 const PRODUCT_CONFIG = {
@@ -183,6 +184,7 @@ function InterestButton({ productId, productName }) {
 }
 
 function ProductCard({ product }) {
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const price = product.sale_price ?? product.price;
   const cfg = PRODUCT_CONFIG[product.id];
   const badge = PRODUCT_BADGES[product.id];
@@ -191,47 +193,72 @@ function ProductCard({ product }) {
   const singleImage = product.image_url;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
-    >
-      {/* Image */}
-      <div className="relative">
-        {galleryImages ? (
-          <ProductImageRotator
-            images={galleryImages}
-            alt={product.name}
-            aspectClass={isCd ? 'aspect-[4/3]' : 'aspect-square'}
-          />
-        ) : singleImage ? (
-          <div className={`${isCd ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 overflow-hidden`}>
-            <img src={singleImage} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
+      >
+        {/* Image */}
+        <div className="relative">
+          {galleryImages ? (
+            <ProductImageRotator
+              images={galleryImages}
+              alt={product.name}
+              aspectClass={isCd ? 'aspect-[4/3]' : 'aspect-square'}
+            />
+          ) : singleImage ? (
+            <div className={`${isCd ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 overflow-hidden`}>
+              <img src={singleImage} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
+          ) : (
+            <div className={`${isCd ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 flex items-center justify-center`}>
+              <ShoppingBag className="w-16 h-16 text-muted-foreground/20" />
+            </div>
+          )}
+          <div className="absolute top-3 left-3 z-10">
+            {badge ? (
+              <span className={`font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 ${badge.color}`}>
+                {badge.label}
+              </span>
+            ) : (
+              <span className="font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 bg-green-500/15 text-green-400 border-green-500/30">
+                Available Now
+              </span>
+            )}
           </div>
-        ) : (
-          <div className={`${isCd ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 flex items-center justify-center`}>
-            <ShoppingBag className="w-16 h-16 text-muted-foreground/20" />
-          </div>
-        )}
-        <div className="absolute top-3 left-3 z-10">
-          <span className="font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 bg-amber-500/15 text-amber-400 border-amber-500/30">
-            Coming Soon
-          </span>
         </div>
-      </div>
 
-      {/* Footer */}
-      <div className="p-4 border-t border-border/30 bg-card/20">
-        <p className="font-display text-sm text-foreground leading-snug">{product.name}</p>
-        <p className="font-body text-sm gradient-gold-glow mt-1 font-medium">${price} AUD</p>
-        {cfg?.sub && (
-          <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
-        )}
+        {/* Footer */}
+        <div className="p-4 border-t border-border/30 bg-card/20">
+          <p className="font-display text-sm text-foreground leading-snug">{product.name}</p>
+          <p className="font-body text-sm gradient-gold-glow mt-1 font-medium">${price} AUD</p>
+          {cfg?.sub && (
+            <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
+          )}
 
-        <InterestButton productId={product.id} productName={product.name} />
-      </div>
-    </motion.div>
+          {STORE_OPEN ? (
+            <button
+              onClick={() => setCheckoutOpen(true)}
+              className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 gradient-gold-button hover:opacity-90"
+            >
+              <ShoppingCart className="w-3.5 h-3.5" /> Buy Now
+            </button>
+          ) : (
+            <InterestButton productId={product.id} productName={product.name} />
+          )}
+        </div>
+      </motion.div>
+
+      {checkoutOpen && (
+        <CheckoutModal
+          product={product}
+          isOpen={checkoutOpen}
+          onClose={() => setCheckoutOpen(false)}
+        />
+      )}
+    </>
   );
 }
 
@@ -260,10 +287,10 @@ export default function Store() {
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Official</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Merch</h1>
-          <div className="inline-flex items-center gap-2 bg-amber-500/10 border border-amber-500/30 rounded-xl px-5 py-3 mb-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-            <p className="font-body text-xs text-amber-300">
-              Store opening soon — register your interest below and be <strong>first to order</strong> when we go live.
+          <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-xl px-5 py-3 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+            <p className="font-body text-xs text-green-300">
+              Store is <strong>open</strong> — order now. Shipping Australia-wide.
             </p>
           </div>
         </motion.div>

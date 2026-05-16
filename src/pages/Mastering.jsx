@@ -1,9 +1,9 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { base44 } from '@/api/base44Client';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Upload, Music, Zap, Download, CheckCircle2, ArrowRight, ArrowLeft,
-  Loader2, AlertCircle, Info, SlidersHorizontal, Activity,
+  Loader2, AlertCircle, Info, SlidersHorizontal, Activity, Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,40 +12,64 @@ import { Slider } from '@/components/ui/slider';
 import { useToast } from '@/components/ui/use-toast';
 import { masterTrack } from '@/lib/audioDSP';
 
+// ── Design toggle — Option 2 = Cinematic (default), Option 1 = Dark Luxury Glass
+const DESIGNS = {
+  cinematic: {
+    label: 'Cinematic Editorial',
+    bg: 'bg-[#09090E]',
+    card: 'bg-[#111118] border border-white/5',
+    heading: 'font-display text-[#F5F0E8]',
+    sub: 'text-[#A09880]',
+    rule: 'bg-[#C9A84C]/30',
+    badge: 'bg-[#C9A84C]/10 text-[#C9A84C] border border-[#C9A84C]/20',
+    btn: 'gradient-gold-button',
+    input: 'bg-[#111118] border-white/10 text-[#F5F0E8] placeholder:text-[#6B6455]',
+    profileActive: 'border-[#C9A84C] bg-[#C9A84C]/5',
+    profileInactive: 'border-white/5 bg-[#111118] hover:border-[#C9A84C]/30',
+    accent: '#C9A84C',
+    number: 'font-display text-6xl text-[#C9A84C]/20 leading-none',
+  },
+  luxury: {
+    label: 'Dark Luxury Glass',
+    bg: 'bg-[#050508]',
+    card: 'bg-white/3 backdrop-blur-xl border border-white/8 shadow-2xl',
+    heading: 'font-display text-white',
+    sub: 'text-white/50',
+    rule: 'bg-gradient-to-r from-transparent via-[#FFE08A]/40 to-transparent',
+    badge: 'bg-[#FFE08A]/10 text-[#FFE08A] border border-[#FFE08A]/20',
+    btn: 'gradient-gold-button',
+    input: 'bg-white/5 border-white/10 text-white placeholder:text-white/30 backdrop-blur-sm',
+    profileActive: 'border-[#FFE08A]/50 bg-[#FFE08A]/5 shadow-lg shadow-[#FFE08A]/5',
+    profileInactive: 'border-white/5 bg-white/3 hover:border-[#FFE08A]/20',
+    accent: '#FFE08A',
+    number: 'font-display text-6xl text-[#FFE08A]/10 leading-none',
+  },
+};
+
 const ACCEPTED_EXTS = ['.wav', '.aiff', '.aif', '.flac', '.mp3'];
 const MAX_SIZE_MB = 200;
 
 const PROFILES = [
-  { value: 'streaming_master',  label: 'Streaming Master',  desc: 'Optimised for Spotify, Apple Music, YouTube · -14 LUFS target' },
-  { value: 'loud_club',         label: 'Loud Club',          desc: 'High energy, punchy, dance-floor · -8 LUFS target' },
-  { value: 'warm_analog',       label: 'Warm Analog',        desc: 'Tape warmth and harmonic saturation · -16 LUFS target' },
-  { value: 'vocal_forward',     label: 'Vocal Forward',      desc: 'Presence boost, tighter stereo, lead vocal clarity' },
-  { value: 'cinematic',         label: 'Cinematic',          desc: 'Wide stereo field, dynamic, film-score · -18 LUFS target' },
-  { value: 'acoustic',          label: 'Acoustic',           desc: 'Natural, open, transparent — no saturation' },
-  { value: 'aggressive_modern', label: 'Aggressive Modern',  desc: 'Heavy saturation, hard limit · -7 LUFS target' },
+  { value: 'streaming_master', label: 'Streaming Master', desc: 'Optimised for Spotify, Apple Music, YouTube · -14 LUFS', num: '01' },
+  { value: 'loud_club', label: 'Loud Club', desc: 'High energy, punchy, dance-floor · -8 LUFS', num: '02' },
+  { value: 'warm_analog', label: 'Warm Analog', desc: 'Tape warmth and harmonic saturation · -16 LUFS', num: '03' },
+  { value: 'vocal_forward', label: 'Vocal Forward', desc: 'Presence boost, tighter stereo, lead vocal clarity', num: '04' },
+  { value: 'cinematic', label: 'Cinematic', desc: 'Wide stereo field, dynamic, film-score · -18 LUFS', num: '05' },
+  { value: 'acoustic', label: 'Acoustic', desc: 'Natural, open, transparent — no saturation', num: '06' },
+  { value: 'aggressive_modern', label: 'Aggressive Modern', desc: 'Heavy saturation, hard limit · -7 LUFS', num: '07' },
 ];
 
 const DEFAULT_CONTROLS = {
-  loudness: 50,
-  stereo_width: 50,
-  warmth: 50,
-  brightness: 50,
-  punch: 50,
-  vocal_presence: 50,
-  limiter_intensity: 60,
+  loudness: 50, stereo_width: 50, warmth: 50,
+  brightness: 50, punch: 50, vocal_presence: 50, limiter_intensity: 60,
 };
 
 const CONTROL_LABELS = {
-  loudness: 'Loudness',
-  stereo_width: 'Stereo Width',
-  warmth: 'Warmth',
-  brightness: 'Brightness / Air',
-  punch: 'Punch / Saturation',
-  vocal_presence: 'Vocal Presence',
-  limiter_intensity: 'Limiter Intensity',
+  loudness: 'Loudness', stereo_width: 'Stereo Width', warmth: 'Warmth',
+  brightness: 'Brightness / Air', punch: 'Punch / Saturation',
+  vocal_presence: 'Vocal Presence', limiter_intensity: 'Limiter Intensity',
 };
 
-// Browser-side pre-analysis (estimates only)
 async function analyseAudio(file) {
   return new Promise((resolve) => {
     const reader = new FileReader();
@@ -74,15 +98,8 @@ async function analyseAudio(file) {
           mono_compatible = stereo_width < 80;
         }
         ctx.close();
-        resolve({
-          lufs, peak_db,
-          dynamic_range: Math.max(2, Math.min(20, Math.round(-lufs - (-peak_db) + 4))),
-          stereo_width, clipping_detected: clipping, mono_compatible,
-          duration_seconds: Math.round(buffer.duration),
-        });
-      } catch {
-        resolve({ decode_failed: true });
-      }
+        resolve({ lufs, peak_db, dynamic_range: Math.max(2, Math.min(20, Math.round(-lufs - (-peak_db) + 4))), stereo_width, clipping_detected: clipping, mono_compatible, duration_seconds: Math.round(buffer.duration) });
+      } catch { resolve({ decode_failed: true }); }
     };
     reader.readAsArrayBuffer(file);
   });
@@ -101,6 +118,10 @@ function readinessScore(analysis) {
 
 export default function Mastering() {
   const { toast } = useToast();
+  const [design, setDesign] = useState('cinematic');
+  const [showDesignPicker, setShowDesignPicker] = useState(false);
+  const d = DESIGNS[design];
+
   const [step, setStep] = useState('upload');
   const [dragging, setDragging] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -119,14 +140,8 @@ export default function Mastering() {
 
   const validateFile = (f) => {
     const ext = '.' + f.name.split('.').pop().toLowerCase();
-    if (!ACCEPTED_EXTS.includes(ext)) {
-      toast({ title: 'Unsupported file type', description: 'WAV, AIFF, FLAC, or MP3 only', variant: 'destructive' });
-      return false;
-    }
-    if (f.size > MAX_SIZE_MB * 1024 * 1024) {
-      toast({ title: 'File too large', description: `Max ${MAX_SIZE_MB}MB`, variant: 'destructive' });
-      return false;
-    }
+    if (!ACCEPTED_EXTS.includes(ext)) { toast({ title: 'Unsupported file type', description: 'WAV, AIFF, FLAC, or MP3 only', variant: 'destructive' }); return false; }
+    if (f.size > MAX_SIZE_MB * 1024 * 1024) { toast({ title: 'File too large', description: `Max ${MAX_SIZE_MB}MB`, variant: 'destructive' }); return false; }
     return true;
   };
 
@@ -137,83 +152,40 @@ export default function Mastering() {
   };
 
   const handleDrop = useCallback((e) => {
-    e.preventDefault();
-    setDragging(false);
-    const f = e.dataTransfer.files[0];
-    if (f) selectFile(f);
+    e.preventDefault(); setDragging(false);
+    const f = e.dataTransfer.files[0]; if (f) selectFile(f);
   }, []);
 
   const handleUpload = async (e) => {
     e.preventDefault();
     if (!file) { toast({ title: 'Please select an audio file', variant: 'destructive' }); return; }
     if (!form.artist_email) { toast({ title: 'Email is required', variant: 'destructive' }); return; }
-
     setUploading(true);
     let file_url;
-    try {
-      const result = await base44.integrations.Core.UploadFile({ file });
-      file_url = result.file_url;
-    } catch {
-      toast({ title: 'Upload failed. Please try again.', variant: 'destructive' });
-      setUploading(false);
-      return;
-    }
-    setUploading(false);
-
-    setAnalysing(true);
+    try { const result = await base44.integrations.Core.UploadFile({ file }); file_url = result.file_url; }
+    catch { toast({ title: 'Upload failed. Please try again.', variant: 'destructive' }); setUploading(false); return; }
+    setUploading(false); setAnalysing(true);
     const analysisResult = await analyseAudio(file);
-    setAnalysis(analysisResult);
-    setAnalysing(false);
-
+    setAnalysis(analysisResult); setAnalysing(false);
     const { mastering_score, streaming_score } = readinessScore(analysisResult);
     const created = await base44.entities.MasteringProject.create({
-      title: form.title || file.name,
-      artist_name: form.artist_name,
-      artist_email: form.artist_email,
-      file_url,
-      file_name: file.name,
-      file_format: file.name.split('.').pop().toLowerCase(),
-      file_size_mb: parseFloat((file.size / 1024 / 1024).toFixed(2)),
-      duration_seconds: analysisResult.duration_seconds,
-      status: 'ready_to_master',
-      analysis: analysisResult,
-      mastering_score,
-      streaming_score,
+      title: form.title || file.name, artist_name: form.artist_name, artist_email: form.artist_email,
+      file_url, file_name: file.name, file_format: file.name.split('.').pop().toLowerCase(),
+      file_size_mb: parseFloat((file.size / 1024 / 1024).toFixed(2)), duration_seconds: analysisResult.duration_seconds,
+      status: 'ready_to_master', analysis: analysisResult, mastering_score, streaming_score,
     });
-    setProject(created);
-    setStep('profile');
+    setProject(created); setStep('profile');
   };
 
   const handleMaster = async () => {
-    setProcessing(true);
-    setProgress(0);
-
-    await base44.entities.MasteringProject.update(project.id, {
-      mastering_profile: selectedProfile,
-      settings: controls,
-      status: 'mastering',
-    });
-
+    setProcessing(true); setProgress(0);
+    await base44.entities.MasteringProject.update(project.id, { mastering_profile: selectedProfile, settings: controls, status: 'mastering' });
     try {
       const result = await masterTrack(file, selectedProfile, controls, setProgress);
-      setMasteredBlob(result.blob);
-      setMasteredFilename(result.filename);
-      setMasteredStats(result.stats);
-
-      // Upload mastered file to get a permanent URL
+      setMasteredBlob(result.blob); setMasteredFilename(result.filename); setMasteredStats(result.stats);
       let mastered_file_url = null;
-      try {
-        const up = await base44.integrations.Core.UploadFile({ file: new File([result.blob], result.filename, { type: 'audio/wav' }) });
-        mastered_file_url = up.file_url;
-      } catch {
-        // Non-fatal — user can still download from blob
-      }
-
-      await base44.entities.MasteringProject.update(project.id, {
-        status: 'mastered',
-        mastered_file_url,
-      });
-
+      try { const up = await base44.integrations.Core.UploadFile({ file: new File([result.blob], result.filename, { type: 'audio/wav' }) }); mastered_file_url = up.file_url; } catch {}
+      await base44.entities.MasteringProject.update(project.id, { status: 'mastered', mastered_file_url });
       setStep('done');
     } catch (err) {
       toast({ title: 'Mastering failed. Please try again.', description: err?.message, variant: 'destructive' });
@@ -226,9 +198,7 @@ export default function Mastering() {
     if (!masteredBlob || !masteredFilename) return;
     const url = URL.createObjectURL(masteredBlob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = masteredFilename;
-    a.click();
+    a.href = url; a.download = masteredFilename; a.click();
     setTimeout(() => URL.revokeObjectURL(url), 5000);
   };
 
@@ -236,111 +206,180 @@ export default function Mastering() {
     setStep('upload'); setFile(null); setProject(null); setAnalysis(null);
     setMasteredBlob(null); setMasteredFilename(null); setMasteredStats(null);
     setForm({ title: '', artist_name: '', artist_email: '' });
-    setControls(DEFAULT_CONTROLS); setSelectedProfile('streaming_master');
-    setProgress(0);
+    setControls(DEFAULT_CONTROLS); setSelectedProfile('streaming_master'); setProgress(0);
   };
 
   return (
-    <div className="min-h-screen py-20 px-4 md:px-6">
-      <div className="max-w-2xl mx-auto">
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Engineer Suite</p>
-          <h1 className="font-display text-4xl md:text-5xl text-foreground mb-4">Master Your Track</h1>
-          <p className="font-body text-foreground/60 leading-relaxed max-w-md mx-auto">
-            Studio-grade mastering chain running in your browser. 4-band EQ, multi-band compression, M/S stereo processing, true-peak limiting, TPDF dither, and K-weighted LUFS normalisation. Exports 24-bit WAV.
-          </p>
-          <div className="flex items-center justify-center gap-2 mt-3 text-xs text-muted-foreground/60">
-            <Info className="w-3 h-3" />
-            <span>WAV · AIFF · FLAC · MP3 · Max {MAX_SIZE_MB}MB</span>
-          </div>
-          <div className="mt-2 inline-flex items-center gap-1.5 bg-primary/10 border border-primary/20 rounded-full px-3 py-1">
-            <Activity className="w-3 h-3 text-primary" />
-            <span className="font-body text-[10px] text-primary">Studio-grade DSP · 24-bit export · K-weighted LUFS · True-peak limiting · TPDF dither</span>
-          </div>
+    <div className={`min-h-screen ${d.bg} transition-colors duration-500`}>
+
+      {/* ── Design Picker Banner ─────────────────────────────────────────── */}
+      <div className="sticky top-0 z-50 border-b border-white/5 bg-black/60 backdrop-blur-md px-6 py-2 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-[#C9A84C]" />
+          <span className="text-xs text-white/50 font-body">Active style: <span className="text-white/80">{d.label}</span></span>
+        </div>
+        <div className="flex items-center gap-2">
+          {Object.entries(DESIGNS).map(([key, val]) => (
+            <button
+              key={key}
+              onClick={() => setDesign(key)}
+              className={`px-3 py-1 rounded-full text-xs font-body transition-all border ${design === key ? 'border-[#C9A84C] text-[#C9A84C] bg-[#C9A84C]/10' : 'border-white/10 text-white/40 hover:border-white/30'}`}
+            >
+              {key === 'cinematic' ? '2 — Cinematic' : '1 — Luxury Glass'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-3xl mx-auto px-6 py-20">
+
+        {/* ── Hero ──────────────────────────────────────────────────────── */}
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
+          {design === 'cinematic' ? (
+            <>
+              <div className="flex items-center gap-4 mb-8">
+                <div className="flex-1 h-px bg-[#C9A84C]/20" />
+                <span className="font-body text-[10px] tracking-[0.4em] uppercase text-[#C9A84C]/60">Engineer Suite</span>
+                <div className="flex-1 h-px bg-[#C9A84C]/20" />
+              </div>
+              <div className="relative mb-6">
+                <p className={`${d.number} select-none absolute -top-6 -left-2 pointer-events-none`}>M</p>
+                <h1 className={`${d.heading} text-5xl md:text-7xl font-display leading-none relative z-10`}>
+                  Master<br />Your Track
+                </h1>
+              </div>
+              <p className={`${d.sub} font-body text-sm leading-relaxed max-w-md mt-6`}>
+                Studio-grade mastering chain. 4-band EQ · Multi-band compression · M/S stereo · True-peak limiting · TPDF dither · K-weighted LUFS normalisation. Exports 24-bit WAV.
+              </p>
+              <div className="flex items-center gap-3 mt-5">
+                <div className="h-px flex-1 max-w-12 bg-[#C9A84C]/30" />
+                <span className="font-body text-[9px] tracking-[0.3em] uppercase text-[#C9A84C]/50">WAV · AIFF · FLAC · MP3 · Max {MAX_SIZE_MB}MB</span>
+              </div>
+            </>
+          ) : (
+            <div className="text-center">
+              <p className={`font-body text-xs tracking-[0.3em] uppercase mb-5 ${d.sub}`}>Engineer Suite</p>
+              <h1 className={`${d.heading} text-5xl md:text-6xl mb-6`}>Master Your Track</h1>
+              <p className={`${d.sub} font-body text-sm max-w-md mx-auto leading-relaxed`}>
+                Studio-grade mastering. 24-bit export. K-weighted LUFS normalisation. True-peak limiting.
+              </p>
+              <div className={`mt-4 inline-flex items-center gap-2 ${d.badge} rounded-full px-4 py-1.5`}>
+                <Activity className="w-3 h-3" />
+                <span className="font-body text-[10px]">WAV · AIFF · FLAC · MP3 · Max {MAX_SIZE_MB}MB</span>
+              </div>
+            </div>
+          )}
         </motion.div>
 
-        {/* STEP 1 — UPLOAD */}
+        {/* ── STEP 1 — UPLOAD ────────────────────────────────────────────── */}
         {step === 'upload' && (
           <motion.form initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleUpload} className="space-y-5">
             <div
               onDragOver={e => { e.preventDefault(); setDragging(true); }}
               onDragLeave={() => setDragging(false)}
               onDrop={handleDrop}
-              className={`border-2 border-dashed rounded-2xl p-10 text-center transition-all ${dragging ? 'border-primary bg-primary/5' : 'border-border/40 bg-card/40'}`}
+              className={`border-2 border-dashed rounded-2xl p-12 text-center transition-all cursor-pointer ${dragging ? 'border-[#C9A84C] bg-[#C9A84C]/5' : 'border-white/10 hover:border-white/20'} ${design === 'luxury' ? 'backdrop-blur-sm' : ''}`}
             >
               <input type="file" id="audio-upload" className="hidden" accept=".wav,.aiff,.aif,.flac,.mp3" onChange={e => selectFile(e.target.files[0])} />
-              <label htmlFor="audio-upload" className="cursor-pointer flex flex-col items-center gap-3">
-                <Upload className={`w-10 h-10 ${dragging ? 'text-primary' : 'text-muted-foreground'}`} />
-                <p className="font-body text-sm text-foreground/70">{dragging ? 'Drop to upload' : 'Drag & drop or click to upload'}</p>
-                <p className="font-body text-xs text-muted-foreground">WAV · AIFF · FLAC · MP3 · Max {MAX_SIZE_MB}MB</p>
+              <label htmlFor="audio-upload" className="cursor-pointer flex flex-col items-center gap-4">
+                <div className={`w-16 h-16 rounded-full flex items-center justify-center ${dragging ? 'bg-[#C9A84C]/20' : 'bg-white/5'}`}>
+                  <Upload className={`w-7 h-7 ${dragging ? 'text-[#C9A84C]' : 'text-white/30'}`} />
+                </div>
+                <div>
+                  <p className={`font-body text-sm ${d.sub}`}>{dragging ? 'Drop to upload' : 'Drag & drop your audio file'}</p>
+                  <p className="font-body text-xs text-white/20 mt-1">or click to browse</p>
+                </div>
               </label>
               {file && (
-                <div className="mt-4 flex items-center justify-center gap-2 text-primary">
-                  <Music className="w-4 h-4" />
-                  <p className="font-body text-sm">{file.name} ({(file.size / 1024 / 1024).toFixed(1)}MB)</p>
+                <div className="mt-5 flex items-center justify-center gap-2">
+                  <div className={`flex items-center gap-2 ${d.badge} rounded-full px-4 py-1.5`}>
+                    <Music className="w-3 h-3" />
+                    <span className="font-body text-xs">{file.name} · {(file.size / 1024 / 1024).toFixed(1)}MB</span>
+                  </div>
                 </div>
               )}
             </div>
 
-            <div>
-              <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground">Track Title</Label>
-              <Input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="My Track" className="bg-secondary/50 border-border/40 mt-1" />
+            {/* Form fields */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label className={`font-body text-[10px] tracking-widest uppercase ${d.sub} block mb-1.5`}>Track Title</Label>
+                <Input value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} placeholder="My Track" className={d.input} />
+              </div>
+              <div>
+                <Label className={`font-body text-[10px] tracking-widest uppercase ${d.sub} block mb-1.5`}>Artist Name</Label>
+                <Input value={form.artist_name} onChange={e => setForm(f => ({ ...f, artist_name: e.target.value }))} placeholder="Your name" className={d.input} />
+              </div>
             </div>
             <div>
-              <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground">Artist Name</Label>
-              <Input value={form.artist_name} onChange={e => setForm(f => ({ ...f, artist_name: e.target.value }))} placeholder="Your name" className="bg-secondary/50 border-border/40 mt-1" />
-            </div>
-            <div>
-              <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground">Email *</Label>
-              <Input type="email" value={form.artist_email} onChange={e => setForm(f => ({ ...f, artist_email: e.target.value }))} placeholder="you@example.com" className="bg-secondary/50 border-border/40 mt-1" required />
+              <Label className={`font-body text-[10px] tracking-widest uppercase ${d.sub} block mb-1.5`}>Email *</Label>
+              <Input type="email" value={form.artist_email} onChange={e => setForm(f => ({ ...f, artist_email: e.target.value }))} placeholder="you@example.com" className={d.input} required />
             </div>
 
-            <Button type="submit" disabled={uploading || analysing || !file} className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
-              {uploading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Uploading...</>
-               : analysing ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Analysing audio...</>
+            <Button type="submit" disabled={uploading || analysing || !file} className={`w-full rounded-full ${d.btn} border-0 font-body text-sm tracking-wider uppercase py-6`}>
+              {uploading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Uploading...</>
+               : analysing ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Analysing audio...</>
                : <>Analyse & Continue <ArrowRight className="w-4 h-4 ml-2" /></>}
             </Button>
           </motion.form>
         )}
 
-        {/* STEP 2 — PROFILE + CONTROLS */}
+        {/* ── STEP 2 — PROFILE + CONTROLS ───────────────────────────────── */}
         {step === 'profile' && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
 
-            {/* Pre-analysis */}
+            {/* Analysis panel */}
             {analysis && !analysis.decode_failed && (
-              <div className="bg-card border border-border/40 rounded-2xl p-5">
-                <div className="flex items-center gap-2 mb-3">
-                  <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Input Analysis</p>
-                  <span className="font-body text-[10px] bg-yellow-500/10 text-yellow-400 px-2 py-0.5 rounded-full">Pre-master estimate</span>
-                </div>
-                <div className="grid grid-cols-2 gap-3 text-sm font-body">
-                  <div><p className="text-muted-foreground text-xs">Loudness (est.)</p><p className="text-foreground">{analysis.lufs} LUFS</p></div>
-                  <div><p className="text-muted-foreground text-xs">Peak</p><p className={analysis.peak_db >= 0 ? 'text-red-400' : 'text-foreground'}>{analysis.peak_db} dBTP</p></div>
-                  <div><p className="text-muted-foreground text-xs">Dynamic Range</p><p className="text-foreground">~{analysis.dynamic_range} dB</p></div>
-                  <div><p className="text-muted-foreground text-xs">Stereo Width</p><p className="text-foreground">{analysis.stereo_width}%</p></div>
-                  {analysis.clipping_detected && (
-                    <div className="col-span-2 flex items-center gap-2 text-red-400">
-                      <AlertCircle className="w-4 h-4" /> <span className="text-xs">Clipping detected — reduce gain before mastering</span>
+              <div className={`${d.card} rounded-2xl p-5`}>
+                {design === 'cinematic' && <div className={`h-px w-12 ${d.rule} mb-4`} />}
+                <p className={`font-body text-[10px] tracking-[0.3em] uppercase ${d.sub} mb-4`}>Input Analysis</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { label: 'Loudness', value: `${analysis.lufs} LUFS`, warn: analysis.lufs > -8 },
+                    { label: 'Peak', value: `${analysis.peak_db} dBTP`, warn: analysis.peak_db >= 0 },
+                    { label: 'Dynamic Range', value: `~${analysis.dynamic_range} dB` },
+                    { label: 'Stereo Width', value: `${analysis.stereo_width}%` },
+                  ].map(stat => (
+                    <div key={stat.label}>
+                      <p className={`font-body text-[9px] tracking-wider uppercase ${d.sub} mb-1`}>{stat.label}</p>
+                      <p className={`font-display text-lg ${stat.warn ? 'text-red-400' : d.heading.replace('font-display ', '')}`}>{stat.value}</p>
                     </div>
-                  )}
+                  ))}
                 </div>
+                {analysis.clipping_detected && (
+                  <div className="mt-3 flex items-center gap-2 text-red-400">
+                    <AlertCircle className="w-4 h-4" />
+                    <span className="font-body text-xs">Clipping detected — reduce gain before mastering</span>
+                  </div>
+                )}
               </div>
             )}
 
             {/* Profile selection */}
             <div>
-              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Mastering Profile</p>
+              {design === 'cinematic' && (
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="flex-1 h-px bg-white/5" />
+                  <span className={`font-body text-[10px] tracking-[0.3em] uppercase ${d.sub}`}>Select Profile</span>
+                  <div className="flex-1 h-px bg-white/5" />
+                </div>
+              )}
+              {design === 'luxury' && <p className={`font-body text-[10px] tracking-widest uppercase ${d.sub} mb-4`}>Mastering Profile</p>}
               <div className="space-y-2">
                 {PROFILES.map(p => (
                   <button key={p.value} onClick={() => setSelectedProfile(p.value)}
-                    className={`w-full text-left p-4 rounded-xl border transition-all ${selectedProfile === p.value ? 'border-primary bg-primary/10' : 'border-border/40 bg-card hover:border-primary/30'}`}>
+                    className={`w-full text-left p-4 rounded-xl border transition-all ${selectedProfile === p.value ? d.profileActive : d.profileInactive}`}>
                     <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-display text-base text-foreground">{p.label}</p>
-                        <p className="font-body text-xs text-muted-foreground mt-0.5">{p.desc}</p>
+                      <div className="flex items-center gap-4">
+                        {design === 'cinematic' && (
+                          <span className={`font-display text-2xl ${selectedProfile === p.value ? 'text-[#C9A84C]' : 'text-white/10'} leading-none w-8`}>{p.num}</span>
+                        )}
+                        <div>
+                          <p className={`font-display text-base ${design === 'cinematic' ? 'text-[#F5F0E8]' : 'text-white'}`}>{p.label}</p>
+                          <p className={`font-body text-xs ${d.sub} mt-0.5`}>{p.desc}</p>
+                        </div>
                       </div>
-                      <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ml-4 ${selectedProfile === p.value ? 'border-primary bg-primary' : 'border-border/50'}`} />
+                      <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ml-4 ${selectedProfile === p.value ? 'border-[#C9A84C] bg-[#C9A84C]' : 'border-white/10'}`} />
                     </div>
                   </button>
                 ))}
@@ -348,88 +387,95 @@ export default function Mastering() {
             </div>
 
             {/* Fine controls */}
-            <div className="bg-card border border-border/40 rounded-2xl p-5 space-y-4">
-              <div className="flex items-center gap-2 mb-1">
-                <SlidersHorizontal className="w-4 h-4 text-primary" />
-                <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Fine Controls</p>
+            <div className={`${d.card} rounded-2xl p-6 space-y-5`}>
+              <div className="flex items-center gap-3">
+                <SlidersHorizontal className="w-4 h-4 text-[#C9A84C]" />
+                <p className={`font-body text-[10px] tracking-[0.3em] uppercase ${d.sub}`}>Fine Controls</p>
               </div>
               {Object.entries(controls).map(([key, val]) => (
-                <div key={key}>
-                  <div className="flex justify-between mb-1">
-                    <Label className="font-body text-xs text-muted-foreground">{CONTROL_LABELS[key]}</Label>
-                    <span className="font-body text-xs text-foreground">{val}</span>
+                <div key={key} className="grid grid-cols-[1fr_auto] gap-4 items-center">
+                  <div>
+                    <div className="flex justify-between mb-2">
+                      <Label className={`font-body text-xs ${d.sub}`}>{CONTROL_LABELS[key]}</Label>
+                      <span className={`font-body text-xs ${d.heading.includes('F5F0E8') ? 'text-[#F5F0E8]' : 'text-white'}`}>{val}</span>
+                    </div>
+                    <Slider value={[val]} min={0} max={100} step={1}
+                      onValueChange={([v]) => setControls(c => ({ ...c, [key]: v }))} className="w-full" />
                   </div>
-                  <Slider value={[val]} min={0} max={100} step={1}
-                    onValueChange={([v]) => setControls(c => ({ ...c, [key]: v }))} className="w-full" />
                 </div>
               ))}
             </div>
 
-            {/* Processing progress */}
+            {/* Progress */}
             {processing && (
-              <div className="bg-card border border-border/40 rounded-xl p-4">
-                <div className="flex items-center gap-3 mb-2">
-                  <Loader2 className="w-4 h-4 text-primary animate-spin" />
-                  <p className="font-body text-sm text-foreground">Applying DSP mastering chain...</p>
+              <div className={`${d.card} rounded-xl p-4`}>
+                <div className="flex items-center gap-3 mb-3">
+                  <Loader2 className="w-4 h-4 text-[#C9A84C] animate-spin" />
+                  <p className={`font-body text-sm ${design === 'cinematic' ? 'text-[#F5F0E8]' : 'text-white'}`}>Applying DSP mastering chain...</p>
                 </div>
-                <div className="w-full bg-secondary rounded-full h-1.5">
-                  <div className="bg-primary h-1.5 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
+                <div className="w-full bg-white/5 rounded-full h-1">
+                  <div className="bg-gradient-to-r from-[#C9A84C] to-[#FFE08A] h-1 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
                 </div>
-                <p className="font-body text-[10px] text-muted-foreground mt-1.5">
-                  HPF → 4-band EQ → Saturation → M/S Width → Multi-band Comp → LUFS Normalise → True-Peak Limit → Dither → 24-bit WAV
-                </p>
+                <p className={`font-body text-[10px] ${d.sub} mt-2`}>HPF → 4-band EQ → Saturation → M/S Width → Multi-band Comp → LUFS → True-Peak → Dither → 24-bit WAV</p>
               </div>
             )}
 
             <div className="flex gap-3">
-              <Button variant="outline" onClick={() => setStep('upload')} className="rounded-full gap-2" disabled={processing}>
+              <Button variant="outline" onClick={() => setStep('upload')} className="rounded-full gap-2 border-white/10 text-white/50 hover:border-white/30" disabled={processing}>
                 <ArrowLeft className="w-4 h-4" /> Back
               </Button>
-              <Button onClick={handleMaster} disabled={processing} className="flex-1 rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">
-                {processing
-                  ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Mastering {progress}%...</>
-                  : <><Zap className="w-4 h-4 mr-2" /> Master This Track</>}
+              <Button onClick={handleMaster} disabled={processing} className={`flex-1 rounded-full ${d.btn} border-0 font-body text-sm tracking-wider uppercase`}>
+                {processing ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Mastering {progress}%...</>
+                  : <><Zap className="w-4 h-4 mr-2" />Master This Track</>}
               </Button>
             </div>
           </motion.div>
         )}
 
-        {/* DONE */}
+        {/* ── DONE ─────────────────────────────────────────────────────── */}
         {step === 'done' && (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-12 space-y-6">
-            <CheckCircle2 className="w-16 h-16 text-primary mx-auto" />
-            <h2 className="font-display text-4xl text-foreground">Mastered</h2>
-            <p className="font-body text-foreground/60">Full studio mastering chain applied. Your 24-bit WAV is ready to download.</p>
+            {design === 'cinematic' ? (
+              <>
+                <div className="flex items-center gap-4 mb-2">
+                  <div className="flex-1 h-px bg-[#C9A84C]/20" />
+                  <CheckCircle2 className="w-6 h-6 text-[#C9A84C]" />
+                  <div className="flex-1 h-px bg-[#C9A84C]/20" />
+                </div>
+                <h2 className="font-display text-5xl text-[#F5F0E8]">Mastered</h2>
+              </>
+            ) : (
+              <>
+                <CheckCircle2 className="w-16 h-16 text-[#FFE08A] mx-auto" />
+                <h2 className="font-display text-4xl text-white">Mastered</h2>
+              </>
+            )}
+            <p className={`font-body ${d.sub}`}>Full studio mastering chain applied. Your 24-bit WAV is ready to download.</p>
 
-            <div className="bg-card border border-border/40 rounded-2xl p-6 text-left space-y-3">
+            <div className={`${d.card} rounded-2xl p-6 text-left space-y-3`}>
               <div className="flex justify-between text-sm font-body">
-                <span className="text-muted-foreground">Profile</span>
-                <span className="text-foreground">{PROFILES.find(p => p.value === selectedProfile)?.label}</span>
+                <span className={d.sub}>Profile</span>
+                <span className={design === 'cinematic' ? 'text-[#F5F0E8]' : 'text-white'}>{PROFILES.find(p => p.value === selectedProfile)?.label}</span>
               </div>
               {masteredStats && (
                 <>
-                  <div className="flex justify-between text-sm font-body">
-                    <span className="text-muted-foreground">Output Loudness</span>
-                    <span className="text-foreground">{masteredStats.output_lufs} LUFS</span>
-                  </div>
-                  <div className="flex justify-between text-sm font-body">
-                    <span className="text-muted-foreground">Output Peak</span>
-                    <span className="text-foreground">{masteredStats.output_peak_db} dBTP</span>
-                  </div>
-                  <div className="flex justify-between text-sm font-body">
-                    <span className="text-muted-foreground">Sample Rate</span>
-                    <span className="text-foreground">{masteredStats.sample_rate / 1000} kHz · {masteredStats.channels}ch</span>
-                  </div>
-                  <div className="flex justify-between text-sm font-body">
-                    <span className="text-muted-foreground">Format</span>
-                    <span className="text-foreground">WAV · 24-bit PCM</span>
-                  </div>
+                  {[
+                    { label: 'Output Loudness', value: `${masteredStats.output_lufs} LUFS` },
+                    { label: 'Output Peak', value: `${masteredStats.output_peak_db} dBTP` },
+                    { label: 'Sample Rate', value: `${masteredStats.sample_rate / 1000} kHz · ${masteredStats.channels}ch` },
+                    { label: 'Format', value: 'WAV · 24-bit PCM' },
+                  ].map(row => (
+                    <div key={row.label} className="flex justify-between text-sm font-body">
+                      <span className={d.sub}>{row.label}</span>
+                      <span className={design === 'cinematic' ? 'text-[#F5F0E8]' : 'text-white'}>{row.value}</span>
+                    </div>
+                  ))}
                 </>
               )}
-              {analysis && !analysis.decode_failed && (
-                <div className="pt-2 border-t border-border/40">
-                  <p className="font-body text-xs text-muted-foreground mb-2">Before → After</p>
-                  <div className="flex justify-between text-xs font-body text-muted-foreground">
+              {analysis && !analysis.decode_failed && masteredStats && (
+                <div className="pt-3 border-t border-white/5">
+                  <p className={`font-body text-xs ${d.sub} mb-2`}>Before → After</p>
+                  <div className="flex justify-between text-xs font-body text-white/40">
                     <span>Loudness: {analysis.lufs} → {masteredStats?.output_lufs} LUFS</span>
                     <span>Peak: {analysis.peak_db} → {masteredStats?.output_peak_db} dBTP</span>
                   </div>
@@ -437,22 +483,17 @@ export default function Mastering() {
               )}
             </div>
 
-            <div className="bg-primary/5 border border-primary/20 rounded-xl px-4 py-3 text-left">
-              <p className="font-body text-xs text-primary/80">
-                Processing chain: HPF · 4-band parametric EQ · harmonic saturation · multi-band compression · M/S stereo width · K-weighted LUFS normalisation · true-peak look-ahead limiter · TPDF dither · 24-bit WAV export.
-              </p>
-            </div>
-
             <div className="flex gap-3 justify-center flex-wrap">
-              <Button onClick={handleDownload} className="gradient-gold-button rounded-full border-0 gap-2 px-8">
+              <Button onClick={handleDownload} className={`${d.btn} rounded-full border-0 gap-2 px-8`}>
                 <Download className="w-4 h-4" /> Download Mastered WAV
               </Button>
-              <Button variant="outline" onClick={resetAll} className="rounded-full">
+              <Button variant="outline" onClick={resetAll} className="rounded-full border-white/10 text-white/50 hover:border-white/30">
                 Master Another
               </Button>
             </div>
           </motion.div>
         )}
+
       </div>
     </div>
   );

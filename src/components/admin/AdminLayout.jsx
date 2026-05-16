@@ -22,6 +22,8 @@ const NAV_SECTIONS = [
       { label: 'Creative Studio', path: '/admin/creative-studio', icon: Sparkles },
       { label: 'Marketing Centre', path: '/admin/marketing-centre', icon: Megaphone },
       { label: 'Social Command', path: '/admin/social-command', icon: Users },
+      { label: 'Social Monitor', path: '/admin/social-monitor', icon: MessageCircle },
+      { label: 'Content Dashboard', path: '/admin/content-dashboard', icon: Sparkles },
       { label: 'Security Centre', path: '/admin/security-centre', icon: Lock },
       { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp },
       { label: 'Website Ops', path: '/admin/website-ops', icon: Globe },
