@@ -1,0 +1,196 @@
+import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Shield, ChevronDown, ChevronUp, Package, Star, Zap, Crown, Building2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const PACKAGES = [
+  {
+    id: 'starter_ai',
+    name: 'Starter AI System',
+    icon: Package,
+    color: 'text-blue-400',
+    border: 'border-blue-500/30',
+    bg: 'bg-blue-500/5',
+    price_range: '$2,500 – $4,500 AUD setup',
+    monthly: '$500/mo support',
+    timeline: '2–3 weeks',
+    tagline: 'For solopreneurs and personal brands starting their AI journey',
+    dashboards: ['Command Centre', 'Approval Queue', 'Knowledge Vault', 'Risk Alerts', 'Agent Task Log'],
+    agents: ['Personal Assistant', 'Research Intelligence', 'Security Monitoring'],
+    integrations: ['Gmail', 'Google Sheets', 'Stripe (basic)'],
+    onboarding: ['Discovery call (1hr)', 'Brand questionnaire', 'KnowledgeVault seed data', 'Agent configuration', '30min handover call'],
+    upsells: ['Creator AI upgrade', 'Content automation add-on', 'Monthly strategy session'],
+    risks: ['Requires active Stripe account for payment tracking', 'Gmail integration must be authorized by client'],
+  },
+  {
+    id: 'creator_ai',
+    name: 'Creator AI System',
+    icon: Star,
+    color: 'text-purple-400',
+    border: 'border-purple-500/30',
+    bg: 'bg-purple-500/5',
+    price_range: '$5,500 – $9,500 AUD setup',
+    monthly: '$1,200/mo support',
+    timeline: '3–5 weeks',
+    tagline: 'For music artists, content creators, and personal brands at scale',
+    dashboards: ['Command Centre', 'Executive Feed', 'Ideas Engine', 'Creative Studio', 'Social Command', 'Content Dashboard', 'Marketing Centre', 'Trend Monitor', 'Knowledge Vault', 'Approval Queue', 'Risk Alerts'],
+    agents: ['Personal Assistant', 'Creative Studio Agent', 'Social Command Agent', 'Trend Monitoring', 'Ideas Agent', 'Innovation Scout', 'Marketing Strategy'],
+    integrations: ['Gmail', 'Google Sheets', 'Stripe', 'Instagram API (manual)', 'TikTok (manual)'],
+    onboarding: ['2x Discovery calls', 'Brand voice document', 'Social strategy session', 'Content calendar setup', 'Agent configuration + testing', '60min handover'],
+    upsells: ['Ecommerce AI upgrade', 'Fan CRM add-on', 'Weekly strategy calls'],
+    risks: ['Social API connections require platform approval', 'Content publishing always requires human approval'],
+  },
+  {
+    id: 'ecommerce_ai',
+    name: 'Ecommerce AI System',
+    icon: Zap,
+    color: 'text-green-400',
+    border: 'border-green-500/30',
+    bg: 'bg-green-500/5',
+    price_range: '$7,500 – $14,000 AUD setup',
+    monthly: '$1,800/mo support',
+    timeline: '4–6 weeks',
+    tagline: 'For online stores, merch brands, and product-based businesses',
+    dashboards: ['Command Centre', 'Ecommerce Intelligence', 'Product Insights', 'Orders', 'Financial Dashboard', 'Promo Codes', 'Approval Queue', 'Risk Alerts', 'Ideas Engine', 'Security Centre'],
+    agents: ['Product Research Agent', 'Pricing Strategy Agent', 'Conversion Agent', 'Upsell Agent', 'Retention Agent', 'Fraud Detection Agent', 'Margin Protection Agent'],
+    integrations: ['Stripe', 'Gmail', 'Google Sheets', 'Shipping API', 'Dropship supplier (TBC)'],
+    onboarding: ['Product catalog audit', 'Margin analysis', 'Checkout flow review', 'Agent setup + testing', 'Staff training session', '90min handover'],
+    upsells: ['Premium Business OS upgrade', 'Custom AI agent builds', 'Paid ads intelligence add-on'],
+    risks: ['All pricing changes require human approval', 'Refund logic must be reviewed before automation', 'Supplier integrations require separate credentials'],
+  },
+  {
+    id: 'premium_business_os',
+    name: 'Premium Business OS',
+    icon: Crown,
+    color: 'text-amber-400',
+    border: 'border-amber-500/30',
+    bg: 'bg-amber-500/5',
+    price_range: '$15,000 – $28,000 AUD setup',
+    monthly: '$3,500/mo support',
+    timeline: '6–10 weeks',
+    tagline: 'Full AI operating system for established businesses and agencies',
+    dashboards: ['All dashboards included', 'Custom Executive Feed', 'Legal Dashboard', 'Wealth Dashboard', 'Blueprint Builder', 'Self Healing Ops', 'Memory Graph', 'Agent Learning Engine', 'Premium UX Audit'],
+    agents: ['All 50+ specialist agents', 'Custom orchestrator configuration', 'Legal Protection Agent', 'Wealth Stewardship Agent', 'Strategic Planning Agent'],
+    integrations: ['All integrations', 'Custom API connections', 'CRM sync', 'Accounting software', 'Legal document storage'],
+    onboarding: ['Full business audit (2 weeks)', 'Legal structure review', 'Financial protection setup', 'Custom agent builds', 'Team training (3 sessions)', 'Weekly calls for 2 months'],
+    upsells: ['Enterprise upgrade', 'Custom AI model fine-tuning', 'White-label resale rights'],
+    risks: ['Legal integrations require solicitor sign-off', 'Financial automation requires accountant approval', 'Custom builds require separate SOW'],
+  },
+  {
+    id: 'enterprise_command_centre',
+    name: 'Enterprise AI Command Centre',
+    icon: Building2,
+    color: 'text-rose-400',
+    border: 'border-rose-500/30',
+    bg: 'bg-rose-500/5',
+    price_range: '$45,000+ AUD setup',
+    monthly: '$8,000+/mo retainer',
+    timeline: '12–20 weeks',
+    tagline: 'White-label AI OS for agencies and enterprise clients — fully custom',
+    dashboards: ['Everything in Premium Business OS', 'Multi-client management', 'White-label branding', 'Custom role permissions', 'SaaS delivery infrastructure'],
+    agents: ['Fully custom agent architecture', 'Domain-specific LLM fine-tuning', 'Multi-tenant agent isolation'],
+    integrations: ['Enterprise-grade API suite', 'SSO/SAML auth', 'Custom webhook infrastructure', 'Enterprise CRM', 'Custom compliance tools'],
+    onboarding: ['Enterprise discovery (1 month)', 'Technical architecture review', 'Security audit', 'Compliance documentation', 'Dedicated project manager', 'SLA agreement'],
+    upsells: ['SaaS white-label license', 'Ongoing model training', 'Dedicated AI engineer on retainer'],
+    risks: ['Requires legal agreement and SOW', 'GDPR/Privacy compliance review mandatory', 'Enterprise auth setup requires IT team access'],
+  },
+];
+
+export default function BlueprintBuilder() {
+  const [expanded, setExpanded] = useState(null);
+
+  return (
+    <div className="space-y-6 pb-10">
+      <div className="flex items-start justify-between flex-wrap gap-4">
+        <div>
+          <h1 className="text-3xl font-display font-bold gradient-gold-text">Blueprint Builder</h1>
+          <p className="text-muted-foreground text-sm mt-1 font-body">Sellable AI operating system packages — private admin only</p>
+        </div>
+        <Link to="/admin/client-installs">
+          <Button variant="outline">View Client Installs →</Button>
+        </Link>
+      </div>
+
+      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
+        <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
+        <p className="text-yellow-300 text-xs"><strong>Private Only:</strong> No public pricing page or checkout exists. All packages are proposal-based. Requires manual approval before quoting any client.</p>
+      </div>
+
+      <div className="space-y-3">
+        {PACKAGES.map(pkg => {
+          const Icon = pkg.icon;
+          const isOpen = expanded === pkg.id;
+          return (
+            <Card key={pkg.id} className={`border ${isOpen ? pkg.border : 'border-border'} transition-all`}>
+              <CardHeader className="pb-3 cursor-pointer" onClick={() => setExpanded(isOpen ? null : pkg.id)}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className={`${pkg.bg} p-2 rounded-lg border ${pkg.border}`}>
+                      <Icon className={`w-5 h-5 ${pkg.color}`} />
+                    </div>
+                    <div>
+                      <CardTitle className="text-base">{pkg.name}</CardTitle>
+                      <p className="text-xs text-muted-foreground mt-0.5">{pkg.tagline}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="text-right hidden md:block">
+                      <p className={`text-sm font-medium ${pkg.color}`}>{pkg.price_range}</p>
+                      <p className="text-xs text-muted-foreground">{pkg.monthly}</p>
+                    </div>
+                    {isOpen ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+                  </div>
+                </div>
+              </CardHeader>
+
+              {isOpen && (
+                <CardContent className="pt-0 space-y-4 border-t border-border">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+                    <Section title="Included Dashboards" items={pkg.dashboards} />
+                    <Section title="Included Agents" items={pkg.agents} />
+                    <Section title="Required Integrations" items={pkg.integrations} />
+                    <Section title="Client Onboarding" items={pkg.onboarding} />
+                    <Section title="Upsell Opportunities" items={pkg.upsells} color="text-green-400" />
+                    <div>
+                      <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">Risk Warnings</p>
+                      <div className="space-y-1">
+                        {pkg.risks.map((r, i) => (
+                          <div key={i} className="flex items-start gap-2">
+                            <span className="text-yellow-400 mt-0.5 shrink-0">⚠</span>
+                            <p className="text-xs text-muted-foreground">{r}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex gap-3 pt-2 border-t border-border flex-wrap">
+                    <Badge variant="outline">Timeline: {pkg.timeline}</Badge>
+                    <Badge className={`${pkg.bg} ${pkg.color} border ${pkg.border}`}>{pkg.price_range}</Badge>
+                    <Badge variant="outline">{pkg.monthly}</Badge>
+                  </div>
+                </CardContent>
+              )}
+            </Card>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function Section({ title, items, color = 'text-foreground' }) {
+  return (
+    <div>
+      <p className="text-xs text-muted-foreground uppercase tracking-widest mb-2">{title}</p>
+      <ul className="space-y-1">
+        {items.map((item, i) => (
+          <li key={i} className={`text-xs ${color} flex items-start gap-1.5`}>
+            <span className="text-primary mt-0.5 shrink-0">·</span>{item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}

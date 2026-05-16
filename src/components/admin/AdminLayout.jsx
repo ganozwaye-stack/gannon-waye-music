@@ -13,6 +13,12 @@ const NAV_SECTIONS = [
       { label: '🧠 Command Centre', path: '/admin/command-centre', icon: Brain },
       { label: '📋 Executive Feed', path: '/admin/executive-feed', icon: Star },
       { label: '💡 Ideas Engine', path: '/admin/ideas-engine', icon: Lightbulb },
+      { label: '🧠 Memory Graph', path: '/admin/memory-graph', icon: Brain },
+      { label: '🔬 Agent Learning', path: '/admin/agent-learning', icon: Activity },
+      { label: '🩺 Self Healing', path: '/admin/self-healing', icon: Activity },
+      { label: '✨ Premium UX', path: '/admin/premium-ux', icon: Sparkles },
+      { label: '📡 Social Intel', path: '/admin/social-intelligence', icon: TrendingUp },
+      { label: '🎯 Creator Insights', path: '/admin/creator-insights', icon: Eye },
       { label: 'Orchestrator AI', path: '/admin/orchestrator-chat', icon: Zap },
       { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain },
       { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
@@ -89,6 +95,9 @@ const NAV_SECTIONS = [
     title: 'Mastering',
     items: [
       { label: 'Ecommerce Intel', path: '/admin/ecommerce-intelligence', icon: ShoppingBag },
+      { label: 'Blueprint Builder', path: '/admin/blueprint-builder', icon: Book },
+      { label: 'Client Installs', path: '/admin/client-installs', icon: Users },
+      { label: 'Distributors', path: '/admin/distributors', icon: Music },
       { label: 'Engineer Queue', path: '/admin/mastering', icon: Music },
       { label: 'Open Mastering Tool', path: '/mastering', icon: Zap },
     ]

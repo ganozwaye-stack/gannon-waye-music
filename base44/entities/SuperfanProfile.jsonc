@@ -1,0 +1,92 @@
+{
+  "name": "SuperfanProfile",
+  "type": "object",
+  "properties": {
+    "username": {
+      "type": "string"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "instagram",
+        "tiktok",
+        "youtube",
+        "twitter",
+        "email",
+        "other"
+      ],
+      "default": "instagram"
+    },
+    "engagement_score": {
+      "type": "number",
+      "description": "1-100"
+    },
+    "support_level": {
+      "type": "string",
+      "enum": [
+        "follower",
+        "engaged",
+        "superfan",
+        "collaborator",
+        "vip"
+      ],
+      "default": "follower"
+    },
+    "interaction_history": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "shared_content": {
+      "type": "boolean",
+      "default": false
+    },
+    "purchase_interest": {
+      "type": "boolean",
+      "default": false
+    },
+    "collaboration_potential": {
+      "type": "boolean",
+      "default": false
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "none"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000
+    }
+  },
+  "required": [
+    "username",
+    "platform"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "name": "MemoryGraphNode",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "node_type": {
+      "type": "string",
+      "enum": [
+        "person",
+        "document",
+        "campaign",
+        "product",
+        "idea",
+        "risk",
+        "legal",
+        "revenue_opportunity",
+        "creative_project",
+        "other"
+      ],
+      "default": "other"
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "linked_nodes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "IDs of related MemoryGraphNodes"
+    },
+    "source": {
+      "type": "string"
+    },
+    "sensitivity_level": {
+      "type": "string",
+      "enum": [
+        "public",
+        "internal",
+        "sensitive",
+        "confidential"
+      ],
+      "default": "internal"
+    },
+    "importance_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_by_agent": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "node_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

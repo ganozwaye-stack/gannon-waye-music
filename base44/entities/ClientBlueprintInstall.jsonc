@@ -1,0 +1,100 @@
+{
+  "name": "ClientBlueprintInstall",
+  "type": "object",
+  "properties": {
+    "client_name": {
+      "type": "string"
+    },
+    "business_type": {
+      "type": "string"
+    },
+    "package_type": {
+      "type": "string",
+      "enum": [
+        "starter_ai",
+        "creator_ai",
+        "ecommerce_ai",
+        "premium_business_os",
+        "enterprise_command_centre"
+      ],
+      "default": "starter_ai"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "lead",
+        "discovery_call",
+        "proposal_sent",
+        "approved",
+        "in_build",
+        "testing",
+        "live",
+        "monthly_support",
+        "archived"
+      ],
+      "default": "lead"
+    },
+    "setup_stage": {
+      "type": "string"
+    },
+    "required_integrations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "documents_received": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approval_items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "monthly_retainer": {
+      "type": "number"
+    },
+    "setup_fee": {
+      "type": "number"
+    },
+    "risk_notes": {
+      "type": "string"
+    },
+    "next_action": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 3000
+    }
+  },
+  "required": [
+    "client_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

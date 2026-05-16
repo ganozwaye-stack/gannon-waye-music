@@ -1,0 +1,75 @@
+{
+  "name": "AgentLearningRecord",
+  "type": "object",
+  "properties": {
+    "agent_name": {
+      "type": "string"
+    },
+    "lesson_type": {
+      "type": "string",
+      "enum": [
+        "successful_idea",
+        "failed_idea",
+        "approved_output",
+        "rejected_output",
+        "workflow_improvement",
+        "better_prompt",
+        "customer_experience",
+        "risk_detection",
+        "other"
+      ],
+      "default": "other"
+    },
+    "what_worked": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "what_failed": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "improvement": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "source": {
+      "type": "string"
+    },
+    "confidence_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "impact_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "agent_name",
+    "lesson_type"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

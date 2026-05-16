@@ -1,0 +1,84 @@
+{
+  "name": "CreatorGapInsight",
+  "type": "object",
+  "properties": {
+    "platform": {
+      "type": "string",
+      "enum": [
+        "tiktok",
+        "instagram",
+        "youtube",
+        "twitter",
+        "linkedin",
+        "all"
+      ],
+      "default": "all"
+    },
+    "niche": {
+      "type": "string"
+    },
+    "gap_detected": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "why_it_matters": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "viral_potential": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "monetization_potential": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "difficulty": {
+      "type": "number",
+      "description": "1-10, 1=easy"
+    },
+    "recommended_action": {
+      "type": "string"
+    },
+    "supporting_evidence": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewing",
+        "actioning",
+        "done",
+        "archived"
+      ],
+      "default": "new"
+    }
+  },
+  "required": [
+    "niche",
+    "gap_detected"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

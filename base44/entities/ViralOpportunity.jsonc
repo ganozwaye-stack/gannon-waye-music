@@ -1,0 +1,90 @@
+{
+  "name": "ViralOpportunity",
+  "type": "object",
+  "properties": {
+    "trend": {
+      "type": "string"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "tiktok",
+        "instagram",
+        "youtube",
+        "twitter",
+        "all"
+      ],
+      "default": "tiktok"
+    },
+    "relevance_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "speed_of_growth": {
+      "type": "string",
+      "enum": [
+        "slow",
+        "steady",
+        "fast",
+        "explosive"
+      ],
+      "default": "steady"
+    },
+    "competition_level": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "saturated"
+      ],
+      "default": "low"
+    },
+    "recommended_angle": {
+      "type": "string"
+    },
+    "recommended_hook": {
+      "type": "string"
+    },
+    "estimated_lifespan": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "actioning",
+        "done",
+        "expired"
+      ],
+      "default": "new"
+    }
+  },
+  "required": [
+    "trend",
+    "platform"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

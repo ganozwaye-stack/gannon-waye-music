@@ -99,6 +99,15 @@ import ContentDashboard from '@/pages/admin/ContentDashboard';
 import ExecutiveFeed from '@/pages/admin/ExecutiveFeed';
 import IdeasEngine from '@/pages/admin/IdeasEngine';
 import EcommerceIntelligence from '@/pages/admin/EcommerceIntelligence';
+import PremiumUX from '@/pages/admin/PremiumUX';
+import BlueprintBuilder from '@/pages/admin/BlueprintBuilder';
+import ClientInstalls from '@/pages/admin/ClientInstalls';
+import Distributors from '@/pages/admin/Distributors';
+import AgentLearning from '@/pages/admin/AgentLearning';
+import MemoryGraph from '@/pages/admin/MemoryGraph';
+import SelfHealing from '@/pages/admin/SelfHealing';
+import SocialIntelligence from '@/pages/admin/SocialIntelligence';
+import CreatorInsights from '@/pages/admin/CreatorInsights';
 
 
 const AuthenticatedApp = () => {
@@ -221,6 +230,15 @@ const AuthenticatedApp = () => {
         <Route path="/admin/executive-feed" element={<ExecutiveFeed />} />
         <Route path="/admin/ideas-engine" element={<IdeasEngine />} />
         <Route path="/admin/ecommerce-intelligence" element={<EcommerceIntelligence />} />
+        <Route path="/admin/premium-ux" element={<PremiumUX />} />
+        <Route path="/admin/blueprint-builder" element={<BlueprintBuilder />} />
+        <Route path="/admin/client-installs" element={<ClientInstalls />} />
+        <Route path="/admin/distributors" element={<Distributors />} />
+        <Route path="/admin/agent-learning" element={<AgentLearning />} />
+        <Route path="/admin/memory-graph" element={<MemoryGraph />} />
+        <Route path="/admin/self-healing" element={<SelfHealing />} />
+        <Route path="/admin/social-intelligence" element={<SocialIntelligence />} />
+        <Route path="/admin/creator-insights" element={<CreatorInsights />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

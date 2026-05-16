@@ -1,0 +1,76 @@
+{
+  "name": "AudienceInsight",
+  "type": "object",
+  "properties": {
+    "audience_type": {
+      "type": "string"
+    },
+    "pain_point": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "desire": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "common_language": {
+      "type": "string"
+    },
+    "content_themes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "emotional_triggers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "conversion_potential": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "recommended_content": {
+      "type": "string"
+    },
+    "recommended_offer": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "audience_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
