@@ -81,16 +81,6 @@ export default function CommandCentre() {
         <StatusCard icon={Activity} color="text-green-400" bg="bg-green-500/10" label="Tasks Logged Today" value={recentLogs.length} link="/admin/agent-task-log" />
       </div>
 
-      {/* Diagnostic */}
-      <p className="text-xs text-muted-foreground">
-        {agentsLoading
-          ? 'Agent records: loading…'
-          : usingFallback
-            ? `Base registry agents: ${agents.length} (DB unavailable — showing canonical seed)`
-            : `Agent records loaded: ${agents.length}`
-        }
-      </p>
-
       {/* Do Not Spend Rule Banner */}
       <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-4 flex items-start gap-3">
         <Shield className="w-5 h-5 text-yellow-400 mt-0.5 shrink-0" />

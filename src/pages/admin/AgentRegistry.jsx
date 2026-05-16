@@ -20,9 +20,18 @@ const STATUS_COLORS = {
 
 const RISK_COLORS = { none: 'text-green-400', low: 'text-yellow-400', medium: 'text-orange-400', high: 'text-red-400' };
 
+// Risk level legend — what each value means in this system
+const RISK_LEGEND = [
+  { level: 'none', color: 'text-green-400 bg-green-500/10', label: 'None', desc: 'Agent cannot spend money, create legal exposure, or damage reputation in any scenario. Fully safe to automate.' },
+  { level: 'low', color: 'text-yellow-400 bg-yellow-500/10', label: 'Low', desc: 'Minor financial or legal footprint possible (e.g. sending an email, tagging a record). Allowed to auto-run with logging.' },
+  { level: 'medium', color: 'text-orange-400 bg-orange-500/10', label: 'Medium', desc: 'Could create a real cost, contractual obligation, or public exposure. Requires low-risk auto-approval or Gannon review.' },
+  { level: 'high', color: 'text-red-400 bg-red-500/10', label: 'High', desc: 'Direct financial, legal, or reputation risk. Always requires explicit approval before execution. Do-Not-Spend rule enforced.' },
+];
+
 export default function AgentRegistry() {
   const [search, setSearch] = useState('');
   const [group, setGroup] = useState('all');
+  const [showLegend, setShowLegend] = useState(false);
   const qc = useQueryClient();
 
   const { data: dbAgents = [], isLoading } = useQuery({
@@ -57,12 +66,39 @@ export default function AgentRegistry() {
           <h1 className="text-2xl font-display font-bold gradient-gold-text">Agent Registry</h1>
           <p className="text-muted-foreground text-sm">{agents.length} agents registered · {agents.filter(a => a.status === 'active').length} active</p>
         </div>
-        {usingFallback && (
-          <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/30 flex items-center gap-1">
-            <AlertTriangle className="w-3 h-3" /> Base Registry — Not yet activated in DB
-          </Badge>
-        )}
+        <div className="flex items-center gap-2 flex-wrap">
+          {usingFallback && (
+            <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/30 flex items-center gap-1">
+              <AlertTriangle className="w-3 h-3" /> Base Registry — Not yet activated in DB
+            </Badge>
+          )}
+          <Button size="sm" variant="outline" onClick={() => setShowLegend(!showLegend)}>
+            {showLegend ? 'Hide' : 'What do the risk levels mean?'}
+          </Button>
+        </div>
       </div>
+
+      {/* Risk Legend */}
+      {showLegend && (
+        <div className="border border-border rounded-lg p-4 bg-secondary/30 space-y-3">
+          <p className="text-sm font-semibold text-foreground">Risk Level Reference — Financial Risk</p>
+          <p className="text-xs text-muted-foreground mb-3">The <strong className="text-foreground">financial_risk</strong>, <strong className="text-foreground">legal_risk</strong>, and <strong className="text-foreground">reputation_risk</strong> fields all use the same scale:</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {RISK_LEGEND.map(r => (
+              <div key={r.level} className={`rounded-lg p-3 border border-border flex gap-3 items-start`}>
+                <span className={`text-xs font-bold px-2 py-0.5 rounded-full shrink-0 ${r.color}`}>{r.label}</span>
+                <p className="text-xs text-muted-foreground leading-relaxed">{r.desc}</p>
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-muted-foreground border-t border-border pt-3 mt-1">
+            <strong className="text-foreground">Approval Level</strong>: &nbsp;
+            <span className="text-primary">auto</span> = runs without review &nbsp;·&nbsp;
+            <span className="text-yellow-400">low_risk_auto</span> = runs but logs for review &nbsp;·&nbsp;
+            <span className="text-orange-400">always_approve</span> = pauses until Gannon explicitly approves
+          </p>
+        </div>
+      )}
 
       {/* Group Summary */}
       <div className="flex flex-wrap gap-2">
@@ -107,7 +143,7 @@ export default function AgentRegistry() {
                 <div className="flex gap-1">
                   <span className="text-xs px-2 py-0.5 rounded-full bg-secondary text-secondary-foreground capitalize">{agent.group}</span>
                   <span className={`text-xs px-2 py-0.5 rounded-full bg-secondary ${RISK_COLORS[agent.financial_risk] || 'text-muted-foreground'}`}>
-                    ${agent.financial_risk || 'none'}
+                    $ {agent.financial_risk || 'none'}
                   </span>
                 </div>
                 {/* Actions disabled in fallback mode */}
