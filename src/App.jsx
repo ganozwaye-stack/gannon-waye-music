@@ -108,6 +108,7 @@ import MemoryGraph from '@/pages/admin/MemoryGraph';
 import SelfHealing from '@/pages/admin/SelfHealing';
 import SocialIntelligence from '@/pages/admin/SocialIntelligence';
 import CreatorInsights from '@/pages/admin/CreatorInsights';
+import ApiSetup from '@/pages/admin/ApiSetup';
 
 
 const AuthenticatedApp = () => {
@@ -239,6 +240,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/self-healing" element={<SelfHealing />} />
         <Route path="/admin/social-intelligence" element={<SocialIntelligence />} />
         <Route path="/admin/creator-insights" element={<CreatorInsights />} />
+        <Route path="/admin/api-setup" element={<ApiSetup />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

@@ -16,6 +16,7 @@ const NAV_SECTIONS = [
       { label: '🧠 Memory Graph', path: '/admin/memory-graph', icon: Brain },
       { label: '🔬 Agent Learning', path: '/admin/agent-learning', icon: Activity },
       { label: '🩺 Self Healing', path: '/admin/self-healing', icon: Activity },
+      { label: '🔌 API Setup', path: '/admin/api-setup', icon: Zap },
       { label: '✨ Premium UX', path: '/admin/premium-ux', icon: Sparkles },
       { label: '📡 Social Intel', path: '/admin/social-intelligence', icon: TrendingUp },
       { label: '🎯 Creator Insights', path: '/admin/creator-insights', icon: Eye },

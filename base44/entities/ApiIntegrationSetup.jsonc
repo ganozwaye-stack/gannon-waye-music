@@ -1,0 +1,131 @@
+{
+  "name": "ApiIntegrationSetup",
+  "type": "object",
+  "properties": {
+    "platform_name": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "developer_account_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "api_key_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "oauth_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "permissions_needed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "setup_status": {
+      "type": "string",
+      "enum": [
+        "not_connected",
+        "needs_credentials",
+        "connecting",
+        "testing",
+        "live",
+        "error",
+        "disabled"
+      ],
+      "default": "not_connected"
+    },
+    "credential_status": {
+      "type": "string",
+      "enum": [
+        "none",
+        "partial",
+        "saved",
+        "invalid"
+      ],
+      "default": "none"
+    },
+    "human_action_required": {
+      "type": "string"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "low"
+    },
+    "approval_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "setup_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "test_status": {
+      "type": "string",
+      "enum": [
+        "not_tested",
+        "pass",
+        "fail",
+        "pending"
+      ],
+      "default": "not_tested"
+    },
+    "last_test_result": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "social",
+        "distribution",
+        "payment",
+        "productivity",
+        "ai_creative",
+        "analytics",
+        "infrastructure"
+      ],
+      "default": "social"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 3000
+    }
+  },
+  "required": [
+    "platform_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
