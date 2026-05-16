@@ -96,6 +96,9 @@ import TrendMonitor from '@/pages/admin/TrendMonitor';
 import WebsiteOps from '@/pages/admin/WebsiteOps';
 import SocialMonitor from '@/pages/admin/SocialMonitor';
 import ContentDashboard from '@/pages/admin/ContentDashboard';
+import ExecutiveFeed from '@/pages/admin/ExecutiveFeed';
+import IdeasEngine from '@/pages/admin/IdeasEngine';
+import EcommerceIntelligence from '@/pages/admin/EcommerceIntelligence';
 
 
 const AuthenticatedApp = () => {
@@ -215,6 +218,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/website-ops" element={<WebsiteOps />} />
         <Route path="/admin/social-monitor" element={<SocialMonitor />} />
         <Route path="/admin/content-dashboard" element={<ContentDashboard />} />
+        <Route path="/admin/executive-feed" element={<ExecutiveFeed />} />
+        <Route path="/admin/ideas-engine" element={<IdeasEngine />} />
+        <Route path="/admin/ecommerce-intelligence" element={<EcommerceIntelligence />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

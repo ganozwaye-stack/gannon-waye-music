@@ -1,0 +1,122 @@
+{
+  "name": "IdeaOpportunity",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "business",
+        "ecommerce",
+        "saas",
+        "content",
+        "automation",
+        "customer_experience",
+        "social",
+        "marketing",
+        "product",
+        "other"
+      ],
+      "default": "business"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 5000
+    },
+    "target_customer": {
+      "type": "string"
+    },
+    "problem_solved": {
+      "type": "string"
+    },
+    "premium_angle": {
+      "type": "string"
+    },
+    "revenue_potential_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "automation_potential_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "difficulty_score": {
+      "type": "number",
+      "description": "1-10, 1=easy"
+    },
+    "risk_score": {
+      "type": "number",
+      "description": "1-10, 1=low risk"
+    },
+    "opportunity_score": {
+      "type": "number",
+      "description": "1-100 overall"
+    },
+    "estimated_setup_value": {
+      "type": "string"
+    },
+    "estimated_monthly_value": {
+      "type": "string"
+    },
+    "estimated_roi": {
+      "type": "string"
+    },
+    "recommended_next_step": {
+      "type": "string"
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewing",
+        "approved",
+        "in_progress",
+        "implemented",
+        "rejected",
+        "archived"
+      ],
+      "default": "new"
+    },
+    "source_agent": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "title",
+    "category"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
