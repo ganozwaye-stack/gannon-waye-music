@@ -3,7 +3,8 @@ import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Shield, Loader2, Star, AlertTriangle, CheckCircle2, Sparkles, Copy } from 'lucide-react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Shield, Loader2, Star, AlertTriangle, CheckCircle2, Sparkles, Copy, Zap } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import ReactMarkdown from 'react-markdown';
 
@@ -172,6 +173,37 @@ export default function PremiumUX() {
           <p className="text-sm text-muted-foreground">Click "Run Full Audit" to generate a comprehensive premium UX analysis.</p>
         </div>
       )}
+
+      {/* Interaction Rules */}
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base flex items-center gap-2"><Zap className="w-4 h-4 text-primary" />Interaction Design Rules</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { rule: 'Every button has a hover state', status: 'required' },
+              { rule: 'All modals have smooth open/close animation', status: 'required' },
+              { rule: 'Loading states for all async actions', status: 'required' },
+              { rule: 'Toast notifications for all mutations', status: 'required' },
+              { rule: 'Empty states have illustration + CTA', status: 'required' },
+              { rule: 'Forms show inline validation', status: 'required' },
+              { rule: 'Destructive actions require confirm dialog', status: 'required' },
+              { rule: 'All tables paginate at 20+ rows', status: 'recommended' },
+              { rule: 'Admin pages have breadcrumbs', status: 'recommended' },
+              { rule: 'Mobile nav uses bottom sheet not sidebar', status: 'recommended' },
+              { rule: 'CTAs use gradient-gold-button for premium feel', status: 'standard' },
+              { rule: 'Cards use hover:border-primary/30 transition', status: 'standard' },
+            ].map(({ rule, status }) => (
+              <div key={rule} className="flex items-center gap-2 text-xs">
+                <CheckCircle2 className={`w-3 h-3 shrink-0 ${status === 'required' ? 'text-green-400' : status === 'recommended' ? 'text-yellow-400' : 'text-blue-400'}`} />
+                <span className="text-muted-foreground flex-1">{rule}</span>
+                <Badge variant="outline" className="text-[10px]">{status}</Badge>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

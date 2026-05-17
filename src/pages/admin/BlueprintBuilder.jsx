@@ -1,9 +1,12 @@
 import { useState } from 'react';
+import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Shield, ChevronDown, ChevronUp, Package, Star, Zap, Crown, Building2 } from 'lucide-react';
+import { Shield, ChevronDown, ChevronUp, Package, Star, Zap, Crown, Building2, Sparkles, Loader2, Copy } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useToast } from '@/components/ui/use-toast';
+import ReactMarkdown from 'react-markdown';
 
 const PACKAGES = [
   {
@@ -100,6 +103,43 @@ const PACKAGES = [
 
 export default function BlueprintBuilder() {
   const [expanded, setExpanded] = useState(null);
+  const [generating, setGenerating] = useState(null);
+  const [proposals, setProposals] = useState({});
+  const { toast } = useToast();
+
+  const generateProposal = async (pkg) => {
+    setGenerating(pkg.id);
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `You are a premium AI systems consultant writing a client proposal for the "${pkg.name}" package.
+
+Package details:
+- Price: ${pkg.price_range}
+- Monthly support: ${pkg.monthly}
+- Timeline: ${pkg.timeline}
+- Tagline: ${pkg.tagline}
+- Dashboards: ${pkg.dashboards.join(', ')}
+- Agents: ${pkg.agents.join(', ')}
+- Integrations: ${pkg.integrations.join(', ')}
+
+Write a polished, persuasive 1-page client proposal that includes:
+1. Executive Summary (2 sentences — outcome-focused)
+2. What's Included (clear, benefit-framed bullet points)
+3. How It Works (3 phases: Discovery → Build → Launch)
+4. Investment Summary (pricing, timeline, support)
+5. Why Now (urgency framing)
+6. Next Step (single clear CTA)
+
+Tone: Confident, premium, consultative. This is for a sophisticated client. No fluff.`,
+        model: 'claude_sonnet_4_6',
+      });
+      setProposals(prev => ({ ...prev, [pkg.id]: result }));
+      toast({ title: `Proposal generated for ${pkg.name}` });
+    } catch {
+      toast({ title: 'Generation failed', variant: 'destructive' });
+    }
+    setGenerating(null);
+  };
 
   return (
     <div className="space-y-6 pb-10">
@@ -165,11 +205,27 @@ export default function BlueprintBuilder() {
                       </div>
                     </div>
                   </div>
-                  <div className="flex gap-3 pt-2 border-t border-border flex-wrap">
+                  <div className="flex gap-3 pt-2 border-t border-border flex-wrap items-center">
                     <Badge variant="outline">Timeline: {pkg.timeline}</Badge>
                     <Badge className={`${pkg.bg} ${pkg.color} border ${pkg.border}`}>{pkg.price_range}</Badge>
                     <Badge variant="outline">{pkg.monthly}</Badge>
+                    <Button size="sm" variant="outline" className="ml-auto text-xs" onClick={() => generateProposal(pkg)} disabled={generating === pkg.id}>
+                      {generating === pkg.id ? <><Loader2 className="w-3 h-3 mr-1 animate-spin" />Generating...</> : <><Sparkles className="w-3 h-3 mr-1" />Generate Proposal</>}
+                    </Button>
                   </div>
+                  {proposals[pkg.id] && (
+                    <div className="border border-primary/20 bg-primary/5 rounded-lg p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <p className="text-xs font-medium text-primary uppercase tracking-widest">AI-Generated Proposal</p>
+                        <Button size="sm" variant="ghost" className="h-6 text-xs" onClick={() => { navigator.clipboard.writeText(proposals[pkg.id]); toast({ title: 'Copied' }); }}>
+                          <Copy className="w-3 h-3 mr-1" />Copy
+                        </Button>
+                      </div>
+                      <div className="prose prose-sm prose-invert max-w-none text-xs max-h-80 overflow-y-auto">
+                        <ReactMarkdown>{proposals[pkg.id]}</ReactMarkdown>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               )}
             </Card>

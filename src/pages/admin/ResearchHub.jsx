@@ -16,6 +16,7 @@ export default function ResearchHub() {
   const [researchResult, setResearchResult] = useState(null);
   const [researching, setResearching] = useState(false);
   const [showSave, setShowSave] = useState(false);
+  const [expandedItem, setExpandedItem] = useState(null);
   const qc = useQueryClient();
 
   const { data: saved = [] } = useQuery({
@@ -90,18 +91,32 @@ export default function ResearchHub() {
         </Card>
       )}
 
-      {/* Saved Research */}
+      {/* Saved Research Feed */}
       {saved.length > 0 && (
         <div>
-          <h2 className="text-lg font-semibold mb-3">Saved Research</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-lg font-semibold">Research Feed</h2>
+            <Badge variant="outline" className="text-xs">{saved.length} entries</Badge>
+          </div>
+          <div className="space-y-2">
             {saved.map(item => (
-              <Card key={item.id} className="hover:border-primary/30 transition-all">
+              <Card key={item.id} className="hover:border-primary/30 transition-all cursor-pointer group" onClick={() => setExpandedItem(expandedItem === item.id ? null : item.id)}>
                 <CardContent className="p-4">
-                  <BookOpen className="w-4 h-4 text-cyan-400 mb-2" />
-                  <p className="font-semibold text-sm">{item.title}</p>
-                  <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{item.summary}</p>
-                  <p className="text-xs text-muted-foreground mt-2">{new Date(item.created_date).toLocaleDateString()}</p>
+                  <div className="flex items-start gap-3">
+                    <BookOpen className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-semibold text-sm">{item.title}</p>
+                        <p className="text-xs text-muted-foreground shrink-0">{new Date(item.created_date).toLocaleDateString('en-AU')}</p>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1 line-clamp-2 group-hover:line-clamp-none transition-all">{item.summary}</p>
+                      {expandedItem === item.id && item.content && (
+                        <div className="mt-3 pt-3 border-t border-border max-h-64 overflow-y-auto">
+                          <ReactMarkdown className="text-xs prose prose-sm prose-invert max-w-none">{item.content}</ReactMarkdown>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             ))}
