@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone, Lightbulb } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone, Lightbulb, CreditCard, Database, BookOpen } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
 import GlobalSearch from '@/components/global/GlobalSearch';
@@ -8,122 +8,113 @@ import CommandPalette from '@/components/global/CommandPalette';
 
 const NAV_SECTIONS = [
   {
-    title: '⚡ AI Operating System',
-    items: [
-      { label: '🧠 Command Centre', path: '/admin/command-centre', icon: Brain },
-      { label: '📋 Executive Feed', path: '/admin/executive-feed', icon: Star },
-      { label: '💡 Ideas Engine', path: '/admin/ideas-engine', icon: Lightbulb },
-      { label: '🧠 Memory Graph', path: '/admin/memory-graph', icon: Brain },
-      { label: '🔬 Agent Learning', path: '/admin/agent-learning', icon: Activity },
-      { label: '🩺 Self Healing', path: '/admin/self-healing', icon: Activity },
-      { label: '🔌 API Setup', path: '/admin/api-setup', icon: Zap },
-      { label: '✨ Premium UX', path: '/admin/premium-ux', icon: Sparkles },
-      { label: '📡 Social Intel', path: '/admin/social-intelligence', icon: TrendingUp },
-      { label: '🎯 Creator Insights', path: '/admin/creator-insights', icon: Eye },
-      { label: 'Orchestrator AI', path: '/admin/orchestrator-chat', icon: Zap },
-      { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain },
-      { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
-      { label: 'Risk Alerts', path: '/admin/risk-alerts', icon: Eye },
-      { label: 'Knowledge Vault', path: '/admin/knowledge-vault', icon: Lock },
-      { label: 'Legal Dashboard', path: '/admin/legal-dashboard', icon: Shield },
-      { label: 'Wealth Dashboard', path: '/admin/wealth-dashboard', icon: DollarSign },
-      { label: 'Research Hub', path: '/admin/research-hub', icon: Eye },
-      { label: 'Creative Studio', path: '/admin/creative-studio', icon: Sparkles },
-      { label: 'Marketing Centre', path: '/admin/marketing-centre', icon: Megaphone },
-      { label: 'Social Command', path: '/admin/social-command', icon: Users },
-      { label: 'Social Monitor', path: '/admin/social-monitor', icon: MessageCircle },
-      { label: 'Content Dashboard', path: '/admin/content-dashboard', icon: Sparkles },
-      { label: 'Security Centre', path: '/admin/security-centre', icon: Lock },
-      { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp },
-      { label: 'Website Ops', path: '/admin/website-ops', icon: Globe },
-      { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Activity },
-    ]
-  },
-  {
-    title: 'Overview',
+    title: '🧠 Command Centre',
     items: [
       { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+      { label: 'Executive Feed', path: '/admin/executive-feed', icon: Star },
+      { label: 'Command Centre', path: '/admin/command-centre', icon: Brain },
+      { label: 'Orchestrator AI', path: '/admin/orchestrator-chat', icon: Zap },
     ]
   },
   {
-    title: 'Music',
+    title: '🤖 Autonomous Agents',
     items: [
-      { label: 'My Releases', path: '/admin/releases', icon: Music },
+      { label: 'Agent Intelligence', path: '/admin/agent-intelligence', icon: Brain },
+      { label: 'Autonomous Ops', path: '/admin/autonomous-ops', icon: Activity },
+      { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain },
+      { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Activity },
+      { label: 'Agent Learning', path: '/admin/agent-learning', icon: BookOpen },
+      { label: 'Self Healing', path: '/admin/self-healing', icon: Activity },
     ]
   },
   {
-    title: 'Merchandise',
+    title: '🔬 Intelligence & Research',
     items: [
-      { label: 'My Products', path: '/admin/merch', icon: ShoppingBag },
+      { label: 'Research Grid', path: '/admin/research-grid', icon: TrendingUp },
+      { label: 'Research Hub', path: '/admin/research-hub', icon: Eye },
+      { label: 'Ideas Engine', path: '/admin/ideas-engine', icon: Lightbulb },
+      { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp },
+      { label: 'Knowledge Vault', path: '/admin/knowledge-vault', icon: Database },
+      { label: 'Memory Graph', path: '/admin/memory-graph', icon: Brain },
+    ]
+  },
+  {
+    title: '🛒 Ecommerce',
+    items: [
+      { label: 'Ecommerce Command', path: '/admin/ecommerce-command', icon: ShoppingBag },
+      { label: 'Ecommerce Intel', path: '/admin/ecommerce-intelligence', icon: Sparkles },
+      { label: 'My Products', path: '/admin/merch', icon: Package },
       { label: 'Product Financials', path: '/admin/merch-financials', icon: DollarSign },
-      { label: 'Design & Source', path: '/admin/merch-platforms', icon: Printer },
-      { label: 'My Designs', path: '/admin/merch-designs', icon: Palette },
-      { label: 'Image Editor', path: '/admin/image-editor', icon: Image },
       { label: 'Orders & Shipping', path: '/admin/orders', icon: Package },
-      { label: 'Thank You Cards', path: '/admin/thank-you-cards', icon: Heart },
+      { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
       { label: 'Product Intelligence', path: '/admin/product-insights', icon: Sparkles },
     ]
   },
   {
-    title: 'CRM & Community',
+    title: '📣 Social & Content',
+    items: [
+      { label: 'Social Intelligence', path: '/admin/social-intelligence', icon: TrendingUp },
+      { label: 'Creator Insights', path: '/admin/creator-insights', icon: Eye },
+      { label: 'Social Command', path: '/admin/social-command', icon: Users },
+      { label: 'Social Monitor', path: '/admin/social-monitor', icon: MessageCircle },
+      { label: 'Content Dashboard', path: '/admin/content-dashboard', icon: Sparkles },
+      { label: 'Social Content Gen', path: '/admin/social-content', icon: Megaphone },
+      { label: 'Marketing Centre', path: '/admin/marketing-centre', icon: Megaphone },
+      { label: 'Creative Studio', path: '/admin/creative-studio', icon: Palette },
+    ]
+  },
+  {
+    title: '💰 Finance & Payments',
+    items: [
+      { label: 'Financial Dashboard', path: '/admin/financials', icon: DollarSign },
+      { label: 'Wealth Dashboard', path: '/admin/wealth-dashboard', icon: DollarSign },
+      { label: 'Stripe Live Report', path: '/admin/stripe-live-report', icon: CreditCard },
+    ]
+  },
+  {
+    title: '🛡️ Risk & Security',
+    items: [
+      { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
+      { label: 'Risk Alerts', path: '/admin/risk-alerts', icon: Eye },
+      { label: 'Legal Dashboard', path: '/admin/legal-dashboard', icon: Shield },
+      { label: 'Security Centre', path: '/admin/security-centre', icon: Lock },
+      { label: 'Audit Log', path: '/admin/audit-log', icon: Activity },
+    ]
+  },
+  {
+    title: '🎵 Music & Content',
+    items: [
+      { label: 'My Releases', path: '/admin/releases', icon: Music },
+      { label: 'Social Videos', path: '/admin/videos', icon: Video },
+      { label: 'Distributors', path: '/admin/distributors', icon: Music },
+      { label: 'Mastering Queue', path: '/admin/mastering', icon: Music },
+    ]
+  },
+  {
+    title: '👥 CRM & Community',
     items: [
       { label: 'Supporter Registry', path: '/admin/subscribers', icon: Users },
       { label: 'Community Messages', path: '/admin/fans', icon: MessageCircle },
-      { label: 'Community Media Wall', path: '/admin/fan-media', icon: Camera },
-      { label: 'Social Videos', path: '/admin/videos', icon: Video },
+      { label: 'Community Media', path: '/admin/fan-media', icon: Camera },
       { label: 'Subscriber Newsletter', path: '/admin/newsletter', icon: Mail },
-      { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
-      { label: 'Engagement Reports', path: '/admin/report', icon: TrendingUp },
-      { label: 'Reveal Newsletter', path: '/admin/reveal-newsletter', icon: Mail },
+      { label: 'Birthday Discounts', path: '/admin/birthdays', icon: Gift },
     ]
   },
   {
-    title: 'Finance',
+    title: '🏗️ Build & Systems',
     items: [
-      { label: 'Financial Dashboard', path: '/admin/financials', icon: Sparkles },
-    ]
-  },
-  {
-    title: 'Campaigns',
-    items: [
-      { label: 'Hoodie Gift Offer', path: '/admin/hoodie-offer', icon: Gift },
-      { label: 'Gift Verification', path: '/admin/gift-verification', icon: Gift },
-      { label: 'Gift Progress', path: '/admin/gift-progress', icon: Gift },
-      { label: 'Release Countdown', path: '/admin/release-countdown', icon: Calendar },
-    ]
-  },
-  {
-    title: 'Mastering',
-    items: [
-      { label: 'Ecommerce Intel', path: '/admin/ecommerce-intelligence', icon: ShoppingBag },
       { label: 'Blueprint Builder', path: '/admin/blueprint-builder', icon: Book },
       { label: 'Client Installs', path: '/admin/client-installs', icon: Users },
-      { label: '🚀 Go-Live Checklist', path: '/admin/go-live', icon: Zap },
-      { label: '💳 Stripe Live Report', path: '/admin/stripe-live-report', icon: Zap },
-      { label: '🧬 Agent Intelligence', path: '/admin/agent-intelligence', icon: Brain },
-      { label: '📡 Research Grid', path: '/admin/research-grid', icon: TrendingUp },
-      { label: '⚙️ Autonomous Ops', path: '/admin/autonomous-ops', icon: Activity },
-      { label: 'Distributors', path: '/admin/distributors', icon: Music },
-      { label: 'Engineer Queue', path: '/admin/mastering', icon: Music },
-      { label: 'Open Mastering Tool', path: '/mastering', icon: Zap },
-    ]
-  },
-  {
-    title: 'Monitoring',
-    items: [
+      { label: 'Go-Live Checklist', path: '/admin/go-live', icon: Zap },
+      { label: 'API Setup', path: '/admin/api-setup', icon: Zap },
+      { label: 'Premium UX Audit', path: '/admin/premium-ux', icon: Sparkles },
+      { label: 'Website Ops', path: '/admin/website-ops', icon: Globe },
       { label: 'Site Health', path: '/admin/site-health', icon: Activity },
       { label: 'App Blueprint', path: '/admin/blueprint', icon: Book },
     ]
   },
   {
-    title: 'Marketing',
-    items: [
-      { label: 'Birthday Discounts', path: '/admin/birthdays', icon: Gift },
-      { label: 'Social Content Generator', path: '/admin/social-content', icon: Sparkles },
-    ]
-  },
-  {
-    title: 'Settings',
+    title: '⚙️ Settings',
     items: [
       { label: 'Site Settings', path: '/admin/settings', icon: Settings },
     ]

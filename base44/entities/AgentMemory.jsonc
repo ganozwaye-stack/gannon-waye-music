@@ -1,0 +1,96 @@
+{
+  "name": "AgentMemory",
+  "type": "object",
+  "properties": {
+    "agent_name": {
+      "type": "string"
+    },
+    "memory_type": {
+      "type": "string",
+      "enum": [
+        "successful_product",
+        "failed_product",
+        "successful_hook",
+        "failed_hook",
+        "high_converting_offer",
+        "supplier_insight",
+        "competitor_intel",
+        "audience_insight",
+        "campaign_learning",
+        "customer_pattern",
+        "viral_format",
+        "pricing_insight",
+        "retention_pattern",
+        "other"
+      ],
+      "default": "other"
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "importance_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "success_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "failure_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "confidence_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "linked_entities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source": {
+      "type": "string"
+    },
+    "is_permanent": {
+      "type": "boolean",
+      "default": true,
+      "description": "If true, never auto-delete this memory"
+    }
+  },
+  "required": [
+    "agent_name",
+    "memory_type",
+    "summary"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

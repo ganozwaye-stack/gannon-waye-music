@@ -111,6 +111,7 @@ import CreatorInsights from '@/pages/admin/CreatorInsights';
 import ApiSetup from '@/pages/admin/ApiSetup';
 import GoLiveChecklist from '@/pages/admin/GoLiveChecklist';
 import AgentIntelligence from '@/pages/admin/AgentIntelligence';
+import EcommerceCommand from '@/pages/admin/EcommerceCommand';
 import ResearchGrid from '@/pages/admin/ResearchGrid';
 import AutonomousOps from '@/pages/admin/AutonomousOps';
 import StripeLiveReport from '@/pages/admin/StripeLiveReport';
@@ -248,6 +249,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/api-setup" element={<ApiSetup />} />
         <Route path="/admin/go-live" element={<GoLiveChecklist />} />
         <Route path="/admin/agent-intelligence" element={<AgentIntelligence />} />
+        <Route path="/admin/ecommerce-command" element={<EcommerceCommand />} />
         <Route path="/admin/research-grid" element={<ResearchGrid />} />
         <Route path="/admin/autonomous-ops" element={<AutonomousOps />} />
         <Route path="/admin/stripe-live-report" element={<StripeLiveReport />} />
