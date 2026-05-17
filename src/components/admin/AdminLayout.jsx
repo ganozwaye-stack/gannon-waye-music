@@ -98,6 +98,7 @@ const NAV_SECTIONS = [
       { label: 'Ecommerce Intel', path: '/admin/ecommerce-intelligence', icon: ShoppingBag },
       { label: 'Blueprint Builder', path: '/admin/blueprint-builder', icon: Book },
       { label: 'Client Installs', path: '/admin/client-installs', icon: Users },
+      { label: '🚀 Go-Live Checklist', path: '/admin/go-live', icon: Zap },
       { label: 'Distributors', path: '/admin/distributors', icon: Music },
       { label: 'Engineer Queue', path: '/admin/mastering', icon: Music },
       { label: 'Open Mastering Tool', path: '/mastering', icon: Zap },

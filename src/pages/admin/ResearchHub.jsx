@@ -19,9 +19,13 @@ export default function ResearchHub() {
   const [expandedItem, setExpandedItem] = useState(null);
   const qc = useQueryClient();
 
+  const [categoryFilter, setCategoryFilter] = useState('all');
+
   const { data: saved = [] } = useQuery({
-    queryKey: ['research-vault'],
-    queryFn: () => base44.entities.KnowledgeVault.filter({ category: 'research' }, '-created_date', 50),
+    queryKey: ['research-vault', categoryFilter],
+    queryFn: () => categoryFilter === 'all'
+      ? base44.entities.KnowledgeVault.list('-created_date', 100)
+      : base44.entities.KnowledgeVault.filter({ category: categoryFilter }, '-created_date', 50),
   });
 
   const runResearch = async () => {
@@ -42,6 +46,7 @@ export default function ResearchHub() {
   });
 
   const SUGGESTIONS = ['Current music industry trends 2026','TikTok algorithm changes for artists','Best merchandise strategies for indie artists','Australian music streaming landscape','How to grow an email list as a musician','Safe legal steps for independent artists'];
+  const CATEGORIES = ['all', 'research', 'legal', 'creative', 'financial', 'brand_profile'];
 
   return (
     <div className="p-6 space-y-6">
@@ -94,9 +99,17 @@ export default function ResearchHub() {
       {/* Saved Research Feed */}
       {saved.length > 0 && (
         <div>
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between flex-wrap gap-3 mb-3">
             <h2 className="text-lg font-semibold">Research Feed</h2>
-            <Badge variant="outline" className="text-xs">{saved.length} entries</Badge>
+            <div className="flex gap-1.5 flex-wrap">
+              {CATEGORIES.map(c => (
+                <button key={c} onClick={() => setCategoryFilter(c)}
+                  className={`px-2.5 py-0.5 rounded-full text-xs border transition-all capitalize ${categoryFilter === c ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:border-primary/40'}`}>
+                  {c.replace('_', ' ')}
+                </button>
+              ))}
+              <Badge variant="outline" className="text-xs">{saved.length}</Badge>
+            </div>
           </div>
           <div className="space-y-2">
             {saved.map(item => (

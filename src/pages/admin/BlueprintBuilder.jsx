@@ -3,7 +3,9 @@ import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Shield, ChevronDown, ChevronUp, Package, Star, Zap, Crown, Building2, Sparkles, Loader2, Copy } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { Shield, ChevronDown, ChevronUp, Package, Star, Zap, Crown, Building2, Sparkles, Loader2, Copy, Send, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import ReactMarkdown from 'react-markdown';
@@ -105,6 +107,10 @@ export default function BlueprintBuilder() {
   const [expanded, setExpanded] = useState(null);
   const [generating, setGenerating] = useState(null);
   const [proposals, setProposals] = useState({});
+  const [showIntake, setShowIntake] = useState(false);
+  const [intake, setIntake] = useState({ name: '', business: '', goals: '', budget: '', timeline: '' });
+  const [intakeResult, setIntakeResult] = useState('');
+  const [intakeLoading, setIntakeLoading] = useState(false);
   const { toast } = useToast();
 
   const generateProposal = async (pkg) => {
@@ -141,6 +147,54 @@ Tone: Confident, premium, consultative. This is for a sophisticated client. No f
     setGenerating(null);
   };
 
+  const runIntake = async () => {
+    if (!intake.name || !intake.business) return;
+    setIntakeLoading(true);
+    setIntakeResult('');
+    try {
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `You are a premium AI systems consultant at Gannon Core. A prospective client has submitted an intake form. Based on their answers, recommend the best package and write a short personalized proposal intro.
+
+Client Name: ${intake.name}
+Business: ${intake.business}
+Goals: ${intake.goals}
+Budget: ${intake.budget}
+Timeline: ${intake.timeline}
+
+Available packages (by price):
+1. Starter AI System — $2,500–$4,500 setup, $500/mo
+2. Creator AI System — $5,500–$9,500 setup, $1,200/mo
+3. Ecommerce AI System — $7,500–$14,000 setup, $1,800/mo
+4. Premium Business OS — $15,000–$28,000 setup, $3,500/mo
+5. Enterprise AI Command Centre — $45,000+ setup, $8,000+/mo
+
+Output:
+1. Recommended package with justification (2–3 sentences)
+2. Key reasons this package fits their situation
+3. 3 immediate wins they'll get in the first 30 days
+4. Personalized proposal opening paragraph (warm, consultative, premium)
+5. Suggested next step
+
+Be specific, warm, and confident.`,
+        model: 'claude_sonnet_4_6',
+      });
+      setIntakeResult(result);
+      // Save to KnowledgeVault
+      await base44.entities.KnowledgeVault.create({
+        title: `Client Intake: ${intake.name} — ${intake.business}`,
+        category: 'business_profile',
+        content: `INTAKE:\nName: ${intake.name}\nBusiness: ${intake.business}\nGoals: ${intake.goals}\nBudget: ${intake.budget}\nTimeline: ${intake.timeline}\n\nAI RECOMMENDATION:\n${result}`,
+        summary: `Intake for ${intake.name} (${intake.business})`,
+        tags: ['client-intake', 'blueprint'],
+        access_level: 'admin_only',
+      });
+      toast({ title: `Intake saved for ${intake.name}` });
+    } catch {
+      toast({ title: 'Intake failed', variant: 'destructive' });
+    }
+    setIntakeLoading(false);
+  };
+
   return (
     <div className="space-y-6 pb-10">
       <div className="flex items-start justify-between flex-wrap gap-4">
@@ -157,6 +211,44 @@ Tone: Confident, premium, consultative. This is for a sophisticated client. No f
         <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
         <p className="text-yellow-300 text-xs"><strong>Private Only:</strong> No public pricing page or checkout exists. All packages are proposal-based. Requires manual approval before quoting any client.</p>
       </div>
+
+      {/* Client Intake Form */}
+      <Card className="border-primary/20">
+        <CardHeader className="pb-3 cursor-pointer" onClick={() => setShowIntake(v => !v)}>
+          <CardTitle className="text-base flex items-center gap-2">
+            <Users className="w-4 h-4 text-primary" />
+            Client Intake → Package Recommender
+            <Badge variant="outline" className="ml-auto text-xs">AI Powered</Badge>
+          </CardTitle>
+        </CardHeader>
+        {showIntake && (
+          <CardContent className="pt-0 space-y-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <Input placeholder="Client name" value={intake.name} onChange={e => setIntake(v => ({ ...v, name: e.target.value }))} />
+              <Input placeholder="Business / industry" value={intake.business} onChange={e => setIntake(v => ({ ...v, business: e.target.value }))} />
+              <Input placeholder="Budget range (e.g. $5k–$10k)" value={intake.budget} onChange={e => setIntake(v => ({ ...v, budget: e.target.value }))} />
+              <Input placeholder="Ideal timeline (e.g. 4 weeks)" value={intake.timeline} onChange={e => setIntake(v => ({ ...v, timeline: e.target.value }))} />
+            </div>
+            <Textarea placeholder="Main goals and pain points..." value={intake.goals} onChange={e => setIntake(v => ({ ...v, goals: e.target.value }))} rows={2} />
+            <Button onClick={runIntake} disabled={intakeLoading || !intake.name || !intake.business} className="gradient-gold-button border-0 gap-2">
+              {intakeLoading ? <><Loader2 className="w-4 h-4 animate-spin" />Generating Recommendation...</> : <><Send className="w-4 h-4" />Recommend Package</>}
+            </Button>
+            {intakeResult && (
+              <div className="border border-primary/20 bg-primary/5 rounded-lg p-4 mt-2">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-xs font-medium text-primary uppercase tracking-widest">Package Recommendation</p>
+                  <Button size="sm" variant="ghost" className="h-6 text-xs" onClick={() => { navigator.clipboard.writeText(intakeResult); toast({ title: 'Copied' }); }}>
+                    <Copy className="w-3 h-3 mr-1" />Copy
+                  </Button>
+                </div>
+                <div className="prose prose-sm prose-invert max-w-none text-xs max-h-72 overflow-y-auto">
+                  <ReactMarkdown>{intakeResult}</ReactMarkdown>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        )}
+      </Card>
 
       <div className="space-y-3">
         {PACKAGES.map(pkg => {
