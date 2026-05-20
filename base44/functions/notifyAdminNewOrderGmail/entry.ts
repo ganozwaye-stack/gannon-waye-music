@@ -33,8 +33,8 @@ Deno.serve(async (req) => {
 
     const { accessToken } = await base44.asServiceRole.connectors.getConnection('gmail');
 
-    const settings = await base44.asServiceRole.entities.SiteSettings.list();
-    const adminEmail = settings[0]?.email_contact || 'contact@gannonwaye.com';
+    // Always notify the primary owner email
+    const adminEmail = 'gannonwayemusic@gmail.com';
 
     const items = (data.items || []).map(i =>
       `<tr><td style="padding:8px;border-bottom:1px solid #2a2f3e;">${i.product_name}</td><td style="padding:8px;border-bottom:1px solid #2a2f3e;">${i.size || '—'}</td><td style="padding:8px;border-bottom:1px solid #2a2f3e;">x${i.quantity || 1}</td><td style="padding:8px;border-bottom:1px solid #2a2f3e;">$${i.price}</td></tr>`

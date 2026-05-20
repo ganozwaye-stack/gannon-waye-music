@@ -41,18 +41,21 @@ Deno.serve(async (req) => {
       (Date.now() - new Date(item.created_date).getTime()) < 12 * 60 * 60 * 1000
     );
 
+    let finalTopic = topic, finalCategory = category, finalTags = tags;
     if (recentlyResearched) {
       // Pick a different topic
       const altIndex = (topicIndex + 7) % RESEARCH_TOPICS.length;
       const alt = RESEARCH_TOPICS[altIndex];
-      Object.assign({ topic: alt.topic, category: alt.category, tags: alt.tags }, { topic: alt.topic, category: alt.category, tags: alt.tags });
+      finalTopic = alt.topic;
+      finalCategory = alt.category;
+      finalTags = alt.tags;
     }
 
     // Research using LLM with web search
     const research = await base44.asServiceRole.integrations.Core.InvokeLLM({
       prompt: `You are a dedicated research agent for Gannon Waye, an Australian LGBTQIA+ affirming pop artist releasing debut single "Thank You".
 
-Research this topic thoroughly: ${topic}
+Research this topic thoroughly: ${finalTopic}
 
 Provide:
 1. KEY FINDINGS: 5-7 specific, actionable insights (not generic advice)
@@ -71,13 +74,13 @@ Focus on what would actually help an independent Australian artist with Gannon's
     const summaryText = research?.substring(0, 300) || 'Research completed';
 
     // Save to Knowledge Vault
-    const title = `Research: ${topic.substring(0, 60)} — ${new Date().toLocaleDateString('en-AU')}`;
+    const title = `Research: ${finalTopic.substring(0, 60)} — ${new Date().toLocaleDateString('en-AU')}`;
     await base44.asServiceRole.entities.KnowledgeVault.create({
       title,
-      category,
+      category: finalCategory,
       content: research || 'Research unavailable',
       summary: summaryText,
-      tags: [...tags, 'auto-research', 'autonomous'],
+      tags: [...finalTags, 'auto-research', 'autonomous'],
       source: 'Autonomous Research Agent',
       is_sensitive: false,
       access_level: 'admin_only',
@@ -87,19 +90,19 @@ Focus on what would actually help an independent Australian artist with Gannon's
     // Log the action
     await base44.asServiceRole.entities.AgentTaskLog.create({
       agent_name: 'AutonomousResearchAgent',
-      task_title: `Research completed: ${topic.substring(0, 80)}`,
-      outcome: `Saved to Knowledge Vault under category: ${category}`,
+      task_title: `Research completed: ${finalTopic.substring(0, 80)}`,
+      outcome: `Saved to Knowledge Vault under category: ${finalCategory}`,
       was_automatic: true,
       required_approval: false,
       risk_check_result: 'pass',
-      tags: ['autonomous', 'research', ...tags],
+      tags: ['autonomous', 'research', ...finalTags],
       source_used: 'Internet + LLM',
     });
 
     return Response.json({
       success: true,
-      topic,
-      category,
+      topic: finalTopic,
+      category: finalCategory,
       saved: title,
     });
 

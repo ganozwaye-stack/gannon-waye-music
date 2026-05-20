@@ -45,8 +45,8 @@ Deno.serve(async (req) => {
     const { accessToken: sheetAccessToken } = sheetsConn;
     const sheetId = Deno.env.get('GOOGLE_SHEET_ID');
 
-    const settings = await base44.asServiceRole.entities.SiteSettings.list();
-    const adminEmail = settings[0]?.email_contact || 'ganozwaye@gmail.com';
+    // Always notify the primary owner email
+    const adminEmail = 'gannonwayemusic@gmail.com';
 
     const items = (data.items || []);
     const itemsHtml = items.map(i =>
