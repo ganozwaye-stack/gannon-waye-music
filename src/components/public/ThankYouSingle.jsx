@@ -116,17 +116,32 @@ export default function ThankYouSingle() {
                 {released ? 'Coming Soon' : `Coming ${releaseDateText} · All leading platforms`}
               </p>
               {!released && <CountdownTimer targetDate={releaseDateIso} />}
-              {released ? (
-                <a href="https://open.spotify.com/search/Gannon%20Waye%20Thank%20You" target="_blank" rel="noopener noreferrer">
-                  <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                    <Music className="w-4 h-4" /> Listen on Spotify
-                  </Button>
-                </a>
-              ) : (
-                <Button disabled className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0 opacity-60 cursor-not-allowed">
-                  <Music className="w-4 h-4" /> Pre-save Coming Soon
+              <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer" className="block">
+                <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
+                  <Music className="w-4 h-4" /> {released ? 'Listen Now' : 'Pre-Save Now'}
                 </Button>
-              )}
+              </a>
+              <div className="space-y-2">
+                <p className="font-body text-xs tracking-[0.15em] uppercase text-muted-foreground">Available on</p>
+                <div className="flex flex-wrap gap-2">
+                  {[
+                    { name: 'Spotify', color: '#1DB954', bg: 'bg-[#1DB954]/10 border-[#1DB954]/30 text-[#1DB954]' },
+                    { name: 'Apple Music', color: '#FA243C', bg: 'bg-[#FA243C]/10 border-[#FA243C]/30 text-[#FA243C]' },
+                    { name: 'Amazon Music', color: '#00A8E1', bg: 'bg-[#00A8E1]/10 border-[#00A8E1]/30 text-[#00A8E1]' },
+                    { name: 'Deezer', color: '#A238FF', bg: 'bg-[#A238FF]/10 border-[#A238FF]/30 text-[#A238FF]' },
+                    { name: 'Tidal', color: '#00FFFF', bg: 'bg-[#00FFFF]/10 border-[#00FFFF]/30 text-[#00FFFF]' },
+                    { name: 'YouTube Music', color: '#FF0000', bg: 'bg-[#FF0000]/10 border-[#FF0000]/30 text-[#FF0000]' },
+                    { name: 'SoundCloud', color: '#FF5500', bg: 'bg-[#FF5500]/10 border-[#FF5500]/30 text-[#FF5500]' },
+                    { name: 'Anghami', color: '#F5594E', bg: 'bg-[#F5594E]/10 border-[#F5594E]/30 text-[#F5594E]' },
+                    { name: 'Audiomack', color: '#FFA200', bg: 'bg-[#FFA200]/10 border-[#FFA200]/30 text-[#FFA200]' },
+                  ].map(p => (
+                    <a key={p.name} href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer"
+                      className={`px-2.5 py-1 rounded-full border font-body text-[10px] tracking-wider transition-all hover:scale-105 ${p.bg}`}>
+                      {p.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
             </div>
 
             <div className="border-t border-border/30 pt-6">
