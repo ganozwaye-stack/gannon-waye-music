@@ -6,7 +6,7 @@ import {
   LayoutDashboard, FileCode, Database, Zap, Component, Globe, Shield,
   ChevronDown, ChevronRight, ExternalLink, RefreshCw, Music, ShoppingBag,
   Users, Settings, Mail, DollarSign, Activity, Gift, Video, Book,
-  CreditCard, CheckSquare, AlertTriangle
+  CreditCard, CheckSquare, AlertTriangle, Brain
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -42,6 +42,7 @@ const PAGES = [
   { label: 'Gift Claims', path: '/admin/gift-claims', admin: true },
   { label: 'Gift Progress', path: '/admin/gift-progress', admin: true },
   { label: 'Release Countdown', path: '/admin/release-countdown', admin: true },
+  { label: 'Content Automate', path: '/admin/content-automate', admin: true },
   { label: 'Charity Tracking', path: '/admin/charity-tracking', admin: true },
   { label: 'Birthday Discounts', path: '/admin/birthdays', admin: true },
   { label: 'Promo Codes', path: '/admin/promo-codes', admin: true },
@@ -76,6 +77,13 @@ const ENTITIES = [
 ];
 
 const FUNCTIONS = [
+  { name: 'generatePresaveLinks', desc: 'Presave links generator (all platforms)', category: 'Distribution' },
+  { name: 'releaseCalendarSync', desc: 'Release calendar sync to Google Calendar', category: 'Distribution' },
+  { name: 'collectReleaseFeedback', desc: 'Fan feedback collection system', category: 'Distribution' },
+  { name: 'autonomousSocialPoster', desc: 'AI social content generator', category: 'Social' },
+  { name: 'autonomousAlertSystem', desc: 'System health & alert dispatcher', category: 'Monitoring' },
+  { name: 'sendSlackAlert', desc: 'Slack notification dispatcher', category: 'Notifications' },
+  { name: 'onNewOrderSlack', desc: 'Order Slack alerts', category: 'Notifications' },
   { name: 'createPaymentIntent', desc: 'Stripe payment creation', category: 'Payments' },
   { name: 'getStripeConfig', desc: 'Stripe public key fetch', category: 'Payments' },
   { name: 'generateDonorReceipt', desc: 'HTML receipt for supporters', category: 'Payments' },
@@ -383,6 +391,37 @@ export default function Blueprint() {
               ))}
             </div>
           </div>
+        </div>
+      </Section>
+
+      {/* Agent Autonomy & Self-Learning Requirements */}
+      <Section icon={Brain} title="Agent Autonomy Requirements" count={7} color="bg-purple-500/10 text-purple-400">
+        <div className="space-y-4">
+          <p className="font-body text-xs text-muted-foreground">For agents to become truly self-reliant and autonomous, implement these core systems:</p>
+          {[
+            { req: 'Knowledge Vault Integration', desc: 'Every agent decision must save learnings to KnowledgeVault for future reference. Agents retrieve past decisions before acting.', status: '✅ Ready' },
+            { req: 'Approval Queue Learning Loop', desc: 'When approvals are rejected, agents analyze rejection reasons and store anti-patterns. Auto-improve prompts next time.', status: '⏳ Partial' },
+            { req: 'AgentMemory for Pattern Recognition', desc: 'Track what worked (high-confidence outputs) vs failed (low-confidence blocks). Agents query memory before executing risky tasks.', status: '⏳ Partial' },
+            { req: 'AgentLearningRecord Auto-Population', desc: 'Every successful task creation, rejection, or optimization must be logged. Agents generate their own lesson records.', status: '⏳ Partial' },
+            { req: 'Real-Time Feedback Loop (Slack)', desc: 'Agents receive immediate Slack notifications of task outcomes — success/failure — allowing them to adjust strategy mid-execution.', status: '✅ Ready' },
+            { req: 'AgentTaskLog for Audit Trail', desc: 'Every autonomous action is logged with risk assessment. Agents can query their own history to avoid repeating mistakes.', status: '✅ Ready' },
+            { req: 'LLM-Driven Self-Critique', desc: 'Before executing high-risk tasks, agents invoke an LLM to self-critique their plan. Store critiques in KnowledgeVault.', status: '⏳ Build Now' },
+            { req: 'Autonomous Prompt Evolution', desc: 'Agents automatically improve their system prompt by analyzing successful vs failed outputs. Store versioned prompts in KnowledgeVault.', status: '⏳ Build Now' },
+            { req: 'Financial/Legal Risk Awareness', desc: 'Agents auto-flag high-risk actions for ApprovalQueue. Over time, learn which approvals succeed vs fail to refine risk threshold.', status: '✅ Ready' },
+            { req: 'Competitive/Market Intelligence Loop', desc: 'Agents autonomously fetch, analyse, and store market data (TrendMonitor, CreatorInsights, SocialIntelligence). Update memory weekly.', status: '✅ Ready' },
+          ].map(({ req, desc, status }, i) => (
+            <div key={i} className="bg-secondary/30 rounded-xl p-3 border border-border/30">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex-1">
+                  <p className="font-body text-sm text-foreground font-medium">{req}</p>
+                  <p className="font-body text-xs text-muted-foreground mt-1">{desc}</p>
+                </div>
+                <Badge className={status.includes('Ready') ? 'bg-green-500/10 text-green-400 border-green-500/30' : status.includes('Partial') ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' : 'bg-blue-500/10 text-blue-400 border-blue-500/30'}>
+                  {status.split(' ')[0]}
+                </Badge>
+              </div>
+            </div>
+          ))}
         </div>
       </Section>
 

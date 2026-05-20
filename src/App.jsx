@@ -115,6 +115,7 @@ import EcommerceCommand from '@/pages/admin/EcommerceCommand';
 import ResearchGrid from '@/pages/admin/ResearchGrid';
 import AutonomousOps from '@/pages/admin/AutonomousOps';
 import StripeLiveReport from '@/pages/admin/StripeLiveReport';
+import ContentAutomate from '@/pages/admin/ContentAutomate';
 
 
 const AuthenticatedApp = () => {
@@ -253,6 +254,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/research-grid" element={<ResearchGrid />} />
         <Route path="/admin/autonomous-ops" element={<AutonomousOps />} />
         <Route path="/admin/stripe-live-report" element={<StripeLiveReport />} />
+        <Route path="/admin/content-automate" element={<ContentAutomate />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
