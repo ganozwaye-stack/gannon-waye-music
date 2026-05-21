@@ -79,10 +79,10 @@ export default function ApprovalQueue() {
               {expanded === item.id && (
                 <div className="mt-4 space-y-3 border-t border-border pt-4">
                   <p className="text-sm text-foreground">{item.action_description}</p>
-                  {item.proposed_output && (
+                  {(item.proposed_action || item.proposed_output) && (
                     <div className="bg-secondary rounded-lg p-3">
-                      <p className="text-xs text-muted-foreground mb-1">Proposed Output:</p>
-                      <p className="text-sm">{item.proposed_output}</p>
+                      <p className="text-xs text-muted-foreground mb-1">Proposed Action / Output:</p>
+                      <p className="text-sm whitespace-pre-wrap">{item.proposed_action || item.proposed_output}</p>
                     </div>
                   )}
                   {item.status === 'pending' && (
