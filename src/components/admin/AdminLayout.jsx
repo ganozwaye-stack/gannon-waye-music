@@ -18,7 +18,6 @@ const NAV_SECTIONS = [
       { label: 'Growth Engine', path: '/admin/growth-engine', icon: TrendingUp },
       { label: 'Command Centre', path: '/admin/command-centre', icon: Brain },
       { label: 'Orchestrator AI', path: '/admin/orchestrator-chat', icon: Zap },
-      { label: 'Research Agents', path: '/admin/orchestrator-chat', icon: Brain },
     ]
   },
   {

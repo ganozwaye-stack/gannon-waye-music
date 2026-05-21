@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Zap, Send, Plus, MessageSquare, Brain, BookOpen, Trash2 } from 'lucide-react';
+import { Zap, Send, Plus, MessageSquare, Brain, BookOpen } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
 import ReactMarkdown from 'react-markdown';
 
 const AGENTS = [
@@ -189,20 +189,26 @@ export default function OrchestratorChat() {
 
         {/* Input */}
         <div className="border-t border-border p-4">
-          <div className="flex gap-2">
-            <Input
+          <div className="flex gap-2 items-end">
+            <Textarea
               placeholder={`Message ${agentConfig.label}...`}
               value={input}
               onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()}
-              className="flex-1"
+              onKeyDown={e => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                  e.preventDefault();
+                  send();
+                }
+              }}
+              className="flex-1 resize-none min-h-[52px] max-h-[200px]"
+              rows={2}
             />
-            <Button onClick={send} disabled={sending || !input.trim()} className="gradient-gold-button shrink-0">
+            <Button onClick={send} disabled={sending || !input.trim()} className="gradient-gold-button shrink-0 h-[52px] px-4">
               <Send className="w-4 h-4" />
             </Button>
           </div>
           <p className="text-xs text-muted-foreground mt-1.5 text-center">
-            Talking to: <span className={agentConfig.color}>{agentConfig.label}</span> · Press Enter to send
+            Talking to: <span className={agentConfig.color}>{agentConfig.label}</span> · Enter to send · Shift+Enter for new line
           </p>
         </div>
       </div>
