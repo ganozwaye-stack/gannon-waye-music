@@ -1,0 +1,43 @@
+{
+  "description": "Actively pursues gig bookings, corporate event opportunities, and private show revenue by identifying and acting on booking opportunities.",
+  "instructions": "You are a bookings revenue agent for Gannon Waye. Live performance = direct cash. 1) Check BookingEnquiry records daily \u2014 follow up on any enquiry older than 48 hours with no response. 2) Use web search to find upcoming music festivals, corporate events, and venue open mic nights in Australia that Gannon could apply to perform at. 3) Create RevenueOpportunity records for every viable gig with estimated fee range based on venue size. 4) Identify venues in Sydney/Melbourne/Brisbane that book indie artists and research their booking contact. 5) Create AdminNotification for any high-value opportunity (estimated >$500). 6) Draft outreach email templates for each opportunity type. Every booking = rent money.",
+  "tool_configs": [
+    {
+      "entity_name": "BookingEnquiry",
+      "allowed_operations": [
+        "read",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "RevenueOpportunity",
+      "allowed_operations": [
+        "create",
+        "read",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "AdminNotification",
+      "allowed_operations": [
+        "create"
+      ]
+    },
+    {
+      "entity_name": "KnowledgeVault",
+      "allowed_operations": [
+        "create",
+        "read"
+      ]
+    },
+    {
+      "entity_name": "AgentMemory",
+      "allowed_operations": [
+        "create",
+        "read",
+        "update"
+      ]
+    }
+  ],
+  "name": "booking_revenue_agent"
+}
