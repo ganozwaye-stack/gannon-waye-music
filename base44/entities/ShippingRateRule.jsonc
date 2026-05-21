@@ -1,0 +1,106 @@
+{
+  "name": "ShippingRateRule",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Rule name e.g. 'Australia CD Standard'"
+    },
+    "region": {
+      "type": "string",
+      "enum": [
+        "australia",
+        "international",
+        "local_pickup"
+      ],
+      "default": "australia"
+    },
+    "product_type": {
+      "type": "string",
+      "enum": [
+        "cd",
+        "merch",
+        "vinyl",
+        "bundle",
+        "other"
+      ],
+      "default": "merch"
+    },
+    "min_quantity": {
+      "type": "number",
+      "default": 1
+    },
+    "max_quantity": {
+      "type": "number",
+      "description": "null = unlimited"
+    },
+    "base_rate": {
+      "type": "number",
+      "description": "Base postage cost in AUD"
+    },
+    "additional_item_rate": {
+      "type": "number",
+      "description": "Cost per additional item beyond first"
+    },
+    "free_shipping_threshold": {
+      "type": "number",
+      "description": "Order value in AUD that triggers free shipping (null = no free shipping)"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, changes need approval before going live"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending_approval",
+        "live",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "last_reviewed": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "name",
+    "region",
+    "product_type",
+    "base_rate",
+    "additional_item_rate"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

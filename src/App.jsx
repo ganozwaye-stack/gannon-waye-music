@@ -118,6 +118,7 @@ import StripeLiveReport from '@/pages/admin/StripeLiveReport';
 import ContentAutomate from '@/pages/admin/ContentAutomate';
 import GrowthEngine from '@/pages/admin/GrowthEngine';
 import Notifications from '@/pages/admin/Notifications';
+import ShippingRates from '@/pages/admin/ShippingRates';
 
 
 const AuthenticatedApp = () => {
@@ -259,6 +260,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/content-automate" element={<ContentAutomate />} />
         <Route path="/admin/growth-engine" element={<GrowthEngine />} />
         <Route path="/admin/notifications" element={<Notifications />} />
+        <Route path="/admin/shipping-rates" element={<ShippingRates />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

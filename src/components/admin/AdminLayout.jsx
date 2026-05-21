@@ -46,6 +46,7 @@ const NAV_SECTIONS = [
       { label: 'My Products', path: '/admin/merch', icon: Package },
       { label: 'Product Financials', path: '/admin/merch-financials', icon: DollarSign },
       { label: 'Orders & Shipping', path: '/admin/orders', icon: Package },
+      { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Package },
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
       { label: 'Product Intelligence', path: '/admin/product-insights', icon: Sparkles },
     ]
