@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const RELEASE_DATE = new Date('2026-06-10T00:00:00+10:00');
+const RELEASE_DATE = new Date('2026-06-05T00:00:00+10:00');
 
 function CountdownBadge() {
   const now = new Date();

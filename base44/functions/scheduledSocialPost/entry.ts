@@ -12,11 +12,11 @@ Deno.serve(async (req) => {
 
     // Generate today's social post draft using LLM
     const today = new Date().toLocaleDateString('en-AU', { weekday: 'long', month: 'long', day: 'numeric' });
-    const daysUntilRelease = Math.max(0, Math.ceil((new Date('2026-06-10') - new Date()) / (1000 * 60 * 60 * 24)));
+    const daysUntilRelease = Math.max(0, Math.ceil((new Date('2026-06-05') - new Date()) / (1000 * 60 * 60 * 24)));
 
     const result = await base44.integrations.Core.InvokeLLM({
       prompt: `You are the social media voice for Gannon Waye — Australian singer-songwriter. 
-Today is ${today}. The debut single "Thank You" releases June 10, 2026 (${daysUntilRelease} days away).
+Today is ${today}. The debut single "Thank You" releases June 5, 2026 (${daysUntilRelease} days away).
 
 Generate 3 social media post drafts for TODAY. Each should be emotionally resonant, authentic, and platform-appropriate.
 
@@ -25,7 +25,7 @@ Post 2 (Instagram caption — 2-3 sentences, emotional, with hashtags):
 Post 3 (Short motivational quote tweet — under 280 chars, no hashtags):
 
 All posts should hint at the upcoming release, personal vulnerability, self-love themes, or music journey. 
-Do NOT use phrases like "Listen Now" — use "Pre-Save Now" or "Coming June 10".
+Do NOT use phrases like "Listen Now" — use "Pre-Save Now" or "Coming June 5".
 Gannon's social handles: @gannonwaye on all platforms.`,
       response_json_schema: {
         type: "object",

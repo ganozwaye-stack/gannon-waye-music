@@ -6,7 +6,7 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
-    const releaseDate = new Date('2026-06-10T00:00:00+10:00');
+    const releaseDate = new Date('2026-06-05T00:00:00+10:00');
     const now = new Date();
     const daysLeft = Math.max(0, Math.ceil((releaseDate - now) / (1000 * 60 * 60 * 24)));
 
@@ -25,7 +25,7 @@ Deno.serve(async (req) => {
     await base44.asServiceRole.entities.AdminNotification.create({
       notification_type: 'system',
       severity: daysLeft <= 7 ? 'high' : daysLeft <= 14 ? 'warning' : 'info',
-      title: `🎵 ${daysLeft} Days Until "Thank You" Releases — June 10, 2026`,
+      title: `🎵 ${daysLeft} Days Until "Thank You" Releases — June 5, 2026`,
       summary: `Subscribers: ${subscribers.length} total (${recentSubs} new this week). Orders: ${orders.length} total. Open growth opportunities: ${opportunities.length}. Keep pushing pre-save, merch, and email growth.`,
       source: 'releaseCountdownBrief',
       requires_action: daysLeft <= 14,
