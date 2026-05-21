@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle2, XCircle, Edit, Clock, AlertTriangle, ChevronDown, ChevronUp, Send, Archive, Zap } from 'lucide-react';
+import VoiceTextarea from '@/components/ui/VoiceTextarea';
 import { toast } from 'sonner';
 
 const RISK_COLORS = { low: 'bg-yellow-500/10 text-yellow-400', medium: 'bg-orange-500/10 text-orange-400', high: 'bg-red-500/10 text-red-400', critical: 'bg-red-700/20 text-red-300' };
@@ -87,7 +88,7 @@ export default function ApprovalQueue() {
                   )}
                   {item.status === 'pending' && (
                     <>
-                      <Textarea
+                      <VoiceTextarea
                         placeholder="Add a note (optional)..."
                         value={editNote}
                         onChange={e => setEditNote(e.target.value)}

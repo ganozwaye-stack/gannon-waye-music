@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import { Upload, X, Music, Mic, Calendar, MapPin, DollarSign, Users, FileText, Link as LinkIcon, Send, Heart, Sparkles, Globe, Instagram, Facebook, Youtube } from 'lucide-react';
+import VoiceTextarea from '@/components/ui/VoiceTextarea';
 import { createBookingEnquiry, BOOKING_TYPES, BOOKING_STATUSES } from '@/lib/bookingSystem';
 
 const BOOKING_TYPE_LABELS = {
@@ -333,7 +334,7 @@ export default function Bookings() {
 
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase">Event Details *</Label>
-                <Textarea 
+                <VoiceTextarea 
                   value={form.event_details} 
                   onChange={e => { setForm({ ...form, event_details: e.target.value }); setErrors(er => ({ ...er, event_details: '' })); }}
                   rows={4} 
@@ -345,7 +346,7 @@ export default function Bookings() {
 
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase">Accessibility Needs</Label>
-                <Textarea 
+                <VoiceTextarea 
                   value={form.accessibility_needs} 
                   onChange={e => setForm({ ...form, accessibility_needs: e.target.value })} 
                   rows={2} 
@@ -355,7 +356,7 @@ export default function Bookings() {
 
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase">Technical Requirements</Label>
-                <Textarea 
+                <VoiceTextarea 
                   value={form.technical_requirements} 
                   onChange={e => setForm({ ...form, technical_requirements: e.target.value })} 
                   rows={2} 

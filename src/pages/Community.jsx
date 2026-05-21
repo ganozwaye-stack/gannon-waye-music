@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { Send, Users, MessageCircle, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import VoiceTextarea from '@/components/ui/VoiceTextarea';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { format } from 'date-fns';
@@ -166,7 +166,7 @@ export default function Community() {
             </div>
             <div>
               <Label className="font-body text-xs tracking-wider uppercase mb-1 block">Message *</Label>
-              <Textarea
+              <VoiceTextarea
                 value={newPost.content}
                 onChange={e => setNewPost({ ...newPost, content: e.target.value })}
                 placeholder="Share your thoughts, your story, or just say hi..."

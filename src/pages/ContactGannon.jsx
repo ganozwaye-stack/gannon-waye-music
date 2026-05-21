@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Mail, Instagram, Music2, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import VoiceTextarea from '@/components/ui/VoiceTextarea';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
 
@@ -144,12 +145,12 @@ export default function ContactGannon() {
                   </div>
                   <div>
                     <label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Message</label>
-                    <textarea
+                    <VoiceTextarea
                       placeholder="What's on your mind..."
                       value={form.message}
                       onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                       rows={5}
-                      className="w-full bg-secondary/50 border border-border/40 rounded-md px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring resize-none"
+                      className="w-full bg-secondary/50 border border-border/40 text-sm"
                     />
                   </div>
                   <Button

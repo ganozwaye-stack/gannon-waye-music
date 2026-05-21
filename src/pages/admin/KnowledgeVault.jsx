@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import VoiceTextarea from '@/components/ui/VoiceTextarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Plus, Search, FileText, Shield, Trash2, X, Edit2, Save } from 'lucide-react';
@@ -132,7 +133,7 @@ export default function KnowledgeVault() {
                 <SelectContent>{CATEGORIES.map(c => <SelectItem key={c} value={c}>{c.replace(/_/g,' ')}</SelectItem>)}</SelectContent>
               </Select>
               <Input placeholder="Summary" value={editForm.summary || ''} onChange={e => setEditForm({...editForm, summary: e.target.value})} />
-              <Textarea placeholder="Content..." value={editForm.content || ''} onChange={e => setEditForm({...editForm, content: e.target.value})} rows={8} />
+              <VoiceTextarea placeholder="Content..." value={editForm.content || ''} onChange={e => setEditForm({...editForm, content: e.target.value})} rows={8} />
               <Input placeholder="Tags (comma separated)" value={editForm.tags || ''} onChange={e => setEditForm({...editForm, tags: e.target.value})} />
               <label className="flex items-center gap-2 text-sm cursor-pointer">
                 <input type="checkbox" checked={editForm.is_sensitive || false} onChange={e => setEditForm({...editForm, is_sensitive: e.target.checked})} />
@@ -179,7 +180,7 @@ export default function KnowledgeVault() {
               <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>{CATEGORIES.map(c => <SelectItem key={c} value={c}>{c.replace(/_/g,' ')}</SelectItem>)}</SelectContent>
             </Select>
-            <Textarea placeholder="Content..." value={form.content} onChange={e => setForm({...form, content: e.target.value})} rows={5} />
+            <VoiceTextarea placeholder="Content..." value={form.content} onChange={e => setForm({...form, content: e.target.value})} rows={5} />
             <Input placeholder="Summary (optional)" value={form.summary} onChange={e => setForm({...form, summary: e.target.value})} />
             <Input placeholder="Tags (comma separated)" value={form.tags} onChange={e => setForm({...form, tags: e.target.value})} />
             <label className="flex items-center gap-2 text-sm cursor-pointer">

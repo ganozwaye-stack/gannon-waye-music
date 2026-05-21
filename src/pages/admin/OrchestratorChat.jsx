@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Zap, Send, Plus, MessageSquare, Brain, BookOpen } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
+import VoiceButton from '@/components/ui/VoiceButton';
 import ReactMarkdown from 'react-markdown';
 
 const AGENTS = [
@@ -190,19 +191,24 @@ export default function OrchestratorChat() {
         {/* Input */}
         <div className="border-t border-border p-4">
           <div className="flex gap-2 items-end">
-            <Textarea
-              placeholder={`Message ${agentConfig.label}...`}
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault();
-                  send();
-                }
-              }}
-              className="flex-1 resize-none min-h-[52px] max-h-[200px]"
-              rows={2}
-            />
+            <div className="relative flex-1">
+              <Textarea
+                placeholder={`Message ${agentConfig.label}...`}
+                value={input}
+                onChange={e => setInput(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    send();
+                  }
+                }}
+                className="resize-none min-h-[52px] max-h-[200px] pr-11"
+                rows={2}
+              />
+              <div className="absolute bottom-2.5 right-2.5">
+                <VoiceButton value={input} onChange={setInput} size="sm" />
+              </div>
+            </div>
             <Button onClick={send} disabled={sending || !input.trim()} className="gradient-gold-button shrink-0 h-[52px] px-4">
               <Send className="w-4 h-4" />
             </Button>
