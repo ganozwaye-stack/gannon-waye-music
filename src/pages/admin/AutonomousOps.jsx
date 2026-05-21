@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Zap, Activity, Shield, CheckCircle2, XCircle, AlertTriangle, Clock, Play, RefreshCw, Brain, TrendingUp, Loader2 } from 'lucide-react';
+import { Zap, Activity, Shield, CheckCircle2, XCircle, AlertTriangle, Clock, Play, RefreshCw, Brain, TrendingUp, Loader2, BookOpen, Settings } from 'lucide-react';
 import { toast } from 'sonner';
 
 const SCHEDULED_LOOPS = [
@@ -13,6 +13,9 @@ const SCHEDULED_LOOPS = [
   { name: 'Trend Engine', fn: 'autonomousTrendEngine', interval: 'Every 6 hours', status: 'active', description: 'Scans viral products, emerging trends, competitor moves', lastRun: null },
   { name: 'Executive Morning Brief', fn: 'executiveMorningBrief', interval: 'Daily 8am AEST', status: 'active', description: 'Generates daily intelligence summary for executive review', lastRun: null },
   { name: 'Site Health Check', fn: 'runSiteHealthCheck', interval: 'Every 12 hours', status: 'active', description: 'Monitors system integrity, detects broken pages and errors', lastRun: null },
+  { name: 'Agent Self-Improvement', fn: 'agentSelfImprovement', interval: 'Daily', status: 'active', description: 'Reviews agent outputs and logs learning records for continuous improvement', lastRun: null },
+  { name: 'Prompt Evolution Engine', fn: 'agentPromptEvolution', interval: 'Weekly', status: 'active', description: 'Evolves agent system prompts based on approved/rejected patterns', lastRun: null },
+  { name: 'Release Calendar Sync', fn: 'releaseCalendarSync', interval: 'Weekly Mon', status: 'active', description: 'Syncs all Release entities to Google Calendar automatically', lastRun: null },
 ];
 
 const SAFETY_RULES = [
@@ -49,6 +52,21 @@ export default function AutonomousOps() {
   const { data: alerts = [] } = useQuery({
     queryKey: ['auto-ops-alerts'],
     queryFn: () => base44.entities.RiskAlert.filter({ status: 'open' }, '-created_date', 20),
+  });
+
+  const { data: researchFeed = [] } = useQuery({
+    queryKey: ['auto-ops-research'],
+    queryFn: () => base44.entities.KnowledgeVault.list('-created_date', 8),
+    refetchInterval: 60000,
+  });
+
+  const { data: evolvedPrompts = [] } = useQuery({
+    queryKey: ['evolved-prompts'],
+    queryFn: async () => {
+      const all = await base44.entities.KnowledgeVault.list('-created_date', 50);
+      return all.filter(i => i.tags?.includes('evolved-prompt'));
+    },
+    refetchInterval: 120000,
   });
 
   const triggerFn = async (fn, name) => {
@@ -239,6 +257,70 @@ export default function AutonomousOps() {
               </div>
             ))}
           </div>
+        </CardContent>
+      </Card>
+
+      {/* Research Feed */}
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Brain className="w-4 h-4 text-purple-400" />Live Research Feed
+            <Badge className="ml-auto text-xs bg-purple-500/10 text-purple-400">{researchFeed.length} items</Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2 max-h-72 overflow-y-auto">
+          {researchFeed.length === 0 ? (
+            <p className="text-sm text-muted-foreground text-center py-4">No research yet. Trigger Autonomous Research Loop above.</p>
+          ) : researchFeed.map(item => (
+            <div key={item.id} className="border border-border rounded-lg p-3">
+              <p className="text-sm font-medium leading-tight">{item.title}</p>
+              <div className="flex items-center gap-2 mt-1 flex-wrap">
+                <Badge variant="outline" className="text-[10px]">{item.category}</Badge>
+                <span className="text-xs text-muted-foreground">{new Date(item.created_date).toLocaleString('en-AU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+              </div>
+              {item.summary && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{item.summary}</p>}
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      {/* Evolved Prompts */}
+      {evolvedPrompts.length > 0 && (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-cyan-400" />Evolved Agent Prompts
+              <Badge className="ml-auto text-xs bg-cyan-500/10 text-cyan-400">{evolvedPrompts.length} versions</Badge>
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 max-h-48 overflow-y-auto">
+            {evolvedPrompts.map(p => (
+              <div key={p.id} className="flex items-center justify-between p-2 border border-border rounded-lg text-xs">
+                <span className="text-foreground/80">{p.title}</span>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Badge variant="outline" className="text-[10px]">v{p.version || 1}</Badge>
+                  <span className="text-muted-foreground">{new Date(p.created_date).toLocaleDateString('en-AU')}</span>
+                </div>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* API Setup Queue Trigger */}
+      <Card className="border-primary/20">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base flex items-center gap-2">
+            <Settings className="w-4 h-4 text-primary" />Integration Setup Queue
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-xs text-muted-foreground mb-3">Queue all pending API/integration setup tasks to Approval Queue so you can guide each one with your approval.</p>
+          <Button size="sm" variant="outline" disabled={triggering === 'queueApiSetupTasks'} onClick={() => triggerFn('queueApiSetupTasks', 'API Setup Tasks')}>
+            {triggering === 'queueApiSetupTasks' ? <Loader2 className="w-3 h-3 animate-spin mr-1" /> : <Zap className="w-3 h-3 mr-1" />}
+            Queue All Integration Tasks → Approval
+          </Button>
+          <p className="text-xs text-muted-foreground mt-2">Covers: Toolost, Slack, Gmail, Google Calendar, Sheets, Stripe, TikTok/Instagram APIs, Notion</p>
         </CardContent>
       </Card>
 
