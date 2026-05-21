@@ -23,8 +23,6 @@ const NAV_SECTIONS = [
       { label: 'Autonomous Ops', path: '/admin/autonomous-ops', icon: Activity },
       { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain },
       { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Activity },
-      { label: 'Agent Learning', path: '/admin/agent-learning', icon: BookOpen },
-      { label: 'Self Healing', path: '/admin/self-healing', icon: Activity },
     ]
   },
   {
@@ -101,13 +99,21 @@ const NAV_SECTIONS = [
     ]
   },
   {
-    title: '🏗️ Build & Systems',
+    title: '🏢 AI Operating System',
     items: [
       { label: 'Blueprint Builder', path: '/admin/blueprint-builder', icon: Book },
       { label: 'Client Installs', path: '/admin/client-installs', icon: Users },
+      { label: 'Premium UX Audit', path: '/admin/premium-ux', icon: Sparkles },
+      { label: 'Agent Learning', path: '/admin/agent-learning', icon: BookOpen },
+      { label: 'Memory Graph', path: '/admin/memory-graph', icon: Brain },
+      { label: 'Self Healing', path: '/admin/self-healing', icon: Activity },
+    ]
+  },
+  {
+    title: '🏗️ Build & Systems',
+    items: [
       { label: 'Go-Live Checklist', path: '/admin/go-live', icon: Zap },
       { label: 'API Setup', path: '/admin/api-setup', icon: Zap },
-      { label: 'Premium UX Audit', path: '/admin/premium-ux', icon: Sparkles },
       { label: 'Website Ops', path: '/admin/website-ops', icon: Globe },
       { label: 'Site Health', path: '/admin/site-health', icon: Activity },
       { label: 'App Blueprint', path: '/admin/blueprint', icon: Book },
