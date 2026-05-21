@@ -119,6 +119,7 @@ import ContentAutomate from '@/pages/admin/ContentAutomate';
 import GrowthEngine from '@/pages/admin/GrowthEngine';
 import Notifications from '@/pages/admin/Notifications';
 import ShippingRates from '@/pages/admin/ShippingRates';
+import TikTokAppReview from '@/pages/admin/TikTokAppReview';
 
 
 const AuthenticatedApp = () => {
@@ -261,6 +262,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/growth-engine" element={<GrowthEngine />} />
         <Route path="/admin/notifications" element={<Notifications />} />
         <Route path="/admin/shipping-rates" element={<ShippingRates />} />
+        <Route path="/admin/tiktok-review" element={<TikTokAppReview />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

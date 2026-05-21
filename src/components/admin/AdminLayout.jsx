@@ -54,6 +54,7 @@ const NAV_SECTIONS = [
   {
     title: '📣 Social & Content',
     items: [
+      { label: 'TikTok App Review', path: '/admin/tiktok-review', icon: Zap },
       { label: 'Social Intelligence', path: '/admin/social-intelligence', icon: TrendingUp },
       { label: 'Creator Insights', path: '/admin/creator-insights', icon: Eye },
       { label: 'Social Command', path: '/admin/social-command', icon: Users },
