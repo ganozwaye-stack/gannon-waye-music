@@ -1,0 +1,99 @@
+{
+  "name": "RevenueOpportunity",
+  "type": "object",
+  "properties": {
+    "opportunity_name": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "revenue_type": {
+      "type": "string",
+      "enum": [
+        "product",
+        "service",
+        "subscription",
+        "affiliate",
+        "partnership",
+        "digital",
+        "licensing",
+        "upsell",
+        "bundle",
+        "other"
+      ],
+      "default": "product"
+    },
+    "estimated_value": {
+      "type": "string"
+    },
+    "difficulty": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "low"
+    },
+    "automation_potential": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "audience_match": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "recommended_next_step": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewing",
+        "approved",
+        "in_progress",
+        "live",
+        "rejected",
+        "archived"
+      ],
+      "default": "new"
+    },
+    "source_agent": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "opportunity_name"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

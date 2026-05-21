@@ -1,0 +1,37 @@
+{
+  "name": "CommunityLike",
+  "type": "object",
+  "properties": {
+    "target_type": {
+      "type": "string",
+      "enum": [
+        "post",
+        "reply"
+      ]
+    },
+    "target_id": {
+      "type": "string"
+    },
+    "liker_name": {
+      "type": "string"
+    },
+    "liker_session": {
+      "type": "string",
+      "description": "Anonymous session fingerprint to prevent duplicate likes"
+    }
+  },
+  "required": [
+    "target_type",
+    "target_id"
+  ],
+  "rls": {
+    "create": {},
+    "read": {},
+    "update": {},
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

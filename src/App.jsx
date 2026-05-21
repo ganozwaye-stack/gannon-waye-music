@@ -116,6 +116,8 @@ import ResearchGrid from '@/pages/admin/ResearchGrid';
 import AutonomousOps from '@/pages/admin/AutonomousOps';
 import StripeLiveReport from '@/pages/admin/StripeLiveReport';
 import ContentAutomate from '@/pages/admin/ContentAutomate';
+import GrowthEngine from '@/pages/admin/GrowthEngine';
+import Notifications from '@/pages/admin/Notifications';
 
 
 const AuthenticatedApp = () => {
@@ -255,6 +257,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/autonomous-ops" element={<AutonomousOps />} />
         <Route path="/admin/stripe-live-report" element={<StripeLiveReport />} />
         <Route path="/admin/content-automate" element={<ContentAutomate />} />
+        <Route path="/admin/growth-engine" element={<GrowthEngine />} />
+        <Route path="/admin/notifications" element={<Notifications />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

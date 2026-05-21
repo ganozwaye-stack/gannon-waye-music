@@ -158,6 +158,19 @@ Deno.serve(async (req) => {
       result: { success: true, timestamp: new Date().toISOString() },
     });
 
+    // Central notification
+    await base44.asServiceRole.functions.invoke('notifyAdmin', {
+      notification_type: 'order',
+      title: `New order from ${data.customer_name} — $${(data.total_amount || 0).toFixed(2)}`,
+      summary: items.map(i => `${i.product_name}${i.size ? ` (${i.size})` : ''} x${i.quantity || 1}`).join(', '),
+      severity: 'info',
+      linked_route: '/admin/orders',
+      linked_entity: 'MerchOrder',
+      linked_id: data.id,
+      requires_action: false,
+      source: 'MerchOrder',
+    });
+
     return Response.json({ success: true });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone, Lightbulb, CreditCard, Database, BookOpen } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Printer, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone, Lightbulb, CreditCard, Database, BookOpen, Bell } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
 import GlobalSearch from '@/components/global/GlobalSearch';
@@ -11,7 +11,9 @@ const NAV_SECTIONS = [
     title: '🧠 Command Centre',
     items: [
       { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+      { label: 'Notifications', path: '/admin/notifications', icon: Bell },
       { label: 'Executive Feed', path: '/admin/executive-feed', icon: Star },
+      { label: 'Growth Engine', path: '/admin/growth-engine', icon: TrendingUp },
       { label: 'Command Centre', path: '/admin/command-centre', icon: Brain },
       { label: 'Orchestrator AI', path: '/admin/orchestrator-chat', icon: Zap },
     ]

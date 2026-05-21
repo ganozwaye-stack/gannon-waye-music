@@ -51,6 +51,19 @@ Deno.serve(async (req) => {
       }) })
     });
 
+    // Central notification
+    await base44.asServiceRole.functions.invoke('notifyAdmin', {
+      notification_type: 'comment',
+      title: `New community message from ${post.author_name || 'Anonymous'}`,
+      summary: (post.content || '').substring(0, 150),
+      severity: 'info',
+      linked_route: '/admin/fans',
+      linked_entity: 'FanPost',
+      linked_id: post.id,
+      requires_action: true,
+      source: 'Community',
+    });
+
     return Response.json({ success: true });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });

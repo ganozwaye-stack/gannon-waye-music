@@ -1,0 +1,125 @@
+{
+  "name": "GrowthOpportunity",
+  "type": "object",
+  "properties": {
+    "platform": {
+      "type": "string",
+      "enum": [
+        "tiktok",
+        "instagram",
+        "youtube",
+        "twitter",
+        "all",
+        "other"
+      ],
+      "default": "tiktok"
+    },
+    "opportunity_type": {
+      "type": "string",
+      "enum": [
+        "viral_trend",
+        "creator_gap",
+        "collaboration",
+        "emotional_hook",
+        "algorithm_window",
+        "content_format",
+        "engagement_window",
+        "audience_segment"
+      ],
+      "default": "viral_trend"
+    },
+    "trend_name": {
+      "type": "string"
+    },
+    "viral_probability": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "engagement_potential": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "competition_level": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "saturated"
+      ],
+      "default": "low"
+    },
+    "audience_match_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "recommended_hook": {
+      "type": "string"
+    },
+    "recommended_format": {
+      "type": "string"
+    },
+    "recommended_posting_time": {
+      "type": "string"
+    },
+    "emotional_trigger": {
+      "type": "string"
+    },
+    "cta_strategy": {
+      "type": "string"
+    },
+    "estimated_growth_impact": {
+      "type": "string"
+    },
+    "estimated_revenue_impact": {
+      "type": "string"
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "default": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewing",
+        "approved",
+        "actioning",
+        "done",
+        "expired"
+      ],
+      "default": "new"
+    },
+    "source_agent": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "trend_name"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

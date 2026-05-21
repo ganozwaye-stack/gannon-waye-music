@@ -1,0 +1,93 @@
+{
+  "name": "AdminNotification",
+  "type": "object",
+  "properties": {
+    "notification_type": {
+      "type": "string",
+      "enum": [
+        "order",
+        "comment",
+        "approval",
+        "risk_alert",
+        "community_report",
+        "viral_opportunity",
+        "high_value_supporter",
+        "automation_failed",
+        "email_failed",
+        "payment_warning",
+        "growth_spike",
+        "creator_gap",
+        "reply",
+        "like",
+        "system"
+      ],
+      "default": "system"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "high",
+        "critical"
+      ],
+      "default": "info"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "requires_action": {
+      "type": "boolean",
+      "default": false
+    },
+    "linked_entity": {
+      "type": "string"
+    },
+    "linked_id": {
+      "type": "string"
+    },
+    "linked_route": {
+      "type": "string"
+    },
+    "is_read": {
+      "type": "boolean",
+      "default": false
+    },
+    "delivered_slack": {
+      "type": "boolean",
+      "default": false
+    },
+    "delivered_email": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "notification_type",
+    "title"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

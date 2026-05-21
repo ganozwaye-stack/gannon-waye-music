@@ -11,6 +11,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { format } from 'date-fns';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
+import PostReplies from '@/components/community/PostReplies';
 
 const PROFANITY_LIST = [
   'fuck','shit','cunt','bitch','asshole','bastard','damn','dick','pussy','cock',
@@ -215,6 +216,7 @@ export default function Community() {
                 </div>
               </div>
               <p className="font-body text-foreground/80 leading-relaxed text-sm pl-11">{post.content}</p>
+              <PostReplies postId={post.id} />
               <div className="flex gap-3 mt-3 pl-11">
                 <Link to="/this-is-my-life" className="font-body text-xs text-muted-foreground hover:text-primary transition-colors">
                   Hear The Story →
