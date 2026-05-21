@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone, Lightbulb, CreditCard, Database, BookOpen, Bell } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone, Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
 import GlobalSearch from '@/components/global/GlobalSearch';
 import CommandPalette from '@/components/global/CommandPalette';
 
 const NAV_SECTIONS = [
+  {
+    title: '💸 GanozMix Direct',
+    items: [
+      { label: '🛒 GanozMix Direct', path: '/admin/ganozmix', icon: ExternalLink },
+    ]
+  },
   {
     title: '🧠 Command Centre',
     items: [

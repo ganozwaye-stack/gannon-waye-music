@@ -122,6 +122,7 @@ import ShippingRates from '@/pages/admin/ShippingRates';
 import TikTokAppReview from '@/pages/admin/TikTokAppReview';
 import RevenueCommandCentre from '@/pages/admin/RevenueCommandCentre';
 import MusicCommandCentre from '@/pages/admin/MusicCommandCentre';
+import GanozMixBridge from '@/pages/admin/GanozMixBridge';
 
 
 const AuthenticatedApp = () => {
@@ -267,6 +268,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/tiktok-review" element={<TikTokAppReview />} />
         <Route path="/admin/revenue-command" element={<RevenueCommandCentre />} />
         <Route path="/admin/music-command" element={<MusicCommandCentre />} />
+        <Route path="/admin/ganozmix" element={<GanozMixBridge />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
