@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Lock, Plus, Search, FileText, Shield, Trash2, Archive } from 'lucide-react';
+import { Plus, Search, FileText, Shield, Trash2, X, Edit2, Save } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 
@@ -17,6 +17,9 @@ export default function KnowledgeVault() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [showAdd, setShowAdd] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [editing, setEditing] = useState(false);
+  const [editForm, setEditForm] = useState({});
   const [form, setForm] = useState({ title: '', category: 'other', content: '', summary: '', tags: '', is_sensitive: false });
   const qc = useQueryClient();
 
@@ -29,6 +32,22 @@ export default function KnowledgeVault() {
     mutationFn: data => base44.entities.KnowledgeVault.create({ ...data, tags: data.tags ? data.tags.split(',').map(t => t.trim()) : [] }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['knowledge-vault'] }); setShowAdd(false); toast.success('Added to vault'); },
   });
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, data }) => base44.entities.KnowledgeVault.update(id, { ...data, tags: typeof data.tags === 'string' ? data.tags.split(',').map(t => t.trim()) : data.tags }),
+    onSuccess: (updated) => { qc.invalidateQueries({ queryKey: ['knowledge-vault'] }); setEditing(false); setSelectedItem(updated); toast.success('Record updated'); },
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: id => base44.entities.KnowledgeVault.delete(id),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['knowledge-vault'] }); setSelectedItem(null); toast.success('Record deleted'); },
+  });
+
+  const openRecord = (item) => {
+    setSelectedItem(item);
+    setEditing(false);
+    setEditForm({ ...item, tags: Array.isArray(item.tags) ? item.tags.join(', ') : item.tags || '' });
+  };
 
   const filtered = items.filter(i => {
     const matchCat = category === 'all' || i.category === category;
@@ -66,7 +85,7 @@ export default function KnowledgeVault() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         {filtered.map(item => (
-          <Card key={item.id} className={`hover:border-primary/30 transition-all ${item.is_sensitive ? 'border-red-500/20' : ''}`}>
+          <Card key={item.id} onClick={() => openRecord(item)} className={`cursor-pointer hover:border-primary/40 hover:shadow-md transition-all ${item.is_sensitive ? 'border-red-500/20' : ''}`}>
             <CardContent className="p-4">
               <div className="flex items-start justify-between mb-2">
                 <FileText className="w-4 h-4 text-primary shrink-0 mt-0.5" />
@@ -85,6 +104,71 @@ export default function KnowledgeVault() {
         ))}
         {filtered.length === 0 && <p className="text-muted-foreground col-span-3 text-center py-12">No records found.</p>}
       </div>
+
+      {/* Record Detail / Edit Modal */}
+      <Dialog open={!!selectedItem} onOpenChange={() => setSelectedItem(null)}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <div className="flex items-center justify-between">
+              <DialogTitle className="font-display text-xl pr-4">{editing ? 'Edit Record' : selectedItem?.title}</DialogTitle>
+              <div className="flex gap-2">
+                {!editing && (
+                  <Button size="sm" variant="outline" onClick={() => setEditing(true)} className="gap-1">
+                    <Edit2 className="w-3 h-3" /> Edit
+                  </Button>
+                )}
+                <Button size="sm" variant="destructive" onClick={() => deleteMutation.mutate(selectedItem?.id)} disabled={deleteMutation.isPending} className="gap-1">
+                  <Trash2 className="w-3 h-3" /> Delete
+                </Button>
+              </div>
+            </div>
+          </DialogHeader>
+
+          {editing ? (
+            <div className="space-y-3 mt-2">
+              <Input placeholder="Title" value={editForm.title || ''} onChange={e => setEditForm({...editForm, title: e.target.value})} />
+              <Select value={editForm.category} onValueChange={v => setEditForm({...editForm, category: v})}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>{CATEGORIES.map(c => <SelectItem key={c} value={c}>{c.replace(/_/g,' ')}</SelectItem>)}</SelectContent>
+              </Select>
+              <Input placeholder="Summary" value={editForm.summary || ''} onChange={e => setEditForm({...editForm, summary: e.target.value})} />
+              <Textarea placeholder="Content..." value={editForm.content || ''} onChange={e => setEditForm({...editForm, content: e.target.value})} rows={8} />
+              <Input placeholder="Tags (comma separated)" value={editForm.tags || ''} onChange={e => setEditForm({...editForm, tags: e.target.value})} />
+              <label className="flex items-center gap-2 text-sm cursor-pointer">
+                <input type="checkbox" checked={editForm.is_sensitive || false} onChange={e => setEditForm({...editForm, is_sensitive: e.target.checked})} />
+                Mark as sensitive
+              </label>
+              <div className="flex gap-2">
+                <Button variant="outline" className="flex-1" onClick={() => setEditing(false)}>Cancel</Button>
+                <Button className="flex-1 gradient-gold-button gap-1" onClick={() => updateMutation.mutate({ id: selectedItem.id, data: editForm })} disabled={updateMutation.isPending}>
+                  <Save className="w-3 h-3" /> {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-4 mt-2">
+              <div className="flex flex-wrap gap-2">
+                <Badge className="bg-secondary text-secondary-foreground capitalize">{selectedItem?.category?.replace(/_/g,' ')}</Badge>
+                {selectedItem?.is_sensitive && <Badge className="bg-red-500/10 text-red-400"><Shield className="w-3 h-3 mr-1" />Sensitive</Badge>}
+                {selectedItem?.tags?.map(t => <Badge key={t} className="bg-primary/10 text-primary">{t}</Badge>)}
+              </div>
+              {selectedItem?.summary && (
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Summary</p>
+                  <p className="text-sm text-foreground/80">{selectedItem.summary}</p>
+                </div>
+              )}
+              {selectedItem?.content && (
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Content</p>
+                  <p className="text-sm text-foreground/80 whitespace-pre-wrap leading-relaxed">{selectedItem.content}</p>
+                </div>
+              )}
+              <p className="text-xs text-muted-foreground">Created: {selectedItem?.created_date ? new Date(selectedItem.created_date).toLocaleDateString('en-AU') : '—'}</p>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={showAdd} onOpenChange={setShowAdd}>
         <DialogContent className="max-w-lg">
