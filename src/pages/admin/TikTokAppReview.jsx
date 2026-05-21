@@ -38,6 +38,7 @@ const CREDENTIALS = [
   { label: 'DNS TXT Record (add to gannonwaye.com DNS settings)', value: 'tiktok-developers-site-verification=OsUg2LUCoNJIimgbEa9Oq8H6pkYGR1ZC' },
   { label: 'Website Verify File (already deployed at gannonwaye.com)', value: 'tiktok-developers-site-verification=KxZOq6nwSqmVh0UJXgnalbWrdx6eOC9U' },
   { label: 'Redirect URI (Web)', value: 'https://gannonwaye.com/tiktok-callback' },
+  { label: 'Webhook Callback URL ✅ (paste into TikTok → Webhooks → Callback URL)', value: 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/tiktokWebhook' },
 ];
 
 const SCOPES = [
@@ -98,6 +99,7 @@ const CHECKLIST = [
   { item: 'Demo video recorded', done: false, action: 'Follow script on this page and record screen' },
   { item: 'DNS TXT Record: add tiktok-developers-site-verification=OsUg2LUCoNJIimgbEa9Oq8H6pkYGR1ZC to gannonwaye.com DNS', done: false, action: 'Go to your domain registrar (GoDaddy/Cloudflare) → DNS → Add TXT record for @ with that value' },
   { item: 'Website file verify: tiktok-developers-site-verification=KxZOq6nwSqmVh0UJXgnalbWrdx6eOC9U deployed', done: true, value: 'File live at gannonwaye.com — click Verify in TikTok portal' },
+  { item: 'Webhook Callback URL configured (returns 200 to TikTok)', done: true, value: 'Handler deployed — paste URL from credentials section into TikTok Webhooks → Callback URL' },
 ];
 
 export default function TikTokAppReview() {
