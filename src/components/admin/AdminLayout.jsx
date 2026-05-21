@@ -139,16 +139,27 @@ const NAV_SECTIONS = [
   },
 ];
 
+const OWNER_EMAIL = 'ganozwaye@gmail.com';
+
 export default function AdminLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const [showSearch, setShowSearch] = useState(false);
   const [showCommand, setShowCommand] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+
+  useEffect(() => {
+    base44.auth.me().then(user => setIsOwner(user?.email === OWNER_EMAIL)).catch(() => {});
+  }, []);
 
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
+      // Only fire if not typing in an input/textarea
+      const tag = e.target?.tagName?.toLowerCase();
+      if (tag === 'input' || tag === 'textarea' || e.target?.isContentEditable) return;
+
       // Cmd/Ctrl + K: Open command palette
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
@@ -174,7 +185,7 @@ export default function AdminLayout() {
           <p className="font-body text-xs text-muted-foreground tracking-wider uppercase mt-1">Admin Panel</p>
         </div>
         <nav className="flex-1 p-4 space-y-6 overflow-y-auto">
-          {NAV_SECTIONS.map(section => (
+          {NAV_SECTIONS.filter(s => s.title !== '💸 GanozMix Direct' || isOwner).map(section => (
             <div key={section.title}>
               <p className="font-body text-xs tracking-widest uppercase text-muted-foreground px-3 mb-2">{section.title}</p>
               <div className="space-y-1">

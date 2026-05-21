@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { ExternalLink, ShoppingCart, TrendingUp, DollarSign, Package, Zap, RefreshCw, Globe, Shield } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ExternalLink, ShoppingCart, TrendingUp, DollarSign, Package, Zap, RefreshCw, Globe, Shield, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { base44 } from '@/api/base44Client';
+
+const OWNER_EMAIL = 'ganozwaye@gmail.com';
 
 const QUICK_LINKS = [
   { label: 'Command Center', url: 'https://ganozmixdirect.base44.app/admin/command-center', icon: Zap, color: 'text-purple-400' },
@@ -25,6 +28,25 @@ const MONEY_ACTIONS = [
 
 export default function GanozMixBridge() {
   const [iframeKey, setIframeKey] = useState(0);
+  const [allowed, setAllowed] = useState(false);
+  const [checking, setChecking] = useState(true);
+
+  useEffect(() => {
+    base44.auth.me().then(user => {
+      setAllowed(user?.email === OWNER_EMAIL);
+      setChecking(false);
+    }).catch(() => setChecking(false));
+  }, []);
+
+  if (checking) return <div className="flex items-center justify-center py-24 text-muted-foreground text-sm">Checking access...</div>;
+
+  if (!allowed) return (
+    <div className="flex flex-col items-center justify-center py-32 gap-4 text-center">
+      <Lock className="w-10 h-10 text-muted-foreground" />
+      <h2 className="font-display text-xl text-foreground">Access Restricted</h2>
+      <p className="text-muted-foreground text-sm max-w-sm">This section is only available to the site owner.</p>
+    </div>
+  );
 
   return (
     <div className="space-y-6">
