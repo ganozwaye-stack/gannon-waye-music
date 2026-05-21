@@ -1,0 +1,76 @@
+{
+  "name": "MusicLearningRecord",
+  "type": "object",
+  "properties": {
+    "agent_name": {
+      "type": "string"
+    },
+    "lesson_type": {
+      "type": "string",
+      "enum": [
+        "campaign_analysis",
+        "release_postmortem",
+        "fan_strategy",
+        "content_optimization",
+        "algorithm_insight",
+        "other"
+      ],
+      "default": "other"
+    },
+    "what_worked": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "what_failed": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "improvement": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "source": {
+      "type": "string"
+    },
+    "impact_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "confidence_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "agent_name",
+    "lesson_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

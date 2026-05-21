@@ -11,6 +11,8 @@ const NAV_SECTIONS = [
     title: '🧠 Command Centre',
     items: [
       { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+      { label: 'Music Command Centre', path: '/admin/music-command', icon: Music },
+      { label: 'Revenue Command', path: '/admin/revenue-command', icon: DollarSign },
       { label: 'Notifications', path: '/admin/notifications', icon: Bell },
       { label: 'Executive Feed', path: '/admin/executive-feed', icon: Star },
       { label: 'Growth Engine', path: '/admin/growth-engine', icon: TrendingUp },

@@ -74,6 +74,13 @@ export default function Footer() {
             <div className="flex flex-col gap-2">
               <Link to="/privacy-policy" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Privacy Policy</Link>
               <Link to="/terms-of-service" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Terms of Service</Link>
+              <Link to="/contact" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Contact Gannon</Link>
+            </div>
+            <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mt-4 mb-3">Social</h4>
+            <div className="flex flex-col gap-2">
+              <a href="https://www.instagram.com/gannonwaye" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Instagram @gannonwaye</a>
+              <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">TikTok @gannonwaye</a>
+              <a href="https://www.youtube.com/@gannonwaye" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">YouTube @gannonwaye</a>
             </div>
           </div>
         </div>

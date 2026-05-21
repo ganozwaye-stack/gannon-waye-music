@@ -1,0 +1,92 @@
+{
+  "name": "MusicAgentMemory",
+  "type": "object",
+  "properties": {
+    "agent_name": {
+      "type": "string"
+    },
+    "memory_type": {
+      "type": "string",
+      "enum": [
+        "successful_release",
+        "failed_campaign",
+        "high_converting_hook",
+        "fan_insight",
+        "competitor_intel",
+        "viral_format_music",
+        "pricing_insight_music",
+        "retention_pattern_music",
+        "community_pattern",
+        "sync_opportunity",
+        "other"
+      ],
+      "default": "other"
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "importance_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "success_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "failure_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "confidence_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "linked_entities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source": {
+      "type": "string"
+    },
+    "is_permanent": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "agent_name",
+    "memory_type",
+    "summary"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

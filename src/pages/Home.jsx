@@ -105,8 +105,8 @@ export default function Home() {
             <p className="font-display text-lg text-foreground italic">"Thank You"</p>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
             <div className="flex flex-col items-center gap-1">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Available on all leading platforms from 05 June 2026</p>
-              <Link to="/music" className="font-display text-base text-primary italic hover:underline">Hear more about it →</Link>
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Artwork & Song Release: June 10, 2026</p>
+              <Link to="/music" className="font-display text-base text-primary italic hover:underline">Pre-Save Now →</Link>
             </div>
           </motion.div>
 
@@ -116,9 +116,9 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
           >
-            <Link to="/videos" className="w-full sm:w-auto">
+            <Link to="/music" className="w-full sm:w-auto">
               <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
-                <Play className="w-4 h-4" /> Watch
+                <Play className="w-4 h-4" /> Pre-Save Now
               </Button>
             </Link>
             <Link to="/this-is-my-life" className="w-full sm:w-auto">

@@ -121,6 +121,7 @@ import Notifications from '@/pages/admin/Notifications';
 import ShippingRates from '@/pages/admin/ShippingRates';
 import TikTokAppReview from '@/pages/admin/TikTokAppReview';
 import RevenueCommandCentre from '@/pages/admin/RevenueCommandCentre';
+import MusicCommandCentre from '@/pages/admin/MusicCommandCentre';
 
 
 const AuthenticatedApp = () => {
@@ -265,6 +266,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/shipping-rates" element={<ShippingRates />} />
         <Route path="/admin/tiktok-review" element={<TikTokAppReview />} />
         <Route path="/admin/revenue-command" element={<RevenueCommandCentre />} />
+        <Route path="/admin/music-command" element={<MusicCommandCentre />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
