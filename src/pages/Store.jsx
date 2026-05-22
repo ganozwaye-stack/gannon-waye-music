@@ -13,7 +13,7 @@ const PRODUCT_BADGES = {
   '69f11d1fc43e13c61fe6b9d6': { label: 'Slim Case', color: 'bg-secondary text-muted-foreground border-border/40' },
   '69eed3e64e2da78ae4418a9d': { label: 'Deluxe · Signed', color: 'bg-primary/20 text-primary border-primary/40' },
   '69f11d1fc43e13c61fe6b9d7': { label: 'Pre-order Open', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
-  '69eed3e64e2da78ae4418a9a': { label: 'Open for Orders', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
+  '69eed3e64e2da78ae4418a9a': { label: 'Sold Out', color: 'bg-red-500/15 text-red-400 border-red-500/30' },
   '69eed3e64e2da78ae4418a99': { label: 'Open for Orders', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
 };
 
@@ -102,7 +102,7 @@ const FALLBACK_PRODUCTS = [
     name: '"Thank You" Tote Bag',
     sale_price: 15,
     category: 'accessories',
-    stock_quantity: 100,
+    stock_quantity: 0,
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
     images_array: [
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
@@ -238,13 +238,17 @@ function ProductCard({ product }) {
             <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
           )}
 
-          {STORE_OPEN ? (
+          {STORE_OPEN && product.stock_quantity > 0 ? (
             <button
               onClick={() => setCheckoutOpen(true)}
               className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 gradient-gold-button hover:opacity-90"
             >
               <ShoppingCart className="w-3.5 h-3.5" /> Buy Now
             </button>
+          ) : STORE_OPEN && product.stock_quantity === 0 ? (
+            <div className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase flex items-center justify-center gap-2 border border-red-500/30 text-red-400 bg-red-500/10 cursor-not-allowed">
+              Sold Out — Due to Popular Demand
+            </div>
           ) : (
             <InterestButton productId={product.id} productName={product.name} />
           )}
