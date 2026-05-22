@@ -127,6 +127,7 @@ import SalesTraining from '@/pages/admin/SalesTraining';
 import ClientOnboarding from '@/pages/admin/ClientOnboarding';
 import MonthlyMonitoring from '@/pages/admin/MonthlyMonitoring';
 import TikTokScreenGuide from '@/pages/admin/TikTokScreenGuide';
+import RevenueActions from '@/pages/admin/RevenueActions';
 
 
 const AuthenticatedApp = () => {
@@ -277,6 +278,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/client-onboarding" element={<ClientOnboarding />} />
         <Route path="/admin/monthly-monitoring" element={<MonthlyMonitoring />} />
         <Route path="/admin/tiktok-screen-guide" element={<TikTokScreenGuide />} />
+        <Route path="/admin/revenue-actions" element={<RevenueActions />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

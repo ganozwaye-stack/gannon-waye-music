@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut,
   Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift,
@@ -40,6 +40,7 @@ const NAV_SECTIONS = [
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
       { label: 'Stripe Live Report', path: '/admin/stripe-live-report', icon: CreditCard },
       // alphabetical
+      { label: 'Revenue Actions', path: '/admin/revenue-actions', icon: Zap },
       { label: 'Ecommerce Command', path: '/admin/ecommerce-command', icon: ShoppingBag },
       { label: 'Ecommerce Intelligence', path: '/admin/ecommerce-intelligence', icon: Sparkles },
       { label: 'Merch Financials', path: '/admin/merch-financials', icon: DollarSign },
@@ -159,6 +160,18 @@ export default function AdminLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [collapsed, setCollapsed] = useState({});
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  useEffect(() => {
+    const fetchUnread = () => {
+      base44.entities.AdminNotification.filter({ is_read: false }, '-created_date', 50)
+        .then(items => setUnreadCount(items.length))
+        .catch(() => {});
+    };
+    fetchUnread();
+    const interval = setInterval(fetchUnread, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     base44.auth.me().then(user => setIsOwner(user?.email === OWNER_EMAIL)).catch(() => {});
@@ -247,6 +260,14 @@ export default function AdminLayout() {
             <span className="font-display text-sm gradient-gold-text">GW Admin</span>
           </div>
           <div className="flex items-center gap-2">
+            <Link to="/admin/notifications" className="relative p-2 hover:bg-secondary/50 rounded-lg">
+              <Bell className="w-4 h-4 text-muted-foreground" />
+              {unreadCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center px-0.5">
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
+              )}
+            </Link>
             <button onClick={() => setShowCommand(true)} className="p-2 hover:bg-secondary/50 rounded-lg">
               <Command className="w-4 h-4 text-primary" />
             </button>
@@ -303,6 +324,14 @@ export default function AdminLayout() {
               })}
             </div>
             <div className="flex items-center gap-2">
+              <Link to="/admin/notifications" className="relative p-2 hover:bg-secondary/50 rounded-lg transition-colors" title="Business Attention Centre">
+                <Bell className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center px-0.5 animate-pulse">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </span>
+                )}
+              </Link>
               <button onClick={() => setShowSearch(true)} className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border/40 hover:border-primary/40 transition-colors">
                 <Search className="w-3.5 h-3.5 text-muted-foreground" />
                 <span className="font-body text-xs text-muted-foreground hidden sm:inline">Search</span>
