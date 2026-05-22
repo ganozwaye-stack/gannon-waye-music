@@ -272,14 +272,16 @@ export default function AutonomousOps() {
           {researchFeed.length === 0 ? (
             <p className="text-sm text-muted-foreground text-center py-4">No research yet. Trigger Autonomous Research Loop above.</p>
           ) : researchFeed.map(item => (
-            <div key={item.id} className="border border-border rounded-lg p-3">
-              <p className="text-sm font-medium leading-tight">{item.title}</p>
-              <div className="flex items-center gap-2 mt-1 flex-wrap">
-                <Badge variant="outline" className="text-[10px]">{item.category}</Badge>
-                <span className="text-xs text-muted-foreground">{new Date(item.created_date).toLocaleString('en-AU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+            <Link key={item.id} to="/admin/research-grid">
+              <div className="border border-border rounded-lg p-3 hover:border-primary/40 hover:bg-secondary/30 transition-all cursor-pointer">
+                <p className="text-sm font-medium leading-tight">{item.title}</p>
+                <div className="flex items-center gap-2 mt-1 flex-wrap">
+                  <Badge variant="outline" className="text-[10px]">{item.category}</Badge>
+                  <span className="text-xs text-muted-foreground">{new Date(item.created_date).toLocaleString('en-AU', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+                </div>
+                {item.summary && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{item.summary}</p>}
               </div>
-              {item.summary && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{item.summary}</p>}
-            </div>
+            </Link>
           ))}
         </CardContent>
       </Card>
@@ -327,21 +329,27 @@ export default function AutonomousOps() {
       {/* Recent Autonomous Activity */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base flex items-center gap-2"><Activity className="w-4 h-4 text-blue-400" />System Learning Activity</CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="text-base flex items-center gap-2"><Activity className="w-4 h-4 text-blue-400" />System Learning Activity</CardTitle>
+            <Link to="/admin/agent-task-log"><Button size="sm" variant="ghost" className="text-xs gap-1">View All <Activity className="w-3 h-3" /></Button></Link>
+          </div>
         </CardHeader>
         <CardContent className="space-y-2 max-h-80 overflow-y-auto">
           {logs.slice(0, 20).map(log => (
-            <div key={log.id} className="flex items-start gap-3 p-2 border border-border rounded-lg text-xs">
-              <div className={`w-2 h-2 rounded-full mt-1 shrink-0 ${log.risk_check_result === 'pass' ? 'bg-green-400' : log.risk_check_result === 'blocked' ? 'bg-red-400' : 'bg-yellow-400'}`} />
-              <div className="flex-1 min-w-0">
-                <p className="font-medium">{log.task_title}</p>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-muted-foreground">{log.agent_name}</span>
-                  {log.was_automatic && <Badge className="text-[10px] bg-blue-500/10 text-blue-400">auto</Badge>}
-                  <span className="text-muted-foreground ml-auto">{new Date(log.created_date).toLocaleString('en-AU')}</span>
+            <Link key={log.id} to="/admin/agent-task-log">
+              <div className="flex items-start gap-3 p-2 border border-border rounded-lg text-xs hover:border-primary/40 hover:bg-secondary/30 transition-all cursor-pointer group">
+                <div className={`w-2 h-2 rounded-full mt-1 shrink-0 ${log.risk_check_result === 'pass' ? 'bg-green-400' : log.risk_check_result === 'blocked' ? 'bg-red-400' : 'bg-yellow-400'}`} />
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium">{log.task_title}</p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-muted-foreground">{log.agent_name}</span>
+                    {log.was_automatic && <Badge className="text-[10px] bg-blue-500/10 text-blue-400">auto</Badge>}
+                    <span className="text-muted-foreground ml-auto">{new Date(log.created_date).toLocaleString('en-AU')}</span>
+                  </div>
+                  {log.outcome && <p className="text-muted-foreground mt-0.5 line-clamp-1">{log.outcome}</p>}
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
           {logs.length === 0 && <p className="text-sm text-muted-foreground text-center py-4">No autonomous activity yet.</p>}
         </CardContent>

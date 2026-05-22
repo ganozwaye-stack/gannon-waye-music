@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { TrendingUp, BookOpen, Eye, Zap, Globe, ShoppingBag, Brain, Loader2, RefreshCw } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { TrendingUp, BookOpen, Eye, Zap, Globe, ShoppingBag, Brain, Loader2, RefreshCw, Archive, Plus, ChevronRight, X, Save, ExternalLink } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { toast } from 'sonner';
+import { Link } from 'react-router-dom';
 
 const FEED_CATEGORIES = [
   { id: 'all', label: 'All', icon: Globe, color: 'text-foreground' },
@@ -28,12 +30,75 @@ const LIVE_SCAN_TOPICS = [
   'high-converting product offer frameworks',
 ];
 
+function ResearchDetailModal({ item, onClose, onSaveToVault, onCreateApproval, onArchive }) {
+  if (!item) return null;
+  return (
+    <Dialog open onOpenChange={onClose}>
+      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle className="font-display text-xl">{item.title}</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4 mt-2">
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="outline" className="text-xs capitalize">{item.category?.replace('_', ' ')}</Badge>
+            {item.tags?.map(t => <Badge key={t} className="text-xs bg-secondary text-secondary-foreground">{t}</Badge>)}
+            <span className="text-xs text-muted-foreground ml-auto">{new Date(item.created_date).toLocaleString('en-AU')}</span>
+          </div>
+          {item.summary && (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Summary</p>
+              <p className="text-sm text-foreground/80 leading-relaxed bg-secondary/30 rounded-lg p-3">{item.summary}</p>
+            </div>
+          )}
+          {item.content && (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Full Content</p>
+              <div className="prose prose-sm prose-invert max-w-none text-sm bg-secondary/20 rounded-lg p-4 max-h-64 overflow-y-auto">
+                <ReactMarkdown>{item.content}</ReactMarkdown>
+              </div>
+            </div>
+          )}
+          {item.source && (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Source</p>
+              <p className="text-sm text-foreground/70">{item.source}</p>
+            </div>
+          )}
+          {item.created_by_agent && (
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Created By Agent</p>
+              <p className="text-sm text-foreground/70">{item.created_by_agent}</p>
+            </div>
+          )}
+          <div className="flex flex-wrap gap-2 pt-2 border-t border-border">
+            <Button size="sm" variant="outline" className="gap-1 text-xs" onClick={() => { onSaveToVault(item); onClose(); }}>
+              <Save className="w-3 h-3" /> Save to Vault
+            </Button>
+            <Button size="sm" variant="outline" className="gap-1 text-xs" onClick={() => { onCreateApproval(item); onClose(); }}>
+              <Plus className="w-3 h-3" /> Create Approval Item
+            </Button>
+            <Link to="/admin/knowledge-vault" onClick={onClose}>
+              <Button size="sm" variant="outline" className="gap-1 text-xs">
+                <BookOpen className="w-3 h-3" /> Knowledge Vault
+              </Button>
+            </Link>
+            <Button size="sm" variant="ghost" className="gap-1 text-xs text-red-400 hover:text-red-300" onClick={() => { onArchive(item); onClose(); }}>
+              <Archive className="w-3 h-3" /> Archive
+            </Button>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function ResearchGrid() {
   const [category, setCategory] = useState('all');
   const [scanning, setScanning] = useState(false);
   const [scanTopic, setScanTopic] = useState('');
   const [scanResult, setScanResult] = useState(null);
-  const [expandedId, setExpandedId] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(null);
+  const qc = useQueryClient();
 
   const { data: entries = [], isLoading, refetch } = useQuery({
     queryKey: ['research-grid', category],
@@ -52,6 +117,42 @@ export default function ResearchGrid() {
     queryKey: ['creator-gaps'],
     queryFn: () => base44.entities.CreatorGapInsight.filter({ status: 'new' }, '-created_date', 10),
   });
+
+  const saveToVault = async (item) => {
+    try {
+      await base44.entities.KnowledgeVault.create({
+        title: `[Research] ${item.title}`,
+        category: item.category || 'research',
+        content: item.content || item.summary,
+        summary: item.summary,
+        tags: [...(item.tags || []), 'from-research-grid'],
+        sensitivity_level: 'internal',
+      });
+      qc.invalidateQueries({ queryKey: ['research-grid'] });
+      toast.success('Saved to Knowledge Vault');
+    } catch { toast.error('Save failed'); }
+  };
+
+  const createApproval = async (item) => {
+    try {
+      await base44.entities.ApprovalQueue.create({
+        action_title: `Research Finding: ${item.title}`,
+        description: item.summary || item.content?.substring(0, 500),
+        agent_name: item.created_by_agent || 'Research Grid',
+        risk_level: 'low',
+        status: 'pending',
+      });
+      toast.success('Approval item created');
+    } catch { toast.error('Failed to create approval'); }
+  };
+
+  const archiveItem = async (item) => {
+    try {
+      await base44.entities.KnowledgeVault.update(item.id, { tags: [...(item.tags || []), 'archived'] });
+      qc.invalidateQueries({ queryKey: ['research-grid'] });
+      toast.success('Item archived');
+    } catch { toast.error('Archive failed'); }
+  };
 
   const runLiveScan = async (topic) => {
     setScanning(true);
@@ -205,12 +306,15 @@ Be specific with numbers, names, and percentages. No vague generalities.`,
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {entries.map(item => (
-            <Card key={item.id} className="hover:border-primary/30 transition-all cursor-pointer" onClick={() => setExpandedId(expandedId === item.id ? null : item.id)}>
+            <Card key={item.id} className="hover:border-primary/30 transition-all cursor-pointer group" onClick={() => setSelectedItem(item)}>
               <CardContent className="p-4">
                 <div className="flex items-start gap-2 mb-2">
                   <BookOpen className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium leading-snug">{item.title}</p>
+                    <div className="flex items-start justify-between gap-1">
+                      <p className="text-sm font-medium leading-snug">{item.title}</p>
+                      <ChevronRight className="w-3 h-3 text-muted-foreground group-hover:text-primary shrink-0 mt-0.5 transition-colors" />
+                    </div>
                     <div className="flex items-center gap-2 mt-1 flex-wrap">
                       <Badge variant="outline" className="text-xs capitalize">{item.category?.replace('_', ' ')}</Badge>
                       {item.tags?.slice(0, 2).map(t => (
@@ -221,13 +325,6 @@ Be specific with numbers, names, and percentages. No vague generalities.`,
                   </div>
                 </div>
                 {item.summary && <p className="text-xs text-muted-foreground line-clamp-2">{item.summary}</p>}
-                {expandedId === item.id && item.content && (
-                  <div className="mt-3 pt-3 border-t border-border max-h-60 overflow-y-auto">
-                    <div className="prose prose-sm prose-invert max-w-none text-xs">
-                      <ReactMarkdown>{item.content}</ReactMarkdown>
-                    </div>
-                  </div>
-                )}
               </CardContent>
             </Card>
           ))}
@@ -239,6 +336,16 @@ Be specific with numbers, names, and percentages. No vague generalities.`,
             </div>
           )}
         </div>
+      )}
+
+      {selectedItem && (
+        <ResearchDetailModal
+          item={selectedItem}
+          onClose={() => setSelectedItem(null)}
+          onSaveToVault={saveToVault}
+          onCreateApproval={createApproval}
+          onArchive={archiveItem}
+        />
       )}
     </div>
   );

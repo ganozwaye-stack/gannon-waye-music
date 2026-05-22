@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Shield, Plus, Brain, Loader2, Zap } from 'lucide-react';
+import { Shield, Plus, Brain, Loader2, Zap, ChevronRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
@@ -31,6 +31,7 @@ export default function AgentLearning() {
   const queryClient = useQueryClient();
   const [showForm, setShowForm] = useState(false);
   const [generating, setGenerating] = useState(false);
+  const [selectedRecord, setSelectedRecord] = useState(null);
   const [generatedInsights, setGeneratedInsights] = useState('');
   const [form, setForm] = useState({ agent_name: '', lesson_type: 'successful_idea', what_worked: '', what_failed: '', improvement: '', source: '', confidence_score: 7, impact_score: 7 });
 
@@ -142,7 +143,7 @@ Format clearly. Focus on actionable, specific improvements. Avoid vague suggesti
       ) : (
         <div className="space-y-2">
           {records.map(r => (
-            <Card key={r.id}>
+            <Card key={r.id} className="cursor-pointer hover:border-primary/40 transition-all group" onClick={() => setSelectedRecord(r)}>
               <CardContent className="p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
@@ -157,12 +158,57 @@ Format clearly. Focus on actionable, specific improvements. Avoid vague suggesti
                   <div className="text-right shrink-0 text-xs text-muted-foreground">
                     {r.confidence_score && <p>Conf: {r.confidence_score}/10</p>}
                     {r.impact_score && <p>Impact: {r.impact_score}/10</p>}
+                    <span className="text-primary opacity-0 group-hover:opacity-100 transition-opacity text-[10px]">Click to view →</span>
                   </div>
                 </div>
               </CardContent>
             </Card>
           ))}
         </div>
+      )}
+
+      {selectedRecord && (
+        <Dialog open onOpenChange={() => setSelectedRecord(null)}>
+          <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="font-display text-xl">{selectedRecord.agent_name} — Learning Record</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 mt-2">
+              <div className="flex flex-wrap gap-2">
+                <Badge className={`text-xs ${TYPE_COLORS[selectedRecord.lesson_type] || ''}`}>{selectedRecord.lesson_type?.replace(/_/g, ' ')}</Badge>
+                {selectedRecord.confidence_score && <Badge className="text-xs bg-green-500/10 text-green-400">Confidence: {selectedRecord.confidence_score}/10</Badge>}
+                {selectedRecord.impact_score && <Badge className="text-xs bg-blue-500/10 text-blue-400">Impact: {selectedRecord.impact_score}/10</Badge>}
+              </div>
+              {selectedRecord.what_worked && (
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-green-400 mb-1">✓ What Worked</p>
+                  <p className="text-sm text-foreground/80 leading-relaxed bg-green-500/5 border border-green-500/20 rounded-lg p-3">{selectedRecord.what_worked}</p>
+                </div>
+              )}
+              {selectedRecord.what_failed && (
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-red-400 mb-1">✗ What Failed</p>
+                  <p className="text-sm text-foreground/80 leading-relaxed bg-red-500/5 border border-red-500/20 rounded-lg p-3">{selectedRecord.what_failed}</p>
+                </div>
+              )}
+              {selectedRecord.improvement && (
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-1">→ Improvement</p>
+                  <p className="text-sm text-foreground/80 leading-relaxed bg-primary/5 border border-primary/20 rounded-lg p-3">{selectedRecord.improvement}</p>
+                </div>
+              )}
+              {selectedRecord.source && (
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Source</p>
+                  <p className="text-sm text-foreground/70">{selectedRecord.source}</p>
+                </div>
+              )}
+              <p className="text-xs text-muted-foreground border-t border-border pt-3">
+                Recorded: {new Date(selectedRecord.created_date).toLocaleString('en-AU')}
+              </p>
+            </div>
+          </DialogContent>
+        </Dialog>
       )}
 
       <Dialog open={showForm} onOpenChange={setShowForm}>

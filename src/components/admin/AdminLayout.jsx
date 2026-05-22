@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone, Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink } from 'lucide-react';
+import { LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut, Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift, MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command, ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone, Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
 import GlobalSearch from '@/components/global/GlobalSearch';
@@ -63,6 +63,7 @@ const NAV_SECTIONS = [
     title: '📣 Social & Content',
     items: [
       { label: 'TikTok App Review', path: '/admin/tiktok-review', icon: Zap },
+      { label: 'TikTok Screen Guide', path: '/admin/tiktok-screen-guide', icon: Video },
       { label: 'Social Intelligence', path: '/admin/social-intelligence', icon: TrendingUp },
       { label: 'Creator Insights', path: '/admin/creator-insights', icon: Eye },
       { label: 'Social Command', path: '/admin/social-command', icon: Users },
@@ -113,6 +114,9 @@ const NAV_SECTIONS = [
   {
     title: '🏢 AI Operating System',
     items: [
+      { label: 'Sales Training', path: '/admin/sales-training', icon: DollarSign },
+      { label: 'Client Onboarding', path: '/admin/client-onboarding', icon: Users },
+      { label: 'Monthly Monitoring', path: '/admin/monthly-monitoring', icon: Calendar },
       { label: 'Blueprint Builder', path: '/admin/blueprint-builder', icon: Book },
       { label: 'Client Installs', path: '/admin/client-installs', icon: Users },
       { label: 'Premium UX Audit', path: '/admin/premium-ux', icon: Sparkles },

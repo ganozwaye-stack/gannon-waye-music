@@ -123,6 +123,10 @@ import TikTokAppReview from '@/pages/admin/TikTokAppReview';
 import RevenueCommandCentre from '@/pages/admin/RevenueCommandCentre';
 import MusicCommandCentre from '@/pages/admin/MusicCommandCentre';
 import GanozMixBridge from '@/pages/admin/GanozMixBridge';
+import SalesTraining from '@/pages/admin/SalesTraining';
+import ClientOnboarding from '@/pages/admin/ClientOnboarding';
+import MonthlyMonitoring from '@/pages/admin/MonthlyMonitoring';
+import TikTokScreenGuide from '@/pages/admin/TikTokScreenGuide';
 
 
 const AuthenticatedApp = () => {
@@ -269,6 +273,10 @@ const AuthenticatedApp = () => {
         <Route path="/admin/revenue-command" element={<RevenueCommandCentre />} />
         <Route path="/admin/music-command" element={<MusicCommandCentre />} />
         <Route path="/admin/ganozmix" element={<GanozMixBridge />} />
+        <Route path="/admin/sales-training" element={<SalesTraining />} />
+        <Route path="/admin/client-onboarding" element={<ClientOnboarding />} />
+        <Route path="/admin/monthly-monitoring" element={<MonthlyMonitoring />} />
+        <Route path="/admin/tiktok-screen-guide" element={<TikTokScreenGuide />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
