@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Link } from 'react-router-dom';
-import { Brain, TrendingUp, Activity, Zap, Star, BookOpen, Shield, Loader2, RefreshCw, ArrowRight, CheckCircle2, X, ChevronRight } from 'lucide-react';
+import { Brain, TrendingUp, Activity, Zap, Star, BookOpen, Loader2, ArrowRight, ChevronRight } from 'lucide-react';
 import { toast } from 'sonner';
 import ReactMarkdown from 'react-markdown';
 
@@ -17,6 +17,13 @@ const AGENT_IQ_MAP = [
   { name: 'Orchestrator', iq: 97, domain: 'System Orchestration', color: 'text-primary', bg: 'bg-primary/10' },
   { name: 'SecurityAgent', iq: 86, domain: 'Security & Compliance', color: 'text-red-400', bg: 'bg-red-500/10' },
   { name: 'CreativeStudioAgent', iq: 88, domain: 'Creative & Content', color: 'text-pink-400', bg: 'bg-pink-500/10' },
+];
+
+const ROADMAP_ITEMS = [
+  { area: 'Research Depth', current: 'Rotating 15 topics every 4h', next: 'Add competitor scanning + product scouting loops', priority: 'high', related_agents: ['AutonomousResearchAgent', 'TrendEngine'], link: '/admin/research-grid' },
+  { area: 'Memory Persistence', current: 'KnowledgeVault + AgentLearningRecord', next: 'Cross-reference learning between agents', priority: 'medium', related_agents: ['Orchestrator'], link: '/admin/memory-graph' },
+  { area: 'Opportunity Detection', current: 'Ideas Engine + Trend Monitor', next: 'Automated scoring + escalation to ApprovalQueue', priority: 'high', related_agents: ['TrendEngine', 'Orchestrator'], link: '/admin/ideas-engine' },
+  { area: 'Self Improvement', current: 'Manual learning records', next: 'Auto-compare approved vs rejected outputs', priority: 'medium', related_agents: ['Orchestrator'], link: '/admin/agent-learning' },
 ];
 
 function LearningDetailModal({ record, onClose }) {
@@ -62,6 +69,10 @@ function LearningDetailModal({ record, onClose }) {
           )}
           <div className="text-xs text-muted-foreground border-t border-border pt-3">
             Recorded: {new Date(record.created_date).toLocaleString('en-AU')}
+          </div>
+          <div className="flex gap-2">
+            <Link to="/admin/agent-learning" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><BookOpen className="w-3 h-3" />All Learning Records</Button></Link>
+            <Link to="/admin/knowledge-vault" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Knowledge Vault</Button></Link>
           </div>
         </div>
       </DialogContent>
@@ -122,18 +133,49 @@ function ActivityDetailModal({ log, onClose }) {
           <div className="text-xs text-muted-foreground border-t border-border pt-3">
             Executed: {new Date(log.created_date).toLocaleString('en-AU')}
           </div>
-          <div className="flex gap-2 pt-1">
-            <Link to="/admin/agent-task-log" onClick={onClose}>
-              <Button size="sm" variant="outline" className="gap-1 text-xs">
-                <Activity className="w-3 h-3" /> Full Task Log
-              </Button>
-            </Link>
-            <Link to="/admin/agent-learning" onClick={onClose}>
-              <Button size="sm" variant="outline" className="gap-1 text-xs">
-                <BookOpen className="w-3 h-3" /> Learning Records
-              </Button>
-            </Link>
+          <div className="flex gap-2 pt-1 flex-wrap">
+            <Link to="/admin/agent-task-log" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Activity className="w-3 h-3" />Full Task Log</Button></Link>
+            <Link to="/admin/agent-learning" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><BookOpen className="w-3 h-3" />Learning Records</Button></Link>
+            <Link to="/admin/knowledge-vault" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Knowledge Vault</Button></Link>
           </div>
+          <p className="text-xs text-muted-foreground italic border-t border-border pt-2">Source chain: Agent Task Log → Agent Learning Records → Knowledge Vault → Ideas Engine</p>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function RoadmapDetailModal({ item, onClose }) {
+  if (!item) return null;
+  return (
+    <Dialog open onOpenChange={onClose}>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle className="font-display text-lg flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-green-400" />{item.area}
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-3 mt-2">
+          <div className="flex items-center gap-2">
+            <Badge className={`text-xs ${item.priority === 'high' ? 'bg-orange-500/10 text-orange-400' : 'bg-blue-500/10 text-blue-400'}`}>{item.priority} priority</Badge>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Current State</p>
+            <p className="text-sm text-foreground/80 bg-secondary/30 rounded-lg p-2">{item.current}</p>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-primary mb-1">→ Target Upgrade</p>
+            <p className="text-sm text-foreground/80 bg-primary/5 border border-primary/20 rounded-lg p-2">{item.next}</p>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Related Agents</p>
+            <div className="flex flex-wrap gap-1">{item.related_agents.map(a => <Badge key={a} variant="outline" className="text-xs">{a}</Badge>)}</div>
+          </div>
+          <div className="pt-2 border-t border-border flex gap-2 flex-wrap">
+            <Link to={item.link} onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><ArrowRight className="w-3 h-3" />View Related Page</Button></Link>
+            <Link to="/admin/agent-registry" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Agent Registry</Button></Link>
+          </div>
+          <p className="text-xs text-muted-foreground italic border-t border-border pt-2">This is the deepest available source record for this roadmap item — a system-defined capability improvement target.</p>
         </div>
       </DialogContent>
     </Dialog>
@@ -144,6 +186,7 @@ export default function AgentIntelligence() {
   const [triggering, setTriggering] = useState(false);
   const [selectedLearning, setSelectedLearning] = useState(null);
   const [selectedLog, setSelectedLog] = useState(null);
+  const [selectedRoadmap, setSelectedRoadmap] = useState(null);
 
   const { data: logs = [], refetch: refetchLogs } = useQuery({
     queryKey: ['agent-intel-logs'],
@@ -190,15 +233,9 @@ export default function AgentIntelligence() {
   };
 
   const autoLogs = logs.filter(l => l.was_automatic);
-  const todayLogs = logs.filter(l => {
-    const d = new Date(l.created_date);
-    const now = new Date();
-    return d.toDateString() === now.toDateString();
-  });
-
+  const todayLogs = logs.filter(l => new Date(l.created_date).toDateString() === new Date().toDateString());
   const totalKnowledge = vaultCount.length;
   const totalIdeas = ideas.length;
-  const approvedIdeas = ideas.filter(i => i.status === 'approved' || i.status === 'implemented').length;
 
   return (
     <div className="space-y-6 pb-10">
@@ -213,40 +250,47 @@ export default function AgentIntelligence() {
             Trigger Research
           </Button>
           <Button variant="outline" onClick={triggerTrends} disabled={triggering} className="gap-2 text-xs">
-            <TrendingUp className="w-3 h-3" />
-            Trigger Trends
+            <TrendingUp className="w-3 h-3" />Trigger Trends
           </Button>
         </div>
       </div>
 
-      {/* System Stats */}
+      {/* Clickable Stat Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: 'Knowledge Entries', value: totalKnowledge, icon: BookOpen, color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
-          { label: 'Agent Actions Today', value: todayLogs.length, icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-          { label: 'Total Ideas Generated', value: totalIdeas, icon: Star, color: 'text-green-400', bg: 'bg-green-500/10' },
-          { label: 'Learning Records', value: learnings.length, icon: Brain, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+          { label: 'Knowledge Entries', value: totalKnowledge, icon: BookOpen, color: 'text-cyan-400', bg: 'bg-cyan-500/10', link: '/admin/knowledge-vault' },
+          { label: 'Agent Actions Today', value: todayLogs.length, icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10', link: '/admin/agent-task-log' },
+          { label: 'Total Ideas Generated', value: totalIdeas, icon: Star, color: 'text-green-400', bg: 'bg-green-500/10', link: '/admin/ideas-engine' },
+          { label: 'Learning Records', value: learnings.length, icon: Brain, color: 'text-purple-400', bg: 'bg-purple-500/10', link: '/admin/agent-learning' },
         ].map(s => (
-          <Card key={s.label}>
-            <CardContent className="p-4 flex items-center gap-3">
-              <div className={`${s.bg} p-2 rounded-lg`}><s.icon className={`w-5 h-5 ${s.color}`} /></div>
-              <div>
-                <p className="text-2xl font-bold">{s.value}</p>
-                <p className="text-xs text-muted-foreground">{s.label}</p>
-              </div>
-            </CardContent>
-          </Card>
+          <Link key={s.label} to={s.link}>
+            <Card className="hover:border-primary/40 transition-all cursor-pointer group">
+              <CardContent className="p-4 flex items-center gap-3">
+                <div className={`${s.bg} p-2 rounded-lg shrink-0`}><s.icon className={`w-5 h-5 ${s.color}`} /></div>
+                <div className="min-w-0">
+                  <p className="text-2xl font-bold group-hover:text-primary transition-colors">{s.value}</p>
+                  <p className="text-xs text-muted-foreground truncate">{s.label}</p>
+                </div>
+                <ChevronRight className="w-3 h-3 text-muted-foreground group-hover:text-primary ml-auto shrink-0 transition-colors" />
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
 
       {/* Agent IQ Scoreboard */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-base flex items-center gap-2"><Brain className="w-4 h-4 text-primary" />Agent IQ Scores</CardTitle>
+          <CardTitle className="text-base flex items-center gap-2">
+            <Brain className="w-4 h-4 text-primary" />Agent IQ Scores
+            <Link to="/admin/agent-registry" className="ml-auto">
+              <Button size="sm" variant="ghost" className="text-xs gap-1 h-6"><ChevronRight className="w-3 h-3" />All Agents</Button>
+            </Link>
+          </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {AGENT_IQ_MAP.map(agent => (
-            <div key={agent.name} className="flex items-center gap-3">
+            <Link key={agent.name} to="/admin/agent-registry" className="flex items-center gap-3 group hover:opacity-80 transition-opacity">
               <div className={`${agent.bg} px-2 py-1 rounded text-xs font-mono ${agent.color} w-20 text-center shrink-0`}>
                 IQ {agent.iq}
               </div>
@@ -259,7 +303,7 @@ export default function AgentIntelligence() {
                   <div className="h-1.5 rounded-full bg-primary/60 transition-all" style={{ width: `${agent.iq}%` }} />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </CardContent>
       </Card>
@@ -318,27 +362,28 @@ export default function AgentIntelligence() {
         </Card>
       </div>
 
-      {/* Improvement Suggestions */}
+      {/* Capability Improvement Roadmap */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-base flex items-center gap-2"><TrendingUp className="w-4 h-4 text-green-400" />Capability Improvement Roadmap</CardTitle>
+          <CardTitle className="text-base flex items-center gap-2">
+            <TrendingUp className="w-4 h-4 text-green-400" />Capability Improvement Roadmap
+            <span className="ml-auto text-xs text-muted-foreground">Click any item for detail</span>
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {[
-              { area: 'Research Depth', current: 'Rotating 15 topics every 4h', next: 'Add competitor scanning + product scouting loops', priority: 'high' },
-              { area: 'Memory Persistence', current: 'KnowledgeVault + AgentLearningRecord', next: 'Cross-reference learning between agents', priority: 'medium' },
-              { area: 'Opportunity Detection', current: 'Ideas Engine + Trend Monitor', next: 'Automated scoring + escalation to ApprovalQueue', priority: 'high' },
-              { area: 'Self Improvement', current: 'Manual learning records', next: 'Auto-compare approved vs rejected outputs', priority: 'medium' },
-            ].map(item => (
-              <div key={item.area} className="border border-border rounded-lg p-3">
+            {ROADMAP_ITEMS.map(item => (
+              <button key={item.area} onClick={() => setSelectedRoadmap(item)} className="border border-border rounded-lg p-3 text-left hover:border-primary/40 hover:bg-secondary/20 transition-all group">
                 <div className="flex items-center justify-between mb-1">
                   <p className="text-sm font-medium">{item.area}</p>
-                  <Badge className={`text-xs ${item.priority === 'high' ? 'bg-orange-500/10 text-orange-400' : 'bg-blue-500/10 text-blue-400'}`}>{item.priority}</Badge>
+                  <div className="flex items-center gap-1">
+                    <Badge className={`text-xs ${item.priority === 'high' ? 'bg-orange-500/10 text-orange-400' : 'bg-blue-500/10 text-blue-400'}`}>{item.priority}</Badge>
+                    <ChevronRight className="w-3 h-3 text-muted-foreground group-hover:text-primary" />
+                  </div>
                 </div>
                 <p className="text-xs text-muted-foreground">Now: {item.current}</p>
                 <p className="text-xs text-primary mt-1">→ {item.next}</p>
-              </div>
+              </button>
             ))}
           </div>
         </CardContent>
@@ -353,6 +398,7 @@ export default function AgentIntelligence() {
 
       {selectedLearning && <LearningDetailModal record={selectedLearning} onClose={() => setSelectedLearning(null)} />}
       {selectedLog && <ActivityDetailModal log={selectedLog} onClose={() => setSelectedLog(null)} />}
+      {selectedRoadmap && <RoadmapDetailModal item={selectedRoadmap} onClose={() => setSelectedRoadmap(null)} />}
     </div>
   );
 }

@@ -98,6 +98,8 @@ export default function ResearchGrid() {
   const [scanTopic, setScanTopic] = useState('');
   const [scanResult, setScanResult] = useState(null);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedViral, setSelectedViral] = useState(null);
+  const [selectedGap, setSelectedGap] = useState(null);
   const qc = useQueryClient();
 
   const { data: entries = [], isLoading, refetch } = useQuery({
@@ -231,6 +233,31 @@ Be specific with numbers, names, and percentages. No vague generalities.`,
         </CardContent>
       </Card>
 
+      {/* Viral Opportunity Detail Modal */}
+      {selectedViral && (
+        <Dialog open onOpenChange={() => setSelectedViral(null)}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader><DialogTitle className="font-display text-lg">{selectedViral.trend}</DialogTitle></DialogHeader>
+            <div className="space-y-3 mt-2">
+              <div className="flex flex-wrap gap-2">
+                <Badge className="text-xs bg-green-500/10 text-green-400">{selectedViral.platform}</Badge>
+                <Badge variant="outline" className="text-xs">{selectedViral.speed_of_growth}</Badge>
+                <Badge variant="outline" className="text-xs">{selectedViral.competition_level} competition</Badge>
+                {selectedViral.relevance_score && <Badge className="text-xs bg-primary/10 text-primary">relevance: {selectedViral.relevance_score}/10</Badge>}
+              </div>
+              {selectedViral.recommended_angle && <div><p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Recommended Angle</p><p className="text-sm text-foreground/80 bg-secondary/30 rounded-lg p-2">{selectedViral.recommended_angle}</p></div>}
+              {selectedViral.recommended_hook && <div><p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Hook</p><p className="text-sm text-foreground/80">{selectedViral.recommended_hook}</p></div>}
+              {selectedViral.estimated_lifespan && <div><p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Estimated Lifespan</p><p className="text-sm text-foreground/70">{selectedViral.estimated_lifespan}</p></div>}
+              <div className="flex gap-2 pt-2 border-t border-border flex-wrap">
+                <Button size="sm" variant="outline" className="gap-1 text-xs" onClick={() => { saveToVault({ title: selectedViral.trend, category: 'research', summary: selectedViral.recommended_angle, content: selectedViral.recommended_hook }); setSelectedViral(null); }}><Save className="w-3 h-3" />Save to Vault</Button>
+                <Button size="sm" variant="outline" className="gap-1 text-xs" onClick={() => { createApproval({ title: selectedViral.trend, summary: selectedViral.recommended_angle, category: 'research' }); setSelectedViral(null); }}><Plus className="w-3 h-3" />Create Approval</Button>
+              </div>
+              <p className="text-xs text-muted-foreground">Created: {selectedViral.created_date ? new Date(selectedViral.created_date).toLocaleDateString('en-AU') : '—'} · Source: Autonomous Trend Engine</p>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+
       {/* Active Viral Opportunities */}
       {viral.length > 0 && (
         <Card>
@@ -243,19 +270,44 @@ Be specific with numbers, names, and percentages. No vague generalities.`,
           <CardContent>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {viral.map(v => (
-                <div key={v.id} className="border border-green-500/20 rounded-lg p-3">
+                <button key={v.id} onClick={() => setSelectedViral(v)} className="border border-green-500/20 rounded-lg p-3 text-left hover:border-green-500/50 hover:bg-green-500/5 transition-all group">
                   <div className="flex items-center gap-2 mb-1">
                     <Badge className="text-xs bg-green-500/10 text-green-400">{v.platform}</Badge>
                     <Badge variant="outline" className="text-xs">{v.speed_of_growth}</Badge>
                     {v.relevance_score && <span className="text-xs text-muted-foreground ml-auto">relevance: {v.relevance_score}/10</span>}
+                    <ChevronRight className="w-3 h-3 text-muted-foreground group-hover:text-green-400" />
                   </div>
                   <p className="text-sm font-medium">{v.trend}</p>
                   {v.recommended_angle && <p className="text-xs text-primary mt-1">→ {v.recommended_angle}</p>}
-                </div>
+                </button>
               ))}
             </div>
           </CardContent>
         </Card>
+      )}
+
+      {/* Creator Gap Detail Modal */}
+      {selectedGap && (
+        <Dialog open onOpenChange={() => setSelectedGap(null)}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader><DialogTitle className="font-display text-lg">{selectedGap.niche}</DialogTitle></DialogHeader>
+            <div className="space-y-3 mt-2">
+              <div className="flex flex-wrap gap-2">
+                <Badge className="text-xs bg-purple-500/10 text-purple-400">{selectedGap.platform}</Badge>
+                {selectedGap.viral_potential && <Badge variant="outline" className="text-xs">viral: {selectedGap.viral_potential}/10</Badge>}
+                {selectedGap.monetization_potential && <Badge variant="outline" className="text-xs">monetisation: {selectedGap.monetization_potential}/10</Badge>}
+              </div>
+              {selectedGap.gap_detected && <div><p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Gap Detected</p><p className="text-sm text-foreground/80 bg-secondary/30 rounded-lg p-2">{selectedGap.gap_detected}</p></div>}
+              {selectedGap.content_opportunity && <div><p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Content Opportunity</p><p className="text-sm text-foreground/80">{selectedGap.content_opportunity}</p></div>}
+              {selectedGap.recommended_action && <div><p className="text-xs font-semibold uppercase tracking-wider text-primary mb-1">→ Recommended Action</p><p className="text-sm text-foreground/80 bg-primary/5 border border-primary/20 rounded-lg p-2">{selectedGap.recommended_action}</p></div>}
+              <div className="flex gap-2 pt-2 border-t border-border flex-wrap">
+                <Button size="sm" variant="outline" className="gap-1 text-xs" onClick={() => { saveToVault({ title: selectedGap.niche, category: 'research', summary: selectedGap.gap_detected, content: selectedGap.recommended_action }); setSelectedGap(null); }}><Save className="w-3 h-3" />Save to Vault</Button>
+                <Button size="sm" variant="outline" className="gap-1 text-xs" onClick={() => { createApproval({ title: selectedGap.niche, summary: selectedGap.recommended_action, category: 'research' }); setSelectedGap(null); }}><Plus className="w-3 h-3" />Create Approval</Button>
+              </div>
+              <p className="text-xs text-muted-foreground">Created: {selectedGap.created_date ? new Date(selectedGap.created_date).toLocaleDateString('en-AU') : '—'} · Source: Creator Gap Scanner</p>
+            </div>
+          </DialogContent>
+        </Dialog>
       )}
 
       {/* Creator Gap Insights */}
@@ -270,16 +322,17 @@ Be specific with numbers, names, and percentages. No vague generalities.`,
           <CardContent>
             <div className="space-y-2">
               {gaps.slice(0, 5).map(g => (
-                <div key={g.id} className="border border-purple-500/20 rounded-lg p-3">
+                <button key={g.id} onClick={() => setSelectedGap(g)} className="w-full text-left border border-purple-500/20 rounded-lg p-3 hover:border-purple-500/50 hover:bg-purple-500/5 transition-all group">
                   <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <Badge className="text-xs bg-purple-500/10 text-purple-400">{g.platform}</Badge>
                     {g.viral_potential && <Badge variant="outline" className="text-xs">viral: {g.viral_potential}/10</Badge>}
                     {g.monetization_potential && <Badge variant="outline" className="text-xs">$$: {g.monetization_potential}/10</Badge>}
+                    <ChevronRight className="w-3 h-3 text-muted-foreground group-hover:text-purple-400 ml-auto" />
                   </div>
                   <p className="text-sm font-medium">{g.niche}</p>
                   <p className="text-xs text-muted-foreground mt-1">{g.gap_detected?.substring(0, 120)}...</p>
                   {g.recommended_action && <p className="text-xs text-primary mt-1">→ {g.recommended_action}</p>}
-                </div>
+                </button>
               ))}
             </div>
           </CardContent>

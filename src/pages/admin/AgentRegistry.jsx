@@ -207,9 +207,12 @@ function AgentDetailModal({ agent, onClose, onUpdate }) {
   );
 }
 
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
 export default function AgentRegistry() {
   const [search, setSearch] = useState('');
   const [group, setGroup] = useState('all');
+  const [activeLetter, setActiveLetter] = useState('');
   const [showLegend, setShowLegend] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState(null);
   const qc = useQueryClient();
@@ -230,11 +233,14 @@ export default function AgentRegistry() {
   const usingFallback = !isLoading && dbAgents.length === 0;
   const agents = usingFallback ? AGENT_REGISTRY_SEED : dbAgents;
 
-  const filtered = agents.filter(a => {
-    const matchesGroup = group === 'all' || a.group === group;
-    const matchesSearch = !search || a.agent_name?.toLowerCase().includes(search.toLowerCase()) || a.purpose?.toLowerCase().includes(search.toLowerCase());
-    return matchesGroup && matchesSearch;
-  });
+  const filtered = agents
+    .filter(a => {
+      const matchesGroup = group === 'all' || a.group === group;
+      const matchesSearch = !search || a.agent_name?.toLowerCase().includes(search.toLowerCase()) || a.purpose?.toLowerCase().includes(search.toLowerCase());
+      const matchesLetter = !activeLetter || a.agent_name?.toUpperCase().startsWith(activeLetter);
+      return matchesGroup && matchesSearch && matchesLetter;
+    })
+    .sort((a, b) => (a.agent_name || '').localeCompare(b.agent_name || ''));
 
   const groupCounts = GROUPS.slice(1).reduce((acc, g) => {
     acc[g] = agents.filter(a => a.group === g).length;
@@ -308,6 +314,25 @@ export default function AgentRegistry() {
       <div className="relative">
         <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground" />
         <Input placeholder="Search agents by name or purpose..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
+      </div>
+
+      {/* A–Z Filter Strip */}
+      <div className="flex flex-wrap gap-1">
+        <button
+          onClick={() => setActiveLetter('')}
+          className={`px-2 py-0.5 rounded text-xs font-mono font-bold border transition-all ${!activeLetter ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:border-primary/40'}`}
+        >All</button>
+        {ALPHABET.map(l => {
+          const hasAgents = agents.some(a => a.agent_name?.toUpperCase().startsWith(l));
+          return (
+            <button
+              key={l}
+              onClick={() => setActiveLetter(activeLetter === l ? '' : l)}
+              disabled={!hasAgents}
+              className={`px-2 py-0.5 rounded text-xs font-mono font-bold border transition-all ${activeLetter === l ? 'bg-primary text-primary-foreground border-primary' : hasAgents ? 'border-border text-muted-foreground hover:border-primary/40' : 'border-border/20 text-muted-foreground/30 cursor-not-allowed'}`}
+            >{l}</button>
+          );
+        })}
       </div>
 
       {/* Agent Grid */}

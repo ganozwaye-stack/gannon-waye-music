@@ -8,7 +8,10 @@ import { Textarea } from '@/components/ui/textarea';
 import VoiceTextarea from '@/components/ui/VoiceTextarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Search, FileText, Shield, Trash2, X, Edit2, Save } from 'lucide-react';
+import { Plus, Search, FileText, Shield, Trash2, X, Edit2, Save, Link as LinkIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
+
+const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { toast } from 'sonner';
 
@@ -17,6 +20,7 @@ const CATEGORIES = ['personal_profile','brand_profile','business_profile','legal
 export default function KnowledgeVault() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
+  const [activeLetter, setActiveLetter] = useState('');
   const [showAdd, setShowAdd] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [editing, setEditing] = useState(false);
@@ -53,7 +57,8 @@ export default function KnowledgeVault() {
   const filtered = items.filter(i => {
     const matchCat = category === 'all' || i.category === category;
     const matchSearch = !search || i.title?.toLowerCase().includes(search.toLowerCase()) || i.summary?.toLowerCase().includes(search.toLowerCase());
-    return matchCat && matchSearch;
+    const matchLetter = !activeLetter || i.title?.toUpperCase().startsWith(activeLetter);
+    return matchCat && matchSearch && matchLetter;
   });
 
   return (
@@ -68,13 +73,13 @@ export default function KnowledgeVault() {
         </Button>
       </div>
 
-      <div className="flex gap-3">
-        <div className="relative flex-1">
+      <div className="flex gap-3 flex-wrap">
+        <div className="relative flex-1 min-w-48">
           <Search className="absolute left-3 top-2.5 w-4 h-4 text-muted-foreground" />
           <Input placeholder="Search vault..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9" />
         </div>
         <Select value={category} onValueChange={setCategory}>
-          <SelectTrigger className="w-48">
+          <SelectTrigger className="w-44">
             <SelectValue placeholder="Category" />
           </SelectTrigger>
           <SelectContent>
@@ -82,6 +87,19 @@ export default function KnowledgeVault() {
             {CATEGORIES.map(c => <SelectItem key={c} value={c}>{c.replace(/_/g,' ')}</SelectItem>)}
           </SelectContent>
         </Select>
+      </div>
+
+      {/* A–Z Strip */}
+      <div className="flex flex-wrap gap-1">
+        <button onClick={() => setActiveLetter('')} className={`px-2 py-0.5 rounded text-xs font-mono font-bold border transition-all ${!activeLetter ? 'bg-primary text-primary-foreground border-primary' : 'border-border text-muted-foreground hover:border-primary/40'}`}>All</button>
+        {ALPHABET.map(l => {
+          const has = items.some(i => i.title?.toUpperCase().startsWith(l));
+          return (
+            <button key={l} onClick={() => setActiveLetter(activeLetter === l ? '' : l)} disabled={!has}
+              className={`px-2 py-0.5 rounded text-xs font-mono font-bold border transition-all ${activeLetter === l ? 'bg-primary text-primary-foreground border-primary' : has ? 'border-border text-muted-foreground hover:border-primary/40' : 'border-border/20 text-muted-foreground/30 cursor-not-allowed'}`}
+            >{l}</button>
+          );
+        })}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
