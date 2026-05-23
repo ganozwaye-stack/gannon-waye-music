@@ -1,0 +1,109 @@
+{
+  "name": "FanReview",
+  "type": "object",
+  "properties": {
+    "target_type": {
+      "type": "string",
+      "enum": [
+        "track",
+        "release",
+        "merch",
+        "single_page",
+        "music_video"
+      ],
+      "default": "track"
+    },
+    "target_id": {
+      "type": "string",
+      "description": "ID of the release, product, etc."
+    },
+    "target_name": {
+      "type": "string",
+      "description": "Human-readable name of what was reviewed"
+    },
+    "reviewer_name": {
+      "type": "string"
+    },
+    "reviewer_email": {
+      "type": "string"
+    },
+    "reviewer_location": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number",
+      "description": "1-5 stars"
+    },
+    "review_text": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "featured",
+        "flagged"
+      ],
+      "default": "pending"
+    },
+    "admin_reply": {
+      "type": "string"
+    },
+    "admin_loved": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "consent_given": {
+      "type": "boolean",
+      "default": false
+    },
+    "love_count": {
+      "type": "number",
+      "default": 0
+    },
+    "notification_sent": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "target_type",
+    "target_name",
+    "reviewer_name",
+    "review_text"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.status": "approved"
+        },
+        {
+          "data.status": "featured"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

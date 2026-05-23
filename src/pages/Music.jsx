@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Play, ExternalLink, Music2 } from 'lucide-react';
+import { Play, ExternalLink, Music2, BookOpen, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 import ShareButtons from '@/components/public/ShareButtons';
 import GoldShards from '@/components/public/GoldShards';
+import LyricsModal from '@/components/public/LyricsModal';
 
 // Clean gold glow banner — blends into dark background on Music page
 const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
@@ -54,6 +55,8 @@ const STATUS_LABELS = {
 };
 
 export default function Music() {
+  const [lyricsRelease, setLyricsRelease] = useState(null);
+
   const { data: releases } = useQuery({
     queryKey: ['releases'],
     queryFn: () => base44.entities.Release.list('-release_date'),
@@ -159,6 +162,25 @@ export default function Music() {
                     <p className="font-body text-xs text-muted-foreground mt-3">{release.credits}</p>
                   )}
 
+                  {/* Lyrics + Current Single buttons */}
+                  <div className="flex flex-wrap gap-2 mt-4 mb-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10 cursor-pointer"
+                      onClick={() => setLyricsRelease(release)}
+                    >
+                      <BookOpen className="w-3 h-3" />Lyrics
+                    </Button>
+                    {release.is_current_single && (
+                      <Link to="/current-single">
+                        <Button size="sm" variant="outline" className="rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-primary/20 text-primary hover:bg-primary/10">
+                          <Star className="w-3 h-3" />Current Single Page
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+
                   {/* Streaming Links */}
                   <div className="flex flex-wrap gap-3 mt-6">
                     {isReleased() && release.spotify_link ? (
@@ -198,6 +220,7 @@ export default function Music() {
         </div>
         <BePartOfThisCTA context="If this music means something to you, you can help make more of it happen." />
       </div>
+      {lyricsRelease && <LyricsModal release={lyricsRelease} onClose={() => setLyricsRelease(null)} />}
     </div>
   );
 }

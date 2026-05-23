@@ -36,6 +36,8 @@ import PortraitGallery from '@/pages/PortraitGallery';
 import Impact from '@/pages/Impact';
 import Bookings from '@/pages/Bookings';
 import SevenDayStandard from '@/pages/SevenDayStandard';
+import CurrentSingle from '@/pages/CurrentSingle';
+import MerchFeedback from '@/pages/MerchFeedback';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -128,6 +130,7 @@ import ClientOnboarding from '@/pages/admin/ClientOnboarding';
 import MonthlyMonitoring from '@/pages/admin/MonthlyMonitoring';
 import TikTokScreenGuide from '@/pages/admin/TikTokScreenGuide';
 import RevenueActions from '@/pages/admin/RevenueActions';
+import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
 
 
 const AuthenticatedApp = () => {
@@ -185,6 +188,8 @@ const AuthenticatedApp = () => {
         <Route path="/7-day-standard" element={<SevenDayStandard />} />
         <Route path="/mastering" element={<Mastering />} />
         <Route path="/order-status" element={<OrderStatus />} />
+        <Route path="/current-single" element={<CurrentSingle />} />
+        <Route path="/merch-feedback" element={<MerchFeedback />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -279,6 +284,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/monthly-monitoring" element={<MonthlyMonitoring />} />
         <Route path="/admin/tiktok-screen-guide" element={<TikTokScreenGuide />} />
         <Route path="/admin/revenue-actions" element={<RevenueActions />} />
+        <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

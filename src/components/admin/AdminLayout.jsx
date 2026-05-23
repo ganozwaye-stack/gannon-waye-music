@@ -79,6 +79,7 @@ const NAV_SECTIONS = [
       { label: 'Gift Claims', path: '/admin/gift-claims', icon: Gift },
       { label: 'Gift Progress', path: '/admin/gift-progress', icon: Gift },
       { label: 'Gift Verification', path: '/admin/gift-verification', icon: Shield },
+      { label: 'Merch Feedback', path: '/admin/merch-feedback', icon: MessageCircle },
       { label: 'Thank You Cards', path: '/admin/thank-you-cards', icon: Heart },
     ],
   },

@@ -39,7 +39,15 @@ export default function PostReplies({ postId }) {
       if (likedPost) return;
       return base44.entities.CommunityLike.create({ target_type: 'post', target_id: postId, liker_session: session });
     },
+    onMutate: () => {
+      // Optimistic update — immediately show liked state
+      queryClient.setQueryData(['likes', 'post', postId], (old = []) => [
+        ...old,
+        { target_type: 'post', target_id: postId, liker_session: session, id: 'optimistic' }
+      ]);
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['likes', 'post', postId] }),
+    onError: () => queryClient.invalidateQueries({ queryKey: ['likes', 'post', postId] }),
   });
 
   const submitReply = async (e) => {
@@ -134,7 +142,14 @@ function ReplyItem({ reply, session }) {
       if (liked) return;
       return base44.entities.CommunityLike.create({ target_type: 'reply', target_id: reply.id, liker_session: session });
     },
+    onMutate: () => {
+      queryClient.setQueryData(['likes', 'reply', reply.id], (old = []) => [
+        ...old,
+        { target_type: 'reply', target_id: reply.id, liker_session: session, id: 'optimistic' }
+      ]);
+    },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['likes', 'reply', reply.id] }),
+    onError: () => queryClient.invalidateQueries({ queryKey: ['likes', 'reply', reply.id] }),
   });
 
   return (

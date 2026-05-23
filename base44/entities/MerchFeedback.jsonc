@@ -1,0 +1,87 @@
+{
+  "name": "MerchFeedback",
+  "type": "object",
+  "properties": {
+    "product_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "feedback_type": {
+      "type": "string",
+      "enum": [
+        "quality",
+        "sizing",
+        "design",
+        "price",
+        "bundle_suggestion",
+        "new_idea",
+        "general"
+      ],
+      "default": "general"
+    },
+    "message": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number",
+      "description": "1-5"
+    },
+    "submitter_name": {
+      "type": "string"
+    },
+    "submitter_email": {
+      "type": "string"
+    },
+    "order_id": {
+      "type": "string"
+    },
+    "photo_url": {
+      "type": "string"
+    },
+    "consent_given": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "reviewed",
+        "actioned",
+        "archived"
+      ],
+      "default": "new"
+    },
+    "admin_note": {
+      "type": "string"
+    },
+    "notification_sent": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "feedback_type",
+    "message"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
