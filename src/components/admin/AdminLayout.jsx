@@ -55,6 +55,7 @@ const NAV_SECTIONS = [
       { label: 'Social Content Gen', path: '/admin/social-content', icon: Megaphone },
       { label: 'TikTok App Review', path: '/admin/tiktok-review', icon: Zap },
       { label: 'TikTok Screen Guide', path: '/admin/tiktok-screen-guide', icon: Video },
+      { label: 'TikTok Recording Studio', path: '/admin/tiktok-recording-studio', icon: Video },
       // alphabetical
       { label: 'Content Automate', path: '/admin/content-automate', icon: Zap },
       { label: 'Content Dashboard', path: '/admin/content-dashboard', icon: Sparkles },
@@ -94,6 +95,7 @@ const NAV_SECTIONS = [
       { label: 'Agent Learning', path: '/admin/agent-learning', icon: BookOpen },
       { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain },
       { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Activity },
+      { label: 'Operation Registry', path: '/admin/operation-registry', icon: Database },
       { label: 'Autonomous Ops', path: '/admin/autonomous-ops', icon: Activity },
       { label: 'Ideas Engine', path: '/admin/ideas-engine', icon: Lightbulb },
       { label: 'Memory Graph', path: '/admin/memory-graph', icon: Brain },

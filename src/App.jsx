@@ -132,6 +132,7 @@ import TikTokScreenGuide from '@/pages/admin/TikTokScreenGuide';
 import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
 import RevenueActions from '@/pages/admin/RevenueActions';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
+import OperationRegistry from '@/pages/admin/OperationRegistry';
 
 
 const AuthenticatedApp = () => {
@@ -287,6 +288,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/tiktok-recording-studio" element={<TikTokRecordingStudio />} />
         <Route path="/admin/revenue-actions" element={<RevenueActions />} />
         <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
+        <Route path="/admin/operation-registry" element={<OperationRegistry />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
