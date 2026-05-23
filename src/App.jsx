@@ -129,6 +129,7 @@ import SalesTraining from '@/pages/admin/SalesTraining';
 import ClientOnboarding from '@/pages/admin/ClientOnboarding';
 import MonthlyMonitoring from '@/pages/admin/MonthlyMonitoring';
 import TikTokScreenGuide from '@/pages/admin/TikTokScreenGuide';
+import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
 import RevenueActions from '@/pages/admin/RevenueActions';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
 
@@ -283,6 +284,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/client-onboarding" element={<ClientOnboarding />} />
         <Route path="/admin/monthly-monitoring" element={<MonthlyMonitoring />} />
         <Route path="/admin/tiktok-screen-guide" element={<TikTokScreenGuide />} />
+        <Route path="/admin/tiktok-recording-studio" element={<TikTokRecordingStudio />} />
         <Route path="/admin/revenue-actions" element={<RevenueActions />} />
         <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
       </Route>
