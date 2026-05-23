@@ -96,6 +96,7 @@ const NAV_SECTIONS = [
       { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain },
       { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Activity },
       { label: 'Operation Registry', path: '/admin/operation-registry', icon: Database },
+      { label: 'Site Function Audit', path: '/admin/site-function-audit', icon: Activity },
       { label: 'Autonomous Ops', path: '/admin/autonomous-ops', icon: Activity },
       { label: 'Ideas Engine', path: '/admin/ideas-engine', icon: Lightbulb },
       { label: 'Memory Graph', path: '/admin/memory-graph', icon: Brain },

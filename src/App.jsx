@@ -133,6 +133,7 @@ import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
 import RevenueActions from '@/pages/admin/RevenueActions';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
 import OperationRegistry from '@/pages/admin/OperationRegistry';
+import SiteFunctionAudit from '@/pages/admin/SiteFunctionAudit';
 
 
 const AuthenticatedApp = () => {
@@ -289,6 +290,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/revenue-actions" element={<RevenueActions />} />
         <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
         <Route path="/admin/operation-registry" element={<OperationRegistry />} />
+        <Route path="/admin/site-function-audit" element={<SiteFunctionAudit />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

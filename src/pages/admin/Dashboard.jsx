@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Music, ShoppingBag, Package, Users, ArrowRight, ExternalLink, Heart, TrendingUp } from 'lucide-react';
@@ -167,13 +167,15 @@ export default function Dashboard() {
             ) : (
               <div className="space-y-3">
                 {pendingOrders.slice(0, 5).map(order => (
-                  <div key={order.id} className="flex items-center justify-between py-2 border-b border-border/30 last:border-0">
-                    <div>
-                      <p className="font-body text-sm text-foreground">{order.customer_name}</p>
-                      <p className="font-body text-xs text-muted-foreground">{order.items?.length || 0} item(s)</p>
+                  <Link key={order.id} to="/admin/orders">
+                    <div className="flex items-center justify-between py-2 border-b border-border/30 last:border-0 cursor-pointer hover:bg-secondary/20 px-1 rounded transition-colors">
+                      <div>
+                        <p className="font-body text-sm text-foreground">{order.customer_name}</p>
+                        <p className="font-body text-xs text-muted-foreground">{order.items?.length || 0} item(s)</p>
+                      </div>
+                      <p className="font-display text-sm text-primary">${order.total_amount?.toFixed(2)}</p>
                     </div>
-                    <p className="font-display text-sm text-primary">${order.total_amount?.toFixed(2)}</p>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}
@@ -194,7 +196,8 @@ export default function Dashboard() {
             ) : (
               <div className="space-y-3">
                 {recordingReleases.slice(0, 5).map(r => (
-                  <div key={r.id} className="flex items-center justify-between py-2 border-b border-border/30 last:border-0">
+                  <Link key={r.id} to="/admin/releases">
+                  <div className="flex items-center justify-between py-2 border-b border-border/30 last:border-0 cursor-pointer hover:bg-secondary/20 px-1 rounded transition-colors">
                     <div>
                       <p className="font-body text-sm text-foreground">{r.title}</p>
                       <p className="font-body text-xs text-muted-foreground capitalize">{r.status?.replace(/_/g, ' ')}</p>
@@ -205,6 +208,7 @@ export default function Dashboard() {
                       </p>
                     )}
                   </div>
+                  </Link>
                 ))}
               </div>
             )}
