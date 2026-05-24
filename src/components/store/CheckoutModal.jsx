@@ -115,31 +115,46 @@ export default function CheckoutModal({ product, onClose }) {
 
   const handlePaymentSuccess = async (intent) => {
     const isPreorder = intent.type === 'setup';
+    setSubmitting(true);
 
-    // Record promo usage now that payment is confirmed
-    if (appliedPromo) {
-      await base44.functions.invoke('recordPromoUsage', { promo_id: appliedPromo.id, email: form.customer_email });
+    try {
+      // Record promo usage now that payment is confirmed
+      if (appliedPromo) {
+        try {
+          await base44.functions.invoke('recordPromoUsage', { promo_id: appliedPromo.id, email: form.customer_email });
+        } catch {
+          // Non-fatal — promo logging failure should not block order creation
+        }
+      }
+
+      await base44.entities.MerchOrder.create({
+        customer_name: form.customer_name,
+        customer_email: form.customer_email,
+        shipping_address: form.shipping_address,
+        items: [{ product_id: product.id, product_name: product.name, size: selectedSize, quantity, price: productPrice }],
+        total_amount: pricing.total,
+        promo_code: appliedPromo?.code || null,
+        notes: isPreorder
+          ? `PRE-ORDER · Charge $${pricing.total.toFixed(2)} AUD on 2026-06-05 | SetupIntent: ${intent.id}${appliedPromo ? ` | Promo: ${appliedPromo.code}` : ''}`
+          : `Stripe PaymentIntent: ${intent.id}${appliedPromo ? ` | Promo: ${appliedPromo.code} (${appliedPromo.discount_percent}% off)` : ''}`,
+        status: isPreorder ? 'pending' : 'confirmed',
+      });
+      queryClient.invalidateQueries({ queryKey: ['orders'] });
+      setStep('done');
+    } catch (err) {
+      // Payment succeeded — order logging failed. Still show success so customer isn't confused.
+      // Admin will see it in Stripe dashboard and can manually create the order.
+      console.error('Order creation failed after payment:', err);
+      setStep('done');
+      toast({ title: 'Payment received! Order confirmation may be slightly delayed — we will email you shortly.', variant: 'default' });
+    } finally {
+      setSubmitting(false);
     }
-
-    await base44.entities.MerchOrder.create({
-      customer_name: form.customer_name,
-      customer_email: form.customer_email,
-      shipping_address: form.shipping_address,
-      items: [{ product_id: product.id, product_name: product.name, size: selectedSize, quantity, price: productPrice }],
-      total_amount: pricing.total,
-      promo_code: appliedPromo?.code || null,
-      notes: isPreorder
-        ? `PRE-ORDER · Card saved · Charge $${pricing.total.toFixed(2)} AUD on 2026-06-05 | SetupIntent: ${intent.id}${appliedPromo ? ` | Promo: ${appliedPromo.code}` : ''}`
-        : `Stripe PaymentIntent: ${intent.id}${appliedPromo ? ` | Promo: ${appliedPromo.code} (${appliedPromo.discount_percent}% off)` : ''}`,
-      status: isPreorder ? 'pending' : 'confirmed',
-    });
-    queryClient.invalidateQueries({ queryKey: ['orders'] });
-    setStep('done');
   };
 
   const handlePaymentError = (message) => {
     setSubmitting(false);
-    toast({ title: message || 'Payment failed. Please try again.', variant: 'destructive' });
+    toast({ title: message || 'Payment failed. You have not been charged. Please try again.', variant: 'destructive' });
   };
 
   return (
@@ -151,10 +166,10 @@ export default function CheckoutModal({ product, onClose }) {
           <div className="text-center py-8 space-y-4">
             <DialogTitle className="sr-only">Order Confirmed</DialogTitle>
             <CheckCircle2 className="w-14 h-14 text-primary mx-auto" />
-            <h3 className="font-display text-2xl text-foreground">Pre-order Locked In! 🤍</h3>
+            <h3 className="font-display text-2xl text-foreground">Pre-order Secured! 🤍</h3>
             <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-left space-y-2">
               <p className="font-body text-sm text-foreground/80 leading-relaxed">
-                Your card has been saved securely. <strong>No charge today.</strong>
+                ✅ Your pre-order is confirmed. <strong>No charge today.</strong>
               </p>
               <p className="font-body text-sm text-foreground/70 leading-relaxed">
                 Your payment of <span className="gradient-gold-glow font-semibold">${pricing.total.toFixed(2)} AUD</span> will be processed on <strong>June 5, 2026</strong> — the day of the single launch.
