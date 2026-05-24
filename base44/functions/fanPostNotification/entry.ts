@@ -29,9 +29,9 @@ Deno.serve(async (req) => {
 
   const results = { notification: false, gmail: false, slack: false, errors: [] };
 
-  // 1. Always create dashboard notification first (never fails due to email restrictions)
+  // 1. Create dashboard notification via service role (works without user context)
   try {
-    await base44.asServiceRole.functions.invoke('notifyAdmin', {
+    await base44.asServiceRole.entities.AdminNotification.create({
       notification_type: 'comment',
       title: `New community message from ${post.author_name || 'Anonymous'}`,
       summary: (post.content || '').substring(0, 150),
@@ -41,31 +41,14 @@ Deno.serve(async (req) => {
       linked_id: post.id,
       requires_action: true,
       source: 'Community',
+      is_read: false,
     });
     results.notification = true;
   } catch (e) {
     results.errors.push(`Dashboard notification failed: ${e.message}`);
-    // Create a direct AdminNotification as fallback
-    try {
-      await base44.asServiceRole.entities.AdminNotification.create({
-        notification_type: 'comment',
-        title: `New community message from ${post.author_name || 'Anonymous'}`,
-        summary: (post.content || '').substring(0, 150),
-        severity: 'info',
-        linked_route: '/admin/fans',
-        linked_entity: 'FanPost',
-        linked_id: post.id,
-        requires_action: true,
-        source: 'Community',
-        is_read: false,
-      });
-      results.notification = true;
-    } catch (e2) {
-      results.errors.push(`Fallback notification also failed: ${e2.message}`);
-    }
   }
 
-  // 2. Try Gmail — gracefully skip if Base44 blocks external email
+  // 2. Try Gmail via connector
   try {
     const { accessToken } = await base44.asServiceRole.connectors.getConnection('gmail');
     const htmlBody = `<!DOCTYPE html><html><body style="background:#0e1117;color:#f0ead6;font-family:sans-serif;padding:32px;">
@@ -95,33 +78,25 @@ Deno.serve(async (req) => {
       results.errors.push(`Gmail send failed (${gmailRes.status}): ${err.substring(0, 200)}`);
     }
   } catch (e) {
-    // Email blocked or connector unavailable — this is expected and safe to skip
     results.errors.push(`Gmail skipped: ${e.message}`);
   }
 
   // 3. Try Slack alert
   try {
-    await base44.asServiceRole.functions.invoke('sendSlackAlert', {
-      message: `💬 New fan message from *${post.author_name || 'Anonymous'}*: ${(post.content || '').substring(0, 200)}`,
-      channel: '#gannon-alerts',
+    const { accessToken } = await base44.asServiceRole.connectors.getConnection('slack');
+    const slackRes = await fetch('https://slack.com/api/chat.postMessage', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        channel: '#gannon-alerts',
+        text: `💬 New fan message from *${post.author_name || 'Anonymous'}*: ${(post.content || '').substring(0, 200)}`,
+      })
     });
-    results.slack = true;
+    const slackData = await slackRes.json();
+    if (slackData.ok) results.slack = true;
+    else results.errors.push(`Slack failed: ${slackData.error}`);
   } catch (e) {
     results.errors.push(`Slack skipped: ${e.message}`);
-  }
-
-  // 4. Log to system health if all channels failed
-  if (!results.notification && !results.gmail && !results.slack) {
-    try {
-      await base44.asServiceRole.entities.SystemHealthIssue.create({
-        issue_title: 'FanPost notification failed on all channels',
-        severity: 'warning',
-        system_area: 'email',
-        detected_by: 'fanPostNotification',
-        recommended_fix: 'Check Gmail connector auth and Slack webhook configuration',
-        status: 'open',
-      });
-    } catch (_) { /* best effort */ }
   }
 
   return Response.json({
