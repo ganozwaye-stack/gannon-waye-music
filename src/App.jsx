@@ -135,6 +135,7 @@ import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
 import OperationRegistry from '@/pages/admin/OperationRegistry';
 import SiteFunctionAudit from '@/pages/admin/SiteFunctionAudit';
 import PaymentDiagnostics from '@/pages/admin/PaymentDiagnostics';
+import CheckoutSuccess from '@/pages/CheckoutSuccess';
 
 
 const AuthenticatedApp = () => {
@@ -198,6 +199,7 @@ const AuthenticatedApp = () => {
 
       {/* Embed timer (no layout) */}
       <Route path="/embed-timer" element={<EmbedTimer />} />
+      <Route path="/checkout-success" element={<CheckoutSuccess />} />
       <Route path="/gift-checklist" element={<GiftChecklistPage />} />
 
       {/* Admin routes */}
