@@ -7,14 +7,33 @@ Deno.serve(async (req) => {
   const { action } = body;
 
   // All actions require admin
+  let user = null;
   try {
-    const user = await base44.auth.me();
-    if (user?.role !== 'admin') {
-      return Response.json({ error: 'Forbidden' }, { status: 403 });
-    }
+    user = await base44.auth.me();
   } catch (_) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    console.log('[tiktokOAuth] auth user exists: no — session not found or expired');
+    console.log('[tiktokOAuth] action:', action);
+    console.log('[tiktokOAuth] reason for 401: base44.auth.me() threw — no valid session in request');
+    return Response.json({
+      error: '401 Authentication required — please log in again',
+      detail: 'No valid admin session was found in the request. Please log in to the admin panel and try again.'
+    }, { status: 401 });
   }
+
+  if (!user || user.role !== 'admin') {
+    console.log('[tiktokOAuth] auth user exists: yes');
+    console.log('[tiktokOAuth] user role:', user?.role || 'none');
+    console.log('[tiktokOAuth] action:', action);
+    console.log('[tiktokOAuth] reason for 403: user is authenticated but role is not admin');
+    return Response.json({
+      error: '403 Forbidden — Admin access required',
+      detail: `Your account role is "${user?.role || 'unknown'}". Only the admin account can connect TikTok.`
+    }, { status: 403 });
+  }
+
+  console.log('[tiktokOAuth] auth user exists: yes');
+  console.log('[tiktokOAuth] user role: admin — proceeding');
+  console.log('[tiktokOAuth] action:', action);
 
   const CLIENT_KEY = Deno.env.get('TIKTOK_CLIENT_KEY') || '';
   const CLIENT_SECRET = Deno.env.get('TIKTOK_CLIENT_SECRET') || '';

@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle2, XCircle, Loader2, RefreshCw, LogOut, ExternalLink, User, AlertTriangle } from 'lucide-react';
+import { CheckCircle2, XCircle, Loader2, RefreshCw, LogOut, ExternalLink, User, AlertTriangle, ShieldCheck, ShieldX, ChevronDown, ChevronUp } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 export default function TikTokConnectionCard({ onStatusChange }) {
@@ -12,28 +12,55 @@ export default function TikTokConnectionCard({ onStatusChange }) {
   const [loading, setLoading] = useState(true);
   const [connecting, setConnecting] = useState(false);
   const [disconnecting, setDisconnecting] = useState(false);
+  const [adminInfo, setAdminInfo] = useState(null);   // { isAdmin, email, role }
+  const [adminLoading, setAdminLoading] = useState(true);
+  const [lastError, setLastError] = useState(null);
+  const [lastAttempt, setLastAttempt] = useState(null);
+  const [showDiagnostics, setShowDiagnostics] = useState(false);
 
+  // ── 1. Verify admin session first ────────────────────────────────────────
+  useEffect(() => {
+    const checkAdmin = async () => {
+      setAdminLoading(true);
+      try {
+        const user = await base44.auth.me();
+        setAdminInfo({
+          isAdmin: user?.role === 'admin',
+          role: user?.role || 'unknown',
+          hasSession: true,
+        });
+      } catch (_) {
+        setAdminInfo({ isAdmin: false, role: 'none', hasSession: false });
+      }
+      setAdminLoading(false);
+    };
+    checkAdmin();
+  }, []);
+
+  // ── 2. Check TikTok connection status (only after admin confirmed) ────────
   const checkStatus = async () => {
     setLoading(true);
     try {
       const res = await base44.functions.invoke('tiktokOAuth', { action: 'get_status' });
       setStatus(res.data);
       onStatusChange?.(res.data);
+      setLastError(null);
     } catch (err) {
-      setStatus({ connected: false, error: err.message });
+      const msg = err.message || 'Unknown error';
+      setStatus({ connected: false, error: msg });
+      setLastError(msg);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    checkStatus();
+    // Only call status check after admin check resolves
+    if (!adminLoading) {
+      checkStatus();
+    }
+  }, [adminLoading]);
 
-    // When returning from same-tab redirect, the code will be in the URL
-    // The callback page handles the exchange — we just need to re-check status
-    // (handled by TikTokCallback redirecting back here)
-  }, []);
-
-  // Listen for storage event — set by popup callback flow
+  // ── Listen for popup OAuth code ──────────────────────────────────────────
   useEffect(() => {
     const onStorage = async (e) => {
       if (e.key === 'tiktok_oauth_code' && e.newValue) {
@@ -43,7 +70,7 @@ export default function TikTokConnectionCard({ onStatusChange }) {
         try {
           const exchangeRes = await base44.functions.invoke('tiktokOAuth', { action: 'exchange_code', code });
           if (exchangeRes.data?.success) {
-            toast({ title: `Connected: @${exchangeRes.data.display_name || exchangeRes.data.username || 'TikTok Creator'}` });
+            toast({ title: `Connected: @${exchangeRes.data.display_name || 'TikTok Creator'}` });
             await checkStatus();
           } else {
             toast({ title: exchangeRes.data?.error || 'Connection failed', variant: 'destructive' });
@@ -58,7 +85,7 @@ export default function TikTokConnectionCard({ onStatusChange }) {
     return () => window.removeEventListener('storage', onStorage);
   }, []);
 
-  // Check if we just returned from a same-tab redirect (callback sets tiktok_just_connected)
+  // ── Listen for same-tab redirect return ─────────────────────────────────
   useEffect(() => {
     const justConnected = sessionStorage.getItem('tiktok_just_connected');
     if (justConnected) {
@@ -68,29 +95,26 @@ export default function TikTokConnectionCard({ onStatusChange }) {
     }
   }, []);
 
+  // ── Connect handler ──────────────────────────────────────────────────────
   const handleConnect = async () => {
     setConnecting(true);
+    setLastAttempt(new Date().toISOString());
+    setLastError(null);
 
-    // CRITICAL FIX: Open a blank popup SYNCHRONOUSLY during the click event.
-    // This is treated as a direct user gesture — browsers won't block it.
-    // We then navigate the popup to the real OAuth URL once we have it.
+    // Open blank popup synchronously during user gesture (prevents browser block)
     let popup = null;
     try {
       popup = window.open('', 'tiktok_oauth', 'width=600,height=700,scrollbars=yes,noopener=0');
-    } catch (_) {
-      // popup blocked — will fallback to same-tab below
-    }
+    } catch (_) {}
 
     try {
       const res = await base44.functions.invoke('tiktokOAuth', { action: 'get_auth_url' });
       const authUrl = res.data?.url;
-      if (!authUrl) throw new Error('No auth URL returned');
+      if (!authUrl) throw new Error(res.data?.error || 'No auth URL returned from backend');
 
       if (popup && !popup.closed) {
-        // Navigate the already-open popup to the real TikTok OAuth URL
         popup.location.href = authUrl;
 
-        // Poll for popup close or localStorage code set by callback
         const poll = setInterval(async () => {
           if (!popup || popup.closed) {
             clearInterval(poll);
@@ -115,15 +139,26 @@ export default function TikTokConnectionCard({ onStatusChange }) {
             }
           } catch (_) {}
         }, 800);
-
       } else {
-        // Popup was blocked — fall back to same-tab redirect
+        // Popup blocked — same-tab redirect
         window.location.href = authUrl;
-        // (TikTokCallback page will handle the return)
       }
     } catch (err) {
       if (popup && !popup.closed) popup.close();
-      toast({ title: err.message || 'Failed to start OAuth', variant: 'destructive' });
+      const msg = err.message || 'Failed to start OAuth';
+      setLastError(msg);
+
+      // Friendly message for 401/403
+      let friendlyMsg = msg;
+      if (msg.includes('401') || msg.toLowerCase().includes('unauthorized') || msg.toLowerCase().includes('authentication')) {
+        friendlyMsg = 'TikTok connection was blocked because the backend did not recognise your admin session. Please refresh the page, log in again, or contact system admin.';
+        setShowDiagnostics(true);
+      } else if (msg.includes('403') || msg.toLowerCase().includes('forbidden')) {
+        friendlyMsg = 'Access denied — this action requires admin role. Please ensure you are logged in as Gannon (admin).';
+        setShowDiagnostics(true);
+      }
+
+      toast({ title: friendlyMsg, variant: 'destructive' });
       setConnecting(false);
     }
   };
@@ -142,12 +177,56 @@ export default function TikTokConnectionCard({ onStatusChange }) {
     setDisconnecting(false);
   };
 
-  if (loading) {
+  // ── Admin status pill ────────────────────────────────────────────────────
+  const AdminStatusBadge = () => {
+    if (adminLoading) return (
+      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+        <Loader2 className="w-3 h-3 animate-spin" /> Checking admin access...
+      </span>
+    );
+    if (adminInfo?.isAdmin) return (
+      <span className="inline-flex items-center gap-1 text-xs text-green-400">
+        <ShieldCheck className="w-3 h-3" /> Connected as admin: yes
+      </span>
+    );
+    return (
+      <span className="inline-flex items-center gap-1 text-xs text-red-400">
+        <ShieldX className="w-3 h-3" /> Connected as admin: no (role: {adminInfo?.role || 'unknown'})
+      </span>
+    );
+  };
+
+  // ── Loading state ────────────────────────────────────────────────────────
+  if (adminLoading || loading) {
     return (
       <Card>
         <CardContent className="p-5 flex items-center gap-3">
           <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />
-          <span className="text-sm text-muted-foreground">Checking TikTok connection...</span>
+          <span className="text-sm text-muted-foreground">
+            {adminLoading ? 'Checking admin access...' : 'Checking TikTok connection...'}
+          </span>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  // ── Not admin — show clear message ──────────────────────────────────────
+  if (!adminInfo?.isAdmin) {
+    return (
+      <Card className="border-red-500/30">
+        <CardContent className="p-5 space-y-3">
+          <div className="flex items-center gap-2 text-red-400">
+            <ShieldX className="w-5 h-5" />
+            <p className="text-sm font-medium">Admin access required</p>
+          </div>
+          <p className="text-xs text-muted-foreground">
+            {adminInfo?.hasSession
+              ? `You are logged in but your role is "${adminInfo.role}". You must be logged in as admin (Gannon) to connect TikTok.`
+              : 'No session detected. Please log in as admin before connecting TikTok.'}
+          </p>
+          <Button size="sm" variant="outline" onClick={() => base44.auth.redirectToLogin(window.location.pathname)}>
+            Log in as admin
+          </Button>
         </CardContent>
       </Card>
     );
@@ -166,11 +245,14 @@ export default function TikTokConnectionCard({ onStatusChange }) {
 
       <Card className={status?.connected ? 'border-green-500/30' : 'border-border'}>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm flex items-center gap-2">
-            <span className="text-base">🎵</span> TikTok Creator Connection
-            {status?.connected
-              ? <Badge className="bg-green-500/20 text-green-300 border-green-500/30">Connected</Badge>
-              : <Badge className="bg-slate-500/10 text-slate-400 border-slate-500/30">Not Connected</Badge>}
+          <CardTitle className="text-sm flex items-center justify-between gap-2 flex-wrap">
+            <span className="flex items-center gap-2">
+              <span className="text-base">🎵</span> TikTok Creator Connection
+              {status?.connected
+                ? <Badge className="bg-green-500/20 text-green-300 border-green-500/30">Connected</Badge>
+                : <Badge className="bg-slate-500/10 text-slate-400 border-slate-500/30">Not Connected</Badge>}
+            </span>
+            <AdminStatusBadge />
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -226,7 +308,8 @@ export default function TikTokConnectionCard({ onStatusChange }) {
             </div>
           )}
 
-          <div className="flex gap-2 flex-wrap">
+          {/* Action buttons — always visible */}
+          <div className="flex gap-2 flex-wrap items-center">
             {status?.connected ? (
               <>
                 <Button size="sm" variant="outline" className="gap-1.5 text-xs" onClick={checkStatus} disabled={loading}>
@@ -239,26 +322,60 @@ export default function TikTokConnectionCard({ onStatusChange }) {
               </>
             ) : (
               <Button
-                size="sm"
-                className="gradient-gold-button border-0 gap-1.5 text-xs"
+                size="default"
+                className="gradient-gold-button border-0 gap-2"
                 onClick={handleConnect}
                 disabled={connecting}
               >
-                {connecting ? <Loader2 className="w-3 h-3 animate-spin" /> : <ExternalLink className="w-3 h-3" />}
-                {connecting ? 'Opening TikTok OAuth...' : 'Connect TikTok (Login Kit)'}
+                {connecting ? <Loader2 className="w-4 h-4 animate-spin" /> : <ExternalLink className="w-4 h-4" />}
+                {connecting ? 'Opening TikTok OAuth...' : 'Connect TikTok'}
               </Button>
             )}
+
+            <Button
+              size="sm"
+              variant="ghost"
+              className="gap-1.5 text-xs text-muted-foreground ml-auto"
+              onClick={() => setShowDiagnostics(v => !v)}
+            >
+              {showDiagnostics ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+              {showDiagnostics ? 'Hide' : 'Show'} Diagnostics
+            </Button>
           </div>
 
           {!status?.connected && !connecting && (
             <p className="text-xs text-muted-foreground/60">
-              Opens the official TikTok consent screen. If a popup is blocked by your browser, the page will redirect you directly to TikTok and return automatically.
+              Opens the official TikTok consent screen. If a popup is blocked, the page will redirect you directly to TikTok and return automatically.
             </p>
           )}
           {connecting && (
             <p className="text-xs text-amber-400/80">
               Complete the TikTok authorization in the popup. If no popup appeared, check your browser's address bar — you may have been redirected.
             </p>
+          )}
+
+          {/* Diagnostics panel */}
+          {showDiagnostics && (
+            <div className="border border-border/50 rounded-lg p-3 bg-secondary/20 space-y-2 text-xs font-mono">
+              <p className="text-muted-foreground font-sans font-semibold text-[11px] uppercase tracking-wider mb-2">Diagnostics</p>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+                <span className="text-muted-foreground">Admin session detected</span>
+                <span className={adminInfo?.hasSession ? 'text-green-400' : 'text-red-400'}>{adminInfo?.hasSession ? 'yes' : 'no'}</span>
+                <span className="text-muted-foreground">Role</span>
+                <span className={adminInfo?.isAdmin ? 'text-green-400' : 'text-amber-400'}>{adminInfo?.role || 'unknown'}</span>
+                <span className="text-muted-foreground">TikTok OAuth function</span>
+                <span className="text-blue-400">tiktokOAuth</span>
+                <span className="text-muted-foreground">Last OAuth error</span>
+                <span className={lastError ? 'text-red-400' : 'text-muted-foreground/50'}>{lastError || 'none'}</span>
+                <span className="text-muted-foreground">Last attempt</span>
+                <span className="text-muted-foreground/70">{lastAttempt ? new Date(lastAttempt).toLocaleTimeString() : 'none'}</span>
+              </div>
+              {lastError && (lastError.includes('401') || lastError.toLowerCase().includes('unauthorized')) && (
+                <div className="mt-2 p-2 bg-red-500/10 border border-red-500/20 rounded text-red-300 font-sans text-xs">
+                  <strong>Next action:</strong> Refresh the page and log in again. If the issue persists, check that your Base44 session cookie is active on gannonwaye.com.
+                </div>
+              )}
+            </div>
           )}
         </CardContent>
       </Card>
