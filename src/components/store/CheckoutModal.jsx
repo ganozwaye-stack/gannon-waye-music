@@ -63,7 +63,11 @@ export default function CheckoutModal({ product, onClose }) {
     if (!promoInput.trim()) return;
     setPromoLoading(true);
     try {
-      const res = await base44.functions.invoke('validatePromoCode', { code: promoInput.trim().toUpperCase() });
+      const res = await base44.functions.invoke('validatePromoCode', { 
+        code: promoInput.trim().toUpperCase(),
+        product_category: product.category,
+        cart_items: [{ product_id: product.id, category: product.category }]
+      });
       if (res.data?.valid) {
         setAppliedPromo({ code: res.data.code, discount_percent: res.data.discount_percent, id: res.data.id });
         toast({ title: `${res.data.discount_percent}% discount applied!` });

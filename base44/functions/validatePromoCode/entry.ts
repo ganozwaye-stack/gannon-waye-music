@@ -57,15 +57,65 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Check category restrictions with cart items
+    // Check category restrictions - fetch product categories if not provided
+    let categoriesToCheck = [];
+    
     if (cart_items && cart_items.length > 0) {
-      // Get all categories in cart
-      const cartCategories = cart_items.map(item => (item.category || item.product_type || 'other').toLowerCase());
+      // Build list of items needing category resolution
+      const itemsNeedingCategory = [];
+      const resolvedCategories = [];
       
+      for (const item of cart_items) {
+        let cat = item.category || item.product_type;
+        
+        // If no category but has product_id, fetch from MerchProduct
+        if (!cat && (item.product_id || item.id)) {
+          itemsNeedingCategory.push(item.product_id || item.id);
+        } else if (cat) {
+          resolvedCategories.push(cat.toLowerCase());
+        }
+      }
+      
+      // Fetch missing product categories using service role
+      if (itemsNeedingCategory.length > 0) {
+        const products = await base44.asServiceRole.entities.MerchProduct.filter({
+          id: { $in: itemsNeedingCategory }
+        });
+        
+        const productCategoryMap = {};
+        if (products && products.length > 0) {
+          for (const p of products) {
+            productCategoryMap[p.id] = (p.category || 'other').toLowerCase();
+          }
+        }
+        
+        // Add resolved categories from fetched products
+        for (const itemId of itemsNeedingCategory) {
+          if (productCategoryMap[itemId]) {
+            resolvedCategories.push(productCategoryMap[itemId]);
+          } else {
+            // Product not found - fail safe for restricted codes
+            if (promo.excluded_categories && promo.excluded_categories.length > 0) {
+              return Response.json({
+                valid: false,
+                reason: 'Unable to verify product eligibility for this code'
+              });
+            }
+          }
+        }
+      }
+      
+      categoriesToCheck = resolvedCategories;
+    } else if (product_category) {
+      categoriesToCheck = [product_category.toLowerCase()];
+    }
+    
+    // Now apply category restrictions
+    if (categoriesToCheck.length > 0) {
       // If allowed_categories is set, ALL items must be in that list
       if (promo.allowed_categories && promo.allowed_categories.length > 0) {
         const allowed = promo.allowed_categories.map(c => c.toLowerCase());
-        const hasInvalidItem = cartCategories.some(cat => !allowed.includes(cat));
+        const hasInvalidItem = categoriesToCheck.some(cat => !allowed.includes(cat));
         if (hasInvalidItem) {
           return Response.json({ 
             valid: false, 
@@ -77,30 +127,13 @@ Deno.serve(async (req) => {
       // Check excluded categories - if ANY item is excluded, code is invalid
       if (promo.excluded_categories && promo.excluded_categories.length > 0) {
         const excluded = promo.excluded_categories.map(c => c.toLowerCase());
-        const hasExcludedItem = cartCategories.some(cat => excluded.includes(cat));
+        const hasExcludedItem = categoriesToCheck.some(cat => excluded.includes(cat));
         if (hasExcludedItem) {
-          const excludedFound = cartCategories.filter(cat => excluded.includes(cat));
+          const excludedFound = categoriesToCheck.filter(cat => excluded.includes(cat));
           return Response.json({ 
             valid: false, 
             reason: `This code cannot be used on: ${[...new Set(excludedFound)].join(', ')}` 
           });
-        }
-      }
-    } else if (product_category) {
-      // Fallback to single product_category check
-      const cat = product_category.toLowerCase();
-
-      if (promo.allowed_categories && promo.allowed_categories.length > 0) {
-        const allowed = promo.allowed_categories.map(c => c.toLowerCase());
-        if (!allowed.includes(cat)) {
-          return Response.json({ valid: false, reason: `This code is only valid for: ${promo.allowed_categories.join(', ')}` });
-        }
-      }
-
-      if (promo.excluded_categories && promo.excluded_categories.length > 0) {
-        const excluded = promo.excluded_categories.map(c => c.toLowerCase());
-        if (excluded.includes(cat)) {
-          return Response.json({ valid: false, reason: `This code cannot be used on: ${product_category}` });
         }
       }
     }
