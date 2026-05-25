@@ -168,6 +168,11 @@ import WebsiteEvolution from '@/pages/admin/WebsiteEvolution';
 import BusinessWorthCommand from '@/pages/admin/BusinessWorthCommand';
 import OfferEngine from '@/pages/admin/OfferEngine';
 import AtoZIndex from '@/pages/admin/AtoZIndex';
+import SocialPlatformParity from '@/pages/admin/SocialPlatformParity';
+import SocialOAuthCommand from '@/pages/admin/SocialOAuthCommand';
+import SocialReviewReadiness from '@/pages/admin/SocialReviewReadiness';
+import SocialContentReadiness from '@/pages/admin/SocialContentReadiness';
+import SocialAnalyticsCommand from '@/pages/admin/SocialAnalyticsCommand';
 
 
 const AuthenticatedApp = () => {
@@ -377,6 +382,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/agent-capability-matrix" element={<AgentCapabilityMatrix />} />
         <Route path="/admin/bundle-proposal-studio" element={<BundleProposalStudio />} />
         <Route path="/admin/az-index" element={<AtoZIndex />} />
+        <Route path="/admin/social-platform-parity" element={<SocialPlatformParity />} />
+        <Route path="/admin/social-oauth-command" element={<SocialOAuthCommand />} />
+        <Route path="/admin/social-review-readiness" element={<SocialReviewReadiness />} />
+        <Route path="/admin/social-content-readiness" element={<SocialContentReadiness />} />
+        <Route path="/admin/social-analytics-command" element={<SocialAnalyticsCommand />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
