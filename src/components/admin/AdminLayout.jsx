@@ -35,21 +35,26 @@ const NAV_SECTIONS = [
   {
     title: 'Commerce',
     items: [
+      { label: "Today's Money Moves", path: '/admin/todays-money-moves', icon: Zap },
       { label: 'Orders', path: '/admin/orders', icon: Package },
       { label: 'Order Profit Intelligence', path: '/admin/order-profit-intelligence', icon: DollarSign },
       { label: 'Products', path: '/admin/merch', icon: ShoppingBag },
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
       // alphabetical
+      { label: 'Bundle Proposal Studio', path: '/admin/bundle-proposal-studio', icon: Package },
+      { label: 'Content to Cash Engine', path: '/admin/content-to-cash', icon: Zap },
       { label: 'Ecommerce Command', path: '/admin/ecommerce-command', icon: ShoppingBag },
       { label: 'Ecommerce Intelligence', path: '/admin/ecommerce-intelligence', icon: Sparkles },
       { label: 'Fan Conversion Engine', path: '/admin/fan-conversion-engine', icon: Users },
       { label: 'Intelligence to Income', path: '/admin/intelligence-to-income', icon: Zap },
       { label: 'Merch Financials', path: '/admin/merch-financials', icon: DollarSign },
+      { label: 'Offer Engine', path: '/admin/offer-engine', icon: Tag },
       { label: 'Product Insights', path: '/admin/product-insights', icon: TrendingUp },
       { label: 'Revenue Actions', path: '/admin/revenue-actions', icon: Zap },
       { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Package },
       { label: 'Stripe Live Report', path: '/admin/stripe-live-report', icon: CreditCard },
       { label: 'Supporters', path: '/admin/supporters', icon: Heart },
+      { label: 'Website Evolution Engine', path: '/admin/website-evolution', icon: Globe },
       { label: 'Weekly Money Report', path: '/admin/weekly-money-report', icon: Activity },
     ],
   },
@@ -94,6 +99,7 @@ const NAV_SECTIONS = [
     title: 'Intelligence',
     items: [
       { label: 'Agent Intelligence', path: '/admin/agent-intelligence', icon: Brain },
+      { label: 'Agent Capability Matrix', path: '/admin/agent-capability-matrix', icon: Brain },
       { label: 'Knowledge Vault', path: '/admin/knowledge-vault', icon: Database },
       { label: 'Research Grid', path: '/admin/research-grid', icon: TrendingUp },
       { label: 'Study Pals', path: '/admin/orchestrator-chat', icon: GraduationCap },
@@ -101,6 +107,7 @@ const NAV_SECTIONS = [
       { label: 'Agent Learning', path: '/admin/agent-learning', icon: BookOpen },
       { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain },
       { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Activity },
+      { label: 'A-Z Index', path: '/admin/az-index', icon: BookOpen },
       { label: 'Operation Registry', path: '/admin/operation-registry', icon: Database },
       { label: 'Site Function Audit', path: '/admin/site-function-audit', icon: Activity },
       { label: 'Autonomous Ops', path: '/admin/autonomous-ops', icon: Activity },
@@ -136,6 +143,7 @@ const NAV_SECTIONS = [
     title: 'Finance',
     items: [
       { label: 'Financial Dashboard', path: '/admin/financials', icon: DollarSign },
+      { label: 'Business Worth Command', path: '/admin/business-worth-command', icon: Star },
       { label: 'Weekly Money Report', path: '/admin/weekly-money-report', icon: Activity },
       { label: 'Wealth Dashboard', path: '/admin/wealth-dashboard', icon: DollarSign },
       // alphabetical
@@ -143,8 +151,11 @@ const NAV_SECTIONS = [
       { label: 'Back of House Report', path: '/admin/report', icon: FileText },
       { label: 'Coaching Command', path: '/admin/coaching-command', icon: Lock },
       { label: 'Legal Dashboard', path: '/admin/legal-dashboard', icon: Shield },
+      { label: 'Payment Diagnostics', path: '/admin/payment-diagnostics', icon: CreditCard },
       { label: 'Security Centre', path: '/admin/security-centre', icon: Lock },
+      { label: 'Stripe Command Centre', path: '/admin/stripe-command-centre', icon: CreditCard },
       { label: 'Sync Licensing', path: '/admin/sync-licensing-command', icon: Music },
+      { label: 'Webhook Health', path: '/admin/webhook-health', icon: Activity },
     ],
   },
   {

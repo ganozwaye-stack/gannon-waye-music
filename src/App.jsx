@@ -160,6 +160,14 @@ import SyncLicensingCommand from '@/pages/admin/SyncLicensingCommand';
 import OrderProfitIntelligence from '@/pages/admin/OrderProfitIntelligence';
 import WeeklyMoneyReport from '@/pages/admin/WeeklyMoneyReport';
 import FanConversionEngine from '@/pages/admin/FanConversionEngine';
+import AgentCapabilityMatrix from '@/pages/admin/AgentCapabilityMatrix';
+import BundleProposalStudio from '@/pages/admin/BundleProposalStudio';
+import TodaysMoneymoves from '@/pages/admin/TodaysMoneymoves';
+import ContentToCash from '@/pages/admin/ContentToCash';
+import WebsiteEvolution from '@/pages/admin/WebsiteEvolution';
+import BusinessWorthCommand from '@/pages/admin/BusinessWorthCommand';
+import OfferEngine from '@/pages/admin/OfferEngine';
+import AtoZIndex from '@/pages/admin/AtoZIndex';
 
 
 const AuthenticatedApp = () => {
@@ -357,15 +365,18 @@ const AuthenticatedApp = () => {
         <Route path="/admin/licensing-request-centre" element={<SyncLicensingCommand />} />
         <Route path="/admin/song-testing-command" element={<SyncLicensingCommand />} />
         <Route path="/admin/order-profit-intelligence" element={<OrderProfitIntelligence />} />
-        <Route path="/admin/offer-engine" element={<RevenueActions />} />
-        <Route path="/admin/content-to-cash" element={<SocialContentGenerator />} />
+        <Route path="/admin/offer-engine" element={<OfferEngine />} />
+        <Route path="/admin/content-to-cash" element={<ContentToCash />} />
         <Route path="/admin/business-attention-centre" element={<Notifications />} />
-        <Route path="/admin/todays-money-moves" element={<IntelligenceToIncome />} />
-        <Route path="/admin/website-evolution" element={<WebsiteOps />} />
+        <Route path="/admin/todays-money-moves" element={<TodaysMoneymoves />} />
+        <Route path="/admin/website-evolution" element={<WebsiteEvolution />} />
         <Route path="/admin/opportunity-engine" element={<GrowthEngine />} />
         <Route path="/admin/agent-performance" element={<AgentIntelligence />} />
         <Route path="/admin/growth-command" element={<GrowthEngine />} />
-        <Route path="/admin/business-worth-command" element={<FinancialDashboard />} />
+        <Route path="/admin/business-worth-command" element={<BusinessWorthCommand />} />
+        <Route path="/admin/agent-capability-matrix" element={<AgentCapabilityMatrix />} />
+        <Route path="/admin/bundle-proposal-studio" element={<BundleProposalStudio />} />
+        <Route path="/admin/az-index" element={<AtoZIndex />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
