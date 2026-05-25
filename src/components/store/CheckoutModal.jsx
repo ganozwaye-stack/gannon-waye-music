@@ -126,6 +126,11 @@ export default function CheckoutModal({ product, onClose }) {
         timeout,
       ]);
 
+      // Check for 503 checkout block
+      if (res.data?.code === 'STRIPE_CONFIG_ERROR' || res.data?.code === 'STRIPE_MODE_MISMATCH') {
+        throw new Error(res.data.friendly_message || 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.');
+      }
+
       if (res.data?.url) {
         window.location.href = res.data.url;
         // Leave redirecting=true — page is navigating away

@@ -27,8 +27,60 @@ function calcAmountCents({ productPrice, quantity, discountPercent, category, sh
 Deno.serve(async (req) => {
   try {
     const secretKey = Deno.env.get('STRIPE_SECRET_KEY');
+    const publishableKey = Deno.env.get('STRIPE_PUBLISHABLE_KEY');
+    
+    // Stripe mode validation - CRITICAL BLOCK
     if (!secretKey || !secretKey.startsWith('sk_')) {
-      return Response.json({ error: 'Stripe secret key not configured or invalid' }, { status: 500 });
+      // Create diagnostic before returning
+      try {
+        const base44 = createClientFromRequest(req);
+        await base44.asServiceRole.entities.PaymentDiagnostic.create({
+          diagnostic_type: 'missing_stripe_config',
+          severity: 'critical',
+          issue_summary: 'STRIPE_SECRET_KEY missing or invalid',
+          admin_message: 'Checkout blocked: STRIPE_SECRET_KEY not configured or invalid',
+          status: 'open',
+          retry_available: false,
+        });
+        await base44.asServiceRole.entities.SystemHealthIssue.create({
+          issue_title: 'STRIPE_SECRET_KEY missing or invalid - checkout blocked',
+          severity: 'critical',
+          system_area: 'commerce',
+          status: 'open',
+          requires_approval: true,
+        });
+      } catch (_) {}
+      return Response.json({ 
+        error: 'Checkout temporarily unavailable',
+        friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
+        code: 'STRIPE_CONFIG_ERROR'
+      }, { status: 503 });
+    }
+
+    // Check for key mismatch
+    const isSecretLive = secretKey.startsWith('sk_live_');
+    const isPublishableLive = publishableKey?.startsWith('pk_live_');
+    const isSecretTest = secretKey.startsWith('sk_test_');
+    const isPublishableTest = publishableKey?.startsWith('pk_test_');
+    
+    if ((isSecretLive && !isPublishableLive) || (isSecretTest && !isPublishableTest)) {
+      // Create diagnostic before returning
+      try {
+        const base44 = createClientFromRequest(req);
+        await base44.asServiceRole.entities.PaymentDiagnostic.create({
+          diagnostic_type: 'missing_stripe_config',
+          severity: 'critical',
+          issue_summary: `STRIPE KEY MISMATCH: secret=${isSecretLive ? 'live' : 'test'}, publishable=${publishableKey ? (isPublishableLive ? 'live' : 'test') : 'missing'}`,
+          admin_message: 'Checkout blocked: Stripe keys are in different modes (test vs live)',
+          status: 'open',
+          retry_available: false,
+        });
+      } catch (_) {}
+      return Response.json({ 
+        error: 'Checkout temporarily unavailable',
+        friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
+        code: 'STRIPE_MODE_MISMATCH'
+      }, { status: 503 });
     }
 
     const stripe = new Stripe(secretKey);

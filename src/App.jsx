@@ -182,6 +182,8 @@ import ChatGPTCodeReviewExport from '@/pages/admin/ChatGPTCodeReviewExport';
 import QAFailureReport from '@/pages/admin/QAFailureReport';
 import VoiceInputTestPage from '@/pages/admin/VoiceInputTestPage';
 import PromoCodeAudit from '@/pages/admin/PromoCodeAudit';
+import AICostControl from '@/pages/admin/AICostControl';
+import ReleasePromoCommand from '@/pages/admin/ReleasePromoCommand';
 
 
 const AuthenticatedApp = () => {
@@ -410,6 +412,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/qa-failure-report" element={<QAFailureReport />} />
         <Route path="/admin/voice-input-test" element={<VoiceInputTestPage />} />
         <Route path="/admin/promo-code-audit" element={<PromoCodeAudit />} />
+        <Route path="/admin/ai-cost-control" element={<AICostControl />} />
+        <Route path="/admin/operation-registry" element={<OperationRegistry />} />
+        <Route path="/admin/release-promo-command" element={<ReleasePromoCommand />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
