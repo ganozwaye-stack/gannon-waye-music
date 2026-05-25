@@ -7,9 +7,20 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import EmbedTimer from '@/pages/EmbedTimer';
 import { initializeEventSystem } from '@/lib/eventAutomation';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { posthog } from '@/lib/posthog';
 
 // Initialize event-driven automation system
 initializeEventSystem();
+
+function PostHogPageTracker() {
+  const location = useLocation();
+  useEffect(() => {
+    posthog.capture('$pageview', { $current_url: window.location.href });
+  }, [location.pathname]);
+  return null;
+}
 
 // Public pages
 import Home from '@/pages/Home';
@@ -317,6 +328,7 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
+          <PostHogPageTracker />
           <AuthenticatedApp />
         </Router>
         <Toaster />
