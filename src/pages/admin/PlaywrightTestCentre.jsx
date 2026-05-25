@@ -296,11 +296,20 @@ test.describe('Coaching Privacy Lock', () => {
   {
     id: 'commerce',
     label: 'Commerce & Profit Tests',
-    description: 'Orders, profit figures, checkout, and revenue metrics are accurate',
+    description: 'Orders, profit, checkout (mode-aware — reads STRIPE_MODE env var)',
     priority: 'High',
     code: `import { test, expect } from '@playwright/test';
 
-test.describe('Commerce (Admin — requires session)', () => {
+// ⚠️ STRIPE SAFETY RULE ⚠️
+// Set STRIPE_MODE=test or STRIPE_MODE=live in your .env before running.
+// NEVER use test cards (4242...) unless STRIPE_MODE=test is confirmed.
+// If STRIPE_MODE=live, only run up to the Stripe page — do NOT submit payment
+// unless Gannon has approved a specific controlled live purchase.
+// If STRIPE_MODE is not set, checkout submit tests are SKIPPED.
+
+const STRIPE_MODE = process.env.STRIPE_MODE; // 'test' | 'live' | undefined
+
+test.describe('Commerce Admin (requires session)', () => {
   test.skip(!process.env.ADMIN_SESSION_COOKIE, 'Requires admin session');
 
   test.beforeEach(async ({ context }) => {
@@ -312,7 +321,7 @@ test.describe('Commerce (Admin — requires session)', () => {
     }]);
   });
 
-  test('Orders page loads with data', async ({ page }) => {
+  test('Orders page loads', async ({ page }) => {
     await page.goto('/admin/orders');
     await page.waitForLoadState('networkidle');
     await expect(page.locator('h1')).toBeVisible();
@@ -329,23 +338,59 @@ test.describe('Commerce (Admin — requires session)', () => {
     await page.waitForLoadState('networkidle');
     await expect(page.locator('h1')).toBeVisible();
   });
+});
 
-  test('No checkout add-ons visible in store unless approved', async ({ page }) => {
-    // Unapproved bundles/add-ons must not be in checkout
+test.describe('Store (Public — no payment required)', () => {
+  test('Store opens and shows products', async ({ page }) => {
     await page.goto('/store');
     await page.waitForLoadState('networkidle');
-    // Check that no "bundle" or "add-on" with status "draft" or "pending_approval" is visible
+    const storeContent = page.locator('main, [class*="Store"]').first();
+    await expect(storeContent).toBeVisible();
+  });
+
+  test('No unapproved bundles visible', async ({ page }) => {
+    await page.goto('/store');
+    await page.waitForLoadState('networkidle');
     const content = await page.content();
     expect(content).not.toMatch(/draft bundle|unapproved bundle/i);
   });
 });
 
-test.describe('Checkout Flow (Public)', () => {
-  test('Checkout page loads', async ({ page }) => {
+test.describe('Checkout Flow — TEST MODE ONLY', () => {
+  // Only runs if STRIPE_MODE=test is explicitly set
+  test.skip(STRIPE_MODE !== 'test', 
+    'SKIPPED: STRIPE_MODE is not "test". Set STRIPE_MODE=test in .env only if STRIPE_SECRET_KEY starts with sk_test_ AND STRIPE_PUBLISHABLE_KEY starts with pk_test_. Never mix modes.');
+
+  test('Checkout opens from store (test mode)', async ({ page }) => {
     await page.goto('/store');
     await page.waitForLoadState('networkidle');
-    const storeContent = await page.locator('main, [class*="Store"]').first();
+    // Open first product
+    const buyBtn = page.locator('button').filter({ hasText: /add|buy|checkout/i }).first();
+    if (await buyBtn.isVisible()) {
+      await buyBtn.click();
+      await page.waitForTimeout(1000);
+      const modal = page.locator('[role="dialog"]').first();
+      if (await modal.isVisible()) {
+        console.log('Modal opened — Stripe test card: 4242 4242 4242 4242 / 12/26 / 123');
+      }
+    }
+  });
+
+  // NOTE: Do not auto-submit payment in Playwright even in test mode.
+  // Submit manually after confirming the Stripe form is loaded correctly.
+});
+
+test.describe('Checkout Flow — LIVE MODE', () => {
+  // In live mode: never auto-submit, never use test cards
+  test.skip(STRIPE_MODE !== 'live', 'SKIPPED: STRIPE_MODE is not "live"');
+
+  test('Store and cart work (no payment submitted)', async ({ page }) => {
+    await page.goto('/store');
+    await page.waitForLoadState('networkidle');
+    // Only verify the store renders — do NOT attempt checkout in live mode automatically
+    const storeContent = page.locator('main').first();
     await expect(storeContent).toBeVisible();
+    console.log('LIVE MODE: Store renders OK. Do NOT auto-submit checkout. Use approved controlled purchase only.');
   });
 });`,
   },

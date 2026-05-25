@@ -42,6 +42,21 @@ Deno.serve(async (req) => {
       checks.push({ platform: 'Stripe Publishable Key', status: 'live' });
     }
 
+    // 2b. Check for live/test key mismatch — this is a critical safety issue
+    if (stripeSecret && stripePk) {
+      const secretIsLive = stripeSecret.startsWith('sk_live_');
+      const pkIsLive = stripePk.startsWith('pk_live_');
+      if (secretIsLive !== pkIsLive) {
+        addAlert('stripe_key_mismatch', 'critical',
+          `STRIPE KEY MISMATCH: STRIPE_SECRET_KEY is ${secretIsLive ? 'LIVE' : 'TEST'} but STRIPE_PUBLISHABLE_KEY is ${pkIsLive ? 'LIVE' : 'TEST'}. Do NOT process payments until fixed.`,
+          '/admin/stripe-command-centre'
+        );
+        checks.push({ platform: 'Stripe Key Mode', status: 'mismatch', secret_mode: secretIsLive ? 'live' : 'test', pk_mode: pkIsLive ? 'live' : 'test' });
+      } else {
+        checks.push({ platform: 'Stripe Key Mode', status: secretIsLive ? 'live' : 'test' });
+      }
+    }
+
     // 3. Stripe Webhook Secret
     const webhookSecret = Deno.env.get('STRIPE_WEBHOOK_SECRET');
     if (!webhookSecret) {
@@ -137,13 +152,14 @@ Deno.serve(async (req) => {
       for (const alert of alerts.filter(a => a.severity === 'critical' || a.severity === 'high')) {
         try {
           await base44.asServiceRole.entities.SystemHealthIssue.create({
-            issue_type: alert.type,
+            issue_title: alert.message,
+            system_area: 'integrations',
             severity: alert.severity,
-            description: alert.message,
             status: 'open',
             linked_route: alert.route,
-            source: 'integrationHealthCheck',
-            detected_at: now,
+            detected_by: 'integrationHealthCheck',
+            recommended_fix: `Check ${alert.route} and resolve the integration issue.`,
+            last_checked: now,
           });
         } catch {}
       }

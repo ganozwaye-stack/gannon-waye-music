@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { ArrowLeft, Download, Copy, AlertTriangle, CheckCircle2, XCircle, Clock, ExternalLink, RefreshCw, Shield, Play } from 'lucide-react';
+import StripeModeDetector from '@/components/admin/StripeModeDetector';
 
 // ============================================================
 // REAL QA REPORT — Generated 2026-05-25 from live test runs
@@ -101,14 +102,15 @@ const EXTERNAL_TEST_STATUS = [
   { category: 'TikTok', item: 'Draft upload approval gate', label: 'Upload requires approval', status: 'not_run', blocker: 'Real TikTok auth flow' },
   { category: 'TikTok', item: 'No auto-publish', label: 'Nothing posts without approval', status: 'not_run', blocker: 'Verify in real flow' },
   // Stripe
-  { category: 'Stripe / Checkout', item: 'Store opens', label: 'Products visible', status: 'not_run', blocker: 'Real browser test' },
-  { category: 'Stripe / Checkout', item: 'Cart works', label: 'Add to cart', status: 'not_run', blocker: 'Real browser test' },
-  { category: 'Stripe / Checkout', item: 'Checkout does not freeze', label: 'No hang on payment step', status: 'not_run', blocker: 'Real Stripe test payment' },
-  { category: 'Stripe / Checkout', item: 'Stripe opens', label: 'Payment form appears', status: 'not_run', blocker: 'Real Stripe test payment' },
-  { category: 'Stripe / Checkout', item: 'Payment success redirect', label: 'Returns to thank you', status: 'not_run', blocker: 'Real Stripe test payment' },
-  { category: 'Stripe / Checkout', item: 'Order record created', label: 'MerchOrder entity written', status: 'not_run', blocker: 'Real Stripe test payment' },
-  { category: 'Stripe / Checkout', item: 'Receipt email sent', label: 'Customer gets receipt', status: 'not_run', blocker: 'Real Stripe test payment' },
-  { category: 'Stripe / Checkout', item: 'Admin notification fires', label: 'Admin gets order alert', status: 'not_run', blocker: 'Real Stripe test payment' },
+  { category: 'Stripe / Checkout', item: 'Stripe mode confirmed', label: 'Must confirm test/live BEFORE any checkout test', status: 'fail', blocker: '⚠️ MISMATCH DETECTED: sk_live_ + pk_test_ — do not test checkout until fixed', note: 'Run integrationHealthCheck to recheck after fixing keys' },
+  { category: 'Stripe / Checkout', item: 'Store opens', label: 'Products visible', status: 'not_run', blocker: 'Real browser test — safe to test (no payment required)' },
+  { category: 'Stripe / Checkout', item: 'Cart works', label: 'Add to cart', status: 'not_run', blocker: 'Real browser test — safe to test (no payment required)' },
+  { category: 'Stripe / Checkout', item: 'Checkout does not freeze', label: 'No hang on payment step', status: 'blocked', blocker: 'BLOCKED: Stripe key mismatch must be fixed first' },
+  { category: 'Stripe / Checkout', item: 'Stripe opens', label: 'Payment form appears', status: 'blocked', blocker: 'BLOCKED: Confirm Stripe mode. If test mode: use 4242 4242 4242 4242. If live mode: use approved $1 product only. If mismatch: fix keys first.' },
+  { category: 'Stripe / Checkout', item: 'Payment success redirect', label: 'Returns to thank you', status: 'blocked', blocker: 'BLOCKED: Stripe mode mismatch must be resolved first' },
+  { category: 'Stripe / Checkout', item: 'Order record created', label: 'MerchOrder entity written', status: 'blocked', blocker: 'BLOCKED: Stripe mode mismatch must be resolved first' },
+  { category: 'Stripe / Checkout', item: 'Receipt email sent', label: 'Customer gets receipt', status: 'not_run', blocker: 'Test after Stripe mode fix' },
+  { category: 'Stripe / Checkout', item: 'Admin notification fires', label: 'Admin gets order alert', status: 'not_run', blocker: 'Test after Stripe mode fix' },
   { category: 'Stripe / Checkout', item: 'Cancelled orders excluded', label: 'Not in active revenue totals', status: 'not_run', blocker: 'Verify in admin order view' },
   // Forms
   { category: 'Forms', item: 'Email signup form', label: 'Submits & saves subscriber', status: 'not_run', blocker: 'Real browser test' },
@@ -126,6 +128,16 @@ const EXTERNAL_TEST_STATUS = [
 ];
 
 const CONFIRMED_FAILURES = [
+  {
+    severity: 'critical',
+    area: 'Stripe Key Mode MISMATCH',
+    issue: 'STRIPE_SECRET_KEY is LIVE (sk_live_) but STRIPE_PUBLISHABLE_KEY is TEST (pk_test_). This is a production mismatch.',
+    impact: 'Checkout is in an undefined state — secret key processes live charges but the frontend is using test mode. Real money could be charged with no proper flow. Do not test checkout until this is resolved.',
+    fix: 'Go to Base44 Secrets dashboard. Either: (A) set both keys to live mode for production, or (B) set both to test mode for safe testing. Never mix modes.',
+    file: 'Base44 Secrets → STRIPE_SECRET_KEY + STRIPE_PUBLISHABLE_KEY',
+    route: '/admin/stripe-command-centre',
+    confirmed: true,
+  },
   {
     severity: 'critical',
     area: 'Shipping Rules',
@@ -215,7 +227,7 @@ const MANUAL_STEPS = [
   { priority: 4, action: 'Download Playwright test pack', where: '/admin/playwright-test-centre → Download All Test Files', then: 'Run: npm install -D @playwright/test && npx playwright install chromium' },
   { priority: 5, action: 'Run Playwright tests', where: 'Terminal in project folder', then: 'npx playwright test — view report: npx playwright show-report' },
   { priority: 6, action: 'Test TikTok OAuth live', where: 'gannonwaye.com/admin/tiktok-platform-review (admin session)', then: 'Click Connect TikTok → confirm /tiktok-callback receives code → confirm connected status shows' },
-  { priority: 7, action: 'Place Stripe test order', where: 'gannonwaye.com/store', then: 'Use card 4242 4242 4242 4242, exp 12/26, CVC 123. Confirm order record + receipt email.' },
+  { priority: 7, action: 'Fix Stripe key mismatch BEFORE any checkout test', where: 'Base44 Secrets dashboard', then: 'Option A (testing): set both STRIPE_SECRET_KEY=sk_test_... and STRIPE_PUBLISHABLE_KEY=pk_test_... then use test card 4242 4242 4242 4242. Option B (production): set both to live keys, then use a real approved low-value purchase only — never a test card.' },
   { priority: 8, action: 'Test coaching lock', where: 'Open gannonwaye.com/coaching in incognito', then: 'Confirm PageNotFound or 404 — not coaching content' },
   { priority: 9, action: 'Approve Approval Queue items', where: '/admin/approval-queue', then: 'Review 3 shipping audit items + any others pending' },
 ];
@@ -375,6 +387,9 @@ export default function QAFailureReport() {
           <Button variant="outline" size="sm" onClick={() => downloadText('CODEX_FIX_LIST.md', CODEX_FIX_LIST)}><Download className="w-3 h-3 mr-1" />Codex Fix List</Button>
         </div>
       </div>
+
+      {/* Stripe Mode Detector */}
+      <StripeModeDetector />
 
       {/* Critical banner */}
       <Card className="border-red-500/40 bg-red-500/10">
