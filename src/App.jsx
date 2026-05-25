@@ -142,6 +142,7 @@ import MonthlyMonitoring from '@/pages/admin/MonthlyMonitoring';
 import TikTokScreenGuide from '@/pages/admin/TikTokScreenGuide';
 import TikTokPlatformReview from '@/pages/TikTokPlatformReview';
 import TikTokCallback from '@/pages/TikTokCallback.jsx';
+import TikTokPlatformReviewAdmin from '@/pages/admin/TikTokPlatformReviewAdmin';
 import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
 import RevenueActions from '@/pages/admin/RevenueActions';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
@@ -152,6 +153,13 @@ import IntegrationCompletionCentre from '@/pages/admin/IntegrationCompletionCent
 import StripeCommandCentre from '@/pages/admin/StripeCommandCentreNew';
 import WebhookHealth from '@/pages/admin/WebhookHealthNew';
 import SocialDistributionReadiness from '@/pages/admin/SocialDistributionReadiness';
+import CoachingCommand from '@/pages/admin/CoachingCommand';
+import IntelligenceToIncome from '@/pages/admin/IntelligenceToIncome';
+import ArtistBusinessSetup from '@/pages/admin/ArtistBusinessSetup';
+import SyncLicensingCommand from '@/pages/admin/SyncLicensingCommand';
+import OrderProfitIntelligence from '@/pages/admin/OrderProfitIntelligence';
+import WeeklyMoneyReport from '@/pages/admin/WeeklyMoneyReport';
+import FanConversionEngine from '@/pages/admin/FanConversionEngine';
 
 
 const AuthenticatedApp = () => {
@@ -306,6 +314,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/client-onboarding" element={<ClientOnboarding />} />
         <Route path="/admin/monthly-monitoring" element={<MonthlyMonitoring />} />
         <Route path="/admin/tiktok-screen-guide" element={<TikTokScreenGuide />} />
+        <Route path="/admin/tiktok-platform-review" element={<TikTokPlatformReviewAdmin />} />
         <Route path="/admin/tiktok-recording-studio" element={<TikTokRecordingStudio />} />
         <Route path="/admin/revenue-actions" element={<RevenueActions />} />
         <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
@@ -317,6 +326,46 @@ const AuthenticatedApp = () => {
         <Route path="/admin/stripe-command-centre" element={<StripeCommandCentre />} />
         <Route path="/admin/webhook-health" element={<WebhookHealth />} />
         <Route path="/admin/social-distribution-readiness" element={<SocialDistributionReadiness />} />
+        <Route path="/admin/coaching-command" element={<CoachingCommand />} />
+        <Route path="/admin/coaching-launch-control" element={<CoachingCommand />} />
+        <Route path="/admin/coaching-programs" element={<CoachingCommand />} />
+        <Route path="/admin/coaching-legal" element={<CoachingCommand />} />
+        <Route path="/admin/coaching-content-library" element={<CoachingCommand />} />
+        <Route path="/admin/meditation-library" element={<CoachingCommand />} />
+        <Route path="/admin/client-management" element={<CoachingCommand />} />
+        <Route path="/admin/appointment-scheduler" element={<CoachingCommand />} />
+        <Route path="/admin/coaching-roi" element={<CoachingCommand />} />
+        <Route path="/admin/coaching-sales-funnel" element={<CoachingCommand />} />
+        <Route path="/admin/intelligence-to-income" element={<IntelligenceToIncome />} />
+        <Route path="/admin/weekly-money-report" element={<WeeklyMoneyReport />} />
+        <Route path="/admin/fan-conversion-engine" element={<FanConversionEngine />} />
+        <Route path="/admin/artist-business-setup" element={<ArtistBusinessSetup />} />
+        <Route path="/admin/artist-management-command" element={<ArtistBusinessSetup />} />
+        <Route path="/admin/income-stream-planner" element={<ArtistBusinessSetup />} />
+        <Route path="/admin/social-platform-security" element={<ArtistBusinessSetup />} />
+        <Route path="/admin/june-4-recording-plan" element={<ArtistBusinessSetup />} />
+        <Route path="/admin/negotiation-rights-tracker" element={<ArtistBusinessSetup />} />
+        <Route path="/admin/creative-tools-stack" element={<ArtistBusinessSetup />} />
+        <Route path="/admin/sync-licensing-command" element={<SyncLicensingCommand />} />
+        <Route path="/admin/publishing-deal-readiness" element={<SyncLicensingCommand />} />
+        <Route path="/admin/music-supervisor-pitching" element={<SyncLicensingCommand />} />
+        <Route path="/admin/apple-playlist-pitching" element={<SyncLicensingCommand />} />
+        <Route path="/admin/catalogue-growth-command" element={<SyncLicensingCommand />} />
+        <Route path="/admin/ad-agency-writing-command" element={<SyncLicensingCommand />} />
+        <Route path="/admin/session-opportunity-command" element={<SyncLicensingCommand />} />
+        <Route path="/admin/catalogue-readiness" element={<SyncLicensingCommand />} />
+        <Route path="/admin/licensing-request-centre" element={<SyncLicensingCommand />} />
+        <Route path="/admin/song-testing-command" element={<SyncLicensingCommand />} />
+        <Route path="/admin/order-profit-intelligence" element={<OrderProfitIntelligence />} />
+        <Route path="/admin/offer-engine" element={<RevenueActions />} />
+        <Route path="/admin/content-to-cash" element={<SocialContentGenerator />} />
+        <Route path="/admin/business-attention-centre" element={<Notifications />} />
+        <Route path="/admin/todays-money-moves" element={<IntelligenceToIncome />} />
+        <Route path="/admin/website-evolution" element={<WebsiteOps />} />
+        <Route path="/admin/opportunity-engine" element={<GrowthEngine />} />
+        <Route path="/admin/agent-performance" element={<AgentIntelligence />} />
+        <Route path="/admin/growth-command" element={<GrowthEngine />} />
+        <Route path="/admin/business-worth-command" element={<FinancialDashboard />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

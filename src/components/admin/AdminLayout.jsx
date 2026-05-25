@@ -6,7 +6,7 @@ import {
   MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command,
   ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
   Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
-  GraduationCap
+  GraduationCap, Building2
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -36,26 +36,31 @@ const NAV_SECTIONS = [
     title: 'Commerce',
     items: [
       { label: 'Orders', path: '/admin/orders', icon: Package },
+      { label: 'Order Profit Intelligence', path: '/admin/order-profit-intelligence', icon: DollarSign },
       { label: 'Products', path: '/admin/merch', icon: ShoppingBag },
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
-      { label: 'Stripe Live Report', path: '/admin/stripe-live-report', icon: CreditCard },
       // alphabetical
-      { label: 'Revenue Actions', path: '/admin/revenue-actions', icon: Zap },
       { label: 'Ecommerce Command', path: '/admin/ecommerce-command', icon: ShoppingBag },
       { label: 'Ecommerce Intelligence', path: '/admin/ecommerce-intelligence', icon: Sparkles },
+      { label: 'Fan Conversion Engine', path: '/admin/fan-conversion-engine', icon: Users },
+      { label: 'Intelligence to Income', path: '/admin/intelligence-to-income', icon: Zap },
       { label: 'Merch Financials', path: '/admin/merch-financials', icon: DollarSign },
       { label: 'Product Insights', path: '/admin/product-insights', icon: TrendingUp },
+      { label: 'Revenue Actions', path: '/admin/revenue-actions', icon: Zap },
       { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Package },
+      { label: 'Stripe Live Report', path: '/admin/stripe-live-report', icon: CreditCard },
       { label: 'Supporters', path: '/admin/supporters', icon: Heart },
+      { label: 'Weekly Money Report', path: '/admin/weekly-money-report', icon: Activity },
     ],
   },
   {
     title: 'Social',
     items: [
-      { label: 'Social Content Gen', path: '/admin/social-content', icon: Megaphone },
-      { label: 'TikTok App Review', path: '/admin/tiktok-review', icon: Zap },
+      { label: 'TikTok Platform Review', path: '/tiktok-platform-review', icon: Zap },
+      { label: 'TikTok App Review (Admin)', path: '/admin/tiktok-review', icon: Zap },
       { label: 'TikTok Screen Guide', path: '/admin/tiktok-screen-guide', icon: Video },
       { label: 'TikTok Recording Studio', path: '/admin/tiktok-recording-studio', icon: Video },
+      { label: 'Social Content Gen', path: '/admin/social-content', icon: Megaphone },
       // alphabetical
       { label: 'Content Automate', path: '/admin/content-automate', icon: Zap },
       { label: 'Content Dashboard', path: '/admin/content-dashboard', icon: Sparkles },
@@ -131,11 +136,15 @@ const NAV_SECTIONS = [
     title: 'Finance',
     items: [
       { label: 'Financial Dashboard', path: '/admin/financials', icon: DollarSign },
+      { label: 'Weekly Money Report', path: '/admin/weekly-money-report', icon: Activity },
       { label: 'Wealth Dashboard', path: '/admin/wealth-dashboard', icon: DollarSign },
       // alphabetical
+      { label: 'Artist Business Setup', path: '/admin/artist-business-setup', icon: Building2 },
       { label: 'Back of House Report', path: '/admin/report', icon: FileText },
+      { label: 'Coaching Command', path: '/admin/coaching-command', icon: Lock },
       { label: 'Legal Dashboard', path: '/admin/legal-dashboard', icon: Shield },
       { label: 'Security Centre', path: '/admin/security-centre', icon: Lock },
+      { label: 'Sync Licensing', path: '/admin/sync-licensing-command', icon: Music },
     ],
   },
   {
