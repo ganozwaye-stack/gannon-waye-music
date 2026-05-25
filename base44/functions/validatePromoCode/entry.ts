@@ -1,9 +1,10 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
+// Public promo code validation for checkout
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const { code, email, product_category } = await req.json();
+    const { code, email, product_category, cart_items } = await req.json();
 
     if (!code) {
       return Response.json({ valid: false, reason: 'No code provided' });
@@ -21,7 +22,7 @@ Deno.serve(async (req) => {
 
     const promo = codes[0];
 
-    // Check expiry date (ISO string stored in expires_at field)
+    // Check expiry date
     if (promo.expires_at) {
       const expiry = new Date(promo.expires_at);
       if (new Date() > expiry) {
@@ -34,7 +35,7 @@ Deno.serve(async (req) => {
       return Response.json({ valid: false, reason: 'This code has reached its maximum uses' });
     }
 
-    // Check approval requirement — email must be in approved_emails list
+    // Check approval requirement
     if (promo.requires_approval) {
       if (!email) {
         return Response.json({ valid: false, reason: 'Email required for this code' });
@@ -56,11 +57,39 @@ Deno.serve(async (req) => {
       }
     }
 
-    // Check category restrictions
-    if (product_category) {
+    // Check category restrictions with cart items
+    if (cart_items && cart_items.length > 0) {
+      // Get all categories in cart
+      const cartCategories = cart_items.map(item => (item.category || item.product_type || 'other').toLowerCase());
+      
+      // If allowed_categories is set, ALL items must be in that list
+      if (promo.allowed_categories && promo.allowed_categories.length > 0) {
+        const allowed = promo.allowed_categories.map(c => c.toLowerCase());
+        const hasInvalidItem = cartCategories.some(cat => !allowed.includes(cat));
+        if (hasInvalidItem) {
+          return Response.json({ 
+            valid: false, 
+            reason: `This code is only valid for: ${promo.allowed_categories.join(', ')}` 
+          });
+        }
+      }
+
+      // Check excluded categories - if ANY item is excluded, code is invalid
+      if (promo.excluded_categories && promo.excluded_categories.length > 0) {
+        const excluded = promo.excluded_categories.map(c => c.toLowerCase());
+        const hasExcludedItem = cartCategories.some(cat => excluded.includes(cat));
+        if (hasExcludedItem) {
+          const excludedFound = cartCategories.filter(cat => excluded.includes(cat));
+          return Response.json({ 
+            valid: false, 
+            reason: `This code cannot be used on: ${[...new Set(excludedFound)].join(', ')}` 
+          });
+        }
+      }
+    } else if (product_category) {
+      // Fallback to single product_category check
       const cat = product_category.toLowerCase();
 
-      // If allowed_categories is set, product must be in that list
       if (promo.allowed_categories && promo.allowed_categories.length > 0) {
         const allowed = promo.allowed_categories.map(c => c.toLowerCase());
         if (!allowed.includes(cat)) {
@@ -68,13 +97,30 @@ Deno.serve(async (req) => {
         }
       }
 
-      // Check excluded categories
       if (promo.excluded_categories && promo.excluded_categories.length > 0) {
         const excluded = promo.excluded_categories.map(c => c.toLowerCase());
         if (excluded.includes(cat)) {
           return Response.json({ valid: false, reason: `This code cannot be used on: ${product_category}` });
         }
       }
+    }
+
+    // Check excludes_support flag
+    if (promo.excludes_support) {
+      // This will be checked in checkout modal against cart type
+      // Return warning flag for frontend to handle
+      return Response.json({
+        valid: true,
+        code: promo.code,
+        discount_percent: promo.discount_percent,
+        id: promo.id,
+        excludes_shipping: promo.excludes_shipping || false,
+        excludes_support: true,
+        allowed_categories: promo.allowed_categories || [],
+        excluded_categories: promo.excluded_categories || [],
+        requires_approval: promo.requires_approval || false,
+        warning: 'This code cannot be used on support contributions',
+      });
     }
 
     return Response.json({
@@ -89,6 +135,6 @@ Deno.serve(async (req) => {
       requires_approval: promo.requires_approval || false,
     });
   } catch (error) {
-    return Response.json({ valid: false, reason: error.message }, { status: 500 });
+    return Response.json({ valid: false, reason: 'Validation failed', details: error.message }, { status: 500 });
   }
 });

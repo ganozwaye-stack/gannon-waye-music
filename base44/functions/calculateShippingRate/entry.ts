@@ -1,51 +1,94 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
-// Simple Australia Post + DHL rates calculator
-const SHIPPING_RATES = {
-  AUS_STANDARD: { weight: 0.5, basePrice: 8.95, perKg: 1.5 },
-  AUS_EXPRESS: { weight: 0.5, basePrice: 15.95, perKg: 2.5 },
-  INTL_STANDARD: { weight: 0.5, basePrice: 25, perKg: 5 },
-  INTL_EXPRESS: { weight: 0.5, basePrice: 45, perKg: 8 },
-};
-
+// Public shipping rate calculator using ShippingRateRule entity
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
+    const { destination, product_type, quantity, cart_total } = await req.json();
 
-    if (!user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    // destination: 'australia', 'international', 'local_pickup'
+    // product_type: 'cd', 'merch', 'vinyl', 'bundle', 'other'
+    // quantity: number of items
+    // cart_total: total cart value in AUD (for free shipping threshold check)
+
+    if (!destination || !product_type) {
+      return Response.json({ 
+        error: 'Missing destination or product type',
+        shipping_cost: null,
+        free_shipping: false 
+      }, { status: 400 });
     }
 
-    const { destination, weight, shipping_type } = await req.json();
+    const qty = quantity || 1;
+    const total = cart_total || 0;
 
-    // destination: 'au' or 'international'
-    // weight: kg
-    // shipping_type: 'standard' or 'express'
+    // Use service role to read shipping rules (admin-only entity)
+    const rules = await base44.asServiceRole.entities.ShippingRateRule.filter({
+      region: destination,
+      product_type: product_type,
+      is_active: true,
+      status: 'live',
+    });
 
-    if (!destination || !weight) {
-      return Response.json({ error: 'Missing destination or weight' }, { status: 400 });
+    if (!rules || rules.length === 0) {
+      // No matching rule found - return friendly error instead of 403
+      return Response.json({
+        error: 'Shipping rate not available for this combination',
+        shipping_cost: null,
+        free_shipping: false,
+        fallback_message: 'Please contact us for a shipping quote',
+      });
     }
 
-    const rateKey = `${destination === 'au' ? 'AUS' : 'INTL'}_${shipping_type === 'express' ? 'EXPRESS' : 'STANDARD'}`;
-    const rate = SHIPPING_RATES[rateKey];
+    // Find the best matching rule (first active rule for this qty)
+    const applicableRule = rules.find(rule => {
+      const minQty = rule.min_quantity || 1;
+      const maxQty = rule.max_quantity;
+      return qty >= minQty && (maxQty === null || qty <= maxQty);
+    });
 
-    if (!rate) {
-      return Response.json({ error: 'Invalid shipping rate' }, { status: 400 });
+    if (!applicableRule) {
+      return Response.json({
+        error: 'No shipping rate available for this quantity',
+        shipping_cost: null,
+        free_shipping: false,
+        fallback_message: 'Please contact us for a shipping quote',
+      });
     }
 
-    const cost = rate.basePrice + (Math.max(0, weight - rate.weight) * rate.perKg);
-    const roundedCost = Math.ceil(cost * 100) / 100;
+    // Calculate shipping cost
+    let shippingCost = applicableRule.base_rate || 0;
+    
+    // Add additional item rate for quantities > 1
+    if (qty > 1 && applicableRule.additional_item_rate) {
+      shippingCost += (qty - 1) * applicableRule.additional_item_rate;
+    }
+
+    // Check free shipping threshold
+    let freeShipping = false;
+    if (applicableRule.free_shipping_threshold && total >= applicableRule.free_shipping_threshold) {
+      freeShipping = true;
+      shippingCost = 0;
+    }
 
     return Response.json({
+      rule_name: applicableRule.name,
       destination,
-      weight,
-      shipping_type,
-      rate_key: rateKey,
-      cost: roundedCost,
-      estimated_days: shipping_type === 'express' ? '1-2' : '3-5',
+      product_type,
+      quantity: qty,
+      cart_total: total,
+      base_rate: applicableRule.base_rate,
+      additional_item_rate: applicableRule.additional_item_rate,
+      free_shipping_threshold: applicableRule.free_shipping_threshold,
+      shipping_cost: shippingCost,
+      free_shipping: freeShipping,
     });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({ 
+      error: 'Unable to calculate shipping',
+      shipping_cost: null,
+      free_shipping: false,
+      details: error.message 
+    }, { status: 500 });
   }
 });
