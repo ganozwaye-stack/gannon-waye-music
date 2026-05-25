@@ -180,6 +180,7 @@ import AgentToolRegistry from '@/pages/admin/AgentToolRegistry';
 import CodeAuditExport from '@/pages/admin/CodeAuditExport';
 import ChatGPTCodeReviewExport from '@/pages/admin/ChatGPTCodeReviewExport';
 import QAFailureReport from '@/pages/admin/QAFailureReport';
+import VoiceInputTestPage from '@/pages/admin/VoiceInputTestPage';
 
 
 const AuthenticatedApp = () => {
@@ -406,6 +407,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/code-audit-export" element={<CodeAuditExport />} />
         <Route path="/admin/chatgpt-code-review-export" element={<ChatGPTCodeReviewExport />} />
         <Route path="/admin/qa-failure-report" element={<QAFailureReport />} />
+        <Route path="/admin/voice-input-test" element={<VoiceInputTestPage />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

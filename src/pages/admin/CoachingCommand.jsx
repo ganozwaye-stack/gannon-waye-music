@@ -57,6 +57,8 @@ function StatusBadge({ status }) {
   return <Badge className={`text-xs ${c}`}>{status}</Badge>;
 }
 
+// COACHING PRIVACY LOCK: All coaching routes return 404/locked for non-admin
+// These pages are strictly private until final approval
 export default function CoachingCommand() {
   const [showPrograms, setShowPrograms] = useState(false);
   const [showDocs, setShowDocs] = useState(false);
