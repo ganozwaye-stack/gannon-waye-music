@@ -122,8 +122,6 @@ import GrowthEngine from '@/pages/admin/GrowthEngine';
 import Notifications from '@/pages/admin/Notifications';
 import ShippingRates from '@/pages/admin/ShippingRates';
 import TikTokAppReview from '@/pages/admin/TikTokAppReview';
-import TikTokReviewDemo from '@/pages/admin/TikTokReviewDemo';
-import TikTokCallback from '@/pages/TikTokCallback';
 import RevenueCommandCentre from '@/pages/admin/RevenueCommandCentre';
 import MusicCommandCentre from '@/pages/admin/MusicCommandCentre';
 import GanozMixBridge from '@/pages/admin/GanozMixBridge';
@@ -137,7 +135,10 @@ import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
 import OperationRegistry from '@/pages/admin/OperationRegistry';
 import SiteFunctionAudit from '@/pages/admin/SiteFunctionAudit';
 import PaymentDiagnostics from '@/pages/admin/PaymentDiagnostics';
-import CheckoutSuccess from '@/pages/CheckoutSuccess';
+import IntegrationCompletionCentre from '@/pages/admin/IntegrationCompletionCentre';
+import StripeCommandCentre from '@/pages/admin/StripeCommandCentre';
+import WebhookHealth from '@/pages/admin/WebhookHealth';
+import SocialDistributionReadiness from '@/pages/admin/SocialDistributionReadiness';
 
 
 const AuthenticatedApp = () => {
@@ -201,8 +202,6 @@ const AuthenticatedApp = () => {
 
       {/* Embed timer (no layout) */}
       <Route path="/embed-timer" element={<EmbedTimer />} />
-      <Route path="/checkout-success" element={<CheckoutSuccess />} />
-      <Route path="/tiktok-callback" element={<TikTokCallback />} />
       <Route path="/gift-checklist" element={<GiftChecklistPage />} />
 
       {/* Admin routes */}
@@ -285,7 +284,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/notifications" element={<Notifications />} />
         <Route path="/admin/shipping-rates" element={<ShippingRates />} />
         <Route path="/admin/tiktok-review" element={<TikTokAppReview />} />
-        <Route path="/admin/tiktok-review-demo" element={<TikTokReviewDemo />} />
         <Route path="/admin/revenue-command" element={<RevenueCommandCentre />} />
         <Route path="/admin/music-command" element={<MusicCommandCentre />} />
         <Route path="/admin/ganozmix" element={<GanozMixBridge />} />
@@ -299,6 +297,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/operation-registry" element={<OperationRegistry />} />
         <Route path="/admin/site-function-audit" element={<SiteFunctionAudit />} />
         <Route path="/admin/payment-diagnostics" element={<PaymentDiagnostics />} />
+        <Route path="/admin/integration-completion-centre" element={<IntegrationCompletionCentre />} />
+        <Route path="/admin/integration-war-room" element={<IntegrationCompletionCentre />} />
+        <Route path="/admin/stripe-command-centre" element={<StripeCommandCentre />} />
+        <Route path="/admin/webhook-health" element={<WebhookHealth />} />
+        <Route path="/admin/social-distribution-readiness" element={<SocialDistributionReadiness />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

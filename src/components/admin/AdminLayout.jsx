@@ -63,6 +63,7 @@ const NAV_SECTIONS = [
       { label: 'Creator Insights', path: '/admin/creator-insights', icon: Eye },
       { label: 'Marketing Centre', path: '/admin/marketing-centre', icon: Megaphone },
       { label: 'Social Command', path: '/admin/social-command', icon: Users },
+      { label: 'Social + Distribution Readiness', path: '/admin/social-distribution-readiness', icon: Globe },
       { label: 'Social Intelligence', path: '/admin/social-intelligence', icon: TrendingUp },
       { label: 'Social Monitor', path: '/admin/social-monitor', icon: MessageCircle },
       { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp },

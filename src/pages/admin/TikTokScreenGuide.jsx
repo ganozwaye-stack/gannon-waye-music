@@ -75,29 +75,29 @@ const SCREEN_RECORDING_STEPS = [
     section: 'PART 8 — TikTok Creator Workflow (60–90 seconds) ⭐ REQUIRED FOR TIKTOK REVIEW',
     steps: [
       'Step 1: Confirm you are recording gannonwaye.com — NOT the Base44 editor preview URL.',
-      'Step 2: Navigate to /admin/tiktok-review or /admin/api-setup to show the TikTok integration section.',
+      'Step 2: Navigate to /admin/tiktok-review and show the recommended submission: Login Kit + Content Posting API only.',
       'Step 3: Show TikTok connection status — connected creator account name, authorised status, TikTok display name if available.',
       'Step 4 (Login Kit): Click Connect TikTok or Reconnect TikTok button. If possible, show the TikTok OAuth authorisation screen. Show the return to https://gannonwaye.com/tiktok-callback. Show connected status inside admin.',
       'Step 5 (Content Posting API / video.upload): Open TikTok content draft area (/admin/social-content). Select or create a video draft. Show video/caption/copy prepared by the system. Show the Approval Queue step. Approve the draft. Click Upload Draft to TikTok. Show successful upload status — "Draft uploaded" or "Awaiting creator review".',
       'Step 6: Show that nothing auto-posts. Show manual approval required. Show creator approval required. Show the Approval Queue. Narrate: "AI prepares drafts but Gannon controls publishing."',
-      'Step 7 (Webhook — if kept): Show webhook settings. Show the webhook callback URL. Show webhook test result/status/log. Show a received TikTok event if available.',
+      'Step 7: Show that Share Kit, Webhooks, user.info.stats, video.list, and video.publish are removed unless each can be demonstrated end to end.',
       'Step 8: End by showing Business Attention Centre. Show TikTok notification, approval status, uploaded draft status, and source chain.',
     ],
   },
 ];
 
 const VOICEOVER_SCRIPT = [
-  { cue: 'Dashboard', line: "This is the GanozMix AI Operating System. Every section of my business is connected, monitored, and improving automatically." },
-  { cue: 'Research Grid scan', line: "Right now it's scanning live market intelligence. This runs every 4 hours automatically, finding opportunities I'd never have time to find manually." },
+  { cue: 'Dashboard', line: "This is the Gannon Waye Music creator workflow. It connects my website, store, content drafts, approvals, and business notifications in one place." },
+  { cue: 'Research Grid scan', line: "The system helps prepare research and content intelligence, then keeps important actions reviewable before anything public happens." },
   { cue: 'Research card click', line: "Every single research finding is clickable, shows the full source, and has actions — I can save it, create an approval task, or archive it in one click." },
   { cue: 'Agent Registry', line: "These are my AI agents. Each one has a specific job. I can see exactly what they do, what risk level they run at, and whether they need my approval before acting." },
-  { cue: 'Autonomous Ops loops', line: "7 automation loops running 24/7. Research, trends, executive briefs, site health checks — all running while I focus on music." },
+  { cue: 'Autonomous Ops loops', line: "Automation supports research, planning, notifications, and draft preparation. Important publishing or business actions stay approval-gated." },
   { cue: 'Learning Record click', line: "The system learns from every output. I can see exactly what worked, what failed, and what it's doing differently next time." },
   { cue: 'Knowledge Vault', line: "Everything the system discovers is stored here. 200+ entries of market intelligence, brand context, and learning records, all searchable and linked." },
   { cue: 'TikTok — connection', line: "The platform connects to my authorised TikTok creator account using Login Kit." },
   { cue: 'TikTok — draft upload', line: "AI helps prepare content ideas, captions, drafts, and workflow recommendations, but nothing is automatically published without my approval. When a TikTok draft is ready, it goes through the Approval Queue first. After I approve it, the system uploads the draft to my authorised TikTok account for final creator review." },
   { cue: 'TikTok — closing', line: "The platform is designed for creator workflow management, not spam automation, not bulk posting, and not third-party account control." },
-  { cue: 'End', line: "This is what I built for my music career. And now I'm making it available for other artists and creators who want to run their business like a machine." },
+  { cue: 'End', line: "This platform supports my official artist website, content preparation, TikTok creator workflow, fan engagement, store activity, and approval-based business operations." },
 ];
 
 const FULL_VOICEOVER = `"This is the Gannon Waye Music AI operating system. The platform connects the official artist website, fan engagement, content workflow, store activity, approvals, and business notifications in one place.
@@ -256,7 +256,7 @@ export default function TikTokScreenGuide() {
       {/* Security reminder */}
       <div className="border border-red-500/30 bg-red-500/5 rounded-lg p-3 flex items-start gap-3">
         <Shield className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-        <p className="text-red-300/80 text-xs"><strong>Security:</strong> Do NOT show your TikTok client secret in the recording. Only show the Client Key (awwbyibvman8svtq). If secret was exposed, rotate it at developers.tiktok.com.</p>
+        <p className="text-red-300/80 text-xs"><strong>Security:</strong> Do NOT show your TikTok client secret in the recording. It has been exposed in chat, so rotate it before submission. Keep selected products/scopes matched to what the demo actually shows.</p>
       </div>
 
       <div className="space-y-4">

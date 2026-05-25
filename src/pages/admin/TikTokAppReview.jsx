@@ -56,12 +56,12 @@ const PRODUCTS = [
   },
   {
     name: 'Webhooks',
-    implemented: true,
+    implemented: false,
     demonstrated: false,
-    demoSection: 'Part 8 — Step 11: Webhook callback/status',
-    whyRequired: 'Receives TikTok event updates and syncs creator content status.',
-    whereOnSite: '/admin/tiktok-review → Webhook URL configured',
-    missing: 'Show webhook callback URL and test result in the demo video. Webhook handler is deployed but demo step needed.',
+    demoSection: null,
+    whyRequired: 'Receives TikTok event updates and syncs creator content status if this product is actually needed.',
+    whereOnSite: 'Not review-ready',
+    missing: 'Remove this product before submission unless the demo clearly shows the callback, verification/test result, received event log, retry/idempotency handling, and status sync.',
   },
 ];
 
@@ -137,11 +137,13 @@ const CHECKLIST = [
   { item: 'Remove user.info.stats (not implemented)', done: false, action: 'Remove from scopes in TikTok portal' },
   { item: 'Remove video.list (not implemented)', done: false, action: 'Remove from scopes in TikTok portal' },
   { item: 'Remove video.publish (not implemented)', done: false, action: 'Remove from scopes — use video.upload only' },
-  { item: 'Demo video recorded (Part 8 TikTok flow included)', done: false, action: 'Follow /admin/tiktok-screen-guide Part 8' },
-  { item: 'Webhook handler deployed', done: true, value: 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/tiktokWebhook' },
-  { item: 'Webhook test result shown in demo', done: false, action: 'Show webhook callback URL + test status in recording' },
+  { item: 'Remove Webhooks unless demonstrated', done: false, action: 'Uncheck Webhooks in TikTok portal unless a real test/log/status flow is shown' },
+  { item: 'Demo video recorded (Part 8 TikTok flow included)', done: false, action: 'Record actual Login Kit OAuth return and actual video.upload draft flow' },
+  { item: 'Client secret rotated after exposure', done: false, action: 'Regenerate TikTok client secret before production submission because it was exposed in chat' },
   { item: 'Client secret NOT visible in demo', done: false, action: 'Confirm no credentials shown in screen recording' },
 ];
+
+const PORTAL_SHORT_DESCRIPTION = 'Official Gannon Waye creator workflow for content drafts, approvals, store operations, and TikTok creator tools.';
 
 const APP_DESCRIPTION = `Gannon Waye Music is the official public artist website and AI workflow platform for Australian singer-songwriter Gannon Waye. The platform helps manage music content, fan engagement, social media preparation, TikTok creator workflow, and approved content publishing.
 
@@ -279,6 +281,7 @@ export default function TikTokAppReview() {
         <CardHeader className="pb-2"><CardTitle className="text-sm text-green-300">✓ Recommended Fastest-Approval Configuration</CardTitle></CardHeader>
         <CardContent className="space-y-2">
           <p className="text-xs text-muted-foreground">If only draft upload is implemented, use only these:</p>
+          <p className="text-xs text-green-200/80">Current portal fix: remove Share Kit, Webhooks, user.info.stats, video.list, and video.publish unless you record those exact flows. TikTok review can be delayed when selected scopes are not shown in the demo.</p>
           <div className="flex flex-wrap gap-2">
             {RECOMMENDED_PRODUCTS.map(p => <Badge key={p} className="bg-green-500/20 text-green-300">{p}</Badge>)}
           </div>
@@ -378,6 +381,8 @@ export default function TikTokAppReview() {
       <Card>
         <CardHeader><CardTitle>Copy-Ready App Review Description</CardTitle></CardHeader>
         <CardContent>
+          <CopyBlock label="Safe TikTok Portal Short Description (120 chars)" value={PORTAL_SHORT_DESCRIPTION} />
+          <div className="h-3" />
           <p className="text-xs text-muted-foreground mb-3">Paste this into the TikTok portal "Explain how each product and scope works" field.</p>
           <CopyBlock label="App Review Description" value={APP_DESCRIPTION} multiline />
         </CardContent>
@@ -399,9 +404,10 @@ export default function TikTokAppReview() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2 text-sm">
+          <p className="text-red-300/80">The TikTok client secret has been exposed in chat. Treat it as compromised and rotate/regenerate it before production submission.</p>
           <p className="text-red-300/80">Do <strong>not</strong> display your TikTok client secret in the screen recording, review text, screenshots, or documents.</p>
-          <p className="text-muted-foreground text-xs">Client Key (awwbyibvman8svtq) is safe to show. Client Secret is stored in TIKTOK_CLIENT_SECRET environment variable — never paste it visibly.</p>
-          <p className="text-yellow-300/80 text-xs">If the client secret has been exposed in chat, screenshots, or recordings — rotate it immediately at developers.tiktok.com.</p>
+          <p className="text-muted-foreground text-xs">Client Key may be visible in the portal. Client Secret must only be stored in the secure environment variable and never shown after saving.</p>
+          <p className="text-yellow-300/80 text-xs">Also rotate any Stripe, webhook, OpusClip, Meta, Google, or other API secret that appeared in chat, screenshots, logs, or recordings.</p>
         </CardContent>
       </Card>
 
@@ -437,6 +443,7 @@ export default function TikTokAppReview() {
             { label: 'Terms of Service', url: 'https://gannonwaye.com/terms-of-service' },
             { label: 'Screen Recording Guide', url: '/admin/tiktok-screen-guide' },
             { label: 'Recording Studio', url: '/admin/tiktok-recording-studio' },
+            { label: 'Social + Distribution Readiness', url: '/admin/social-distribution-readiness' },
           ].map(l => (
             <a key={l.url} href={l.url} target={l.url.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer">
               <Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />{l.label}</Button>
