@@ -31,18 +31,18 @@ const PRODUCTS = [
     name: 'Login Kit',
     implemented: true,
     demonstrated: true,
-    demoSection: 'Part 8 — Step 4: TikTok Login Kit flow',
-    whyRequired: 'Authenticates the authorised TikTok creator account.',
-    whereOnSite: '/admin/api-setup → Connect TikTok',
+    demoSection: 'TikTok Review Demo → Step 2–3: OAuth flow + connected account display',
+    whyRequired: 'Authenticates the authorised TikTok creator account via official OAuth.',
+    whereOnSite: '/admin/tiktok-review-demo → Step 2 & 3',
     missing: null,
   },
   {
     name: 'Content Posting API',
     implemented: true,
     demonstrated: true,
-    demoSection: 'Part 8 — Step 5: video.upload draft flow',
-    whyRequired: 'Uploads approved draft videos to TikTok for creator review.',
-    whereOnSite: '/admin/social-content → Upload Draft to TikTok',
+    demoSection: 'TikTok Review Demo → Step 5–7: Approval pipeline + video.upload draft flow',
+    whyRequired: 'Uploads approved video drafts to TikTok for creator final review before publishing.',
+    whereOnSite: '/admin/tiktok-review-demo → Step 5, 6, 7',
     missing: null,
   },
   {
@@ -51,17 +51,8 @@ const PRODUCTS = [
     demonstrated: false,
     demoSection: null,
     whyRequired: 'Manual TikTok share workflow from the platform.',
-    whereOnSite: 'Not implemented',
-    missing: 'Remove this product before submission — no Share button exists in the platform. If kept, TikTok will require a demo of the manual share workflow.',
-  },
-  {
-    name: 'Webhooks',
-    implemented: false,
-    demonstrated: false,
-    demoSection: null,
-    whyRequired: 'Receives TikTok event updates and syncs creator content status if this product is actually needed.',
-    whereOnSite: 'Not review-ready',
-    missing: 'Remove this product before submission unless the demo clearly shows the callback, verification/test result, received event log, retry/idempotency handling, and status sync.',
+    whereOnSite: 'NOT IMPLEMENTED — remove before submission',
+    missing: 'REMOVE before submission — no Share button exists in the platform. TikTok will reject or delay review if this product is selected but not clearly demonstrated.',
   },
 ];
 
@@ -72,38 +63,38 @@ const SCOPES = [
     product: 'Login Kit',
     implemented: true,
     demonstrated: true,
-    demoSection: 'Part 8 — Step 3 & 4',
-    rule: 'Must be shown through Login Kit / creator account connection.',
+    demoSection: 'TikTok Review Demo → Step 2 & 3',
+    rule: 'Shown via Login Kit OAuth return and connected account display (name, username, avatar).',
     missing: null,
     keep: true,
   },
   {
     scope: 'user.info.stats',
     product: 'Login Kit',
-    implemented: false,
-    demonstrated: false,
-    demoSection: null,
-    rule: 'Must only be kept if the dashboard actually retrieves and displays TikTok creator statistics.',
-    missing: 'NOT IMPLEMENTED — no TikTok stats dashboard exists. Remove this scope before submission.',
-    keep: false,
+    implemented: true,
+    demonstrated: true,
+    demoSection: 'TikTok Review Demo → Step 8 (TikTokAnalytics component)',
+    rule: 'Dashboard retrieves and displays follower count, following, likes, and video count via TikTokAnalytics.',
+    missing: null,
+    keep: true,
   },
   {
     scope: 'video.list',
     product: 'Content Posting API',
-    implemented: false,
-    demonstrated: false,
-    demoSection: null,
-    rule: 'Must only be kept if the system retrieves and displays the creator\'s TikTok video list.',
-    missing: 'NOT IMPLEMENTED — no TikTok video list exists in the platform. Remove this scope before submission.',
-    keep: false,
+    implemented: true,
+    demonstrated: true,
+    demoSection: 'TikTok Review Demo → Step 8 (TikTokAnalytics component)',
+    rule: 'Dashboard retrieves and displays the creator\'s TikTok video list with per-video performance stats.',
+    missing: null,
+    keep: true,
   },
   {
     scope: 'video.upload',
     product: 'Content Posting API',
     implemented: true,
     demonstrated: true,
-    demoSection: 'Part 8 — Step 5',
-    rule: 'Must be kept — system uploads video drafts to TikTok for creator review.',
+    demoSection: 'TikTok Review Demo → Step 5, 6, 7',
+    rule: 'System uploads approved video drafts to TikTok. Creator must manually publish from TikTok Drafts.',
     missing: null,
     keep: true,
   },
@@ -113,13 +104,13 @@ const SCOPES = [
     implemented: false,
     demonstrated: false,
     demoSection: null,
-    rule: 'Must only be kept if the system supports direct publishing after explicit creator approval.',
-    missing: 'NOT IMPLEMENTED — platform uses video.upload (drafts only), not direct publishing. Remove this scope before submission.',
+    rule: 'Only needed for direct publishing (bypassing Drafts). Platform uses video.upload (drafts only).',
+    missing: 'REMOVE before submission — platform uses video.upload to upload as drafts only. video.publish is not used and will cause review delays if selected without a demo.',
     keep: false,
   },
 ];
 
-const RECOMMENDED_SCOPES = ['user.info.basic', 'video.upload'];
+const RECOMMENDED_SCOPES = ['user.info.basic', 'user.info.stats', 'video.list', 'video.upload'];
 const RECOMMENDED_PRODUCTS = ['Login Kit', 'Content Posting API'];
 
 // ─── CHECKLIST ───────────────────────────────────────────────────────────────
@@ -133,27 +124,27 @@ const CHECKLIST = [
   { item: 'DNS TXT record added to gannonwaye.com', done: false, action: 'Add TXT: tiktok-developers-site-verification=OsUg2LUCoNJIimgbEa9Oq8H6pkYGR1ZC' },
   { item: 'App icon 1024×1024px uploaded', done: false, action: 'Export artist logo at 1024px JPEG/PNG' },
   { item: 'Platform: Web selected in TikTok portal', done: false, action: 'Tick Web in developer portal settings' },
-  { item: 'Remove Share Kit (not implemented)', done: false, action: 'Uncheck Share Kit in TikTok portal before submission' },
-  { item: 'Remove user.info.stats (not implemented)', done: false, action: 'Remove from scopes in TikTok portal' },
-  { item: 'Remove video.list (not implemented)', done: false, action: 'Remove from scopes in TikTok portal' },
-  { item: 'Remove video.publish (not implemented)', done: false, action: 'Remove from scopes — use video.upload only' },
-  { item: 'Remove Webhooks unless demonstrated', done: false, action: 'Uncheck Webhooks in TikTok portal unless a real test/log/status flow is shown' },
-  { item: 'Demo video recorded (Part 8 TikTok flow included)', done: false, action: 'Record actual Login Kit OAuth return and actual video.upload draft flow' },
+  { item: 'Remove Share Kit (not implemented)', done: false, action: 'Uncheck Share Kit in TikTok portal before submission — no share UI exists' },
+  { item: 'Remove video.publish (not used — drafts only)', done: false, action: 'Remove video.publish from scopes — platform uses video.upload to upload as drafts only' },
+  { item: 'Demo video: Login Kit OAuth return shown', done: false, action: 'Record actual TikTok OAuth popup → callback → connected account screen' },
+  { item: 'Demo video: video.upload draft flow shown', done: false, action: 'Record approval pipeline → Upload Draft button → TikTok Drafts confirmation' },
+  { item: 'Demo video: user.info.stats shown', done: false, action: 'Record TikTok Analytics component showing follower/like/video stats' },
+  { item: 'Demo video: video.list shown', done: false, action: 'Record TikTok Analytics video list with per-video performance data' },
   { item: 'Client secret rotated after exposure', done: false, action: 'Regenerate TikTok client secret before production submission because it was exposed in chat' },
   { item: 'Client secret NOT visible in demo', done: false, action: 'Confirm no credentials shown in screen recording' },
 ];
 
 const PORTAL_SHORT_DESCRIPTION = 'Official Gannon Waye creator workflow for content drafts, approvals, store operations, and TikTok creator tools.';
 
-const APP_DESCRIPTION = `Gannon Waye Music is the official public artist website and AI workflow platform for Australian singer-songwriter Gannon Waye. The platform helps manage music content, fan engagement, social media preparation, TikTok creator workflow, and approved content publishing.
+const APP_DESCRIPTION = `Gannon Waye Music is the official creator workflow platform for Australian singer-songwriter Gannon Waye. The platform manages content drafts, approvals, store operations, and TikTok creator tools for a single authorised creator account.
 
 The TikTok integration connects only to Gannon Waye's authorised creator account. Public website visitors do not connect their own TikTok accounts.
 
-Login Kit and user.info.basic are used to securely authenticate the authorised creator account.
+Login Kit (user.info.basic, user.info.stats): Used to authenticate the creator account and display account statistics (follower count, following, total likes, video count) in the creator dashboard.
 
-Content Posting API and video.upload are used to upload approved video drafts to the authorised TikTok account. AI may assist with preparing captions, draft ideas, and workflow recommendations, but all content remains under creator control and requires approval before publishing.
+Content Posting API (video.list, video.upload): video.list retrieves and displays the creator's published TikTok videos and per-video performance data. video.upload is used to upload approved video drafts to the creator's TikTok account. All content requires creator approval through an internal approval pipeline before upload. After upload, the creator must manually publish from within the TikTok app.
 
-The platform is not used for mass automation, spam distribution, engagement manipulation, or third-party account management.`;
+The platform is not used for mass automation, bulk posting, spam distribution, engagement manipulation, or third-party account management.`;
 
 const VOICEOVER = `"This is the TikTok creator workflow inside Gannon Waye Music.
 
@@ -281,7 +272,7 @@ export default function TikTokAppReview() {
         <CardHeader className="pb-2"><CardTitle className="text-sm text-green-300">✓ Recommended Fastest-Approval Configuration</CardTitle></CardHeader>
         <CardContent className="space-y-2">
           <p className="text-xs text-muted-foreground">If only draft upload is implemented, use only these:</p>
-          <p className="text-xs text-green-200/80">Current portal fix: remove Share Kit, Webhooks, user.info.stats, video.list, and video.publish unless you record those exact flows. TikTok review can be delayed when selected scopes are not shown in the demo.</p>
+          <p className="text-xs text-green-200/80">Remove Share Kit and video.publish before submission — these are not implemented. All other scopes (user.info.basic, user.info.stats, video.list, video.upload) are demonstrated in the TikTok Review Demo page.</p>
           <div className="flex flex-wrap gap-2">
             {RECOMMENDED_PRODUCTS.map(p => <Badge key={p} className="bg-green-500/20 text-green-300">{p}</Badge>)}
           </div>
@@ -441,6 +432,7 @@ export default function TikTokAppReview() {
             { label: 'App Review Guidelines', url: 'https://developers.tiktok.com/doc/app-review-guidelines' },
             { label: 'Privacy Policy', url: 'https://gannonwaye.com/privacy-policy' },
             { label: 'Terms of Service', url: 'https://gannonwaye.com/terms-of-service' },
+            { label: 'TikTok Review Demo (10-step)', url: '/admin/tiktok-review-demo' },
             { label: 'Screen Recording Guide', url: '/admin/tiktok-screen-guide' },
             { label: 'Recording Studio', url: '/admin/tiktok-recording-studio' },
             { label: 'Social + Distribution Readiness', url: '/admin/social-distribution-readiness' },
