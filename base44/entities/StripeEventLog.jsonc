@@ -1,0 +1,122 @@
+{
+  "name": "StripeEventLog",
+  "type": "object",
+  "properties": {
+    "stripe_event_id": {
+      "type": "string",
+      "description": "Stripe event ID (used for deduplication)"
+    },
+    "event_type": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "revenue",
+        "risk",
+        "customer",
+        "ecommerce",
+        "automation"
+      ],
+      "default": "revenue"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "medium"
+    },
+    "processing_status": {
+      "type": "string",
+      "enum": [
+        "received",
+        "processing",
+        "processed",
+        "failed",
+        "duplicate",
+        "skipped"
+      ],
+      "default": "received"
+    },
+    "duplicate_detected": {
+      "type": "boolean",
+      "default": false
+    },
+    "stripe_object_id": {
+      "type": "string"
+    },
+    "checkout_session_id": {
+      "type": "string"
+    },
+    "payment_intent_id": {
+      "type": "string"
+    },
+    "customer_id": {
+      "type": "string"
+    },
+    "order_id": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string"
+    },
+    "safe_summary": {
+      "type": "string"
+    },
+    "automation_triggered": {
+      "type": "string"
+    },
+    "records_created": {
+      "type": "string"
+    },
+    "records_updated": {
+      "type": "string"
+    },
+    "error_message": {
+      "type": "string"
+    },
+    "retry_count": {
+      "type": "number",
+      "default": 0
+    },
+    "received_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "processed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_chain": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "stripe_event_id",
+    "event_type"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

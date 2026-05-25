@@ -1,0 +1,137 @@
+{
+  "name": "PaymentDiagnostic",
+  "type": "object",
+  "properties": {
+    "diagnostic_type": {
+      "type": "string",
+      "enum": [
+        "failed_payment",
+        "checkout_timeout",
+        "checkout_frozen",
+        "session_creation_failure",
+        "webhook_failure",
+        "duplicate_submit",
+        "promo_code_failure",
+        "shipping_calc_failure",
+        "customer_creation_failure",
+        "order_creation_failure",
+        "receipt_failure",
+        "slow_checkout",
+        "missing_stripe_config",
+        "payment_without_order",
+        "order_without_payment",
+        "webhook_signature_failure",
+        "dispute",
+        "refund",
+        "subscription_cancelled",
+        "reconciliation_issue"
+      ],
+      "default": "failed_payment"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "high",
+        "critical"
+      ],
+      "default": "warning"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "investigating",
+        "resolved",
+        "ignored"
+      ],
+      "default": "open"
+    },
+    "customer_email": {
+      "type": "string"
+    },
+    "customer_name": {
+      "type": "string"
+    },
+    "order_id": {
+      "type": "string"
+    },
+    "stripe_event_id": {
+      "type": "string"
+    },
+    "checkout_session_id": {
+      "type": "string"
+    },
+    "payment_intent_id": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "aud"
+    },
+    "issue_summary": {
+      "type": "string"
+    },
+    "customer_safe_message": {
+      "type": "string"
+    },
+    "admin_message": {
+      "type": "string"
+    },
+    "recommended_fix": {
+      "type": "string"
+    },
+    "retry_available": {
+      "type": "boolean",
+      "default": false
+    },
+    "receipt_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "notification_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "webhook_processed": {
+      "type": "boolean",
+      "default": false
+    },
+    "duplicate_check": {
+      "type": "string"
+    },
+    "source_chain": {
+      "type": "string"
+    },
+    "resolved_date": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "diagnostic_type",
+    "issue_summary"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
