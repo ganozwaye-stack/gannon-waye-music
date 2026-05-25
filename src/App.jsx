@@ -129,6 +129,7 @@ import SalesTraining from '@/pages/admin/SalesTraining';
 import ClientOnboarding from '@/pages/admin/ClientOnboarding';
 import MonthlyMonitoring from '@/pages/admin/MonthlyMonitoring';
 import TikTokScreenGuide from '@/pages/admin/TikTokScreenGuide';
+import TikTokPlatformReview from '@/pages/TikTokPlatformReview';
 import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
 import RevenueActions from '@/pages/admin/RevenueActions';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
@@ -202,6 +203,7 @@ const AuthenticatedApp = () => {
 
       {/* Embed timer (no layout) */}
       <Route path="/embed-timer" element={<EmbedTimer />} />
+      <Route path="/tiktok-platform-review" element={<TikTokPlatformReview />} />
       <Route path="/gift-checklist" element={<GiftChecklistPage />} />
 
       {/* Admin routes */}
