@@ -177,6 +177,8 @@ import QACommandCentre from '@/pages/admin/QACommandCentre';
 import PlaywrightTestCentre from '@/pages/admin/PlaywrightTestCentre';
 import DeveloperHandoff from '@/pages/admin/DeveloperHandoff';
 import AgentToolRegistry from '@/pages/admin/AgentToolRegistry';
+import CodeAuditExport from '@/pages/admin/CodeAuditExport';
+import ChatGPTCodeReviewExport from '@/pages/admin/ChatGPTCodeReviewExport';
 
 
 const AuthenticatedApp = () => {
@@ -400,6 +402,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/cursor-task-packs" element={<DeveloperHandoff />} />
         <Route path="/admin/claude-code-task-packs" element={<DeveloperHandoff />} />
         <Route path="/admin/agent-tool-registry" element={<AgentToolRegistry />} />
+        <Route path="/admin/code-audit-export" element={<CodeAuditExport />} />
+        <Route path="/admin/chatgpt-code-review-export" element={<ChatGPTCodeReviewExport />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
