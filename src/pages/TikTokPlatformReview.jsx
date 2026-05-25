@@ -138,12 +138,13 @@ export default function TikTokPlatformReview() {
                   <CardContent className="p-4 space-y-2">
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">OAuth Flow Details</p>
                     <div className="space-y-1.5 text-xs text-foreground/70">
-                      <p>1. Frontend calls backend function <code className="text-primary">tiktokOAuth</code> with <code>action: "get_auth_url"</code></p>
-                      <p>2. Backend builds URL: <code className="text-muted-foreground">tiktok.com/v2/auth/authorize/</code> with scopes <code className="text-primary">user.info.basic,video.upload</code></p>
-                      <p>3. Creator completes consent in TikTok popup</p>
-                      <p>4. TikTok redirects to <code className="text-primary">gannonwaye.com/tiktok-callback?code=…</code></p>
-                      <p>5. Callback page stores code in localStorage; opener exchanges it via <code>action: "exchange_code"</code></p>
-                      <p>6. Token stored server-side in KnowledgeVault (service role) — never returned to browser</p>
+                      <p>1. Clicking "Connect TikTok" opens a blank popup <strong className="text-foreground">synchronously</strong> (direct user gesture — never blocked)</p>
+                      <p>2. Backend returns TikTok OAuth URL → popup is navigated to <code className="text-muted-foreground">tiktok.com/v2/auth/authorize/</code></p>
+                      <p>3. If popup is blocked by browser → same-tab redirect fallback kicks in automatically</p>
+                      <p>4. Creator completes consent; TikTok redirects to <code className="text-primary">gannonwaye.com/tiktok-callback?code=…</code></p>
+                      <p>5. Popup flow: callback stores code in localStorage → opener exchanges via <code>action: "exchange_code"</code></p>
+                      <p>5. Same-tab flow: callback page calls backend exchange directly → redirects back to this page</p>
+                      <p>6. Token stored server-side in KnowledgeVault (service role) — <strong className="text-green-400">never returned to browser</strong></p>
                     </div>
                   </CardContent>
                 </Card>
