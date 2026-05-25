@@ -173,6 +173,10 @@ import SocialOAuthCommand from '@/pages/admin/SocialOAuthCommand';
 import SocialReviewReadiness from '@/pages/admin/SocialReviewReadiness';
 import SocialContentReadiness from '@/pages/admin/SocialContentReadiness';
 import SocialAnalyticsCommand from '@/pages/admin/SocialAnalyticsCommand';
+import QACommandCentre from '@/pages/admin/QACommandCentre';
+import PlaywrightTestCentre from '@/pages/admin/PlaywrightTestCentre';
+import DeveloperHandoff from '@/pages/admin/DeveloperHandoff';
+import AgentToolRegistry from '@/pages/admin/AgentToolRegistry';
 
 
 const AuthenticatedApp = () => {
@@ -387,6 +391,15 @@ const AuthenticatedApp = () => {
         <Route path="/admin/social-review-readiness" element={<SocialReviewReadiness />} />
         <Route path="/admin/social-content-readiness" element={<SocialContentReadiness />} />
         <Route path="/admin/social-analytics-command" element={<SocialAnalyticsCommand />} />
+        <Route path="/admin/qa-command-centre" element={<QACommandCentre />} />
+        <Route path="/admin/playwright-test-centre" element={<PlaywrightTestCentre />} />
+        <Route path="/admin/clickability-audit" element={<QACommandCentre />} />
+        <Route path="/admin/developer-handoff" element={<DeveloperHandoff />} />
+        <Route path="/admin/source-export-readiness" element={<DeveloperHandoff />} />
+        <Route path="/admin/codex-task-packs" element={<DeveloperHandoff />} />
+        <Route path="/admin/cursor-task-packs" element={<DeveloperHandoff />} />
+        <Route path="/admin/claude-code-task-packs" element={<DeveloperHandoff />} />
+        <Route path="/admin/agent-tool-registry" element={<AgentToolRegistry />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

@@ -6,7 +6,7 @@ import {
   MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command,
   ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
   Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
-  GraduationCap, Building2
+  GraduationCap, Building2, Play
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -113,6 +113,10 @@ const NAV_SECTIONS = [
       { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain },
       { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Activity },
       { label: 'A-Z Index', path: '/admin/az-index', icon: BookOpen },
+      { label: 'Agent Tool Registry', path: '/admin/agent-tool-registry', icon: Zap },
+      { label: 'QA Command Centre', path: '/admin/qa-command-centre', icon: Shield },
+      { label: 'Playwright Test Centre', path: '/admin/playwright-test-centre', icon: Play },
+      { label: 'Developer Handoff', path: '/admin/developer-handoff', icon: FileText },
       { label: 'Operation Registry', path: '/admin/operation-registry', icon: Database },
       { label: 'Site Function Audit', path: '/admin/site-function-audit', icon: Activity },
       { label: 'Autonomous Ops', path: '/admin/autonomous-ops', icon: Activity },
