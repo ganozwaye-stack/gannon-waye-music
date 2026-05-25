@@ -181,6 +181,7 @@ import CodeAuditExport from '@/pages/admin/CodeAuditExport';
 import ChatGPTCodeReviewExport from '@/pages/admin/ChatGPTCodeReviewExport';
 import QAFailureReport from '@/pages/admin/QAFailureReport';
 import VoiceInputTestPage from '@/pages/admin/VoiceInputTestPage';
+import PromoCodeAudit from '@/pages/admin/PromoCodeAudit';
 
 
 const AuthenticatedApp = () => {
@@ -408,6 +409,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/chatgpt-code-review-export" element={<ChatGPTCodeReviewExport />} />
         <Route path="/admin/qa-failure-report" element={<QAFailureReport />} />
         <Route path="/admin/voice-input-test" element={<VoiceInputTestPage />} />
+        <Route path="/admin/promo-code-audit" element={<PromoCodeAudit />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
