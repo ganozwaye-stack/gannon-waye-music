@@ -22,7 +22,8 @@ Deno.serve(async (req) => {
 
   // ── GET AUTH URL ──────────────────────────────────────────────────────────
   if (action === 'get_auth_url') {
-    const scopes = ['user.info.basic', 'user.info.stats', 'video.list', 'video.upload'].join(',');
+    // SUBMISSION SCOPES: Login Kit (user.info.basic) + Content Posting API (video.upload) ONLY
+    const scopes = ['user.info.basic', 'video.upload'].join(',');
     const state = crypto.randomUUID();
     const url = `https://www.tiktok.com/v2/auth/authorize/?client_key=${CLIENT_KEY}&response_type=code&scope=${encodeURIComponent(scopes)}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&state=${state}`;
     return Response.json({ url, state });

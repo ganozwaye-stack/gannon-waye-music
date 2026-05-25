@@ -33,7 +33,8 @@ Deno.serve(async (req) => {
   const access_token = stored.access_token;
 
   // Step 1: Initialize upload
-  const initRes = await fetch('https://open.tiktokapis.com/v2/post/publish/video/init/', {
+  // Use inbox/video/init/ — uploads to creator's DRAFT inbox, NOT auto-publish
+  const initRes = await fetch('https://open.tiktokapis.com/v2/post/publish/inbox/video/init/', {
     method: 'POST',
     headers: {
       'Authorization': `Bearer ${access_token}`,

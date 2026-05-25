@@ -6,12 +6,11 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import {
   CheckCircle2, XCircle, ChevronRight, ChevronLeft, Shield, Copy,
-  ExternalLink, Webhook, Video, BarChart3, User, Upload, AlertTriangle
+  ExternalLink, Video, AlertTriangle
 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import TikTokConnectionCard from '@/components/tiktok/TikTokConnectionCard';
 import TikTokDraftUpload from '@/components/tiktok/TikTokDraftUpload';
-import TikTokAnalytics from '@/components/tiktok/TikTokAnalytics';
 
 const DEMO_STEPS = [
   {
@@ -26,21 +25,21 @@ const DEMO_STEPS = [
   },
   {
     number: 2,
-    title: 'TikTok Login Kit',
+    title: 'TikTok Login Kit — Connect',
     scope: 'Login Kit',
     icon: '🔑',
-    description: 'Demonstrate the Login Kit integration — secure OAuth connection to the authorised TikTok creator account.',
+    description: 'Click "Connect TikTok (Login Kit)" — this opens the official TikTok OAuth consent screen. Authorise with your TikTok creator account to demonstrate the real OAuth return to gannonwaye.com/tiktok-callback.',
     component: 'connection',
-    voiceover: 'The platform connects to my authorised TikTok creator account using Login Kit. This is the official OAuth flow from TikTok.',
+    voiceover: 'The platform connects to my authorised TikTok creator account using Login Kit. This is the official TikTok OAuth flow — I will now click Connect and complete the consent screen.',
   },
   {
     number: 3,
     title: 'Connected Creator Account',
     scope: 'user.info.basic',
     icon: '👤',
-    description: 'Show the connected TikTok creator account — display name, username, and authorised scopes.',
+    description: 'After OAuth completes, show the connected TikTok creator account — display name and authorised scopes (user.info.basic, video.upload only).',
     component: 'connection',
-    voiceover: 'Here you can see my connected TikTok account — the display name, username, and the specific permissions that have been authorised.',
+    voiceover: 'Here you can see my connected TikTok account — the display name and the exact scopes authorised: user.info.basic and video.upload. No other scopes are requested.',
   },
   {
     number: 4,
@@ -57,101 +56,74 @@ const DEMO_STEPS = [
     title: 'Draft Preview & Approval',
     scope: null,
     icon: '📋',
-    description: 'Every TikTok post goes through: Draft Created → Awaiting Review → Approved before any upload occurs.',
+    description: 'Every TikTok post goes through: Draft Created → Awaiting Review → Approved before any upload occurs. Tick the approval checkbox to unlock the upload button.',
     component: 'upload',
     voiceover: 'Every piece of content goes through a mandatory approval queue. AI creates the draft, but I review and approve before anything moves forward.',
   },
   {
     number: 6,
-    title: 'Upload Draft to TikTok',
+    title: 'Upload Draft to TikTok Inbox',
     scope: 'video.upload',
     icon: '📤',
-    description: 'After approval, the system uploads the video as a draft to the TikTok creator account using the Content Posting API (video.upload).',
+    description: 'After ticking the approval checkbox and entering a public HTTPS video URL, click Upload Draft. The system calls the Content Posting API inbox/video/init/ endpoint — this sends the video to your TikTok creator draft inbox, NOT auto-published.',
     component: 'upload',
-    voiceover: 'After I approve the draft, the system uploads it to my TikTok account — as a draft only. I still have to manually publish from within the TikTok app.',
+    voiceover: 'After I approve the draft, the system uploads it to my TikTok account as a draft using the Content Posting API. I still have to open TikTok and manually publish.',
   },
   {
     number: 7,
-    title: 'Manual Approval State',
-    scope: null,
-    icon: '🔒',
-    description: 'Show that no content auto-posts. The upload lands in TikTok Drafts. Creator must manually publish from within the TikTok app.',
-    component: 'upload',
-    voiceover: 'The platform is designed for creator workflow management — not spam automation, not bulk posting, not third-party account control. I always have final say.',
-  },
-  {
-    number: 8,
-    title: 'Analytics & Video List',
-    scope: 'user.info.stats + video.list',
-    icon: '📊',
-    description: 'Show account statistics (user.info.stats) and recent TikTok videos (video.list) retrieved from the connected creator account.',
-    component: 'analytics',
-    voiceover: 'The platform can retrieve my account stats and video performance data — all displayed here for monitoring.',
-  },
-  {
-    number: 9,
-    title: 'Webhook & Sync Status',
-    scope: 'Webhooks',
-    icon: '🔗',
-    description: 'Show the active webhook endpoint that receives TikTok event updates and syncs creator content status.',
-    component: 'webhook',
-    voiceover: 'The webhook endpoint receives real-time updates from TikTok about post status and account changes.',
-  },
-  {
-    number: 10,
     title: 'Safety Controls Summary',
     scope: null,
     icon: '🛡️',
-    description: 'Summarise all safety controls — manual approval required at every stage, no auto-posting, no bulk publishing.',
+    description: 'Summarise all safety controls — manual approval required at every stage, no auto-posting, no bulk publishing, no Share Kit, no Webhooks, no video.publish.',
     component: 'safety',
-    voiceover: 'To summarise the safety architecture: all content requires approval, nothing is auto-published, and this platform only connects to my own authorised creator account.',
+    voiceover: 'The platform is designed for creator workflow management — not spam automation, not bulk posting. I always have final say. Only Login Kit and Content Posting API are used.',
   },
 ];
 
 const PRODUCTS_AUDIT = [
-  { name: 'Login Kit', implemented: true, scope: 'user.info.basic', step: 2, notes: 'OAuth flow + account status display' },
-  { name: 'Content Posting API', implemented: true, scope: 'video.upload', step: 6, notes: 'Draft upload via tiktokUploadDraft function' },
-  { name: 'Share Kit', implemented: false, scope: null, step: null, notes: 'NOT IMPLEMENTED — remove from submission' },
-  { name: 'Webhooks', implemented: true, scope: null, step: 9, notes: 'tiktokWebhook function handles events' },
+  { name: 'Login Kit', implemented: true, scope: 'user.info.basic', step: 2, notes: 'Real OAuth flow → gannonwaye.com/tiktok-callback' },
+  { name: 'Content Posting API', implemented: true, scope: 'video.upload', step: 6, notes: 'inbox/video/init/ — draft only, not auto-published' },
+  { name: 'Share Kit', implemented: false, scope: null, step: null, notes: '⚠ NOT IMPLEMENTED — DO NOT select in submission' },
+  { name: 'Webhooks', implemented: false, scope: null, step: null, notes: '⚠ NOT DEMONSTRATED in this demo — DO NOT select in submission' },
 ];
 
 const SCOPES_AUDIT = [
   { scope: 'user.info.basic', keep: true, implemented: true, step: 3, notes: 'Shown via Login Kit connection card' },
-  { scope: 'user.info.stats', keep: true, implemented: true, step: 8, notes: 'Shown via TikTok Analytics component' },
-  { scope: 'video.list', keep: true, implemented: true, step: 8, notes: 'Shown via TikTok Analytics component' },
-  { scope: 'video.upload', keep: true, implemented: true, step: 6, notes: 'Shown via Draft Upload component' },
-  { scope: 'video.publish', keep: false, implemented: false, step: null, notes: 'NOT USED — platform uses drafts only (video.upload), remove from submission' },
+  { scope: 'video.upload', keep: true, implemented: true, step: 6, notes: 'inbox/video/init/ draft upload demonstrated' },
+  { scope: 'user.info.stats', keep: false, implemented: false, step: null, notes: '⚠ NOT DEMONSTRATED — remove from submission' },
+  { scope: 'video.list', keep: false, implemented: false, step: null, notes: '⚠ NOT DEMONSTRATED — remove from submission' },
+  { scope: 'video.publish', keep: false, implemented: false, step: null, notes: '⚠ NOT USED — platform uses inbox drafts only, remove' },
 ];
 
-const WEBHOOK_URL = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/tiktokWebhook';
-
 const SAFETY_CONTROLS = [
+  'Products submitted: Login Kit + Content Posting API ONLY',
+  'Scopes submitted: user.info.basic + video.upload ONLY',
   'All TikTok posts require manual creator approval before upload',
-  'Uploads go to TikTok Drafts — not published automatically',
+  'Upload endpoint: inbox/video/init/ — sends to creator draft inbox, NOT auto-published',
   'Creator must manually publish from within the TikTok app',
   'No bulk posting, no auto-scheduling, no third-party accounts',
   'Only Gannon Waye\'s authorised creator account is connected',
   'OAuth tokens stored securely via service role — never exposed to frontend',
-  'Client secret stored as environment variable — never visible in UI',
-  'All upload events are logged in AdminNotification system',
-  'Approval Queue must show status "Approved" before upload button is active',
+  'Client secret stored as environment variable — never visible in UI or logs',
+  'NOT using: Share Kit, Webhooks, user.info.stats, video.list, video.publish',
 ];
 
 const FULL_VOICEOVER = `"This is the Gannon Waye Music AI Operating System — a private creator workflow platform.
 
-The platform connects to my authorised TikTok creator account using Login Kit and the official TikTok OAuth flow.
+PRODUCTS USED: Login Kit and Content Posting API only.
+SCOPES: user.info.basic and video.upload only.
 
-Here you can see my connected creator account — display name, username, and the specific permissions that have been authorised: user.info.basic, user.info.stats, video.list, and video.upload.
+The platform connects to my authorised TikTok creator account using Login Kit and the official TikTok OAuth flow. The OAuth return URL is https://gannonwaye.com/tiktok-callback.
+
+Here you can see my connected creator account — display name and the exact scopes authorised: user.info.basic and video.upload. No other scopes are requested or used.
 
 AI helps prepare content ideas, captions, and workflow recommendations. But nothing is automatically published — everything waits in an approval queue for my review.
 
-Every piece of content goes through: Draft Created → Awaiting Review → Approved → Uploaded to Drafts → Ready for Creator Final Approval.
+Every piece of content goes through: Draft Created → Awaiting Review → Approved → Uploaded to Creator Draft Inbox → Creator manually publishes from TikTok app.
 
-Only after I manually approve a draft does the system upload it to my TikTok account — and even then, it uploads as a draft only. I still have to open the TikTok app and manually publish.
+Only after I manually tick the approval checkbox does the system upload it to my TikTok account — using the Content Posting API inbox/video/init/ endpoint. This sends it to my draft inbox only. Nothing is auto-published. I open TikTok and manually decide to publish.
 
-The analytics section uses user.info.stats to show account performance and video.list to retrieve recent video data.
-
-The webhook endpoint receives real-time updates from TikTok.
+The platform does not use: Share Kit, Webhooks, user.info.stats, video.list, or video.publish.
 
 The platform is designed for creator workflow management — not spam automation, not bulk posting, and not third-party account control.
 
@@ -173,52 +145,6 @@ export default function TikTokReviewDemo() {
     }
     if (currentStep.component === 'upload') {
       return <TikTokDraftUpload connected={tiktokStatus.connected} />;
-    }
-    if (currentStep.component === 'analytics') {
-      return <TikTokAnalytics connected={tiktokStatus.connected} />;
-    }
-    if (currentStep.component === 'webhook') {
-      return (
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm flex items-center gap-2">
-              <Webhook className="w-4 h-4 text-primary" /> Webhook Endpoint
-              <Badge className="bg-green-500/20 text-green-300 text-xs">Deployed</Badge>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="border border-border rounded-lg p-3">
-              <p className="text-xs text-muted-foreground mb-1">Webhook Callback URL</p>
-              <p className="text-xs text-primary font-mono break-all">{WEBHOOK_URL}</p>
-              <Button size="sm" variant="ghost" className="h-6 text-xs mt-2 gap-1" onClick={() => copy(WEBHOOK_URL, 'Webhook URL')}>
-                <Copy className="w-3 h-3" /> Copy URL
-              </Button>
-            </div>
-            <div className="space-y-1.5">
-              {[
-                { label: 'GET /challenge', desc: 'Webhook verification — echoes TikTok challenge param', ok: true },
-                { label: 'POST /events', desc: 'Receives TikTok event payloads, logs to AdminNotification', ok: true },
-                { label: 'Security validation', desc: 'Returns HTTP 200 to TikTok for all events (prevents retry loops)', ok: true },
-              ].map((item, i) => (
-                <div key={i} className="flex items-start gap-2">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-green-400 shrink-0 mt-0.5" />
-                  <div>
-                    <p className="text-xs font-medium">{item.label}</p>
-                    <p className="text-xs text-muted-foreground">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <a href="/admin/notifications" target="_blank">
-                <Button size="sm" variant="outline" className="text-xs gap-1">
-                  <ExternalLink className="w-3 h-3" /> View Webhook Logs
-                </Button>
-              </a>
-            </div>
-          </CardContent>
-        </Card>
-      );
     }
     if (currentStep.component === 'safety') {
       return (
@@ -246,6 +172,19 @@ export default function TikTokReviewDemo() {
 
   return (
     <div className="space-y-6 pb-10">
+      {/* Critical submission warning */}
+      <div className="border border-red-500/60 bg-red-500/10 rounded-xl p-4 space-y-2">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+          <div className="space-y-1 text-sm">
+            <p className="font-semibold text-red-300">Before you record — read this</p>
+            <p className="text-foreground/80">1. <strong>Rotate TIKTOK_CLIENT_SECRET</strong> in the TikTok Developer Portal before production submission — the old key was visible in previous code. Update the secret in Base44 → Settings → Environment Variables.</p>
+            <p className="text-foreground/80">2. <strong>Submit only:</strong> Login Kit + Content Posting API. Scopes: user.info.basic + video.upload. Do NOT select Share Kit, Webhooks, user.info.stats, video.list, or video.publish.</p>
+            <p className="text-foreground/80">3. <strong>Recording is not ready</strong> until you show: real OAuth return to /tiktok-callback + real inbox/video/init/ upload call + publish_id in the response.</p>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="flex items-start justify-between gap-4 flex-wrap">
         <div>
@@ -254,7 +193,7 @@ export default function TikTokReviewDemo() {
             <Badge className="bg-green-500/20 text-green-300 text-xs">Demo Mode</Badge>
           </div>
           <h1 className="text-3xl font-display font-bold gradient-gold-text">TikTok Review Demo</h1>
-          <p className="text-muted-foreground text-sm mt-1">Guided 10-step demo for TikTok App Review submission</p>
+          <p className="text-muted-foreground text-sm mt-1">Submission: Login Kit + Content Posting API · Scopes: user.info.basic + video.upload only</p>
         </div>
         <div className="flex gap-2">
           <Link to="/admin/tiktok-recording-studio">
@@ -389,9 +328,12 @@ export default function TikTokReviewDemo() {
         <CardContent className="p-4 flex items-start gap-3">
           <Shield className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
           <div className="space-y-1 text-xs">
-            <p className="text-red-300 font-semibold">Security Reminder</p>
-            <p className="text-red-300/80">Do NOT show TIKTOK_CLIENT_SECRET in any recording. Client Key (awwbyibvman8svtq) is safe to show.</p>
-            <p className="text-muted-foreground">OAuth tokens are stored server-side via service role — they are never accessible from the frontend.</p>
+            <p className="text-red-300 font-semibold">Security Checklist</p>
+            <p className="text-red-300/80">⚠ Rotate TIKTOK_CLIENT_SECRET before production submission — old secret was exposed in source code.</p>
+            <p className="text-muted-foreground">Do NOT show TIKTOK_CLIENT_SECRET in any recording. Client Key (awwbyibvman8svtq) is public-safe.</p>
+            <p className="text-muted-foreground">OAuth tokens are stored server-side via service role — never accessible from frontend.</p>
+            <p className="text-muted-foreground">Upload endpoint: inbox/video/init/ — draft inbox only, not auto-published.</p>
+            <p className="text-muted-foreground">tokens_visible: false — no token, refresh_token, or client_secret is ever returned to the browser.</p>
           </div>
         </CardContent>
       </Card>
