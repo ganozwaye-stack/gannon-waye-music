@@ -179,6 +179,7 @@ import DeveloperHandoff from '@/pages/admin/DeveloperHandoff';
 import AgentToolRegistry from '@/pages/admin/AgentToolRegistry';
 import CodeAuditExport from '@/pages/admin/CodeAuditExport';
 import ChatGPTCodeReviewExport from '@/pages/admin/ChatGPTCodeReviewExport';
+import QAFailureReport from '@/pages/admin/QAFailureReport';
 
 
 const AuthenticatedApp = () => {
@@ -404,6 +405,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/agent-tool-registry" element={<AgentToolRegistry />} />
         <Route path="/admin/code-audit-export" element={<CodeAuditExport />} />
         <Route path="/admin/chatgpt-code-review-export" element={<ChatGPTCodeReviewExport />} />
+        <Route path="/admin/qa-failure-report" element={<QAFailureReport />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

@@ -388,6 +388,7 @@ export default function QACommandCentre() {
           </div>
         </div>
         <div className="flex gap-2 flex-wrap">
+          <Link to="/admin/qa-failure-report"><Button size="sm" className="bg-red-500/80 hover:bg-red-500 text-white"><AlertTriangle className="w-3 h-3 mr-1" />Failure Report</Button></Link>
           <Link to="/admin/playwright-test-centre"><Button variant="outline" size="sm"><FileText className="w-3 h-3 mr-1" />Playwright Pack</Button></Link>
           <Link to="/admin/developer-handoff"><Button variant="outline" size="sm">Dev Handoff</Button></Link>
           <Button variant="outline" size="sm" onClick={copyReport}><Copy className="w-3 h-3 mr-1" />Copy Report</Button>
