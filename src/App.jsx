@@ -134,10 +134,10 @@ import RevenueActions from '@/pages/admin/RevenueActions';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
 import OperationRegistry from '@/pages/admin/OperationRegistry';
 import SiteFunctionAudit from '@/pages/admin/SiteFunctionAudit';
-import PaymentDiagnostics from '@/pages/admin/PaymentDiagnostics.jsx';
+import PaymentDiagnostics from '@/pages/admin/PaymentDiagnosticsNew';
 import IntegrationCompletionCentre from '@/pages/admin/IntegrationCompletionCentre';
-import StripeCommandCentre from '@/pages/admin/StripeCommandCentre.jsx';
-import WebhookHealth from '@/pages/admin/WebhookHealth.jsx';
+import StripeCommandCentre from '@/pages/admin/StripeCommandCentreNew';
+import WebhookHealth from '@/pages/admin/WebhookHealthNew';
 import SocialDistributionReadiness from '@/pages/admin/SocialDistributionReadiness';
 
 
