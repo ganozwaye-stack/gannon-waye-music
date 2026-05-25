@@ -231,7 +231,7 @@ export default function SocialDistributionReadiness() {
             <div><p className="text-xs text-muted-foreground">Exact next setup step</p><p>{selected.setup}</p></div>
             <div><p className="text-xs text-muted-foreground">Risk control</p><p>{selected.risk}</p></div>
             <div className="rounded-lg border border-border p-3 text-xs text-muted-foreground">
-              Source chain: Social platform {"->"} OAuth/credential {"->"} Approval Queue {"->"} Draft/analytics workflow {"->"} Business Attention Centre {"->"} public posting only after creator approval.
+              Source chain: Social platform → OAuth/credential → Approval Queue → Draft/analytics workflow → Business Attention Centre → public posting only after creator approval.
             </div>
             <div className="flex flex-wrap gap-2">
               {selected.route && <Link to={selected.route}><Button variant="outline" size="sm">Open app page</Button></Link>}

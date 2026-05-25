@@ -321,7 +321,7 @@ export default function IntegrationCompletionCentre() {
               </div>
             )}
             <div className="rounded-lg border border-border/50 p-3 text-xs text-muted-foreground">
-              Source chain: Integration Card {"->"} Missing Credential/OAuth/Approval {"->"} Agent Blocked {"->"} Automation Blocked {"->"} Approval Queue {"->"} System Health {"->"} Business Attention Centre
+              Source chain: Integration Card → Missing Credential/OAuth/Approval → Agent Blocked → Automation Blocked → Approval Queue → System Health → Business Attention Centre
             </div>
             <div className="flex flex-wrap gap-2">
               <Button variant="outline" size="sm" onClick={() => setSelected(null)}><ArrowLeft className="w-4 h-4 mr-1" />Back</Button>
