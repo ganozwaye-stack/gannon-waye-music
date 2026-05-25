@@ -122,6 +122,8 @@ import GrowthEngine from '@/pages/admin/GrowthEngine';
 import Notifications from '@/pages/admin/Notifications';
 import ShippingRates from '@/pages/admin/ShippingRates';
 import TikTokAppReview from '@/pages/admin/TikTokAppReview';
+import TikTokReviewDemo from '@/pages/admin/TikTokReviewDemo';
+import TikTokCallback from '@/pages/TikTokCallback';
 import RevenueCommandCentre from '@/pages/admin/RevenueCommandCentre';
 import MusicCommandCentre from '@/pages/admin/MusicCommandCentre';
 import GanozMixBridge from '@/pages/admin/GanozMixBridge';
@@ -200,6 +202,7 @@ const AuthenticatedApp = () => {
       {/* Embed timer (no layout) */}
       <Route path="/embed-timer" element={<EmbedTimer />} />
       <Route path="/checkout-success" element={<CheckoutSuccess />} />
+      <Route path="/tiktok-callback" element={<TikTokCallback />} />
       <Route path="/gift-checklist" element={<GiftChecklistPage />} />
 
       {/* Admin routes */}
@@ -282,6 +285,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/notifications" element={<Notifications />} />
         <Route path="/admin/shipping-rates" element={<ShippingRates />} />
         <Route path="/admin/tiktok-review" element={<TikTokAppReview />} />
+        <Route path="/admin/tiktok-review-demo" element={<TikTokReviewDemo />} />
         <Route path="/admin/revenue-command" element={<RevenueCommandCentre />} />
         <Route path="/admin/music-command" element={<MusicCommandCentre />} />
         <Route path="/admin/ganozmix" element={<GanozMixBridge />} />
