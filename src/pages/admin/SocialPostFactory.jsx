@@ -31,8 +31,8 @@ const SPRINT_THEMES = [
   'Lyric teaser — most emotional line',
   'Countdown urgency — 5 days to go',
   'Personal message to supporters',
-  'Final push — release eve build-up',
-  'RELEASE DAY — Thank You is out now',
+  'Final push — release eve (June 4 studio/recording day)',
+  'RELEASE DAY — June 5: Thank You is out now',
 ];
 
 function CopyBtn({ text, label = 'Copy' }) {
@@ -178,7 +178,7 @@ Return JSON:
 
       // Auto-save to ContentCalendarPost + ApprovalQueue
       const RELEASE_DATE_STR = new Date('2026-06-05');
-      RELEASE_DATE_STR.setDate(RELEASE_DATE_STR.getDate() - (10 - parseInt(sprintDay)));
+      RELEASE_DATE_STR.setDate(RELEASE_DATE_STR.getDate() - (9 - parseInt(sprintDay))); // Day 10 = June 5
       const schedDate = RELEASE_DATE_STR.toISOString().split('T')[0];
 
       const post = await base44.entities.ContentCalendarPost.create({

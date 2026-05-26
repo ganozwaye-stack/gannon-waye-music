@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
     // Sprint plan: 10 days leading up to June 5
     const sprintDays = Array.from({ length: 10 }, (_, i) => {
       const d = new Date(RELEASE_DATE);
-      d.setDate(d.getDate() - (10 - i));
+      d.setDate(d.getDate() - (9 - i)); // Day 10 = June 5 (release day), Day 1 = May 27
       return {
         day: i + 1,
         date: d.toISOString().split('T')[0],
@@ -31,8 +31,8 @@ Deno.serve(async (req) => {
           'Lyric teaser — most emotional line',
           'Countdown urgency — 5 days to go',
           'Personal message to supporters',
-          'Final push — release eve build-up',
-          'RELEASE DAY — Thank You is out now'
+          'Final push — release eve (June 4 studio/recording day)',
+          'RELEASE DAY — June 5: Thank You is out now'
         ][i],
         platforms: i === 9
           ? ['tiktok', 'instagram_reels', 'instagram_stories', 'twitter_x']

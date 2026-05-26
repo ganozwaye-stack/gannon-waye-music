@@ -246,7 +246,7 @@ export default function ReleaseSprint() {
   // Sprint day metadata
   const sprintDays = useMemo(() => Array.from({ length: 10 }, (_, i) => {
     const d = new Date(RELEASE_DATE);
-    d.setDate(d.getDate() - (10 - i));
+    d.setDate(d.getDate() - (9 - i)); // Day 10 = June 5 (release day), Day 1 = May 27
     const dayPosts = postsByDay[i + 1] || [];
     const isPast = d < new Date();
     const isToday = d.toDateString() === new Date().toDateString();

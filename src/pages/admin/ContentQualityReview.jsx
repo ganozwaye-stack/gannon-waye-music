@@ -23,8 +23,8 @@ const SPRINT_THEMES = [
   'Lyric teaser',
   'Countdown urgency',
   'Personal message to supporters',
-  'Release eve final push',
-  'RELEASE DAY',
+  'Release eve (June 4 — studio day)',
+  'RELEASE DAY — June 5',
 ];
 
 function ScoreBar({ score }) {
