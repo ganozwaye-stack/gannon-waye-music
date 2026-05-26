@@ -97,9 +97,17 @@ export default function MetricoolApiSetup() {
               </div>
             ))}
           </div>
-          <div className="flex items-center gap-2 text-xs text-muted-foreground bg-amber-500/5 border border-amber-500/20 rounded-lg p-3">
-            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
-            <p>API requests use header <code className="font-mono text-primary">X-Mc-Auth: &lt;token&gt;</code> + <code className="font-mono text-primary">Content-Type: application/json</code>. Never put the token in frontend code.</p>
+          <div className="space-y-2 text-xs text-muted-foreground bg-amber-500/5 border border-amber-500/20 rounded-lg p-3">
+            <div className="flex items-start gap-2">
+              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <p><strong className="text-foreground">Auth rules (Metricool REST API):</strong></p>
+                <p>• Header: <code className="font-mono text-primary">X-Mc-Auth: &lt;userToken&gt;</code></p>
+                <p>• Header: <code className="font-mono text-primary">Content-Type: application/json</code></p>
+                <p>• Query params on every request: <code className="font-mono text-primary">?userId=...&blogId=...</code></p>
+                <p className="text-muted-foreground/60">Never put credentials in frontend code. All requests go through backend functions only.</p>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -126,7 +134,11 @@ export default function MetricoolApiSetup() {
               {result.api_status && (
                 <div className="grid grid-cols-2 gap-2 text-xs font-body">
                   <div><span className="text-muted-foreground">API Status: </span><span className="text-foreground">{result.api_status}</span></div>
-                  {result.api_error && <div><span className="text-muted-foreground">Error: </span><span className="text-red-400">{result.api_error}</span></div>}
+                  {result.profiles_returned !== null && result.profiles_returned !== undefined && (
+                    <div><span className="text-muted-foreground">Brands returned: </span><span className="text-green-400">{result.profiles_returned}</span></div>
+                  )}
+                  {result.endpoint_tested && <div className="col-span-2"><span className="text-muted-foreground">Endpoint tested: </span><code className="text-primary text-[10px]">{result.endpoint_tested}</code></div>}
+                  {result.api_error && <div className="col-span-2"><span className="text-muted-foreground">Error: </span><span className="text-red-400">{result.api_error}</span></div>}
                 </div>
               )}
               {result.secrets_present && (
@@ -165,11 +177,19 @@ export default function MetricoolApiSetup() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-muted-foreground">Auth header:</span>
-                <code className="text-primary font-mono">X-Mc-Auth: &lt;your_token&gt;</code>
+                <code className="text-primary font-mono">X-Mc-Auth: &lt;userToken&gt;</code>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-muted-foreground">User ID param:</span>
-                <code className="text-primary font-mono">user_id=&lt;METRICOOL_USER_ID&gt;</code>
+                <span className="text-muted-foreground">Query params:</span>
+                <code className="text-primary font-mono">?userId=...&blogId=...</code>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">Schedule endpoint:</span>
+                <code className="text-primary font-mono text-[10px]">POST /api/v2/scheduler/posts</code>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-muted-foreground">Normalize endpoint:</span>
+                <code className="text-primary font-mono text-[10px]">GET /api/actions/normalize/image/url?url=...</code>
               </div>
             </div>
           </div>
