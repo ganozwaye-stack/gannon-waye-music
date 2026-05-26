@@ -239,7 +239,7 @@ Return JSON:
               <Select value={sprintDay} onValueChange={setSprintDay}>
                 <SelectTrigger className="bg-secondary/50 border-border/40"><SelectValue /></SelectTrigger>
                 <SelectContent>
-                  {Array.from({ length: 10 }, (_, i) => (
+                  {Array.from({ length: 11 }, (_, i) => (
                     <SelectItem key={i + 1} value={String(i + 1)}>
                       Day {i + 1} — {SPRINT_THEMES[i].slice(0, 40)}...
                     </SelectItem>

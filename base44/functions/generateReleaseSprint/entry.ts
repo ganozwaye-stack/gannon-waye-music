@@ -15,15 +15,15 @@ Deno.serve(async (req) => {
     const now = new Date();
     const daysUntilRelease = Math.max(0, Math.ceil((RELEASE_DATE - now) / (1000 * 60 * 60 * 24)));
 
-    // Sprint plan: 10 days leading up to June 5
-    const sprintDays = Array.from({ length: 10 }, (_, i) => {
+    // Sprint plan: 11 days May 26 → June 5 (release day)
+    const sprintDays = Array.from({ length: 11 }, (_, i) => {
       const d = new Date(RELEASE_DATE);
-      d.setDate(d.getDate() - (9 - i)); // Day 10 = June 5 (release day), Day 1 = May 27
+      d.setDate(d.getDate() - (10 - i)); // Day 1 = May 26, Day 10 = June 4 (recording), Day 11 = June 5 (release)
       return {
         day: i + 1,
         date: d.toISOString().split('T')[0],
         theme: [
-          'Emotional reveal — the gratitude angle',
+          'Kickoff — emotional reveal, the gratitude angle',
           'Raw story — what the song is really about',
           'Behind the scenes — writing/studio process',
           'Merch + CD pre-order CTA',
@@ -31,7 +31,8 @@ Deno.serve(async (req) => {
           'Lyric teaser — most emotional line',
           'Countdown urgency — 5 days to go',
           'Personal message to supporters',
-          'Final push — release eve (June 4 studio/recording day)',
+          'Final push — T-minus 2 days',
+          'June 4 — studio/recording day, release eve content',
           'RELEASE DAY — June 5: Thank You is out now'
         ][i],
         platforms: i === 9

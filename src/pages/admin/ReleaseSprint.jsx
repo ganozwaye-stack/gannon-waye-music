@@ -35,7 +35,7 @@ const STATUS_META = {
 };
 
 const SPRINT_THEMES = [
-  'Emotional reveal — the gratitude angle',
+  'Kickoff — emotional reveal, the gratitude angle',
   'Raw story — what the song is really about',
   'Behind the scenes — writing/studio process',
   'Merch + CD pre-order CTA',
@@ -43,8 +43,9 @@ const SPRINT_THEMES = [
   'Lyric teaser — most emotional line',
   'Countdown urgency — 5 days to go',
   'Personal message to supporters',
-  'Final push — release eve build-up',
-  'RELEASE DAY — Thank You is out now',
+  'Final push — T-minus 2 days',
+  'June 4 — studio/recording day, release eve content',
+  'RELEASE DAY — June 5: Thank You is out now',
 ];
 
 function CopyBtn({ text }) {
@@ -243,10 +244,10 @@ export default function ReleaseSprint() {
     return map;
   }, [posts]);
 
-  // Sprint day metadata
-  const sprintDays = useMemo(() => Array.from({ length: 10 }, (_, i) => {
+  // Sprint day metadata — 11 days: Day 1 = May 26, Day 10 = June 4 (recording), Day 11 = June 5 (release)
+  const sprintDays = useMemo(() => Array.from({ length: 11 }, (_, i) => {
     const d = new Date(RELEASE_DATE);
-    d.setDate(d.getDate() - (9 - i)); // Day 10 = June 5 (release day), Day 1 = May 27
+    d.setDate(d.getDate() - (10 - i)); // Day 1 = May 26, Day 11 = June 5
     const dayPosts = postsByDay[i + 1] || [];
     const isPast = d < new Date();
     const isToday = d.toDateString() === new Date().toDateString();
@@ -262,7 +263,8 @@ export default function ReleaseSprint() {
       posted: dayPosts.filter(p => p.status === 'posted').length,
       isPast,
       isToday,
-      isReleaseDay: i === 9,
+      isRecordingDay: i === 9,
+      isReleaseDay: i === 10,
     };
   }), [postsByDay]);
 
@@ -279,7 +281,7 @@ export default function ReleaseSprint() {
           <div>
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">June 5, 2026 Release</p>
             <h1 className="font-display text-3xl font-bold gradient-gold-text">Release Sprint Command</h1>
-            <p className="font-body text-sm text-muted-foreground mt-1">10-day Metricool social content engine · All posts require approval before scheduling</p>
+            <p className="font-body text-sm text-muted-foreground mt-1">11-day sprint: May 26 → June 5 · June 4 = recording day · June 5 = Release Day</p>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <div className={`flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-body font-semibold ${daysLeft <= 7 ? 'border-yellow-500/60 bg-yellow-500/10 text-yellow-400' : 'border-primary/40 bg-primary/10 text-primary'}`}>
@@ -352,7 +354,7 @@ export default function ReleaseSprint() {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-primary" /> 10-Day Sprint Timeline
+            <Calendar className="w-4 h-4 text-primary" /> 11-Day Sprint Timeline (May 26 → June 5)
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
@@ -371,6 +373,7 @@ export default function ReleaseSprint() {
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="font-body text-sm font-semibold text-foreground">{day.label}</span>
                       {day.isToday && <Badge className="bg-primary/20 text-primary border-0 text-[9px] tracking-wider uppercase">Today</Badge>}
+                      {day.isRecordingDay && <Badge className="bg-blue-500/20 text-blue-400 border-0 text-[9px] tracking-wider uppercase">🎙 Recording Day</Badge>}
                       {day.isReleaseDay && <Badge className="bg-yellow-500/20 text-yellow-400 border-0 text-[9px] tracking-wider uppercase">🎵 Release Day</Badge>}
                     </div>
                     <p className="font-body text-xs text-muted-foreground truncate mt-0.5">{day.theme}</p>
