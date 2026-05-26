@@ -17,6 +17,8 @@ export default function TikTokConnectionCard({ onStatusChange }) {
   const [lastError, setLastError] = useState(null);
   const [lastAttempt, setLastAttempt] = useState(null);
   const [showDiagnostics, setShowDiagnostics] = useState(false);
+  const [diagData, setDiagData] = useState(null);
+  const [lastLogId, setLastLogId] = useState(null);
 
   // ── 1. Verify admin session first ────────────────────────────────────────
   useEffect(() => {
@@ -357,22 +359,65 @@ export default function TikTokConnectionCard({ onStatusChange }) {
           {/* Diagnostics panel */}
           {showDiagnostics && (
             <div className="border border-border/50 rounded-lg p-3 bg-secondary/20 space-y-2 text-xs font-mono">
-              <p className="text-muted-foreground font-sans font-semibold text-[11px] uppercase tracking-wider mb-2">Diagnostics</p>
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-muted-foreground font-sans font-semibold text-[11px] uppercase tracking-wider">Diagnostics</p>
+                <button
+                  onClick={async () => {
+                    try {
+                      const r = await base44.functions.invoke('tiktokOAuth', { action: 'get_diagnostics' });
+                      setDiagData(r.data);
+                    } catch (_) {}
+                  }}
+                  className="font-sans text-[10px] text-primary hover:underline"
+                >Refresh from backend</button>
+              </div>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
                 <span className="text-muted-foreground">Admin session detected</span>
                 <span className={adminInfo?.hasSession ? 'text-green-400' : 'text-red-400'}>{adminInfo?.hasSession ? 'yes' : 'no'}</span>
-                <span className="text-muted-foreground">Role</span>
+                <span className="text-muted-foreground">User role detected</span>
                 <span className={adminInfo?.isAdmin ? 'text-green-400' : 'text-amber-400'}>{adminInfo?.role || 'unknown'}</span>
-                <span className="text-muted-foreground">TikTok OAuth function</span>
+                <span className="text-muted-foreground">OAuth function reachable</span>
                 <span className="text-blue-400">tiktokOAuth</span>
+                {diagData && (<>
+                  <span className="text-muted-foreground">OAuth endpoint</span>
+                  <span className="text-foreground/70 break-all">{diagData.oauth_endpoint}</span>
+                  <span className="text-muted-foreground">Client key present</span>
+                  <span className={diagData.client_key_present ? 'text-green-400' : 'text-red-400'}>{diagData.client_key_present ? 'yes' : 'NO — missing secret'}</span>
+                  <span className="text-muted-foreground">Client key length</span>
+                  <span className="text-foreground/70">{diagData.client_key_length} chars</span>
+                  <span className="text-muted-foreground">Client key prefix (3 chars)</span>
+                  <span className="text-amber-300 font-mono">{diagData.client_key_prefix}</span>
+                  <span className="text-muted-foreground">Client secret present</span>
+                  <span className={diagData.client_secret_present ? 'text-green-400' : 'text-red-400'}>{diagData.client_secret_present ? 'yes' : 'NO — missing secret'}</span>
+                  <span className="text-muted-foreground">Redirect URI</span>
+                  <span className="text-foreground/70 break-all">{diagData.redirect_uri}</span>
+                  <span className="text-muted-foreground">Scopes requested</span>
+                  <span className="text-foreground/70">{diagData.scopes}</span>
+                  <span className="text-muted-foreground">Response type</span>
+                  <span className="text-foreground/70">{diagData.response_type}</span>
+                  <span className="text-muted-foreground">State present</span>
+                  <span className="text-green-400">{diagData.state_generated}</span>
+                </>)}
                 <span className="text-muted-foreground">Last OAuth error</span>
                 <span className={lastError ? 'text-red-400' : 'text-muted-foreground/50'}>{lastError || 'none'}</span>
-                <span className="text-muted-foreground">Last attempt</span>
+                <span className="text-muted-foreground">Last TikTok Log ID</span>
+                <span className="text-muted-foreground/70">
+                  <input
+                    className="bg-transparent border-none outline-none text-amber-300 font-mono w-full placeholder:text-muted-foreground/30"
+                    placeholder="paste TikTok log ID here"
+                    value={lastLogId || ''}
+                    onChange={e => setLastLogId(e.target.value)}
+                  />
+                </span>
+                <span className="text-muted-foreground">Last OAuth attempt</span>
                 <span className="text-muted-foreground/70">{lastAttempt ? new Date(lastAttempt).toLocaleTimeString() : 'none'}</span>
               </div>
-              {lastError && (lastError.includes('401') || lastError.toLowerCase().includes('unauthorized')) && (
+              {!diagData && (
+                <p className="font-sans text-[10px] text-muted-foreground/50 mt-1">Click "Refresh from backend" to load live config diagnostics.</p>
+              )}
+              {lastError && (
                 <div className="mt-2 p-2 bg-red-500/10 border border-red-500/20 rounded text-red-300 font-sans text-xs">
-                  <strong>Next action:</strong> Refresh the page and log in again. If the issue persists, check that your Base44 session cookie is active on gannonwaye.com.
+                  <strong>client_key error from TikTok?</strong> The TIKTOK_CLIENT_KEY secret must exactly match the "Client key" shown in TikTok Developer Portal → Your App → Credentials tab. It is NOT the Client Secret. Update the secret in Base44 → Settings → Secrets.
                 </div>
               )}
             </div>

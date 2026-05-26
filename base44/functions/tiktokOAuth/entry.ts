@@ -39,6 +39,26 @@ Deno.serve(async (req) => {
   const CLIENT_SECRET = Deno.env.get('TIKTOK_CLIENT_SECRET') || '';
   const REDIRECT_URI = 'https://gannonwaye.com/tiktok-callback';
 
+  // ── SAFE DIAGNOSTICS (no secrets exposed) ────────────────────────────────
+  if (action === 'get_diagnostics') {
+    const ck = Deno.env.get('TIKTOK_CLIENT_KEY') || '';
+    const cs = Deno.env.get('TIKTOK_CLIENT_SECRET') || '';
+    const SCOPES = 'user.info.basic,video.upload';
+    const REDIRECT = 'https://gannonwaye.com/tiktok-callback';
+    return Response.json({
+      client_key_present: ck.length > 0,
+      client_key_length: ck.length,
+      client_key_prefix: ck.length >= 3 ? ck.slice(0, 3) : '(too short)',
+      client_secret_present: cs.length > 0,
+      oauth_endpoint: 'https://www.tiktok.com/v2/auth/authorize/',
+      redirect_uri: REDIRECT,
+      scopes: SCOPES,
+      response_type: 'code',
+      state_generated: 'yes (uuid per request)',
+      sample_url_shape: `https://www.tiktok.com/v2/auth/authorize/?client_key=<key>&response_type=code&scope=${encodeURIComponent(SCOPES)}&redirect_uri=${encodeURIComponent(REDIRECT)}&state=<uuid>`,
+    });
+  }
+
   // ── GET AUTH URL ──────────────────────────────────────────────────────────
   if (action === 'get_auth_url') {
     // SUBMISSION SCOPES: Login Kit (user.info.basic) + Content Posting API (video.upload) ONLY
