@@ -191,6 +191,7 @@ import ContentQualityReview from '@/pages/admin/ContentQualityReview';
 import SocialScheduleQueue from '@/pages/admin/SocialScheduleQueue';
 import ContentPerformance from '@/pages/admin/ContentPerformance';
 import MetricoolCommand from '@/pages/admin/MetricoolCommand';
+import SystemBlueprint from '@/pages/admin/SystemBlueprint';
 import MetricoolApiSetup from '@/pages/admin/MetricoolApiSetup';
 import MetricoolMediaPipeline from '@/pages/admin/MetricoolMediaPipeline';
 import MetricoolSchedulerQueue from '@/pages/admin/MetricoolSchedulerQueue';
@@ -433,6 +434,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/social-schedule-queue" element={<SocialScheduleQueue />} />
         <Route path="/admin/content-performance" element={<ContentPerformance />} />
         <Route path="/admin/metricool-command" element={<MetricoolCommand />} />
+        <Route path="/admin/system-blueprint" element={<SystemBlueprint />} />
         <Route path="/admin/metricool-api-setup" element={<MetricoolApiSetup />} />
         <Route path="/admin/metricool-media-pipeline" element={<MetricoolMediaPipeline />} />
         <Route path="/admin/metricool-scheduler-queue" element={<MetricoolSchedulerQueue />} />

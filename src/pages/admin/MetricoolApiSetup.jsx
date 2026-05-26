@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -30,6 +30,12 @@ export default function MetricoolApiSetup() {
   const { toast } = useToast();
   const [testing, setTesting] = useState(false);
   const [result, setResult] = useState(null);
+
+  // Auto-test on mount
+  useEffect(() => {
+    runTest();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const runTest = async () => {
     setTesting(true);

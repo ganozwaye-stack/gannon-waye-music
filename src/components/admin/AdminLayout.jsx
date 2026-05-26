@@ -178,6 +178,7 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Site Settings', path: '/admin/settings', icon: Settings },
       // alphabetical
+      { label: 'System Blueprint', path: '/admin/system-blueprint', icon: Database },
       { label: 'Blueprint', path: '/admin/blueprint', icon: Book },
       { label: 'Blueprint Builder', path: '/admin/blueprint-builder', icon: Book },
       { label: 'Client Installs', path: '/admin/client-installs', icon: Users },

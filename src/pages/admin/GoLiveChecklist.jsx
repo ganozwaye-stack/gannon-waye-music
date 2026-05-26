@@ -14,8 +14,8 @@ const CHECKLIST = [
     items: [
       { id: 'stripe_live_keys', label: 'Stripe live keys set (sk_live / pk_live)', status: 'done', note: 'Updated 17 May 2026' },
       { id: 'stripe_test_charge', label: 'Test $1 charge created successfully via backend', status: 'done', note: 'pi_3TXuX7ClJA0hGwhH1Fx2DraS — verified' },
-      { id: 'stripe_webhook', label: 'Stripe webhook endpoint registered', status: 'action', note: 'Register at dashboard.stripe.com/webhooks → onNewOrderAutomation', link: 'https://dashboard.stripe.com/webhooks' },
-      { id: 'stripe_webhook_secret', label: 'STRIPE_WEBHOOK_SECRET added to environment', status: 'action', note: 'Get from Stripe after registering webhook' },
+      { id: 'stripe_webhook', label: 'Stripe webhook endpoint registered', status: 'done', note: 'Registered: gannonwaye-base44-stripe-router → stripeIntelligenceRouter — 27 events' },
+      { id: 'stripe_webhook_secret', label: 'STRIPE_WEBHOOK_SECRET added to environment', status: 'done', note: 'whsec_kItKL0oLd9sVnP5FgdY93vBSxdbZR9fi — set 26 May 2026' },
       { id: 'stripe_tax', label: 'Tax settings reviewed (GST for AU)', status: 'review', note: 'Check Stripe Tax settings or handle manually' },
       { id: 'promo_codes_tested', label: 'Promo code validation tested live', status: 'todo', note: 'Test LAUNCH15 on store' },
     ],
