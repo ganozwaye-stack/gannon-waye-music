@@ -76,30 +76,20 @@ Deno.serve(async (req) => {
         }
       }
       
-      // Fetch missing product categories using service role
+      // Fetch missing product categories using service role (one at a time)
       if (itemsNeedingCategory.length > 0) {
-        const products = await base44.asServiceRole.entities.MerchProduct.filter({
-          id: { $in: itemsNeedingCategory }
-        });
-        
-        const productCategoryMap = {};
-        if (products && products.length > 0) {
-          for (const p of products) {
-            productCategoryMap[p.id] = (p.category || 'other').toLowerCase();
-          }
-        }
-        
-        // Add resolved categories from fetched products
         for (const itemId of itemsNeedingCategory) {
-          if (productCategoryMap[itemId]) {
-            resolvedCategories.push(productCategoryMap[itemId]);
-          } else {
-            // Product not found - fail safe for restricted codes
+          try {
+            const product = await base44.asServiceRole.entities.MerchProduct.get(itemId);
+            if (product && product.category) {
+              resolvedCategories.push(product.category.toLowerCase());
+            } else if (promo.excluded_categories && promo.excluded_categories.length > 0) {
+              return Response.json({ valid: false, reason: 'Unable to verify product eligibility for this code' });
+            }
+          } catch {
+            // Product fetch failed — fail safe for restricted codes
             if (promo.excluded_categories && promo.excluded_categories.length > 0) {
-              return Response.json({
-                valid: false,
-                reason: 'Unable to verify product eligibility for this code'
-              });
+              return Response.json({ valid: false, reason: 'Unable to verify product eligibility for this code' });
             }
           }
         }

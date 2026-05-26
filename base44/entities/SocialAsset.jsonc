@@ -1,0 +1,100 @@
+{
+  "name": "SocialAsset",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Asset name/filename"
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": [
+        "video",
+        "image",
+        "audio",
+        "thumbnail",
+        "overlay",
+        "story_template",
+        "b_roll",
+        "other"
+      ],
+      "default": "video"
+    },
+    "platform_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Platforms this asset works for e.g. ['tiktok','instagram_reels']"
+    },
+    "campaign": {
+      "type": "string",
+      "default": "thank_you_june5_sprint"
+    },
+    "sprint_day": {
+      "type": "number"
+    },
+    "content_type_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "e.g. ['hook','b_roll','outro']"
+    },
+    "file_url": {
+      "type": "string"
+    },
+    "thumbnail_url": {
+      "type": "string"
+    },
+    "duration_seconds": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "raw",
+        "ready",
+        "used",
+        "archived"
+      ],
+      "default": "raw"
+    },
+    "quality_score": {
+      "type": "number",
+      "description": "1-10 AI quality rating"
+    },
+    "quality_notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "asset_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -474,6 +474,34 @@ export default function ReleaseSprint() {
         </CardContent>
       </Card>
 
+      {/* Sprint Sub-Tool Nav */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm flex items-center gap-2">
+            <Zap className="w-4 h-4 text-primary" /> Sprint Tools
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2">
+            {[
+              { label: 'Asset Library', path: '/admin/social-asset-library', icon: Film, desc: 'Upload & tag footage' },
+              { label: 'Post Factory', path: '/admin/social-post-factory', icon: Zap, desc: 'Generate individual briefs' },
+              { label: 'Quality Review', path: '/admin/content-quality-review', icon: Eye, desc: 'AI quality scoring' },
+              { label: 'Schedule Queue', path: '/admin/social-schedule-queue', icon: Calendar, desc: 'Copy to Metricool' },
+              { label: 'Performance', path: '/admin/content-performance', icon: Send, desc: 'Log metrics + insights' },
+            ].map(tool => (
+              <Link key={tool.path} to={tool.path}>
+                <div className="border border-border/50 rounded-xl p-3 hover:border-primary/40 hover:bg-secondary/30 transition-all cursor-pointer h-full">
+                  <tool.icon className="w-4 h-4 text-primary mb-2" />
+                  <p className="font-body text-xs font-semibold text-foreground">{tool.label}</p>
+                  <p className="font-body text-[10px] text-muted-foreground mt-0.5">{tool.desc}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Post detail modal */}
       {selectedPost && (
         <PostDetailModal

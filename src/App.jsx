@@ -185,6 +185,11 @@ import PromoCodeAudit from '@/pages/admin/PromoCodeAudit';
 import AICostControl from '@/pages/admin/AICostControl';
 import ReleasePromoCommand from '@/pages/admin/ReleasePromoCommand';
 import ReleaseSprint from '@/pages/admin/ReleaseSprint';
+import SocialAssetLibrary from '@/pages/admin/SocialAssetLibrary';
+import SocialPostFactory from '@/pages/admin/SocialPostFactory';
+import ContentQualityReview from '@/pages/admin/ContentQualityReview';
+import SocialScheduleQueue from '@/pages/admin/SocialScheduleQueue';
+import ContentPerformance from '@/pages/admin/ContentPerformance';
 
 
 const AuthenticatedApp = () => {
@@ -417,6 +422,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/operation-registry" element={<OperationRegistry />} />
         <Route path="/admin/release-promo-command" element={<ReleasePromoCommand />} />
         <Route path="/admin/release-sprint" element={<ReleaseSprint />} />
+        <Route path="/admin/social-asset-library" element={<SocialAssetLibrary />} />
+        <Route path="/admin/social-post-factory" element={<SocialPostFactory />} />
+        <Route path="/admin/content-quality-review" element={<ContentQualityReview />} />
+        <Route path="/admin/social-schedule-queue" element={<SocialScheduleQueue />} />
+        <Route path="/admin/content-performance" element={<ContentPerformance />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

@@ -61,6 +61,12 @@ const NAV_SECTIONS = [
   {
     title: 'Social',
     items: [
+      { label: '🎵 Release Sprint', path: '/admin/release-sprint', icon: Zap },
+      { label: 'Asset Library', path: '/admin/social-asset-library', icon: Palette },
+      { label: 'Post Factory', path: '/admin/social-post-factory', icon: Megaphone },
+      { label: 'Quality Review', path: '/admin/content-quality-review', icon: Eye },
+      { label: 'Schedule Queue', path: '/admin/social-schedule-queue', icon: Calendar },
+      { label: 'Content Performance', path: '/admin/content-performance', icon: TrendingUp },
       { label: 'TikTok Platform Review', path: '/tiktok-platform-review', icon: Zap },
       { label: 'TikTok App Review (Admin)', path: '/admin/tiktok-review', icon: Zap },
       { label: 'TikTok Screen Guide', path: '/admin/tiktok-screen-guide', icon: Video },
