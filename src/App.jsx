@@ -196,6 +196,8 @@ import MetricoolApiSetup from '@/pages/admin/MetricoolApiSetup';
 import MetricoolMediaPipeline from '@/pages/admin/MetricoolMediaPipeline';
 import MetricoolSchedulerQueue from '@/pages/admin/MetricoolSchedulerQueue';
 import MetricoolPerformanceIntelligence from '@/pages/admin/MetricoolPerformanceIntelligence';
+import AgentRevenueStatus from '@/pages/admin/AgentRevenueStatus';
+import FinalSystemStatus from '@/pages/admin/FinalSystemStatus';
 
 
 const AuthenticatedApp = () => {
@@ -439,6 +441,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/metricool-media-pipeline" element={<MetricoolMediaPipeline />} />
         <Route path="/admin/metricool-scheduler-queue" element={<MetricoolSchedulerQueue />} />
         <Route path="/admin/metricool-performance-intelligence" element={<MetricoolPerformanceIntelligence />} />
+        <Route path="/admin/agent-revenue-status" element={<AgentRevenueStatus />} />
+        <Route path="/admin/final-system-status" element={<FinalSystemStatus />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

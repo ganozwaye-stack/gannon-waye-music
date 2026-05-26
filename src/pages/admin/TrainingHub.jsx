@@ -110,6 +110,7 @@ const MODULES = [
       { label: 'Autonomous Ops', path: '/admin/autonomous-ops', desc: 'Automation loops, scheduled agent tasks, self-healing status', icon: Zap, level: 'advanced' },
       { label: 'Knowledge Vault', path: '/admin/knowledge-vault', desc: 'Agent memory store — insights, intelligence, stored context', icon: BookOpen, level: 'advanced' },
       { label: 'Revenue Actions', path: '/admin/revenue-actions', desc: 'Agent revenue proposals — review and approve income-generating actions', icon: DollarSign, level: 'essential' },
+      { label: 'Agent Revenue Status', path: '/admin/agent-revenue-status', desc: 'Live agent activity dashboard — runs, proposals created, data sources, improvement plan', icon: Brain, level: 'standard' },
     ],
   },
   {
@@ -136,6 +137,8 @@ const MODULES = [
       { label: 'Developer Handoff', path: '/admin/developer-handoff', desc: 'Full docs, Cursor/Codex/Claude task packs, known blockers', icon: BookOpen, level: 'advanced' },
       { label: 'Playwright Test Centre', path: '/admin/playwright-test-centre', desc: 'Download browser test suite — run against gannonwaye.com', icon: Play, level: 'advanced' },
       { label: 'Site Function Audit', path: '/admin/site-function-audit', desc: 'Audit all admin functions — clickability, data, dead-ends', icon: Eye, level: 'advanced' },
+      { label: 'Final System Status', path: '/admin/final-system-status', desc: 'Accurate completion status — all live tests, blockers, exact next steps', icon: CheckCircle2, level: 'essential' },
+      { label: 'Agent Revenue Status', path: '/admin/agent-revenue-status', desc: 'Live agent dashboard — runs, proposals, data sources, improvement plan', icon: Brain, level: 'standard' },
     ],
   },
 ];
@@ -147,7 +150,8 @@ const LEVEL_CONFIG = {
 };
 
 const SECURITY_ALERTS = [
-  { label: '🔴 ROTATE Stripe webhook secret', desc: 'Was exposed in AI output 26 May 2026. Go to dashboard.stripe.com/webhooks → roll signing secret → paste NEW value into Base44 Secrets only.', link: 'https://dashboard.stripe.com/webhooks', urgent: true },
+  { label: '🔴 ROTATE Stripe webhook secret — STATUS: needs rotation', desc: 'Previous value was exposed 26 May 2026. Go to dashboard.stripe.com/webhooks → roll signing secret → paste NEW value into Base44 Secrets only. Do not paste into chat.', link: 'https://dashboard.stripe.com/webhooks', urgent: true },
+  { label: '🔴 Training Videos — NOT RECORDED', desc: 'Written modules exist (50+). No screen-recorded videos exist. Record using scripts at /admin/tiktok-recording-studio. Mark as done here once recordings are complete.', link: '/admin/tiktok-recording-studio', urgent: true },
   { label: '⚠ Check TikTok client_key for leading space', desc: 'TIKTOK_CLIENT_KEY may have a leading space causing OAuth failures. Re-enter in Base44 Secrets without spaces.', link: '/admin/api-setup', urgent: false },
   { label: '⚠ Rotate TIKTOK_CLIENT_SECRET', desc: 'May have been visible in prior sessions. Rotate in TikTok developer portal and re-enter in Base44 Secrets.', link: 'https://developers.tiktok.com', urgent: false },
 ];
