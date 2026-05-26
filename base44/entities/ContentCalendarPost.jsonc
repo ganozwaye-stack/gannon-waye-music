@@ -1,0 +1,128 @@
+{
+  "name": "ContentCalendarPost",
+  "type": "object",
+  "properties": {
+    "campaign": {
+      "type": "string",
+      "description": "Campaign name e.g. 'thank_you_june5_sprint'"
+    },
+    "sprint_day": {
+      "type": "number",
+      "description": "Day number in sprint (1-10)"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Planned posting date"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "tiktok",
+        "instagram_reels",
+        "instagram_feed",
+        "instagram_stories",
+        "facebook",
+        "twitter_x",
+        "youtube_shorts"
+      ],
+      "default": "tiktok"
+    },
+    "content_type": {
+      "type": "string",
+      "enum": [
+        "video_hook",
+        "story",
+        "community_cta",
+        "merch_cta",
+        "countdown",
+        "release_day",
+        "behind_scenes",
+        "lyric_reveal",
+        "fan_engagement"
+      ],
+      "default": "video_hook"
+    },
+    "hook": {
+      "type": "string",
+      "description": "First 1-3 seconds hook"
+    },
+    "caption": {
+      "type": "string",
+      "description": "Full post caption"
+    },
+    "hashtags": {
+      "type": "string"
+    },
+    "cta": {
+      "type": "string"
+    },
+    "shot_list": {
+      "type": "string"
+    },
+    "on_screen_text": {
+      "type": "string"
+    },
+    "edit_rhythm": {
+      "type": "string"
+    },
+    "broll_ideas": {
+      "type": "string"
+    },
+    "content_notes": {
+      "type": "string"
+    },
+    "metricool_export": {
+      "type": "string",
+      "description": "Formatted text ready for Metricool copy-paste"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending_approval",
+        "approved",
+        "scheduled",
+        "posted",
+        "rejected"
+      ],
+      "default": "draft"
+    },
+    "approval_id": {
+      "type": "string"
+    },
+    "source_chain": {
+      "type": "string"
+    },
+    "generated_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "campaign",
+    "platform",
+    "content_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

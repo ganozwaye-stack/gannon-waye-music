@@ -19,7 +19,7 @@ function CountdownBadge() {
   return (
     <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-body font-semibold ${urgent ? 'border-yellow-500/60 bg-yellow-500/10 text-yellow-400' : 'border-primary/40 bg-primary/10 text-primary'}`}>
       <Calendar className="w-4 h-4" />
-      <span>{days} days until "Thank You" releases — June 10, 2026</span>
+      <span>{days} days until "Thank You" releases — June 5, 2026</span>
       {urgent && <span className="animate-pulse">⚡</span>}
     </div>
   );
@@ -34,6 +34,7 @@ const AGENTS = [
   { name: 'Social Intelligence', icon: TrendingUp, color: 'text-blue-400', desc: 'Viral trends & creator gaps', path: '/admin/social-intelligence' },
   { name: 'Growth Engine', icon: Radio, color: 'text-purple-400', desc: 'Audience & playlist growth', path: '/admin/growth-engine' },
   { name: 'Content Automate', icon: Share2, color: 'text-cyan-400', desc: 'Social post automation', path: '/admin/content-automate' },
+  { name: 'Release Sprint', icon: Calendar, color: 'text-yellow-400', desc: '10-day Metricool content engine', path: '/admin/release-sprint' },
 ];
 
 export default function MusicCommandCentre() {

@@ -20,10 +20,7 @@ export default function ContentAutomate() {
 
   const { data: approvals = [] } = useQuery({
     queryKey: ['pending-approvals-social'],
-    queryFn: () => base44.entities.ApprovalQueue.filter({ 
-      status: 'pending', 
-      risk_type: { $in: ['publishing'] }
-    }, '-created_date', 5),
+    queryFn: () => base44.entities.ApprovalQueue.filter({ status: 'pending' }, '-created_date', 5),
     refetchInterval: 30000,
   });
 

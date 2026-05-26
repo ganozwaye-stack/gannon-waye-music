@@ -184,6 +184,7 @@ import VoiceInputTestPage from '@/pages/admin/VoiceInputTestPage';
 import PromoCodeAudit from '@/pages/admin/PromoCodeAudit';
 import AICostControl from '@/pages/admin/AICostControl';
 import ReleasePromoCommand from '@/pages/admin/ReleasePromoCommand';
+import ReleaseSprint from '@/pages/admin/ReleaseSprint';
 
 
 const AuthenticatedApp = () => {
@@ -415,6 +416,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/ai-cost-control" element={<AICostControl />} />
         <Route path="/admin/operation-registry" element={<OperationRegistry />} />
         <Route path="/admin/release-promo-command" element={<ReleasePromoCommand />} />
+        <Route path="/admin/release-sprint" element={<ReleaseSprint />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
