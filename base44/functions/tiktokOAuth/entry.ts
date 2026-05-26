@@ -35,8 +35,10 @@ Deno.serve(async (req) => {
   console.log('[tiktokOAuth] user role: admin — proceeding');
   console.log('[tiktokOAuth] action:', action);
 
-  const CLIENT_KEY = Deno.env.get('TIKTOK_CLIENT_KEY') || '';
-  const CLIENT_SECRET = Deno.env.get('TIKTOK_CLIENT_SECRET') || '';
+  // Trim leading/trailing whitespace from secrets — a leading space in TIKTOK_CLIENT_KEY
+  // will cause invalid_client_key errors in the OAuth URL and token exchange.
+  const CLIENT_KEY = (Deno.env.get('TIKTOK_CLIENT_KEY') || '').trim();
+  const CLIENT_SECRET = (Deno.env.get('TIKTOK_CLIENT_SECRET') || '').trim();
   const REDIRECT_URI = 'https://gannonwaye.com/tiktok-callback';
 
   // ── SAFE DIAGNOSTICS (no secrets exposed) ────────────────────────────────

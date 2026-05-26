@@ -244,8 +244,8 @@ All functions use: import { createClientFromRequest } from 'npm:@base44/sdk@0.8.
 ## Currently Set (values hidden)
 - STRIPE_PUBLISHABLE_KEY ✅
 - STRIPE_SECRET_KEY ✅
-- STRIPE_WEBHOOK_SECRET ✅
-- TIKTOK_CLIENT_KEY ✅
+- STRIPE_WEBHOOK_SECRET ✅ (⚠ ROTATE REQUIRED — was exposed in AI output on 26 May 2026. Rotate at dashboard.stripe.com/webhooks. Present = confirmed, value must be rotated.)
+- TIKTOK_CLIENT_KEY ✅ (⚠ Check for leading space — if OAuth fails, re-enter key without spaces)
 - TIKTOK_CLIENT_SECRET ✅ (ROTATE THIS — may be exposed in prior sessions)
 - GOOGLE_SHEET_ID ✅
 

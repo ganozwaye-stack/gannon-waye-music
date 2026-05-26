@@ -15,9 +15,9 @@ const CHECKLIST = [
       { id: 'stripe_live_keys', label: 'Stripe live keys set (sk_live / pk_live)', status: 'done', note: 'Updated 17 May 2026' },
       { id: 'stripe_test_charge', label: 'Test $1 charge created successfully via backend', status: 'done', note: 'pi_3TXuX7ClJA0hGwhH1Fx2DraS — verified' },
       { id: 'stripe_webhook', label: 'Stripe webhook endpoint registered', status: 'done', note: 'Registered: gannonwaye-base44-stripe-router → stripeIntelligenceRouter — 27 events' },
-      { id: 'stripe_webhook_secret', label: 'STRIPE_WEBHOOK_SECRET added to environment', status: 'done', note: 'whsec_kItKL0oLd9sVnP5FgdY93vBSxdbZR9fi — set 26 May 2026' },
+      { id: 'stripe_webhook_secret', label: 'STRIPE_WEBHOOK_SECRET added to environment', status: 'action', note: '⚠ ROTATE REQUIRED — previous secret was exposed in AI output. Go to dashboard.stripe.com/webhooks → roll signing secret → paste NEW value into Base44 Secrets only. Never paste into chat.' },
       { id: 'stripe_tax', label: 'Tax settings reviewed (GST for AU)', status: 'review', note: 'Check Stripe Tax settings or handle manually' },
-      { id: 'promo_codes_tested', label: 'Promo code validation tested live', status: 'todo', note: 'Test LAUNCH15 on store' },
+      { id: 'promo_codes_tested', label: 'Promo code validation tested live', status: 'done', note: 'LAUNCH15 (15% off) and THANKYOU10 (10% off) tested ✓ · FAMILY100 (100%) is INACTIVE — must not be activated without approved_emails set' },
     ],
   },
   {
@@ -53,7 +53,7 @@ const CHECKLIST = [
       { id: 'ssl_cert', label: 'SSL certificate active (HTTPS)', status: 'review', note: 'Check in Base44 → Custom Domains' },
       { id: 'meta_tags', label: 'OG / social share tags set in index.html', status: 'todo', note: 'Add title, description, og:image' },
       { id: 'privacy_terms', label: 'Privacy Policy and Terms pages complete', status: 'review', note: 'At /privacy-policy and /terms-of-service' },
-      { id: 'site_health', label: 'Site health check passes all tests', status: 'todo', note: 'Run Admin → Site Health Check' },
+      { id: 'site_health', label: 'Site health check passes all tests', status: 'done', note: 'Health score 100/100 ✓ — 6 entities OK, 9 promo codes, 7 subscribers, 6 products, 2 orders — 26 May 2026' },
     ],
   },
   {
