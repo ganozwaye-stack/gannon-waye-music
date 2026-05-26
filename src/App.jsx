@@ -190,6 +190,11 @@ import SocialPostFactory from '@/pages/admin/SocialPostFactory';
 import ContentQualityReview from '@/pages/admin/ContentQualityReview';
 import SocialScheduleQueue from '@/pages/admin/SocialScheduleQueue';
 import ContentPerformance from '@/pages/admin/ContentPerformance';
+import MetricoolCommand from '@/pages/admin/MetricoolCommand';
+import MetricoolApiSetup from '@/pages/admin/MetricoolApiSetup';
+import MetricoolMediaPipeline from '@/pages/admin/MetricoolMediaPipeline';
+import MetricoolSchedulerQueue from '@/pages/admin/MetricoolSchedulerQueue';
+import MetricoolPerformanceIntelligence from '@/pages/admin/MetricoolPerformanceIntelligence';
 
 
 const AuthenticatedApp = () => {
@@ -427,6 +432,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/content-quality-review" element={<ContentQualityReview />} />
         <Route path="/admin/social-schedule-queue" element={<SocialScheduleQueue />} />
         <Route path="/admin/content-performance" element={<ContentPerformance />} />
+        <Route path="/admin/metricool-command" element={<MetricoolCommand />} />
+        <Route path="/admin/metricool-api-setup" element={<MetricoolApiSetup />} />
+        <Route path="/admin/metricool-media-pipeline" element={<MetricoolMediaPipeline />} />
+        <Route path="/admin/metricool-scheduler-queue" element={<MetricoolSchedulerQueue />} />
+        <Route path="/admin/metricool-performance-intelligence" element={<MetricoolPerformanceIntelligence />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
