@@ -1,18 +1,46 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
-// Generates the full 11-day June 5 release sprint content calendar
+// Generates the 11-day June 5 release sprint content calendar
 // All posts go to ApprovalQueue — nothing posts externally without admin approval
 Deno.serve(async (req) => {
+  // Always init client first — before any await
   const base44 = createClientFromRequest(req);
 
   try {
-    const user = await base44.auth.me();
-    if (user?.role !== 'admin') {
-      return Response.json({ error: 'Admin only' }, { status: 403 });
+    // Auth check: catch gracefully so live errors surface properly
+    let user = null;
+    try {
+      user = await base44.auth.me();
+    } catch (authErr) {
+      console.log('[generateReleaseSprint] auth.me() threw:', authErr.message);
+      return Response.json(
+        { error: 'Authentication required — please refresh and log in again.', hint: 'auth_me_failed', detail: authErr.message },
+        { status: 401 }
+      );
     }
 
-    const body = await req.json().catch(() => ({}));
+    if (!user) {
+      return Response.json(
+        { error: 'Authentication required — please refresh and log in again.', hint: 'no_user' },
+        { status: 401 }
+      );
+    }
+
+    console.log(`[generateReleaseSprint] user=${user.email} role=${user.role}`);
+
+    if (user.role !== 'admin') {
+      return Response.json(
+        { error: 'Admin access required.', hint: 'not_admin', role: user.role },
+        { status: 403 }
+      );
+    }
+
+    // User is verified admin — parse body
+    let body = {};
+    try { body = await req.json(); } catch (_) {}
     const { day, regenerate } = body;
+
+    console.log(`[generateReleaseSprint] Starting — day=${day || 'all'} regenerate=${!!regenerate}`);
 
     const RELEASE_DATE = new Date('2026-06-05T00:00:00+10:00');
     const now = new Date();
@@ -32,7 +60,7 @@ Deno.serve(async (req) => {
       'RELEASE DAY — June 5: Thank You is out now',
     ];
 
-    // Sprint plan: 11 days May 26 → June 5 (release day)
+    // Sprint: 11 days May 26 → June 5
     const sprintDays = Array.from({ length: 11 }, (_, i) => {
       const d = new Date(RELEASE_DATE);
       d.setDate(d.getDate() - (10 - i)); // Day 1 = May 26, Day 11 = June 5
@@ -41,12 +69,7 @@ Deno.serve(async (req) => {
         date: d.toISOString().split('T')[0],
         theme: THEMES[i],
         isReleaseDay: i === 10,
-        // 2-3 platforms per day
-        platforms: i === 10
-          ? ['tiktok', 'instagram_reels', 'instagram_stories']
-          : i === 9
-          ? ['tiktok', 'instagram_reels', 'instagram_stories']
-          : i % 2 === 0
+        platforms: (i === 10 || i === 9 || i % 2 === 0)
           ? ['tiktok', 'instagram_reels', 'instagram_stories']
           : ['tiktok', 'instagram_reels'],
       };
@@ -63,7 +86,7 @@ Deno.serve(async (req) => {
       try {
         const daysUntilThisDay = Math.max(0, Math.ceil((new Date(sprintDay.date) - now) / (1000 * 60 * 60 * 24)));
 
-        // Duplicate protection: skip platforms that already have a post for this day unless regenerate=true
+        // Duplicate protection — use asServiceRole for entity reads/writes
         const existingPosts = await base44.asServiceRole.entities.ContentCalendarPost.filter({
           campaign: 'thank_you_june5_sprint',
           sprint_day: sprintDay.day,
@@ -75,33 +98,35 @@ Deno.serve(async (req) => {
           : sprintDay.platforms.filter(p => !existingPlatforms.has(p));
 
         if (platformsToGenerate.length === 0) {
-          skipped.push(`Day ${sprintDay.day}: all platforms already generated`);
+          skipped.push(`Day ${sprintDay.day} (${sprintDay.date}): all platforms already generated`);
           continue;
         }
+
+        console.log(`[generateReleaseSprint] Day ${sprintDay.day} — generating for: ${platformsToGenerate.join(', ')}`);
 
         const prompt = `You are a premium music marketing strategist for Gannon Waye, Australian singer-songwriter.
 
 Release: "Thank You" — June 5, 2026 (${daysUntilRelease} days from today).
 Sprint Day ${sprintDay.day}/11 — Date: ${sprintDay.date} — Theme: ${sprintDay.theme}
 ${sprintDay.isReleaseDay
-  ? 'THIS IS RELEASE DAY. The song is officially OUT. Use "Listen Now", "Out Now", "Available Everywhere".'
-  : 'Song is NOT released yet. Never say "Out Now" or "Listen Now". Use "Pre-Save", "Coming June 5", "Drop date: June 5".'}
+  ? 'THIS IS RELEASE DAY. Song is OUT NOW. Use "Listen Now", "Out Now", "Available Everywhere".'
+  : 'Song is NOT released yet. Never say "Out Now". Use "Pre-Save", "Coming June 5", "Drop date: June 5".'}
 
 Platforms to generate for: ${platformsToGenerate.join(', ')}
 
-Generate a complete content brief for EACH platform listed. For each platform return:
-- hook: Stop-the-scroll first 1-3 seconds (specific, emotional, pattern-interrupt)
+Generate a complete content brief for EACH platform. For each platform return:
+- hook: Stop-scroll first 1-3 seconds (specific, emotional, pattern-interrupt)
 - caption: Full platform-appropriate caption with line breaks, story, and CTA
-- on_screen_text: Text overlay sequence with timing cues (e.g. "0:00 — 'This song was never meant to exist'")
+- on_screen_text: Text overlay sequence with timing cues
 - shot_list: Specific ordered shots — framing, lighting, action
 - edit_rhythm: Cut timing, transitions, music sync points
-- broll_ideas: Specific B-roll ideas relevant to Gannon's story (no generic placeholders)
+- broll_ideas: Specific B-roll ideas relevant to Gannon's story
 - cta: One clear final action
 - hashtags: 15-20 targeted hashtags — niche + mid + broad mix
-- metricool_export: Ready-to-paste text for Metricool (caption + hashtags formatted, no instructions, no labels)
+- metricool_export: Ready-to-paste text for Metricool (caption + hashtags, no labels)
 - content_notes: Production and posting notes for admin
 
-Brand values: authenticity, vulnerability, warmth, community, safe spaces. No generic AI filler. Be specific to this artist's story.`;
+Brand: authenticity, vulnerability, warmth, community, safe spaces. No generic AI filler.`;
 
         const schema = { type: 'object', properties: {} };
         for (const plat of platformsToGenerate) {
@@ -125,16 +150,18 @@ Brand values: authenticity, vulnerability, warmth, community, safe spaces. No ge
           });
         } catch (llmErr) {
           const errMsg = `Day ${sprintDay.day} LLM error: ${llmErr.message}`;
+          console.log(`[generateReleaseSprint] ${errMsg}`);
           errors.push(errMsg);
-          // Log health issue
-          await base44.asServiceRole.entities.SystemHealthIssue.create({
-            system_area: 'integrations',
-            issue_title: `Release Sprint LLM failure — Day ${sprintDay.day}`,
-            severity: 'high',
-            detected_by: 'generateReleaseSprint',
-            recommended_fix: `Check InvokeLLM integration credits and function timeout. Error: ${llmErr.message}`,
-            status: 'open',
-          });
+          try {
+            await base44.asServiceRole.entities.SystemHealthIssue.create({
+              system_area: 'integrations',
+              issue_title: `Release Sprint LLM failure — Day ${sprintDay.day}`,
+              severity: 'high',
+              detected_by: 'generateReleaseSprint',
+              recommended_fix: `Check InvokeLLM integration credits. Error: ${llmErr.message}`,
+              status: 'open',
+            });
+          } catch (_) {}
           continue;
         }
 
@@ -166,43 +193,52 @@ Brand values: authenticity, vulnerability, warmth, community, safe spaces. No ge
             generated_by: 'generateReleaseSprint',
           });
 
+          console.log(`[generateReleaseSprint] Created ContentCalendarPost id=${post.id} day=${sprintDay.day} platform=${plat}`);
           created.push({ id: post.id, day: sprintDay.day, platform: plat });
 
-          // Create approval queue item using correct schema fields
-          const approval = await base44.asServiceRole.entities.ApprovalQueue.create({
-            agent_name: 'Release Sprint Generator',
-            action_title: `Day ${sprintDay.day} · ${sprintDay.date} · ${plat} — ${sprintDay.theme}`,
-            action_description: `HOOK: ${postData.hook}\n\nCAPTION:\n${postData.caption}\n\nCTA: ${postData.cta}\n\nHASHTAGS: ${postData.hashtags}\n\nMETRICOOL READY:\n${postData.metricool_export}`,
-            proposed_output: postData.caption,
-            status: 'pending',
-            risk_level: 'low',
-            risk_type: ['publishing'],
-            tags: [`sprint_day_${sprintDay.day}`, plat, 'thank_you_sprint'],
-          });
-
-          // Link approval back to post
-          await base44.asServiceRole.entities.ContentCalendarPost.update(post.id, {
-            approval_id: approval.id,
-          });
+          // ApprovalQueue entry
+          try {
+            const approval = await base44.asServiceRole.entities.ApprovalQueue.create({
+              agent_name: 'Release Sprint Generator',
+              action_title: `Day ${sprintDay.day} · ${sprintDay.date} · ${plat} — ${sprintDay.theme}`,
+              action_description: `HOOK: ${postData.hook}\n\nCAPTION:\n${postData.caption}\n\nCTA: ${postData.cta}\n\nHASHTAGS: ${postData.hashtags}\n\nMETRICOOL READY:\n${postData.metricool_export}`,
+              proposed_output: postData.caption,
+              status: 'pending',
+              risk_level: 'low',
+              tags: [`sprint_day_${sprintDay.day}`, plat, 'thank_you_sprint'],
+            });
+            await base44.asServiceRole.entities.ContentCalendarPost.update(post.id, {
+              approval_id: approval.id,
+            });
+          } catch (aqErr) {
+            console.log(`[generateReleaseSprint] ApprovalQueue create failed: ${aqErr.message}`);
+            // Non-fatal — post already created
+          }
         }
 
-        // One notification per day
-        await base44.asServiceRole.entities.AdminNotification.create({
-          notification_type: 'approval',
-          severity: daysUntilThisDay <= 3 ? 'high' : 'info',
-          title: `📅 Sprint Day ${sprintDay.day} Content Ready — ${sprintDay.date}`,
-          summary: `${sprintDay.theme} · ${platformsToGenerate.length} platform drafts awaiting approval before Metricool scheduling.`,
-          source: 'generateReleaseSprint',
-          requires_action: true,
-          linked_entity: 'ContentCalendarPost',
-          linked_route: '/admin/release-sprint',
-          is_read: false,
-        });
+        // Notification per day
+        try {
+          await base44.asServiceRole.entities.AdminNotification.create({
+            notification_type: 'approval',
+            severity: daysUntilThisDay <= 3 ? 'high' : 'info',
+            title: `📅 Sprint Day ${sprintDay.day} Content Ready — ${sprintDay.date}`,
+            summary: `${sprintDay.theme} · ${platformsToGenerate.length} platform drafts awaiting approval.`,
+            source: 'generateReleaseSprint',
+            requires_action: true,
+            linked_entity: 'ContentCalendarPost',
+            linked_route: '/admin/release-sprint',
+            is_read: false,
+          });
+        } catch (_) {}
 
       } catch (dayErr) {
-        errors.push(`Day ${sprintDay.day} failed: ${dayErr.message}`);
+        const msg = `Day ${sprintDay.day} failed: ${dayErr.message}`;
+        console.log(`[generateReleaseSprint] ${msg}`);
+        errors.push(msg);
       }
     }
+
+    console.log(`[generateReleaseSprint] Done — created=${created.length} skipped=${skipped.length} errors=${errors.length}`);
 
     return Response.json({
       success: true,
@@ -212,32 +248,23 @@ Brand values: authenticity, vulnerability, warmth, community, safe spaces. No ge
       errors,
       skipped,
       posts: created,
+      admin_user: user.email,
       source_chain: 'generateReleaseSprint → ContentCalendarPost → ApprovalQueue → QualityReview → ScheduleQueue → Metricool',
-      message: `${created.length} posts created across ${daysToGenerate.length} sprint day(s). ${skipped.length} skipped (already generated). ${errors.length} errors.`,
+      message: `${created.length} posts created across ${daysToGenerate.length} sprint day(s). ${skipped.length} skipped. ${errors.length} errors.`,
     });
 
   } catch (error) {
-    // Log to SystemHealthIssue and AdminNotification
+    console.log(`[generateReleaseSprint] FATAL: ${error.message}`);
     try {
       await base44.asServiceRole.entities.SystemHealthIssue.create({
         system_area: 'integrations',
         issue_title: 'Release Sprint Generation Failed',
         severity: 'critical',
         detected_by: 'generateReleaseSprint',
-        recommended_fix: `Error: ${error.message}. Check auth, entity permissions, and LLM integration.`,
+        recommended_fix: `Error: ${error.message}`,
         status: 'open',
       });
-      await base44.asServiceRole.entities.AdminNotification.create({
-        notification_type: 'automation_failed',
-        severity: 'critical',
-        title: '🚨 Release Sprint Generation Failed',
-        summary: error.message,
-        source: 'generateReleaseSprint',
-        requires_action: true,
-        linked_route: '/admin/release-sprint',
-        is_read: false,
-      });
-    } catch (_) { /* ignore secondary errors */ }
+    } catch (_) {}
 
     return Response.json({
       error: error.message,

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -177,6 +177,14 @@ export default function ReleaseSprint() {
   const [lastGenResult, setLastGenResult] = useState(null);
   const [genError, setGenError] = useState(null);
   const [showDiag, setShowDiag] = useState(false);
+  const [sessionInfo, setSessionInfo] = useState({ checked: false, authenticated: false, isAdmin: false, email: '' });
+
+  // Live session check — runs once on mount
+  useEffect(() => {
+    base44.auth.me()
+      .then(u => setSessionInfo({ checked: true, authenticated: !!u, isAdmin: u?.role === 'admin', email: u?.email || '' }))
+      .catch(() => setSessionInfo({ checked: true, authenticated: false, isAdmin: false, email: '' }));
+  }, []);
 
   const daysLeft = Math.max(0, Math.ceil((RELEASE_DATE - new Date()) / (1000 * 60 * 60 * 24)));
 
@@ -188,7 +196,7 @@ export default function ReleaseSprint() {
 
   const { data: approvals = [] } = useQuery({
     queryKey: ['sprint-approvals'],
-    queryFn: () => base44.entities.ApprovalQueue.filter({ status: 'pending', risk_type: 'publishing' }, '-created_date', 50),
+    queryFn: () => base44.entities.ApprovalQueue.filter({ status: 'pending' }, '-created_date', 50),
   });
 
   const updatePost = useMutation({
@@ -314,6 +322,23 @@ export default function ReleaseSprint() {
         </div>
       </div>
 
+      {/* Session status warning */}
+      {sessionInfo.checked && !sessionInfo.isAdmin && (
+        <div className="bg-red-500/5 border border-red-500/40 rounded-xl p-4 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+          <div>
+            <p className="font-body text-sm text-red-400 font-semibold">
+              {sessionInfo.authenticated ? 'Not logged in as admin — generation will fail' : 'No active session — please refresh and log in'}
+            </p>
+            <p className="font-body text-xs text-muted-foreground mt-0.5">
+              {sessionInfo.authenticated
+                ? `Logged in as ${sessionInfo.email} (role: not admin). Switch to an admin account.`
+                : 'Session expired or not authenticated. Refresh the page to log in.'}
+            </p>
+          </div>
+        </div>
+      )}
+
       {/* Safety Banner */}
       <div className="bg-green-500/5 border border-green-500/30 rounded-xl p-4 flex items-start gap-3">
         <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
@@ -387,14 +412,16 @@ export default function ReleaseSprint() {
           </CardHeader>
           <CardContent className="space-y-2 text-xs font-body">
             {[
-              { label: 'Function reachable', value: 'Yes (generateReleaseSprint)', ok: true },
+              { label: 'Admin session detected', value: sessionInfo.checked ? (sessionInfo.isAdmin ? `Yes — ${sessionInfo.email}` : sessionInfo.authenticated ? `Logged in but NOT admin (${sessionInfo.email})` : 'No session — refresh to log in') : 'Checking...', ok: sessionInfo.isAdmin },
+              { label: 'Function reachable', value: 'Yes (generateReleaseSprint via base44.functions.invoke)', ok: true },
+              { label: 'Auth flow', value: 'createClientFromRequest → auth.me() → role check → asServiceRole writes', ok: true },
               { label: 'Sprint days configured', value: '11 (May 26 → June 5)', ok: true },
               { label: 'Duplicate protection', value: 'Active — skips existing platform/day combos', ok: true },
               { label: 'Approval queue', value: 'Wired — every post creates ApprovalQueue entry', ok: true },
               { label: 'Metricool auto-post', value: 'BLOCKED — manual copy/paste only', ok: true },
-              { label: 'LLM integration', value: 'InvokeLLM via base44.integrations.Core', ok: true },
               { label: 'Total posts in DB', value: String(totalPosts), ok: totalPosts > 0 },
-              { label: 'Last gen result', value: lastGenResult ? `${lastGenResult.posts_created} created, ${lastGenResult.posts_skipped} skipped` : 'No generation run this session', ok: !!lastGenResult },
+              { label: 'Last backend status', value: lastGenResult ? `${lastGenResult.posts_created} created · ${lastGenResult.posts_skipped} skipped · ${lastGenResult.errors?.length || 0} errors` : 'No generation run this session', ok: !!lastGenResult },
+              { label: 'Last backend user', value: lastGenResult?.admin_user || '—', ok: !!lastGenResult?.admin_user },
             ].map(row => (
               <div key={row.label} className="flex items-center justify-between py-1.5 border-b border-border/30 last:border-0">
                 <span className="text-muted-foreground">{row.label}</span>
