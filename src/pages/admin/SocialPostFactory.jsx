@@ -23,7 +23,7 @@ const PLATFORMS = [
 ];
 
 const SPRINT_THEMES = [
-  'Emotional reveal — the gratitude angle',
+  'Kickoff — emotional reveal, the gratitude angle',
   'Raw story — what the song is really about',
   'Behind the scenes — writing/studio process',
   'Merch + CD pre-order CTA',
@@ -31,7 +31,8 @@ const SPRINT_THEMES = [
   'Lyric teaser — most emotional line',
   'Countdown urgency — 5 days to go',
   'Personal message to supporters',
-  'Final push — release eve (June 4 studio/recording day)',
+  'Final push — T-minus 2 days',
+  'June 4 — studio/recording day, release eve content',
   'RELEASE DAY — June 5: Thank You is out now',
 ];
 
@@ -122,20 +123,20 @@ export default function SocialPostFactory() {
 
     const dayIdx = parseInt(sprintDay) - 1;
     const theme = SPRINT_THEMES[dayIdx] || SPRINT_THEMES[0];
-    const isReleaseDay = parseInt(sprintDay) === 10;
+    const isReleaseDay = parseInt(sprintDay) === 11;
 
     const RELEASE_DATE = new Date('2026-06-05');
     const daysLeft = Math.max(0, Math.ceil((RELEASE_DATE - new Date()) / (1000 * 60 * 60 * 24)));
 
     const readyAssets = assets.filter(a => !a.sprint_day || a.sprint_day === parseInt(sprintDay));
     const assetContext = readyAssets.length > 0
-      ? `Available assets for this day: ${readyAssets.map(a => `${a.asset_type} — "${a.name}"${a.notes ? ' (' + a.notes + ')' : ''}`).join('; ')}`
+      ? `Available approved assets for this day: ${readyAssets.map(a => `${a.asset_type} — "${a.name}"${a.notes ? ' (' + a.notes + ')' : ''}`).join('; ')}`
       : 'No specific assets tagged for this day. Generate concept-only brief.';
 
     const prompt = `You are a premium music marketing strategist for Gannon Waye, Australian singer-songwriter.
 
 Release: "Thank You" — June 5, 2026. ${daysLeft} days remaining.
-Sprint Day ${sprintDay}/10 — Theme: ${theme}
+Sprint Day ${sprintDay}/11 — Theme: ${theme}
 Platform: ${PLATFORMS.find(p => p.value === platform)?.label}
 ${isReleaseDay ? 'THIS IS RELEASE DAY. Song is OUT. Use "Listen Now", "Out Now", "Available Everywhere".' : 'Song is NOT released. Never say "Out Now". Use "Pre-Save", "Coming June 5", "Drop date: June 5".'}
 
@@ -177,8 +178,9 @@ Return JSON:
       setResult(res);
 
       // Auto-save to ContentCalendarPost + ApprovalQueue
+      // Day 1 = May 26, Day 11 = June 5: offset = -(10 - (sprintDay-1)) = sprintDay - 11
       const RELEASE_DATE_STR = new Date('2026-06-05');
-      RELEASE_DATE_STR.setDate(RELEASE_DATE_STR.getDate() - (9 - parseInt(sprintDay))); // Day 10 = June 5
+      RELEASE_DATE_STR.setDate(RELEASE_DATE_STR.getDate() - (10 - (parseInt(sprintDay) - 1)));
       const schedDate = RELEASE_DATE_STR.toISOString().split('T')[0];
 
       const post = await base44.entities.ContentCalendarPost.create({

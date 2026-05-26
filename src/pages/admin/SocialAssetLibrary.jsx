@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -10,7 +10,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
   Upload, Film, Image, Music, FileText, Trash2, Tag, CheckCircle2,
-  RefreshCw, Folder, Archive, X, Star
+  RefreshCw, Folder, Archive, X, Star, Download, ShieldAlert, ShieldCheck
 } from 'lucide-react';
 
 const ASSET_TYPES = [
@@ -31,12 +31,32 @@ const STATUS_COLORS = {
   archived: 'bg-secondary/50 text-muted-foreground/50',
 };
 
+// CSV import parser — accepts: file_path, filename, folder, extension, size, asset_type, suggested_use, sensitive
+function parseCsvManifest(text) {
+  const lines = text.trim().split('\n');
+  if (lines.length < 2) return [];
+  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/\s+/g, '_'));
+  return lines.slice(1).map(line => {
+    const vals = line.split(',').map(v => v.trim().replace(/^"|"$/g, ''));
+    const row = {};
+    headers.forEach((h, i) => { row[h] = vals[i] || ''; });
+    return {
+      name: row.filename || row.file_path?.split('/').pop() || row.name || 'Unnamed',
+      asset_type: row.asset_type || 'other',
+      notes: [row.suggested_use, row.folder, row.extension ? `ext: ${row.extension}` : '', row.size ? `size: ${row.size}` : ''].filter(Boolean).join(' · '),
+      is_sensitive: row.sensitive === 'true' || row.sensitive === '1' || row.sensitivity_flag === 'true',
+      status: (row.sensitive === 'true' || row.sensitivity_flag === 'true') ? 'raw' : 'raw',
+    };
+  }).filter(r => r.name && r.name !== 'Unnamed');
+}
+
 function AssetCard({ asset, onUpdate, onDelete }) {
   const typeConf = ASSET_TYPES.find(t => t.value === asset.asset_type) || ASSET_TYPES[0];
   const Icon = typeConf.icon;
+  const isSensitive = asset.quality_notes?.includes('SENSITIVE') || asset.notes?.toLowerCase().includes('sensitive');
 
   return (
-    <div className="border border-border/50 rounded-xl p-4 hover:border-primary/40 transition-all bg-card/60 space-y-3">
+    <div className={`border rounded-xl p-4 hover:border-primary/40 transition-all bg-card/60 space-y-3 ${isSensitive ? 'border-red-500/40 bg-red-500/5' : 'border-border/50'}`}>
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-lg bg-secondary/60 flex items-center justify-center shrink-0">
@@ -47,8 +67,17 @@ function AssetCard({ asset, onUpdate, onDelete }) {
             <p className="font-body text-[10px] text-muted-foreground">{typeConf.label}{asset.duration_seconds ? ` · ${asset.duration_seconds}s` : ''}</p>
           </div>
         </div>
-        <Badge className={`${STATUS_COLORS[asset.status] || ''} text-[9px] tracking-wider uppercase border-0 shrink-0`}>{asset.status}</Badge>
+        <div className="flex items-center gap-1.5 shrink-0">
+          {isSensitive && <ShieldAlert className="w-3.5 h-3.5 text-red-400" title="Sensitive — blocked by default" />}
+          <Badge className={`${STATUS_COLORS[asset.status] || ''} text-[9px] tracking-wider uppercase border-0`}>{asset.status}</Badge>
+        </div>
       </div>
+      {isSensitive && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-2 flex items-center gap-2">
+          <ShieldAlert className="w-3.5 h-3.5 text-red-400 shrink-0" />
+          <p className="font-body text-[10px] text-red-300">Sensitive file — blocked from agent use until explicitly approved. Mark as "Ready" to approve.</p>
+        </div>
+      )}
 
       {asset.platform_tags?.length > 0 && (
         <div className="flex flex-wrap gap-1">
@@ -183,10 +212,82 @@ function UploadForm({ onCreated }) {
   );
 }
 
+function CsvImportPanel({ onImported }) {
+  const { toast } = useToast();
+  const [importing, setImporting] = useState(false);
+  const [preview, setPreview] = useState(null);
+  const fileRef = useRef();
+
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const rows = parseCsvManifest(ev.target.result);
+      setPreview(rows);
+    };
+    reader.readAsText(file);
+  };
+
+  const handleImport = async () => {
+    if (!preview?.length) return;
+    setImporting(true);
+    let created = 0;
+    for (const row of preview) {
+      await base44.entities.SocialAsset.create({
+        ...row,
+        campaign: 'thank_you_june5_sprint',
+        platform_tags: [],
+        quality_notes: row.is_sensitive ? 'SENSITIVE — blocked from agent use until approved' : '',
+        status: row.is_sensitive ? 'raw' : 'raw',
+      });
+      created++;
+    }
+    toast({ title: `${created} assets imported from CSV ✓` });
+    setPreview(null);
+    if (fileRef.current) fileRef.current.value = '';
+    onImported();
+    setImporting(false);
+  };
+
+  return (
+    <Card className="border-secondary">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-sm flex items-center gap-2"><Download className="w-4 h-4 text-primary" /> Import from Local Manifest CSV</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        <p className="font-body text-xs text-muted-foreground">Accepted columns: <code className="bg-secondary/60 px-1 rounded">filename, file_path, folder, extension, size, asset_type, suggested_use, sensitive</code></p>
+        <p className="font-body text-xs text-amber-400 flex items-center gap-1.5"><ShieldAlert className="w-3 h-3" /> Files with <code className="bg-secondary/60 px-1 rounded">sensitive=true</code> are blocked from agent use until manually approved.</p>
+        <input ref={fileRef} type="file" accept=".csv" onChange={handleFileChange}
+          className="w-full font-body text-xs text-muted-foreground file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:bg-secondary file:text-foreground cursor-pointer" />
+        {preview && (
+          <div>
+            <p className="font-body text-xs text-muted-foreground mb-2">{preview.length} assets parsed — {preview.filter(r => r.is_sensitive).length} sensitive</p>
+            <div className="max-h-40 overflow-y-auto space-y-1 border border-border/30 rounded-lg p-2">
+              {preview.slice(0, 20).map((r, i) => (
+                <div key={i} className="flex items-center gap-2 text-xs font-body">
+                  {r.is_sensitive ? <ShieldAlert className="w-3 h-3 text-red-400 shrink-0" /> : <ShieldCheck className="w-3 h-3 text-green-400 shrink-0" />}
+                  <span className="text-foreground truncate">{r.name}</span>
+                  <span className="text-muted-foreground shrink-0">{r.asset_type}</span>
+                </div>
+              ))}
+              {preview.length > 20 && <p className="text-xs text-muted-foreground">... and {preview.length - 20} more</p>}
+            </div>
+            <Button onClick={handleImport} disabled={importing} className="w-full mt-3 gradient-gold-button border-0 gap-2">
+              {importing ? <><RefreshCw className="w-4 h-4 animate-spin" /> Importing...</> : <><Upload className="w-4 h-4" /> Import {preview.length} Assets</>}
+            </Button>
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 export default function SocialAssetLibrary() {
   const qc = useQueryClient();
   const [filterType, setFilterType] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
+  const [showCsvImport, setShowCsvImport] = useState(false);
 
   const { data: assets = [], isLoading } = useQuery({
     queryKey: ['social-assets'],
@@ -236,6 +337,13 @@ export default function SocialAssetLibrary() {
       </div>
 
       <UploadForm onCreated={() => qc.invalidateQueries({ queryKey: ['social-assets'] })} />
+
+      <div className="flex items-center gap-2">
+        <button onClick={() => setShowCsvImport(v => !v)} className="font-body text-xs text-muted-foreground hover:text-primary flex items-center gap-1.5 transition-colors">
+          <Download className="w-3.5 h-3.5" /> {showCsvImport ? 'Hide' : 'Show'} CSV Import (local manifest)
+        </button>
+      </div>
+      {showCsvImport && <CsvImportPanel onImported={() => { qc.invalidateQueries({ queryKey: ['social-assets'] }); setShowCsvImport(false); }} />}
 
       {/* Filters */}
       <div className="flex flex-wrap gap-2">

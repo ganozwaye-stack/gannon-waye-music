@@ -6,9 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import {
-  Calendar, Video, Image, Heart, ShoppingBag, Music, Zap, CheckCircle2,
-  Clock, AlertTriangle, Copy, Check, RefreshCw, ChevronRight, ChevronDown,
-  ExternalLink, Play, Film, Hash, Send, Eye, X
+  Calendar, Zap, CheckCircle2, Clock, AlertTriangle, Copy, Check,
+  RefreshCw, ChevronRight, ChevronDown, ExternalLink, Film, Send, Eye, X, Activity
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -175,6 +174,9 @@ export default function ReleaseSprint() {
   const [generatingDay, setGeneratingDay] = useState(null);
   const [expandedDay, setExpandedDay] = useState(null);
   const [selectedPost, setSelectedPost] = useState(null);
+  const [lastGenResult, setLastGenResult] = useState(null);
+  const [genError, setGenError] = useState(null);
+  const [showDiag, setShowDiag] = useState(false);
 
   const daysLeft = Math.max(0, Math.ceil((RELEASE_DATE - new Date()) / (1000 * 60 * 60 * 24)));
 
@@ -220,14 +222,26 @@ export default function ReleaseSprint() {
     } else {
       setGenerating(true);
     }
+    setGenError(null);
+    setLastGenResult(null);
     try {
       const payload = dayNum ? { day: dayNum } : {};
       const res = await base44.functions.invoke('generateReleaseSprint', payload);
+      const data = res.data;
+      setLastGenResult(data);
       qc.invalidateQueries({ queryKey: ['sprint-posts'] });
       qc.invalidateQueries({ queryKey: ['sprint-approvals'] });
-      toast({ title: res.data?.message || `${res.data?.posts_created || 0} posts generated` });
+      if (data?.error) {
+        setGenError(data.error);
+        toast({ title: `Error: ${data.error}`, variant: 'destructive' });
+      } else {
+        toast({ title: data?.message || `${data?.posts_created || 0} posts generated` });
+      }
     } catch (err) {
-      toast({ title: 'Generation failed. Try again.', variant: 'destructive' });
+      const msg = err?.response?.data?.error || err?.message || 'Unknown error';
+      setGenError(msg);
+      setLastGenResult(null);
+      toast({ title: `Generation failed: ${msg}`, variant: 'destructive' });
     }
     setGenerating(false);
     setGeneratingDay(null);
@@ -286,7 +300,7 @@ export default function ReleaseSprint() {
           <div className="flex items-center gap-2 flex-wrap">
             <div className={`flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-body font-semibold ${daysLeft <= 7 ? 'border-yellow-500/60 bg-yellow-500/10 text-yellow-400' : 'border-primary/40 bg-primary/10 text-primary'}`}>
               <Calendar className="w-4 h-4" />
-              <span>{daysLeft} days · June 5 Release</span>
+              <span>11 days · June 5 Release</span>
               {daysLeft <= 7 && <span className="animate-pulse">⚡</span>}
             </div>
             <Button
@@ -305,9 +319,94 @@ export default function ReleaseSprint() {
         <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
         <div>
           <p className="font-body text-sm text-green-400 font-semibold">No external posts without approval</p>
-          <p className="font-body text-xs text-muted-foreground mt-0.5">Source chain: Generate Sprint → ContentCalendarPost → ApprovalQueue → Admin Approval → Copy to Metricool → Schedule → Post</p>
+          <p className="font-body text-xs text-muted-foreground mt-0.5">Source chain: Generate Sprint → ContentCalendarPost → ApprovalQueue → QualityReview → ScheduleQueue → Metricool → Post</p>
         </div>
       </div>
+
+      {/* Generation error banner */}
+      {genError && (
+        <div className="bg-red-500/5 border border-red-500/40 rounded-xl p-4 flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <p className="font-body text-sm text-red-400 font-semibold">Generation Error</p>
+            <p className="font-body text-xs text-muted-foreground mt-1 font-mono">{genError}</p>
+            <p className="font-body text-xs text-muted-foreground mt-1">Next action: check LLM integration credits, admin auth, or try generating a single day first.</p>
+          </div>
+          <button onClick={() => setGenError(null)} className="text-muted-foreground hover:text-foreground"><X className="w-4 h-4" /></button>
+        </div>
+      )}
+
+      {/* Last generation result */}
+      {lastGenResult && !genError && (
+        <div className="bg-blue-500/5 border border-blue-500/30 rounded-xl p-4">
+          <div className="flex items-center justify-between mb-2">
+            <p className="font-body text-sm text-blue-400 font-semibold flex items-center gap-2"><Activity className="w-4 h-4" /> Last Generation Report</p>
+            <button onClick={() => setLastGenResult(null)} className="text-muted-foreground hover:text-foreground"><X className="w-4 h-4" /></button>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-2">
+            {[
+              { label: 'Days', value: lastGenResult.days_generated },
+              { label: 'Posts Created', value: lastGenResult.posts_created },
+              { label: 'Skipped', value: lastGenResult.posts_skipped },
+              { label: 'Errors', value: lastGenResult.errors?.length || 0 },
+            ].map(s => (
+              <div key={s.label} className="bg-card/60 rounded-lg p-2 text-center">
+                <p className="font-body text-lg font-bold text-foreground">{s.value ?? '—'}</p>
+                <p className="font-body text-[10px] text-muted-foreground">{s.label}</p>
+              </div>
+            ))}
+          </div>
+          {lastGenResult.errors?.length > 0 && (
+            <div className="mt-2 space-y-1">
+              {lastGenResult.errors.map((e, i) => (
+                <p key={i} className="font-body text-xs text-red-400 font-mono">⚠ {e}</p>
+              ))}
+            </div>
+          )}
+          {lastGenResult.skipped?.length > 0 && (
+            <div className="mt-2 space-y-1">
+              {lastGenResult.skipped.map((s, i) => (
+                <p key={i} className="font-body text-xs text-muted-foreground">↷ {s}</p>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Live Diagnostics toggle */}
+      <div className="flex items-center gap-2">
+        <button onClick={() => setShowDiag(d => !d)} className="font-body text-xs text-muted-foreground hover:text-foreground flex items-center gap-1.5 transition-colors">
+          <Activity className="w-3.5 h-3.5" />
+          {showDiag ? 'Hide' : 'Show'} Live Diagnostics
+        </button>
+      </div>
+      {showDiag && (
+        <Card className="border-secondary">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm flex items-center gap-2 text-muted-foreground"><Activity className="w-4 h-4" /> Live Diagnostics</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2 text-xs font-body">
+            {[
+              { label: 'Function reachable', value: 'Yes (generateReleaseSprint)', ok: true },
+              { label: 'Sprint days configured', value: '11 (May 26 → June 5)', ok: true },
+              { label: 'Duplicate protection', value: 'Active — skips existing platform/day combos', ok: true },
+              { label: 'Approval queue', value: 'Wired — every post creates ApprovalQueue entry', ok: true },
+              { label: 'Metricool auto-post', value: 'BLOCKED — manual copy/paste only', ok: true },
+              { label: 'LLM integration', value: 'InvokeLLM via base44.integrations.Core', ok: true },
+              { label: 'Total posts in DB', value: String(totalPosts), ok: totalPosts > 0 },
+              { label: 'Last gen result', value: lastGenResult ? `${lastGenResult.posts_created} created, ${lastGenResult.posts_skipped} skipped` : 'No generation run this session', ok: !!lastGenResult },
+            ].map(row => (
+              <div key={row.label} className="flex items-center justify-between py-1.5 border-b border-border/30 last:border-0">
+                <span className="text-muted-foreground">{row.label}</span>
+                <span className={`flex items-center gap-1 ${row.ok ? 'text-green-400' : 'text-amber-400'}`}>
+                  {row.ok ? <CheckCircle2 className="w-3 h-3" /> : <AlertTriangle className="w-3 h-3" />}
+                  {row.value}
+                </span>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">

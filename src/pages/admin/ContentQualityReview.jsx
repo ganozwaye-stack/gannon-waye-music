@@ -15,16 +15,17 @@ const PLATFORM_META = {
 };
 
 const SPRINT_THEMES = [
-  'Emotional reveal — gratitude',
+  'Kickoff — emotional reveal, the gratitude angle',
   'Raw story — what the song is really about',
-  'Behind the scenes',
+  'Behind the scenes — writing/studio process',
   'Merch + CD pre-order CTA',
-  'Fan community love',
-  'Lyric teaser',
-  'Countdown urgency',
+  'Fan community love and appreciation',
+  'Lyric teaser — most emotional line',
+  'Countdown urgency — 5 days to go',
   'Personal message to supporters',
-  'Release eve (June 4 — studio day)',
-  'RELEASE DAY — June 5',
+  'Final push — T-minus 2 days',
+  'June 4 — studio/recording day, release eve content',
+  'RELEASE DAY — June 5: Thank You is out now',
 ];
 
 function ScoreBar({ score }) {
@@ -52,35 +53,42 @@ function ReviewModal({ post, onClose, onSave }) {
         prompt: `You are a senior music marketing content reviewer. Assess the following social media post for Gannon Waye (Australian singer-songwriter, debut single "Thank You", June 5 2026 release).
 
 Platform: ${post.platform}
-Sprint Day: ${post.sprint_day} — Theme: ${SPRINT_THEMES[(post.sprint_day || 1) - 1]}
+Sprint Day: ${post.sprint_day}/11 — Theme: ${SPRINT_THEMES[(post.sprint_day || 1) - 1]}
 
 HOOK: ${post.hook || 'N/A'}
 CAPTION: ${post.caption || 'N/A'}
 CTA: ${post.cta || 'N/A'}
 HASHTAGS: ${post.hashtags || 'N/A'}
 
-Score each dimension 1-10 and give ONE specific improvement suggestion per dimension. Be ruthlessly honest — a 9+ should be rare.
+Score each dimension 1-10 with ONE specific improvement suggestion. Be ruthlessly honest — 9+ is rare.
 
-Evaluate:
-- hook_score: Does it stop the scroll in 1-3 seconds? Is it specific and emotional?
-- caption_score: Is it personal, brand-consistent, platform-appropriate, non-generic?
-- cta_score: Is it one clear action, natural, and compelling?
-- hashtag_score: Mix of niche/mid/broad? No spam? Relevant?
-- brand_score: Authentic, vulnerable, warm, community-focused? Not AI-sounding?
-- overall_score: Overall readiness to publish (average, then adjust for fatal flaws)
-- approved: true if overall_score >= 7, false otherwise
-- improvement_required: true if any dimension < 6
-- hook_feedback, caption_feedback, cta_feedback, hashtag_feedback, brand_feedback, overall_feedback: one sentence each`,
+Evaluate all 8 dimensions:
+1. hook_score: Stops scroll in 1-3s? Specific and emotional? Pattern interrupt?
+2. caption_score: Personal, brand-consistent, platform-appropriate, non-generic?
+3. cta_score: One clear action, natural, compelling?
+4. hashtag_score: Mix of niche/mid/broad? No spam? Relevant to music + release?
+5. brand_score: Authentic, vulnerable, warm, community-focused? Not AI-sounding?
+6. embarrassment_risk_score: Rate 1=high risk, 10=no risk. Would this embarrass Gannon or the brand? Oversharing? Cringey? Off-message?
+7. music_sale_value_score: Does this post drive streams, CD purchases, merch, or pre-saves? Is the commercial intent clear and natural?
+8. release_relevance_score: Is it timed correctly for Day ${post.sprint_day}/11 of the sprint? Right urgency level? Correct messaging (not "out now" before release)?
+
+overall_score: Weighted average (hook 20%, caption 20%, cta 15%, brand 15%, embarrassment_risk 15%, music_sale 10%, release_relevance 5%)
+approved: true if overall_score >= 7 AND embarrassment_risk_score >= 6
+improvement_required: true if any dimension < 6 or embarrassment_risk_score < 6`,
         response_json_schema: {
           type: 'object',
           properties: {
             hook_score: { type: 'number' }, caption_score: { type: 'number' },
             cta_score: { type: 'number' }, hashtag_score: { type: 'number' },
-            brand_score: { type: 'number' }, overall_score: { type: 'number' },
+            brand_score: { type: 'number' }, embarrassment_risk_score: { type: 'number' },
+            music_sale_value_score: { type: 'number' }, release_relevance_score: { type: 'number' },
+            overall_score: { type: 'number' },
             approved: { type: 'boolean' }, improvement_required: { type: 'boolean' },
             hook_feedback: { type: 'string' }, caption_feedback: { type: 'string' },
             cta_feedback: { type: 'string' }, hashtag_feedback: { type: 'string' },
-            brand_feedback: { type: 'string' }, overall_feedback: { type: 'string' },
+            brand_feedback: { type: 'string' }, embarrassment_risk_feedback: { type: 'string' },
+            music_sale_feedback: { type: 'string' }, release_relevance_feedback: { type: 'string' },
+            overall_feedback: { type: 'string' },
           }
         }
       });
@@ -135,11 +143,14 @@ Evaluate:
 
               <div className="space-y-3">
                 {[
-                  { label: 'Hook', score: result.hook_score, feedback: result.hook_feedback },
+                  { label: 'Hook (scroll-stop)', score: result.hook_score, feedback: result.hook_feedback },
                   { label: 'Caption', score: result.caption_score, feedback: result.caption_feedback },
-                  { label: 'CTA', score: result.cta_score, feedback: result.cta_feedback },
+                  { label: 'Call to Action', score: result.cta_score, feedback: result.cta_feedback },
                   { label: 'Hashtags', score: result.hashtag_score, feedback: result.hashtag_feedback },
                   { label: 'Brand Authenticity', score: result.brand_score, feedback: result.brand_feedback },
+                  { label: '🛡 Embarrassment Risk (10=safe)', score: result.embarrassment_risk_score, feedback: result.embarrassment_risk_feedback },
+                  { label: '💿 Music Sale Value', score: result.music_sale_value_score, feedback: result.music_sale_feedback },
+                  { label: '📅 Release Relevance', score: result.release_relevance_score, feedback: result.release_relevance_feedback },
                 ].map(d => (
                   <div key={d.label} className="space-y-1">
                     <div className="flex items-center justify-between">
