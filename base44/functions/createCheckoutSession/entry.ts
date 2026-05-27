@@ -99,10 +99,7 @@ Deno.serve(async (req) => {
     const base44 = createClientFromRequest(req);
     const body = await req.json();
     const { customerEmail, customerName, productName, metadata, amount, addSupport } = body;
-
-    if (!customerEmail) {
-      return Response.json({ error: 'Missing customerEmail' }, { status: 400 });
-    }
+    // customerEmail is optional — Stripe collects it on the hosted page if not provided
 
     // Server-side price verification
     let amountCents = 0;
@@ -177,7 +174,8 @@ Deno.serve(async (req) => {
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      customer_email: customerEmail,
+      ...(customerEmail ? { customer_email: customerEmail } : {}),
+      allow_promotion_codes: true,
       line_items: [
         {
           price_data: {

@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { ShoppingBag, Tag, X, ArrowLeft, Minus, Plus, ExternalLink, RefreshCw, AlertTriangle } from 'lucide-react';
+import { ShoppingBag, ArrowLeft, Minus, Plus, ExternalLink, RefreshCw, AlertTriangle } from 'lucide-react';
 
 const AU_SHIPPING_FLAT = 12.95;
 const FREE_SHIPPING_THRESHOLD = 150;
@@ -47,9 +47,6 @@ export default function CheckoutModal({ product, onClose }) {
   const [step, setStep] = useState('details');
   const [selectedSize, setSelectedSize] = useState('');
   const [form, setForm] = useState({ customer_name: '', customer_email: '', shipping_address: '' });
-  const [promoInput, setPromoInput] = useState('');
-  const [appliedPromo, setAppliedPromo] = useState(null);
-  const [promoLoading, setPromoLoading] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [addSupport, setAddSupport] = useState(0);
   const [redirecting, setRedirecting] = useState(false);
@@ -57,49 +54,13 @@ export default function CheckoutModal({ product, onClose }) {
 
   const hasSize = product.sizes_available?.length > 0;
   const productPrice = product.sale_price ?? product.price ?? 0;
-  const basePricing = calcPricing(productPrice * quantity, product.category, appliedPromo?.discount_percent || 0, form.shipping_address, appliedPromo?.is_owner_override || false);
+  const basePricing = calcPricing(productPrice * quantity, product.category, 0, form.shipping_address, false);
   const pricing = { ...basePricing, total: Number((basePricing.total + addSupport).toFixed(2)) };
-
-  const applyPromo = async () => {
-    if (!promoInput.trim()) return;
-    setPromoLoading(true);
-    try {
-      // CRITICAL: Do NOT uppercase/transform the code — codes contain symbols and mixed case
-      const res = await base44.functions.invoke('validatePromoCode', {
-        code: promoInput.trim(),
-        product_category: product.category,
-        cart_items: [{ product_id: product.id, category: product.category, price: productPrice, quantity }]
-      });
-      if (res.data?.valid) {
-        setAppliedPromo({
-          code: res.data.code,
-          discount_percent: res.data.discount_percent,
-          id: res.data.id,
-          all_items_excluded: res.data.all_items_excluded,
-          checkout_message: res.data.checkout_message,
-          is_owner_override: res.data.is_owner_override || false,
-          override_applies_to_all: res.data.override_applies_to_all || false,
-        });
-        if (res.data.all_items_excluded) {
-          toast({ title: 'Code applied — but no eligible merch in cart', description: 'This code applies to eligible merch only. Music items, shipping, and support contributions are excluded.', variant: 'destructive' });
-        } else {
-          toast({ title: `${res.data.discount_percent}% discount applied to eligible merch!` });
-        }
-      } else {
-        toast({ title: res.data?.reason || 'Invalid or expired code', variant: 'destructive' });
-      }
-    } catch {
-      toast({ title: 'Could not validate code. Try again.', variant: 'destructive' });
-    }
-    setPromoLoading(false);
-  };
-
-  const removePromo = () => { setAppliedPromo(null); setPromoInput(''); };
 
   const handleDetailsSubmit = (e) => {
     e.preventDefault();
-    if (!form.customer_name || !form.customer_email || !form.shipping_address) {
-      toast({ title: 'Please fill in all fields', variant: 'destructive' });
+    if (!form.customer_name || !form.shipping_address) {
+      toast({ title: 'Please fill in your name and shipping address', variant: 'destructive' });
       return;
     }
     if (hasSize && !selectedSize) {
@@ -122,7 +83,7 @@ export default function CheckoutModal({ product, onClose }) {
     try {
       const res = await Promise.race([
         base44.functions.invoke('createCheckoutSession', {
-          customerEmail: form.customer_email,
+          customerEmail: form.customer_email || undefined,
           customerName: form.customer_name,
           productName: product.name,
           amount: pricing.total,
@@ -133,10 +94,6 @@ export default function CheckoutModal({ product, onClose }) {
             size: selectedSize,
             quantity: String(quantity),
             shipping_address: form.shipping_address,
-            promo_code: appliedPromo?.code || '',
-            promo_id: appliedPromo?.id || '',
-            promo_discount_percent: String(appliedPromo?.discount_percent || 0),
-            promo_override: appliedPromo?.is_owner_override ? 'true' : 'false',
             add_support: String(addSupport),
             shipping_amount: String(pricing.internationalQuote ? 0 : pricing.shipping),
             gst_included: String(pricing.gstIncluded.toFixed(2)),
@@ -194,7 +151,7 @@ export default function CheckoutModal({ product, onClose }) {
                 <Input placeholder="Your name" value={form.customer_name} onChange={e => setForm(f => ({ ...f, customer_name: e.target.value }))} className="bg-secondary/50 border-border/40" />
               </div>
               <div>
-                <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Email *</Label>
+                <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Email <span className="normal-case text-muted-foreground/60">(optional — Stripe will ask if blank)</span></Label>
                 <Input type="email" placeholder="you@example.com" value={form.customer_email} onChange={e => setForm(f => ({ ...f, customer_email: e.target.value }))} className="bg-secondary/50 border-border/40" />
               </div>
 
@@ -212,23 +169,8 @@ export default function CheckoutModal({ product, onClose }) {
                 <Input placeholder="Street, City, State, Postcode" value={form.shipping_address} onChange={e => setForm(f => ({ ...f, shipping_address: e.target.value }))} className="bg-secondary/50 border-border/40" />
               </div>
 
-              <div>
-                <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Promo Code</Label>
-                {appliedPromo ? (
-                  <div className="flex items-center justify-between bg-primary/10 border border-primary/30 rounded-lg px-3 py-2">
-                    <div className="flex items-center gap-2">
-                      <Tag className="w-4 h-4 text-primary" />
-                      <span className="font-body text-sm text-primary font-medium">{appliedPromo.code}</span>
-                      <span className="font-body text-xs text-primary/70">— {appliedPromo.discount_percent}% off</span>
-                    </div>
-                    <button type="button" onClick={removePromo}><X className="w-4 h-4 text-primary/60 hover:text-primary" /></button>
-                  </div>
-                ) : (
-                  <div className="flex gap-2">
-                    <Input placeholder="Enter code exactly as given" value={promoInput} onChange={e => setPromoInput(e.target.value)} className="bg-secondary/50 border-border/40 font-body tracking-widest" onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), applyPromo())} />
-                    <Button type="button" variant="outline" onClick={applyPromo} disabled={promoLoading} className="shrink-0">{promoLoading ? '...' : 'Apply'}</Button>
-                  </div>
-                )}
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-3">
+                <p className="font-body text-xs text-primary/80">🏷️ Have a promo code? Enter it on the Stripe payment page — they handle it securely.</p>
               </div>
 
               <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
@@ -249,18 +191,7 @@ export default function CheckoutModal({ product, onClose }) {
                   <span>Subtotal{quantity > 1 ? ` × ${quantity}` : ''}</span>
                   <span>${(productPrice * quantity).toFixed(2)}</span>
                 </div>
-                {appliedPromo && (
-                  <>
-                    <div className="flex justify-between text-primary">
-                      <span>Discount ({appliedPromo.discount_percent}% on eligible merch)</span>
-                      <span>−${pricing.discount.toFixed(2)}</span>
-                    </div>
-                    {appliedPromo.all_items_excluded && (
-                      <p className="text-xs text-amber-400">⚠️ This code applies to eligible merch only. Music items, shipping, processing fees, and support contributions are excluded.</p>
-                    )}
-                    <p className="text-xs text-muted-foreground">Excluded from discount: shipping, CDs, vinyl, music items, support contributions</p>
-                  </>
-                )}
+
                 <div className="flex justify-between text-foreground/70">
                   <span>Shipping (Australia)</span>
                   <span className={pricing.shipping === 0 && !pricing.internationalQuote ? 'text-green-400' : ''}>{pricing.internationalQuote ? 'Quote required' : pricing.shipping === 0 ? 'Free' : `$${pricing.shipping.toFixed(2)}`}</span>
@@ -308,7 +239,7 @@ export default function CheckoutModal({ product, onClose }) {
                 <div className="flex justify-between text-foreground/70"><span>Email</span><span className="truncate ml-4">{form.customer_email}</span></div>
                 {selectedSize && <div className="flex justify-between text-foreground/70"><span>Size</span><span>{selectedSize}</span></div>}
                 <div className="flex justify-between text-foreground/70"><span>Quantity</span><span>{quantity}</span></div>
-                {appliedPromo && <div className="flex justify-between text-primary"><span>Promo</span><span>{appliedPromo.code} ({appliedPromo.discount_percent}% off)</span></div>}
+
                 <div className="flex justify-between font-semibold text-foreground border-t border-border/40 pt-2">
                   <span>Total</span>
                   <span className="gradient-gold-glow">${pricing.total.toFixed(2)} AUD</span>
