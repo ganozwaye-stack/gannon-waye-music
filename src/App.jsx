@@ -203,6 +203,7 @@ import MetricoolDiagnostics from '@/pages/admin/MetricoolDiagnostics.jsx';
 import SocialAgentOS from '@/pages/admin/SocialAgentOS.jsx';
 import DailyPostEngine from '@/pages/admin/DailyPostEngine.jsx';
 import AgentWorkbench from '@/pages/admin/AgentWorkbench';
+import BusinessAttentionCentre from '@/pages/admin/BusinessAttentionCentre';
 
 
 const AuthenticatedApp = () => {
@@ -457,6 +458,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/credential-install-centre" element={<GuidedSetupConcierge />} />
         <Route path="/admin/connection-completion-centre" element={<GuidedSetupConcierge />} />
         <Route path="/admin/agent-workbench" element={<AgentWorkbench />} />
+        <Route path="/admin/business-attention-centre" element={<BusinessAttentionCentre />} />
+        <Route path="/admin/action-required" element={<BusinessAttentionCentre />} />
         <Route path="/admin/go-live-checklist" element={<GoLiveChecklist />} />
         <Route path="/admin/training-hub" element={<TrainingHub />} />
         <Route path="/admin/social-scheduler-health" element={<MetricoolCommand />} />

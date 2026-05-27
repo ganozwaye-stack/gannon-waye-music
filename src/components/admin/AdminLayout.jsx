@@ -6,7 +6,7 @@ import {
   MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command,
   ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
   Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
-  GraduationCap, Building2, Play
+  GraduationCap, Building2, Play, AlertTriangle
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -19,12 +19,15 @@ const NAV_SECTIONS = [
     title: 'Executive',
     items: [
       { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+      { label: '🎯 Business Attention Centre', path: '/admin/business-attention-centre', icon: AlertTriangle },
       { label: 'Notifications', path: '/admin/notifications', icon: Bell },
       { label: 'Executive Feed', path: '/admin/executive-feed', icon: Star },
       { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
       // alphabetical below
+      { label: 'Agent Workbench', path: '/admin/agent-workbench', icon: Brain },
       { label: 'Audit Log', path: '/admin/audit-log', icon: Activity },
       { label: 'Command Centre', path: '/admin/command-centre', icon: Brain },
+      { label: 'Final System Status', path: '/admin/final-system-status', icon: Activity },
       { label: 'Go-Live Checklist', path: '/admin/go-live', icon: Zap },
       { label: 'Growth Engine', path: '/admin/growth-engine', icon: TrendingUp },
       { label: 'Orchestrator AI', path: '/admin/orchestrator-chat', icon: Zap },
@@ -370,7 +373,7 @@ export default function AdminLayout() {
               })}
             </div>
             <div className="flex items-center gap-2">
-              <Link to="/admin/notifications" className="relative p-2 hover:bg-secondary/50 rounded-lg transition-colors" title="Business Attention Centre">
+              <Link to="/admin/business-attention-centre" className="relative p-2 hover:bg-secondary/50 rounded-lg transition-colors" title="Business Attention Centre">
                 <Bell className="w-4 h-4 text-muted-foreground hover:text-foreground" />
                 {unreadCount > 0 && (
                   <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center px-0.5 animate-pulse">
