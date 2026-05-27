@@ -202,6 +202,7 @@ import GuidedSetupConcierge from '@/pages/admin/GuidedSetupConcierge';
 import MetricoolDiagnostics from '@/pages/admin/MetricoolDiagnostics.jsx';
 import SocialAgentOS from '@/pages/admin/SocialAgentOS.jsx';
 import DailyPostEngine from '@/pages/admin/DailyPostEngine.jsx';
+import AgentWorkbench from '@/pages/admin/AgentWorkbench';
 
 
 const AuthenticatedApp = () => {
@@ -455,6 +456,12 @@ const AuthenticatedApp = () => {
         <Route path="/admin/external-login-assistant" element={<GuidedSetupConcierge />} />
         <Route path="/admin/credential-install-centre" element={<GuidedSetupConcierge />} />
         <Route path="/admin/connection-completion-centre" element={<GuidedSetupConcierge />} />
+        <Route path="/admin/agent-workbench" element={<AgentWorkbench />} />
+        <Route path="/admin/go-live-checklist" element={<GoLiveChecklist />} />
+        <Route path="/admin/training-hub" element={<TrainingHub />} />
+        <Route path="/admin/social-scheduler-health" element={<MetricoolCommand />} />
+        <Route path="/admin/metricool-profile-map" element={<MetricoolDiagnostics />} />
+        <Route path="/admin/metricool-performance-sync" element={<MetricoolPerformanceIntelligence />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

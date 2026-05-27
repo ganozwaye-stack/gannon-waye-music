@@ -89,8 +89,8 @@ Deno.serve(async (req) => {
       ...(post.platform === 'tiktok'            && { tiktokData:    { privacyLevel: 'PUBLIC_TO_EVERYONE', disableDuet: false, disableComment: false, disableStitch: false } }),
     };
 
-    // userId + blogId as query params (required by Metricool REST spec)
-    const schedUrl = `https://app.metricool.com/api/v2/scheduler/posts?userId=${encodeURIComponent(userId)}&blogId=${encodeURIComponent(blogId)}`;
+    // Correct Metricool REST endpoint (from swagger: POST /posts)
+    const schedUrl = `https://app.metricool.com/api/posts?userId=${encodeURIComponent(userId)}&blogId=${encodeURIComponent(blogId)}`;
 
     console.log(`[metricoolSchedulePost] Scheduling post ${post_id} → ${network} at ${dateTime} (${timezone})`);
 
@@ -142,7 +142,7 @@ Deno.serve(async (req) => {
       platform: network,
       scheduled_at: dateTime,
       timezone,
-      endpoint_used: 'POST /api/v2/scheduler/posts',
+      endpoint_used: 'POST /api/posts',
       source_chain: 'SocialAsset → ContentCalendarPost → QualityReview → ApprovalQueue → MetricoolSchedulerQueue → Metricool → ContentPerformance',
       message: `Post scheduled to Metricool. ID: ${metricoolPostId}`,
     });
