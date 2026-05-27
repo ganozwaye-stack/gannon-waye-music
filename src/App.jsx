@@ -199,9 +199,9 @@ import MetricoolPerformanceIntelligence from '@/pages/admin/MetricoolPerformance
 import AgentRevenueStatus from '@/pages/admin/AgentRevenueStatus';
 import FinalSystemStatus from '@/pages/admin/FinalSystemStatus';
 import GuidedSetupConcierge from '@/pages/admin/GuidedSetupConcierge';
-import MetricoolDiagnostics from '@/pages/admin/MetricoolDiagnostics.jsx';
-import SocialAgentOS from '@/pages/admin/SocialAgentOS.jsx';
-import DailyPostEngine from '@/pages/admin/DailyPostEngine.jsx';
+import MetricoolDiagnostics from '@/pages/admin/MetricoolDiagnostics';
+import SocialAgentOS from '@/pages/admin/SocialAgentOS';
+import DailyPostEngine from '@/pages/admin/DailyPostEngine';
 
 
 const AuthenticatedApp = () => {
