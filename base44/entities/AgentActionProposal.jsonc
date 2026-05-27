@@ -1,0 +1,201 @@
+{
+  "name": "AgentActionProposal",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "agent_name": {
+      "type": "string"
+    },
+    "proposal_type": {
+      "type": "string",
+      "enum": [
+        "bundle_offer",
+        "limited_time_offer",
+        "promo_code",
+        "upsell",
+        "email_campaign",
+        "social_campaign",
+        "store_banner",
+        "product_highlight",
+        "other"
+      ],
+      "default": "bundle_offer"
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "products_involved": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "product_prices": {
+      "type": "object",
+      "description": "Map of product name to current price"
+    },
+    "proposed_bundle_price": {
+      "type": "number"
+    },
+    "original_combined_price": {
+      "type": "number"
+    },
+    "discount_percent": {
+      "type": "number"
+    },
+    "estimated_margin_percent": {
+      "type": "number"
+    },
+    "estimated_revenue_impact": {
+      "type": "string"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "low"
+    },
+    "confidence_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "urgency_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "profit_potential_score": {
+      "type": "number",
+      "description": "1-10"
+    },
+    "stock_check_passed": {
+      "type": "boolean"
+    },
+    "stock_notes": {
+      "type": "string"
+    },
+    "campaign_duration_hours": {
+      "type": "number"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "customer_facing_headline": {
+      "type": "string"
+    },
+    "customer_facing_copy": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "website_banner_draft": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "product_card_draft": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "promo_code_draft": {
+      "type": "string"
+    },
+    "email_draft": {
+      "type": "string",
+      "maxLength": 5000
+    },
+    "social_post_draft": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "expiry_rule": {
+      "type": "string"
+    },
+    "tracking_plan": {
+      "type": "string"
+    },
+    "source_chain": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "if_approved_action": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "if_rejected_action": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending_approval",
+        "approved",
+        "rejected",
+        "published",
+        "expired",
+        "editing"
+      ],
+      "default": "pending_approval"
+    },
+    "decision_note": {
+      "type": "string"
+    },
+    "decided_by": {
+      "type": "string"
+    },
+    "decided_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "bundle_offer_id": {
+      "type": "string",
+      "description": "ID of resulting BundleOffer if published"
+    },
+    "approval_queue_id": {
+      "type": "string"
+    },
+    "notification_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "agent_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
