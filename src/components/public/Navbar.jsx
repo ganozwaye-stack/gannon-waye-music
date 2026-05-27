@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { label: 'Home', path: '/' },
   { label: 'My Story', path: '/this-is-my-life' },
   { label: 'Music', path: '/music' },
+  { label: 'Live', path: '/tour' },
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
   { label: 'Store', path: '/store' },

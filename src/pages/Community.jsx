@@ -12,6 +12,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { format } from 'date-fns';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 import PostReplies from '@/components/community/PostReplies';
+import FanSpotlight from '@/components/public/FanSpotlight';
+import InstagramFeed from '@/components/public/InstagramFeed';
 
 const PROFANITY_LIST = [
   'fuck','shit','cunt','bitch','asshole','bastard','damn','dick','pussy','cock',
@@ -238,6 +240,8 @@ export default function Community() {
 
         <BePartOfThisCTA context="This community exists because of people who care. If you want to go deeper, you can support the project." />
       </div>
+      <FanSpotlight />
+      <InstagramFeed />
     </div>
   );
 }

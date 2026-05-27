@@ -10,6 +10,8 @@ import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 import ShareButtons from '@/components/public/ShareButtons';
 import GoldShards from '@/components/public/GoldShards';
 import LyricsModal from '@/components/public/LyricsModal';
+import MusicRecommendations from '@/components/public/MusicRecommendations';
+import TourTracker from '@/components/public/TourTracker';
 
 // Clean gold glow banner — blends into dark background on Music page
 const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
@@ -219,6 +221,14 @@ export default function Music() {
           <ShareButtons url="https://gannonwaye.com/music" text="Gannon Waye — debut single 'Thank You' coming soon." />
         </div>
         <BePartOfThisCTA context="If this music means something to you, you can help make more of it happen." />
+      </div>
+
+      {/* Tour Dates */}
+      <TourTracker />
+
+      {/* Music Recommendations */}
+      <div className="max-w-5xl mx-auto">
+        <MusicRecommendations />
       </div>
       {lyricsRelease && <LyricsModal release={lyricsRelease} onClose={() => setLyricsRelease(null)} />}
     </div>

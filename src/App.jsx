@@ -49,6 +49,7 @@ import Bookings from '@/pages/Bookings';
 import SevenDayStandard from '@/pages/SevenDayStandard';
 import CurrentSingle from '@/pages/CurrentSingle';
 import MerchFeedback from '@/pages/MerchFeedback';
+import Tour from '@/pages/Tour';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -271,6 +272,7 @@ const AuthenticatedApp = () => {
         <Route path="/order-status" element={<OrderStatus />} />
         <Route path="/current-single" element={<CurrentSingle />} />
         <Route path="/merch-feedback" element={<MerchFeedback />} />
+        <Route path="/tour" element={<Tour />} />
       </Route>
 
       {/* Embed timer (no layout) */}
