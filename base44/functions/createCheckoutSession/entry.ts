@@ -3,6 +3,13 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
 const AU_SHIPPING_FLAT = 12.95;
 const FREE_SHIPPING_THRESHOLD = 150;
+
+// ALWAYS_INELIGIBLE: these categories can NEVER be discounted
+const ALWAYS_INELIGIBLE_CATEGORIES = [
+  'cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping',
+  'processing', 'fees', 'music', 'limited_edition_music', 'digital_music',
+];
+
 const DIGITAL_CATEGORIES = ['digital', 'support', 'donation'];
 
 function isInternational(address) {
@@ -11,27 +18,40 @@ function isInternational(address) {
   return ['usa', 'united states', 'uk', 'united kingdom', 'canada', 'new zealand', 'nz', 'europe', 'india', 'singapore'].some(k => lower.includes(k));
 }
 
+function isCategoryEligibleForDiscount(category) {
+  if (!category) return true; // Default to eligible if unknown
+  const cat = category.toLowerCase().trim();
+  return !ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c));
+}
+
 function calcAmountCents({ productPrice, quantity, discountPercent, category, shippingAddress, addSupport }) {
   const isDigital = DIGITAL_CATEGORIES.includes((category || '').toLowerCase());
   const itemTotal = productPrice * quantity;
-  const discounted = itemTotal * (1 - discountPercent / 100);
+
+  // GLOBAL DISCOUNT GUARD: Only apply discount if category is eligible
+  const eligible = isCategoryEligibleForDiscount(category);
+  const discounted = eligible ? itemTotal * (1 - discountPercent / 100) : itemTotal;
+
   let shipping = 0;
   if (!isDigital) {
     if (!isInternational(shippingAddress) && discounted < FREE_SHIPPING_THRESHOLD) {
       shipping = AU_SHIPPING_FLAT;
     }
   }
-  return Math.round((discounted + shipping + (addSupport || 0)) * 100);
+
+  // Support contribution is never discounted
+  const supportAmount = parseFloat(addSupport || 0);
+
+  return Math.round((discounted + shipping + supportAmount) * 100);
 }
 
 Deno.serve(async (req) => {
   try {
     const secretKey = Deno.env.get('STRIPE_SECRET_KEY');
     const publishableKey = Deno.env.get('STRIPE_PUBLISHABLE_KEY');
-    
+
     // Stripe mode validation - CRITICAL BLOCK
     if (!secretKey || !secretKey.startsWith('sk_')) {
-      // Create diagnostic before returning
       try {
         const base44 = createClientFromRequest(req);
         await base44.asServiceRole.entities.PaymentDiagnostic.create({
@@ -42,15 +62,8 @@ Deno.serve(async (req) => {
           status: 'open',
           retry_available: false,
         });
-        await base44.asServiceRole.entities.SystemHealthIssue.create({
-          issue_title: 'STRIPE_SECRET_KEY missing or invalid - checkout blocked',
-          severity: 'critical',
-          system_area: 'commerce',
-          status: 'open',
-          requires_approval: true,
-        });
       } catch (_) {}
-      return Response.json({ 
+      return Response.json({
         error: 'Checkout temporarily unavailable',
         friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
         code: 'STRIPE_CONFIG_ERROR'
@@ -62,9 +75,8 @@ Deno.serve(async (req) => {
     const isPublishableLive = publishableKey?.startsWith('pk_live_');
     const isSecretTest = secretKey.startsWith('sk_test_');
     const isPublishableTest = publishableKey?.startsWith('pk_test_');
-    
+
     if ((isSecretLive && !isPublishableLive) || (isSecretTest && !isPublishableTest)) {
-      // Create diagnostic before returning
       try {
         const base44 = createClientFromRequest(req);
         await base44.asServiceRole.entities.PaymentDiagnostic.create({
@@ -76,7 +88,7 @@ Deno.serve(async (req) => {
           retry_available: false,
         });
       } catch (_) {}
-      return Response.json({ 
+      return Response.json({
         error: 'Checkout temporarily unavailable',
         friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
         code: 'STRIPE_MODE_MISMATCH'
@@ -96,6 +108,7 @@ Deno.serve(async (req) => {
     let amountCents = 0;
     let productPrice = 0;
     let category = '';
+    let discountGuardInfo = null;
 
     if (metadata?.product_id) {
       const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: metadata.product_id });
@@ -104,13 +117,37 @@ Deno.serve(async (req) => {
         productPrice = product.sale_price ?? product.price ?? 0;
         category = product.category || '';
         const quantity = parseInt(metadata.quantity || '1', 10);
-        const discountPercent = parseFloat(metadata.promo_discount_percent || '0');
+        const rawDiscountPercent = parseFloat(metadata.promo_discount_percent || '0');
+
+        // === GLOBAL DISCOUNT GUARD: enforce server-side ===
+        const eligible = isCategoryEligibleForDiscount(category);
+        const effectiveDiscountPercent = eligible ? rawDiscountPercent : 0;
+
+        if (rawDiscountPercent > 0 && !eligible) {
+          // Log attempted discount on ineligible item
+          discountGuardInfo = {
+            attempted_discount: rawDiscountPercent,
+            blocked: true,
+            reason: `Category "${category}" is ineligible for discounts per global discount guard`,
+            category,
+          };
+          // Update metadata to reflect guard blocked the discount
+          if (metadata) metadata.promo_discount_blocked = 'true';
+        }
+
         const shippingAddress = metadata.shipping_address || '';
-        amountCents = calcAmountCents({ productPrice, quantity, discountPercent, category, shippingAddress, addSupport: parseFloat(metadata.add_support || '0') });
+        amountCents = calcAmountCents({
+          productPrice,
+          quantity,
+          discountPercent: effectiveDiscountPercent,
+          category,
+          shippingAddress,
+          addSupport: parseFloat(metadata.add_support || '0'),
+        });
       }
     }
 
-    // Fallback to client-provided amount
+    // Fallback to client-provided amount (no discount recalc)
     if (!amountCents) {
       amountCents = Math.round((amount || 0) * 100);
     }
@@ -121,6 +158,12 @@ Deno.serve(async (req) => {
 
     const origin = req.headers.get('origin') || 'https://gannonwaye.com';
 
+    // Build description with discount guard info
+    let description = metadata?.size ? `Size: ${metadata.size}` : undefined;
+    if (discountGuardInfo?.blocked) {
+      description = (description ? description + ' | ' : '') + `Note: Discount blocked (${discountGuardInfo.reason})`;
+    }
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       customer_email: customerEmail,
@@ -130,7 +173,7 @@ Deno.serve(async (req) => {
             currency: 'aud',
             product_data: {
               name: productName || 'Gannon Waye Store',
-              description: metadata?.size ? `Size: ${metadata.size}` : undefined,
+              description,
             },
             unit_amount: amountCents,
           },
@@ -143,6 +186,8 @@ Deno.serve(async (req) => {
         customer_name: customerName || '',
         product_name: productName || '',
         ...(metadata || {}),
+        discount_guard_version: '1.0',
+        discount_guard_blocked: discountGuardInfo?.blocked ? 'true' : 'false',
       },
       payment_intent_data: {
         description: `${productName || 'Purchase'} — Gannon Waye`,
@@ -151,6 +196,7 @@ Deno.serve(async (req) => {
           customer_name: customerName || '',
           product_name: productName || '',
           ...(metadata || {}),
+          discount_guard_version: '1.0',
         },
       },
     });

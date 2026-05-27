@@ -204,6 +204,8 @@ import SocialAgentOS from '@/pages/admin/SocialAgentOS.jsx';
 import DailyPostEngine from '@/pages/admin/DailyPostEngine.jsx';
 import AgentWorkbench from '@/pages/admin/AgentWorkbench';
 import BusinessAttentionCentre from '@/pages/admin/BusinessAttentionCentre';
+import InstagramAutoDMCommand from '@/pages/admin/InstagramAutoDMCommand';
+import DiscountGuardAdmin from '@/pages/admin/DiscountGuardAdmin';
 
 
 const AuthenticatedApp = () => {
@@ -459,6 +461,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/connection-completion-centre" element={<GuidedSetupConcierge />} />
         <Route path="/admin/agent-workbench" element={<AgentWorkbench />} />
         <Route path="/admin/business-attention-centre" element={<BusinessAttentionCentre />} />
+        <Route path="/admin/instagram-auto-dm-command" element={<InstagramAutoDMCommand />} />
+        <Route path="/admin/social-dm-funnel" element={<InstagramAutoDMCommand />} />
+        <Route path="/admin/comment-response-library" element={<InstagramAutoDMCommand />} />
+        <Route path="/admin/auto-reply-safety-centre" element={<InstagramAutoDMCommand />} />
+        <Route path="/admin/discount-guard" element={<DiscountGuardAdmin />} />
         <Route path="/admin/action-required" element={<BusinessAttentionCentre />} />
         <Route path="/admin/go-live-checklist" element={<GoLiveChecklist />} />
         <Route path="/admin/training-hub" element={<TrainingHub />} />

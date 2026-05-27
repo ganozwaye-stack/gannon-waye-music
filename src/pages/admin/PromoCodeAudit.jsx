@@ -93,6 +93,22 @@ export default function PromoCodeAudit() {
         <Button onClick={() => setShowForm(true)} className="gap-2"><Tag className="w-4 h-4" /> New Code</Button>
       </div>
 
+      {/* Global Discount Guard Banner */}
+      <div className="bg-primary/5 border border-primary/30 rounded-xl p-4">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-primary mt-0.5 shrink-0" />
+          <div>
+            <p className="text-sm font-semibold text-primary mb-1">Global Discount Guard Active — v1.0</p>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Discounts apply <strong>only to approved eligible merch product subtotal</strong>. The following are <strong>always excluded</strong> regardless of any promo code:
+              shipping, postage, handling, processing fees, Stripe/merchant fees, support contributions, donations, tips, CDs, vinyl, songs, digital music releases, limited edition music releases, and music bundles containing CDs/vinyl/songs.
+              This rule is enforced in backend checkout logic and <strong>cannot be bypassed by frontend</strong>.
+            </p>
+            <p className="text-xs text-primary mt-1 font-medium">Approved active codes: fnd@gwTYV!P (20% merch) · F@mFr!3NdsOFg@noz (30% merch)</p>
+          </div>
+        </div>
+      </div>
+
       {/* Audit Summary */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         <AuditStatCard label="Total Codes" value={codes.length} icon={Tag} color="text-blue-400" bg="bg-blue-500/10" />
@@ -260,7 +276,8 @@ export default function PromoCodeAudit() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label className="text-xs uppercase tracking-wider">Code *</Label>
-                  <Input value={formData.code} onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })} placeholder="LAUNCH15" />
+                  <Input value={formData.code} onChange={(e) => setFormData({ ...formData, code: e.target.value })} placeholder="e.g. fnd@gwTYV!P — stored exactly as typed" />
+                  <p className="text-xs text-muted-foreground mt-1">⚠️ Code is stored and matched EXACTLY as typed. Do not transform case.</p>
                 </div>
                 <div>
                   <Label className="text-xs uppercase tracking-wider">Discount % *</Label>

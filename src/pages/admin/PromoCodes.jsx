@@ -26,7 +26,7 @@ export default function PromoCodes() {
       return;
     }
     await base44.entities.PromoCode.create({
-      code: form.code.toUpperCase().trim(),
+      code: form.code.trim(), // Store exactly as typed — codes may contain symbols
       discount_percent: parseFloat(form.discount_percent),
       max_uses: form.max_uses ? parseInt(form.max_uses) : null,
       description: form.description,
@@ -67,7 +67,7 @@ export default function PromoCodes() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Code *</Label>
-              <Input placeholder="LAUNCH15" value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value.toUpperCase() }))} className="bg-secondary/50 border-border/40 font-body tracking-widest" />
+              <Input placeholder="e.g. fnd@gwTYV!P — exact case" value={form.code} onChange={e => setForm(f => ({ ...f, code: e.target.value }))} className="bg-secondary/50 border-border/40 font-body tracking-widest" />
             </div>
             <div>
               <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Discount % *</Label>

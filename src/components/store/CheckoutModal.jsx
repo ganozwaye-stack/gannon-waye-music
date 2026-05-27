@@ -63,14 +63,25 @@ export default function CheckoutModal({ product, onClose }) {
     if (!promoInput.trim()) return;
     setPromoLoading(true);
     try {
-      const res = await base44.functions.invoke('validatePromoCode', { 
-        code: promoInput.trim().toUpperCase(),
+      // CRITICAL: Do NOT uppercase/transform the code — codes contain symbols and mixed case
+      const res = await base44.functions.invoke('validatePromoCode', {
+        code: promoInput.trim(),
         product_category: product.category,
-        cart_items: [{ product_id: product.id, category: product.category }]
+        cart_items: [{ product_id: product.id, category: product.category, price: productPrice, quantity }]
       });
       if (res.data?.valid) {
-        setAppliedPromo({ code: res.data.code, discount_percent: res.data.discount_percent, id: res.data.id });
-        toast({ title: `${res.data.discount_percent}% discount applied!` });
+        setAppliedPromo({
+          code: res.data.code,
+          discount_percent: res.data.discount_percent,
+          id: res.data.id,
+          all_items_excluded: res.data.all_items_excluded,
+          checkout_message: res.data.checkout_message,
+        });
+        if (res.data.all_items_excluded) {
+          toast({ title: 'Code applied — but no eligible merch in cart', description: 'This code applies to eligible merch only. Music items, shipping, and support contributions are excluded.', variant: 'destructive' });
+        } else {
+          toast({ title: `${res.data.discount_percent}% discount applied to eligible merch!` });
+        }
       } else {
         toast({ title: res.data?.reason || 'Invalid or expired code', variant: 'destructive' });
       }
@@ -210,7 +221,7 @@ export default function CheckoutModal({ product, onClose }) {
                   </div>
                 ) : (
                   <div className="flex gap-2">
-                    <Input placeholder="e.g. LAUNCH15" value={promoInput} onChange={e => setPromoInput(e.target.value.toUpperCase())} className="bg-secondary/50 border-border/40 font-body tracking-widest uppercase" onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), applyPromo())} />
+                    <Input placeholder="Enter code exactly as given" value={promoInput} onChange={e => setPromoInput(e.target.value)} className="bg-secondary/50 border-border/40 font-body tracking-widest" onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), applyPromo())} />
                     <Button type="button" variant="outline" onClick={applyPromo} disabled={promoLoading} className="shrink-0">{promoLoading ? '...' : 'Apply'}</Button>
                   </div>
                 )}
@@ -235,10 +246,16 @@ export default function CheckoutModal({ product, onClose }) {
                   <span>${(productPrice * quantity).toFixed(2)}</span>
                 </div>
                 {appliedPromo && (
-                  <div className="flex justify-between text-primary">
-                    <span>Discount ({appliedPromo.discount_percent}%)</span>
-                    <span>−${pricing.discount.toFixed(2)}</span>
-                  </div>
+                  <>
+                    <div className="flex justify-between text-primary">
+                      <span>Discount ({appliedPromo.discount_percent}% on eligible merch)</span>
+                      <span>−${pricing.discount.toFixed(2)}</span>
+                    </div>
+                    {appliedPromo.all_items_excluded && (
+                      <p className="text-xs text-amber-400">⚠️ This code applies to eligible merch only. Music items, shipping, processing fees, and support contributions are excluded.</p>
+                    )}
+                    <p className="text-xs text-muted-foreground">Excluded from discount: shipping, CDs, vinyl, music items, support contributions</p>
+                  </>
                 )}
                 <div className="flex justify-between text-foreground/70">
                   <span>Shipping (Australia)</span>
