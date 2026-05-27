@@ -199,6 +199,9 @@ import MetricoolPerformanceIntelligence from '@/pages/admin/MetricoolPerformance
 import AgentRevenueStatus from '@/pages/admin/AgentRevenueStatus';
 import FinalSystemStatus from '@/pages/admin/FinalSystemStatus';
 import GuidedSetupConcierge from '@/pages/admin/GuidedSetupConcierge';
+import MetricoolDiagnostics from '@/pages/admin/MetricoolDiagnostics.jsx';
+import SocialAgentOS from '@/pages/admin/SocialAgentOS.jsx';
+import DailyPostEngine from '@/pages/admin/DailyPostEngine.jsx';
 
 
 const AuthenticatedApp = () => {
@@ -445,6 +448,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/agent-revenue-status" element={<AgentRevenueStatus />} />
         <Route path="/admin/final-system-status" element={<FinalSystemStatus />} />
         <Route path="/admin/guided-setup-concierge" element={<GuidedSetupConcierge />} />
+        <Route path="/admin/metricool-diagnostics" element={<MetricoolDiagnostics />} />
+        <Route path="/admin/social-agent-os" element={<SocialAgentOS />} />
+        <Route path="/admin/daily-post-engine" element={<DailyPostEngine />} />
         <Route path="/admin/live-setup-wizard" element={<GuidedSetupConcierge />} />
         <Route path="/admin/external-login-assistant" element={<GuidedSetupConcierge />} />
         <Route path="/admin/credential-install-centre" element={<GuidedSetupConcierge />} />

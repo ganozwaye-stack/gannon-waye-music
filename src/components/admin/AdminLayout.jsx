@@ -73,6 +73,10 @@ const NAV_SECTIONS = [
       { label: 'TikTok Recording Studio', path: '/admin/tiktok-recording-studio', icon: Video },
       { label: 'Social Content Gen', path: '/admin/social-content', icon: Megaphone },
       // alphabetical
+      { label: 'Metricool Command', path: '/admin/metricool-command', icon: Calendar },
+      { label: 'Metricool Diagnostics', path: '/admin/metricool-diagnostics', icon: Activity },
+      { label: 'Social Agent OS', path: '/admin/social-agent-os', icon: Brain },
+      { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Zap },
       { label: 'Content Automate', path: '/admin/content-automate', icon: Zap },
       { label: 'Content Dashboard', path: '/admin/content-dashboard', icon: Sparkles },
       { label: 'Creative Studio', path: '/admin/creative-studio', icon: Palette },
