@@ -1,0 +1,128 @@
+{
+  "name": "LandedCostCalculation",
+  "type": "object",
+  "properties": {
+    "purchase_order_id": {
+      "type": "string"
+    },
+    "supplier_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "calculation_type": {
+      "type": "string",
+      "enum": [
+        "preliminary",
+        "final"
+      ],
+      "default": "preliminary"
+    },
+    "qty_ordered": {
+      "type": "number"
+    },
+    "qty_received": {
+      "type": "number"
+    },
+    "product_cost_aud": {
+      "type": "number"
+    },
+    "shipping_cost_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "taxes_duties_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "platform_fees_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "payment_fee_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "currency_fee_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "other_fees_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "total_order_cost_aud": {
+      "type": "number"
+    },
+    "landed_cost_per_unit_aud": {
+      "type": "number"
+    },
+    "sell_price_aud": {
+      "type": "number"
+    },
+    "gross_margin_percent": {
+      "type": "number"
+    },
+    "gross_profit_per_unit_aud": {
+      "type": "number"
+    },
+    "minimum_profitable_price_aud": {
+      "type": "number"
+    },
+    "recommended_retail_price_aud": {
+      "type": "number"
+    },
+    "break_even_units": {
+      "type": "number"
+    },
+    "cash_tied_in_stock_aud": {
+      "type": "number"
+    },
+    "allocation_method": {
+      "type": "string",
+      "enum": [
+        "proportional_cost",
+        "by_quantity",
+        "by_weight"
+      ],
+      "default": "proportional_cost"
+    },
+    "formula_notes": {
+      "type": "string"
+    },
+    "source_chain": {
+      "type": "string"
+    },
+    "calculated_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "product_name",
+    "qty_ordered",
+    "product_cost_aud"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

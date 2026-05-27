@@ -1,0 +1,151 @@
+{
+  "name": "PurchaseOrder",
+  "type": "object",
+  "properties": {
+    "po_number": {
+      "type": "string"
+    },
+    "supplier_id": {
+      "type": "string"
+    },
+    "supplier_name": {
+      "type": "string"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "alibaba",
+        "aliexpress",
+        "local",
+        "direct",
+        "other"
+      ],
+      "default": "alibaba"
+    },
+    "alibaba_order_number": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending_approval",
+        "approved",
+        "ordered",
+        "paid",
+        "shipped",
+        "partially_received",
+        "received",
+        "cancelled",
+        "disputed"
+      ],
+      "default": "draft"
+    },
+    "order_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "expected_arrival": {
+      "type": "string",
+      "format": "date"
+    },
+    "actual_arrival": {
+      "type": "string",
+      "format": "date"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "exchange_rate": {
+      "type": "number",
+      "default": 1.55,
+      "description": "USD to AUD rate"
+    },
+    "product_total_foreign": {
+      "type": "number"
+    },
+    "product_total_aud": {
+      "type": "number"
+    },
+    "shipping_cost_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "taxes_duties_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "platform_fees_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "payment_processing_fee_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "currency_conversion_fee_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "other_fees_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "total_landed_cost_aud": {
+      "type": "number"
+    },
+    "tracking_number": {
+      "type": "string"
+    },
+    "invoice_url": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "approval_id": {
+      "type": "string"
+    },
+    "payment_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "payment_method": {
+      "type": "string"
+    },
+    "source_chain": {
+      "type": "string"
+    },
+    "is_preliminary": {
+      "type": "boolean",
+      "default": true,
+      "description": "True if costs are estimated, not final"
+    }
+  },
+  "required": [
+    "supplier_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

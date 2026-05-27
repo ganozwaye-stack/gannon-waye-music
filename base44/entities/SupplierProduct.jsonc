@@ -1,0 +1,95 @@
+{
+  "name": "SupplierProduct",
+  "type": "object",
+  "properties": {
+    "product_name": {
+      "type": "string"
+    },
+    "supplier_id": {
+      "type": "string"
+    },
+    "supplier_name": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "merch_product_id": {
+      "type": "string",
+      "description": "Link to MerchProduct"
+    },
+    "category": {
+      "type": "string"
+    },
+    "unit_cost_foreign": {
+      "type": "number"
+    },
+    "unit_cost_aud": {
+      "type": "number"
+    },
+    "landed_cost_per_unit_aud": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "moq": {
+      "type": "number",
+      "default": 1
+    },
+    "lead_time_days": {
+      "type": "number"
+    },
+    "supplier_url": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "discontinued",
+        "pending"
+      ],
+      "default": "active"
+    },
+    "last_order_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "reorder_point_qty": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "product_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

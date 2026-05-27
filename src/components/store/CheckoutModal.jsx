@@ -17,14 +17,15 @@ function isInternational(address) {
   return ['usa', 'united states', 'uk', 'united kingdom', 'canada', 'new zealand', 'nz', 'europe', 'india', 'singapore'].some(k => lower.includes(k));
 }
 
-function calcPricing(basePrice, category, discountPercent = 0, shippingAddress = '') {
+function calcPricing(basePrice, category, discountPercent = 0, shippingAddress = '', isOwnerOverride = false) {
   const isDigital = DIGITAL_CATEGORIES.includes((category || '').toLowerCase());
   const discounted = basePrice * (1 - discountPercent / 100);
   const discount = basePrice - discounted;
   let shipping = 0;
   let shippingLabel = 'Free';
   let internationalQuote = false;
-  if (!isDigital) {
+  // Owner override always gets free shipping
+  if (!isOwnerOverride && !isDigital) {
     if (isInternational(shippingAddress)) {
       shipping = 0;
       shippingLabel = 'Quote required';
@@ -56,7 +57,7 @@ export default function CheckoutModal({ product, onClose }) {
 
   const hasSize = product.sizes_available?.length > 0;
   const productPrice = product.sale_price ?? product.price ?? 0;
-  const basePricing = calcPricing(productPrice * quantity, product.category, appliedPromo?.discount_percent || 0, form.shipping_address);
+  const basePricing = calcPricing(productPrice * quantity, product.category, appliedPromo?.discount_percent || 0, form.shipping_address, appliedPromo?.is_owner_override || false);
   const pricing = { ...basePricing, total: Number((basePricing.total + addSupport).toFixed(2)) };
 
   const applyPromo = async () => {
@@ -76,6 +77,8 @@ export default function CheckoutModal({ product, onClose }) {
           id: res.data.id,
           all_items_excluded: res.data.all_items_excluded,
           checkout_message: res.data.checkout_message,
+          is_owner_override: res.data.is_owner_override || false,
+          override_applies_to_all: res.data.override_applies_to_all || false,
         });
         if (res.data.all_items_excluded) {
           toast({ title: 'Code applied — but no eligible merch in cart', description: 'This code applies to eligible merch only. Music items, shipping, and support contributions are excluded.', variant: 'destructive' });
@@ -133,6 +136,7 @@ export default function CheckoutModal({ product, onClose }) {
             promo_code: appliedPromo?.code || '',
             promo_id: appliedPromo?.id || '',
             promo_discount_percent: String(appliedPromo?.discount_percent || 0),
+            promo_override: appliedPromo?.is_owner_override ? 'true' : 'false',
             add_support: String(addSupport),
             shipping_amount: String(pricing.internationalQuote ? 0 : pricing.shipping),
             gst_included: String(pricing.gstIncluded.toFixed(2)),

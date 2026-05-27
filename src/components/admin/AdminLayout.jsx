@@ -6,7 +6,7 @@ import {
   MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command,
   ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
   Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
-  GraduationCap, Building2, Play, AlertTriangle
+  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -36,13 +36,15 @@ const NAV_SECTIONS = [
     ],
   },
   {
-    title: 'Commerce',
-    items: [
-      { label: "Today's Money Moves", path: '/admin/todays-money-moves', icon: Zap },
-      { label: 'Orders', path: '/admin/orders', icon: Package },
-      { label: 'Order Profit Intelligence', path: '/admin/order-profit-intelligence', icon: DollarSign },
-      { label: 'Products', path: '/admin/merch', icon: ShoppingBag },
-      { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
+  title: 'Commerce',
+  items: [
+    { label: "Today's Money Moves", path: '/admin/todays-money-moves', icon: Zap },
+    { label: '📦 Business Process Command', path: '/admin/business-process-command', icon: Zap },
+    { label: 'Procurement Command', path: '/admin/procurement-command', icon: ShoppingCart },
+    { label: 'Orders', path: '/admin/orders', icon: Package },
+    { label: 'Order Profit Intelligence', path: '/admin/order-profit-intelligence', icon: DollarSign },
+    { label: 'Products', path: '/admin/merch', icon: ShoppingBag },
+    { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
       // alphabetical
       { label: 'Bundle Proposal Studio', path: '/admin/bundle-proposal-studio', icon: Package },
       { label: 'Content to Cash Engine', path: '/admin/content-to-cash', icon: Zap },
@@ -50,11 +52,13 @@ const NAV_SECTIONS = [
       { label: 'Ecommerce Intelligence', path: '/admin/ecommerce-intelligence', icon: Sparkles },
       { label: 'Fan Conversion Engine', path: '/admin/fan-conversion-engine', icon: Users },
       { label: 'Intelligence to Income', path: '/admin/intelligence-to-income', icon: Zap },
+      { label: 'Landed Cost Calculator', path: '/admin/landed-cost-calculator', icon: Calculator },
       { label: 'Merch Financials', path: '/admin/merch-financials', icon: DollarSign },
       { label: 'Offer Engine', path: '/admin/offer-engine', icon: Tag },
       { label: 'Product Insights', path: '/admin/product-insights', icon: TrendingUp },
       { label: 'Revenue Actions', path: '/admin/revenue-actions', icon: Zap },
       { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Package },
+      { label: 'Stock Flow Dashboard', path: '/admin/stock-flow-dashboard', icon: BarChart3 },
       { label: 'Stripe Live Report', path: '/admin/stripe-live-report', icon: CreditCard },
       { label: 'Supporters', path: '/admin/supporters', icon: Heart },
       { label: 'Website Evolution Engine', path: '/admin/website-evolution', icon: Globe },

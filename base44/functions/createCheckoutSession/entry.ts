@@ -119,8 +119,11 @@ Deno.serve(async (req) => {
         const quantity = parseInt(metadata.quantity || '1', 10);
         const rawDiscountPercent = parseFloat(metadata.promo_discount_percent || '0');
 
-        // === GLOBAL DISCOUNT GUARD: enforce server-side ===
-        const eligible = isCategoryEligibleForDiscount(category);
+        // === OWNER OVERRIDE CHECK: skip guard, apply to everything including shipping ===
+        const isOwnerOverride = metadata?.promo_override === 'true';
+
+        // === GLOBAL DISCOUNT GUARD: enforce server-side (skipped for owner override) ===
+        const eligible = isOwnerOverride ? true : isCategoryEligibleForDiscount(category);
         const effectiveDiscountPercent = eligible ? rawDiscountPercent : 0;
 
         if (rawDiscountPercent > 0 && !eligible) {
@@ -136,14 +139,22 @@ Deno.serve(async (req) => {
         }
 
         const shippingAddress = metadata.shipping_address || '';
-        amountCents = calcAmountCents({
-          productPrice,
-          quantity,
-          discountPercent: effectiveDiscountPercent,
-          category,
-          shippingAddress,
-          addSupport: parseFloat(metadata.add_support || '0'),
-        });
+
+        if (isOwnerOverride) {
+          // Owner override: apply discount to grand total (items + no shipping charge)
+          const itemTotal = productPrice * quantity;
+          const discountedTotal = itemTotal * (1 - effectiveDiscountPercent / 100);
+          amountCents = Math.max(50, Math.round(discountedTotal * 100)); // min 50c for Stripe
+        } else {
+          amountCents = calcAmountCents({
+            productPrice,
+            quantity,
+            discountPercent: effectiveDiscountPercent,
+            category,
+            shippingAddress,
+            addSupport: parseFloat(metadata.add_support || '0'),
+          });
+        }
       }
     }
 

@@ -1,0 +1,104 @@
+{
+  "name": "Supplier",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "alibaba",
+        "aliexpress",
+        "local",
+        "direct",
+        "other"
+      ],
+      "default": "alibaba"
+    },
+    "contact_name": {
+      "type": "string"
+    },
+    "contact_email": {
+      "type": "string"
+    },
+    "contact_url": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "payment_methods": {
+      "type": "string"
+    },
+    "lead_time_days": {
+      "type": "number"
+    },
+    "minimum_order_qty": {
+      "type": "number"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "unknown"
+      ],
+      "default": "unknown"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "inactive",
+        "pending",
+        "blocked"
+      ],
+      "default": "active"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "rating": {
+      "type": "number"
+    },
+    "total_orders": {
+      "type": "number",
+      "default": 0
+    },
+    "total_spent_aud": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

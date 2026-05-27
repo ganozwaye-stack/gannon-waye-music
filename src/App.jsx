@@ -206,6 +206,10 @@ import AgentWorkbench from '@/pages/admin/AgentWorkbench';
 import BusinessAttentionCentre from '@/pages/admin/BusinessAttentionCentre';
 import InstagramAutoDMCommand from '@/pages/admin/InstagramAutoDMCommand';
 import DiscountGuardAdmin from '@/pages/admin/DiscountGuardAdmin';
+import ProcurementCommand from '@/pages/admin/ProcurementCommand';
+import LandedCostCalculator from '@/pages/admin/LandedCostCalculator';
+import StockFlowDashboard from '@/pages/admin/StockFlowDashboard';
+import BusinessProcessCommand from '@/pages/admin/BusinessProcessCommand';
 
 
 const AuthenticatedApp = () => {
@@ -466,6 +470,17 @@ const AuthenticatedApp = () => {
         <Route path="/admin/comment-response-library" element={<InstagramAutoDMCommand />} />
         <Route path="/admin/auto-reply-safety-centre" element={<InstagramAutoDMCommand />} />
         <Route path="/admin/discount-guard" element={<DiscountGuardAdmin />} />
+        <Route path="/admin/procurement-command" element={<ProcurementCommand />} />
+        <Route path="/admin/alibaba-command" element={<ProcurementCommand />} />
+        <Route path="/admin/supplier-command" element={<ProcurementCommand />} />
+        <Route path="/admin/purchase-orders" element={<ProcurementCommand />} />
+        <Route path="/admin/supplier-products" element={<ProcurementCommand />} />
+        <Route path="/admin/stock-receiving" element={<StockFlowDashboard />} />
+        <Route path="/admin/landed-cost-calculator" element={<LandedCostCalculator />} />
+        <Route path="/admin/inventory-batches" element={<StockFlowDashboard />} />
+        <Route path="/admin/inventory-costing" element={<LandedCostCalculator />} />
+        <Route path="/admin/stock-flow-dashboard" element={<StockFlowDashboard />} />
+        <Route path="/admin/business-process-command" element={<BusinessProcessCommand />} />
         <Route path="/admin/action-required" element={<BusinessAttentionCentre />} />
         <Route path="/admin/go-live-checklist" element={<GoLiveChecklist />} />
         <Route path="/admin/training-hub" element={<TrainingHub />} />

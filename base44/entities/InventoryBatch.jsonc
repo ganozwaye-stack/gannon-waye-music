@@ -1,0 +1,114 @@
+{
+  "name": "InventoryBatch",
+  "type": "object",
+  "properties": {
+    "batch_name": {
+      "type": "string"
+    },
+    "merch_product_id": {
+      "type": "string"
+    },
+    "product_name": {
+      "type": "string"
+    },
+    "purchase_order_id": {
+      "type": "string"
+    },
+    "supplier_id": {
+      "type": "string"
+    },
+    "qty_ordered": {
+      "type": "number",
+      "default": 0
+    },
+    "qty_received": {
+      "type": "number",
+      "default": 0
+    },
+    "qty_available": {
+      "type": "number",
+      "default": 0
+    },
+    "qty_reserved": {
+      "type": "number",
+      "default": 0
+    },
+    "qty_sold": {
+      "type": "number",
+      "default": 0
+    },
+    "qty_damaged": {
+      "type": "number",
+      "default": 0
+    },
+    "qty_lost": {
+      "type": "number",
+      "default": 0
+    },
+    "qty_returned": {
+      "type": "number",
+      "default": 0
+    },
+    "landed_cost_per_unit_aud": {
+      "type": "number"
+    },
+    "total_batch_cost_aud": {
+      "type": "number"
+    },
+    "stock_value_aud": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ordered",
+        "in_transit",
+        "partially_received",
+        "received",
+        "depleted",
+        "archived"
+      ],
+      "default": "ordered"
+    },
+    "received_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "is_preliminary_cost": {
+      "type": "boolean",
+      "default": true
+    },
+    "notes": {
+      "type": "string"
+    },
+    "source_chain": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "product_name",
+    "qty_ordered"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -60,10 +60,29 @@ Deno.serve(async (req) => {
       if (!email) {
         return Response.json({ valid: false, reason: 'Email required for this code' });
       }
-      const approved = promo.approved_emails || [];
-      if (!approved.includes(email.toLowerCase().trim())) {
+      const approved = (promo.approved_emails || []).map(e => e.toLowerCase().trim());
+      const emailLower = email.toLowerCase().trim();
+      if (!approved.includes(emailLower)) {
         return Response.json({ valid: false, reason: 'This code requires manual approval. Contact us to verify eligibility.' });
       }
+    }
+
+    // === OWNER OVERRIDE CODE ===
+    // If this promo has 90%+ discount and requires_approval and is restricted to specific emails,
+    // it's an owner override — bypass category guards entirely
+    const isOwnerOverride = promo.discount_percent >= 90 && promo.requires_approval && (promo.approved_emails || []).length > 0;
+    if (isOwnerOverride) {
+      return Response.json({
+        valid: true,
+        code: promo.code,
+        discount_percent: promo.discount_percent,
+        id: promo.id,
+        is_owner_override: true,
+        override_applies_to_all: true,
+        excludes_shipping: promo.excludes_shipping ?? true,
+        global_guard_active: false, // Override bypasses guard
+        note: 'Owner override code — applies to all items including ineligible categories',
+      });
     }
 
     // Check one-use-per-email
