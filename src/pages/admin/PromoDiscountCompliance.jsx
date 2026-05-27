@@ -128,12 +128,25 @@ const NORTON_CHECKLIST = [
 ];
 
 const NORTON_LIKELY_CAUSES = [
-  { cause: 'Base44 preview URLs flagged as suspicious', type: 'False Positive', fix: 'Use gannonwaye.com for testing and sharing. Ignore preview URL blocks — they are temporary generated domains.' },
-  { cause: 'chatgpt.com / openai.com blocked', type: 'False Positive', fix: 'These are legitimate domains. Add to Norton exclusions in the browser extension settings.' },
+  {
+    cause: '⚠️ CONFIRMED: Base44 preview sandbox URL blocked (URL:Blacklist)',
+    type: 'Confirmed Block',
+    fix: 'Norton has specifically blacklisted the Base44 preview domain (base44-preview.app). This is NOT gannonwaye.com. Use https://gannonwaye.com for all real testing. Disable Norton Safe Web temporarily while working inside Base44 preview, then re-enable.',
+  },
+  {
+    cause: 'Codex (codex.exe) process blocked by Norton AI Agent Protection',
+    type: 'False Positive',
+    fix: 'Norton → Settings → Antivirus → Scans and Risks → Items to Exclude → add the Codex executable path. Also check Firewall → Program Control → set Codex to Allow.',
+  },
+  {
+    cause: 'Chrome blocked when accessing Base44 preview URL',
+    type: 'False Positive',
+    fix: 'The block is on the URL, not Chrome itself. Norton → Settings → Firewall → Program Control → Chrome → set to Auto or Allow. Avoid preview sandbox URLs — use gannonwaye.com instead.',
+  },
+  {
+    cause: 'chatgpt.com / openai.com blocked', type: 'False Positive', fix: 'Legitimate domains. Add to Norton exclusions in the browser extension settings.' },
   { cause: 'github.com / githubusercontent.com blocked', type: 'False Positive', fix: 'Legitimate code hosting. Add to Norton exclusions if blocked during development.' },
-  { cause: 'Warp / Cursor / Replit blocked', type: 'False Positive', fix: 'Developer tools with legitimate domains. Add to Norton browser exclusions.' },
-  { cause: 'New domain (gannonwaye.com) with low reputation score', type: 'Reputation', fix: 'Submit gannonwaye.com to Norton Safe Web for re-evaluation. Add HTTPS + real content = reputation improvement over time.' },
-  { cause: 'Backend function URLs flagged', type: 'Possible False Positive', fix: 'api.base44.app/... URLs are platform infrastructure. Do not permanently whitelist. Use only from backend.' },
+  { cause: 'New domain (gannonwaye.com) with low reputation score', type: 'Reputation', fix: 'Submit gannonwaye.com to Norton Safe Web for re-evaluation. Add HTTPS + real content = reputation improves over time.' },
 ];
 
 export default function PromoDiscountCompliance() {
@@ -367,8 +380,22 @@ export default function PromoDiscountCompliance() {
             </CardContent>
           </Card>
 
+          {/* CONFIRMED BLOCK BANNER */}
+          <div className="border border-red-500/50 bg-red-500/10 rounded-xl p-4 space-y-2">
+            <p className="font-semibold text-red-300 flex items-center gap-2"><AlertTriangle className="w-4 h-4" />CONFIRMED: Norton is blocking the Base44 preview sandbox domain</p>
+            <div className="font-mono text-xs bg-secondary/60 rounded p-2 text-muted-foreground break-all">
+              https://preview-sandbox--69eb7905ca6eb4180010f794.base44-preview.app/?token=...
+            </div>
+            <p className="text-xs text-foreground/70">Threat category: <strong className="text-red-300">URL:Blacklist</strong> — detected via Codex (codex.exe) and Chrome (chrome.exe)</p>
+            <p className="text-xs text-foreground/70">This is <strong>NOT gannonwaye.com</strong>. It is the Base44 preview environment domain. Use <strong className="text-green-300">https://gannonwaye.com</strong> for all real testing.</p>
+            <div className="flex flex-wrap gap-2 mt-1">
+              <Badge className="bg-green-500/20 text-green-300">gannonwaye.com — USE THIS</Badge>
+              <Badge className="bg-red-500/20 text-red-300">base44-preview.app — BLOCKED BY NORTON</Badge>
+            </div>
+          </div>
+
           <Card>
-            <CardHeader><CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-yellow-400" />Likely Causes of Norton Blocks</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-yellow-400" />Cause Analysis &amp; Fixes</CardTitle></CardHeader>
             <CardContent className="space-y-3">
               {NORTON_LIKELY_CAUSES.map((c, i) => (
                 <div key={i} className="border border-border rounded-xl p-3 space-y-1">
@@ -415,17 +442,37 @@ export default function PromoDiscountCompliance() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader><CardTitle className="text-sm">How to Add Norton Browser Exclusions</CardTitle></CardHeader>
-            <CardContent className="space-y-2 text-sm text-foreground/80">
-              <p className="text-xs text-muted-foreground">For development tools that are false positives (chatgpt.com, github.com, etc.):</p>
-              <ol className="text-xs list-decimal list-inside space-y-1.5">
-                <li>Open Norton 360 → Settings → Firewall or Web Protection</li>
-                <li>Find "Intrusion Prevention" or "Web Browser Protection"</li>
-                <li>Add site exclusions for the domains you trust (chatgpt.com, github.com, base44.com, etc.)</li>
-                <li>Alternatively: Norton browser extension → click extension icon → "Exclude this site" when on a blocked page</li>
-                <li>Do NOT add random preview URLs as permanent exclusions</li>
-              </ol>
+          <Card className="border-yellow-500/30">
+            <CardHeader><CardTitle className="text-sm text-yellow-300">Immediate Norton Fix Steps</CardTitle></CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              <div className="space-y-2">
+                <p className="font-semibold text-sm">Option A — Temporary: Disable Norton Safe Web while in Base44 preview</p>
+                <ol className="text-xs list-decimal list-inside space-y-1.5 text-foreground/80">
+                  <li>Chrome → Extensions → Norton Safe Web → disable temporarily</li>
+                  <li>Work inside Base44 preview as normal</li>
+                  <li>Re-enable when done — use gannonwaye.com for real testing</li>
+                </ol>
+              </div>
+              <div className="space-y-2">
+                <p className="font-semibold text-sm">Option B — Report false detection</p>
+                <ol className="text-xs list-decimal list-inside space-y-1.5 text-foreground/80">
+                  <li>Norton 360 → Security → History → find the blocked event</li>
+                  <li>Open it → click <strong>Report false detection</strong> (do this for both Codex and Chrome events)</li>
+                </ol>
+              </div>
+              <div className="space-y-2">
+                <p className="font-semibold text-sm">Option C — Allow Codex executable in Norton</p>
+                <ol className="text-xs list-decimal list-inside space-y-1.5 text-foreground/80">
+                  <li>Norton 360 → Settings → Antivirus → Scans and Risks → Items to Exclude from Auto-Protect</li>
+                  <li>Add: <code className="font-mono text-xs bg-secondary/50 px-1 rounded">C:\Program Files\WindowsApps\openai.codex_...\app\codex.exe</code></li>
+                  <li>Norton → Settings → Firewall → Program Control → find Codex and Chrome → set to <strong>Allow</strong></li>
+                </ol>
+              </div>
+              <div className="bg-secondary/40 rounded p-3 text-xs text-muted-foreground">
+                <strong>Safe domains to add to Norton exclusions (if asked):</strong><br />
+                gannonwaye.com · app.base44.com · base44.com<br />
+                Only add <code className="font-mono">base44-preview.app</code> temporarily if needed — never permanently.
+              </div>
             </CardContent>
           </Card>
         </div>
