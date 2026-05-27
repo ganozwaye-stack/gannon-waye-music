@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Heart, Bell, Sparkles, ShoppingCart } from 'lucide-react';
+import { ShoppingBag, Heart, Bell, Sparkles, ShoppingCart, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
-import CheckoutModal from '@/components/store/CheckoutModal';
+import { useCartStore } from '@/lib/cartStore';
+import CartButton from '@/components/store/CartButton';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -183,13 +184,34 @@ function InterestButton({ productId, productName }) {
 }
 
 function ProductCard({ product }) {
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const { toast } = useToast();
+  const addItem = useCartStore(state => state.addItem);
+  const [selectedSize, setSelectedSize] = useState('');
+  const [showSizeError, setShowSizeError] = useState(false);
+  
   const price = product.sale_price ?? product.price;
   const cfg = PRODUCT_CONFIG[product.id];
   const badge = PRODUCT_BADGES[product.id];
   const isCd = product.category === 'cd';
   const galleryImages = PRODUCT_GALLERIES[product.id] || (product.images_array?.length > 0 ? product.images_array : null);
   const singleImage = product.image_url;
+  const hasSize = product.sizes_available?.length > 0;
+  
+  const handleAddToCart = () => {
+    if (hasSize && !selectedSize) {
+      setShowSizeError(true);
+      toast({ title: 'Please select a size', variant: 'destructive' });
+      return;
+    }
+    
+    addItem(product, 1, selectedSize || null);
+    setSelectedSize('');
+    setShowSizeError(false);
+    toast({ 
+      title: 'Added to cart! 🤍', 
+      description: product.name 
+    });
+  };
 
   return (
     <>
@@ -241,12 +263,39 @@ function ProductCard({ product }) {
             <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
           )}
 
+          {hasSize && (
+            <div className="mt-3">
+              <div className="flex flex-wrap gap-2 justify-center">
+                {product.sizes_available.map(s => (
+                  <button 
+                    key={s} 
+                    type="button" 
+                    onClick={() => {
+                      setSelectedSize(s);
+                      setShowSizeError(false);
+                    }}
+                    className={`px-3 py-1 rounded-lg border font-body text-xs transition-all ${
+                      selectedSize === s 
+                        ? 'border-primary bg-primary/10 text-primary' 
+                        : 'border-border/50 text-muted-foreground hover:border-primary/30'
+                    }`}
+                  >
+                    {s}
+                  </button>
+                ))}
+              </div>
+              {showSizeError && (
+                <p className="text-xs text-destructive mt-1 text-center">Please select a size</p>
+              )}
+            </div>
+          )}
+          
           {STORE_OPEN && product.stock_quantity > 0 ? (
             <button
-              onClick={() => setCheckoutOpen(true)}
+              onClick={handleAddToCart}
               className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 gradient-gold-button hover:opacity-90"
             >
-              <ShoppingCart className="w-3.5 h-3.5" /> Buy Now
+              <Plus className="w-3.5 h-3.5" /> Add to Cart
             </button>
           ) : STORE_OPEN && product.stock_quantity === 0 ? (
             <div className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase flex items-center justify-center gap-2 border border-red-500/30 text-red-400 bg-red-500/10 cursor-not-allowed">
@@ -258,19 +307,14 @@ function ProductCard({ product }) {
         </div>
       </motion.div>
 
-      {checkoutOpen && (
-        <CheckoutModal
-          product={product}
-          isOpen={checkoutOpen}
-          onClose={() => setCheckoutOpen(false)}
-        />
-      )}
     </>
   );
 }
 
 export default function Store() {
   const navigate = useNavigate();
+  const getItemCount = useCartStore(state => state.getItemCount());
+  const hasItems = useCartStore(state => state.hasItems());
 
   const { data: dbProducts = [] } = useQuery({
     queryKey: ['storeProducts'],
@@ -298,6 +342,11 @@ export default function Store() {
   return (
     <div className="min-h-screen py-24 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
+        
+        {/* Cart button */}
+        <div className="absolute top-6 right-6 z-40">
+          <CartButton />
+        </div>
 
         {/* Page header */}
         <motion.div
@@ -313,6 +362,14 @@ export default function Store() {
               Store is <strong>open</strong> — order now. Shipping Australia-wide.
             </p>
           </div>
+          {hasItems && (
+            <div className="mt-4 inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-xl px-4 py-2">
+              <ShoppingCart className="w-4 h-4 text-primary" />
+              <span className="font-body text-xs text-primary">
+                {getItemCount()} item{getItemCount() !== 1 ? 's' : ''} in cart — ready for checkout
+              </span>
+            </div>
+          )}
         </motion.div>
 
         {/* CD Row */}

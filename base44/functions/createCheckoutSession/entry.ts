@@ -1,5 +1,5 @@
 import Stripe from 'npm:stripe@14.21.0';
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
 
 const AU_SHIPPING_FLAT = 12.95;
 const FREE_SHIPPING_THRESHOLD = 150;
@@ -10,8 +10,7 @@ const ALWAYS_INELIGIBLE_CATEGORIES = [
   'processing', 'fees', 'music', 'limited_edition_music', 'digital_music',
 ];
 
-const DIGITAL_CATEGORIES = ['digital', 'support', 'donation'];
-const NO_SHIPPING_CATEGORIES = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
+const NO_SHIPPING_CATEGORIES = ['digital', 'support', 'donation', 'song', 'music', 'digital_music', 'cd', 'vinyl'];
 
 function isInternational(address) {
   if (!address) return false;
@@ -29,35 +28,6 @@ function needsShipping(category) {
   if (!category) return true;
   const cat = category.toLowerCase().trim();
   return !NO_SHIPPING_CATEGORIES.some(c => cat.includes(c));
-}
-
-/**
- * Calculate COMBINED shipping for a single-product checkout.
- * Shipping is always ONE charge for the whole order — never multiplied per item.
- * Returns shipping amount in AUD (not cents).
- */
-function calcCombinedShipping({ productPrice, quantity, discountedTotal, category, shippingAddress, isOwnerOverride }) {
-  if (isOwnerOverride) return 0;
-  if (!needsShipping(category)) return 0;
-  if (isInternational(shippingAddress)) return 0; // quote required
-
-  // Combined package: one base rate regardless of quantity
-  // Additional items get a small increment (not full rate) — default $2/item after first
-  const base = AU_SHIPPING_FLAT;
-  const additionalPerItem = 2.00;
-  const combinedShipping = quantity <= 1 ? base : base + (quantity - 1) * additionalPerItem;
-
-  // Free shipping if discounted merch total meets threshold
-  if (discountedTotal >= FREE_SHIPPING_THRESHOLD) return 0;
-
-  return combinedShipping;
-}
-
-function calcMerchAmountCents({ productPrice, quantity, discountPercent, category, isOwnerOverride }) {
-  const itemTotal = productPrice * quantity;
-  const eligible = isOwnerOverride ? true : isCategoryEligibleForDiscount(category);
-  const discounted = eligible ? itemTotal * (1 - discountPercent / 100) : itemTotal;
-  return Math.round(discounted * 100);
 }
 
 Deno.serve(async (req) => {
@@ -113,74 +83,130 @@ Deno.serve(async (req) => {
     const stripe = new Stripe(secretKey);
     const base44 = createClientFromRequest(req);
     const body = await req.json();
-    const { customerEmail, customerName, productName, metadata, amount, addSupport } = body;
-    // customerEmail is optional — Stripe collects it on the hosted page if not provided
+    const { customerEmail, customerName, metadata } = body;
 
-    // Server-side price verification
-    let merchAmountCents = 0;
-    let shippingAmountCents = 0;
-    let productPrice = 0;
-    let category = '';
-    let discountGuardInfo = null;
-    let shippingNeeded = false;
-    let internationalShipping = false;
-
-    if (metadata?.product_id) {
+    // Parse multi-item cart or single-item fallback
+    let cartItems = [];
+    let shippingAddress = metadata?.shipping_address || '';
+    let rawDiscountPercent = parseFloat(metadata?.promo_discount_percent || '0');
+    let promoCode = metadata?.promo_code || '';
+    let isOwnerOverride = metadata?.promo_override === 'true';
+    
+    if (metadata?.items) {
+      try {
+        cartItems = JSON.parse(metadata.items);
+      } catch (e) {
+        cartItems = [];
+      }
+    }
+    
+    // Fallback to single-item format
+    if (cartItems.length === 0 && metadata?.product_id) {
       const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: metadata.product_id });
       if (products && products.length > 0) {
         const product = products[0];
-        productPrice = product.sale_price ?? product.price ?? 0;
-        category = product.category || '';
-        const quantity = parseInt(metadata.quantity || '1', 10);
-        const rawDiscountPercent = parseFloat(metadata.promo_discount_percent || '0');
-        const isOwnerOverride = metadata?.promo_override === 'true';
-        const shippingAddress = metadata.shipping_address || '';
+        cartItems = [{
+          product_id: product.id,
+          product_name: product.name,
+          price: product.sale_price ?? product.price ?? 0,
+          quantity: parseInt(metadata.quantity || '1', 10),
+          size: metadata.size,
+          category: product.category || ''
+        }];
+      }
+    }
 
-        // === GLOBAL DISCOUNT GUARD ===
-        const eligible = isOwnerOverride ? true : isCategoryEligibleForDiscount(category);
-        const effectiveDiscountPercent = eligible ? rawDiscountPercent : 0;
+    // Build line items and calculate totals
+    let merchAmountCents = 0;
+    let shippingAmountCents = 0;
+    let discountGuardInfo = null;
+    let internationalShipping = false;
+    const lineItems = [];
 
-        if (rawDiscountPercent > 0 && !eligible) {
-          discountGuardInfo = {
-            attempted_discount: rawDiscountPercent,
-            blocked: true,
-            reason: `Category "${category}" is ineligible for discounts per global discount guard`,
-            category,
-          };
-          if (metadata) metadata.promo_discount_blocked = 'true';
-        }
-
-        // Merch amount (discounted if eligible)
-        merchAmountCents = calcMerchAmountCents({ productPrice, quantity, discountPercent: effectiveDiscountPercent, category, isOwnerOverride });
-
-        // Support contribution (never discounted, added to merch line)
-        const supportAmount = parseFloat(metadata.add_support || '0');
-        if (supportAmount > 0) {
-          merchAmountCents += Math.round(supportAmount * 100);
-        }
-
-        // Shipping: COMBINED package rate, separate from merch
-        shippingNeeded = needsShipping(category) && !isOwnerOverride;
-        internationalShipping = isInternational(shippingAddress);
-
-        if (shippingNeeded && !internationalShipping) {
-          const discountedMerchAUD = merchAmountCents / 100;
-          const shippingAUD = calcCombinedShipping({
-            productPrice,
-            quantity,
-            discountedTotal: discountedMerchAUD,
-            category,
-            shippingAddress,
-            isOwnerOverride,
+    if (cartItems.length > 0) {
+      // Validate each item and build line items
+      for (const item of cartItems) {
+        const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: item.product_id });
+        if (products && products.length > 0) {
+          const product = products[0];
+          const verifiedPrice = product.sale_price ?? product.price ?? 0;
+          const category = product.category || '';
+          const quantity = item.quantity || 1;
+          
+          // === GLOBAL DISCOUNT GUARD ===
+          const eligible = isOwnerOverride ? true : isCategoryEligibleForDiscount(category);
+          const effectiveDiscountPercent = eligible ? rawDiscountPercent : 0;
+          
+          if (rawDiscountPercent > 0 && !eligible) {
+            discountGuardInfo = {
+              attempted_discount: rawDiscountPercent,
+              blocked: true,
+              reason: `Category "${category}" is ineligible for discounts`,
+              category,
+            };
+          }
+          
+          // Calculate item amount (discounted if eligible)
+          const itemTotal = verifiedPrice * quantity;
+          const discounted = eligible ? itemTotal * (1 - effectiveDiscountPercent / 100) : itemTotal;
+          merchAmountCents += Math.round(discounted * 100);
+          
+          // Add support contribution if present (only once per order)
+          if (metadata?.add_support && !item.add_support_added) {
+            const supportAmount = parseFloat(metadata.add_support);
+            if (supportAmount > 0) {
+              merchAmountCents += Math.round(supportAmount * 100);
+              item.add_support_added = true;
+            }
+          }
+          
+          // Build line item
+          let description = item.size ? `Size: ${item.size}` : undefined;
+          if (discountGuardInfo?.blocked && !eligible) {
+            description = (description ? description + ' | ' : '') + `Discount blocked`;
+          }
+          
+          lineItems.push({
+            price_data: {
+              currency: 'aud',
+              product_data: {
+                name: item.product_name || product.name || 'Gannon Waye Store',
+                description,
+              },
+              unit_amount: Math.max(50, Math.round(discounted * 100)),
+            },
+            quantity: quantity,
           });
-          shippingAmountCents = Math.round(shippingAUD * 100);
+        }
+      }
+      
+      // Calculate combined shipping for entire cart
+      const totalQty = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+      const hasPhysicalItems = cartItems.some(item => needsShipping(item.category || ''));
+      
+      if (hasPhysicalItems) {
+        internationalShipping = isInternational(shippingAddress);
+        
+        if (!internationalShipping) {
+          const merchTotalAUD = merchAmountCents / 100;
+          
+          // Free shipping threshold
+          if (merchTotalAUD >= FREE_SHIPPING_THRESHOLD) {
+            shippingAmountCents = 0;
+          } else {
+            // Combined package: base + increment per additional item
+            const base = AU_SHIPPING_FLAT;
+            const additionalPerItem = 2.00;
+            const combinedShipping = totalQty <= 1 ? base : base + (totalQty - 1) * additionalPerItem;
+            shippingAmountCents = Math.round(combinedShipping * 100);
+          }
         }
       }
     }
 
-    // Fallback to client-provided amount (no separate shipping)
+    // Fallback to client-provided amount
     if (!merchAmountCents) {
-      merchAmountCents = Math.round((amount || 0) * 100);
+      merchAmountCents = Math.round((metadata?.amount || 0) * 100);
     }
 
     if (!merchAmountCents || merchAmountCents <= 0) {
@@ -189,55 +215,36 @@ Deno.serve(async (req) => {
 
     const origin = req.headers.get('origin') || 'https://gannonwaye.com';
 
-    let description = metadata?.size ? `Size: ${metadata.size}` : undefined;
-    if (discountGuardInfo?.blocked) {
-      description = (description ? description + ' | ' : '') + `Note: Discount blocked (${discountGuardInfo.reason})`;
-    }
-
-    // Build line items: merch first, then shipping as separate line (NEVER discountable)
-    const lineItems = [
-      {
-        price_data: {
-          currency: 'aud',
-          product_data: {
-            name: productName || 'Gannon Waye Store',
-            description,
-          },
-          unit_amount: Math.max(50, merchAmountCents),
-        },
-        quantity: 1,
-      },
-    ];
-
+    // Add shipping as separate line item (NEVER discountable)
     if (shippingAmountCents > 0) {
       lineItems.push({
         price_data: {
           currency: 'aud',
           product_data: {
-            name: 'Shipping (Combined Package — Australia)',
-            description: 'All items shipped together in one package',
+            name: 'Shipping (Combined Package)',
+            description: 'All items shipped together',
           },
           unit_amount: shippingAmountCents,
-          // tax_behavior: 'inclusive' could be added later
         },
         quantity: 1,
       });
     }
 
-    const totalAmountCents = lineItems.reduce((sum, li) => sum + li.price_data.unit_amount, 0);
+    const totalAmountCents = lineItems.reduce((sum, li) => sum + li.price_data.unit_amount * li.quantity, 0);
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       ...(customerEmail ? { customer_email: customerEmail } : {}),
-      // allow_promotion_codes: true is intentionally REMOVED to prevent Stripe promo codes
-      // from discounting shipping. Promo codes are applied server-side before this session.
       line_items: lineItems,
       success_url: `${origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/store?checkout=cancelled`,
       metadata: {
         customer_name: customerName || '',
-        product_name: productName || '',
-        ...(metadata || {}),
+        items: metadata?.items || '',
+        promo_code: promoCode || '',
+        discount_percent: String(rawDiscountPercent),
+        shipping_address: shippingAddress,
+        add_support: metadata?.add_support || '0',
         discount_guard_version: '2.0',
         discount_guard_blocked: discountGuardInfo?.blocked ? 'true' : 'false',
         shipping_amount_aud: String((shippingAmountCents / 100).toFixed(2)),
@@ -246,12 +253,10 @@ Deno.serve(async (req) => {
         total_amount_aud: String((totalAmountCents / 100).toFixed(2)),
       },
       payment_intent_data: {
-        description: `${productName || 'Purchase'} — Gannon Waye`,
+        description: `Gannon Waye Store Order`,
         receipt_email: customerEmail,
         metadata: {
           customer_name: customerName || '',
-          product_name: productName || '',
-          ...(metadata || {}),
           discount_guard_version: '2.0',
           shipping_amount_aud: String((shippingAmountCents / 100).toFixed(2)),
           shipping_combined: 'true',
