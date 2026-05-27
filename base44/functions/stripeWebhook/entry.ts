@@ -31,29 +31,85 @@ Deno.serve(async (req) => {
       const base44 = createClientFromRequest(req);
       const meta = session.metadata || {};
 
-      // Create order record
+      // === EMAIL CAPTURE: prefer Stripe-collected email over any pre-supplied email ===
+      const customerEmail =
+        session.customer_details?.email ||
+        session.customer_email ||
+        meta.customer_email ||
+        '';
+      const emailMissing = !customerEmail;
+
+      // === DISCOUNT DATA CAPTURE from Stripe session ===
+      let discountData = null;
+      let promotionCodeUsed = null;
+      let couponId = null;
+      let discountAmountTotal = 0;
+
+      if (session.total_details?.amount_discount > 0) {
+        discountAmountTotal = session.total_details.amount_discount / 100;
+      }
+
+      // Retrieve full session with discounts expanded if possible
       try {
-        await base44.asServiceRole.entities.MerchOrder.create({
-          customer_name: meta.customer_name || session.customer_details?.name || '',
-          customer_email: session.customer_email || session.customer_details?.email || '',
-          shipping_address: meta.shipping_address || '',
-          items: [{
-            product_id: meta.product_id || '',
-            product_name: meta.product_name || '',
-            size: meta.size || '',
-            quantity: parseInt(meta.quantity || '1', 10),
-            price: parseFloat(meta.sale_price || '0'),
-          }],
-          total_amount: (session.amount_total || 0) / 100,
-          promo_code: meta.promo_code || null,
-          stripe_session_id: session.id,
-          stripe_payment_intent: session.payment_intent || '',
-          status: 'confirmed',
-          payment_status: 'paid',
-          notes: `Stripe Checkout Session: ${session.id}${meta.promo_code ? ` | Promo: ${meta.promo_code}` : ''}`,
+        const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
+        const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
+          expand: ['total_details.breakdown'],
         });
+        const discounts = fullSession.total_details?.breakdown?.discounts || [];
+        if (discounts.length > 0) {
+          const d = discounts[0];
+          couponId = d.discount?.coupon?.id || null;
+          promotionCodeUsed = d.discount?.promotion_code || null;
+          discountData = {
+            coupon_id: couponId,
+            promotion_code_id: typeof promotionCodeUsed === 'string' ? promotionCodeUsed : promotionCodeUsed?.id || null,
+            discount_amount_aud: discountAmountTotal,
+            breakdown_note: discounts.length > 1 ? 'MULTIPLE_DISCOUNTS' : 'SINGLE_DISCOUNT',
+          };
+        }
+      } catch (_) {
+        // If expand fails, store what we have
+        if (discountAmountTotal > 0) {
+          discountData = {
+            discount_amount_aud: discountAmountTotal,
+            breakdown_note: 'LIMITED_BY_STRIPE_DATA',
+          };
+        }
+      }
+
+      // === ORDER RECORD CREATION ===
+      const orderData = {
+        customer_name: meta.customer_name || session.customer_details?.name || '',
+        customer_email: customerEmail,
+        shipping_address: meta.shipping_address || '',
+        items: [{
+          product_id: meta.product_id || '',
+          product_name: meta.product_name || '',
+          size: meta.size || '',
+          quantity: parseInt(meta.quantity || '1', 10),
+          price: parseFloat(meta.sale_price || '0'),
+        }],
+        total_amount: (session.amount_total || 0) / 100,
+        promo_code: discountData?.promotion_code_id || meta.promo_code || null,
+        stripe_session_id: session.id,
+        stripe_payment_intent: session.payment_intent || '',
+        status: emailMissing ? 'needs_admin_review' : 'confirmed',
+        payment_status: 'paid',
+        notes: [
+          `Stripe Checkout Session: ${session.id}`,
+          discountData ? `Discount: $${discountAmountTotal.toFixed(2)} AUD | Coupon: ${discountData.coupon_id || 'n/a'} | PromoCode: ${discountData.promotion_code_id || 'n/a'}` : null,
+          discountData?.breakdown_note === 'LIMITED_BY_STRIPE_DATA' ? 'WARNING: Discount breakdown limited by Stripe data' : null,
+          emailMissing ? 'WARNING: Customer email missing — needs_admin_review' : null,
+          meta.product_category ? `Category: ${meta.product_category}` : null,
+          meta.shipping_amount ? `Shipping: $${meta.shipping_amount} AUD` : null,
+          meta.add_support ? `Support contribution: $${meta.add_support} AUD` : null,
+          `source_chain: stripeWebhook:checkout.session.completed`,
+        ].filter(Boolean).join(' | '),
+      };
+
+      try {
+        await base44.asServiceRole.entities.MerchOrder.create(orderData);
       } catch (orderErr) {
-        // Log failure as admin notification
         try {
           await base44.asServiceRole.entities.AdminNotification.create({
             notification_type: 'payment_warning',
@@ -67,11 +123,17 @@ Deno.serve(async (req) => {
         } catch {}
       }
 
-      // Record promo usage if applicable
-      if (meta.promo_id) {
+      // Flag missing email as admin action required
+      if (emailMissing) {
         try {
-          await base44.asServiceRole.entities.PromoCode.update(meta.promo_id, {
-            times_used: { $increment: 1 },
+          await base44.asServiceRole.entities.AdminNotification.create({
+            notification_type: 'payment_warning',
+            severity: 'warning',
+            title: 'Order missing customer email',
+            summary: `Session ${session.id} completed but no customer email captured. Order marked needs_admin_review.`,
+            requires_action: true,
+            linked_route: '/admin/orders',
+            source: 'stripeWebhook',
           });
         } catch {}
       }
@@ -82,7 +144,7 @@ Deno.serve(async (req) => {
           notification_type: 'order',
           severity: 'info',
           title: `New order — ${meta.product_name || 'Store purchase'}`,
-          summary: `${meta.customer_name || 'Customer'} paid $${((session.amount_total || 0) / 100).toFixed(2)} AUD`,
+          summary: `${meta.customer_name || 'Customer'} paid $${((session.amount_total || 0) / 100).toFixed(2)} AUD${discountAmountTotal > 0 ? ` (discount: $${discountAmountTotal.toFixed(2)})` : ''}`,
           requires_action: true,
           linked_route: '/admin/orders',
           source: 'stripeWebhook',

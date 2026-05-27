@@ -213,6 +213,7 @@ import StockFlowDashboard from '@/pages/admin/StockFlowDashboard';
 import BusinessProcessCommand from '@/pages/admin/BusinessProcessCommand';
 import AgentTrustHub from '@/pages/admin/AgentTrustHub';
 import ExternalEngineeringCommand from '@/pages/admin/ExternalEngineeringCommand';
+import PromoDiscountCompliance from '@/pages/admin/PromoDiscountCompliance';
 
 
 const AuthenticatedApp = () => {
@@ -488,6 +489,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/agent-trust-hub" element={<AgentTrustHub />} />
         <Route path="/admin/external-engineering-command" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/security-trust-centre" element={<AgentTrustHub />} />
+        <Route path="/admin/norton-safe-web-guide" element={<PromoDiscountCompliance />} />
+        <Route path="/admin/promo-discount-compliance" element={<PromoDiscountCompliance />} />
         <Route path="/admin/cursor-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/replit-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/warp-handoff" element={<ExternalEngineeringCommand />} />
