@@ -272,6 +272,61 @@ TikTok Client Secret: developers.tiktok.com → App Management → rotate client
 Metricool API Token: app.metricool.com → Settings → API → revoke and reissue`,
   },
   {
+    id: 'shipping_emergency',
+    label: 'Shipping Emergency Pack',
+    filename: 'shipping-emergency-pack.md',
+    content: `# Shipping Emergency Pack — Gannon Waye Store
+# Combined Shipping + Promo Code Fix — 2026-05-27
+
+## WHAT WAS BROKEN
+- Shipping was baked INTO the merch line item in Stripe
+- This allowed Stripe promo codes to discount shipping (WRONG)
+- Multi-item orders were not using combined package rate
+
+## WHAT WAS FIXED
+1. createCheckoutSession now uses TWO separate line items:
+   - Line 1: Merch subtotal (discounted if promo eligible)
+   - Line 2: Shipping (combined package, NEVER discounted)
+
+2. Combined shipping formula (calcCombinedShipping):
+   - 1 item: $12.95 base
+   - 2+ items: $12.95 + $2.00 per additional item (NOT $12.95 × qty)
+   - Free if cart ≥ $150 AUD
+   - $0 if international (quote required)
+   - $0 for digital/support/donation categories
+
+3. allow_promotion_codes removed from Stripe session
+   - Promo codes are applied server-side before session creation
+   - F20UN26DVIP: 20% off eligible merch only
+   - F30MOM26A: 30% off eligible merch only
+   - Shipping is NEVER discounted
+
+## FILES CHANGED
+- functions/createCheckoutSession.js
+- components/store/CheckoutModal.jsx
+- functions/calculateShippingRate.js (SDK bump to 0.8.30)
+
+## TEST MATRIX
+Run these manually or in Playwright:
+1. Single t-shirt → shipping $12.95 → total correct
+2. Two t-shirts → shipping $14.95 ($12.95 + $2) → NOT $25.90
+3. t-shirt + qty 3 → shipping $16.95 → NOT $38.85
+4. Cart ≥ $150 → shipping $0
+5. CD only → shipping charged (CDs need shipping)
+6. Support/donation → $0 shipping
+7. F20UN26DVIP on apparel → discount applies to merch only, NOT shipping
+8. F30MOM26A on apparel → discount applies to merch only, NOT shipping
+9. International address → shipping shows "Quote required"
+10. Checkout freeze test: start checkout, wait 15s, should not freeze
+
+## REMAINING WORK FOR CURSOR/WARP
+- Multi-product cart (currently single-product per checkout)
+- Shipping rules from ShippingRateRule entity (currently uses hardcoded defaults)
+- Weight-based shipping tiers when product weights are added
+- Playwright end-to-end checkout test (requires live browser)
+`,
+  },
+  {
     id: 'live_blockers',
     label: 'Live Blockers',
     filename: 'live-blockers.md',

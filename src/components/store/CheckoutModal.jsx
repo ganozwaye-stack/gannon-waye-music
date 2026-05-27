@@ -7,9 +7,11 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { ShoppingBag, ArrowLeft, Minus, Plus, ExternalLink, RefreshCw, AlertTriangle } from 'lucide-react';
 
-const AU_SHIPPING_FLAT = 12.95;
+const AU_SHIPPING_BASE = 12.95;
+const AU_SHIPPING_ADDITIONAL_PER_ITEM = 2.00;
 const FREE_SHIPPING_THRESHOLD = 150;
 const DIGITAL_CATEGORIES = ['digital', 'support', 'donation'];
+const NO_SHIPPING_CATEGORIES = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
 
 function isInternational(address) {
   if (!address) return false;
@@ -17,15 +19,26 @@ function isInternational(address) {
   return ['usa', 'united states', 'uk', 'united kingdom', 'canada', 'new zealand', 'nz', 'europe', 'india', 'singapore'].some(k => lower.includes(k));
 }
 
-function calcPricing(basePrice, category, discountPercent = 0, shippingAddress = '', isOwnerOverride = false) {
+function needsShipping(category) {
+  if (!category) return true;
+  return !NO_SHIPPING_CATEGORIES.includes(category.toLowerCase().trim());
+}
+
+/**
+ * Combined package shipping — one charge for the whole order.
+ * Never multiplies flat rate per item.
+ */
+function calcPricing(basePrice, category, discountPercent = 0, shippingAddress = '', isOwnerOverride = false, quantity = 1) {
   const isDigital = DIGITAL_CATEGORIES.includes((category || '').toLowerCase());
-  const discounted = basePrice * (1 - discountPercent / 100);
-  const discount = basePrice - discounted;
+  const itemTotal = basePrice; // basePrice is already price * quantity from caller
+  const discounted = itemTotal * (1 - discountPercent / 100);
+  const discount = itemTotal - discounted;
+
   let shipping = 0;
   let shippingLabel = 'Free';
   let internationalQuote = false;
-  // Owner override always gets free shipping
-  if (!isOwnerOverride && !isDigital) {
+
+  if (!isOwnerOverride && needsShipping(category)) {
     if (isInternational(shippingAddress)) {
       shipping = 0;
       shippingLabel = 'Quote required';
@@ -33,10 +46,17 @@ function calcPricing(basePrice, category, discountPercent = 0, shippingAddress =
     } else if (discounted >= FREE_SHIPPING_THRESHOLD) {
       shippingLabel = 'Free (order ≥ $150)';
     } else {
-      shipping = AU_SHIPPING_FLAT;
-      shippingLabel = `$${AU_SHIPPING_FLAT.toFixed(2)} AUD`;
+      // Combined package: base rate + small increment per additional item (NOT full rate per item)
+      const combinedShipping = quantity <= 1
+        ? AU_SHIPPING_BASE
+        : AU_SHIPPING_BASE + (quantity - 1) * AU_SHIPPING_ADDITIONAL_PER_ITEM;
+      shipping = combinedShipping;
+      shippingLabel = quantity > 1
+        ? `$${combinedShipping.toFixed(2)} AUD (combined package)`
+        : `$${AU_SHIPPING_BASE.toFixed(2)} AUD`;
     }
   }
+
   const total = discounted + shipping;
   const gstIncluded = isDigital ? 0 : total / 11;
   return { discounted, discount, shipping, shippingLabel, internationalQuote, gstIncluded, total };
@@ -54,7 +74,7 @@ export default function CheckoutModal({ product, onClose }) {
 
   const hasSize = product.sizes_available?.length > 0;
   const productPrice = product.sale_price ?? product.price ?? 0;
-  const basePricing = calcPricing(productPrice * quantity, product.category, 0, form.shipping_address, false);
+  const basePricing = calcPricing(productPrice * quantity, product.category, 0, form.shipping_address, false, quantity);
   const pricing = { ...basePricing, total: Number((basePricing.total + addSupport).toFixed(2)) };
 
   const handleDetailsSubmit = (e) => {
@@ -170,7 +190,7 @@ export default function CheckoutModal({ product, onClose }) {
               </div>
 
               <div className="bg-primary/5 border border-primary/20 rounded-xl p-3">
-                <p className="font-body text-xs text-primary/80">🏷️ Have a promo code? Enter it on the Stripe payment page — they handle it securely.</p>
+                <p className="font-body text-xs text-primary/80">🏷️ Have a promo code? Contact us or apply it at the payment step. Promo codes apply to eligible merch only — shipping is never discounted.</p>
               </div>
 
               <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
@@ -193,10 +213,13 @@ export default function CheckoutModal({ product, onClose }) {
                 </div>
 
                 <div className="flex justify-between text-foreground/70">
-                  <span>Shipping (Australia)</span>
-                  <span className={pricing.shipping === 0 && !pricing.internationalQuote ? 'text-green-400' : ''}>{pricing.internationalQuote ? 'Quote required' : pricing.shipping === 0 ? 'Free' : `$${pricing.shipping.toFixed(2)}`}</span>
-                </div>
-                {pricing.internationalQuote && <p className="text-xs text-amber-400">International shipping: we'll contact you with a quote before dispatch.</p>}
+                   <span>Shipping{quantity > 1 ? ' (combined package)' : ''}</span>
+                   <span className={pricing.shipping === 0 && !pricing.internationalQuote ? 'text-green-400' : ''}>{pricing.internationalQuote ? 'Quote required' : pricing.shipping === 0 ? 'Free' : `$${pricing.shipping.toFixed(2)} AUD`}</span>
+                 </div>
+                 {quantity > 1 && pricing.shipping > 0 && (
+                   <p className="text-xs text-muted-foreground/60">Items shipped together in one combined package.</p>
+                 )}
+                 {pricing.internationalQuote && <p className="text-xs text-amber-400">International shipping: we'll contact you with a quote before dispatch.</p>}
                 {pricing.gstIncluded > 0 && (
                   <div className="flex justify-between text-muted-foreground text-xs">
                     <span>Includes GST</span><span>(${pricing.gstIncluded.toFixed(2)})</span>
