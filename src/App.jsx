@@ -198,6 +198,7 @@ import MetricoolSchedulerQueue from '@/pages/admin/MetricoolSchedulerQueue';
 import MetricoolPerformanceIntelligence from '@/pages/admin/MetricoolPerformanceIntelligence';
 import AgentRevenueStatus from '@/pages/admin/AgentRevenueStatus';
 import FinalSystemStatus from '@/pages/admin/FinalSystemStatus';
+import GuidedSetupConcierge from '@/pages/admin/GuidedSetupConcierge';
 
 
 const AuthenticatedApp = () => {
@@ -443,6 +444,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/metricool-performance-intelligence" element={<MetricoolPerformanceIntelligence />} />
         <Route path="/admin/agent-revenue-status" element={<AgentRevenueStatus />} />
         <Route path="/admin/final-system-status" element={<FinalSystemStatus />} />
+        <Route path="/admin/guided-setup-concierge" element={<GuidedSetupConcierge />} />
+        <Route path="/admin/live-setup-wizard" element={<GuidedSetupConcierge />} />
+        <Route path="/admin/external-login-assistant" element={<GuidedSetupConcierge />} />
+        <Route path="/admin/credential-install-centre" element={<GuidedSetupConcierge />} />
+        <Route path="/admin/connection-completion-centre" element={<GuidedSetupConcierge />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

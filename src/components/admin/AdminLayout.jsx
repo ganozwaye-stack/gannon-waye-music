@@ -177,6 +177,7 @@ const NAV_SECTIONS = [
     title: 'Settings',
     items: [
       { label: 'Site Settings', path: '/admin/settings', icon: Settings },
+      { label: '🚀 Guided Setup Concierge', path: '/admin/guided-setup-concierge', icon: Shield },
       // alphabetical
       { label: 'System Blueprint', path: '/admin/system-blueprint', icon: Database },
       { label: 'Blueprint', path: '/admin/blueprint', icon: Book },
