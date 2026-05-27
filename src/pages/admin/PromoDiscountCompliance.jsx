@@ -60,17 +60,23 @@ const TEST_CASES = [
 ];
 
 const FINAL_STATUS = [
-  { label: 'allow_promotion_codes enabled', status: 'yes', note: 'Set in createCheckoutSession' },
-  { label: 'Approved codes: F20UN26DVIP (20%) + F30MOM26A (30%)', status: 'action_required', note: 'Must create both Stripe Coupons + Promotion Codes in Stripe Dashboard with applies_to merch Product IDs' },
-  { label: 'Old codes (fnd@gwTYV!P, F@mFr!3NdsOFg@noz, FOUNDING20, FAMILY30 etc.) archived', status: 'action_required', note: 'Archive all old codes in Stripe Dashboard → Promotion Codes → archive each one' },
-  { label: 'Stripe applies_to product restrictions set', status: 'action_required', note: 'Must set applies_to on each coupon to merch-only Product IDs. Excludes: CD, vinyl, digital, shipping.' },
-  { label: 'Email captured from Stripe', status: 'yes', note: 'stripeWebhook now reads customer_details.email' },
-  { label: 'Order email saved', status: 'yes', note: 'Saved to MerchOrder.customer_email on checkout.session.completed' },
+  { label: 'allow_promotion_codes enabled in checkout', status: 'yes', note: 'Set in createCheckoutSession' },
+  { label: 'F20UN26DVIP (20%) created in Base44 PromoCode DB', status: 'yes', note: 'Created with merch-only allowed_categories, excludes_shipping, excludes_support' },
+  { label: 'F30MOM26A (30%) created in Base44 PromoCode DB', status: 'yes', note: 'Created with merch-only allowed_categories, excludes_shipping, excludes_support' },
+  { label: 'Old code fnd@gwTYV!P deactivated in Base44 DB', status: 'yes', note: 'Marked is_active: false, description updated to RETIRED' },
+  { label: 'Old code F@mFr!3NdsOFg@noz deactivated in Base44 DB', status: 'yes', note: 'Marked is_active: false, description updated to RETIRED' },
+  { label: '⚠️ Stripe Coupon "GW Merch 20 VIP" + Promotion Code F20UN26DVIP created in Stripe Dashboard', status: 'action_required', note: 'Manual step: Stripe → Coupons → Create → 20% off → Applies To merch Product IDs → Promotion Code = F20UN26DVIP' },
+  { label: '⚠️ Stripe Coupon "GW Merch Family 30" + Promotion Code F30MOM26A created in Stripe Dashboard', status: 'action_required', note: 'Manual step: Stripe → Coupons → Create → 30% off → Applies To merch Product IDs → Promotion Code = F30MOM26A' },
+  { label: '⚠️ Stripe applies_to product restrictions set on both coupons', status: 'action_required', note: 'Must link each coupon to merch-only prod_xxx IDs. This is what enforces the merch-only restriction at Stripe level.' },
+  { label: '⚠️ Old codes archived in Stripe Dashboard', status: 'action_required', note: 'Archive in Stripe: fnd@gwTYV!P, F@mFr!3NdsOFg@noz, FOUNDING20, FAMILY30, GW-TY20-7KQ9M, GW-FAM30-X4P8R and any others' },
+  { label: 'Email captured from Stripe', status: 'yes', note: 'stripeWebhook reads customer_details.email' },
+  { label: 'Order email saved to MerchOrder', status: 'yes', note: 'Saved on checkout.session.completed' },
   { label: 'Order flagged if email missing', status: 'yes', note: 'status = needs_admin_review + AdminNotification raised' },
-  { label: 'Discount data saved to order', status: 'yes', note: 'Coupon ID, promo code ID, discount amount captured in notes/promo_code field' },
-  { label: 'Discount breakdown limited by Stripe data', status: 'info', note: 'Item-level breakdown requires line_items expand — marked LIMITED_BY_STRIPE_DATA if unavailable' },
-  { label: 'Profit/loss uses final paid amount', status: 'yes', note: 'total_amount = session.amount_total / 100 (post-discount)' },
-  { label: 'All promo tests passed', status: 'pending', note: 'Must manually test in Stripe after creating coupons with applies_to' },
+  { label: 'Discount data saved to order', status: 'yes', note: 'Coupon ID, promo code ID, discount amount captured' },
+  { label: 'Profit/loss uses final paid amount (post-discount)', status: 'yes', note: 'total_amount = session.amount_total / 100' },
+  { label: 'Discount breakdown item-level detail', status: 'info', note: 'Item-level breakdown requires Stripe line_items expand — marked LIMITED_BY_STRIPE_DATA if unavailable. Low priority.' },
+  { label: '⏳ All promo tests passed in Stripe live mode', status: 'pending', note: 'Test after completing Stripe Coupon setup above' },
+  { label: '⏳ Norton Safe Web submission for gannonwaye.com', status: 'pending', note: 'Submit at safeweb.norton.com after confirming gannonwaye.com HTTPS is live' },
 ];
 
 const OLD_CODES_TO_ARCHIVE = [
@@ -156,9 +162,32 @@ const NORTON_LIKELY_CAUSES = [
   { cause: 'New domain (gannonwaye.com) with low reputation score', type: 'Reputation', fix: 'Submit gannonwaye.com to Norton Safe Web for re-evaluation. Add HTTPS + real content = reputation improves over time.' },
 ];
 
+const MANUAL_CHECKLIST = [
+  { id: 'stripe_prod', label: 'Stripe Products exist for all merch items (t-shirt, hoodie, tote, mug)', detail: 'Stripe Dashboard → Products → create one for each. Copy prod_xxx IDs.' },
+  { id: 'stripe_coupon_20', label: 'Stripe Coupon "GW Merch 20 VIP" created with 20% off + applies_to merch Product IDs', detail: 'Stripe → Coupons → Create → 20% → Applies To: all merch prod_xxx' },
+  { id: 'stripe_promo_20', label: 'Stripe Promotion Code F20UN26DVIP created and linked to "GW Merch 20 VIP"', detail: 'Stripe → Promotion Codes → Create → select coupon → Code = F20UN26DVIP → Active' },
+  { id: 'stripe_coupon_30', label: 'Stripe Coupon "GW Merch Family 30" created with 30% off + applies_to merch Product IDs', detail: 'Stripe → Coupons → Create → 30% → Applies To: all merch prod_xxx' },
+  { id: 'stripe_promo_30', label: 'Stripe Promotion Code F30MOM26A created and linked to "GW Merch Family 30"', detail: 'Stripe → Promotion Codes → Create → select coupon → Code = F30MOM26A → Active' },
+  { id: 'stripe_archive_old', label: 'All old Stripe codes archived (fnd@gwTYV!P, F@mFr!3NdsOFg@noz, FOUNDING20, FAMILY30 etc.)', detail: 'Stripe → Coupons → find each → Archive. Also check Promotion Codes tab.' },
+  { id: 'test_merch', label: 'Tested: hoodie/t-shirt + F20UN26DVIP → 20% discount applied by Stripe', detail: 'Add merch item to cart → checkout → enter code on Stripe payment page → confirm discount' },
+  { id: 'test_cd', label: 'Tested: CD-only cart + F20UN26DVIP → Stripe shows NO discount (0%)', detail: 'CD not in applies_to list → Stripe should not apply any discount' },
+  { id: 'norton_submit', label: 'gannonwaye.com submitted to Norton Safe Web for re-evaluation', detail: 'safeweb.norton.com → enter gannonwaye.com → Request review if flagged' },
+];
+
 export default function PromoDiscountCompliance() {
-  const [tab, setTab] = useState('promo');
+  const [tab, setTab] = useState('checklist');
   const [copied, setCopied] = useState('');
+  const [checked, setChecked] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('promo_compliance_checks') || '{}'); } catch { return {}; }
+  });
+
+  const toggleCheck = (id) => {
+    const updated = { ...checked, [id]: !checked[id] };
+    setChecked(updated);
+    localStorage.setItem('promo_compliance_checks', JSON.stringify(updated));
+  };
+
+  const doneCount = MANUAL_CHECKLIST.filter(i => checked[i.id]).length;
 
   const copyText = (text, key) => {
     navigator.clipboard.writeText(text);
@@ -202,6 +231,7 @@ export default function PromoDiscountCompliance() {
       {/* TABS */}
       <div className="flex gap-2 flex-wrap">
         {[
+          { id: 'checklist', label: `✅ Action Checklist (${doneCount}/${MANUAL_CHECKLIST.length})` },
           { id: 'promo', label: '🏷️ Promo Compliance' },
           { id: 'tests', label: '🧪 Test Cases' },
           { id: 'final', label: '📋 Final Status Report' },
@@ -213,6 +243,40 @@ export default function PromoDiscountCompliance() {
           </button>
         ))}
       </div>
+
+      {/* ===== ACTION CHECKLIST TAB ===== */}
+      {tab === 'checklist' && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-muted-foreground">{doneCount} of {MANUAL_CHECKLIST.length} manual steps completed</p>
+            {doneCount === MANUAL_CHECKLIST.length && (
+              <Badge className="bg-green-500/20 text-green-300">🎉 All Done!</Badge>
+            )}
+          </div>
+          <div className="w-full bg-secondary rounded-full h-2">
+            <div className="bg-primary h-2 rounded-full transition-all" style={{ width: `${(doneCount / MANUAL_CHECKLIST.length) * 100}%` }} />
+          </div>
+          <div className="space-y-3">
+            {MANUAL_CHECKLIST.map((item) => (
+              <div
+                key={item.id}
+                onClick={() => toggleCheck(item.id)}
+                className={`border rounded-xl p-4 cursor-pointer transition-all select-none ${checked[item.id] ? 'border-green-500/40 bg-green-500/10' : 'border-border bg-card hover:border-border/80'}`}
+              >
+                <div className="flex items-start gap-3">
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all ${checked[item.id] ? 'bg-green-500 border-green-500' : 'border-muted-foreground'}`}>
+                    {checked[item.id] && <CheckCircle2 className="w-3 h-3 text-white" />}
+                  </div>
+                  <div>
+                    <p className={`text-sm font-medium ${checked[item.id] ? 'line-through text-muted-foreground' : ''}`}>{item.label}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{item.detail}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* ===== PROMO COMPLIANCE TAB ===== */}
       {tab === 'promo' && (
