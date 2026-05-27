@@ -14,18 +14,20 @@ import {
 
 const APPROVED_CODES = [
   {
-    code: 'fnd@gwTYV!P',
+    code: 'F20UN26DVIP',
     discount: '20%',
-    applies_to: 'Eligible merch subtotal only',
-    stripe_action: 'Create Stripe Coupon → 20% off → add applies_to with merch-only Product IDs',
+    applies_to: 'Eligible merch subtotal only (t-shirts, hoodies, tote bags, mugs, merch accessories)',
+    stripe_action: 'Stripe Dashboard → Coupons → Create coupon "GW Merch 20 VIP" → 20% off → Applies To: merch Product IDs only → Create Promotion Code = F20UN26DVIP',
     status: 'active',
+    purpose: 'VIP / founding style merch offer',
   },
   {
-    code: 'F@mFr!3NdsOFg@noz',
+    code: 'F30MOM26A',
     discount: '30%',
-    applies_to: 'Eligible merch subtotal only',
-    stripe_action: 'Create Stripe Coupon → 30% off → add applies_to with merch-only Product IDs',
+    applies_to: 'Eligible merch subtotal only (t-shirts, hoodies, tote bags, mugs, merch accessories)',
+    stripe_action: 'Stripe Dashboard → Coupons → Create coupon "GW Merch Family 30" → 30% off → Applies To: merch Product IDs only → Create Promotion Code = F30MOM26A',
     status: 'active',
+    purpose: 'Family and friends merch offer',
   },
 ];
 
@@ -42,26 +44,26 @@ const ELIGIBLE_CATEGORIES = [
 ];
 
 const TEST_CASES = [
-  { cart: 'Merch-only cart', fnd: '✅ 20% applies', fam: '✅ 30% applies' },
+  { cart: 'Hoodie / T-shirt (merch)', fnd: '✅ 20% applies', fam: '✅ 30% applies' },
+  { cart: 'Tote bag (merch)', fnd: '✅ 20% applies', fam: '✅ 30% applies' },
+  { cart: 'Coffee mug (merch, approved)', fnd: '✅ 20% applies when listed', fam: '✅ 30% applies when listed' },
   { cart: 'CD-only cart', fnd: '❌ No discount (excluded)', fam: '❌ No discount (excluded)' },
   { cart: 'Vinyl-only cart', fnd: '❌ No discount (excluded)', fam: '❌ No discount (excluded)' },
   { cart: 'Digital music-only', fnd: '❌ No discount (excluded)', fam: '❌ No discount (excluded)' },
   { cart: 'Mixed merch + CD', fnd: '✅ Merch only discounted', fam: '✅ Merch only discounted' },
-  { cart: 'Mixed merch + vinyl', fnd: '✅ Merch only discounted', fam: '✅ Merch only discounted' },
   { cart: 'Mixed merch + shipping', fnd: '✅ Merch only (shipping excluded)', fam: '✅ Merch only (shipping excluded)' },
-  { cart: 'Mixed merch + support', fnd: '✅ Merch only (support excluded)', fam: '✅ Merch only (support excluded)' },
-  { cart: 'Merch-only bundle', fnd: '✅ 20% applies', fam: '✅ 30% applies' },
-  { cart: 'Bundle with music', fnd: '⚠️ Only merch items discounted', fam: '⚠️ Only merch items discounted' },
-  { cart: 'Coffee mug (approved)', fnd: '✅ 20% applies when listed', fam: '✅ 30% applies when listed' },
-  { cart: 'Invalid / old code', fnd: 'N/A', fam: 'N/A — Stripe rejects it' },
+  { cart: 'Mixed merch + support contribution', fnd: '✅ Merch only (support excluded)', fam: '✅ Merch only (support excluded)' },
+  { cart: 'Old code: fnd@gwTYV!P', fnd: '❌ Rejected by Stripe', fam: '❌ Rejected by Stripe' },
+  { cart: 'Old code: FOUNDING20', fnd: '❌ Rejected by Stripe', fam: '❌ Rejected by Stripe' },
+  { cart: 'Old code: FAMILY30', fnd: '❌ Rejected by Stripe', fam: '❌ Rejected by Stripe' },
+  { cart: 'Random guessed code', fnd: '❌ Rejected by Stripe', fam: '❌ Rejected by Stripe' },
 ];
 
 const FINAL_STATUS = [
   { label: 'allow_promotion_codes enabled', status: 'yes', note: 'Set in createCheckoutSession' },
-  { label: 'Stripe coupons created/verified', status: 'action_required', note: 'Must create in Stripe Dashboard manually' },
-  { label: 'Stripe applies_to product restrictions set', status: 'action_required', note: 'Must set applies_to on each coupon in Stripe Dashboard' },
-  { label: 'Only two active codes', status: 'action_required', note: 'Archive all others in Stripe Dashboard' },
-  { label: 'Old codes disabled', status: 'action_required', note: 'Archive old promotion codes in Stripe → Products → Coupons' },
+  { label: 'Approved codes: F20UN26DVIP (20%) + F30MOM26A (30%)', status: 'action_required', note: 'Must create both Stripe Coupons + Promotion Codes in Stripe Dashboard with applies_to merch Product IDs' },
+  { label: 'Old codes (fnd@gwTYV!P, F@mFr!3NdsOFg@noz, FOUNDING20, FAMILY30 etc.) archived', status: 'action_required', note: 'Archive all old codes in Stripe Dashboard → Promotion Codes → archive each one' },
+  { label: 'Stripe applies_to product restrictions set', status: 'action_required', note: 'Must set applies_to on each coupon to merch-only Product IDs. Excludes: CD, vinyl, digital, shipping.' },
   { label: 'Email captured from Stripe', status: 'yes', note: 'stripeWebhook now reads customer_details.email' },
   { label: 'Order email saved', status: 'yes', note: 'Saved to MerchOrder.customer_email on checkout.session.completed' },
   { label: 'Order flagged if email missing', status: 'yes', note: 'status = needs_admin_review + AdminNotification raised' },
@@ -71,14 +73,19 @@ const FINAL_STATUS = [
   { label: 'All promo tests passed', status: 'pending', note: 'Must manually test in Stripe after creating coupons with applies_to' },
 ];
 
+const OLD_CODES_TO_ARCHIVE = [
+  'fnd@gwTYV!P', 'F@mFr!3NdsOFg@noz', 'FOUNDING20', 'FAMILY30',
+  'GW-TY20-7KQ9M', 'GW-FAM30-X4P8R', 'GWTY207KQ9M', 'GWFAM30X4P8R',
+];
+
 const BLOCKERS = [
   {
-    blocker: 'Stripe Coupon for fnd@gwTYV!P not yet created',
-    action: 'Go to Stripe Dashboard → Products → Coupons → Create coupon → 20% → set applies_to to merch Product IDs → create Promotion Code = fnd@gwTYV!P',
+    blocker: 'Stripe Coupon "GW Merch 20 VIP" + Promotion Code F20UN26DVIP not yet created',
+    action: 'Go to Stripe Dashboard → Products → Coupons → Create coupon → Name: GW Merch 20 VIP → 20% off → Applies To: select all merch Product IDs (t-shirt, hoodie, mug, tote) → Save. Then go to Promotion Codes → Create → select that coupon → Code = F20UN26DVIP → Active.',
   },
   {
-    blocker: 'Stripe Coupon for F@mFr!3NdsOFg@noz not yet created',
-    action: 'Same as above, 30% off, applies_to merch only → create Promotion Code = F@mFr!3NdsOFg@noz',
+    blocker: 'Stripe Coupon "GW Merch Family 30" + Promotion Code F30MOM26A not yet created',
+    action: 'Same process — 30% off, name: GW Merch Family 30, code = F30MOM26A, Applies To merch-only Product IDs.',
   },
   {
     blocker: 'Merch products may not have Stripe Product IDs linked',
@@ -181,10 +188,14 @@ export default function PromoDiscountCompliance() {
       <div className="border border-red-500/40 bg-red-500/10 rounded-xl p-4 flex items-start gap-3">
         <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
         <div>
-          <p className="font-semibold text-red-300">Action Required: Stripe Coupon Setup Incomplete</p>
+          <p className="font-semibold text-red-300">Action Required: Create Stripe Coupons for F20UN26DVIP + F30MOM26A</p>
           <p className="text-sm text-foreground/70 mt-1">
-            Promo codes now go through Stripe natively — but the Stripe Coupons must be created manually with <code className="font-mono text-xs bg-secondary/50 px-1 rounded">applies_to</code> product restrictions. Until this is done, promo codes are NOT restricted to merch only.
+            Two new approved codes replace all previous codes. Stripe Coupons must be created manually with <code className="font-mono text-xs bg-secondary/50 px-1 rounded">applies_to</code> product restrictions (merch only). Archive all old codes. Until this is done, codes are not restricted to merch only.
           </p>
+          <div className="flex flex-wrap gap-2 mt-2">
+            <code className="font-mono text-xs bg-primary/20 text-primary border border-primary/30 px-2 py-1 rounded">F20UN26DVIP — 20% off merch</code>
+            <code className="font-mono text-xs bg-primary/20 text-primary border border-primary/30 px-2 py-1 rounded">F30MOM26A — 30% off merch</code>
+          </div>
         </div>
       </div>
 
@@ -267,6 +278,19 @@ export default function PromoDiscountCompliance() {
             </CardContent>
           </Card>
 
+          {/* OLD CODES TO ARCHIVE */}
+          <Card className="border-red-500/30">
+            <CardHeader><CardTitle className="text-sm text-red-300 flex items-center gap-2"><XCircle className="w-4 h-4" />Old Codes — Archive These in Stripe NOW</CardTitle></CardHeader>
+            <CardContent>
+              <div className="flex flex-wrap gap-2 mb-3">
+                {OLD_CODES_TO_ARCHIVE.map(c => (
+                  <code key={c} className="font-mono text-xs bg-red-500/10 text-red-300 border border-red-500/20 px-2 py-1 rounded line-through">{c}</code>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground">Stripe → Products → Coupons → find each → Archive. Also archive any other test/old codes not matching F20UN26DVIP or F30MOM26A.</p>
+            </CardContent>
+          </Card>
+
           <Card>
             <CardHeader><CardTitle className="text-sm">Remaining Blockers</CardTitle></CardHeader>
             <CardContent className="space-y-3">
@@ -296,8 +320,8 @@ export default function PromoDiscountCompliance() {
                   <thead>
                     <tr className="border-b border-border">
                       <th className="text-left py-2 pr-4 text-muted-foreground font-medium">Cart Type</th>
-                      <th className="text-left py-2 pr-4 text-muted-foreground font-medium">fnd@gwTYV!P (20%)</th>
-                      <th className="text-left py-2 text-muted-foreground font-medium">F@mFr!3NdsOFg@noz (30%)</th>
+                      <th className="text-left py-2 pr-4 text-muted-foreground font-medium">F20UN26DVIP (20%)</th>
+                      <th className="text-left py-2 text-muted-foreground font-medium">F30MOM26A (30%)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -338,18 +362,19 @@ export default function PromoDiscountCompliance() {
             <CardHeader><CardTitle className="text-sm text-primary">Exact Next Action for Gannon</CardTitle></CardHeader>
             <CardContent className="space-y-3 text-sm">
               {[
-                '1. Open Stripe Dashboard → Products → create a Product for each merch item (t-shirt, hoodie, mug, etc). Copy prod_xxx IDs.',
-                '2. Stripe → Coupons → Create coupon: 20% off, name it "fnd20" → Applies To → add all merch prod_xxx IDs → Save.',
-                '3. Stripe → Promotion Codes → Create → select "fnd20" coupon → set code = fnd@gwTYV!P → Active.',
-                '4. Repeat for 30% coupon "fam30" → Promotion Code = F@mFr!3NdsOFg@noz.',
-                '5. Archive all other coupons and promotion codes in Stripe.',
-                '6. Test: add a t-shirt to cart → apply fnd@gwTYV!P on Stripe page → verify 20% applied to merch subtotal only.',
-                '7. Test: add a CD → apply code → verify 0% discount (Stripe rejects it for that product).',
-                '8. Submit gannonwaye.com to Norton Safe Web: https://safeweb.norton.com → "Submit a site".',
+                'Open Stripe Dashboard → Products → verify or create a Product for each merch item (t-shirt, hoodie, tote, coffee mug). Copy prod_xxx IDs.',
+                'Stripe → Coupons → Create coupon → Name: "GW Merch 20 VIP" → 20% off → Applies To: add all merch prod_xxx IDs only → Save.',
+                'Stripe → Promotion Codes → Create → select "GW Merch 20 VIP" coupon → Code = F20UN26DVIP → Active.',
+                'Stripe → Coupons → Create coupon → Name: "GW Merch Family 30" → 30% off → same merch Product IDs.',
+                'Stripe → Promotion Codes → Create → select "GW Merch Family 30" → Code = F30MOM26A → Active.',
+                'Archive old codes in Stripe: fnd@gwTYV!P, F@mFr!3NdsOFg@noz, FOUNDING20, FAMILY30, and any others.',
+                'Test: add hoodie to cart on gannonwaye.com → enter F20UN26DVIP on Stripe page → verify 20% off merch subtotal.',
+                'Test: add CD to cart → enter F20UN26DVIP → verify Stripe rejects / 0% discount.',
+                'Submit gannonwaye.com to Norton Safe Web: https://safeweb.norton.com',
               ].map((step, i) => (
                 <div key={i} className="flex items-start gap-2">
                   <span className="text-primary font-bold shrink-0">{i + 1}.</span>
-                  <p className="text-foreground/80">{step.replace(/^\d+\. /, '')}</p>
+                  <p className="text-foreground/80">{step}</p>
                 </div>
               ))}
             </CardContent>

@@ -8,13 +8,12 @@ import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
 import CheckoutModal from '@/components/store/CheckoutModal';
 
-// Badge config per product id
+// Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
   '69f11d1fc43e13c61fe6b9d6': { label: 'Slim Case', color: 'bg-secondary text-muted-foreground border-border/40' },
   '69eed3e64e2da78ae4418a9d': { label: 'Deluxe · Signed', color: 'bg-primary/20 text-primary border-primary/40' },
-  '69f11d1fc43e13c61fe6b9d7': { label: 'Pre-order Open', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
-  '69eed3e64e2da78ae4418a9a': { label: 'Sold Out', color: 'bg-red-500/15 text-red-400 border-red-500/30' },
-  '69eed3e64e2da78ae4418a99': { label: 'Open for Orders', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
+  '69f11d1fc43e13c61fe6b9d7': { label: 'Available Now', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
+  '69eed3e64e2da78ae4418a99': { label: 'In Stock', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
 };
 
 // Store is OPEN — products show buy button
@@ -218,13 +217,17 @@ function ProductCard({ product }) {
             </div>
           )}
           <div className="absolute top-3 left-3 z-10">
-            {badge ? (
+            {product.stock_quantity === 0 ? (
+              <span className="font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 bg-red-500/15 text-red-400 border-red-500/30">
+                Sold Out
+              </span>
+            ) : badge ? (
               <span className={`font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 ${badge.color}`}>
                 {badge.label}
               </span>
             ) : (
               <span className="font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 bg-green-500/15 text-green-400 border-green-500/30">
-                Available Now
+                In Stock
               </span>
             )}
           </div>
@@ -276,8 +279,21 @@ export default function Store() {
   });
 
   const products = dbProducts.length > 0 ? dbProducts : FALLBACK_PRODUCTS;
-  const cdProducts = products.filter(p => p.category === 'cd');
-  const merchProducts = products.filter(p => p.category !== 'cd');
+
+  // Sort: merch groups first, then music, sold-out last
+  const GROUP_ORDER = { apparel: 0, accessories: 1, drinkware: 2, bundle: 3, poster: 4, vinyl: 5, cd: 6, other: 7 };
+  const sortedProducts = [...products].sort((a, b) => {
+    const aOut = a.stock_quantity === 0 ? 1 : 0;
+    const bOut = b.stock_quantity === 0 ? 1 : 0;
+    if (aOut !== bOut) return aOut - bOut;
+    const aGroup = GROUP_ORDER[a.category] ?? 7;
+    const bGroup = GROUP_ORDER[b.category] ?? 7;
+    if (aGroup !== bGroup) return aGroup - bGroup;
+    return (a.sale_price ?? 0) - (b.sale_price ?? 0);
+  });
+
+  const cdProducts = sortedProducts.filter(p => p.category === 'cd' || p.category === 'vinyl');
+  const merchProducts = sortedProducts.filter(p => p.category !== 'cd' && p.category !== 'vinyl');
 
   return (
     <div className="min-h-screen py-24 px-4 md:px-8">
@@ -304,7 +320,7 @@ export default function Store() {
           <>
             <div className="flex items-center gap-4 mt-12 mb-6">
               <div className="flex-1 h-px bg-border/40" />
-              <span className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">CD Singles</span>
+              <span className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Music</span>
               <div className="flex-1 h-px bg-border/40" />
             </div>
             <div className="flex justify-center">
@@ -322,7 +338,7 @@ export default function Store() {
           <>
             <div className="flex items-center gap-4 mt-14 mb-6">
               <div className="flex-1 h-px bg-border/40" />
-              <span className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Apparel &amp; Accessories</span>
+              <span className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Merch</span>
               <div className="flex-1 h-px bg-border/40" />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

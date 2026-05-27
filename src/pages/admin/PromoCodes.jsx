@@ -55,7 +55,7 @@ export default function PromoCodes() {
       <div className="flex items-start justify-between mb-8 flex-wrap gap-4">
         <div>
           <h1 className="font-display text-2xl text-foreground">Promo Codes</h1>
-          <p className="font-body text-sm text-muted-foreground mt-1">Manage discount codes for your store</p>
+          <p className="font-body text-sm text-muted-foreground mt-1">Manage discount codes · Approved: <strong className="text-primary">F20UN26DVIP (20%)</strong> · <strong className="text-primary">F30MOM26A (30%)</strong> — merch only</p>
         </div>
         <Button onClick={() => setShowForm(!showForm)} className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase gap-2">
           <Plus className="w-4 h-4" /> New Code
