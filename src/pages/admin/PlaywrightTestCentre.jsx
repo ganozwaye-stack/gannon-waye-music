@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { ArrowLeft, Copy, Download, ExternalLink, FileText, Shield, Play } from 'lucide-react';
+import { ArrowLeft, Copy, Download, ExternalLink, FileText, Shield, Play, AlertTriangle } from 'lucide-react';
 
 const PLAYWRIGHT_CONFIG = `// playwright.config.ts
 import { defineConfig, devices } from '@playwright/test';
@@ -432,6 +432,44 @@ test.describe('Mobile Responsiveness', () => {
   },
 ];
 
+const SAFETY_PACK = `# Playwright Agent Safety Pack
+
+## SESSION COOKIE SAFETY
+[ ] ADMIN_SESSION_COOKIE stored in .env.local only (never in config or test files)
+[ ] .env.local is in .gitignore — confirm before first commit
+[ ] ADMIN_SESSION_COOKIE is NEVER hardcoded in playwright.config.ts
+[ ] If session cookie appears in any log — treat as compromised and rotate immediately
+
+## GITHUB ACTIONS SAFETY
+[ ] ADMIN_SESSION_COOKIE stored in GitHub Repository Secrets only
+[ ] No secret values in workflow YAML comments or echo statements
+[ ] GitHub secret scanning enabled on repository
+
+## STRIPE MODE SAFETY
+[ ] STRIPE_MODE is either 'test' or 'live' — never undefined for checkout tests
+[ ] In LIVE mode: NEVER auto-submit payment
+[ ] sk_test_ and pk_test_ must BOTH be set when STRIPE_MODE=test
+[ ] sk_live_ and pk_live_ must BOTH be set when STRIPE_MODE=live
+[ ] Never mix live keys with test mode
+
+## TEST DATA SAFETY
+[ ] Tests do NOT create real orders without Gannon approval
+[ ] Tests do NOT send real emails without Gannon approval
+[ ] Test screenshots do NOT capture session cookie values
+[ ] Test reports do NOT include session cookies in URL parameters
+
+## COOKIE ROTATION TRIGGERS
+Rotate ADMIN_SESSION_COOKIE immediately if:
+- It appears in a screenshot, report, or log file
+- It appears in a GitHub Actions log
+- The test machine is shared or compromised
+- You are unsure if it was shared externally
+
+## SAGE / SECURITY LAYER
+Playwright has no native Sage integration (N/A for browser tests).
+Mitigation: Follow cookie safety checklist. Use .env.local. Add .env.local to .gitignore.
+`;
+
 const SETUP_INSTRUCTIONS = `# Playwright QA Setup
 
 ## Prerequisites
@@ -506,6 +544,20 @@ export default function PlaywrightTestCentre() {
           <Button variant="outline" size="sm" onClick={() => copy(PLAYWRIGHT_CONFIG)}><Copy className="w-3 h-3 mr-1" />Copy Config</Button>
         </div>
       </div>
+
+      {/* Safety Banner */}
+      <Card className="border-orange-500/30 bg-orange-500/5">
+        <CardContent className="p-4 flex items-start gap-3">
+          <AlertTriangle className="w-4 h-4 text-orange-400 shrink-0 mt-0.5" />
+          <div className="text-sm space-y-1">
+            <p className="font-semibold text-orange-300">Cookie Safety: Store ADMIN_SESSION_COOKIE in .env.local only — never in config files or git.</p>
+            <div className="flex items-center gap-2">
+              <Button variant="outline" size="sm" onClick={() => copy(SAFETY_PACK)}><Copy className="w-3 h-3 mr-1" />Copy Safety Checklist</Button>
+              <Button variant="outline" size="sm" onClick={() => downloadFile('playwright-safety-pack.md', SAFETY_PACK)}><Download className="w-3 h-3 mr-1" />Download</Button>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
 
       <Card className="border-primary/20 bg-primary/5">
         <CardContent className="p-4 text-sm">

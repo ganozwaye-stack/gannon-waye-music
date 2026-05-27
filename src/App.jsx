@@ -210,6 +210,8 @@ import ProcurementCommand from '@/pages/admin/ProcurementCommand';
 import LandedCostCalculator from '@/pages/admin/LandedCostCalculator';
 import StockFlowDashboard from '@/pages/admin/StockFlowDashboard';
 import BusinessProcessCommand from '@/pages/admin/BusinessProcessCommand';
+import AgentTrustHub from '@/pages/admin/AgentTrustHub';
+import ExternalEngineeringCommand from '@/pages/admin/ExternalEngineeringCommand';
 
 
 const AuthenticatedApp = () => {
@@ -481,6 +483,12 @@ const AuthenticatedApp = () => {
         <Route path="/admin/inventory-costing" element={<LandedCostCalculator />} />
         <Route path="/admin/stock-flow-dashboard" element={<StockFlowDashboard />} />
         <Route path="/admin/business-process-command" element={<BusinessProcessCommand />} />
+        <Route path="/admin/agent-trust-hub" element={<AgentTrustHub />} />
+        <Route path="/admin/external-engineering-command" element={<ExternalEngineeringCommand />} />
+        <Route path="/admin/security-trust-centre" element={<AgentTrustHub />} />
+        <Route path="/admin/cursor-handoff" element={<ExternalEngineeringCommand />} />
+        <Route path="/admin/replit-handoff" element={<ExternalEngineeringCommand />} />
+        <Route path="/admin/warp-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/action-required" element={<BusinessAttentionCentre />} />
         <Route path="/admin/go-live-checklist" element={<GoLiveChecklist />} />
         <Route path="/admin/training-hub" element={<TrainingHub />} />

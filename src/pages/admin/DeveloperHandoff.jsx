@@ -481,6 +481,56 @@ After each task, output:
 - Remaining blockers`,
   },
   {
+    id: 'agent_safety',
+    label: 'Agent Safety / Sage',
+    content: `# Agent Safety Pack — Gannon Waye Music OS
+
+## SAGE BY GEN DIGITAL
+Purpose: Lightweight agent security layer for external engineering tools.
+Intercepts: dangerous commands, malicious URLs, credential leaks, suspicious packages,
+destructive terminal actions, .env exposure, obfuscation attempts, persistence/tampering.
+
+## INSTALLATION (OpenClaw — for Claude Code)
+openclaw plugins install @gendigital/sage-openclaw
+
+## STATUS (2026-05-27)
+Sage NOT YET INSTALLED in any external tool environment.
+Do not claim Sage is active until install is confirmed and a test block is observed.
+
+## WARP NOTE
+Warp does not confirm native Sage support. Use Sage with Cursor/Claude/OpenClaw where available.
+In Warp: use Warp's own data controls, command review, GitHub branches, and test isolation.
+
+## AGENT SAFETY RULES (ALL EXTERNAL AGENTS)
+1. Never print secrets.
+2. Never paste secrets into chat.
+3. Never expose .env files.
+4. Never upload private files.
+5. Never run destructive commands without Gannon approval.
+6. Never install unknown packages without running npm audit.
+7. Never fetch suspicious URLs.
+8. Never disable security tools.
+9. Never bypass approval gates.
+10. Never publish content externally without approval.
+11. Never process payments or place supplier orders without approval.
+12. Never make coaching public (COACHING_PUBLIC_LAUNCH_ENABLED = false).
+13. Never modify Stripe/TikTok/Metricool secrets except through Guided Setup Concierge.
+14. Never commit secrets to GitHub.
+15. Never include session cookies in logs or reports.
+16. Always work on a git branch — never commit to main directly.
+
+## SECRET REDACTION — BEFORE EVERY SESSION
+STRIPE_SECRET_KEY — NEVER share value
+STRIPE_WEBHOOK_SECRET — ROTATE (may have been exposed 26 May 2026)
+TIKTOK_CLIENT_SECRET — ROTATE recommended
+METRICOOL_API_TOKEN — NEVER share
+ADMIN_SESSION_COOKIE — store in .env.local only
+
+## MORE INFO
+Full Agent Trust Hub: /admin/agent-trust-hub
+External Engineering Command: /admin/external-engineering-command`,
+  },
+  {
     id: 'playwright_dev',
     label: 'Playwright Dev Pack',
     content: `# Playwright Developer Task Pack
@@ -556,6 +606,7 @@ export default function DeveloperHandoff() {
           </div>
         </div>
         <div className="flex gap-2 flex-wrap">
+          <Link to="/admin/agent-trust-hub"><Button variant="outline" size="sm"><Shield className="w-3 h-3 mr-1" />Agent Trust Hub</Button></Link>
           <Link to="/admin/playwright-test-centre"><Button variant="outline" size="sm"><FileText className="w-3 h-3 mr-1" />Test Centre</Button></Link>
           <Button variant="outline" size="sm" onClick={() => SECTIONS.forEach(s => downloadFile(`handoff/${s.id}.md`, s.content))}>
             <Download className="w-3 h-3 mr-1" />Download All Docs

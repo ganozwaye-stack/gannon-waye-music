@@ -6,7 +6,7 @@ import {
   MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command,
   ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
   Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
-  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3
+  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -181,6 +181,8 @@ const NAV_SECTIONS = [
       { label: 'Discount Guard', path: '/admin/discount-guard', icon: Shield },
       { label: 'Payment Diagnostics', path: '/admin/payment-diagnostics', icon: CreditCard },
       { label: 'Security Centre', path: '/admin/security-centre', icon: Lock },
+      { label: '🛡 Agent Trust Hub', path: '/admin/agent-trust-hub', icon: Shield },
+      { label: 'External Engineering', path: '/admin/external-engineering-command', icon: Terminal },
       { label: 'Stripe Command Centre', path: '/admin/stripe-command-centre', icon: CreditCard },
       { label: 'Sync Licensing', path: '/admin/sync-licensing-command', icon: Music },
       { label: 'Webhook Health', path: '/admin/webhook-health', icon: Activity },
