@@ -215,6 +215,7 @@ import BusinessProcessCommand from '@/pages/admin/BusinessProcessCommand';
 import AgentTrustHub from '@/pages/admin/AgentTrustHub';
 import ExternalEngineeringCommand from '@/pages/admin/ExternalEngineeringCommand';
 import PromoDiscountCompliance from '@/pages/admin/PromoDiscountCompliance';
+import CursorCloudAgentCommand from '@/pages/admin/CursorCloudAgentCommand';
 
 
 const AuthenticatedApp = () => {
@@ -493,6 +494,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/security-trust-centre" element={<AgentTrustHub />} />
         <Route path="/admin/norton-safe-web-guide" element={<PromoDiscountCompliance />} />
         <Route path="/admin/promo-discount-compliance" element={<PromoDiscountCompliance />} />
+        <Route path="/admin/cursor-cloud-agent-command" element={<CursorCloudAgentCommand />} />
         <Route path="/admin/cursor-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/replit-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/warp-handoff" element={<ExternalEngineeringCommand />} />
