@@ -13,14 +13,17 @@ import { useToast } from '@/components/ui/use-toast';
 
 const TOOL_BUDGET = [
   { name: 'Base44', cost: 'Included in subscription', status: 'active', canPay: true, approved: true, note: 'Core platform — keep active' },
-  { name: 'Cursor Pro', cost: '~$20/month', status: 'not_started', canPay: false, approved: false, note: 'Only after GitHub repo exists. First paid external tool recommended.' },
-  { name: 'Warp Free', cost: 'Free tier', status: 'recommended', canPay: true, approved: true, note: 'Start on free. Use for terminal, Playwright, GitHub workflows.' },
+  { name: 'GitHub (private repo)', cost: 'Free', status: 'ready', canPay: true, approved: true, note: 'Create repo: gannonwaye-business-os (private). Warp + Cursor both connected to GitHub.' },
+  { name: 'Playwright', cost: 'Free', status: 'ready', canPay: true, approved: true, note: 'INSTALLED locally. Firefox + WebKit confirmed. Download test pack from /admin/playwright-test-centre.' },
+  { name: 'Warp Free', cost: 'Free tier', status: 'recommended', canPay: true, approved: true, note: 'INSTALLED + GitHub signed in. Primary local test runner. Use before any cloud agent.' },
+  { name: 'Cursor (local)', cost: 'Free tier', status: 'recommended', canPay: true, approved: true, note: 'INSTALLED + GitHub connected. Use for manual repo editing after source export.' },
+  { name: 'Cursor Cloud Agents API', cost: 'Usage-based (varies)', status: 'blocked', canPay: false, approved: false, note: 'BLOCKED UNTIL BUDGET APPROVED. API available. Must complete: repo + secrets excluded + Playwright pass + budget cap + Gannon approval. See /admin/cursor-cloud-agent-command.' },
+  { name: 'Cursor Pro', cost: '~$20/month', status: 'hold', canPay: false, approved: false, note: 'Only after GitHub repo exists and source export confirmed. First paid external tool recommended.' },
   { name: 'Warp Build', cost: '~$19/month', status: 'hold', canPay: false, approved: false, note: 'Only after: repo exists + Playwright tests run + clear task list.' },
   { name: 'Replit Free', cost: 'Free tier', status: 'optional', canPay: false, approved: false, note: 'Only if cloud dev environment is needed. Not recommended yet.' },
-  { name: 'Replit Pro', cost: '~$25/month', status: 'blocked', canPay: false, approved: false, note: 'Do NOT recommend yet. Wait until GitHub repo + cloud need confirmed.' },
-  { name: 'Sage (OpenClaw plugin)', cost: 'Free (via OpenClaw)', status: 'pending_install', canPay: true, approved: true, note: 'Install via: openclaw plugins install @gendigital/sage-openclaw. Confirm active before relying on it.' },
-  { name: 'Playwright', cost: 'Free', status: 'ready', canPay: true, approved: true, note: 'Download test pack from /admin/playwright-test-centre. Run externally.' },
-  { name: 'GitHub', cost: 'Free (private repos)', status: 'ready', canPay: true, approved: true, note: 'Create private repo. Check Base44 dashboard for GitHub sync.' },
+  { name: 'Replit Pro', cost: '~$25/month', status: 'blocked', canPay: false, approved: false, note: 'Do NOT use yet. Wait until GitHub repo + cloud need confirmed.' },
+  { name: 'GitLab', cost: 'Free tier', status: 'hold', canPay: false, approved: false, note: 'SECONDARY. Gannon joined GitLab but GitHub is primary. Do not split project unless clear technical reason.' },
+  { name: 'Sage (OpenClaw plugin)', cost: 'Free (via OpenClaw)', status: 'pending_install', canPay: true, approved: true, note: 'Install via: openclaw plugins install @gendigital/sage-openclaw.' },
 ];
 
 const BUDGET_RULES = [
