@@ -126,7 +126,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                   data-testid="cart-checkout-button"
                   onClick={() => {
                     onClose();
-                    navigate('/store/cart-details');
+                    navigate('/store/cart');
                   }}
                   className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase"
                 >
