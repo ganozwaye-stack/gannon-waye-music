@@ -1,0 +1,137 @@
+{
+  "name": "AgentMessage",
+  "type": "object",
+  "properties": {
+    "from_system": {
+      "type": "string"
+    },
+    "to_system": {
+      "type": "string"
+    },
+    "message_type": {
+      "type": "string",
+      "enum": [
+        "playwright_failure",
+        "github_actions_failure",
+        "store_repair_task",
+        "content_request",
+        "metricool_task",
+        "security_alert",
+        "approval_request",
+        "cursor_task",
+        "warp_task",
+        "openai_analysis",
+        "tiktok_task",
+        "checkout_task",
+        "system_status",
+        "content_task",
+        "video_task",
+        "website_task",
+        "community_task",
+        "conversion_task"
+      ],
+      "default": "system_status"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "medium"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "payload_json": {
+      "type": "string",
+      "description": "JSON string of message payload"
+    },
+    "linked_route": {
+      "type": "string"
+    },
+    "linked_entity": {
+      "type": "string"
+    },
+    "linked_test": {
+      "type": "string"
+    },
+    "linked_error": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "triaged",
+        "assigned",
+        "in_progress",
+        "awaiting_approval",
+        "blocked",
+        "resolved",
+        "failed"
+      ],
+      "default": "new"
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "default": false
+    },
+    "created_by_agent": {
+      "type": "string"
+    },
+    "assigned_agent": {
+      "type": "string"
+    },
+    "resolved_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cost_estimate": {
+      "type": "number",
+      "default": 0
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "low"
+    }
+  },
+  "required": [
+    "message_type",
+    "subject"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "name": "VisualGenerationQueue",
+  "type": "object",
+  "properties": {
+    "prompt": {
+      "type": "string"
+    },
+    "visual_concept": {
+      "type": "string"
+    },
+    "visual_type": {
+      "type": "string",
+      "enum": [
+        "motion_cover",
+        "reel_concept",
+        "quote_card",
+        "countdown_post",
+        "story_asset",
+        "carousel_idea",
+        "hook_overlay",
+        "typography_prompt",
+        "apple_music_motion",
+        "capcut_prompt",
+        "runway_prompt",
+        "canva_layout",
+        "coffee_mug_visual",
+        "merch_visual",
+        "store_walkthrough",
+        "tiktok_review_visual"
+      ],
+      "default": "quote_card"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "instagram",
+        "tiktok",
+        "facebook",
+        "youtube_shorts",
+        "threads",
+        "pinterest",
+        "twitter_x",
+        "all"
+      ],
+      "default": "instagram"
+    },
+    "campaign": {
+      "type": "string"
+    },
+    "asset_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "generating",
+        "ready",
+        "approved",
+        "used",
+        "rejected"
+      ],
+      "default": "draft"
+    },
+    "permission_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "granted",
+        "denied"
+      ],
+      "default": "pending"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "awaiting_approval",
+        "approved",
+        "rejected"
+      ],
+      "default": "awaiting_approval"
+    },
+    "generated_url": {
+      "type": "string"
+    },
+    "source_chain": {
+      "type": "string"
+    },
+    "linked_content_post_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "prompt",
+    "visual_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
