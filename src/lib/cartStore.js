@@ -1,11 +1,35 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { persist, createJSONStorage } from 'zustand/middleware';
 
-const CART_STORAGE_KEY = 'gannon_store_cart';
+const CART_STORAGE_KEY = 'gannon_store_cart_v2';
+
+// Wipe any legacy cart key that may contain serialized functions (causes uu(...) is not a function crash)
+try {
+  const legacyKey = 'gannon_store_cart';
+  const legacyRaw = localStorage.getItem(legacyKey);
+  if (legacyRaw) {
+    localStorage.removeItem(legacyKey);
+  }
+} catch (_) {
+  // ignore — SSR or private browsing
+}
+
+function safeItems(raw) {
+  if (!Array.isArray(raw)) return [];
+  return raw.filter(
+    item =>
+      item &&
+      typeof item === 'object' &&
+      typeof item.product_id === 'string' &&
+      item.product &&
+      typeof item.product === 'object' &&
+      typeof item.quantity === 'number'
+  );
+}
 
 export const useCartStore = create(
   persist(
-    (set, get) => ({
+    (set) => ({
       items: [],
 
       addItem: (product, quantity = 1, size = null) => {
@@ -40,7 +64,11 @@ export const useCartStore = create(
 
       updateQuantity: (productId, quantity, size = null) => {
         if (quantity <= 0) {
-          get().removeItem(productId, size);
+          set((state) => ({
+            items: state.items.filter(
+              item => !(item.product_id === productId && item.size === size)
+            ),
+          }));
           return;
         }
         set((state) => ({
@@ -53,40 +81,42 @@ export const useCartStore = create(
       },
 
       clearCart: () => set({ items: [] }),
-
-      // Use these as plain computed values in components via state.items
-      getSubtotal: () => {
-        const { items } = get();
-        return items.reduce((sum, item) => {
-          const price = item.product?.sale_price ?? item.product?.price ?? 0;
-          return sum + price * item.quantity;
-        }, 0);
-      },
     }),
     {
       name: CART_STORAGE_KEY,
-      partialize: (state) => ({ items: state.items }),
-      // Ensure items is always a valid array after rehydration from localStorage
+      storage: createJSONStorage(() => localStorage),
+      // Only persist plain items array — NEVER persist functions
+      partialize: (state) => ({ items: safeItems(state.items) }),
       onRehydrateStorage: () => (state) => {
-        if (state && !Array.isArray(state.items)) {
-          state.items = [];
+        if (state) {
+          state.items = safeItems(state.items);
         }
       },
     }
   )
 );
 
-// Convenience selector hooks (use these in components)
+// ─── Safe derived selector hooks ─────────────────────────────────────────────
+// Always derive from state.items inline — never call a method stored on state
+
 export const useCartItemCount = () =>
-  useCartStore(state => state.items.reduce((sum, item) => sum + item.quantity, 0));
+  useCartStore(state =>
+    Array.isArray(state.items)
+      ? state.items.reduce((sum, item) => sum + Number(item.quantity || 0), 0)
+      : 0
+  );
 
 export const useCartSubtotal = () =>
   useCartStore(state =>
-    state.items.reduce((sum, item) => {
-      const price = item.product?.sale_price ?? item.product?.price ?? 0;
-      return sum + price * item.quantity;
-    }, 0)
+    Array.isArray(state.items)
+      ? state.items.reduce((sum, item) => {
+          const price = item.product?.sale_price ?? item.product?.price ?? 0;
+          return sum + Number(price) * Number(item.quantity || 0);
+        }, 0)
+      : 0
   );
 
 export const useCartHasItems = () =>
-  useCartStore(state => state.items.length > 0);
+  useCartStore(state =>
+    Array.isArray(state.items) && state.items.length > 0
+  );

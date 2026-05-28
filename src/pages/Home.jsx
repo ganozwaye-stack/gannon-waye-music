@@ -53,6 +53,22 @@ export default function Home() {
   return (
     <div className="min-h-screen relative">
       <TikTokWelcomeBanner />
+
+      {/* Welcome Hero Banner — full-width image at the very top */}
+      <section className="relative w-full">
+        <img
+          src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f35982fc5_ChatGPTImageMay28202608_32_44PM.jpg"
+          alt="Gannon Waye — Thank You, Debut Single June 5 2026"
+          className="w-full h-auto block"
+          style={{ maxHeight: '480px', objectFit: 'cover', objectPosition: 'center 30%' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80" />
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center w-full px-4">
+          <p className="font-body text-[10px] tracking-[0.4em] uppercase text-foreground/60">Welcome to</p>
+          <p className="font-display text-2xl md:text-3xl gradient-gold-text mt-1">gannonwaye.com</p>
+        </div>
+      </section>
+
       {/* Fixed background — visible behind ALL sections */}
       <div className="fixed inset-0 -z-10">
         <AnimatePresence>
