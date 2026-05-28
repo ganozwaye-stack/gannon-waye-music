@@ -1,4 +1,3 @@
-import React from 'react';
 import { useCartStore } from '@/lib/cartStore';
 import { ShoppingCart, Minus, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,9 +5,13 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CartDrawer({ isOpen, onClose }) {
   const navigate = useNavigate();
-  const { items, updateQuantity, removeItem, getSubtotal, clearCart } = useCartStore();
-  
-  const subtotal = getSubtotal();
+  const { items, updateQuantity, removeItem, clearCart } = useCartStore();
+  const subtotal = useCartStore(state =>
+    state.items.reduce((sum, item) => {
+      const price = item.product?.sale_price ?? item.product?.price ?? 0;
+      return sum + price * item.quantity;
+    }, 0)
+  );
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
   
   if (!isOpen) return null;

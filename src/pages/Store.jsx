@@ -332,8 +332,9 @@ function ProductCard({ product }) {
 
 export default function Store() {
   const navigate = useNavigate();
-  const getItemCount = useCartStore(state => state.getItemCount());
-  const hasItems = useCartStore(state => state.hasItems());
+  const cartItems = useCartStore(state => state.items);
+  const getItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const hasItems = cartItems.length > 0;
 
   const { data: dbProducts = [] } = useQuery({
     queryKey: ['storeProducts'],
@@ -382,12 +383,12 @@ export default function Store() {
             </p>
           </div>
           {hasItems && (
-            <div className="mt-4 inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-xl px-4 py-2">
-              <ShoppingCart className="w-4 h-4 text-primary" />
-              <span className="font-body text-xs text-primary">
-                {getItemCount()} item{getItemCount() !== 1 ? 's' : ''} in cart — ready for checkout
-              </span>
-            </div>
+          <div className="mt-4 inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-xl px-4 py-2">
+          <ShoppingCart className="w-4 h-4 text-primary" />
+          <span className="font-body text-xs text-primary">
+            {getItemCount} item{getItemCount !== 1 ? 's' : ''} in cart — ready for checkout
+          </span>
+          </div>
           )}
         </motion.div>
 

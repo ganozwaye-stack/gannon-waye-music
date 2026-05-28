@@ -54,7 +54,13 @@ function calcCombinedShipping(items, address) {
 export default function StoreCheckout() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { items, getSubtotal, clearCart } = useCartStore();
+  const { items, clearCart } = useCartStore();
+  const getSubtotal = useCartStore(state =>
+    state.items.reduce((sum, item) => {
+      const price = item.product?.sale_price ?? item.product?.price ?? 0;
+      return sum + price * item.quantity;
+    }, 0)
+  );
 
   const [form, setForm] = useState({ customer_name: '', customer_email: '', shipping_address: '' });
   const [addSupport, setAddSupport] = useState(0);
@@ -65,7 +71,7 @@ export default function StoreCheckout() {
   const [promoError, setPromoError] = useState(null);
   const [promoLoading, setPromoLoading] = useState(false);
 
-  const subtotal = getSubtotal();
+  const subtotal = getSubtotal;
   const totalQty = items.reduce((sum, item) => sum + item.quantity, 0);
   const shipping = calcCombinedShipping(items, form.shipping_address);
 

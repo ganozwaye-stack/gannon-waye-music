@@ -5,8 +5,8 @@ import CartDrawer from './CartDrawer';
 
 export default function CartButton() {
   const [isOpen, setIsOpen] = useState(false);
-  const getItemCount = useCartStore(state => state.getItemCount());
-  const count = getItemCount();
+  const items = useCartStore(state => state.items);
+  const count = items.reduce((sum, item) => sum + item.quantity, 0);
   
   return (
     <>
