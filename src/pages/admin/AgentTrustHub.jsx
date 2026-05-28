@@ -28,6 +28,19 @@ const SAGE_INFO = {
 
 const TOOLS = [
   {
+    name: 'GitHub',
+    sage_supported: 'Partial (secret scanning)',
+    sage_installed: 'No',
+    last_tested: 'Not yet',
+    secret_risk: 'Medium (with secret scanning: Low)',
+    cmd_risk: 'Low',
+    url_risk: 'Low',
+    pkg_risk: 'Low',
+    setup: 'Enable GitHub Secret Scanning in repo settings. Add branch protection on main. Store all CI/CD secrets in GitHub Repository Secrets (never in YAML files). Create private repo — never public for this codebase.',
+    action: 'Create private repo. Enable secret scanning. Add .gitignore with .env, .env.local, node_modules, playwright-report/.',
+    status: 'action_required',
+  },
+  {
     name: 'Base44 Agent',
     sage_supported: 'N/A',
     sage_installed: 'N/A',

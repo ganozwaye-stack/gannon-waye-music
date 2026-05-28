@@ -496,6 +496,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/cursor-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/replit-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/warp-handoff" element={<ExternalEngineeringCommand />} />
+        <Route path="/admin/github-export-guide" element={<ExternalEngineeringCommand />} />
+        <Route path="/admin/external-engineering-task-list" element={<ExternalEngineeringCommand />} />
+        <Route path="/admin/ai-tool-budget-control" element={<AICostControl />} />
         <Route path="/admin/action-required" element={<BusinessAttentionCentre />} />
         <Route path="/admin/go-live-checklist" element={<GoLiveChecklist />} />
         <Route path="/admin/training-hub" element={<TrainingHub />} />
