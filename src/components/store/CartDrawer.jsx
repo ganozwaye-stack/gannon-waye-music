@@ -5,14 +5,16 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CartDrawer({ isOpen, onClose }) {
   const navigate = useNavigate();
-  const { items, updateQuantity, removeItem, clearCart } = useCartStore();
+  const rawStore = useCartStore();
+  const items = Array.isArray(rawStore.items) ? rawStore.items : [];
+  const { updateQuantity, removeItem, clearCart } = rawStore;
   const subtotal = useCartStore(state =>
-    state.items.reduce((sum, item) => {
+    (Array.isArray(state.items) ? state.items : []).reduce((sum, item) => {
       const price = item.product?.sale_price ?? item.product?.price ?? 0;
       return sum + price * item.quantity;
     }, 0)
   );
-  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  const itemCount = items.reduce((sum, item) => sum + (item.quantity || 0), 0);
   
   if (!isOpen) return null;
   
@@ -25,7 +27,7 @@ export default function CartDrawer({ isOpen, onClose }) {
       />
       
       {/* Drawer */}
-      <div className="absolute right-0 top-0 h-full w-full max-w-md bg-card border-l border-border/40 shadow-2xl overflow-y-auto">
+      <div data-testid="cart-drawer" className="absolute right-0 top-0 h-full w-full max-w-md bg-card border-l border-border/40 shadow-2xl overflow-y-auto">
         <div className="p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-display text-2xl text-foreground">Your Cart</h2>

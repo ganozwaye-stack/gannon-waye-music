@@ -5,12 +5,13 @@ import CartDrawer from './CartDrawer';
 
 export default function CartButton() {
   const [isOpen, setIsOpen] = useState(false);
-  const items = useCartStore(state => state.items);
-  const count = items.reduce((sum, item) => sum + item.quantity, 0);
+  const items = useCartStore(state => Array.isArray(state.items) ? state.items : []);
+  const count = items.reduce((sum, item) => sum + (item.quantity || 0), 0);
   
   return (
     <>
       <button 
+        data-testid="cart-button"
         onClick={() => setIsOpen(true)}
         className="relative p-2 text-muted-foreground hover:text-foreground transition-colors"
       >

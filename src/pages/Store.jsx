@@ -228,6 +228,7 @@ function ProductCard({ product }) {
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
+        data-testid="product-card"
         className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
       >
         {/* Image — click to open detail modal */}
@@ -240,7 +241,7 @@ function ProductCard({ product }) {
             />
           ) : singleImage ? (
             <div className={`${isCd ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 overflow-hidden`}>
-              <img src={singleImage} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              <img data-testid="product-image" src={singleImage} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
             </div>
           ) : (
             <div className={`${isCd ? 'aspect-[4/3]' : 'aspect-square'} bg-gradient-to-br from-secondary/20 to-secondary/60 flex items-center justify-center`}>
@@ -270,7 +271,7 @@ function ProductCard({ product }) {
 
         {/* Footer */}
         <div className="p-4 border-t border-border/30 bg-card/20">
-          <p className="font-display text-sm text-foreground leading-snug">{product.name}</p>
+          <p data-testid="product-title" className="font-display text-sm text-foreground leading-snug">{product.name}</p>
           <p className="font-body text-sm gradient-gold-glow mt-1 font-medium">${price} AUD</p>
           {cfg?.sub && (
             <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
@@ -305,6 +306,7 @@ function ProductCard({ product }) {
           
           {STORE_OPEN && product.stock_quantity > 0 ? (
             <button
+              data-testid="add-to-cart"
               onClick={handleAddToCart}
               className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 gradient-gold-button hover:opacity-90"
             >
@@ -338,13 +340,15 @@ export default function Store() {
   const getItemCount = cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
   const hasItems = cartItems.length > 0;
 
-  const { data: dbProducts = [] } = useQuery({
+  const { data: dbProducts } = useQuery({
     queryKey: ['storeProducts'],
     queryFn: () => base44.entities.MerchProduct.filter({ is_active: true }, '-created_date'),
-    initialData: [],
+    staleTime: 60_000,
   });
+  // Always fall back to FALLBACK_PRODUCTS immediately — no blank state while DB loads
+  const resolvedProducts = Array.isArray(dbProducts) && dbProducts.length > 0 ? dbProducts : FALLBACK_PRODUCTS;
 
-  const products = dbProducts.length > 0 ? dbProducts : FALLBACK_PRODUCTS;
+  const products = resolvedProducts;
 
   // Sort: merch groups first, then music, sold-out last
   const GROUP_ORDER = { apparel: 0, accessories: 1, drinkware: 2, bundle: 3, poster: 4, vinyl: 5, cd: 6, other: 7 };
@@ -362,7 +366,7 @@ export default function Store() {
   const merchProducts = sortedProducts.filter(p => p.category !== 'cd' && p.category !== 'vinyl');
 
   return (
-    <div className="min-h-screen py-24 px-4 md:px-8">
+    <div data-testid="store-page" className="min-h-screen py-24 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         
         {/* Cart button */}
@@ -403,7 +407,7 @@ export default function Store() {
               <div className="flex-1 h-px bg-border/40" />
             </div>
             <div className="flex justify-center">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
+              <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
                 {cdProducts.map(product => (
                    <ProductCard key={product.id} product={product} />
                  ))}
@@ -420,7 +424,7 @@ export default function Store() {
               <span className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Merch</span>
               <div className="flex-1 h-px bg-border/40" />
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {merchProducts.map(product => (
                  <ProductCard key={product.id} product={product} />
                ))}
