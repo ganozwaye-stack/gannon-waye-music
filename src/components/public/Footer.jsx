@@ -70,7 +70,7 @@ export default function Footer() {
           </div>
           <div>
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Contact</h4>
-            <p className="font-body text-sm text-foreground/70 mb-1">For bookings and enquiries</p>
+            <p className="font-body text-sm text-foreground/70 mb-1">For press, management &amp; enquiries</p>
             <a href={`mailto:${contactEmail}`} className="font-body text-sm text-primary hover:underline block mb-4">{contactEmail}</a>
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Legal</h4>
             <div className="flex flex-col gap-2">
@@ -89,7 +89,7 @@ export default function Footer() {
         {/* Email Signup */}
         <div className="mt-12 pt-10 border-t border-border/40 text-center">
           <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Stay in the loop</p>
-          <h3 className="font-display text-xl text-foreground mb-4">Tour updates & new music</h3>
+          <h3 className="font-display text-xl text-foreground mb-4">New music &amp; community updates</h3>
           {submitted ? (
             <div className="space-y-2">
               <p className="font-body text-base text-primary">You're in. Thank you for joining Gannon Waye Music. 🤍</p>

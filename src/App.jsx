@@ -34,7 +34,7 @@ import OrderHistory from '@/pages/OrderHistory';
 import BackThis from '@/pages/BackThis';
 import Community from '@/pages/Community';
 import Videos from '@/pages/Videos';
-import ContactGannon from '@/pages/ContactGannon';
+import ContactGannon from '@/pages/ContactGannon.jsx';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsOfService from '@/pages/TermsOfService';
 import PublicLayout from '@/components/public/PublicLayout';
@@ -224,8 +224,8 @@ import ContentCommand from '@/pages/admin/ContentCommand';
 import OpenAICommandCentre from '@/pages/admin/OpenAICommandCentre';
 import AgentMessageBus from '@/pages/admin/AgentMessageBus';
 import VideoAgentCommand from '@/pages/admin/VideoAgentCommand';
-import CodeAuditCommand from '@/pages/admin/CodeAuditCommand.jsx';
-import StrategicExecutionPlan from '@/pages/admin/StrategicExecutionPlan.jsx';
+import CodeAuditCommand from '@/pages/admin/CodeAuditCommand';
+import StrategicExecutionPlan from '@/pages/admin/StrategicExecutionPlan';
 
 
 const AuthenticatedApp = () => {
