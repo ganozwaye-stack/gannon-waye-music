@@ -3,7 +3,7 @@
 
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = (typeof process !== 'undefined' && process.env.BASE_URL) || 'https://gannonwaye.com';
+const BASE_URL = 'https://gannonwaye.com';
 
 test.describe('Scroll-to-top on route change', () => {
   test('navigating from Store to Home resets scroll to top', async ({ page }) => {

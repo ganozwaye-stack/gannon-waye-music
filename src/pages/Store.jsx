@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
 import { useCartStore } from '@/lib/cartStore';
-import CartButton from '@/components/store/CartButton';
+import CartDrawer from '@/components/store/CartDrawer';
 import ProductDetailModal from '@/components/store/ProductDetailModal';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
@@ -190,7 +190,7 @@ function InterestButton({ productId, productName }) {
   );
 }
 
-function ProductCard({ product, onCheckout }) {
+function ProductCard({ product, onCheckout, onViewCart }) {
   const { toast } = useToast();
   const addItem = useCartStore(state => state.addItem);
   const [selectedSize, setSelectedSize] = useState('');
@@ -306,18 +306,27 @@ function ProductCard({ product, onCheckout }) {
           
           {STORE_OPEN && product.stock_quantity > 0 ? (
             addedToCart ? (
-              <div className="mt-3 space-y-1.5">
-                <p className="text-center font-body text-[10px] text-green-400 tracking-wider">Added to cart 🤍</p>
-                <div className="flex gap-1.5">
+              <div data-testid="add-to-cart-success" className="mt-3 space-y-1.5">
+                <p className="text-center font-body text-[10px] text-green-400 tracking-wider">✓ Added to cart</p>
+                <div className="flex flex-col gap-1.5">
                   <button
+                    data-testid="continue-shopping-button"
                     onClick={() => setAddedToCart(false)}
-                    className="flex-1 rounded-full py-2 font-body text-[9px] tracking-wider uppercase border border-border/50 text-muted-foreground hover:border-primary/30 transition-all"
+                    className="w-full rounded-full py-2 font-body text-[9px] tracking-wider uppercase border border-border/50 text-muted-foreground hover:border-primary/30 transition-all"
                   >
-                    Continue
+                    Continue Shopping
                   </button>
                   <button
+                    data-testid="view-cart-button"
+                    onClick={() => { setAddedToCart(false); onViewCart && onViewCart(); }}
+                    className="w-full rounded-full py-2 font-body text-[9px] tracking-wider uppercase border border-primary/50 text-primary hover:bg-primary/10 transition-all"
+                  >
+                    View Cart
+                  </button>
+                  <button
+                    data-testid="go-to-checkout-button"
                     onClick={() => onCheckout && onCheckout()}
-                    className="flex-1 rounded-full py-2 font-body text-[9px] tracking-wider uppercase gradient-gold-button transition-all"
+                    className="w-full rounded-full py-2 font-body text-[9px] tracking-wider uppercase gradient-gold-button transition-all"
                   >
                     Checkout
                   </button>
@@ -355,6 +364,7 @@ function ProductCard({ product, onCheckout }) {
 
 export default function Store() {
   const navigate = useNavigate();
+  const [cartOpen, setCartOpen] = useState(false);
   // Guard as array — corrupted localStorage can return undefined/object and crash with uu(...) is not a function
   const cartItems = useCartStore(state => Array.isArray(state.items) ? state.items : []);
   const getItemCount = cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
@@ -391,7 +401,19 @@ export default function Store() {
         
         {/* Cart button */}
         <div className="absolute top-6 right-6 z-40">
-          <CartButton />
+          <button
+            data-testid="cart-button"
+            onClick={() => setCartOpen(true)}
+            className="relative p-2 text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ShoppingCart className="w-5 h-5" />
+            {getItemCount > 0 && (
+              <span data-testid="cart-count" className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs font-body flex items-center justify-center">
+                {getItemCount}
+              </span>
+            )}
+          </button>
+          <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
         </div>
 
         {/* Page header */}
@@ -429,7 +451,7 @@ export default function Store() {
             <div className="flex justify-center">
               <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
                 {cdProducts.map(product => (
-                   <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/checkout')} />
+                   <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/checkout')} onViewCart={() => setCartOpen(true)} />
                  ))}
               </div>
             </div>
@@ -446,7 +468,7 @@ export default function Store() {
             </div>
             <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {merchProducts.map(product => (
-                 <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/checkout')} />
+                 <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/checkout')} onViewCart={() => setCartOpen(true)} />
                ))}
             </div>
           </>
