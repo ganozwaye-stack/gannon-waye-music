@@ -224,6 +224,8 @@ import ContentCommand from '@/pages/admin/ContentCommand';
 import OpenAICommandCentre from '@/pages/admin/OpenAICommandCentre';
 import AgentMessageBus from '@/pages/admin/AgentMessageBus';
 import VideoAgentCommand from '@/pages/admin/VideoAgentCommand';
+import CodeAuditCommand from '@/pages/admin/CodeAuditCommand.jsx';
+import StrategicExecutionPlan from '@/pages/admin/StrategicExecutionPlan.jsx';
 
 
 const AuthenticatedApp = () => {
@@ -514,6 +516,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/agent-message-bus" element={<AgentMessageBus />} />
         <Route path="/admin/ai-agent-command" element={<OpenAICommandCentre />} />
         <Route path="/admin/video-agent-command" element={<VideoAgentCommand />} />
+        <Route path="/admin/code-audit-command" element={<CodeAuditCommand />} />
+        <Route path="/admin/strategic-execution-plan" element={<StrategicExecutionPlan />} />
+        <Route path="/admin/code-audit" element={<CodeAuditCommand />} />
         <Route path="/admin/clip-idea-studio" element={<VideoAgentCommand />} />
         <Route path="/admin/capcut-prompt-builder" element={<VideoAgentCommand />} />
         <Route path="/admin/hook-detection-centre" element={<VideoAgentCommand />} />
