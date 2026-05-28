@@ -10,6 +10,7 @@ import { initializeEventSystem } from '@/lib/eventAutomation';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { posthog } from '@/lib/posthog';
+import ScrollToTop from '@/components/global/ScrollToTop';
 
 // Initialize event-driven automation system
 initializeEventSystem();
@@ -542,6 +543,7 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
+          <ScrollToTop />
           <PostHogPageTracker />
           <AuthenticatedApp />
         </Router>
