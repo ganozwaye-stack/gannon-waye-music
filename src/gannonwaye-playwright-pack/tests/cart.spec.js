@@ -1,106 +1,139 @@
-// tests/cart.spec.js
-// Verifies add-to-cart flow, confirmation UI, cart drawer, and sticky checkout bar
+// @ts-check
+const { test, expect } = require('@playwright/test');
 
-import { test, expect } from '@playwright/test';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
-const BASE_URL = 'https://gannonwaye.com';
-
-test.describe('Cart flow', () => {
-  test('add to cart button is visible on in-stock products', async ({ page }) => {
+test.describe('Cart Flow', () => {
+  test('/store loads', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
-    const btn = page.locator('[data-testid="add-to-cart-btn"]').first();
-    await expect(btn).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
   });
 
-  test('add-to-cart shows confirmation with 3 buttons', async ({ page }) => {
+  test('products are visible', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
-
-    // Find first CD/no-size product to avoid size selection requirement
-    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    await addBtns.first().click();
-
-    // Confirmation UI
-    const confirmation = page.locator('[data-testid="add-to-cart-success"]');
-    await expect(confirmation).toBeVisible({ timeout: 5000 });
-    await expect(page.locator('[data-testid="continue-shopping-button"]')).toBeVisible();
-    await expect(page.locator('[data-testid="view-cart-button"]')).toBeVisible();
-    await expect(page.locator('[data-testid="go-to-checkout-button"]')).toBeVisible();
+    await expect(page.locator('[data-testid="product-card"]').first()).toBeVisible();
   });
 
-  test('cart count badge updates after add to cart', async ({ page }) => {
+  test('product images are visible', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
-
-    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    await addBtns.first().click();
-
-    // Cart count badge should be visible
-    const badge = page.locator('[data-testid="cart-count"]');
-    await expect(badge).toBeVisible({ timeout: 5000 });
-    const text = await badge.textContent();
-    expect(parseInt(text)).toBeGreaterThan(0);
+    await expect(page.locator('[data-testid="product-image"]').first()).toBeVisible();
   });
 
-  test('cart button opens drawer', async ({ page }) => {
+  test('cart button is visible with data-testid', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
+    await expect(page.locator('[data-testid="cart-button"]')).toBeVisible();
+  });
 
-    // Add to cart first
+  test('add to cart shows confirmation', async ({ page }) => {
+    await page.goto(`${BASE_URL}/store`);
+    await page.waitForSelector('[data-testid="add-to-cart-btn"]');
+
+    // Select size if required
+    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    await addBtns.first().click();
-    await page.waitForTimeout(300);
-
-    // Click view cart
-    const viewCartBtn = page.locator('[data-testid="view-cart-button"]');
-    if (await viewCartBtn.isVisible()) {
-      await viewCartBtn.click();
-    } else {
-      await page.locator('[data-testid="cart-button"]').click();
+    const count = await addBtns.count();
+    for (let i = 0; i < count; i++) {
+      const btn = addBtns.nth(i);
+      if (await btn.isVisible()) { await btn.click(); break; }
     }
 
-    await expect(page.locator('[data-testid="cart-drawer"]')).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('[data-testid="add-to-cart-success"]').first()).toBeVisible({ timeout: 3000 });
   });
 
-  test('cart drawer checkout button is visible', async ({ page }) => {
+  test('continue shopping button closes confirmation', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
-
-    // Add an item
+    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    await addBtns.first().click();
-    await page.waitForTimeout(300);
+    const count = await addBtns.count();
+    for (let i = 0; i < count; i++) {
+      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+    }
+    await page.locator('[data-testid="continue-shopping-button"]').first().click();
+    await expect(page.locator('[data-testid="add-to-cart-success"]')).not.toBeVisible({ timeout: 2000 });
+  });
 
-    // Open cart drawer
-    await page.locator('[data-testid="cart-button"]').click();
-    await expect(page.locator('[data-testid="cart-checkout-button"]')).toBeVisible({ timeout: 5000 });
+  test('view cart button opens cart drawer', async ({ page }) => {
+    await page.goto(`${BASE_URL}/store`);
+    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+    const count = await addBtns.count();
+    for (let i = 0; i < count; i++) {
+      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+    }
+    await page.locator('[data-testid="view-cart-button"]').first().click();
+    await expect(page.locator('[data-testid="cart-drawer"]')).toBeVisible({ timeout: 3000 });
+  });
+
+  test('cart checkout button routes to cart-details', async ({ page }) => {
+    await page.goto(`${BASE_URL}/store`);
+    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+    const count = await addBtns.count();
+    for (let i = 0; i < count; i++) {
+      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+    }
+    await page.locator('[data-testid="view-cart-button"]').first().click();
+    await expect(page.locator('[data-testid="cart-drawer"]')).toBeVisible();
+    await page.locator('[data-testid="cart-checkout-button"]').click();
+    await expect(page).toHaveURL(/cart-details/);
   });
 
   test('sticky checkout bar appears when cart has items', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
-
+    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    await addBtns.first().click();
-    await page.waitForTimeout(500);
-
-    await expect(page.locator('[data-testid="store-sticky-checkout"]')).toBeVisible({ timeout: 5000 });
+    const count = await addBtns.count();
+    for (let i = 0; i < count; i++) {
+      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+    }
+    await expect(page.locator('[data-testid="store-sticky-checkout"]')).toBeVisible({ timeout: 3000 });
     await expect(page.locator('[data-testid="store-sticky-checkout-button"]')).toBeVisible();
   });
 
-  test('continue shopping button dismisses confirmation', async ({ page }) => {
+  test('sticky checkout button routes to cart-details', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
-
+    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    await addBtns.first().click();
+    const count = await addBtns.count();
+    for (let i = 0; i < count; i++) {
+      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+    }
+    await page.locator('[data-testid="store-sticky-checkout-button"]').click();
+    await expect(page).toHaveURL(/cart-details/);
+  });
 
-    await expect(page.locator('[data-testid="add-to-cart-success"]')).toBeVisible({ timeout: 5000 });
-    await page.locator('[data-testid="continue-shopping-button"]').click();
+  test('go-to-checkout button from confirmation routes to cart-details', async ({ page }) => {
+    await page.goto(`${BASE_URL}/store`);
+    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+    const count = await addBtns.count();
+    for (let i = 0; i < count; i++) {
+      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+    }
+    const checkoutBtn = page.locator('[data-testid="go-to-checkout-button"]').first();
+    await checkoutBtn.click();
+    await expect(page).toHaveURL(/cart-details/);
+  });
 
-    // Confirmation should disappear, add to cart button should be visible again
-    const addBtn = page.locator('[data-testid="add-to-cart-btn"]').first();
-    await expect(addBtn).toBeVisible({ timeout: 3000 });
+  test('cart count badge shows item count', async ({ page }) => {
+    await page.goto(`${BASE_URL}/store`);
+    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+    const count = await addBtns.count();
+    for (let i = 0; i < count; i++) {
+      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+    }
+    await expect(page.locator('[data-testid="cart-count"]')).toBeVisible({ timeout: 3000 });
+    const text = await page.locator('[data-testid="cart-count"]').textContent();
+    expect(parseInt(text)).toBeGreaterThan(0);
   });
 });

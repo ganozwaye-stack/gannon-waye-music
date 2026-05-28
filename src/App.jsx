@@ -28,6 +28,7 @@ import Home from '@/pages/Home';
 import Music from '@/pages/Music';
 import Store from '@/pages/Store';
 import StoreCheckout from '@/pages/StoreCheckout';
+import StoreCartDetails from '@/pages/StoreCartDetails';
 import EmailPreferences from '@/pages/EmailPreferences';
 import FanProfile from '@/pages/FanProfile';
 import OrderHistory from '@/pages/OrderHistory';
@@ -261,6 +262,7 @@ const AuthenticatedApp = () => {
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
         <Route path="/store" element={<Store />} />
+        <Route path="/store/cart-details" element={<StoreCartDetails />} />
         <Route path="/store/checkout" element={<StoreCheckout />} />
         <Route path="/community" element={<Community />} />
         <Route path="/videos" element={<Videos />} />

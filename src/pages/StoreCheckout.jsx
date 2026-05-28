@@ -1,54 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCartStore } from '@/lib/cartStore';
 import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, AlertTriangle, CheckCircle, X, Tag, Info } from 'lucide-react';
+import { motion } from 'framer-motion';
+import {
+  ArrowLeft, ExternalLink, AlertTriangle, CheckCircle, X,
+  Tag, Info, Minus, Plus, Trash2, Pencil, Lock,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 
+const DETAILS_KEY = 'gannon_checkout_details_v1';
+
 const AU_SHIPPING_BASE = 12.95;
-const AU_SHIPPING_ADDITIONAL_PER_ITEM = 2.00;
+const AU_SHIPPING_PER_EXTRA = 2.00;
 const FREE_SHIPPING_THRESHOLD = 150;
-const NO_SHIPPING_CATEGORIES = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
-const INELIGIBLE_FOR_DISCOUNT = ['cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping', 'music', 'limited_edition_music', 'digital_music'];
+const NO_SHIPPING_CATS = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
+const INELIGIBLE_DISCOUNT_CATS = ['cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping', 'music', 'limited_edition_music', 'digital_music'];
 
-function isInternational(address) {
-  if (!address) return false;
-  const lower = address.toLowerCase();
-  return ['usa', 'united states', 'united kingdom', 'canada', 'new zealand', 'nz', 'europe', 'india', 'singapore'].some(k => lower.includes(k));
-}
+function needsShipping(cat) { return !NO_SHIPPING_CATS.includes((cat || '').toLowerCase().trim()); }
+function isEligible(cat) { const c = (cat || '').toLowerCase().trim(); return !INELIGIBLE_DISCOUNT_CATS.some(x => c.includes(x)); }
 
-function needsShipping(category) {
-  if (!category) return true;
-  return !NO_SHIPPING_CATEGORIES.includes(category.toLowerCase().trim());
-}
-
-function isEligibleForDiscount(category) {
-  if (!category) return true;
-  const cat = category.toLowerCase().trim();
-  return !INELIGIBLE_FOR_DISCOUNT.some(c => cat.includes(c));
-}
-
-function calcCombinedShipping(items, address) {
-  const physicalItems = items.filter(item => needsShipping(item.product.category));
-  if (physicalItems.length === 0) return { shipping: 0, shippingLabel: 'Free (digital/no shipping)', internationalQuote: false };
-  if (isInternational(address)) return { shipping: 0, shippingLabel: 'Quote required (international)', internationalQuote: true };
-
-  const subtotal = items.reduce((sum, item) => {
-    const price = item.product.sale_price ?? item.product.price ?? 0;
-    return sum + price * item.quantity;
-  }, 0);
-  if (subtotal >= FREE_SHIPPING_THRESHOLD) return { shipping: 0, shippingLabel: 'Free (order ≥ $150)', internationalQuote: false };
-
-  const totalQty = items.reduce((sum, item) => sum + item.quantity, 0);
-  const combined = totalQty <= 1 ? AU_SHIPPING_BASE : AU_SHIPPING_BASE + (totalQty - 1) * AU_SHIPPING_ADDITIONAL_PER_ITEM;
-  return {
-    shipping: combined,
-    shippingLabel: totalQty > 1 ? `$${combined.toFixed(2)} AUD (combined package)` : `$${AU_SHIPPING_BASE.toFixed(2)} AUD`,
-    internationalQuote: false,
-  };
+function calcShipping(items, country) {
+  const physical = items.filter(i => needsShipping(i.product?.category));
+  if (physical.length === 0) return { amount: 0, label: 'Free (digital)', intl: false };
+  const isIntl = country && country !== 'Australia';
+  if (isIntl) return { amount: 0, label: 'International — quote required', intl: true };
+  const subtotal = items.reduce((s, i) => s + (i.product?.sale_price ?? 0) * i.quantity, 0);
+  if (subtotal >= FREE_SHIPPING_THRESHOLD) return { amount: 0, label: 'Free (order ≥ $150)', intl: false };
+  const qty = items.reduce((s, i) => s + i.quantity, 0);
+  const amt = qty <= 1 ? AU_SHIPPING_BASE : AU_SHIPPING_BASE + (qty - 1) * AU_SHIPPING_PER_EXTRA;
+  return { amount: parseFloat(amt.toFixed(2)), label: `$${amt.toFixed(2)} AUD (combined)`, intl: false };
 }
 
 export default function StoreCheckout() {
@@ -56,81 +39,59 @@ export default function StoreCheckout() {
   const { toast } = useToast();
   const rawItems = useCartStore(state => state.items);
   const items = Array.isArray(rawItems) ? rawItems : [];
-  const clearCart = useCartStore(state => state.clearCart);
-  const getSubtotal = useCartStore(state => {
-    const safeItems = Array.isArray(state.items) ? state.items : [];
-    return safeItems.reduce((sum, item) => {
-      const price = item.product?.sale_price ?? item.product?.price ?? 0;
-      return sum + price * (item.quantity || 0);
-    }, 0);
-  });
+  const { updateQuantity, removeItem, clearCart } = useCartStore();
 
-  const [form, setForm] = useState({ customer_name: '', customer_email: '', shipping_address: '' });
-  const [addSupport, setAddSupport] = useState(0);
-  const [redirecting, setRedirecting] = useState(false);
-  const [checkoutError, setCheckoutError] = useState(null);
+  const [details, setDetails] = useState(null);
   const [promoCode, setPromoCode] = useState('');
-  const [promoValidated, setPromoValidated] = useState(null);
+  const [promo, setPromo] = useState(null);
   const [promoError, setPromoError] = useState(null);
   const [promoLoading, setPromoLoading] = useState(false);
+  const [redirecting, setRedirecting] = useState(false);
+  const [checkoutError, setCheckoutError] = useState(null);
+  const [addSupport, setAddSupport] = useState(0);
 
-  const subtotal = getSubtotal;
-  const totalQty = items.reduce((sum, item) => sum + (item.quantity || 0), 0);
-  const shipping = calcCombinedShipping(items, form.shipping_address);
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(DETAILS_KEY);
+      if (saved) setDetails(JSON.parse(saved));
+    } catch {}
+  }, []);
 
-  // Compute eligible vs ineligible subtotal for promo
-  const eligibleSubtotal = items.reduce((sum, item) => {
-    if (!isEligibleForDiscount(item.product.category)) return sum;
-    return sum + (item.product.sale_price ?? item.product.price ?? 0) * item.quantity;
-  }, 0);
-  const ineligibleSubtotal = subtotal - eligibleSubtotal;
-  const ineligibleItems = items.filter(item => !isEligibleForDiscount(item.product.category));
+  // Redirect if no details filled
+  useEffect(() => {
+    if (items.length === 0) return; // handled below
+    if (details !== null && !details.full_name) navigate('/store/cart-details');
+  }, [details, items.length, navigate]);
 
-  const discountPercent = promoValidated?.discount_percent || 0;
-  const discountAmount = promoValidated?.discount_amount ?? (eligibleSubtotal * discountPercent / 100);
-  const total = subtotal - discountAmount + shipping.shipping + addSupport;
+  const subtotal = items.reduce((s, i) => s + (i.product?.sale_price ?? 0) * i.quantity, 0);
+  const shipping = calcShipping(items, details?.country);
+
+  const eligibleSubtotal = items.reduce((s, i) => isEligible(i.product?.category) ? s + (i.product?.sale_price ?? 0) * i.quantity : s, 0);
+  const discountPercent = promo?.discount_percent || 0;
+  const discountAmount = promo ? parseFloat((eligibleSubtotal * discountPercent / 100).toFixed(2)) : 0;
+  const total = subtotal - discountAmount + shipping.amount + addSupport;
 
   const handleValidatePromo = async () => {
     if (!promoCode.trim()) return;
     setPromoLoading(true);
     setPromoError(null);
-    setPromoValidated(null);
+    setPromo(null);
     try {
-      const cartForValidation = items.map(item => ({
-        product_id: item.product.id,
-        product_name: item.product.name,
-        price: item.product.sale_price ?? item.product.price ?? 0,
-        quantity: item.quantity,
-        category: item.product.category || '',
-      }));
-
       const res = await base44.functions.invoke('validatePromoCode', {
         code: promoCode.trim(),
-        email: form.customer_email || undefined,
-        cart_items: cartForValidation,
+        email: details?.email || undefined,
+        cart_items: items.map(i => ({
+          product_id: i.product.id,
+          product_name: i.product.name,
+          price: i.product.sale_price ?? 0,
+          quantity: i.quantity,
+          category: i.product.category || '',
+        })),
       });
-
       if (!res.data?.valid) {
-        const reason = res.data?.reason || '';
-        if (reason.toLowerCase().includes('not found') || reason.toLowerCase().includes('inactive')) {
-          setPromoError('This code is no longer active.');
-        } else if (res.data?.all_items_excluded) {
-          setPromoError('This code applies to eligible merch only. Your cart contains only excluded items.');
-        } else {
-          setPromoError(res.data?.reason || 'This code is not valid.');
-        }
+        setPromoError(res.data?.reason || 'This code is not valid.');
       } else {
-        // Valid — set promo with guard results
-        setPromoValidated({
-          code: res.data.code,
-          discount_percent: res.data.discount_percent,
-          discount_amount: res.data.discount_amount ?? (eligibleSubtotal * res.data.discount_percent / 100),
-          eligible_subtotal: res.data.eligible_subtotal ?? eligibleSubtotal,
-          excluded_subtotal: res.data.excluded_subtotal ?? ineligibleSubtotal,
-          excluded_items: res.data.excluded_items || [],
-          all_items_excluded: res.data.all_items_excluded || false,
-          id: res.data.id,
-        });
+        setPromo(res.data);
         toast({ title: `✅ ${res.data.code} applied — ${res.data.discount_percent}% off eligible merch` });
       }
     } catch {
@@ -139,46 +100,65 @@ export default function StoreCheckout() {
     setPromoLoading(false);
   };
 
-  const handleCheckout = async () => {
+  const handlePay = async () => {
     if (redirecting) return;
     setRedirecting(true);
     setCheckoutError(null);
 
+    // Stage customer record
+    try {
+      await base44.entities.StoreCustomer.create({
+        full_name: details.full_name,
+        email: details.email,
+        mobile: details.mobile,
+        street_address: details.street_address,
+        suburb: details.suburb,
+        state: details.state,
+        postcode: details.postcode,
+        country: details.country,
+        dob: details.dob || undefined,
+        business_name: details.business_name || undefined,
+        abn: details.abn || undefined,
+        marketing_opt_in: details.marketing_opt_in || false,
+        order_support_consent: details.order_support_consent !== false,
+        source: 'store_checkout',
+      });
+    } catch (_) {
+      // Non-blocking — continue to Stripe even if customer record fails
+    }
+
     const timeout = new Promise((_, reject) =>
       setTimeout(() => reject(new Error('Checkout timed out. Please try again.')), 15000)
     );
-
     try {
       const res = await Promise.race([
         base44.functions.invoke('createCheckoutSession', {
-          customerEmail: form.customer_email || undefined,
-          customerName: form.customer_name,
+          customerEmail: details.email || undefined,
+          customerName: details.full_name,
           metadata: {
-            items: JSON.stringify(items.map(item => ({
-              product_id: item.product.id,
-              product_name: item.product.name,
-              price: item.product.sale_price ?? item.product.price,
-              quantity: item.quantity,
-              size: item.size,
-              category: item.product.category || '',
+            items: JSON.stringify(items.map(i => ({
+              product_id: i.product.id,
+              product_name: i.product.name,
+              price: i.product.sale_price ?? 0,
+              quantity: i.quantity,
+              size: i.size || '',
+              category: i.product.category || '',
             }))),
-            quantity: String(totalQty),
-            shipping_address: form.shipping_address,
-            add_support: String(addSupport),
-            promo_code: promoValidated?.code || '',
+            shipping_address: `${details.street_address}, ${details.suburb} ${details.state} ${details.postcode}, ${details.country}`,
+            mobile: details.mobile,
+            promo_code: promo?.code || '',
             promo_discount_percent: String(discountPercent),
-            discount_amount: String(discountAmount.toFixed(2)),
+            discount_amount: String(discountAmount),
+            add_support: String(addSupport),
+            shipping_amount: String(shipping.amount),
           },
         }),
         timeout,
       ]);
 
-      if (res.data?.code === 'STRIPE_CONFIG_ERROR' || res.data?.code === 'STRIPE_MODE_MISMATCH') {
-        throw new Error(res.data.friendly_message || 'Checkout is temporarily unavailable.');
-      }
-
       if (res.data?.url) {
         clearCart();
+        try { localStorage.removeItem(DETAILS_KEY); } catch {}
         window.location.href = res.data.url;
       } else {
         throw new Error(res.data?.error || 'Checkout could not be prepared.');
@@ -189,138 +169,232 @@ export default function StoreCheckout() {
     }
   };
 
+  // ─── Empty cart ───────────────────────────────────────────────────────────
   if (items.length === 0) {
     return (
       <div className="min-h-screen py-24 px-4">
-        <div className="max-w-2xl mx-auto text-center" data-testid="checkout-page">
-          <p className="font-body text-lg text-muted-foreground">Your cart is empty</p>
-          <Button data-testid="empty-cart-return-store" onClick={() => navigate('/store')} className="mt-4" variant="outline">Return to Store</Button>
+        <div className="max-w-xl mx-auto text-center" data-testid="checkout-page">
+          <p className="font-body text-lg text-muted-foreground mb-6">Your cart is empty.</p>
+          <Button data-testid="empty-cart-return-store" onClick={() => navigate('/store')} variant="outline" className="rounded-full">
+            Return to Store
+          </Button>
         </div>
       </div>
     );
   }
 
+  if (!details) {
+    return (
+      <div className="min-h-screen py-24 px-4 flex items-center justify-center">
+        <div className="text-center">
+          <p className="font-body text-sm text-muted-foreground mb-4">Loading your details…</p>
+          <Button onClick={() => navigate('/store/cart-details')} className="rounded-full gradient-gold-button border-0">
+            Enter Details
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  const deliveryAddress = `${details.street_address}, ${details.suburb} ${details.state} ${details.postcode}, ${details.country}`;
+
   return (
-    <div className="min-h-screen py-24 px-4" data-testid="checkout-page">
-      <div className="max-w-3xl mx-auto">
-        <button onClick={() => navigate('/store')} className="flex items-center gap-2 font-body text-sm text-muted-foreground hover:text-foreground mb-6">
-          <ArrowLeft className="w-4 h-4" /> Back to Store
+    <div className="min-h-screen py-24 px-4 md:px-6" data-testid="checkout-page">
+      <div className="max-w-4xl mx-auto">
+
+        {/* Back */}
+        <button onClick={() => navigate('/store')} className="flex items-center gap-2 font-body text-xs text-muted-foreground hover:text-foreground mb-8 transition-colors">
+          <ArrowLeft className="w-3 h-3" /> Back to Store
         </button>
 
-        <h1 className="font-display text-3xl text-foreground mb-8">Checkout</h1>
+        {/* Progress */}
+        <div className="flex items-center gap-2 mb-8">
+          <div className="flex items-center gap-2 opacity-60">
+            <div className="w-7 h-7 rounded-full bg-primary/40 text-primary-foreground flex items-center justify-center font-body text-xs">✓</div>
+            <span className="font-body text-xs text-muted-foreground">Your Details</span>
+          </div>
+          <div className="flex-1 h-px bg-primary/30 mx-2" />
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-body text-xs font-bold">2</div>
+            <span className="font-body text-xs text-primary">Review Order</span>
+          </div>
+          <div className="flex-1 h-px bg-border/40 mx-2" />
+          <div className="flex items-center gap-2 opacity-40">
+            <div className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center font-body text-xs">3</div>
+            <span className="font-body text-xs text-muted-foreground">Payment</span>
+          </div>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Order Summary */}
-          <div className="bg-secondary/30 rounded-xl p-6 h-fit">
-            <h2 className="font-display text-xl text-foreground mb-4">Order Summary</h2>
-            <div className="space-y-3 mb-4">
-              {items.map((item, index) => {
-                const eligible = isEligibleForDiscount(item.product.category);
-                return (
-                  <div key={`${item.product_id}-${item.size}-${index}`} className="flex gap-3">
-                    <img
-                      src={item.product.image_url}
-                      alt={item.product.name}
-                      className="w-16 h-16 object-cover rounded-lg bg-secondary/50"
-                    />
-                    <div className="flex-1">
-                      <p className="font-display text-sm text-foreground line-clamp-2">{item.product.name}</p>
-                      {item.size && <p className="font-body text-xs text-muted-foreground">Size: {item.size}</p>}
-                      <p className="font-body text-xs text-muted-foreground">Qty: {item.quantity}</p>
-                      <p className="font-body text-sm gradient-gold-glow mt-1">
-                        ${((item.product.sale_price ?? item.product.price ?? 0) * item.quantity).toFixed(2)}
-                      </p>
-                      {promoValidated && !eligible && (
-                        <p className="font-body text-[10px] text-primary/70 mt-0.5">Excluded from promo</p>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+        <h1 className="font-display text-3xl text-foreground mb-8">Review Your Order</h1>
+
+        <div className="grid md:grid-cols-[1fr_380px] gap-8 items-start">
+
+          {/* LEFT: Details + Items */}
+          <div className="space-y-6">
+
+            {/* Customer summary */}
+            <div data-testid="checkout-customer-summary" className="bg-card/40 border border-border/30 rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-3">
+                <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Contact Details</p>
+                <button onClick={() => navigate('/store/cart-details')} className="flex items-center gap-1 font-body text-xs text-primary hover:underline">
+                  <Pencil className="w-3 h-3" /> Edit
+                </button>
+              </div>
+              <p className="font-body text-sm text-foreground">{details.full_name}</p>
+              <p className="font-body text-xs text-muted-foreground">{details.email}</p>
+              <p className="font-body text-xs text-muted-foreground">{details.mobile}</p>
             </div>
 
-            <div className="border-t border-border/40 pt-4 space-y-2 text-sm font-body">
-              <div className="flex justify-between text-foreground/70">
-                <span>Product subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+            {/* Delivery summary */}
+            <div data-testid="checkout-delivery-summary" className="bg-card/40 border border-border/30 rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-3">
+                <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Delivery Address</p>
+                <button onClick={() => navigate('/store/cart-details')} className="flex items-center gap-1 font-body text-xs text-primary hover:underline">
+                  <Pencil className="w-3 h-3" /> Edit
+                </button>
               </div>
-              {promoValidated && (
-                <>
-                  <div className="flex justify-between text-foreground/50 text-xs">
-                    <span>Eligible merch subtotal</span>
-                    <span>${(promoValidated.eligible_subtotal ?? eligibleSubtotal).toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-green-400">
-                    <span className="flex items-center gap-1"><Tag className="w-3 h-3" />{promoValidated.code} ({discountPercent}% off)</span>
-                    <span>-${discountAmount.toFixed(2)}</span>
-                  </div>
-                  {ineligibleItems.length > 0 && (
-                    <div className="text-xs text-primary/80 bg-primary/5 border border-primary/20 rounded-lg px-3 py-2">
-                      <p className="flex items-center gap-1 mb-1"><Info className="w-3 h-3" /> Excluded from discount:</p>
-                      <p>Shipping, {ineligibleItems.map(i => i.product.name).join(', ')}{addSupport > 0 ? ', support contribution' : ''}</p>
-                    </div>
-                  )}
-                </>
-              )}
-              <div className="flex justify-between text-foreground/70">
-                <span>Shipping</span>
-                <span className={shipping.shipping === 0 && !shipping.internationalQuote ? 'text-green-400' : ''}>
-                  {shipping.internationalQuote ? 'Quote required' : shipping.shipping === 0 ? 'Free' : shipping.shippingLabel}
-                </span>
+              <p className="font-body text-sm text-foreground">{deliveryAddress}</p>
+            </div>
+
+            {/* Cart items — editable */}
+            <div data-testid="checkout-items" className="bg-card/40 border border-border/30 rounded-2xl p-5">
+              <div className="flex items-center justify-between mb-4">
+                <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Order Items</p>
+                <button onClick={() => navigate('/store')} className="flex items-center gap-1 font-body text-xs text-primary hover:underline">
+                  <Pencil className="w-3 h-3" /> Edit Cart
+                </button>
               </div>
-              {addSupport > 0 && (
-                <div className="flex justify-between text-primary">
-                  <span>Support contribution 🤍</span>
-                  <span>+${addSupport.toFixed(2)}</span>
-                </div>
-              )}
-              <div className="flex justify-between font-semibold text-foreground border-t border-border/40 pt-2">
-                <span>Total</span>
-                <span className="gradient-gold-glow">${total.toFixed(2)} AUD</span>
+
+              <div className="space-y-4">
+                {items.map((item, idx) => {
+                  const price = item.product?.sale_price ?? 0;
+                  return (
+                    <motion.div
+                      key={`${item.product_id}-${item.size || 'no-size'}-${idx}`}
+                      data-testid="cart-line"
+                      layout
+                      className="flex gap-4 p-4 bg-secondary/30 rounded-xl border border-border/20"
+                    >
+                      <img
+                        src={item.product?.image_url}
+                        alt={item.product?.name}
+                        className="w-20 h-20 object-cover rounded-lg bg-secondary/50 shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p className="font-display text-sm text-foreground line-clamp-2">{item.product?.name}</p>
+                        <p className="font-body text-sm gradient-gold-glow mt-1">${(price * item.quantity).toFixed(2)} AUD</p>
+
+                        {item.size && (
+                          <p className="font-body text-xs text-muted-foreground mt-1">
+                            Size: <strong>{item.size}</strong>
+                          </p>
+                        )}
+
+                        {/* Size change for apparel */}
+                        {item.product?.sizes_available?.length > 0 && (
+                          <div className="mt-2">
+                            <p className="font-body text-[10px] text-muted-foreground/60 mb-1">Change size:</p>
+                            <div className="flex flex-wrap gap-1">
+                              {item.product.sizes_available.map(s => (
+                                <button
+                                  key={s}
+                                  data-testid="cart-line-size-select"
+                                  onClick={() => {
+                                    // Check if that size already exists — if so, merge, else update this line
+                                    const existingOther = items.findIndex(
+                                      (x, xi) => xi !== idx && x.product_id === item.product_id && x.size === s
+                                    );
+                                    if (existingOther >= 0) {
+                                      // Merge into that line and remove this one
+                                      updateQuantity(item.product_id, items[existingOther].quantity + item.quantity, s);
+                                      removeItem(item.product_id, item.size);
+                                    } else {
+                                      // Just change the size on this line
+                                      removeItem(item.product_id, item.size);
+                                      useCartStore.getState().addItem(item.product, item.quantity, s);
+                                    }
+                                  }}
+                                  className={`px-2 py-0.5 rounded font-body text-[10px] border transition-all ${
+                                    item.size === s
+                                      ? 'border-primary bg-primary/10 text-primary'
+                                      : 'border-border/40 text-muted-foreground hover:border-primary/30'
+                                  }`}
+                                >
+                                  {s}
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        <div className="flex items-center justify-between mt-3">
+                          <div className="flex items-center gap-2">
+                            <button
+                              data-testid="cart-line-decrease"
+                              onClick={() => updateQuantity(item.product_id, item.quantity - 1, item.size)}
+                              className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center hover:border-primary/50 transition-colors"
+                            >
+                              <Minus className="w-3 h-3" />
+                            </button>
+                            <span className="font-body text-sm text-foreground w-6 text-center">{item.quantity}</span>
+                            <button
+                              data-testid="cart-line-increase"
+                              onClick={() => updateQuantity(item.product_id, item.quantity + 1, item.size)}
+                              className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center hover:border-primary/50 transition-colors"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </button>
+                          </div>
+                          <button
+                            data-testid="cart-line-remove"
+                            onClick={() => removeItem(item.product_id, item.size)}
+                            className="text-muted-foreground/50 hover:text-destructive transition-colors"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           </div>
 
-          {/* Checkout Form */}
-          <div className="space-y-4">
-            <div>
-              <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Full Name *</Label>
-              <Input placeholder="Your name" value={form.customer_name} onChange={e => setForm(f => ({ ...f, customer_name: e.target.value }))} className="bg-secondary/50 border-border/40" />
-            </div>
-            <div>
-              <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Email</Label>
-              <Input type="email" placeholder="you@example.com" value={form.customer_email} onChange={e => setForm(f => ({ ...f, customer_email: e.target.value }))} className="bg-secondary/50 border-border/40" />
-            </div>
-            <div>
-              <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Shipping Address *</Label>
-              <Input placeholder="Street, City, State, Postcode" value={form.shipping_address} onChange={e => setForm(f => ({ ...f, shipping_address: e.target.value }))} className="bg-secondary/50 border-border/40" />
-            </div>
+          {/* RIGHT: Totals + Pay */}
+          <div className="space-y-5 md:sticky md:top-24">
 
-            {/* PROMO CODE — fully connected */}
-            <div>
-              <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Promo Code</Label>
+            {/* Promo */}
+            <div className="bg-card/40 border border-border/30 rounded-2xl p-5">
+              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Promo Code</p>
               <div className="flex gap-2">
-                <Input
+                <input
+                  data-testid="promo-code-input"
                   placeholder="Enter code"
                   value={promoCode}
-                  onChange={e => { setPromoCode(e.target.value); setPromoError(null); if (promoValidated) setPromoValidated(null); }}
+                  onChange={e => { setPromoCode(e.target.value); setPromoError(null); if (promo) setPromo(null); }}
                   onKeyDown={e => e.key === 'Enter' && handleValidatePromo()}
-                  className="bg-secondary/50 border-border/40"
+                  className="flex-1 bg-secondary/50 border border-border/40 rounded-md px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
                 />
-                {promoValidated ? (
-                  <Button variant="outline" onClick={() => { setPromoValidated(null); setPromoCode(''); }} className="shrink-0">
+                {promo ? (
+                  <button onClick={() => { setPromo(null); setPromoCode(''); }} className="px-3 py-2 rounded-md border border-border/40 text-muted-foreground hover:text-foreground transition-colors">
                     <X className="w-4 h-4" />
-                  </Button>
+                  </button>
                 ) : (
-                  <Button variant="outline" onClick={handleValidatePromo} disabled={promoLoading || !promoCode.trim()} className="shrink-0">
-                    {promoLoading ? <div className="w-4 h-4 border-2 border-muted-foreground/30 border-t-foreground rounded-full animate-spin" /> : 'Apply'}
-                  </Button>
+                  <button
+                    data-testid="apply-promo-code"
+                    onClick={handleValidatePromo}
+                    disabled={promoLoading || !promoCode.trim()}
+                    className="px-4 py-2 rounded-md gradient-gold-button font-body text-xs tracking-wider uppercase disabled:opacity-50"
+                  >
+                    {promoLoading ? '...' : 'Apply'}
+                  </button>
                 )}
               </div>
-              {promoValidated && (
-                <div className="mt-2 flex items-center gap-2 text-green-400 text-xs font-body">
+              {promo && (
+                <div className="mt-2 flex items-center gap-2 text-primary text-xs font-body">
                   <CheckCircle className="w-3.5 h-3.5" />
-                  <span>{promoValidated.code} applied — {discountPercent}% off eligible merch</span>
+                  <span>{promo.code} — {discountPercent}% off eligible merch</span>
                 </div>
               )}
               {promoError && (
@@ -330,21 +404,55 @@ export default function StoreCheckout() {
               )}
             </div>
 
-            <div className="bg-primary/5 border border-primary/20 rounded-xl p-4">
-              <p className="font-body text-xs tracking-wider uppercase text-primary mb-3">Support the music 🤍 (optional)</p>
+            {/* Optional support */}
+            <div className="bg-card/40 border border-border/30 rounded-2xl p-5">
+              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Add Support 🤍 (optional)</p>
               <div className="flex gap-2 flex-wrap">
-                {[0, 5, 10, 25].map(amount => (
+                {[0, 5, 10, 25].map(amt => (
                   <button
-                    key={amount}
-                    type="button"
-                    onClick={() => setAddSupport(amount)}
-                    className={`px-4 py-1.5 rounded-full font-body text-xs tracking-wider border transition-all ${
-                      addSupport === amount ? 'border-primary bg-primary/20 text-primary' : 'border-border/50 text-muted-foreground hover:border-primary/30'
+                    key={amt}
+                    onClick={() => setAddSupport(amt)}
+                    className={`px-4 py-1.5 rounded-full font-body text-xs border transition-all ${
+                      addSupport === amt ? 'border-primary bg-primary/20 text-primary' : 'border-border/50 text-muted-foreground hover:border-primary/30'
                     }`}
                   >
-                    {amount === 0 ? 'No thanks' : `+$${amount}`}
+                    {amt === 0 ? 'No thanks' : `+$${amt}`}
                   </button>
                 ))}
+              </div>
+            </div>
+
+            {/* Totals */}
+            <div className="bg-card/40 border border-border/30 rounded-2xl p-5 space-y-2">
+              <div data-testid="checkout-subtotal" className="flex justify-between font-body text-sm text-foreground/70">
+                <span>Subtotal</span><span>${subtotal.toFixed(2)}</span>
+              </div>
+              {promo && (
+                <div className="flex justify-between font-body text-sm text-primary">
+                  <span className="flex items-center gap-1"><Tag className="w-3 h-3" />{promo.code} ({discountPercent}%)</span>
+                  <span>−${discountAmount.toFixed(2)}</span>
+                </div>
+              )}
+              <div data-testid="checkout-shipping" className="flex justify-between font-body text-sm text-foreground/70">
+                <span>Shipping</span>
+                <span className={shipping.amount === 0 && !shipping.intl ? 'text-primary' : ''}>
+                  {shipping.intl ? 'Quote required' : shipping.amount === 0 ? 'Free' : shipping.label}
+                </span>
+              </div>
+              {addSupport > 0 && (
+                <div className="flex justify-between font-body text-sm text-primary">
+                  <span>Support 🤍</span><span>+${addSupport.toFixed(2)}</span>
+                </div>
+              )}
+              {promo && (
+                <div className="flex items-start gap-1.5 text-xs text-muted-foreground bg-secondary/30 rounded-lg px-3 py-2 mt-1">
+                  <Info className="w-3 h-3 mt-0.5 shrink-0" />
+                  <span>Shipping and CDs/vinyl are excluded from promo discounts.</span>
+                </div>
+              )}
+              <div data-testid="checkout-total" className="flex justify-between font-display text-lg text-foreground border-t border-border/40 pt-3">
+                <span>Total</span>
+                <span className="gradient-gold-glow">${total.toFixed(2)} AUD</span>
               </div>
             </div>
 
@@ -360,26 +468,35 @@ export default function StoreCheckout() {
 
             <Button
               data-testid="checkout-pay-button"
-              onClick={handleCheckout}
-              disabled={redirecting || !form.customer_name || !form.shipping_address}
-              className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase gap-2"
+              onClick={handlePay}
+              disabled={redirecting || items.length === 0}
+              className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-6 gap-2"
             >
               {redirecting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                  Redirecting to secure payment…
+                  Redirecting…
                 </>
               ) : (
                 <>
-                  <ExternalLink className="w-4 h-4" />
-                  Pay ${total.toFixed(2)} AUD — Secure Checkout
+                  <Lock className="w-4 h-4" />
+                  Confirm & Pay ${total.toFixed(2)} AUD
                 </>
               )}
             </Button>
 
-            <p className="font-body text-xs text-muted-foreground text-center">
+            <p className="text-center font-body text-xs text-muted-foreground">
               🔒 Payments processed securely by Stripe. Your card details are never stored by us.
             </p>
+
+            <div className="flex gap-3">
+              <button onClick={() => navigate('/store/cart-details')} className="flex-1 text-center font-body text-xs text-muted-foreground hover:text-foreground transition-colors py-2">
+                ← Edit Details
+              </button>
+              <button onClick={() => navigate('/store')} className="flex-1 text-center font-body text-xs text-muted-foreground hover:text-foreground transition-colors py-2">
+                Exit Checkout
+              </button>
+            </div>
           </div>
         </div>
       </div>
