@@ -8,7 +8,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { Calendar, Clock, CheckCircle2, Send, Copy, Check, ExternalLink, AlertTriangle, ChevronRight, X } from 'lucide-react';
 import MetricoolBlocker from '@/components/social/MetricoolBlocker';
 
-const METRICOOL_BLOCKED = true;
+const METRICOOL_BLOCKED = false; // Token is set — REST API connected
 
 const PLATFORM_META = {
   tiktok: { label: 'TikTok', color: 'text-red-400', bg: 'bg-red-500/10' },

@@ -219,6 +219,7 @@ import PromoDiscountCompliance from '@/pages/admin/PromoDiscountCompliance';
 import CursorCloudAgentCommand from '@/pages/admin/CursorCloudAgentCommand';
 import AutonomousRepairLoop from '@/pages/admin/AutonomousRepairLoop';
 import ContentCommandCentre from '@/pages/admin/ContentCommandCentre';
+import ContentCommand from '@/pages/admin/ContentCommand';
 import OpenAICommandCentre from '@/pages/admin/OpenAICommandCentre';
 import AgentMessageBus from '@/pages/admin/AgentMessageBus';
 import VideoAgentCommand from '@/pages/admin/VideoAgentCommand';
@@ -504,7 +505,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/promo-discount-compliance" element={<PromoDiscountCompliance />} />
         <Route path="/admin/cursor-cloud-agent-command" element={<CursorCloudAgentCommand />} />
         <Route path="/admin/autonomous-repair-loop" element={<AutonomousRepairLoop />} />
-        <Route path="/admin/content-command" element={<ContentCommandCentre />} />
+        <Route path="/admin/content-command" element={<ContentCommand />} />
+        <Route path="/admin/content-command-v1" element={<ContentCommandCentre />} />
         <Route path="/admin/content-command-centre" element={<ContentCommandCentre />} />
         <Route path="/admin/openai-command" element={<OpenAICommandCentre />} />
         <Route path="/admin/chatgpt-control-centre" element={<OpenAICommandCentre />} />

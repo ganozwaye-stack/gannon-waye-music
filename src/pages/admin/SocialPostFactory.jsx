@@ -12,7 +12,7 @@ import MetricoolBlocker from '@/components/social/MetricoolBlocker';
 
 // Metricool is blocked until METRICOOL_API_TOKEN secret is set
 // The token is never in the frontend — this is a UI-level informational block only
-const METRICOOL_BLOCKED = true; // Always true until secret exists
+const METRICOOL_BLOCKED = false; // Token is set — REST API connected
 
 const PLATFORMS = [
   { value: 'tiktok', label: 'TikTok' },
