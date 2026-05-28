@@ -53,6 +53,7 @@ import CurrentSingle from '@/pages/CurrentSingle';
 import MerchFeedback from '@/pages/MerchFeedback';
 import Tour from '@/pages/Tour';
 import FoundingSupporterPage from '@/pages/FoundingSupporter';
+import MumTribute from '@/pages/MumTribute';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -289,6 +290,8 @@ const AuthenticatedApp = () => {
         <Route path="/tour" element={<Navigate to="/" replace />} />
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
+        <Route path="/mum" element={<MumTribute />} />
+        <Route path="/without-you-here" element={<MumTribute />} />
       </Route>
 
       {/* Embed timer (no layout) */}

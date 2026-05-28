@@ -16,7 +16,7 @@ const EPISODES = [
     quote: 'I learned to survive before I learned to live.',
     excerpt: "I was born into a family that from the outside probably looked normal. But behind closed doors, life was very different. Abuse was woven into my upbringing in ways that became so normal I didn't even question it at the time.",
     status: 'available',
-    color: 'from-amber-950/30',
+    color: 'from-primary/10',
   },
   {
     number: 2,
@@ -79,7 +79,7 @@ const EPISODES = [
     quote: 'I learned how to sit with discomfort instead of running from it.',
     excerpt: 'What followed was six years of deep recovery and self-discovery. Learning emotional regulation, self-awareness, trauma processing, accountability, and emotional intelligence.',
     status: 'coming_soon',
-    color: 'from-amber-900/20',
+    color: 'from-primary/8',
   },
   {
     number: 9,
@@ -88,7 +88,7 @@ const EPISODES = [
     quote: 'If something I create reaches even one person sitting alone believing they are broken beyond repair\u2026 then every part of this journey matters.',
     excerpt: 'Music has become the place where every part of my story finally has somewhere to go — the abuse, the addiction, the grief, the loss, the identity struggles, the faith, the healing.',
     status: 'coming_soon',
-    color: 'from-yellow-900/20',
+    color: 'from-primary/8',
   },
   {
     number: 10,

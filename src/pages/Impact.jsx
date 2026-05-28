@@ -62,27 +62,27 @@ export default function ImpactPage() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-2xl p-8 mb-10"
+          className="bg-primary/5 border border-primary/20 rounded-2xl p-8 mb-10"
         >
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0">
-              <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center">
-                <Heart className="w-6 h-6 text-white" />
+              <div className="w-12 h-12 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center">
+                <Heart className="w-6 h-6 text-primary" />
               </div>
             </div>
             <div className="flex-1">
-              <h2 className="font-display text-2xl text-blue-900 mb-3">10% Giving Commitment to 1800RESPECT</h2>
-              <p className="font-body text-sm text-blue-800 leading-relaxed mb-3">
+              <h2 className="font-display text-2xl text-foreground mb-3">10% Giving Commitment to 1800RESPECT</h2>
+              <p className="font-body text-sm text-foreground/80 leading-relaxed mb-3">
                 Every month, 10% of all support received is donated to <strong>1800RESPECT</strong> — Australia's national sexual assault, domestic and family violence counselling service.
               </p>
-              <p className="font-body text-sm text-blue-700 leading-relaxed mb-4">
+              <p className="font-body text-sm text-foreground/70 leading-relaxed mb-4">
                 As a man in a same-sex relationship, I understand how isolating violence can feel when you don't see yourself in typical narratives. 1800RESPECT provides inclusive, confidential support for everyone — women, men, and children fleeing violence — with specialised LGBTQIA+ support that understands the unique challenges of leaving abusive situations.
               </p>
               <div className="flex flex-wrap gap-3">
-                <a href="https://www.1800respect.org.au" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-600 text-white font-body text-xs hover:bg-blue-700 transition-colors">
+                <a href="https://www.1800respect.org.au" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full gradient-gold-button font-body text-xs">
                   Learn About 1800RESPECT →
                 </a>
-                <a href="https://www.1800respect.org.au/get-help/lgbtiqa-plus" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-600 text-blue-700 font-body text-xs hover:bg-blue-50 transition-colors">
+                <a href="https://www.1800respect.org.au/get-help/lgbtiqa-plus" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-primary/40 text-primary font-body text-xs hover:bg-primary/10 transition-colors">
                   LGBTQIA+ Support
                 </a>
               </div>
@@ -93,10 +93,10 @@ export default function ImpactPage() {
         {/* Impact Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {[
-            { label: 'Total Supporters', value: stats.totalSupporters, icon: Users, color: 'text-blue-500' },
+            { label: 'Total Supporters', value: stats.totalSupporters, icon: Users, color: 'text-primary' },
             { label: 'Total Raised', value: `$${stats.totalRaised.toFixed(2)}`, icon: DollarSign, color: 'text-primary' },
-            { label: 'Donated to Charity', value: `$${stats.totalDonated.toFixed(2)}`, icon: Heart, color: 'text-green-500' },
-            { label: 'Pending Donation', value: `$${stats.pendingDonation.toFixed(2)}`, icon: Calendar, color: 'text-yellow-500' },
+            { label: 'Donated to Charity', value: `$${stats.totalDonated.toFixed(2)}`, icon: Heart, color: 'text-primary' },
+            { label: 'Pending Donation', value: `$${stats.pendingDonation.toFixed(2)}`, icon: Calendar, color: 'text-primary/60' },
           ].map((stat, i) => {
             const Icon = stat.icon;
             return (
@@ -168,7 +168,7 @@ export default function ImpactPage() {
                   </div>
                   <div className="text-right">
                     <p className="font-display text-lg text-primary">${data.amount.toFixed(2)}</p>
-                    <p className="font-body text-xs text-green-600">${donation.toFixed(2)} → 1800RESPECT</p>
+                    <p className="font-body text-xs text-primary/60">${donation.toFixed(2)} → 1800RESPECT</p>
                   </div>
                 </motion.div>
               );
@@ -188,9 +188,9 @@ export default function ImpactPage() {
           transition={{ delay: 0.4 }}
           className="mt-10 text-center"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 border border-green-200">
-            <CheckCircle2 className="w-4 h-4 text-green-600" />
-            <p className="font-body text-xs text-green-700">All donations tracked transparently. Tax-deductible receipts provided.</p>
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+            <CheckCircle2 className="w-4 h-4 text-primary" />
+            <p className="font-body text-xs text-primary/80">All donations tracked transparently. Contribution receipts provided.</p>
           </div>
         </motion.div>
       </div>

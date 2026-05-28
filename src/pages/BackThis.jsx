@@ -184,8 +184,8 @@ export default function BackThis() {
             </p>
             
             {/* 1800RESPECT Commitment - LEGAL SAFE */}
-            <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mt-8 max-w-lg mx-auto text-left">
-              <p className="font-body text-xs tracking-widest uppercase text-blue-600 mb-3">10% Giving Commitment</p>
+            <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 mt-8 max-w-lg mx-auto text-left">
+              <p className="font-body text-xs tracking-widest uppercase text-primary mb-3">10% Giving Commitment</p>
               <p className="font-body text-sm text-foreground/80 leading-relaxed mb-3">
                 Every month, I donate 10% of all support received to <strong>1800RESPECT</strong> — Australia's national sexual assault, domestic and family violence counselling service.
               </p>
@@ -195,7 +195,7 @@ export default function BackThis() {
               <p className="font-body text-sm text-foreground/70 leading-relaxed">
                 Your support doesn't just fund my music — it helps fund safety, healing, and hope for others walking similar paths. Thank you for being part of this ripple effect. 🤍
               </p>
-              <p className="font-body text-[11px] text-amber-600 mt-3 font-medium">
+              <p className="font-body text-[11px] text-primary/70 mt-3 font-medium">
                 ⚠️ This is a voluntary support contribution, not a tax-deductible donation. DGR tax deductibility is not confirmed. Please seek independent advice if required.
               </p>
               <p className="font-body text-xs text-muted-foreground mt-2">
@@ -293,13 +293,13 @@ export default function BackThis() {
               </div>
 
               {/* 1800RESPECT Note in Header - LEGAL COMPLIANT */}
-              <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mt-4 max-w-lg mx-auto text-left">
-                <p className="font-body text-xs text-blue-700 leading-relaxed mb-2">
-                  <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children — including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
-                </p>
-                <p className="font-body text-[10px] text-amber-600 font-medium">
-                  ⚠️ Not tax-deductible. Support contribution only. See terms for details.
-                </p>
+              <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mt-4 max-w-lg mx-auto text-left">
+                 <p className="font-body text-xs text-foreground/70 leading-relaxed mb-2">
+                   <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children — including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
+                 </p>
+                 <p className="font-body text-[10px] text-primary/70 font-medium">
+                   ⚠️ Not tax-deductible. Support contribution only. See terms for details.
+                 </p>
               </div>
             </motion.div>
 
