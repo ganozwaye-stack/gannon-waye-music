@@ -51,6 +51,7 @@ import SevenDayStandard from '@/pages/SevenDayStandard';
 import CurrentSingle from '@/pages/CurrentSingle';
 import MerchFeedback from '@/pages/MerchFeedback';
 import Tour from '@/pages/Tour';
+import FoundingSupporterPage from '@/pages/FoundingSupporter';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -216,6 +217,8 @@ import AgentTrustHub from '@/pages/admin/AgentTrustHub';
 import ExternalEngineeringCommand from '@/pages/admin/ExternalEngineeringCommand';
 import PromoDiscountCompliance from '@/pages/admin/PromoDiscountCompliance';
 import CursorCloudAgentCommand from '@/pages/admin/CursorCloudAgentCommand';
+import AutonomousRepairLoop from '@/pages/admin/AutonomousRepairLoop';
+import ContentCommandCentre from '@/pages/admin/ContentCommandCentre';
 
 
 const AuthenticatedApp = () => {
@@ -277,6 +280,8 @@ const AuthenticatedApp = () => {
         <Route path="/current-single" element={<CurrentSingle />} />
         <Route path="/merch-feedback" element={<MerchFeedback />} />
         <Route path="/tour" element={<Tour />} />
+        <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
+        <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -495,6 +500,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/norton-safe-web-guide" element={<PromoDiscountCompliance />} />
         <Route path="/admin/promo-discount-compliance" element={<PromoDiscountCompliance />} />
         <Route path="/admin/cursor-cloud-agent-command" element={<CursorCloudAgentCommand />} />
+        <Route path="/admin/autonomous-repair-loop" element={<AutonomousRepairLoop />} />
+        <Route path="/admin/content-command" element={<ContentCommandCentre />} />
+        <Route path="/admin/content-command-centre" element={<ContentCommandCentre />} />
         <Route path="/admin/cursor-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/replit-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/warp-handoff" element={<ExternalEngineeringCommand />} />

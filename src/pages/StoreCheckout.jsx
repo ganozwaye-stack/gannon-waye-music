@@ -54,13 +54,16 @@ function calcCombinedShipping(items, address) {
 export default function StoreCheckout() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { items, clearCart } = useCartStore();
-  const getSubtotal = useCartStore(state =>
-    state.items.reduce((sum, item) => {
+  const rawItems = useCartStore(state => state.items);
+  const items = Array.isArray(rawItems) ? rawItems : [];
+  const clearCart = useCartStore(state => state.clearCart);
+  const getSubtotal = useCartStore(state => {
+    const safeItems = Array.isArray(state.items) ? state.items : [];
+    return safeItems.reduce((sum, item) => {
       const price = item.product?.sale_price ?? item.product?.price ?? 0;
-      return sum + price * item.quantity;
-    }, 0)
-  );
+      return sum + price * (item.quantity || 0);
+    }, 0);
+  });
 
   const [form, setForm] = useState({ customer_name: '', customer_email: '', shipping_address: '' });
   const [addSupport, setAddSupport] = useState(0);
@@ -72,7 +75,7 @@ export default function StoreCheckout() {
   const [promoLoading, setPromoLoading] = useState(false);
 
   const subtotal = getSubtotal;
-  const totalQty = items.reduce((sum, item) => sum + item.quantity, 0);
+  const totalQty = items.reduce((sum, item) => sum + (item.quantity || 0), 0);
   const shipping = calcCombinedShipping(items, form.shipping_address);
 
   // Compute eligible vs ineligible subtotal for promo

@@ -1,0 +1,115 @@
+{
+  "name": "FoundingSupporter",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "instagram_username": {
+      "type": "string"
+    },
+    "tiktok_username": {
+      "type": "string"
+    },
+    "spotify_username": {
+      "type": "string"
+    },
+    "interest_type": {
+      "type": "string",
+      "enum": [
+        "music_fan",
+        "merch_buyer",
+        "community_member",
+        "charity_supporter",
+        "all"
+      ],
+      "default": "music_fan"
+    },
+    "top_products": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "top_songs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "supporter_notes": {
+      "type": "string"
+    },
+    "source_campaign": {
+      "type": "string"
+    },
+    "consent_marketing": {
+      "type": "boolean",
+      "default": false
+    },
+    "consent_updates": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "confirmed",
+        "active",
+        "vip",
+        "archived"
+      ],
+      "default": "pending"
+    },
+    "benefits_granted": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "referral_code": {
+      "type": "string"
+    },
+    "total_orders": {
+      "type": "number",
+      "default": 0
+    },
+    "total_spent_aud": {
+      "type": "number",
+      "default": 0
+    },
+    "notification_sent": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "email"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

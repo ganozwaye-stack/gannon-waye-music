@@ -1,0 +1,151 @@
+{
+  "name": "ContentPost",
+  "type": "object",
+  "properties": {
+    "platform": {
+      "type": "string",
+      "enum": [
+        "instagram",
+        "tiktok",
+        "facebook",
+        "youtube_shorts",
+        "threads",
+        "pinterest",
+        "twitter_x"
+      ],
+      "default": "instagram"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "awaiting_approval",
+        "approved",
+        "scheduled",
+        "posted",
+        "rejected",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "hook": {
+      "type": "string"
+    },
+    "hashtags": {
+      "type": "string"
+    },
+    "cta": {
+      "type": "string"
+    },
+    "visual_url": {
+      "type": "string"
+    },
+    "visual_prompt": {
+      "type": "string"
+    },
+    "campaign": {
+      "type": "string"
+    },
+    "product_link": {
+      "type": "string"
+    },
+    "scheduled_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "posted_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "metricool_post_id": {
+      "type": "string"
+    },
+    "predicted_engagement_score": {
+      "type": "number"
+    },
+    "predicted_conversion_score": {
+      "type": "number"
+    },
+    "predicted_viral_probability": {
+      "type": "number"
+    },
+    "actual_likes": {
+      "type": "number",
+      "default": 0
+    },
+    "actual_comments": {
+      "type": "number",
+      "default": 0
+    },
+    "actual_shares": {
+      "type": "number",
+      "default": 0
+    },
+    "actual_saves": {
+      "type": "number",
+      "default": 0
+    },
+    "actual_reach": {
+      "type": "number",
+      "default": 0
+    },
+    "store_clicks": {
+      "type": "number",
+      "default": 0
+    },
+    "store_conversions": {
+      "type": "number",
+      "default": 0
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rejection_reason": {
+      "type": "string"
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_chain": {
+      "type": "string"
+    },
+    "generated_by_agent": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "platform"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
