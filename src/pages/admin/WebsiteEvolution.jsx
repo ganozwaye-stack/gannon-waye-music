@@ -143,7 +143,28 @@ const PRIORITY_COLOR = {
 
 export default function WebsiteEvolution() {
   const navigate = useNavigate();
+  const qc = useQueryClient();
   const [tab, setTab] = useState('all');
+
+  const { data: settings = [] } = useQuery({
+    queryKey: ['site-settings-evolution'],
+    queryFn: () => base44.entities.SiteSettings.list(),
+  });
+  const siteSettings = settings[0];
+  const campaignSectionLive = siteSettings?.show_thank_you_campaign_section !== false;
+
+  const toggleCampaignSection = useMutation({
+    mutationFn: async (show) => {
+      if (siteSettings?.id) {
+        return base44.entities.SiteSettings.update(siteSettings.id, { show_thank_you_campaign_section: show });
+      }
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['site-settings-evolution'] });
+      qc.invalidateQueries({ queryKey: ['siteSettings'] });
+      toast.success(campaignSectionLive ? 'Campaign section hidden (rolled back)' : 'Campaign section now live');
+    },
+  });
 
   const done = EVOLUTION_ITEMS.filter(i => i.status === 'done');
   const inProgress = EVOLUTION_ITEMS.filter(i => i.status === 'in_progress');
@@ -168,6 +189,66 @@ export default function WebsiteEvolution() {
         <Card className="border-yellow-500/20"><CardContent className="p-4"><p className="text-2xl font-bold text-yellow-400">{inProgress.length}</p><p className="text-xs text-muted-foreground">In Progress</p></CardContent></Card>
         <Card className="border-red-500/20"><CardContent className="p-4"><p className="text-2xl font-bold text-red-400">{blocked.length}</p><p className="text-xs text-muted-foreground">Blocked</p></CardContent></Card>
         <Card><CardContent className="p-4"><p className="text-2xl font-bold text-primary">{EVOLUTION_ITEMS.length}</p><p className="text-xs text-muted-foreground">Total Items</p></CardContent></Card>
+      </div>
+
+      {/* ── HOMEPAGE APPROVAL GATE ─────────────────────────── */}
+      <div className={`rounded-xl border p-5 space-y-4 ${campaignSectionLive ? 'border-amber-500/40 bg-amber-500/5' : 'border-border/40 bg-secondary/10'}`}>
+        <div className="flex items-start justify-between gap-3 flex-wrap">
+          <div className="flex items-start gap-3">
+            <div className={`w-3 h-3 rounded-full mt-1 shrink-0 ${campaignSectionLive ? 'bg-amber-400 animate-pulse' : 'bg-secondary'}`} />
+            <div>
+              <p className="font-semibold text-sm text-foreground">Thank You Campaign Section — Homepage</p>
+              <div className="flex items-center gap-2 mt-1">
+                <Badge className={campaignSectionLive ? 'bg-amber-500/20 text-amber-300 border-amber-500/30 text-[9px] uppercase tracking-wider' : 'bg-secondary text-muted-foreground text-[9px] uppercase tracking-wider'}>
+                  {campaignSectionLive ? 'LIVE — AWAITING GANNON REVIEW' : 'HIDDEN / ROLLED BACK'}
+                </Badge>
+              </div>
+              <p className="text-xs text-muted-foreground mt-1.5">
+                Thank You artwork section below hero — went live with code deploy. Hero quote preserved and untouched.
+                Use the buttons below to approve (keep live) or rollback (hide it) until you're ready.
+              </p>
+            </div>
+          </div>
+          <a href="/" target="_blank" rel="noopener noreferrer">
+            <Button size="sm" variant="outline" className="gap-1.5 text-xs shrink-0">
+              <Eye className="w-3 h-3" />Preview Live
+            </Button>
+          </a>
+        </div>
+
+        <div className="bg-secondary/30 rounded-lg p-3 text-xs text-muted-foreground space-y-1">
+          <p><strong className="text-foreground">What's live:</strong> Campaign artwork + copy + 4 CTAs (Support, Pre-Save, Store, Founding Supporters)</p>
+          <p><strong className="text-foreground">Hero quote:</strong> ✅ Preserved — "For them, it was about appearance. For me, I was breaking inside."</p>
+          <p><strong className="text-foreground">Placement:</strong> Below ThankYouSingle section, above The Story section</p>
+        </div>
+
+        <div className="flex flex-wrap gap-2">
+          {campaignSectionLive ? (
+            <>
+              <Button size="sm" className="bg-green-600 hover:bg-green-700 border-0 gap-1.5 text-xs"
+                onClick={() => toggleCampaignSection.mutate(true)}
+                disabled={toggleCampaignSection.isPending}>
+                <CheckCircle2 className="w-3 h-3" />Approve — Keep Live
+              </Button>
+              <Button size="sm" variant="destructive" className="gap-1.5 text-xs"
+                onClick={() => toggleCampaignSection.mutate(false)}
+                disabled={toggleCampaignSection.isPending}>
+                <XCircle className="w-3 h-3" />Rollback — Hide Section
+              </Button>
+            </>
+          ) : (
+            <Button size="sm" className="gradient-gold-button border-0 gap-1.5 text-xs"
+              onClick={() => toggleCampaignSection.mutate(true)}
+              disabled={toggleCampaignSection.isPending}>
+              <CheckCircle2 className="w-3 h-3" />Re-publish Section
+            </Button>
+          )}
+          <Link to="/admin/approval-queue">
+            <Button size="sm" variant="outline" className="gap-1.5 text-xs">
+              <Clock className="w-3 h-3" />View Approval Queue
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {/* Blocked items — show prominently */}

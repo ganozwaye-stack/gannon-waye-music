@@ -37,7 +37,30 @@
     },
     "email_contact": {
       "type": "string"
+    },
+    "show_thank_you_campaign_section": {
+      "type": "boolean",
+      "default": true,
+      "description": "Controls visibility of the Thank You campaign artwork section on the homepage. Toggle to rollback."
     }
   },
-  "required": []
+  "required": [],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
 }

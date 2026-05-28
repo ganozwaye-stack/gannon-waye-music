@@ -142,8 +142,8 @@ export default function Home() {
       {/* Thank You Single — moved up */}
       <ThankYouSingle />
 
-      {/* Thank You Campaign Visual — below hero, preserves emotional quote above */}
-      <ThankYouCampaignSection />
+      {/* Thank You Campaign Visual — LIVE, awaiting Gannon approval in /admin/website-evolution */}
+      {site.show_thank_you_campaign_section !== false && <ThankYouCampaignSection />}
 
       {/* About Section — magazine 3-column */}
       <section className="py-16 md:py-24 px-4 md:px-6 relative">
