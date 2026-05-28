@@ -32,7 +32,12 @@ const PRODUCT_CONFIG = {
 };
 
 // Multi-image galleries per product id (auto-rotates in card)
+const MUG_ID = '6a16abb0198d4c5d294edc11';
 const PRODUCT_GALLERIES = {
+  [MUG_ID]: [
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png',
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0261db66f_MugBack.png',
+  ],
   '69eed3e64e2da78ae4418a9a': [
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/39dab5737_RespectisEarnedToteBagBack.png',
@@ -189,12 +194,14 @@ function ProductCard({ product }) {
   const addItem = useCartStore(state => state.addItem);
   const [selectedSize, setSelectedSize] = useState('');
   const [showSizeError, setShowSizeError] = useState(false);
-  
+  const [detailOpen, setDetailOpen] = useState(false);
+
   const price = product.sale_price ?? product.price;
   const cfg = PRODUCT_CONFIG[product.id];
   const badge = PRODUCT_BADGES[product.id];
   const isCd = product.category === 'cd';
   const galleryImages = PRODUCT_GALLERIES[product.id] || (product.images_array?.length > 0 ? product.images_array : null);
+  const allImages = galleryImages || (product.image_url ? [product.image_url] : []);
   const singleImage = product.image_url;
   const hasSize = product.sizes_available?.length > 0;
   
@@ -222,8 +229,8 @@ function ProductCard({ product }) {
         viewport={{ once: true }}
         className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
       >
-        {/* Image */}
-        <div className="relative">
+        {/* Image — click to open detail modal */}
+        <div className="relative cursor-pointer" onClick={() => setDetailOpen(true)}>
           {galleryImages ? (
             <ProductImageRotator
               images={galleryImages}
@@ -239,6 +246,10 @@ function ProductCard({ product }) {
               <ShoppingBag className="w-16 h-16 text-muted-foreground/20" />
             </div>
           )}
+          {/* Zoom hint */}
+          <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-black/50 rounded-full p-1.5">
+            <ZoomIn className="w-3.5 h-3.5 text-white" />
+          </div>
           <div className="absolute top-3 left-3 z-10">
             {product.stock_quantity === 0 ? (
               <span className="font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 bg-red-500/15 text-red-400 border-red-500/30">
@@ -308,6 +319,13 @@ function ProductCard({ product }) {
         </div>
       </motion.div>
 
+      {detailOpen && (
+        <ProductDetailModal
+          product={product}
+          allImages={allImages}
+          onClose={() => setDetailOpen(false)}
+        />
+      )}
     </>
   );
 }
