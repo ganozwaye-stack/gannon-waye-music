@@ -33,8 +33,9 @@ const PRODUCT_CONFIG = {
 
 // Multi-image galleries per product id (auto-rotates in card)
 const MUG_ID = '6a16abb0198d4c5d294edc11';
+// Use explicit string keys — computed key [MUG_ID] can cause runtime errors in some build paths
 const PRODUCT_GALLERIES = {
-  [MUG_ID]: [
+  '6a16abb0198d4c5d294edc11': [
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png',
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0261db66f_MugBack.png',
   ],
@@ -332,8 +333,9 @@ function ProductCard({ product }) {
 
 export default function Store() {
   const navigate = useNavigate();
-  const cartItems = useCartStore(state => state.items);
-  const getItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  // Guard as array — corrupted localStorage can return undefined/object and crash with uu(...) is not a function
+  const cartItems = useCartStore(state => Array.isArray(state.items) ? state.items : []);
+  const getItemCount = cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
   const hasItems = cartItems.length > 0;
 
   const { data: dbProducts = [] } = useQuery({

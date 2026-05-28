@@ -6,7 +6,7 @@ const CART_STORAGE_KEY = 'gannon_store_cart';
 export const useCartStore = create(
   persist(
     (set, get) => ({
-      items: [], // [{ product_id, product, quantity, size, added_at }]
+      items: [],
 
       addItem: (product, quantity = 1, size = null) => {
         set((state) => {
@@ -65,8 +65,13 @@ export const useCartStore = create(
     }),
     {
       name: CART_STORAGE_KEY,
-      // Only persist items array — avoid persisting stale function refs
       partialize: (state) => ({ items: state.items }),
+      // Ensure items is always a valid array after rehydration from localStorage
+      onRehydrateStorage: () => (state) => {
+        if (state && !Array.isArray(state.items)) {
+          state.items = [];
+        }
+      },
     }
   )
 );
