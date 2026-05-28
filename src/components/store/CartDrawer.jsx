@@ -130,7 +130,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                   }}
                   className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase"
                 >
-                  Proceed to Checkout — ${subtotal.toFixed(2)} AUD
+                  Proceed to Checkout · ${subtotal.toFixed(2)} AUD
                 </Button>
                 <Button 
                   onClick={clearCart}

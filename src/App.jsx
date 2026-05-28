@@ -277,13 +277,13 @@ const AuthenticatedApp = () => {
         <Route path="/member-tiers" element={<MemberTiers />} />
         <Route path="/portrait-gallery" element={<PortraitGallery />} />
         <Route path="/impact" element={<Impact />} />
-        <Route path="/bookings" element={<Bookings />} />
+        <Route path="/bookings" element={<Navigate to="/" replace />} />
         <Route path="/7-day-standard" element={<SevenDayStandard />} />
         <Route path="/mastering" element={<Mastering />} />
         <Route path="/order-status" element={<OrderStatus />} />
         <Route path="/current-single" element={<CurrentSingle />} />
         <Route path="/merch-feedback" element={<MerchFeedback />} />
-        <Route path="/tour" element={<Tour />} />
+        <Route path="/tour" element={<Navigate to="/" replace />} />
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
       </Route>
