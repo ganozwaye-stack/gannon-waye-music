@@ -123,13 +123,14 @@ export default function CartDrawer({ isOpen, onClose }) {
               
               <div className="space-y-3">
                 <Button 
+                  data-testid="cart-checkout-button"
                   onClick={() => {
                     onClose();
                     navigate('/store/checkout');
                   }}
                   className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase"
                 >
-                  Checkout — ${subtotal.toFixed(2)}
+                  Proceed to Checkout — ${subtotal.toFixed(2)} AUD
                 </Button>
                 <Button 
                   onClick={clearCart}

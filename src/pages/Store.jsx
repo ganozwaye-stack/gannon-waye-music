@@ -453,7 +453,29 @@ export default function Store() {
         </p>
       </div>
 
-
+      {/* Sticky checkout bar — appears when cart has items */}
+      {hasItems && (
+        <div
+          data-testid="store-sticky-checkout"
+          className="fixed bottom-0 left-0 right-0 z-40 bg-card/95 backdrop-blur-md border-t border-primary/30 px-4 py-3 flex items-center justify-between gap-4 shadow-2xl"
+        >
+          <div className="flex items-center gap-3">
+            <ShoppingCart className="w-5 h-5 text-primary shrink-0" />
+            <div>
+              <p className="font-body text-sm text-foreground font-semibold">
+                {getItemCount} item{getItemCount !== 1 ? 's' : ''} in cart
+              </p>
+            </div>
+          </div>
+          <button
+            data-testid="store-sticky-checkout-button"
+            onClick={() => navigate('/store/checkout')}
+            className="gradient-gold-button rounded-full px-6 py-2 font-body text-sm tracking-wider uppercase shrink-0"
+          >
+            Checkout
+          </button>
+        </div>
+      )}
     </div>
   );
 }

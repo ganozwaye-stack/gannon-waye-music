@@ -17,7 +17,7 @@ export default function CartButton() {
       >
         <ShoppingCart className="w-5 h-5" />
         {count > 0 && (
-          <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs font-body flex items-center justify-center">
+          <span data-testid="cart-count" className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs font-body flex items-center justify-center">
             {count}
           </span>
         )}

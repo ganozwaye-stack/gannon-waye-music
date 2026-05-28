@@ -192,16 +192,16 @@ export default function StoreCheckout() {
   if (items.length === 0) {
     return (
       <div className="min-h-screen py-24 px-4">
-        <div className="max-w-2xl mx-auto text-center">
+        <div className="max-w-2xl mx-auto text-center" data-testid="checkout-page">
           <p className="font-body text-lg text-muted-foreground">Your cart is empty</p>
-          <Button onClick={() => navigate('/store')} className="mt-4" variant="outline">Return to Store</Button>
+          <Button data-testid="empty-cart-return-store" onClick={() => navigate('/store')} className="mt-4" variant="outline">Return to Store</Button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-24 px-4">
+    <div className="min-h-screen py-24 px-4" data-testid="checkout-page">
       <div className="max-w-3xl mx-auto">
         <button onClick={() => navigate('/store')} className="flex items-center gap-2 font-body text-sm text-muted-foreground hover:text-foreground mb-6">
           <ArrowLeft className="w-4 h-4" /> Back to Store
@@ -359,6 +359,7 @@ export default function StoreCheckout() {
             )}
 
             <Button
+              data-testid="checkout-pay-button"
               onClick={handleCheckout}
               disabled={redirecting || !form.customer_name || !form.shipping_address}
               className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase gap-2"
