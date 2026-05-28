@@ -220,6 +220,8 @@ import CursorCloudAgentCommand from '@/pages/admin/CursorCloudAgentCommand';
 import AutonomousRepairLoop from '@/pages/admin/AutonomousRepairLoop';
 import ContentCommandCentre from '@/pages/admin/ContentCommandCentre';
 import OpenAICommandCentre from '@/pages/admin/OpenAICommandCentre';
+import AgentMessageBus from '@/pages/admin/AgentMessageBus';
+import VideoAgentCommand from '@/pages/admin/VideoAgentCommand';
 
 
 const AuthenticatedApp = () => {
@@ -506,8 +508,12 @@ const AuthenticatedApp = () => {
         <Route path="/admin/content-command-centre" element={<ContentCommandCentre />} />
         <Route path="/admin/openai-command" element={<OpenAICommandCentre />} />
         <Route path="/admin/chatgpt-control-centre" element={<OpenAICommandCentre />} />
-        <Route path="/admin/agent-message-bus" element={<OpenAICommandCentre />} />
+        <Route path="/admin/agent-message-bus" element={<AgentMessageBus />} />
         <Route path="/admin/ai-agent-command" element={<OpenAICommandCentre />} />
+        <Route path="/admin/video-agent-command" element={<VideoAgentCommand />} />
+        <Route path="/admin/clip-idea-studio" element={<VideoAgentCommand />} />
+        <Route path="/admin/capcut-prompt-builder" element={<VideoAgentCommand />} />
+        <Route path="/admin/hook-detection-centre" element={<VideoAgentCommand />} />
         <Route path="/admin/cursor-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/replit-handoff" element={<ExternalEngineeringCommand />} />
         <Route path="/admin/warp-handoff" element={<ExternalEngineeringCommand />} />
