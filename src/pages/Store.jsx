@@ -24,10 +24,10 @@ const STORE_OPEN = true;
 // Per-product config: sub-label only (no buy mode while store closed)
 const PRODUCT_CONFIG = {
   '69f11d1fc43e13c61fe6b9d6': { sub: 'Available June 2026 · $10' },
-  '69eed3e64e2da78ae4418a9d': { sub: 'Limited · Hand-signed · $20' },
+  '69eed3e64e2da78ae4418a9d': { sub: 'Limited · Hand signed · $20' },
   '69f11d1fc43e13c61fe6b9d7': { sub: 'Premium heavyweight hoodie · $98' },
   '69eed3e64e2da78ae4418a99': { sub: 'Oversized premium tee · $59' },
-  '69fbd261b760426cede1b7a3': { sub: 'Journal, pen & thermos bundle · $54' },
+  '69fbd261b760426cede1b7a3': { sub: 'Journal, pen and thermos bundle · $54' },
   '69eed3e64e2da78ae4418a9a': { sub: 'Large tote bag · $15' },
 };
 
@@ -55,7 +55,7 @@ const PRODUCT_GALLERIES = {
 const FALLBACK_PRODUCTS = [
   {
     id: '69f11d1fc43e13c61fe6b9d6',
-    name: '"Thank You" CD Single — Slim Case',
+    name: '"Thank You" CD Single Slim Case',
     sale_price: 10,
     category: 'cd',
     stock_quantity: 50,
@@ -73,7 +73,7 @@ const FALLBACK_PRODUCTS = [
   },
   {
     id: '69f11d1fc43e13c61fe6b9d7',
-    name: '"Respect Is Earned" Hoodie — Dark Grey',
+    name: '"Respect Is Earned" Hoodie Dark Grey',
     sale_price: 98,
     category: 'apparel',
     stock_quantity: 50,
@@ -190,12 +190,13 @@ function InterestButton({ productId, productName }) {
   );
 }
 
-function ProductCard({ product }) {
+function ProductCard({ product, onCheckout }) {
   const { toast } = useToast();
   const addItem = useCartStore(state => state.addItem);
   const [selectedSize, setSelectedSize] = useState('');
   const [showSizeError, setShowSizeError] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
+  const [addedToCart, setAddedToCart] = useState(false);
 
   const price = product.sale_price ?? product.price;
   const cfg = PRODUCT_CONFIG[product.id];
@@ -216,10 +217,9 @@ function ProductCard({ product }) {
     addItem(product, 1, selectedSize || null);
     setSelectedSize('');
     setShowSizeError(false);
-    toast({ 
-      title: 'Added to cart! 🤍', 
-      description: product.name 
-    });
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 4000);
+    toast({ title: 'Added to cart! 🤍', description: product.name });
   };
 
   return (
@@ -305,16 +305,36 @@ function ProductCard({ product }) {
           )}
           
           {STORE_OPEN && product.stock_quantity > 0 ? (
-            <button
-              data-testid="add-to-cart"
-              onClick={handleAddToCart}
-              className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 gradient-gold-button hover:opacity-90"
-            >
-              <Plus className="w-3.5 h-3.5" /> Add to Cart
-            </button>
+            addedToCart ? (
+              <div className="mt-3 space-y-1.5">
+                <p className="text-center font-body text-[10px] text-green-400 tracking-wider">Added to cart 🤍</p>
+                <div className="flex gap-1.5">
+                  <button
+                    onClick={() => setAddedToCart(false)}
+                    className="flex-1 rounded-full py-2 font-body text-[9px] tracking-wider uppercase border border-border/50 text-muted-foreground hover:border-primary/30 transition-all"
+                  >
+                    Continue
+                  </button>
+                  <button
+                    onClick={() => onCheckout && onCheckout()}
+                    className="flex-1 rounded-full py-2 font-body text-[9px] tracking-wider uppercase gradient-gold-button transition-all"
+                  >
+                    Checkout
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <button
+                data-testid="add-to-cart-btn"
+                onClick={handleAddToCart}
+                className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 gradient-gold-button hover:opacity-90"
+              >
+                <Plus className="w-3.5 h-3.5" /> Add to Cart
+              </button>
+            )
           ) : STORE_OPEN && product.stock_quantity === 0 ? (
             <div className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase flex items-center justify-center gap-2 border border-red-500/30 text-red-400 bg-red-500/10 cursor-not-allowed">
-              Sold Out — Due to Popular Demand
+              Sold Out · Due to Popular Demand
             </div>
           ) : (
             <InterestButton productId={product.id} productName={product.name} />
@@ -392,7 +412,7 @@ export default function Store() {
           <div className="mt-4 inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-xl px-4 py-2">
           <ShoppingCart className="w-4 h-4 text-primary" />
           <span className="font-body text-xs text-primary">
-            {getItemCount} item{getItemCount !== 1 ? 's' : ''} in cart — ready for checkout
+            {getItemCount} item{getItemCount !== 1 ? 's' : ''} in cart · ready for checkout
           </span>
           </div>
           )}
@@ -409,7 +429,7 @@ export default function Store() {
             <div className="flex justify-center">
               <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
                 {cdProducts.map(product => (
-                   <ProductCard key={product.id} product={product} />
+                   <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/checkout')} />
                  ))}
               </div>
             </div>
@@ -426,7 +446,7 @@ export default function Store() {
             </div>
             <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {merchProducts.map(product => (
-                 <ProductCard key={product.id} product={product} />
+                 <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/checkout')} />
                ))}
             </div>
           </>

@@ -20,6 +20,7 @@ import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
 import FanHighlightCommunity from '@/components/public/FanHighlightCommunity';
 import FeaturedVideoSection from '@/components/public/FeaturedVideoSection';
 import ThankYouCampaignSection from '@/components/public/ThankYouCampaignSection';
+import ThankYouStorySection from '@/components/public/ThankYouStorySection';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
@@ -145,6 +146,9 @@ export default function Home() {
       {/* Thank You Campaign Visual — LIVE, awaiting Gannon approval in /admin/website-evolution */}
       {site.show_thank_you_campaign_section !== false && <ThankYouCampaignSection />}
 
+      {/* Thankyou Song Story — LIVE, awaiting Gannon review */}
+      <ThankYouStorySection />
+
       {/* About Section — magazine 3-column */}
       <section className="py-16 md:py-24 px-4 md:px-6 relative">
         <div className="max-w-6xl mx-auto">
@@ -169,9 +173,9 @@ export default function Home() {
               transition={{ duration: 0.6 }}
               className="font-body text-foreground/70 leading-relaxed text-sm text-left space-y-4 pt-8"
             >
-              <p>I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me, it's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
+              <p>I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
               <p>I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.</p>
-              <p className="italic text-sm">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong, it often means you're seeing something others aren't ready for yet.</p>
+              <p className="italic text-sm">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong. It often means you're seeing something others aren't ready for yet.</p>
             </motion.div>
 
             {/* Centre — quote centrepiece */}
@@ -209,7 +213,7 @@ export default function Home() {
               className="font-body text-foreground/70 leading-relaxed text-sm text-right space-y-4 pt-8"
             >
               <p>My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say.</p>
-              <p>I began singing at a young age, runner-up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.</p>
+              <p>I began singing at a young age, runner up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.</p>
               <p>That work is now becoming an album, a collection for anyone who needs a message of hope or just an anthem that reminds them they're not alone.</p>
             </motion.div>
           </div>
@@ -242,7 +246,7 @@ export default function Home() {
               My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say.
             </p>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
-              I began singing at a young age, runner-up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.
+              I began singing at a young age, runner up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.
             </p>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               That work is now becoming an album, a collection for anyone who needs a message of hope or just an anthem that reminds them they're not alone.
@@ -362,7 +366,7 @@ export default function Home() {
                   <div className="p-6">
                     <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">{release.type}</p>
                     <h3 className="font-display text-2xl text-foreground mt-1">{release.title}</h3>
-                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
+                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" was written at a turning point. When staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
                     {release.release_date && (
                       <p className="font-body text-xs text-muted-foreground mt-3">
                         {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}
