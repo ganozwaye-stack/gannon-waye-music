@@ -1,5 +1,16 @@
 import Stripe from 'npm:stripe@14.21.0';
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
+
+const ALWAYS_INELIGIBLE_CATEGORIES = [
+  'cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping',
+  'processing', 'fees', 'music', 'limited_edition_music', 'digital_music',
+];
+
+function isCategoryEligibleForDiscount(category) {
+  if (!category) return true;
+  const cat = category.toLowerCase().trim();
+  return !ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c));
+}
 
 Deno.serve(async (req) => {
   try {
@@ -22,16 +33,19 @@ Deno.serve(async (req) => {
         return Response.json({ error: 'Webhook signature failed' }, { status: 400 });
       }
     } else {
-      // No webhook secret configured — parse raw body (dev/test mode)
       event = JSON.parse(body);
     }
 
+    const base44 = createClientFromRequest(req);
+
+    // =============================================
+    // CHECKOUT SESSION COMPLETED — full order chain
+    // =============================================
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
-      const base44 = createClientFromRequest(req);
       const meta = session.metadata || {};
 
-      // === EMAIL CAPTURE: prefer Stripe-collected email over any pre-supplied email ===
+      // Email from Stripe (authoritative) or metadata
       const customerEmail =
         session.customer_details?.email ||
         session.customer_email ||
@@ -39,91 +53,196 @@ Deno.serve(async (req) => {
         '';
       const emailMissing = !customerEmail;
 
-      // === DISCOUNT DATA CAPTURE from Stripe session ===
-      let discountData = null;
-      let promotionCodeUsed = null;
-      let couponId = null;
-      let discountAmountTotal = 0;
-
-      if (session.total_details?.amount_discount > 0) {
-        discountAmountTotal = session.total_details.amount_discount / 100;
-      }
-
-      // Retrieve full session with discounts expanded if possible
+      // Parse cart items from metadata
+      let cartItems = [];
       try {
-        const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
-        const fullSession = await stripe.checkout.sessions.retrieve(session.id, {
-          expand: ['total_details.breakdown'],
-        });
-        const discounts = fullSession.total_details?.breakdown?.discounts || [];
-        if (discounts.length > 0) {
-          const d = discounts[0];
-          couponId = d.discount?.coupon?.id || null;
-          promotionCodeUsed = d.discount?.promotion_code || null;
-          discountData = {
-            coupon_id: couponId,
-            promotion_code_id: typeof promotionCodeUsed === 'string' ? promotionCodeUsed : promotionCodeUsed?.id || null,
-            discount_amount_aud: discountAmountTotal,
-            breakdown_note: discounts.length > 1 ? 'MULTIPLE_DISCOUNTS' : 'SINGLE_DISCOUNT',
-          };
-        }
-      } catch (_) {
-        // If expand fails, store what we have
-        if (discountAmountTotal > 0) {
-          discountData = {
-            discount_amount_aud: discountAmountTotal,
-            breakdown_note: 'LIMITED_BY_STRIPE_DATA',
-          };
-        }
-      }
+        if (meta.items) cartItems = JSON.parse(meta.items);
+      } catch (_) {}
 
-      // === ORDER RECORD CREATION ===
-      const orderData = {
-        customer_name: meta.customer_name || session.customer_details?.name || '',
-        customer_email: customerEmail,
-        shipping_address: meta.shipping_address || '',
-        items: [{
-          product_id: meta.product_id || '',
+      // Fallback to legacy single-item format
+      if (cartItems.length === 0 && meta.product_id) {
+        cartItems = [{
+          product_id: meta.product_id,
           product_name: meta.product_name || '',
-          size: meta.size || '',
-          quantity: parseInt(meta.quantity || '1', 10),
           price: parseFloat(meta.sale_price || '0'),
-        }],
-        total_amount: (session.amount_total || 0) / 100,
-        promo_code: discountData?.promotion_code_id || meta.promo_code || null,
-        stripe_session_id: session.id,
-        stripe_payment_intent: session.payment_intent || '',
-        status: emailMissing ? 'needs_admin_review' : 'confirmed',
-        payment_status: 'paid',
-        notes: [
-          `Stripe Checkout Session: ${session.id}`,
-          discountData ? `Discount: $${discountAmountTotal.toFixed(2)} AUD | Coupon: ${discountData.coupon_id || 'n/a'} | PromoCode: ${discountData.promotion_code_id || 'n/a'}` : null,
-          discountData?.breakdown_note === 'LIMITED_BY_STRIPE_DATA' ? 'WARNING: Discount breakdown limited by Stripe data' : null,
-          emailMissing ? 'WARNING: Customer email missing — needs_admin_review' : null,
-          meta.product_category ? `Category: ${meta.product_category}` : null,
-          meta.shipping_amount ? `Shipping: $${meta.shipping_amount} AUD` : null,
-          meta.add_support ? `Support contribution: $${meta.add_support} AUD` : null,
-          `source_chain: stripeWebhook:checkout.session.completed`,
-        ].filter(Boolean).join(' | '),
-      };
+          quantity: parseInt(meta.quantity || '1', 10),
+          size: meta.size || '',
+          category: meta.product_category || '',
+        }];
+      }
 
+      const totalPaid = (session.amount_total || 0) / 100;
+      const promoCode = meta.promo_code || '';
+      const discountAmount = parseFloat(meta.discount_amount || '0');
+      const shippingCharged = parseFloat(meta.shipping_amount_aud || '0');
+      const supportContribution = parseFloat(meta.add_support || '0');
+
+      // === CREATE MERCH ORDER ===
+      let orderId = null;
       try {
-        await base44.asServiceRole.entities.MerchOrder.create(orderData);
+        const order = await base44.asServiceRole.entities.MerchOrder.create({
+          customer_name: meta.customer_name || session.customer_details?.name || '',
+          customer_email: customerEmail,
+          shipping_address: meta.shipping_address || '',
+          items: cartItems.map(item => ({
+            product_id: item.product_id || '',
+            product_name: item.product_name || '',
+            size: item.size || '',
+            quantity: item.quantity || 1,
+            price: item.price || 0,
+            category: item.category || '',
+          })),
+          total_amount: totalPaid,
+          promo_code: promoCode || null,
+          discount_amount: discountAmount,
+          shipping_amount: shippingCharged,
+          support_contribution: supportContribution,
+          stripe_session_id: session.id,
+          stripe_payment_intent: session.payment_intent || '',
+          status: emailMissing ? 'needs_admin_review' : 'confirmed',
+          payment_status: 'paid',
+          notes: [
+            `Stripe Session: ${session.id}`,
+            promoCode ? `Promo: ${promoCode} — $${discountAmount.toFixed(2)} off` : null,
+            shippingCharged > 0 ? `Shipping charged: $${shippingCharged.toFixed(2)} AUD` : null,
+            supportContribution > 0 ? `Support contribution: $${supportContribution.toFixed(2)} AUD` : null,
+            emailMissing ? 'WARNING: Customer email missing — needs admin review' : null,
+            `source_chain: stripeWebhook:checkout.session.completed`,
+          ].filter(Boolean).join(' | '),
+        });
+        orderId = order?.id || null;
       } catch (orderErr) {
         try {
           await base44.asServiceRole.entities.AdminNotification.create({
             notification_type: 'payment_warning',
             severity: 'high',
             title: 'Order creation failed after payment',
-            summary: `Payment succeeded (${session.id}) but order record creation failed: ${orderErr.message}`,
+            summary: `Payment succeeded (${session.id}) but order record failed: ${orderErr.message}`,
             requires_action: true,
             linked_route: '/admin/payment-diagnostics',
             source: 'stripeWebhook',
           });
-        } catch {}
+          await base44.asServiceRole.entities.SystemHealthIssue.create({
+            system_area: 'payments',
+            issue_title: `Order creation failed for session ${session.id}`,
+            severity: 'critical',
+            detected_by: 'stripeWebhook',
+            recommended_fix: `Manually create MerchOrder for session ${session.id}. Customer: ${customerEmail}`,
+            status: 'open',
+            risk_type: 'financial',
+          });
+        } catch (_) {}
       }
 
-      // Flag missing email as admin action required
+      // === INVENTORY DECREMENT + PROFIT CALCULATION per item ===
+      for (const item of cartItems) {
+        if (!item.product_id) continue;
+        const quantity = item.quantity || 1;
+        const itemRevenue = (item.price || 0) * quantity;
+
+        try {
+          // Fetch product to get current stock and cost
+          const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: item.product_id });
+          if (products && products.length > 0) {
+            const product = products[0];
+            const currentStock = product.stock_quantity || 0;
+            const newStock = Math.max(0, currentStock - quantity);
+
+            // Decrement stock
+            await base44.asServiceRole.entities.MerchProduct.update(item.product_id, {
+              stock_quantity: newStock,
+            });
+
+            // Low stock alert
+            if (newStock === 0) {
+              await base44.asServiceRole.entities.AdminNotification.create({
+                notification_type: 'system',
+                severity: 'high',
+                title: `SOLD OUT: ${product.name}`,
+                summary: `${product.name} is now out of stock after order ${session.id}`,
+                requires_action: true,
+                linked_route: '/admin/merch',
+                source: 'stripeWebhook',
+              });
+            } else if (newStock <= 5) {
+              await base44.asServiceRole.entities.AdminNotification.create({
+                notification_type: 'system',
+                severity: 'warning',
+                title: `Low stock: ${product.name} (${newStock} left)`,
+                summary: `Only ${newStock} units remaining after order ${session.id}`,
+                requires_action: false,
+                linked_route: '/admin/merch',
+                source: 'stripeWebhook',
+              });
+            }
+
+            // === PROFIT CALCULATION ===
+            const costPrice = product.cost_price || 0;
+            const deliveryCost = product.delivery_cost || 0;
+            const merchantFeePercent = product.merchant_fee_percent || 3.5;
+
+            const itemCost = costPrice * quantity;
+            const itemDeliveryCost = deliveryCost * quantity;
+            const merchantFee = (itemRevenue * merchantFeePercent) / 100;
+
+            // Promo discount allocated proportionally to eligible items
+            let itemDiscount = 0;
+            if (discountAmount > 0 && isCategoryEligibleForDiscount(item.category || product.category || '')) {
+              const eligibleCartTotal = cartItems
+                .filter(ci => isCategoryEligibleForDiscount(ci.category || ''))
+                .reduce((sum, ci) => sum + (ci.price || 0) * (ci.quantity || 1), 0);
+              if (eligibleCartTotal > 0) {
+                itemDiscount = (itemRevenue / eligibleCartTotal) * discountAmount;
+              }
+            }
+
+            // Shipping allocated proportionally
+            const itemShippingContrib = cartItems.length > 1 && shippingCharged > 0
+              ? shippingCharged * (quantity / cartItems.reduce((s, ci) => s + (ci.quantity || 1), 0))
+              : shippingCharged;
+
+            const grossProfit = (itemRevenue - itemDiscount) - itemCost - itemDeliveryCost - merchantFee;
+            const profitMargin = itemRevenue > 0 ? (grossProfit / itemRevenue) * 100 : 0;
+
+            // Create StripeEventLog with profit data
+            await base44.asServiceRole.entities.StripeEventLog.create({
+              stripe_event_id: `${event.id}_item_${item.product_id}`,
+              event_type: 'checkout.item.fulfilled',
+              category: 'revenue',
+              priority: 'high',
+              processing_status: 'processed',
+              stripe_object_id: session.id,
+              checkout_session_id: session.id,
+              payment_intent_id: session.payment_intent || '',
+              customer_id: customerEmail,
+              order_id: orderId || '',
+              amount: itemRevenue,
+              currency: 'aud',
+              safe_summary: `${product.name} × ${quantity} | Revenue: $${itemRevenue.toFixed(2)} | Gross profit: $${grossProfit.toFixed(2)} | Margin: ${profitMargin.toFixed(1)}%`,
+              records_created: `MerchOrder:${orderId}`,
+              records_updated: `MerchProduct:${item.product_id} stock ${currentStock}→${newStock}`,
+              received_at: new Date().toISOString(),
+              processed_at: new Date().toISOString(),
+              source_chain: 'stripeWebhook → inventory_decrement → profit_calc',
+            });
+          }
+        } catch (itemErr) {
+          // Log item processing failure but don't abort others
+          try {
+            await base44.asServiceRole.entities.SystemHealthIssue.create({
+              system_area: 'payments',
+              issue_title: `Inventory/profit processing failed for ${item.product_name || item.product_id}`,
+              severity: 'warning',
+              detected_by: 'stripeWebhook',
+              recommended_fix: `Manually decrement stock for ${item.product_id} (qty: ${quantity}). Order: ${session.id}. Error: ${itemErr.message}`,
+              status: 'open',
+              risk_type: 'financial',
+            });
+          } catch (_) {}
+        }
+      }
+
+      // === EMAIL MISSING — flag for admin ===
       if (emailMissing) {
         try {
           await base44.asServiceRole.entities.AdminNotification.create({
@@ -135,26 +254,57 @@ Deno.serve(async (req) => {
             linked_route: '/admin/orders',
             source: 'stripeWebhook',
           });
-        } catch {}
+        } catch (_) {}
       }
 
-      // Admin notification
+      // === ADMIN NOTIFICATION — new order ===
       try {
+        const itemsSummary = cartItems.map(i => `${i.product_name} ×${i.quantity}`).join(', ');
         await base44.asServiceRole.entities.AdminNotification.create({
           notification_type: 'order',
           severity: 'info',
-          title: `New order — ${meta.product_name || 'Store purchase'}`,
-          summary: `${meta.customer_name || 'Customer'} paid $${((session.amount_total || 0) / 100).toFixed(2)} AUD${discountAmountTotal > 0 ? ` (discount: $${discountAmountTotal.toFixed(2)})` : ''}`,
+          title: `New order — $${totalPaid.toFixed(2)} AUD`,
+          summary: `${meta.customer_name || 'Customer'} — ${itemsSummary}${promoCode ? ` | Promo: ${promoCode}` : ''}${discountAmount > 0 ? ` (-$${discountAmount.toFixed(2)})` : ''}`,
           requires_action: true,
           linked_route: '/admin/orders',
           source: 'stripeWebhook',
         });
-      } catch {}
+      } catch (_) {}
+
+      // === RECORD PROMO USAGE ===
+      if (promoCode && discountAmount > 0) {
+        try {
+          await base44.asServiceRole.functions.invoke('recordPromoUsage', {
+            code: promoCode,
+            email: customerEmail,
+            order_id: orderId || session.id,
+          });
+        } catch (_) {}
+      }
+
+      // === SEND ORDER RECEIPT ===
+      if (customerEmail) {
+        try {
+          await base44.asServiceRole.functions.invoke('sendOrderReceipt', {
+            order_id: orderId || '',
+            session_id: session.id,
+            customer_email: customerEmail,
+            customer_name: meta.customer_name || '',
+            items: cartItems,
+            total_amount: totalPaid,
+            promo_code: promoCode,
+            discount_amount: discountAmount,
+            shipping_amount: shippingCharged,
+          });
+        } catch (_) {}
+      }
     }
 
+    // =============================================
+    // SESSION EXPIRED
+    // =============================================
     if (event.type === 'checkout.session.expired') {
       const session = event.data.object;
-      const base44 = createClientFromRequest(req);
       try {
         await base44.asServiceRole.entities.AdminNotification.create({
           notification_type: 'payment_warning',
@@ -165,12 +315,14 @@ Deno.serve(async (req) => {
           linked_route: '/admin/payment-diagnostics',
           source: 'stripeWebhook',
         });
-      } catch {}
+      } catch (_) {}
     }
 
+    // =============================================
+    // PAYMENT FAILED
+    // =============================================
     if (event.type === 'payment_intent.payment_failed') {
       const pi = event.data.object;
-      const base44 = createClientFromRequest(req);
       try {
         await base44.asServiceRole.entities.AdminNotification.create({
           notification_type: 'payment_warning',
@@ -181,7 +333,7 @@ Deno.serve(async (req) => {
           linked_route: '/admin/payment-diagnostics',
           source: 'stripeWebhook',
         });
-      } catch {}
+      } catch (_) {}
     }
 
     return Response.json({ received: true });
