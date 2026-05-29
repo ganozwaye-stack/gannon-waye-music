@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Heart, Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
@@ -11,11 +11,15 @@ const PREF_KEY = 'gw_ambient_playing';
 // Custom GW heart asset (matches the designed heart)
 const GW_HEART_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/094c64c87_image.png';
 
+const MEMORIAL_PATHS = ['/mum', '/without-you-here'];
+
 export default function StickySupportBar() {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
   const [audioMissing, setAudioMissing] = useState(false);
   const startedRef = useRef(false);
+  const location = useLocation();
+  const isMemorialPage = MEMORIAL_PATHS.includes(location.pathname);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -59,6 +63,8 @@ export default function StickySupportBar() {
       }
     }
   };
+
+  if (isMemorialPage) return null;
 
   return (
     <>
