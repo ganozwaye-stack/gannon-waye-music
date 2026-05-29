@@ -40,7 +40,7 @@ export default function WisdomGarden() {
   const card = selected ? WISDOM[selected] : null;
 
   return (
-    <section id="wisdom" className="px-4 md:px-8 max-w-3xl mx-auto py-20">
+    <section id="sonias-garden" className="px-4 md:px-8 max-w-3xl mx-auto py-20">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

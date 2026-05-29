@@ -57,6 +57,8 @@ import MerchFeedback from '@/pages/MerchFeedback';
 import Tour from '@/pages/Tour';
 import FoundingSupporterPage from '@/pages/FoundingSupporter';
 import MumTribute from '@/pages/MumTribute';
+import CheckoutSuccess from '@/pages/CheckoutSuccess';
+import CheckoutCancel from '@/pages/CheckoutCancel';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -298,6 +300,12 @@ const AuthenticatedApp = () => {
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/mum" element={<MumTribute />} />
         <Route path="/without-you-here" element={<MumTribute />} />
+        <Route path="/checkout-success" element={<CheckoutSuccess />} />
+        <Route path="/store/checkout-success" element={<CheckoutSuccess />} />
+        <Route path="/payment-success" element={<CheckoutSuccess />} />
+        <Route path="/order-success" element={<CheckoutSuccess />} />
+        <Route path="/checkout-cancel" element={<CheckoutCancel />} />
+        <Route path="/store/checkout-cancel" element={<CheckoutCancel />} />
       </Route>
 
       {/* Embed timer (no layout) */}

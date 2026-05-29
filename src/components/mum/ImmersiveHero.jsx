@@ -253,7 +253,7 @@ export default function ImmersiveHero() {
             transition={{ delay: 1.9 }}
             className="flex flex-wrap gap-3"
           >
-            <a href="#who-she-was">
+            <a href="#sonias-garden">
               <Button className="rounded-full gradient-gold-button border-0 font-body text-xs tracking-wider uppercase px-7 py-5">
                 Enter Her Garden
               </Button>

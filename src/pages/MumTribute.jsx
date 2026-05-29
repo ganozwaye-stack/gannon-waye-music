@@ -8,7 +8,6 @@ gsap.registerPlugin(ScrollTrigger);
 import ImmersiveHero from '@/components/mum/ImmersiveHero';
 import MumStorySection from '@/components/mum/MumStorySection';
 import MemoryWall3D from '@/components/mum/MemoryWall3D';
-import MumMemoryObjects from '@/components/mum/MumMemoryObjects';
 import MumSongSection from '@/components/mum/MumSongSection';
 import WisdomGarden from '@/components/mum/WisdomGarden';
 import MumLetterSection from '@/components/mum/MumLetterSection';
@@ -92,8 +91,6 @@ export default function MumTribute() {
         <MumStorySection />
         <GoldDivider />
         <MemoryWall3D />
-        <GoldDivider />
-        <MumMemoryObjects />
         <GoldDivider />
         <MumSongSection />
         <GoldDivider />
