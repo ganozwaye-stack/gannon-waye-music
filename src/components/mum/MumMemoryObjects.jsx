@@ -40,7 +40,7 @@ export default function MumMemoryObjects() {
             viewport={{ once: true }}
             transition={{ delay: i * 0.04, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
             whileHover={{ y: -4, scale: 1.03 }}
-            className="bg-card/20 border border-primary/10 hover:border-primary/28 rounded-2xl p-4 text-center transition-colors duration-300 group cursor-default"
+            className="gsap-reveal bg-card/20 border border-primary/10 hover:border-primary/28 rounded-2xl p-4 text-center transition-colors duration-300 group cursor-default"
             style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.3)' }}
           >
             <motion.p

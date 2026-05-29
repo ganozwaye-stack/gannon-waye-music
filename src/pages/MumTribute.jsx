@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 import ImmersiveHero from '@/components/mum/ImmersiveHero';
 import MumStorySection from '@/components/mum/MumStorySection';
 import MemoryWall3D from '@/components/mum/MemoryWall3D';
@@ -20,6 +24,46 @@ function GoldDivider() {
 }
 
 export default function MumTribute() {
+  useEffect(() => {
+    // Cinematic section reveals — fade + lift every section heading and card
+    const ctx = gsap.context(() => {
+      gsap.utils.toArray('.gsap-reveal').forEach((el, i) => {
+        gsap.fromTo(el,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1, y: 0,
+            duration: 1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 90%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      });
+
+      // Parallax on section background glows
+      gsap.utils.toArray('.gsap-parallax').forEach((el) => {
+        gsap.fromTo(el,
+          { y: -30 },
+          {
+            y: 30,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 2,
+            },
+          }
+        );
+      });
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <div className="min-h-screen relative overflow-x-hidden">
 

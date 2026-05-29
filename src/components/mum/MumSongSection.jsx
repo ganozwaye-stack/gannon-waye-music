@@ -59,7 +59,7 @@ export default function MumSongSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="border border-primary/22 rounded-2xl p-8 text-center"
+          className="gsap-reveal border border-primary/22 rounded-2xl p-8 text-center"
           style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.04) 0%, transparent 70%), rgba(0,0,0,0.2)' }}
         >
           <MovingHeart size="sm" />

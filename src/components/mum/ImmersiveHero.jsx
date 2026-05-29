@@ -5,6 +5,42 @@ import MovingHeart from './MovingHeart';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
+// Floating card — uses numeric pixel offsets so Framer can animate them
+function FloatingCard({ card, index, prefersReduced }) {
+  // Convert percentage strings to fixed pixel offsets for animatable values
+  const positions = [
+    { left: -280, top: -120 },
+    { left: 200, top: -100 },
+    { left: -250, top: 120 },
+    { left: 180, top: 140 },
+  ];
+  const pos = positions[index] || { left: 0, top: 0 };
+
+  return (
+    <motion.div
+      className="absolute z-[5] hidden md:block pointer-events-none"
+      style={{ left: '50%', top: '50%', marginLeft: pos.left, marginTop: pos.top }}
+      initial={{ opacity: 0, scale: 0.85, rotate: card.rotate, y: 0 }}
+      animate={prefersReduced
+        ? { opacity: 0.3, scale: 1, rotate: card.rotate, y: 0 }
+        : { opacity: 0.38, scale: 1, rotate: card.rotate, y: [0, -10, 0] }
+      }
+      transition={{
+        opacity: { delay: card.delay + 1.2, duration: 0.8 },
+        scale: { delay: card.delay + 1.2, duration: 0.8 },
+        y: { duration: 4 + index, repeat: Infinity, ease: 'easeInOut', delay: card.delay + 1.2 },
+      }}
+    >
+      <div
+        className="w-28 h-28 md:w-36 md:h-36 rounded-xl overflow-hidden border border-primary/20"
+        style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.15)' }}
+      >
+        <img src={card.url} alt={card.alt} className="w-full h-full object-cover" loading="lazy" />
+      </div>
+    </motion.div>
+  );
+}
+
 // Real Sonia photos for floating memory cards
 const FLOAT_CARDS = [
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a318d431c_30A6307B-653A-406E-9CBD-1288498D26C9.jpg', alt: 'Gannon and Mum', rotate: -6, x: '-72%', y: '15%', delay: 0 },
@@ -115,19 +151,7 @@ export default function ImmersiveHero() {
 
       {/* ── Layer 4: Floating memory photo cards ── */}
       {FLOAT_CARDS.map((card, i) => (
-        <motion.div
-          key={i}
-          className="absolute z-[5] hidden md:block pointer-events-none"
-          style={{ left: '50%', top: '50%', x: card.x, y: card.y }}
-          initial={{ opacity: 0, scale: 0.85, rotate: card.rotate }}
-          animate={{ opacity: 0.35, scale: 1, rotate: card.rotate, y: [card.y, `calc(${card.y} - 8px)`, card.y] }}
-          transition={{ delay: card.delay + 1.5, duration: 0.8, y: { duration: 4 + i, repeat: Infinity, ease: 'easeInOut', delay: card.delay } }}
-        >
-          <div className="w-28 h-28 md:w-36 md:h-36 rounded-xl overflow-hidden border border-primary/20 shadow-2xl"
-            style={{ boxShadow: '0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,175,55,0.12)' }}>
-            <img src={card.url} alt={card.alt} className="w-full h-full object-cover" loading="lazy" />
-          </div>
-        </motion.div>
+        <FloatingCard key={i} card={card} index={i} prefersReduced={prefersReduced} />
       ))}
 
       {/* ── Layer 5: Gold floating particles ── */}

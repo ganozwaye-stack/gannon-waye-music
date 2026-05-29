@@ -21,7 +21,7 @@ export default function MumStorySection() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="bg-card/25 backdrop-blur-sm border border-primary/10 rounded-3xl p-8 md:p-12"
+        className="gsap-reveal bg-card/25 backdrop-blur-sm border border-primary/10 rounded-3xl p-8 md:p-12"
         style={{ boxShadow: '0 0 60px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(212,175,55,0.05)' }}
       >
         <div className="font-body text-foreground/72 leading-relaxed text-base space-y-5">
