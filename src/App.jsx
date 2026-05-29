@@ -57,6 +57,7 @@ import MerchFeedback from '@/pages/MerchFeedback';
 import Tour from '@/pages/Tour';
 import FoundingSupporterPage from '@/pages/FoundingSupporter';
 import MumTribute from '@/pages/MumTribute';
+import MerchReelPage from '@/components/mum/MerchReelPage';
 import CheckoutSuccess from '@/pages/CheckoutSuccess';
 import CheckoutCancel from '@/pages/CheckoutCancel';
 
@@ -300,6 +301,7 @@ const AuthenticatedApp = () => {
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/mum" element={<MumTribute />} />
         <Route path="/without-you-here" element={<MumTribute />} />
+        <Route path="/merch-reel" element={<MerchReelPage />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/store/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/payment-success" element={<CheckoutSuccess />} />

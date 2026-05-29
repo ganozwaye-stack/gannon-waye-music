@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import HeartOfGold from './HeartOfGold';
 
 // The approved tribute artwork — Sonia with burgundy robe, dogs, garden, gold heart, swallow emblem
 // Version with album cover on the mug (image 4 from the approved set)
@@ -9,68 +10,7 @@ const HERO_ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb418001
 // Cinematic hero direction artwork (image 2)
 const HERO_CINEMATIC = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4405e92ec_image.png';
 
-// HeartOfGold SVG emblem
-function HeartOfGold() {
-  return (
-    <motion.div
-      className="flex items-center justify-center mb-6"
-      animate={{ filter: ['drop-shadow(0 0 8px rgba(212,175,55,0.3))', 'drop-shadow(0 0 18px rgba(212,175,55,0.55))', 'drop-shadow(0 0 8px rgba(212,175,55,0.3))'] }}
-      transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-    >
-      <svg viewBox="0 0 180 160" width="120" height="107" fill="none" xmlns="http://www.w3.org/2000/svg">
-        {/* Heart outline */}
-        <motion.path
-          d="M90 148 C 20 88 5 40 38 14 C 62 -4 84 8 90 30 C 96 8 118 -4 142 14 C 175 40 160 88 90 148 Z"
-          stroke="rgba(212,175,55,0.9)"
-          strokeWidth="2.5"
-          fill="rgba(212,175,55,0.05)"
-          animate={{ scale: [1, 1.04, 1], opacity: [0.82, 1, 0.82] }}
-          transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
-          style={{ transformOrigin: '90px 80px' }}
-        />
-        {/* Inner glow */}
-        <motion.ellipse
-          cx="90" cy="80"
-          rx="42" ry="38"
-          fill="rgba(212,175,55,0.06)"
-          animate={{ opacity: [0.1, 0.3, 0.1], ry: [38, 42, 38] }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        {/* Swallow silhouette */}
-        <path
-          d="M72 72 C 65 62 54 60 50 65 C 47 69 52 74 60 73 C 64 73 68 75 72 72 Z M 108 72 C 115 62 126 60 130 65 C 133 69 128 74 120 73 C 116 73 112 75 108 72 Z M 72 72 C 80 68 90 62 90 62 C 90 62 100 68 108 72 C 100 76 90 82 90 82 C 90 82 80 76 72 72 Z"
-          fill="rgba(212,175,55,0.75)"
-        />
-        {/* MUM text */}
-        <text
-          x="90" y="106"
-          textAnchor="middle"
-          fill="rgba(212,175,55,0.9)"
-          fontSize="13"
-          fontFamily="Georgia, serif"
-          letterSpacing="4"
-          style={{ textTransform: 'uppercase' }}
-        >MUM</text>
-        {/* Orbit shimmer dots */}
-        {[0, 60, 120, 180, 240, 300].map((deg, i) => {
-          const rad = (deg * Math.PI) / 180;
-          const cx = 90 + 68 * Math.cos(rad);
-          const cy = 75 + 58 * Math.sin(rad);
-          return (
-            <motion.circle
-              key={i}
-              cx={cx} cy={cy}
-              r="1.5"
-              fill="rgba(212,175,55,0.6)"
-              animate={{ opacity: [0.2, 0.8, 0.2] }}
-              transition={{ duration: 2.4, repeat: Infinity, delay: i * 0.4, ease: 'easeInOut' }}
-            />
-          );
-        })}
-      </svg>
-    </motion.div>
-  );
-}
+
 
 export default function ImmersiveHero() {
   const containerRef = useRef(null);
@@ -180,8 +120,9 @@ export default function ImmersiveHero() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, delay: 0.3 }}
+            className="flex justify-center"
           >
-            <HeartOfGold />
+            <HeartOfGold size="lg" />
           </motion.div>
 
           <motion.p
