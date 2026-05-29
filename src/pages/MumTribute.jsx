@@ -11,6 +11,7 @@ import MemoryWall3D from '@/components/mum/MemoryWall3D';
 import MumSongSection from '@/components/mum/MumSongSection';
 import WisdomGarden from '@/components/mum/WisdomGarden';
 import MumLetterSection from '@/components/mum/MumLetterSection';
+import GardenAtmosphere from '@/components/mum/GardenAtmosphere';
 
 function GoldDivider() {
   return (
@@ -94,7 +95,9 @@ export default function MumTribute() {
         <GoldDivider />
         <MumSongSection />
         <GoldDivider />
-        <WisdomGarden />
+        <GardenAtmosphere>
+          <WisdomGarden />
+        </GardenAtmosphere>
         <GoldDivider />
         <MumLetterSection />
       </div>

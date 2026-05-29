@@ -1,101 +1,136 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import MovingHeart from './MovingHeart';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
+import MovingHeart from './MovingHeart';
+
+const LETTER_LINES = [
+  'Mum, I miss you more than words can hold.',
+  'You were my best friend, my safe place, my wisdom, my sounding board, my protector, and one of the greatest loves of my life.',
+  'So much of who I am still reaches for you.',
+  'Sometimes I still go to call you.',
+  'Sometimes I still need your voice.',
+  'Sometimes I still cannot believe you are not here.',
+  'But I also know this.',
+  'The love you gave me did not end.',
+  'It lives on in me.',
+  'In how I love.',
+  'In what I survive.',
+  'In what I create.',
+  'In the songs I write.',
+  'In the parts of me that keep going.',
+  'Thank you for loving me so deeply.',
+  'Thank you for seeing me.',
+  'Thank you for being home.',
+  'I will carry you with me, always.',
+];
 
 export default function MumLetterSection() {
   return (
-    <>
-      {/* Carrying Her With Me */}
-      <section className="px-4 md:px-8 max-w-3xl mx-auto py-20">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-          <p className="font-body text-[10px] tracking-[0.5em] uppercase gradient-gold-glow mb-3">Carrying Her With Me</p>
-        </motion.div>
+    <section className="px-4 md:px-8 max-w-2xl mx-auto py-24">
+
+      {/* Heading */}
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+        className="text-center mb-12 gsap-reveal"
+      >
+        <p className="font-body text-[9px] tracking-[0.6em] uppercase text-primary/40 mb-3">A Letter To Mum</p>
+        <h2 className="font-display text-4xl md:text-5xl text-foreground">A Letter To Mum</h2>
+      </motion.div>
+
+      {/* Letter card */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.2 }}
+        className="relative rounded-3xl p-8 md:p-12"
+        style={{
+          background: 'linear-gradient(145deg, rgba(22,8,16,0.95) 0%, rgba(18,10,8,0.9) 100%)',
+          border: '1px solid rgba(212,175,55,0.15)',
+          boxShadow: '0 0 60px rgba(212,175,55,0.06), 0 20px 60px rgba(0,0,0,0.5)',
+        }}
+      >
+        {/* Gold top edge glow */}
+        <div className="absolute top-0 left-1/4 right-1/4 h-px" style={{
+          background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.4), transparent)'
+        }} />
+
+        <div className="space-y-4">
+          {LETTER_LINES.map((line, i) => (
+            <motion.p
+              key={i}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.04 }}
+              className={`font-body leading-relaxed ${
+                line === 'But I also know this.'
+                  ? 'text-foreground/90 font-medium mt-8'
+                  : line.startsWith('Thank you')
+                    ? 'text-foreground/80'
+                    : ['It lives on in me.', 'In how I love.', 'In what I survive.', 'In what I create.', 'In the songs I write.', 'In the parts of me that keep going.'].includes(line)
+                      ? 'text-primary/70 pl-4 text-sm'
+                      : 'text-foreground/65'
+              }`}
+            >
+              {line}
+            </motion.p>
+          ))}
+        </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="bg-card/25 border border-primary/10 rounded-3xl p-8 md:p-10 mb-8"
+          transition={{ delay: 0.8 }}
+          className="mt-10 pt-8 border-t border-primary/10 flex flex-col items-end gap-1"
         >
-          <div className="font-body text-foreground/70 leading-relaxed text-base space-y-5">
-            <p>Some love does not disappear. It changes form.</p>
-            <p>It becomes memory, ritual, grief, instinct, and presence.</p>
-            <p>I carry my mum with me in the things I remember, the choices I make, the love I give, and the parts of me that survived because of her.</p>
-          </div>
-          <div className="border-l-2 border-primary/40 pl-5 my-8">
-            <p className="font-display text-xl md:text-2xl italic text-foreground/82">
-              "Even while leaving, you were still loving me."
-            </p>
-          </div>
-          <div className="rounded-xl overflow-hidden border border-primary/10">
-            <img
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f739f95a9_7A480C51-5118-4A98-899B-6885A7AC415A.jpg"
-              alt="From Mum's chest to mine — swallow tattoo tribute"
-              className="w-full object-cover max-h-80"
-              loading="lazy"
-            />
-          </div>
-          <p className="font-body text-xs text-muted-foreground/45 text-center mt-3 italic">From her chest to mine. A swallow, always flying home.</p>
-        </motion.div>
-      </section>
-
-      {/* Letter to Mum */}
-      <section className="px-4 md:px-8 max-w-3xl mx-auto py-12">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-          <p className="font-body text-[10px] tracking-[0.5em] uppercase gradient-gold-glow mb-3">A Letter To Mum</p>
+          <p className="font-body text-sm text-muted-foreground/50">Love always,</p>
+          <p className="font-display text-2xl text-foreground/70 italic">Gannon</p>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="bg-card/25 border border-primary/10 rounded-3xl p-8 md:p-12"
-        >
-          <div className="font-body text-foreground/72 leading-relaxed text-base space-y-5 italic">
-            <p>Mum,</p>
-            <p>I miss you more than words can hold.</p>
-            <p>You were my best friend, my safe place, my wisdom, my sounding board, my protector, and one of the greatest loves of my life.</p>
-            <p>So much of who I am still reaches for you.</p>
-            <p>Sometimes I still go to call you.<br />Sometimes I still need your voice.<br />Sometimes I still cannot believe you are not here.</p>
-            <p>But I also know this.</p>
-            <p>The love you gave me did not end.</p>
-            <p>It lives on in me.<br />In how I love.<br />In what I survive.<br />In what I create.<br />In the songs I write.<br />In the parts of me that keep going.</p>
-            <p>Thank you for loving me so deeply.<br />Thank you for seeing me.<br />Thank you for being home.</p>
-            <p>I will carry you with me, always.</p>
-          </div>
-          <div className="mt-8 pt-8 border-t border-primary/10">
-            <p className="font-body text-sm text-foreground/55 not-italic">Love always,</p>
-            <p className="font-display text-2xl gradient-gold-glow mt-1">Gannon x</p>
-          </div>
-        </motion.div>
-      </section>
+        {/* Bottom gold edge glow */}
+        <div className="absolute bottom-0 left-1/4 right-1/4 h-px" style={{
+          background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.25), transparent)'
+        }} />
+      </motion.div>
 
       {/* Forever Loved closing */}
-      <section className="px-4 md:px-8 max-w-2xl mx-auto py-20 text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="space-y-6"
-        >
-          <p className="font-body text-[10px] tracking-[0.5em] uppercase gradient-gold-glow">Forever Loved</p>
-          <MovingHeart size="lg" showLabel={true} label="Still carrying your love" />
-          <p className="font-display text-2xl md:text-3xl text-foreground/60 italic mt-4">
-            Some people leave the world,<br />but never leave the heart.
-          </p>
-          <p className="font-body text-sm text-muted-foreground/50 leading-relaxed">
-            Sonia Katisa Waye · 1961–2022 · Forever in our hearts
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
-            <Link to="/"><Button variant="outline" className="rounded-full border-primary/30 text-primary hover:bg-primary/10 font-body text-xs tracking-wider uppercase px-8 py-5">Back Home</Button></Link>
-            <Link to="/music"><Button className="rounded-full gradient-gold-button border-0 font-body text-xs tracking-wider uppercase px-8 py-5">Explore My Music</Button></Link>
-          </div>
-        </motion.div>
-      </section>
-    </>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.3 }}
+        className="text-center mt-20"
+      >
+        <p className="font-body text-[9px] tracking-[0.6em] uppercase text-primary/40 mb-4">Forever Loved</p>
+        <p className="font-display text-2xl md:text-3xl text-foreground/70 italic leading-relaxed mb-2">
+          Some people leave the world,<br />but never leave the heart.
+        </p>
+        <p className="font-body text-xs text-muted-foreground/40 mb-8 tracking-wider">Still carrying your love.</p>
+
+        <MovingHeart size="sm" />
+
+        <p className="font-body text-xs text-muted-foreground/30 italic mt-6 mb-10">
+          Thank you for spending a moment with her.
+        </p>
+
+        <div className="flex flex-wrap justify-center gap-4">
+          <Link to="/">
+            <button className="rounded-full border border-border/30 text-muted-foreground/60 hover:text-foreground transition-colors font-body text-xs tracking-wider uppercase px-7 py-3">
+              Back Home
+            </button>
+          </Link>
+          <Link to="/music">
+            <button className="rounded-full gradient-gold-button font-body text-xs tracking-wider uppercase px-7 py-3">
+              Explore My Music
+            </button>
+          </Link>
+        </div>
+      </motion.div>
+    </section>
   );
 }

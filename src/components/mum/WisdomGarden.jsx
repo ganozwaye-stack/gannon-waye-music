@@ -33,6 +33,11 @@ const WISDOM = {
     icon: '♥',
     response: 'You were loved before you knew how to explain yourself, and you are still worthy of love now. Exactly as you are. Right now. No conditions.',
   },
+  cheeky: {
+    label: 'I need a cheeky laugh',
+    icon: '😄',
+    response: 'Have a cry, have a coffee, swear if you need to, then get yourself together, boy. You have things to do. And yes — you still look ridiculous when you\'re being dramatic.',
+  },
 };
 
 export default function WisdomGarden() {
@@ -126,9 +131,14 @@ export default function WisdomGarden() {
         </motion.div>
       )}
 
+      {/* Disclaimer */}
+      <p className="font-body text-[9px] text-muted-foreground/25 text-center mt-6 leading-relaxed max-w-sm mx-auto italic">
+        Inspired by Sonia's love and Gannon's memories. Not a replacement for Sonia. Not medical, legal, crisis, or therapy advice.
+      </p>
+
       {/* Safety note */}
-      <p className="font-body text-[9px] text-muted-foreground/25 text-center mt-8 leading-relaxed max-w-sm mx-auto">
-        If you are in immediate danger or need emergency support, please contact Lifeline on 13 11 14 or Beyond Blue on 1300 22 4636.
+      <p className="font-body text-[9px] text-muted-foreground/25 text-center mt-3 leading-relaxed max-w-sm mx-auto">
+        If you are in immediate danger or need urgent support, contact emergency services, Lifeline <strong className="text-muted-foreground/35">13 11 14</strong>, or Beyond Blue <strong className="text-muted-foreground/35">1300 22 4636</strong>.
       </p>
     </section>
   );
