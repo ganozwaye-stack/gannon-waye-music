@@ -29,63 +29,61 @@ export default function MumSongSection() {
         className="text-center mb-12"
       >
         <p className="font-body text-[10px] tracking-[0.5em] uppercase gradient-gold-glow mb-3">Without You Here</p>
-        <p className="font-body text-xs text-muted-foreground/60">Written in the early hours of Mother's Day, 10 May 2026</p>
+        <p className="font-body text-xs text-muted-foreground/50">Written in the early hours of Mother's Day, 10 May 2026</p>
       </motion.div>
 
       <div className="space-y-6">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="bg-card/30 border border-primary/10 rounded-3xl p-8 md:p-10"
+          transition={{ duration: 0.7 }}
+          className="bg-card/25 border border-primary/10 rounded-3xl p-8 md:p-10"
         >
-          <p className="font-body text-foreground/70 leading-relaxed text-base mb-6">
+          <p className="font-body text-foreground/68 leading-relaxed text-base mb-5">
             "Without You Here" was written in the early hours of Mother's Day, four years after losing my mum.
           </p>
-          <p className="font-body text-foreground/70 leading-relaxed text-base mb-6">
+          <p className="font-body text-foreground/68 leading-relaxed text-base mb-5">
             It came from grief, longing, memory, and the unbearable reality of learning how to keep living after losing the person who grounded so much of my world.
           </p>
-          <p className="font-body text-foreground/70 leading-relaxed text-base">
+          <p className="font-body text-foreground/68 leading-relaxed text-base">
             This song is for the voice I still reach for.<br />
             The wisdom I still miss.<br />
             The love that never left me, even after she did.
           </p>
         </motion.div>
 
-        {/* Primary hook */}
+        {/* Primary lyric hook card */}
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="border border-primary/20 rounded-2xl p-8 text-center backdrop-blur-sm bg-black/20"
+          transition={{ delay: 0.2 }}
+          className="border border-primary/22 rounded-2xl p-8 text-center"
+          style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.04) 0%, transparent 70%), rgba(0,0,0,0.2)' }}
         >
           <MovingHeart size="sm" />
-          <p className="font-display text-2xl md:text-3xl italic text-foreground/90 leading-relaxed mt-5 mb-3">
+          <p className="font-display text-2xl md:text-3xl italic text-foreground/88 leading-relaxed mt-5 mb-4">
             "Your last breath took mine away,<br />
             there's not much more I have to say."
           </p>
-          <div className="w-12 h-px bg-primary/30 mx-auto my-4" />
-          <p className="font-display text-lg italic text-foreground/60 leading-relaxed">
+          <div className="w-10 h-px bg-primary/25 mx-auto my-4" />
+          <p className="font-display text-lg italic text-foreground/55 leading-relaxed">
             "I don't wanna live this life without my mama,<br />
             but somehow I know I have to."
           </p>
         </motion.div>
 
-        {/* Expand lyrics */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center"
-        >
+        {/* Expandable lyrics */}
+        <div className="text-center">
           <button
             onClick={() => setLyricsOpen(!lyricsOpen)}
-            className="inline-flex items-center gap-2 font-body text-xs tracking-wider uppercase text-primary/60 hover:text-primary transition-colors border border-primary/20 rounded-full px-6 py-2.5"
+            className="inline-flex items-center gap-2 font-body text-xs tracking-wider uppercase text-primary/55 hover:text-primary transition-colors border border-primary/18 rounded-full px-6 py-2.5"
           >
             {lyricsOpen ? 'Close Lyrics' : 'Read Full Lyrics'}
             <ChevronDown className={`w-3 h-3 transition-transform ${lyricsOpen ? 'rotate-180' : ''}`} />
           </button>
-        </motion.div>
+        </div>
 
         <AnimatePresence>
           {lyricsOpen && (
@@ -96,11 +94,11 @@ export default function MumSongSection() {
               transition={{ duration: 0.5 }}
               className="overflow-hidden"
             >
-              <div className="bg-card/30 border border-primary/10 rounded-2xl p-8">
-                <pre className="font-display text-base italic text-foreground/70 leading-relaxed whitespace-pre-wrap text-center">
+              <div className="bg-card/25 border border-primary/10 rounded-2xl p-8">
+                <pre className="font-display text-base italic text-foreground/65 leading-relaxed whitespace-pre-wrap text-center">
                   {LYRICS}
                 </pre>
-                <p className="font-body text-[10px] text-muted-foreground/40 text-center mt-6 tracking-widest uppercase">
+                <p className="font-body text-[10px] text-muted-foreground/35 text-center mt-6 tracking-widest uppercase">
                   Written · Mother's Day · 10 May 2026 · 12:30am
                 </p>
               </div>
