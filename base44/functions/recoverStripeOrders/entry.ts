@@ -38,7 +38,7 @@ Deno.serve(async (req) => {
   const body = await req.json().catch(() => ({}));
   const { action, session_id, limit = 50 } = body;
 
-  // ── SCAN: list Stripe sessions that have no MerchOrder ──
+  // ── SCAN: list Stripe sessions — detect missing AND duplicate orders ──
   if (!action || action === 'scan') {
     let stripeSessions = [];
     try {
@@ -51,16 +51,18 @@ Deno.serve(async (req) => {
       return Response.json({ error: `Failed to list Stripe sessions: ${e.message}` }, { status: 500 });
     }
 
-    // Compare against MerchOrder records
     const missing = [];
     const found = [];
+    const duplicates = [];
 
     for (const session of stripeSessions) {
-      let orderExists = false;
+      let sessionOrders = [];
       try {
-        const orders = await base44.asServiceRole.entities.MerchOrder.filter({ stripe_session_id: session.id });
-        orderExists = orders && orders.length > 0;
+        sessionOrders = await base44.asServiceRole.entities.MerchOrder.filter({ stripe_session_id: session.id }) || [];
       } catch (_) {}
+
+      const activeOrders = sessionOrders.filter(o => o.status !== 'duplicate' && o.financial_status !== 'duplicate_void');
+      const voidOrders = sessionOrders.filter(o => o.status === 'duplicate' || o.financial_status === 'duplicate_void');
 
       const meta = session.metadata || {};
       const sessionData = {
@@ -77,41 +79,77 @@ Deno.serve(async (req) => {
           } catch { return meta.product_name || 'Unknown'; }
         })() : (meta.product_name || 'Unknown'),
         created: new Date(session.created * 1000).toISOString(),
-        order_exists: orderExists,
+        order_exists: activeOrders.length > 0,
+        active_order_count: activeOrders.length,
+        void_order_count: voidOrders.length,
+        active_order_ids: activeOrders.map(o => o.id),
         promo_code: meta.promo_code || '',
         shipping_address: meta.shipping_address || '',
       };
 
-      if (orderExists) {
+      if (activeOrders.length > 1) {
+        // Multiple active orders for same session = duplicates
+        duplicates.push({ ...sessionData, duplicate_active_orders: activeOrders.map(o => ({ id: o.id, created: o.created_date })) });
+        found.push(sessionData);
+      } else if (activeOrders.length === 1) {
         found.push(sessionData);
       } else {
         missing.push(sessionData);
       }
     }
 
+    const duplicateRevenue = duplicates.reduce((sum, s) => sum + (s.amount_total || 0) * (s.active_order_count - 1), 0);
+
     return Response.json({
       scanned: stripeSessions.length,
       orders_found: found.length,
       orders_missing: missing.length,
+      duplicate_orders_count: duplicates.length,
+      duplicate_revenue_amount: duplicateRevenue,
+      inventory_double_decrement_risk: duplicates.length > 0,
+      donation_double_count_risk: duplicates.length > 0,
       missing_sessions: missing,
       found_sessions: found,
+      duplicate_sessions: duplicates,
       recovery_needed: missing.length > 0,
       stripe_mode: secretKey.startsWith('sk_live_') ? 'live' : 'test',
       scan_timestamp: new Date().toISOString(),
     });
   }
 
+  // ── MARK DUPLICATE: void a specific order ID as duplicate ──
+  if (action === 'mark_duplicate' && body.order_id && body.active_order_id) {
+    try {
+      await base44.asServiceRole.entities.MerchOrder.update(body.order_id, {
+        status: 'duplicate',
+        financial_status: 'duplicate_void',
+        fulfillment_status: 'do_not_ship',
+        duplicate_of_order_id: body.active_order_id,
+        excluded_from_revenue: true,
+        excluded_from_inventory: true,
+        excluded_from_profit: true,
+        excluded_from_1800respect_donation: true,
+        admin_note: `Duplicate order detected by recovery scanner. Same Stripe session as active order ${body.active_order_id}. Voided ${new Date().toISOString()}.`,
+      });
+      return Response.json({ success: true, voided_order_id: body.order_id, active_order_id: body.active_order_id });
+    } catch (e) {
+      return Response.json({ error: `Failed to mark duplicate: ${e.message}` }, { status: 500 });
+    }
+  }
+
   // ── RECOVER: create MerchOrder from a specific Stripe session ──
   if (action === 'recover' && session_id) {
-    // Idempotency check
+    // Strict idempotency check — refuse if ANY active (non-void) order exists for this session
     try {
       const existing = await base44.asServiceRole.entities.MerchOrder.filter({ stripe_session_id: session_id });
-      if (existing && existing.length > 0) {
+      const activeExisting = (existing || []).filter(o => o.status !== 'duplicate' && o.financial_status !== 'duplicate_void');
+      if (activeExisting.length > 0) {
         return Response.json({
           success: false,
           reason: 'order_already_exists',
-          message: `MerchOrder already exists for session ${session_id}`,
-          order_id: existing[0].id,
+          message: `Active MerchOrder already exists for session ${session_id} — recovery skipped to prevent duplicate`,
+          order_id: activeExisting[0].id,
+          all_order_count: existing.length,
         });
       }
     } catch (_) {}

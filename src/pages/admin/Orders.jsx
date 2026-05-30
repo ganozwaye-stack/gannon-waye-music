@@ -10,7 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
-import { Package, Send, Mail, FileText, MapPin, User, DollarSign, Calendar, TrendingUp, ShoppingBag, Printer, Download, Eye, Pencil, CheckCircle, Clock, Truck } from 'lucide-react';
+import { Package, Send, Mail, FileText, MapPin, User, DollarSign, Calendar, TrendingUp, ShoppingBag, Printer, Download, Eye, Pencil, CheckCircle, Clock, Truck, AlertTriangle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
@@ -21,7 +21,11 @@ const STATUS_COLORS = {
   shipped: 'bg-chart-2/20 text-chart-2',
   delivered: 'bg-chart-2/30 text-chart-2',
   cancelled: 'bg-destructive/20 text-destructive',
+  duplicate: 'bg-gray-500/20 text-gray-400',
+  needs_admin_review: 'bg-orange-500/20 text-orange-400',
 };
+
+const isDuplicate = (order) => order.status === 'duplicate' || order.financial_status === 'duplicate_void';
 
 const STATUS_ICONS = {
   pending: Clock,
@@ -35,7 +39,7 @@ export default function Orders() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [selected, setSelected] = useState(null);
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('active');
   const [searchTerm, setSearchTerm] = useState('');
   const [dateRange, setDateRange] = useState('all');
   const [sendingEmail, setSendingEmail] = useState(false);
@@ -112,10 +116,15 @@ export default function Orders() {
     return `ORDER RECEIPT\n\nOrder #${order.id.slice(-6)}\nDate: ${order.created_date ? format(new Date(order.created_date), 'PPP') : ''}\n\nCustomer: ${order.customer_name}\nEmail: ${order.customer_email}\nShipping: ${order.shipping_address}\n\nItems:\n${itemsText}\n\nTotal: $${order.total_amount?.toFixed(2)} AUD\nStatus: ${order.status}\n\nThank you for your support!`;
   };
 
-  // Advanced filtering
+  // Separate active vs duplicate orders
+  const activeOrders = useMemo(() => orders.filter(o => !isDuplicate(o)), [orders]);
+  const duplicateOrders = useMemo(() => orders.filter(o => isDuplicate(o)), [orders]);
+
+  // Advanced filtering — duplicates only shown in 'duplicates' filter
   const filtered = useMemo(() => {
-    return orders.filter(order => {
-      const statusMatch = statusFilter === 'all' || order.status === statusFilter;
+    const pool = statusFilter === 'duplicates' ? duplicateOrders : activeOrders;
+    return pool.filter(order => {
+      const statusMatch = statusFilter === 'all' || statusFilter === 'duplicates' || order.status === statusFilter;
       const searchMatch = !searchTerm || 
         order.customer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         order.customer_email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -138,18 +147,20 @@ export default function Orders() {
       
       return statusMatch && searchMatch && dateMatch;
     });
-  }, [orders, statusFilter, searchTerm, dateRange]);
+  }, [orders, activeOrders, duplicateOrders, statusFilter, searchTerm, dateRange]);
 
-  // Analytics
+  // Analytics — ONLY from active (non-duplicate) orders
   const analytics = useMemo(() => {
-    const total = orders.length;
-    const revenue = orders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
-    const pending = orders.filter(o => o.status === 'pending').length;
-    const shipped = orders.filter(o => o.status === 'shipped' || o.status === 'delivered').length;
+    const total = activeOrders.length;
+    const revenue = activeOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
+    const pending = activeOrders.filter(o => o.status === 'pending').length;
+    const shipped = activeOrders.filter(o => o.status === 'shipped' || o.status === 'delivered').length;
     const avgOrderValue = total > 0 ? revenue / total : 0;
+    const duplicateCount = duplicateOrders.length;
+    const duplicateRevenue = duplicateOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
     
-    return { total, revenue, pending, shipped, avgOrderValue };
-  }, [orders]);
+    return { total, revenue, pending, shipped, avgOrderValue, duplicateCount, duplicateRevenue };
+  }, [activeOrders, duplicateOrders]);
 
   // Get product details
   const getProductDetails = (productId) => {
@@ -163,7 +174,10 @@ export default function Orders() {
         <div>
           <h1 className="font-display text-3xl text-foreground">Order Management</h1>
           <p className="font-body text-sm text-muted-foreground mt-1">
-            {orders.length} total orders · ${analytics.revenue.toFixed(2)} revenue · {analytics.pending} pending
+            {analytics.total} active orders · ${analytics.revenue.toFixed(2)} revenue · {analytics.pending} pending
+            {analytics.duplicateCount > 0 && (
+              <span className="ml-2 text-orange-400/70">· {analytics.duplicateCount} duplicate void excluded</span>
+            )}
           </p>
         </div>
         <div className="flex gap-2">
@@ -210,14 +224,16 @@ export default function Orders() {
           />
         </div>
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-40"><SelectValue placeholder="Status" /></SelectTrigger>
+          <SelectTrigger className="w-48"><SelectValue placeholder="Status" /></SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
+            <SelectItem value="active">Active Orders</SelectItem>
+            <SelectItem value="all">All Active Statuses</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="confirmed">Confirmed</SelectItem>
             <SelectItem value="shipped">Shipped</SelectItem>
             <SelectItem value="delivered">Delivered</SelectItem>
             <SelectItem value="cancelled">Cancelled</SelectItem>
+            <SelectItem value="duplicates">⚠ Duplicates / Voids</SelectItem>
           </SelectContent>
         </Select>
         <Select value={dateRange} onValueChange={setDateRange}>
@@ -231,17 +247,29 @@ export default function Orders() {
         </Select>
       </div>
 
+      {/* Duplicate warning banner */}
+      {analytics.duplicateCount > 0 && statusFilter !== 'duplicates' && (
+        <div className="border border-orange-500/40 bg-orange-500/10 rounded-xl p-3 flex items-center gap-3">
+          <AlertTriangle className="w-4 h-4 text-orange-400 shrink-0" />
+          <p className="text-sm text-orange-300">
+            {analytics.duplicateCount} duplicate void order{analytics.duplicateCount > 1 ? 's' : ''} excluded from totals (${analytics.duplicateRevenue.toFixed(2)} AUD). 
+            <button className="underline ml-1" onClick={() => setStatusFilter('duplicates')}>View duplicates</button>
+          </p>
+        </div>
+      )}
+
       {/* Orders List */}
       <div className="space-y-3">
         {filtered.map((order, i) => {
-          const StatusIcon = STATUS_ICONS[order.status] || Package;
+          const isVoid = isDuplicate(order);
+          const StatusIcon = isVoid ? AlertTriangle : (STATUS_ICONS[order.status] || Package);
           return (
             <motion.div
               key={order.id}
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.02 }}
-              className="bg-card border border-border/40 rounded-xl p-4 hover:border-primary/20 transition-colors cursor-pointer"
+              className={`bg-card border rounded-xl p-4 hover:border-primary/20 transition-colors cursor-pointer ${isVoid ? 'border-orange-500/30 opacity-70' : 'border-border/40'}`}
               onClick={() => setSelected(order)}
             >
               <div className="flex items-center justify-between flex-wrap gap-4">
@@ -266,9 +294,12 @@ export default function Orders() {
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Badge className={`text-[10px] tracking-widest uppercase ${STATUS_COLORS[order.status] || 'bg-secondary text-muted-foreground'}`}>
-                    {order.status}
-                  </Badge>
+                {isDuplicate(order) && (
+                  <Badge className="text-[10px] tracking-widest uppercase bg-orange-500/20 text-orange-400">DUPLICATE VOID</Badge>
+                )}
+                <Badge className={`text-[10px] tracking-widest uppercase ${STATUS_COLORS[order.status] || 'bg-secondary text-muted-foreground'}`}>
+                  {order.status}
+                </Badge>
                   <p className="font-display text-xl text-primary">${order.total_amount?.toFixed(2)}</p>
                   <Button size="sm" variant="outline" className="gap-1">
                     <Eye className="w-3 h-3" /> View

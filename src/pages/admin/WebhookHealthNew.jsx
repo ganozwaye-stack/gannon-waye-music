@@ -241,6 +241,42 @@ export default function WebhookHealthNew() {
                 </div>
               )}
 
+              {scanResults.duplicate_orders_count > 0 && (
+                <div className="border border-orange-500/40 bg-orange-500/10 rounded-lg p-3 space-y-2">
+                  <p className="text-xs font-semibold text-orange-300">⚠️ {scanResults.duplicate_orders_count} Stripe session(s) have MULTIPLE active MerchOrders (duplicates):</p>
+                  {scanResults.duplicate_sessions?.map(s => (
+                    <div key={s.session_id} className="border border-orange-500/20 rounded-lg p-3">
+                      <div className="flex items-start justify-between gap-3 flex-wrap">
+                        <div>
+                          <p className="font-semibold text-sm">{s.customer_name || s.customer_email}</p>
+                          <p className="text-xs text-muted-foreground">${s.amount_total?.toFixed(2)} AUD · {s.active_order_count} active orders for 1 payment</p>
+                          <p className="text-xs text-muted-foreground/50 font-mono break-all">{s.session_id}</p>
+                          <div className="text-xs text-muted-foreground mt-1">
+                            Active order IDs: {s.active_order_ids?.join(', ')}
+                          </div>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="text-xs border-orange-500/40 text-orange-300 shrink-0"
+                          onClick={() => {
+                            const keep = s.active_order_ids?.[0];
+                            const void_id = s.active_order_ids?.[1];
+                            if (!void_id) return;
+                            if (window.confirm(`Void duplicate order ${void_id}?\nKeep: ${keep}\n\nThis cannot be undone.`)) {
+                              base44.functions.invoke('recoverStripeOrders', { action: 'mark_duplicate', order_id: void_id, active_order_id: keep })
+                                .then(() => scanMissing.mutate());
+                            }
+                          }}
+                        >
+                          Resolve Duplicate
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
               {scanResults.missing_sessions?.length > 0 && (
                 <div className="space-y-2">
                   <p className="text-xs font-semibold text-red-300">⚠️ {scanResults.missing_sessions.length} payment(s) with no MerchOrder — admin recovery required:</p>

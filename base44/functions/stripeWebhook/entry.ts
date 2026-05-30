@@ -77,6 +77,30 @@ Deno.serve(async (req) => {
       const shippingCharged = parseFloat(meta.shipping_amount_aud || '0');
       const supportContribution = parseFloat(meta.add_support || '0');
 
+      // === IDEMPOTENCY CHECK — skip if order already exists for this session ===
+      try {
+        const existingOrders = await base44.asServiceRole.entities.MerchOrder.filter({ stripe_session_id: session.id });
+        const activeExisting = (existingOrders || []).filter(o => o.status !== 'duplicate' && o.financial_status !== 'duplicate_void');
+        if (activeExisting.length > 0) {
+          // Already processed — log duplicate skipped and return 200
+          await base44.asServiceRole.entities.StripeEventLog.create({
+            stripe_event_id: event.id,
+            event_type: event.type,
+            category: 'revenue',
+            priority: 'low',
+            processing_status: 'duplicate',
+            duplicate_detected: true,
+            stripe_object_id: session.id,
+            checkout_session_id: session.id,
+            safe_summary: `Duplicate skipped — active MerchOrder ${activeExisting[0].id} already exists for session ${session.id}`,
+            received_at: new Date().toISOString(),
+            processed_at: new Date().toISOString(),
+            source_chain: 'stripeWebhook → idempotency_check → duplicate_skipped',
+          }).catch(() => {});
+          return Response.json({ received: true, duplicate_skipped: true, existing_order_id: activeExisting[0].id });
+        }
+      } catch (_) {}
+
       // === CREATE MERCH ORDER ===
       let orderId = null;
       try {
