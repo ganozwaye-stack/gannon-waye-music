@@ -1,0 +1,107 @@
+{
+  "name": "BusinessProfileSettings",
+  "type": "object",
+  "properties": {
+    "business_name": {
+      "type": "string",
+      "default": "Gannon Waye Music"
+    },
+    "artist_name": {
+      "type": "string",
+      "default": "Gannon Waye"
+    },
+    "public_support_email": {
+      "type": "string",
+      "description": "Email shown to customers for support \u2014 confirm before making public"
+    },
+    "public_contact_email": {
+      "type": "string",
+      "description": "General public contact \u2014 confirm before making public"
+    },
+    "orders_email": {
+      "type": "string",
+      "description": "Email for order enquiries \u2014 confirm before making public"
+    },
+    "press_email": {
+      "type": "string"
+    },
+    "website_url": {
+      "type": "string",
+      "default": "https://gannonwaye.com"
+    },
+    "store_url": {
+      "type": "string",
+      "default": "https://gannonwaye.com/store"
+    },
+    "spotify_artist_url": {
+      "type": "string",
+      "default": "https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz"
+    },
+    "instagram_url": {
+      "type": "string"
+    },
+    "tiktok_url": {
+      "type": "string"
+    },
+    "youtube_url": {
+      "type": "string"
+    },
+    "facebook_url": {
+      "type": "string"
+    },
+    "metricool_profile_id": {
+      "type": "string"
+    },
+    "stripe_public_business_name": {
+      "type": "string",
+      "default": "Gannon Waye Music"
+    },
+    "stripe_support_email_instruction": {
+      "type": "string",
+      "description": "Instruction note for updating Stripe support email in dashboard"
+    },
+    "donation_statement": {
+      "type": "string",
+      "default": "10% of proceeds donated to 1800RESPECT."
+    },
+    "legal_footer_statement": {
+      "type": "string",
+      "default": "Independent artist store operated by Gannon Waye Music."
+    },
+    "abn_optional": {
+      "type": "string"
+    },
+    "business_address_optional": {
+      "type": "string"
+    },
+    "updated_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "business_name",
+    "artist_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

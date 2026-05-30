@@ -192,6 +192,8 @@ const NAV_SECTIONS = [
     title: 'Settings',
     items: [
       { label: 'Site Settings', path: '/admin/settings', icon: Settings },
+      { label: '⚙ Business Profile', path: '/admin/business-profile-settings', icon: Settings },
+      { label: '🎨 Merch Visual Lab', path: '/admin/merch-visual-lab', icon: Palette },
       { label: '🚀 Guided Setup Concierge', path: '/admin/guided-setup-concierge', icon: Shield },
       // alphabetical
       { label: 'System Blueprint', path: '/admin/system-blueprint', icon: Database },
