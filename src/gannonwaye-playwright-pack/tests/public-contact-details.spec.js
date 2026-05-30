@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = (typeof process !== 'undefined' && process.env.PLAYWRIGHT_BASE_URL) || 'https://gannonwaye.com';
+const BASE_URL = (typeof process !== 'undefined' && process.env?.PLAYWRIGHT_BASE_URL) || 'https://gannonwaye.com';
 
 test.describe('Public Contact Details — Safety Checks', () => {
 

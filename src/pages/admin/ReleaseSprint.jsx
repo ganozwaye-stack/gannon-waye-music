@@ -12,6 +12,7 @@ import {
 import { Link } from 'react-router-dom';
 
 const RELEASE_DATE = new Date('2026-06-05T00:00:00+10:00');
+const SPRINT_START = new Date('2026-05-31T00:00:00+10:00');
 const CAMPAIGN = 'thank_you_june5_sprint';
 
 const PLATFORM_META = {
@@ -33,19 +34,59 @@ const STATUS_META = {
   rejected: { label: 'Rejected', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/30' },
 };
 
-const SPRINT_THEMES = [
-  'Kickoff — emotional reveal, the gratitude angle',
-  'Raw story — what the song is really about',
-  'Behind the scenes — writing/studio process',
-  'Merch + CD pre-order CTA',
-  'Fan community love and appreciation',
-  'Lyric teaser — most emotional line',
-  'Countdown urgency — 5 days to go',
-  'Personal message to supporters',
-  'Final push — T-minus 2 days',
-  'June 4 — studio/recording day, release eve content',
-  'RELEASE DAY — June 5: Thank You is out now',
+// 6-day sprint: May 31 → June 5
+const SPRINT_DAYS_CONFIG = [
+  {
+    day: 1, date: '2026-05-31', label: 'Sat 31 May', theme: 'Countdown — 6 days until THANKYOU',
+    posts: [
+      { type: 'emotional', platform: 'tiktok', hook: '6 days until something that changed my life is yours.', caption: 'I wrote Thankyou during a time I never thought I\'d survive.\n\nThis song is not about staying broken.\nIt is about the moment you finally choose yourself.\n\n6 days until it\'s yours.', cta: 'Pre-save the link in bio. Follow the journey.', on_screen_text: 'THANKYOU IS COMING', hashtags: '#GannonWaye #Thankyou #NewMusic #CountdownToRelease #SurvivorStrong' },
+      { type: 'engagement', platform: 'instagram_feed', hook: 'What does "thank you" mean to you right now?', caption: 'Not the polite kind.\nThe kind that stops you mid-sentence because you actually mean it.\n\nDrop yours in the comments. 👇', cta: 'Comment what you\'re grateful for today.', on_screen_text: 'What does thank you mean to you?', hashtags: '#GannonWaye #Thankyou #Gratitude #Community' },
+      { type: 'conversion', platform: 'instagram_stories', hook: 'THANKYOU drops in 6 days.', caption: 'Swipe up to pre-save. Be there on release day.', cta: 'Pre-save now at the link in bio.', on_screen_text: '6 DAYS · PRE-SAVE NOW', hashtags: '' },
+    ],
+  },
+  {
+    day: 2, date: '2026-06-01', label: 'Sun 1 Jun', theme: 'Choosing yourself — the story behind the song',
+    posts: [
+      { type: 'emotional', platform: 'tiktok', hook: 'I wrote this song when I chose myself for the first time.', caption: 'There was a moment where I realised survival wasn\'t enough.\nI had to actually choose to live.\n\nThankyou is about that moment.\nNot just for me. For anyone who\'s ever had to fight to feel free.', cta: 'Follow. Pre-save. This one\'s for you.', on_screen_text: 'I chose myself', hashtags: '#GannonWaye #Thankyou #ChoosingYourself #MentalHealth #NewMusic' },
+      { type: 'engagement', platform: 'instagram_reels', hook: 'I\'m choosing me. Are you?', caption: 'Drop "I\'m choosing me" in the comments if this resonates.\n\nNo context needed. Just say it.', cta: 'Comment below. I read every single one.', on_screen_text: 'I\'m choosing me 💛', hashtags: '#ChoosingYourself #GannonWaye #Thankyou' },
+      { type: 'conversion', platform: 'instagram_feed', hook: 'This merch carries the message of the song.', caption: 'Thankyou is for the people who kept going when life tried to silence them.\n\n10% of proceeds donated to 1800RESPECT.', cta: 'Shop the message at gannonwaye.com/store', on_screen_text: 'WEAR THE MESSAGE', hashtags: '#GannonWaye #MerchWithMeaning #1800RESPECT #Thankyou' },
+    ],
+  },
+  {
+    day: 3, date: '2026-06-02', label: 'Mon 2 Jun', theme: 'Sound teaser — first 10 seconds + lyric meaning',
+    posts: [
+      { type: 'emotional', platform: 'tiktok', hook: 'Hear the first 10 seconds of Thankyou. [NEEDS TIMESTAMP]', caption: 'This is the part that broke me open when I wrote it.\n\nThe lyric that hit hardest:\n"Your last breath took mine away, there\'s not much more I have to say."\n\nWhat line hits you?', cta: 'Comment the lyric that gets you.', on_screen_text: 'What line hit you? 🎵', hashtags: '#GannonWaye #Thankyou #NewMusicTeaser #LyricVideo' },
+      { type: 'engagement', platform: 'instagram_stories', hook: 'Poll: Which lyric hits harder?', caption: '"Your last breath took mine away" vs "Respect is earned. Not a game you make me play." — which one stops you?', cta: 'Vote in the poll.', on_screen_text: 'WHICH LINE HITS YOU?', hashtags: '' },
+      { type: 'conversion', platform: 'instagram_feed', hook: 'Follow on Spotify and Apple Music now.', caption: 'Thankyou drops June 5.\nBe there the moment it goes live.\n\nFollow on Spotify or Apple Music — link in bio.', cta: 'Follow on Spotify: open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz', on_screen_text: 'FOLLOW NOW · JUNE 5', hashtags: '#GannonWaye #Spotify #AppleMusic #Thankyou' },
+    ],
+  },
+  {
+    day: 4, date: '2026-06-03', label: 'Tue 3 Jun', theme: 'Merch with meaning — hoodie & mug visuals',
+    posts: [
+      { type: 'emotional', platform: 'tiktok', hook: 'This hoodie means more than merch.', caption: 'Respect is earned.\nNot a game you make me play.\n\nThat\'s not just a lyric. It\'s something I had to learn to believe about myself.\n\nIf it means something to you too — this is your piece.', cta: 'Shop at gannonwaye.com/store', on_screen_text: 'RESPECT IS EARNED', hashtags: '#GannonWaye #MerchWithMeaning #Thankyou #RespectIsEarned' },
+      { type: 'engagement', platform: 'instagram_feed', hook: 'Would you wear this message?', caption: 'The Thankyou hoodie.\nThe Thankyou mug.\nMerch designed around the message of the song.\n\nWould you wear it? 👇', cta: 'Comment "yes" or what message you\'d want on your hoodie.', on_screen_text: 'WEAR THE STORY', hashtags: '#GannonWaye #MerchDrop #Hoodie #Thankyou' },
+      { type: 'conversion', platform: 'instagram_reels', hook: 'Thankyou merch — limited first run.', caption: '10% of every purchase goes to 1800RESPECT.\nEvery piece carries the story.\n\nShop now before release day.', cta: 'gannonwaye.com/store', on_screen_text: 'SHOP NOW · LIMITED FIRST RUN', hashtags: '#GannonWaye #ThankYouMerch #1800RESPECT #SupportIndieArtists' },
+    ],
+  },
+  {
+    day: 5, date: '2026-06-04', label: 'Wed 4 Jun', theme: 'Community gratitude — who helped you survive?',
+    posts: [
+      { type: 'emotional', platform: 'tiktok', hook: 'Who helped you survive when you couldn\'t help yourself?', caption: 'I know who mine are.\n\nThis song is for them. And for you.\n\nThankyou — tomorrow.', cta: 'Tag someone below who kept you going.', on_screen_text: 'Tag someone who helped you survive 💛', hashtags: '#GannonWaye #Thankyou #Gratitude #Community #TomorrowIsTheDay' },
+      { type: 'engagement', platform: 'instagram_stories', hook: 'Tomorrow. THANKYOU drops.', caption: 'One sleep away.\n\nWho are you dedicating your first listen to?', cta: 'Reply with their name.', on_screen_text: 'ONE SLEEP AWAY 🎵', hashtags: '' },
+      { type: 'conversion', platform: 'instagram_feed', hook: 'Support the Thank You Project — final day before release.', caption: 'Become a founding supporter.\nWear the message.\nShare it with someone who needs it.\n\ngannonwaye.com/back-this', cta: 'Back this project at gannonwaye.com/back-this', on_screen_text: 'BACK THE PROJECT', hashtags: '#GannonWaye #FoundingSupporter #Thankyou #IndependentArtist' },
+    ],
+  },
+  {
+    day: 6, date: '2026-06-05', label: 'Thu 5 Jun ⭐ RELEASE DAY', theme: 'RELEASE DAY — THANKYOU is out now',
+    posts: [
+      { type: 'emotional', platform: 'tiktok', hook: 'THANKYOU IS YOURS NOW. [NEEDS TIMESTAMP — chorus]', caption: 'I made it to today.\nThis song is a thank you — to everyone who held me up when I couldn\'t stand.\n\nTHANKYOU is out now. This is yours.', cta: 'Listen now. Link in bio.', on_screen_text: 'THANKYOU · OUT NOW', hashtags: '#GannonWaye #Thankyou #OutNow #NewMusic #ListenNow' },
+      { type: 'engagement', platform: 'instagram_reels', hook: 'Drop a ❤️ if you listened.', caption: 'THANKYOU is out now.\n\nDrop a ❤️ if you listened.\nShare it with someone who needs this song today.', cta: 'Listen, share, comment. gannonwaye.com/music', on_screen_text: '❤️ IF YOU LISTENED', hashtags: '#GannonWaye #Thankyou #OutNow #ShareTheLove' },
+      { type: 'conversion', platform: 'instagram_feed', hook: 'Listen. Share. Wear the story.', caption: 'THANKYOU is out now on all platforms.\n\nStream it. Add it to your playlist.\nShare it with someone rebuilding.\n\n10% of merch proceeds donated to 1800RESPECT.', cta: 'Stream now + shop at gannonwaye.com/store', on_screen_text: 'OUT NOW · STREAM + SHOP', hashtags: '#GannonWaye #Thankyou #OutNow #StreamNow #MerchWithMeaning' },
+    ],
+  },
 ];
+
+const SPRINT_THEMES = SPRINT_DAYS_CONFIG.map(d => d.theme);
 
 function CopyBtn({ text }) {
   const [copied, setCopied] = useState(false);
@@ -172,11 +213,12 @@ export default function ReleaseSprint() {
   const qc = useQueryClient();
   const [generating, setGenerating] = useState(false);
   const [generatingDay, setGeneratingDay] = useState(null);
-  const [expandedDay, setExpandedDay] = useState(null);
+  const [expandedDay, setExpandedDay] = useState(1);
   const [selectedPost, setSelectedPost] = useState(null);
   const [lastGenResult, setLastGenResult] = useState(null);
   const [genError, setGenError] = useState(null);
   const [showDiag, setShowDiag] = useState(false);
+  const [seeding, setSeeding] = useState(false);
   const [sessionInfo, setSessionInfo] = useState({ checked: false, authenticated: false, isAdmin: false, email: '' });
 
   // Live session check — runs once on mount
@@ -224,6 +266,37 @@ export default function ReleaseSprint() {
     setSelectedPost(null);
   };
 
+  const seedCampaign = async () => {
+    setSeeding(true);
+    let created = 0;
+    for (const dayCfg of SPRINT_DAYS_CONFIG) {
+      for (const p of dayCfg.posts) {
+        const postType = p.type === 'emotional' ? 'video_hook' : p.type === 'engagement' ? 'fan_engagement' : 'community_cta';
+        await base44.entities.ContentCalendarPost.create({
+          campaign: CAMPAIGN,
+          sprint_day: dayCfg.day,
+          scheduled_date: dayCfg.date,
+          platform: p.platform,
+          content_type: postType,
+          hook: p.hook,
+          caption: p.caption,
+          cta: p.cta,
+          on_screen_text: p.on_screen_text,
+          hashtags: p.hashtags,
+          status: 'pending_approval',
+          generated_by: 'ReleaseSprint_6Day_Campaign',
+          source_chain: `6-Day THANKYOU Sprint | Day ${dayCfg.day} | ${p.type}`,
+          content_notes: p.hook.includes('NEEDS TIMESTAMP') ? '⚠ NEEDS TIMESTAMP — hold until audio section is selected' : undefined,
+          metricool_export: `${p.hook}\n\n${p.caption}\n\n${p.cta}${p.hashtags ? '\n\n' + p.hashtags : ''}`,
+        });
+        created++;
+      }
+    }
+    setSeeding(false);
+    qc.invalidateQueries({ queryKey: ['sprint-posts'] });
+    toast({ title: `✓ ${created} campaign posts seeded — pending your approval` });
+  };
+
   const generateSprint = async (dayNum = null) => {
     if (dayNum) {
       setGeneratingDay(dayNum);
@@ -266,18 +339,14 @@ export default function ReleaseSprint() {
     return map;
   }, [posts]);
 
-  // Sprint day metadata — 11 days: Day 1 = May 26, Day 10 = June 4 (recording), Day 11 = June 5 (release)
-  const sprintDays = useMemo(() => Array.from({ length: 11 }, (_, i) => {
-    const d = new Date(RELEASE_DATE);
-    d.setDate(d.getDate() - (10 - i)); // Day 1 = May 26, Day 11 = June 5
-    const dayPosts = postsByDay[i + 1] || [];
-    const isPast = d < new Date();
+  // 6-day sprint: May 31 → June 5
+  const sprintDays = useMemo(() => SPRINT_DAYS_CONFIG.map((cfg) => {
+    const d = new Date(cfg.date + 'T00:00:00+10:00');
+    const dayPosts = postsByDay[cfg.day] || [];
+    const isPast = d < new Date() && d.toDateString() !== new Date().toDateString();
     const isToday = d.toDateString() === new Date().toDateString();
     return {
-      day: i + 1,
-      date: d.toISOString().split('T')[0],
-      label: d.toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'short' }),
-      theme: SPRINT_THEMES[i],
+      ...cfg,
       posts: dayPosts,
       total: dayPosts.length,
       approved: dayPosts.filter(p => ['approved', 'scheduled', 'posted'].includes(p.status)).length,
@@ -285,8 +354,8 @@ export default function ReleaseSprint() {
       posted: dayPosts.filter(p => p.status === 'posted').length,
       isPast,
       isToday,
-      isRecordingDay: i === 9,
-      isReleaseDay: i === 10,
+      isRecordingDay: false,
+      isReleaseDay: cfg.day === 6,
     };
   }), [postsByDay]);
 
@@ -302,8 +371,8 @@ export default function ReleaseSprint() {
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">June 5, 2026 Release</p>
-            <h1 className="font-display text-3xl font-bold gradient-gold-text">Release Sprint Command</h1>
-            <p className="font-body text-sm text-muted-foreground mt-1">11-day sprint: May 26 → June 5 · June 4 = recording day · June 5 = Release Day</p>
+            <h1 className="font-display text-3xl font-bold gradient-gold-text">6-Day THANKYOU Sprint</h1>
+            <p className="font-body text-sm text-muted-foreground mt-1">May 31 → June 5 · 3 posts/day · emotional → engagement → conversion</p>
           </div>
           <div className="flex items-center gap-2 flex-wrap">
             <div className={`flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-body font-semibold ${daysLeft <= 7 ? 'border-yellow-500/60 bg-yellow-500/10 text-yellow-400' : 'border-primary/40 bg-primary/10 text-primary'}`}>
@@ -312,11 +381,19 @@ export default function ReleaseSprint() {
               {daysLeft <= 7 && <span className="animate-pulse">⚡</span>}
             </div>
             <Button
-              onClick={() => generateSprint()}
-              disabled={generating}
+              onClick={seedCampaign}
+              disabled={seeding}
               className="gradient-gold-button border-0 gap-2"
             >
-              {generating ? <><RefreshCw className="w-4 h-4 animate-spin" /> Generating Sprint...</> : <><Zap className="w-4 h-4" /> Generate Full Sprint</>}
+              {seeding ? <><RefreshCw className="w-4 h-4 animate-spin" /> Seeding Campaign...</> : <><Zap className="w-4 h-4" /> Seed 6-Day Campaign Posts</>}
+            </Button>
+            <Button
+              onClick={() => generateSprint()}
+              disabled={generating}
+              variant="outline"
+              className="gap-2"
+            >
+              {generating ? <><RefreshCw className="w-4 h-4 animate-spin" /> Generating...</> : <><Zap className="w-4 h-4" /> AI Generate Sprint</>}
             </Button>
           </div>
         </div>
@@ -480,7 +557,7 @@ export default function ReleaseSprint() {
       <Card>
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-primary" /> 11-Day Sprint Timeline (May 26 → June 5)
+            <Calendar className="w-4 h-4 text-primary" /> 6-Day Sprint Timeline (May 31 → June 5)
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
