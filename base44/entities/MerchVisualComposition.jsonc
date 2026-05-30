@@ -1,0 +1,110 @@
+{
+  "name": "MerchVisualComposition",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "layout_type": {
+      "type": "string",
+      "enum": [
+        "reel_9_16",
+        "instagram_square",
+        "store_banner_wide",
+        "homepage_merch_block",
+        "product_carousel",
+        "email_header",
+        "metricool_post",
+        "tiktok_end_card"
+      ],
+      "default": "reel_9_16"
+    },
+    "canvas_size": {
+      "type": "string",
+      "enum": [
+        "1080x1920",
+        "1080x1080",
+        "1920x1080",
+        "1200x628",
+        "3000x3000"
+      ],
+      "default": "1080x1920"
+    },
+    "selected_assets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of MerchVisualAsset IDs"
+    },
+    "background_style": {
+      "type": "string",
+      "enum": [
+        "deep_black",
+        "warm_gold_gradient",
+        "burgundy_smoke",
+        "dark_garden",
+        "black_gold_fog"
+      ],
+      "default": "deep_black"
+    },
+    "text_overlay": {
+      "type": "string"
+    },
+    "cta": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "hashtags": {
+      "type": "string"
+    },
+    "export_url": {
+      "type": "string"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "awaiting_approval",
+        "approved",
+        "rejected",
+        "published"
+      ],
+      "default": "draft"
+    },
+    "linked_campaign": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "layout_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
