@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import {
   ArrowLeft, ExternalLink, RefreshCw, Webhook, CheckCircle2,
-  XCircle, AlertTriangle, Copy, Activity, Shield
+  XCircle, AlertTriangle, Copy, Activity, Shield, Search, RotateCcw, Package
 } from 'lucide-react';
 
 const WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
@@ -22,6 +22,8 @@ const statusBadge = (s) => {
 export default function WebhookHealthNew() {
   const [selected, setSelected] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [scanResults, setScanResults] = useState(null);
+  const [recoveringId, setRecoveringId] = useState(null);
   const qc = useQueryClient();
 
   const { data: eventLogs = [], isLoading: logsLoading, refetch: refetchLogs } = useQuery({
@@ -42,6 +44,26 @@ export default function WebhookHealthNew() {
   const resolveDiag = useMutation({
     mutationFn: (id) => base44.entities.PaymentDiagnostic.update(id, { status: 'resolved', resolved_date: new Date().toISOString() }),
     onSuccess: () => { qc.invalidateQueries(['webhookDiagnostics']); setSelected(null); },
+  });
+
+  const scanMissing = useMutation({
+    mutationFn: () => base44.functions.invoke('recoverStripeOrders', { action: 'scan', limit: 50 }),
+    onSuccess: (res) => setScanResults(res.data),
+  });
+
+  const recoverOrder = useMutation({
+    mutationFn: (sessionId) => base44.functions.invoke('recoverStripeOrders', { action: 'recover', session_id: sessionId }),
+    onSuccess: (res, sessionId) => {
+      setRecoveringId(null);
+      setScanResults(prev => prev ? {
+        ...prev,
+        missing_sessions: prev.missing_sessions.filter(s => s.session_id !== sessionId),
+        orders_missing: (prev.orders_missing || 1) - 1,
+        orders_found: (prev.orders_found || 0) + 1,
+      } : null);
+      qc.invalidateQueries(['webhookEventLogs']);
+    },
+    onError: () => setRecoveringId(null),
   });
 
   const copyUrl = () => {
@@ -139,6 +161,134 @@ export default function WebhookHealthNew() {
               <RefreshCw className={`w-3 h-3 ${healthCheck.isPending ? 'animate-spin' : ''}`} />
               {healthCheck.isPending ? 'Checking...' : 'Run Health Check'}
             </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* ── CRITICAL ACTION REQUIRED BANNER (webhook failure context) ── */}
+      <div className="border border-orange-500/40 bg-orange-500/10 rounded-xl p-4">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <p className="font-semibold text-orange-300">Stripe Webhook Failure — Action Required</p>
+            <p className="text-sm text-foreground/70 mt-1">
+              Stripe reported 75 failed delivery attempts to <code className="text-xs bg-secondary/60 px-1 rounded">stripeIntelligenceRouter</code> starting May 26, 2026.
+              Root cause: body stream consumed before SDK init — now fixed. Stripe will stop sending events{' '}
+              <strong>June 4, 2026</strong> if the endpoint doesn't return 2xx.
+            </p>
+            <div className="mt-3 space-y-1.5 text-sm text-foreground/65">
+              <p>✅ <strong>Fix deployed:</strong> stripeIntelligenceRouter now returns 200 immediately before all async processing.</p>
+              <p>✅ <strong>stripeWebhook</strong> is the primary fulfillment handler — it was NOT affected.</p>
+              <p>⚠️ <strong>Next step:</strong> Scan for missed orders below, then go to Stripe Dashboard and resend failed events.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── ORDER RECOVERY SCANNER ── */}
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm flex items-center gap-2">
+            <Package className="w-4 h-4 text-primary" />
+            Order Recovery Scanner
+            <Badge className="bg-orange-500/20 text-orange-300 ml-auto">May 26 – Now</Badge>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-xs text-muted-foreground">
+            Scans the last 50 completed Stripe checkout sessions and compares against MerchOrder records.
+            Only admin-approved recoveries will create orders. No auto-recovery.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="gap-1.5 text-xs border-orange-500/40 text-orange-300 hover:bg-orange-500/10"
+              onClick={() => scanMissing.mutate()}
+              disabled={scanMissing.isPending}
+            >
+              <Search className={`w-3 h-3 ${scanMissing.isPending ? 'animate-spin' : ''}`} />
+              {scanMissing.isPending ? 'Scanning Stripe...' : 'Run Missing Order Scan'}
+            </Button>
+            <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer">
+              <Button variant="outline" size="sm" className="gap-1.5 text-xs">
+                <ExternalLink className="w-3 h-3" /> Open Stripe Webhooks
+              </Button>
+            </a>
+            <a href="https://dashboard.stripe.com/payments" target="_blank" rel="noopener noreferrer">
+              <Button variant="outline" size="sm" className="gap-1.5 text-xs">
+                <ExternalLink className="w-3 h-3" /> Review Stripe Payments
+              </Button>
+            </a>
+          </div>
+
+          {scanResults && (
+            <div className="space-y-3 mt-2">
+              <div className="flex items-center gap-3 flex-wrap text-sm">
+                <span className="text-muted-foreground">Scanned: <strong className="text-foreground">{scanResults.scanned}</strong></span>
+                <span className="text-green-400">With orders: <strong>{scanResults.orders_found}</strong></span>
+                <span className={scanResults.orders_missing > 0 ? 'text-red-400' : 'text-green-400'}>
+                  Missing orders: <strong>{scanResults.orders_missing}</strong>
+                </span>
+                <Badge className={scanResults.stripe_mode === 'live' ? 'bg-green-500/20 text-green-300' : 'bg-yellow-500/20 text-yellow-300'}>
+                  {scanResults.stripe_mode} mode
+                </Badge>
+              </div>
+
+              {scanResults.orders_missing === 0 && (
+                <div className="border border-green-500/30 bg-green-500/10 rounded-lg p-3 text-sm text-green-300">
+                  ✅ No missing orders found. All recent Stripe payments have matching MerchOrder records.
+                </div>
+              )}
+
+              {scanResults.missing_sessions?.length > 0 && (
+                <div className="space-y-2">
+                  <p className="text-xs font-semibold text-red-300">⚠️ {scanResults.missing_sessions.length} payment(s) with no MerchOrder — admin recovery required:</p>
+                  {scanResults.missing_sessions.map(s => (
+                    <div key={s.session_id} className="border border-red-500/30 bg-red-500/05 rounded-xl p-4">
+                      <div className="flex items-start justify-between gap-3 flex-wrap">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p className="font-semibold text-sm">{s.customer_name || s.customer_email || 'Unknown customer'}</p>
+                            <Badge className="bg-primary/20 text-primary text-xs">${s.amount_total?.toFixed(2)} AUD</Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">{s.items_summary}</p>
+                          <p className="text-xs text-muted-foreground">{s.customer_email}</p>
+                          <p className="font-mono text-xs text-muted-foreground/50 mt-1 break-all">{s.session_id}</p>
+                          <p className="text-xs text-muted-foreground/40">{new Date(s.created).toLocaleString('en-AU')}</p>
+                        </div>
+                        <Button
+                          size="sm"
+                          className="gradient-gold-button border-0 text-xs gap-1.5 shrink-0"
+                          disabled={recoverOrder.isPending && recoveringId === s.session_id}
+                          onClick={() => {
+                            if (window.confirm(`Recover order for ${s.customer_name || s.customer_email} — $${s.amount_total?.toFixed(2)} AUD?\n\nThis will create a MerchOrder record from Stripe session data.\n\nSession: ${s.session_id}`)) {
+                              setRecoveringId(s.session_id);
+                              recoverOrder.mutate(s.session_id);
+                            }
+                          }}
+                        >
+                          <RotateCcw className={`w-3 h-3 ${recoverOrder.isPending && recoveringId === s.session_id ? 'animate-spin' : ''}`} />
+                          {recoverOrder.isPending && recoveringId === s.session_id ? 'Recovering...' : 'Recover Order'}
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          <div className="border border-border/20 rounded-lg p-3 mt-1">
+            <p className="text-xs font-semibold text-muted-foreground mb-1.5">Stripe Dashboard Steps for Gannon:</p>
+            <ol className="text-xs text-muted-foreground/70 space-y-1 list-decimal list-inside">
+              <li>Go to <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-primary/70 hover:underline">dashboard.stripe.com/webhooks</a></li>
+              <li>Open endpoint: <code className="bg-secondary/50 px-1 rounded">stripeIntelligenceRouter</code></li>
+              <li>Check failed events log — copy latest error</li>
+              <li>Click "Resend" on any failed events from May 26 onwards</li>
+              <li>Confirm <a href="/admin/orders" className="text-primary/70 hover:underline">/admin/orders</a> shows matching orders</li>
+              <li>If endpoint is proven healthy, Stripe will resume normal delivery</li>
+            </ol>
           </div>
         </CardContent>
       </Card>
