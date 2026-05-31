@@ -235,6 +235,7 @@ import CodeAuditCommand from '@/pages/admin/CodeAuditCommand';
 import StrategicExecutionPlan from '@/pages/admin/StrategicExecutionPlan';
 import MerchVisualLab from '@/pages/admin/MerchVisualLab';
 import BusinessProfileSettingsPage from '@/pages/admin/BusinessProfileSettings';
+import CampaignImageApproval from '@/pages/admin/CampaignImageApproval';
 
 
 const AuthenticatedApp = () => {
@@ -541,6 +542,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/strategic-execution-plan" element={<StrategicExecutionPlan />} />
         <Route path="/admin/merch-visual-lab" element={<MerchVisualLab />} />
         <Route path="/admin/business-profile-settings" element={<BusinessProfileSettingsPage />} />
+        <Route path="/admin/campaign-image-approval" element={<CampaignImageApproval />} />
+        <Route path="/admin/thankyou-image-review" element={<CampaignImageApproval />} />
         <Route path="/admin/code-audit" element={<CodeAuditCommand />} />
         <Route path="/admin/clip-idea-studio" element={<VideoAgentCommand />} />
         <Route path="/admin/capcut-prompt-builder" element={<VideoAgentCommand />} />
