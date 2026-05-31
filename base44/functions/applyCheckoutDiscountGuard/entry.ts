@@ -25,12 +25,30 @@ const ALWAYS_ELIGIBLE_CATEGORIES = [
   'tshirt', 'jumper', 'merch', 'clothing'
 ];
 
+// Name keywords that indicate a music/ineligible product regardless of category
+const INELIGIBLE_NAME_KEYWORDS = [
+  'cd', ' cd ', 'vinyl', 'album', 'digital download', 'digital music',
+  'song download', 'mp3', 'wav', 'flac', 'single download', 'music download',
+  'thank you cd', 'thankyou cd',
+];
+
 function categoriseItem(item) {
   const cat = (item.category || item.product_type || item.type || '').toLowerCase().trim();
   const name = (item.name || item.product_name || '').toLowerCase();
 
-  // Explicit ineligible check
-  if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c) || (cat === '' && name.includes(c)))) {
+  // CRITICAL: Always check name for music keywords — catches items with missing/wrong category
+  // Check name first with word-boundary awareness for 'cd'
+  const nameLooksLikeMusic = INELIGIBLE_NAME_KEYWORDS.some(k => name.includes(k)) ||
+    /\bcd\b/.test(name) ||
+    /\bvinyl\b/.test(name);
+
+  // Explicit category ineligible check
+  if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c))) {
+    return 'ineligible';
+  }
+
+  // Name-based ineligible fallback — catches category-less music items
+  if (nameLooksLikeMusic) {
     return 'ineligible';
   }
 
@@ -40,14 +58,13 @@ function categoriseItem(item) {
   }
 
   // Special: if category is 'bundle', check if name contains music keywords
-  if (cat === 'bundle') {
+  if (cat === 'bundle' || cat === 'other') {
     const musicKeywords = ['cd', 'vinyl', 'album', 'ep', 'song', 'track', 'single', 'digital', 'music'];
     if (musicKeywords.some(k => name.includes(k))) return 'ineligible';
     return 'eligible';
   }
 
-  // Default: merch is eligible unless identified as music/fee/support
-  // If unknown category, treat as eligible but log it
+  // Default: treat unknown category as eligible (apparel/merch typically)
   return 'eligible';
 }
 
