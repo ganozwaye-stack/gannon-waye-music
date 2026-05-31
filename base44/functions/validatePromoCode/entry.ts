@@ -96,42 +96,86 @@ Deno.serve(async (req) => {
       }
     }
 
-    // === GLOBAL DISCOUNT GUARD ===
-    // Compute eligible vs excluded subtotals if cart_items provided
+    // === CART ITEM CATEGORY RESOLUTION & REJECTION ===
+    // Resolve product categories from DB when missing, then check against promo exclusions.
+    // CRITICAL: If ALL cart items are ineligible/excluded, return valid: false immediately.
     let discountGuardResult = null;
+
     if (cart_items && cart_items.length > 0) {
+      // Step 1: Resolve categories for any items missing one
+      const resolvedItems = [];
+      for (const item of cart_items) {
+        let resolved = { ...item };
+        if (!resolved.category && (resolved.product_id || resolved.id)) {
+          try {
+            const pid = resolved.product_id || resolved.id;
+            const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: pid });
+            if (products && products.length > 0) {
+              resolved.category = products[0].category;
+              resolved.name = resolved.name || products[0].name;
+            }
+          } catch (_) { /* keep as-is */ }
+        }
+        resolvedItems.push(resolved);
+      }
+
+      // Step 2: Classify each item as eligible or ineligible
+      const promoExcludedCats = (promo.excluded_categories || []).map(c => c.toLowerCase());
+      const promoAllowedCats = (promo.allowed_categories || []).map(c => c.toLowerCase());
+
+      function isItemIneligible(item) {
+        const cat = (item.category || item.product_type || item.type || '').toLowerCase().trim();
+        const name = (item.name || item.product_name || '').toLowerCase();
+
+        // Always-ineligible categories (global rule)
+        if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c))) return true;
+
+        // Name-based CD/vinyl detection for items with missing/empty category
+        if (!cat || cat === 'other') {
+          if (/\bcd\b/.test(name) || /\bvinyl\b/.test(name) || name.includes('digital download')) return true;
+        }
+
+        // Promo-level excluded categories
+        if (promoExcludedCats.length > 0 && promoExcludedCats.some(c => cat.includes(c))) return true;
+
+        // Promo-level allowed categories restriction
+        if (promoAllowedCats.length > 0 && cat && !promoAllowedCats.some(c => cat.includes(c))) return true;
+
+        return false;
+      }
+
+      const eligibleItems = resolvedItems.filter(i => !isItemIneligible(i));
+      const ineligibleItems = resolvedItems.filter(i => isItemIneligible(i));
+
+      // Step 3: REJECT if every item in cart is ineligible
+      if (eligibleItems.length === 0 && ineligibleItems.length > 0) {
+        const ineligibleNames = ineligibleItems.map(i => i.name || i.category || 'item').join(', ');
+        return Response.json({
+          valid: false,
+          reason: `This code does not apply to items in your cart (${ineligibleNames}). It is valid for eligible merch only — ${ALWAYS_EXCLUDED_LABEL} are excluded.`,
+          ineligible_items: ineligibleItems.map(i => ({ name: i.name, category: i.category })),
+        });
+      }
+
+      // Step 4: Pass to discount guard for amount calculation (has eligible items)
       try {
         const guardRes = await base44.asServiceRole.functions.invoke('applyCheckoutDiscountGuard', {
-          cart_items,
+          cart_items: resolvedItems,
           discount_percent: promo.discount_percent,
           promo_code_id: promo.id,
           source_chain: `validatePromoCode → applyCheckoutDiscountGuard`,
         });
         discountGuardResult = guardRes;
-      } catch (_) {
-        // Guard failed — fail safe: allow but return warning
-      }
+      } catch (_) { /* non-fatal — amounts computed at checkout */ }
+
     } else if (product_category) {
-      // Single category check against always-ineligible list
+      // Single category check (legacy path)
       const cat = product_category.toLowerCase().trim();
       if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c))) {
         return Response.json({
           valid: false,
           reason: `This code applies to eligible merch only. ${ALWAYS_EXCLUDED_LABEL} are excluded.`,
         });
-      }
-    }
-
-    // Category restrictions from promo record
-    if (promo.allowed_categories && promo.allowed_categories.length > 0 && !discountGuardResult) {
-      if (product_category) {
-        const allowed = promo.allowed_categories.map(c => c.toLowerCase());
-        if (!allowed.includes(product_category.toLowerCase())) {
-          return Response.json({
-            valid: false,
-            reason: `This code is only valid for: ${promo.allowed_categories.join(', ')}`,
-          });
-        }
       }
     }
 
