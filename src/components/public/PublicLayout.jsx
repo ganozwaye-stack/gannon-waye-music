@@ -4,6 +4,7 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import MobileBottomTabs from './MobileBottomTabs';
+import CartButton from '@/components/store/CartButton';
 const ROOT_ROUTES = ['/', '/music', '/store', '/community'];
 
 export default function PublicLayout() {
@@ -13,6 +14,7 @@ export default function PublicLayout() {
   return (
     <div className="min-h-screen flex flex-col pb-14">
       <Navbar />
+      <CartButton />
       <main className="flex-1 pt-16">
         <AnimatePresence mode="wait">
           <Outlet key={pathname} />
