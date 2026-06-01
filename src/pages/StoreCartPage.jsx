@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ShoppingBag, Trash2, Plus, Minus } from 'lucide-react';
@@ -11,16 +11,26 @@ export default function StoreCartPage() {
   const updateQuantity = useCartStore(state => state.updateQuantity);
   const removeItem = useCartStore(state => state.removeItem);
 
+  // Wait one tick for Zustand to rehydrate from localStorage before redirecting.
+  // Without this delay, the redirect fires before persisted cart data is loaded.
+  const hydrated = useRef(false);
+  useEffect(() => {
+    hydrated.current = true;
+  }, []);
+  useEffect(() => {
+    if (!hydrated.current) return;
+    const timer = setTimeout(() => {
+      if (items.length === 0) navigate('/store');
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [items.length, navigate]);
+
   const subtotal = items.reduce((sum, item) => {
     const price = item.product?.sale_price ?? item.product?.price ?? 0;
     return sum + price * item.quantity;
   }, 0);
 
   const itemCount = items.reduce((s, i) => s + i.quantity, 0);
-
-  useEffect(() => {
-    if (items.length === 0) navigate('/store');
-  }, [items.length, navigate]);
 
   return (
     <div className="min-h-screen py-24 px-4 md:px-6" data-testid="cart-page">
