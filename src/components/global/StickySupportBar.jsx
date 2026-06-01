@@ -20,6 +20,7 @@ export default function StickySupportBar() {
   const startedRef = useRef(false);
   const location = useLocation();
   const isMemorialPage = MEMORIAL_PATHS.includes(location.pathname);
+  const isStorePage = location.pathname.startsWith('/store');
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -64,7 +65,7 @@ export default function StickySupportBar() {
     }
   };
 
-  if (isMemorialPage) return null;
+  if (isMemorialPage || isStorePage) return null;
 
   return (
     <>
