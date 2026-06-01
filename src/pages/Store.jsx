@@ -342,8 +342,13 @@ function ProductCard({ product, onCheckout, onViewCart }) {
               </button>
             )
           ) : STORE_OPEN && product.stock_quantity === 0 ? (
-            <div className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase flex items-center justify-center gap-2 border border-red-500/30 text-red-400 bg-red-500/10 cursor-not-allowed">
-              Sold Out · Due to Popular Demand
+            <div className="mt-3 space-y-1.5">
+              <div className="w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase flex items-center justify-center gap-2 border border-red-500/30 text-red-400 bg-red-500/10 cursor-not-allowed">
+                Sold Out · Due to Popular Demand
+              </div>
+              <p className="text-center font-body text-[9px] text-muted-foreground/60 leading-relaxed px-1">
+                Sold out due to popular demand. These will not be restocked.
+              </p>
             </div>
           ) : (
             <InterestButton productId={product.id} productName={product.name} />

@@ -198,7 +198,7 @@ export default function WebhookHealthNew() {
             </div>
 
             <div className="mt-3 space-y-1.5 text-sm text-foreground/65">
-              <p>✅ <strong>stripeIntelligenceRouter:</strong> reads raw body once, verifies signature with <code className="text-xs bg-secondary/50 px-1 rounded">STRIPE_WEBHOOK_SECRET</code>, returns 200 immediately, all processing fire-and-forget.</p>
+              <p>✅ <strong>stripeIntelligenceRouter:</strong> reads raw body once, verifies signature with <code className="text-xs bg-secondary/50 px-1 rounded">STRIPE_WEBHOOK_SECRET</code>. Valid signed events return 2xx — all downstream DB writes are fire-and-forget after the response. Only a Stripe Dashboard resend + 200 response is proof the fix is live.</p>
               <p>✅ <strong>Deduplication:</strong> checks StripeEventLog by event.id before processing — prevents double-orders.</p>
               <p>✅ <strong>Events logged:</strong> checkout.session.completed · payment_intent.payment_failed · charge.refunded · checkout.session.expired · charge.dispute.created.</p>
             </div>

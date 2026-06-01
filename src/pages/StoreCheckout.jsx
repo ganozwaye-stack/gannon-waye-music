@@ -49,6 +49,8 @@ export default function StoreCheckout() {
   const [redirecting, setRedirecting] = useState(false);
   const [checkoutError, setCheckoutError] = useState(null);
   const [addSupport, setAddSupport] = useState(0);
+  // Generated once when this page mounts — stays stable for retries
+  const checkoutAttemptId = useState(() => `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`)[0];
 
   useEffect(() => {
     try {
@@ -151,6 +153,7 @@ export default function StoreCheckout() {
             discount_amount: String(discountAmount),
             add_support: String(addSupport),
             shipping_amount: String(shipping.amount),
+            checkout_attempt_id: checkoutAttemptId,
           },
         }),
         timeout,
