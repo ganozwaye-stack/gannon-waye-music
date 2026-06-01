@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '@/lib/AuthContext';
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut,
@@ -215,6 +216,7 @@ const OWNER_EMAIL = 'ganozwaye@gmail.com';
 
 export default function AdminLayout() {
   const location = useLocation();
+  const { user, isLoadingAuth, isLoadingPublicSettings, navigateToLogin } = useAuth();
   const [showSearch, setShowSearch] = useState(false);
   const [showCommand, setShowCommand] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -222,7 +224,10 @@ export default function AdminLayout() {
   const [collapsed, setCollapsed] = useState({});
   const [unreadCount, setUnreadCount] = useState(0);
 
+  const isAdmin = user?.role === 'admin';
+
   useEffect(() => {
+    if (!isAdmin) return;
     const fetchUnread = () => {
       base44.entities.AdminNotification.filter({ is_read: false }, '-created_date', 50)
         .then(items => setUnreadCount(items.length))
@@ -231,11 +236,11 @@ export default function AdminLayout() {
     fetchUnread();
     const interval = setInterval(fetchUnread, 30000);
     return () => clearInterval(interval);
-  }, []);
+  }, [isAdmin]);
 
   useEffect(() => {
-    base44.auth.me().then(user => setIsOwner(user?.email === OWNER_EMAIL)).catch(() => {});
-  }, []);
+    if (user) setIsOwner(user.email === OWNER_EMAIL);
+  }, [user]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -247,6 +252,37 @@ export default function AdminLayout() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
+
+  // ─── ADMIN ROUTE GUARD ───────────────────────────────────────────────────
+  if (isLoadingAuth || isLoadingPublicSettings) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-background">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto" />
+          <p className="font-body text-xs text-muted-foreground mt-4 tracking-widest uppercase">Loading</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    navigateToLogin();
+    return null;
+  }
+
+  if (user.role !== 'admin') {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-background px-4">
+        <div className="text-center max-w-sm">
+          <Shield className="w-12 h-12 text-destructive mx-auto mb-4 opacity-60" />
+          <h2 className="font-display text-xl text-foreground mb-2">Access Restricted</h2>
+          <p className="font-body text-sm text-muted-foreground mb-6">You don't have admin access. Contact the site owner if you believe this is an error.</p>
+          <a href="/" className="font-body text-sm text-primary underline">Return to site</a>
+        </div>
+      </div>
+    );
+  }
+  // ─────────────────────────────────────────────────────────────────────────
 
   const toggleSection = (title) => setCollapsed(prev => ({ ...prev, [title]: !prev[title] }));
 
