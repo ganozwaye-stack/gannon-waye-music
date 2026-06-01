@@ -399,22 +399,7 @@ export default function Store() {
     <div data-testid="store-page" className="min-h-screen py-24 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         
-        {/* Cart button — fixed position, z-60 to sit above z-50 navbar */}
-        <div className="fixed top-4 right-4 z-[60]" style={{ pointerEvents: 'auto' }}>
-          <button
-            data-testid="cart-button"
-            onClick={() => setCartOpen(true)}
-            className="relative p-2 bg-background/80 backdrop-blur-sm border border-border/40 rounded-full text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
-          >
-            <ShoppingCart className="w-5 h-5" />
-            {getItemCount > 0 && (
-              <span data-testid="cart-count" className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-primary text-primary-foreground text-xs font-body flex items-center justify-center">
-                {getItemCount}
-              </span>
-            )}
-          </button>
-          <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
-        </div>
+        {/* Cart button handled globally by CartButton component in Navbar — no duplicate needed */}
 
         {/* Page header */}
         <motion.div
