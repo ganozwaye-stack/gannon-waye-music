@@ -20,7 +20,13 @@ const ALWAYS_EXCLUDED_LABEL = 'shipping, processing fees, support contributions,
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const { code, email, product_category, cart_items } = await req.json();
+    const body = await req.json();
+    const { code, product_category, cart_items } = body;
+
+    // Accept email from any common field name — trim+lowercase once
+    const rawEmail = body.email || body.customer_email || body.customerEmail
+      || body.shopper_email || body.shopperEmail || body.billing_email || '';
+    const email = rawEmail.toLowerCase().trim();
 
     if (!code) {
       return Response.json({ valid: false, reason: 'No code provided' });
@@ -61,8 +67,21 @@ Deno.serve(async (req) => {
         return Response.json({ valid: false, reason: 'Email required for this code' });
       }
       const approved = (promo.approved_emails || []).map(e => e.toLowerCase().trim());
-      const emailLower = email.toLowerCase().trim();
-      if (!approved.includes(emailLower)) {
+      if (!approved.includes(email)) {
+        return Response.json({ valid: false, reason: 'This code requires manual approval. Contact us to verify eligibility.' });
+      }
+    }
+
+    // SAFETY: High-discount codes ≥90% must always require approval + have approved_emails
+    if (promo.discount_percent >= 90) {
+      if (!promo.requires_approval || !(promo.approved_emails || []).length) {
+        return Response.json({ valid: false, reason: 'High-value code is misconfigured — contact support.' });
+      }
+      if (!email) {
+        return Response.json({ valid: false, reason: 'Email required for this code' });
+      }
+      const approved = (promo.approved_emails || []).map(e => e.toLowerCase().trim());
+      if (!approved.includes(email)) {
         return Response.json({ valid: false, reason: 'This code requires manual approval. Contact us to verify eligibility.' });
       }
     }
@@ -91,7 +110,7 @@ Deno.serve(async (req) => {
         return Response.json({ valid: false, reason: 'Email required for this code' });
       }
       const usedBy = promo.used_by_emails || [];
-      if (usedBy.includes(email.toLowerCase().trim())) {
+      if (usedBy.includes(email)) {
         return Response.json({ valid: false, reason: 'This code has already been used with this email address' });
       }
     }
