@@ -227,22 +227,62 @@ export default function TikTokAppReview() {
         <p className="text-muted-foreground text-sm mt-1">Full readiness checklist, scope matching, copy-ready description, and submission guide</p>
       </div>
 
-      {/* CLIENT_KEY ERROR BANNER */}
-      <div className="border-2 border-red-500/70 bg-red-500/10 rounded-xl p-5 space-y-3">
+      {/* PORTAL SETUP STATUS BANNER */}
+      <div className="border-2 border-green-500/50 bg-green-500/8 rounded-xl p-5 space-y-3">
         <div className="flex items-center gap-2">
-          <XCircle className="w-5 h-5 text-red-400 shrink-0" />
-          <p className="font-bold text-red-300 text-base">⛔ TikTok OAuth Error: "client_key" — Fix Required Before Retrying</p>
+          <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
+          <p className="font-bold text-green-300 text-base">✓ Share Kit + video.publish removed — Portal is clean</p>
         </div>
-        <p className="text-sm text-foreground/80">TikTok returned this error because <strong>Share Kit</strong> is selected in your Developer Portal but has no share UI implemented. This causes TikTok to reject the OAuth request entirely.</p>
-        <div className="space-y-2 text-sm">
-          <p className="font-semibold text-yellow-300">Steps to fix — do in TikTok Developer Portal:</p>
-          <ol className="space-y-1.5 text-foreground/80 list-decimal list-inside">
-            <li>Go to <a href="https://developers.tiktok.com/apps" target="_blank" rel="noopener noreferrer" className="text-primary underline">developers.tiktok.com/apps</a> → your app → Products</li>
-            <li><strong>Uncheck / remove "Share Kit"</strong> — no share UI exists on this platform</li>
-            <li><strong>Remove scope "video.publish"</strong> — platform uses video.upload (drafts only)</li>
-            <li>Save changes and wait ~1 min for portal to propagate</li>
-            <li>Then retry Connect TikTok from <code className="bg-secondary px-1 rounded">/admin/tiktok-platform-review</code></li>
-          </ol>
+        <p className="text-sm text-foreground/80">Scopes now show "No scopes yet" — correct. Now complete the steps below to configure products, scopes, and submit for review.</p>
+      </div>
+
+      {/* NEXT STEPS — PORTAL ACTION CARD */}
+      <div className="border-2 border-primary/40 bg-primary/5 rounded-xl p-5 space-y-4">
+        <p className="font-bold text-primary text-base">📋 What to do in TikTok Developer Portal right now</p>
+
+        <div className="space-y-3 text-sm">
+          <div className="border border-border rounded-lg p-3 space-y-1">
+            <p className="font-semibold text-foreground">1. Description field (120 chars max) — paste this exactly:</p>
+            <p className="font-mono text-xs bg-secondary/60 rounded p-2 text-foreground select-all">Official Gannon Waye creator workflow for content drafts, approvals, store operations, and TikTok creator tools.</p>
+            <p className="text-xs text-muted-foreground">117 chars ✓</p>
+          </div>
+
+          <div className="border border-border rounded-lg p-3 space-y-1">
+            <p className="font-semibold text-foreground">2. Terms of Service URL:</p>
+            <p className="font-mono text-xs bg-secondary/60 rounded p-2 text-primary select-all">https://gannonwaye.com/terms-of-service</p>
+          </div>
+
+          <div className="border border-border rounded-lg p-3 space-y-1">
+            <p className="font-semibold text-foreground">3. Privacy Policy URL:</p>
+            <p className="font-mono text-xs bg-secondary/60 rounded p-2 text-primary select-all">https://gannonwaye.com/privacy-policy</p>
+          </div>
+
+          <div className="border border-border rounded-lg p-3 space-y-1">
+            <p className="font-semibold text-foreground">4. Platform: tick <strong>Web</strong> only</p>
+          </div>
+
+          <div className="border border-border rounded-lg p-3 space-y-1">
+            <p className="font-semibold text-foreground">5. Add Products — click "Add products" and select:</p>
+            <div className="flex flex-wrap gap-2 mt-1">
+              <Badge className="bg-green-500/20 text-green-300">Login Kit</Badge>
+              <Badge className="bg-green-500/20 text-green-300">Content Posting API</Badge>
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">Do NOT add Share Kit.</p>
+          </div>
+
+          <div className="border border-border rounded-lg p-3 space-y-1">
+            <p className="font-semibold text-foreground">6. Add Scopes — add these 4 only:</p>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {['user.info.basic', 'user.info.stats', 'video.list', 'video.upload'].map(s => (
+                <code key={s} className="text-xs bg-green-500/15 text-green-400 px-2 py-0.5 rounded">{s}</code>
+              ))}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">Do NOT add video.publish.</p>
+          </div>
+
+          <div className="border border-border rounded-lg p-3 space-y-1">
+            <p className="font-semibold text-foreground">7. App Review — "Explain how each product and scope works" (1000 chars) — paste this:</p>
+          </div>
         </div>
       </div>
 
