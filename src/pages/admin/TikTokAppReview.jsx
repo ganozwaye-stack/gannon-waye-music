@@ -51,8 +51,9 @@ const PRODUCTS = [
     demonstrated: false,
     demoSection: null,
     whyRequired: 'Manual TikTok share workflow from the platform.',
-    whereOnSite: 'NOT IMPLEMENTED — remove before submission',
-    missing: 'REMOVE before submission — no Share button exists in the platform. TikTok will reject or delay review if this product is selected but not clearly demonstrated.',
+    whereOnSite: 'NOT IMPLEMENTED — REMOVED',
+    missing: '⛔ REMOVED — uncheck Share Kit in TikTok Developer Portal now. No share UI exists. This causes the "client_key" OAuth error and will block review approval.',
+    removed: true,
   },
 ];
 
@@ -105,8 +106,9 @@ const SCOPES = [
     demonstrated: false,
     demoSection: null,
     rule: 'Only needed for direct publishing (bypassing Drafts). Platform uses video.upload (drafts only).',
-    missing: 'REMOVE before submission — platform uses video.upload to upload as drafts only. video.publish is not used and will cause review delays if selected without a demo.',
+    missing: '⛔ REMOVED — remove video.publish scope from TikTok Developer Portal. Platform uses video.upload (drafts only). This scope causes review delays if selected without a demo.',
     keep: false,
+    removed: true,
   },
 ];
 
@@ -223,6 +225,25 @@ export default function TikTokAppReview() {
       <div>
         <h1 className="text-3xl font-display font-bold gradient-gold-text">TikTok App Review</h1>
         <p className="text-muted-foreground text-sm mt-1">Full readiness checklist, scope matching, copy-ready description, and submission guide</p>
+      </div>
+
+      {/* CLIENT_KEY ERROR BANNER */}
+      <div className="border-2 border-red-500/70 bg-red-500/10 rounded-xl p-5 space-y-3">
+        <div className="flex items-center gap-2">
+          <XCircle className="w-5 h-5 text-red-400 shrink-0" />
+          <p className="font-bold text-red-300 text-base">⛔ TikTok OAuth Error: "client_key" — Fix Required Before Retrying</p>
+        </div>
+        <p className="text-sm text-foreground/80">TikTok returned this error because <strong>Share Kit</strong> is selected in your Developer Portal but has no share UI implemented. This causes TikTok to reject the OAuth request entirely.</p>
+        <div className="space-y-2 text-sm">
+          <p className="font-semibold text-yellow-300">Steps to fix — do in TikTok Developer Portal:</p>
+          <ol className="space-y-1.5 text-foreground/80 list-decimal list-inside">
+            <li>Go to <a href="https://developers.tiktok.com/apps" target="_blank" rel="noopener noreferrer" className="text-primary underline">developers.tiktok.com/apps</a> → your app → Products</li>
+            <li><strong>Uncheck / remove "Share Kit"</strong> — no share UI exists on this platform</li>
+            <li><strong>Remove scope "video.publish"</strong> — platform uses video.upload (drafts only)</li>
+            <li>Save changes and wait ~1 min for portal to propagate</li>
+            <li>Then retry Connect TikTok from <code className="bg-secondary px-1 rounded">/admin/tiktok-platform-review</code></li>
+          </ol>
+        </div>
       </div>
 
       {/* Score */}

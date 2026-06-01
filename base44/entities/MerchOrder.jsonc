@@ -60,18 +60,7 @@
     "customer_email"
   ],
   "rls": {
-    "create": {
-      "$or": [
-        {
-          "data.customer_email": "{{user.email}}"
-        },
-        {
-          "created_by": {
-            "$exists": true
-          }
-        }
-      ]
-    },
+    "create": {},
     "read": {
       "$or": [
         {

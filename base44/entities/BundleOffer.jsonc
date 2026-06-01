@@ -1,0 +1,130 @@
+{
+  "name": "BundleOffer",
+  "type": "object",
+  "properties": {
+    "bundle_name": {
+      "type": "string"
+    },
+    "products_included": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Product IDs or names"
+    },
+    "original_combined_price": {
+      "type": "number"
+    },
+    "bundle_price": {
+      "type": "number"
+    },
+    "discount_percent": {
+      "type": "number"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "active",
+        "expired",
+        "cancelled"
+      ],
+      "default": "draft"
+    },
+    "campaign_copy": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "customer_headline": {
+      "type": "string"
+    },
+    "show_original_price": {
+      "type": "boolean",
+      "default": true
+    },
+    "show_saving": {
+      "type": "boolean",
+      "default": true
+    },
+    "show_stock_warning": {
+      "type": "boolean",
+      "default": true
+    },
+    "limited_time_label": {
+      "type": "boolean",
+      "default": true
+    },
+    "promo_code": {
+      "type": "string"
+    },
+    "created_by_agent": {
+      "type": "string"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "proposal_id": {
+      "type": "string"
+    },
+    "orders_generated": {
+      "type": "number",
+      "default": 0
+    },
+    "revenue_generated": {
+      "type": "number",
+      "default": 0
+    },
+    "views": {
+      "type": "number",
+      "default": 0
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "stock_rule": {
+      "type": "string",
+      "description": "e.g. 'while_stocks_last', 'fixed_quantity'"
+    }
+  },
+  "required": [
+    "bundle_name",
+    "bundle_price"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.status": "active"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
