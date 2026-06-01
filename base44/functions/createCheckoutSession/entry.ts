@@ -240,17 +240,22 @@ Deno.serve(async (req) => {
       ? cartItems.some(item => needsShipping(item.category || ''))
       : true; // fallback: assume physical
 
+    // Idempotency key: prevent duplicate sessions from rapid re-submits
+    const idempotencyKey = `checkout_${customerEmail || 'guest'}_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       ...(customerEmail ? { customer_email: customerEmail } : {}),
       customer_creation: 'always',
       billing_address_collection: 'required',
+      phone_number_collection: { enabled: true },
       ...(orderHasPhysical ? {
         shipping_address_collection: {
           allowed_countries: ['AU', 'NZ', 'US', 'GB', 'CA', 'SG', 'IN'],
         },
       } : {}),
       automatic_tax: { enabled: true },
+      invoice_creation: { enabled: true },
       line_items: lineItems,
       success_url: `${origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/store?checkout=cancelled`,

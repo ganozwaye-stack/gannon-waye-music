@@ -344,15 +344,59 @@ export default function TikTokPlatformReviewAdmin() {
         </a>
       </div>
 
+      {/* DNS TXT Verification — PRIMARY BLOCKER */}
+      <div className="border border-red-500/50 bg-red-500/10 rounded-xl p-4">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <p className="font-semibold text-red-300 text-sm">⛔ PRIMARY BLOCKER: TikTok Domain Verification via DNS TXT</p>
+            <p className="text-xs text-foreground/70 mt-1 mb-3">
+              OAuth cannot complete and the new developer app cannot be saved until gannonwaye.com DNS TXT record is verified.
+              Add the following TXT record to your domain's DNS (Namecheap / Cloudflare / Route 53 etc):
+            </p>
+            <div className="bg-black/40 border border-red-500/30 rounded-lg p-3 font-mono text-xs space-y-2">
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="text-muted-foreground">Type:</span>
+                <span className="text-green-300 font-bold">TXT</span>
+              </div>
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="text-muted-foreground">Host / Name:</span>
+                <span className="text-green-300 font-bold">@ (root domain)</span>
+              </div>
+              <div className="flex items-start justify-between gap-2 flex-wrap">
+                <span className="text-muted-foreground shrink-0">Value:</span>
+                <span className="text-primary font-bold break-all select-all">tiktok-developers-site-verification=YXTHpYcOkBnwfD0ht8YGfQqNZ2d30qRO</span>
+              </div>
+              <div className="flex items-center justify-between gap-2 flex-wrap">
+                <span className="text-muted-foreground">TTL:</span>
+                <span className="text-green-300">Auto / 3600</span>
+              </div>
+            </div>
+            <div className="mt-3 text-xs text-foreground/60 space-y-1">
+              <p className="font-semibold text-amber-300">After adding DNS record:</p>
+              <ol className="list-decimal list-inside space-y-0.5">
+                <li>Wait 5–30 min for DNS propagation</li>
+                <li>In TikTok Developer Portal → your app → Settings → Domain verification → click <strong>Verify</strong></li>
+                <li>Domain must show green ✓ before you can Save &amp; submit for review</li>
+                <li>Then complete portal checklist below (Login Kit, redirect URI, scopes)</li>
+                <li>OAuth consent → callback → video.upload draft test</li>
+              </ol>
+            </div>
+            <p className="text-xs text-red-400/70 mt-2 italic">Do NOT claim OAuth complete until DNS verifies, app saves, consent opens, callback succeeds, and draft upload test passes.</p>
+          </div>
+        </div>
+      </div>
+
       {/* Not complete notice */}
       <div className="border border-amber-500/30 bg-amber-500/5 rounded-xl p-4">
         <div className="flex items-start gap-3">
           <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
           <div className="text-xs text-foreground/70">
             <p className="font-semibold text-amber-300 mb-1">TikTok OAuth is NOT complete</p>
-            <p>The code correctly trims the key before use. OAuth still fails with <code className="bg-secondary/50 px-1 rounded">error_type=client_key</code> until:</p>
+            <p>The code correctly trims the key before use. OAuth still fails with <code className="bg-secondary/50 px-1 rounded">error_type=client_key</code> until DNS verifies and portal config is complete:</p>
             <ol className="list-decimal list-inside mt-1 space-y-0.5">
-              <li>Secret re-entered without spaces in Base44 → Environment Variables</li>
+              <li>DNS TXT record added and verified in TikTok portal (see blocker above)</li>
+              <li>Secret re-entered without spaces in Base44 → Environment Variables (currently clean ✓)</li>
               <li>TikTok Developer Portal: Login Kit + Content Posting API added, Web platform enabled, redirect URI registered exactly</li>
               <li>Production or Sandbox mode confirmed and credentials match</li>
             </ol>
