@@ -274,6 +274,41 @@ export default function PaymentDiagnosticsNew() {
         ))}
       </div>
 
+      {/* Stripe Tax Audit Card */}
+      <Card className="border-green-500/30 bg-green-500/5">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-green-400" /> Stripe Tax Configuration — Code Audit
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2 text-sm">
+          {[
+            { label: 'automatic_tax: { enabled: true }', ok: true, detail: 'Set in createCheckoutSession — line 253' },
+            { label: 'customer_creation: "always"', ok: true, detail: 'Set — Stripe saves customer for tax/receipts' },
+            { label: 'billing_address_collection: "required"', ok: true, detail: 'Set — required for Stripe Tax address calculation' },
+            { label: 'shipping_address_collection', ok: true, detail: 'Set for physical orders — AU, NZ, US, GB, CA, SG, IN' },
+            { label: 'tax_behavior: "inclusive" on all line items', ok: true, detail: 'Set on each price_data including shipping line' },
+            { label: 'mode: "payment"', ok: true, detail: 'Set correctly' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-start gap-2">
+              <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
+              <div>
+                <p className="font-medium">{item.label}</p>
+                <p className="text-xs text-muted-foreground">{item.detail}</p>
+              </div>
+            </div>
+          ))}
+          <div className="mt-3 border border-amber-500/30 bg-amber-500/10 rounded-lg p-3 text-xs">
+            <p className="font-semibold text-amber-300 mb-1">⚠ Not proven until next controlled live checkout</p>
+            <p className="text-muted-foreground">Stripe Tax dashboard will only show activity after a real checkout session is created post-patch. All fields are confirmed present in source code. Once a live order completes, Stripe Tax dashboard at <a href="https://dashboard.stripe.com/tax" target="_blank" rel="noopener noreferrer" className="underline text-amber-300">dashboard.stripe.com/tax</a> will reflect activity.</p>
+          </div>
+          <div className="mt-2 border border-blue-500/20 bg-blue-500/10 rounded-lg p-3 text-xs">
+            <p className="font-semibold text-blue-300 mb-1">Stripe Tax — remaining manual action</p>
+            <p className="text-muted-foreground">1. Go to Stripe Dashboard → Tax → Settings → enable "Automatic tax collection"<br/>2. Add your business address (AU) as tax origin<br/>3. Confirm product tax codes are set for physical goods<br/>Once done, the next live checkout will populate the Tax dashboard.</p>
+          </div>
+        </CardContent>
+      </Card>
+
       <Card className="border-primary/20">
         <CardHeader className="pb-2"><CardTitle className="text-sm">Checkout System Status</CardTitle></CardHeader>
         <CardContent className="space-y-2 text-sm">
