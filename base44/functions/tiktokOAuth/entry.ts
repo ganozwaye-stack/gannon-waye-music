@@ -44,20 +44,41 @@ Deno.serve(async (req) => {
   // ── SAFE DIAGNOSTICS (no secrets exposed) ────────────────────────────────
   if (action === 'get_diagnostics') {
     const ck = Deno.env.get('TIKTOK_CLIENT_KEY') || '';
+    const ckTrimmed = ck.trim();
     const cs = Deno.env.get('TIKTOK_CLIENT_SECRET') || '';
     const SCOPES = 'user.info.basic,video.upload';
     const REDIRECT = 'https://gannonwaye.com/tiktok-callback';
+
+    // Build the OAuth URL as the code would (using trimmed key) — parse back out to show what TikTok actually sees
+    const oauthUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${encodeURIComponent(ckTrimmed)}&response_type=code&scope=${encodeURIComponent(SCOPES)}&redirect_uri=${encodeURIComponent(REDIRECT)}&state=<uuid>`;
+    let oauthUrlKeyLength = 0;
+    let oauthUrlKeyPrefix = '';
+    try {
+      const parsedKey = new URL(oauthUrl).searchParams.get('client_key') || '';
+      oauthUrlKeyLength = parsedKey.length;
+      oauthUrlKeyPrefix = parsedKey.slice(0, 3);
+    } catch (_) {}
+
     return Response.json({
+      // Raw secret — reveals whitespace
       client_key_present: ck.length > 0,
-      client_key_length: ck.length,
-      client_key_prefix: ck.length >= 3 ? ck.slice(0, 3) : '(too short)',
+      raw_key_length: ck.length,
+      raw_key_prefix: ck.length >= 3 ? ck.slice(0, 3) : '(too short)',
+      raw_key_has_whitespace: ck !== ckTrimmed,
+      raw_key_leading_space: ck.startsWith(' ') || ck.startsWith('\t'),
+      raw_key_trailing_space: ck.endsWith(' ') || ck.endsWith('\t'),
+      // Trimmed key (what code actually uses)
+      trimmed_key_length: ckTrimmed.length,
+      trimmed_key_prefix: ckTrimmed.length >= 3 ? ckTrimmed.slice(0, 3) : '(too short)',
+      // What TikTok actually receives in the OAuth URL
+      oauth_url_key_length: oauthUrlKeyLength,
+      oauth_url_key_prefix: oauthUrlKeyPrefix,
+      // Other config
       client_secret_present: cs.length > 0,
       oauth_endpoint: 'https://www.tiktok.com/v2/auth/authorize/',
       redirect_uri: REDIRECT,
       scopes: SCOPES,
       response_type: 'code',
-      state_generated: 'yes (uuid per request)',
-      sample_url_shape: `https://www.tiktok.com/v2/auth/authorize/?client_key=<key>&response_type=code&scope=${encodeURIComponent(SCOPES)}&redirect_uri=${encodeURIComponent(REDIRECT)}&state=<uuid>`,
     });
   }
 

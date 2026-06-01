@@ -76,12 +76,56 @@
       "type": "string",
       "description": "Formatted text ready for Metricool copy-paste"
     },
+    "visual_brief": {
+      "type": "string",
+      "description": "Description of the required visual/video for this post"
+    },
+    "media_required": {
+      "type": "boolean",
+      "default": false,
+      "description": "True for visual platforms (TikTok, IG Reels, Stories, YouTube Shorts) \u2014 must be true for these platforms"
+    },
+    "media_status": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "brief_written",
+        "raw_captured",
+        "edited",
+        "approved_public",
+        "blocked_sensitive"
+      ],
+      "default": "not_started",
+      "description": "Current status of the visual/video asset"
+    },
+    "asset_id": {
+      "type": "string",
+      "description": "ID of linked SocialAsset record"
+    },
+    "media_url": {
+      "type": "string",
+      "description": "Raw/local media path \u2014 NOT safe for Metricool until approved"
+    },
+    "public_media_url": {
+      "type": "string",
+      "description": "Approved public HTTPS URL \u2014 safe for Metricool scheduling"
+    },
+    "metricool_media_id": {
+      "type": "string",
+      "description": "Metricool media ID after upload"
+    },
+    "metricool_ready": {
+      "type": "boolean",
+      "default": false,
+      "description": "True only when caption + approved public media both present. Set explicitly \u2014 do NOT auto-derive."
+    },
     "status": {
       "type": "string",
       "enum": [
         "draft",
         "pending_approval",
         "approved",
+        "visual_required",
         "scheduled",
         "posted",
         "rejected"

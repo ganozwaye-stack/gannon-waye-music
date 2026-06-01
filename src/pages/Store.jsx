@@ -399,12 +399,12 @@ export default function Store() {
     <div data-testid="store-page" className="min-h-screen py-24 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         
-        {/* Cart button */}
-        <div className="absolute top-6 right-6 z-40">
+        {/* Cart button — fixed position, z-60 to sit above z-50 navbar */}
+        <div className="fixed top-4 right-4 z-[60]" style={{ pointerEvents: 'auto' }}>
           <button
             data-testid="cart-button"
             onClick={() => setCartOpen(true)}
-            className="relative p-2 text-muted-foreground hover:text-foreground transition-colors"
+            className="relative p-2 bg-background/80 backdrop-blur-sm border border-border/40 rounded-full text-muted-foreground hover:text-foreground hover:border-primary/40 transition-all"
           >
             <ShoppingCart className="w-5 h-5" />
             {getItemCount > 0 && (
