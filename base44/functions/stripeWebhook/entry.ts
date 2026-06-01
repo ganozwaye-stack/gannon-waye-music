@@ -13,30 +13,65 @@ function isCategoryEligibleForDiscount(category) {
 }
 
 Deno.serve(async (req) => {
+  // CRITICAL: Create base44 client BEFORE reading body stream.
+  // Deno's Request body can only be read once. createClientFromRequest reads headers only,
+  // but must be called before req.text() to avoid any internal body consumption issues.
+  const base44 = createClientFromRequest(req);
+
+  const secretKey = Deno.env.get('STRIPE_SECRET_KEY');
+  const webhookSecret = Deno.env.get('STRIPE_WEBHOOK_SECRET');
+
+  if (!secretKey || !secretKey.startsWith('sk_')) {
+    return Response.json({ error: 'Stripe not configured' }, { status: 500 });
+  }
+
+  // Read raw body AFTER SDK client creation
+  let body;
   try {
-    const secretKey = Deno.env.get('STRIPE_SECRET_KEY');
-    const webhookSecret = Deno.env.get('STRIPE_WEBHOOK_SECRET');
+    body = await req.text();
+  } catch (e) {
+    return Response.json({ error: 'Failed to read body' }, { status: 400 });
+  }
 
-    if (!secretKey || !secretKey.startsWith('sk_')) {
-      return Response.json({ error: 'Stripe not configured' }, { status: 500 });
+  const signature = req.headers.get('stripe-signature');
+  const stripe = new Stripe(secretKey);
+
+  let event;
+  if (webhookSecret && signature) {
+    try {
+      event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
+    } catch (err) {
+      // Log signature failure async — but still return 400 for genuine failures
+      base44.asServiceRole.entities.PaymentDiagnostic.create({
+        diagnostic_type: 'webhook_signature_failure',
+        severity: 'critical',
+        status: 'open',
+        issue_summary: `stripeWebhook signature failed: ${err.message}`,
+        admin_message: 'Webhook arrived with invalid signature. Check STRIPE_WEBHOOK_SECRET matches Stripe Dashboard → Webhooks → Signing secret.',
+        recommended_fix: 'Open Stripe Dashboard → Developers → Webhooks → stripeWebhook endpoint → Reveal signing secret → update STRIPE_WEBHOOK_SECRET in Base44 Secrets.',
+        webhook_processed: false,
+        source_chain: 'Stripe → stripeWebhook → signature_failed',
+      }).catch(() => {});
+      return Response.json({ error: 'Webhook signature failed' }, { status: 400 });
     }
-
-    const stripe = new Stripe(secretKey);
-    const body = await req.text();
-    const signature = req.headers.get('stripe-signature');
-
-    let event;
-    if (webhookSecret && signature) {
-      try {
-        event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
-      } catch (err) {
-        return Response.json({ error: 'Webhook signature failed' }, { status: 400 });
-      }
-    } else {
+  } else if (!webhookSecret) {
+    // No secret configured — accept (dev/fallback only)
+    try {
       event = JSON.parse(body);
+    } catch {
+      return Response.json({ error: 'Invalid JSON payload' }, { status: 400 });
     }
+  } else {
+    // Secret configured but no signature header
+    return Response.json({ error: 'Missing stripe-signature header' }, { status: 400 });
+  }
 
-    const base44 = createClientFromRequest(req);
+  // ✅ Return 200 IMMEDIATELY — all heavy processing below is fire-and-forget
+  const response200 = Response.json({ received: true });
+
+  // Fire-and-forget: all order fulfillment runs async, never blocks the 200
+  (async () => {
+  try {
 
     // =============================================
     // CHECKOUT SESSION COMPLETED — full order chain
@@ -360,8 +395,18 @@ Deno.serve(async (req) => {
       } catch (_) {}
     }
 
-    return Response.json({ received: true });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    // Log unexpected errors but don't crash — 200 already sent
+    base44.asServiceRole.entities.PaymentDiagnostic.create({
+      diagnostic_type: 'webhook_processing_error',
+      severity: 'high',
+      status: 'open',
+      issue_summary: `stripeWebhook async processing error: ${error.message}`,
+      webhook_processed: false,
+      source_chain: 'Stripe → stripeWebhook → async_processing_error',
+    }).catch(() => {});
   }
+  })();
+
+  return response200;
 });

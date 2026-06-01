@@ -165,24 +165,60 @@ export default function WebhookHealthNew() {
         </CardContent>
       </Card>
 
-      {/* ── CRITICAL ACTION REQUIRED BANNER (webhook failure context) ── */}
-      <div className="border border-orange-500/40 bg-orange-500/10 rounded-xl p-4">
+      {/* ── CRITICAL ACTION REQUIRED BANNER ── */}
+      <div className="border border-red-500/50 bg-red-500/10 rounded-xl p-4">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-orange-400 shrink-0 mt-0.5" />
+          <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
           <div className="flex-1">
-            <p className="font-semibold text-orange-300">Stripe Webhook Failure — Action Required</p>
+            <p className="font-semibold text-red-300">Stripe Webhook Delivery Failure — Verification Required Before June 4, 2026</p>
             <p className="text-sm text-foreground/70 mt-1">
-              Stripe reported 75 failed delivery attempts to <code className="text-xs bg-secondary/60 px-1 rounded">stripeIntelligenceRouter</code> starting May 26, 2026.
-              Root cause: body stream consumed before SDK init — now fixed. Stripe will stop sending events{' '}
-              <strong>June 4, 2026</strong> if the endpoint doesn't return 2xx.
+              Stripe reported 75 failed attempts to <code className="text-xs bg-secondary/60 px-1 rounded">stripeIntelligenceRouter</code> since May 26.
+              Root cause (body stream consumed before SDK init) is now fixed in both <strong>stripeIntelligenceRouter</strong> and <strong>stripeWebhook</strong>.
             </p>
             <div className="mt-3 space-y-1.5 text-sm text-foreground/65">
-              <p>✅ <strong>Fix deployed:</strong> stripeIntelligenceRouter now returns 200 immediately before all async processing.</p>
-              <p>✅ <strong>stripeWebhook</strong> is the primary fulfillment handler — it was NOT affected.</p>
-              <p>⚠️ <strong>Next step:</strong> Scan for missed orders below, then go to Stripe Dashboard and resend failed events.</p>
+              <p>✅ <strong>stripeIntelligenceRouter:</strong> returns 200 immediately, all processing fire-and-forget.</p>
+              <p>✅ <strong>stripeWebhook:</strong> SDK client created before body read, 200 returned immediately, all fulfillment fire-and-forget.</p>
+              <p className="text-red-300 font-semibold">⚠️ Only Stripe Dashboard → Recent deliveries proves this is fixed. Event log below only shows events that already succeeded.</p>
             </div>
+            <div className="mt-3 border border-red-500/30 rounded-lg p-3 text-xs text-foreground/70 space-y-1">
+              <p className="font-semibold text-red-300">Manual Stripe Dashboard steps required:</p>
+              <ol className="list-decimal list-inside space-y-0.5">
+                <li>Open <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-primary underline">dashboard.stripe.com/webhooks</a></li>
+                <li>Click the <code className="bg-secondary/50 px-1 rounded">stripeIntelligenceRouter</code> endpoint</li>
+                <li>Open <strong>Recent deliveries</strong></li>
+                <li>Click a failed event → read HTTP status and response body</li>
+                <li>If you see <em>"Webhook signature failed"</em> → click <strong>Reveal</strong> on Signing secret → copy it → update <code className="bg-secondary/50 px-1 rounded">STRIPE_WEBHOOK_SECRET</code> in Base44 → App Settings → Secrets</li>
+                <li>Click <strong>Resend</strong> on one recent failed event</li>
+                <li>Confirm HTTP 2xx appears in the delivery attempt</li>
+              </ol>
+            </div>
+            <p className="text-xs text-muted-foreground/60 mt-2 italic">⚠️ "Run Health Check" below tests internal connectivity only — it does NOT prove Stripe delivery is working. Only a Stripe Dashboard resend confirms the fix.</p>
           </div>
         </div>
+      </div>
+
+      {/* Live event status */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <Card className="border-border">
+          <CardContent className="p-4">
+            <p className="text-xs text-muted-foreground mb-1">Last Event Received</p>
+            <p className="font-semibold text-sm">{lastSuccess ? new Date(lastSuccess.received_at || lastSuccess.created_date).toLocaleString('en-AU') : '— No live events yet'}</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border">
+          <CardContent className="p-4">
+            <p className="text-xs text-muted-foreground mb-1">Last Event Type</p>
+            <p className="font-mono text-sm">{lastSuccess?.event_type || '—'}</p>
+          </CardContent>
+        </Card>
+        <Card className="border-border">
+          <CardContent className="p-4">
+            <p className="text-xs text-muted-foreground mb-1">STRIPE_WEBHOOK_SECRET</p>
+            <p className={`font-semibold text-sm ${sigFails.length > 0 ? 'text-red-400' : 'text-green-400'}`}>
+              {sigFails.length > 0 ? '⚠️ Signature failures detected — may not match endpoint' : '✓ Set (presence only — value hidden)'}
+            </p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* ── ORDER RECOVERY SCANNER ── */}
