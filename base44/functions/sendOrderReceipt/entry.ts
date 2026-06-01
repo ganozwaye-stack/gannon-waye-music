@@ -141,7 +141,7 @@ Deno.serve(async (req) => {
     <div class="info-box" style="text-align:center;">
       <p style="color:#c9b99a;font-size:14px;margin:0 0 8px 0;">Payment Status</p>
       <p style="margin:0;font-size:13px;color:#999;">
-        ${order.status === 'delivered' ? 'Payment complete. Thank you!' : 'Payment will be charged when your order ships.'}
+        ${['paid', 'confirmed', 'delivered'].includes(order.status) ? 'Payment complete. Thank you!' : 'Payment status is being confirmed. You will not be charged again by this receipt.'}
       </p>
     </div>
 

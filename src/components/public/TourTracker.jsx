@@ -1,8 +1,7 @@
 import { motion } from 'framer-motion';
-import { MapPin, Calendar, ExternalLink, Ticket } from 'lucide-react';
+import { MapPin, ExternalLink, Ticket } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Link } from 'react-router-dom';
 
 // Static tour dates — update as bookings are confirmed
 const TOUR_DATES = [
@@ -49,11 +48,6 @@ export default function TourTracker() {
                   Instagram @gannonwaye
                 </Button>
               </a>
-              <Link to="/bookings">
-                <Button size="sm" className="rounded-full gradient-gold-button font-body text-xs tracking-wider uppercase">
-                  Book Gannon for Your Event
-                </Button>
-              </Link>
             </div>
           </motion.div>
         ) : (

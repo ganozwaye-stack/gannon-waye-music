@@ -10,7 +10,8 @@ const ALWAYS_INELIGIBLE_CATEGORIES = [
   'processing', 'fees', 'music', 'limited_edition_music', 'digital_music',
 ];
 
-const NO_SHIPPING_CATEGORIES = ['digital', 'support', 'donation', 'song', 'music', 'digital_music', 'cd', 'vinyl'];
+// cd and vinyl are physical goods — they require shipping
+const NO_SHIPPING_CATEGORIES = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
 
 function isInternational(address) {
   if (!address) return false;
@@ -174,6 +175,7 @@ Deno.serve(async (req) => {
                 description,
               },
               unit_amount: Math.max(50, Math.round(discounted * 100)),
+              tax_behavior: 'inclusive',
             },
             quantity: quantity,
           });
@@ -225,6 +227,7 @@ Deno.serve(async (req) => {
             description: 'All items shipped together',
           },
           unit_amount: shippingAmountCents,
+          tax_behavior: 'inclusive',
         },
         quantity: 1,
       });
@@ -232,9 +235,22 @@ Deno.serve(async (req) => {
 
     const totalAmountCents = lineItems.reduce((sum, li) => sum + li.price_data.unit_amount * li.quantity, 0);
 
+    // Determine if order has physical items for shipping address collection
+    const orderHasPhysical = cartItems.length > 0
+      ? cartItems.some(item => needsShipping(item.category || ''))
+      : true; // fallback: assume physical
+
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       ...(customerEmail ? { customer_email: customerEmail } : {}),
+      customer_creation: 'always',
+      billing_address_collection: 'required',
+      ...(orderHasPhysical ? {
+        shipping_address_collection: {
+          allowed_countries: ['AU', 'NZ', 'US', 'GB', 'CA', 'SG', 'IN'],
+        },
+      } : {}),
+      automatic_tax: { enabled: true },
       line_items: lineItems,
       success_url: `${origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/store?checkout=cancelled`,

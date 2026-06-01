@@ -39,14 +39,14 @@ export default function TermsOfService() {
           </section>
 
           <section>
-            <h2 className="font-display text-xl text-foreground mb-3">3A. Donations & Support Contributions</h2>
-            <p className="mb-2">Support contributions ("donations") made through this website are voluntary payments to support independent music creation. By making a donation, you acknowledge:</p>
+            <h2 className="font-display text-xl text-foreground mb-3">3A. Support Contributions</h2>
+            <p className="mb-2">Support contributions made through this website are voluntary payments to support independent music creation. By making a support contribution, you acknowledge:</p>
             <ul className="list-disc pl-5 space-y-1">
-              <li>Donations are tax-deductible to the extent permitted by Australian law</li>
-              <li>You will receive an official receipt via email for tax purposes</li>
-              <li>10% of all donations received each month will be donated to 1800RESPECT</li>
-              <li>Donations are non-refundable unless required by Australian Consumer Law</li>
-              <li>Recurring donations (fortnightly/monthly) will continue until you cancel by emailing hello@gannonwaye.com</li>
+              <li>Support contributions are not represented as tax-deductible donations unless deductible gift recipient status is confirmed in writing</li>
+              <li>You may receive a receipt for your personal records, not as tax advice or a tax-deductibility statement</li>
+              <li>10% of all support contributions received each month will be donated to 1800RESPECT</li>
+              <li>Support contributions are non-refundable unless required by Australian Consumer Law</li>
+              <li>Recurring contributions (fortnightly/monthly) will continue until you cancel by emailing hello@gannonwaye.com</li>
             </ul>
           </section>
 

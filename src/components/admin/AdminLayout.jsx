@@ -6,7 +6,7 @@ import {
   MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command,
   ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
   Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
-  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal
+  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal, Radio
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -68,6 +68,7 @@ const NAV_SECTIONS = [
   {
     title: 'Social',
     items: [
+      { label: '🔴 Livestream Command', path: '/admin/livestream-command', icon: Radio },
       { label: '🎵 Release Sprint', path: '/admin/release-sprint', icon: Zap },
       { label: 'Asset Library', path: '/admin/social-asset-library', icon: Palette },
       { label: 'Post Factory', path: '/admin/social-post-factory', icon: Megaphone },

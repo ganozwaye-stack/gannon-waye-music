@@ -64,8 +64,8 @@ Deno.serve(async (req) => {
     <div class="header">
       <div class="logo">Gannon Waye</div>
       <div class="subtitle">Singer, Songwriter, Storyteller</div>
-      <div class="receipt-title">Donation Receipt</div>
-      <div class="badge">Tax Deductible Donation</div>
+      <div class="receipt-title">Support Contribution Receipt</div>
+      <div class="badge">For Your Records</div>
     </div>
 
     <div class="section">
@@ -101,7 +101,7 @@ Deno.serve(async (req) => {
 
     <div class="section">
       <div class="row">
-        <span class="label">Donation Amount (Base)</span>
+        <span class="label">Contribution Amount</span>
         <span class="value">$${c.amount.toFixed(2)} AUD</span>
       </div>
       ${c.total_charged > c.amount ? `
@@ -111,7 +111,7 @@ Deno.serve(async (req) => {
       </div>
       ` : ''}
       <div class="row total">
-        <span class="label">Total Tax-Deductible Amount</span>
+        <span class="label">Total Contribution</span>
         <span class="value">$${c.amount.toFixed(2)} AUD</span>
       </div>
     </div>
@@ -126,9 +126,11 @@ Deno.serve(async (req) => {
     </div>
 
     <div class="footer">
-      <p>This receipt serves as proof of your tax-deductible donation to an independent artist.</p>
+      <p>This receipt is for your personal records only.</p>
+      <p>Support contributions are not represented as tax-deductible donations unless deductible gift recipient status is confirmed in writing.</p>
+      <p>You may receive a receipt for your personal records, not as tax advice or a tax-deductibility statement.</p>
       <p>Gannon Waye is an independent musician based in Melbourne, Australia.</p>
-      <p class="legal-text">ABN: [To be advised] | For tax purposes, this is a donation to support independent music creation and related artistic activities.</p>
+      <p class="legal-text">ABN: [To be advised]</p>
       <p style="margin-top: 15px; font-size: 13px; color: #c9a84c; font-weight: 600;">Thank you for your support. 🤍</p>
     </div>
   </div>

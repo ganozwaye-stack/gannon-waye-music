@@ -237,6 +237,8 @@ import MerchVisualLab from '@/pages/admin/MerchVisualLab';
 import BusinessProfileSettingsPage from '@/pages/admin/BusinessProfileSettings';
 import CampaignImageApproval from '@/pages/admin/CampaignImageApproval';
 import MasterBlueprint from '@/pages/admin/MasterBlueprint';
+import Live from '@/pages/Live';
+import LivestreamCommand from '@/pages/admin/LivestreamCommand';
 
 
 const AuthenticatedApp = () => {
@@ -319,6 +321,7 @@ const AuthenticatedApp = () => {
       <Route path="/tiktok-platform-review" element={<TikTokPlatformReview />} />
       <Route path="/tiktok-callback" element={<TikTokCallback />} />
       <Route path="/gift-checklist" element={<GiftChecklistPage />} />
+      <Route path="/live" element={<Live />} />
 
       {/* Admin routes */}
       <Route element={<AdminLayout />}>
@@ -546,6 +549,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/campaign-image-approval" element={<CampaignImageApproval />} />
         <Route path="/admin/thankyou-image-review" element={<CampaignImageApproval />} />
         <Route path="/admin/master-blueprint" element={<MasterBlueprint />} />
+        <Route path="/admin/livestream-command" element={<LivestreamCommand />} />
         <Route path="/admin/blueprint" element={<MasterBlueprint />} />
         <Route path="/admin/system-blueprint" element={<MasterBlueprint />} />
         <Route path="/admin/site-blueprint" element={<MasterBlueprint />} />

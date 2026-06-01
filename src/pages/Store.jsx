@@ -451,7 +451,7 @@ export default function Store() {
             <div className="flex justify-center">
               <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
                 {cdProducts.map(product => (
-                   <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/cart-details')} onViewCart={() => setCartOpen(true)} />
+                   <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/cart')} onViewCart={() => setCartOpen(true)} />
                  ))}
               </div>
             </div>
@@ -468,7 +468,7 @@ export default function Store() {
             </div>
             <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {merchProducts.map(product => (
-                 <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/cart-details')} onViewCart={() => setCartOpen(true)} />
+                 <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/cart')} onViewCart={() => setCartOpen(true)} />
                ))}
             </div>
           </>
@@ -511,7 +511,7 @@ export default function Store() {
           </div>
           <button
             data-testid="store-sticky-checkout-button"
-            onClick={() => navigate('/store/cart-details')}
+            onClick={() => navigate('/store/cart')}
             className="gradient-gold-button rounded-full px-6 py-2 font-body text-sm tracking-wider uppercase shrink-0"
           >
             Checkout

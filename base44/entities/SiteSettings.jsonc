@@ -41,7 +41,41 @@
     "show_thank_you_campaign_section": {
       "type": "boolean",
       "default": true,
-      "description": "Controls visibility of the Thank You campaign artwork section on the homepage. Toggle to rollback."
+      "description": "Controls visibility of the Thank You campaign artwork section on the homepage."
+    },
+    "live_stream_enabled": {
+      "type": "boolean",
+      "default": false,
+      "description": "Enable the public /live page"
+    },
+    "live_stream_status": {
+      "type": "string",
+      "enum": [
+        "offline",
+        "scheduled",
+        "live",
+        "ended"
+      ],
+      "default": "offline"
+    },
+    "live_stream_provider": {
+      "type": "string",
+      "description": "e.g. YouTube, Vimeo, StreamYard"
+    },
+    "live_stream_title": {
+      "type": "string"
+    },
+    "live_stream_scheduled_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "live_stream_embed_url": {
+      "type": "string",
+      "description": "Public HTTPS embed URL only \u2014 no stream keys or private dashboard URLs"
+    },
+    "live_stream_chat_url": {
+      "type": "string",
+      "description": "Optional public chat embed URL"
     }
   },
   "required": [],

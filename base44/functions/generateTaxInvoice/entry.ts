@@ -58,8 +58,8 @@ Deno.serve(async (req) => {
     <div class="header">
       <div class="logo">Gannon Waye</div>
       <div class="subtitle">Singer, Songwriter, Storyteller</div>
-      <div class="invoice-title">Tax Invoice</div>
-      <div class="badge">TAX DEDUCTIBLE DONATION</div>
+      <div class="invoice-title">Support Contribution Receipt</div>
+      <div class="badge">FOR YOUR RECORDS</div>
     </div>
 
     <div class="details">
@@ -89,7 +89,7 @@ Deno.serve(async (req) => {
 
     <div class="details">
       <div class="row">
-        <span class="label">Donation Amount</span>
+        <span class="label">Contribution Amount</span>
         <span class="value">$${contribution.amount.toFixed(2)} AUD</span>
       </div>
       ${contribution.frequency !== 'once' ? `
@@ -99,7 +99,7 @@ Deno.serve(async (req) => {
       </div>
       ` : ''}
       <div class="row total">
-        <span class="label">Total Tax Deductible</span>
+        <span class="label">Total Contribution</span>
         <span class="value">$${contribution.amount.toFixed(2)} AUD</span>
       </div>
     </div>
@@ -109,8 +109,9 @@ Deno.serve(async (req) => {
     </div>
 
     <div class="footer">
-      <p>This invoice serves as proof of your tax-deductible donation.</p>
-      <p>Gannon Waye is an independent artist. Donations support independent music creation.</p>
+      <p>This receipt is for your personal records only.</p>
+      <p>Support contributions are not represented as tax-deductible donations unless deductible gift recipient status is confirmed in writing. You may receive a receipt for your personal records, not as tax advice or a tax-deductibility statement.</p>
+      <p>Gannon Waye is an independent artist. 10% of support received is donated to 1800RESPECT.</p>
       <p style="margin-top: 10px;">Thank you for your support. 🤍</p>
     </div>
   </div>
