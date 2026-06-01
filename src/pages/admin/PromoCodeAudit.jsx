@@ -93,6 +93,20 @@ export default function PromoCodeAudit() {
         <Button onClick={() => setShowForm(true)} className="gap-2"><Tag className="w-4 h-4" /> New Code</Button>
       </div>
 
+      {/* Live Customer-Facing Code Clarity */}
+      <Card className="border-amber-500/30 bg-amber-500/5">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm flex items-center gap-2 text-amber-400">
+            <AlertTriangle className="w-4 h-4" /> Important: Friendly codes like THANKYOU15 / FAMILYFRIENDS30 are NOT active
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-xs text-muted-foreground space-y-2">
+          <p>The current live codes use deliberately complex strings (e.g. <code className="font-mono bg-secondary/40 px-1 rounded">F20UN26DVIP</code>, <code className="font-mono bg-secondary/40 px-1 rounded">F30MOM26A</code>) to prevent guessing. Codes like <code className="font-mono bg-secondary/40 px-1 rounded">THANKYOU15</code>, <code className="font-mono bg-secondary/40 px-1 rounded">FAMILYFRIENDS30</code>, <code className="font-mono bg-secondary/40 px-1 rounded">GIFTAPPROVED25</code>, <code className="font-mono bg-secondary/40 px-1 rounded">FRIENDS30</code> are <strong className="text-amber-400">not in the database</strong> — they will return "Code not found" if a customer tries them.</p>
+          <p>If you want to give those friendly codes to fans/family, create them below using the <strong>New Code</strong> button with the exact string you want customers to type. The <strong>Description</strong> field is your internal note about who the code is for.</p>
+          <p className="text-amber-400 font-semibold">Current live codes and their intended audience are shown in the table below under "Description".</p>
+        </CardContent>
+      </Card>
+
       {/* Global Discount Guard Banner */}
       <div className="bg-primary/5 border border-primary/30 rounded-xl p-4">
         <div className="flex items-start gap-3">
