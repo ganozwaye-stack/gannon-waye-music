@@ -22,6 +22,22 @@
     <meta name="twitter:description" content="Debut single 'Thank You' — artwork & release date reveal May 10." />
     <meta name="twitter:image" content="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9da833f2a_a5ef50136_generated_image1.png" />
 
+    <!-- Disable Base44 SDK analytics user lookup on public pages to prevent unauthenticated /entities/User/me calls -->
+    <script>
+      window.base44SharedInstances = window.base44SharedInstances || {};
+      window.base44SharedInstances.analytics = {
+        instance: {
+          requestsQueue: [],
+          isProcessing: false,
+          isHeartBeatProcessing: false,
+          wasInitializationTracked: false,
+          sessionContext: null,
+          sessionStartTime: null,
+          config: { enabled: false }
+        }
+      };
+    </script>
+
     <!-- ✅ METRICOOL TRACKING SCRIPT -->
     <script>
       function loadScript(a){
