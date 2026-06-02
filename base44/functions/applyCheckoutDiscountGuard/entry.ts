@@ -64,8 +64,8 @@ function categoriseItem(item) {
     return 'eligible';
   }
 
-  // Default: treat unknown category as eligible (apparel/merch typically)
-  return 'eligible';
+  // Default: fail closed — unknown/unresolved category is ineligible
+  return 'ineligible';
 }
 
 Deno.serve(async (req) => {

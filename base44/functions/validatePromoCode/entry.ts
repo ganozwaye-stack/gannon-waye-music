@@ -196,6 +196,16 @@ Deno.serve(async (req) => {
           reason: `This code applies to eligible merch only. ${ALWAYS_EXCLUDED_LABEL} are excluded.`,
         });
       }
+    } else {
+      // No cart_items and no product_category — fail closed if promo has category restrictions
+      const hasAllowedCats = (promo.allowed_categories || []).length > 0;
+      const hasExcludedCats = (promo.excluded_categories || []).length > 0;
+      if (hasAllowedCats || hasExcludedCats) {
+        return Response.json({
+          valid: false,
+          reason: 'Unable to verify product eligibility for this code. Please apply it from the checkout page after products are in your cart.',
+        });
+      }
     }
 
     const baseResponse = {
