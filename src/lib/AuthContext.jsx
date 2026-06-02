@@ -5,6 +5,13 @@ import { createAxiosClient } from '@base44/sdk/dist/utils/axios-client';
 
 const AuthContext = createContext();
 
+const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders'];
+
+const shouldCheckUserForCurrentRoute = () => {
+  const path = window.location.pathname;
+  return AUTH_REQUIRED_PATH_PREFIXES.some(prefix => path === prefix || path.startsWith(prefix + '/'));
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -38,8 +45,8 @@ export const AuthProvider = ({ children }) => {
         const publicSettings = await appClient.get(`/prod/public-settings/by-id/${appParams.appId}`);
         setAppPublicSettings(publicSettings);
         
-        // If we got the app public settings successfully, check if user is authenticated
-        if (appParams.token) {
+        // Only call base44.auth.me() on routes that actually require identity
+        if (appParams.token && shouldCheckUserForCurrentRoute()) {
           await checkUserAuth();
         } else {
           setIsLoadingAuth(false);
