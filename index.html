@@ -38,6 +38,37 @@
       };
     </script>
 
+    <!-- Silently throttle Base44 app-log/log-user-in-app 429s. Best-effort only — never blocks rendering. -->
+    <script>
+      (function() {
+        var _nativeFetch = window.fetch;
+        var _appLogLastCall = {};
+        var APP_LOG_THROTTLE_MS = 30000; // 30s minimum between same-route log calls
+        window.fetch = function(input, init) {
+          var url = (typeof input === 'string') ? input : (input && input.url) || '';
+          if (url && url.indexOf('/app-logs/') !== -1 && url.indexOf('log-user-in-app') !== -1) {
+            var now = Date.now();
+            var key = url.split('?')[0];
+            if (_appLogLastCall[key] && (now - _appLogLastCall[key]) < APP_LOG_THROTTLE_MS) {
+              // Throttled — return a resolved 200 stub, no network call
+              return Promise.resolve(new Response('{}', { status: 200, headers: { 'Content-Type': 'application/json' } }));
+            }
+            _appLogLastCall[key] = now;
+            return _nativeFetch.apply(this, arguments).then(function(res) {
+              if (res.status === 429) {
+                // Silence 429 — return 200 stub so callers don't error
+                return new Response('{}', { status: 200, headers: { 'Content-Type': 'application/json' } });
+              }
+              return res;
+            }).catch(function() {
+              return new Response('{}', { status: 200, headers: { 'Content-Type': 'application/json' } });
+            });
+          }
+          return _nativeFetch.apply(this, arguments);
+        };
+      })();
+    </script>
+
     <!-- ✅ METRICOOL TRACKING SCRIPT -->
     <script>
       function loadScript(a){

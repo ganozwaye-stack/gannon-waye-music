@@ -395,6 +395,63 @@ Deno.serve(async (req) => {
       } catch (_) {}
     }
 
+    // =============================================
+    // PAYMENT INTENT SUCCEEDED
+    // =============================================
+    if (event.type === 'payment_intent.succeeded') {
+      const pi = event.data.object;
+      try {
+        await base44.asServiceRole.entities.StripeEventLog.create({
+          stripe_event_id: event.id,
+          event_type: 'payment_intent.succeeded',
+          category: 'revenue',
+          priority: 'high',
+          processing_status: 'processed',
+          stripe_object_id: pi.id,
+          payment_intent_id: pi.id,
+          amount: (pi.amount_received || 0) / 100,
+          currency: pi.currency || 'aud',
+          safe_summary: `PaymentIntent ${pi.id} succeeded — $${((pi.amount_received || 0) / 100).toFixed(2)}`,
+          received_at: new Date().toISOString(),
+          processed_at: new Date().toISOString(),
+          source_chain: 'stripeWebhook → payment_intent.succeeded',
+        });
+      } catch (_) {}
+    }
+
+    // =============================================
+    // CHARGE REFUNDED
+    // =============================================
+    if (event.type === 'charge.refunded') {
+      const charge = event.data.object;
+      const refundAmount = (charge.amount_refunded || 0) / 100;
+      try {
+        await base44.asServiceRole.entities.AdminNotification.create({
+          notification_type: 'payment_warning',
+          severity: 'warning',
+          title: `Refund processed — $${refundAmount.toFixed(2)} AUD`,
+          summary: `Charge ${charge.id} refunded $${refundAmount.toFixed(2)} AUD. Customer: ${charge.billing_details?.email || 'unknown'}`,
+          requires_action: true,
+          linked_route: '/admin/orders',
+          source: 'stripeWebhook',
+        });
+        await base44.asServiceRole.entities.StripeEventLog.create({
+          stripe_event_id: event.id,
+          event_type: 'charge.refunded',
+          category: 'refund',
+          priority: 'high',
+          processing_status: 'processed',
+          stripe_object_id: charge.id,
+          amount: refundAmount,
+          currency: charge.currency || 'aud',
+          safe_summary: `Refund $${refundAmount.toFixed(2)} on charge ${charge.id}`,
+          received_at: new Date().toISOString(),
+          processed_at: new Date().toISOString(),
+          source_chain: 'stripeWebhook → charge.refunded',
+        });
+      } catch (_) {}
+    }
+
   } catch (error) {
     // Log unexpected errors but don't crash — 200 already sent
     base44.asServiceRole.entities.PaymentDiagnostic.create({
