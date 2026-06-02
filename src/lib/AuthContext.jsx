@@ -99,18 +99,12 @@ export const AuthProvider = ({ children }) => {
       setIsLoadingAuth(false);
       setAuthChecked(true);
     } catch (error) {
-      console.error('User auth check failed:', error);
+      // 401 on a public route just means "not logged in" — not an error worth blocking the page
       setIsLoadingAuth(false);
       setIsAuthenticated(false);
       setAuthChecked(true);
-      
-      // If user auth fails, it might be an expired token
-      if (error.status === 401 || error.status === 403) {
-        setAuthError({
-          type: 'auth_required',
-          message: 'Authentication required'
-        });
-      }
+      // Only set authError for non-public routes (admin routes handle this via AdminLayout)
+      // Do NOT set authError here — public pages must render without identity
     }
   };
 
