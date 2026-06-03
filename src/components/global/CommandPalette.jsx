@@ -84,9 +84,10 @@ export default function CommandPalette({ isOpen, onClose }) {
       }
     };
 
+    if (!isOpen) return;
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [query, selectedIndex, filteredCommands, onClose, executeCommand]);
+  }, [isOpen, query, selectedIndex, filteredCommands, onClose, executeCommand]);
 
   if (!isOpen) return null;
 
