@@ -1,13 +1,16 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 /**
- * PROMO CODE VALIDATION — v2.0
+ * PROMO CODE VALIDATION — v2.1
  * CRITICAL: Codes are stored and compared EXACTLY as entered. No case normalisation.
  * The two approved codes contain symbols: fnd@gwTYV!P and F@mFr!3NdsOFg@noz
  * These must never be uppercased/lowercased during lookup.
  *
  * Global Discount Guard is enforced: discounts apply only to eligible merch subtotal.
  * Shipping, fees, CDs, vinyl, songs, digital music, support contributions are always excluded.
+ * 
+ * FIX v2.1: Removed User entity lookup. one_use_per_email check uses stored used_by_emails
+ * array only (via asServiceRole) — no authenticated user session required.
  */
 
 const ALWAYS_INELIGIBLE_CATEGORIES = [
@@ -33,10 +36,9 @@ Deno.serve(async (req) => {
     }
 
     // CRITICAL: Search by exact code — do NOT normalise case.
-    // The approved codes contain symbols and mixed case that must be preserved.
     const trimmedCode = code.trim();
 
-    // First try exact match
+    // Always use asServiceRole for promo lookups — no user session required
     let codes = await base44.asServiceRole.entities.PromoCode.filter({
       code: trimmedCode,
       is_active: true,
@@ -87,8 +89,6 @@ Deno.serve(async (req) => {
     }
 
     // === OWNER OVERRIDE CODE ===
-    // If this promo has 90%+ discount and requires_approval and is restricted to specific emails,
-    // it's an owner override — bypass category guards entirely
     const isOwnerOverride = promo.discount_percent >= 90 && promo.requires_approval && (promo.approved_emails || []).length > 0;
     if (isOwnerOverride) {
       return Response.json({
@@ -99,12 +99,12 @@ Deno.serve(async (req) => {
         is_owner_override: true,
         override_applies_to_all: true,
         excludes_shipping: promo.excludes_shipping ?? true,
-        global_guard_active: false, // Override bypasses guard
+        global_guard_active: false,
         note: 'Owner override code — applies to all items including ineligible categories',
       });
     }
 
-    // Check one-use-per-email (use stored used_by_emails array — no User entity lookup needed)
+    // Check one-use-per-email — uses stored used_by_emails array, no User entity lookup
     if (promo.one_use_per_email) {
       if (!email) {
         return Response.json({ valid: false, reason: 'Email required for this code' });
@@ -116,12 +116,9 @@ Deno.serve(async (req) => {
     }
 
     // === CART ITEM CATEGORY RESOLUTION & REJECTION ===
-    // Resolve product categories from DB when missing, then check against promo exclusions.
-    // CRITICAL: If ALL cart items are ineligible/excluded, return valid: false immediately.
     let discountGuardResult = null;
 
     if (cart_items && cart_items.length > 0) {
-      // Step 1: Resolve categories for any items missing one
       const resolvedItems = [];
       for (const item of cart_items) {
         let resolved = { ...item };
@@ -138,35 +135,24 @@ Deno.serve(async (req) => {
         resolvedItems.push(resolved);
       }
 
-      // Step 2: Classify each item as eligible or ineligible
       const promoExcludedCats = (promo.excluded_categories || []).map(c => c.toLowerCase());
       const promoAllowedCats = (promo.allowed_categories || []).map(c => c.toLowerCase());
 
       function isItemIneligible(item) {
         const cat = (item.category || item.product_type || item.type || '').toLowerCase().trim();
         const name = (item.name || item.product_name || '').toLowerCase();
-
-        // Always-ineligible categories (global rule)
         if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c))) return true;
-
-        // Name-based CD/vinyl detection for items with missing/empty category
         if (!cat || cat === 'other') {
           if (/\bcd\b/.test(name) || /\bvinyl\b/.test(name) || name.includes('digital download')) return true;
         }
-
-        // Promo-level excluded categories
         if (promoExcludedCats.length > 0 && promoExcludedCats.some(c => cat.includes(c))) return true;
-
-        // Promo-level allowed categories restriction
         if (promoAllowedCats.length > 0 && cat && !promoAllowedCats.some(c => cat.includes(c))) return true;
-
         return false;
       }
 
       const eligibleItems = resolvedItems.filter(i => !isItemIneligible(i));
       const ineligibleItems = resolvedItems.filter(i => isItemIneligible(i));
 
-      // Step 3: REJECT if every item in cart is ineligible
       if (eligibleItems.length === 0 && ineligibleItems.length > 0) {
         const ineligibleNames = ineligibleItems.map(i => i.name || i.category || 'item').join(', ');
         return Response.json({
@@ -176,7 +162,6 @@ Deno.serve(async (req) => {
         });
       }
 
-      // Step 4: Pass to discount guard for amount calculation (has eligible items)
       try {
         const guardRes = await base44.asServiceRole.functions.invoke('applyCheckoutDiscountGuard', {
           cart_items: resolvedItems,
@@ -185,10 +170,9 @@ Deno.serve(async (req) => {
           source_chain: `validatePromoCode → applyCheckoutDiscountGuard`,
         });
         discountGuardResult = guardRes;
-      } catch (_) { /* non-fatal — amounts computed at checkout */ }
+      } catch (_) { /* non-fatal */ }
 
     } else if (product_category) {
-      // Single category check (legacy path)
       const cat = product_category.toLowerCase().trim();
       if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c))) {
         return Response.json({
@@ -197,7 +181,6 @@ Deno.serve(async (req) => {
         });
       }
     } else {
-      // No cart_items and no product_category — fail closed if promo has category restrictions
       const hasAllowedCats = (promo.allowed_categories || []).length > 0;
       const hasExcludedCats = (promo.excluded_categories || []).length > 0;
       if (hasAllowedCats || hasExcludedCats) {
@@ -210,21 +193,20 @@ Deno.serve(async (req) => {
 
     const baseResponse = {
       valid: true,
-      code: promo.code, // Return exact stored code
+      code: promo.code,
       discount_percent: promo.discount_percent,
       id: promo.id,
-      excludes_shipping: true, // Always true for global guard
-      excludes_support: true,   // Always true for global guard
-      excludes_music: true,     // Always true for global guard
+      excludes_shipping: true,
+      excludes_support: true,
+      excludes_music: true,
       allowed_categories: promo.allowed_categories || [],
       excluded_categories: promo.excluded_categories || [],
       requires_approval: promo.requires_approval || false,
       global_guard_active: true,
-      global_guard_version: '1.0',
+      global_guard_version: '2.1',
       excluded_always: ALWAYS_EXCLUDED_LABEL,
     };
 
-    // Attach discount guard result if available
     if (discountGuardResult) {
       return Response.json({
         ...baseResponse,

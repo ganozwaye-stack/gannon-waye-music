@@ -160,6 +160,7 @@ import RevenueActions from '@/pages/admin/RevenueActions';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
 import OperationRegistry from '@/pages/admin/OperationRegistry';
 import SiteFunctionAudit from '@/pages/admin/SiteFunctionAudit';
+import SiteScanReport from '@/pages/admin/SiteScanReport';
 import PaymentDiagnostics from '@/pages/admin/PaymentDiagnosticsNew';
 import IntegrationCompletionCentre from '@/pages/admin/IntegrationCompletionCentre';
 import StripeCommandCentre from '@/pages/admin/StripeCommandCentreNew';
@@ -418,6 +419,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
         <Route path="/admin/operation-registry" element={<OperationRegistry />} />
         <Route path="/admin/site-function-audit" element={<SiteFunctionAudit />} />
+        <Route path="/admin/site-scan-report" element={<SiteScanReport />} />
         <Route path="/admin/payment-diagnostics" element={<PaymentDiagnostics />} />
         <Route path="/admin/integration-completion-centre" element={<IntegrationCompletionCentre />} />
         <Route path="/admin/integration-war-room" element={<IntegrationCompletionCentre />} />
