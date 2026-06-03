@@ -141,6 +141,9 @@ function AgentDetailModal({ agent, onClose, onUpdate }) {
                 <Play className="w-3 h-3" /> Activate This Agent
               </Button>
             )}
+            {!isReady && !agent.id && (
+              <p className="mt-3 text-xs text-muted-foreground italic">Base Registry / Not yet activated in DB — actions disabled until seeded.</p>
+            )}
           </div>
 
           {/* Last Action */}
@@ -364,8 +367,11 @@ export default function AgentRegistry() {
                     💰 {agent.financial_risk || 'none'}
                   </span>
                 </div>
-                {agent.status !== 'active' && (
-                  <span className="text-xs text-yellow-400">Tap to activate →</span>
+                {agent.status !== 'active' && agent.id && (
+                <span className="text-xs text-yellow-400">Tap to activate →</span>
+                )}
+                {!agent.id && (
+                <span className="text-xs text-muted-foreground/60 italic">Base Registry</span>
                 )}
               </div>
             </CardContent>

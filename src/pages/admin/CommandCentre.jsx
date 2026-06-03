@@ -77,7 +77,7 @@ export default function CommandCentre() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatusCard icon={CheckCircle2} color="text-yellow-400" bg="bg-yellow-500/10" label="Pending Approvals" value={pendingApprovals.length} link="/admin/approval-queue" />
         <StatusCard icon={AlertTriangle} color="text-red-400" bg="bg-red-500/10" label="Open Risk Alerts" value={openAlerts.length} link="/admin/risk-alerts" />
-        <StatusCard icon={Brain} color="text-purple-400" bg="bg-purple-500/10" label="Agents Registered" value={agents.length} link="/admin/agent-registry" />
+        <StatusCard icon={Brain} color="text-purple-400" bg="bg-purple-500/10" label={usingFallback ? `Base registry agents loaded` : `Agent records loaded`} value={agents.length} link="/admin/agent-registry" />
         <StatusCard icon={Activity} color="text-green-400" bg="bg-green-500/10" label="Tasks Logged Today" value={recentLogs.length} link="/admin/agent-task-log" />
       </div>
 
