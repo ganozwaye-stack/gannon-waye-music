@@ -104,12 +104,12 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Check one-use-per-email
+    // Check one-use-per-email (use stored used_by_emails array — no User entity lookup needed)
     if (promo.one_use_per_email) {
       if (!email) {
         return Response.json({ valid: false, reason: 'Email required for this code' });
       }
-      const usedBy = promo.used_by_emails || [];
+      const usedBy = (promo.used_by_emails || []).map(e => e.toLowerCase().trim());
       if (usedBy.includes(email)) {
         return Response.json({ valid: false, reason: 'This code has already been used with this email address' });
       }
