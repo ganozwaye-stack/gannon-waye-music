@@ -226,6 +226,37 @@ export default function Live() {
         )}
       </div>
 
+      {/* Social Live Links */}
+      {(settings?.live_stream_tiktok_url || settings?.live_stream_instagram_url) && (
+        <div className="bg-secondary/20 border-b border-border/40 py-4 px-4">
+          <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2 text-left">
+              <span className="text-xl">📱</span>
+              <div>
+                <p className="font-display text-sm font-semibold text-foreground">Simulcasting to Socials</p>
+                <p className="font-body text-xs text-muted-foreground">Prefer to watch, comment, or share on your favorite app?</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-3">
+              {settings.live_stream_tiktok_url && (
+                <a href={settings.live_stream_tiktok_url} target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/5">
+                    🔴 Watch TikTok Live
+                  </Button>
+                </a>
+              )}
+              {settings.live_stream_instagram_url && (
+                <a href={settings.live_stream_instagram_url} target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/5">
+                    <Instagram className="w-3.5 h-3.5 mr-1.5" /> Watch Instagram Live
+                  </Button>
+                </a>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Live Gifting & Support Panel */}
       <div className="px-4 py-10 max-w-5xl mx-auto w-full text-center space-y-6">
         <div>

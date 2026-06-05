@@ -51,6 +51,8 @@ export default function LivestreamCommand() {
         live_stream_scheduled_at: settings.live_stream_scheduled_at || '',
         live_stream_embed_url: settings.live_stream_embed_url || '',
         live_stream_chat_url: settings.live_stream_chat_url || '',
+        live_stream_tiktok_url: settings.live_stream_tiktok_url || '',
+        live_stream_instagram_url: settings.live_stream_instagram_url || '',
       });
     }
   }, [settings, form]);
@@ -240,6 +242,28 @@ export default function LivestreamCommand() {
                   <AlertTriangle className="w-3 h-3" /> Must be HTTPS from an allowed provider
                 </p>
               )}
+            </div>
+
+            <div>
+              <label className="font-body text-xs text-muted-foreground block mb-1">TikTok Live Stream URL (optional)</label>
+              <input
+                type="url"
+                value={form.live_stream_tiktok_url || ''}
+                onChange={e => update('live_stream_tiktok_url', e.target.value)}
+                placeholder="https://www.tiktok.com/@gann0nwaye/live"
+                className="w-full bg-secondary/50 border border-border/40 rounded-lg px-3 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
+              />
+            </div>
+
+            <div>
+              <label className="font-body text-xs text-muted-foreground block mb-1">Instagram Live Stream URL (optional)</label>
+              <input
+                type="url"
+                value={form.live_stream_instagram_url || ''}
+                onChange={e => update('live_stream_instagram_url', e.target.value)}
+                placeholder="https://www.instagram.com/gann0nwaye/live"
+                className="w-full bg-secondary/50 border border-border/40 rounded-lg px-3 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
+              />
             </div>
 
             {/* Preview */}
