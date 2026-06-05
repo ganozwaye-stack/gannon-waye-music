@@ -4,7 +4,7 @@
 
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = 'https://gannonwaye.com';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 test.describe('Enter Key Behaviour — Public', () => {
   test('Enter in footer email input does not navigate away from home', async ({ page }) => {

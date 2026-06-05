@@ -239,6 +239,8 @@ import CampaignImageApproval from '@/pages/admin/CampaignImageApproval';
 import MasterBlueprint from '@/pages/admin/MasterBlueprint';
 import Live from '@/pages/Live';
 import LivestreamCommand from '@/pages/admin/LivestreamCommand';
+import QuickUpload from '@/pages/admin/QuickUpload';
+import LinkIntegrityAudit from '@/pages/admin/LinkIntegrityAudit';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -567,6 +569,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/strategic-execution-plan" element={<StrategicExecutionPlan />} />
         <Route path="/admin/merch-visual-lab" element={<MerchVisualLab />} />
         <Route path="/admin/business-profile-settings" element={<BusinessProfileSettingsPage />} />
+        <Route path="/admin/settings/business-details" element={<BusinessProfileSettingsPage />} />
+        <Route path="/admin/quick-upload" element={<QuickUpload />} />
+        <Route path="/admin/link-integrity-audit" element={<LinkIntegrityAudit />} />
         <Route path="/admin/campaign-image-approval" element={<CampaignImageApproval />} />
         <Route path="/admin/thankyou-image-review" element={<CampaignImageApproval />} />
         <Route path="/admin/master-blueprint" element={<MasterBlueprint />} />

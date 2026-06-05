@@ -4,7 +4,7 @@
 
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = 'https://gannonwaye.com';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 test.describe('Link Integrity — Public routes', () => {
   test('home page has no href="#" or javascript:void links', async ({ page }) => {
@@ -44,7 +44,7 @@ test.describe('Link Integrity — Public routes', () => {
     expect(bodyText).toContain('@gann0nwaye');
     expect(bodyText).toContain('@gannonwayeofficial');
     // should NOT contain the old wrong handle
-    expect(bodyText).not.toMatch(/@gannonwaye(?!official)/);
+    expect(bodyText).not.toMatch(/(^|\s)@gannonwaye(?!official)/);
   });
 
   test('footer Instagram link correct', async ({ page }) => {

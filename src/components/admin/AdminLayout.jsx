@@ -7,7 +7,7 @@ import {
   MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command,
   ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
   Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
-  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal, Radio
+  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal, Radio, Upload
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -158,7 +158,9 @@ const NAV_SECTIONS = [
       // Top 3-5 Important
       { label: 'Site Settings', path: '/admin/settings', icon: Settings },
       { label: 'API Setup', path: '/admin/api-setup', icon: Zap },
-      { label: 'Business Profile Settings', path: '/admin/business-profile-settings', icon: Settings },
+      { label: 'Business Details', path: '/admin/settings/business-details', icon: Settings },
+      { label: 'Quick Upload', path: '/admin/quick-upload', icon: Upload },
+      { label: 'Link Integrity Audit', path: '/admin/link-integrity-audit', icon: Activity },
       { label: 'Security Centre', path: '/admin/security-centre', icon: Shield },
       // Alphabetical Remaining
       { label: 'Audit Log', path: '/admin/audit-log', icon: FileText },

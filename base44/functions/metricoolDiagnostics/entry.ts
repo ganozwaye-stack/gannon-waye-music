@@ -140,7 +140,8 @@ Deno.serve(async (req) => {
       }
     }
 
-    const auth_status = tests.simpleProfiles?.result === 'connected' ? 'connected' : 'failed';
+    const isUnwantedProfile = blogId === '6305775' && userId === '4741333';
+    const auth_status = (tests.simpleProfiles?.result === 'connected' && !isUnwantedProfile) ? 'connected' : 'failed';
     const rest_fallback_mode = token_present ? 'active' : 'inactive';
 
     let summary = '';
@@ -149,13 +150,16 @@ Deno.serve(async (req) => {
       summary = '✓ Metricool connected — REST API authenticated';
       next_action = 'Profile fetch, scheduler, and analytics are available. MCP direct mode blocked by JSON-RPC protocol (use REST API only).';
     } else {
-      const cause = !token_present ? 'METRICOOL_API_TOKEN missing' :
+      const cause = isUnwantedProfile ? 'Unwanted profile (Blog ID 6305775 / User ID 4741333) is blocked/disabled' :
+        !token_present ? 'METRICOOL_API_TOKEN missing' :
         tests.simpleProfiles?.status === 401 ? 'Token rejected (401) — wrong token, expired, or whitespace in secret' :
         tests.simpleProfiles?.status === 403 ? 'Forbidden (403) — token valid but insufficient permissions' :
         tests.simpleProfiles?.status === 429 ? 'Rate limited (429) — wait and retry' :
         `HTTP ${tests.simpleProfiles?.status || 'error'} — check secrets`;
       summary = `✗ Metricool authentication failed: ${cause}`;
-      next_action = 'Go to Metricool → Settings → API Access → Generate Token. Re-enter in Base44 Secrets → METRICOOL_API_TOKEN (no spaces).';
+      next_action = isUnwantedProfile
+        ? 'Disable this profile configuration. Set METRICOOL_BLOG_ID and METRICOOL_USER_ID to the correct Gannon Waye account in Base44 Secrets.'
+        : 'Go to Metricool → Settings → API Access → Generate Token. Re-enter in Base44 Secrets → METRICOOL_API_TOKEN (no spaces).';
     }
 
     // Create alert if failing

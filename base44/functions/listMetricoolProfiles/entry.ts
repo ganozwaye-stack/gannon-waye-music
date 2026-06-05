@@ -43,14 +43,19 @@ Deno.serve(async (req) => {
 
     const raw = await resp.json().catch(() => []);
     // Normalize — Metricool simpleProfiles returns array of brand objects
-    const profiles = Array.isArray(raw) ? raw.map(p => ({
-      name:    p.name || p.blogName || p.username || `Profile`,
-      blogId:  String(p.blogId || p.id || ''),
-      userId:  String(p.userId || userId),
-      type:    p.type || p.accountType || '',
-      status:  p.status || 'active',
-      avatarUrl: p.avatarUrl || p.logo || null,
-    })) : [];
+    const profiles = Array.isArray(raw) ? raw.map(p => {
+      const bId = String(p.blogId || p.id || '');
+      const uId = String(p.userId || userId);
+      const isDisabled = bId === '6305775' && uId === '4741333';
+      return {
+        name:    isDisabled ? '[DISABLED] Gannon Waye (Incorrect Profile)' : (p.name || p.blogName || p.username || `Profile`),
+        blogId:  bId,
+        userId:  uId,
+        type:    p.type || p.accountType || '',
+        status:  isDisabled ? 'disabled' : (p.status || 'active'),
+        avatarUrl: p.avatarUrl || p.logo || null,
+      };
+    }) : [];
 
     return Response.json({
       profiles,

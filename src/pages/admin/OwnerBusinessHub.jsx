@@ -258,7 +258,7 @@ export default function OwnerBusinessHub() {
         <TabsContent value="quick-links" className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { title: 'Business Profile Settings', desc: 'Modify localized seller addresses.', link: '/admin/business-profile-settings' },
+              { title: 'Business Profile Settings', desc: 'Modify localized seller addresses.', link: '/admin/settings/business-details' },
               { title: 'Procurement Console', desc: 'Process bulk orders to AliExpress.', link: '/admin/procurement-command' },
               { title: 'Business Process Command', desc: 'Review active workers state.', link: '/admin/business-process-command' }
             ].map(item => (

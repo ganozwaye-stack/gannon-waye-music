@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Mail, Instagram, ExternalLink, Music } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -39,6 +40,41 @@ export default function ContactGannon() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const { data: bizSettings = [] } = useQuery({
+    queryKey: ['BusinessProfileSettings'],
+    queryFn: () => base44.entities.BusinessProfileSettings.list('-updated_date', 1),
+  });
+
+  const settings = bizSettings[0] || {};
+  const contactEmail = settings.public_contact_email || 'hello@gannonwaye.com';
+  const instagramUrl = settings.instagram_url || 'https://www.instagram.com/gann0nwaye';
+  const tiktokUrl = settings.tiktok_url || 'https://www.tiktok.com/@gann0nwaye';
+  const spotifyUrl = settings.spotify_artist_url || SPOTIFY_ARTIST_URL;
+
+  const socialLinks = [
+    {
+      label: 'Instagram',
+      handle: '@gann0nwaye',
+      url: instagramUrl,
+      icon: Instagram,
+      desc: 'Behind the scenes, music moments & more',
+    },
+    {
+      label: 'TikTok',
+      handle: '@gann0nwaye',
+      url: tiktokUrl,
+      icon: Music,
+      desc: 'Short-form stories, music & community',
+    },
+    {
+      label: 'Spotify',
+      handle: 'Gannon Waye',
+      url: spotifyUrl,
+      icon: Music,
+      desc: 'Stream & follow on Spotify',
+    },
+  ];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) {
@@ -47,7 +83,7 @@ export default function ContactGannon() {
     }
     setLoading(true);
     await base44.integrations.Core.SendEmail({
-      to: 'hello@gannonwaye.com',
+      to: contactEmail,
       subject: `Contact Form: Message from ${form.name}`,
       body: `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`,
     });
@@ -93,10 +129,10 @@ export default function ContactGannon() {
                 For press enquiries, management, collaborations, or general contact.
               </p>
               <a
-                href="mailto:hello@gannonwaye.com"
+                href={`mailto:${contactEmail}`}
                 className="inline-flex items-center gap-2 font-body text-sm text-primary hover:text-primary/80 transition-colors group"
               >
-                hello@gannonwaye.com
+                {contactEmail}
                 <ExternalLink className="w-3 h-3 opacity-50 group-hover:opacity-100" />
               </a>
             </div>
@@ -105,7 +141,7 @@ export default function ContactGannon() {
             <div className="bg-card border border-primary/20 rounded-2xl p-6 hover:border-primary/40 transition-colors">
               <h2 className="font-display text-xl text-foreground mb-4">Follow the Journey</h2>
               <div className="space-y-3">
-                {SOCIAL_LINKS.map(s => {
+                {socialLinks.map(s => {
                   const Icon = s.icon;
                   return (
                     <a
