@@ -10,6 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
 import { Package, Send, Mail, MapPin, User, DollarSign, Calendar, TrendingUp, ShoppingBag, Printer, Download, Eye, Pencil, CheckCircle, Clock, Truck, AlertTriangle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
@@ -37,6 +38,7 @@ const STATUS_ICONS = {
 export default function Orders() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const [selected, setSelected] = useState(null);
   const [statusFilter, setStatusFilter] = useState('active');
   const [searchTerm, setSearchTerm] = useState('');
@@ -186,14 +188,14 @@ export default function Orders() {
         </div>
       </div>
 
-      {/* Analytics Cards */}
+      {/* Analytics Cards — clickable, each filters orders or links to source */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
         {[
-          { label: 'Total Orders', value: analytics.total, icon: Package, color: 'text-blue-500' },
-          { label: 'Revenue', value: `$${analytics.revenue.toFixed(2)}`, icon: DollarSign, color: 'text-primary' },
-          { label: 'Pending', value: analytics.pending, icon: Clock, color: 'text-yellow-500' },
-          { label: 'Shipped', value: analytics.shipped, icon: Truck, color: 'text-green-500' },
-          { label: 'Avg Order', value: `$${analytics.avgOrderValue.toFixed(2)}`, icon: TrendingUp, color: 'text-green-500' },
+          { label: 'Total Orders', value: analytics.total, icon: Package, color: 'text-blue-500', filter: 'all', route: null },
+          { label: 'Revenue', value: `$${analytics.revenue.toFixed(2)}`, icon: DollarSign, color: 'text-primary', filter: null, route: '/admin/financials' },
+          { label: 'Pending', value: analytics.pending, icon: Clock, color: 'text-yellow-500', filter: 'pending', route: null },
+          { label: 'Shipped', value: analytics.shipped, icon: Truck, color: 'text-green-500', filter: 'shipped', route: null },
+          { label: 'Avg Order', value: `$${analytics.avgOrderValue.toFixed(2)}`, icon: TrendingUp, color: 'text-green-500', filter: null, route: '/admin/financials' },
         ].map((stat, i) => {
           const Icon = stat.icon;
           return (
@@ -202,7 +204,14 @@ export default function Orders() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="bg-card border border-border/40 rounded-xl p-4"
+              onClick={() => {
+                if (stat.route) { navigate(stat.route); }
+                else if (stat.filter) { setStatusFilter(stat.filter); }
+              }}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (stat.route) navigate(stat.route); else if (stat.filter) setStatusFilter(stat.filter); } }}
+              className="bg-card border border-border/40 rounded-xl p-4 cursor-pointer hover:border-primary/40 hover:bg-secondary/20 transition-all"
             >
               <Icon className={`w-4 h-4 ${stat.color} mb-2`} />
               <p className="font-display text-2xl text-foreground">{stat.value}</p>
@@ -219,6 +228,7 @@ export default function Orders() {
             placeholder="Search by name, email, or order ID..."
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') e.preventDefault(); }}
             className="bg-secondary/50"
           />
         </div>

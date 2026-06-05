@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
-
- 
+/* eslint-disable no-undef */
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 const PUBLIC_PAGES = ['/', '/store', '/contact', '/music', '/store/checkout-success'];

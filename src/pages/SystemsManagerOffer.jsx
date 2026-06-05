@@ -8,6 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { motion } from 'framer-motion';
+import { Badge } from '@/components/ui/badge';
 import { 
   Cpu, Layout, ShoppingCart, Calendar, ArrowRight, ShieldCheck, 
   Sparkles, CheckCircle2, RefreshCw, Send, Star, Zap

@@ -30,7 +30,7 @@ const LIVE_SCAN_TOPICS = [
   'high-converting product offer frameworks',
 ];
 
-function ResearchDetailModal({ item, onClose, onSaveToVault, onCreateApproval, onArchive }) {
+function ResearchDetailModal({ item, onClose, onSaveToVault, onCreateApproval: createApproval, onArchive }) {
   const qc = useQueryClient();
   const [assignedAgent, setAssignedAgent] = useState(item.linked_agent || '');
   const [assigning, setAssigning] = useState(false);

@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-
+/* eslint-disable no-undef */
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 test.describe('Store Visuals — Public safety checks', () => {

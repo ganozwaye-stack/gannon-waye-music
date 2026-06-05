@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { 
   Flame, Megaphone, Zap, Clock, ShieldAlert, ShieldCheck, 
   AlertTriangle, RefreshCw, Send, DollarSign, ListTodo, Users, 
-  ShoppingBag, HelpCircle, ArrowUpRight
+  ShoppingBag, HelpCircle, ArrowUpRight, CheckCircle
 } from 'lucide-react';
 
 export default function MissionControl() {
