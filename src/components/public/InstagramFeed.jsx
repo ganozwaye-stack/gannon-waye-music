@@ -28,10 +28,10 @@ export default function InstagramFeed() {
           <div>
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">Social</p>
             <h2 className="font-display text-3xl text-foreground flex items-center gap-2">
-              <Instagram className="w-6 h-6 text-primary/70" /> @gannonwaye
+              <Instagram className="w-6 h-6 text-primary/70" /> @gann0nwaye
             </h2>
           </div>
-          <a href="https://www.instagram.com/gannonwaye" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10">
               <Instagram className="w-3.5 h-3.5" /> Follow on Instagram <ExternalLink className="w-3 h-3" />
             </Button>
@@ -42,7 +42,7 @@ export default function InstagramFeed() {
           {PLACEHOLDER_POSTS.map((post, i) => (
             <motion.a
               key={post.id}
-              href="https://www.instagram.com/gannonwaye"
+              href="https://www.instagram.com/gann0nwaye"
               target="_blank"
               rel="noopener noreferrer"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -67,7 +67,7 @@ export default function InstagramFeed() {
           viewport={{ once: true }}
           className="text-center font-body text-xs text-muted-foreground mt-4"
         >
-          Live Instagram feed coming soon · Follow <a href="https://www.instagram.com/gannonwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@gannonwaye</a> for updates
+          Live Instagram feed coming soon · Follow <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@gann0nwaye</a> for updates
         </motion.p>
       </div>
     </section>

@@ -4,7 +4,6 @@ import { ArrowRight, Music, CheckCircle2, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 import { base44 } from '@/api/base44Client';
 
@@ -21,7 +20,7 @@ const HOW_FOUND_OPTIONS = [
 
 
 export default function ThankYouSingle() {
-  const { artworkRevealed, released, releaseDateIso, releaseDateText } = useSiteReveal();
+  const { } = useSiteReveal();
   const [signupStep, setSignupStep] = useState(1);
   const [form, setForm] = useState({ name: '', email: '', phone: '', how_found: '' });
   const [signupDone, setSignupDone] = useState(false);
@@ -142,6 +141,20 @@ export default function ThankYouSingle() {
                   ))}
                 </div>
               </div>
+            </div>
+
+            {/* Spotify embed */}
+            <div className="border-t border-border/30 pt-6">
+              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Listen on Spotify</p>
+              <iframe
+                src="https://open.spotify.com/embed/track/6xHQX9Yc2pcfRzVxdPmRHp?utm_source=generator"
+                width="100%"
+                height="152"
+                frameBorder="0"
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                loading="lazy"
+                style={{ borderRadius: '12px' }}
+              />
             </div>
 
             <div className="border-t border-border/30 pt-6">

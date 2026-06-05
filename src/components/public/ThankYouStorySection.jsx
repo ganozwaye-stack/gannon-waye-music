@@ -50,11 +50,11 @@ export default function ThankYouStorySection() {
               </p>
             </div>
             <div className="flex flex-col gap-3">
-              <Link to="/music">
+              <a href="https://open.spotify.com/track/6xHQX9Yc2pcfRzVxdPmRHp" target="_blank" rel="noopener noreferrer" className="w-full">
                 <button className="w-full gradient-gold-button rounded-full px-6 py-3 font-body text-xs tracking-[0.2em] uppercase">
-                  Pre-Save Thankyou
+                  🎧 Stream Thankyou Now
                 </button>
-              </Link>
+              </a>
               <Link to="/back-this">
                 <button className="w-full border border-primary/40 text-primary rounded-full px-6 py-3 font-body text-xs tracking-[0.2em] uppercase hover:bg-primary/10 transition-all">
                   Support the Project
@@ -112,11 +112,11 @@ export default function ThankYouStorySection() {
           )}
 
           <div className="flex flex-col gap-3 pt-4">
-            <Link to="/music">
+            <a href="https://open.spotify.com/track/6xHQX9Yc2pcfRzVxdPmRHp" target="_blank" rel="noopener noreferrer" className="w-full">
               <button className="w-full gradient-gold-button rounded-full px-6 py-3 font-body text-xs tracking-[0.2em] uppercase">
-                Pre-Save Thankyou
+                🎧 Stream Thankyou Now
               </button>
-            </Link>
+            </a>
             <Link to="/back-this">
               <button className="w-full border border-primary/40 text-primary rounded-full px-6 py-3 font-body text-xs tracking-[0.2em] uppercase hover:bg-primary/10 transition-all">
                 Support the Project

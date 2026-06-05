@@ -50,14 +50,14 @@ function OfflineScreen({ settings }) {
           Follow on socials to be notified the moment Gannon goes live.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
-          <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.tiktok.com/@gann0nwaye" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary">
-              TikTok @gannonwaye
+              TikTok @gann0nwaye
             </Button>
           </a>
-          <a href="https://www.instagram.com/gannonwaye" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary">
-              <Instagram className="w-3 h-3 mr-1" /> Instagram
+              <Instagram className="w-3 h-3 mr-1" /> @gann0nwaye
             </Button>
           </a>
           <a href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz" target="_blank" rel="noopener noreferrer">

@@ -105,9 +105,12 @@ export default function LyricsModal({ release, onClose }) {
                 {release.lyrics}
               </pre>
             ) : (
-              <div className="text-center py-12">
+              <div className="text-center py-12 space-y-3">
                 <p className="font-display text-xl text-muted-foreground">Lyrics coming soon.</p>
-                <p className="font-body text-xs text-muted-foreground mt-2">Check back closer to the release date.</p>
+                <p className="font-body text-xs text-muted-foreground mt-2">Lyrics will be added shortly — check back soon.</p>
+                <a href="https://open.spotify.com/track/6xHQX9Yc2pcfRzVxdPmRHp" target="_blank" rel="noopener noreferrer" className="inline-block mt-2">
+                  <span className="font-body text-xs text-primary hover:underline">🎧 Stream on Spotify while you wait</span>
+                </a>
               </div>
             )}
 

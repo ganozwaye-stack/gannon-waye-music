@@ -12,17 +12,24 @@ const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBV
 const SOCIAL_LINKS = [
   {
     label: 'Instagram',
-    handle: '@gannonwaye',
-    url: 'https://www.instagram.com/gannonwaye',
+    handle: '@gann0nwaye',
+    url: 'https://www.instagram.com/gann0nwaye',
     icon: Instagram,
     desc: 'Behind the scenes, music moments & more',
   },
   {
     label: 'TikTok',
-    handle: '@gannonwaye',
-    url: 'https://www.tiktok.com/@gannonwaye',
+    handle: '@gann0nwaye',
+    url: 'https://www.tiktok.com/@gann0nwaye',
     icon: Music,
     desc: 'Short-form stories, music & community',
+  },
+  {
+    label: 'YouTube',
+    handle: '@gannonwayeofficial',
+    url: 'https://www.youtube.com/@gannonwayeofficial',
+    icon: Music,
+    desc: 'Music videos & more',
   },
   {
     label: 'Spotify',
