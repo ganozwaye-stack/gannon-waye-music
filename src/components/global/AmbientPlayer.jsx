@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-const AUDIO_URL = "https://media.base44.com/files/public/69eb7905ca6eb4180010f794/297c2c434_thank-you-chorus-1m30s-2m12s-site-loop.mp3";
+const AUDIO_URL = "/ThankYou_Full_Master.mp3";
 const VOLUME = 0.18;
 const PREF_KEY = 'gw_ambient_playing';
 
@@ -83,7 +83,7 @@ export default function AmbientPlayer() {
   };
 
   const statusText = audioMissing
-    ? 'Chorus audio not uploaded yet'
+    ? 'Audio track not uploaded yet'
     : tapToPlay && !playing
       ? 'Tap to play'
       : 'Thank You — Gannon Waye';

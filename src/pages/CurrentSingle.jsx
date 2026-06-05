@@ -189,6 +189,24 @@ export default function CurrentSingle() {
           </motion.div>
         </div>
 
+        {/* Spotify Player Embed */}
+        {isReleased && (single.title === 'Thank You' || single.id === 'thank-you-fallback') && (
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="mb-14">
+            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Listen on Spotify</p>
+            <iframe
+              data-testid="embed-iframe"
+              style={{ borderRadius: '12px' }}
+              src="https://open.spotify.com/embed/album/36qMYfzzJrq2j039l9Ex66?utm_source=generator"
+              width="100%"
+              height="352"
+              frameBorder="0"
+              allowFullScreen=""
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          </motion.div>
+        )}
+
         {/* Music Video */}
         {(single.youtube_video_id || single.youtube_link) && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="mb-14">
