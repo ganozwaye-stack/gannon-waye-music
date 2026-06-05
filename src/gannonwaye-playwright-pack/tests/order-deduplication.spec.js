@@ -1,5 +1,6 @@
 /**
 /* eslint-disable no-undef */
+/*
  * order-deduplication.spec.js
  *
  * Tests that the order system correctly handles duplicate Stripe sessions:

@@ -4,7 +4,6 @@ import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 import { Radio, Music, Instagram, Calendar, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -71,7 +70,7 @@ function BroadcasterGuide() {
               <div className="flex flex-col md:flex-row md:items-center justify-between bg-background border border-border/40 rounded-lg p-3 gap-2">
                 <div>
                   <span className="text-muted-foreground uppercase tracking-widest text-[10px]">Restream Stream Key</span>
-                  <p className="font-mono text-foreground mt-0.5 font-medium select-all">re_5692015_fb87d32c0211ff9d452b8</p>
+                  <p className="font-mono text-foreground mt-0.5 font-medium select-all">[ Your Restream Stream Key — set in Restream dashboard ]</p>
                 </div>
                 <Button size="sm" variant="outline" onClick={() => copyToClipboard('re_5692015_fb87d32c0211ff9d452b8', 'key')} className="self-start md:self-auto text-[10px] h-8 rounded-lg">
                   {copiedKey === 'key' ? 'Copied! ✓' : 'Copy Key'}
@@ -169,7 +168,6 @@ function OfflineScreen({ settings }) {
 }
 
 export default function Live() {
-  const navigate = useNavigate();
   const [activeGift, setActiveGift] = useState(null);
   const { data: settingsArr } = useQuery({
     queryKey: ['site-settings-live'],
