@@ -89,6 +89,10 @@ export default function Home() {
             <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
               This is more than music. This is choosing yourself.
             </p>
+            <div className="mt-4 inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-full px-4 py-1.5">
+              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <span className="font-body text-xs tracking-widest uppercase text-green-400">Debut Single — Out Now</span>
+            </div>
             <div className="mt-6">
               <HeroQuoteRotator />
             </div>
@@ -102,14 +106,14 @@ export default function Home() {
             className="mt-10 inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-5 bg-card/40 backdrop-blur-sm border border-primary/20 rounded-2xl px-6 py-4 mx-auto"
           >
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow">Debut Single</p>
+              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase text-green-400">Out Now</p>
             </div>
             <p className="font-display text-lg text-foreground italic">"Thank You"</p>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
             <div className="flex flex-col items-center gap-1">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Artwork & Song Release: June 5, 2026</p>
-              <Link to="/music" className="font-display text-base text-primary italic hover:underline">Pre-Save Now →</Link>
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Available on all platforms</p>
+              <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer" className="font-display text-base text-primary italic hover:underline">Listen Now →</a>
             </div>
           </motion.div>
 
@@ -119,11 +123,11 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
           >
-            <Link to="/music" className="w-full sm:w-auto">
+            <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
               <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
-                <Play className="w-4 h-4" /> Pre-Save Now
+                <Play className="w-4 h-4" /> Listen Now
               </Button>
-            </Link>
+            </a>
             <Link to="/this-is-my-life" className="w-full sm:w-auto">
               <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
                 My Story <ArrowRight className="w-4 h-4" />

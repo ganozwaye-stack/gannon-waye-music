@@ -76,7 +76,7 @@ export default function ThankYouSingle() {
             "Thank You" — Gannon Waye. Written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. The moment of choosing self respect over repetition.
           </p>
           <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">
-            {released ? `Coming Soon · ${releaseDateText}` : `Coming ${releaseDateText} · Available on all leading platforms`}
+            Out Now · Available on all leading platforms
           </p>
         </motion.div>
 
@@ -112,13 +112,13 @@ export default function ThankYouSingle() {
 
             {/* Release countdown or pre-save */}
             <div className="border-t border-border/30 pt-6 space-y-4">
-              <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow">
-                {released ? 'Coming Soon' : `Coming ${releaseDateText} · All leading platforms`}
+              <p className="font-body text-xs tracking-[0.2em] uppercase text-green-400 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
+                Out Now · All Leading Platforms
               </p>
-              {!released && <CountdownTimer targetDate={releaseDateIso} />}
               <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer" className="block">
                 <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                  <Music className="w-4 h-4" /> {released ? 'Listen Now' : 'Pre-Save Now'}
+                  <Music className="w-4 h-4" /> Listen Now
                 </Button>
               </a>
               <div className="space-y-2">

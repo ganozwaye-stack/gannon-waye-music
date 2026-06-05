@@ -27,10 +27,10 @@ function ThankYouFallbackCard() {
       <div className="p-5 md:p-8 flex flex-col justify-center">
         <div className="flex items-center gap-3 mb-2">
           <Badge variant="outline" className="font-body text-[10px] tracking-widest uppercase border-primary/30 text-primary">Single</Badge>
-          <Badge className="font-body text-[10px] tracking-widest uppercase bg-secondary text-muted-foreground">Coming Soon</Badge>
+          <Badge className="font-body text-[10px] tracking-widest uppercase bg-green-500/20 text-green-400">Out Now</Badge>
         </div>
         <h2 className="font-display text-3xl md:text-4xl text-foreground">Thank You</h2>
-        <p className="font-body text-sm text-muted-foreground mt-2">5 June 2026</p>
+        <p className="font-body text-sm text-green-400 mt-2 flex items-center gap-1.5"><span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />Out Now</p>
         <p className="font-body text-foreground/60 mt-4 leading-relaxed">
           "Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.
         </p>
@@ -49,11 +49,11 @@ const STATUS_LABELS = {
   idea: 'In the works',
   writing: 'Writing',
   pre_production: 'Pre-Production',
-  recording: 'Recording',
+  recording: 'Recording in Progress',
   mixing: 'Mixing',
   mastering: 'Mastering',
   ready: 'Coming Soon',
-  released: 'Out 5 June 2026',
+  released: 'Out Now',
 };
 
 export default function Music() {
@@ -111,11 +111,11 @@ export default function Music() {
         </div>
 
         {published.length === 0 ? (
-          /* Safe fallback — shows Thank You even if DB returns empty */
-          <ThankYouFallbackCard />
+        /* Safe fallback — shows Thank You even if DB returns empty */
+        <ThankYouFallbackCard />
         ) : (
-          <div className="space-y-12">
-            {published.map((release, i) => (
+        <div className="space-y-8">
+          {published.map((release, i) => (
               <motion.div
                 key={release.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -142,7 +142,7 @@ export default function Music() {
                       {release.type}
                     </Badge>
                     <Badge className={`font-body text-[10px] tracking-widest uppercase ${
-                      release.status === 'released' ? 'bg-primary/20 text-primary' : 'bg-secondary text-muted-foreground'
+                      release.status === 'released' ? 'bg-green-500/20 text-green-400' : release.status === 'recording' ? 'bg-blue-500/20 text-blue-400' : 'bg-secondary text-muted-foreground'
                     }`}>
                       {STATUS_LABELS[release.status] || release.status}
                     </Badge>
@@ -185,31 +185,34 @@ export default function Music() {
 
                   {/* Streaming Links */}
                   <div className="flex flex-wrap gap-3 mt-6">
-                    {isReleased() && release.spotify_link ? (
-                      <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
-                        <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
-                          🎧 Spotify <ExternalLink className="w-3 h-3" />
-                        </Button>
-                      </a>
+                    {release.status === 'released' ? (
+                      <>
+                        <a href={release.spotify_link || 'https://too.fm/thankyou_gannonwaye'} target="_blank" rel="noopener noreferrer">
+                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
+                            🎧 Listen Now <ExternalLink className="w-3 h-3" />
+                          </Button>
+                        </a>
+                        {release.apple_music_link && (
+                          <a href={release.apple_music_link} target="_blank" rel="noopener noreferrer">
+                            <Button size="sm" variant="outline" className="rounded-full gap-2 font-body text-xs">
+                              🍎 Apple Music <ExternalLink className="w-3 h-3" />
+                            </Button>
+                          </a>
+                        )}
+                        {release.youtube_link && (
+                          <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
+                            <Button size="sm" variant="outline" className="rounded-full gap-2 font-body text-xs">
+                              ▶️ YouTube <ExternalLink className="w-3 h-3" />
+                            </Button>
+                          </a>
+                        )}
+                      </>
                     ) : (
-                      <div className="text-xs font-body text-muted-foreground leading-relaxed max-w-sm">
-                        Available on all leading platforms from 05 June 2026, including Spotify, Apple Music, YouTube Music, Amazon Music, TikTok, Instagram/Facebook Reels, TIDAL and more.
+                      <div className="flex items-center gap-2 text-xs font-body text-blue-400">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse inline-block" />
+                        Recording in progress — stay tuned
                       </div>
                     )}
-                     {isReleased() && release.apple_music_link && (
-                       <a href={release.apple_music_link} target="_blank" rel="noopener noreferrer">
-                         <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
-                           🍎 Apple Music <ExternalLink className="w-3 h-3" />
-                         </Button>
-                       </a>
-                     )}
-                     {isReleased() && release.youtube_link && (
-                       <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
-                         <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
-                           ▶️ YouTube <ExternalLink className="w-3 h-3" />
-                         </Button>
-                       </a>
-                     )}
                   </div>
                 </div>
               </motion.div>
@@ -217,8 +220,32 @@ export default function Music() {
           </div>
         )}
 
+        {/* Recording in progress card */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mt-8 border border-blue-500/20 bg-blue-500/5 rounded-2xl p-6 flex items-center gap-5"
+        >
+          <div className="flex items-end gap-1 h-8 shrink-0">
+            {[0, 0.15, 0.3, 0.45, 0.6].map((d, i) => (
+              <motion.div
+                key={i}
+                className="w-1 rounded-full bg-blue-400"
+                animate={{ height: ['6px', '24px', '6px'] }}
+                transition={{ duration: 1.1, repeat: Infinity, delay: d, ease: 'easeInOut' }}
+              />
+            ))}
+          </div>
+          <div>
+            <p className="font-body text-[10px] tracking-widest uppercase text-blue-400 mb-0.5">Next Single — Recording in Progress</p>
+            <p className="font-display text-xl text-foreground italic">Will You Even Listen</p>
+            <p className="font-body text-xs text-muted-foreground mt-1">Exploring themes of communication and connection. More details coming soon.</p>
+          </div>
+        </motion.div>
+
         <div className="flex justify-center mt-10 mb-4">
-          <ShareButtons url="https://gannonwaye.com/music" text="Gannon Waye — debut single 'Thank You' coming soon." />
+          <ShareButtons url="https://gannonwaye.com/music" text="'Thank You' by Gannon Waye — Out Now. Stream now on all platforms." />
         </div>
         <BePartOfThisCTA context="If this music means something to you, you can help make more of it happen." />
       </div>

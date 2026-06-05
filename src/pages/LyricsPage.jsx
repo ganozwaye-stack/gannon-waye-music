@@ -15,7 +15,7 @@ export default function LyricsPage() {
     queryFn: () => base44.entities.Release.list('-release_date'),
   });
 
-  const withLyrics = releases.filter(r => r.is_published && r.lyrics && r.status === 'released');
+  const withLyrics = releases.filter(r => r.is_published && r.status === 'released');
 
   return (
     <div className="min-h-screen py-24 px-4 md:px-8">
@@ -42,15 +42,22 @@ export default function LyricsPage() {
             className="text-center py-20"
           >
             <Music2 className="w-14 h-14 text-muted-foreground/20 mx-auto mb-5" />
-            <p className="font-display text-xl text-foreground/60 mb-2">Coming June 5, 2026</p>
-            <p className="font-body text-sm text-muted-foreground mb-8">
-              Lyrics for "Thank You" by Gannon Waye will be revealed on release day.
+            <p className="font-display text-xl text-foreground/60 mb-2">"Thank You" — Out Now</p>
+            <p className="font-body text-sm text-muted-foreground mb-4">
+              Lyrics will appear here once added to the release record.
             </p>
-            <Link to="/music">
-              <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase">
-                Go to Music
-              </Button>
-            </Link>
+            <div className="flex flex-col items-center gap-3">
+              <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer">
+                <Button className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase gap-2">
+                  🎧 Listen Now
+                </Button>
+              </a>
+              <Link to="/music">
+                <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase">
+                  Back to Music
+                </Button>
+              </Link>
+            </div>
           </motion.div>
         ) : (
           <div className="space-y-3">
