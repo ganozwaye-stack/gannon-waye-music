@@ -7,9 +7,9 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import {
-  ArrowLeft, TrendingUp, DollarSign, Zap, Star, Activity, ChevronRight,
+  ArrowLeft, TrendingUp, Zap, Star, Activity, ChevronRight,
   RefreshCw, Loader2, BookOpen, ShoppingBag, Users, Music, Target,
-  AlertTriangle, CheckCircle2, Clock
+  AlertTriangle, CheckCircle2
 } from 'lucide-react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';

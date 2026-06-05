@@ -1,16 +1,13 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
 /**
- * PROMO CODE VALIDATION — v2.1
+ * PROMO CODE VALIDATION — v2.0
  * CRITICAL: Codes are stored and compared EXACTLY as entered. No case normalisation.
  * The two approved codes contain symbols: fnd@gwTYV!P and F@mFr!3NdsOFg@noz
  * These must never be uppercased/lowercased during lookup.
  *
  * Global Discount Guard is enforced: discounts apply only to eligible merch subtotal.
  * Shipping, fees, CDs, vinyl, songs, digital music, support contributions are always excluded.
- * 
- * FIX v2.1: Removed User entity lookup. one_use_per_email check uses stored used_by_emails
- * array only (via asServiceRole) — no authenticated user session required.
  */
 
 const ALWAYS_INELIGIBLE_CATEGORIES = [
@@ -23,22 +20,17 @@ const ALWAYS_EXCLUDED_LABEL = 'shipping, processing fees, support contributions,
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const body = await req.json();
-    const { code, product_category, cart_items } = body;
-
-    // Accept email from any common field name — trim+lowercase once
-    const rawEmail = body.email || body.customer_email || body.customerEmail
-      || body.shopper_email || body.shopperEmail || body.billing_email || '';
-    const email = rawEmail.toLowerCase().trim();
+    const { code, email, product_category, cart_items } = await req.json();
 
     if (!code) {
       return Response.json({ valid: false, reason: 'No code provided' });
     }
 
     // CRITICAL: Search by exact code — do NOT normalise case.
+    // The approved codes contain symbols and mixed case that must be preserved.
     const trimmedCode = code.trim();
 
-    // Always use asServiceRole for promo lookups — no user session required
+    // First try exact match
     let codes = await base44.asServiceRole.entities.PromoCode.filter({
       code: trimmedCode,
       is_active: true,
@@ -69,26 +61,15 @@ Deno.serve(async (req) => {
         return Response.json({ valid: false, reason: 'Email required for this code' });
       }
       const approved = (promo.approved_emails || []).map(e => e.toLowerCase().trim());
-      if (!approved.includes(email)) {
-        return Response.json({ valid: false, reason: 'This code requires manual approval. Contact us to verify eligibility.' });
-      }
-    }
-
-    // SAFETY: High-discount codes ≥90% must always require approval + have approved_emails
-    if (promo.discount_percent >= 90) {
-      if (!promo.requires_approval || !(promo.approved_emails || []).length) {
-        return Response.json({ valid: false, reason: 'High-value code is misconfigured — contact support.' });
-      }
-      if (!email) {
-        return Response.json({ valid: false, reason: 'Email required for this code' });
-      }
-      const approved = (promo.approved_emails || []).map(e => e.toLowerCase().trim());
-      if (!approved.includes(email)) {
+      const emailLower = email.toLowerCase().trim();
+      if (!approved.includes(emailLower)) {
         return Response.json({ valid: false, reason: 'This code requires manual approval. Contact us to verify eligibility.' });
       }
     }
 
     // === OWNER OVERRIDE CODE ===
+    // If this promo has 90%+ discount and requires_approval and is restricted to specific emails,
+    // it's an owner override — bypass category guards entirely
     const isOwnerOverride = promo.discount_percent >= 90 && promo.requires_approval && (promo.approved_emails || []).length > 0;
     if (isOwnerOverride) {
       return Response.json({
@@ -99,26 +80,29 @@ Deno.serve(async (req) => {
         is_owner_override: true,
         override_applies_to_all: true,
         excludes_shipping: promo.excludes_shipping ?? true,
-        global_guard_active: false,
+        global_guard_active: false, // Override bypasses guard
         note: 'Owner override code — applies to all items including ineligible categories',
       });
     }
 
-    // Check one-use-per-email — uses stored used_by_emails array, no User entity lookup
+    // Check one-use-per-email
     if (promo.one_use_per_email) {
       if (!email) {
         return Response.json({ valid: false, reason: 'Email required for this code' });
       }
-      const usedBy = (promo.used_by_emails || []).map(e => e.toLowerCase().trim());
-      if (usedBy.includes(email)) {
+      const usedBy = promo.used_by_emails || [];
+      if (usedBy.includes(email.toLowerCase().trim())) {
         return Response.json({ valid: false, reason: 'This code has already been used with this email address' });
       }
     }
 
     // === CART ITEM CATEGORY RESOLUTION & REJECTION ===
+    // Resolve product categories from DB when missing, then check against promo exclusions.
+    // CRITICAL: If ALL cart items are ineligible/excluded, return valid: false immediately.
     let discountGuardResult = null;
 
     if (cart_items && cart_items.length > 0) {
+      // Step 1: Resolve categories for any items missing one
       const resolvedItems = [];
       for (const item of cart_items) {
         let resolved = { ...item };
@@ -135,24 +119,35 @@ Deno.serve(async (req) => {
         resolvedItems.push(resolved);
       }
 
+      // Step 2: Classify each item as eligible or ineligible
       const promoExcludedCats = (promo.excluded_categories || []).map(c => c.toLowerCase());
       const promoAllowedCats = (promo.allowed_categories || []).map(c => c.toLowerCase());
 
       function isItemIneligible(item) {
         const cat = (item.category || item.product_type || item.type || '').toLowerCase().trim();
         const name = (item.name || item.product_name || '').toLowerCase();
+
+        // Always-ineligible categories (global rule)
         if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c))) return true;
+
+        // Name-based CD/vinyl detection for items with missing/empty category
         if (!cat || cat === 'other') {
           if (/\bcd\b/.test(name) || /\bvinyl\b/.test(name) || name.includes('digital download')) return true;
         }
+
+        // Promo-level excluded categories
         if (promoExcludedCats.length > 0 && promoExcludedCats.some(c => cat.includes(c))) return true;
+
+        // Promo-level allowed categories restriction
         if (promoAllowedCats.length > 0 && cat && !promoAllowedCats.some(c => cat.includes(c))) return true;
+
         return false;
       }
 
       const eligibleItems = resolvedItems.filter(i => !isItemIneligible(i));
       const ineligibleItems = resolvedItems.filter(i => isItemIneligible(i));
 
+      // Step 3: REJECT if every item in cart is ineligible
       if (eligibleItems.length === 0 && ineligibleItems.length > 0) {
         const ineligibleNames = ineligibleItems.map(i => i.name || i.category || 'item').join(', ');
         return Response.json({
@@ -162,6 +157,7 @@ Deno.serve(async (req) => {
         });
       }
 
+      // Step 4: Pass to discount guard for amount calculation (has eligible items)
       try {
         const guardRes = await base44.asServiceRole.functions.invoke('applyCheckoutDiscountGuard', {
           cart_items: resolvedItems,
@@ -170,9 +166,10 @@ Deno.serve(async (req) => {
           source_chain: `validatePromoCode → applyCheckoutDiscountGuard`,
         });
         discountGuardResult = guardRes;
-      } catch (_) { /* non-fatal */ }
+      } catch (_) { /* non-fatal — amounts computed at checkout */ }
 
     } else if (product_category) {
+      // Single category check (legacy path)
       const cat = product_category.toLowerCase().trim();
       if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c))) {
         return Response.json({
@@ -180,33 +177,25 @@ Deno.serve(async (req) => {
           reason: `This code applies to eligible merch only. ${ALWAYS_EXCLUDED_LABEL} are excluded.`,
         });
       }
-    } else {
-      const hasAllowedCats = (promo.allowed_categories || []).length > 0;
-      const hasExcludedCats = (promo.excluded_categories || []).length > 0;
-      if (hasAllowedCats || hasExcludedCats) {
-        return Response.json({
-          valid: false,
-          reason: 'Unable to verify product eligibility for this code. Please apply it from the checkout page after products are in your cart.',
-        });
-      }
     }
 
     const baseResponse = {
       valid: true,
-      code: promo.code,
+      code: promo.code, // Return exact stored code
       discount_percent: promo.discount_percent,
       id: promo.id,
-      excludes_shipping: true,
-      excludes_support: true,
-      excludes_music: true,
+      excludes_shipping: true, // Always true for global guard
+      excludes_support: true,   // Always true for global guard
+      excludes_music: true,     // Always true for global guard
       allowed_categories: promo.allowed_categories || [],
       excluded_categories: promo.excluded_categories || [],
       requires_approval: promo.requires_approval || false,
       global_guard_active: true,
-      global_guard_version: '2.1',
+      global_guard_version: '1.0',
       excluded_always: ALWAYS_EXCLUDED_LABEL,
     };
 
+    // Attach discount guard result if available
     if (discountGuardResult) {
       return Response.json({
         ...baseResponse,

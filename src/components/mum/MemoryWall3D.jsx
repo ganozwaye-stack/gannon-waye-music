@@ -3,12 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PHOTOS = [
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a318d431c_30A6307B-653A-406E-9CBD-1288498D26C9.jpg', caption: 'A love I still carry', category: 'Me & Mum', featured: true },
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/918c9ea94_79AD025F-80B8-414D-B842-C468362D88C2.jpg', caption: 'Home, in human form', category: 'Me & Mum', featured: true },
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/7df2f998b_A181BD35-93F3-41FB-B671-2FABC71B701A.jpg', caption: 'Her humour, her strength, her heart', category: 'Her', featured: true },
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/899b8e651_5298157B-5E45-43E1-859C-24D8320B2894.jpg', caption: 'Happy Birthday, Sonia xo', category: 'Her' },
+  { url: '/images/mum/mum_gannon_young.jpg', caption: 'A love I still carry', category: 'Me & Mum', featured: true },
+  { url: '/images/mum/mum_gannon_dinner.png', caption: 'Home, in human form', category: 'Me & Mum', featured: true },
+  { url: '/images/mum/mum_avatar.png', caption: 'Her humour, her strength, her heart', category: 'Her', featured: true },
+  { url: '/images/mum/mum_bar.png', caption: 'Out at the 303 Bar, Adelaide River NT', category: 'Her', featured: true },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0300de0f5_3B567D3B-59A6-4B35-8222-64534D6BE5BB.jpg', caption: 'Still smiling. Always.', category: 'Her Humour', featured: true },
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3892d6143_093DD58D-2A3E-46F2-B235-ABD31D530F48.jpg', caption: 'Her world — morning sun, garden, presence', category: 'Her Garden' },
+  { url: '/images/mum/mum_garden.jpg', caption: 'Her world — morning sun, garden, presence', category: 'Her Garden' },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/64eef2bbd_506D6251-6B61-450E-85C6-8CB774A1E977.jpg', caption: 'Loved by so many', category: 'Family' },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c828ecdaa_48963FA0-D6D3-4132-94AC-BCDE290D8224.jpg', caption: 'The woman who kept showing up', category: 'Family' },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d4bf542bf_E6BC1469-782B-438C-99BE-17596D2C85EC.jpg', caption: 'Sonia K. Waye · 27.04.2022', category: 'Final Chapter' },

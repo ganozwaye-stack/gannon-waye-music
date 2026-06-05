@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { CheckCircle2, Circle, AlertTriangle, XCircle, ChevronRight, ChevronDown, ExternalLink, Shield, Zap, ArrowRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CheckCircle2, Circle, AlertTriangle, XCircle, Shield } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import SetupStripeFlow from '@/components/setup/SetupStripeFlow';
 import SetupTikTokFlow from '@/components/setup/SetupTikTokFlow';

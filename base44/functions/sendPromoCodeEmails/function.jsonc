@@ -1,0 +1,4 @@
+{
+  "name": "sendPromoCodeEmails",
+  "entry": "entry.ts"
+}

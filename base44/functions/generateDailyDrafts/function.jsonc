@@ -1,0 +1,18 @@
+{
+  "name": "generateDailyDrafts",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "scheduled",
+      "description": "Generates 2-3 Gannon Waye branded social post drafts daily at 8am AEST. Brand Voice Agent + Quality Gate. All posts go to ApprovalQueue — zero auto-posting. Requires explicit approval before Metricool scheduling.",
+      "ends_type": "never",
+      "is_active": true,
+      "name": "Daily Social Post Drafts",
+      "repeat_interval": 1,
+      "repeat_unit": "days",
+      "schedule_mode": "recurring",
+      "schedule_type": "simple",
+      "start_time": "12:00"
+    }
+  ]
+}

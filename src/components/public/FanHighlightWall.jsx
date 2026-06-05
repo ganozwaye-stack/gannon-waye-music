@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MessageCircle, Share2 } from 'lucide-react';
+import { Heart, Share2 } from 'lucide-react';
 import { format } from 'date-fns';
 
 export default function FanHighlightWall() {
@@ -195,7 +195,7 @@ export default function FanHighlightWall() {
         >
           <p className="font-body text-foreground/60 mb-4">Want to be featured here?</p>
           <p className="font-body text-sm text-muted-foreground max-w-md mx-auto">
-            Share your story, art, or support moment. Tag @gannonwaye on TikTok or Instagram.
+            Share your story, art, or support moment. Tag @gann0nwaye on TikTok or Instagram.
           </p>
         </motion.div>
       </div>

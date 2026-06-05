@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Shield, Loader2, Zap, TrendingUp, DollarSign, Target, Flame, CheckCircle2, XCircle, Archive } from 'lucide-react';
+import { Shield, Loader2, Zap, TrendingUp, DollarSign, Target, CheckCircle2, XCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 const RULE = (

@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { AlertTriangle, CheckCircle2, XCircle, Info, Shield, ExternalLink } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, XCircle, Info, Shield } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from 'react';
 

@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Lightbulb, Zap, Loader2, Shield, TrendingUp, CheckCircle2, Archive, RefreshCw } from 'lucide-react';
+import { Lightbulb, Loader2, Shield, CheckCircle2, Archive } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import ReactMarkdown from 'react-markdown';
 

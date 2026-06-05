@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, MessageSquare, RefreshCw, Eye, CheckCircle2, Filter, XCircle } from 'lucide-react';
+import { ArrowLeft, RefreshCw, Eye, CheckCircle2, XCircle } from 'lucide-react';
 
 const STATUS_COLORS = {
   new: 'bg-blue-500/20 text-blue-300 border-blue-500/30',

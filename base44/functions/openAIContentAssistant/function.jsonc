@@ -1,0 +1,4 @@
+{
+  "name": "openAIContentAssistant",
+  "entry": "entry.ts"
+}

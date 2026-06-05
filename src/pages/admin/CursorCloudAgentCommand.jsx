@@ -6,8 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
 import {
-  ArrowLeft, Shield, Copy, AlertTriangle, CheckCircle2, Circle,
-  GitBranch, Play, Lock, Zap, ExternalLink, Terminal, Key
+  ArrowLeft, Copy, AlertTriangle, CheckCircle2, Circle, Play, Lock, ExternalLink, Terminal, Key
 } from 'lucide-react';
 
 // ─── FIRST AGENT PROMPT ──────────────────────────────────────────────────────

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { TrendingUp, BookOpen, Eye, Zap, Globe, ShoppingBag, Brain, Loader2, RefreshCw, Archive, Plus, ChevronRight, X, Save, ExternalLink } from 'lucide-react';
+import { TrendingUp, BookOpen, Eye, Zap, Globe, Brain, Loader2, RefreshCw, Archive, Plus, ChevronRight, Save } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { toast } from 'sonner';
 import { Link } from 'react-router-dom';
@@ -31,7 +31,46 @@ const LIVE_SCAN_TOPICS = [
 ];
 
 function ResearchDetailModal({ item, onClose, onSaveToVault, onCreateApproval, onArchive }) {
+  const qc = useQueryClient();
+  const [assignedAgent, setAssignedAgent] = useState(item.linked_agent || '');
+  const [assigning, setAssigning] = useState(false);
+
+  const { data: agents = [] } = useQuery({
+    queryKey: ['agent-registry-list'],
+    queryFn: () => base44.entities.AgentRegistry.list(),
+  });
+
+  const { data: related = [] } = useQuery({
+    queryKey: ['related-vault-items', item.category],
+    queryFn: () => base44.entities.KnowledgeVault.filter({ category: item.category }, '-created_date', 10),
+    enabled: !!item.category,
+  });
+
   if (!item) return null;
+
+  const filteredRelated = related.filter(r => r.id !== item.id).slice(0, 3);
+
+  // Generate fallback recommended actions based on category if not defined
+  const recommendedAction = item.recommended_action || (
+    item.category === 'social_archive' || item.category === 'research'
+      ? 'Feed this trend insight into the Creative Studio to draft social posts.'
+      : item.category === 'financial'
+      ? 'Perform a pricing sensitivity check in the Revenue Command Centre.'
+      : 'Verify integration parameters and alert operations queue if discrepancies exist.'
+  );
+
+  const handleAssignAgent = async () => {
+    setAssigning(true);
+    try {
+      await base44.entities.KnowledgeVault.update(item.id, { linked_agent: assignedAgent });
+      toast.success(`Assigned research item to ${assignedAgent}`);
+      qc.invalidateQueries({ queryKey: ['research-grid'] });
+    } catch (err) {
+      toast.error('Failed to assign agent: ' + err.message);
+    }
+    setAssigning(false);
+  };
+
   return (
     <Dialog open onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -44,12 +83,14 @@ function ResearchDetailModal({ item, onClose, onSaveToVault, onCreateApproval, o
             {item.tags?.map(t => <Badge key={t} className="text-xs bg-secondary text-secondary-foreground">{t}</Badge>)}
             <span className="text-xs text-muted-foreground ml-auto">{new Date(item.created_date).toLocaleString('en-AU')}</span>
           </div>
+
           {item.summary && (
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Summary</p>
               <p className="text-sm text-foreground/80 leading-relaxed bg-secondary/30 rounded-lg p-3">{item.summary}</p>
             </div>
           )}
+
           {item.content && (
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Full Content</p>
@@ -58,23 +99,70 @@ function ResearchDetailModal({ item, onClose, onSaveToVault, onCreateApproval, o
               </div>
             </div>
           )}
-          {item.source && (
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Source</p>
-              <p className="text-sm text-foreground/70">{item.source}</p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {item.source && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Source</p>
+                <p className="text-xs text-foreground/70">{item.source}</p>
+              </div>
+            )}
+            {(item.created_by_agent || item.linked_agent) && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Creating Agent</p>
+                <p className="text-xs text-foreground/70">{item.created_by_agent || item.linked_agent || 'Unknown Agent'}</p>
+              </div>
+            )}
+          </div>
+
+          {/* Recommended Action */}
+          <div className="p-3 bg-primary/5 border border-primary/20 rounded-xl">
+            <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">💡 Recommended Action</p>
+            <p className="text-xs text-foreground/90">{recommendedAction}</p>
+          </div>
+
+          {/* Related Records */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Related Records</p>
+            {filteredRelated.length > 0 ? (
+              <ul className="space-y-1">
+                {filteredRelated.map(r => (
+                  <li key={r.id} className="text-xs text-foreground/75 flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary/50 shrink-0" />
+                    <span className="truncate">{r.title}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-xs text-muted-foreground italic">No related records found in this category.</p>
+            )}
+          </div>
+
+          {/* Assign Agent Controls */}
+          <div className="border-t border-border pt-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2">Assign to AI Agent</p>
+            <div className="flex gap-2 max-w-md">
+              <select
+                value={assignedAgent}
+                onChange={e => setAssignedAgent(e.target.value)}
+                className="flex-1 bg-background border border-input rounded-md px-3 py-1.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+              >
+                <option value="">Select Agent...</option>
+                {agents.map(a => (
+                  <option key={a.id || a.agent_name} value={a.agent_name}>{a.agent_name}</option>
+                ))}
+              </select>
+              <Button size="sm" onClick={handleAssignAgent} disabled={assigning || !assignedAgent} className="text-xs">
+                {assigning ? 'Assigning...' : 'Assign Agent'}
+              </Button>
             </div>
-          )}
-          {item.created_by_agent && (
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Created By Agent</p>
-              <p className="text-sm text-foreground/70">{item.created_by_agent}</p>
-            </div>
-          )}
+          </div>
+
           <div className="flex flex-wrap gap-2 pt-2 border-t border-border">
             <Button size="sm" variant="outline" className="gap-1 text-xs" onClick={() => { onSaveToVault(item); onClose(); }}>
               <Save className="w-3 h-3" /> Save to Vault
             </Button>
-            <Button size="sm" variant="outline" className="gap-1 text-xs" onClick={() => { onCreateApproval(item); onClose(); }}>
+            <Button size="sm" variant="outline" className="gap-1 text-xs" onClick={() => { createApproval(item); onClose(); }}>
               <Plus className="w-3 h-3" /> Create Approval Item
             </Button>
             <Link to="/admin/knowledge-vault" onClick={onClose}>

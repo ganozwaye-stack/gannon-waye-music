@@ -26,7 +26,7 @@ Post 3 (Short motivational quote tweet — under 280 chars, no hashtags):
 
 All posts should hint at the upcoming release, personal vulnerability, self-love themes, or music journey. 
 Do NOT use phrases like "Listen Now" — use "Pre-Save Now" or "Coming June 5".
-Gannon's social handles: @gannonwaye on all platforms.`,
+Gannon's social handles: Instagram and TikTok are @gann0nwaye, YouTube is @gannonwayeofficial.`,
       response_json_schema: {
         type: "object",
         properties: {

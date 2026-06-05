@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  CheckCircle2, Circle, AlertTriangle, Terminal, GitBranch,
-  Play, ExternalLink, Copy, Download, Zap, Shield, RefreshCw,
-  Upload, Eye, ChevronRight
+  CheckCircle2, Circle, AlertTriangle,
+  Play, ExternalLink, Copy, Download, RefreshCw
 } from 'lucide-react';
 
 // ─── ACTION TASKS (click-only, no chat) ──────────────────────────────────────

@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { 
   Music, TrendingUp, Users, Bell, CheckCircle2, Clock, AlertTriangle, 
-  Play, Star, Zap, Calendar, DollarSign, Heart, Radio, Share2, RefreshCw
+  Play, Star, Zap, Calendar, DollarSign, Heart, Radio, Share2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

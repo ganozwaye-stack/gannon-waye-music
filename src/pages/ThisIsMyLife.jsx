@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Lock, Play, Heart, ChevronDown, ArrowRight, Users } from 'lucide-react';
+import { Lock, Play, Heart, ChevronDown, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SignatureQuoteDivider from '@/components/public/SignatureQuoteDivider';
 import ShareButtons from '@/components/public/ShareButtons';

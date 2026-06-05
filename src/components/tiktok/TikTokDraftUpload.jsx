@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Upload, Loader2, CheckCircle2, AlertTriangle, Shield } from 'lucide-react';
+import { Upload, Loader2, CheckCircle2, Shield } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 const APPROVAL_STATES = [

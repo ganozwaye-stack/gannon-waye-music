@@ -4,11 +4,10 @@ import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
-  Globe, Database, Zap, Bot, Link2, Calendar, Shield,
-  ChevronRight, Music, ShoppingBag, Users, BarChart2,
-  Package, DollarSign, ExternalLink, CheckCircle2, AlertTriangle
+  Globe, Zap, Bot, Link2, Shield,
+  ChevronRight, ShoppingBag, Users, BarChart2,
+  Package, ExternalLink, CheckCircle2, AlertTriangle
 } from 'lucide-react';
 
 const PUBLIC_ROUTES = [

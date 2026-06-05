@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Printer, Download, ExternalLink, Copy, Check, Info } from 'lucide-react';
+import { Download, ExternalLink, Copy, Check, Info } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 

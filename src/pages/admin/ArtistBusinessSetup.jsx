@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import {
-  ArrowLeft, Building2, CreditCard, Globe, Shield, Music, Users, FileText,
+  ArrowLeft, Building2, Globe, Shield, Music, Users,
   TrendingUp, Calendar, ChevronRight, CheckCircle2, Circle, AlertTriangle, Copy
 } from 'lucide-react';
 import { toast } from 'sonner';

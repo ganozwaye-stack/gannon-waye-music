@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
 import { useCartStore } from '@/lib/cartStore';
-import CartDrawer from '@/components/store/CartDrawer';
 import ProductDetailModal from '@/components/store/ProductDetailModal';
+import CartDrawer from '@/components/store/CartDrawer';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -272,7 +272,7 @@ function ProductCard({ product, onCheckout, onViewCart }) {
         {/* Footer */}
         <div className="p-4 border-t border-border/30 bg-card/20">
           <p data-testid="product-title" className="font-display text-sm text-foreground leading-snug">{product.name}</p>
-          <p className="font-body text-sm gradient-gold-glow mt-1 font-medium">${price} AUD</p>
+          <p data-testid="product-price" className="font-body text-sm gradient-gold-glow mt-1 font-medium">${price} AUD</p>
           {cfg?.sub && (
             <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
           )}
@@ -342,13 +342,11 @@ function ProductCard({ product, onCheckout, onViewCart }) {
               </button>
             )
           ) : STORE_OPEN && product.stock_quantity === 0 ? (
-            <div className="mt-3 space-y-1.5">
-              <div className="w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase flex items-center justify-center gap-2 border border-red-500/30 text-red-400 bg-red-500/10 cursor-not-allowed">
-                Sold Out · Due to Popular Demand
-              </div>
-              <p className="text-center font-body text-[9px] text-muted-foreground/60 leading-relaxed px-1">
-                Sold out due to popular demand. These will not be restocked.
-              </p>
+            <div className="mt-3 w-full rounded-xl py-2.5 px-3 font-body text-[10px] tracking-wider uppercase text-center border border-red-500/30 text-red-400 bg-red-500/10 cursor-not-allowed">
+              {product.id === '69eed3e64e2da78ae4418a9a' 
+                ? "Sold out due to popular demand. These will not be restocked." 
+                : "Sold Out · Due to Popular Demand"
+              }
             </div>
           ) : (
             <InterestButton productId={product.id} productName={product.name} />
@@ -441,7 +439,7 @@ export default function Store() {
             <div className="flex justify-center">
               <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
                 {cdProducts.map(product => (
-                   <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/cart')} onViewCart={() => setCartOpen(true)} />
+                   <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/cart-details')} onViewCart={() => setCartOpen(true)} />
                  ))}
               </div>
             </div>
@@ -458,7 +456,7 @@ export default function Store() {
             </div>
             <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {merchProducts.map(product => (
-                 <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/cart')} onViewCart={() => setCartOpen(true)} />
+                 <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/cart-details')} onViewCart={() => setCartOpen(true)} />
                ))}
             </div>
           </>
@@ -501,13 +499,16 @@ export default function Store() {
           </div>
           <button
             data-testid="store-sticky-checkout-button"
-            onClick={() => navigate('/store/cart')}
+            onClick={() => navigate('/store/cart-details')}
             className="gradient-gold-button rounded-full px-6 py-2 font-body text-sm tracking-wider uppercase shrink-0"
           >
             Checkout
           </button>
         </div>
       )}
+
+      {/* Cart Drawer */}
+      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   );
 }

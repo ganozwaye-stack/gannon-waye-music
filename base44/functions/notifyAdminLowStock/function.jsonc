@@ -1,0 +1,15 @@
+{
+  "name": "notifyAdminLowStock",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "entity",
+      "entity_name": "MerchProduct",
+      "event_types": [
+        "update"
+      ],
+      "is_active": true,
+      "name": "Alert on Low Product Stock"
+    }
+  ]
+}

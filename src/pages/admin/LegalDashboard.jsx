@@ -1,10 +1,9 @@
-import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FileText, AlertTriangle, Clock, Shield, Scale, ChevronRight } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { FileText, AlertTriangle, Clock, Shield, Scale } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const LEGAL_CATEGORIES = ['legal','evidence','risks_protections','important_dates'];
@@ -98,7 +97,7 @@ export default function LegalDashboard() {
   );
 }
 
-function StatCard({ icon: Icon, color, bg, label, value }) { // eslint-disable-line
+function StatCard({ icon: Icon, color, bg, label, value }) {  
   return (
     <Card>
       <CardContent className="p-4 flex items-center gap-3">

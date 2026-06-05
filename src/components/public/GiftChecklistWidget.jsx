@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Circle, Lock, Send, AlertCircle } from 'lucide-react';
+import { CheckCircle2, Circle, Lock, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
 const REQUIREMENTS = [
-  { id: 'tiktok_followed', label: 'Follow @gannonwaye on TikTok', icon: '🎵' },
-  { id: 'instagram_followed', label: 'Follow @gannonwaye on Instagram', icon: '📸' },
+  { id: 'tiktok_followed', label: 'Follow @gann0nwaye on TikTok', icon: '🎵' },
+  { id: 'instagram_followed', label: 'Follow @gann0nwaye on Instagram', icon: '📸' },
   { id: 'post_engaged', label: 'Like, comment & share latest post', icon: '💬' },
 ];
 
@@ -183,7 +183,7 @@ export default function GiftChecklistWidget({ trackerToken, onComplete }) {
       </AnimatePresence>
 
       <p className="font-body text-xs text-muted-foreground/60 italic border-t border-border/30 pt-4">
-        Questions? Reply to the signup email or DM @gannonwaye on social.
+        Questions? Reply to the signup email or DM @gann0nwaye on social.
       </p>
     </motion.div>
   );

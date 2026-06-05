@@ -1,0 +1,18 @@
+{
+  "name": "shippingOptimisationAudit",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "scheduled",
+      "description": "Daily shipping rate audit for excessive costs, undercharging, profit protection",
+      "ends_type": "never",
+      "is_active": true,
+      "name": "Shipping Optimisation Audit (Daily 9am)",
+      "repeat_interval": 1,
+      "repeat_unit": "days",
+      "schedule_mode": "recurring",
+      "schedule_type": "simple",
+      "start_time": "09:00"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "name": "validateMetricoolConfig",
+  "entry": "entry.ts"
+}

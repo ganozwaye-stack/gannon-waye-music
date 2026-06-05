@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import ReactMarkdown from 'react-markdown';
 import {
   CheckCircle2, XCircle, Archive, ChevronRight, ArrowLeft, Copy, Maximize2,
-  AlertTriangle, Clock, Eye, Send, Brain, RefreshCw, Clipboard, Download
+  AlertTriangle, Clock, Send, Brain, RefreshCw, Clipboard, Download
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';
@@ -396,17 +396,78 @@ export default function ApprovalQueue() {
   });
 
   const decide = useMutation({
-    mutationFn: ({ id, status, note }) => base44.entities.ApprovalQueue.update(id, {
-      status,
-      decision_note: note,
-      decided_by: 'Gannon Waye',
-      decided_at: new Date().toISOString(),
-    }),
+    mutationFn: async ({ id, status, note }) => {
+      const item = allItems.find(i => i.id === id);
+
+      if (status === 'approved' && item?.payload) {
+        try {
+          const payload = item.payload;
+          const entityType = payload.entity || payload.entityType;
+          const action = payload.action || payload.action_type;
+          const recordId = payload.recordId || payload.id;
+
+          if (entityType && base44.entities[entityType]) {
+            const cleanData = payload.data ? { ...payload.data } : { ...payload };
+            delete cleanData.entity;
+            delete cleanData.entityType;
+            delete cleanData.action;
+            delete cleanData.action_type;
+            delete cleanData.recordId;
+            delete cleanData.id;
+
+            if (action === 'create' || action === 'create_product' || action === 'create_record' || !action) {
+              await base44.entities[entityType].create(cleanData);
+            } else if (action === 'update' && recordId) {
+              await base44.entities[entityType].update(recordId, cleanData);
+            } else if (action === 'delete' && recordId) {
+              await base44.entities[entityType].delete(recordId);
+            }
+          }
+        } catch (err) {
+          console.error('[Dispatcher] Payload execution failed:', err);
+          throw new Error('Approved, but failed to execute database action: ' + err.message);
+        }
+      }
+
+      // Propagate status update to linked ContentCalendarPost
+      try {
+        const posts = await base44.entities.ContentCalendarPost.filter({ approval_id: id });
+        for (const post of posts) {
+          const targetStatus = status === 'approved' ? 'approved' : status === 'rejected' ? 'rejected' : 'pending_approval';
+          await base44.entities.ContentCalendarPost.update(post.id, { status: targetStatus });
+        }
+      } catch (err) {
+        console.error('[Dispatcher] Failed to sync ContentCalendarPost status:', err);
+      }
+
+      // Propagate status update to linked PurchaseOrder
+      try {
+        const pos = await base44.entities.PurchaseOrder.filter({ approval_id: id });
+        for (const po of pos) {
+          const targetStatus = status === 'approved' ? 'approved' : status === 'rejected' ? 'cancelled' : 'pending_approval';
+          await base44.entities.PurchaseOrder.update(po.id, { status: targetStatus });
+        }
+      } catch (err) {
+        console.error('[Dispatcher] Failed to sync PurchaseOrder status:', err);
+      }
+
+      return base44.entities.ApprovalQueue.update(id, {
+        status,
+        decision_note: note,
+        decided_by: 'Gannon Waye',
+        decided_at: new Date().toISOString(),
+      });
+    },
     onSuccess: (_, vars) => {
       qc.invalidateQueries({ queryKey: ['approval-queue-all'] });
-      toast.success(`Decision saved: ${vars.status}`);
+      qc.invalidateQueries({ queryKey: ['sprint-posts'] });
+      qc.invalidateQueries({ queryKey: ['sprint-approvals'] });
+      toast.success(`Action Executed and Status updated to: ${vars.status}`);
       setSelected(null);
     },
+    onError: (err) => {
+      toast.error(err.message || 'Failed to process decision');
+    }
   });
 
   const filteredItems = filterItems(allItems, activeTab);

@@ -1,0 +1,4 @@
+{
+  "name": "runSiteHealthCheck",
+  "entry": "entry.ts"
+}

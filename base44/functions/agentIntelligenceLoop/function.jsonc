@@ -1,0 +1,17 @@
+{
+  "name": "agentIntelligenceLoop",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "scheduled",
+      "description": "Continuously researches 16+ domains (ecommerce, creator economy, AI SaaS, social, luxury, music) every 4 hours. Saves findings to KnowledgeVault and extracts opportunities to IdeaOpportunity. No spending or publishing — research only.",
+      "ends_type": "never",
+      "is_active": true,
+      "name": "Agent Intelligence Loop — Every 4 Hours",
+      "repeat_interval": 4,
+      "repeat_unit": "hours",
+      "schedule_mode": "recurring",
+      "schedule_type": "simple"
+    }
+  ]
+}

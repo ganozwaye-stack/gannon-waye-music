@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Heart, Star, Crown, Zap, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Heart, Star, Crown, CheckCircle2, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const TIERS = [
@@ -198,12 +198,12 @@ export default function MemberTiers() {
         <div className="text-center mt-16">
           <p className="font-body text-foreground/60 mb-4">Not ready to commit? Start by following on social.</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.tiktok.com/@gann0nwaye" target="_blank" rel="noopener noreferrer">
               <Button variant="outline" className="rounded-full border-primary/30 text-primary hover:bg-primary/10">
                 TikTok
               </Button>
             </a>
-            <a href="https://www.instagram.com/gannonwaye" target="_blank" rel="noopener noreferrer">
+            <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer">
               <Button variant="outline" className="rounded-full border-primary/30 text-primary hover:bg-primary/10">
                 Instagram
               </Button>

@@ -1,0 +1,16 @@
+{
+  "name": "fanMediaSubmissionEmail",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "entity",
+      "description": "When a fan uploads media, send them a warm email thanking them and nudging toward the support page.",
+      "entity_name": "FanMedia",
+      "event_types": [
+        "create"
+      ],
+      "is_active": true,
+      "name": "Fan Media Submission Email"
+    }
+  ]
+}

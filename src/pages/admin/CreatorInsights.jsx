@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Shield, Loader2, Zap, Eye, TrendingUp, Lightbulb, RefreshCw, CheckCircle2, Archive } from 'lucide-react';
+import { Shield, Loader2, Zap, Eye, TrendingUp, Lightbulb, Archive } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import ReactMarkdown from 'react-markdown';
 

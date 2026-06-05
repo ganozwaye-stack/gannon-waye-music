@@ -12,6 +12,7 @@ import MumSongSection from '@/components/mum/MumSongSection';
 import WisdomGarden from '@/components/mum/WisdomGarden';
 import MumLetterSection from '@/components/mum/MumLetterSection';
 import GardenAtmosphere from '@/components/mum/GardenAtmosphere';
+import FloatingSonia from '@/components/mum/FloatingSonia';
 
 function GoldDivider() {
   return (

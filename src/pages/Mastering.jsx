@@ -1,9 +1,9 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { base44 } from '@/api/base44Client';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   Upload, Music, Zap, Download, CheckCircle2, ArrowRight, ArrowLeft,
-  Loader2, AlertCircle, Info, SlidersHorizontal, Activity, Sparkles,
+  Loader2, AlertCircle, SlidersHorizontal, Activity, Sparkles,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

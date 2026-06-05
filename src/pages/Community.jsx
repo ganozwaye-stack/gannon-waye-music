@@ -98,7 +98,6 @@ export default function Community() {
           <div className="flex justify-center gap-4 mt-5 flex-wrap">
             <a href="https://www.tiktok.com/@gann0nwaye" target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline tracking-widest uppercase">TikTok @gann0nwaye</a>
             <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline tracking-widest uppercase">Instagram @gann0nwaye</a>
-            <a href="https://www.youtube.com/@gannonwayeofficial" target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline tracking-widest uppercase">YouTube @gannonwayeofficial</a>
           </div>
         </motion.div>
 

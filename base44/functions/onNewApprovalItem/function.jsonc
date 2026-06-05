@@ -1,0 +1,16 @@
+{
+  "name": "onNewApprovalItem",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "entity",
+      "description": "Fires notifyAdmin whenever a new approval queue item is created",
+      "entity_name": "ApprovalQueue",
+      "event_types": [
+        "create"
+      ],
+      "is_active": true,
+      "name": "Notify on New Approval Queue Item"
+    }
+  ]
+}

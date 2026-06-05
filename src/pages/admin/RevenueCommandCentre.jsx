@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,7 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import {
   DollarSign, TrendingUp, Users, Music, Mic, Radio, Handshake, Mail,
   ShoppingBag, Star, ExternalLink, ArrowLeft, ChevronRight, Zap, Eye,
-  CheckCircle2, XCircle, Loader2, Package, Activity, Brain, AlertTriangle, RefreshCw
+  CheckCircle2, Loader2, Brain, RefreshCw
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';

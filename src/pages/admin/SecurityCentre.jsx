@@ -1,9 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Shield, AlertTriangle, CheckCircle2, Lock, Eye, Activity, Plus, Loader2 } from 'lucide-react';
+import { Shield, AlertTriangle, CheckCircle2, Lock, Eye, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from 'react';
 

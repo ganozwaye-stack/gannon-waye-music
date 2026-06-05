@@ -40,7 +40,7 @@ export default function GiftChecklistPage() {
           <h3 className="font-display text-lg text-foreground">How This Works</h3>
           <div className="space-y-3 font-body text-sm text-foreground/70">
             <p>
-              <strong>Step 1:</strong> Follow @gannonwaye on TikTok & Instagram
+              <strong>Step 1:</strong> Follow @gann0nwaye on TikTok & Instagram
             </p>
             <p>
               <strong>Step 2:</strong> Like, comment, and share the latest post from either platform
@@ -64,7 +64,7 @@ export default function GiftChecklistPage() {
           className="mt-8 bg-primary/5 border border-primary/20 rounded-2xl p-6"
         >
           <p className="font-body text-sm text-foreground/70">
-            <strong>Need help?</strong> Reply to the signup email or DM @gannonwaye on Instagram or TikTok.
+            <strong>Need help?</strong> Reply to the signup email or DM @gann0nwaye on Instagram or TikTok.
             This gift is my way of saying thank you for believing in this before the 5 June 2026 release. 🤍
           </p>
         </motion.div>

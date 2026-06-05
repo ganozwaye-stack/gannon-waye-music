@@ -1,5 +1,4 @@
 import React from 'react';
-import { Music, ExternalLink } from 'lucide-react';
 
 const SOCIAL_ICONS = {
   instagram_url: { label: 'Instagram', icon: '📷' },

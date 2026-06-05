@@ -1,0 +1,4 @@
+{
+  "name": "sendSlackAlert",
+  "entry": "entry.ts"
+}

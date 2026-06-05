@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -9,9 +9,9 @@ import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
-  CheckCircle2, XCircle, Edit, Clock, Zap, ShoppingBag, TrendingUp,
-  DollarSign, AlertTriangle, ChevronRight, Loader2, RefreshCw, Eye,
-  Package, Star, Activity, ArrowLeft
+  CheckCircle2, XCircle, Edit, Clock, Zap,
+  DollarSign, ChevronRight, Loader2, RefreshCw, Eye,
+  Package, ArrowLeft
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';

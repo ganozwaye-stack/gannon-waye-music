@@ -6,8 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import {
-  ArrowLeft, ExternalLink, RefreshCw, Webhook, CheckCircle2,
-  XCircle, AlertTriangle, Copy, Activity, Shield, Search, RotateCcw, Package
+  ArrowLeft, ExternalLink, RefreshCw, Webhook, CheckCircle2, AlertTriangle, Copy, Activity, Shield, Search, RotateCcw, Package
 } from 'lucide-react';
 
 const WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
@@ -80,8 +79,6 @@ export default function WebhookHealthNew() {
   const lastSuccess = eventLogs.find(l => l.processing_status === 'processed');
   const lastFailed = eventLogs.find(l => l.processing_status === 'failed');
 
-  const webhookSecretPresent = true; // Secret is set — proven by integrationHealthCheck
-  const lastEventReceivedAt = lastSuccess ? (lastSuccess.received_at || lastSuccess.created_date) : null;
   const overallHealth = sigFails.length > 0 ? 'critical' : failed > 2 ? 'degraded' : received === 0 ? 'unknown' : 'healthy';
 
   return (
@@ -167,55 +164,34 @@ export default function WebhookHealthNew() {
         </CardContent>
       </Card>
 
-      {/* ── CRITICAL BUSINESS ATTENTION ALERT ── */}
-      <div className="border-2 border-red-500 bg-red-500/10 rounded-xl p-5">
+      {/* ── CRITICAL ACTION REQUIRED BANNER ── */}
+      <div className="border border-red-500/50 bg-red-500/10 rounded-xl p-4">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="w-6 h-6 text-red-400 shrink-0 mt-0.5 animate-pulse" />
+          <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
           <div className="flex-1">
-            <p className="font-bold text-red-300 text-base">🚨 CRITICAL ACTION REQUIRED — Stripe Webhook 75 Failed Deliveries</p>
-            <p className="text-sm text-foreground/80 mt-1">
-              Stripe reported <strong>75 failed delivery attempts</strong> to <code className="text-xs bg-secondary/60 px-1 rounded">stripeIntelligenceRouter</code> since <strong>2026-05-26 21:58:11 UTC</strong>.
-              The root-cause fix (body stream ordering) is deployed. This alert stays open until a Stripe Dashboard resend returns HTTP 2xx.
+            <p className="font-semibold text-red-300">Stripe Webhook Delivery Failure — Verification Required Before June 4, 2026</p>
+            <p className="text-sm text-foreground/70 mt-1">
+              Stripe reported 75 failed attempts to <code className="text-xs bg-secondary/60 px-1 rounded">stripeIntelligenceRouter</code> since May 26.
+              Root cause (body stream consumed before SDK init) is now fixed in both <strong>stripeIntelligenceRouter</strong> and <strong>stripeWebhook</strong>.
             </p>
-
-            <div className="mt-3 grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
-              <div className="bg-secondary/40 rounded-lg p-2.5">
-                <p className="text-muted-foreground mb-0.5">Endpoint</p>
-                <p className="font-mono text-primary break-all text-[10px]">{WEBHOOK_ENDPOINT}</p>
-              </div>
-              <div className="bg-secondary/40 rounded-lg p-2.5">
-                <p className="text-muted-foreground mb-0.5">STRIPE_WEBHOOK_SECRET</p>
-                <p className={`font-semibold ${webhookSecretPresent ? 'text-green-400' : 'text-red-400'}`}>
-                  {webhookSecretPresent ? '✓ Present (set in secrets)' : '✗ MISSING'}
-                </p>
-              </div>
-              <div className="bg-secondary/40 rounded-lg p-2.5">
-                <p className="text-muted-foreground mb-0.5">Last Event Received</p>
-                <p className="font-semibold text-foreground/80">
-                  {lastEventReceivedAt ? new Date(lastEventReceivedAt).toLocaleString('en-AU') : '— None yet'}
-                </p>
-              </div>
-            </div>
-
             <div className="mt-3 space-y-1.5 text-sm text-foreground/65">
-              <p>✅ <strong>stripeIntelligenceRouter:</strong> reads raw body once, verifies signature with <code className="text-xs bg-secondary/50 px-1 rounded">STRIPE_WEBHOOK_SECRET</code>. Valid signed events return 2xx — all downstream DB writes are fire-and-forget after the response. Only a Stripe Dashboard resend + 200 response is proof the fix is live.</p>
-              <p>✅ <strong>Deduplication:</strong> checks StripeEventLog by event.id before processing — prevents double-orders.</p>
-              <p>✅ <strong>Events logged:</strong> checkout.session.completed · payment_intent.payment_failed · charge.refunded · checkout.session.expired · charge.dispute.created.</p>
+              <p>✅ <strong>stripeIntelligenceRouter:</strong> returns 200 immediately, all processing fire-and-forget.</p>
+              <p>✅ <strong>stripeWebhook:</strong> SDK client created before body read, 200 returned immediately, all fulfillment fire-and-forget.</p>
+              <p className="text-red-300 font-semibold">⚠️ Only Stripe Dashboard → Recent deliveries proves this is fixed. Event log below only shows events that already succeeded.</p>
             </div>
-
-            <div className="mt-4 border border-red-500/30 rounded-lg p-3 text-xs space-y-1">
-              <p className="font-bold text-red-300">Next Action — Required NOW:</p>
-              <ol className="list-decimal list-inside space-y-1 text-foreground/70">
-                <li>Open <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-primary underline font-semibold">dashboard.stripe.com/webhooks</a></li>
-                <li>Click the <code className="bg-secondary/50 px-1 rounded">stripeIntelligenceRouter</code> endpoint → <strong>Recent deliveries</strong></li>
-                <li>Note the HTTP response code on a recent failed event (400 = signature mismatch; 500 = crash; timeout = previous body-read bug)</li>
-                <li>If <strong>400 signature failed</strong> → click <em>Reveal</em> on Signing secret → copy → update <code className="bg-secondary/50 px-1 rounded">STRIPE_WEBHOOK_SECRET</code> in Base44 → App Settings → Secrets</li>
-                <li>Click <strong>Resend</strong> on a recent failed event</li>
-                <li>Confirm delivery shows <strong className="text-green-300">HTTP 200</strong> — this is the ONLY proof the fix is live</li>
-                <li>Once 200 confirmed, this alert can be dismissed</li>
+            <div className="mt-3 border border-red-500/30 rounded-lg p-3 text-xs text-foreground/70 space-y-1">
+              <p className="font-semibold text-red-300">Manual Stripe Dashboard steps required:</p>
+              <ol className="list-decimal list-inside space-y-0.5">
+                <li>Open <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-primary underline">dashboard.stripe.com/webhooks</a></li>
+                <li>Click the <code className="bg-secondary/50 px-1 rounded">stripeIntelligenceRouter</code> endpoint</li>
+                <li>Open <strong>Recent deliveries</strong></li>
+                <li>Click a failed event → read HTTP status and response body</li>
+                <li>If you see <em>"Webhook signature failed"</em> → click <strong>Reveal</strong> on Signing secret → copy it → update <code className="bg-secondary/50 px-1 rounded">STRIPE_WEBHOOK_SECRET</code> in Base44 → App Settings → Secrets</li>
+                <li>Click <strong>Resend</strong> on one recent failed event</li>
+                <li>Confirm HTTP 2xx appears in the delivery attempt</li>
               </ol>
             </div>
-            <p className="text-xs text-muted-foreground/50 mt-2 italic">"Run Health Check" below tests internal connectivity only — it does NOT prove Stripe delivery. Only a Dashboard resend + 200 response confirms the fix.</p>
+            <p className="text-xs text-muted-foreground/60 mt-2 italic">⚠️ "Run Health Check" below tests internal connectivity only — it does NOT prove Stripe delivery is working. Only a Stripe Dashboard resend confirms the fix.</p>
           </div>
         </div>
       </div>
@@ -238,9 +214,8 @@ export default function WebhookHealthNew() {
           <CardContent className="p-4">
             <p className="text-xs text-muted-foreground mb-1">STRIPE_WEBHOOK_SECRET</p>
             <p className={`font-semibold text-sm ${sigFails.length > 0 ? 'text-red-400' : 'text-green-400'}`}>
-              {sigFails.length > 0 ? '⚠️ Signature failures — mismatch?' : '✓ Present (set in secrets)'}
+              {sigFails.length > 0 ? '⚠️ Signature failures detected — may not match endpoint' : '✓ Set (presence only — value hidden)'}
             </p>
-            <p className="text-xs text-muted-foreground/50 mt-1">Signature failures = {sigFails.length}</p>
           </CardContent>
         </Card>
       </div>

@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { ArrowLeft, Download, Copy, AlertTriangle, CheckCircle2, XCircle, Clock, ExternalLink, RefreshCw, Shield, Play } from 'lucide-react';
+import { ArrowLeft, Download, Copy, AlertTriangle, CheckCircle2, XCircle, ExternalLink } from 'lucide-react';
 import StripeModeDetector from '@/components/admin/StripeModeDetector';
 
 // ============================================================

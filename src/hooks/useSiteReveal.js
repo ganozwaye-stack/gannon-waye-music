@@ -22,7 +22,7 @@ export function useSiteReveal() {
   const merchRevealed = record?.merch_revealed ?? true;
   const releaseDateIso = record?.release_date_iso ?? RELEASE_DATE;
   const releaseDateText = record?.release_date_text ?? '5 June 2026';
-  const released = new Date() >= new Date(releaseDateIso);
-
+  const released = true;
+  
   return { artworkRevealed, merchRevealed, releaseDateIso, releaseDateText, released };
 }

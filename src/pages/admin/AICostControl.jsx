@@ -5,9 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import {
-  Brain, DollarSign, AlertTriangle, Shield, TrendingUp, Zap, Activity,
-  CheckCircle2, Lock, XCircle, ArrowLeft
+import { DollarSign, Shield, Zap, Activity,
+  CheckCircle2, Lock, ArrowLeft
 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 

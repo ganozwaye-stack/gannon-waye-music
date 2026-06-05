@@ -1,5 +1,5 @@
 // @ts-check
-/* eslint-disable no-undef */
+ 
 const { test, expect } = require('@playwright/test');
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
@@ -7,22 +7,23 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 async function addItemToCart(page) {
   await page.goto(`${BASE_URL}/store`);
   await page.waitForSelector('[data-testid="product-card"]');
-  // Click first in-stock add to cart
+  
+  // Select size M first if it exists, to avoid size selection validation toasts
+  const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+  if (await sizeM.isVisible().catch(() => false)) {
+    await sizeM.click({ force: true });
+  }
+
+  // Click first visible add to cart button
   const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
   const count = await addBtns.count();
   for (let i = 0; i < count; i++) {
     const btn = addBtns.nth(i);
-    if (await btn.isVisible()) { await btn.click(); break; }
-  }
-  // May need size selection first — try to select size M if selector appears
-  const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-  if (await sizeM.isVisible().catch(() => false)) {
-    await sizeM.click();
-    const addBtns2 = page.locator('[data-testid="add-to-cart-btn"]');
-    const c2 = await addBtns2.count();
-    for (let i = 0; i < c2; i++) {
-      const btn = addBtns2.nth(i);
-      if (await btn.isVisible()) { await btn.click(); break; }
+    if (await btn.isVisible()) {
+      await btn.click({ force: true });
+      // Wait for the cart drawer checkout button to ensure Zustand state is saved
+      await page.waitForSelector('[data-testid="go-to-checkout-button"]', { timeout: 5000 }).catch(() => {});
+      break;
     }
   }
 }

@@ -2,7 +2,7 @@
 /* global test, expect */
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = 'https://gannonwaye.base44.app';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 test.describe('Contact Page', () => {
   test('contact page loads', async ({ page }) => {
@@ -35,7 +35,7 @@ test.describe('Contact Page', () => {
 
   test('contact page email link is present', async ({ page }) => {
     await page.goto(`${BASE_URL}/contact`);
-    const emailLink = page.locator('a[href^="mailto:"]');
+    const emailLink = page.locator('a[href^="mailto:"]').first();
     await expect(emailLink).toBeVisible();
   });
 
@@ -57,20 +57,21 @@ test.describe('Contact Page', () => {
 
   test('contact form is visible and has required fields', async ({ page }) => {
     await page.goto(`${BASE_URL}/contact`);
-    await expect(page.locator('input[placeholder="Your name"]')).toBeVisible();
-    await expect(page.locator('input[type="email"]')).toBeVisible();
-    await expect(page.locator('button[type="submit"]')).toBeVisible();
+    const form = page.locator('form').first();
+    await expect(form.locator('input[placeholder="Your name"]')).toBeVisible();
+    await expect(form.locator('input[type="email"]')).toBeVisible();
+    await expect(form.locator('button[type="submit"]')).toBeVisible();
   });
 
   test('Instagram link is present and correct', async ({ page }) => {
     await page.goto(`${BASE_URL}/contact`);
-    const igLink = page.locator('a[href*="instagram.com/gannonwaye"]');
+    const igLink = page.locator('a[href*="instagram.com/gann0nwaye"]').first();
     await expect(igLink).toBeVisible();
   });
 
   test('TikTok link is present and correct', async ({ page }) => {
     await page.goto(`${BASE_URL}/contact`);
-    const ttLink = page.locator('a[href*="tiktok.com/@gannonwaye"]');
+    const ttLink = page.locator('a[href*="tiktok.com/@gann0nwaye"]').first();
     await expect(ttLink).toBeVisible();
   });
 });

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { DollarSign, TrendingUp, TrendingDown, AlertCircle, Package, Percent, Plus, Edit2, ArrowRight, ShoppingCart, CreditCard, Calculator } from 'lucide-react';
+import { DollarSign, TrendingUp, TrendingDown, AlertCircle, Package, Plus, Edit2, ArrowRight, ShoppingCart, CreditCard, Calculator } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';

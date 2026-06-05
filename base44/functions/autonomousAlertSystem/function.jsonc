@@ -1,0 +1,17 @@
+{
+  "name": "autonomousAlertSystem",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "scheduled",
+      "description": "Evaluates system health every hour and sends Slack alerts for critical issues.",
+      "ends_type": "never",
+      "is_active": false,
+      "name": "Hourly System Alert Check",
+      "repeat_interval": 1,
+      "repeat_unit": "hours",
+      "schedule_mode": "recurring",
+      "schedule_type": "simple"
+    }
+  ]
+}

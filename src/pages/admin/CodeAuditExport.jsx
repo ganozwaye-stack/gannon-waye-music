@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { ArrowLeft, Copy, Download, FileText, FolderOpen, Shield, AlertTriangle, CheckCircle2, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Copy, Download, FileText, Shield, AlertTriangle } from 'lucide-react';
 
 const CODE_PACKS = [
   {

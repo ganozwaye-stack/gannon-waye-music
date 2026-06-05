@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  AlertTriangle, Shield, DollarSign, TrendingUp, Globe, Music,
+  AlertTriangle, Shield, TrendingUp,
   ShoppingBag, Brain, Activity, Star, ArrowRight, CheckCircle2,
   Lightbulb, Eye, Zap
 } from 'lucide-react';

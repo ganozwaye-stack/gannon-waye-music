@@ -1,0 +1,30 @@
+// @ts-check
+const { defineConfig, devices } = require('@playwright/test');
+
+/**
+ * @see https://playwright.dev/docs/test-configuration
+ */
+module.exports = defineConfig({
+  testDir: './tests',
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 1,
+  workers: process.env.CI ? 4 : undefined,
+  reporter: 'html',
+  use: {
+    baseURL: process.env.BASE_URL || 'https://gannonwaye.com',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    launchOptions: {
+      args: [
+        '--host-rules=MAP tracker.metricool.com ~NOTFOUND, MAP *.posthog.com ~NOTFOUND, MAP *.youtube.com ~NOTFOUND, MAP *.youtube-nocookie.com ~NOTFOUND, MAP *.doubleclick.net ~NOTFOUND, MAP *.spotify.com ~NOTFOUND, MAP *.google-analytics.com ~NOTFOUND, MAP *.googletagmanager.com ~NOTFOUND'
+      ]
+    }
+  },
+  projects: [
+    {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+  ],
+});

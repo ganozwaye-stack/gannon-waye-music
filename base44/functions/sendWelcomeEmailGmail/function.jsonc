@@ -1,0 +1,4 @@
+{
+  "name": "sendWelcomeEmailGmail",
+  "entry": "entry.ts"
+}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { CheckCircle2, Zap, ExternalLink, RefreshCw } from 'lucide-react';
+import { CheckCircle2, Zap, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import StepBlock from './StepBlock';

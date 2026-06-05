@@ -10,8 +10,8 @@ const FAQS = [
     a: 'Gannon Waye is an Australian singer-songwriter based in Melbourne, originally from Adelaide. He writes deeply personal music about grief, healing, self-discovery, and the quiet transformation that comes from lived experience. His debut single "Thank You" is the beginning of a larger body of work.',
   },
   {
-    q: 'When did the debut single "Thank You" release?',
-    a: '"Thank You" is OUT NOW — available on Spotify, Apple Music, YouTube Music, TikTok, Amazon Music, TIDAL and all leading streaming platforms. Stream it now at gannonwaye.com/music.',
+    q: 'Where can I listen to the debut single "Thank You"?',
+    a: 'The debut single "Thank You" was released on June 5, 2026. You can stream it now on Spotify, Apple Music, YouTube, and all other major music platforms.',
   },
   {
     q: 'How do I stay updated on new music and events?',
@@ -19,7 +19,7 @@ const FAQS = [
   },
   {
     q: 'How do I order merch?',
-    a: "Head to the Store page to shop the official Thank You collection — hoodies, shirts, CDs, signed items and bundles. Shipping is available worldwide.",
+    a: "Head to the Store page. The store opened May 10 at 2pm AEST. You can pre-order items and they'll ship before June 9, 2026. Use code LAUNCH15 for 15% off your first order (first 20 orders only).",
   },
   {
     q: 'What is the "Back This" page?',
@@ -39,7 +39,7 @@ const FAQS = [
   },
   {
     q: 'Where can I follow Gannon on social media?',
-    a: 'On Instagram and TikTok as @gann0nwaye, and on YouTube as @gannonwayeofficial. You can also find videos embedded on the Videos page directly on this site.',
+    a: 'On Instagram and TikTok as @gann0nwaye, and YouTube as @gannonwayeofficial. You can also find videos embedded on the Videos page directly on this site.',
   },
   {
     q: 'I have a question not listed here. How do I get in touch?',

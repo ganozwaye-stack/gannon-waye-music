@@ -1,0 +1,18 @@
+{
+  "name": "autonomousTrendEngine",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "scheduled",
+      "description": "Every morning at 7am — generates viral hooks, winning content ideas, and daily money opportunities",
+      "ends_type": "never",
+      "is_active": true,
+      "name": "Trend Engine — Daily Report",
+      "repeat_interval": 1,
+      "repeat_unit": "days",
+      "schedule_mode": "recurring",
+      "schedule_type": "simple",
+      "start_time": "19:00"
+    }
+  ]
+}

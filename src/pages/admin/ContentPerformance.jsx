@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { TrendingUp, Star, CheckCircle2, RefreshCw, Zap, BarChart2, ChevronRight, X } from 'lucide-react';
+import { TrendingUp, CheckCircle2, RefreshCw, BarChart2, ChevronRight, X } from 'lucide-react';
 
 const PLATFORM_META = {
   tiktok: { label: 'TikTok', color: 'text-red-400' },

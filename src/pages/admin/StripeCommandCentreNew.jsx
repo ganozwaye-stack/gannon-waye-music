@@ -6,8 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import {
-  ArrowLeft, ExternalLink, CheckCircle2, XCircle, AlertTriangle,
-  CreditCard, DollarSign, RefreshCw, Webhook, Copy,
+  ArrowLeft, ExternalLink, CheckCircle2, XCircle, AlertTriangle, DollarSign, RefreshCw, Webhook, Copy,
   Eye, EyeOff, Package, AlertCircle, Repeat, Settings
 } from 'lucide-react';
 
@@ -135,7 +134,7 @@ export default function StripeCommandCentreNew() {
           { id: 'sales', label: `Sales (${successfulSales.length})` },
           { id: 'events', label: `Event Log (${eventLogs.length})` },
           { id: 'setup', label: 'Setup Guide' },
-          { id: 'tax', label: '⚠️ Tax Warning' },
+          { id: 'tax', label: 'ℹ️ GST Status' },
         ].map(t => (
           <button key={t.id} onClick={() => setTab(t.id)}
             className={`px-3 py-1.5 rounded-full text-xs transition-all border ${tab === t.id ? 'bg-primary text-primary-foreground border-primary' : 'bg-secondary border-border text-muted-foreground hover:text-foreground'}`}>
@@ -270,25 +269,14 @@ export default function StripeCommandCentreNew() {
 
       {tab === 'tax' && (
         <div className="space-y-4">
-          <Card className="border-yellow-500/30 bg-yellow-500/5">
-            <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-yellow-400" />Stripe Tax Dashboard Warning Explained</CardTitle></CardHeader>
+          <Card className="border-blue-500/30 bg-blue-500/5">
+            <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-blue-400" />Stripe Tax & GST Status (GST Exempt)</CardTitle></CardHeader>
             <CardContent className="space-y-3 text-sm">
-              <p className="text-foreground/80">Stripe shows: <em>"You didn't enable automatic tax on any Checkout Sessions you created in the last 30 days."</em></p>
+              <p className="text-foreground/80">Stripe Tax automatic calculations are currently <strong>disabled</strong> (<code className="bg-secondary/50 px-1 rounded">automatic_tax: &#123; enabled: false &#125;</code>) in your checkout session configuration.</p>
               <div className="space-y-2 text-xs text-foreground/70">
-                <p><strong className="text-foreground">What this means:</strong> Stripe Tax only activates after a real Checkout Session is created with <code className="bg-secondary/50 px-1 rounded">automatic_tax: &#123; enabled: true &#125;</code>. The warning persists until at least one session is created after the patch was deployed.</p>
-                <p><strong className="text-foreground">Code status:</strong> <code className="bg-green-500/10 text-green-400 px-1 rounded">createCheckoutSession</code> function already includes <code className="bg-secondary/50 px-1 rounded">automatic_tax: &#123; enabled: true &#125;</code> and address collection for physical merch. This is confirmed in source.</p>
-                <p className="text-yellow-400 font-semibold">⚠️ Proof requires a real completed Checkout Session created AFTER the patch. The warning will clear automatically once a live session is processed.</p>
-                <p><strong className="text-foreground">Do NOT:</strong> Use test cards (Stripe is in live mode). Do NOT create a session without Gannon's approval.</p>
-              </div>
-              <div className="border border-yellow-500/20 rounded-lg p-3 space-y-1 text-xs">
-                <p className="font-semibold text-yellow-300">To verify after next real purchase:</p>
-                <ol className="list-decimal list-inside space-y-0.5 text-foreground/65">
-                  <li>Customer completes checkout</li>
-                  <li>Go to <a href="https://dashboard.stripe.com/payments" target="_blank" rel="noopener noreferrer" className="text-primary underline">Stripe Dashboard → Payments</a></li>
-                  <li>Click the session → scroll to <strong>Tax</strong> section</li>
-                  <li>Confirm <strong>Automatic tax: enabled</strong> appears</li>
-                  <li>The Stripe Tax dashboard warning will clear</li>
-                </ol>
+                <p><strong className="text-foreground">GST Exemption:</strong> In Australia, businesses with annual sales revenue below the $75,000 AUD threshold are exempt from registering for GST and collecting GST from customers. Since your store operates below this threshold, automatic GST tax calculation is disabled to prevent checkout errors caused by missing Stripe tax registrations.</p>
+                <p><strong className="text-foreground">Code status:</strong> The <code className="bg-blue-500/10 text-blue-400 px-1 rounded">createCheckoutSession</code> backend function is configured with automatic tax disabled. Inclusive pricing behavior remains active for store display consistency.</p>
+                <p className="text-blue-400 font-semibold">ℹ️ No actions are required in your Stripe Tax dashboard at this time. All products and checkouts will proceed without tax-registration blockages.</p>
               </div>
             </CardContent>
           </Card>

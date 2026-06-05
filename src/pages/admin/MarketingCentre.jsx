@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Megaphone, Loader2, Copy, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { toast } from 'sonner';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 
 const CAMPAIGN_TYPES = [
   { id: 'email_campaign', label: 'Email Campaign', requiresApproval: false, risk: 'low' },

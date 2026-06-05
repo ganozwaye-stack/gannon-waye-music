@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Play, Pause, SkipBack, SkipForward, Volume2 } from 'lucide-react';
 
 export default function LyricsScroller({ release }) {

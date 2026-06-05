@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Gift, Calendar, Mail, TrendingUp, Users, DollarSign, Clock, Send, RefreshCw } from 'lucide-react';
+import { Gift, Calendar, Mail, Users, DollarSign, Clock, RefreshCw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';

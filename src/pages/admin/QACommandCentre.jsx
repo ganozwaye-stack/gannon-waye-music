@@ -6,9 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import {
-  ArrowLeft, CheckCircle2, AlertTriangle, Clock, Play, Shield,
-  RefreshCw, ExternalLink, Zap, FileText, BarChart3, Eye, XCircle,
-  Lock, Info, Download, Copy
+  ArrowLeft, AlertTriangle, Play,
+  RefreshCw, ExternalLink, FileText, Download, Copy
 } from 'lucide-react';
 
 const ROUTES_TO_TEST = [

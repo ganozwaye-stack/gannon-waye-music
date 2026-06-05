@@ -1,11 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Activity, CheckCircle2, AlertTriangle, Zap, X, ChevronRight, ArrowLeft, Link as LinkIcon, Database, Search } from 'lucide-react';
+import { Activity, X, ChevronRight, ArrowLeft, Link as LinkIcon, Search } from 'lucide-react';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const BADGE_STYLES = {
   auto: 'bg-green-500/10 text-green-400',

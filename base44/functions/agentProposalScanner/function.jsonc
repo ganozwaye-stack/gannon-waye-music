@@ -1,0 +1,17 @@
+{
+  "name": "agentProposalScanner",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "scheduled",
+      "description": "Agents scan for fast-return bundle opportunities every 6 hours and prepare proposals for Gannon's approval",
+      "ends_type": "never",
+      "is_active": true,
+      "name": "Bundle Opportunity Scanner",
+      "repeat_interval": 6,
+      "repeat_unit": "hours",
+      "schedule_mode": "recurring",
+      "schedule_type": "simple"
+    }
+  ]
+}

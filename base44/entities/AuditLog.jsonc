@@ -42,9 +42,11 @@
             "description": "Field name that changed"
           },
           "old_value": {
+            "type": "string",
             "description": "Previous value (any type)"
           },
           "new_value": {
+            "type": "string",
             "description": "New value (any type)"
           }
         },

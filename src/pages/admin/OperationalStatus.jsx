@@ -1,7 +1,6 @@
 import React from 'react';
 import { AlertTriangle, CheckCircle2, Shield } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { PLATFORM_CONSTRAINTS } from '@/lib/platformConstraints';
 
 export default function OperationalStatus() {

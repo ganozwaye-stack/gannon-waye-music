@@ -1,14 +1,210 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Play, Gift } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import CountdownTimer from '@/components/public/CountdownTimer';
 import SocialLinks from '@/components/public/SocialLinks';
 import ThankYouSingle from '@/components/public/ThankYouSingle';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
+
+function CinematicCelebration() {
+  const canvasRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(true);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', handleResize);
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 5 + 2;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.015 + 0.01;
+        this.gravity = 0.05;
+      }
+      update() {
+        this.vx *= 0.98;
+        this.vy *= 0.98;
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= this.decay;
+      }
+      draw(c) {
+        c.save();
+        c.globalAlpha = this.alpha;
+        c.fillStyle = this.color;
+        c.beginPath();
+        c.arc(this.x, this.y, Math.random() * 2 + 1, 0, Math.PI * 2);
+        c.fill();
+        c.restore();
+      }
+    }
+
+    class Firework {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = height;
+        this.tx = this.x + (Math.random() * 200 - 100);
+        this.ty = Math.random() * (height * 0.4) + 100;
+        const speed = Math.random() * 4 + 8;
+        const angle = Math.atan2(this.ty - this.y, this.tx - this.x);
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.exploded = false;
+        this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.vy >= 0 || this.y <= this.ty) {
+          this.exploded = true;
+        }
+      }
+      draw(c) {
+        c.save();
+        c.fillStyle = '#c9a84c';
+        c.beginPath();
+        c.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+        c.fill();
+        c.restore();
+      }
+    }
+
+    let fireworks = [];
+    let particles = [];
+    let tick = 0;
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+      tick++;
+
+      ctx.save();
+      const leftAngle = Math.sin(tick * 0.005) * 0.2 + 0.3;
+      const rightAngle = Math.cos(tick * 0.005) * 0.2 - 0.3;
+      
+      let gradient = ctx.createLinearGradient(0, height, Math.cos(leftAngle) * height, 0);
+      gradient.addColorStop(0, 'rgba(201, 168, 76, 0.12)');
+      gradient.addColorStop(1, 'rgba(201, 168, 76, 0)');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(0, height);
+      ctx.lineTo(Math.cos(leftAngle - 0.08) * height * 1.5, 0);
+      ctx.lineTo(Math.cos(leftAngle + 0.08) * height * 1.5, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      gradient = ctx.createLinearGradient(width, height, width + Math.sin(rightAngle) * height, 0);
+      gradient.addColorStop(0, 'rgba(201, 168, 76, 0.12)');
+      gradient.addColorStop(1, 'rgba(201, 168, 76, 0)');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(width, height);
+      ctx.lineTo(width + Math.sin(rightAngle - 0.08) * height * 1.5, 0);
+      ctx.lineTo(width + Math.sin(rightAngle + 0.08) * height * 1.5, 0);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      if (Math.random() < 0.02) {
+        fireworks.push(new Firework());
+      }
+
+      fireworks.forEach((fw, i) => {
+        fw.update();
+        fw.draw(ctx);
+        if (fw.exploded) {
+          for (let p = 0; p < 60; p++) {
+            particles.push(new Particle(fw.x, fw.y, fw.color));
+          }
+          fireworks.splice(i, 1);
+        }
+      });
+
+      particles.forEach((p, i) => {
+        p.update();
+        p.draw(ctx);
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+        }
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    const handleCanvasClick = (e) => {
+      const clickX = e.clientX;
+      const clickY = e.clientY;
+      const color = `hsl(${Math.random() * 360}, 100%, 75%)`;
+      for (let p = 0; p < 40; p++) {
+        particles.push(new Particle(clickX, clickY, color));
+      }
+    };
+    window.addEventListener('click', handleCanvasClick);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('click', handleCanvasClick);
+    };
+  }, []);
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-[100]" />
+      <div className="fixed bottom-6 right-6 z-[110] max-w-sm w-full bg-card/90 backdrop-blur-md border border-primary/30 rounded-2xl p-6 shadow-2xl">
+        <div className="flex justify-between items-start gap-4">
+          <div className="space-y-2 text-left">
+            <span className="inline-block bg-primary/20 text-primary border border-primary/30 rounded-full px-2.5 py-0.5 font-body text-[10px] tracking-widest uppercase">
+              🎉 Release Celebration
+            </span>
+            <h3 className="font-display text-xl text-foreground italic">"Thank You" is Live!</h3>
+            <p className="font-body text-xs text-muted-foreground leading-relaxed">
+              Gannon's debut single is streaming globally. Click anywhere on your screen to launch celebratory fireworks! 🎆
+            </p>
+            <div className="pt-2 flex gap-2">
+              <a href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz" target="_blank" rel="noopener noreferrer">
+                <Button size="sm" className="rounded-full text-[10px] font-body uppercase tracking-wider gradient-gold-button border-0 h-8">
+                  Spotify
+                </Button>
+              </a>
+              <a href="/music">
+                <Button size="sm" variant="outline" className="rounded-full text-[10px] font-body uppercase tracking-wider h-8">
+                  Listen
+                </Button>
+              </a>
+            </div>
+          </div>
+          <button onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-foreground text-sm font-semibold p-1">
+            ✕
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
 import ThankYouHeroBanner from '@/components/public/ThankYouHeroBanner';
 import VideoPreviewSection from '@/components/public/VideoPreviewSection';
 import MerchTeaserSection from '@/components/public/MerchTeaserSection';
@@ -45,6 +241,8 @@ export default function Home() {
 
 
   const [currentImg, setCurrentImg] = useState(0);
+  const [showCelebration, setShowCelebration] = useState(false);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImg((i) => (i + 1) % HERO_IMAGES.length);
@@ -52,8 +250,23 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const checkCelebration = () => {
+      const now = new Date();
+      const target = new Date('2026-06-05T06:00:00+10:00'); // Friday June 5, 2026 at 6 AM AEST
+      const params = new URLSearchParams(window.location.search);
+      if (now >= target || params.get('celebration') === 'true') {
+        setShowCelebration(true);
+      }
+    };
+    checkCelebration();
+    const timer = setInterval(checkCelebration, 60000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="min-h-screen relative">
+      {showCelebration && <CinematicCelebration />}
       <TikTokWelcomeBanner />
 
       {/* Fixed background — visible behind ALL sections */}
@@ -89,10 +302,6 @@ export default function Home() {
             <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
               This is more than music. This is choosing yourself.
             </p>
-            <div className="mt-4 inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-full px-4 py-1.5">
-              <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="font-body text-xs tracking-widest uppercase text-green-400">Debut Single — Out Now</span>
-            </div>
             <div className="mt-6">
               <HeroQuoteRotator />
             </div>
@@ -106,14 +315,14 @@ export default function Home() {
             className="mt-10 inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-5 bg-card/40 backdrop-blur-sm border border-primary/20 rounded-2xl px-6 py-4 mx-auto"
           >
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase text-green-400">Out Now</p>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow">Debut Single</p>
             </div>
             <p className="font-display text-lg text-foreground italic">"Thank You"</p>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
             <div className="flex flex-col items-center gap-1">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Available on all platforms</p>
-              <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer" className="font-display text-base text-primary italic hover:underline">Listen Now →</a>
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Artwork & Song Release: Out Now</p>
+              <Link to="/music" className="font-display text-base text-primary italic hover:underline">Stream Now →</Link>
             </div>
           </motion.div>
 
@@ -123,11 +332,11 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
           >
-            <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+            <Link to="/music" className="w-full sm:w-auto">
               <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
-                <Play className="w-4 h-4" /> Listen Now
+                <Play className="w-4 h-4" /> Stream Now
               </Button>
-            </a>
+            </Link>
             <Link to="/this-is-my-life" className="w-full sm:w-auto">
               <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
                 My Story <ArrowRight className="w-4 h-4" />

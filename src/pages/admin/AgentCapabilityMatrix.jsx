@@ -1,16 +1,12 @@
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Brain, ArrowLeft, CheckCircle2, XCircle, AlertTriangle, Zap,
-  TrendingUp, DollarSign, Eye, Shield, Activity, RefreshCw, ChevronRight
+  Brain, ArrowLeft, CheckCircle2, XCircle, Activity, ChevronRight
 } from 'lucide-react';
-import { toast } from 'sonner';
 
 const AGENTS = [
   {

@@ -8,11 +8,11 @@ import { Button } from '@/components/ui/button';
 
 const PLACEHOLDER_POSTS = [
   { id: 1, gradient: 'from-purple-900/40 to-primary/20', label: 'Behind the scenes' },
-  { id: 2, gradient: 'from-primary/20 to-amber-900/30', label: 'Studio sessions' },
+  { id: 2, gradient: 'from-primary/20 to-primary/30', label: 'Studio sessions' },
   { id: 3, gradient: 'from-blue-900/30 to-purple-900/30', label: 'Live moments' },
-  { id: 4, gradient: 'from-amber-900/30 to-primary/20', label: 'Gig life' },
+  { id: 4, gradient: 'from-primary/30 to-primary/20', label: 'Gig life' },
   { id: 5, gradient: 'from-primary/10 to-blue-900/30', label: 'New music updates' },
-  { id: 6, gradient: 'from-purple-900/20 to-amber-900/20', label: 'Community love' },
+  { id: 6, gradient: 'from-purple-900/20 to-primary/25', label: 'Community love' },
 ];
 
 export default function InstagramFeed() {

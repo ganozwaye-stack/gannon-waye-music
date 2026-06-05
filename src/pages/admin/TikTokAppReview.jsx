@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Copy, CheckCircle2, ExternalLink, AlertTriangle, XCircle, Info, Shield, ChevronDown, ChevronUp, Link } from 'lucide-react';
+import { Copy, CheckCircle2, ExternalLink, XCircle, Info, Shield } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
-import { base44 } from '@/api/base44Client';
 
 const { toast: useToastHook } = { toast: () => {} };
 

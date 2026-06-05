@@ -2,7 +2,7 @@
 /* global test, expect */
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = 'https://gannonwaye.base44.app';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 const PUBLIC_ROUTES = ['/', '/music', '/store', '/contact', '/community', '/videos', '/this-is-my-life'];
 

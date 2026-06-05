@@ -1,0 +1,9 @@
+{
+  "name": "gannonwaye-playwright-pack",
+  "version": "1.0.0",
+  "private": true,
+  "type": "commonjs",
+  "dependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}

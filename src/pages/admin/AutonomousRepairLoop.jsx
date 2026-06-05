@@ -5,10 +5,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  ArrowLeft, Copy, Terminal, CheckCircle2, AlertCircle,
-  RefreshCw, Pause, StopCircle, Play, GitBranch, Upload, Download, Zap, ExternalLink
+  ArrowLeft, Copy, Terminal, AlertCircle,
+  RefreshCw, Pause, StopCircle, Play, GitBranch, Upload, Download
 } from 'lucide-react';
 
 // ─── REPAIR TASKS ─────────────────────────────────────────────────────────────

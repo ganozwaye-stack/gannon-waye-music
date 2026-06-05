@@ -3,15 +3,17 @@ import { motion } from 'framer-motion';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 
 
 
 const RELEASE_DATE = new Date('2026-06-05T00:00:00+10:00');
-const isReleased = () => new Date() >= RELEASE_DATE;
+const isReleased = () => true; // THANKYOU single is released
 
 export default function ThankYouHeroBanner() {
-  const { } = useSiteReveal();
+  const { releaseDateIso, releaseDateText } = useSiteReveal();
+  const released = true;
 
   return (
     <section className="relative w-full overflow-hidden bg-card border-b border-border/40">
@@ -61,22 +63,12 @@ export default function ThankYouHeroBanner() {
             </p>
 
             <div className="space-y-4">
-              <p className="font-body text-xs tracking-[0.2em] uppercase text-green-400 mb-2 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
-                Out Now · All leading platforms
-              </p>
-              <div className="flex flex-wrap gap-3 mt-3">
-                <a href="https://open.spotify.com/track/6xHQX9Yc2pcfRzVxdPmRHp" target="_blank" rel="noopener noreferrer">
-                  <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                    🎧 Listen Now <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </a>
-                <Link to="/music">
-                  <Button variant="outline" className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-5">
-                    All Platforms
-                  </Button>
-                </Link>
-              </div>
+              <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Out Now · Stream on all leading platforms</p>
+              <Link to="/music" className="inline-block mt-3">
+                <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
+                  Listen Now <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
             </div>
           </motion.div>
         </div>

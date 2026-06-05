@@ -1,20 +1,121 @@
 import React, { useState } from 'react';
-import { base44 } from '@/api/base44Client';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { motion } from 'framer-motion';
-import { Play, AlertCircle, CheckCircle2, AlertTriangle, RefreshCw, KeyRound, ExternalLink, Info } from 'lucide-react';
+import { Play, AlertCircle, CheckCircle2, AlertTriangle, RefreshCw } from 'lucide-react';
 import { runPlatformHealthCheck, TEST_RESULTS } from '@/lib/platformTesting';
+import { base44 } from '@/api/base44Client';
+
+const normalizeBackendHealth = (payload) => {
+  const data = payload?.data || payload || {};
+  const checks = [
+    ...Object.entries(data.entities || {}).map(([name, value]) => ({
+      name: `Entity: ${name}`,
+      suite: 'core',
+      result: value.status === 'error' ? TEST_RESULTS.FAIL : TEST_RESULTS.PASS,
+      details: {
+        status: value.status === 'error' ? value.message : `${value.count ?? 0} records accessible`,
+        ...value,
+      },
+    })),
+    ...Object.entries(data.functions || {}).map(([name, value]) => ({
+      name: `Function: ${name}`,
+      suite: 'automation',
+      result: value.status === 'error' ? TEST_RESULTS.FAIL : value.status === 'info' ? TEST_RESULTS.WARN : TEST_RESULTS.PASS,
+      details: {
+        status: value.note || value.message || value.status,
+        ...value,
+      },
+    })),
+    ...Object.entries(data.connections || {}).map(([name, value]) => ({
+      name: `Connector: ${name}`,
+      suite: 'integration',
+      result: (value.status === 'error' || value.status === 'needs_credential') ? TEST_RESULTS.WARN : TEST_RESULTS.PASS,
+      details: {
+        status: (value.status === 'error' || value.status === 'needs_credential') ? (value.message || `Action required: connect ${name === 'gmail' ? 'Gmail' : name === 'googlesheets' ? 'Google Sheets' : name}`) : 'Connected',
+        ...value,
+      },
+    })),
+  ];
+
+  if (data.stripe) {
+    checks.push({
+      name: 'Stripe Configuration',
+      suite: 'integration',
+      result: data.stripe.status === 'error' ? TEST_RESULTS.FAIL : TEST_RESULTS.PASS,
+      details: {
+        status: data.stripe.message || 'Stripe configured and active',
+        ...data.stripe,
+      },
+    });
+  }
+
+  if (data.productsHealth) {
+    checks.push({
+      name: 'Product Calculations',
+      suite: 'commerce',
+      result: data.productsHealth.status === 'error' ? TEST_RESULTS.FAIL : data.productsHealth.status === 'warn' ? TEST_RESULTS.WARN : TEST_RESULTS.PASS,
+      details: {
+        status: data.productsHealth.summary || 'All calculations present',
+        ...data.productsHealth,
+      },
+    });
+  }
+
+  const failed = checks.filter(t => t.result === TEST_RESULTS.FAIL).length;
+  const warnings = checks.filter(t => t.result === TEST_RESULTS.WARN).length;
+  const passed = checks.filter(t => t.result === TEST_RESULTS.PASS).length;
+
+  return {
+    timestamp: data.timestamp || data.health?.timestamp || new Date().toISOString(),
+    source: 'backend',
+    healthScore: data.health?.score ?? Math.round(((passed + warnings * 0.5) / Math.max(checks.length, 1)) * 100),
+    status: data.health?.status || (failed > 0 ? 'critical' : warnings > 0 ? 'needs attention' : 'healthy'),
+    totalTests: checks.length,
+    passed,
+    failed,
+    warnings,
+    skipped: 0,
+    tests: checks,
+    raw: data,
+  };
+};
 
 export default function SiteHealthDashboard() {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const handleTestClick = (test) => {
+    const name = test.name.toLowerCase();
+    if (name.includes('product calculations') || name.includes('product')) {
+      navigate('/admin/merch');
+    } else if (name.includes('gmail') || name.includes('sheets') || name.includes('connector')) {
+      navigate('/admin/api-setup');
+    } else if (name.includes('stripe') || name.includes('stripe configuration')) {
+      navigate('/admin/stripe-command-centre');
+    } else if (name.includes('webhook') || name.includes('webhooks')) {
+      navigate('/admin/webhook-health');
+    }
+  };
+
   const runTests = async () => {
     setLoading(true);
     try {
-      const healthResults = await runPlatformHealthCheck();
+      let healthResults;
+      try {
+        const backendHealth = await base44.functions.invoke('runSiteHealthCheck', {});
+        healthResults = normalizeBackendHealth(backendHealth);
+      } catch (backendError) {
+        const fallbackResults = await runPlatformHealthCheck();
+        healthResults = {
+          ...fallbackResults,
+          source: 'frontend-fallback',
+          backendError: backendError?.message || String(backendError),
+        };
+      }
       setResults(healthResults);
 
       if (healthResults.healthScore === 100) {
@@ -30,25 +131,10 @@ export default function SiteHealthDashboard() {
     setLoading(false);
   };
 
-  const getStatusIcon = (test) => {
-    if (test.result === TEST_RESULTS.PASS) return <CheckCircle2 className="w-4 h-4 text-green-500" />;
-    if (test.result === TEST_RESULTS.WARN && test.details?.isCredentialGate) return <KeyRound className="w-4 h-4 text-blue-400" />;
-    if (test.result === TEST_RESULTS.WARN) return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
+  const getStatusIcon = (status) => {
+    if (status === TEST_RESULTS.PASS) return <CheckCircle2 className="w-4 h-4 text-green-500" />;
+    if (status === TEST_RESULTS.WARN) return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
     return <AlertCircle className="w-4 h-4 text-red-500" />;
-  };
-
-  const getStatusBadge = (test) => {
-    if (test.result === TEST_RESULTS.PASS && test.details?.isCredentialGate === false) {
-      return null; // no badge needed
-    }
-    if (test.result === TEST_RESULTS.PASS) return null;
-    if (test.result === TEST_RESULTS.WARN && test.details?.isCredentialGate) {
-      return <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-400 border border-blue-500/30">Needs Credential</span>;
-    }
-    if (test.result === TEST_RESULTS.WARN) {
-      return <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-yellow-500/15 text-yellow-500 border border-yellow-500/30">Needs Attention</span>;
-    }
-    return <span className="ml-2 text-xs px-2 py-0.5 rounded-full bg-red-500/15 text-red-500 border border-red-500/30">Failed</span>;
   };
 
   const getHealthColor = (score) => {
@@ -116,11 +202,25 @@ export default function SiteHealthDashboard() {
               <div>
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Status</p>
                 <p className="font-display text-lg text-foreground capitalize">
-                  {results.failed === 0 ? 'operational' : results.failed > 2 ? 'critical' : 'warnings'}
+                  {results.status || (results.failed === 0 ? 'operational' : results.failed > 2 ? 'critical' : 'warnings')}
                 </p>
+                {results.source && (
+                  <p className="font-body text-[10px] text-muted-foreground uppercase tracking-wider mt-1">
+                    Source: {results.source === 'backend' ? 'Backend health function' : 'Browser fallback'}
+                  </p>
+                )}
               </div>
             </div>
           </div>
+
+          {results.backendError && (
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
+              <p className="font-display text-sm text-yellow-600 mb-1">Backend health function unavailable</p>
+              <p className="font-body text-xs text-muted-foreground">
+                Fallback browser-side tests ran instead. Backend error: {results.backendError}
+              </p>
+            </div>
+          )}
 
           {/* Summary Stats */}
           <div className="grid grid-cols-4 gap-4">
@@ -162,43 +262,22 @@ export default function SiteHealthDashboard() {
                   </div>
                   <div className="space-y-2">
                     {suiteTests.map((test, i) => (
-                      <div key={i} className="flex items-start gap-3 py-2 border-t border-border/30 first:border-0">
+                      <div 
+                        key={i} 
+                        onClick={() => handleTestClick(test)}
+                        className="flex items-start gap-3 py-2 px-2 -mx-2 rounded-lg border border-transparent transition-all first:border-t-0 hover:bg-secondary/40 hover:border-border/10 cursor-pointer group"
+                      >
                         <div className="mt-0.5 flex-shrink-0">
-                          {getStatusIcon(test)}
+                          {getStatusIcon(test.result)}
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center flex-wrap gap-1">
-                            <p className="font-body text-sm font-medium text-foreground">{test.name}</p>
-                            {getStatusBadge(test)}
-                          </div>
+                          <p className="font-body text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                            {test.name}
+                          </p>
                           {test.details && (
                             <p className="font-body text-xs text-muted-foreground mt-1">
-                              {test.details.status || test.details.summary || ''}
+                              {test.details.status || test.details.summary || JSON.stringify(test.details)}
                             </p>
-                          )}
-                          {test.details?.action && (
-                            <p className="font-body text-xs text-blue-400 mt-1 flex items-center gap-1">
-                              <KeyRound className="w-3 h-3 flex-shrink-0" />
-                              {test.details.action}
-                            </p>
-                          )}
-                          {test.details?.gmailAction && (
-                            <p className="font-body text-xs text-blue-400 mt-1 flex items-center gap-1">
-                              <KeyRound className="w-3 h-3 flex-shrink-0" />
-                              {test.details.gmailAction}
-                            </p>
-                          )}
-                          {test.details?.note && (
-                            <p className="font-body text-xs text-muted-foreground/70 mt-1 italic">
-                              {test.details.note}
-                            </p>
-                          )}
-                          {test.details?.issues && test.details.issues.length > 0 && (
-                            <ul className="mt-1 space-y-0.5">
-                              {test.details.issues.slice(0, 5).map((issue, j) => (
-                                <li key={j} className="font-body text-xs text-yellow-500">• {issue}</li>
-                              ))}
-                            </ul>
                           )}
                         </div>
                       </div>
@@ -210,70 +289,29 @@ export default function SiteHealthDashboard() {
           </div>
 
           {/* Action Items */}
-          {(() => {
-            const failures = results.tests.filter(t => t.result === TEST_RESULTS.FAIL);
-            const credGates = results.tests.filter(t => t.result === TEST_RESULTS.WARN && t.details?.isCredentialGate);
-            const warnings = results.tests.filter(t => t.result === TEST_RESULTS.WARN && !t.details?.isCredentialGate);
-            if (failures.length === 0 && credGates.length === 0 && warnings.length === 0) {
-              return (
-                <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
-                  <p className="font-display text-sm text-green-600">✅ All systems operational. Platform ready for production.</p>
-                </div>
-              );
-            }
-            return (
-              <div className="space-y-3">
-                {failures.length > 0 && (
-                  <div className="bg-red-500/10 border border-red-500/30 rounded-xl p-4">
-                    <p className="font-display text-sm text-red-500 mb-2">❌ System Failures — Fix Required</p>
-                    <ul className="space-y-1 font-body text-sm text-foreground/70">
-                      {failures.map((test, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="text-red-500 flex-shrink-0">•</span>
-                          <span><strong className="text-foreground">{test.name}:</strong> {test.details?.error || 'Failed'}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {warnings.length > 0 && (
-                  <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
-                    <p className="font-display text-sm text-yellow-500 mb-2">⚠️ Needs Attention</p>
-                    <ul className="space-y-1 font-body text-sm text-foreground/70">
-                      {warnings.map((test, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="text-yellow-500 flex-shrink-0">•</span>
-                          <span><strong className="text-foreground">{test.name}:</strong> {test.details?.status || test.details?.summary}</span>
-                          {test.details?.issues?.map((issue, j) => (
-                            <span key={j} className="block text-xs text-yellow-400 ml-4">— {issue}</span>
-                          ))}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-                {credGates.length > 0 && (
-                  <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
-                    <p className="font-display text-sm text-blue-400 mb-2 flex items-center gap-2">
-                      <KeyRound className="w-4 h-4" /> Needs Credential — Human Action Required
-                    </p>
-                    <p className="font-body text-xs text-muted-foreground mb-2">These are external OAuth connections. They do not affect core platform health.</p>
-                    <ul className="space-y-1 font-body text-sm text-foreground/70">
-                      {credGates.map((test, i) => (
-                        <li key={i} className="flex items-start gap-2">
-                          <span className="text-blue-400 flex-shrink-0">•</span>
-                          <div>
-                            <strong className="text-foreground">{test.name}:</strong>{' '}
-                            {test.details?.action || test.details?.status}
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            );
-          })()}
+          {(results.failed > 0 || results.warnings > 0) ? (
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
+              <p className="font-display text-sm text-yellow-600 mb-3">⚠️ Action Required</p>
+              <ul className="space-y-2 font-body text-sm text-foreground/70">
+                {results.tests.filter(t => t.result === TEST_RESULTS.FAIL).map((test, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-red-500">•</span>
+                    <span><strong className="text-foreground">{test.name}:</strong> {test.details?.error || 'Failed'}</span>
+                  </li>
+                ))}
+                {results.tests.filter(t => t.result === TEST_RESULTS.WARN).map((test, i) => (
+                  <li key={i} className="flex items-start gap-2">
+                    <span className="text-yellow-500">•</span>
+                    <span><strong className="text-foreground">{test.name}:</strong> {test.details?.summary || test.details?.status}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
+              <p className="font-display text-sm text-green-600">✅ All systems operational. Platform ready for production.</p>
+            </div>
+          )}
 
           {/* Last Run */}
           <p className="font-body text-xs text-muted-foreground text-center">

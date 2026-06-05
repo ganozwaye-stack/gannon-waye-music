@@ -3,8 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Users, Heart, ShoppingBag, Mail, Star, ChevronRight, TrendingUp, Gift } from 'lucide-react';
+import { ArrowLeft, Users, Heart, Mail, ChevronRight } from 'lucide-react';
 
 const CONVERSION_LADDER = [
   { stage: 1, label: 'Unknown Visitor', desc: 'Arrives from TikTok, Spotify, or search', action: 'Capture email with lead magnet or signup form', route: '/admin/subscribers', color: 'text-muted-foreground' },

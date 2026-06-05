@@ -83,10 +83,10 @@ export default function AmbientPlayer() {
   };
 
   const statusText = audioMissing
-    ? 'Upload full audio to activate'
+    ? 'Chorus audio not uploaded yet'
     : tapToPlay && !playing
       ? 'Tap to play'
-      : 'Thank You — Out Now';
+      : 'Thank You — Gannon Waye';
 
   return (
     <>

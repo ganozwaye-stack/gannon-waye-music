@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
-import { ArrowLeft, CheckCircle2, AlertTriangle, Zap, Shield, FileText } from 'lucide-react';
+import { ArrowLeft, Zap, Shield } from 'lucide-react';
 
 const CONTENT_PLATFORMS = [
   {

@@ -1,0 +1,4 @@
+{
+  "name": "openAIMessageRouter",
+  "entry": "entry.ts"
+}

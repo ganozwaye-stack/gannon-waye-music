@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,8 +9,8 @@ import { Label } from '@/components/ui/label';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import {
-  Package, Plus, DollarSign, TrendingUp, AlertTriangle,
-  CheckCircle2, Clock, Truck, RefreshCw, ExternalLink, ChevronRight,
+  Package, Plus, DollarSign,
+  CheckCircle2, RefreshCw, ExternalLink, ChevronRight,
   ShoppingCart, BarChart3, Boxes, Calculator
 } from 'lucide-react';
 

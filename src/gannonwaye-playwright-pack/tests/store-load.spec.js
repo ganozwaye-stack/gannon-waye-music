@@ -1,7 +1,7 @@
 // @ts-check
-/* eslint-disable no-undef */
+ 
 const { test, expect } = require('@playwright/test');
-const BASE_URL = 'http://localhost:5173';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 test.describe('Store Load & Product Cards', () => {
   test('/store loads', async ({ page }) => {

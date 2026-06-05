@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { Mail, Send, Users } from 'lucide-react';
+import { Mail, Send } from 'lucide-react';
 
 const HOODIE_PRICE = 89;
 const HOODIE_COST = 30;
@@ -168,7 +166,7 @@ export default function HoodieOffer() {
             <p>As a token of my appreciation, I'm sending you something special before the May 10 release.</p>
             <p className="font-semibold text-primary mt-2">How to claim your gift:</p>
             <ol className="list-decimal list-inside space-y-1 text-xs">
-              <li>Follow me on TikTok @gannonwaye and Instagram @gannonwaye</li>
+              <li>Follow me on TikTok @gann0nwaye and Instagram @gann0nwaye</li>
               <li>Like, comment, and share my latest post</li>
               <li>Reply to this email or DM me with a screenshot</li>
               <li>I'll personally send your gift 🤍</li>

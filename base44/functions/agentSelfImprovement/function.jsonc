@@ -1,0 +1,30 @@
+{
+  "name": "agentSelfImprovement",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "scheduled",
+      "description": "Reviews all agent activity from the past 24h and logs improvement learning records.",
+      "ends_type": "never",
+      "is_active": true,
+      "name": "Daily Agent Self-Improvement",
+      "repeat_interval": 1,
+      "repeat_unit": "days",
+      "schedule_mode": "recurring",
+      "schedule_type": "simple",
+      "start_time": "13:00"
+    },
+    {
+      "type": "scheduled",
+      "description": "Reviews 24h agent activity, scores outputs, compares approved vs rejected proposals, and saves learning records to AgentLearningRecord and KnowledgeVault. Runs daily.",
+      "ends_type": "never",
+      "is_active": true,
+      "name": "Agent Self-Improvement — Daily Review",
+      "repeat_interval": 1,
+      "repeat_unit": "days",
+      "schedule_mode": "recurring",
+      "schedule_type": "simple",
+      "start_time": "21:00"
+    }
+  ]
+}

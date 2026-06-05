@@ -1,5 +1,5 @@
 // @ts-check
-/* eslint-disable no-undef */
+ 
 const { test, expect } = require('@playwright/test');
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
@@ -78,7 +78,7 @@ test.describe('Promo Codes', () => {
 
   test('grand total is visible', async ({ page }) => {
     await seedCheckout(page);
-    await expect(page.locator('[data-testid="checkout-grand-total"]')).toBeVisible();
+    await expect(page.locator('[data-testid="checkout-total"]')).toBeVisible();
   });
 
   test('pay button is visible', async ({ page }) => {

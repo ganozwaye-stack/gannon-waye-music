@@ -1,15 +1,12 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { motion } from 'framer-motion';
-import {
-  LayoutDashboard, FileCode, Database, Zap, Component, Globe, Shield,
-  ChevronDown, ChevronRight, ExternalLink, RefreshCw, Music, ShoppingBag,
-  Users, Settings, Mail, DollarSign, Activity, Gift, Video, Book,
-  CreditCard, CheckSquare, AlertTriangle, Brain
+import { Database, Zap, Globe, Shield,
+  ChevronDown, ChevronRight, ExternalLink, Music, ShoppingBag,
+  Users, Settings, Mail, DollarSign, Activity, Gift, Video,
+  CreditCard, CheckSquare, Brain
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 
 // ── Static architecture map (reflects actual file structure) ─────────────────

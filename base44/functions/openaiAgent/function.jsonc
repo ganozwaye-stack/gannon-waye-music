@@ -1,0 +1,4 @@
+{
+  "name": "openaiAgent",
+  "entry": "entry.ts"
+}

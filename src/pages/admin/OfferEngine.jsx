@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Zap, ArrowLeft, DollarSign, Tag, Package, ChevronRight, ArrowUpRight,
-  Clock, CheckCircle2, XCircle, AlertTriangle, Loader2, Star, TrendingUp
+  Zap, ArrowLeft, Tag, Package, ChevronRight,
+  Clock, AlertTriangle, Loader2
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { format } from 'date-fns';

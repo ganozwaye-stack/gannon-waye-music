@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { ArrowLeft, Copy, Download, ExternalLink, AlertTriangle, CheckCircle2, FileText } from 'lucide-react';
+import { ArrowLeft, Copy, Download, AlertTriangle, FileText } from 'lucide-react';
 
 // What to paste directly into ChatGPT — no secrets, no credentials
 const CHATGPT_PROMPT_INTRO = `# CODE REVIEW REQUEST — Gannon Waye Music Business OS

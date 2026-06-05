@@ -1,0 +1,27 @@
+{
+  "name": "notifyAdmin",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "entity",
+      "description": "Notify admin when shipping rates are created or changed",
+      "entity_name": "ShippingRateRule",
+      "event_types": [
+        "create",
+        "update"
+      ],
+      "is_active": true,
+      "name": "Notify on Shipping Rule Change"
+    },
+    {
+      "type": "entity",
+      "description": "Fires notifyAdmin when a new risk alert is created",
+      "entity_name": "RiskAlert",
+      "event_types": [
+        "create"
+      ],
+      "is_active": true,
+      "name": "Notify on New Risk Alert"
+    }
+  ]
+}

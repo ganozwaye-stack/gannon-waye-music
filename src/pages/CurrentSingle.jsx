@@ -3,8 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Play, ExternalLink, BookOpen, Share2, ShoppingBag, ArrowLeft } from 'lucide-react';
+import { Play, ExternalLink, BookOpen, ShoppingBag, ArrowLeft } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import ShareButtons from '@/components/public/ShareButtons';
 import LyricsModal from '@/components/public/LyricsModal';
@@ -17,11 +16,11 @@ const FALLBACK_SINGLE = {
   id: 'thank-you-fallback',
   title: 'Thank You',
   type: 'single',
-  status: 'released',
+  status: 'ready',
   release_date: '2026-06-05',
   artwork_url: THANK_YOU_COVER,
   description: '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again.',
-  current_single_hero_copy: '"Thank You" — the debut single from Gannon Waye. Out Now.',
+  current_single_hero_copy: '"Thank You" — the debut single from Gannon Waye. Out 5 June 2026.',
   current_single_behind_story: 'This song was written at a turning point — when staying any longer would have meant abandoning himself all over again. There was a growing awareness that what he was experiencing was not new. It felt familiar in a way that traced back much further, to patterns already fought hard to outgrow.\n\nThis song is not about the pain. It is about the line being drawn. It is the moment of choosing self-respect over repetition. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.',
   credits: null,
   youtube_video_id: null,
@@ -82,7 +81,7 @@ export default function CurrentSingle() {
   });
 
   const single = releases[0] || FALLBACK_SINGLE;
-  const isReleased = single.status === 'released' || new Date() >= new Date('2026-06-05T00:00:00+10:00');
+  const isReleased = single.status === 'released';
   const releaseDateText = single.release_date
     ? new Date(single.release_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })
     : null;
@@ -125,13 +124,14 @@ export default function CurrentSingle() {
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Current Single</p>
             <h1 className="font-display text-5xl md:text-7xl text-foreground leading-none mb-4">{single.title}</h1>
-            <motion.p
-              className="font-body text-sm text-green-400 mb-6 flex items-center gap-2"
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
-              Out Now — Available on all platforms
-            </motion.p>
+            {releaseDateText && (
+              <motion.p
+                className="font-body text-sm text-muted-foreground mb-6"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
+              >
+                {isReleased ? 'Out now' : `Out ${releaseDateText}`}
+              </motion.p>
+            )}
             {single.current_single_hero_copy && (
               <p className="font-body text-base md:text-lg text-foreground/70 leading-relaxed mb-8 max-w-lg">
                 {single.current_single_hero_copy}
@@ -153,9 +153,11 @@ export default function CurrentSingle() {
                   <Button className="rounded-full gap-2 font-body text-xs tracking-wider uppercase gradient-gold-button border-0">🍎 Apple Music</Button>
                 </a>
               )}
-              <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer">
-                <Button className="rounded-full gap-2 font-body text-xs tracking-wider uppercase gradient-gold-button border-0">🎧 Listen Now</Button>
-              </a>
+              {!isReleased && (
+                <Link to="/back-this">
+                  <Button className="rounded-full gap-2 font-body text-xs tracking-wider uppercase gradient-gold-button border-0">Back This Release</Button>
+                </Link>
+              )}
               <Link to="/store">
                 <Button variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-border/40 hover:border-primary/30">
                   <ShoppingBag className="w-3.5 h-3.5" />Shop

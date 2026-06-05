@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { DollarSign, Users, CheckCircle2, Package, Zap, BookOpen, ArrowRight, Star, Shield, Clock } from 'lucide-react';
+import { CheckCircle2, Zap, Shield, Clock } from 'lucide-react';
 
 const PACKAGES = [
   {

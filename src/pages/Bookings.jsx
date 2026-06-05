@@ -4,14 +4,13 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Upload, X, Music, Mic, Calendar, MapPin, DollarSign, Users, FileText, Link as LinkIcon, Send, Heart, Sparkles, Globe, Instagram, Facebook, Youtube } from 'lucide-react';
+import { Upload, Music, Mic, Calendar, Users, FileText, Link as LinkIcon, Send, Heart, Sparkles } from 'lucide-react';
 import VoiceTextarea from '@/components/ui/VoiceTextarea';
-import { createBookingEnquiry, BOOKING_TYPES, BOOKING_STATUSES } from '@/lib/bookingSystem';
+import { createBookingEnquiry } from '@/lib/bookingSystem';
 
 const BOOKING_TYPE_LABELS = {
   live_performance: 'Live Performance',

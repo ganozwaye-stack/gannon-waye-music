@@ -8,10 +8,8 @@ import { base44 } from '@/api/base44Client';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import {
-  Upload, Download, RotateCw, Type, Trash2, Layers, Wand2, Image as ImageIcon,
-  Sun, Contrast, Palette, Crop, Scissors, Copy, Plus, Minus, Undo, Redo,
-  Sparkles, Move, Square, Type as TypeIcon, Smile, Star, Heart, Circle,
-  Maximize, Grid3X3, Eraser, Save, Share2, Film, Music, Mic
+  Upload, Download, Trash2, Image as ImageIcon,
+  Sun, Contrast, Palette, Undo, Redo, Save, Film
 } from 'lucide-react';
 
 const FILTERS = {

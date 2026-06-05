@@ -153,8 +153,17 @@ export default function Footer() {
           )}
         </div>
 
-        {/* Support the project — centred with GW heart */}
-        <div className="mt-8 pt-6 border-t border-border/40 flex flex-col items-center gap-3 text-center">
+        {/* Legal Disclaimers */}
+        <div className="mt-6 text-[10px] text-muted-foreground/60 max-w-2xl mx-auto space-y-1.5 leading-normal">
+          <p>
+            * Support contributions are direct-support gifts to Gannon Waye as an independent artist to fund album production, merchandise sampling, and system operations; they are not tax-deductible.
+          </p>
+          <p>
+            * The AI memorial reflective companion available on the tribute page (/mum) is configured as a comforting, gentle remembrance journal companion. It is not an active representation of Sonia, does not offer professional medical, legal, or grief counseling, and should not be used as a substitute for clinical therapy.
+          </p>
+        </div>
+
+        <div className="mt-4 pt-4 border-t border-border/40 flex flex-col items-center gap-3 text-center">
           <div className="flex items-center gap-3">
             <img
               src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/094c64c87_image.png"

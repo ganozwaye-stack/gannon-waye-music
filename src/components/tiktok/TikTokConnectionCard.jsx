@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { CheckCircle2, XCircle, Loader2, RefreshCw, LogOut, ExternalLink, User, AlertTriangle, ShieldCheck, ShieldX, ChevronDown, ChevronUp } from 'lucide-react';
+import { XCircle, Loader2, RefreshCw, LogOut, ExternalLink, User, AlertTriangle, ShieldCheck, ShieldX, ChevronDown, ChevronUp } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 export default function TikTokConnectionCard({ onStatusChange }) {

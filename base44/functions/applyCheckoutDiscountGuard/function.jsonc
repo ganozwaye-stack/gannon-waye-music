@@ -1,0 +1,4 @@
+{
+  "name": "applyCheckoutDiscountGuard",
+  "entry": "entry.ts"
+}

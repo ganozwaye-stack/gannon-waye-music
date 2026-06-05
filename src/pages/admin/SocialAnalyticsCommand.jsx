@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useMutation } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
-import { ArrowLeft, BarChart3, AlertTriangle, ExternalLink, Zap, TrendingUp, Eye } from 'lucide-react';
+import { ArrowLeft, BarChart3, AlertTriangle, ExternalLink, Zap } from 'lucide-react';
 
 const ANALYTICS_PLATFORMS = [
   {

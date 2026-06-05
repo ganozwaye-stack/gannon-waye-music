@@ -1,11 +1,8 @@
 import { useState } from 'react';
-import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Calendar, Video, Image, MessageSquare, ShoppingBag, Music, Heart, TrendingUp, CheckCircle2, Clock, AlertTriangle, ExternalLink, Plus } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Calendar, Video, Image, ShoppingBag, Heart, CheckCircle2, Plus } from 'lucide-react';
 
 const DAYS = 10;
 const TARGET_DATE = new Date('2026-06-05'); // June 5, 2026 release

@@ -4,7 +4,6 @@
  */
 
 import React from 'react';
-import { Button } from '@/components/ui/button';
 import { Heart, Music, Calendar } from 'lucide-react';
 
 export default function BookingCTA({ variant = 'default', className = '' }) {

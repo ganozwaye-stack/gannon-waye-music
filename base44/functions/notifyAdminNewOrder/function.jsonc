@@ -1,0 +1,4 @@
+{
+  "name": "notifyAdminNewOrder",
+  "entry": "entry.ts"
+}

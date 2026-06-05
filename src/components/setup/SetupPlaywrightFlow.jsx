@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { base44 } from '@/api/base44Client';
-import { CheckCircle2, Copy, Upload, AlertTriangle, Terminal } from 'lucide-react';
+import { CheckCircle2, Copy, Terminal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import StepBlock from './StepBlock';

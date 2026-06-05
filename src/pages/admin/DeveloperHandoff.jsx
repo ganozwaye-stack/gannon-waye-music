@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { ArrowLeft, Copy, Download, ExternalLink, Shield, AlertTriangle, CheckCircle2, FileText } from 'lucide-react';
+import { ArrowLeft, Copy, Download, Shield, FileText } from 'lucide-react';
 
 const SECTIONS = [
   {

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { ArrowLeft, Film, Zap, Copy, RefreshCw, CheckCircle2, AlertTriangle, Eye } from 'lucide-react';
+import { ArrowLeft, Film, Copy, RefreshCw, AlertTriangle } from 'lucide-react';
 
 export default function VideoAgentCommand() {
   const { toast } = useToast();

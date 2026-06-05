@@ -240,29 +240,17 @@ Deno.serve(async (req) => {
       ? cartItems.some(item => needsShipping(item.category || ''))
       : true; // fallback: assume physical
 
-    // Stable idempotency key — prevents duplicate sessions from rapid double-click/retry.
-    // Priority: frontend-generated checkout_attempt_id (stored once per checkout attempt).
-    // Fallback: server-side 5-minute bucket key derived from email + product hash + amount.
-    const frontendAttemptId = body.metadata?.checkout_attempt_id || body.metadata?.idempotency_key;
-    const fiveMinBucket = Math.floor(Date.now() / (5 * 60 * 1000));
-    const itemsKey = (body.metadata?.items || body.metadata?.product_id || 'unknown').slice(0, 40);
-    const amountKey = String(Math.round((body.metadata?.amount || 0) * 100));
-    const stableKey = `checkout_${(customerEmail || 'guest').replace(/[^a-z0-9]/gi, '_')}_${itemsKey.replace(/[^a-z0-9]/gi, '_')}_${amountKey}_${fiveMinBucket}`;
-    const idempotencyKey = frontendAttemptId ? `checkout_attempt_${frontendAttemptId}` : stableKey;
-
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       ...(customerEmail ? { customer_email: customerEmail } : {}),
       customer_creation: 'always',
       billing_address_collection: 'required',
-      phone_number_collection: { enabled: true },
       ...(orderHasPhysical ? {
         shipping_address_collection: {
           allowed_countries: ['AU', 'NZ', 'US', 'GB', 'CA', 'SG', 'IN'],
         },
       } : {}),
-      automatic_tax: { enabled: true },
-      invoice_creation: { enabled: true },
+      automatic_tax: { enabled: false },
       line_items: lineItems,
       success_url: `${origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/store?checkout=cancelled`,
@@ -279,7 +267,6 @@ Deno.serve(async (req) => {
         shipping_combined: 'true',
         shipping_method: internationalShipping ? 'international_quote' : (shippingAmountCents === 0 ? 'free' : 'combined_package'),
         total_amount_aud: String((totalAmountCents / 100).toFixed(2)),
-        checkout_attempt_id: frontendAttemptId || stableKey,
       },
       payment_intent_data: {
         description: `Gannon Waye Store Order`,
@@ -291,9 +278,9 @@ Deno.serve(async (req) => {
           shipping_combined: 'true',
         },
       },
-    }, { idempotencyKey });
+    });
 
-    return Response.json({ url: session.url, sessionId: session.id, idempotency_key_used: idempotencyKey });
+    return Response.json({ url: session.url, sessionId: session.id });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }

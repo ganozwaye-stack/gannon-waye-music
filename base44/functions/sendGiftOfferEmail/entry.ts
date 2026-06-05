@@ -23,7 +23,7 @@ As a token of my appreciation, I'm sending you something special before the May 
 
 **How to claim your gift:**
 
-1. Follow me on TikTok @gannonwaye and Instagram @gannonwaye
+1. Follow me on TikTok @gann0nwaye and Instagram @gann0nwaye
 2. Like, comment, and share my latest post
 3. Reply to this email or DM me on either platform with a screenshot
 4. I'll personally send your gift 🤍
@@ -34,7 +34,7 @@ See you on the other side,
 Gannon
 
 ---
-P.S. The single drops May 10. Be ready.`;
+P.S. The single is out now. Stream it today!`;
 
     await base44.integrations.Core.SendEmail({
       to: email,

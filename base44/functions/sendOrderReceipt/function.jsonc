@@ -1,0 +1,4 @@
+{
+  "name": "sendOrderReceipt",
+  "entry": "entry.ts"
+}

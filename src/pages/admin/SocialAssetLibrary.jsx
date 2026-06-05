@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -9,8 +9,8 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import {
-  Upload, Film, Image, Music, FileText, Trash2, Tag, CheckCircle2,
-  RefreshCw, Folder, Archive, X, Star, Download, ShieldAlert, ShieldCheck
+  Upload, Film, Image, Music, FileText, Trash2,
+  RefreshCw, Folder, Star, Download, ShieldAlert, ShieldCheck
 } from 'lucide-react';
 
 const ASSET_TYPES = [

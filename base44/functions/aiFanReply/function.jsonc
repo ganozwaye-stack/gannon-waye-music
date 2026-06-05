@@ -1,0 +1,16 @@
+{
+  "name": "aiFanReply",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "entity",
+      "description": "When a new fan post is created with an email, generate a personalised AI reply from Gannon and send it to the fan.",
+      "entity_name": "FanPost",
+      "event_types": [
+        "create"
+      ],
+      "is_active": true,
+      "name": "AI Fan Reply — New Community Post"
+    }
+  ]
+}

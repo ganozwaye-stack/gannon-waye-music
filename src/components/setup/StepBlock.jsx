@@ -1,5 +1,4 @@
 import { CheckCircle2, Circle, AlertTriangle, XCircle, Clock } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
 
 const statusConfig = {
   active: { icon: <Circle className="w-5 h-5 text-primary" />, border: 'border-primary/40', bg: 'bg-primary/5' },

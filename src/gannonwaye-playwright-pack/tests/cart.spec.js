@@ -1,8 +1,8 @@
 // @ts-check
-/* eslint-disable no-undef */
+ 
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL = 'http://localhost:5173';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 test.describe('Cart Flow', () => {
   test('/store loads', async ({ page }) => {
@@ -81,7 +81,7 @@ test.describe('Cart Flow', () => {
     await page.locator('[data-testid="view-cart-button"]').first().click();
     await expect(page.locator('[data-testid="cart-drawer"]')).toBeVisible();
     await page.locator('[data-testid="cart-checkout-button"]').click();
-    await expect(page).toHaveURL(/cart-details/);
+    await expect(page).toHaveURL(/\/store\/cart-details/);
   });
 
   test('sticky checkout bar appears when cart has items', async ({ page }) => {
@@ -107,7 +107,7 @@ test.describe('Cart Flow', () => {
       if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
     }
     await page.locator('[data-testid="store-sticky-checkout-button"]').click();
-    await expect(page).toHaveURL(/cart-details/);
+    await expect(page).toHaveURL(/\/store\/cart-details/);
   });
 
   test('go-to-checkout button from confirmation routes to cart-details', async ({ page }) => {
@@ -121,7 +121,7 @@ test.describe('Cart Flow', () => {
     }
     const checkoutBtn = page.locator('[data-testid="go-to-checkout-button"]').first();
     await checkoutBtn.click();
-    await expect(page).toHaveURL(/cart-details/);
+    await expect(page).toHaveURL(/\/store\/cart-details/);
   });
 
   test('cart count badge shows item count', async ({ page }) => {

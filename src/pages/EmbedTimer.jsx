@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import CountdownTimer from '@/components/public/CountdownTimer';
 
 const ARTWORK_REVEAL_DATE = '2026-05-10T00:00:00';

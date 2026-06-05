@@ -153,14 +153,12 @@ import MonthlyMonitoring from '@/pages/admin/MonthlyMonitoring';
 import TikTokScreenGuide from '@/pages/admin/TikTokScreenGuide';
 import TikTokPlatformReview from '@/pages/TikTokPlatformReview';
 import TikTokCallback from '@/pages/TikTokCallback.jsx';
-import TikTokVerifyBvObA9e2aJczvipg0jSRAN1W03NAa4Bo from '@/pages/TikTokVerifyBvObA9e2aJczvipg0jSRAN1W03NAa4Bo';
 import TikTokPlatformReviewAdmin from '@/pages/admin/TikTokPlatformReviewAdmin';
 import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
 import RevenueActions from '@/pages/admin/RevenueActions';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
 import OperationRegistry from '@/pages/admin/OperationRegistry';
 import SiteFunctionAudit from '@/pages/admin/SiteFunctionAudit';
-import SiteScanReport from '@/pages/admin/SiteScanReport';
 import PaymentDiagnostics from '@/pages/admin/PaymentDiagnosticsNew';
 import IntegrationCompletionCentre from '@/pages/admin/IntegrationCompletionCentre';
 import StripeCommandCentre from '@/pages/admin/StripeCommandCentreNew';
@@ -242,6 +240,15 @@ import MasterBlueprint from '@/pages/admin/MasterBlueprint';
 import Live from '@/pages/Live';
 import LivestreamCommand from '@/pages/admin/LivestreamCommand';
 
+// New Hub & Mission Control pages
+import LaunchContentHub from '@/pages/admin/LaunchContentHub';
+import MusicFanHub from '@/pages/admin/MusicFanHub';
+import StoreOrdersHub from '@/pages/admin/StoreOrdersHub';
+import AutomationAgentsHub from '@/pages/admin/AutomationAgentsHub';
+import SystemsQaHub from '@/pages/admin/SystemsQaHub';
+import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
+import MissionControl from '@/pages/admin/MissionControl';
+import SystemsManagerOffer from '@/pages/SystemsManagerOffer';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -316,19 +323,30 @@ const AuthenticatedApp = () => {
         <Route path="/order-success" element={<CheckoutSuccess />} />
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/store/checkout-cancel" element={<CheckoutCancel />} />
+
+        {/* Systems Manager public portfolio routes */}
+        <Route path="/systems-manager" element={<SystemsManagerOffer />} />
+        <Route path="/ai-systems-manager" element={<SystemsManagerOffer />} />
+        <Route path="/business-systems" element={<SystemsManagerOffer />} />
       </Route>
 
       {/* Embed timer (no layout) */}
       <Route path="/embed-timer" element={<EmbedTimer />} />
       <Route path="/tiktok-platform-review" element={<TikTokPlatformReview />} />
       <Route path="/tiktok-callback" element={<TikTokCallback />} />
-      <Route path="/tiktokBvObA9e2aJczvipg0jSRAN1W03NAa4Bo.txt" element={<TikTokVerifyBvObA9e2aJczvipg0jSRAN1W03NAa4Bo />} />
       <Route path="/gift-checklist" element={<GiftChecklistPage />} />
       <Route path="/live" element={<Live />} />
 
       {/* Admin routes */}
       <Route element={<AdminLayout />}>
         <Route path="/admin" element={<Dashboard />} />
+        <Route path="/admin/launch-content" element={<LaunchContentHub />} />
+        <Route path="/admin/music-fan" element={<MusicFanHub />} />
+        <Route path="/admin/store-orders" element={<StoreOrdersHub />} />
+        <Route path="/admin/automation-agents" element={<AutomationAgentsHub />} />
+        <Route path="/admin/systems-qa" element={<SystemsQaHub />} />
+        <Route path="/admin/owner-business" element={<OwnerBusinessHub />} />
+        <Route path="/admin/mission-control" element={<MissionControl />} />
         <Route path="/admin/releases" element={<Releases />} />
         <Route path="/admin/merch" element={<MerchManagement />} />
         <Route path="/admin/orders" element={<Orders />} />
@@ -419,7 +437,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
         <Route path="/admin/operation-registry" element={<OperationRegistry />} />
         <Route path="/admin/site-function-audit" element={<SiteFunctionAudit />} />
-        <Route path="/admin/site-scan-report" element={<SiteScanReport />} />
         <Route path="/admin/payment-diagnostics" element={<PaymentDiagnostics />} />
         <Route path="/admin/integration-completion-centre" element={<IntegrationCompletionCentre />} />
         <Route path="/admin/integration-war-room" element={<IntegrationCompletionCentre />} />

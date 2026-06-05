@@ -54,6 +54,7 @@ export const useCartStore = create(
   persist(
     (set) => ({
       items: [],
+      hasHydrated: false,
       __version: EXPECTED_VERSION,
 
       addItem: (product, quantity = 1, size = null) => {
@@ -112,6 +113,7 @@ export const useCartStore = create(
       // Only persist plain items array + version — NEVER persist functions
       partialize: (state) => ({ items: safeItems(state.items), __version: EXPECTED_VERSION }),
       onRehydrateStorage: () => (state) => {
+        useCartStore.setState({ hasHydrated: true });
         if (state) {
           state.items = safeItems(state.items);
         }

@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Heart, TrendingUp, Users, DollarSign, Calendar, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { Heart, Users, DollarSign, Calendar, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function ImpactPage() {

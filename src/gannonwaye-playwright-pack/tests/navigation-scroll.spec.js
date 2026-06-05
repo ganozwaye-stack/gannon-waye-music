@@ -3,13 +3,13 @@
 
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = 'https://gannonwaye.com';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 test.describe('Scroll-to-top on route change', () => {
   test('navigating from Store to Home resets scroll to top', async ({ page }) => {
     // Go to the store page (long page with products)
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     // Scroll down significantly
     await page.evaluate(() => window.scrollTo(0, 800));
@@ -18,7 +18,7 @@ test.describe('Scroll-to-top on route change', () => {
 
     // Navigate to Home via a link or direct navigation
     await page.goto(`${BASE_URL}/`);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     const scrollAfter = await page.evaluate(() => window.scrollY);
     expect(scrollAfter).toBe(0);
@@ -26,14 +26,14 @@ test.describe('Scroll-to-top on route change', () => {
 
   test('navigating from Home to Store resets scroll to top', async ({ page }) => {
     await page.goto(`${BASE_URL}/`);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     await page.evaluate(() => window.scrollTo(0, 600));
     const scrollBefore = await page.evaluate(() => window.scrollY);
     expect(scrollBefore).toBeGreaterThan(100);
 
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     const scrollAfter = await page.evaluate(() => window.scrollY);
     expect(scrollAfter).toBe(0);
@@ -41,12 +41,15 @@ test.describe('Scroll-to-top on route change', () => {
 
   test('navigating to an admin page resets scroll to top', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
+    await page.evaluate(() => {
+      localStorage.setItem('base44_access_token', 'mock-admin-token');
+    });
 
     await page.evaluate(() => window.scrollTo(0, 500));
 
     await page.goto(`${BASE_URL}/admin`);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     const scrollAfter = await page.evaluate(() => window.scrollY);
     expect(scrollAfter).toBe(0);
@@ -54,7 +57,7 @@ test.describe('Scroll-to-top on route change', () => {
 
   test('hash navigation scrolls to section, not top', async ({ page }) => {
     await page.goto(`${BASE_URL}/`);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     // Navigate to a hash — scroll should NOT be 0 if section exists (or at least not throw)
     await page.goto(`${BASE_URL}/#about`);
@@ -66,7 +69,7 @@ test.describe('Scroll-to-top on route change', () => {
 
   test('opening cart drawer does not reset scroll', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    await page.waitForLoadState('networkidle');
+    await page.waitForLoadState('load');
 
     // Scroll down
     await page.evaluate(() => window.scrollTo(0, 400));

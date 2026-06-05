@@ -1,0 +1,16 @@
+{
+  "name": "onNewOrderSlack",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "entity",
+      "description": "Sends a Slack alert whenever a new merch order is created, with order total and customer details.",
+      "entity_name": "MerchOrder",
+      "event_types": [
+        "create"
+      ],
+      "is_active": true,
+      "name": "New Order → Slack Alert"
+    }
+  ]
+}

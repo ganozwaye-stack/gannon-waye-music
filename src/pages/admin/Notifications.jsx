@@ -5,8 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Bell, CheckCheck, ShoppingBag, MessageCircle, AlertTriangle, Zap, TrendingUp,
-  Star, Mail, Activity, Eye, DollarSign, ChevronRight, RefreshCw,
-  CheckCircle2, Hash, Brain, Video, Package, ArrowLeft
+  Star, Mail, Eye, ChevronRight, RefreshCw,
+  CheckCircle2, Hash, ArrowLeft
 } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';

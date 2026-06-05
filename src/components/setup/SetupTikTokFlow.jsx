@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { base44 } from '@/api/base44Client';
-import { ExternalLink, CheckCircle2, XCircle, RefreshCw, AlertTriangle } from 'lucide-react';
+import { ExternalLink, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import StepBlock from './StepBlock';

@@ -1,8 +1,8 @@
 // @ts-check
-/* eslint-disable no-undef */
+ 
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL = 'http://localhost:5173';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 const DETAILS = {
   full_name: 'Gannon Test',
@@ -28,20 +28,22 @@ async function fillDetailsAndNavigate(page) {
 
   // Add item to cart via UI
   await page.waitForSelector('[data-testid="product-card"]');
+  
+  // Select size M first if visible
+  const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+  if (await sizeM.isVisible().catch(() => false)) {
+    await sizeM.click({ force: true });
+  }
+
   const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
   const count = await addBtns.count();
   for (let i = 0; i < count; i++) {
     const btn = addBtns.nth(i);
-    if (await btn.isVisible()) { await btn.click(); break; }
-  }
-  const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-  if (await sizeM.isVisible().catch(() => false)) {
-    await sizeM.click();
-    const addBtns2 = page.locator('[data-testid="add-to-cart-btn"]');
-    const c2 = await addBtns2.count();
-    for (let i = 0; i < c2; i++) {
-      const btn = addBtns2.nth(i);
-      if (await btn.isVisible()) { await btn.click(); break; }
+    if (await btn.isVisible()) {
+      await btn.click({ force: true });
+      // Wait for the cart drawer checkout button to ensure Zustand state is saved
+      await page.waitForSelector('[data-testid="go-to-checkout-button"]', { timeout: 5000 }).catch(() => {});
+      break;
     }
   }
   await page.goto(`${BASE_URL}/store/checkout`);
@@ -108,27 +110,27 @@ test.describe('Order Review / Checkout Page', () => {
       }));
     }, DETAILS);
 
-    // Find a product with sizes — add size M
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-    if (await sizeM.isVisible().catch(() => false)) {
-      await sizeM.click();
-      await page.locator('[data-testid="add-to-cart-btn"]').first().click();
-      // Now add size L — navigate back to store
-      await page.goto(`${BASE_URL}/store`);
-      const sizeL = page.locator('button').filter({ hasText: /^L$/ }).first();
-      if (await sizeL.isVisible().catch(() => false)) {
-        await sizeL.click();
-        const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-        const c = await addBtns.count();
-        for (let i = 0; i < c; i++) {
-          if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
-        }
-        await page.goto(`${BASE_URL}/store/checkout`);
-        const lines = page.locator('[data-testid="cart-line"]');
-        const lineCount = await lines.count();
-        expect(lineCount).toBeGreaterThanOrEqual(2);
-      }
-    }
+    // Find Hoodie product card with sizes - select size M
+    const hoodieCard = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
+    await expect(hoodieCard).toBeVisible();
+
+    const sizeM = hoodieCard.locator('button').filter({ hasText: /^M$/ });
+    await sizeM.click({ force: true });
+    await hoodieCard.locator('[data-testid="add-to-cart-btn"]').click({ force: true });
+
+    // Now add size L — navigate back to store
+    await page.goto(`${BASE_URL}/store`);
+    const hoodieCard2 = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
+    await expect(hoodieCard2).toBeVisible();
+
+    const sizeL = hoodieCard2.locator('button').filter({ hasText: /^L$/ });
+    await sizeL.click({ force: true });
+    await hoodieCard2.locator('[data-testid="add-to-cart-btn"]').click({ force: true });
+
+    await page.goto(`${BASE_URL}/store/checkout`);
+    const lines = page.locator('[data-testid="cart-line"]');
+    const lineCount = await lines.count();
+    expect(lineCount).toBeGreaterThanOrEqual(2);
   });
 
   test('promo code input is visible', async ({ page }) => {

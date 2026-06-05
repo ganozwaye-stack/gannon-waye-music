@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { BarChart2, RefreshCw, TrendingUp, ChevronRight, Download, Zap } from 'lucide-react';
+import { BarChart2, RefreshCw, TrendingUp, Download, Zap } from 'lucide-react';
 
 const PLATFORMS = [
   { key: 'instagram', label: 'Instagram' },

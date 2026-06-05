@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
-import { Search, FileText, Users, ShoppingBag, DollarSign, Heart, Package, Tag, Mail, TrendingUp, Gift, Calendar, Briefcase, Camera, Activity } from 'lucide-react';
+import { Search, Users, ShoppingBag, DollarSign, Heart, Package, Tag, Mail, Gift, Briefcase, Camera, Activity } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';

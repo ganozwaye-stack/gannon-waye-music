@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { ExternalLink, CheckCircle2, XCircle, AlertTriangle, RefreshCw, Shield, ChevronRight } from 'lucide-react';
+import { ExternalLink, CheckCircle2, RefreshCw, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import StepBlock from './StepBlock';
 import SecureSecretInput from './SecureSecretInput';

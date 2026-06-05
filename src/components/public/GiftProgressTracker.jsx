@@ -55,11 +55,11 @@ export default function GiftProgressTracker() {
   };
 
   const openInstagram = () => {
-    window.open('https://instagram.com/gannonwaye', '_blank');
+    window.open('https://instagram.com/gann0nwaye', '_blank');
   };
 
   const openTikTok = () => {
-    window.open('https://tiktok.com/@gannonwaye', '_blank');
+    window.open('https://tiktok.com/@gann0nwaye', '_blank');
   };
 
   if (loading) {

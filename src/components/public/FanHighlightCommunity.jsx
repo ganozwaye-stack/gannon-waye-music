@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, MessageCircle, Share2, ArrowRight, Image as ImageIcon } from 'lucide-react';
+import { Heart, Share2, ArrowRight, Image as ImageIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
@@ -128,7 +128,7 @@ export default function FanHighlightCommunity() {
           >
             <p className="font-body text-foreground/70 mb-2">Want to be featured here?</p>
             <p className="font-body text-sm text-muted-foreground mb-4">
-              Share your story, art, or support moment. Tag @gannonwaye.
+              Share your story, art, or support moment. Tag @gann0nwaye.
             </p>
             <Link to="/community">
               <Button className="rounded-full gap-2 gradient-gold-button border-0 font-body text-sm tracking-wider uppercase w-full">

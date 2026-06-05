@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { Mail, Send, Copy, Check, Users } from 'lucide-react';
+import { Send, Copy, Check, Users } from 'lucide-react';
 
 const NEWSLETTER_SUBJECT = "🎶 The moment is here. \"Thank You\" — Artwork Reveal & Release Date";
 
@@ -73,7 +73,7 @@ I want us all to be more connected 12 months from now than we are today. I want 
 
 I'm asking you to dare me on socials. Send me challenges, dares, questions, or ideas for content you want to see. If you have the courage to ask, I'll see if I have the courage to answer. hahaha
 
-Tag me @gannonwaye or DM me. Let's see what happens.
+Tag me @gann0nwaye or DM me. Let's see what happens.
 
 ---
 

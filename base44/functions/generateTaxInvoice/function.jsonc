@@ -1,0 +1,4 @@
+{
+  "name": "generateTaxInvoice",
+  "entry": "entry.ts"
+}

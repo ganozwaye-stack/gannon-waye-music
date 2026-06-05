@@ -5,9 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import {
-  Zap, Settings, Image, Calendar, BarChart2, AlertTriangle, CheckCircle2,
-  ExternalLink, ChevronRight, RefreshCw, Lock, Globe, XCircle, Wifi,
+import { Settings, Image, Calendar, BarChart2, AlertTriangle, CheckCircle2, ChevronRight, RefreshCw, Lock, Globe, XCircle, Wifi,
   Brain, Eye, WifiOff
 } from 'lucide-react';
 import { toast } from 'sonner';

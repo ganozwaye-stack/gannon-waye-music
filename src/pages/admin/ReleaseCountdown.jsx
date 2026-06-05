@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, Edit2, Save, Play, Pause, Send, Zap } from 'lucide-react';
+import { Edit2, Save, Play, Pause, Send, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -142,7 +142,7 @@ export default function ReleaseCountdown() {
               className="bg-primary/10 border border-primary/30 rounded-2xl p-6 inline-block"
             >
               <p className="font-display text-2xl text-primary">🎉 Release Day!</p>
-              <p className="font-body text-sm text-muted-foreground mt-2">It's time. "Thank You" is coming soon — ready to launch.</p>
+              <p className="font-body text-sm text-muted-foreground mt-2">It's time. "Thank You" is out now — stream it on all platforms.</p>
             </motion.div>
           ) : (
             <p className="font-body text-muted-foreground">No release date set</p>

@@ -4,6 +4,7 @@ import { ArrowRight, Music, CheckCircle2, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 import { base44 } from '@/api/base44Client';
 
@@ -20,7 +21,7 @@ const HOW_FOUND_OPTIONS = [
 
 
 export default function ThankYouSingle() {
-  const { } = useSiteReveal();
+  const { artworkRevealed, released, releaseDateIso, releaseDateText } = useSiteReveal();
   const [signupStep, setSignupStep] = useState(1);
   const [form, setForm] = useState({ name: '', email: '', phone: '', how_found: '' });
   const [signupDone, setSignupDone] = useState(false);
@@ -75,7 +76,7 @@ export default function ThankYouSingle() {
             "Thank You" — Gannon Waye. Written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. The moment of choosing self respect over repetition.
           </p>
           <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">
-            Out Now · Available on all leading platforms
+            {released ? `Out Now · Available on all leading platforms` : `Coming ${releaseDateText} · Available on all leading platforms`}
           </p>
         </motion.div>
 
@@ -111,13 +112,13 @@ export default function ThankYouSingle() {
 
             {/* Release countdown or pre-save */}
             <div className="border-t border-border/30 pt-6 space-y-4">
-              <p className="font-body text-xs tracking-[0.2em] uppercase text-green-400 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
-                Out Now · All Leading Platforms
+              <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow">
+                {released ? 'Out Now' : `Coming ${releaseDateText} · All leading platforms`}
               </p>
+              {!released && <CountdownTimer targetDate={releaseDateIso} />}
               <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer" className="block">
                 <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                  <Music className="w-4 h-4" /> Listen Now
+                  <Music className="w-4 h-4" /> {released ? 'Stream Now' : 'Pre-Save Now'}
                 </Button>
               </a>
               <div className="space-y-2">
@@ -141,20 +142,6 @@ export default function ThankYouSingle() {
                   ))}
                 </div>
               </div>
-            </div>
-
-            {/* Spotify embed */}
-            <div className="border-t border-border/30 pt-6">
-              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Listen on Spotify</p>
-              <iframe
-                src="https://open.spotify.com/embed/track/6xHQX9Yc2pcfRzVxdPmRHp?utm_source=generator"
-                width="100%"
-                height="152"
-                frameBorder="0"
-                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                loading="lazy"
-                style={{ borderRadius: '12px' }}
-              />
             </div>
 
             <div className="border-t border-border/30 pt-6">

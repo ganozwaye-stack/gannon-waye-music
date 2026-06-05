@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import {
   ArrowLeft, Copy, Download, CheckCircle2, XCircle, Clock,
-  AlertTriangle, Terminal, GitBranch, Zap, RefreshCw, ExternalLink
+  AlertTriangle, Terminal, Zap, RefreshCw, ExternalLink
 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 

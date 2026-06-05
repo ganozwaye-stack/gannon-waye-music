@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Play, Heart, MessageCircle, Music } from 'lucide-react';
 import { format } from 'date-fns';
 

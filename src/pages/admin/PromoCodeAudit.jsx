@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Tag, AlertTriangle, CheckCircle2, XCircle, Calendar, Users, DollarSign, TrendingDown, Edit2, Trash2, Loader2, ChevronRight, ExternalLink, Copy } from 'lucide-react';
+import { Tag, AlertTriangle, CheckCircle2, Calendar, DollarSign, Edit2, Trash2, Loader2, ChevronRight, Copy } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { toast as sonnerToast } from 'sonner';
 

@@ -41,17 +41,30 @@ Deno.serve(async (req) => {
     try {
       event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
     } catch (err) {
-      // Log signature failure async — but still return 400 for genuine failures
-      base44.asServiceRole.entities.PaymentDiagnostic.create({
-        diagnostic_type: 'webhook_signature_failure',
-        severity: 'critical',
-        status: 'open',
-        issue_summary: `stripeWebhook signature failed: ${err.message}`,
-        admin_message: 'Webhook arrived with invalid signature. Check STRIPE_WEBHOOK_SECRET matches Stripe Dashboard → Webhooks → Signing secret.',
-        recommended_fix: 'Open Stripe Dashboard → Developers → Webhooks → stripeWebhook endpoint → Reveal signing secret → update STRIPE_WEBHOOK_SECRET in Base44 Secrets.',
-        webhook_processed: false,
-        source_chain: 'Stripe → stripeWebhook → signature_failed',
-      }).catch(() => {});
+      // Log signature failure and notify admin
+      (async () => {
+        try {
+          await base44.asServiceRole.entities.PaymentDiagnostic.create({
+            diagnostic_type: 'webhook_signature_failure',
+            severity: 'critical',
+            status: 'open',
+            issue_summary: `stripeWebhook signature failed: ${err.message}`,
+            admin_message: 'Webhook arrived with invalid signature. Check STRIPE_WEBHOOK_SECRET matches Stripe Dashboard → Webhooks → Signing secret.',
+            recommended_fix: 'Open Stripe Dashboard → Developers → Webhooks → stripeWebhook endpoint → Reveal signing secret → update STRIPE_WEBHOOK_SECRET in Base44 Secrets.',
+            webhook_processed: false,
+            source_chain: 'Stripe → stripeWebhook → signature_failed',
+          });
+          await base44.asServiceRole.functions.invoke('notifyAdmin', {
+            notification_type: 'payment_warning',
+            severity: 'critical',
+            title: '🚨 Stripe Webhook Signature Failed',
+            summary: `stripeWebhook verification failed: ${err.message}. Check your signing secrets.`,
+            requires_action: true,
+            linked_route: '/admin/webhook-health',
+            source: 'stripeWebhook',
+          });
+        } catch (_) {}
+      })();
       return Response.json({ error: 'Webhook signature failed' }, { status: 400 });
     }
   } else if (!webhookSecret) {
@@ -172,7 +185,7 @@ Deno.serve(async (req) => {
         orderId = order?.id || null;
       } catch (orderErr) {
         try {
-          await base44.asServiceRole.entities.AdminNotification.create({
+          await base44.asServiceRole.functions.invoke('notifyAdmin', {
             notification_type: 'payment_warning',
             severity: 'high',
             title: 'Order creation failed after payment',
@@ -214,7 +227,7 @@ Deno.serve(async (req) => {
 
             // Low stock alert
             if (newStock === 0) {
-              await base44.asServiceRole.entities.AdminNotification.create({
+              await base44.asServiceRole.functions.invoke('notifyAdmin', {
                 notification_type: 'system',
                 severity: 'high',
                 title: `SOLD OUT: ${product.name}`,
@@ -224,7 +237,7 @@ Deno.serve(async (req) => {
                 source: 'stripeWebhook',
               });
             } else if (newStock <= 5) {
-              await base44.asServiceRole.entities.AdminNotification.create({
+              await base44.asServiceRole.functions.invoke('notifyAdmin', {
                 notification_type: 'system',
                 severity: 'warning',
                 title: `Low stock: ${product.name} (${newStock} left)`,
@@ -304,7 +317,7 @@ Deno.serve(async (req) => {
       // === EMAIL MISSING — flag for admin ===
       if (emailMissing) {
         try {
-          await base44.asServiceRole.entities.AdminNotification.create({
+          await base44.asServiceRole.functions.invoke('notifyAdmin', {
             notification_type: 'payment_warning',
             severity: 'warning',
             title: 'Order missing customer email',
@@ -319,7 +332,7 @@ Deno.serve(async (req) => {
       // === ADMIN NOTIFICATION — new order ===
       try {
         const itemsSummary = cartItems.map(i => `${i.product_name} ×${i.quantity}`).join(', ');
-        await base44.asServiceRole.entities.AdminNotification.create({
+        await base44.asServiceRole.functions.invoke('notifyAdmin', {
           notification_type: 'order',
           severity: 'info',
           title: `New order — $${totalPaid.toFixed(2)} AUD`,
@@ -365,7 +378,7 @@ Deno.serve(async (req) => {
     if (event.type === 'checkout.session.expired') {
       const session = event.data.object;
       try {
-        await base44.asServiceRole.entities.AdminNotification.create({
+        await base44.asServiceRole.functions.invoke('notifyAdmin', {
           notification_type: 'payment_warning',
           severity: 'warning',
           title: 'Checkout session expired',
@@ -383,7 +396,7 @@ Deno.serve(async (req) => {
     if (event.type === 'payment_intent.payment_failed') {
       const pi = event.data.object;
       try {
-        await base44.asServiceRole.entities.AdminNotification.create({
+        await base44.asServiceRole.functions.invoke('notifyAdmin', {
           notification_type: 'payment_warning',
           severity: 'warning',
           title: 'Payment failed',
@@ -391,63 +404,6 @@ Deno.serve(async (req) => {
           requires_action: false,
           linked_route: '/admin/payment-diagnostics',
           source: 'stripeWebhook',
-        });
-      } catch (_) {}
-    }
-
-    // =============================================
-    // PAYMENT INTENT SUCCEEDED
-    // =============================================
-    if (event.type === 'payment_intent.succeeded') {
-      const pi = event.data.object;
-      try {
-        await base44.asServiceRole.entities.StripeEventLog.create({
-          stripe_event_id: event.id,
-          event_type: 'payment_intent.succeeded',
-          category: 'revenue',
-          priority: 'high',
-          processing_status: 'processed',
-          stripe_object_id: pi.id,
-          payment_intent_id: pi.id,
-          amount: (pi.amount_received || 0) / 100,
-          currency: pi.currency || 'aud',
-          safe_summary: `PaymentIntent ${pi.id} succeeded — $${((pi.amount_received || 0) / 100).toFixed(2)}`,
-          received_at: new Date().toISOString(),
-          processed_at: new Date().toISOString(),
-          source_chain: 'stripeWebhook → payment_intent.succeeded',
-        });
-      } catch (_) {}
-    }
-
-    // =============================================
-    // CHARGE REFUNDED
-    // =============================================
-    if (event.type === 'charge.refunded') {
-      const charge = event.data.object;
-      const refundAmount = (charge.amount_refunded || 0) / 100;
-      try {
-        await base44.asServiceRole.entities.AdminNotification.create({
-          notification_type: 'payment_warning',
-          severity: 'warning',
-          title: `Refund processed — $${refundAmount.toFixed(2)} AUD`,
-          summary: `Charge ${charge.id} refunded $${refundAmount.toFixed(2)} AUD. Customer: ${charge.billing_details?.email || 'unknown'}`,
-          requires_action: true,
-          linked_route: '/admin/orders',
-          source: 'stripeWebhook',
-        });
-        await base44.asServiceRole.entities.StripeEventLog.create({
-          stripe_event_id: event.id,
-          event_type: 'charge.refunded',
-          category: 'refund',
-          priority: 'high',
-          processing_status: 'processed',
-          stripe_object_id: charge.id,
-          amount: refundAmount,
-          currency: charge.currency || 'aud',
-          safe_summary: `Refund $${refundAmount.toFixed(2)} on charge ${charge.id}`,
-          received_at: new Date().toISOString(),
-          processed_at: new Date().toISOString(),
-          source_chain: 'stripeWebhook → charge.refunded',
         });
       } catch (_) {}
     }

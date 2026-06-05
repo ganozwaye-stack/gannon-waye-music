@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Search, Mail, Heart, TrendingUp, Gift, MessageCircle, DollarSign, Calendar, Filter, ChevronDown, Eye, Tag, Users } from 'lucide-react';
+import { Search, TrendingUp, Gift, DollarSign, Filter, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';

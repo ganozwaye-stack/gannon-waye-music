@@ -4,11 +4,10 @@ import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-  ArrowLeft, ExternalLink, AlertTriangle, CheckCircle, X,
+  ArrowLeft, AlertTriangle, CheckCircle, X,
   Tag, Info, Minus, Plus, Trash2, Pencil, Lock,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
 const DETAILS_KEY = 'gannon_checkout_details_v1';
@@ -40,6 +39,10 @@ export default function StoreCheckout() {
   const rawItems = useCartStore(state => state.items);
   const items = Array.isArray(rawItems) ? rawItems : [];
   const { updateQuantity, removeItem, clearCart } = useCartStore();
+  const [hasHydrated, setHasHydrated] = useState(false);
+  useEffect(() => {
+    setHasHydrated(true);
+  }, []);
 
   const [details, setDetails] = useState(null);
   const [promoCode, setPromoCode] = useState('');
@@ -49,8 +52,6 @@ export default function StoreCheckout() {
   const [redirecting, setRedirecting] = useState(false);
   const [checkoutError, setCheckoutError] = useState(null);
   const [addSupport, setAddSupport] = useState(0);
-  // Generated once when this page mounts — stays stable for retries
-  const checkoutAttemptId = useState(() => `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`)[0];
 
   useEffect(() => {
     try {
@@ -61,9 +62,10 @@ export default function StoreCheckout() {
 
   // Redirect if no details filled
   useEffect(() => {
+    if (!hasHydrated) return;
     if (items.length === 0) return; // handled below
     if (details !== null && !details.full_name) navigate('/store/cart-details');
-  }, [details, items.length, navigate]);
+  }, [hasHydrated, details, items.length, navigate]);
 
   const subtotal = items.reduce((s, i) => s + (i.product?.sale_price ?? 0) * i.quantity, 0);
   const shipping = calcShipping(items, details?.country);
@@ -153,7 +155,6 @@ export default function StoreCheckout() {
             discount_amount: String(discountAmount),
             add_support: String(addSupport),
             shipping_amount: String(shipping.amount),
-            checkout_attempt_id: checkoutAttemptId,
           },
         }),
         timeout,
@@ -171,6 +172,18 @@ export default function StoreCheckout() {
       setRedirecting(false);
     }
   };
+
+  // Loading state
+  if (!hasHydrated && items.length === 0) {
+    return (
+      <div className="min-h-screen py-24 px-4 flex items-center justify-center" data-testid="checkout-page">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto"></div>
+          <p className="font-body text-xs text-muted-foreground mt-4 tracking-widest uppercase">Loading Checkout…</p>
+        </div>
+      </div>
+    );
+  }
 
   // ─── Empty cart ───────────────────────────────────────────────────────────
   if (items.length === 0) {

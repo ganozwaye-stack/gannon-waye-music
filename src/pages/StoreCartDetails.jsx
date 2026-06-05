@@ -49,16 +49,14 @@ export default function StoreCartDetails() {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
-  // Redirect if cart is empty — delay to allow Zustand rehydration from localStorage
-  const hydrated = useRef(false);
-  useEffect(() => { hydrated.current = true; }, []);
+  const [hasHydrated, setHasHydrated] = useState(false);
   useEffect(() => {
-    if (!hydrated.current) return;
-    const timer = setTimeout(() => {
-      if (items.length === 0) navigate('/store');
-    }, 150);
-    return () => clearTimeout(timer);
-  }, [items.length, navigate]);
+    setHasHydrated(true);
+  }, []);
+  useEffect(() => {
+    if (!hasHydrated) return;
+    if (items.length === 0) navigate('/store');
+  }, [hasHydrated, items.length, navigate]);
 
   // Persist form to localStorage as user types
   useEffect(() => {

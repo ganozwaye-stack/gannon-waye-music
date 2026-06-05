@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Shield, Loader2, Star, Sparkles, CheckCircle2, AlertTriangle, XCircle, RefreshCw, Filter } from 'lucide-react';
+import { Shield, Loader2, Star, Sparkles, CheckCircle2, AlertTriangle, RefreshCw, Filter } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 const PRIORITY_CONFIG = {

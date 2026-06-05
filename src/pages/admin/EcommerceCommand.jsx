@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, TrendingUp, DollarSign, AlertTriangle, Zap, Star, Package, RefreshCw, Loader2, Shield, Eye, ArrowRight } from 'lucide-react';
+import { ShoppingBag, TrendingUp, DollarSign, AlertTriangle, Zap, Star, Package, Loader2, Shield, Eye, ArrowRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { toast } from 'sonner';
 

@@ -42,12 +42,17 @@ const PLATFORMS = [
   ['Cloudflare', 'infrastructure', 'Deferred', 'Security Agent', 'Needs Approval', 'DNS, CDN, cache, security rules.', 'Dangerous: DNS/security changes require approval.', ['CLOUDFLARE_API_TOKEN', 'CLOUDFLARE_ZONE_ID']],
   ['Slack Alerts', 'notifications', 'High Priority', 'Operations Agent', 'Needs OAuth Login', 'Internal payment and health alerts.', 'Requires Slack connector authorization.', ['SLACK_CONNECTOR']],
   ['OpenAI / AI Provider', 'infrastructure', 'High Priority', 'Orchestrator', 'Needs Credential', 'AI model calls, agents, summaries, content preparation.', 'Secrets must never be shown in frontend or recordings.', ['OPENAI_API_KEY']],
+  ['Discord', 'social', 'High Priority', 'Community Engagement Agent', 'Needs Credential', 'Supporter community chat, role assignment, and automated updates.', 'Requires DISCORD_BOT_TOKEN. Read scopes first; direct messaging and roles require approval.', ['DISCORD_BOT_TOKEN', 'DISCORD_CLIENT_ID']],
+  ['ManyChat', 'social', 'High Priority', 'Marketing Campaign Agent', 'Needs Credential', 'Facebook/Instagram automated DMs, lead generation, and promo routing.', 'Paid tiers and automation flows require approval before publishing.', ['MANYCHAT_API_KEY']],
+  ['Facetune', 'creative', 'Manual Only', 'Creative Studio Agent', 'Manual Only', 'Merchandise portrait touching and cover artwork adjustments.', 'Manual application only; no public automation API available.', []],
+  ['Adobe Photoshop', 'creative', 'Manual Action Required', 'Creative Studio Agent', 'Needs Credential', 'Generative fill, asset layering, background removal, and print-ready formats.', 'Requires Adobe Creative Cloud developer credentials or manual export workflows.', ['ADOBE_CC_CLIENT_ID', 'ADOBE_CC_CLIENT_SECRET']],
+  ['DaVinci Resolve', 'creative', 'Manual Only', 'Creative Studio Agent', 'Manual Only', 'High-end color grading and final cut rendering for cinematic YouTube content.', 'Local editing workflow. Project assets stored and synced through Google Drive agent.', []],
 ].map(([name, category, impact, agent, status, unlocks, risk, credentials]) => ({
   name, category, impact, agent, status, unlocks, risk, credentials,
-  canSpendMoney: /Stripe|Runway|OpusClip|ElevenLabs|Cloudflare|Ads|OpenAI/.test(name),
-  canPublishPublicly: /TikTok|Instagram|Facebook|YouTube|Canva/.test(name),
-  requiresApproval: /Stripe|Cloudflare|TikTok|Instagram|Facebook|OpusClip|Runway|ElevenLabs|OpenAI/.test(name),
-  requiresOAuth: /Google|Gmail|Instagram|Facebook|YouTube|TikTok|Canva|Slack/.test(name),
+  canSpendMoney: /Stripe|Runway|OpusClip|ElevenLabs|Cloudflare|Ads|OpenAI|ManyChat|Adobe/.test(name),
+  canPublishPublicly: /TikTok|Instagram|Facebook|YouTube|Canva|Discord|ManyChat/.test(name),
+  requiresApproval: /Stripe|Cloudflare|TikTok|Instagram|Facebook|OpusClip|Runway|ElevenLabs|OpenAI|ManyChat|Discord|Adobe/.test(name),
+  requiresOAuth: /Google|Gmail|Instagram|Facebook|YouTube|TikTok|Canva|Slack|Discord|Adobe/.test(name),
   manualOnly: status === 'Manual Only',
 }));
 

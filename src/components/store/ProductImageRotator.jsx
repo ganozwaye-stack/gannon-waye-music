@@ -17,6 +17,7 @@ export default function ProductImageRotator({ images, alt, aspectClass = 'aspect
       {images.map((src, i) => (
         <img
           key={src}
+          data-testid="product-image"
           src={src}
           alt={`${alt} ${i + 1}`}
           className={`absolute inset-0 w-full h-full object-cover transition-all duration-700 ease-in-out ${

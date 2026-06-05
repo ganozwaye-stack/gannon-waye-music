@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Shield, Loader2, Zap, CheckCircle2, AlertTriangle, XCircle, Clock, ExternalLink, ChevronDown, ChevronUp, Copy, RefreshCw } from 'lucide-react';
+import { Shield, Loader2, Zap, CheckCircle2, AlertTriangle, XCircle, Clock, ChevronDown, ChevronUp, Copy, RefreshCw } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import ReactMarkdown from 'react-markdown';
 

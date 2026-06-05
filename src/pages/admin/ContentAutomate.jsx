@@ -5,8 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { 
-  Zap, TrendingUp, MessageCircle, Calendar, CheckCircle2, Clock, AlertCircle,
-  RefreshCw, Send, Pause
+  Zap, TrendingUp, CheckCircle2, Clock, AlertCircle, Send
 } from 'lucide-react';
 
 export default function ContentAutomate() {

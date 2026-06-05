@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  DollarSign, ArrowLeft, TrendingUp, Star, Building2, Music,
-  Users, Package, Zap, ChevronRight, ArrowUpRight, Activity, Shield
+import { ArrowLeft, Star, ArrowUpRight
 } from 'lucide-react';
 
 const INCOME_STREAMS = [

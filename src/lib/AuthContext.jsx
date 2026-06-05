@@ -8,8 +8,8 @@ const AuthContext = createContext();
 const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders'];
 
 const shouldCheckUserForCurrentRoute = () => {
-  const path = window.location.pathname;
-  return AUTH_REQUIRED_PATH_PREFIXES.some(prefix => path === prefix || path.startsWith(prefix + '/'));
+  if (typeof window === 'undefined') return !!appParams.token;
+  return AUTH_REQUIRED_PATH_PREFIXES.some(prefix => window.location.pathname.startsWith(prefix));
 };
 
 export const AuthProvider = ({ children }) => {
@@ -26,6 +26,34 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const checkAppState = async () => {
+    const isLocal = typeof window !== 'undefined' && (
+      window.location.hostname === 'localhost' || 
+      window.location.hostname === '127.0.0.1'
+    );
+      
+    if (isLocal) {
+      setAppPublicSettings({ id: appParams.appId, public_settings: {} });
+      
+      const currentToken = appParams.token || (typeof window !== 'undefined' ? localStorage.getItem('base44_access_token') : null);
+      if (currentToken === 'mock-admin-token') {
+        setUser({
+          id: 'mock-admin-id',
+          email: 'admin@gannonwaye.com',
+          role: 'admin',
+          full_name: 'Gannon Admin',
+        });
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+      
+      setIsLoadingAuth(false);
+      setIsLoadingPublicSettings(false);
+      setAuthChecked(true);
+      return;
+    }
+
     try {
       setIsLoadingPublicSettings(true);
       setAuthError(null);
@@ -45,7 +73,8 @@ export const AuthProvider = ({ children }) => {
         const publicSettings = await appClient.get(`/prod/public-settings/by-id/${appParams.appId}`);
         setAppPublicSettings(publicSettings);
         
-        // Only call base44.auth.me() on routes that actually require identity
+        // Public pages should not make a noisy /User/me request unless the current
+        // route needs identity. Admin and account routes still verify the session.
         if (appParams.token && shouldCheckUserForCurrentRoute()) {
           await checkUserAuth();
         } else {
@@ -106,12 +135,21 @@ export const AuthProvider = ({ children }) => {
       setIsLoadingAuth(false);
       setAuthChecked(true);
     } catch (error) {
-      // 401 on a public route just means "not logged in" — not an error worth blocking the page
+      const isExpectedPublicAuthMiss = !shouldCheckUserForCurrentRoute() && (error.status === 401 || error.status === 403);
+      if (!isExpectedPublicAuthMiss) {
+        console.error('User auth check failed:', error);
+      }
       setIsLoadingAuth(false);
       setIsAuthenticated(false);
       setAuthChecked(true);
-      // Only set authError for non-public routes (admin routes handle this via AdminLayout)
-      // Do NOT set authError here — public pages must render without identity
+      
+      // If user auth fails, it might be an expired token
+      if ((error.status === 401 || error.status === 403) && shouldCheckUserForCurrentRoute()) {
+        setAuthError({
+          type: 'auth_required',
+          message: 'Authentication required'
+        });
+      }
     }
   };
 

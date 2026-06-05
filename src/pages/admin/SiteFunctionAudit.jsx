@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, XCircle, AlertTriangle, ExternalLink, Search, ChevronRight } from 'lucide-react';
+import { ExternalLink, Search, ChevronRight } from 'lucide-react';
 
 // Comprehensive site-wide function audit
 // Every route in App.jsx catalogued with function status

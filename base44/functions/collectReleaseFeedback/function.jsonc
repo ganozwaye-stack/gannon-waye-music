@@ -1,0 +1,4 @@
+{
+  "name": "collectReleaseFeedback",
+  "entry": "entry.ts"
+}

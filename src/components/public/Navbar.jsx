@@ -12,7 +12,6 @@ const NAV_LINKS = [
   { label: 'My Story', path: '/this-is-my-life' },
   { label: 'Music', path: '/music' },
   // Live/Tour hidden until public launch enabled
-  { label: 'Live', path: '/live' },
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
   { label: 'Store', path: '/store' },

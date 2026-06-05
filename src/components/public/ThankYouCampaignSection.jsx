@@ -44,10 +44,7 @@ export default function ThankYouCampaignSection() {
             className="space-y-6"
           >
             <div>
-              <p className="font-body text-[10px] tracking-[0.35em] uppercase text-green-400 mb-3 flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse inline-block" />
-                Thank You · Debut Single · Out Now
-              </p>
+              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3">Thank You · Debut Single · June 5, 2026</p>
               <h2 className="font-display text-3xl md:text-4xl text-foreground leading-tight">
                 More than a song.
               </h2>
@@ -69,11 +66,11 @@ export default function ThankYouCampaignSection() {
                     <Heart className="w-3.5 h-3.5" /> Support the Project
                   </button>
                 </Link>
-                <a href="https://open.spotify.com/track/6xHQX9Yc2pcfRzVxdPmRHp" target="_blank" rel="noopener noreferrer">
+                <Link to="/music">
                   <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary/40 text-primary hover:bg-primary/10 transition-all font-body text-xs tracking-wider uppercase">
-                    <Music className="w-3.5 h-3.5" /> Stream Now
+                    <Music className="w-3.5 h-3.5" /> Stream Thank You
                   </button>
-                </a>
+                </Link>
                 <Link to="/store">
                   <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-border/40 text-foreground/80 hover:border-primary/30 transition-all font-body text-xs tracking-wider uppercase">
                     <ShoppingBag className="w-3.5 h-3.5" /> Visit Store

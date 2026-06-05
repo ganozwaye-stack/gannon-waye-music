@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CreditCard, CheckCircle2, AlertTriangle, XCircle, Shield, Loader2, Copy, Zap, Smartphone, Globe } from 'lucide-react';
+import { CreditCard, CheckCircle2, AlertTriangle, XCircle, Loader2, Copy, Zap } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import ReactMarkdown from 'react-markdown';
 

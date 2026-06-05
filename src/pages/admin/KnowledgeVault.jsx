@@ -4,12 +4,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import VoiceTextarea from '@/components/ui/VoiceTextarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Plus, Search, FileText, Shield, Trash2, X, Edit2, Save, Link as LinkIcon } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Plus, Search, FileText, Shield, Trash2, Edit2, Save } from 'lucide-react';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';

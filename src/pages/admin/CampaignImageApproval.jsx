@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, X, Edit3, Image, AlertTriangle, ExternalLink } from 'lucide-react';
-import { base44 } from '@/api/base44Client';
+import { CheckCircle2, Edit3, AlertTriangle, ExternalLink } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 // The 11 uploaded campaign images mapped to their correct days

@@ -1,0 +1,4 @@
+{
+  "name": "orderLockingMiddleware",
+  "entry": "entry.ts"
+}

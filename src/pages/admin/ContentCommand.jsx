@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import {
-  Zap, Clock, CheckCircle2, Send, BarChart2, Image, FileText, Hash,
-  Calendar, TrendingUp, RefreshCw, Plus, ArrowRight, AlertTriangle,
-  Instagram, Youtube, Radio, Bookmark, Heart, Share2, Eye, Edit3,
+  Zap, CheckCircle2, Send, BarChart2, Image, FileText,
+  Calendar, TrendingUp, RefreshCw, Plus, ArrowRight, AlertTriangle, Radio, Bookmark, Heart, Share2, Edit3,
   Layers, Target, Cpu, Play, ExternalLink
 } from 'lucide-react';
 

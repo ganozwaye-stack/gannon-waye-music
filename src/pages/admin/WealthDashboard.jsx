@@ -2,8 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { DollarSign, TrendingUp, Shield, AlertTriangle, Package, Users, Music } from 'lucide-react';
+import { DollarSign, TrendingUp, Shield, Package, Users, Music } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function WealthDashboard() {

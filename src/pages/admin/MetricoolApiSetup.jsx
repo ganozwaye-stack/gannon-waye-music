@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
-import {
-  Settings, CheckCircle2, AlertTriangle, RefreshCw, ExternalLink,
+import { AlertTriangle, RefreshCw, ExternalLink,
   Copy, Check, Lock, Zap, Globe, UserCircle, Calendar, BarChart2,
   ChevronRight, Info, XCircle
 } from 'lucide-react';

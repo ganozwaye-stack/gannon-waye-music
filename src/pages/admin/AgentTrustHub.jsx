@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import {
   Shield, AlertTriangle, CheckCircle2, XCircle, Copy, Download,
-  ExternalLink, ArrowLeft, Eye, Terminal, Package, Globe, Lock, Zap
+  ExternalLink, ArrowLeft
 } from 'lucide-react';
 
 const SAGE_INFO = {

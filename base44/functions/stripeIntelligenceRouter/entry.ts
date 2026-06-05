@@ -99,6 +99,15 @@ Deno.serve(async (req) => {
             webhook_processed: false,
             source_chain: 'Stripe → stripeIntelligenceRouter → signature_failed',
           });
+          await base44.asServiceRole.functions.invoke('notifyAdmin', {
+            notification_type: 'payment_warning',
+            severity: 'critical',
+            title: '🚨 Stripe Webhook Signature Failed',
+            summary: `stripeIntelligenceRouter verification failed: ${err.message}. Check your signing secrets.`,
+            requires_action: true,
+            linked_route: '/admin/webhook-health',
+            source: 'stripeIntelligenceRouter',
+          });
         } catch (_) {}
       })();
       return new Response(JSON.stringify({ error: 'Webhook signature failed' }), {
@@ -236,7 +245,7 @@ Deno.serve(async (req) => {
           webhook_processed: true,
           source_chain: `Stripe → stripeIntelligenceRouter → charge.dispute.created`,
         });
-        await base44.asServiceRole.entities.AdminNotification.create({
+        await base44.asServiceRole.functions.invoke('notifyAdmin', {
           notification_type: 'payment_warning',
           severity: 'critical',
           title: 'DISPUTE / CHARGEBACK received',

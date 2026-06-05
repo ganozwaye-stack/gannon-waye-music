@@ -5,8 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import {
-  Shield, Copy, Download, ExternalLink, ArrowLeft, AlertTriangle,
-  CheckCircle2, Terminal, DollarSign, Lock, GitBranch, Zap, List, Play
+  Shield, Copy, Download, ArrowLeft, AlertTriangle, Terminal, DollarSign, Play
 } from 'lucide-react';
 
 // ─── TOOL PLAN ─────────────────────────────────────────────────────────────

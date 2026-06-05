@@ -3,12 +3,11 @@ import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Bot, Brain, TrendingUp, AlertTriangle, CheckCircle2, Clock,
-  Zap, BookOpen, MessageSquare, RefreshCw, Loader2, Copy, Eye,
-  Play, ChevronRight, Activity, Shield, Lightbulb, Search
+  Zap, BookOpen, Loader2, Copy, Eye, Activity, Shield, Lightbulb, Search
 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { toast } from 'sonner';

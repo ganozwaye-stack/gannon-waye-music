@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { Mail, Send, Copy, Check, Users } from 'lucide-react';
+import { Send, Copy, Check, Users } from 'lucide-react';
 
 const NEWSLETTER_SUBJECT = "Welcome. You're part of something real 🤍";
 

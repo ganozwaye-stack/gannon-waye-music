@@ -56,14 +56,13 @@ Deno.serve(async (req) => {
 
   <div style="background:#1a1f2e;border:1px solid #2a2f3e;border-radius:12px;padding:24px;margin:28px 0;">
     <p style="color:#f5d06e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 16px;">Find me on socials</p>
-    <p style="color:#c9b99a;font-size:14px;margin:0 0 10px;">📱 TikTok: <a href="https://www.tiktok.com/@ganozwaye" style="color:#f5d06e;">@ganozwaye</a></p>
-    <p style="color:#c9b99a;font-size:14px;margin:0 0 10px;">📷 Instagram: <a href="https://www.instagram.com/ganozwaye" style="color:#f5d06e;">@ganozwaye</a></p>
-    <p style="color:#c9b99a;font-size:14px;margin:0;">📘 Facebook: <a href="https://www.facebook.com/gannonwaye" style="color:#f5d06e;">Gannon Waye</a></p>
+    <p style="color:#c9b99a;font-size:14px;margin:0 0 10px;">📱 TikTok: <a href="https://www.tiktok.com/@gann0nwaye" style="color:#f5d06e;">@gann0nwaye</a></p>
+    <p style="color:#c9b99a;font-size:14px;margin:0;">📷 Instagram: <a href="https://www.instagram.com/gann0nwaye" style="color:#f5d06e;">@gann0nwaye</a></p>
   </div>
 
   <div style="background:#0e1a0e;border:1px solid #2a3e2a;border-radius:12px;padding:24px;margin:28px 0;">
     <p style="color:#7ecf7e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 12px;">🎁 A thank-you gift — if you'd like one</p>
-    <p style="color:#c9b99a;font-size:14px;line-height:1.8;margin:0 0 12px;">For a further discounted rate: You must have subscribed to the website <a href="https://www.gannonwaye.com" style="color:#f5d06e;">www.gannonwaye.com</a>, follow Gannon on Instagram <a href="https://www.instagram.com/ganozwaye" style="color:#f5d06e;">@ganozwaye</a> and also on TikTok <a href="https://www.tiktok.com/@gannonwaye" style="color:#f5d06e;">@gannonwaye</a>, like, comment and share the pinned <em>"Sing Along Here"</em> video tagging Gannon. Send <strong style="color:#f5d06e;">'DONE'</strong> and a message of support in response to this welcome email and when reviewed. The gift will be advised via email, sent after manual approval. Instagram and TikTok actions are not automatically verified. Do the steps in order or the offer may not be approved.</p>
+    <p style="color:#c9b99a;font-size:14px;line-height:1.8;margin:0 0 12px;">For a further discounted rate: You must have subscribed to the website <a href="https://www.gannonwaye.com" style="color:#f5d06e;">www.gannonwaye.com</a>, follow Gannon on Instagram <a href="https://www.instagram.com/gann0nwaye" style="color:#f5d06e;">@gann0nwaye</a> and also on TikTok <a href="https://www.tiktok.com/@gann0nwaye" style="color:#f5d06e;">@gann0nwaye</a>, like, comment and share the pinned <em>"Sing Along Here"</em> video tagging Gannon. Send <strong style="color:#f5d06e;">'DONE'</strong> and a message of support in response to this welcome email and when reviewed. The gift will be advised via email, sent after manual approval. Instagram and TikTok actions are not automatically verified. Do the steps in order or the offer may not be approved.</p>
   </div>
 
   <div style="text-align:center;margin:32px 0;">
@@ -75,7 +74,7 @@ Deno.serve(async (req) => {
 
   <p style="color:#c9b99a;font-size:15px;line-height:1.8;margin-top:28px;">With so much love,</p>
   <p style="color:#f5d06e;font-size:20px;font-style:italic;margin-top:4px;">Gannon 🤍</p>
-  <p style="color:#888;font-size:13px;margin-top:4px;">Instagram: <a href="https://www.instagram.com/ganozwaye" style="color:#f5d06e;">@ganozwaye</a> &nbsp;·&nbsp; TikTok: <a href="https://www.tiktok.com/@ganozwaye" style="color:#f5d06e;">@ganozwaye</a></p>
+  <p style="color:#888;font-size:13px;margin-top:4px;">Instagram: <a href="https://www.instagram.com/gann0nwaye" style="color:#f5d06e;">@gann0nwaye</a> &nbsp;·&nbsp; TikTok: <a href="https://www.tiktok.com/@gann0nwaye" style="color:#f5d06e;">@gann0nwaye</a></p>
 
   <div style="border-top:1px solid #2a2f3e;margin-top:40px;padding-top:20px;text-align:center;">
     <p style="color:#555;font-size:11px;line-height:1.7;">

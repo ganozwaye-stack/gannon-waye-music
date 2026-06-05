@@ -71,8 +71,6 @@ export default function CheckoutModal({ product, onClose }) {
   const [addSupport, setAddSupport] = useState(0);
   const [redirecting, setRedirecting] = useState(false);
   const [checkoutError, setCheckoutError] = useState(null);
-  // Generated once when customer reaches confirm step — stable across retries
-  const checkoutAttemptId = useState(() => `${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`)[0];
 
   const hasSize = product.sizes_available?.length > 0;
   const productPrice = product.sale_price ?? product.price ?? 0;
@@ -110,16 +108,15 @@ export default function CheckoutModal({ product, onClose }) {
           productName: product.name,
           amount: pricing.total,
           metadata: {
-          product_id: product.id,
-          product_category: product.category,
-          sale_price: String(productPrice),
-          size: selectedSize,
-          quantity: String(quantity),
-          shipping_address: form.shipping_address,
-          add_support: String(addSupport),
-          shipping_amount: String(pricing.internationalQuote ? 0 : pricing.shipping),
-          gst_included: String(pricing.gstIncluded.toFixed(2)),
-          checkout_attempt_id: checkoutAttemptId,
+            product_id: product.id,
+            product_category: product.category,
+            sale_price: String(productPrice),
+            size: selectedSize,
+            quantity: String(quantity),
+            shipping_address: form.shipping_address,
+            add_support: String(addSupport),
+            shipping_amount: String(pricing.internationalQuote ? 0 : pricing.shipping),
+            gst_included: String(pricing.gstIncluded.toFixed(2)),
           },
         }),
         timeout,

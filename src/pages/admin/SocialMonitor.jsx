@@ -3,9 +3,9 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
-import { MessageSquare, AlertTriangle, CheckCircle2, Bot, User, Zap, Instagram, TrendingUp, Copy, Send, RefreshCw, Loader2 } from 'lucide-react';
+import { MessageSquare, AlertTriangle, CheckCircle2, Bot, User, Instagram, Copy, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const CLASS_CONFIG = {

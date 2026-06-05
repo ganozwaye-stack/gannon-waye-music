@@ -53,15 +53,14 @@ export default function StoreCustomerDetails() {
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
 
-  const hydrated = useRef(false);
-  useEffect(() => { hydrated.current = true; }, []);
+  const [hasHydrated, setHasHydrated] = useState(false);
   useEffect(() => {
-    if (!hydrated.current) return;
-    const timer = setTimeout(() => {
-      if (items.length === 0) navigate('/store');
-    }, 150);
-    return () => clearTimeout(timer);
-  }, [items.length, navigate]);
+    setHasHydrated(true);
+  }, []);
+  useEffect(() => {
+    if (!hasHydrated) return;
+    if (items.length === 0) navigate('/store');
+  }, [hasHydrated, items.length, navigate]);
 
   useEffect(() => {
     try { localStorage.setItem(DETAILS_KEY, JSON.stringify(form)); } catch {}

@@ -55,7 +55,7 @@ export default function MerchTeaserSection() {
             Pre-order interest open now. No charge today. Payment scheduled for June 1, 2026.
           </p>
           {isLaunchActive() && (
-            <p className="font-body text-xs text-amber-300 max-w-sm mx-auto mt-2">
+            <p className="font-body text-xs text-primary max-w-sm mx-auto mt-2">
               🔥 <strong>Launch offer: use code THANKYOU15 for 15% off eligible Thank You merch until 5pm Sunday.</strong> While stocks last.
             </p>
           )}

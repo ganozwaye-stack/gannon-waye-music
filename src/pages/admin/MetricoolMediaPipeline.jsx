@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/components/ui/use-toast';
-import { Image, Upload, CheckCircle2, AlertTriangle, RefreshCw, ChevronRight, Lock, X } from 'lucide-react';
+import { Image, Upload, CheckCircle2, AlertTriangle, RefreshCw, Lock, X } from 'lucide-react';
 
 const ASSET_STATUS_META = {
   raw: { label: 'Raw', color: 'text-amber-400', bg: 'bg-amber-500/10' },

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Plus, Trash2, Star, Instagram } from 'lucide-react';
+import { Plus, Trash2, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -121,7 +121,7 @@ export default function VideoManagement() {
             <div>
               <Label className="font-body text-xs tracking-wider uppercase">Video URL *</Label>
               <Input
-                placeholder={form.platform === 'instagram' ? 'https://www.instagram.com/reel/...' : 'https://www.tiktok.com/@ganozwaye/video/...'}
+                placeholder={form.platform === 'instagram' ? 'https://www.instagram.com/reel/...' : 'https://www.tiktok.com/@gann0nwaye/video/...'}
                 value={form.url}
                 onChange={e => setForm({ ...form, url: e.target.value })}
               />

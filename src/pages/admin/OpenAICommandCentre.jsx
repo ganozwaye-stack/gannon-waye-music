@@ -7,9 +7,8 @@ import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
-  Brain, Shield, AlertTriangle, CheckCircle2, XCircle, Zap,
-  ArrowLeft, RefreshCw, Lock, DollarSign, Pause, Play, StopCircle,
-  MessageSquare, Activity, Eye, Copy, Terminal
+  Brain, Shield, AlertTriangle, Zap,
+  ArrowLeft, RefreshCw, Lock, Pause, Play, Activity, Eye, Copy
 } from 'lucide-react';
 
 export default function OpenAICommandCentre() {

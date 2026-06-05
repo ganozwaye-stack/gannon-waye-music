@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
-import { Zap, RefreshCw, Copy, Check, ChevronDown, ChevronUp, Film, Calendar } from 'lucide-react';
+import { Zap, RefreshCw, Copy, Check, ChevronDown, ChevronUp } from 'lucide-react';
 import MetricoolBlocker from '@/components/social/MetricoolBlocker';
 
 // Metricool is blocked until METRICOOL_API_TOKEN secret is set

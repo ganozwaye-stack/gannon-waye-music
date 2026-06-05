@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import {
-  DollarSign, Package, AlertTriangle, Clock, CheckCircle2,
+  DollarSign, Package, AlertTriangle, CheckCircle2,
   TrendingUp, Zap, ShoppingCart, Truck, Shield, BarChart3,
-  ExternalLink, ChevronRight, RefreshCw, Boxes
+  ExternalLink, ChevronRight, Boxes
 } from 'lucide-react';
 
 export default function BusinessProcessCommand() {

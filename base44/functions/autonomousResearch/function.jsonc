@@ -1,0 +1,17 @@
+{
+  "name": "autonomousResearch",
+  "entry": "entry.ts",
+  "automations": [
+    {
+      "type": "scheduled",
+      "description": "Runs every hour — researches a different topic each time (trends, marketing, revenue, tools), saves findings to Knowledge Vault automatically",
+      "ends_type": "never",
+      "is_active": true,
+      "name": "Autonomous Research Agent — Hourly",
+      "repeat_interval": 60,
+      "repeat_unit": "minutes",
+      "schedule_mode": "recurring",
+      "schedule_type": "simple"
+    }
+  ]
+}

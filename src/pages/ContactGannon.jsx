@@ -25,13 +25,6 @@ const SOCIAL_LINKS = [
     desc: 'Short-form stories, music & community',
   },
   {
-    label: 'YouTube',
-    handle: '@gannonwayeofficial',
-    url: 'https://www.youtube.com/@gannonwayeofficial',
-    icon: Music,
-    desc: 'Music videos & more',
-  },
-  {
     label: 'Spotify',
     handle: 'Gannon Waye',
     url: SPOTIFY_ARTIST_URL,

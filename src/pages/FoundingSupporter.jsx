@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { Heart, Star, Music, ShoppingBag, Users, CheckCircle2 } from 'lucide-react';
+import { Heart, Music, ShoppingBag, CheckCircle2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const BENEFITS = [

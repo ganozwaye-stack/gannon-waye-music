@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
-  ArrowLeft, Package, DollarSign, TrendingUp, TrendingDown, AlertTriangle,
+  ArrowLeft, Package,
   ChevronRight, Loader2, RefreshCw, ShoppingBag, XCircle, CheckCircle2,
   Clock, Truck, RotateCcw
 } from 'lucide-react';

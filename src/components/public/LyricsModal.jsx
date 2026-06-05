@@ -9,6 +9,7 @@ export default function LyricsModal({ release, onClose }) {
   const [copied, setCopied] = useState(false);
   if (!release) return null;
 
+  const isLocked = release.isLocked || release.status === 'recording' || release.id?.includes('recording');
   const hasLyrics = release.lyrics && release.lyrics.trim().length > 0;
 
   const handleCopy = () => {
@@ -79,7 +80,7 @@ export default function LyricsModal({ release, onClose }) {
               <Button variant="ghost" size="sm" onClick={onClose} className="gap-1 text-xs text-muted-foreground">
                 <ArrowLeft className="w-3 h-3" />Back
               </Button>
-              {hasLyrics && (
+              {hasLyrics && !isLocked && (
                 <Button variant="ghost" size="sm" onClick={handleCopy} className="gap-1 text-xs">
                   {copied ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}
                   {copied ? 'Copied' : 'Copy'}
@@ -100,17 +101,31 @@ export default function LyricsModal({ release, onClose }) {
 
           {/* Scrollable lyrics */}
           <div className="overflow-y-auto flex-1 px-6 py-6">
-            {hasLyrics ? (
+            {isLocked ? (
+              <div className="bg-gradient-to-br from-card to-secondary/30 rounded-2xl p-8 border border-border/40 backdrop-blur-md text-center py-12 relative overflow-hidden my-4">
+                <div className="absolute -inset-10 bg-gradient-to-r from-primary/10 to-primary/5 rounded-full blur-2xl opacity-60 animate-pulse pointer-events-none" />
+                
+                <div className="relative z-10 flex flex-col items-center">
+                  <div className="w-16 h-16 rounded-full bg-secondary/50 flex items-center justify-center border border-primary/30 text-primary mb-4 shadow-lg shadow-primary/5">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
+                    </svg>
+                  </div>
+                  <h3 className="font-display text-2xl text-foreground mb-2">Studio Session</h3>
+                  <p className="font-body text-sm text-primary/90 tracking-wider uppercase font-semibold mb-3">Release Pending</p>
+                  <p className="font-body text-base text-muted-foreground max-w-sm">
+                    Lyrics under studio wraps — Single drop coming soon.
+                  </p>
+                </div>
+              </div>
+            ) : hasLyrics ? (
               <pre className="font-body text-sm md:text-base text-foreground/85 leading-relaxed whitespace-pre-wrap font-normal">
                 {release.lyrics}
               </pre>
             ) : (
-              <div className="text-center py-12 space-y-3">
+              <div className="text-center py-12">
                 <p className="font-display text-xl text-muted-foreground">Lyrics coming soon.</p>
-                <p className="font-body text-xs text-muted-foreground mt-2">Lyrics will be added shortly — check back soon.</p>
-                <a href="https://open.spotify.com/track/6xHQX9Yc2pcfRzVxdPmRHp" target="_blank" rel="noopener noreferrer" className="inline-block mt-2">
-                  <span className="font-body text-xs text-primary hover:underline">🎧 Stream on Spotify while you wait</span>
-                </a>
+                <p className="font-body text-xs text-muted-foreground mt-2">Check back closer to the release date.</p>
               </div>
             )}
 

@@ -1,13 +1,11 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Shield, AlertTriangle, CheckCircle2, XCircle, Tag, Play, Loader2 } from 'lucide-react';
+import { Shield, CheckCircle2, XCircle, Play, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const ALWAYS_EXCLUDED = [

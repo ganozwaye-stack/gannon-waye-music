@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 import { Heart, CheckCircle2, ArrowLeft, Info } from 'lucide-react';
@@ -23,11 +23,15 @@ const calcTotal = (base) => {
   };
 };
 
-const TIERS = [
-  { amount: 5,  label: "I'm with you",          desc: "A small contribution that helps keep this going" },
-  { amount: 10, label: "I support the movement", desc: "You're part of building something bigger" },
-  { amount: 25, label: "Inner circle supporter",  desc: "You're backing this journey in a real way" },
+const ALL_TIERS = [
+  { amount: 5,   label: "I'm with you",          desc: "A small contribution that helps keep this going" },
+  { amount: 10,  label: "I support the movement", desc: "You're part of building something bigger" },
+  { amount: 50,  label: "Thank You Autographed Print (Physical)", desc: "A physical autographed art print shipped directly to you" },
+  { amount: 100, label: "Thank You CD & Poster Bundle (Physical)", desc: "The physical CD & autographed poster bundle shipped to you" },
+  { amount: 200, label: "1-on-1 Video Chat (15 min)", desc: "A private 15-minute video call with Gannon to chat about music and life" },
 ];
+
+const TIERS = ALL_TIERS.slice(0, 4);
 
 const FREQUENCIES = [
   { value: 'once',        label: 'Once Off' },
@@ -37,18 +41,43 @@ const FREQUENCIES = [
 
 export default function BackThis() {
   const { toast } = useToast();
+  const location = useLocation();
   const [step, setStep] = useState('choose'); // choose | details | payment | done
   const [selectedTier, setSelectedTier] = useState(null);
   const [customAmount, setCustomAmount] = useState('');
   const [frequency, setFrequency] = useState('once');
   const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [shipping, setShipping] = useState({
+    address1: '',
+    address2: '',
+    city: '',
+    state: '',
+    postcode: '',
+    country: 'Australia',
+  });
   const [customError, setCustomError] = useState('');
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const amt = params.get('amount');
+    if (amt) {
+      const parsed = parseFloat(amt);
+      if ([5, 10, 50, 100, 200].includes(parsed)) {
+        setSelectedTier(parsed);
+      } else if (!isNaN(parsed) && parsed > 0) {
+        setSelectedTier('custom');
+        setCustomAmount(amt);
+      }
+    }
+  }, [location]);
 
   const baseAmount = selectedTier !== 'custom'
     ? (selectedTier ?? 0)
     : (parseFloat(customAmount) || 0);
 
   const pricing = calcTotal(baseAmount);
+  
+  const needsShipping = selectedTier === 50 || selectedTier === 100 || (selectedTier === 'custom' && baseAmount >= 50);
 
   const handleChooseNext = () => {
     if (!selectedTier) {
@@ -71,6 +100,12 @@ export default function BackThis() {
     if (!form.email) {
       toast({ title: 'Please enter your email', variant: 'destructive' });
       return;
+    }
+    if (needsShipping) {
+      if (!shipping.address1 || !shipping.city || !shipping.state || !shipping.postcode || !shipping.country) {
+        toast({ title: 'Please fill in all shipping fields for physical rewards', variant: 'destructive' });
+        return;
+      }
     }
     setStep('payment');
   };
@@ -106,12 +141,18 @@ export default function BackThis() {
       return;
     }
 
-    const tierLabel = selectedTier === 'custom' ? 'Custom' : TIERS.find(t => t.amount === selectedTier)?.label;
-    const tierKey = baseAmount >= 25 ? 'inner_circle' : baseAmount >= 10 ? 'movement' : 'with_you';
-    const badge = baseAmount >= 25 ? 'inner_circle' : baseAmount >= 10 ? 'top_supporter' : 'supporter';
+    const tierLabel = selectedTier === 'custom' ? 'Custom' : ALL_TIERS.find(t => t.amount === selectedTier)?.label;
+    const tierKey = baseAmount >= 200 ? 'video_chat' : baseAmount >= 100 ? 'cd_bundle' : baseAmount >= 50 ? 'art_print' : baseAmount >= 10 ? 'movement' : 'with_you';
+    const badge = baseAmount >= 200 ? 'video_chat' : baseAmount >= 100 ? 'vip_backer' : baseAmount >= 50 ? 'gold_supporter' : baseAmount >= 10 ? 'top_supporter' : 'supporter';
 
     const idempotenceKey = `contribution_${paymentIntent.id}`;
     
+    const shippingMessageStr = needsShipping 
+      ? `\n\n[SHIPPING DETAILS]\nName: ${form.name || 'Anonymous'}\nAddress: ${shipping.address1}${shipping.address2 ? `, ${shipping.address2}` : ''}\nCity: ${shipping.city}\nState: ${shipping.state}\nPostcode: ${shipping.postcode}\nCountry: ${shipping.country}`
+      : '';
+    
+    const finalMessage = `${form.message || ''}${shippingMessageStr}`.trim();
+
     const contribution = await base44.entities.SupportContribution.create({
       supporter_name: form.name || null,
       supporter_email: form.email,
@@ -120,8 +161,14 @@ export default function BackThis() {
       frequency,
       tier_label: tierLabel,
       stripe_payment_id: paymentIntent.id,
-      message: form.message || null,
+      message: finalMessage || null,
       idempotence_key: idempotenceKey,
+      shipping_address1: needsShipping ? shipping.address1 : null,
+      shipping_address2: needsShipping ? shipping.address2 : null,
+      shipping_city: needsShipping ? shipping.city : null,
+      shipping_state: needsShipping ? shipping.state : null,
+      shipping_postcode: needsShipping ? shipping.postcode : null,
+      shipping_country: needsShipping ? shipping.country : null,
     });
 
     // Emit event for automation
@@ -141,7 +188,7 @@ export default function BackThis() {
       await base44.entities.SupporterProfile.update(existing[0].id, {
         total_contributed: (existing[0].total_contributed || 0) + baseAmount,
         supporter_name: form.name || existing[0].supporter_name,
-        message: form.message || existing[0].message,
+        message: finalMessage,
       });
     } else {
       await base44.entities.SupporterProfile.create({
@@ -149,7 +196,7 @@ export default function BackThis() {
         supporter_email: form.email,
         tier: tierKey,
         total_contributed: baseAmount,
-        message: form.message || null,
+        message: finalMessage,
         badge,
         is_public: true,
       });
@@ -421,6 +468,14 @@ export default function BackThis() {
               </p>
             </div>
 
+            {/* Non-refundable disclaimer */}
+            <div className="bg-secondary/30 border border-border/30 rounded-xl p-4 mb-6 text-left">
+              <p className="font-body text-xs text-amber-500 font-semibold uppercase tracking-wider mb-1">⚠️ Contribution Disclaimer</p>
+              <p className="font-body text-xs text-muted-foreground leading-relaxed">
+                All contributions are 100% voluntary, direct-support payments and are strictly non-refundable. Physical rewards for the $50 and $100 tiers will be shipped upon release. The $200 tier video session will be scheduled via email.
+              </p>
+            </div>
+
             <Button onClick={handleChooseNext} className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
               <Heart className="w-4 h-4 mr-2" /> Continue
             </Button>
@@ -453,12 +508,50 @@ export default function BackThis() {
               </div>
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Email *</Label>
-                <Input type="email" placeholder="you@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="bg-secondary/50 border-border/40" />
+                <Input type="email" placeholder="you@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="bg-secondary/50 border-border/40" required />
               </div>
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Leave a message (optional)</Label>
                 <Input placeholder="This song helped me through..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} className="bg-secondary/50 border-border/40" />
               </div>
+
+              {needsShipping && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="space-y-4 border-t border-border/30 pt-4"
+                >
+                  <p className="font-body text-xs tracking-wider uppercase gradient-gold-glow mb-2">📦 Shipping Information (Physical Rewards)</p>
+                  <div>
+                    <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Address Line 1 *</Label>
+                    <Input placeholder="123 Music Lane" value={shipping.address1} onChange={e => setShipping(s => ({ ...s, address1: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                  </div>
+                  <div>
+                    <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Address Line 2 (Optional)</Label>
+                    <Input placeholder="Apartment, suite, unit, etc." value={shipping.address2} onChange={s => setShipping(s => ({ ...s, address2: s.target.value }))} className="bg-secondary/50 border-border/40" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">City/Suburb *</Label>
+                      <Input placeholder="Melbourne" value={shipping.city} onChange={e => setShipping(s => ({ ...s, city: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                    </div>
+                    <div>
+                      <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">State/Territory *</Label>
+                      <Input placeholder="VIC" value={shipping.state} onChange={e => setShipping(s => ({ ...s, state: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Postcode/Zip *</Label>
+                      <Input placeholder="3000" value={shipping.postcode} onChange={e => setShipping(s => ({ ...s, postcode: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                    </div>
+                    <div>
+                      <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Country *</Label>
+                      <Input placeholder="Australia" value={shipping.country} onChange={e => setShipping(s => ({ ...s, country: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
 
               <div className="bg-secondary/30 rounded-xl p-4 space-y-1.5 text-sm font-body">
                 <div className="flex justify-between text-foreground/60"><span>Base amount</span><span>${baseAmount.toFixed(2)}</span></div>
@@ -485,7 +578,7 @@ export default function BackThis() {
 
             <div className="bg-secondary/30 rounded-2xl p-4 mb-6 flex justify-between items-center">
               <p className="font-body text-sm text-foreground">
-                {selectedTier === 'custom' ? 'Custom' : TIERS.find(t => t.amount === selectedTier)?.label}
+                {selectedTier === 'custom' ? 'Custom' : ALL_TIERS.find(t => t.amount === selectedTier)?.label}
                 {frequency !== 'once' ? ` · ${frequency}` : ''}
               </p>
               <p className="font-display text-xl gradient-gold-glow">${pricing.total.toFixed(2)} AUD</p>
@@ -499,11 +592,23 @@ export default function BackThis() {
               </div>
             )}
 
+            {/* Apple/Google Pay Visual Cues */}
+            <div className="bg-secondary/40 border border-border/30 rounded-xl p-4 mb-4 flex items-center justify-between">
+              <div className="flex flex-col text-left">
+                <span className="font-body text-xs text-foreground font-semibold">Accepted Payment Methods</span>
+                <span className="font-body text-[10px] text-muted-foreground">Credit/Debit Card, Apple Pay, Google Pay</span>
+              </div>
+              <div className="flex gap-2">
+                <span className="font-body text-[10px] bg-secondary border border-border/50 rounded px-1.5 py-0.5 font-bold uppercase text-foreground">Apple Pay</span>
+                <span className="font-body text-[10px] bg-secondary border border-border/50 rounded px-1.5 py-0.5 font-bold uppercase text-foreground">G Pay</span>
+              </div>
+            </div>
+
             <StripePaymentForm
               amount={pricing.total}
               customerEmail={form.email}
               customerName={form.name || 'Supporter'}
-              productName={`Support — ${selectedTier === 'custom' ? `$${baseAmount} custom` : TIERS.find(t => t.amount === selectedTier)?.label}`}
+              productName={`Support — ${selectedTier === 'custom' ? `$${baseAmount} custom` : ALL_TIERS.find(t => t.amount === selectedTier)?.label}`}
               metadata={{ frequency, base_amount: String(baseAmount), type: 'support_contribution' }}
               onSuccess={handlePaymentSuccess}
               onError={handlePaymentError}
