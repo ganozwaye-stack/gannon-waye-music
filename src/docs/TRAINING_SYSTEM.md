@@ -313,8 +313,8 @@ This is your complete guide to managing the Gannon Waye platform. Use the search
 - View completion status
 
 **Gift Requirements:**
-1. Follow on TikTok @gannonwaye
-2. Follow on Instagram @gannonwaye
+1. Follow on TikTok @gann0nwaye
+2. Follow on Instagram @gann0nwaye
 3. Like/comment/share latest post
 4. Submit screenshot
 

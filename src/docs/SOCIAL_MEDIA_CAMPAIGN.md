@@ -14,8 +14,8 @@
 
 I'm giving away exclusive hoodies to my first supporters - and here's how YOU can get one:
 
-✨ Follow me on TikTok @gannonwaye
-✨ Follow me on Instagram @gannonwaye  
+✨ Follow me on TikTok @gann0nwaye
+✨ Follow me on Instagram @gann0nwaye  
 ❤️ Like, comment, or share my latest post
 📸 Submit proof (screenshot)
 🎉 Get your FREE hoodie!
@@ -204,7 +204,7 @@ I'm featuring YOUR stories, YOUR art, YOUR support moments on my website's Fan H
 
 How to be featured:
 1️⃣ Share your story about how music helped you
-2️⃣ Tag @gannonwaye + use #GannonWayeCommunity
+2️⃣ Tag @gann0nwaye + use #GannonWayeCommunity
 3️⃣ Or upload directly → [YOUR WEBSITE]/community
 
 Every story matters. Every voice counts. Let's build something real together.
@@ -294,8 +294,8 @@ Set your reminders. See you there! 🤍
 ## 🎁 GIFT CAMPAIGN TRACKING
 
 **Requirements to promote:**
-1. ✅ Follow on TikTok @gannonwaye
-2. ✅ Follow on Instagram @gannonwaye
+1. ✅ Follow on TikTok @gann0nwaye
+2. ✅ Follow on Instagram @gann0nwaye
 3. ✅ Like/comment/share latest post
 4. ✅ Submit screenshot proof
 
