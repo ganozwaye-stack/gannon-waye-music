@@ -19,65 +19,6 @@ export default function LyricsPage() {
 
   const localReleases = [
     {
-      id: 'thank-you',
-      title: 'Thank You',
-      type: 'Single',
-      status: 'released',
-      is_published: true,
-      artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg',
-      lyrics: `[Verse 1]
-I saw the writing on the wall
-I watched the final shadow fall
-You thought that I would stay the same
-And let you build another game
-
-[Pre-Chorus]
-But something changed inside of me
-The moment that I set us free
-I won't abandon who I am
-To fit into your hollow plan
-
-[Chorus]
-So thank you for the silence
-Thank you for the space
-Thank you for the ending
-That you forced me to face
-I was holding onto patterns
-That were never mine to keep
-But the line is drawn
-And I'm waking from the sleep
-
-[Verse 2]
-It felt familiar in a way
-The heavy words you used to say
-Like ghost loops repeating in the dark
-But this time you missed the mark
-
-[Bridge]
-I hear the whispers in the hall
-But now I'm standing ten feet tall
-You can keep the keys to the castle you built
-I'm leaving behind all the weight and the guilt
-Because the sun is rising on a brand new day
-And this time, I'm the one who's finding my way
-
-[Chorus]
-So thank you for the silence
-Thank you for the space
-Thank you for the ending
-That you forced me to face
-I was holding onto patterns
-That were never mine to keep
-But the line is drawn
-And I'm waking from the sleep
-
-[Outro]
-I'm waking from the sleep...
-Thank you for the space.
-I'm finally free.`,
-      credits: 'Written & Performed by Gannon Waye'
-    },
-    {
       id: 'will-you-even-listen',
       title: 'Will You Even Listen',
       type: 'Single',

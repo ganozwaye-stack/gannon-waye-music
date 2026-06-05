@@ -116,11 +116,25 @@ export default function ThankYouSingle() {
                 {released ? 'Out Now' : `Coming ${releaseDateText} · All leading platforms`}
               </p>
               {!released && <CountdownTimer targetDate={releaseDateIso} />}
-              <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer" className="block">
-                <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                  <Music className="w-4 h-4" /> {released ? 'Stream Now' : 'Pre-Save Now'}
-                </Button>
-              </a>
+              {released ? (
+                <iframe
+                  data-testid="embed-iframe"
+                  style={{ borderRadius: '12px' }}
+                  src="https://open.spotify.com/embed/album/36qMYfzzJrq2j039l9Ex66?utm_source=generator"
+                  width="100%"
+                  height="352"
+                  frameBorder="0"
+                  allowFullScreen=""
+                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                  loading="lazy"
+                />
+              ) : (
+                <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer" className="block">
+                  <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
+                    <Music className="w-4 h-4" /> Pre-Save Now
+                  </Button>
+                </a>
+              )}
               <div className="space-y-2">
                 <p className="font-body text-xs tracking-[0.15em] uppercase text-muted-foreground">Available on</p>
                 <div className="flex flex-wrap gap-2">

@@ -153,11 +153,19 @@ function OfflineScreen({ settings }) {
               <Instagram className="w-3 h-3 mr-1" /> Instagram @gann0nwaye
             </Button>
           </a>
-          <a href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz" target="_blank" rel="noopener noreferrer">
-            <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary">
-              <Music className="w-3 h-3 mr-1" /> Spotify
-            </Button>
-          </a>
+        </div>
+        <div className="max-w-md mx-auto w-full mt-8">
+          <iframe
+            data-testid="embed-iframe"
+            style={{ borderRadius: '12px' }}
+            src="https://open.spotify.com/embed/album/36qMYfzzJrq2j039l9Ex66?utm_source=generator"
+            width="100%"
+            height="352"
+            frameBorder="0"
+            allowFullScreen=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          />
         </div>
       </motion.div>
       <div className="w-full max-w-4xl px-4 mt-8">
