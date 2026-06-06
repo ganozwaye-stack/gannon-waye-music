@@ -394,7 +394,7 @@ export default function TikTokAppReview() {
             { label: 'Redirect URI', value: 'https://gannonwaye.com/tiktok-callback', ok: false, action: 'Add to TikTok portal' },
             { label: 'Verification File', value: 'tiktok-developers-site-verification=KxZOq6nwSqmVh0UJXgnalbWrdx6eOC9U', ok: true },
             { label: 'DNS TXT Record', value: 'tiktok-developers-site-verification=OsUg2LUCoNJIimgbEa9Oq8H6pkYGR1ZC', ok: false, action: 'Add TXT record at domain registrar (GoDaddy/Cloudflare)' },
-            { label: 'Webhook Callback URL', value: 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/tiktokWebhook', ok: true },
+            { label: 'Webhook Callback URL', value: 'https://api.base44.app/api/apps/69eb7905ca6eb4180010f794/functions/tiktokWebhook', ok: true },
           ].map((item, i) => (
             <div key={i} className="flex items-start gap-3">
               {item.ok ? <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0 mt-0.5" /> : <XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />}

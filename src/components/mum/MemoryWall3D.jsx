@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PHOTOS = [
+  { url: '/images/mum/sonia_garden_tribute.jpg', caption: "Cinematic tribute artwork — Sonia in her garden, holding a coffee mug with Gannon's album cover, surrounded by her dogs, flowers, and gold light", category: 'Her Garden', featured: true },
   { url: '/images/mum/mum_gannon_young.jpg', caption: 'A love I still carry', category: 'Me & Mum', featured: true },
   { url: '/images/mum/mum_gannon_dinner.png', caption: 'Home, in human form', category: 'Me & Mum', featured: true },
   { url: '/images/mum/mum_avatar.png', caption: 'Her humour, her strength, her heart', category: 'Her', featured: true },

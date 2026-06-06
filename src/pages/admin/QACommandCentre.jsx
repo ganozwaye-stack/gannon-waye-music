@@ -7,8 +7,10 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import {
   ArrowLeft, AlertTriangle, Play,
-  RefreshCw, ExternalLink, FileText, Download, Copy
+  RefreshCw, FileText, Download, Copy, Database, ExternalLink
 } from 'lucide-react';
+import { localReleases } from '@/lib/localReleases';
+
 
 const ROUTES_TO_TEST = [
   // Public
@@ -281,6 +283,33 @@ export default function QACommandCentre() {
   const [running, setRunning] = useState(false);
   const [selected, setSelected] = useState(null);
   const [activeTab, setActiveTab] = useState('routes');
+  const [syncing, setSyncing] = useState(false);
+
+  const syncReleasesToDatabase = async () => {
+    setSyncing(true);
+    try {
+      const dbReleases = await base44.entities.Release.list();
+      let updatedCount = 0;
+      for (const local of localReleases) {
+        const matching = dbReleases.find(r => r.title.toLowerCase() === local.title.toLowerCase());
+        if (matching) {
+          // Update database record with the full lyrics and credits from fallback
+          await base44.entities.Release.update(matching.id, {
+            lyrics: local.lyrics,
+            credits: local.credits,
+            lyrics_status: 'published'
+          });
+          updatedCount++;
+        }
+      }
+      toast({ title: 'Sync completed successfully', description: `Updated ${updatedCount} releases in the database.` });
+    } catch (err) {
+      console.error(err);
+      toast({ title: 'Sync failed', description: err.message, variant: 'destructive' });
+    } finally {
+      setSyncing(false);
+    }
+  };
 
   const filtered = categoryFilter === 'all' ? ROUTES_TO_TEST : ROUTES_TO_TEST.filter(r => r.category === categoryFilter);
 
@@ -392,8 +421,11 @@ export default function QACommandCentre() {
           <Link to="/admin/developer-handoff"><Button variant="outline" size="sm">Dev Handoff</Button></Link>
           <Button variant="outline" size="sm" onClick={copyReport}><Copy className="w-3 h-3 mr-1" />Copy Report</Button>
           <Button variant="outline" size="sm" onClick={downloadReport}><Download className="w-3 h-3 mr-1" />Download Report</Button>
+          <Button variant="outline" size="sm" onClick={syncReleasesToDatabase} disabled={syncing} className="border-primary/40 text-primary hover:bg-primary/10">
+            {syncing ? <><RefreshCw className="w-3.5 h-3.5 mr-1.5 animate-spin" />Syncing...</> : <><Database className="w-3.5 h-3.5 mr-1.5" />Sync Releases to DB</>}
+          </Button>
           <Button size="sm" onClick={runInternalRouteCheck} disabled={running}>
-            {running ? <><RefreshCw className="w-3 h-3 mr-1 animate-spin" />Checking...</> : <><Play className="w-3 h-3 mr-1" />Catalogue Routes</>}
+            {running ? <><RefreshCw className="w-3.5 h-3.5 mr-1 animate-spin" />Checking...</> : <><Play className="w-3.5 h-3.5 mr-1" />Catalogue Routes</>}
           </Button>
         </div>
       </div>

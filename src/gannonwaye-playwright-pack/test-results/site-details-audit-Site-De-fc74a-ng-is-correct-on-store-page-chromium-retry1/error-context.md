@@ -1,0 +1,249 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: site-details-audit.spec.js >> Site Details Audit — Public pages must not expose wrong emails >> donation wording is correct on store page
+- Location: tests\site-details-audit.spec.js:19:7
+
+# Error details
+
+```
+Tearing down "context" exceeded the test timeout of 30000ms.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - link "Gannon Waye — Home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e9]: GW
+      - generic [ref=e10]:
+        - link "Home" [ref=e11] [cursor=pointer]:
+          - /url: /
+        - link "My Story" [ref=e12] [cursor=pointer]:
+          - /url: /this-is-my-life
+        - link "Music" [ref=e13] [cursor=pointer]:
+          - /url: /music
+        - link "Videos" [ref=e14] [cursor=pointer]:
+          - /url: /videos
+        - link "Community" [ref=e15] [cursor=pointer]:
+          - /url: /community
+        - link "Store" [ref=e16] [cursor=pointer]:
+          - /url: /store
+        - link "Contact" [ref=e17] [cursor=pointer]:
+          - /url: /contact
+        - link "Back This 🤍" [ref=e18] [cursor=pointer]:
+          - /url: /back-this
+      - button [ref=e20] [cursor=pointer]:
+        - img [ref=e21]
+  - button [ref=e25] [cursor=pointer]:
+    - img [ref=e26]
+  - main [ref=e30]:
+    - generic [ref=e32]:
+      - generic [ref=e33]:
+        - paragraph [ref=e34]: Official
+        - heading "Merch" [level=1] [ref=e35]
+        - paragraph [ref=e38]:
+          - text: Store is
+          - strong [ref=e39]: open
+          - text: — order now. Shipping Australia-wide.
+      - generic [ref=e42]: Music
+      - generic [ref=e45]:
+        - generic [ref=e46]:
+          - generic [ref=e47] [cursor=pointer]:
+            - img "\"Thank You\" CD Single Slim Case" [ref=e49]
+            - img [ref=e51]
+            - generic [ref=e54]: Slim Case
+          - generic [ref=e55]:
+            - paragraph [ref=e56]: "\"Thank You\" CD Single Slim Case"
+            - paragraph [ref=e57]: $10 AUD
+            - paragraph [ref=e58]: Available June 2026 · $10
+            - button "Add to Cart" [ref=e59] [cursor=pointer]:
+              - img [ref=e60]
+              - text: Add to Cart
+        - generic [ref=e61]:
+          - generic [ref=e62] [cursor=pointer]:
+            - img "Thank You — Deluxe Signed CD Single" [ref=e64]
+            - img [ref=e66]
+            - generic [ref=e69]: Deluxe · Signed
+          - generic [ref=e70]:
+            - paragraph [ref=e71]: Thank You — Deluxe Signed CD Single
+            - paragraph [ref=e72]: $20 AUD
+            - paragraph [ref=e73]: Limited · Hand signed · $20
+            - button "Add to Cart" [ref=e74] [cursor=pointer]:
+              - img [ref=e75]
+              - text: Add to Cart
+      - generic [ref=e78]: Merch
+      - generic [ref=e80]:
+        - generic [ref=e81]:
+          - generic [ref=e82] [cursor=pointer]:
+            - generic [ref=e83]:
+              - img "Respect Is Earned Oversized Tee 1" [ref=e84]
+              - img "Respect Is Earned Oversized Tee 2" [ref=e85]
+              - generic [ref=e86]:
+                - button [ref=e87]
+                - button [ref=e88]
+            - img [ref=e90]
+            - generic [ref=e93]: In Stock
+          - generic [ref=e94]:
+            - paragraph [ref=e95]: Respect Is Earned Oversized Tee
+            - paragraph [ref=e96]: $59 AUD
+            - paragraph [ref=e97]: Oversized premium tee · $59
+            - generic [ref=e99]:
+              - button "XS" [ref=e100] [cursor=pointer]
+              - button "S" [ref=e101] [cursor=pointer]
+              - button "M" [ref=e102] [cursor=pointer]
+              - button "L" [ref=e103] [cursor=pointer]
+              - button "XL" [ref=e104] [cursor=pointer]
+              - button "XXL" [ref=e105] [cursor=pointer]
+            - button "Add to Cart" [ref=e106] [cursor=pointer]:
+              - img [ref=e107]
+              - text: Add to Cart
+        - generic [ref=e108]:
+          - generic [ref=e109] [cursor=pointer]:
+            - img "\"Respect Is Earned\" Hoodie Dark Grey" [ref=e111]
+            - img [ref=e113]
+            - generic [ref=e116]: Available Now
+          - generic [ref=e117]:
+            - paragraph [ref=e118]: "\"Respect Is Earned\" Hoodie Dark Grey"
+            - paragraph [ref=e119]: $98 AUD
+            - paragraph [ref=e120]: Premium heavyweight hoodie · $98
+            - generic [ref=e122]:
+              - button "XS" [ref=e123] [cursor=pointer]
+              - button "S" [ref=e124] [cursor=pointer]
+              - button "M" [ref=e125] [cursor=pointer]
+              - button "L" [ref=e126] [cursor=pointer]
+              - button "XL" [ref=e127] [cursor=pointer]
+              - button "2XL" [ref=e128] [cursor=pointer]
+            - button "Add to Cart" [ref=e129] [cursor=pointer]:
+              - img [ref=e130]
+              - text: Add to Cart
+        - generic [ref=e131]:
+          - generic [ref=e132] [cursor=pointer]:
+            - img "Thank You Journal Pen and Thermos Flask Bundle" [ref=e134]
+            - img [ref=e136]
+            - generic [ref=e139]: In Stock
+          - generic [ref=e140]:
+            - paragraph [ref=e141]: Thank You Journal Pen and Thermos Flask Bundle
+            - paragraph [ref=e142]: $54 AUD
+            - paragraph [ref=e143]: Journal, pen and thermos bundle · $54
+            - button "Add to Cart" [ref=e144] [cursor=pointer]:
+              - img [ref=e145]
+              - text: Add to Cart
+        - generic [ref=e146]:
+          - generic [ref=e147] [cursor=pointer]:
+            - generic [ref=e148]:
+              - img "\"Thank You\" Tote Bag 1" [ref=e149]
+              - img "\"Thank You\" Tote Bag 2" [ref=e150]
+              - img "\"Thank You\" Tote Bag 3" [ref=e151]
+              - img "\"Thank You\" Tote Bag 4" [ref=e152]
+              - generic [ref=e153]:
+                - button [ref=e154]
+                - button [ref=e155]
+                - button [ref=e156]
+                - button [ref=e157]
+            - img [ref=e159]
+            - generic [ref=e162]: Sold Out
+          - generic [ref=e163]:
+            - paragraph [ref=e164]: "\"Thank You\" Tote Bag"
+            - paragraph [ref=e165]: $15 AUD
+            - paragraph [ref=e166]: Large tote bag · $15
+            - generic [ref=e167]: Sold out due to popular demand. These will not be restocked.
+      - generic [ref=e168]:
+        - paragraph [ref=e169]: Not your style? You can still support this.
+        - button "Support Now" [ref=e170] [cursor=pointer]:
+          - img [ref=e171]
+          - text: Support Now
+      - paragraph [ref=e173]: Thank You, official release date 05 June 2026.
+  - contentinfo [ref=e174]:
+    - generic [ref=e175]:
+      - generic [ref=e176]:
+        - generic [ref=e177]:
+          - generic [ref=e179]: GW
+          - paragraph [ref=e180]: Australian singer-songwriter crafting honest stories through melody and verse.
+        - generic [ref=e181]:
+          - heading "Navigate" [level=4] [ref=e182]
+          - generic [ref=e183]:
+            - link "Home" [ref=e184] [cursor=pointer]:
+              - /url: /
+            - link "My Story" [ref=e185] [cursor=pointer]:
+              - /url: /this-is-my-life
+            - link "Music" [ref=e186] [cursor=pointer]:
+              - /url: /music
+            - link "Videos" [ref=e187] [cursor=pointer]:
+              - /url: /videos
+            - link "Store" [ref=e188] [cursor=pointer]:
+              - /url: /store
+            - link "Community" [ref=e189] [cursor=pointer]:
+              - /url: /community
+            - link "Contact" [ref=e190] [cursor=pointer]:
+              - /url: /contact
+            - link "Order Status" [ref=e191] [cursor=pointer]:
+              - /url: /order-status
+            - link "The 7 Day Standard" [ref=e192] [cursor=pointer]:
+              - /url: /7-day-standard
+            - link "Current Single" [ref=e193] [cursor=pointer]:
+              - /url: /current-single
+            - link "Merch Feedback" [ref=e194] [cursor=pointer]:
+              - /url: /merch-feedback
+            - link "Back This Project 🤍" [ref=e195] [cursor=pointer]:
+              - /url: /back-this
+        - generic [ref=e196]:
+          - heading "Contact" [level=4] [ref=e197]
+          - paragraph [ref=e198]: For press, management & enquiries
+          - link "hello@gannonwaye.com" [ref=e199] [cursor=pointer]:
+            - /url: mailto:hello@gannonwaye.com
+          - heading "Legal" [level=4] [ref=e200]
+          - generic [ref=e201]:
+            - link "Privacy Policy" [ref=e202] [cursor=pointer]:
+              - /url: /privacy-policy
+            - link "Terms of Service" [ref=e203] [cursor=pointer]:
+              - /url: /terms-of-service
+            - link "Contact Gannon" [ref=e204] [cursor=pointer]:
+              - /url: /contact
+          - heading "Social" [level=4] [ref=e205]
+          - generic [ref=e206]:
+            - link "Instagram @gann0nwaye" [ref=e207] [cursor=pointer]:
+              - /url: https://www.instagram.com/gann0nwaye
+            - link "TikTok @gann0nwaye" [ref=e208] [cursor=pointer]:
+              - /url: https://www.tiktok.com/@gann0nwaye
+            - link "YouTube @gannonwayeofficial" [ref=e209] [cursor=pointer]:
+              - /url: https://www.youtube.com/@gannonwayeofficial
+      - generic [ref=e210]:
+        - paragraph [ref=e211]: Stay in the loop
+        - heading "New music & community updates" [level=3] [ref=e212]
+        - generic [ref=e213]:
+          - textbox "Your name *" [ref=e214]
+          - textbox "your@email.com *" [ref=e215]
+          - textbox "Phone incl. country code e.g. +61 400 000 000 *" [ref=e216]
+          - textbox "Birthday (optional — we'll send you something special)" [ref=e217]
+          - paragraph [ref=e218]: Birthday optional — we'll send you something special 🎂
+          - combobox [ref=e219]:
+            - option "How did you find me? *" [selected]
+            - option "Google"
+            - option "Instagram"
+            - option "Facebook"
+            - option "TikTok"
+            - option "X (Twitter)"
+            - option "Friend / Word of Mouth"
+            - option "I know Gannon"
+            - option "Other"
+          - button "Subscribe" [ref=e220] [cursor=pointer]
+      - generic [ref=e221]:
+        - paragraph [ref=e222]: "* Support contributions are direct-support gifts to Gannon Waye as an independent artist to fund album production, merchandise sampling, and system operations; they are not tax-deductible."
+        - paragraph [ref=e223]: "* The AI memorial reflective companion available on the tribute page (/mum) is configured as a comforting, gentle remembrance journal companion. It is not an active representation of Sonia, does not offer professional medical, legal, or grief counseling, and should not be used as a substitute for clinical therapy."
+      - generic [ref=e224]:
+        - generic [ref=e225]:
+          - img "GW Heart" [ref=e226]
+          - link "Support the project 🤍" [ref=e227] [cursor=pointer]:
+            - /url: /back-this
+          - img "GW Heart" [ref=e228]
+        - paragraph [ref=e229]: © 2026 Gannon Waye. All rights reserved.
+```

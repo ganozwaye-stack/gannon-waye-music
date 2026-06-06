@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Music2, ChevronDown } from 'lucide-react';
+import { Music2, ChevronDown, Sparkles } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import GannonSignature from '@/components/global/GannonSignature';
 import LyricsScroller from '@/components/public/LyricsScroller';
+import CinematicLyricsPlayer from '@/components/public/CinematicLyricsPlayer';
+import { localReleases } from '@/lib/localReleases';
+
 
 export default function LyricsPage() {
   const [openId, setOpenId] = useState(null);
+  const [cinematicRelease, setCinematicRelease] = useState(null);
 
   const { data: releases } = useQuery({
     queryKey: ['releases'],
@@ -17,36 +21,17 @@ export default function LyricsPage() {
     initialData: [],
   });
 
-  const localReleases = [
-    {
-      id: 'will-you-even-listen',
-      title: 'Will You Even Listen',
-      type: 'Single',
-      status: 'recording',
-      isLocked: true,
-      is_published: true,
-      artwork_url: '/images/will_you_even_listen_cover.png',
-      credits: 'Written & Performed by Gannon Waye'
-    },
-    {
-      id: 'without-you-here',
-      title: 'Without You Here',
-      type: 'Single',
-      status: 'recording',
-      isLocked: true,
-      is_published: true,
-      artwork_url: '/images/mum/mum_gannon_young.jpg',
-      credits: 'Written & Performed by Gannon Waye'
-    }
-  ];
+  // localReleases is now imported from '@/lib/localReleases'
 
+  // Merge releases from database with our hardcoded local releases.
+  // Local releases take precedence to ensure correct status/lyrics.
   const withLyrics = [
-    ...releases.filter(r => r.is_published && r.lyrics && !localReleases.some(lr => lr.title === r.title)),
-    ...localReleases
+    ...localReleases,
+    ...releases.filter(r => r.is_published && r.lyrics && !localReleases.some(lr => lr.title.toLowerCase() === r.title.toLowerCase()))
   ];
 
   return (
-    <div className="min-h-screen py-24 px-4 md:px-8">
+    <div className="min-h-screen py-24 px-4 md:px-8 bg-background text-foreground">
       <div className="max-w-3xl mx-auto">
 
         <motion.div
@@ -79,7 +64,7 @@ export default function LyricsPage() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
-                className="bg-card border border-border/40 rounded-2xl overflow-hidden"
+                className="bg-card border border-border/40 rounded-2xl overflow-hidden shadow-lg shadow-black/10"
               >
                 <button
                   onClick={() => setOpenId(openId === release.id ? null : release.id)}
@@ -87,7 +72,7 @@ export default function LyricsPage() {
                 >
                   <div className="flex items-center gap-4">
                     {release.artwork_url && (
-                      <img src={release.artwork_url} alt={release.title} className="w-12 h-12 rounded-lg object-cover" />
+                      <img src={release.artwork_url} alt={release.title} className="w-12 h-12 rounded-lg object-cover border border-[#c9a84c]/20" />
                     )}
                     <div>
                       <p className="font-display text-xl text-foreground">{release.title}</p>
@@ -126,13 +111,23 @@ export default function LyricsPage() {
                           </div>
                         ) : (
                           <>
+                            {/* Cinematic Trigger Button */}
+                            <div className="p-1 bg-gradient-to-r from-amber-500/20 to-yellow-600/20 rounded-2xl border border-yellow-500/20">
+                              <Button
+                                onClick={() => setCinematicRelease(release)}
+                                className="w-full py-6 rounded-xl font-body text-sm font-semibold gradient-gold-button border-0 flex items-center justify-center gap-2 text-black"
+                              >
+                                <Sparkles className="w-4 h-4" /> ⚡ Launch Cinematic Interactive Player
+                              </Button>
+                            </div>
+
                             {/* Scroller */}
                             <LyricsScroller release={release} />
 
                             {/* Traditional view */}
                             <div>
                               <p className="font-body text-xs text-muted-foreground uppercase tracking-widest mb-4">Traditional View</p>
-                              <pre className="font-display text-foreground/80 leading-loose text-base whitespace-pre-wrap italic bg-secondary/20 rounded-xl p-6">
+                              <pre className="font-display text-foreground/80 leading-loose text-base whitespace-pre-wrap italic bg-secondary/10 border border-border/20 rounded-xl p-6 select-text">
                                 {release.lyrics}
                               </pre>
                             </div>
@@ -182,6 +177,23 @@ export default function LyricsPage() {
         </div>
 
       </div>
+
+      {/* Cinematic Lyrics Player Modal Overlay */}
+      <AnimatePresence>
+        {cinematicRelease && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50"
+          >
+            <CinematicLyricsPlayer 
+              release={cinematicRelease} 
+              onClose={() => setCinematicRelease(null)} 
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

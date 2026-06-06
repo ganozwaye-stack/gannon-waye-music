@@ -9,6 +9,8 @@ import ShareButtons from '@/components/public/ShareButtons';
 import LyricsModal from '@/components/public/LyricsModal';
 import FanReviewSection from '@/components/public/FanReviewSection';
 import FanCommentSection from '@/components/public/FanCommentSection';
+import { localReleases } from '@/lib/localReleases';
+
 
 const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
 
@@ -80,8 +82,16 @@ export default function CurrentSingle() {
     queryFn: () => base44.entities.Release.filter({ is_current_single: true }, '-release_date', 1),
   });
 
-  const single = releases[0] || FALLBACK_SINGLE;
-  const isReleased = single.status === 'released';
+  const dbSingle = releases[0];
+  const single = dbSingle ? {
+    ...FALLBACK_SINGLE,
+    ...dbSingle,
+    lyrics: dbSingle.lyrics || localReleases.find(r => r.title.toLowerCase() === dbSingle.title.toLowerCase())?.lyrics || FALLBACK_SINGLE.lyrics || '',
+    credits: dbSingle.credits && dbSingle.credits !== "Written by: Gannon Waye"
+      ? dbSingle.credits
+      : localReleases.find(r => r.title.toLowerCase() === dbSingle.title.toLowerCase())?.credits || FALLBACK_SINGLE.credits,
+  } : FALLBACK_SINGLE;
+  const isReleased = single.status === 'released' || single.status === 'ready';
   const releaseDateText = single.release_date
     ? new Date(single.release_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })
     : null;
