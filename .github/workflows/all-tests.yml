@@ -1,0 +1,85 @@
+# .github/workflows/all-tests.yml
+name: All Tests & Compliance Audits
+
+on:
+  push:
+    branches: [ main, master, upgrade/outstanding-completion-tasks ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build & Playwright Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        working-directory: src/gannonwaye-playwright-pack
+        run: npx playwright install --with-deps chromium
+
+      - name: Run Build
+        run: npm run build
+
+      - name: Run Playwright Test Suite
+        working-directory: src/gannonwaye-playwright-pack
+        run: npx playwright test --reporter=github,html
+        env:
+          BASE_URL: http://localhost:5173
+
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: src/gannonwaye-playwright-pack/playwright-report/
+          retention-days: 14
+
+  secret-scan:
+    name: Secret Scanning & Credentials Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: TruffleHog OSS Secret Scan
+        uses: trufflesecurity/trufflehog-actions@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --debug --only-verified
+
+  codeql-scan:
+    name: CodeQL Security Scan
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+      actions: read
+      contents: read
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:javascript-typescript"

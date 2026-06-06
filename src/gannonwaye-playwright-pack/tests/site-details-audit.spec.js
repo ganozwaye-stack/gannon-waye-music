@@ -24,8 +24,8 @@ test.describe('Site Details Audit — Public pages must not expose wrong emails'
     expect(content).not.toMatch(/official partner(ship)? (with|of) 1800RESPECT/i);
   });
 
-  test('/admin/business-profile-settings requires login', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/business-profile-settings`);
+  test('/admin/settings/business-details requires login', async ({ page }) => {
+    await page.goto(`${BASE_URL}/admin/settings/business-details`);
     await page.waitForLoadState('load');
     // Should either redirect to login or show a login gate
     const url = page.url();

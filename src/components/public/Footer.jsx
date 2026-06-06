@@ -9,12 +9,14 @@ export default function Footer() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const { data: settings } = useQuery({
-    queryKey: ['siteSettings'],
-    queryFn: () => base44.entities.SiteSettings.list(),
-    initialData: [],
+  const { data: bizSettings = [] } = useQuery({
+    queryKey: ['BusinessProfileSettings'],
+    queryFn: () => base44.entities.BusinessProfileSettings.list('-updated_date', 1),
   });
-  const contactEmail = settings[0]?.email_contact || 'hello@gannonwaye.com';
+  const contactEmail = bizSettings[0]?.public_support_email || 'hello@gannonwaye.com';
+  const instagramUrl = bizSettings[0]?.instagram_url || 'https://www.instagram.com/gann0nwaye';
+  const tiktokUrl = bizSettings[0]?.tiktok_url || 'https://www.tiktok.com/@gann0nwaye';
+  const youtubeUrl = bizSettings[0]?.youtube_url || 'https://www.youtube.com/@gannonwayeofficial';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,9 +82,9 @@ export default function Footer() {
             </div>
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mt-4 mb-3">Social</h4>
             <div className="flex flex-col gap-2">
-              <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Instagram @gann0nwaye</a>
-              <a href="https://www.tiktok.com/@gann0nwaye" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">TikTok @gann0nwaye</a>
-              <a href="https://www.youtube.com/@gannonwayeofficial" target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">YouTube @gannonwayeofficial</a>
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Instagram @gann0nwaye</a>
+              <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">TikTok @gann0nwaye</a>
+              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">YouTube @gannonwayeofficial</a>
             </div>
           </div>
         </div>
