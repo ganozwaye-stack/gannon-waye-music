@@ -10,6 +10,15 @@ export default function ImmersiveHero() {
   const { scrollY } = useScroll();
   const [prefersReduced, setPrefersReduced] = useState(false);
 
+  // Parallax offsets for the multi-layered 3D scroll effect
+  const backgroundY = useTransform(scrollY, [0, 1200], [0, 250]);
+  const headerY = useTransform(scrollY, [0, 800], [0, -120]);
+  const headerOpacity = useTransform(scrollY, [0, 500], [1, 0]);
+  const artworkY = useTransform(scrollY, [0, 1200], [0, -60]);
+  const artworkScale = useTransform(scrollY, [0, 1200], [1, 0.94]);
+  const quoteY = useTransform(scrollY, [0, 850], [0, 80]);
+  const quoteOpacity = useTransform(scrollY, [0, 550], [1, 0]);
+  
   const fadeOut = useTransform(scrollY, [0, 350], [1, 0]);
 
   useEffect(() => {
@@ -24,24 +33,36 @@ export default function ImmersiveHero() {
     <section
       ref={containerRef}
       data-testid="mum-hero"
-      className="relative overflow-hidden"
+      className="relative overflow-hidden min-h-screen flex flex-col justify-center py-12 border-b border-primary/5"
       style={{ background: '#080606' }}
     >
-      {/* Living garden atmosphere behind everything */}
-      {!prefersReduced && <LivingGardenBackground />}
+      {/* 1. Background layer: Living garden atmosphere moving slowly */}
+      {!prefersReduced ? (
+        <motion.div 
+          className="absolute inset-0 z-0 pointer-events-none"
+          style={{ y: backgroundY }}
+        >
+          <LivingGardenBackground />
+        </motion.div>
+      ) : (
+        <div className="absolute inset-0 z-0 pointer-events-none">
+          <LivingGardenBackground />
+        </div>
+      )}
 
-      {/* Page content — centred column */}
-      <div className="relative z-10 mx-auto max-w-5xl px-6 pt-10 pb-16 md:pt-14 md:pb-20 flex flex-col items-center">
+      {/* Page content wrapper */}
+      <div className="relative z-10 mx-auto max-w-5xl w-full px-6 flex flex-col items-center justify-center">
 
-        {/* ── INTRO — above the artwork ── */}
+        {/* 2. Intro layer: moves upwards and fades out on scroll */}
         <motion.div
-          className="text-center mb-6 flex flex-col items-center gap-3"
+          className="text-center mb-6 flex flex-col items-center gap-3 w-full"
+          style={prefersReduced ? {} : { y: headerY, opacity: headerOpacity }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.2 }}
         >
           {/* Small label */}
-          <p className="font-body text-[9px] tracking-[0.7em] uppercase text-primary/40">A Tribute</p>
+          <p className="font-body text-[9px] tracking-[0.7em] uppercase text-primary/45">A Tribute</p>
 
           {/* Heart of Gold — small, elegant, above the title */}
           <HeartOfGold size="sm" />
@@ -52,54 +73,61 @@ export default function ImmersiveHero() {
           </h1>
 
           {/* Subtitle */}
-          <p className="font-body text-sm md:text-base text-foreground/50 max-w-md leading-relaxed">
+          <p className="font-body text-sm md:text-base text-foreground/55 max-w-md leading-relaxed">
             A living garden tribute to Sonia Katisa Waye.
           </p>
         </motion.div>
 
-        {/* ── ARTWORK — the emotional centrepiece ── */}
-        <TributeArtworkFeature />
-
-        {/* ── BELOW ARTWORK — quote + dates + CTA ── */}
+        {/* 3. Artwork layer: Sonia in her garden drifts on scroll with subtle scale */}
         <motion.div
-          className="text-center mt-6 max-w-2xl w-full flex flex-col items-center gap-5"
+          className="w-full flex justify-center z-10"
+          style={prefersReduced ? {} : { y: artworkY, scale: artworkScale }}
+        >
+          <TributeArtworkFeature />
+        </motion.div>
+
+        {/* 4. Quote & Action Layer: drifts downwards/out and fades on scroll */}
+        <motion.div
+          className="text-center mt-6 max-w-2xl w-full flex flex-col items-center gap-5 z-20"
+          style={prefersReduced ? {} : { y: quoteY, opacity: quoteOpacity }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 0.9 }}
         >
           {/* Name + dates */}
           <div>
-            <p className="font-display text-lg italic text-foreground/65">Sonia Katisa Waye</p>
+            <p className="font-display text-lg italic text-foreground/75">Sonia Katisa Waye</p>
             <p className="font-body text-xs text-primary/45 tracking-[0.5em] mt-1">1961 – 2022</p>
           </div>
 
           {/* Primary lyric quote */}
           <blockquote
-            className="border-l-2 border-primary/30 pl-5 text-left max-w-md"
+            className="border-l-2 border-primary/30 pl-5 text-left max-w-md bg-black/10 backdrop-blur-sm p-4 rounded-r-xl border-y border-r border-white/5"
+            style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.2)' }}
           >
-            <p className="font-display text-xl md:text-2xl italic text-foreground/80 leading-relaxed">
+            <p className="font-display text-xl md:text-2xl italic text-foreground/85 leading-relaxed">
               "Your last breath took mine away,<br />
               there's not much more I have to say."
             </p>
-            <p className="font-body text-[10px] text-muted-foreground/35 mt-2 tracking-[0.22em] uppercase">
+            <p className="font-body text-[10px] text-muted-foreground/40 mt-2 tracking-[0.22em] uppercase">
               Without You Here · Gannon Waye · Mother's Day 2026
             </p>
           </blockquote>
 
           {/* Subline */}
-          <p className="font-body text-sm text-foreground/40 leading-relaxed max-w-sm">
+          <p className="font-body text-sm text-foreground/45 leading-relaxed max-w-sm">
             A tribute to the woman whose love, wisdom, strength and protection still carry me.
           </p>
 
           {/* CTA buttons */}
           <div className="flex flex-wrap justify-center gap-3 mt-2">
             <a href="#who-she-was">
-              <button className="gradient-gold-button rounded-full font-body text-xs tracking-wider uppercase px-7 py-3 border-0">
+              <button className="gradient-gold-button rounded-full font-body text-xs tracking-wider uppercase px-7 py-3 border-0 shadow-lg">
                 Enter Her Garden
               </button>
             </a>
             <a href="#sonias-garden">
-              <button className="rounded-full border border-primary/30 text-primary/75 hover:bg-primary/10 font-body text-xs tracking-wider uppercase px-7 py-3 transition-colors">
+              <button className="rounded-full border border-primary/35 text-primary/80 hover:bg-primary/10 font-body text-xs tracking-wider uppercase px-7 py-3 transition-colors bg-black/25 backdrop-blur-sm">
                 Hear Her Wisdom
               </button>
             </a>
