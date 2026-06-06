@@ -1,0 +1,289 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: shipping.spec.js >> Shipping Rules >> shipping caps at $20 for large orders
+- Location: tests\shipping.spec.js:32:3
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - link "Gannon Waye — Home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e9]: GW
+      - generic [ref=e10]:
+        - link "Home" [ref=e11] [cursor=pointer]:
+          - /url: /
+        - link "My Story" [ref=e12] [cursor=pointer]:
+          - /url: /this-is-my-life
+        - link "Music" [ref=e13] [cursor=pointer]:
+          - /url: /music
+        - link "Videos" [ref=e14] [cursor=pointer]:
+          - /url: /videos
+        - link "Community" [ref=e15] [cursor=pointer]:
+          - /url: /community
+        - link "Store" [ref=e16] [cursor=pointer]:
+          - /url: /store
+        - link "Contact" [ref=e17] [cursor=pointer]:
+          - /url: /contact
+        - link "Back This 🤍" [ref=e18] [cursor=pointer]:
+          - /url: /back-this
+      - button [ref=e20] [cursor=pointer]:
+        - img [ref=e21]
+  - button "5" [ref=e25] [cursor=pointer]:
+    - img [ref=e26]
+    - generic [ref=e30]: "5"
+  - main [ref=e31]:
+    - generic [ref=e33]:
+      - button "Back to Store" [ref=e34] [cursor=pointer]:
+        - img [ref=e35]
+        - text: Back to Store
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - generic [ref=e39]: ✓
+          - generic [ref=e40]: Your Details
+        - generic [ref=e42]:
+          - generic [ref=e43]: "2"
+          - generic [ref=e44]: Review Order
+        - generic [ref=e46]:
+          - generic [ref=e47]: "3"
+          - generic [ref=e48]: Payment
+      - heading "Review Your Order" [level=1] [ref=e49]
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - paragraph [ref=e54]: Contact Details
+              - button "Edit" [ref=e55] [cursor=pointer]:
+                - img [ref=e56]
+                - text: Edit
+            - paragraph [ref=e59]: Test User
+            - paragraph [ref=e60]: test@example.com
+            - paragraph [ref=e61]: "0400000000"
+          - generic [ref=e62]:
+            - generic [ref=e63]:
+              - paragraph [ref=e64]: Delivery Address
+              - button "Edit" [ref=e65] [cursor=pointer]:
+                - img [ref=e66]
+                - text: Edit
+            - paragraph [ref=e69]: 123 Test St, Melbourne VIC 3000, Australia
+          - generic [ref=e70]:
+            - generic [ref=e71]:
+              - paragraph [ref=e72]: Order Items
+              - button "Edit Cart" [ref=e73] [cursor=pointer]:
+                - img [ref=e74]
+                - text: Edit Cart
+            - generic [ref=e77]:
+              - generic [ref=e78]:
+                - img "Item 0" [ref=e79]
+                - generic [ref=e80]:
+                  - paragraph [ref=e81]: Item 0
+                  - paragraph [ref=e82]: $59.00 AUD
+                  - paragraph [ref=e83]:
+                    - text: "Size:"
+                    - strong [ref=e84]: M
+                  - generic [ref=e85]:
+                    - generic [ref=e86]:
+                      - button [ref=e87] [cursor=pointer]:
+                        - img [ref=e88]
+                      - generic [ref=e89]: "1"
+                      - button [ref=e90] [cursor=pointer]:
+                        - img [ref=e91]
+                    - button [ref=e92] [cursor=pointer]:
+                      - img [ref=e93]
+              - generic [ref=e96]:
+                - img "Item 1" [ref=e97]
+                - generic [ref=e98]:
+                  - paragraph [ref=e99]: Item 1
+                  - paragraph [ref=e100]: $59.00 AUD
+                  - paragraph [ref=e101]:
+                    - text: "Size:"
+                    - strong [ref=e102]: M
+                  - generic [ref=e103]:
+                    - generic [ref=e104]:
+                      - button [ref=e105] [cursor=pointer]:
+                        - img [ref=e106]
+                      - generic [ref=e107]: "1"
+                      - button [ref=e108] [cursor=pointer]:
+                        - img [ref=e109]
+                    - button [ref=e110] [cursor=pointer]:
+                      - img [ref=e111]
+              - generic [ref=e114]:
+                - img "Item 2" [ref=e115]
+                - generic [ref=e116]:
+                  - paragraph [ref=e117]: Item 2
+                  - paragraph [ref=e118]: $59.00 AUD
+                  - paragraph [ref=e119]:
+                    - text: "Size:"
+                    - strong [ref=e120]: M
+                  - generic [ref=e121]:
+                    - generic [ref=e122]:
+                      - button [ref=e123] [cursor=pointer]:
+                        - img [ref=e124]
+                      - generic [ref=e125]: "1"
+                      - button [ref=e126] [cursor=pointer]:
+                        - img [ref=e127]
+                    - button [ref=e128] [cursor=pointer]:
+                      - img [ref=e129]
+              - generic [ref=e132]:
+                - img "Item 3" [ref=e133]
+                - generic [ref=e134]:
+                  - paragraph [ref=e135]: Item 3
+                  - paragraph [ref=e136]: $59.00 AUD
+                  - paragraph [ref=e137]:
+                    - text: "Size:"
+                    - strong [ref=e138]: M
+                  - generic [ref=e139]:
+                    - generic [ref=e140]:
+                      - button [ref=e141] [cursor=pointer]:
+                        - img [ref=e142]
+                      - generic [ref=e143]: "1"
+                      - button [ref=e144] [cursor=pointer]:
+                        - img [ref=e145]
+                    - button [ref=e146] [cursor=pointer]:
+                      - img [ref=e147]
+              - generic [ref=e150]:
+                - img "Item 4" [ref=e151]
+                - generic [ref=e152]:
+                  - paragraph [ref=e153]: Item 4
+                  - paragraph [ref=e154]: $59.00 AUD
+                  - paragraph [ref=e155]:
+                    - text: "Size:"
+                    - strong [ref=e156]: M
+                  - generic [ref=e157]:
+                    - generic [ref=e158]:
+                      - button [ref=e159] [cursor=pointer]:
+                        - img [ref=e160]
+                      - generic [ref=e161]: "1"
+                      - button [ref=e162] [cursor=pointer]:
+                        - img [ref=e163]
+                    - button [ref=e164] [cursor=pointer]:
+                      - img [ref=e165]
+        - generic [ref=e168]:
+          - generic [ref=e169]:
+            - paragraph [ref=e170]: Promo Code
+            - generic [ref=e171]:
+              - textbox "Enter code" [ref=e172]
+              - button "Apply" [disabled] [ref=e173]
+          - generic [ref=e174]:
+            - paragraph [ref=e175]: Add Support 🤍 (optional)
+            - generic [ref=e176]:
+              - button "No thanks" [ref=e177] [cursor=pointer]
+              - button "+$5" [ref=e178] [cursor=pointer]
+              - button "+$10" [ref=e179] [cursor=pointer]
+              - button "+$25" [ref=e180] [cursor=pointer]
+          - generic [ref=e181]:
+            - generic [ref=e182]:
+              - generic [ref=e183]: Subtotal
+              - generic [ref=e184]: $295.00
+            - generic [ref=e185]:
+              - generic [ref=e186]: Shipping
+              - generic [ref=e187]: Free
+            - generic [ref=e188]:
+              - generic [ref=e189]: Total
+              - generic [ref=e190]: $295.00 AUD
+          - button "Confirm & Pay $295.00 AUD" [ref=e191] [cursor=pointer]:
+            - img
+            - text: Confirm & Pay $295.00 AUD
+          - paragraph [ref=e192]: 🔒 Payments processed securely by Stripe. Your card details are never stored by us.
+          - generic [ref=e193]:
+            - button "← Edit Details" [ref=e194] [cursor=pointer]
+            - button "Exit Checkout" [ref=e195] [cursor=pointer]
+  - contentinfo [ref=e196]:
+    - generic [ref=e197]:
+      - generic [ref=e198]:
+        - generic [ref=e199]:
+          - generic [ref=e201]: GW
+          - paragraph [ref=e202]: Australian singer-songwriter crafting honest stories through melody and verse.
+        - generic [ref=e203]:
+          - heading "Navigate" [level=4] [ref=e204]
+          - generic [ref=e205]:
+            - link "Home" [ref=e206] [cursor=pointer]:
+              - /url: /
+            - link "My Story" [ref=e207] [cursor=pointer]:
+              - /url: /this-is-my-life
+            - link "Music" [ref=e208] [cursor=pointer]:
+              - /url: /music
+            - link "Videos" [ref=e209] [cursor=pointer]:
+              - /url: /videos
+            - link "Store" [ref=e210] [cursor=pointer]:
+              - /url: /store
+            - link "Community" [ref=e211] [cursor=pointer]:
+              - /url: /community
+            - link "Contact" [ref=e212] [cursor=pointer]:
+              - /url: /contact
+            - link "Order Status" [ref=e213] [cursor=pointer]:
+              - /url: /order-status
+            - link "The 7 Day Standard" [ref=e214] [cursor=pointer]:
+              - /url: /7-day-standard
+            - link "Current Single" [ref=e215] [cursor=pointer]:
+              - /url: /current-single
+            - link "Merch Feedback" [ref=e216] [cursor=pointer]:
+              - /url: /merch-feedback
+            - link "Back This Project 🤍" [ref=e217] [cursor=pointer]:
+              - /url: /back-this
+        - generic [ref=e218]:
+          - heading "Contact" [level=4] [ref=e219]
+          - paragraph [ref=e220]: For press, management & enquiries
+          - link "hello@gannonwaye.com" [ref=e221] [cursor=pointer]:
+            - /url: mailto:hello@gannonwaye.com
+          - heading "Legal" [level=4] [ref=e222]
+          - generic [ref=e223]:
+            - link "Privacy Policy" [ref=e224] [cursor=pointer]:
+              - /url: /privacy-policy
+            - link "Terms of Service" [ref=e225] [cursor=pointer]:
+              - /url: /terms-of-service
+            - link "Contact Gannon" [ref=e226] [cursor=pointer]:
+              - /url: /contact
+          - heading "Social" [level=4] [ref=e227]
+          - generic [ref=e228]:
+            - link "Instagram @gann0nwaye" [ref=e229] [cursor=pointer]:
+              - /url: https://www.instagram.com/gann0nwaye
+            - link "TikTok @gann0nwaye" [ref=e230] [cursor=pointer]:
+              - /url: https://www.tiktok.com/@gann0nwaye
+            - link "YouTube @gannonwayeofficial" [ref=e231] [cursor=pointer]:
+              - /url: https://www.youtube.com/@gannonwayeofficial
+      - generic [ref=e232]:
+        - paragraph [ref=e233]: Stay in the loop
+        - heading "New music & community updates" [level=3] [ref=e234]
+        - generic [ref=e235]:
+          - textbox "Your name *" [ref=e236]
+          - textbox "your@email.com *" [ref=e237]
+          - textbox "Phone incl. country code e.g. +61 400 000 000 *" [ref=e238]
+          - textbox "Birthday (optional — we'll send you something special)" [ref=e239]
+          - paragraph [ref=e240]: Birthday optional — we'll send you something special 🎂
+          - combobox [ref=e241]:
+            - option "How did you find me? *" [selected]
+            - option "Google"
+            - option "Instagram"
+            - option "Facebook"
+            - option "TikTok"
+            - option "X (Twitter)"
+            - option "Friend / Word of Mouth"
+            - option "I know Gannon"
+            - option "Other"
+          - button "Subscribe" [ref=e242] [cursor=pointer]
+      - generic [ref=e243]:
+        - paragraph [ref=e244]: "* Support contributions are direct-support gifts to Gannon Waye as an independent artist to fund album production, merchandise sampling, and system operations; they are not tax-deductible."
+        - paragraph [ref=e245]: "* The AI memorial reflective companion available on the tribute page (/mum) is configured as a comforting, gentle remembrance journal companion. It is not an active representation of Sonia, does not offer professional medical, legal, or grief counseling, and should not be used as a substitute for clinical therapy."
+      - generic [ref=e246]:
+        - generic [ref=e247]:
+          - img "GW Heart" [ref=e248]
+          - link "Support the project 🤍" [ref=e249] [cursor=pointer]:
+            - /url: /back-this
+          - img "GW Heart" [ref=e250]
+        - paragraph [ref=e251]: © 2026 Gannon Waye. All rights reserved.
+```

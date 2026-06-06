@@ -19,7 +19,7 @@ export default defineConfig({
           return false;
         }
       },
-      '^/api/v2/apps/.*?/functions/recoverStripeOrders': {
+      '^/api/(v2/)?apps/.*?/functions/recoverStripeOrders': {
         target: 'http://localhost:5173',
         bypass: (req, res) => {
           res.writeHead(403, { 'Content-Type': 'application/json' });
@@ -27,7 +27,7 @@ export default defineConfig({
           return false;
         }
       },
-      '^/api/v2/apps/.*?/functions/stripeWebhook': {
+      '^/api/(v2/)?apps/.*?/functions/stripeWebhook': {
         target: 'http://localhost:5173',
         bypass: (req, res) => {
           res.writeHead(400, { 'Content-Type': 'application/json' });

@@ -165,6 +165,10 @@ import StripeCommandCentre from '@/pages/admin/StripeCommandCentreNew';
 import WebhookHealth from '@/pages/admin/WebhookHealthNew';
 import SocialDistributionReadiness from '@/pages/admin/SocialDistributionReadiness';
 import CoachingCommand from '@/pages/admin/CoachingCommand';
+import CoachingPrograms from '@/pages/admin/CoachingPrograms';
+import CoachingContentLibrary from '@/pages/admin/CoachingContentLibrary';
+import CoachingLegal from '@/pages/admin/CoachingLegal';
+import CoachingLaunchControl from '@/pages/admin/CoachingLaunchControl';
 import IntelligenceToIncome from '@/pages/admin/IntelligenceToIncome';
 import ArtistBusinessSetup from '@/pages/admin/ArtistBusinessSetup';
 import SyncLicensingCommand from '@/pages/admin/SyncLicensingCommand';
@@ -446,10 +450,10 @@ const AuthenticatedApp = () => {
         <Route path="/admin/webhook-health" element={<WebhookHealth />} />
         <Route path="/admin/social-distribution-readiness" element={<SocialDistributionReadiness />} />
         <Route path="/admin/coaching-command" element={<CoachingCommand />} />
-        <Route path="/admin/coaching-launch-control" element={<CoachingCommand />} />
-        <Route path="/admin/coaching-programs" element={<CoachingCommand />} />
-        <Route path="/admin/coaching-legal" element={<CoachingCommand />} />
-        <Route path="/admin/coaching-content-library" element={<CoachingCommand />} />
+        <Route path="/admin/coaching-launch-control" element={<CoachingLaunchControl />} />
+        <Route path="/admin/coaching-programs" element={<CoachingPrograms />} />
+        <Route path="/admin/coaching-legal" element={<CoachingLegal />} />
+        <Route path="/admin/coaching-content-library" element={<CoachingContentLibrary />} />
         <Route path="/admin/meditation-library" element={<CoachingCommand />} />
         <Route path="/admin/client-management" element={<CoachingCommand />} />
         <Route path="/admin/appointment-scheduler" element={<CoachingCommand />} />

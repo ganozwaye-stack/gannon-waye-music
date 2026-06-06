@@ -10,7 +10,7 @@ import {
   Eye, EyeOff, Package, AlertCircle, Repeat, Settings
 } from 'lucide-react';
 
-const WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
+const WEBHOOK_ENDPOINT = 'https://api.base44.app/api/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
 
 const RECOMMENDED_EVENTS = [
   'checkout.session.completed', 'checkout.session.expired',

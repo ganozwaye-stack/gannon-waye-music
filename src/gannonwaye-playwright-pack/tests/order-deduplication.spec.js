@@ -135,7 +135,7 @@ test.describe('Order Deduplication — Thea Elsworth', () => {
 test.describe('Idempotency Guards', () => {
 
   test('stripeWebhook endpoint returns 400 without signature (not 500)', async ({ request }) => {
-    const response = await request.post(`${BASE_URL}/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook`, {
+    const response = await request.post(`${BASE_URL}/api/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook`, {
       data: { type: 'checkout.session.completed', data: { object: { id: THEA_SESSION_ID } } },
       headers: { 'Content-Type': 'application/json' },
     });
@@ -144,7 +144,7 @@ test.describe('Idempotency Guards', () => {
   });
 
   test('recoverStripeOrders returns 403 without admin auth', async ({ request }) => {
-    const response = await request.post(`${BASE_URL}/api/v2/apps/69eb7905ca6eb4180010f794/functions/recoverStripeOrders`, {
+    const response = await request.post(`${BASE_URL}/api/apps/69eb7905ca6eb4180010f794/functions/recoverStripeOrders`, {
       data: { action: 'scan' },
       headers: { 'Content-Type': 'application/json' },
     });

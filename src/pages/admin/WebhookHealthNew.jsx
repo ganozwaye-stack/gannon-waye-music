@@ -9,7 +9,7 @@ import {
   ArrowLeft, ExternalLink, RefreshCw, Webhook, CheckCircle2, AlertTriangle, Copy, Activity, Shield, Search, RotateCcw, Package
 } from 'lucide-react';
 
-const WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
+const WEBHOOK_ENDPOINT = 'https://api.base44.app/api/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
 
 const statusBadge = (s) => {
   if (s === 'processed') return 'bg-green-500/20 text-green-300';
