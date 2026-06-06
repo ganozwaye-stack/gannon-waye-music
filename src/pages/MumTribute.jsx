@@ -9,13 +9,20 @@ import WisdomGarden     from '@/components/mum/WisdomGarden';
 import MumLetterSection from '@/components/mum/MumLetterSection';
 import ThankYouPlayer   from '@/components/mum/ThankYouPlayer';
 
-// ─── Real Sonia photos ───────────────────────────────────────────────────────
+// ─── AI-generated garden environments (no people) ────────────────────────────
+const GARDEN_HERO      = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5f0f0c511_generated_image.png'; // stone path into light
+const GARDEN_STORY     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a142dd0b1_generated_image.png'; // golden hour cottage garden
+const GARDEN_GALLERY   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1be31c33f_generated_image.png'; // wisteria archway at dusk
+const GARDEN_MUSIC     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6f860b910_generated_image.png'; // roses and candles
+const GARDEN_WISDOM    = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b68f54dba_generated_image.png'; // twilight fireflies
+const GARDEN_LETTERS   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a142dd0b1_generated_image.png'; // warm cottage garden
+const GARDEN_DEEP      = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5f0f0c511_generated_image.png'; // path/candle closing
+
+// ─── Sonia's real photos — Gallery section only ───────────────────────────────
 const SONIA_GARDEN  = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/042dbd116_reel1_s2_keyframe.jpg';
 const SONIA_DOGS    = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/215477423_0fdbdb2a-c851-496c-a6d1-e777ae1bfc6a.jpg';
 const SONIA_MUG     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/da5efd6c2_reel1_s2_keyframe1.jpg';
 const GANNON_SONIA  = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fd71e9213_QEHH7866.JPG';
-const TRIBUTE_ART   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/74273a2aa_image.png';
-const DEEP_GARDEN   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/49f01d22f_857913d8-6472-4f97-b0f6-697a789530ac.png';
 
 // ─── Floating pollen particles ────────────────────────────────────────────────
 function Pollen({ count = 28 }) {
@@ -242,21 +249,21 @@ export default function MumTribute() {
           You are already inside.
       ══════════════════════════════════════════════════════════════════ */}
       <section id="hero" className="relative overflow-hidden" style={{ minHeight: '100vh' }}>
-        {/* Background: deepest garden layer */}
+        {/* Background: deep misty garden layer */}
         <div className="absolute inset-0">
-          <img src={DEEP_GARDEN} alt="" aria-hidden style={{
+          <img src={GARDEN_DEEP} alt="" aria-hidden style={{
             width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 25%',
-            filter: 'brightness(0.38) saturate(0.85)',
+            filter: 'brightness(0.35) saturate(0.88)',
           }} />
         </div>
-        {/* Mid layer: Sonia in her garden, slightly brighter */}
+        {/* Mid layer: stone path garden, slightly brighter, parallax */}
         <motion.div
           className="absolute inset-0"
           style={{ y: useTransform(scrollY, [0, 800], [0, 80]) }}
         >
-          <img src={SONIA_GARDEN} alt="" aria-hidden style={{
-            width: '100%', height: '110%', objectFit: 'cover', objectPosition: 'center 18%',
-            filter: 'brightness(0.72) saturate(1.05) contrast(1.05)',
+          <img src={GARDEN_HERO} alt="" aria-hidden style={{
+            width: '100%', height: '110%', objectFit: 'cover', objectPosition: 'center 30%',
+            filter: 'brightness(0.68) saturate(1.08) contrast(1.06)',
           }} />
         </motion.div>
         {/* Gold atmosphere pulse */}
@@ -355,7 +362,7 @@ export default function MumTribute() {
           SECTION 2 — HER STORY
           Sonia with dogs — you walk deeper into the garden
       ══════════════════════════════════════════════════════════════════ */}
-      <GardenScene id="story" photo={SONIA_DOGS} brightness={0.46} parallaxSpeed={0.25} minH="auto">
+      <GardenScene id="story" photo={GARDEN_STORY} brightness={0.46} parallaxSpeed={0.25} minH="auto">
         <MumStorySection />
       </GardenScene>
 
@@ -363,7 +370,7 @@ export default function MumTribute() {
           SECTION 3 — GALLERY
           Tribute artwork fills the world
       ══════════════════════════════════════════════════════════════════ */}
-      <GardenScene id="gallery" photo={TRIBUTE_ART} brightness={0.52} parallaxSpeed={0.18} minH="auto">
+      <GardenScene id="gallery" photo={GARDEN_GALLERY} brightness={0.52} parallaxSpeed={0.18} minH="auto">
         <div className="py-20 px-6 max-w-5xl mx-auto">
           <motion.div
             className="text-center mb-10"
@@ -413,7 +420,7 @@ export default function MumTribute() {
           SECTION 4 — MUSIC
           Sonia mug portrait — music plays inside the garden
       ══════════════════════════════════════════════════════════════════ */}
-      <GardenScene id="music" photo={SONIA_MUG} brightness={0.44} parallaxSpeed={0.22} minH="auto">
+      <GardenScene id="music" photo={GARDEN_MUSIC} brightness={0.44} parallaxSpeed={0.22} minH="auto">
         <div className="py-20">
           <div className="text-center mb-10 px-6">
             <p className="font-body text-[9px] tracking-[0.6em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.38)' }}>The Music</p>
@@ -433,7 +440,7 @@ export default function MumTribute() {
           SECTION 5 — HER WORLD / WISDOM
           Deep garden — her wisdom, ways, warmth
       ══════════════════════════════════════════════════════════════════ */}
-      <GardenScene id="wisdom" photo={DEEP_GARDEN} brightness={0.42} parallaxSpeed={0.28} minH="auto">
+      <GardenScene id="wisdom" photo={GARDEN_WISDOM} brightness={0.42} parallaxSpeed={0.28} minH="auto">
         <div className="py-16">
           <div className="text-center mb-10 px-6">
             <p className="font-body text-[9px] tracking-[0.6em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.38)' }}>Her World</p>
@@ -450,7 +457,7 @@ export default function MumTribute() {
           SECTION 6 — LETTERS
           Gannon & Sonia photo — intimate, close
       ══════════════════════════════════════════════════════════════════ */}
-      <GardenScene id="letters" photo={GANNON_SONIA} brightness={0.40} parallaxSpeed={0.20} minH="auto">
+      <GardenScene id="letters" photo={GARDEN_LETTERS} brightness={0.40} parallaxSpeed={0.20} minH="auto">
         <div className="py-16">
           <div className="text-center mb-10 px-6">
             <p className="font-body text-[9px] tracking-[0.6em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.38)' }}>Letters</p>
@@ -466,7 +473,7 @@ export default function MumTribute() {
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 7 — MEMORIES (3D wall)
       ══════════════════════════════════════════════════════════════════ */}
-      <GardenScene id="memories" photo={SONIA_GARDEN} brightness={0.38} blur={0.5} parallaxSpeed={0.24} minH="auto">
+      <GardenScene id="memories" photo={GARDEN_STORY} brightness={0.38} blur={0.5} parallaxSpeed={0.24} minH="auto">
         <div className="py-16">
           <div className="text-center mb-10 px-6">
             <p className="font-body text-[9px] tracking-[0.6em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.38)' }}>Legacy</p>
@@ -480,7 +487,7 @@ export default function MumTribute() {
           SECTION 8 — LIGHT A CANDLE
           Tribute artwork at full luminance — sacred closing moment
       ══════════════════════════════════════════════════════════════════ */}
-      <GardenScene id="candles" photo={TRIBUTE_ART} brightness={0.55} parallaxSpeed={0.15} minH="80vh">
+      <GardenScene id="candles" photo={GARDEN_MUSIC} brightness={0.55} parallaxSpeed={0.15} minH="80vh">
         <div className="py-24 px-6 max-w-2xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
