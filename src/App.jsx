@@ -155,6 +155,7 @@ import TikTokPlatformReview from '@/pages/TikTokPlatformReview';
 import TikTokCallback from '@/pages/TikTokCallback.jsx';
 import TikTokPlatformReviewAdmin from '@/pages/admin/TikTokPlatformReviewAdmin';
 import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
+import TikTokReviewDemo from '@/pages/admin/TikTokReviewDemo';
 import RevenueActions from '@/pages/admin/RevenueActions';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
 import OperationRegistry from '@/pages/admin/OperationRegistry';
@@ -439,6 +440,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/tiktok-screen-guide" element={<TikTokScreenGuide />} />
         <Route path="/admin/tiktok-platform-review" element={<TikTokPlatformReviewAdmin />} />
         <Route path="/admin/tiktok-recording-studio" element={<TikTokRecordingStudio />} />
+        <Route path="/admin/tiktok-review-demo" element={<TikTokReviewDemo />} />
         <Route path="/admin/revenue-actions" element={<RevenueActions />} />
         <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
         <Route path="/admin/operation-registry" element={<OperationRegistry />} />
