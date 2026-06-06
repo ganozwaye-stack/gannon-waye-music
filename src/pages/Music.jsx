@@ -12,6 +12,8 @@ import GoldShards from '@/components/public/GoldShards';
 import LyricsModal from '@/components/public/LyricsModal';
 import MusicRecommendations from '@/components/public/MusicRecommendations';
 import TourTracker from '@/components/public/TourTracker';
+import { localReleases } from '@/lib/localReleases';
+
 
 // Clean gold glow banner — blends into dark background on Music page
 const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
@@ -66,29 +68,42 @@ export default function Music() {
   });
 
   const published = [
-    ...releases.filter(r => r.is_published),
+    ...releases.filter(r => r.is_published).map(r => {
+      const local = localReleases.find(lr => lr.title.toLowerCase() === r.title.toLowerCase());
+      return {
+        ...r,
+        lyrics: r.lyrics || local?.lyrics || '',
+        credits: r.credits && r.credits !== "Written by: Gannon Waye"
+          ? r.credits
+          : local?.credits || r.credits
+      };
+    }),
     // Inject 'Will You Even Listen' if not already in DB
-    ...(releases.some(r => r.title === 'Will You Even Listen') ? [] : [{
-      id: 'will-you-even-listen-recording',
-      title: 'Will You Even Listen',
-      type: 'Single',
-      status: 'recording',
-      is_published: true,
-      description: 'Gannon is currently recording this new track in the studio. A vulnerable, raw, and emotional piece tracing the space between holding on and letting go.',
-      credits: 'Written & Performed by Gannon Waye',
-      artwork_url: '/images/will_you_even_listen_cover.png',
-    }]),
+    ...(releases.some(r => r.title === 'Will You Even Listen') ? [] : [
+      localReleases.find(r => r.title === 'Will You Even Listen') || {
+        id: 'will-you-even-listen-recording',
+        title: 'Will You Even Listen',
+        type: 'Single',
+        status: 'recording',
+        is_published: true,
+        description: 'Gannon is currently recording this new track in the studio. A vulnerable, raw, and emotional piece tracing the space between holding on and letting go.',
+        credits: 'Written & Performed by Gannon Waye',
+        artwork_url: '/images/will_you_even_listen_cover.png',
+      }
+    ]),
     // Inject 'Without You Here' if not already in DB
-    ...(releases.some(r => r.title === 'Without You Here') ? [] : [{
-      id: 'without-you-here-recording',
-      title: 'Without You Here',
-      type: 'Single',
-      status: 'recording',
-      is_published: true,
-      description: 'Gannon is currently recording this beautiful tribute song dedicated to his late mother, Sonia. An evocative and comforting masterpiece carrying her presence forward.',
-      credits: 'Written & Performed by Gannon Waye',
-      artwork_url: '/images/mum/mum_gannon_young.jpg',
-    }])
+    ...(releases.some(r => r.title === 'Without You Here') ? [] : [
+      localReleases.find(r => r.title === 'Without You Here') || {
+        id: 'without-you-here-recording',
+        title: 'Without You Here',
+        type: 'Single',
+        status: 'recording',
+        is_published: true,
+        description: 'Gannon is currently recording this beautiful tribute song dedicated to his late mother, Sonia. An evocative and comforting masterpiece carrying her presence forward.',
+        credits: 'Written & Performed by Gannon Waye',
+        artwork_url: '/images/mum/mum_gannon_young.jpg',
+      }
+    ])
   ];
 
   return (
