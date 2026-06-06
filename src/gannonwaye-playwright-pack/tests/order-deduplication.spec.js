@@ -13,7 +13,7 @@
 
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
+const BASE_URL = (typeof process !== 'undefined' && process.env?.BASE_URL) || 'http://localhost:5173';
 const THEA_SESSION_ID = 'cs_live_b1NME9LVRZv1N2g7jG3tDc4LRJVDrvleilDQ9AtKxY0kOH7s72bob5PYQW';
 const THEA_EMAIL = 'dorotheae@icloud.com';
 const THEA_AMOUNT = 90.48;

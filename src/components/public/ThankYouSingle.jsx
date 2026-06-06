@@ -168,6 +168,40 @@ export default function ThankYouSingle() {
           </motion.div>
         </div>
 
+        {/* Fan Reactions */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-12 mb-4"
+        >
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-6 text-center">What people are saying</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {[
+              { text: 'It hits harddddd! Love it ❤️', heart: true },
+              { text: 'That song! 😍👌🤟', heart: true },
+              { text: 'I do sing it hahah I relate to it soooo much! I neeed the entire song to hurry up and come out on Spotify though lol thank you 🙏 xx', heart: true },
+              { text: 'Absolutely amazing!!!', heart: false },
+            ].map((msg, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.97 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className="relative bg-[#1c1c1e] rounded-2xl px-4 py-3 text-white font-body text-sm leading-relaxed"
+                style={{ boxShadow: '0 2px 12px rgba(0,0,0,0.4)' }}
+              >
+                {msg.text}
+                {msg.heart && (
+                  <span className="absolute bottom-2 right-2 w-6 h-6 rounded-full bg-[#2c2c2e] flex items-center justify-center text-xs">❤️</span>
+                )}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* Email Signup — banner style matching ThankYouHeroBanner */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
