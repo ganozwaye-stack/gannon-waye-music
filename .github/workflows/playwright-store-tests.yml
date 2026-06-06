@@ -47,7 +47,7 @@ jobs:
           BASE_URL: https://gannonwaye.com
 
       - name: Upload Playwright report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: playwright-report
@@ -85,7 +85,7 @@ jobs:
           BASE_URL: https://gannonwaye.com
 
       - name: Upload security report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: security-report
