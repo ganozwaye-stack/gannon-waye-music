@@ -1,38 +1,108 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp } from 'lucide-react';
 
-const FULL_LYRICS = `Written in the early hours of Mother's Day, 10 May 2026.
+const FULL_LYRICS = `Without You Here — Gannon Waye
+Written: Mother's Day, 10 May 2026 @ 12:30am
 
-"Your last breath took mine away,
-there's not much more I have to say.
+VERSE 1
+You sent someone to be there when you called
+because you didn't want me to be alone.
+You said, "My boy… I don't think I've got long"
+I'm thinking this must all be wrong.
+Stage four, you said — I dropped everything,
+I flew back and I saw you in pain.
+Hard to look into your eyes.
+This pain I can't disguise.
+Never thought that I'd lose you,
+it was only twenty days.
+Mumma, I can't do this without you,
+it's not the way that I had planned.
 
-I don't wanna live this life without my mama,
-but somehow I know I have to.
+CHORUS
+I don't wanna live this life without you here
+I never thought the world could feel this wrong
+Cause you were the voice
+that made my troubles disappear
+And now there's silence
+where your wisdom used to be
+I've been up thinking about how I'm alone
+Thinking about how you're not here anymore
+You were my best friend
+How am I supposed to do this without you here?
 
-Every morning feels like gravity —
-the weight of what you left behind in me.
-I reach for you in spaces you once filled,
-and find the silence, loving you still.
+VERSE 2
+There's a wisdom that I'm missing now
+without your voice inside my ear.
+Sometimes I still go to call you
+before remembering you're not here.
+And it's hard to picture life
+without your eyes looking back at me.
+You were the one person
+who always truly saw me.
+People say that time heals things
+but honestly, your absence just gets louder
+And some nights I still break down
+trying to undo the ending.
 
-Your voice, your laugh, your hands, your eyes —
-the way you always saw straight through my lies.
-You never asked for perfect, just for real.
-And real is all I have now left to feel.
+PRE-CHORUS
+Now I can't breathe in this living hell
+you protected me, I could tell
+Thanks for your apology
+now go and you'll be free but —
 
-Your last breath took mine away,
-there's not much more I have to say.
+CHORUS
+I don't wanna live this life without you here
+I never thought the world could feel this wrong
+Cause you were the voice
+that made my troubles disappear
+And now there's silence
+where your wisdom used to be
+I've been up thinking about how I'm alone
+Thinking about how you're not here anymore
+You were my best friend
+How am I supposed to do this without you here?
 
-I don't wanna live this life without my mama,
-but somehow I know I have to.
+BRIDGE
+Two seconds without you feels too long.
+Some days I still wanna disappear.
+But I know you'd hate to hear me say that
+because even while dying,
+you were still trying to help me heal.
+And maybe that's the hardest part of losing you —
+even while leaving, you were still loving me.
+Your last breath took mine away.
+There's not much more I have to say.
 
-Somehow I know I have to."`;
+FINAL CHORUS
+I don't wanna live this life without my mama
+But somehow I know I have to
+Cause every part of me that survives this,
+will survive because of you.
+Your voice, your heart,
+the way you loved us
+Still lives inside of me.
+I've been up thinking about how I'm alone
+Thinking about how you're not here anymore
+But I still hear you say
+"Boy… you're not finished yet"
 
+OUTRO
+I miss you so much
+That's why I wrote this song right here
+You didn't want me alone
+So I'll learn how to live
+carrying your love with me
+
+Written by Gannon Waye · Mother's Day · 10 May 2026 @ 12:30am
+© Gannon Waye · All rights reserved`;
+
+// Lyrics hidden until release — gift reveal mechanic
 export default function MumSongSection() {
   const [showLyrics, setShowLyrics] = useState(false);
+  const [giftOpen, setGiftOpen] = useState(false);
 
   return (
-    <section id="without-you-here" className="px-4 md:px-8 max-w-3xl mx-auto py-24">
+    <section id="without-you-here" className="px-4 md:px-8 max-w-3xl mx-auto py-16">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -93,35 +163,54 @@ export default function MumSongSection() {
         </p>
       </motion.div>
 
-      {/* Expandable lyrics */}
-      <button
-        onClick={() => setShowLyrics(!showLyrics)}
-        className="flex items-center gap-2 font-body text-xs tracking-widest uppercase text-primary/50 hover:text-primary transition-colors border border-primary/20 rounded-full px-6 py-2.5 mb-4"
-      >
-        {showLyrics ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
-        {showLyrics ? 'Hide lyrics' : 'Read full lyrics'}
-      </button>
-
-      <AnimatePresence>
-        {showLyrics && (
+      {/* Gift-wrapped full lyrics — hidden until release */}
+      <AnimatePresence mode="wait">
+        {!giftOpen ? (
           <motion.div
+            key="gift-box"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ scale: 1.1, opacity: 0 }}
+            className="flex flex-col items-start gap-3 mb-4"
+          >
+            <p className="font-body text-[9px] tracking-[0.4em] uppercase" style={{ color: 'rgba(212,175,55,0.28)' }}>
+              Full lyrics · Releasing soon
+            </p>
+            <motion.button
+              onClick={() => setGiftOpen(true)}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className="flex items-center gap-3 font-body text-xs tracking-widest uppercase px-6 py-3 rounded-full transition-all"
+              style={{ border: '1px solid rgba(212,175,55,0.25)', color: 'rgba(212,175,55,0.65)' }}
+            >
+              <span style={{ fontSize: '1.2rem' }}>🎁</span>
+              Unwrap the full song — coming with the release
+            </motion.button>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="gift-open"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.6 }}
-            className="overflow-hidden"
+            transition={{ duration: 0.7 }}
+            className="overflow-hidden mb-4"
           >
-            <div
-              className="rounded-2xl p-8 mt-2"
-              style={{
-                background: 'rgba(18,8,14,0.6)',
-                border: '1px solid rgba(212,175,55,0.1)',
-              }}
-            >
+            <div className="rounded-2xl p-8 mt-2" style={{ background: 'rgba(8,14,8,0.72)', border: '1px solid rgba(212,175,55,0.12)' }}>
+              <div className="flex items-center gap-2 mb-4">
+                <span style={{ fontSize: '1.2rem' }}>🎁</span>
+                <p className="font-body text-[9px] tracking-[0.4em] uppercase" style={{ color: 'rgba(212,175,55,0.28)' }}>Full lyrics preview · © Gannon Waye 2026</p>
+              </div>
               <pre className="font-display text-base italic text-foreground/65 leading-loose whitespace-pre-wrap">
                 {FULL_LYRICS}
               </pre>
+              <p className="font-body text-[9px] tracking-[0.3em] uppercase mt-4" style={{ color: 'rgba(212,175,55,0.18)' }}>
+                Full song releasing soon · All rights reserved
+              </p>
             </div>
+            <button onClick={() => setGiftOpen(false)} className="mt-3 font-body text-[9px] tracking-[0.3em] uppercase" style={{ color: 'rgba(212,175,55,0.28)' }}>
+              Close ✕
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

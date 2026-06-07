@@ -11,14 +11,14 @@ import SoniaAmbientPlayer from '@/components/mum/SoniaAmbientPlayer';
 import LyricQuoteWall    from '@/components/mum/LyricQuoteWall';
 import HandwrittenLetter from '@/components/mum/HandwrittenLetter';
 
-// ─── AI-generated garden environments (no people) ────────────────────────────
-const GARDEN_HERO      = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5f0f0c511_generated_image.png'; // stone path into light
-const GARDEN_STORY     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a142dd0b1_generated_image.png'; // golden hour cottage garden
-const GARDEN_GALLERY   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1be31c33f_generated_image.png'; // wisteria archway at dusk
-const GARDEN_MUSIC     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6f860b910_generated_image.png'; // roses and candles
-const GARDEN_WISDOM    = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b68f54dba_generated_image.png'; // twilight fireflies
-const GARDEN_LETTERS   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a142dd0b1_generated_image.png'; // warm cottage garden
-const GARDEN_DEEP      = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5f0f0c511_generated_image.png'; // path/candle closing
+// ─── Lush Australian backyard garden environments ─────────────────────────────
+const GARDEN_HERO      = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png'; // lush backyard, elephant ears, orange vine
+const GARDEN_STORY     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a56f25c7_generated_image.png'; // cottage garden golden hour
+const GARDEN_GALLERY   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6591fa60b_generated_image.png'; // orange vine archway
+const GARDEN_MUSIC     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fd1128162_generated_image.png'; // close-up orange trumpet vine
+const GARDEN_WISDOM    = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fc387c2b6_generated_image.png'; // dusk garden, elephant ears
+const GARDEN_LETTERS   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a56f25c7_generated_image.png'; // warm cottage garden
+const GARDEN_DEEP      = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png'; // lush full garden
 
 // ─── Real family photos ───────────────────────────────────────────────────────
 const PHOTOS = [
@@ -107,12 +107,12 @@ function GardenScene({ photo, brightness = 0.5, blur = 0, parallaxSpeed = 0.2, c
         />
       </motion.div>
 
-      {/* ── Gold atmosphere ── */}
+      {/* ── Green garden atmosphere ── */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
-        animate={{ opacity: [0.18, 0.30, 0.18] }}
+        animate={{ opacity: [0.12, 0.22, 0.12] }}
         transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 35%, rgba(110,60,10,0.22) 0%, transparent 70%)' }}
+        style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 35%, rgba(20,60,10,0.18) 0%, transparent 70%)' }}
       />
 
       {/* ── Deep forest edges — immersion vignette ── */}
