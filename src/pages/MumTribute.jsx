@@ -13,12 +13,12 @@ import HandwrittenLetter from '@/components/mum/HandwrittenLetter';
 
 // ─── Lush Australian backyard garden environments ─────────────────────────────
 const GARDEN_HERO      = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png'; // lush backyard, elephant ears, orange vine
-const GARDEN_STORY     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a56f25c7_generated_image.png'; // cottage garden golden hour
+const GARDEN_STORY     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/41c0fd18f_generated_image.png'; // mystical smoke garden
 const GARDEN_GALLERY   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6591fa60b_generated_image.png'; // orange vine archway
-const GARDEN_MUSIC     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fd1128162_generated_image.png'; // close-up orange trumpet vine
+const GARDEN_MUSIC     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/63f84cf4f_generated_image.png'; // smoky candle garden
 const GARDEN_WISDOM    = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fc387c2b6_generated_image.png'; // dusk garden, elephant ears
-const GARDEN_LETTERS   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a56f25c7_generated_image.png'; // warm cottage garden
-const GARDEN_DEEP      = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png'; // lush full garden
+const GARDEN_LETTERS   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/41c0fd18f_generated_image.png'; // mystical smoke garden
+const GARDEN_DEEP      = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/63f84cf4f_generated_image.png'; // smoky atmospheric closing
 
 // ─── Real family photos ───────────────────────────────────────────────────────
 const PHOTOS = [
@@ -27,8 +27,7 @@ const PHOTOS = [
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e141f17cb_CopyofIMG_5599.JPG',  label: 'Sonia smiling', caption: 'That smile — once seen, never forgotten.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5544e4f02_5F77A0A5-95B5-4AFC-9BD0-9AAF81AB32DC.jpg', label: 'The whole family', caption: 'Together — the way she always wanted it.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/41d549365_49CE40E3-DBDB-46A9-87BE-332F16FAF1BF.jpg', label: "From Mum's chest to Gannon's", caption: "Her swallow, now carried over his heart — forever." },
-  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a3eb1d69a_CopyofA80FBFEA-ADF6-4CBE-9C7C-D23FF50BE44A.jpg', label: "Sonia's grave", caption: 'Flowers — the way she loved them. Colour everywhere.' },
-  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/99cff30c2_CopyofD60349FE-BFB8-42D9-B123-2A36FF11EDDE.jpg', label: 'Her resting place', caption: 'Sonia Katisa Waye — loved beyond measure.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/795cc3eb2_generated_image.png', label: 'Her Flowers', caption: 'The colours she loved — always blooming in her memory.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1ddea2586_CopyofIMG_5327.jpg', label: 'Sonia & her granddaughter', caption: 'The love she gave just kept multiplying.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/173717f01_CopyofIMG_5440.jpg', label: 'Sonia in the backyard', caption: 'A coffee in hand — exactly where she belonged.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6101f75c0_CopyofIMG_5449.jpg', label: 'Sonia relaxing', caption: 'Her joy was simple. Her presence was everything.' },
@@ -107,13 +106,17 @@ function GardenScene({ photo, brightness = 0.5, blur = 0, parallaxSpeed = 0.2, c
         />
       </motion.div>
 
-      {/* ── Green garden atmosphere ── */}
+      {/* ── Mystical smoke atmosphere ── */}
       <motion.div
         className="absolute inset-0 pointer-events-none"
-        animate={{ opacity: [0.12, 0.22, 0.12] }}
-        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-        style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 35%, rgba(20,60,10,0.18) 0%, transparent 70%)' }}
+        animate={{ opacity: [0.18, 0.35, 0.18] }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ background: 'radial-gradient(ellipse 80% 60% at 50% 35%, rgba(60,30,5,0.22) 0%, transparent 70%)' }}
       />
+      {/* ── Ground mist ── */}
+      <div className="absolute bottom-0 left-0 right-0 h-1/3 pointer-events-none" style={{
+        background: 'linear-gradient(to top, rgba(10,20,10,0.30) 0%, rgba(15,35,10,0.10) 50%, transparent 100%)',
+      }} />
 
       {/* ── Deep forest edges — immersion vignette ── */}
       <div className="absolute inset-0 pointer-events-none" style={{
@@ -274,22 +277,43 @@ export default function MumTribute() {
             filter: 'brightness(0.35) saturate(0.88)',
           }} />
         </div>
-        {/* Mid layer: stone path garden, slightly brighter, parallax */}
+        {/* Siblings looking up — mid layer world image */}
         <motion.div
           className="absolute inset-0"
-          style={{ y: useTransform(scrollY, [0, 800], [0, 80]) }}
+          style={{ y: useTransform(scrollY, [0, 800], [0, 100]) }}
+        >
+          <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/ef4adf36e_generated_image.png" alt="" aria-hidden style={{
+            width: '100%', height: '115%', objectFit: 'cover', objectPosition: 'center 30%',
+            filter: 'brightness(0.45) saturate(1.1)',
+          }} />
+        </motion.div>
+        {/* Primary lush garden layer */}
+        <motion.div
+          className="absolute inset-0"
+          style={{ y: useTransform(scrollY, [0, 800], [0, 60]) }}
         >
           <img src={GARDEN_HERO} alt="" aria-hidden style={{
             width: '100%', height: '110%', objectFit: 'cover', objectPosition: 'center 30%',
-            filter: 'brightness(0.68) saturate(1.08) contrast(1.06)',
+            filter: 'brightness(0.55) saturate(1.12) contrast(1.04)',
+            mixBlendMode: 'multiply',
+            opacity: 0.7,
           }} />
         </motion.div>
-        {/* Gold atmosphere pulse */}
+        {/* Sonia in the sky — ethereal presence above */}
+        <div className="absolute inset-0 pointer-events-none" style={{ opacity: 0.18 }}>
+          <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/7a036d768_generated_image.png" alt="" aria-hidden style={{
+            width: '100%', height: '55%', objectFit: 'cover', objectPosition: 'center top',
+            filter: 'brightness(1.1) saturate(0.7)',
+            maskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%)',
+          }} />
+        </div>
+        {/* Mystical smoke/mist overlay */}
         <motion.div
           className="absolute inset-0 pointer-events-none"
-          animate={{ opacity: [0.20, 0.38, 0.20] }}
-          transition={{ duration: 10, repeat: Infinity }}
-          style={{ background: 'radial-gradient(ellipse 65% 55% at 50% 38%, rgba(120,65,8,0.28) 0%, transparent 70%)' }}
+          animate={{ opacity: [0.28, 0.45, 0.28] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ background: 'radial-gradient(ellipse 90% 70% at 50% 60%, rgba(80,40,10,0.22) 0%, rgba(20,40,10,0.15) 50%, transparent 80%)' }}
         />
         {/* Deep vignette — forest closes in from all sides */}
         <div className="absolute inset-0 pointer-events-none" style={{
@@ -299,6 +323,10 @@ export default function MumTribute() {
             linear-gradient(to bottom, rgba(2,5,2,0.85) 0%, transparent 30%),
             linear-gradient(to top,    rgba(2,5,2,0.96) 0%, rgba(2,5,2,0.60) 28%, transparent 55%)
           `,
+        }} />
+        {/* Mist ground layer */}
+        <div className="absolute bottom-0 left-0 right-0 h-2/3 pointer-events-none" style={{
+          background: 'linear-gradient(to top, rgba(15,30,15,0.35) 0%, rgba(20,50,15,0.12) 30%, transparent 70%)',
         }} />
         <Pollen count={30} />
 
@@ -318,19 +346,24 @@ export default function MumTribute() {
               In Loving Memory of
             </p>
             <h1
-              className="font-display leading-none"
+              className="font-display leading-none relative"
               style={{
                 fontSize: 'clamp(3.5rem,11vw,7.5rem)',
                 background: 'linear-gradient(145deg,#c9a84c 0%,#f5d06e 38%,#ffe08a 50%,#f5d06e 62%,#c9a84c 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
-                filter: 'drop-shadow(0 0 30px rgba(212,175,55,0.40))',
+                filter: 'drop-shadow(0 0 40px rgba(255,220,80,0.75)) drop-shadow(0 0 80px rgba(212,175,55,0.45)) drop-shadow(0 2px 4px rgba(0,0,0,0.9))',
+                WebkitTextStroke: '0.5px rgba(255,210,60,0.6)',
               }}
             >Sonia</h1>
             <h2
-              className="font-display text-foreground/75 tracking-widest"
-              style={{ fontSize: 'clamp(1.1rem,3.5vw,2.2rem)', letterSpacing: '0.14em' }}
+              className="font-display text-foreground/90 tracking-widest"
+              style={{
+                fontSize: 'clamp(1.1rem,3.5vw,2.2rem)',
+                letterSpacing: '0.14em',
+                textShadow: '0 0 20px rgba(212,175,55,0.5), 0 2px 8px rgba(0,0,0,0.9)',
+              }}
             >Katisa Waye</h2>
             <p className="font-body tracking-[0.65em] mt-2" style={{ color: 'rgba(212,175,55,0.42)', fontSize: '0.7rem' }}>
               1961 – 2022
