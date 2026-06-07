@@ -20,11 +20,27 @@ const GARDEN_WISDOM    = 'https://media.base44.com/images/public/69eb7905ca6eb41
 const GARDEN_LETTERS   = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a142dd0b1_generated_image.png'; // warm cottage garden
 const GARDEN_DEEP      = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5f0f0c511_generated_image.png'; // path/candle closing
 
-// ─── Sonia's real photos — Gallery section only ───────────────────────────────
-const SONIA_GARDEN  = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/042dbd116_reel1_s2_keyframe.jpg';
-const SONIA_DOGS    = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/215477423_0fdbdb2a-c851-496c-a6d1-e777ae1bfc6a.jpg';
-const SONIA_MUG     = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/da5efd6c2_reel1_s2_keyframe1.jpg';
-const GANNON_SONIA  = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fd71e9213_QEHH7866.JPG';
+// ─── Real family photos ───────────────────────────────────────────────────────
+const PHOTOS = [
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/8fe42604b_CopyofIMG_5326.jpg',  label: 'Gannon & Sonia', caption: 'Two hearts, one love.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c1ecb80cd_CopyofIMG_5546.jpg',  label: 'Sonia & her dog', caption: 'Her faithful companion, always by her side.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e141f17cb_CopyofIMG_5599.JPG',  label: 'Sonia smiling', caption: 'That smile — once seen, never forgotten.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5544e4f02_5F77A0A5-95B5-4AFC-9BD0-9AAF81AB32DC.jpg', label: 'The whole family', caption: 'Together — the way she always wanted it.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/41d549365_49CE40E3-DBDB-46A9-87BE-332F16FAF1BF.jpg', label: "From Mum's chest to Gannon's", caption: "Her swallow, now carried over his heart — forever." },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a3eb1d69a_CopyofA80FBFEA-ADF6-4CBE-9C7C-D23FF50BE44A.jpg', label: "Sonia's grave", caption: 'Flowers — the way she loved them. Colour everywhere.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/99cff30c2_CopyofD60349FE-BFB8-42D9-B123-2A36FF11EDDE.jpg', label: 'Her resting place', caption: 'Sonia Katisa Waye — loved beyond measure.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1ddea2586_CopyofIMG_5327.jpg', label: 'Sonia & her granddaughter', caption: 'The love she gave just kept multiplying.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/173717f01_CopyofIMG_5440.jpg', label: 'Sonia in the backyard', caption: 'A coffee in hand — exactly where she belonged.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6101f75c0_CopyofIMG_5449.jpg', label: 'Sonia relaxing', caption: 'Her joy was simple. Her presence was everything.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d5b3ed6ae_CopyofIMG_5464.jpg', label: 'As a young woman', caption: 'Full of life, full of fire.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/8b2d006fe_CopyofIMG_5501.jpg', label: 'Sonia at a cafe', caption: 'She made every ordinary moment feel special.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c6e537a22_CopyofIMG_5466.jpg', label: 'Sonia with family', caption: 'Always the heart of every gathering.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/25ab2bda2_CopyofIMG_5493.JPG', label: 'Sonia looking up', caption: 'She saw the best in everything — and everyone.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9c9ab1261_CopyofIMG_2987.jpg', label: 'Sonia as a child', caption: 'She was always this radiant.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e08e9be77_CopyofD355346C-88AB-482B-AF02-8C0FFBC2FDDE.JPG', label: 'Sonia with her dog at camp', caption: 'Free spirit — she loved the outdoors and her animals.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dc8919b4b_IMG_5624.png', label: 'Sonia — the portrait', caption: 'This is her. This is Mum.' },
+  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0dd386db9_IMG_5681.jpg', label: 'Gannon & Sonia together', caption: 'Two of a kind. Always.' },
+];
 
 // ─── Floating pollen particles ────────────────────────────────────────────────
 function Pollen({ count = 28 }) {
@@ -432,18 +448,13 @@ export default function MumTribute() {
             <p className="font-body text-[9px] tracking-[0.6em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.38)' }}>Gallery</p>
             <h2 className="font-display text-3xl md:text-5xl text-foreground mb-3">Moments We'll Cherish Forever</h2>
           </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {[
-              { src: GANNON_SONIA, label: 'Gannon & Sonia', caption: 'Two hearts, one love.' },
-              { src: SONIA_GARDEN, label: 'Her Garden', caption: 'Her favourite place in the world.' },
-              { src: SONIA_DOGS,   label: 'Sonia & Her Dogs', caption: 'Joy in every moment.' },
-              { src: SONIA_MUG,    label: 'Sonia & Her Music', caption: 'Always listening. Always proud.' },
-            ].map((img, i) => (
-              <motion.div key={i} className="relative overflow-hidden rounded-2xl group" style={{ border: '1px solid rgba(212,175,55,0.15)', aspectRatio: '4/3' }} initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: i * 0.12 }}>
-                <img src={img.src} alt={img.label} className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700" style={{ filter: 'brightness(0.82) saturate(0.95)' }} />
-                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(3,6,3,0.88) 0%, transparent 50%)' }} />
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="font-display text-lg text-foreground/90">{img.label}</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {PHOTOS.map((img, i) => (
+              <motion.div key={i} className="relative overflow-hidden rounded-2xl group" style={{ border: '1px solid rgba(212,175,55,0.15)', aspectRatio: '4/3' }} initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: (i % 6) * 0.08 }}>
+                <img src={img.src} alt={img.label} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" style={{ filter: 'brightness(0.82) saturate(0.95)' }} />
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(3,6,3,0.88) 0%, transparent 55%)' }} />
+                <div className="absolute bottom-0 left-0 right-0 p-4">
+                  <p className="font-display text-base text-foreground/90">{img.label}</p>
                   <p className="font-body text-xs italic" style={{ color: 'rgba(212,175,55,0.55)' }}>{img.caption}</p>
                 </div>
               </motion.div>
