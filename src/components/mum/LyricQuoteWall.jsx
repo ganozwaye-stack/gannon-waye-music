@@ -1,56 +1,61 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-// "Without You Here" — hooks, signatures, and key lyrical moments
-// These will be updated once Gannon provides the full lyrics
+// "Without You Here" — Gannon Waye (written Mother's Day, 10 May 2026)
 const LYRIC_QUOTES = [
   {
     id: 1,
-    text: "Without you here, the world keeps turning\nbut nothing feels the same",
+    text: "Your last breath took mine away,\nthere's not much more I have to say.",
     type: 'hook',
     size: 'large',
   },
   {
     id: 2,
-    text: "I still reach for the phone to call you\nthen remember you're gone",
-    type: 'verse',
-    size: 'medium',
+    text: "I don't wanna live this life without my mama,\nbut somehow I know I have to.",
+    type: 'hook',
+    size: 'large',
   },
   {
     id: 3,
-    text: "You were the arms that caught me falling\nthe voice that called me home",
+    text: "Every morning feels like gravity —\nthe weight of what you left behind in me.",
     type: 'verse',
     size: 'medium',
   },
   {
     id: 4,
-    text: "Without you here",
+    text: "Without You Here",
     type: 'signature',
     size: 'signature',
   },
   {
     id: 5,
-    text: "The silence speaks the loudest\nin the places where you were",
+    text: "I reach for you in spaces you once filled,\nand find the silence, loving you still.",
     type: 'verse',
     size: 'medium',
   },
   {
     id: 6,
-    text: "I carry you in every song\nin every breath, in every word",
+    text: "Your voice, your laugh, your hands, your eyes —\nthe way you always saw straight through my lies.",
     type: 'bridge',
     size: 'large',
   },
   {
     id: 7,
+    text: "You never asked for perfect, just for real.\nAnd real is all I have now left to feel.",
+    type: 'verse',
+    size: 'medium',
+  },
+  {
+    id: 8,
     text: "Mum",
     type: 'signature',
     size: 'signature',
   },
   {
-    id: 8,
-    text: "You showed me how to love\nbefore I knew what love could be",
-    type: 'verse',
-    size: 'medium',
+    id: 9,
+    text: "Somehow I know I have to.",
+    type: 'bridge',
+    size: 'large',
   },
 ];
 

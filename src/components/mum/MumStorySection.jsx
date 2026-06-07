@@ -13,7 +13,7 @@ export default function MumStorySection() {
         transition={{ duration: 1 }}
         className="gsap-reveal"
       >
-        <p className="font-body text-[9px] tracking-[0.6em] uppercase text-primary/40 mb-3">Who She Was</p>
+        <p className="font-body text-[9px] tracking-[0.6em] uppercase text-primary/40 mb-3">Her Story</p>
         <h2 className="font-display text-4xl md:text-5xl text-foreground mb-8">Who She Was</h2>
       </motion.div>
 

@@ -121,10 +121,7 @@ export default function HandwrittenLetter() {
           <span style={{ color: 'rgba(212,175,55,0.25)', fontSize: '0.6rem', letterSpacing: '0.3em' }}>✦</span>
         </motion.div>
 
-        {/* Google font import for handwriting feel */}
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600&display=swap');
-        `}</style>
+        {/* Dancing Script loaded via index.css */}
       </div>
     </section>
   );
