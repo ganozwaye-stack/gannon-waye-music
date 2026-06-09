@@ -23,12 +23,12 @@ const STORE_OPEN = true;
 
 // Per-product config: sub-label only (no buy mode while store closed)
 const PRODUCT_CONFIG = {
-  '69f11d1fc43e13c61fe6b9d6': { sub: 'Available June 2026 · $10' },
-  '69eed3e64e2da78ae4418a9d': { sub: 'Limited · Hand signed · $20' },
-  '69f11d1fc43e13c61fe6b9d7': { sub: 'Premium heavyweight hoodie · $98' },
-  '69eed3e64e2da78ae4418a99': { sub: 'Oversized premium tee · $59' },
-  '69fbd261b760426cede1b7a3': { sub: 'Journal, pen and thermos bundle · $54' },
-  '69eed3e64e2da78ae4418a9a': { sub: 'Large tote bag · $15' },
+  '69f11d1fc43e13c61fe6b9d6': { sub: 'Sold out · Thank you for the love 🤍' },
+  '69eed3e64e2da78ae4418a9d': { sub: 'Sold out · Limited hand-signed edition' },
+  '69f11d1fc43e13c61fe6b9d7': { sub: '⚡ Get in fast — stock running out · New shipment on its way · $89' },
+  '69eed3e64e2da78ae4418a99': { sub: 'Sold out · Oversized premium tee · $49' },
+  '69fbd261b760426cede1b7a3': { sub: '🎨 New design journal bundle underway · Coming to you soon · $49' },
+  '69eed3e64e2da78ae4418a9a': { sub: 'Sold out due to popular demand 🤍' },
 };
 
 // Multi-image galleries per product id (auto-rotates in card)
@@ -58,7 +58,7 @@ const FALLBACK_PRODUCTS = [
     name: '"Thank You" CD Single Slim Case',
     sale_price: 10,
     category: 'cd',
-    stock_quantity: 50,
+    stock_quantity: 0,
     image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6fbecc91f_THANKYOUOfficialSingleCover.bmp',
     description: 'Official debut single in a slim clear plastic jewel case.',
   },
@@ -67,16 +67,16 @@ const FALLBACK_PRODUCTS = [
     name: 'Thank You — Deluxe Signed CD Single',
     sale_price: 20,
     category: 'cd',
-    stock_quantity: 40,
+    stock_quantity: 0,
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c2a1369c4_1.png',
     description: 'Hand-signed by Gannon Waye. A limited, personal piece of this moment.',
   },
   {
     id: '69f11d1fc43e13c61fe6b9d7',
     name: '"Respect Is Earned" Hoodie Dark Grey',
-    sale_price: 98,
+    sale_price: 89,
     category: 'apparel',
-    stock_quantity: 50,
+    stock_quantity: 16,
     sizes_available: ['XS', 'S', 'M', 'L', 'XL', '2XL'],
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png',
     description: 'Premium heavyweight dark grey hoodie. Statement piece.',
@@ -84,9 +84,9 @@ const FALLBACK_PRODUCTS = [
   {
     id: '69eed3e64e2da78ae4418a99',
     name: 'Respect Is Earned Oversized Tee',
-    sale_price: 59,
+    sale_price: 49,
     category: 'apparel',
-    stock_quantity: 50,
+    stock_quantity: 0,
     sizes_available: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
     images_array: [
@@ -98,7 +98,7 @@ const FALLBACK_PRODUCTS = [
   {
     id: '69fbd261b760426cede1b7a3',
     name: 'Thank You Journal Pen and Thermos Flask Bundle',
-    sale_price: 54,
+    sale_price: 49,
     category: 'bundle',
     stock_quantity: 20,
     image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e14220834_Bundle.png',

@@ -241,6 +241,8 @@ import Live from '@/pages/Live';
 import LivestreamCommand from '@/pages/admin/LivestreamCommand';
 import QuickUpload from '@/pages/admin/QuickUpload';
 import LinkIntegrityAudit from '@/pages/admin/LinkIntegrityAudit';
+import EducationHub from '@/pages/admin/EducationHub';
+import InstagramStoryStudio from '@/pages/admin/InstagramStoryStudio';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -572,6 +574,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/settings/business-details" element={<BusinessProfileSettingsPage />} />
         <Route path="/admin/quick-upload" element={<QuickUpload />} />
         <Route path="/admin/link-integrity-audit" element={<LinkIntegrityAudit />} />
+        <Route path="/admin/education-hub" element={<EducationHub />} />
+        <Route path="/admin/instagram-story-studio" element={<InstagramStoryStudio />} />
         <Route path="/admin/campaign-image-approval" element={<CampaignImageApproval />} />
         <Route path="/admin/thankyou-image-review" element={<CampaignImageApproval />} />
         <Route path="/admin/master-blueprint" element={<MasterBlueprint />} />
