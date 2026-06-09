@@ -1,0 +1,107 @@
+{
+  "name": "TrainingModule",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "getting_started",
+        "music_business",
+        "store_ops",
+        "social_media",
+        "fan_engagement",
+        "analytics",
+        "merch",
+        "other"
+      ],
+      "default": "getting_started"
+    },
+    "module_type": {
+      "type": "string",
+      "enum": [
+        "video",
+        "text_image",
+        "practice",
+        "mixed"
+      ],
+      "default": "mixed"
+    },
+    "order_position": {
+      "type": "number",
+      "default": 0
+    },
+    "content_text": {
+      "type": "string",
+      "description": "Rich text content - supports markdown"
+    },
+    "video_url": {
+      "type": "string",
+      "description": "YouTube embed URL e.g. https://www.youtube.com/embed/VIDEO_ID"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Array of image URLs for this module"
+    },
+    "practice_prompt": {
+      "type": "string",
+      "description": "Practice exercise question or task"
+    },
+    "practice_answer_guide": {
+      "type": "string",
+      "description": "Answer/completion guide for the exercise"
+    },
+    "duration_minutes": {
+      "type": "number",
+      "default": 10
+    },
+    "is_published": {
+      "type": "boolean",
+      "default": false
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "agent_notes": {
+      "type": "string",
+      "description": "Internal notes from the AI agent about this module"
+    }
+  },
+  "required": [
+    "title",
+    "category"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
