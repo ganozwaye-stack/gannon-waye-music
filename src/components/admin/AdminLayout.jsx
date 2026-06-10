@@ -13,6 +13,7 @@ import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
 import GlobalSearch from '@/components/global/GlobalSearch';
 import CommandPalette from '@/components/global/CommandPalette';
+import NotificationBell from '@/components/admin/NotificationBell';
 
 // ─── Consolidated Admin Navigation Hubs ───────────────────────────────────────
 const NAV_SECTIONS = [
@@ -182,21 +183,8 @@ export default function AdminLayout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [collapsed, setCollapsed] = useState({});
-  const [unreadCount, setUnreadCount] = useState(0);
 
   const isAdmin = user?.role === 'admin';
-
-  useEffect(() => {
-    if (!isAdmin) return;
-    const fetchUnread = () => {
-      base44.entities.AdminNotification.filter({ is_read: false }, '-created_date', 50)
-        .then(items => setUnreadCount(items.length))
-        .catch(() => {});
-    };
-    fetchUnread();
-    const interval = setInterval(fetchUnread, 30000);
-    return () => clearInterval(interval);
-  }, [isAdmin]);
 
   useEffect(() => {
     if (user) setIsOwner(user.email === OWNER_EMAIL);
@@ -316,14 +304,7 @@ export default function AdminLayout() {
             <span className="font-display text-sm gradient-gold-text">GW Admin</span>
           </div>
           <div className="flex items-center gap-2">
-            <Link to="/admin/notifications" className="relative p-2 hover:bg-secondary/50 rounded-lg">
-              <Bell className="w-4 h-4 text-muted-foreground" />
-              {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center px-0.5">
-                  {unreadCount > 99 ? '99+' : unreadCount}
-                </span>
-              )}
-            </Link>
+            <NotificationBell />
             <button onClick={() => setShowCommand(true)} className="p-2 hover:bg-secondary/50 rounded-lg">
               <Command className="w-4 h-4 text-primary" />
             </button>
@@ -380,14 +361,7 @@ export default function AdminLayout() {
               })}
             </div>
             <div className="flex items-center gap-2">
-              <Link to="/admin/business-attention-centre" className="relative p-2 hover:bg-secondary/50 rounded-lg transition-colors" title="Business Attention Centre">
-                <Bell className="w-4 h-4 text-muted-foreground hover:text-foreground" />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center px-0.5 animate-pulse">
-                    {unreadCount > 99 ? '99+' : unreadCount}
-                  </span>
-                )}
-              </Link>
+              <NotificationBell />
               <button onClick={() => setShowSearch(true)} className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border/40 hover:border-primary/40 transition-colors">
                 <Search className="w-3.5 h-3.5 text-muted-foreground" />
                 <span className="font-body text-xs text-muted-foreground hidden sm:inline">Search</span>

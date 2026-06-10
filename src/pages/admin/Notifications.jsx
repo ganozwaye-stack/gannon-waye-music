@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import {
   Bell, CheckCheck, ShoppingBag, MessageCircle, AlertTriangle, Zap, TrendingUp,
   Star, Mail, Eye, ChevronRight, RefreshCw,
-  CheckCircle2, Hash, ArrowLeft
+  CheckCircle2, Hash, ArrowLeft, ExternalLink
 } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -370,22 +370,51 @@ export default function Notifications() {
   );
 }
 
+const ROUTE_MAP = {
+  order: '/admin/orders',
+  comment: '/admin/fans',
+  reply: '/admin/fans',
+  approval: '/admin/approval-queue',
+  risk_alert: '/admin/risk-alerts',
+  community_report: '/admin/fans',
+  viral_opportunity: '/admin/trend-monitor',
+  creator_gap: '/admin/creator-insights',
+  high_value_supporter: '/admin/supporters',
+  automation_failed: '/admin/agent-task-log',
+  email_failed: '/admin/subscribers',
+  payment_warning: '/admin/stripe-command-centre',
+  growth_spike: '/admin/growth-engine',
+  system: '/admin/site-health',
+  like: '/admin/fans',
+};
+
 function NotificationRow({ notification: n, onSelect, onRead }) {
+  const navigate = useNavigate();
   const config = TYPE_CONFIG[n.notification_type] || TYPE_CONFIG.system;
   const Icon = config.icon;
   const sevConf = SEVERITY_CONFIG[n.severity] || SEVERITY_CONFIG.info;
+  const destination = n.linked_route || ROUTE_MAP[n.notification_type] || '/admin/notifications';
+
+  const handleClick = () => {
+    onSelect();
+  };
+
+  const handleNavigate = (e) => {
+    e.stopPropagation();
+    if (!n.is_read) onRead();
+    navigate(destination);
+  };
 
   return (
     <div
-      onClick={onSelect}
-      className={`flex items-start gap-3 p-4 border rounded-xl transition-all cursor-pointer group
+      className={`flex items-start gap-3 p-4 border rounded-xl transition-all group
         hover:border-primary/40 hover:bg-secondary/20
         ${!n.is_read ? `${sevConf.border} bg-card` : 'border-border bg-card/50'}`}
     >
-      <div className={`${config.bg} p-2 rounded-lg shrink-0 mt-0.5`}>
+      <div className={`${config.bg} p-2 rounded-lg shrink-0 mt-0.5 cursor-pointer`} onClick={handleClick}>
         <Icon className={`w-4 h-4 ${config.color}`} />
       </div>
-      <div className="flex-1 min-w-0">
+      <div className="flex-1 min-w-0 cursor-pointer" onClick={handleClick}>
         <div className="flex items-start justify-between gap-2 flex-wrap">
           <p className={`text-sm font-medium leading-tight ${!n.is_read ? 'text-foreground' : 'text-muted-foreground'}`}>{n.title}</p>
           <div className="flex items-center gap-1.5 shrink-0">
@@ -410,7 +439,15 @@ function NotificationRow({ notification: n, onSelect, onRead }) {
           )}
         </div>
       </div>
-      <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0 mt-1" />
+      {/* CLICKABLE GO-TO DESTINATION button */}
+      <button
+        onClick={handleNavigate}
+        title={`Go to: ${destination}`}
+        className="flex items-center gap-1 px-2 py-1 rounded-lg border border-border/30 hover:border-primary/50 hover:bg-primary/10 transition-all shrink-0 mt-0.5 group/btn"
+      >
+        <span className="font-body text-[9px] text-muted-foreground group-hover/btn:text-primary transition-colors hidden sm:inline">Go</span>
+        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground group-hover/btn:text-primary transition-colors" />
+      </button>
     </div>
   );
 }
