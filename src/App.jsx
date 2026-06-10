@@ -165,6 +165,15 @@ import StripeCommandCentre from '@/pages/admin/StripeCommandCentreNew';
 import WebhookHealth from '@/pages/admin/WebhookHealthNew';
 import SocialDistributionReadiness from '@/pages/admin/SocialDistributionReadiness';
 import CoachingCommand from '@/pages/admin/CoachingCommand';
+import CoachingPrograms from '@/pages/admin/coaching/CoachingPrograms';
+import CoachingLegal from '@/pages/admin/coaching/CoachingLegal';
+import CoachingLaunchControl from '@/pages/admin/coaching/CoachingLaunchControl';
+import CoachingROI from '@/pages/admin/coaching/CoachingROI';
+import CoachingContentLibrary from '@/pages/admin/coaching/CoachingContentLibrary';
+import CoachingMeditationLibrary from '@/pages/admin/coaching/MeditationLibrary';
+import CoachingClientManagement from '@/pages/admin/coaching/ClientManagement';
+import AppointmentScheduler from '@/pages/admin/coaching/AppointmentScheduler';
+import CoachingSalesFunnel from '@/pages/admin/coaching/CoachingSalesFunnel';
 import IntelligenceToIncome from '@/pages/admin/IntelligenceToIncome';
 import ArtistBusinessSetup from '@/pages/admin/ArtistBusinessSetup';
 import SyncLicensingCommand from '@/pages/admin/SyncLicensingCommand';
@@ -448,15 +457,16 @@ const AuthenticatedApp = () => {
         <Route path="/admin/webhook-health" element={<WebhookHealth />} />
         <Route path="/admin/social-distribution-readiness" element={<SocialDistributionReadiness />} />
         <Route path="/admin/coaching-command" element={<CoachingCommand />} />
-        <Route path="/admin/coaching-launch-control" element={<CoachingCommand />} />
-        <Route path="/admin/coaching-programs" element={<CoachingCommand />} />
-        <Route path="/admin/coaching-legal" element={<CoachingCommand />} />
-        <Route path="/admin/coaching-content-library" element={<CoachingCommand />} />
-        <Route path="/admin/meditation-library" element={<CoachingCommand />} />
-        <Route path="/admin/client-management" element={<CoachingCommand />} />
-        <Route path="/admin/appointment-scheduler" element={<CoachingCommand />} />
-        <Route path="/admin/coaching-roi" element={<CoachingCommand />} />
-        <Route path="/admin/coaching-sales-funnel" element={<CoachingCommand />} />
+        <Route path="/admin/coaching-command" element={<CoachingCommand />} />
+        <Route path="/admin/coaching-launch-control" element={<CoachingLaunchControl />} />
+        <Route path="/admin/coaching-programs" element={<CoachingPrograms />} />
+        <Route path="/admin/coaching-legal" element={<CoachingLegal />} />
+        <Route path="/admin/coaching-content-library" element={<CoachingContentLibrary />} />
+        <Route path="/admin/meditation-library" element={<CoachingMeditationLibrary />} />
+        <Route path="/admin/client-management" element={<CoachingClientManagement />} />
+        <Route path="/admin/appointment-scheduler" element={<AppointmentScheduler />} />
+        <Route path="/admin/coaching-roi" element={<CoachingROI />} />
+        <Route path="/admin/coaching-sales-funnel" element={<CoachingSalesFunnel />} />
         <Route path="/admin/intelligence-to-income" element={<IntelligenceToIncome />} />
         <Route path="/admin/weekly-money-report" element={<WeeklyMoneyReport />} />
         <Route path="/admin/fan-conversion-engine" element={<FanConversionEngine />} />

@@ -68,7 +68,8 @@ export default function CoachingCommand() {
   return (
     <div className="space-y-6 pb-10">
       <div className="flex items-center gap-3">
-        <Link to="/admin"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4" /></Button></Link>
+        <Link to="/admin/coaching-command" style={{display:'none'}}></Link>
+        <Link to="/admin"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4 mr-1" />Admin</Button></Link>
         <div>
           <h1 className="text-3xl font-display font-bold gradient-gold-text">Coaching Command</h1>
           <p className="text-sm text-muted-foreground mt-1">Private staging only — not public</p>
