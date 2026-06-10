@@ -251,6 +251,7 @@ import LivestreamCommand from '@/pages/admin/LivestreamCommand';
 import QuickUpload from '@/pages/admin/QuickUpload';
 import LinkIntegrityAudit from '@/pages/admin/LinkIntegrityAudit';
 import EducationHub from '@/pages/admin/EducationHub';
+import IntegrationActionCentre from '@/pages/admin/IntegrationActionCentre';
 import InstagramStoryStudio from '@/pages/admin/InstagramStoryStudio';
 
 // New Hub & Mission Control pages
@@ -426,6 +427,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/social-intelligence" element={<SocialIntelligence />} />
         <Route path="/admin/creator-insights" element={<CreatorInsights />} />
         <Route path="/admin/api-setup" element={<ApiSetup />} />
+        <Route path="/admin/integration-action-centre" element={<IntegrationActionCentre />} />
         <Route path="/admin/go-live" element={<GoLiveChecklist />} />
         <Route path="/admin/agent-intelligence" element={<AgentIntelligence />} />
         <Route path="/admin/ecommerce-command" element={<EcommerceCommand />} />
