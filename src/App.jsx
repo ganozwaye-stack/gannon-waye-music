@@ -57,6 +57,7 @@ import MerchFeedback from '@/pages/MerchFeedback';
 import Tour from '@/pages/Tour';
 import FoundingSupporterPage from '@/pages/FoundingSupporter';
 import MumTribute from '@/pages/MumTribute';
+import SoniaUpload from '@/pages/family/SoniaUpload';
 import MerchReelPage from '@/components/mum/MerchReelPage';
 import CheckoutSuccess from '@/pages/CheckoutSuccess';
 import CheckoutCancel from '@/pages/CheckoutCancel';
@@ -253,6 +254,10 @@ import LinkIntegrityAudit from '@/pages/admin/LinkIntegrityAudit';
 import EducationHub from '@/pages/admin/EducationHub';
 import IntegrationActionCentre from '@/pages/admin/IntegrationActionCentre';
 import InstagramStoryStudio from '@/pages/admin/InstagramStoryStudio';
+import GannonScheduler from '@/pages/admin/GannonScheduler';
+import FamilyUploads from '@/pages/admin/FamilyUploads';
+import MumTributeStudio from '@/pages/admin/MumTributeStudio';
+import SoniaMemoryChatAdmin from '@/pages/admin/SoniaMemoryChatAdmin';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -328,8 +333,9 @@ const AuthenticatedApp = () => {
         <Route path="/tour" element={<Navigate to="/" replace />} />
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
-        <Route path="/mum" element={<MumTribute />} />
-        <Route path="/without-you-here" element={<MumTribute />} />
+        <Route path="/mum" element={<Navigate to="/" replace />} />
+        <Route path="/without-you-here" element={<Navigate to="/" replace />} />
+        <Route path="/family/sonia-upload" element={<SoniaUpload />} />
         <Route path="/merch-reel" element={<MerchReelPage />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/store/checkout-success" element={<CheckoutSuccess />} />
@@ -361,6 +367,15 @@ const AuthenticatedApp = () => {
         <Route path="/admin/systems-qa" element={<SystemsQaHub />} />
         <Route path="/admin/owner-business" element={<OwnerBusinessHub />} />
         <Route path="/admin/mission-control" element={<MissionControl />} />
+        <Route path="/admin/scheduler" element={<GannonScheduler />} />
+        <Route path="/admin/today" element={<GannonScheduler />} />
+        <Route path="/admin/action-centre" element={<GannonScheduler />} />
+        <Route path="/admin/family-uploads" element={<FamilyUploads />} />
+        <Route path="/admin/mum" element={<MumTribute />} />
+        <Route path="/admin/mum-tribute" element={<MumTribute />} />
+        <Route path="/admin/without-you-here" element={<MumTribute />} />
+        <Route path="/admin/mum-tribute-studio" element={<MumTributeStudio />} />
+        <Route path="/admin/sonia-memory-chat" element={<SoniaMemoryChatAdmin />} />
         <Route path="/admin/releases" element={<Releases />} />
         <Route path="/admin/merch" element={<MerchManagement />} />
         <Route path="/admin/orders" element={<Orders />} />
