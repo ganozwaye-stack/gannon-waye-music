@@ -83,8 +83,8 @@ const PUBLIC_ROUTES = [
   { label: 'Videos',             path: '/videos',              status: 'ok' },
   { label: 'Contact',            path: '/contact',             status: 'ok' },
   { label: 'Back This',          path: '/back-this',           status: 'ok' },
-  { label: 'Mum Tribute',        path: '/mum',                 status: 'ok' },
-  { label: 'Without You Here',   path: '/without-you-here',    status: 'ok' },
+  { label: 'Mum Tribute Public Gate', path: '/mum',             status: 'review', note: 'Redirects home publicly; admin route is /admin/mum' },
+  { label: 'Without You Here Public Gate', path: '/without-you-here', status: 'review', note: 'Redirects home publicly; admin route is /admin/without-you-here' },
   { label: 'Privacy Policy',     path: '/privacy-policy',      status: 'ok' },
   { label: 'Terms of Service',   path: '/terms-of-service',    status: 'ok' },
   { label: 'Lyrics',             path: '/lyrics',              status: 'ok' },
@@ -183,7 +183,7 @@ const NEXT_ACTIONS = [
   { priority: 'critical', action: 'Verify public details in /admin/settings/business-details — confirm it is NOT ganozwaye@gmail.com', link: '/admin/settings/business-details' },
   { priority: 'high',     action: 'Go to /admin/campaign-image-approval — approve heading for each of the 11 campaign images', link: '/admin/campaign-image-approval' },
   { priority: 'high',     action: 'Go to /admin/release-sprint — review and approve 18 pending campaign posts before June 5', link: '/admin/release-sprint' },
-  { priority: 'medium',   action: 'Review Mum Tribute page at /mum — confirm photos, content, and heart animation are correct', link: '/mum' },
+  { priority: 'medium',   action: 'Review Mum Tribute privately at /admin/mum — confirm photos, content, and heart animation are correct', link: '/admin/mum' },
   { priority: 'medium',   action: 'Run Link Integrity Audit at /admin/link-integrity-audit to check for broken links and handle parity', link: '/admin/link-integrity-audit' },
   { priority: 'medium',   action: 'Verify GanozMix Direct agent workflow and Separated Ecommerce Blueprint', link: '/admin/ganozmix' },
   { priority: 'low',      action: 'Switch Stripe from test mode to live mode in Stripe Dashboard if not already done', link: null },
@@ -407,8 +407,8 @@ export default function MasterBlueprint() {
 
       {/* Mum Tribute */}
       <Section title="♡ Mum Tribute / Sonia Living Garden" icon={Music}>
-        <RouteRow label="Mum Tribute Page" path="/mum" status="ok" note="Live — real Sonia photos, memory wall, letter, wisdom garden, heart animation" />
-        <RouteRow label="/without-you-here alias" path="/without-you-here" status="ok" />
+        <RouteRow label="Mum Tribute Admin Page" path="/admin/mum" status="ok" note="Private admin route — public /mum and /without-you-here redirect home" />
+        <RouteRow label="Without You Here Admin Alias" path="/admin/without-you-here" status="ok" note="Public /without-you-here redirects home" />
         <RouteRow label="Birth year: 1961–2022" status="ok" />
         <RouteRow label="Support safety note visible" status="ok" note="Lifeline / Beyond Blue / 1800RESPECT links present" />
         <RouteRow label="No artificial Sonia images" status="ok" note="Only real uploaded photos used" />
@@ -465,7 +465,7 @@ export default function MasterBlueprint() {
               { label: 'Notifications',        path: '/admin/notifications' },
               { label: 'Site Health',          path: '/admin/site-health' },
               { label: 'Agent Registry',       path: '/admin/agent-registry' },
-              { label: 'Mum Tribute',          path: '/mum' },
+              { label: 'Mum Tribute',          path: '/admin/mum' },
             ].map(link => (
               <Link key={link.path} to={link.path}>
                 <div className="border border-border/40 rounded-xl p-3 hover:border-primary/40 hover:bg-secondary/30 transition-all cursor-pointer">
