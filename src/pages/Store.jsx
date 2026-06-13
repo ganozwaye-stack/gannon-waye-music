@@ -27,7 +27,7 @@ const PRODUCT_CONFIG = {
   '69eed3e64e2da78ae4418a9d': { sub: 'Sold out · Limited hand-signed edition' },
   '69f11d1fc43e13c61fe6b9d7': { sub: '⚡ Get in fast — stock running out · New shipment on its way · $89' },
   '69eed3e64e2da78ae4418a99': { sub: 'Sold out · Oversized premium tee · $49' },
-  '69fbd261b760426cede1b7a3': { sub: '❄️ Also available in the Winter Writing & Comfort Bundle — $129 with hoodie, pen & thermo' },
+  '69fbd261b760426cede1b7a3': { sub: '❄️ Also available in the Winter Writing & Comfort Bundle — $129 with hoodie, pen & thermo. Journal features "Respect Is Earned, Not A Game You Make Me Play" lyric.' },
   '69eed3e64e2da78ae4418a9a': { sub: 'Sold out due to popular demand. These will not be restocked. 🤍' },
 };
 
@@ -40,10 +40,14 @@ const PRODUCT_GALLERIES = {
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0261db66f_MugBack.png',
   ],
   '69eed3e64e2da78ae4418a9a': [
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5d1b577f1_2.jpg',
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/39dab5737_RespectisEarnedToteBagBack.png',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9259d695b_RespectisEarnedToteBag-Copy.png',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6e67c609a_RespectisEarnedToteBag.png',
+  ],
+  '69fbd261b760426cede1b7a3': [
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg',
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/146ccc6c7_5.jpg',
+    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3afc9d17f_3.jpg',
   ],
   '69eed3e64e2da78ae4418a99': [
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
@@ -101,7 +105,12 @@ const FALLBACK_PRODUCTS = [
     sale_price: 49,
     category: 'bundle',
     stock_quantity: 20,
-    image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e14220834_Bundle.png',
+    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg',
+    images_array: [
+      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg',
+      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/146ccc6c7_5.jpg',
+      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3afc9d17f_3.jpg',
+    ],
     description: 'Journaling, processing, or needing a safe-space kit — this is it.',
   },
   {
@@ -110,12 +119,11 @@ const FALLBACK_PRODUCTS = [
     sale_price: 15,
     category: 'accessories',
     stock_quantity: 0,
-    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
+    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5d1b577f1_2.jpg',
     images_array: [
+      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5d1b577f1_2.jpg',
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/39dab5737_RespectisEarnedToteBagBack.png',
-      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9259d695b_RespectisEarnedToteBag-Copy.png',
-      'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6e67c609a_RespectisEarnedToteBag.png',
     ],
     description: "Large folding tote bag featuring the official 'Thank You' single cover artwork.",
   },
