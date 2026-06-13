@@ -9,32 +9,104 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
-import { Package, Send, Mail, MapPin, User, DollarSign, Calendar, TrendingUp, ShoppingBag, Printer, Download, Eye, Pencil, CheckCircle, Clock, Truck, AlertTriangle } from 'lucide-react';
+import {
+  Package, Send, Mail, MapPin, User, DollarSign, Calendar,
+  TrendingUp, ShoppingBag, Printer, Download, Eye, Pencil,
+  CheckCircle, Clock, Truck, AlertTriangle, AlertCircle, Archive, RotateCcw
+} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { format } from 'date-fns';
 import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
 
-const STATUS_COLORS = {
-  pending: 'bg-chart-4/20 text-chart-4',
-  confirmed: 'bg-primary/20 text-primary',
-  shipped: 'bg-chart-2/20 text-chart-2',
-  delivered: 'bg-chart-2/30 text-chart-2',
-  cancelled: 'bg-destructive/20 text-destructive',
-  duplicate: 'bg-gray-500/20 text-gray-400',
-  needs_admin_review: 'bg-orange-500/20 text-orange-400',
+// ─── Status config ─────────────────────────────────────────────────────────────
+const STATUS_CONFIG = {
+  pending:   { color: 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30', icon: Clock,        label: 'Pending',   next: 'confirmed' },
+  confirmed: { color: 'bg-blue-500/15 text-blue-400 border-blue-500/30',       icon: CheckCircle,  label: 'Confirmed', next: 'shipped' },
+  shipped:   { color: 'bg-green-500/15 text-green-400 border-green-500/30',    icon: Truck,        label: 'Shipped',   next: 'delivered' },
+  delivered: { color: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30', icon: CheckCircle, label: 'Delivered', next: null },
+  cancelled: { color: 'bg-red-500/15 text-red-400 border-red-500/30',          icon: AlertCircle,  label: 'Cancelled', next: null },
+  duplicate: { color: 'bg-orange-500/15 text-orange-400 border-orange-500/30', icon: AlertTriangle, label: 'Void',     next: null },
 };
 
-const isDuplicate = (order) => order.status === 'duplicate' || order.financial_status === 'duplicate_void';
+const FLOW_STEPS = ['pending', 'confirmed', 'shipped', 'delivered'];
 
-const STATUS_ICONS = {
-  pending: Clock,
-  confirmed: CheckCircle,
-  shipped: Truck,
-  delivered: CheckCircle,
-  cancelled: Package,
-};
+const isDuplicate = o => o.status === 'duplicate' || o.financial_status === 'duplicate_void';
 
+// ─── Order Flow Progress bar ───────────────────────────────────────────────────
+function OrderFlowBar({ status }) {
+  const idx = FLOW_STEPS.indexOf(status);
+  return (
+    <div className="flex items-center gap-1 w-full">
+      {FLOW_STEPS.map((s, i) => {
+        const cfg = STATUS_CONFIG[s];
+        const Icon = cfg.icon;
+        const done = i <= idx;
+        const active = i === idx;
+        return (
+          <React.Fragment key={s}>
+            <div className={`flex flex-col items-center gap-1 ${active ? 'opacity-100' : done ? 'opacity-70' : 'opacity-25'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center border transition-all ${active ? 'border-primary bg-primary/15' : done ? 'border-green-500/40 bg-green-500/10' : 'border-border/40 bg-secondary/30'}`}>
+                <Icon className={`w-3.5 h-3.5 ${active ? 'text-primary' : done ? 'text-green-400' : 'text-muted-foreground'}`} />
+              </div>
+              <p className="font-body text-[8px] uppercase tracking-wider text-muted-foreground">{cfg.label}</p>
+            </div>
+            {i < FLOW_STEPS.length - 1 && (
+              <div className={`flex-1 h-px mt-[-12px] transition-all ${i < idx ? 'bg-green-500/40' : 'bg-border/30'}`} />
+            )}
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── Tracking gate — blocks "shipped" without tracking number ─────────────────
+function ShippingGate({ order, onConfirm, onCancel }) {
+  const [tracking, setTracking] = useState(order.tracking_number || '');
+  const valid = tracking.trim().length >= 4;
+  return (
+    <div className="fixed inset-0 z-[200] flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(8px)' }}>
+      <motion.div initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
+        className="bg-card border border-border/40 rounded-2xl p-6 max-w-sm w-full space-y-4">
+        <div className="flex items-center gap-3">
+          <Truck className="w-5 h-5 text-primary" />
+          <h3 className="font-display text-lg text-foreground">Mark as Shipped</h3>
+        </div>
+        <div className="rounded-lg p-3" style={{ background: 'rgba(245,200,66,0.06)', border: '1px solid rgba(245,200,66,0.18)' }}>
+          <p className="font-body text-xs text-yellow-300">
+            ⚠ A tracking number is required before marking as shipped. The customer will be notified by email.
+          </p>
+        </div>
+        <div>
+          <Label className="font-body text-xs tracking-wider uppercase mb-2 block">Tracking Number *</Label>
+          <Input
+            value={tracking}
+            onChange={e => setTracking(e.target.value)}
+            placeholder="e.g. EP123456789AU"
+            autoFocus
+            className="font-mono"
+          />
+          {!valid && tracking.length > 0 && (
+            <p className="text-xs text-destructive mt-1">Enter a valid tracking number</p>
+          )}
+        </div>
+        <p className="font-body text-xs text-muted-foreground">
+          Customer: <strong className="text-foreground">{order.customer_name}</strong> · {order.customer_email}
+        </p>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={onCancel} className="flex-1">Cancel</Button>
+          <Button disabled={!valid} onClick={() => onConfirm(tracking.trim())} className="flex-1 gap-2">
+            <Truck className="w-4 h-4" /> Confirm Shipped
+          </Button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── Main Orders page ──────────────────────────────────────────────────────────
 export default function Orders() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -46,14 +118,15 @@ export default function Orders() {
   const [sendingEmail, setSendingEmail] = useState(false);
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesText, setNotesText] = useState('');
+  const [shippingGate, setShippingGate] = useState(null); // order that triggered gate
 
-  const { data: orders, isLoading } = useQuery({
+  const { data: orders = [], isLoading } = useQuery({
     queryKey: ['merchOrders'],
     queryFn: () => base44.entities.MerchOrder.list('-created_date'),
     initialData: [],
   });
 
-  const { data: products } = useQuery({
+  const { data: products = [] } = useQuery({
     queryKey: ['merchProducts'],
     queryFn: () => base44.entities.MerchProduct.list(),
     initialData: [],
@@ -63,156 +136,159 @@ export default function Orders() {
     mutationFn: async ({ id, data }) => {
       const oldOrder = orders.find(o => o.id === id);
       const result = await base44.entities.MerchOrder.update(id, data);
-      
-      // Emit event for status changes
       if (data.status && data.status !== oldOrder?.status) {
-        if (data.status === 'shipped') {
-          await emitEvent(EVENT_TYPES.ORDER_SHIPPED, { ...oldOrder, ...data, id });
-        }
+        if (data.status === 'shipped') await emitEvent(EVENT_TYPES.ORDER_SHIPPED, { ...oldOrder, ...data, id });
         await emitEvent(EVENT_TYPES.ORDER_UPDATED, { ...oldOrder, ...data, id });
       }
-      
       return result;
     },
-    onSuccess: () => {
+    onSuccess: (_, vars) => {
       queryClient.invalidateQueries({ queryKey: ['merchOrders'] });
-      toast({ title: 'Order updated successfully' });
+      // Update selected in place
+      if (selected?.id === vars.id) setSelected(prev => ({ ...prev, ...vars.data }));
+      toast({ title: 'Order updated' });
     },
   });
+
+  // Status change handler — intercepts "shipped" to require tracking
+  const handleStatusChange = (order, newStatus) => {
+    if (newStatus === 'shipped' && !order.tracking_number) {
+      setShippingGate(order);
+      return;
+    }
+    updateMutation.mutate({ id: order.id, data: { status: newStatus } });
+    if (selected?.id === order.id) setSelected(prev => ({ ...prev, status: newStatus }));
+  };
+
+  const confirmShipping = async (order, trackingNumber) => {
+    await updateMutation.mutateAsync({ id: order.id, data: { status: 'shipped', tracking_number: trackingNumber } });
+    setShippingGate(null);
+    if (selected?.id === order.id) setSelected(prev => ({ ...prev, status: 'shipped', tracking_number: trackingNumber }));
+    // Auto-send tracking email
+    sendShippingEmail({ ...order, tracking_number: trackingNumber });
+  };
 
   const sendReceiptEmail = async (order) => {
     if (!order?.customer_email) return;
     setSendingEmail(true);
     try {
+      const itemsText = order.items?.map(i => `${i.product_name}${i.size ? ` (${i.size})` : ''} x${i.quantity} — $${i.price?.toFixed(2)}`).join('\n');
       await base44.integrations.Core.SendEmail({
         to: order.customer_email,
-        subject: `Your Order Receipt #${order.id.slice(-6)}`,
-        body: buildReceiptBody(order),
+        subject: `Your Order Receipt — Gannon Waye Merch #${order.id.slice(-6)}`,
+        body: `Hi ${order.customer_name},\n\nThank you for your order!\n\nOrder #${order.id.slice(-6)}\nDate: ${order.created_date ? format(new Date(order.created_date), 'PPP') : ''}\n\nItems:\n${itemsText}\n\nTotal: $${order.total_amount?.toFixed(2)} AUD\n\nShipping to: ${order.shipping_address}\n\nWe'll be in touch once your order ships.\n\nWith love,\nGannon Waye\ngannonwaye.com`,
       });
-      toast({ title: 'Receipt sent!', description: `Email sent to ${order.customer_email}` });
-    } catch (e) {
-      toast({ title: 'Failed to send', variant: 'destructive' });
-    }
+      toast({ title: 'Receipt sent!', description: order.customer_email });
+    } catch { toast({ title: 'Failed to send', variant: 'destructive' }); }
     setSendingEmail(false);
   };
 
-  const sendTrackingEmail = async () => {
-    if (!selected?.customer_email || !selected?.tracking_number) return;
-    setSendingEmail(true);
+  const sendShippingEmail = async (order) => {
+    if (!order?.customer_email) return;
     try {
       await base44.integrations.Core.SendEmail({
-        to: selected.customer_email,
-        subject: `Your order has shipped! Tracking: ${selected.tracking_number}`,
-        body: `Hi ${selected.customer_name},\n\nGreat news — your Gannon Waye merch is on its way!\n\nTracking number: ${selected.tracking_number}\n\nYou can use this number to track your package with the carrier.\n\nThank you for your support!\n\nGannon Waye`,
+        to: order.customer_email,
+        subject: `Your order is on its way! 🚚 — Gannon Waye Merch`,
+        body: `Hi ${order.customer_name},\n\nGreat news — your order has been shipped!\n\nTracking number: ${order.tracking_number}\n\nYou can use this number to track your parcel with Australia Post or your carrier.\n\nOrder #${order.id.slice(-6)}\nShipping to: ${order.shipping_address}\n\nThank you for supporting the Thankyou campaign. It means everything.\n\nGannon Waye\ngannonwaye.com`,
       });
-      toast({ title: 'Tracking email sent!', description: `Email sent to ${selected.customer_email}` });
-    } catch (e) {
-      toast({ title: 'Failed to send', variant: 'destructive' });
-    }
-    setSendingEmail(false);
+      toast({ title: '📦 Shipping email sent to customer!' });
+    } catch { toast({ title: 'Could not send shipping email', variant: 'destructive' }); }
   };
 
-  const buildReceiptBody = (order) => {
-    const itemsText = order.items?.map(i => `${i.product_name}${i.size ? ` (${i.size})` : ''} x${i.quantity} - $${i.price?.toFixed(2)}`).join('\n');
-    return `ORDER RECEIPT\n\nOrder #${order.id.slice(-6)}\nDate: ${order.created_date ? format(new Date(order.created_date), 'PPP') : ''}\n\nCustomer: ${order.customer_name}\nEmail: ${order.customer_email}\nShipping: ${order.shipping_address}\n\nItems:\n${itemsText}\n\nTotal: $${order.total_amount?.toFixed(2)} AUD\nStatus: ${order.status}\n\nThank you for your support!`;
+  const sendStatusUpdateEmail = async (order, newStatus) => {
+    if (!order?.customer_email) return;
+    const messages = {
+      confirmed: `Your order has been confirmed and is being prepared for dispatch.`,
+      delivered: `We hope you love your order! It's been marked as delivered. Please reach out if there's anything wrong.`,
+    };
+    if (!messages[newStatus]) return;
+    try {
+      await base44.integrations.Core.SendEmail({
+        to: order.customer_email,
+        subject: `Order Update — ${STATUS_CONFIG[newStatus]?.label} · Gannon Waye`,
+        body: `Hi ${order.customer_name},\n\n${messages[newStatus]}\n\nOrder #${order.id.slice(-6)}\n\nGannon Waye\ngannonwaye.com`,
+      });
+      toast({ title: `Customer notified: ${STATUS_CONFIG[newStatus]?.label}` });
+    } catch {}
   };
 
-  // Separate active vs duplicate orders
   const activeOrders = useMemo(() => orders.filter(o => !isDuplicate(o)), [orders]);
   const duplicateOrders = useMemo(() => orders.filter(o => isDuplicate(o)), [orders]);
 
-  // Advanced filtering — duplicates only shown in 'duplicates' filter
   const filtered = useMemo(() => {
     const pool = statusFilter === 'duplicates' ? duplicateOrders : activeOrders;
     return pool.filter(order => {
       const statusMatch = statusFilter === 'all' || statusFilter === 'duplicates' || order.status === statusFilter;
-      const searchMatch = !searchTerm || 
+      const searchMatch = !searchTerm ||
         order.customer_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         order.customer_email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         order.id?.toLowerCase().includes(searchTerm.toLowerCase());
-      
       let dateMatch = true;
       if (dateRange !== 'all' && order.created_date) {
-        const orderDate = new Date(order.created_date);
-        const now = new Date();
-        if (dateRange === 'today') {
-          dateMatch = orderDate.toDateString() === now.toDateString();
-        } else if (dateRange === 'week') {
-          const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-          dateMatch = orderDate >= weekAgo;
-        } else if (dateRange === 'month') {
-          const monthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-          dateMatch = orderDate >= monthAgo;
-        }
+        const od = new Date(order.created_date); const now = new Date();
+        if (dateRange === 'today') dateMatch = od.toDateString() === now.toDateString();
+        else if (dateRange === 'week') dateMatch = od >= new Date(now - 7 * 864e5);
+        else if (dateRange === 'month') dateMatch = od >= new Date(now - 30 * 864e5);
       }
-      
       return statusMatch && searchMatch && dateMatch;
     });
   }, [orders, activeOrders, duplicateOrders, statusFilter, searchTerm, dateRange]);
 
-  // Analytics — ONLY from active (non-duplicate) orders
   const analytics = useMemo(() => {
     const total = activeOrders.length;
-    const revenue = activeOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
+    const revenue = activeOrders.reduce((s, o) => s + (o.total_amount || 0), 0);
     const pending = activeOrders.filter(o => o.status === 'pending').length;
-    const shipped = activeOrders.filter(o => o.status === 'shipped' || o.status === 'delivered').length;
-    const avgOrderValue = total > 0 ? revenue / total : 0;
+    const confirmed = activeOrders.filter(o => o.status === 'confirmed').length;
+    const shipped = activeOrders.filter(o => o.status === 'shipped').length;
+    const delivered = activeOrders.filter(o => o.status === 'delivered').length;
+    const cancelled = activeOrders.filter(o => o.status === 'cancelled').length;
     const duplicateCount = duplicateOrders.length;
-    const duplicateRevenue = duplicateOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
-    
-    return { total, revenue, pending, shipped, avgOrderValue, duplicateCount, duplicateRevenue };
+    const duplicateRevenue = duplicateOrders.reduce((s, o) => s + (o.total_amount || 0), 0);
+    return { total, revenue, pending, confirmed, shipped, delivered, cancelled, duplicateCount, duplicateRevenue };
   }, [activeOrders, duplicateOrders]);
-
-  // Get product details
-  const getProductDetails = (productId) => {
-    return products.find(p => p.id === productId);
-  };
 
   return (
     <div className="space-y-6">
-      {/* Premium Header */}
+      {/* Shipping gate overlay */}
+      <AnimatePresence>
+        {shippingGate && (
+          <ShippingGate
+            order={shippingGate}
+            onConfirm={(tracking) => confirmShipping(shippingGate, tracking)}
+            onCancel={() => setShippingGate(null)}
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
-          <h1 className="font-display text-3xl text-foreground">Order Management</h1>
+          <h1 className="font-display text-3xl text-foreground">Orders</h1>
           <p className="font-body text-sm text-muted-foreground mt-1">
-            {analytics.total} active orders · ${analytics.revenue.toFixed(2)} revenue · {analytics.pending} pending
-            {analytics.duplicateCount > 0 && (
-              <span className="ml-2 text-orange-400/70">· {analytics.duplicateCount} duplicate void excluded</span>
-            )}
+            {analytics.total} orders · ${analytics.revenue.toFixed(2)} revenue · {analytics.pending} pending · {analytics.shipped} in transit
+            {analytics.duplicateCount > 0 && <span className="ml-2 text-orange-400/70">· {analytics.duplicateCount} void excluded</span>}
           </p>
         </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" className="gap-2">
-            <Download className="w-4 h-4" /> Export
-          </Button>
-        </div>
+        <Button variant="outline" size="sm" className="gap-2">
+          <Download className="w-4 h-4" /> Export
+        </Button>
       </div>
 
-      {/* Analytics Cards — clickable, each filters orders or links to source */}
-      <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+      {/* Order Pipeline — visual flow overview */}
+      <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {[
-          { label: 'Total Orders', value: analytics.total, icon: Package, color: 'text-blue-500', filter: 'all', route: null },
-          { label: 'Revenue', value: `$${analytics.revenue.toFixed(2)}`, icon: DollarSign, color: 'text-primary', filter: null, route: '/admin/financials' },
-          { label: 'Pending', value: analytics.pending, icon: Clock, color: 'text-yellow-500', filter: 'pending', route: null },
-          { label: 'Shipped', value: analytics.shipped, icon: Truck, color: 'text-green-500', filter: 'shipped', route: null },
-          { label: 'Avg Order', value: `$${analytics.avgOrderValue.toFixed(2)}`, icon: TrendingUp, color: 'text-green-500', filter: null, route: '/admin/financials' },
+          { label: 'Pending',   value: analytics.pending,   icon: Clock,         color: 'text-yellow-400', filter: 'pending' },
+          { label: 'Confirmed', value: analytics.confirmed, icon: CheckCircle,   color: 'text-blue-400',   filter: 'confirmed' },
+          { label: 'Shipped',   value: analytics.shipped,   icon: Truck,         color: 'text-green-400',  filter: 'shipped' },
+          { label: 'Delivered', value: analytics.delivered, icon: Package,       color: 'text-emerald-400',filter: 'delivered' },
+          { label: 'Revenue',   value: `$${analytics.revenue.toFixed(0)}`, icon: DollarSign, color: 'text-primary', filter: null, route: '/admin/financials' },
         ].map((stat, i) => {
           const Icon = stat.icon;
           return (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.05 }}
-              onClick={() => {
-                if (stat.route) { navigate(stat.route); }
-                else if (stat.filter) { setStatusFilter(stat.filter); }
-              }}
-              role="button"
-              tabIndex={0}
-              onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (stat.route) navigate(stat.route); else if (stat.filter) setStatusFilter(stat.filter); } }}
-              className="bg-card border border-border/40 rounded-xl p-4 cursor-pointer hover:border-primary/40 hover:bg-secondary/20 transition-all"
-            >
+            <motion.div key={stat.label} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}
+              onClick={() => stat.route ? navigate(stat.route) : stat.filter && setStatusFilter(stat.filter)}
+              role="button" tabIndex={0}
+              className="bg-card border border-border/40 rounded-xl p-4 cursor-pointer hover:border-primary/30 transition-all">
               <Icon className={`w-4 h-4 ${stat.color} mb-2`} />
               <p className="font-display text-2xl text-foreground">{stat.value}</p>
               <p className="font-body text-xs text-muted-foreground uppercase tracking-wider mt-1">{stat.label}</p>
@@ -223,30 +299,23 @@ export default function Orders() {
 
       {/* Filters */}
       <div className="flex gap-3 flex-wrap">
-        <div className="flex-1 min-w-[200px]">
-          <Input
-            placeholder="Search by name, email, or order ID..."
-            value={searchTerm}
-            onChange={e => setSearchTerm(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') e.preventDefault(); }}
-            className="bg-secondary/50"
-          />
-        </div>
+        <Input placeholder="Search name, email, order ID…" value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
+          onKeyDown={e => e.key === 'Enter' && e.preventDefault()} className="flex-1 min-w-[200px] bg-secondary/50" />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-48"><SelectValue placeholder="Status" /></SelectTrigger>
+          <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="active">Active Orders</SelectItem>
-            <SelectItem value="all">All Active Statuses</SelectItem>
+            <SelectItem value="all">All Statuses</SelectItem>
             <SelectItem value="pending">Pending</SelectItem>
             <SelectItem value="confirmed">Confirmed</SelectItem>
             <SelectItem value="shipped">Shipped</SelectItem>
             <SelectItem value="delivered">Delivered</SelectItem>
             <SelectItem value="cancelled">Cancelled</SelectItem>
-            <SelectItem value="duplicates">⚠ Duplicates / Voids</SelectItem>
+            <SelectItem value="duplicates">⚠ Void / Duplicates</SelectItem>
           </SelectContent>
         </Select>
         <Select value={dateRange} onValueChange={setDateRange}>
-          <SelectTrigger className="w-40"><SelectValue placeholder="Date Range" /></SelectTrigger>
+          <SelectTrigger className="w-40"><SelectValue /></SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Time</SelectItem>
             <SelectItem value="today">Today</SelectItem>
@@ -256,61 +325,54 @@ export default function Orders() {
         </Select>
       </div>
 
-      {/* Duplicate warning banner */}
+      {/* Duplicate warning */}
       {analytics.duplicateCount > 0 && statusFilter !== 'duplicates' && (
-        <div className="border border-orange-500/40 bg-orange-500/10 rounded-xl p-3 flex items-center gap-3">
+        <div className="border border-orange-500/30 bg-orange-500/08 rounded-xl p-3 flex items-center gap-3">
           <AlertTriangle className="w-4 h-4 text-orange-400 shrink-0" />
           <p className="text-sm text-orange-300">
-            {analytics.duplicateCount} duplicate void order{analytics.duplicateCount > 1 ? 's' : ''} excluded from totals (${analytics.duplicateRevenue.toFixed(2)} AUD). 
-            <button className="underline ml-1" onClick={() => setStatusFilter('duplicates')}>View duplicates</button>
+            {analytics.duplicateCount} void order{analytics.duplicateCount > 1 ? 's' : ''} excluded (${analytics.duplicateRevenue.toFixed(2)} AUD).
+            <button className="underline ml-1" onClick={() => setStatusFilter('duplicates')}>View</button>
           </p>
         </div>
       )}
 
-      {/* Orders List */}
-      <div className="space-y-3">
+      {/* Order list */}
+      <div className="space-y-2">
         {filtered.map((order, i) => {
           const isVoid = isDuplicate(order);
-          const StatusIcon = isVoid ? AlertTriangle : (STATUS_ICONS[order.status] || Package);
+          const cfg = STATUS_CONFIG[order.status] || STATUS_CONFIG.pending;
+          const Icon = cfg.icon;
+          const needsTracking = order.status === 'confirmed';
+
           return (
-            <motion.div
-              key={order.id}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: i * 0.02 }}
-              className={`bg-card border rounded-xl p-4 hover:border-primary/20 transition-colors cursor-pointer ${isVoid ? 'border-orange-500/30 opacity-70' : 'border-border/40'}`}
-              onClick={() => setSelected(order)}
-            >
-              <div className="flex items-center justify-between flex-wrap gap-4">
+            <motion.div key={order.id} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.02 }}
+              className={`bg-card border rounded-xl p-4 hover:border-primary/20 transition-all cursor-pointer ${isVoid ? 'border-orange-500/30 opacity-60' : 'border-border/30'}`}
+              onClick={() => setSelected(order)}>
+              <div className="flex items-center justify-between flex-wrap gap-3">
                 <div className="flex items-center gap-4">
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${STATUS_COLORS[order.status].split(' ')[0]}`}>
-                    <StatusIcon className={`w-5 h-5 ${STATUS_COLORS[order.status].split(' ')[1]}`} />
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center border ${cfg.color}`}>
+                    <Icon className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
                       <p className="font-body text-sm font-medium text-foreground">{order.customer_name}</p>
-                      <Badge variant="outline" className="text-[10px]">#{order.id.slice(-6)}</Badge>
+                      <Badge variant="outline" className="text-[9px]">#{order.id.slice(-6)}</Badge>
+                      {needsTracking && !order.tracking_number && (
+                        <span className="font-body text-[9px] text-yellow-400 border border-yellow-500/30 rounded-full px-2 py-0.5">needs tracking</span>
+                      )}
                     </div>
                     <p className="font-body text-xs text-muted-foreground">{order.customer_email}</p>
-                    <div className="flex items-center gap-3 mt-1">
-                      <p className="font-body text-xs text-muted-foreground flex items-center gap-1">
-                        <Package className="w-3 h-3" /> {order.items?.length || 0} items
-                      </p>
-                      <p className="font-body text-xs text-muted-foreground flex items-center gap-1">
-                        <Calendar className="w-3 h-3" /> {order.created_date ? format(new Date(order.created_date), 'MMM d') : ''}
-                      </p>
-                    </div>
+                    <p className="font-body text-xs text-muted-foreground mt-0.5">
+                      {order.items?.length || 0} items · {order.created_date ? format(new Date(order.created_date), 'MMM d') : ''}
+                      {order.tracking_number && <span className="ml-2 font-mono text-[9px] text-muted-foreground/50">{order.tracking_number}</span>}
+                    </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
-                {isDuplicate(order) && (
-                  <Badge className="text-[10px] tracking-widest uppercase bg-orange-500/20 text-orange-400">DUPLICATE VOID</Badge>
-                )}
-                <Badge className={`text-[10px] tracking-widest uppercase ${STATUS_COLORS[order.status] || 'bg-secondary text-muted-foreground'}`}>
-                  {order.status}
-                </Badge>
-                  <p className="font-display text-xl text-primary">${order.total_amount?.toFixed(2)}</p>
-                  <Button size="sm" variant="outline" className="gap-1">
+                <div className="flex items-center gap-3">
+                  {isVoid && <Badge className="text-[9px] bg-orange-500/15 text-orange-400">VOID</Badge>}
+                  <Badge className={`text-[9px] tracking-widest uppercase border ${cfg.color}`}>{cfg.label}</Badge>
+                  <p className="font-display text-lg text-primary">${order.total_amount?.toFixed(2)}</p>
+                  <Button size="sm" variant="outline" className="gap-1 text-xs">
                     <Eye className="w-3 h-3" /> View
                   </Button>
                 </div>
@@ -318,79 +380,66 @@ export default function Orders() {
             </motion.div>
           );
         })}
-        {filtered.length === 0 && (
-          <div className="text-center py-24 bg-card border border-border/40 rounded-2xl">
-            <Package className="w-16 h-16 text-muted-foreground/20 mx-auto mb-4" />
-            <p className="font-body text-muted-foreground">No orders found with current filters.</p>
+        {filtered.length === 0 && !isLoading && (
+          <div className="text-center py-24 bg-card border border-border/30 rounded-2xl">
+            <Package className="w-16 h-16 text-muted-foreground/15 mx-auto mb-4" />
+            <p className="font-body text-muted-foreground">No orders found.</p>
           </div>
         )}
       </div>
 
-      {/* Order Details Dialog */}
-      <Dialog open={!!selected} onOpenChange={() => setSelected(null)}>
-        <DialogContent className="bg-card border-border/40 max-w-3xl max-h-[90vh] overflow-y-auto">
+      {/* Order detail dialog */}
+      <Dialog open={!!selected} onOpenChange={() => { setSelected(null); setEditingNotes(false); }}>
+        <DialogContent className="bg-card border-border/40 max-w-3xl max-h-[92vh] overflow-y-auto">
           <DialogHeader>
             <div className="flex items-center justify-between">
-              <DialogTitle className="font-display text-2xl">Order Details</DialogTitle>
-              <Badge className={`text-[10px] tracking-widest uppercase ${STATUS_COLORS[selected?.status || 'pending']}`}>
-                {selected?.status}
-              </Badge>
+              <DialogTitle className="font-display text-2xl">Order #{selected?.id?.slice(-6)}</DialogTitle>
+              {selected && (
+                <Badge className={`text-[10px] tracking-widest uppercase border ${STATUS_CONFIG[selected.status]?.color}`}>
+                  {STATUS_CONFIG[selected.status]?.label}
+                </Badge>
+              )}
             </div>
             <DialogDescription>
-              Order #{selected?.id?.slice(-6)} · {selected?.created_date ? format(new Date(selected.created_date), 'PPP p') : ''}
+              {selected?.created_date ? format(new Date(selected.created_date), 'PPP p') : ''}
             </DialogDescription>
           </DialogHeader>
 
           {selected && (
             <div className="space-y-6 mt-4">
-              {/* Customer Info */}
+
+              {/* Flow bar */}
+              {!isDuplicate(selected) && (
+                <div className="bg-secondary/20 rounded-xl p-4">
+                  <p className="font-body text-[9px] uppercase tracking-widest text-muted-foreground mb-4">Order Progress</p>
+                  <OrderFlowBar status={selected.status} />
+                </div>
+              )}
+
+              {/* Customer + shipping */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-secondary/30 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-3">
-                    <User className="w-4 h-4 text-primary" />
-                    <p className="font-display text-sm text-primary">Customer Details</p>
-                  </div>
-                  <div className="space-y-2 text-sm">
-                    <div>
-                      <p className="text-muted-foreground text-xs">Name</p>
-                      <p className="font-medium">{selected.customer_name}</p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground text-xs">Email</p>
-                      <p className="font-medium">{selected.customer_email}</p>
-                    </div>
-                  </div>
+                  <div className="flex items-center gap-2 mb-3"><User className="w-4 h-4 text-primary" /><p className="font-display text-sm text-primary">Customer</p></div>
+                  <p className="font-medium text-sm">{selected.customer_name}</p>
+                  <p className="text-xs text-muted-foreground mt-1">{selected.customer_email}</p>
                 </div>
-
                 <div className="bg-secondary/30 rounded-lg p-4">
-                  <div className="flex items-center gap-2 mb-3">
-                    <MapPin className="w-4 h-4 text-primary" />
-                    <p className="font-display text-sm text-primary">Shipping Address</p>
-                  </div>
+                  <div className="flex items-center gap-2 mb-3"><MapPin className="w-4 h-4 text-primary" /><p className="font-display text-sm text-primary">Shipping To</p></div>
                   <p className="text-sm">{selected.shipping_address}</p>
                 </div>
               </div>
 
-              {/* Order Items */}
+              {/* Items */}
               <div className="bg-secondary/30 rounded-lg p-4">
-                <div className="flex items-center gap-2 mb-3">
-                  <ShoppingBag className="w-4 h-4 text-primary" />
-                  <p className="font-display text-sm text-primary">Order Items</p>
-                </div>
-                <div className="space-y-2">
+                <div className="flex items-center gap-2 mb-3"><ShoppingBag className="w-4 h-4 text-primary" /><p className="font-display text-sm text-primary">Items Ordered</p></div>
+                <div className="space-y-3">
                   {selected.items?.map((item, i) => {
-                    const product = getProductDetails(item.product_id);
+                    const product = products.find(p => p.id === item.product_id);
                     return (
-                      <div key={i} className="flex justify-between items-center py-3 border-b border-border/30 last:border-0">
+                      <div key={i} className="flex items-center justify-between py-2 border-b border-border/20 last:border-0">
                         <div className="flex items-center gap-3">
-                          <div className="w-12 h-12 rounded-lg bg-secondary/50 overflow-hidden">
-                            {product?.image_url ? (
-                              <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center">
-                                <ShoppingBag className="w-5 h-5 text-muted-foreground/20" />
-                              </div>
-                            )}
+                          <div className="w-11 h-11 rounded-lg bg-secondary/50 overflow-hidden shrink-0">
+                            {product?.image_url ? <img src={product.image_url} alt={product.name} className="w-full h-full object-cover" /> : <ShoppingBag className="w-5 h-5 text-muted-foreground/20 m-3" />}
                           </div>
                           <div>
                             <p className="font-medium text-sm">{item.product_name}</p>
@@ -402,76 +451,76 @@ export default function Orders() {
                       </div>
                     );
                   })}
-                </div>
-              </div>
-
-              {/* Financial Summary */}
-              <div className="bg-gradient-to-br from-primary/5 to-transparent border border-primary/20 rounded-lg p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <DollarSign className="w-5 h-5 text-primary" />
-                    <p className="font-display text-lg text-primary">Total: ${selected.total_amount?.toFixed(2)} AUD</p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline" onClick={() => sendReceiptEmail(selected)} className="gap-2">
-                      <Mail className="w-3 h-3" /> Send Receipt
-                    </Button>
-                    <Button size="sm" variant="outline" className="gap-2">
-                      <Printer className="w-3 h-3" /> Print
-                    </Button>
+                  <div className="flex justify-between items-center pt-2">
+                    <p className="font-body text-sm text-muted-foreground">Total</p>
+                    <p className="font-display text-xl gradient-gold-glow">${selected.total_amount?.toFixed(2)} AUD</p>
                   </div>
                 </div>
               </div>
 
-              {/* Status Update */}
-              <div>
-                <Label className="font-body text-xs tracking-wider uppercase mb-2 block">Order Status</Label>
-                <Select
-                  value={selected.status}
-                  onValueChange={v => {
-                    updateMutation.mutate({ id: selected.id, data: { status: v } });
-                    setSelected({ ...selected, status: v });
-                  }}
-                >
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="pending">Pending</SelectItem>
-                    <SelectItem value="confirmed">Confirmed</SelectItem>
-                    <SelectItem value="shipped">Shipped</SelectItem>
-                    <SelectItem value="delivered">Delivered</SelectItem>
-                    <SelectItem value="cancelled">Cancelled</SelectItem>
-                  </SelectContent>
-                </Select>
+              {/* ── Status Update ── */}
+              <div className="bg-secondary/20 rounded-lg p-4 space-y-3">
+                <p className="font-display text-sm text-primary flex items-center gap-2"><Package className="w-4 h-4" /> Update Status</p>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {FLOW_STEPS.concat(['cancelled']).map(s => {
+                    const cfg = STATUS_CONFIG[s];
+                    const Icon = cfg.icon;
+                    const isActive = selected.status === s;
+                    return (
+                      <button key={s} onClick={() => {
+                        if (s === selected.status) return;
+                        handleStatusChange(selected, s);
+                        // Auto-send email for confirm/deliver
+                        if (s === 'confirmed' || s === 'delivered') sendStatusUpdateEmail(selected, s);
+                      }}
+                        className={`rounded-xl p-3 flex flex-col items-center gap-1 border transition-all ${isActive ? `${cfg.color} border-current` : 'border-border/30 bg-secondary/20 hover:border-primary/30'}`}>
+                        <Icon className="w-4 h-4" />
+                        <span className="font-body text-[9px] uppercase tracking-wider">{cfg.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+                {selected.status === 'confirmed' && !selected.tracking_number && (
+                  <div className="rounded-lg p-2 flex items-center gap-2" style={{ background: 'rgba(245,200,66,0.06)', border: '1px solid rgba(245,200,66,0.18)' }}>
+                    <AlertTriangle className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
+                    <p className="font-body text-xs text-yellow-300">Add a tracking number before marking as shipped</p>
+                  </div>
+                )}
               </div>
 
-              {/* Tracking */}
-              <div>
-                <Label className="font-body text-xs tracking-wider uppercase mb-2 block">Tracking Number</Label>
+              {/* ── Tracking ── */}
+              <div className="bg-secondary/20 rounded-lg p-4">
+                <p className="font-display text-sm text-primary flex items-center gap-2 mb-3"><Truck className="w-4 h-4" /> Tracking Number</p>
                 <div className="flex gap-2">
                   <Input
                     value={selected.tracking_number || ''}
                     onChange={e => setSelected({ ...selected, tracking_number: e.target.value })}
                     onBlur={() => updateMutation.mutate({ id: selected.id, data: { tracking_number: selected.tracking_number } })}
-                    placeholder="Enter tracking number"
-                    className="flex-1"
+                    placeholder="e.g. EP123456789AU"
+                    className="flex-1 font-mono"
                   />
-                  <Button
-                    onClick={sendTrackingEmail}
-                    disabled={!selected.tracking_number || sendingEmail}
-                    className="gap-2"
-                  >
-                    <Send className="w-4 h-4" />
-                    {sendingEmail ? 'Sending…' : 'Email'}
+                  <Button onClick={() => sendShippingEmail(selected)} disabled={!selected.tracking_number || sendingEmail} className="gap-2 shrink-0">
+                    <Send className="w-4 h-4" /> {sendingEmail ? '…' : 'Email Customer'}
                   </Button>
                 </div>
                 {selected.tracking_number && (
-                  <p className="font-body text-xs text-muted-foreground mt-1">
-                    Tracking: <span className="font-mono">{selected.tracking_number}</span>
+                  <p className="font-body text-xs text-green-400 mt-2 flex items-center gap-1">
+                    <CheckCircle className="w-3 h-3" /> Tracking: <span className="font-mono">{selected.tracking_number}</span>
                   </p>
                 )}
               </div>
 
-              {/* Notes */}
+              {/* ── Email actions ── */}
+              <div className="flex gap-2 flex-wrap">
+                <Button size="sm" variant="outline" onClick={() => sendReceiptEmail(selected)} disabled={sendingEmail} className="gap-2">
+                  <Mail className="w-3.5 h-3.5" /> Resend Receipt
+                </Button>
+                <Button size="sm" variant="outline" className="gap-2">
+                  <Printer className="w-3.5 h-3.5" /> Print Order
+                </Button>
+              </div>
+
+              {/* ── Notes ── */}
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <Label className="font-body text-xs tracking-wider uppercase">Internal Notes</Label>
@@ -483,17 +532,13 @@ export default function Orders() {
                   <div className="space-y-2">
                     <Textarea value={notesText} onChange={e => setNotesText(e.target.value)} rows={3} />
                     <div className="flex gap-2">
-                      <Button size="sm" onClick={() => {
-                        updateMutation.mutate({ id: selected.id, data: { notes: notesText } });
-                        setSelected({ ...selected, notes: notesText });
-                        setEditingNotes(false);
-                      }}>Save</Button>
+                      <Button size="sm" onClick={() => { updateMutation.mutate({ id: selected.id, data: { notes: notesText } }); setSelected({ ...selected, notes: notesText }); setEditingNotes(false); }}>Save</Button>
                       <Button size="sm" variant="outline" onClick={() => setEditingNotes(false)}>Cancel</Button>
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-secondary/30 rounded-lg p-3 min-h-[60px]">
-                    <p className="text-sm">{selected.notes || 'No notes'}</p>
+                  <div className="bg-secondary/30 rounded-lg p-3 min-h-[56px]">
+                    <p className="text-sm text-muted-foreground">{selected.notes || 'No notes'}</p>
                   </div>
                 )}
               </div>
