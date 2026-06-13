@@ -253,6 +253,9 @@ import LinkIntegrityAudit from '@/pages/admin/LinkIntegrityAudit';
 import EducationHub from '@/pages/admin/EducationHub';
 import IntegrationActionCentre from '@/pages/admin/IntegrationActionCentre';
 import InstagramStoryStudio from '@/pages/admin/InstagramStoryStudio';
+import TrainingCentre from '@/pages/admin/TrainingCentre';
+import AnnouncementStudio from '@/pages/admin/AnnouncementStudio';
+import UpcomingMusic from '@/pages/UpcomingMusic';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -329,6 +332,7 @@ const AuthenticatedApp = () => {
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/mum" element={<MumTribute />} />
+        <Route path="/upcoming-music" element={<UpcomingMusic />} />
         <Route path="/without-you-here" element={<MumTribute />} />
         <Route path="/merch-reel" element={<MerchReelPage />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
@@ -588,6 +592,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/link-integrity-audit" element={<LinkIntegrityAudit />} />
         <Route path="/admin/education-hub" element={<EducationHub />} />
         <Route path="/admin/instagram-story-studio" element={<InstagramStoryStudio />} />
+        <Route path="/admin/training-centre" element={<TrainingCentre />} />
+        <Route path="/admin/announcement-studio" element={<AnnouncementStudio />} />
         <Route path="/admin/campaign-image-approval" element={<CampaignImageApproval />} />
         <Route path="/admin/thankyou-image-review" element={<CampaignImageApproval />} />
         <Route path="/admin/master-blueprint" element={<MasterBlueprint />} />

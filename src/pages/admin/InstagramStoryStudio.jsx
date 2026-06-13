@@ -93,6 +93,50 @@ const SLIDES = [
     }
   },
   {
+    id: 'winter_bundle',
+    label: '❄️ Winter Bundle — $129',
+    emoji: '❄️',
+    bg: 'linear-gradient(145deg, #050810 0%, #0a0f1a 50%, #141824 100%)',
+    accent: '#f5d06e',
+    content: {
+      eyebrow: '❄️ LIMITED TIME · WINTER 2026',
+      headline: 'Winter Writing\n& Comfort Bundle',
+      sub: 'Hoodie + Journal + Thermo + Pen · $129',
+      body: 'Stay warm, write what matters.\nThis bundle was made for the quiet moments.\nLimited. Once it\'s gone, it\'s gone.',
+      cta: 'GET THE BUNDLE → gannonwaye.com/store',
+      badge: '❄️ LIMITED',
+    }
+  },
+  {
+    id: 'poster',
+    label: '🖼️ Respect Is Earned Poster',
+    emoji: '🖼️',
+    bg: 'linear-gradient(145deg, #080604 0%, #120c04 50%, #1a1204 100%)',
+    accent: '#f5d06e',
+    content: {
+      eyebrow: '🖼️ MADE TO ORDER',
+      headline: '"Respect Is Earned"\nLyric Wall Poster',
+      sub: 'A3 · A2 · 18×24 inch · From $39',
+      body: 'A premium collector piece.\nFor your wall. For your reminder.\nYour self-worth in print.',
+      cta: 'ORDER YOURS → gannonwaye.com/store',
+      badge: '🎨 COLLECTOR',
+    }
+  },
+  {
+    id: 'announcement',
+    label: '🤍 THANKYOU Announcement',
+    emoji: '🤍',
+    bg: 'linear-gradient(145deg, #060608 0%, #0c0a0c 50%, #140e10 100%)',
+    accent: '#f5d06e',
+    content: {
+      eyebrow: '🤍 A MESSAGE FROM GANNON',
+      headline: 'THANKYOU\nFor Everything',
+      sub: '',
+      body: 'The stories you\'ve trusted me with.\nThe warmth you\'ve shown.\nIt\'s surreal. It\'s everything.\n\nThe safe space is open — come in.',
+      cta: 'JOIN US → gannonwaye.com/community',
+    }
+  },
+  {
     id: 'full_lineup',
     label: '🛍️ Full Lineup',
     emoji: '🛍️',
@@ -104,8 +148,9 @@ const SLIDES = [
       sub: '',
       items: [
         { label: '⚡ Hoodie "Respect Is Earned"', price: '$89', status: 'LOW STOCK' },
+        { label: '❄️ Winter Bundle', price: '$129', status: 'LIMITED' },
+        { label: '🖼️ Poster — Lyric Wall Art', price: 'From $39', status: 'ORDER NOW' },
         { label: '☕ Coffee Mug', price: '$9.90', status: 'IN STOCK' },
-        { label: '🎨 Journal Bundle', price: '$49', status: 'COMING SOON' },
         { label: '💿 CDs', price: '$10–$20', status: 'SOLD OUT' },
         { label: '👕 Tee / Tote', price: '', status: 'SOLD OUT' },
       ],

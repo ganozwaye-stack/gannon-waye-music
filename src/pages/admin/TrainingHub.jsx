@@ -129,6 +129,17 @@ const MODULES = [
     ],
   },
   {
+    id: 'new_features',
+    category: '✨ New — Built Today',
+    color: 'border-primary/30',
+    items: [
+      { label: 'Training Centre', path: '/admin/training-centre', desc: 'Upload video modules, written guides, step-by-step lessons with student progress tracking', icon: BookOpen, level: 'essential' },
+      { label: 'Announcement Studio', path: '/admin/announcement-studio', desc: 'THANKYOU announcement — ready to post to community, copy for social, and email blast approval', icon: Zap, level: 'essential' },
+      { label: 'Upcoming Music (Public)', path: '/upcoming-music', desc: 'Garden-themed public preview page — upcoming songs with locked preview clips', icon: Music, level: 'essential' },
+      { label: 'Instagram Story Studio', path: '/admin/instagram-story-studio', desc: 'Story templates — Winter Bundle, Poster drop, THANKYOU announcement, all merch slides', icon: TrendingUp, level: 'essential' },
+    ],
+  },
+  {
     id: 'qa',
     category: '🧪 QA & Developer',
     color: 'border-orange-500/30',

@@ -27,8 +27,8 @@ const PRODUCT_CONFIG = {
   '69eed3e64e2da78ae4418a9d': { sub: 'Sold out · Limited hand-signed edition' },
   '69f11d1fc43e13c61fe6b9d7': { sub: '⚡ Get in fast — stock running out · New shipment on its way · $89' },
   '69eed3e64e2da78ae4418a99': { sub: 'Sold out · Oversized premium tee · $49' },
-  '69fbd261b760426cede1b7a3': { sub: '🎨 New design journal bundle underway · Coming to you soon · $49' },
-  '69eed3e64e2da78ae4418a9a': { sub: 'Sold out due to popular demand 🤍' },
+  '69fbd261b760426cede1b7a3': { sub: '❄️ Also available in the Winter Writing & Comfort Bundle — $129 with hoodie, pen & thermo' },
+  '69eed3e64e2da78ae4418a9a': { sub: 'Sold out due to popular demand. These will not be restocked. 🤍' },
 };
 
 // Multi-image galleries per product id (auto-rotates in card)
