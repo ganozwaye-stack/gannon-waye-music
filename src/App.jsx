@@ -256,7 +256,6 @@ import InstagramStoryStudio from '@/pages/admin/InstagramStoryStudio';
 import TrainingCentre from '@/pages/admin/TrainingCentre';
 import AnnouncementStudio from '@/pages/admin/AnnouncementStudio';
 import UpcomingMusic from '@/pages/UpcomingMusic';
-import StorePoster from '@/pages/StorePoster';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -332,9 +331,9 @@ const AuthenticatedApp = () => {
         <Route path="/tour" element={<Navigate to="/" replace />} />
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
+        <Route path="/mum" element={<MumTribute />} />
         <Route path="/upcoming-music" element={<UpcomingMusic />} />
-        <Route path="/store/poster" element={<StorePoster />} />
-        {/* Memorial page is PRIVATE — no public access */}
+        <Route path="/without-you-here" element={<MumTribute />} />
         <Route path="/merch-reel" element={<MerchReelPage />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/store/checkout-success" element={<CheckoutSuccess />} />
@@ -616,7 +615,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/action-required-engineering" element={<BusinessAttentionCentre />} />
         <Route path="/admin/go-live-checklist" element={<GoLiveChecklist />} />
         <Route path="/admin/training-hub" element={<TrainingHub />} />
-        <Route path="/admin/memorial" element={<MumTribute />} />
         <Route path="/admin/social-scheduler-health" element={<MetricoolCommand />} />
         <Route path="/admin/metricool-profile-map" element={<MetricoolDiagnostics />} />
         <Route path="/admin/metricool-performance-sync" element={<MetricoolPerformanceIntelligence />} />
