@@ -5,7 +5,7 @@ import { createAxiosClient } from '@base44/sdk/dist/utils/axios-client';
 
 const AuthContext = createContext();
 
-const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders'];
+const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders', '/mum', '/without-you-here'];
 
 const shouldCheckUserForCurrentRoute = () => {
   if (typeof window === 'undefined') return !!appParams.token;

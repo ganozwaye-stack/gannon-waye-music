@@ -256,6 +256,7 @@ import InstagramStoryStudio from '@/pages/admin/InstagramStoryStudio';
 import TrainingCentre from '@/pages/admin/TrainingCentre';
 import AnnouncementStudio from '@/pages/admin/AnnouncementStudio';
 import UpcomingMusic from '@/pages/UpcomingMusic';
+import SiteUpgradeAudit from '@/pages/admin/SiteUpgradeAudit';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -615,6 +616,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/action-required-engineering" element={<BusinessAttentionCentre />} />
         <Route path="/admin/go-live-checklist" element={<GoLiveChecklist />} />
         <Route path="/admin/training-hub" element={<TrainingHub />} />
+        <Route path="/admin/site-upgrade-audit" element={<SiteUpgradeAudit />} />
         <Route path="/admin/social-scheduler-health" element={<MetricoolCommand />} />
         <Route path="/admin/metricool-profile-map" element={<MetricoolDiagnostics />} />
         <Route path="/admin/metricool-performance-sync" element={<MetricoolPerformanceIntelligence />} />

@@ -13,9 +13,13 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 const ALWAYS_INELIGIBLE_CATEGORIES = [
   'cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping',
   'processing', 'fees', 'music', 'limited_edition_music', 'digital_music',
+  'bundle', // Bundles are always price-as-marked — no discount codes apply
 ];
 
-const ALWAYS_EXCLUDED_LABEL = 'shipping, processing fees, support contributions, CDs, vinyl, songs, digital music releases';
+// Bundle product IDs that are explicitly price-locked regardless of category label
+const PRICE_LOCKED_PRODUCT_IDS = ['69fbd261b760426cede1b7a3', 'winter_writing_bundle'];
+
+const ALWAYS_EXCLUDED_LABEL = 'shipping, processing fees, support contributions, CDs, vinyl, songs, digital music releases, bundles (price as marked)';
 
 Deno.serve(async (req) => {
   try {
@@ -126,8 +130,12 @@ Deno.serve(async (req) => {
       function isItemIneligible(item) {
         const cat = (item.category || item.product_type || item.type || '').toLowerCase().trim();
         const name = (item.name || item.product_name || '').toLowerCase();
+        const pid = item.product_id || item.id || '';
 
-        // Always-ineligible categories (global rule)
+        // Price-locked product IDs (bundles — always excluded)
+        if (PRICE_LOCKED_PRODUCT_IDS.includes(pid)) return true;
+
+        // Always-ineligible categories (global rule — includes 'bundle')
         if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c))) return true;
 
         // Name-based CD/vinyl detection for items with missing/empty category
