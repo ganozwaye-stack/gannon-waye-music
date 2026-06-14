@@ -3,12 +3,14 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Heart, Sparkles, ShoppingCart, Plus, ZoomIn } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
 import { useCartStore } from '@/lib/cartStore';
 import ProductDetailModal from '@/components/store/ProductDetailModal';
 import CartDrawer from '@/components/store/CartDrawer';
+import WinterBundleHero from '@/components/store/WinterBundleHero';
+import AdminEditButton from '@/components/store/AdminEditButton';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -102,7 +104,7 @@ const FALLBACK_PRODUCTS = [
   {
     id: '69fbd261b760426cede1b7a3',
     name: 'Thank You Journal Pen and Thermos Flask Bundle',
-    sale_price: 49,
+    sale_price: 59,
     category: 'bundle',
     stock_quantity: 20,
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg',
@@ -279,8 +281,11 @@ function ProductCard({ product, onCheckout, onViewCart }) {
 
         {/* Footer */}
         <div className="p-4 border-t border-border/30 bg-card/20">
-          <p data-testid="product-title" className="font-display text-sm text-foreground leading-snug">{product.name}</p>
-          <p data-testid="product-price" className="font-body text-sm gradient-gold-glow mt-1 font-medium">${price} AUD</p>
+          <div className="flex items-start justify-between gap-2 mb-1">
+            <p data-testid="product-title" className="font-display text-sm text-foreground leading-snug">{product.name}</p>
+            <AdminEditButton href={`/admin/merch`} label="Edit" className="shrink-0" />
+          </div>
+          <p data-testid="product-price" className="font-body text-sm gradient-gold-glow font-medium">${price} AUD</p>
           {cfg?.sub && (
             <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
           )}
@@ -435,6 +440,9 @@ export default function Store() {
           </div>
           )}
         </motion.div>
+
+        {/* Winter Bundle Hero — always featured at top of merch */}
+        <WinterBundleHero onViewCart={() => setCartOpen(true)} />
 
         {/* CD Row */}
         {cdProducts.length > 0 && (

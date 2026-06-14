@@ -259,6 +259,9 @@ import UpcomingMusic from '@/pages/UpcomingMusic';
 import SiteUpgradeAudit from '@/pages/admin/SiteUpgradeAudit';
 import Base44ExitPlan from '@/pages/admin/Base44ExitPlan';
 import LegalDrafts from '@/pages/admin/LegalDrafts';
+import CinematicWebsites from '@/pages/systems/CinematicWebsites';
+import CaseStudyGannonWaye from '@/pages/systems/CaseStudyGannonWaye';
+import CaseStudyGanozMix from '@/pages/systems/CaseStudyGanozMix';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -349,6 +352,16 @@ const AuthenticatedApp = () => {
         <Route path="/systems-manager" element={<SystemsManagerOffer />} />
         <Route path="/ai-systems-manager" element={<SystemsManagerOffer />} />
         <Route path="/business-systems" element={<SystemsManagerOffer />} />
+        <Route path="/systems/cinematic-websites" element={<CinematicWebsites />} />
+        <Route path="/systems/social-automation" element={<CinematicWebsites />} />
+        <Route path="/systems/dropshipping-inventory" element={<CinematicWebsites />} />
+        <Route path="/systems/control-panels" element={<CinematicWebsites />} />
+        <Route path="/systems/ecommerce-merch-stores" element={<CinematicWebsites />} />
+        <Route path="/systems/approval-workflows" element={<CinematicWebsites />} />
+        <Route path="/systems/ai-content-systems" element={<CinematicWebsites />} />
+        <Route path="/systems/artist-release-systems" element={<CinematicWebsites />} />
+        <Route path="/systems/case-studies/gannon-waye-music-os" element={<CaseStudyGannonWaye />} />
+        <Route path="/systems/case-studies/ganozmix-direct" element={<CaseStudyGanozMix />} />
       </Route>
 
       {/* Embed timer (no layout) */}
