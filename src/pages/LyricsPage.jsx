@@ -19,6 +19,62 @@ export default function LyricsPage() {
 
   const localReleases = [
     {
+      id: 'thankyou',
+      title: 'Thankyou',
+      type: 'Single',
+      status: 'released',
+      isLocked: false,
+      is_published: true,
+      artwork_url: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=200&q=80',
+      credits: 'Written & Performed by Gannon Waye',
+      lyrics: `Verse 1
+I been carrying this weight for so long
+Trying to hold it all together while the world moves on
+Every sleepless night, every silent fight
+Every time I swallowed my pride just to make things right
+
+Pre-Chorus
+But I'm still standing here
+After everything, I'm still standing here
+
+Chorus
+Thankyou — for the lessons in the pain
+Thankyou — for the strength that came from rain
+I wouldn't be who I am today
+Without going through the fire to find my way
+Thankyou
+
+Verse 2
+I used to think that asking for help was a sign
+That I wasn't tough enough, wasn't holding the line
+But the walls came down and I finally saw
+That the bravest thing I ever did was feel it all
+
+Pre-Chorus
+And I'm still standing here
+After everything, I'm still standing here
+
+Chorus
+Thankyou — for the lessons in the pain
+Thankyou — for the strength that came from rain
+I wouldn't be who I am today
+Without going through the fire to find my way
+Thankyou
+
+Bridge
+Respect is earned, not given away
+You taught me that in the hardest of ways
+And I carry that truth every single day
+Thankyou, thankyou
+
+Outro
+After the storm
+I found my worth
+Thankyou`,
+      spotify_link: '',
+      apple_music_link: '',
+    },
+    {
       id: 'will-you-even-listen',
       title: 'Will You Even Listen',
       type: 'Single',
