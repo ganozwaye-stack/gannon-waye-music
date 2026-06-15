@@ -49,7 +49,7 @@ function RouteRow({ label, path, status, note, external }) {
   );
 }
 
-function Section({ title, icon: Icon, children, defaultOpen = false }) {
+function Section({ title, icon: Icon, children, defaultOpen = false }) { // Icon is a prop — valid
   const [open, setOpen] = useState(defaultOpen);
   return (
     <Card className="border-border/50">
@@ -99,6 +99,10 @@ const PUBLIC_ROUTES = [
   { label: 'Email Preferences',  path: '/email-preferences',   status: 'ok' },
   { label: 'Merch Feedback',     path: '/merch-feedback',      status: 'ok' },
   { label: 'Summary',            path: '/summary',             status: 'ok' },
+  { label: 'Systems Manager',    path: '/systems-manager',     status: 'ok',  note: 'AI Systems Manager public portfolio' },
+  { label: 'Cinematic Websites', path: '/systems/cinematic-websites', status: 'ok' },
+  { label: 'GanozMix Case Study', path: '/systems/case-studies/ganozmix-direct', status: 'ok' },
+  { label: 'Gannon Waye Case Study', path: '/systems/case-studies/gannon-waye-music-os', status: 'ok' },
 ];
 
 const ADMIN_ROUTES = [
@@ -139,6 +143,8 @@ const ADMIN_ROUTES = [
   { label: 'Audit Log',               path: '/admin/audit-log',                status: 'ok' },
   // Missing / not yet built
   { label: 'Thankyou Campaign Engine', path: '/admin/thankyou-6-day-campaign', status: 'missing', note: 'Use /admin/release-sprint as current alternative' },
+  { label: 'Base44 Exit Plan',          path: '/admin/base44-exit-plan',         status: 'ok',      note: '5-phase migration plan to GitHub-controlled stack' },
+  { label: 'Legal Drafts',              path: '/admin/legal-drafts',             status: 'ok',      note: 'Draft termination letter for Victor de Mauro / GanozMix separation' },
 ];
 
 const INTEGRATIONS = [
@@ -149,6 +155,10 @@ const INTEGRATIONS = [
   { label: 'TikTok OAuth',            status: 'review',  note: 'TikTok credentials set. App review status unknown.' },
   { label: 'Spotify Artist Link',     status: 'ok',      note: 'All pages link to correct profile: open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz' },
   { label: 'GanozMix Direct',         status: 'ok',      note: 'Separate e-commerce blueprint and agent workflow created at base44/agents/GanozMixDirectBlueprint.md ✓' },
+  { label: 'Systems Manager / AI Systems Manager', status: 'ok', note: 'Public portfolio at /systems-manager + 8 service destination pages + 2 case study pages live' },
+  { label: 'Winter Bundle discount exclusion', status: 'ok', note: 'validatePromoCode enforces no discounts on winter_writing_bundle and bundle category' },
+  { label: 'Journal bundle price',    status: 'ok',      note: '$59 AUD — updated in DB and fallback data' },
+  { label: 'Poster variant pricing',  status: 'ok',      note: 'A4 $19 / A3 $29 / A2 $39 / A1 $59 — size variants set in DB. Hoodie image replaced with poster image.' },
 ];
 
 const AGENTS = [
@@ -187,6 +197,10 @@ const NEXT_ACTIONS = [
   { priority: 'medium',   action: 'Run Link Integrity Audit at /admin/link-integrity-audit to check for broken links and handle parity', link: '/admin/link-integrity-audit' },
   { priority: 'medium',   action: 'Verify GanozMix Direct agent workflow and Separated Ecommerce Blueprint', link: '/admin/ganozmix' },
   { priority: 'low',      action: 'Switch Stripe from test mode to live mode in Stripe Dashboard if not already done', link: null },
+  { priority: 'high',     action: 'Upload correct poster artwork images to the Poster product via /admin/merch (poster-specific art, not hoodie)', link: '/admin/merch' },
+  { priority: 'medium',   action: 'Upload corrected Journal bundle image showing journal, pen, and thermos together via /admin/merch', link: '/admin/merch' },
+  { priority: 'medium',   action: 'Review Base44 Exit Plan phases and begin Phase 1 (stabilise) at /admin/base44-exit-plan', link: '/admin/base44-exit-plan' },
+  { priority: 'medium',   action: 'Review draft termination letter for GanozMix / Victor at /admin/legal-drafts before sending', link: '/admin/legal-drafts' },
 ];
 
 const PRIORITY_COLORS = {

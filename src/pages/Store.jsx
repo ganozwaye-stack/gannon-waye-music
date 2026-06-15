@@ -57,6 +57,14 @@ const PRODUCT_GALLERIES = {
   ],
 };
 
+// Poster size → price map (for variant pricing display)
+const POSTER_SIZE_PRICES = {
+  'A4 — $19': 19,
+  'A3 — $29': 29,
+  'A2 — $39': 39,
+  'A1 — $59': 59,
+};
+
 // Corrected static product data
 const FALLBACK_PRODUCTS = [
   {
@@ -208,7 +216,12 @@ function ProductCard({ product, onCheckout, onViewCart }) {
   const [detailOpen, setDetailOpen] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
 
-  const price = product.sale_price ?? product.price;
+  const isPoster = product.category === 'poster';
+  const hasPosterVariantPricing = isPoster && product.sizes_available?.some(s => POSTER_SIZE_PRICES[s]);
+  const basePrice = hasPosterVariantPricing
+    ? POSTER_SIZE_PRICES[selectedSize] ?? Math.min(...product.sizes_available.map(s => POSTER_SIZE_PRICES[s]).filter(Boolean))
+    : (product.sale_price ?? product.price);
+  const price = basePrice;
   const cfg = PRODUCT_CONFIG[product.id];
   const badge = PRODUCT_BADGES[product.id];
   const isCd = product.category === 'cd';

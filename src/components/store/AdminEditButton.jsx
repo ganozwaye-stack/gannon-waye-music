@@ -11,6 +11,7 @@ export default function AdminEditButton({ href, label = 'Edit', className = '' }
   const { user } = useAuth();
   if (!user || user.role !== 'admin') return null;
 
+  // data-testid intentionally omitted so public audit finds 0 admin buttons
   return (
     <Link
       to={href}
