@@ -9,20 +9,27 @@ import ShareButtons from '@/components/public/ShareButtons';
 import LyricsModal from '@/components/public/LyricsModal';
 import FanReviewSection from '@/components/public/FanReviewSection';
 import FanCommentSection from '@/components/public/FanCommentSection';
+import {
+  applyThankYouLyrics,
+  THANK_YOU_LYRICS,
+  THANK_YOU_TITLE,
+  THANK_YOU_WRITTEN_CREDIT,
+} from '@/lib/thankYouLyrics';
 
 const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
 
 const FALLBACK_SINGLE = {
   id: 'thank-you-fallback',
-  title: 'Thank You',
+  title: THANK_YOU_TITLE,
   type: 'single',
-  status: 'ready',
+  status: 'released',
   release_date: '2026-06-05',
   artwork_url: THANK_YOU_COVER,
-  description: '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again.',
-  current_single_hero_copy: '"Thank You" — the debut single from Gannon Waye. Out 5 June 2026.',
-  current_single_behind_story: 'This song was written at a turning point — when staying any longer would have meant abandoning himself all over again. There was a growing awareness that what he was experiencing was not new. It felt familiar in a way that traced back much further, to patterns already fought hard to outgrow.\n\nThis song is not about the pain. It is about the line being drawn. It is the moment of choosing self-respect over repetition. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.',
-  credits: null,
+  description: 'Thank You is the debut single from Gannon Waye.',
+  current_single_hero_copy: 'Thank You, the debut single from Gannon Waye. Out now.',
+  current_single_behind_story: 'Thank You is a song about clarity, self respect and choosing a new way forward.',
+  credits: THANK_YOU_WRITTEN_CREDIT,
+  lyrics: THANK_YOU_LYRICS,
   youtube_video_id: null,
   youtube_link: null,
   spotify_link: null,
@@ -56,7 +63,6 @@ function YouTubeEmbed({ videoId, fallbackUrl }) {
       </div>
     );
   }
-  // Fallback link
   return (
     <div className="aspect-video bg-secondary/30 rounded-2xl flex items-center justify-center border border-border/40">
       <div className="text-center">
@@ -80,7 +86,7 @@ export default function CurrentSingle() {
     queryFn: () => base44.entities.Release.filter({ is_current_single: true }, '-release_date', 1),
   });
 
-  const single = releases[0] || FALLBACK_SINGLE;
+  const single = applyThankYouLyrics(releases[0] || FALLBACK_SINGLE);
   const isReleased = single.status === 'released';
   const releaseDateText = single.release_date
     ? new Date(single.release_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -88,7 +94,6 @@ export default function CurrentSingle() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Cinematic background */}
       <div className="fixed inset-0 pointer-events-none z-0">
         {single.artwork_url && (
           <div
@@ -102,7 +107,6 @@ export default function CurrentSingle() {
           />
         )}
         <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, hsl(220,15%,6%) 0%, transparent 40%, transparent 60%, hsl(220,15%,6%) 100%)' }} />
-        {/* Subtle gold shimmer */}
         <motion.div
           className="absolute inset-0 opacity-5"
           style={{ background: 'radial-gradient(ellipse at 50% 30%, hsl(40,85%,58%) 0%, transparent 60%)' }}
@@ -112,14 +116,12 @@ export default function CurrentSingle() {
       </div>
 
       <div className="relative z-10 py-12 px-4 md:px-6 max-w-4xl mx-auto">
-        {/* Back */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-8">
           <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer font-body text-xs tracking-wider uppercase">
             <ArrowLeft className="w-3 h-3" />Back
           </button>
         </motion.div>
 
-        {/* Hero */}
         <div className="grid grid-cols-1 md:grid-cols-[1fr_320px] gap-10 md:gap-16 items-center mb-16">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Current Single</p>
@@ -166,7 +168,6 @@ export default function CurrentSingle() {
             </div>
           </motion.div>
 
-          {/* Artwork */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -181,16 +182,13 @@ export default function CurrentSingle() {
                   <Play className="w-16 h-16 text-muted-foreground/20" />
                 </div>
               )}
-              {/* Gold glow edge */}
               <div className="absolute inset-0 rounded-2xl" style={{ boxShadow: 'inset 0 0 40px rgba(249,208,110,0.05)' }} />
             </div>
-            {/* Soft glow behind artwork */}
             <div className="absolute -inset-6 rounded-3xl opacity-20 pointer-events-none" style={{ background: 'radial-gradient(ellipse, hsl(40,85%,58%) 0%, transparent 70%)', filter: 'blur(20px)' }} />
           </motion.div>
         </div>
 
-        {/* Spotify Player Embed */}
-        {isReleased && (single.title === 'Thank You' || single.id === 'thank-you-fallback') && (
+        {isReleased && (single.title === THANK_YOU_TITLE || single.id === 'thank-you-fallback') && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="mb-14">
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Listen on Spotify</p>
             <iframe
@@ -207,7 +205,6 @@ export default function CurrentSingle() {
           </motion.div>
         )}
 
-        {/* Music Video */}
         {(single.youtube_video_id || single.youtube_link) && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="mb-14">
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Music Video</p>
@@ -215,7 +212,6 @@ export default function CurrentSingle() {
           </motion.div>
         )}
 
-        {/* Behind the song */}
         {single.current_single_behind_story && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mb-14">
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Behind the Song</p>
@@ -225,7 +221,6 @@ export default function CurrentSingle() {
           </motion.div>
         )}
 
-        {/* Credits */}
         {single.credits && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }} className="mb-14">
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2">Credits</p>
@@ -233,15 +228,12 @@ export default function CurrentSingle() {
           </motion.div>
         )}
 
-        {/* Share */}
         <div className="flex justify-center mb-14">
           <ShareButtons url={`${window.location.origin}/current-single`} text={`"${single.title}" — Gannon Waye. Out ${releaseDateText || 'soon'}.`} />
         </div>
 
-        {/* Fan Reviews */}
         <FanReviewSection targetType="single_page" targetId={single.id} targetName={single.title} />
 
-        {/* Fan Comments */}
         <FanCommentSection postId={single.id} postType="current_single" />
       </div>
 
