@@ -4,17 +4,19 @@ import { X, ArrowLeft, Copy, Share2, CheckCircle2, ExternalLink } from 'lucide-r
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
+import { applyThankYouLyrics } from '@/lib/thankYouLyrics';
 
 export default function LyricsModal({ release, onClose }) {
   const [copied, setCopied] = useState(false);
   if (!release) return null;
 
-  const isLocked = release.isLocked || release.status === 'recording' || release.id?.includes('recording');
-  const hasLyrics = release.lyrics && release.lyrics.trim().length > 0;
+  const displayRelease = applyThankYouLyrics(release);
+  const isLocked = displayRelease.isLocked || displayRelease.status === 'recording' || displayRelease.id?.includes('recording');
+  const hasLyrics = displayRelease.lyrics && displayRelease.lyrics.trim().length > 0;
 
   const handleCopy = () => {
     if (!hasLyrics) return;
-    navigator.clipboard.writeText(release.lyrics);
+    navigator.clipboard.writeText(displayRelease.lyrics);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
     toast.success('Lyrics copied');
@@ -23,7 +25,7 @@ export default function LyricsModal({ release, onClose }) {
   const handleShare = async () => {
     const url = `${window.location.origin}/lyrics`;
     if (navigator.share) {
-      await navigator.share({ title: `${release.title} — Gannon Waye`, url });
+      await navigator.share({ title: `${displayRelease.title} — Gannon Waye`, url });
     } else {
       navigator.clipboard.writeText(url);
       toast.success('Link copied');
@@ -54,16 +56,16 @@ export default function LyricsModal({ release, onClose }) {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <Badge variant="outline" className="text-[10px] tracking-widest uppercase border-primary/30 text-primary">
-                    {release.type || 'Single'}
+                    {displayRelease.type || 'Single'}
                   </Badge>
-                  {release.status === 'released' && (
+                  {displayRelease.status === 'released' && (
                     <Badge className="text-[10px] tracking-widest uppercase bg-primary/20 text-primary">Out Now</Badge>
                   )}
                 </div>
-                <h2 className="font-display text-2xl md:text-3xl text-foreground">{release.title}</h2>
-                {release.release_date && (
+                <h2 className="font-display text-2xl md:text-3xl text-foreground">{displayRelease.title}</h2>
+                {displayRelease.release_date && (
                   <p className="font-body text-xs text-muted-foreground mt-0.5">
-                    {new Date(release.release_date).toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' })}
+                    {new Date(displayRelease.release_date).toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' })}
                   </p>
                 )}
               </div>
@@ -89,8 +91,8 @@ export default function LyricsModal({ release, onClose }) {
               <Button variant="ghost" size="sm" onClick={handleShare} className="gap-1 text-xs">
                 <Share2 className="w-3 h-3" />Share
               </Button>
-              {release.youtube_link && (
-                <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
+              {displayRelease.youtube_link && (
+                <a href={displayRelease.youtube_link} target="_blank" rel="noopener noreferrer">
                   <Button variant="ghost" size="sm" className="gap-1 text-xs">
                     ▶️ Video <ExternalLink className="w-3 h-3" />
                   </Button>
@@ -120,7 +122,7 @@ export default function LyricsModal({ release, onClose }) {
               </div>
             ) : hasLyrics ? (
               <pre className="font-body text-sm md:text-base text-foreground/85 leading-relaxed whitespace-pre-wrap font-normal">
-                {release.lyrics}
+                {displayRelease.lyrics}
               </pre>
             ) : (
               <div className="text-center py-12">
@@ -130,10 +132,10 @@ export default function LyricsModal({ release, onClose }) {
             )}
 
             {/* Credits */}
-            {release.credits && (
+            {displayRelease.credits && (
               <div className="mt-8 pt-6 border-t border-border/30">
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Credits</p>
-                <p className="font-body text-xs text-muted-foreground leading-relaxed">{release.credits}</p>
+                <p className="font-body text-xs text-muted-foreground leading-relaxed">{displayRelease.credits}</p>
               </div>
             )}
 
