@@ -208,6 +208,7 @@ function CinematicCelebration() {
 import ThankYouHeroBanner from '@/components/public/ThankYouHeroBanner';
 import VideoPreviewSection from '@/components/public/VideoPreviewSection';
 import MerchTeaserSection from '@/components/public/MerchTeaserSection';
+import StoreWorldTeaser from '@/components/public/StoreWorldTeaser';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 import HeroQuoteRotator from '@/components/public/HeroQuoteRotator';
 import FanMediaUpload from '@/components/public/FanMediaUpload';
@@ -482,6 +483,9 @@ export default function Home() {
 
       {/* Merch Teaser */}
       <MerchTeaserSection />
+
+      {/* Boutique Store World CTA */}
+      <StoreWorldTeaser />
 
       {/* Fan Highlight Wall + Join Community (Merged) */}
       <FanHighlightCommunity />
