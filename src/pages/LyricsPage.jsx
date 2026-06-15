@@ -7,6 +7,13 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import GannonSignature from '@/components/global/GannonSignature';
 import LyricsScroller from '@/components/public/LyricsScroller';
+import {
+  applyThankYouLyrics,
+  isThankYouRelease,
+  THANK_YOU_LYRICS,
+  THANK_YOU_TITLE,
+  THANK_YOU_WRITTEN_CREDIT,
+} from '@/lib/thankYouLyrics';
 
 export default function LyricsPage() {
   const [openId, setOpenId] = useState(null);
@@ -20,57 +27,14 @@ export default function LyricsPage() {
   const localReleases = [
     {
       id: 'thankyou',
-      title: 'Thankyou',
+      title: THANK_YOU_TITLE,
       type: 'Single',
       status: 'released',
       isLocked: false,
       is_published: true,
       artwork_url: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=200&q=80',
-      credits: 'Written & Performed by Gannon Waye',
-      lyrics: `Verse 1
-I been carrying this weight for so long
-Trying to hold it all together while the world moves on
-Every sleepless night, every silent fight
-Every time I swallowed my pride just to make things right
-
-Pre-Chorus
-But I'm still standing here
-After everything, I'm still standing here
-
-Chorus
-Thankyou — for the lessons in the pain
-Thankyou — for the strength that came from rain
-I wouldn't be who I am today
-Without going through the fire to find my way
-Thankyou
-
-Verse 2
-I used to think that asking for help was a sign
-That I wasn't tough enough, wasn't holding the line
-But the walls came down and I finally saw
-That the bravest thing I ever did was feel it all
-
-Pre-Chorus
-And I'm still standing here
-After everything, I'm still standing here
-
-Chorus
-Thankyou — for the lessons in the pain
-Thankyou — for the strength that came from rain
-I wouldn't be who I am today
-Without going through the fire to find my way
-Thankyou
-
-Bridge
-Respect is earned, not given away
-You taught me that in the hardest of ways
-And I carry that truth every single day
-Thankyou, thankyou
-
-Outro
-After the storm
-I found my worth
-Thankyou`,
+      credits: THANK_YOU_WRITTEN_CREDIT,
+      lyrics: THANK_YOU_LYRICS,
       spotify_link: '',
       apple_music_link: '',
     },
@@ -96,9 +60,15 @@ Thankyou`,
     }
   ];
 
+  const publishedRemoteReleases = releases
+    .map(applyThankYouLyrics)
+    .filter(r => r.is_published && r.lyrics);
+
+  const hasRemoteThankYou = publishedRemoteReleases.some(isThankYouRelease);
+
   const withLyrics = [
-    ...releases.filter(r => r.is_published && r.lyrics && !localReleases.some(lr => lr.title === r.title)),
-    ...localReleases
+    ...publishedRemoteReleases,
+    ...localReleases.filter(release => !(hasRemoteThankYou && isThankYouRelease(release)))
   ];
 
   return (
@@ -120,7 +90,7 @@ Thankyou`,
         {withLyrics.length === 0 ? (
           <div className="text-center py-20">
             <Music2 className="w-14 h-14 text-muted-foreground/20 mx-auto mb-4" />
-            <p className="font-body text-muted-foreground">Lyrics will be revealed when "Thank You" by Gannon Waye drops on 05 June 2026.</p>
+            <p className="font-body text-muted-foreground">Lyrics will appear here as each release is published.</p>
             <Link to="/music" className="mt-4 inline-block">
               <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase mt-4">
                 Go to Music
