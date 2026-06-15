@@ -15,6 +15,7 @@ const NAV_LINKS = [
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
   { label: 'Store', path: '/store' },
+  { label: 'The Boutique ✦', path: '/store-world', boutique: true },
   { label: 'Contact', path: '/contact' },
   { label: 'Back This 🤍', path: '/back-this', highlight: true },
 ];
@@ -46,18 +47,23 @@ export default function Navbar() {
           {NAV_LINKS.map(link => {
             const active = location.pathname === link.path;
             const isHighlighted = link.highlight || link.path === '/store';
+            const isBoutique = link.boutique;
             return (
               <Link
                 key={link.path}
                 to={link.path}
                 className={`font-body text-sm tracking-widest uppercase transition-all duration-200 hover:scale-105 ${
-                  isHighlighted
+                  isBoutique
                     ? active
-                      ? 'px-4 py-1.5 rounded-full bg-primary text-primary-foreground'
-                      : 'px-4 py-1.5 rounded-full border border-primary/60 hover:bg-primary/10 gradient-gold-text'
-                    : active
-                      ? 'gradient-gold-text'
-                      : 'text-muted-foreground hover:text-foreground'
+                      ? 'px-3 py-1 rounded-full gradient-gold-text border border-primary/80 bg-primary/10 text-[11px]'
+                      : 'px-3 py-1 rounded-full gradient-gold-text border border-primary/40 hover:border-primary/70 hover:bg-primary/10 text-[11px]'
+                    : isHighlighted
+                      ? active
+                        ? 'px-4 py-1.5 rounded-full bg-primary text-primary-foreground'
+                        : 'px-4 py-1.5 rounded-full border border-primary/60 hover:bg-primary/10 gradient-gold-text'
+                      : active
+                        ? 'gradient-gold-text'
+                        : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
                 {link.label}
