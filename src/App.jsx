@@ -274,6 +274,10 @@ import MissionControl from '@/pages/admin/MissionControl';
 import SystemsManagerOffer from '@/pages/SystemsManagerOffer';
 import StoreWorld from '@/pages/StoreWorld';
 import MumsGarden from '@/pages/MumsGarden';
+import Memorial from '@/pages/Memorial';
+import StoreProductDetail from '@/pages/StoreProductDetail';
+import PriorityCommander from '@/pages/admin/PriorityCommander';
+import ClickAudit from '@/pages/admin/ClickAudit';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -351,6 +355,8 @@ const AuthenticatedApp = () => {
         <Route path="/store/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/store-world" element={<StoreWorld />} />
         <Route path="/mums-garden" element={<MumsGarden />} />
+        <Route path="/memorial" element={<Memorial />} />
+        <Route path="/store/product/:slug" element={<StoreProductDetail />} />
 
         {/* Systems Manager public portfolio routes */}
         <Route path="/systems-manager" element={<SystemsManagerOffer />} />
@@ -622,6 +628,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/system-blueprint" element={<MasterBlueprint />} />
         <Route path="/admin/site-blueprint" element={<MasterBlueprint />} />
         <Route path="/admin/code-audit" element={<CodeAuditCommand />} />
+        <Route path="/admin/click-audit" element={<ClickAudit />} />
+        <Route path="/admin/priority-commander" element={<PriorityCommander />} />
         <Route path="/admin/clip-idea-studio" element={<VideoAgentCommand />} />
         <Route path="/admin/capcut-prompt-builder" element={<VideoAgentCommand />} />
         <Route path="/admin/hook-detection-centre" element={<VideoAgentCommand />} />
