@@ -278,6 +278,12 @@ import Memorial from '@/pages/Memorial';
 import StoreProductDetail from '@/pages/StoreProductDetail';
 import PriorityCommander from '@/pages/admin/PriorityCommander';
 import ClickAudit from '@/pages/admin/ClickAudit';
+import ReleasesRedirect from '@/pages/Releases';
+import About from '@/pages/About';
+import FanWall from '@/pages/FanWall';
+import Support from '@/pages/Support';
+import GiftTracker from '@/pages/GiftTracker';
+import DomesticViolenceSupport from '@/pages/DomesticViolenceSupport';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -358,6 +364,12 @@ const AuthenticatedApp = () => {
         <Route path="/mums-garden" element={<MumsGarden />} />
         <Route path="/memorial" element={<Memorial />} />
         <Route path="/store/product/:slug" element={<StoreProductDetail />} />
+        <Route path="/releases" element={<ReleasesRedirect />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/fan-wall" element={<FanWall />} />
+        <Route path="/support" element={<Support />} />
+        <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />
+        <Route path="/gift-tracker" element={<GiftTracker />} />
 
         {/* Systems Manager public portfolio routes */}
         <Route path="/systems-manager" element={<SystemsManagerOffer />} />

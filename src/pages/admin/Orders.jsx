@@ -9,11 +9,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
-import { Package, Send, Mail, MapPin, User, DollarSign, Calendar, TrendingUp, ShoppingBag, Printer, Download, Eye, Pencil, CheckCircle, Clock, Truck, AlertTriangle } from 'lucide-react';
+import { Package, Send, Mail, MapPin, User, DollarSign, Calendar, TrendingUp, ShoppingBag, Printer, Download, Eye, Pencil, CheckCircle, Clock, Truck, AlertTriangle, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
 import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
+import OrderFulfilmentPanel from '@/components/admin/OrderFulfilmentPanel';
 
 const STATUS_COLORS = {
   pending: 'bg-chart-4/20 text-chart-4',
@@ -170,6 +171,11 @@ export default function Orders() {
 
   return (
     <div className="space-y-6">
+      {/* Back nav */}
+      <button onClick={() => navigate('/admin')} className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors font-body text-sm mb-2">
+        <ArrowLeft className="w-4 h-4" /> Back to Dashboard
+      </button>
+
       {/* Premium Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
@@ -302,15 +308,30 @@ export default function Orders() {
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="flex items-center gap-4 flex-wrap">
                 {isDuplicate(order) && (
                   <Badge className="text-[10px] tracking-widest uppercase bg-orange-500/20 text-orange-400">DUPLICATE VOID</Badge>
+                )}
+                {(order.status === 'confirmed' || order.status === 'pending') && !isDuplicate(order) && (
+                  <Badge className="text-[10px] tracking-widest uppercase bg-orange-400/20 text-orange-400">Needs Fulfilment</Badge>
+                )}
+                {order.status === 'shipped' && (
+                  <Badge className="text-[10px] tracking-widest uppercase bg-green-500/20 text-green-400">Shipped ✅</Badge>
                 )}
                 <Badge className={`text-[10px] tracking-widest uppercase ${STATUS_COLORS[order.status] || 'bg-secondary text-muted-foreground'}`}>
                   {order.status}
                 </Badge>
                   <p className="font-display text-xl text-primary">${order.total_amount?.toFixed(2)}</p>
-                  <Button size="sm" variant="outline" className="gap-1">
+                  {(order.status === 'confirmed' || order.status === 'pending') && !isDuplicate(order) && (
+                    <Button
+                      size="sm"
+                      className="gap-1 gradient-gold-button border-0 text-xs"
+                      onClick={e => { e.stopPropagation(); setSelected(order); }}
+                    >
+                      <Truck className="w-3 h-3" /> Fulfil →
+                    </Button>
+                  )}
+                  <Button size="sm" variant="outline" className="gap-1" onClick={e => { e.stopPropagation(); setSelected(order); }}>
                     <Eye className="w-3 h-3" /> View
                   </Button>
                 </div>
@@ -343,6 +364,15 @@ export default function Orders() {
 
           {selected && (
             <div className="space-y-6 mt-4">
+              {/* ONE-BUTTON FULFILMENT */}
+              <OrderFulfilmentPanel
+                order={selected}
+                onFulfilled={() => {
+                  queryClient.invalidateQueries({ queryKey: ['merchOrders'] });
+                  setSelected(prev => ({ ...prev, status: 'shipped' }));
+                }}
+              />
+
               {/* Customer Info */}
               <div className="grid grid-cols-2 gap-4">
                 <div className="bg-secondary/30 rounded-lg p-4">

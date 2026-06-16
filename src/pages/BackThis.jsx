@@ -221,6 +221,13 @@ export default function BackThis() {
     <div className="min-h-screen py-20 px-4 md:px-6">
       <div className="max-w-2xl mx-auto">
 
+        {/* Discreet DV support link */}
+        <div className="text-right mb-2">
+          <Link to="/support/domestic-violence" className="font-body text-[10px] text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors">
+            Support Resources
+          </Link>
+        </div>
+
         {/* DONE */}
         {step === 'done' && (
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16 space-y-6">
