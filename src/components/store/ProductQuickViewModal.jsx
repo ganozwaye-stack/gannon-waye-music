@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { STORE_PRODUCTS, STORE_ADDONS } from '@/config/storeWorldConfig';
+import { useCartStore } from '@/lib/cartStore';
 
 const ACCENT = '#D4AF37';
 
@@ -22,6 +23,8 @@ export default function ProductQuickViewModal({ productId, onClose }) {
     return STORE_ADDONS.filter(addon => product.addons.includes(addon.id));
   }, [product]);
 
+  const addItem = useCartStore(state => state.addItem);
+
   if (!product) return null;
 
   const isSoldOut = product.status === 'sold_out';
@@ -39,18 +42,32 @@ export default function ProductQuickViewModal({ productId, onClose }) {
     : 0;
 
   const handleAddToCart = () => {
-    const cartItem = {
-      productId: product.id,
+    // Build a product-shaped object compatible with cartStore (expects product.id, product.sale_price)
+    const productForCart = {
+      id: product.id,
       name: product.name,
+      sale_price: product.priceValue,
       price: product.priceValue,
-      qty,
-      size: selectedSize || null,
-      addons: selectedAddons,
-      image: product.images?.[0],
+      image_url: product.images?.[0],
       excludeFromDiscounts: product.excludeFromDiscounts || false,
+      category: product.category,
     };
-    const existingCart = JSON.parse(localStorage.getItem('gw_cart') || '[]');
-    localStorage.setItem('gw_cart', JSON.stringify([...existingCart, cartItem]));
+    addItem(productForCart, qty, selectedSize || null);
+
+    // Also add any selected add-ons as separate cart items
+    selectedAddons.forEach(addonId => {
+      const addon = STORE_ADDONS.find(a => a.id === addonId);
+      if (addon) {
+        addItem({
+          id: addon.id,
+          name: addon.name,
+          sale_price: addon.priceValue,
+          price: addon.priceValue,
+          image_url: addon.image,
+        }, 1, null);
+      }
+    });
+
     onClose();
   };
 
