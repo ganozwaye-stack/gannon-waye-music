@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export default function StoreWorldHotspot({ product }) {
+export default function StoreWorldHotspot({ product, onOpenModal }) {
   const [hovered, setHovered] = useState(false);
   const navigate = useNavigate();
 
@@ -9,11 +9,12 @@ export default function StoreWorldHotspot({ product }) {
   const isMemorial = product.status === 'memorial';
 
   const handleClick = () => {
-    if (product.anchor && !isMemorial) {
-      navigate(product.link + product.anchor);
-    } else {
+    if (isMemorial) {
       navigate(product.link);
+      return;
     }
+    // Open quick-view modal for all purchasable / sold-out products
+    onOpenModal(product.id);
   };
 
   const handleKey = (e) => {
@@ -43,7 +44,7 @@ export default function StoreWorldHotspot({ product }) {
         product.name,
         product.price ? `— ${product.price}` : '',
         isSoldOut ? '(Sold Out)' : '',
-        isMemorial ? '(Memorial)' : '',
+        isMemorial ? '(Memorial — opens tribute page)' : '',
       ].filter(Boolean).join(' ')}
       onClick={handleClick}
       onKeyDown={handleKey}
@@ -57,13 +58,13 @@ export default function StoreWorldHotspot({ product }) {
         top: `${product.hotspot.y}%`,
         width: `${product.hotspot.width}%`,
         height: `${product.hotspot.height}%`,
-        cursor: isSoldOut ? 'not-allowed' : 'pointer',
+        cursor: 'pointer',
         borderRadius: '8px',
         transition: 'all 0.22s ease',
         transform: hovered ? 'scale(1.05)' : 'scale(1)',
         boxShadow: hovered ? `0 0 32px 10px ${glowColor}` : 'none',
         outline: hovered ? `2px solid ${outlineColor}` : '2px solid transparent',
-        background: hovered ? 'rgba(212,175,55,0.06)' : 'transparent',
+        background: hovered ? (isMemorial ? 'rgba(255,210,160,0.06)' : 'rgba(212,175,55,0.06)') : 'transparent',
         zIndex: hovered ? 30 : 10,
       }}
     >
@@ -112,7 +113,6 @@ export default function StoreWorldHotspot({ product }) {
           boxShadow: `0 6px 24px rgba(0,0,0,0.6), 0 0 20px ${glowColor}`,
           whiteSpace: 'normal',
         }}>
-          {/* Label row */}
           <div style={{
             color: isMemorial ? '#ffd6a5' : '#D4AF37',
             fontSize: '10px',
@@ -121,15 +121,13 @@ export default function StoreWorldHotspot({ product }) {
             textTransform: 'uppercase',
             marginBottom: '5px',
           }}>
-            {product.badge && !isMemorial ? product.badge : isMemorial ? '♡ Tribute' : 'VIEW PRODUCT'}
+            {isMemorial ? '♡ Tribute' : isSoldOut ? 'SOLD OUT' : 'VIEW PRODUCT'}
           </div>
 
-          {/* Name */}
           <div style={{ color: '#f0f0f0', fontSize: '12px', fontWeight: 600, lineHeight: 1.35, marginBottom: '5px' }}>
             {product.name}
           </div>
 
-          {/* Price */}
           {product.price && (
             <div style={{ color: '#D4AF37', fontSize: '15px', fontWeight: 700, marginBottom: '2px' }}>
               {product.price}
@@ -141,25 +139,23 @@ export default function StoreWorldHotspot({ product }) {
             </div>
           )}
 
-          {/* Status line */}
           <div style={{
             color: isSoldOut ? '#ff6b6b' : isMemorial ? '#ffd6a5' : '#888',
             fontSize: '10px',
             marginTop: '4px',
           }}>
             {isSoldOut
-              ? 'Sold Out'
+              ? 'Sold Out · Join Waitlist →'
               : isMemorial
               ? 'A tribute — always in our hearts'
-              : 'Click to view →'}
+              : 'Click to quick-view →'}
           </div>
 
-          {/* Tooltip arrow */}
+          {/* Arrow */}
           <div style={{
             position: 'absolute',
             bottom: '-6px',
             left: '50%',
-            transform: 'translateX(-50%)',
             width: '10px',
             height: '10px',
             background: 'rgba(8,8,8,0.97)',

@@ -272,6 +272,8 @@ import SystemsQaHub from '@/pages/admin/SystemsQaHub';
 import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
 import MissionControl from '@/pages/admin/MissionControl';
 import SystemsManagerOffer from '@/pages/SystemsManagerOffer';
+import StoreWorld from '@/pages/StoreWorld';
+import MumsGarden from '@/pages/MumsGarden';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -347,6 +349,8 @@ const AuthenticatedApp = () => {
         <Route path="/order-success" element={<CheckoutSuccess />} />
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/store/checkout-cancel" element={<CheckoutCancel />} />
+        <Route path="/store-world" element={<StoreWorld />} />
+        <Route path="/mums-garden" element={<MumsGarden />} />
 
         {/* Systems Manager public portfolio routes */}
         <Route path="/systems-manager" element={<SystemsManagerOffer />} />

@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { STORE_PRODUCTS, BOUTIQUE_HERO_IMAGE } from '@/config/storeWorldConfig';
 import StoreWorldHotspot from '@/components/store/StoreWorldHotspot';
 import BoutiqueScene from '@/components/store/BoutiqueScene';
+import ProductQuickViewModal from '@/components/store/ProductQuickViewModal';
 
 const ACCENT = '#D4AF37';
 
 export default function StoreWorld() {
   const navigate = useNavigate();
+  const [activeModal, setActiveModal] = useState(null); // productId string
 
   return (
     <div style={{ background: '#0a0a0a', minHeight: '100vh', color: '#fff', fontFamily: "'Inter', sans-serif" }}>
@@ -38,7 +41,6 @@ export default function StoreWorld() {
           }}>
             GANNON WAYE
           </h1>
-          {/* Neon underline */}
           <div style={{
             height: '1px',
             background: `linear-gradient(90deg, transparent, ${ACCENT}, transparent)`,
@@ -59,30 +61,20 @@ export default function StoreWorld() {
           Explore the <em>Respect Is Earned</em> collection, bundles, posters and collectables.
         </p>
 
-        {/* Hero CTAs */}
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
-          <button
-            type="button"
-            onClick={() => navigate('/store')}
-            style={btnStyle('primary')}
-            onMouseEnter={e => e.currentTarget.style.opacity = '0.85'}
+          <button type="button" onClick={() => navigate('/store')} style={btnStyle('primary')}
+            onMouseEnter={e => e.currentTarget.style.opacity = '0.88'}
             onMouseLeave={e => e.currentTarget.style.opacity = '1'}
           >
             Shop All Merch
           </button>
-          <button
-            type="button"
-            onClick={() => navigate('/store')}
-            style={btnStyle('outline')}
+          <button type="button" onClick={() => navigate('/store/cart-details')} style={btnStyle('outline')}
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(212,175,55,0.1)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.8)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.35)'; }}
           >
-            View Winter Bundle
+            View Cart →
           </button>
-          <button
-            type="button"
-            onClick={() => navigate('/current-single')}
-            style={btnStyle('ghost')}
+          <button type="button" onClick={() => navigate('/current-single')} style={btnStyle('ghost')}
             onMouseEnter={e => e.currentTarget.style.color = ACCENT}
             onMouseLeave={e => e.currentTarget.style.color = '#888'}
           >
@@ -101,7 +93,7 @@ export default function StoreWorld() {
           border: '1px solid rgba(212,175,55,0.18)',
           boxShadow: `0 0 80px rgba(212,175,55,0.08), 0 40px 80px rgba(0,0,0,0.7)`,
         }}>
-          {/* Boutique visual — image or generated scene */}
+          {/* Boutique visual */}
           {BOUTIQUE_HERO_IMAGE ? (
             <img
               src={BOUTIQUE_HERO_IMAGE}
@@ -115,7 +107,11 @@ export default function StoreWorld() {
           {/* Hotspot overlay */}
           <div style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
             {STORE_PRODUCTS.map(product => (
-              <StoreWorldHotspot key={product.id} product={product} />
+              <StoreWorldHotspot
+                key={product.id}
+                product={product}
+                onOpenModal={setActiveModal}
+              />
             ))}
           </div>
 
@@ -137,10 +133,10 @@ export default function StoreWorld() {
           textTransform: 'uppercase',
           margin: '16px 0 44px',
         }}>
-          Hover over zones to explore · Click to shop
+          Hover or tap zones to explore · Click to quick-view & shop
         </p>
 
-        {/* ── MOBILE / PRODUCT CARD GRID ── */}
+        {/* ── MOBILE PRODUCT CARD GRID ── */}
         <h2 style={{
           textAlign: 'center',
           fontSize: '10px',
@@ -160,11 +156,16 @@ export default function StoreWorld() {
           marginBottom: '48px',
         }}>
           {STORE_PRODUCTS.map(product => (
-            <ProductCard key={product.id} product={product} navigate={navigate} />
+            <ProductCard
+              key={product.id}
+              product={product}
+              navigate={navigate}
+              onOpenModal={setActiveModal}
+            />
           ))}
         </div>
 
-        {/* ── VIEW FULL STORE ── */}
+        {/* View full store */}
         <div style={{ textAlign: 'center', paddingBottom: '56px' }}>
           <button
             type="button"
@@ -178,6 +179,14 @@ export default function StoreWorld() {
         </div>
       </div>
 
+      {/* ── QUICK-VIEW MODAL ── */}
+      {activeModal && (
+        <ProductQuickViewModal
+          productId={activeModal}
+          onClose={() => setActiveModal(null)}
+        />
+      )}
+
       <style>{`
         @keyframes glowPulse {
           0%, 100% { filter: drop-shadow(0 0 28px rgba(212,175,55,0.55)) drop-shadow(0 0 56px rgba(212,175,55,0.25)); }
@@ -188,14 +197,14 @@ export default function StoreWorld() {
   );
 }
 
-// ── Reusable product card ──────────────────────────────────────────────────
-function ProductCard({ product, navigate }) {
+// ── Product card (mobile + desktop grid) ────────────────────────────────────
+function ProductCard({ product, navigate, onOpenModal }) {
   const isSoldOut = product.status === 'sold_out';
   const isMemorial = product.status === 'memorial';
 
   const handleClick = () => {
     if (isMemorial) { navigate(product.link); return; }
-    navigate(product.link + (product.anchor || ''));
+    onOpenModal(product.id);
   };
 
   return (
@@ -212,14 +221,13 @@ function ProductCard({ product, navigate }) {
         border: `1px solid ${isMemorial ? 'rgba(255,210,160,0.18)' : 'rgba(212,175,55,0.18)'}`,
         borderRadius: '10px',
         padding: '18px 16px',
-        cursor: isSoldOut ? 'not-allowed' : 'pointer',
-        opacity: isSoldOut ? 0.65 : 1,
+        cursor: 'pointer',
+        opacity: isSoldOut ? 0.7 : 1,
         position: 'relative',
         overflow: 'hidden',
         transition: 'all 0.2s ease',
       }}
       onMouseEnter={e => {
-        if (isSoldOut) return;
         e.currentTarget.style.borderColor = isMemorial ? 'rgba(255,210,160,0.45)' : 'rgba(212,175,55,0.5)';
         e.currentTarget.style.transform = 'translateY(-2px)';
         e.currentTarget.style.boxShadow = isMemorial ? '0 8px 24px rgba(255,210,160,0.08)' : '0 8px 24px rgba(212,175,55,0.12)';
@@ -230,7 +238,6 @@ function ProductCard({ product, navigate }) {
         e.currentTarget.style.boxShadow = 'none';
       }}
     >
-      {/* Badge */}
       {product.badge && (
         <span style={{
           position: 'absolute', top: '10px', right: '10px',
@@ -244,14 +251,9 @@ function ProductCard({ product, navigate }) {
         </span>
       )}
 
-      <div style={{ fontSize: '20px', marginBottom: '10px' }}>
-        {isMemorial ? '♡' : '🛍️'}
-      </div>
+      <div style={{ fontSize: '20px', marginBottom: '10px' }}>{isMemorial ? '♡' : '🛍️'}</div>
 
-      <div style={{
-        color: isMemorial ? '#ffd6a5' : '#D4AF37',
-        fontSize: '12px', fontWeight: 700, lineHeight: 1.35, marginBottom: '5px',
-      }}>
+      <div style={{ color: isMemorial ? '#ffd6a5' : '#D4AF37', fontSize: '12px', fontWeight: 700, lineHeight: 1.35, marginBottom: '5px' }}>
         {product.name}
       </div>
 
@@ -261,38 +263,27 @@ function ProductCard({ product, navigate }) {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
         <div>
-          <span style={{
-            color: isSoldOut ? '#e05555' : isMemorial ? '#ffd6a5' : '#f0f0f0',
-            fontSize: '14px', fontWeight: 700,
-          }}>
+          <span style={{ color: isSoldOut ? '#e05555' : isMemorial ? '#ffd6a5' : '#f0f0f0', fontSize: '14px', fontWeight: 700 }}>
             {isSoldOut ? 'Sold Out' : isMemorial ? 'Tribute' : product.price}
           </span>
           {product.priceNote && !isSoldOut && !isMemorial && (
-            <span style={{ color: '#555', fontSize: '10px', marginLeft: '4px' }}>
-              {product.priceNote}
-            </span>
+            <span style={{ color: '#555', fontSize: '10px', marginLeft: '4px' }}>{product.priceNote}</span>
           )}
         </div>
         <span style={{ color: isMemorial ? 'rgba(255,210,160,0.4)' : 'rgba(212,175,55,0.4)', fontSize: '11px' }}>
-          {isSoldOut ? 'Waitlist →' : isMemorial ? 'Visit →' : 'Shop →'}
+          {isSoldOut ? 'Waitlist →' : isMemorial ? 'Visit →' : 'Quick View →'}
         </span>
       </div>
     </button>
   );
 }
 
-// ── Button style helpers ───────────────────────────────────────────────────
+// ── Button styles ─────────────────────────────────────────────────────────
 function btnStyle(variant) {
   const base = {
-    padding: '11px 26px',
-    borderRadius: '6px',
-    fontSize: '11px',
-    letterSpacing: '0.18em',
-    textTransform: 'uppercase',
-    fontWeight: 700,
-    cursor: 'pointer',
-    transition: 'all 0.2s ease',
-    border: 'none',
+    padding: '11px 26px', borderRadius: '6px',
+    fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase',
+    fontWeight: 700, cursor: 'pointer', transition: 'all 0.2s ease', border: 'none',
   };
   if (variant === 'primary') return { ...base, background: 'linear-gradient(135deg, #B8860B, #D4AF37, #FFF8DC, #D4AF37, #B8860B)', color: '#111', boxShadow: '0 4px 16px rgba(212,175,55,0.3)' };
   if (variant === 'outline') return { ...base, background: 'transparent', border: '1px solid rgba(212,175,55,0.35)', color: '#D4AF37' };
