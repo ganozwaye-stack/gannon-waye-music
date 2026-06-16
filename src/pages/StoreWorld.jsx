@@ -13,28 +13,11 @@ const PRODUCT_EMOJI = {
   'cd': '💿', 'tote-bag': '👜', 'mums-garden': '🌸',
 };
 
-// Hero section — shows real image if available, BoutiqueScene as fallback
-function StoreHero({ onOpenModal }) {
-  const [imgFailed, setImgFailed] = useState(false);
-  const showScene = !BOUTIQUE_HERO_IMAGE || imgFailed;
-
-  if (showScene) {
-    return <BoutiqueScene onOpenModal={onOpenModal} />;
-  }
-
-  return (
-    <img
-      src={BOUTIQUE_HERO_IMAGE}
-      alt="Gannon Waye Merch Store — enter to explore official Thankyou merch"
-      onError={() => setImgFailed(true)}
-      style={{ width: '100%', height: 'auto', display: 'block', minHeight: '400px', objectFit: 'cover' }}
-    />
-  );
-}
-
 export default function StoreWorld() {
   const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState(null);
+  const [imgFailed, setImgFailed] = useState(false);
+  const showScene = !BOUTIQUE_HERO_IMAGE || imgFailed;
 
   return (
     <div style={{ background: '#0a0a0a', minHeight: '100vh', color: '#fff', fontFamily: "'Inter', sans-serif" }}>
@@ -93,10 +76,18 @@ export default function StoreWorld() {
           border: '1px solid rgba(212,175,55,0.18)',
           boxShadow: `0 0 80px rgba(212,175,55,0.08), 0 40px 80px rgba(0,0,0,0.7)`,
         }}>
-          <StoreHero onOpenModal={setActiveModal} />
+          {showScene
+            ? <BoutiqueScene onOpenModal={setActiveModal} />
+            : <img
+                src={BOUTIQUE_HERO_IMAGE}
+                alt="Gannon Waye Merch Store"
+                onError={() => setImgFailed(true)}
+                style={{ width: '100%', height: 'auto', display: 'block', minHeight: '400px', objectFit: 'cover' }}
+              />
+          }
 
-          {/* Hotspot overlay — only shown when the real image loaded */}
-          {BOUTIQUE_HERO_IMAGE && (
+          {/* Hotspot overlay — only shown when real hero image loaded successfully */}
+          {!showScene && (
             <div style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
               {STORE_PRODUCTS.map(product => (
                 <StoreWorldHotspot key={product.id} product={product} onOpenModal={setActiveModal} />

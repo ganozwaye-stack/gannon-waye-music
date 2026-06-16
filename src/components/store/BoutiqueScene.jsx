@@ -153,10 +153,10 @@ export default function BoutiqueScene({ onOpenModal }) {
         }}
       >
         {[
-          { src: '/images/products/poster-respect-is-earned.png', emoji: '🖼️', label: 'Respect Is Earned' },
-          { src: '/images/products/poster-thankyou-halo.png', emoji: '🖼️', label: 'Thankyou Halo' },
-          { src: '/images/products/poster-choosing-peace.png', emoji: '🖼️', label: 'Choosing Peace' },
-          { src: '/images/products/poster-no-game-anymore.png', emoji: '🖼️', label: 'No Game' },
+          { src: '', emoji: '🖼️', label: 'Respect Is Earned' },
+          { src: '', emoji: '🖼️', label: 'Thankyou Halo' },
+          { src: '', emoji: '🖼️', label: 'Choosing Peace' },
+          { src: '', emoji: '🖼️', label: 'No Game' },
         ].map((p, i) => (
           <div key={i} style={{
             flex: i === 0 ? 1.5 : 1,
@@ -192,9 +192,9 @@ export default function BoutiqueScene({ onOpenModal }) {
         {/* Hoodies */}
         <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', padding: '0 4px' }}>
           {[
-            { src: '/images/products/hoodie-front.png', emoji: '🖤' },
-            { src: '/images/products/hoodie-front.png', emoji: '🖤' },
-            { src: '/images/products/hoodie-front.png', emoji: '🖤' },
+            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png', emoji: '🖤' },
+            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png', emoji: '🖤' },
+            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png', emoji: '🖤' },
           ].map((h, i) => (
             <div key={i} style={{ flex: 1, aspectRatio: '0.7/1', background: 'linear-gradient(180deg, #2a2a2a, #111)', borderRadius: '4px 4px 6px 6px', overflow: 'hidden', boxShadow: '1px 3px 12px rgba(0,0,0,0.7)', position: 'relative' }}>
               <ProductImg src={h.src} emoji={h.emoji} alt="Front print hoodie" style={{ objectFit: 'contain', padding: '4px' }} />
@@ -221,9 +221,9 @@ export default function BoutiqueScene({ onOpenModal }) {
         <div style={{ height: '3px', background: `linear-gradient(90deg, rgba(180,160,100,0.25), rgba(212,175,55,0.7), rgba(180,160,100,0.25))`, borderRadius: '2px', boxShadow: '0 2px 8px rgba(212,175,55,0.3)', marginBottom: '4px' }} />
         <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', padding: '0 4px' }}>
           {[
-            { src: '/images/products/hoodie-back.png', emoji: '🖤' },
-            { src: '/images/products/hoodie-back.png', emoji: '🖤' },
-            { src: '/images/products/hoodie-back.png', emoji: '🖤' },
+            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png', emoji: '🖤' },
+            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png', emoji: '🖤' },
+            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png', emoji: '🖤' },
           ].map((h, i) => (
             <div key={i} style={{ flex: 1, aspectRatio: '0.7/1', background: 'linear-gradient(180deg, #2a2a2a, #111)', borderRadius: '4px 4px 6px 6px', overflow: 'hidden', boxShadow: '1px 3px 12px rgba(0,0,0,0.7)', position: 'relative' }}>
               <ProductImg src={h.src} emoji={h.emoji} alt="Back print hoodie" style={{ objectFit: 'contain', padding: '4px' }} />
@@ -263,17 +263,17 @@ export default function BoutiqueScene({ onOpenModal }) {
         <div style={{ position: 'absolute', top: '-70px', left: '50%', transform: 'translateX(-50%)', width: '180%', height: '100px', background: 'radial-gradient(ellipse at 50% 0%, rgba(212,175,55,0.28) 0%, transparent 70%)', pointerEvents: 'none' }} />
 
         <div style={{ width: '80%', aspectRatio: '1/1', background: '#0a0800', border: `1px solid rgba(212,175,55,0.28)`, borderRadius: '8px', overflow: 'hidden', boxShadow: '0 4px 28px rgba(212,175,55,0.18)' }}>
-          <ProductImg src="/images/products/winter-writing-comfort-bundle.png" emoji="❄️" alt="Winter Bundle" style={{ objectFit: 'contain', padding: '8px' }} />
+          <ProductImg src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg" emoji="❄️" alt="Winter Bundle" style={{ objectFit: 'contain', padding: '8px' }} />
         </div>
 
         <div style={{ display: 'flex', gap: '6px', marginTop: '5px', alignItems: 'flex-end' }}>
           {/* Journal */}
           <div style={{ width: '32px', height: '38px', background: 'linear-gradient(135deg, #1a1200, #2e2200)', border: `1px solid rgba(212,175,55,0.3)`, borderRadius: '2px', overflow: 'hidden' }}>
-            <ProductImg src="/images/products/journal.png" emoji="📓" alt="Journal" style={{ objectFit: 'cover' }} />
+            <ProductImg src="" emoji="📓" alt="Journal" style={{ objectFit: 'cover' }} />
           </div>
           {/* Thermos */}
           <div style={{ width: '18px', height: '44px', background: 'linear-gradient(180deg, #222, #0d0d0d)', border: `1px solid rgba(212,175,55,0.2)`, borderRadius: '2px 2px 4px 4px', overflow: 'hidden' }}>
-            <ProductImg src="/images/products/thermos.png" emoji="🫙" alt="Thermos" style={{ objectFit: 'cover' }} />
+            <ProductImg src="" emoji="🫙" alt="Thermos" style={{ objectFit: 'cover' }} />
           </div>
           {/* Pen */}
           <div style={{ width: '6px', height: '40px', background: `linear-gradient(180deg, #B8860B, #D4AF37, #B8860B)`, borderRadius: '3px', boxShadow: '0 1px 6px rgba(212,175,55,0.4)' }} />
@@ -298,7 +298,7 @@ export default function BoutiqueScene({ onOpenModal }) {
         }}
       >
         <div style={{ width: '100%', aspectRatio: '1/1', background: '#0a0800', border: `1px solid rgba(212,175,55,0.2)`, borderRadius: '6px', overflow: 'hidden' }}>
-          <ProductImg src="/images/products/journal-pen-thermos-bundle.png" emoji="📓" alt="Journal Bundle" style={{ objectFit: 'contain', padding: '4px' }} />
+          <ProductImg src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg" emoji="📓" alt="Journal Bundle" style={{ objectFit: 'contain', padding: '4px' }} />
         </div>
         <div style={{ color: GOLD_TEXT, fontSize: '6px', textAlign: 'center', marginTop: '4px', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Journal<br/>$59</div>
       </ZoneButton>
@@ -350,7 +350,7 @@ export default function BoutiqueScene({ onOpenModal }) {
           <ZoneButton label="Coffee Mug — $9.90" onClick={() => open('mug')} style={{ flex: 1.2, position: 'relative', background: 'transparent' }}>
             <div style={{ paddingBottom: '100%', background: 'linear-gradient(135deg, #1e1e1e, #0d0d0d)', border: `1px solid rgba(212,175,55,0.25)`, borderRadius: '2px 2px 5px 5px', overflow: 'hidden', position: 'relative', boxShadow: '1px 2px 10px rgba(0,0,0,0.5)' }}>
               <div style={{ position: 'absolute', inset: 0 }}>
-                <ProductImg src="/images/products/mug-front.png" emoji="☕" alt="Mug" style={{ objectFit: 'contain', padding: '4px' }} />
+                <ProductImg src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png" emoji="☕" alt="Mug" style={{ objectFit: 'contain', padding: '4px' }} />
               </div>
               <div style={{ position: 'absolute', right: '-5px', top: '20%', width: '6px', height: '30%', border: `1px solid rgba(212,175,55,0.2)`, borderLeft: 'none', borderRadius: '0 3px 3px 0' }} />
             </div>
@@ -360,7 +360,7 @@ export default function BoutiqueScene({ onOpenModal }) {
           <ZoneButton label="CD Collection" onClick={() => open('cd')} style={{ flex: 1, position: 'relative', background: 'transparent' }}>
             <div style={{ paddingBottom: '120%', background: 'linear-gradient(135deg, #111, #0a0a0a)', border: `1px solid rgba(212,175,55,0.15)`, borderRadius: '2px', overflow: 'hidden', position: 'relative', boxShadow: '1px 2px 8px rgba(0,0,0,0.5)' }}>
               <div style={{ position: 'absolute', inset: 0 }}>
-                <ProductImg src="/images/products/cd-cover.png" emoji="💿" alt="CD" style={{ objectFit: 'contain', padding: '3px' }} />
+                <ProductImg src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c2a1369c4_1.png" emoji="💿" alt="CD" style={{ objectFit: 'contain', padding: '3px' }} />
               </div>
               <div style={{ position: 'absolute', bottom: '3px', left: '50%', transform: 'translateX(-50%)', color: 'rgba(212,175,55,0.25)', fontSize: '4px', letterSpacing: '0.05em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>Sold Out</div>
             </div>
@@ -370,7 +370,7 @@ export default function BoutiqueScene({ onOpenModal }) {
           <ZoneButton label="Tote Bag" onClick={() => open('tote-bag')} style={{ flex: 1, position: 'relative', background: 'transparent' }}>
             <div style={{ paddingBottom: '110%', background: 'linear-gradient(135deg, #111, #0a0a0a)', border: `1px solid rgba(212,175,55,0.12)`, borderRadius: '2px', overflow: 'hidden', position: 'relative', boxShadow: '1px 2px 8px rgba(0,0,0,0.5)' }}>
               <div style={{ position: 'absolute', inset: 0 }}>
-                <ProductImg src="/images/products/tote-bag.png" emoji="👜" alt="Tote" style={{ objectFit: 'contain', padding: '3px' }} />
+                <ProductImg src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png" emoji="👜" alt="Tote" style={{ objectFit: 'contain', padding: '3px' }} />
               </div>
             </div>
             <div style={{ textAlign: 'center', color: GOLD_TEXT, fontSize: '5px', marginTop: '3px', letterSpacing: '0.08em', textTransform: 'uppercase' }}>Tote</div>

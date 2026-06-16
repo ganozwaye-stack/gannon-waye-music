@@ -1,11 +1,12 @@
-export const BOUTIQUE_HERO_IMAGE = "/images/store/high_end_merch_store_for_gannon_waye.png";
+// Set to a real uploaded URL to show the hero photo; leave empty to use the interactive BoutiqueScene
+export const BOUTIQUE_HERO_IMAGE = "";
 
 export const STORE_PRODUCTS = [
   {
     id: "front-hoodie",
-    name: 'Thankyou "Respect Is Earned" Oversized Hoodie — Front Print',
-    shortName: "Front Print Hoodie",
-    tooltip: "Shop the front print hoodie",
+    name: 'Thankyou "Respect Is Earned" Oversized Hoodie Dark Grey',
+    shortName: "Hoodie — Front",
+    tooltip: "Shop the hoodie",
     price: "$89",
     priceValue: 89,
     priceNote: "+ postage",
@@ -13,7 +14,9 @@ export const STORE_PRODUCTS = [
     badge: "Hoodie",
     category: "hoodies",
     link: "/store/product/thankyou-respect-is-earned-hoodie-front",
-    images: ["/images/products/hoodie-front.png", "/images/products/hoodie-back.png"],
+    images: [
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png",
+    ],
     description: "Dark grey oversized hoodie featuring the Thankyou artwork on the front with Gannon Waye signature detail. A wearable piece from the Respect Is Earned collection.",
     options: { size: ["S", "M", "L", "XL", "2XL", "3XL"] },
     addons: ["mug-addon", "poster-addon"],
@@ -22,8 +25,8 @@ export const STORE_PRODUCTS = [
   {
     id: "back-hoodie",
     name: 'Thankyou "Respect Is Earned" Oversized Hoodie — Back Print',
-    shortName: "Back Print Hoodie",
-    tooltip: "Shop the back print hoodie",
+    shortName: "Hoodie — Back",
+    tooltip: "Shop the hoodie — back print",
     price: "$89",
     priceValue: 89,
     priceNote: "+ postage",
@@ -31,7 +34,9 @@ export const STORE_PRODUCTS = [
     badge: "Hoodie",
     category: "hoodies",
     link: "/store/product/thankyou-respect-is-earned-hoodie-back",
-    images: ["/images/products/hoodie-back.png", "/images/products/hoodie-front.png"],
+    images: [
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png",
+    ],
     description: "Dark grey oversized hoodie with the lyric line Respect Is Earned, Not A Game You Make Me Play across the back. Designed as a statement piece from Thankyou.",
     options: { size: ["S", "M", "L", "XL", "2XL", "3XL"] },
     addons: ["mug-addon", "poster-addon"],
@@ -50,8 +55,12 @@ export const STORE_PRODUCTS = [
     category: "bundles",
     excludeFromDiscounts: true,
     link: "/store/product/winter-writing-comfort-bundle",
-    images: ["/images/products/winter-writing-comfort-bundle.png", "/images/products/journal-pen-thermos-bundle.png", "/images/products/hoodie-front.png", "/images/products/hoodie-back.png"],
-    description: "The hero offer of the Thankyou merch store. Includes the oversized Respect Is Earned hoodie plus the Thankyou journal, pen and thermos flask bundle. Discount already marked — excluded from promo codes.",
+    images: [
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg",
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/146ccc6c7_5.jpg",
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png",
+    ],
+    description: "The hero offer of the Thankyou Merch Store. Includes the oversized Respect Is Earned hoodie plus the Thankyou journal, pen and thermos flask bundle. Discount already marked — excluded from promo codes.",
     includes: ['Thankyou "Respect Is Earned" Oversized Hoodie', "Thankyou Journal", "Thankyou Pen", "Thankyou Thermos Flask"],
     options: { size: ["S", "M", "L", "XL", "2XL", "3XL"] },
     addons: ["mug-addon", "poster-addon"],
@@ -60,7 +69,7 @@ export const STORE_PRODUCTS = [
   {
     id: "journal-pen-thermos-bundle",
     name: "Thankyou Journal, Pen & Thermos Flask Bundle",
-    shortName: "Journal, Pen & Thermos",
+    shortName: "Journal Bundle",
     tooltip: "Shop the writing bundle",
     price: "$59",
     priceValue: 59,
@@ -70,7 +79,11 @@ export const STORE_PRODUCTS = [
     category: "bundles",
     excludeFromDiscounts: true,
     link: "/store/product/journal-pen-thermos-bundle",
-    images: ["/images/products/journal-pen-thermos-bundle.png", "/images/products/thermos.png", "/images/products/journal.png"],
+    images: [
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg",
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/146ccc6c7_5.jpg",
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3afc9d17f_3.jpg",
+    ],
     description: "A premium Thankyou writing set featuring the Respect Is Earned journal, matching pen and thermos flask. Designed for reflection, writing, healing and comfort.",
     addons: ["mug-addon", "poster-addon"],
     hotspot: { left: "54%", top: "43%", width: "18%", height: "24%" }
@@ -79,7 +92,7 @@ export const STORE_PRODUCTS = [
     id: "mug",
     name: 'Thankyou "Respect Is Earned" Coffee Mug',
     shortName: "Coffee Mug",
-    tooltip: "Shop the mug collection",
+    tooltip: "Shop the mug",
     price: "$9.90",
     priceValue: 9.90,
     priceNote: "+ postage",
@@ -87,7 +100,10 @@ export const STORE_PRODUCTS = [
     badge: "Mug",
     category: "mugs",
     link: "/store/product/thankyou-respect-is-earned-coffee-mug",
-    images: ["/images/products/mug-front.png", "/images/products/mug-back.png"],
+    images: [
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png",
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0261db66f_MugBack.png",
+    ],
     description: "Ceramic Thankyou coffee mug featuring the Respect Is Earned lyric artwork. A simple daily reminder from the song.",
     addons: ["poster-addon"],
     hotspot: { left: "34%", top: "64%", width: "36%", height: "12%" }
@@ -104,8 +120,8 @@ export const STORE_PRODUCTS = [
     badge: "Poster",
     category: "posters",
     link: "/store/product/thankyou-respect-is-earned-wall-poster",
-    images: ["/images/products/poster-respect-is-earned.png", "/images/products/poster-thankyou-halo.png", "/images/products/poster-choosing-peace.png", "/images/products/poster-no-game-anymore.png"],
-    description: "Premium Thankyou lyric wall poster. Assorted sizing available, with pricing varying by size.",
+    images: [],
+    description: "Premium Thankyou lyric wall poster. Assorted sizing available — A4, A3, A2 and A1.",
     options: { size: ["A4", "A3", "A2", "A1"] },
     addons: ["mug-addon"],
     hotspot: { left: "24%", top: "22%", width: "52%", height: "20%" }
@@ -113,16 +129,18 @@ export const STORE_PRODUCTS = [
   {
     id: "cd",
     name: "Thankyou CD",
-    shortName: "CD Collection",
-    tooltip: "View CD collection",
+    shortName: "Thankyou CD",
+    tooltip: "View Thankyou CD",
     price: "Sold Out",
     priceValue: 0,
     status: "sold_out",
     badge: "Sold Out",
     category: "collectables",
     link: "/store/product/thankyou-cd",
-    images: ["/images/products/cd-cover.png", "/images/products/cd-open.png"],
-    description: "Thankyou physical CD collectable. Currently sold out.",
+    images: [
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c2a1369c4_1.png",
+    ],
+    description: "Thankyou physical CD collectable. Currently sold out due to popular demand.",
     hotspot: { left: "32%", top: "77%", width: "24%", height: "13%" }
   },
   {
@@ -136,7 +154,10 @@ export const STORE_PRODUCTS = [
     badge: "Sold Out",
     category: "bags",
     link: "/store/product/thankyou-tote-bag",
-    images: ["/images/products/tote-bag.png"],
+    images: [
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png",
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/39dab5737_RespectisEarnedToteBagBack.png",
+    ],
     description: "Thankyou tote bag featuring campaign artwork and signature detail. Currently sold out.",
     hotspot: { left: "67%", top: "77%", width: "13%", height: "13%" }
   },
@@ -150,7 +171,7 @@ export const STORE_PRODUCTS = [
     badge: "Private",
     category: "tribute",
     link: "/mums-garden",
-    images: ["/images/store/mums-garden-preview.png"],
+    images: [],
     description: "A private tribute space connected to Mum's Garden.",
     hotspot: { left: "82%", top: "18%", width: "15%", height: "23%" }
   }
@@ -159,16 +180,16 @@ export const STORE_PRODUCTS = [
 export const STORE_ADDONS = [
   {
     id: "mug-addon",
-    name: 'Add Thankyou "Respect Is Earned" Mug',
+    name: 'Add Thankyou "Respect Is Earned" Mug — $10',
     price: "$10",
     priceValue: 10,
-    image: "/images/products/mug-front.png"
+    image: "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png"
   },
   {
     id: "poster-addon",
-    name: 'Add Thankyou "Respect Is Earned" Poster',
+    name: 'Add Thankyou "Respect Is Earned" Wall Poster — $39',
     price: "$39",
     priceValue: 39,
-    image: "/images/products/poster-respect-is-earned.png"
+    image: ""
   }
 ];
