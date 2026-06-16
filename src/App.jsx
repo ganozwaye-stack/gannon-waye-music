@@ -310,7 +310,8 @@ const AuthenticatedApp = () => {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
-        <Route path="/store" element={<Store />} />
+        <Route path="/store" element={<StoreWorld />} />
+        <Route path="/store/all" element={<Store />} />
         <Route path="/store/cart" element={<StoreCartPage />} />
         <Route path="/store/customer-details" element={<StoreCustomerDetails />} />
         <Route path="/store/cart-details" element={<StoreCartDetails />} />
