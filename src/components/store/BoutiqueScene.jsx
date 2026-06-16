@@ -1,5 +1,5 @@
 /**
- * BoutiqueScene — Interactive CSS luxury merch store interior.
+ * MerchStoreScene — Interactive CSS luxury Merch Store interior.
  * Renders when BOUTIQUE_HERO_IMAGE is missing or fails to load.
  * All zones are clickable — triggers product quick-view modal via onOpenModal prop.
  *

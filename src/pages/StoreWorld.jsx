@@ -25,7 +25,7 @@ export default function StoreWorld() {
       {/* ── HERO HEADER ── */}
       <div style={{ textAlign: 'center', padding: '56px 24px 28px', background: 'linear-gradient(180deg, #000 0%, #0a0a0a 100%)' }}>
         <p style={{ color: '#555', fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '14px' }}>
-          Official Merch Store
+          Official Gannon Waye Merch Store
         </p>
 
         <div style={{ display: 'inline-block', position: 'relative', marginBottom: '10px' }}>
@@ -43,7 +43,7 @@ export default function StoreWorld() {
         </div>
 
         <p style={{ color: '#777', fontSize: '13px', letterSpacing: '0.12em', lineHeight: 1.7, maxWidth: '520px', margin: '14px auto 0' }}>
-          Step inside the official <em>Thankyou</em> merch store.<br />
+          Shop the official <em>Thankyou</em> Merch Store.<br />
           Explore the <em>Respect Is Earned</em> collection, bundles, posters and collectables.
         </p>
 
@@ -52,7 +52,7 @@ export default function StoreWorld() {
             onMouseEnter={e => e.currentTarget.style.opacity = '0.88'}
             onMouseLeave={e => e.currentTarget.style.opacity = '1'}
           >
-            Shop All Merch
+            Shop All Products
           </button>
           <button type="button" onClick={() => navigate('/store/cart-details')} style={btnStyle('outline')}
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(212,175,55,0.1)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.8)'; }}
@@ -105,7 +105,7 @@ export default function StoreWorld() {
 
         {/* ── PRODUCT CARD GRID ── */}
         <h2 style={{ textAlign: 'center', fontSize: '10px', letterSpacing: '0.28em', color: '#444', textTransform: 'uppercase', fontWeight: 600, marginBottom: '20px' }}>
-          Shop The Collection
+          Gannon Waye Merch Store — Full Collection
         </h2>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '14px', marginBottom: '48px' }}>
@@ -148,8 +148,9 @@ function ProductCard({ product, onOpenModal }) {
   const emoji = PRODUCT_EMOJI[product.id] || '🛍️';
   const [imgErr, setImgErr] = useState(false);
 
+  const navigate = useNavigate();
   const handleClick = () => {
-    if (isMemorial) { window.location.href = product.link; return; }
+    if (isMemorial) { navigate(product.link); return; }
     onOpenModal(product.id);
   };
 

@@ -1,11 +1,12 @@
-// Set to a real uploaded URL to show the hero photo; leave empty to use the interactive BoutiqueScene
-export const BOUTIQUE_HERO_IMAGE = "";
+// Hero image for the immersive Gannon Waye Merch Store
+// Set to empty string "" to fall back to the interactive CSS scene
+export const BOUTIQUE_HERO_IMAGE = "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png";
 
 export const STORE_PRODUCTS = [
   {
     id: "front-hoodie",
-    name: 'Thankyou "Respect Is Earned" Oversized Hoodie Dark Grey',
-    shortName: "Hoodie — Front",
+    name: 'Thankyou "Respect Is Earned" Oversized Hoodie — Front Print',
+    shortName: "Hoodie — Front Print",
     tooltip: "Shop the hoodie",
     price: "$89",
     priceValue: 89,
@@ -25,7 +26,7 @@ export const STORE_PRODUCTS = [
   {
     id: "back-hoodie",
     name: 'Thankyou "Respect Is Earned" Oversized Hoodie — Back Print',
-    shortName: "Hoodie — Back",
+    shortName: "Hoodie — Back Print",
     tooltip: "Shop the hoodie — back print",
     price: "$89",
     priceValue: 89,
@@ -60,7 +61,7 @@ export const STORE_PRODUCTS = [
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/146ccc6c7_5.jpg",
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png",
     ],
-    description: "The hero offer of the Thankyou Merch Store. Includes the oversized Respect Is Earned hoodie plus the Thankyou journal, pen and thermos flask bundle. Discount already marked — excluded from promo codes.",
+    description: "The hero bundle of the Thankyou Merch Store. Includes the oversized Respect Is Earned hoodie plus the Thankyou journal, pen and thermos flask. Discount already applied — excluded from promo codes.",
     includes: ['Thankyou "Respect Is Earned" Oversized Hoodie', "Thankyou Journal", "Thankyou Pen", "Thankyou Thermos Flask"],
     options: { size: ["S", "M", "L", "XL", "2XL", "3XL"] },
     addons: ["mug-addon", "poster-addon"],
@@ -120,8 +121,10 @@ export const STORE_PRODUCTS = [
     badge: "Poster",
     category: "posters",
     link: "/store/product/thankyou-respect-is-earned-wall-poster",
-    images: [],
-    description: "Premium Thankyou lyric wall poster. Assorted sizing available — A4, A3, A2 and A1.",
+    images: [
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png",
+    ],
+    description: "Premium Thankyou lyric wall poster. Multiple designs available — A4, A3, A2 and A1 sizes.",
     options: { size: ["A4", "A3", "A2", "A1"] },
     addons: ["mug-addon"],
     hotspot: { left: "24%", top: "22%", width: "52%", height: "20%" }
@@ -140,7 +143,7 @@ export const STORE_PRODUCTS = [
     images: [
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c2a1369c4_1.png",
     ],
-    description: "Thankyou physical CD collectable. Currently sold out due to popular demand.",
+    description: "Thankyou physical CD collectable. Currently sold out — join the waitlist.",
     hotspot: { left: "32%", top: "77%", width: "24%", height: "13%" }
   },
   {
