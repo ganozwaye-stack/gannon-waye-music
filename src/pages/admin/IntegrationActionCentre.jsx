@@ -1,11 +1,27 @@
 import { Link } from 'react-router-dom';
-import { ArrowLeft, ExternalLink, CheckCircle2, AlertTriangle, Lock, Clock, Zap } from 'lucide-react';
+import { ArrowLeft, ExternalLink, CheckCircle2, AlertTriangle, Lock, Clock, Zap, Mail, XCircle } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 // ─── INTEGRATIONS YOU NEED TO ACTION PERSONALLY ──────────────────────────────
 // Grouped by: Already done | Needs your login | Gannon-only action | Low priority / optional
+
+// CRITICAL: Gmail connector status
+const GMAIL_CRITICAL = {
+  name: 'Gmail (Customer Emails)',
+  status: 'NOT CONNECTED',
+  why: 'Customer shipping emails, order receipts, welcome emails, and subscriber notifications will ALL FAIL without Gmail connected.',
+  money_impact: 'Every fulfilled order will NOT send a shipping notification to the customer. Every new subscriber will NOT receive a welcome email. Revenue impact: broken post-purchase experience.',
+  steps: [
+    'Click "Connect Gmail Now →" below',
+    'Sign in with ganozwaye@gmail.com when prompted',
+    'Grant the requested permissions (Send email on your behalf)',
+    'Return here — status will update to Connected',
+  ],
+};
 
 const DONE = [
   { name: 'Stripe (Payments)', note: 'STRIPE_SECRET_KEY + STRIPE_PUBLISHABLE_KEY + STRIPE_WEBHOOK_SECRET all set. Live mode active.' },
@@ -148,6 +164,17 @@ const OPTIONAL = [
 const PRIORITY_COLOR = { high: 'text-red-400 bg-red-500/10 border-red-500/30', medium: 'text-yellow-400 bg-yellow-500/10 border-yellow-500/30', low: 'text-blue-400 bg-blue-500/10 border-blue-500/30' };
 
 export default function IntegrationActionCentre() {
+  const [gmailConnecting, setGmailConnecting] = useState(false);
+
+  const handleConnectGmail = async () => {
+    setGmailConnecting(true);
+    try {
+      await base44.auth.redirectToLogin(window.location.pathname);
+    } catch (_) {
+      setGmailConnecting(false);
+    }
+  };
+
   return (
     <div className="space-y-6 pb-10 max-w-4xl">
       <div className="flex items-center gap-3">
@@ -155,6 +182,48 @@ export default function IntegrationActionCentre() {
         <div>
           <h1 className="text-2xl font-display font-bold gradient-gold-text">Integration Action Centre</h1>
           <p className="text-sm text-muted-foreground">Exactly what YOU need to do — direct links, step-by-step</p>
+        </div>
+      </div>
+
+      {/* ── GMAIL CRITICAL BANNER ── */}
+      <div className="border-2 border-amber-500/60 bg-amber-500/10 rounded-2xl p-5">
+        <div className="flex items-start gap-3 mb-4">
+          <XCircle className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
+          <div className="flex-1">
+            <div className="flex items-center gap-2 flex-wrap mb-1">
+              <h2 className="font-bold text-amber-300 text-base">🔴 HUMAN ACTION REQUIRED — Gmail Not Connected</h2>
+              <span className="text-[10px] bg-red-500/20 text-red-400 border border-red-500/30 rounded px-1.5 py-0.5 font-bold uppercase">Critical</span>
+            </div>
+            <p className="text-sm text-amber-200/80 mb-1">{GMAIL_CRITICAL.why}</p>
+            <p className="text-xs text-red-300/80 font-medium mb-3">💸 {GMAIL_CRITICAL.money_impact}</p>
+            <ol className="space-y-1 mb-4">
+              {GMAIL_CRITICAL.steps.map((step, i) => (
+                <li key={i} className="flex gap-2 text-xs text-amber-200/70">
+                  <span className="text-amber-400 font-bold shrink-0">{i + 1}.</span>
+                  <span>{step}</span>
+                </li>
+              ))}
+            </ol>
+            <div className="flex items-center gap-3 flex-wrap">
+              <a
+                href="https://base44.com/dashboard"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button className="bg-amber-500 hover:bg-amber-400 text-black font-bold gap-2 text-sm">
+                  <Mail className="w-4 h-4" />
+                  Connect Gmail Now →
+                </Button>
+              </a>
+              <div className="flex items-center gap-1.5 text-xs text-red-400 font-medium">
+                <XCircle className="w-3.5 h-3.5" />
+                Status: NOT CONNECTED
+              </div>
+            </div>
+            <p className="text-[10px] text-amber-300/50 mt-3">
+              To connect Gmail: go to Base44 Dashboard → App Settings → Connectors → Gmail → Authorize with ganozwaye@gmail.com
+            </p>
+          </div>
         </div>
       </div>
 

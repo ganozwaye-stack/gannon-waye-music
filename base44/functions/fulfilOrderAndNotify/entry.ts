@@ -206,8 +206,9 @@ Deno.serve(async (req) => {
     });
     checklist.step3_update_order = true;
 
-    // STEP 4 — Send customer email
+    // STEP 4 — Send customer email via Gmail connector
     let emailSent = false;
+    let emailError = null;
     try {
       const { accessToken: gmailToken } = await base44.asServiceRole.connectors.getConnection('gmail');
       const htmlBody = buildShippingEmail(order, tracking_number, carrier, estimated_delivery);
@@ -224,9 +225,36 @@ Deno.serve(async (req) => {
         })
       });
       emailSent = emailRes.ok;
+      if (!emailRes.ok) {
+        const errBody = await emailRes.text();
+        emailError = `Gmail API error ${emailRes.status}: ${errBody}`;
+      }
       checklist.step4_send_email = emailSent;
     } catch (emailErr) {
       checklist.step4_send_email = false;
+      const isNotConnected = emailErr.message?.toLowerCase().includes('connector') ||
+        emailErr.message?.toLowerCase().includes('not found') ||
+        emailErr.message?.toLowerCase().includes('no connection');
+      if (isNotConnected) {
+        emailError = 'Gmail is not connected at the app level. Go to /admin/integration-action-centre to connect Gmail so customer shipping emails send automatically.';
+        // Create a persistent admin notification about the missing Gmail connection
+        try {
+          await base44.asServiceRole.entities.AdminNotification.create({
+            notification_type: 'email_failed',
+            severity: 'high',
+            title: '⚠️ Gmail Not Connected — Customer Emails NOT Sending',
+            summary: `Order #${order_id.slice(-6)} for ${order.customer_name} was fulfilled but the shipping email COULD NOT be sent because Gmail is not connected. Go to Integration Action Centre → Connect Gmail to fix this immediately.`,
+            linked_entity: 'MerchOrder',
+            linked_id: order_id,
+            linked_route: '/admin/integration-action-centre',
+            requires_action: true,
+            is_read: false,
+            source: 'fulfilOrderAndNotify',
+          });
+        } catch (_) { /* don't block on notification failure */ }
+      } else {
+        emailError = emailErr.message;
+      }
     }
 
     // STEP 5 — Sync to Google Sheet
@@ -288,11 +316,14 @@ Deno.serve(async (req) => {
       order_id,
       new_status: 'shipped',
       customer_email_sent: emailSent,
+      customer_email_error: emailError || null,
       google_sheet_synced: sheetSynced,
       checklist,
       message: allPassed
         ? `✅ Order ${order_id.slice(-6)} fully fulfilled — all steps passed.`
-        : `⚠️ Order fulfilled with some warnings — check checklist.`,
+        : emailError && !emailSent
+          ? `⚠️ Order marked shipped but customer email failed. ACTION REQUIRED: ${emailError}`
+          : `⚠️ Order fulfilled with some warnings — check checklist.`,
     });
 
   } catch (error) {

@@ -1,23 +1,25 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 /**
- * GLOBAL DISCOUNT GUARD — v1.0
- * This function is the single source of truth for ALL discount calculations.
- * It enforces permanent rules that cannot be bypassed at checkout.
+ * GLOBAL DISCOUNT GUARD — v2.0
+ * Single source of truth for ALL discount calculations.
  *
- * RULES (permanent, enforced server-side):
- * - Discounts apply ONLY to eligible merch product subtotals
- * - NEVER discounts: shipping, fees, processing, support/donations, music items (CD/vinyl/songs/digital)
- * - Eligible: apparel, accessories, hoodies, t-shirts, merch bundles (no music items)
- * - Ineligible: cd, vinyl, song, digital, support, donation, shipping, processing, limited_edition_music
+ * PERMANENT RULES (server-enforced):
+ * - NEVER discount: bundles, shipping, fees, music/digital items, support/donations
+ * - BUNDLE RULE: Any item with category="bundle" OR name containing "bundle" OR price=119 is ALWAYS excluded
+ * - The Winter Writing & Comfort Bundle ($119) NEVER receives a discount under any promo code
+ * - Eligible: apparel, accessories, hoodies, t-shirts, merch clothing items
  */
 
-const DISCOUNT_GUARD_VERSION = '1.0';
+const DISCOUNT_GUARD_VERSION = '2.0';
 
+// These category values are ALWAYS ineligible — no exceptions
 const ALWAYS_INELIGIBLE_CATEGORIES = [
   'cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping',
   'processing', 'fees', 'music', 'limited_edition_music', 'digital_music',
-  'music_bundle', 'other_music'
+  'music_bundle', 'other_music',
+  // ADDED v2.0 — bundles are always fixed price, no discount
+  'bundle', 'bundles',
 ];
 
 const ALWAYS_ELIGIBLE_CATEGORIES = [
@@ -25,46 +27,53 @@ const ALWAYS_ELIGIBLE_CATEGORIES = [
   'tshirt', 'jumper', 'merch', 'clothing'
 ];
 
-// Name keywords that indicate a music/ineligible product regardless of category
+// Name keywords indicating ineligible items
 const INELIGIBLE_NAME_KEYWORDS = [
   'cd', ' cd ', 'vinyl', 'album', 'digital download', 'digital music',
   'song download', 'mp3', 'wav', 'flac', 'single download', 'music download',
   'thank you cd', 'thankyou cd',
 ];
 
+// Bundle name keywords — ALWAYS excluded regardless of category label
+const BUNDLE_NAME_KEYWORDS = [
+  'bundle', 'winter writing', 'comfort bundle', 'writing & comfort', 'writing and comfort',
+  'cd & poster', 'cd and poster', 'pack', 'combo set',
+];
+
+// Fixed prices that identify known bundles — excluded from ALL discounts
+const BUNDLE_FIXED_PRICES = [119, 129]; // Winter Writing & Comfort Bundle
+
+function isBundleItem(item) {
+  const cat = (item.category || item.product_type || item.type || '').toLowerCase().trim();
+  const name = (item.name || item.product_name || '').toLowerCase();
+  const price = item.price || item.sale_price || item.unit_price || 0;
+  const slug = (item.slug || item.product_slug || item.id || '').toLowerCase();
+
+  if (cat === 'bundle' || cat === 'bundles') return true;
+  if (BUNDLE_NAME_KEYWORDS.some(k => name.includes(k))) return true;
+  if (BUNDLE_FIXED_PRICES.includes(Number(price))) return true;
+  if (slug.includes('bundle')) return true;
+
+  return false;
+}
+
 function categoriseItem(item) {
   const cat = (item.category || item.product_type || item.type || '').toLowerCase().trim();
   const name = (item.name || item.product_name || '').toLowerCase();
 
-  // CRITICAL: Always check name for music keywords — catches items with missing/wrong category
-  // Check name first with word-boundary awareness for 'cd'
+  // CRITICAL v2.0: Bundle check takes absolute priority
+  if (isBundleItem(item)) return 'bundle';
+
+  // Music/ineligible name check
   const nameLooksLikeMusic = INELIGIBLE_NAME_KEYWORDS.some(k => name.includes(k)) ||
     /\bcd\b/.test(name) ||
     /\bvinyl\b/.test(name);
 
-  // Explicit category ineligible check
-  if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c))) {
-    return 'ineligible';
-  }
+  if (ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c))) return 'ineligible';
+  if (nameLooksLikeMusic) return 'ineligible';
+  if (ALWAYS_ELIGIBLE_CATEGORIES.some(c => cat.includes(c))) return 'eligible';
 
-  // Name-based ineligible fallback — catches category-less music items
-  if (nameLooksLikeMusic) {
-    return 'ineligible';
-  }
-
-  // Explicit eligible check
-  if (ALWAYS_ELIGIBLE_CATEGORIES.some(c => cat.includes(c))) {
-    return 'eligible';
-  }
-
-  // Special: if category is 'bundle', check if name contains music keywords
-  if (cat === 'bundle' || cat === 'other') {
-    const musicKeywords = ['cd', 'vinyl', 'album', 'ep', 'song', 'track', 'single', 'digital', 'music'];
-    if (musicKeywords.some(k => name.includes(k))) return 'ineligible';
-    return 'eligible';
-  }
-
-  // Default: treat unknown category as eligible (apparel/merch typically)
+  // Unknown category — treat as eligible (apparel/merch default)
   return 'eligible';
 }
 
@@ -97,8 +106,6 @@ Deno.serve(async (req) => {
     const resolvedItems = [];
     for (const item of cart_items) {
       let resolvedItem = { ...item };
-
-      // If item has a product_id but no category, fetch from DB
       if (!item.category && (item.product_id || item.id)) {
         try {
           const productId = item.product_id || item.id;
@@ -107,11 +114,8 @@ Deno.serve(async (req) => {
             resolvedItem.category = products[0].category;
             resolvedItem.name = resolvedItem.name || products[0].name;
           }
-        } catch (_) {
-          // If can't resolve, keep as-is
-        }
+        } catch (_) { /* keep as-is */ }
       }
-
       resolvedItems.push(resolvedItem);
     }
 
@@ -119,41 +123,52 @@ Deno.serve(async (req) => {
     const eligibleItems = [];
     const excludedItems = [];
     const exclusionReasons = [];
+    let hasBundle = false;
 
     for (const item of resolvedItems) {
       const classification = categoriseItem(item);
       const itemTotal = (item.price || item.sale_price || item.unit_price || 0) * (item.quantity || 1);
+      const itemName = item.name || item.product_name || 'Unknown item';
 
       if (classification === 'eligible') {
         eligibleItems.push({ ...item, item_total: itemTotal });
       } else {
-        const cat = (item.category || item.product_type || 'unknown').toLowerCase();
-        let reason = `Category "${cat}" is excluded from discounts`;
-
-        if (['cd', 'vinyl', 'music', 'digital_music', 'limited_edition_music', 'music_bundle'].includes(cat)) {
-          reason = `Music item (${cat}) — discounts never apply to music products`;
-        } else if (['support', 'donation'].includes(cat)) {
-          reason = `Support/donation contributions are always excluded from discounts`;
-        } else if (['shipping', 'processing', 'fees'].includes(cat)) {
-          reason = `${cat} charges are always excluded from discounts`;
+        let reason;
+        if (classification === 'bundle') {
+          hasBundle = true;
+          reason = 'Bundle price is fixed — no discount applies. The Winter Writing & Comfort Bundle is priced as marked.';
+        } else {
+          const cat = (item.category || item.product_type || 'unknown').toLowerCase();
+          if (['cd', 'vinyl', 'music', 'digital_music', 'limited_edition_music', 'music_bundle'].includes(cat)) {
+            reason = `Music item (${cat}) — discounts never apply to music products`;
+          } else if (['support', 'donation'].includes(cat)) {
+            reason = 'Support/donation contributions are always excluded from discounts';
+          } else if (['shipping', 'processing', 'fees'].includes(cat)) {
+            reason = `${cat} charges are always excluded from discounts`;
+          } else {
+            reason = `Category "${cat}" is excluded from discounts`;
+          }
         }
-
         excludedItems.push({ ...item, item_total: itemTotal, exclusion_reason: reason });
-        exclusionReasons.push({ item_name: item.name || 'Unknown item', reason });
+        exclusionReasons.push({ item_name: itemName, reason });
       }
     }
 
     const eligibleSubtotal = eligibleItems.reduce((sum, i) => sum + i.item_total, 0);
     const excludedSubtotal = excludedItems.reduce((sum, i) => sum + i.item_total, 0);
 
-    // Apply discount only to eligible subtotal
-    const discPct = Math.min(Math.max(parseFloat(discount_percent || 0), 0), 99.99); // Cap at 99.99%
+    const discPct = Math.min(Math.max(parseFloat(discount_percent || 0), 0), 99.99);
     const discountAmount = Math.round(eligibleSubtotal * (discPct / 100) * 100) / 100;
     const finalDiscountedSubtotal = Math.max(eligibleSubtotal - discountAmount, 0);
 
-    // Safety: never allow negative totals
     if (finalDiscountedSubtotal < 0) {
       return Response.json({ error: 'Calculation error: negative total detected', safe: false }, { status: 400 });
+    }
+
+    // Build user-facing message when cart contains only bundles
+    let message = null;
+    if (hasBundle && eligibleItems.length === 0) {
+      message = 'The Winter Writing & Comfort Bundle is priced as marked. Promo codes cannot be applied to bundles.';
     }
 
     return Response.json({
@@ -172,6 +187,8 @@ Deno.serve(async (req) => {
       has_eligible_items: eligibleItems.length > 0,
       has_excluded_items: excludedItems.length > 0,
       all_items_excluded: eligibleItems.length === 0 && excludedItems.length > 0,
+      bundle_exclusion_applied: hasBundle,
+      message,
     });
   } catch (error) {
     return Response.json({ error: error.message, safe: false }, { status: 500 });

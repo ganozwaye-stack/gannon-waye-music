@@ -10,7 +10,7 @@ import {
   ArrowUpRight, ChevronDown, ChevronUp, CheckCircle2,
   PackageCheck, CreditCard, Truck, Bell, Music, TrendingUp,
   BarChart2, Star, MessageSquare, Globe, AlertCircle, Settings,
-  FileCheck, Bot, Activity, RefreshCw, Heart, ExternalLink
+  FileCheck, Bot, Activity, RefreshCw, Heart, ExternalLink, Mail
 } from 'lucide-react';
 
 // Tile component
@@ -104,6 +104,20 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6 pb-16">
+
+      {/* ── GMAIL WARNING BANNER — persistent until Gmail is connected ── */}
+      <div className="flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-amber-500/50 bg-amber-500/8">
+        <Mail className="w-4 h-4 text-amber-400 shrink-0" />
+        <p className="text-sm text-amber-300 flex-1">
+          <span className="font-bold">⚠️ Gmail not connected</span> — customer shipping emails will <span className="font-bold text-red-400">NOT send</span>. Every fulfilled order is missing its confirmation email.
+        </p>
+        <Link to="/admin/integration-action-centre">
+          <Button size="sm" className="bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs shrink-0 gap-1">
+            <Mail className="w-3.5 h-3.5" />Connect Gmail →
+          </Button>
+        </Link>
+      </div>
+
       {/* Header */}
       <div className="flex justify-between items-center flex-wrap gap-3">
         <div>
@@ -195,23 +209,23 @@ export default function Dashboard() {
           </div>
           <div className="space-y-0.5">
             <p className="text-[10px] uppercase tracking-widest text-red-400/60 px-3 pt-2 pb-1">🔴 Financial Loss Risks</p>
-            <PriorityRow num={1} label={`Fulfil ${unfulfilledOrders.length} unfulfilled orders before next dispatch cutoff`} to="/admin/orders?filter=unfulfilled" urgent={unfulfilledOrders.length > 0} />
-            <PriorityRow num={2} label="Review Stripe payment failures and dispute alerts" to="/admin/payment-diagnostics" urgent={stripeIssues.length > 0} />
-            <PriorityRow num={3} label="Check shipping rules are active for all product categories" to="/admin/shipping-rates" />
+            <PriorityRow num={1} label="⚠️ CONNECT GMAIL NOW — customer shipping emails are broken" to="/admin/integration-action-centre" urgent={true} />
+            <PriorityRow num={2} label={`Fulfil ${unfulfilledOrders.length} unfulfilled orders before next dispatch cutoff`} to="/admin/orders?filter=unfulfilled" urgent={unfulfilledOrders.length > 0} />
+            <PriorityRow num={3} label="Review Stripe payment failures and dispute alerts" to="/admin/payment-diagnostics" urgent={stripeIssues.length > 0} />
+            <PriorityRow num={4} label="Check shipping rules are active for all product categories" to="/admin/shipping-rates" />
 
             <p className="text-[10px] uppercase tracking-widest text-yellow-400/60 px-3 pt-3 pb-1">🟡 Orders & Customers</p>
-            <PriorityRow num={4} label="Review today's new orders and confirm customer details" to="/admin/orders?filter=today" />
-            <PriorityRow num={5} label="Check Google Sheet sync — orders must log automatically" to="/admin/integration-action-centre" />
-            <PriorityRow num={6} label="Send receipts for any orders missing email confirmation" to="/admin/orders" />
+            <PriorityRow num={5} label="Review today's new orders and confirm customer details" to="/admin/orders?filter=today" />
+            <PriorityRow num={6} label="Check Google Sheet sync — orders must log automatically" to="/admin/integration-action-centre" />
+            <PriorityRow num={7} label="Send receipts for any orders missing email confirmation" to="/admin/orders" />
 
             <p className="text-[10px] uppercase tracking-widest text-orange-400/60 px-3 pt-3 pb-1">🟠 Human Approval Tasks</p>
-            <PriorityRow num={7} label={`Review ${approvals.length} pending approvals in queue`} to="/admin/approval-queue" urgent={approvals.length > 0} />
-            <PriorityRow num={8} label={`Moderate ${fanPosts.length} fan post submissions`} to="/admin/fan-management?filter=pending" />
+            <PriorityRow num={8} label={`Review ${approvals.length} pending approvals in queue`} to="/admin/approval-queue" urgent={approvals.length > 0} />
+            <PriorityRow num={9} label={`Moderate ${fanPosts.length} fan post submissions`} to="/admin/fan-management?filter=pending" />
 
             <p className="text-[10px] uppercase tracking-widest text-blue-400/60 px-3 pt-3 pb-1">🔵 Integration Failures</p>
-            <PriorityRow num={9} label="Test Metricool connection and confirm posts are scheduled" to="/admin/metricool-command" />
-            <PriorityRow num={10} label="Verify TikTok OAuth token is active" to="/admin/tiktok-review" />
-            <PriorityRow num={11} label="Check Gmail integration for order notification delivery" to="/admin/integration-action-centre" />
+            <PriorityRow num={10} label="Test Metricool connection and confirm posts are scheduled" to="/admin/metricool-command" />
+            <PriorityRow num={11} label="Verify TikTok OAuth token is active" to="/admin/tiktok-review" />
 
             <p className="text-[10px] uppercase tracking-widest text-green-400/60 px-3 pt-3 pb-1">🟢 Social & Revenue Opportunities</p>
             <PriorityRow num={12} label="Scan new music opportunities — grants, playlists, gigs" to="/admin/music-opportunity-bulletin" />
