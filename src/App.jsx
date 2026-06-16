@@ -284,6 +284,7 @@ import FanWall from '@/pages/FanWall';
 import Support from '@/pages/Support';
 import GiftTracker from '@/pages/GiftTracker';
 import DomesticViolenceSupport from '@/pages/DomesticViolenceSupport';
+import MusicOpportunityBulletin from '@/pages/admin/MusicOpportunityBulletin';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -663,6 +664,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/social-scheduler-health" element={<MetricoolCommand />} />
         <Route path="/admin/metricool-profile-map" element={<MetricoolDiagnostics />} />
         <Route path="/admin/metricool-performance-sync" element={<MetricoolPerformanceIntelligence />} />
+        <Route path="/admin/music-opportunity-bulletin" element={<MusicOpportunityBulletin />} />
+        <Route path="/admin/music-opportunities" element={<MusicOpportunityBulletin />} />
+        <Route path="/admin/grants-bulletin" element={<MusicOpportunityBulletin />} />
+        <Route path="/admin/gig-finder" element={<MusicOpportunityBulletin />} />
+        <Route path="/admin/playlist-scout" element={<MusicOpportunityBulletin />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
