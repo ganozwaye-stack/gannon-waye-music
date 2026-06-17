@@ -287,6 +287,7 @@ import GiftTracker from '@/pages/GiftTracker';
 import DomesticViolenceSupport from '@/pages/DomesticViolenceSupport';
 import MusicOpportunityBulletin from '@/pages/admin/MusicOpportunityBulletin';
 import HumanActionRequired from '@/pages/admin/HumanActionRequired';
+import MerchContentBriefs from '@/pages/admin/MerchContentBriefs';
 import PricingMarginCalculator from '@/pages/admin/PricingMarginCalculator';
 import FinalSystemReport from '@/pages/admin/FinalSystemReport';
 
@@ -671,6 +672,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/music-opportunity-bulletin" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/print-fulfilment" element={<PrintFulfilment />} />
         <Route path="/admin/human-action-required" element={<HumanActionRequired />} />
+        <Route path="/admin/merch-content-briefs" element={<MerchContentBriefs />} />
         <Route path="/admin/pricing-margin-calculator" element={<PricingMarginCalculator />} />
         <Route path="/admin/final-system-report" element={<FinalSystemReport />} />
         <Route path="/admin/music-opportunities" element={<MusicOpportunityBulletin />} />
