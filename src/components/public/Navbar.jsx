@@ -15,7 +15,6 @@ const NAV_LINKS = [
   { label: 'Videos', path: '/videos' },
   { label: 'Community', path: '/community' },
   { label: 'Store', path: '/store' },
-  { label: 'The Boutique ✦', path: '/store-world', boutique: true },
   { label: 'Contact', path: '/contact' },
   { label: 'Back This 🤍', path: '/back-this', highlight: true },
 ];

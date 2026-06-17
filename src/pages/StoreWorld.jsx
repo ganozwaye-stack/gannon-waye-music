@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { STORE_PRODUCTS, BOUTIQUE_HERO_IMAGE } from '@/config/storeWorldConfig';
 import StoreWorldHotspot from '@/components/store/StoreWorldHotspot';
-import BoutiqueScene from '@/components/store/BoutiqueScene';
 import ProductQuickViewModal from '@/components/store/ProductQuickViewModal';
 
 const ACCENT = '#D4AF37';
@@ -17,7 +16,6 @@ export default function StoreWorld() {
   const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState(null);
   const [imgFailed, setImgFailed] = useState(false);
-  const showScene = !BOUTIQUE_HERO_IMAGE || imgFailed;
 
   return (
     <div style={{ background: '#0a0a0a', minHeight: '100vh', color: '#fff', fontFamily: "'Inter', sans-serif" }}>
@@ -71,28 +69,41 @@ export default function StoreWorld() {
 
       {/* ── IMMERSIVE STORE STAGE ── */}
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 16px 16px' }}>
+
+        {/* Store sign header */}
+        <div style={{ textAlign: 'center', padding: '32px 16px 20px', background: 'linear-gradient(180deg, rgba(212,175,55,0.06) 0%, transparent 100%)' }}>
+          <p style={{ color: 'rgba(212,175,55,0.5)', fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', margin: '0 0 8px', fontWeight: 600 }}>Gannon Waye</p>
+          <h1 style={{ color: '#D4AF37', fontSize: 'clamp(24px, 4vw, 48px)', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', margin: 0, fontFamily: "'Inter', sans-serif", textShadow: '0 0 40px rgba(212,175,55,0.4)' }}>
+            Merch Store
+          </h1>
+          <div style={{ width: '80px', height: '1px', background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)', margin: '12px auto 0' }} />
+        </div>
+
         <div style={{
           position: 'relative', width: '100%', borderRadius: '16px', overflow: 'hidden',
           border: '1px solid rgba(212,175,55,0.18)',
           boxShadow: `0 0 80px rgba(212,175,55,0.08), 0 40px 80px rgba(0,0,0,0.7)`
         }}>
-          {showScene ?
-          <BoutiqueScene onOpenModal={setActiveModal} /> :
-          <img
-            src={BOUTIQUE_HERO_IMAGE}
-            alt="Gannon Waye Merch Store"
-            onError={() => setImgFailed(true)}
-            style={{ width: '100%', height: 'auto', display: 'block', minHeight: '400px', objectFit: 'cover' }} />
-
-          }
-
-          {/* Hotspot overlay — only shown when real hero image loaded successfully */}
-          {!showScene &&
-          <div style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
-              {STORE_PRODUCTS.map((product) =>
-            <StoreWorldHotspot key={product.id} product={product} onOpenModal={setActiveModal} />
-            )}
+          {imgFailed ? (
+            <div style={{ width: '100%', minHeight: '500px', background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <p style={{ color: '#444' }}>Store scene unavailable</p>
             </div>
+          ) : (
+            <img
+              src={BOUTIQUE_HERO_IMAGE}
+              alt="Gannon Waye Merch Store"
+              onError={() => setImgFailed(true)}
+              style={{ width: '100%', height: 'auto', display: 'block', minHeight: '400px', objectFit: 'cover', objectPosition: 'center bottom' }}
+            />
+          )}
+
+          {/* Hotspot overlay */}
+          {!imgFailed &&
+          <div style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
+            {STORE_PRODUCTS.map((product) =>
+              <StoreWorldHotspot key={product.id} product={product} onOpenModal={setActiveModal} />
+            )}
+          </div>
           }
 
           {/* Bottom scrim */}
