@@ -127,7 +127,7 @@ export const STORE_PRODUCTS = [
     description: "Premium Thankyou lyric wall poster. Multiple designs available — A4, A3, A2 and A1 sizes.",
     options: { size: ["A4", "A3", "A2", "A1"] },
     addons: ["mug-addon"],
-    hotspot: { left: "24%", top: "22%", width: "52%", height: "20%" }
+    hotspot: { left: "24%", top: "28%", width: "52%", height: "20%" }
   },
   {
     id: "cd",
