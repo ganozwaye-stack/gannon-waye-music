@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Volume2, VolumeX, Play } from 'lucide-react';
+import { Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 
@@ -125,14 +125,14 @@ export default function StickySupportBar() {
 
           {/* RIGHT: CTA buttons */}
           <div className="flex gap-2 flex-shrink-0">
-            <Link to="/current-single">
-              <Button variant="outline" size="sm" className="rounded-full border-primary/40 text-primary hover:bg-primary/10 font-body text-xs tracking-wider uppercase px-3 hidden sm:inline-flex h-8 gap-1">
-                <Play className="w-3 h-3" /> Listen
+            <Link to="/impact">
+              <Button variant="outline" size="sm" className="rounded-full border-primary/40 text-primary hover:bg-primary/10 font-body text-xs tracking-wider uppercase px-3 hidden sm:inline-flex h-8">
+                Impact
               </Button>
             </Link>
             <Link to="/back-this">
               <Button size="sm" className="rounded-full gradient-gold-button border-0 font-body text-xs tracking-wider uppercase px-4 h-8">
-                Back This
+                Support Now
               </Button>
             </Link>
           </div>

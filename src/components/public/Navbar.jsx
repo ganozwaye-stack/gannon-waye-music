@@ -46,8 +46,8 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-6">
           {NAV_LINKS.map(link => {
             const active = location.pathname === link.path;
+            const isHighlighted = link.highlight || link.path === '/store';
             const isBoutique = link.boutique;
-            const isHighlighted = link.highlight;
             return (
               <Link
                 key={link.path}

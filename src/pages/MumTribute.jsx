@@ -183,44 +183,10 @@ function Nav() {
 }
 
 // ─── Main page ─────────────────────────────────────────────────────────────────
-import { useAuth } from '@/lib/AuthContext';
-import { useNavigate } from 'react-router-dom';
-
 export default function MumTribute() {
   const { scrollY } = useScroll();
   const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
   const heroY = useTransform(scrollY, [0, 500], [0, -80]);
-  const paralaxLayer1 = useTransform(scrollY, [0, 800], [0, 100]);
-  const paralaxLayer2 = useTransform(scrollY, [0, 800], [0, 60]);
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  if (!user || user.role !== 'admin') {
-    return (
-      <div style={{ background: '#020502', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '48px 24px', textAlign: 'center', fontFamily: "'Inter', sans-serif" }}>
-        <div style={{ position: 'fixed', inset: 0, background: 'radial-gradient(ellipse at 50% 30%, rgba(255,210,140,0.06) 0%, transparent 65%)', pointerEvents: 'none' }} />
-        <div style={{ position: 'relative', maxWidth: '480px' }}>
-          <div style={{ fontSize: '48px', marginBottom: '20px' }}>🌸</div>
-          <p style={{ color: 'rgba(212,175,55,0.4)', fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', marginBottom: '16px' }}>A Private Space</p>
-          <h1 style={{ color: 'rgba(255,210,160,0.9)', fontSize: 'clamp(2rem,5vw,3rem)', fontWeight: 700, lineHeight: 1.2, marginBottom: '12px', letterSpacing: '0.04em' }}>Mum's Garden</h1>
-          <p style={{ color: 'rgba(255,210,160,0.35)', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', marginBottom: '28px' }}>In Loving Memory of Sonia Katisa Waye · 1961–2022</p>
-          <div style={{ width: '1px', height: '48px', background: 'linear-gradient(to bottom, transparent, rgba(212,175,55,0.3), transparent)', margin: '0 auto 28px' }} />
-          <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'rgba(255,210,160,0.05)', border: '1px solid rgba(255,210,160,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px' }}>
-            <Heart className="w-5 h-5" style={{ color: 'rgba(212,175,55,0.45)' }} />
-          </div>
-          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '15px', lineHeight: 1.85, marginBottom: '12px' }}>
-            This is a private tribute.<br />It is not open to the public.
-          </p>
-          <p style={{ color: 'rgba(255,255,255,0.18)', fontSize: '12px', marginBottom: '36px' }}>
-            "As long as you remember me, my memory will live on."
-          </p>
-          <button onClick={() => navigate('/')} style={{ padding: '12px 28px', borderRadius: '8px', background: 'transparent', border: '1px solid rgba(212,175,55,0.22)', color: 'rgba(212,175,55,0.6)', fontSize: '10px', letterSpacing: '0.18em', textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.2s' }}
-            onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(212,175,55,0.5)'}
-            onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(212,175,55,0.22)'}
-          >← Return Home</button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="relative overflow-x-hidden" style={{ background: '#020502' }}>
@@ -231,10 +197,10 @@ export default function MumTribute() {
         <div className="absolute inset-0">
           <img src={GARDEN_DEEP} alt="" aria-hidden style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 25%', filter: 'brightness(0.35) saturate(0.88)' }} />
         </div>
-        <motion.div className="absolute inset-0" style={{ y: paralaxLayer1 }}>
+        <motion.div className="absolute inset-0" style={{ y: useTransform(scrollY, [0, 800], [0, 100]) }}>
           <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/ef4adf36e_generated_image.png" alt="" aria-hidden style={{ width: '100%', height: '115%', objectFit: 'cover', objectPosition: 'center 30%', filter: 'brightness(0.45) saturate(1.1)' }} />
         </motion.div>
-        <motion.div className="absolute inset-0" style={{ y: paralaxLayer2 }}>
+        <motion.div className="absolute inset-0" style={{ y: useTransform(scrollY, [0, 800], [0, 60]) }}>
           <img src={GARDEN_HERO} alt="" aria-hidden style={{ width: '100%', height: '110%', objectFit: 'cover', objectPosition: 'center 30%', filter: 'brightness(0.55) saturate(1.12) contrast(1.04)', mixBlendMode: 'multiply', opacity: 0.7 }} />
         </motion.div>
         <div className="absolute inset-0 pointer-events-none" style={{

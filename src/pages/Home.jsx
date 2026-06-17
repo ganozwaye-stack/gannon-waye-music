@@ -242,6 +242,7 @@ export default function Home() {
 
 
   const [currentImg, setCurrentImg] = useState(0);
+  const [showCelebration, setShowCelebration] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -250,8 +251,23 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const checkCelebration = () => {
+      const now = new Date();
+      const target = new Date('2026-06-05T06:00:00+10:00'); // Friday June 5, 2026 at 6 AM AEST
+      const params = new URLSearchParams(window.location.search);
+      if (now >= target || params.get('celebration') === 'true') {
+        setShowCelebration(true);
+      }
+    };
+    checkCelebration();
+    const timer = setInterval(checkCelebration, 60000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="min-h-screen relative">
+      {showCelebration && <CinematicCelebration />}
       <TikTokWelcomeBanner />
 
       {/* Fixed background — visible behind ALL sections */}
