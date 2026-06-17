@@ -151,6 +151,41 @@ const ADMIN_ROUTES = [
   { label: 'Final System Report',       path: '/admin/final-system-report',      status: 'ok',      note: 'Autonomous build session truth table — pass/review/fail across all systems.' },
 ];
 
+const CONTENT_PRODUCTION = [
+  { label: 'Merch Collection Ad (Canva/Adobe Express)',        status: 'review',  note: 'Brief CREATED TODAY. Canva visual instructions ready. Awaiting: asset creation → visual approval → Metricool schedule.' },
+  { label: 'Reel 1 — "Who are you saying THANKYOU to?"',      status: 'review',  note: 'Brief CREATED TODAY. CapCut scene list + caption + first comment ready. Awaiting: CapCut edit → visual approval.' },
+  { label: 'Reel 2 — "Respect is earned. Not a game..."',     status: 'review',  note: 'Brief CREATED TODAY. CapCut scene list + caption + first comment ready. Awaiting: CapCut edit → visual approval.' },
+  { label: 'Reel 3 — Winter Bundle $129 (no discounts)',       status: 'review',  note: 'Brief CREATED TODAY. CapCut scene list + no-discount copy ready. Awaiting: CapCut edit → visual approval.' },
+  { label: 'Metricool scheduling',                              status: 'missing', note: 'BLOCKED — no content to be scheduled until Gannon approves final visual for each piece.' },
+  { label: 'Canva/Adobe Express assets',                        status: 'missing', note: 'HUMAN ACTION REQUIRED — Gannon must create assets in Canva/Adobe Express using brief instructions.' },
+  { label: 'CapCut reel edits',                                 status: 'missing', note: 'HUMAN ACTION REQUIRED — Gannon must produce reels in CapCut using scene lists. Product photos required.' },
+  { label: 'Product photos for CapCut',                         status: 'missing', note: 'HUMAN ACTION REQUIRED — Upload hoodie, mug, tote, journal, pen, thermos photos to /admin/quick-upload.' },
+];
+
+const PRODUCT_TRUTH = [
+  { label: 'Respect Is Earned Hoodie',             status: 'ok',      note: '$89 · Front + Back · Real images · Size S–3XL' },
+  { label: 'Coffee Mug',                            status: 'ok',      note: '$9.90 · Real images front + back' },
+  { label: 'Journal, Pen & Thermos Bundle',         status: 'ok',      note: '$59 · No discounts · Bundle pricing locked' },
+  { label: 'Winter Writing & Comfort Bundle',        status: 'ok',      note: '$129 · No further discounts enforced in validatePromoCode · Excluded from all promo codes' },
+  { label: 'Lyric Wall Poster A4/A3/A2/A1',         status: 'review',  note: 'Pricing set ($19/$29/$39/$59) · ARTWORK NOT VISUALLY VERIFIED — emoji fallback active · Not sale-ready · Human action: upload real poster mockups' },
+  { label: 'Tote Bag',                               status: 'ok',      note: '$15 · Permanently sold out · "Will not be restocked" messaging live' },
+  { label: 'Oversized Tee',                          status: 'missing', note: 'Sold out — display only · No active fulfillment' },
+  { label: 'Thankyou CD',                            status: 'review',  note: 'Sold out · Waitlist message shown · $18 price visible' },
+];
+
+const PLATFORM_DISPATCH = [
+  { label: 'Base44 Admin OS',                       status: 'ok',      note: 'All briefs, approval records, and content production plans stored here.' },
+  { label: 'Canva / Adobe Express',                  status: 'missing', note: 'EXTERNAL — Gannon must create ad visuals using brief at /admin/merch-content-briefs. Not connected to Base44.' },
+  { label: 'CapCut',                                 status: 'missing', note: 'EXTERNAL — Gannon must produce reels using scene lists. Not connected to Base44.' },
+  { label: 'Metricool',                              status: 'review',  note: 'Connected (METRICOOL_API_TOKEN set). BLOCKED — no scheduling until Gannon approves final visuals.' },
+  { label: 'GitHub CI/CD',                           status: 'review',  note: 'GITHUB_TOKEN set. Playwright test files exist. Requires manual push to repo to trigger Actions pipeline.' },
+  { label: 'Slack',                                  status: 'missing', note: 'NOT CONNECTED — weekly order summaries blocked. Human action required.' },
+  { label: 'Gmail',                                  status: 'missing', note: 'NOT CONNECTED — order receipt emails and welcome emails blocked. Human action required.' },
+  { label: 'Google Sheets',                          status: 'ok',      note: 'Connector authorised. GOOGLE_SHEET_ID set. Order sync active.' },
+  { label: 'Emergent / External AI tools',           status: 'missing', note: 'EXTERNAL / BLOCKED — not connected. Treat as external reference only until explicitly integrated.' },
+  { label: 'Printful / Gelato (Print Fulfilment)',   status: 'missing', note: 'NOT CONNECTED — manual fallback only. Samples not ordered. No API keys set.' },
+];
+
 const INTEGRATIONS = [
   { label: 'Stripe (Payments)',        status: 'ok',      note: 'Live key active. Webhook connected. No auto-posting.' },
   { label: 'Metricool',               status: 'ok',      note: 'Unwanted Profile 6305775 / User 4741333 disabled. Correct profile configured.' },
@@ -313,6 +348,41 @@ export default function MasterBlueprint() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Content Production Status — TODAY */}
+      <Section title="🎬 Content Production — Today (Cross-Platform Dispatch)" icon={Zap} defaultOpen={true}>
+        <div className="mb-2 p-2 rounded-lg bg-primary/5 border border-primary/20">
+          <p className="font-body text-[11px] text-primary">4 deliverables briefed today: 1 merch ad + 3 reels. All are NEEDS_REVIEW. No auto-posting. No Metricool scheduling until Gannon approves final visuals. Full briefs at <Link to="/admin/merch-content-briefs" className="underline underline-offset-2">/admin/merch-content-briefs</Link>.</p>
+        </div>
+        {CONTENT_PRODUCTION.map((r, i) => (
+          <RouteRow key={i} label={r.label} status={r.status} note={r.note} />
+        ))}
+        <div className="mt-3 flex gap-2 flex-wrap">
+          <Link to="/admin/merch-content-briefs"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Content Briefs</Button></Link>
+          <Link to="/admin/approval-queue"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Approval Queue</Button></Link>
+          <Link to="/admin/quick-upload"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Upload Assets</Button></Link>
+        </div>
+      </Section>
+
+      {/* Product Truth Check */}
+      <Section title="🛒 Product Truth Check" icon={ShoppingCart}>
+        <div className="mb-2 p-2 rounded-lg bg-secondary/30 border border-border/20">
+          <p className="font-body text-[11px] text-muted-foreground">Verified store product prices and statuses. Fix safe display mismatches only — do not activate products or fulfilment without approval.</p>
+        </div>
+        {PRODUCT_TRUTH.map((r, i) => (
+          <RouteRow key={i} label={r.label} status={r.status} note={r.note} />
+        ))}
+      </Section>
+
+      {/* Platform Dispatch Status */}
+      <Section title="🌐 Platform Dispatch Status" icon={Globe}>
+        <div className="mb-2 p-2 rounded-lg bg-secondary/30 border border-border/20">
+          <p className="font-body text-[11px] text-muted-foreground">Status of each external platform in today's cross-platform content dispatch workflow.</p>
+        </div>
+        {PLATFORM_DISPATCH.map((r, i) => (
+          <RouteRow key={i} label={r.label} status={r.status} note={r.note} />
+        ))}
+      </Section>
 
       {/* Next Actions */}
       <Section title="⚡ Next Actions for Gannon" icon={Zap} defaultOpen={true}>

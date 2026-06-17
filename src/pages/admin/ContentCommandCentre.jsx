@@ -317,16 +317,76 @@ export default function ContentCommandCentre() {
         ))}
       </div>
 
+      {/* Cross-platform dispatch status — today's content production */}
+      <Card className="border-primary/30 bg-primary/5">
+        <CardContent className="p-4 space-y-3">
+          <p className="text-sm font-semibold text-primary flex items-center gap-2">📦 Cross-Platform Dispatch — Today's Merch Content Production</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            {[
+              { label: 'Merch Collection Ad (Canva/Adobe Express)', status: 'needs_review', link: '/admin/merch-content-briefs', note: 'Brief ready — 9:16, 1:1, 16:9 instructions created' },
+              { label: 'Reel 1 — "Who are you saying THANKYOU to?"', status: 'needs_review', link: '/admin/merch-content-briefs', note: 'CapCut scene list + caption + first comment ready' },
+              { label: 'Reel 2 — "Respect is earned."', status: 'needs_review', link: '/admin/merch-content-briefs', note: 'CapCut scene list + caption + first comment ready' },
+              { label: 'Reel 3 — Winter Bundle $129', status: 'needs_review', link: '/admin/merch-content-briefs', note: 'CapCut scene list + caption + no-discount copy ready' },
+            ].map((item, i) => (
+              <div key={i} className="flex items-start justify-between gap-2 p-2 rounded-lg bg-secondary/30 border border-border/30">
+                <div className="flex-1 min-w-0">
+                  <p className="font-body text-foreground/85 font-medium truncate">{item.label}</p>
+                  <p className="font-body text-muted-foreground/70 text-[10px] mt-0.5">{item.note}</p>
+                </div>
+                <div className="flex items-center gap-1.5 shrink-0">
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 font-semibold uppercase tracking-wider whitespace-nowrap">Needs Review</span>
+                  <Link to={item.link}><Button type="button" variant="ghost" size="sm" className="h-6 px-1.5 text-[10px] text-primary">Brief →</Button></Link>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex items-center gap-2 pt-1 flex-wrap">
+            <span className="text-[10px] text-muted-foreground">⚠️ No auto-posting. No Metricool scheduling until Gannon approves final visual.</span>
+            <Link to="/admin/approval-queue"><Button type="button" variant="outline" size="sm" className="h-6 text-[10px]">Approval Queue →</Button></Link>
+            <Link to="/admin/merch-content-briefs"><Button type="button" variant="outline" size="sm" className="h-6 text-[10px]">All Briefs →</Button></Link>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Product truth check */}
+      <Card className="border-border/30">
+        <CardContent className="p-4">
+          <p className="text-xs font-semibold text-foreground mb-2">🛒 Store Product Truth Check</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px]">
+            {[
+              { name: 'Respect Is Earned Hoodie', price: '$89', status: 'ok' },
+              { name: 'Coffee Mug', price: '$9.90', status: 'ok' },
+              { name: 'Journal, Pen & Thermos Bundle', price: '$59', status: 'ok', note: 'No discounts' },
+              { name: 'Winter Writing & Comfort Bundle', price: '$129', status: 'ok', note: 'No further discounts — enforced' },
+              { name: 'Lyric Wall Poster A4–A1', price: '$19–$59', status: 'review', note: 'Artwork not visually verified' },
+              { name: 'Tote Bag', price: '$15', status: 'soldout', note: 'Sold out — permanent' },
+              { name: 'Oversized Tee', price: '—', status: 'soldout', note: 'Sold out — display only' },
+            ].map((p, i) => (
+              <div key={i} className={`flex items-start gap-1.5 p-2 rounded-lg border ${p.status === 'ok' ? 'border-green-500/20 bg-green-500/5' : p.status === 'review' ? 'border-amber-500/30 bg-amber-500/5' : 'border-border/30 bg-secondary/20'}`}>
+                <span className={`mt-0.5 text-[10px] ${p.status === 'ok' ? 'text-green-400' : p.status === 'review' ? 'text-amber-400' : 'text-muted-foreground'}`}>
+                  {p.status === 'ok' ? '✓' : p.status === 'review' ? '⚠' : '○'}
+                </span>
+                <div>
+                  <p className="font-body text-foreground/80">{p.name}</p>
+                  <p className={`font-body font-semibold ${p.status === 'soldout' ? 'text-muted-foreground' : 'text-primary'}`}>{p.price}</p>
+                  {p.note && <p className="font-body text-muted-foreground/60 text-[9px]">{p.note}</p>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Metricool status */}
       <Card className="border-amber-500/20 bg-amber-500/5">
         <CardContent className="p-3 flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            <p className="text-sm text-amber-300 font-medium">Metricool — Setup Required</p>
-            <p className="text-xs text-muted-foreground">Connect METRICOOL_API_TOKEN to enable scheduling</p>
+            <p className="text-sm text-amber-300 font-medium">Metricool — Connect before scheduling</p>
+            <p className="text-xs text-muted-foreground">No content scheduled until Gannon approves final visuals</p>
           </div>
           <Link to="/admin/metricool-command">
-            <Button variant="outline" size="sm">Configure Metricool →</Button>
+            <Button type="button" variant="outline" size="sm">Configure Metricool →</Button>
           </Link>
         </CardContent>
       </Card>
