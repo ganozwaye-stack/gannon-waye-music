@@ -41,7 +41,7 @@ export const STORE_PRODUCTS = [
     description: "Dark grey oversized hoodie with the lyric line Respect Is Earned, Not A Game You Make Me Play across the back. Designed as a statement piece from Thankyou.",
     options: { size: ["S", "M", "L", "XL", "2XL", "3XL"] },
     addons: ["mug-addon", "poster-addon"],
-    hotspot: { left: "78%", top: "40%", width: "20%", height: "48%" }
+    hotspot: { left: "76%", top: "48%", width: "22%", height: "30%" }
   },
   {
     id: "winter-writing-comfort-bundle",
@@ -107,7 +107,7 @@ export const STORE_PRODUCTS = [
     ],
     description: "Ceramic Thankyou coffee mug featuring the Respect Is Earned lyric artwork. A simple daily reminder from the song.",
     addons: ["poster-addon"],
-    hotspot: { left: "34%", top: "66%", width: "36%", height: "12%" }
+    hotspot: { left: "34%", top: "72%", width: "36%", height: "12%" }
   },
   {
     id: "wall-poster",
@@ -144,7 +144,7 @@ export const STORE_PRODUCTS = [
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c2a1369c4_1.png",
     ],
     description: "Thankyou physical CD collectable. Currently sold out — join the waitlist.",
-    hotspot: { left: "32%", top: "79%", width: "24%", height: "12%" }
+    hotspot: { left: "32%", top: "85%", width: "24%", height: "10%" }
   },
   {
     id: "tote-bag",

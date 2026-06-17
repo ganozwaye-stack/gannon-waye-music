@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { STORE_PRODUCTS, BOUTIQUE_HERO_IMAGE } from '@/config/storeWorldConfig';
 import StoreWorldHotspot from '@/components/store/StoreWorldHotspot';
 import ProductQuickViewModal from '@/components/store/ProductQuickViewModal';
+import { ShoppingCart, Grid, Music } from 'lucide-react';
 
 const ACCENT = '#D4AF37';
 
@@ -70,13 +71,32 @@ export default function StoreWorld() {
       {/* ── IMMERSIVE STORE STAGE ── */}
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 16px 16px' }}>
 
-        {/* Store sign header */}
-        <div style={{ textAlign: 'center', padding: '32px 16px 20px', background: 'linear-gradient(180deg, rgba(212,175,55,0.06) 0%, transparent 100%)' }}>
-          <p style={{ color: 'rgba(212,175,55,0.5)', fontSize: '10px', letterSpacing: '0.35em', textTransform: 'uppercase', margin: '0 0 8px', fontWeight: 600 }}>Gannon Waye</p>
-          <h1 style={{ color: '#D4AF37', fontSize: 'clamp(24px, 4vw, 48px)', fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', margin: 0, fontFamily: "'Inter', sans-serif", textShadow: '0 0 40px rgba(212,175,55,0.4)' }}>
-            Merch Store
-          </h1>
-          <div style={{ width: '80px', height: '1px', background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)', margin: '12px auto 0' }} />
+        {/* Store nav tabs */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '20px 16px 16px', flexWrap: 'wrap' }}>
+          <Link
+            to="/store/all"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 14px', borderRadius: '999px', border: '1px solid rgba(212,175,55,0.35)', color: '#D4AF37', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, textDecoration: 'none', background: 'transparent', transition: 'all 0.2s ease' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(212,175,55,0.1)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.7)'; }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.35)'; }}
+          >
+            <Grid size={12} /> All Products
+          </Link>
+          <Link
+            to="/music"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 14px', borderRadius: '999px', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.55)', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, textDecoration: 'none', background: 'transparent', transition: 'all 0.2s ease' }}
+            onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.55)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
+          >
+            <Music size={12} /> Listen
+          </Link>
+          <Link
+            to="/store/cart"
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '6px 14px', borderRadius: '999px', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.55)', fontSize: '11px', letterSpacing: '0.12em', textTransform: 'uppercase', fontWeight: 600, textDecoration: 'none', background: 'transparent', transition: 'all 0.2s ease' }}
+            onMouseEnter={e => { e.currentTarget.style.color = '#fff'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = 'rgba(255,255,255,0.55)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
+          >
+            <ShoppingCart size={12} /> Cart
+          </Link>
         </div>
 
         <div style={{
