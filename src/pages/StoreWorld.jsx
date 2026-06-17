@@ -23,51 +23,51 @@ export default function StoreWorld() {
     <div style={{ background: '#0a0a0a', minHeight: '100vh', color: '#fff', fontFamily: "'Inter', sans-serif" }}>
 
       {/* ── HERO HEADER ── */}
-      <div style={{ textAlign: 'center', padding: '56px 24px 28px', background: 'linear-gradient(180deg, #000 0%, #0a0a0a 100%)' }} className="hidden">
-        <p style={{ color: '#555', fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '14px' }} className="hidden">
-          Official Gannon Waye Merch Store
-        </p>
+      
 
-        <div style={{ display: 'inline-block', position: 'relative', marginBottom: '10px' }}>
-          <h1 style={{
-            fontSize: 'clamp(2.2rem, 6.5vw, 5rem)',
-            fontWeight: 900, letterSpacing: '0.2em', textTransform: 'uppercase',
-            margin: 0, lineHeight: 1,
-            background: `linear-gradient(135deg, #B8860B 0%, ${ACCENT} 30%, #FFF8DC 50%, ${ACCENT} 70%, #B8860B 100%)`,
-            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-            animation: 'glowPulse 3.5s ease-in-out infinite'
-          }} className="hidden">
-            GANNON WAYE
-          </h1>
-          <div style={{ height: '1px', background: `linear-gradient(90deg, transparent, ${ACCENT}, transparent)`, marginTop: '8px', boxShadow: `0 0 14px rgba(212,175,55,0.9)` }} />
-        </div>
 
-        <p style={{ color: '#777', fontSize: '13px', letterSpacing: '0.12em', lineHeight: 1.7, maxWidth: '520px', margin: '14px auto 0' }}>
-          Shop the official <em>Thankyou</em> Merch Store.<br />
-          Explore the <em>Respect Is Earned</em> collection, bundles, posters and collectables.
-        </p>
 
-        <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
-          <button type="button" onClick={() => navigate('/store/all')} style={btnStyle('primary')}
-          onMouseEnter={(e) => e.currentTarget.style.opacity = '0.88'}
-          onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}>
-            
-            Shop All Products
-          </button>
-          <button type="button" onClick={() => navigate('/store/cart-details')} style={btnStyle('outline')}
-          onMouseEnter={(e) => {e.currentTarget.style.background = 'rgba(212,175,55,0.1)';e.currentTarget.style.borderColor = 'rgba(212,175,55,0.8)';}}
-          onMouseLeave={(e) => {e.currentTarget.style.background = 'transparent';e.currentTarget.style.borderColor = 'rgba(212,175,55,0.35)';}}>
-            
-            View Cart →
-          </button>
-          <button type="button" onClick={() => navigate('/current-single')} style={btnStyle('ghost')}
-          onMouseEnter={(e) => e.currentTarget.style.color = ACCENT}
-          onMouseLeave={(e) => e.currentTarget.style.color = '#888'}>
-            
-            Listen to Thankyou →
-          </button>
-        </div>
-      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
 
       {/* ── IMMERSIVE STORE STAGE ── */}
       <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '0 16px 16px' }}>
