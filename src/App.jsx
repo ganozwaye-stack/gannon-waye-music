@@ -286,6 +286,9 @@ import Support from '@/pages/Support';
 import GiftTracker from '@/pages/GiftTracker';
 import DomesticViolenceSupport from '@/pages/DomesticViolenceSupport';
 import MusicOpportunityBulletin from '@/pages/admin/MusicOpportunityBulletin';
+import HumanActionRequired from '@/pages/admin/HumanActionRequired';
+import PricingMarginCalculator from '@/pages/admin/PricingMarginCalculator';
+import FinalSystemReport from '@/pages/admin/FinalSystemReport';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -667,6 +670,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/metricool-performance-sync" element={<MetricoolPerformanceIntelligence />} />
         <Route path="/admin/music-opportunity-bulletin" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/print-fulfilment" element={<PrintFulfilment />} />
+        <Route path="/admin/human-action-required" element={<HumanActionRequired />} />
+        <Route path="/admin/pricing-margin-calculator" element={<PricingMarginCalculator />} />
+        <Route path="/admin/final-system-report" element={<FinalSystemReport />} />
         <Route path="/admin/music-opportunities" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/grants-bulletin" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/gig-finder" element={<MusicOpportunityBulletin />} />

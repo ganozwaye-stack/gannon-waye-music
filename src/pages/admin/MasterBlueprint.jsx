@@ -146,6 +146,9 @@ const ADMIN_ROUTES = [
   { label: 'Base44 Exit Plan',          path: '/admin/base44-exit-plan',         status: 'ok',      note: '5-phase migration plan to GitHub-controlled stack' },
   { label: 'Legal Drafts',              path: '/admin/legal-drafts',             status: 'ok',      note: 'Draft termination letter for Victor de Mauro / GanozMix separation' },
   { label: 'Print Fulfilment',          path: '/admin/print-fulfilment',         status: 'review',  note: '6 provider records. Manual fallback active. Samples not ordered. Poster images needed.' },
+  { label: 'Human Action Required',     path: '/admin/human-action-required',    status: 'ok',      note: 'Centralised inbox — all human-required actions in priority order.' },
+  { label: 'Pricing & Margin Calculator', path: '/admin/pricing-margin-calculator', status: 'ok',  note: 'Full margin/profit calculator with bundle exclusion rules.' },
+  { label: 'Final System Report',       path: '/admin/final-system-report',      status: 'ok',      note: 'Autonomous build session truth table — pass/review/fail across all systems.' },
 ];
 
 const INTEGRATIONS = [
@@ -207,6 +210,9 @@ const NEXT_ACTIONS = [
   { priority: 'medium',   action: 'Upload corrected Journal bundle image showing journal, pen, and thermos together via /admin/merch', link: '/admin/merch' },
   { priority: 'medium',   action: 'Review Base44 Exit Plan phases and begin Phase 1 (stabilise) at /admin/base44-exit-plan', link: '/admin/base44-exit-plan' },
   { priority: 'medium',   action: 'Review draft termination letter for GanozMix / Victor at /admin/legal-drafts before sending', link: '/admin/legal-drafts' },
+  { priority: 'high',     action: 'Open Human Action Required inbox — full prioritised list of items needing your personal action', link: '/admin/human-action-required' },
+  { priority: 'medium',   action: 'Use Pricing & Margin Calculator to verify all product margins before next promotion', link: '/admin/pricing-margin-calculator' },
+  { priority: 'medium',   action: 'Review the Final System Report for a complete build/test/status truth table', link: '/admin/final-system-report' },
 ];
 
 const PRIORITY_COLORS = {
@@ -486,6 +492,9 @@ export default function MasterBlueprint() {
               { label: 'Site Health',          path: '/admin/site-health' },
               { label: 'Agent Registry',       path: '/admin/agent-registry' },
               { label: 'Mum Tribute',          path: '/mum' },
+              { label: 'Human Action Required', path: '/admin/human-action-required' },
+              { label: 'Margin Calculator',     path: '/admin/pricing-margin-calculator' },
+              { label: 'Final Report',          path: '/admin/final-system-report' },
             ].map(link => (
               <Link key={link.path} to={link.path}>
                 <div className="border border-border/40 rounded-xl p-3 hover:border-primary/40 hover:bg-secondary/30 transition-all cursor-pointer">
