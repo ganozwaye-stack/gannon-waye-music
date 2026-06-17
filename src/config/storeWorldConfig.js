@@ -41,7 +41,7 @@ export const STORE_PRODUCTS = [
     description: "Dark grey oversized hoodie with the lyric line Respect Is Earned, Not A Game You Make Me Play across the back. Designed as a statement piece from Thankyou.",
     options: { size: ["S", "M", "L", "XL", "2XL", "3XL"] },
     addons: ["mug-addon", "poster-addon"],
-    hotspot: { left: "76%", top: "48%", width: "22%", height: "30%" }
+    hotspot: { left: "74%", top: "42%", width: "14%", height: "32%" }
   },
   {
     id: "winter-writing-comfort-bundle",
@@ -176,7 +176,7 @@ export const STORE_PRODUCTS = [
     link: "/mums-garden",
     images: [],
     description: "A private tribute space connected to Mum's Garden.",
-    hotspot: { left: "82%", top: "18%", width: "15%", height: "23%" }
+    hotspot: { left: "86%", top: "10%", width: "12%", height: "28%" }
   }
 ];
 

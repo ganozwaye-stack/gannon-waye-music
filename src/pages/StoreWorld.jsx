@@ -134,6 +134,9 @@ export default function StoreWorld() {
           Hover or tap zones to explore · Click to quick-view & shop
         </p>
 
+        {/* ── FEATURED GEAR ── */}
+        <FeaturedGear onOpenModal={setActiveModal} />
+
         {/* ── PRODUCT CARD GRID ── */}
         <h2 style={{ textAlign: 'center', fontSize: '10px', letterSpacing: '0.28em', color: '#444', textTransform: 'uppercase', fontWeight: 600, marginBottom: '20px' }}>
           Gannon Waye Merch Store — Full Collection
@@ -232,6 +235,74 @@ function ProductCard({ product, onOpenModal }) {
       </div>
     </button>);
 
+}
+
+const FEATURED_IDS = ['winter-writing-comfort-bundle', 'front-hoodie', 'journal-pen-thermos-bundle'];
+
+function FeaturedCard({ product, isHero, onOpenModal }) {
+  const [imgErr, setImgErr] = useState(false);
+  const emoji = PRODUCT_EMOJI[product.id] || '🛍️';
+  return (
+    <button
+      type="button"
+      onClick={() => onOpenModal(product.id)}
+      style={{
+        display: 'block', textAlign: 'left', padding: 0, border: 'none', cursor: 'pointer',
+        background: isHero ? 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(212,175,55,0.02))' : 'rgba(255,255,255,0.03)',
+        outline: `1px solid ${isHero ? 'rgba(212,175,55,0.35)' : 'rgba(212,175,55,0.15)'}`,
+        borderRadius: '14px', overflow: 'hidden', transition: 'all 0.22s ease',
+      }}
+      onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.outline = '1px solid rgba(212,175,55,0.6)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(212,175,55,0.15)'; }}
+      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.outline = `1px solid ${isHero ? 'rgba(212,175,55,0.35)' : 'rgba(212,175,55,0.15)'}`; e.currentTarget.style.boxShadow = 'none'; }}
+    >
+      <div style={{ width: '100%', aspectRatio: isHero ? '4/3' : '3/2', background: '#111', overflow: 'hidden', position: 'relative' }}>
+        {product.images?.[0] && !imgErr
+          ? <img src={product.images[0]} alt={product.name} onError={() => setImgErr(true)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3.5rem' }}>{emoji}</div>
+        }
+        {isHero && (
+          <div style={{ position: 'absolute', top: '12px', left: '12px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.1em', padding: '3px 8px', borderRadius: '4px', background: 'rgba(212,175,55,0.92)', color: '#111', textTransform: 'uppercase' }}>
+            ★ Best Seller
+          </div>
+        )}
+        {product.badge && !isHero && (
+          <div style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '8px', fontWeight: 800, letterSpacing: '0.07em', padding: '2px 6px', borderRadius: '3px', background: 'rgba(212,175,55,0.9)', color: '#111', textTransform: 'uppercase' }}>
+            {product.badge}
+          </div>
+        )}
+      </div>
+      <div style={{ padding: isHero ? '18px 20px' : '14px 16px' }}>
+        <div style={{ color: '#f0e8d8', fontSize: isHero ? '15px' : '13px', fontWeight: 700, marginBottom: '4px', lineHeight: 1.3 }}>{product.shortName || product.name}</div>
+        {isHero && product.description && (
+          <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '11px', lineHeight: 1.6, margin: '4px 0 10px' }}>
+            {product.description.slice(0, 90)}…
+          </p>
+        )}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '4px' }}>
+          <span style={{ color: ACCENT, fontSize: isHero ? '17px' : '14px', fontWeight: 800 }}>{product.price}</span>
+          <span style={{ color: 'rgba(212,175,55,0.5)', fontSize: '10px', letterSpacing: '0.1em' }}>SHOP NOW →</span>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+function FeaturedGear({ onOpenModal }) {
+  const featured = STORE_PRODUCTS.filter(p => FEATURED_IDS.includes(p.id));
+
+  return (
+    <div style={{ marginBottom: '56px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+        <p style={{ fontSize: '9px', letterSpacing: '0.32em', color: 'rgba(212,175,55,0.5)', textTransform: 'uppercase', fontWeight: 700, marginBottom: '6px' }}>Most Popular</p>
+        <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#f0e8d8', letterSpacing: '0.04em', margin: 0 }}>Featured Gear</h2>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+        {featured.map((product, i) => (
+          <FeaturedCard key={product.id} product={product} isHero={i === 0} onOpenModal={onOpenModal} />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 function btnStyle(variant) {
