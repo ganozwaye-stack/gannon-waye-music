@@ -273,6 +273,7 @@ import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
 import MissionControl from '@/pages/admin/MissionControl';
 import SystemsManagerOffer from '@/pages/SystemsManagerOffer';
 import StoreWorld from '@/pages/StoreWorld';
+import PrintFulfilment from '@/pages/admin/PrintFulfilment';
 import MumsGarden from '@/pages/MumsGarden';
 import Memorial from '@/pages/Memorial';
 import StoreProductDetail from '@/pages/StoreProductDetail';
@@ -665,6 +666,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/metricool-profile-map" element={<MetricoolDiagnostics />} />
         <Route path="/admin/metricool-performance-sync" element={<MetricoolPerformanceIntelligence />} />
         <Route path="/admin/music-opportunity-bulletin" element={<MusicOpportunityBulletin />} />
+        <Route path="/admin/print-fulfilment" element={<PrintFulfilment />} />
         <Route path="/admin/music-opportunities" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/grants-bulletin" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/gig-finder" element={<MusicOpportunityBulletin />} />

@@ -139,7 +139,7 @@ export default function StoreWorld() {
           Gannon Waye Merch Store — Full Collection
         </h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '14px', marginBottom: '48px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px', marginBottom: '48px', padding: '0 4px' }}>
           {STORE_PRODUCTS.map((product) =>
           <ProductCard key={product.id} product={product} onOpenModal={setActiveModal} />
           )}
@@ -210,6 +210,11 @@ function ProductCard({ product, onOpenModal }) {
             {product.badge}
           </span>
         }
+        {product.needsImages &&
+        <span style={{ position: 'absolute', bottom: '8px', left: '8px', fontSize: '8px', fontWeight: 700, padding: '2px 6px', borderRadius: '3px', background: 'rgba(234,179,8,0.85)', color: '#111', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          Artwork Soon
+        </span>
+        }
       </div>
       <div style={{ padding: '12px 14px' }}>
         <div style={{ color: isMemorial ? '#ffd6a5' : '#e8e8e8', fontSize: '12px', fontWeight: 600, lineHeight: 1.35, marginBottom: '4px' }}>
@@ -217,8 +222,9 @@ function ProductCard({ product, onOpenModal }) {
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
           <span style={{ color: isSoldOut ? '#e05555' : isMemorial ? '#ffd6a5' : ACCENT, fontSize: '13px', fontWeight: 700 }}>
-            {isSoldOut ? 'Sold Out' : isMemorial ? 'Tribute' : product.price}
+            {isMemorial ? 'Tribute' : product.price || 'Sold Out'}
           </span>
+          {isSoldOut && <span style={{ fontSize: '9px', color: '#e05555', fontWeight: 600, display: 'block', marginTop: '1px' }}>Sold Out</span>}
           <span style={{ color: 'rgba(212,175,55,0.4)', fontSize: '10px' }}>
             {isSoldOut ? 'Waitlist →' : isMemorial ? 'Visit →' : 'View →'}
           </span>

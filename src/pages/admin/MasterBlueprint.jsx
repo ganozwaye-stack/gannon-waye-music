@@ -145,6 +145,7 @@ const ADMIN_ROUTES = [
   { label: 'Thankyou Campaign Engine', path: '/admin/thankyou-6-day-campaign', status: 'missing', note: 'Use /admin/release-sprint as current alternative' },
   { label: 'Base44 Exit Plan',          path: '/admin/base44-exit-plan',         status: 'ok',      note: '5-phase migration plan to GitHub-controlled stack' },
   { label: 'Legal Drafts',              path: '/admin/legal-drafts',             status: 'ok',      note: 'Draft termination letter for Victor de Mauro / GanozMix separation' },
+  { label: 'Print Fulfilment',          path: '/admin/print-fulfilment',         status: 'review',  note: '6 provider records. Manual fallback active. Samples not ordered. Poster images needed.' },
 ];
 
 const INTEGRATIONS = [
@@ -158,7 +159,11 @@ const INTEGRATIONS = [
   { label: 'Systems Manager / AI Systems Manager', status: 'ok', note: 'Public portfolio at /systems-manager + 8 service destination pages + 2 case study pages live' },
   { label: 'Winter Bundle discount exclusion', status: 'ok', note: 'validatePromoCode enforces no discounts on winter_writing_bundle and bundle category' },
   { label: 'Journal bundle price',    status: 'ok',      note: '$59 AUD — updated in DB and fallback data' },
-  { label: 'Poster variant pricing',  status: 'ok',      note: 'A4 $19 / A3 $29 / A2 $39 / A1 $59 — size variants set in DB. Hoodie image replaced with poster image.' },
+  { label: 'Poster variant pricing',  status: 'ok',      note: 'A4 $19 / A3 $29 / A2 $39 / A1 $59 — size variants set. Poster image cleared — NEEDS REAL ARTWORK UPLOAD.' },
+  { label: 'Tote bag permanent sold out', status: 'ok',  note: '$15 price visible. Sold Out — "These will not be restocked" messaging live.' },
+  { label: 'Print Fulfilment system', status: 'review',  note: '/admin/print-fulfilment built. 6 providers researched. No provider active — manual fallback only. Samples not yet ordered.' },
+  { label: 'Admin inline edit buttons', status: 'ok',    note: 'AdminEditButton component — admin-only, hidden from public. Present on /store/all product cards.' },
+  { label: 'Playwright test files',   status: 'ok',      note: '5 test files created: store-product-truth, print-fulfilment, admin-inline-edit, promo-exclusions, route-click-proof.' },
 ];
 
 const AGENTS = [
@@ -197,7 +202,8 @@ const NEXT_ACTIONS = [
   { priority: 'medium',   action: 'Run Link Integrity Audit at /admin/link-integrity-audit to check for broken links and handle parity', link: '/admin/link-integrity-audit' },
   { priority: 'medium',   action: 'Verify GanozMix Direct agent workflow and Separated Ecommerce Blueprint', link: '/admin/ganozmix' },
   { priority: 'low',      action: 'Switch Stripe from test mode to live mode in Stripe Dashboard if not already done', link: null },
-  { priority: 'high',     action: 'Upload correct poster artwork images to the Poster product via /admin/merch (poster-specific art, not hoodie)', link: '/admin/merch' },
+  { priority: 'critical', action: 'Upload poster-specific artwork images for Respect Is Earned Lyric Wall Poster — current fallback is emoji. Go to /admin/merch → Poster → Change Images.', link: '/admin/merch' },
+  { priority: 'high',     action: 'Order sample prints from Printful and Gelato — review at /admin/print-fulfilment before activating live fulfilment', link: '/admin/print-fulfilment' },
   { priority: 'medium',   action: 'Upload corrected Journal bundle image showing journal, pen, and thermos together via /admin/merch', link: '/admin/merch' },
   { priority: 'medium',   action: 'Review Base44 Exit Plan phases and begin Phase 1 (stabilise) at /admin/base44-exit-plan', link: '/admin/base44-exit-plan' },
   { priority: 'medium',   action: 'Review draft termination letter for GanozMix / Victor at /admin/legal-drafts before sending', link: '/admin/legal-drafts' },

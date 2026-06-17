@@ -44,10 +44,12 @@ const PRODUCT_DETAILS = {
     emoji: '☕',
   },
   poster: {
-    description: 'Premium wall poster featuring the "Respect Is Earned" artwork. Available in A4, A3, A2 and A1 sizes. Printed on 250gsm premium stock.',
-    includes: ['Premium 250gsm print', 'Available in 4 sizes'],
+    description: 'Premium wall poster featuring the "Respect Is Earned" lyric artwork. Printed on 250gsm matte premium stock. Choose your size — price updates on selection.',
+    includes: ['Premium 250gsm matte stock', 'Select size at checkout', 'Print-on-demand — ships within 5–7 business days'],
     sizes: ['A4 — $19', 'A3 — $29', 'A2 — $39', 'A1 — $59'],
     emoji: '🖼️',
+    posterPricing: { 'A4 — $19': 19, 'A3 — $29': 29, 'A2 — $39': 39, 'A1 — $59': 59 },
+    needsImages: true,
   },
   cd: {
     description: 'Limited edition physical CDs and music collectables. Signed by Gannon Waye. A personal piece of this moment in music history.',
@@ -56,10 +58,11 @@ const PRODUCT_DETAILS = {
     emoji: '💿',
   },
   tote: {
-    description: 'The official Gannon Waye tote bag sold out due to incredible demand. Join the waitlist to be first when the next drop arrives.',
+    description: 'The official Thankyou tote bag sold out due to incredible demand. These will not be restocked. Thank you for the love. 🤍',
     includes: [],
     sizes: [],
     emoji: '👜',
+    soldOutPermanent: true,
   },
   'mums-garden': {
     description: 'A private tribute. Enter with love.',
@@ -84,6 +87,12 @@ export default function StoreProductDetail() {
   const [qty, setQty] = useState(1);
   const [waitlistEmail, setWaitlistEmail] = useState('');
   const [waitlistDone, setWaitlistDone] = useState(false);
+
+  // Poster: derive price from selected size
+  const posterPricing = details?.posterPricing || null;
+  const displayPrice = posterPricing && selectedSize
+    ? `$${posterPricing[selectedSize]}`
+    : product.price || 'POA';
 
   if (!product) {
     return (
@@ -164,9 +173,25 @@ export default function StoreProductDetail() {
           <h1 style={{ fontSize: '22px', fontWeight: 700, lineHeight: 1.3, marginBottom: '8px', marginTop: '10px' }}>{product.name}</h1>
 
           <p style={{ fontSize: '22px', color: '#C9A84C', fontWeight: 700, marginBottom: '16px' }}>
-            {product.price || 'POA'}
+            {displayPrice}
             {product.priceNote && <span style={{ fontSize: '12px', color: '#888', marginLeft: '6px', fontWeight: 400 }}>{product.priceNote}</span>}
           </p>
+
+          {/* Poster needs-images notice */}
+          {details?.needsImages && (
+            <div style={{ padding: '10px 14px', borderRadius: '8px', background: 'rgba(234,179,8,0.08)', border: '1px solid rgba(234,179,8,0.3)', marginBottom: '16px' }}>
+              <p style={{ fontSize: '11px', color: '#facc15', margin: 0 }}>
+                🖼️ Poster artwork images coming soon. Size pricing is live — order now and your print will be prepared once artwork is confirmed.
+              </p>
+            </div>
+          )}
+
+          {/* Permanent sold out notice */}
+          {details?.soldOutPermanent && (
+            <div style={{ padding: '10px 14px', borderRadius: '8px', background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)', marginBottom: '16px' }}>
+              <p style={{ fontSize: '11px', color: '#f87171', margin: 0 }}>These will not be restocked. 🤍</p>
+            </div>
+          )}
 
           <p style={{ color: '#999', fontSize: '14px', lineHeight: 1.7, marginBottom: '20px' }}>
             {details?.description || product.tooltip}
