@@ -176,15 +176,46 @@ export default function StoreWorld() {
 
 }
 
+function ImageSwiper({ images, name, emoji, aspectRatio = '1' }) {
+  const [idx, setIdx] = useState(0);
+  const [imgErr, setImgErr] = useState({});
+  const validImages = (images || []).filter((_, i) => !imgErr[i]);
+
+  const prev = (e) => { e.stopPropagation(); setIdx(i => (i - 1 + validImages.length) % validImages.length); };
+  const next = (e) => { e.stopPropagation(); setIdx(i => (i + 1) % validImages.length); };
+
+  const currentSrc = validImages[idx] || null;
+
+  return (
+    <div style={{ width: '100%', aspectRatio, background: '#111', overflow: 'hidden', position: 'relative' }}>
+      {currentSrc
+        ? <img src={currentSrc} alt={name} onError={() => setImgErr(e => ({...e, [idx]: true}))} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'opacity 0.2s' }} />
+        : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.8rem' }}>{emoji}</div>
+      }
+      {validImages.length > 1 && (
+        <>
+          <button type="button" onClick={prev} style={{ position: 'absolute', left: '4px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(212,175,55,0.4)', color: '#D4AF37', width: '22px', height: '22px', borderRadius: '50%', fontSize: '10px', cursor: 'pointer', zIndex: 5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>‹</button>
+          <button type="button" onClick={next} style={{ position: 'absolute', right: '4px', top: '50%', transform: 'translateY(-50%)', background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(212,175,55,0.4)', color: '#D4AF37', width: '22px', height: '22px', borderRadius: '50%', fontSize: '10px', cursor: 'pointer', zIndex: 5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>›</button>
+          <div style={{ position: 'absolute', bottom: '6px', left: '50%', transform: 'translateX(-50%)', display: 'flex', gap: '3px', zIndex: 5 }}>
+            {validImages.map((_, i) => (
+              <button key={i} type="button" onClick={e => { e.stopPropagation(); setIdx(i); }}
+                style={{ width: i === idx ? '14px' : '5px', height: '5px', borderRadius: '999px', background: i === idx ? '#D4AF37' : 'rgba(212,175,55,0.35)', border: 'none', cursor: 'pointer', padding: 0, transition: 'all 0.2s' }} />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 function ProductCard({ product, onOpenModal }) {
   const isSoldOut = product.status === 'sold_out';
   const isMemorial = product.status === 'memorial';
   const emoji = PRODUCT_EMOJI[product.id] || '🛍️';
-  const [imgErr, setImgErr] = useState(false);
 
   const navigate = useNavigate();
   const handleClick = () => {
-    if (isMemorial) {navigate(product.link);return;}
+    if (isMemorial) { navigate(product.link); return; }
     onOpenModal(product.id);
   };
 
@@ -199,25 +230,16 @@ function ProductCard({ product, onOpenModal }) {
         borderRadius: '10px', padding: 0, cursor: 'pointer', opacity: isSoldOut ? 0.72 : 1,
         overflow: 'hidden', transition: 'all 0.2s ease'
       }}
-      onMouseEnter={(e) => {e.currentTarget.style.borderColor = isMemorial ? 'rgba(255,210,160,0.5)' : 'rgba(212,175,55,0.55)';e.currentTarget.style.transform = 'translateY(-2px)';e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.12)';}}
-      onMouseLeave={(e) => {e.currentTarget.style.borderColor = isMemorial ? 'rgba(255,210,160,0.18)' : 'rgba(212,175,55,0.18)';e.currentTarget.style.transform = 'translateY(0)';e.currentTarget.style.boxShadow = 'none';}}>
-      
-      <div style={{ width: '100%', aspectRatio: '1', background: '#111', overflow: 'hidden', position: 'relative' }}>
-        {product.images?.[0] && !imgErr ?
-        <img src={product.images[0]} alt={product.name} onError={() => setImgErr(true)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> :
-
-        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.4rem' }}>{emoji}</div>
-        }
-        {product.badge &&
-        <span style={{ position: 'absolute', top: '8px', right: '8px', fontSize: '8px', fontWeight: 800, letterSpacing: '0.07em', padding: '2px 6px', borderRadius: '3px', background: isSoldOut ? 'rgba(239,68,68,0.9)' : isMemorial ? 'rgba(255,210,160,0.15)' : 'rgba(212,175,55,0.9)', color: isSoldOut ? '#fff' : isMemorial ? '#ffd6a5' : '#111', textTransform: 'uppercase' }}>
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = isMemorial ? 'rgba(255,210,160,0.5)' : 'rgba(212,175,55,0.55)'; e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 8px 24px rgba(212,175,55,0.12)'; }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = isMemorial ? 'rgba(255,210,160,0.18)' : 'rgba(212,175,55,0.18)'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none'; }}
+    >
+      <div style={{ position: 'relative' }}>
+        <ImageSwiper images={product.images} name={product.name} emoji={emoji} aspectRatio="1" />
+        {product.badge && (
+          <span style={{ position: 'absolute', top: '8px', right: '8px', fontSize: '8px', fontWeight: 800, letterSpacing: '0.07em', padding: '2px 6px', borderRadius: '3px', background: isSoldOut ? 'rgba(239,68,68,0.9)' : isMemorial ? 'rgba(255,210,160,0.15)' : 'rgba(212,175,55,0.9)', color: isSoldOut ? '#fff' : isMemorial ? '#ffd6a5' : '#111', textTransform: 'uppercase', zIndex: 10, pointerEvents: 'none' }}>
             {product.badge}
           </span>
-        }
-        {product.needsImages &&
-        <span style={{ position: 'absolute', bottom: '8px', left: '8px', fontSize: '8px', fontWeight: 700, padding: '2px 6px', borderRadius: '3px', background: 'rgba(234,179,8,0.85)', color: '#111', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-          Artwork Soon
-        </span>
-        }
+        )}
       </div>
       <div style={{ padding: '12px 14px' }}>
         <div style={{ color: isMemorial ? '#ffd6a5' : '#e8e8e8', fontSize: '12px', fontWeight: 600, lineHeight: 1.35, marginBottom: '4px' }}>
@@ -227,20 +249,18 @@ function ProductCard({ product, onOpenModal }) {
           <span style={{ color: isSoldOut ? '#e05555' : isMemorial ? '#ffd6a5' : ACCENT, fontSize: '13px', fontWeight: 700 }}>
             {isMemorial ? 'Tribute' : product.price || 'Sold Out'}
           </span>
-          {isSoldOut && <span style={{ fontSize: '9px', color: '#e05555', fontWeight: 600, display: 'block', marginTop: '1px' }}>Sold Out</span>}
           <span style={{ color: 'rgba(212,175,55,0.4)', fontSize: '10px' }}>
             {isSoldOut ? 'Waitlist →' : isMemorial ? 'Visit →' : 'View →'}
           </span>
         </div>
       </div>
-    </button>);
-
+    </button>
+  );
 }
 
 const FEATURED_IDS = ['winter-writing-comfort-bundle', 'front-hoodie', 'journal-pen-thermos-bundle'];
 
 function FeaturedCard({ product, isHero, onOpenModal }) {
-  const [imgErr, setImgErr] = useState(false);
   const emoji = PRODUCT_EMOJI[product.id] || '🛍️';
   return (
     <button
@@ -255,18 +275,15 @@ function FeaturedCard({ product, isHero, onOpenModal }) {
       onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.outline = '1px solid rgba(212,175,55,0.6)'; e.currentTarget.style.boxShadow = '0 12px 32px rgba(212,175,55,0.15)'; }}
       onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.outline = `1px solid ${isHero ? 'rgba(212,175,55,0.35)' : 'rgba(212,175,55,0.15)'}`; e.currentTarget.style.boxShadow = 'none'; }}
     >
-      <div style={{ width: '100%', aspectRatio: isHero ? '4/3' : '3/2', background: '#111', overflow: 'hidden', position: 'relative' }}>
-        {product.images?.[0] && !imgErr
-          ? <img src={product.images[0]} alt={product.name} onError={() => setImgErr(true)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          : <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3.5rem' }}>{emoji}</div>
-        }
+      <div style={{ position: 'relative' }}>
+        <ImageSwiper images={product.images} name={product.name} emoji={emoji} aspectRatio={isHero ? '4/3' : '3/2'} />
         {isHero && (
-          <div style={{ position: 'absolute', top: '12px', left: '12px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.1em', padding: '3px 8px', borderRadius: '4px', background: 'rgba(212,175,55,0.92)', color: '#111', textTransform: 'uppercase' }}>
+          <div style={{ position: 'absolute', top: '12px', left: '12px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.1em', padding: '3px 8px', borderRadius: '4px', background: 'rgba(212,175,55,0.92)', color: '#111', textTransform: 'uppercase', zIndex: 10, pointerEvents: 'none' }}>
             ★ Best Seller
           </div>
         )}
         {product.badge && !isHero && (
-          <div style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '8px', fontWeight: 800, letterSpacing: '0.07em', padding: '2px 6px', borderRadius: '3px', background: 'rgba(212,175,55,0.9)', color: '#111', textTransform: 'uppercase' }}>
+          <div style={{ position: 'absolute', top: '10px', right: '10px', fontSize: '8px', fontWeight: 800, letterSpacing: '0.07em', padding: '2px 6px', borderRadius: '3px', background: 'rgba(212,175,55,0.9)', color: '#111', textTransform: 'uppercase', zIndex: 10, pointerEvents: 'none' }}>
             {product.badge}
           </div>
         )}
