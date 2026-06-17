@@ -23,7 +23,7 @@ export default function StoreWorld() {
     <div style={{ background: '#0a0a0a', minHeight: '100vh', color: '#fff', fontFamily: "'Inter', sans-serif" }}>
 
       {/* ── HERO HEADER ── */}
-      <div style={{ textAlign: 'center', padding: '56px 24px 28px', background: 'linear-gradient(180deg, #000 0%, #0a0a0a 100%)' }}>
+      <div style={{ textAlign: 'center', padding: '56px 24px 28px', background: 'linear-gradient(180deg, #000 0%, #0a0a0a 100%)' }} className="hidden">
         <p style={{ color: '#555', fontSize: '11px', letterSpacing: '0.3em', textTransform: 'uppercase', marginBottom: '14px' }} className="hidden">
           Official Gannon Waye Merch Store
         </p>
