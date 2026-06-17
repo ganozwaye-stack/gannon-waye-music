@@ -94,7 +94,7 @@ export default function MumsGarden() {
         </button>
 
         <button
-          onClick={() => navigate('/store-world')}
+          onClick={() => navigate('/store')}
           style={{
             padding: '11px 32px',
             borderRadius: '8px',
@@ -112,7 +112,7 @@ export default function MumsGarden() {
           onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.5)'}
           onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.3)'}
         >
-          ← Return to the Boutique
+          ← Return to the Store
         </button>
       </div>
     </div>

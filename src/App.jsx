@@ -317,7 +317,7 @@ const AuthenticatedApp = () => {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
-        <Route path="/store" element={<StoreWorld />} />
+        <Route path="/store" element={<Store />} />
         <Route path="/store/all" element={<Store />} />
         <Route path="/store/cart" element={<StoreCartPage />} />
         <Route path="/store/customer-details" element={<StoreCustomerDetails />} />
@@ -361,7 +361,7 @@ const AuthenticatedApp = () => {
         <Route path="/order-success" element={<CheckoutSuccess />} />
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/store/checkout-cancel" element={<CheckoutCancel />} />
-        <Route path="/store-world" element={<StoreWorld />} />
+        <Route path="/store-world" element={<Navigate to="/store" replace />} />
         <Route path="/mums-garden" element={<MumsGarden />} />
         <Route path="/memorial" element={<Memorial />} />
         <Route path="/store/product/:slug" element={<StoreProductDetail />} />
