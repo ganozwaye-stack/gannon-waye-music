@@ -226,7 +226,7 @@ The lyric is on the back. Wear the reminder. 🖤`,
     id: 'reel-3-winter-bundle',
     type: 'reel',
     icon: Film,
-    label: 'Reel 3 — "Winter Writing & Comfort Bundle — $129"',
+    label: 'Reel 3 — "Winter Writing & Comfort Bundle — $119"',
     badge: 'CapCut — 9:16',
     badgeColor: 'bg-purple-500/20 text-purple-400',
     purpose: 'Product reel. Clear value, emotional warmth, bundle hero. No further discounts messaging is REQUIRED.',
@@ -258,7 +258,7 @@ Scene 3 (0:07–0:11): All four products together — flat lay or styled arrange
 — Overlay: "The Winter Writing & Comfort Bundle" — gold, centred, Playfair style.
 
 Scene 4 (0:11–0:15): Price overlay — large and clear:
-— "$129" — bold gold, centred.
+— "$119" — bold gold, centred.
 — Below in smaller white text: "Hoodie + Journal + Pen + Thermos"
 — ⚠️ Note below in amber/warm yellow (NOT red — not alarming): "No further discounts apply to this bundle."
 

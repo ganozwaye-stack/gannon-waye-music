@@ -53,7 +53,7 @@ export const STORE_PRODUCTS = [
     id: "winter-writing-comfort-bundle",
     name: "Winter Writing & Comfort Bundle",
     shortName: "Winter Bundle",
-    tooltip: "Shop the hero winter bundle — $129",
+    tooltip: "Shop the hero winter bundle — $119",
     price: "$119",
     priceValue: 119,
     priceNote: "+ postage",

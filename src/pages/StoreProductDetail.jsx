@@ -17,6 +17,7 @@ const SLUG_MAP = {
   'thankyou-respect-is-earned-coffee-mug': 'mug',
   'respect-is-earned-wall-poster': 'poster',
   'respect-is-earned-assorted-wall-poster-pricing-from-19': 'poster',
+  '6a2d595ef7bb7ff53258cdfe': 'poster',
   'thankyou-respect-is-earned-wall-poster': 'poster',
   'thankyou-cd-collectable': 'cd',
   'thankyou-cd': 'cd',
