@@ -63,13 +63,18 @@ export const STORE_PRODUCTS = [
     excludeFromDiscounts: true,
     link: "/store/product/winter-writing-comfort-bundle",
     images: [
-      // Centre counter display — folded jumper + journal + thermos + pen + box as per reference image
-      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/27efba07c_ChatGPTImageJun17202605_07_15PM4.png",
-      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4f7409387_ChatGPTImageJun17202605_07_17PM6.png",
-      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/851236b30_BundleBox.png",
-      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5909cdcc0_BundleJournalPenThermos.jpg",
-      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/69779807d_JournalBundle1920x1080px.jpg",
-      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/babbbc3d4_ChatGPTImageJun17202605_07_15PM5.png",
+      // Hero first — full bundle $119 shot
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/19dd1e25d_WinteerWriterBundle119.jpg",
+      // Journal, pen & thermos product shot
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e2a7dfb92_ChatGPTImageJun16202609_38_45AM4.png",
+      // Lifestyle — woman wearing hoodie with bundle
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bde469918_ChatGPTImageJun16202609_38_45AM5.png",
+      // Winter flatlay — hoodie, journal, thermos, pen
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/20bc4f68c_ChatGPTImageJun16202609_38_46AM6.png",
+      // Hoodie front
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/116a66e6b_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Front-removebg-preview.png",
+      // Hoodie back
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3e484f441_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Back-removebg-preview.png",
     ],
     description: "The hero bundle of the Thankyou Merch Store. Includes the oversized Respect Is Earned hoodie plus the Thankyou journal, pen and thermos flask. Discount already applied — excluded from promo codes.",
     includes: ["Respect Is Earned Hoodie", "Thankyou Journal", "Thankyou Pen", "Thankyou Thermos Flask", "Gift Box"],
