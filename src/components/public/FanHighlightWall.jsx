@@ -195,7 +195,7 @@ export default function FanHighlightWall() {
         >
           <p className="font-body text-foreground/60 mb-4">Want to be featured here?</p>
           <p className="font-body text-sm text-muted-foreground max-w-md mx-auto">
-            Share your story, art, or support moment. Tag @gann0nwaye on TikTok or Instagram.
+            Share your story, art, or support moment. Tag @ganozwaye on TikTok or Instagram.
           </p>
         </motion.div>
       </div>

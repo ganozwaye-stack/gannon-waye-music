@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { 
-  Shield, CheckCircle2, AlertTriangle, XCircle, RefreshCw, 
-  ExternalLink, Search, Globe, Lock, Info, Activity
+  Shield, CheckCircle2, AlertTriangle, XCircle, RefreshCw, Search, Globe, Activity
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 export default function LinkIntegrityAudit() {
   const { toast } = useToast();
@@ -26,11 +24,11 @@ export default function LinkIntegrityAudit() {
     { id: 7, name: 'Mum Tribute', path: '/mum', type: 'public', status: 'ok', hrefs: 14, issues: [] },
     
     // Social / Brand
-    { id: 8, name: 'Footer Instagram Link', path: 'Footer Component', type: 'social', status: 'ok', hrefs: 1, note: 'https://instagram.com/gann0nwaye', issues: [] },
-    { id: 9, name: 'Footer TikTok Link', path: 'Footer Component', type: 'social', status: 'ok', hrefs: 1, note: 'https://tiktok.com/@gann0nwaye', issues: [] },
-    { id: 10, name: 'Footer YouTube Link', path: 'Footer Component', type: 'social', status: 'ok', hrefs: 1, note: 'https://youtube.com/@gannonwayeofficial', issues: [] },
+    { id: 8, name: 'Footer Instagram Link', path: 'Footer Component', type: 'social', status: 'ok', hrefs: 1, note: 'https://instagram.com/ganozwaye', issues: [] },
+    { id: 9, name: 'Footer TikTok Link', path: 'Footer Component', type: 'social', status: 'ok', hrefs: 1, note: 'https://tiktok.com/@gannonwaye', issues: [] },
+    { id: 10, name: 'Footer YouTube Link', path: 'Footer Component', type: 'social', status: 'ok', hrefs: 1, note: 'https://youtube.com/@gannonwaye', issues: [] },
     { id: 11, name: 'Footer Facebook Link', path: 'Footer Component', type: 'social', status: 'ok', note: 'Removed from visible links', issues: [] },
-    { id: 12, name: 'Old Brand @gannonwaye reference', path: 'Lyrics / FAQ copy', type: 'brand', status: 'ok', note: 'All references upgraded to @gann0nwaye / @gannonwayeofficial', issues: [] },
+    { id: 12, name: 'Old Brand @gannonwaye reference', path: 'Lyrics / FAQ copy', type: 'brand', status: 'ok', note: 'All references upgraded to @ganozwaye / @gannonwaye', issues: [] },
 
     // Admin Routes
     { id: 13, name: 'Dashboard', path: '/admin', type: 'admin', status: 'ok', hrefs: 48, issues: [] },
@@ -90,9 +88,9 @@ export default function LinkIntegrityAudit() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Total Links Audited', value: 312, icon: Globe, color: 'text-primary' },
-          { label: 'Instagram Handle', value: '@gann0nwaye', icon: CheckCircle2, color: 'text-green-400' },
-          { label: 'TikTok Handle', value: '@gann0nwaye', icon: CheckCircle2, color: 'text-green-400' },
-          { label: 'YouTube Handle', value: '@gannonwayeofficial', icon: CheckCircle2, color: 'text-green-400' },
+          { label: 'Instagram Handle', value: '@ganozwaye', icon: CheckCircle2, color: 'text-green-400' },
+          { label: 'TikTok Handle', value: '@ganozwaye', icon: CheckCircle2, color: 'text-green-400' },
+          { label: 'YouTube Handle', value: '@gannonwaye', icon: CheckCircle2, color: 'text-green-400' },
         ].map(card => (
           <Card key={card.label}>
             <CardContent className="p-4 flex items-center gap-3">
@@ -113,7 +111,7 @@ export default function LinkIntegrityAudit() {
           <div className="text-xs">
             <p className="font-semibold text-green-400 mb-1">Brand Handle Integrity Guidelines</p>
             <p className="text-muted-foreground leading-relaxed">
-              Instagram/TikTok must always point to <span className="text-foreground font-mono">@gann0nwaye</span> (with a zero). YouTube must point to <span className="text-foreground font-mono">@gannonwayeofficial</span>. There must be no Facebook references visible on public pages.
+              Instagram must point to <span className="text-foreground font-mono">@ganozwaye</span>. TikTok and YouTube must point to <span className="text-foreground font-mono">@gannonwaye</span>. There must be no Facebook references visible on public pages.
             </p>
           </div>
         </CardContent>

@@ -1,0 +1,32 @@
+{
+  "name": "SystemsManagerLead",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "email": { "type": "string" },
+    "business_name": { "type": "string" },
+    "links": { "type": "string", "maxLength": 2000 },
+    "business_type": { "type": "string" },
+    "problem": { "type": "string", "maxLength": 5000 },
+    "current_systems": { "type": "string", "maxLength": 5000 },
+    "automation_wishlist": { "type": "string", "maxLength": 5000 },
+    "selling_type": { "type": "string" },
+    "system_need": { "type": "string" },
+    "preferred_contact_method": { "type": "string" },
+    "budget_range": { "type": "string" },
+    "urgency": { "type": "string" },
+    "proposal_status": {
+      "type": "string",
+      "enum": ["received", "reviewing", "proposal_sent", "won", "lost", "archived"],
+      "default": "received"
+    },
+    "admin_notes": { "type": "string", "maxLength": 5000 }
+  },
+  "required": ["name", "email", "problem"],
+  "rls": {
+    "create": true,
+    "read": { "user_condition": { "role": "admin" } },
+    "update": { "user_condition": { "role": "admin" } },
+    "delete": { "user_condition": { "role": "admin" } }
+  }
+}

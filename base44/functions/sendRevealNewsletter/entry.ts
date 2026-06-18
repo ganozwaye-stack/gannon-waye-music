@@ -26,17 +26,17 @@ function buildNewsletterHtml(firstName, unsubUrl) {
   </div>
 
   <p style="color:#c9b99a;font-size:16px;line-height:1.8;">Hi ${firstName},</p>
-  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">I've been counting down to this moment for a long time. And now, here we are. The artwork is live. The release date is set. And <em>you</em> are the reason this exists.</p>
+  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">I've been counting down to this moment for a long time. And now, here we are. The artwork is live. THANKYOU is out now. And <em>you</em> are the reason this exists.</p>
 
   <div style="background:#1a1f2e;border:1px solid #2a2f3e;border-radius:16px;padding:28px;margin:28px 0;text-align:center;">
     <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a6aefb394_2.jpg" alt="Thank You — Gannon Waye" style="width:200px;height:200px;object-fit:cover;border-radius:12px;margin:0 auto 20px;display:block;" />
     <p style="color:#f5d06e;font-size:13px;letter-spacing:0.25em;text-transform:uppercase;margin:0 0 8px;">Artwork Revealed</p>
     <p style="font-size:32px;color:#f0ead6;font-style:italic;margin:0 0 8px;">"Thank You"</p>
-    <p style="color:#999;font-size:13px;margin:0 0 20px;">Gannon Waye · Debut Single · Releases June 10, 2026</p>
+    <p style="color:#999;font-size:13px;margin:0 0 20px;">Gannon Waye · Debut Single · Out Now</p>
     <a href="https://open.spotify.com/search/Gannon%20Waye%20Thank%20You" style="display:inline-block;background:#f5d06e;color:#0e1117;padding:13px 30px;border-radius:50px;text-decoration:none;font-weight:700;font-size:14px;">Listen on Spotify →</a>
   </div>
 
-  <p style="color:#c9b99a;font-size:15px;line-height:1.8;"><strong style="color:#f0ead6;">Release Date: June 10, 2026.</strong> Mark it. Save it. Share it with someone you love.</p>
+  <p style="color:#c9b99a;font-size:15px;line-height:1.8;"><strong style="color:#f0ead6;">THANKYOU is officially out now.</strong> Stream it, save it, and share it with someone you love.</p>
   <p style="color:#c9b99a;font-size:15px;line-height:1.8;">Merch is open now at the store — go grab something to wear with pride.</p>
 
   <div style="border-left:3px solid #f5d06e;padding:16px 20px;margin:28px 0;background:#1a1f2e;border-radius:0 12px 12px 0;">
@@ -99,7 +99,7 @@ Deno.serve(async (req) => {
       const res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
         method: 'POST',
         headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ raw: buildMimeMessage({ to: sub.email, subject: `🎶 It's here. "Thank You" — Artwork Revealed · Out June 10`, htmlBody: html }) })
+        body: JSON.stringify({ raw: buildMimeMessage({ to: sub.email, subject: `THANKYOU by Gannon Waye is out now`, htmlBody: html }) })
       });
 
       if (res.ok) {

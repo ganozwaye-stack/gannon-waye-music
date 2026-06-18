@@ -7,7 +7,7 @@ export const GANNON_SIGNATURE_HTML = `
 <div style="margin-top: 32px; padding-top: 0; border-top: none;">
   <!-- Thank You banner with side fades (inline table trick for email clients) -->
   <div style="position: relative; max-width: 540px; margin: 0 auto 20px auto; border-radius: 10px; overflow: hidden; line-height: 0;">
-    <img src="${BANNER_URL}" alt="Thank You — Gannon Waye · 05 June 2026"
+    <img src="${BANNER_URL}" alt="THANKYOU by Gannon Waye - out now"
       style="width: 100%; max-width: 540px; display: block; border-radius: 10px;" />
     <!-- Top fade overlay -->
     <div style="position: absolute; top: 0; left: 0; right: 0; height: 40%; background: linear-gradient(to bottom, rgba(14,16,21,0.85), transparent); border-radius: 10px 10px 0 0;"></div>
@@ -27,7 +27,7 @@ export const GANNON_SIGNATURE_HTML = `
       Gannon Waye
     </p>
     <p style="font-family: 'Inter', sans-serif; font-size: 10px; color: rgba(255,255,255,0.35); margin: 4px 0 0 0; letter-spacing: 0.15em; text-transform: uppercase;">
-      Thank You · 05 June 2026
+      THANKYOU - OUT NOW
     </p>
   </div>
 </div>
@@ -36,5 +36,5 @@ export const GANNON_SIGNATURE_HTML = `
 export const GANNON_SIGNATURE_TEXT = `
 With gratitude & respect,
 Gannon Waye
-Thank You — out 05 June 2026
+THANKYOU - out now
 `;

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { 
-  Upload, Folder, File, Trash2, CheckCircle2, AlertTriangle, 
+  Upload, Folder, File, Trash2, 
   Image as ImageIcon, Video, Music, Plus, Grid, List, Search
 } from 'lucide-react';
 

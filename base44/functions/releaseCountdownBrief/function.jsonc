@@ -4,7 +4,7 @@
   "automations": [
     {
       "type": "scheduled",
-      "description": "Every morning: counts down days until June 10 release, checks subscriber growth and merch orders, notifies admin.",
+      "description": "Every morning: checks THANKYOU post-release growth, subscriber growth, merch orders, open opportunities, and notifies admin.",
       "ends_type": "never",
       "is_active": true,
       "name": "Release Countdown Daily Brief",

@@ -30,8 +30,6 @@ const PHOTOS = [
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/41d549365_49CE40E3-DBDB-46A9-87BE-332F16FAF1BF.jpg', caption: "From Mum's chest to Gannon's — her swallow, forever", category: 'Carrying Her', featured: true },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/942521645_CopyofIMG_5460.JPG', caption: "I love it — and I love her", category: 'Carrying Her' },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/01878507b_CopyofIMG_5454.jpg', caption: 'Getting the ink fresh — carrying her always', category: 'Carrying Her' },
-  // Her Flowers (inspired by the flowers left at her resting place — the grave is never shown, only the love in bloom)
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/795cc3eb2_generated_image.png', caption: 'Flowers — the way those who loved her said goodbye. Her colours, forever.', category: 'Her Flowers', featured: true },
   // Her Words
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f4e3e6d46_CopyofIMG_5462.JPG', caption: '"Happy birthday my beautiful son" — Mumma Bear xoxo', category: 'Her Words', featured: true },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d9e85493f_CopyofIMG_5453.jpg', caption: '"People who still have their Mother have no idea how blessed they are" — Onya Sonia', category: 'Her Words' },
@@ -43,7 +41,7 @@ const PHOTOS = [
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c12df93d5_CopyofIMG_5492.JPG', caption: 'Sonia with little ones — she was always the heart of it', category: 'Old Days' },
 ];
 
-const CATEGORIES = ['All', 'Me & Mum', 'Her', 'Her Humour', 'Family', 'Her Animals', 'Carrying Her', 'Her Flowers', 'Her Words', 'Old Days'];
+const CATEGORIES = ['All', 'Me & Mum', 'Her', 'Her Humour', 'Family', 'Her Animals', 'Carrying Her', 'Her Words', 'Old Days'];
 
 // 3D-tilt card
 function MemoryCard({ photo, index, onClick }) {

@@ -62,6 +62,52 @@
       "type": "boolean",
       "default": true
     },
+    "is_featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Admin/agent-approved featured product flag for store ordering and badges"
+    },
+    "promo_eligible": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether standard promo codes can apply to this product"
+    },
+    "discount_excluded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Server-side checkout and promo guard exclusion flag"
+    },
+    "exclude_from_discounts": {
+      "type": "boolean",
+      "default": false,
+      "description": "Compatibility alias for discount_excluded"
+    },
+    "discount_lock_reason": {
+      "type": "string",
+      "description": "Customer/admin-facing reason discounts do not apply"
+    },
+    "price_note": {
+      "type": "string",
+      "description": "Display note when pricing varies or postage/fees are extra"
+    },
+    "variants": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      },
+      "description": "Optional product variants such as poster sizes"
+    },
+    "bundle_includes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Human-readable bundle inclusion list"
+    },
+    "featured_reason": {
+      "type": "string",
+      "description": "Short reason the item is featured internally/admin-facing"
+    },
     "profit_margin_percent": {
       "type": "number",
       "description": "Calculated: (sale_price - cost_price - delivery_cost - fees) / sale_price * 100"

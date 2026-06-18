@@ -120,7 +120,7 @@ export default function ThankYouSingle() {
                 <iframe
                   data-testid="embed-iframe"
                   style={{ borderRadius: '12px' }}
-                  src="https://open.spotify.com/embed/album/36qMYfzzJrq2j039l9Ex66?utm_source=generator"
+                  src="https://open.spotify.com/embed/track/6xHQX9Yc2pcfRzVxdPmRHp?utm_source=generator"
                   width="100%"
                   height="352"
                   frameBorder="0"
@@ -131,7 +131,7 @@ export default function ThankYouSingle() {
               ) : (
                 <a href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer" className="block">
                   <Button className="w-full rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
-                    <Music className="w-4 h-4" /> Pre-Save Now
+                    <Music className="w-4 h-4" /> Listen Now
                   </Button>
                 </a>
               )}

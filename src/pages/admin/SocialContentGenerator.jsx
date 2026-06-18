@@ -91,9 +91,9 @@ export default function SocialContentGenerator() {
       ? `IMPORTANT: The gift offer requires manual review. Do not claim automatic Instagram or TikTok verification. Copy must clearly state that each entry is reviewed personally.`
       : '';
 
-    const releaseNote = `The song has not yet been released. Release date is 05 June 2026 on all leading platforms. Never say 'Out Now', 'Listen Now', or 'Available Now' before that date.`;
+    const releaseNote = `THANKYOU is officially out now after its 05 June 2026 release. Use post-release CTAs such as 'Out Now', 'Listen Now', 'Stream Now', 'Save it', 'Share it', and 'Comment your story'. Never use pre-save, coming soon, unreleased, or countdown wording for THANKYOU.`;
 
-    const prompt = `You are a premium music marketing strategist writing social content for Gannon Waye, an Australian singer-songwriter releasing his debut single "Thank You" on 05 June 2026.
+    const prompt = `You are a premium music marketing strategist writing social content for Gannon Waye, an Australian singer-songwriter whose debut single "THANKYOU" is out now after its 05 June 2026 release.
 
 The song is about gratitude born from heartbreak — when the rose-coloured glasses fell away and the hard truths became clear. It is powerful, emotional, and real. Gannon's brand values: authenticity, vulnerability, community, warmth, respect, and safe spaces.
 
@@ -160,7 +160,7 @@ Return JSON with these exact fields:
         <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">Campaign Tools</p>
         <h1 className="font-display text-2xl text-foreground">Social Content Generator</h1>
         <p className="font-body text-sm text-muted-foreground mt-1">
-          Premium campaign-aware content briefs for the <em>Thank You</em> rollout — 05 June 2026
+          Premium campaign-aware content briefs for the <em>THANKYOU</em> post-release campaign
         </p>
       </div>
 

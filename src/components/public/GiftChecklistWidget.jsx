@@ -7,8 +7,8 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 
 const REQUIREMENTS = [
-  { id: 'tiktok_followed', label: 'Follow @gann0nwaye on TikTok', icon: '🎵' },
-  { id: 'instagram_followed', label: 'Follow @gann0nwaye on Instagram', icon: '📸' },
+  { id: 'tiktok_followed', label: 'Follow @gannonwaye on TikTok', icon: '🎵' },
+  { id: 'instagram_followed', label: 'Follow @ganozwaye on Instagram', icon: '📸' },
   { id: 'post_engaged', label: 'Like, comment & share latest post', icon: '💬' },
 ];
 
@@ -183,7 +183,7 @@ export default function GiftChecklistWidget({ trackerToken, onComplete }) {
       </AnimatePresence>
 
       <p className="font-body text-xs text-muted-foreground/60 italic border-t border-border/30 pt-4">
-        Questions? Reply to the signup email or DM @gann0nwaye on social.
+        Questions? Reply to the signup email or DM @ganozwaye on social.
       </p>
     </motion.div>
   );

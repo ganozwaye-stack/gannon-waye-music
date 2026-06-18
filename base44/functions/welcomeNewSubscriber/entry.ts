@@ -47,13 +47,13 @@ Deno.serve(async (req) => {
 
   <div style="border:1px solid #2a2f3e;border-radius:12px;padding:20px;margin:24px 0;background:#1a1f2e;">
     <p style="color:#999;font-size:12px;margin:0 0 12px 0;text-transform:uppercase;letter-spacing:0.1em;">Find me on socials</p>
-    <p style="margin:6px 0;"><a href="https://www.tiktok.com/@gann0nwaye" style="color:#f5d06e;text-decoration:none;">📱 TikTok: @gann0nwaye</a></p>
-    <p style="margin:6px 0;"><a href="https://www.instagram.com/gann0nwaye" style="color:#f5d06e;text-decoration:none;">📷 Instagram: @gann0nwaye</a></p>
+    <p style="margin:6px 0;"><a href="https://www.tiktok.com/@gannonwaye" style="color:#f5d06e;text-decoration:none;">📱 TikTok: @gannonwaye</a></p>
+    <p style="margin:6px 0;"><a href="https://www.instagram.com/ganozwaye" style="color:#f5d06e;text-decoration:none;">📷 Instagram: @ganozwaye</a></p>
   </div>
 
   <div style="border:1px solid #f5d06e33;border-radius:12px;padding:20px;margin:24px 0;background:linear-gradient(135deg,rgba(245,208,110,0.05),rgba(201,168,76,0.02));">
     <p style="color:#f5d06e;font-size:13px;font-weight:700;margin:0 0 8px 0;text-transform:uppercase;letter-spacing:0.1em;">🎁 A Thank-You Gift — If You'd Like One</p>
-    <p style="color:#c9b99a;font-size:13px;line-height:1.7;margin:0;">For a further discounted rate: You must have subscribed to the website <a href="https://gannonwaye.com" style="color:#f5d06e;">gannonwaye.com</a>, follow Gannon on Instagram @gann0nwaye and also on TikTok @gann0nwaye, like, comment and share the pinned "Sing Along Here" video tagging Gannon. Send <strong style="color:#f5d06e;">'DONE'</strong> and a message of support in reply to this email and when reviewed, the gift will be advised via email — sent after manual approval. Actions are not automatically verified. Do the steps in order or the offer may not be approved.</p>
+    <p style="color:#c9b99a;font-size:13px;line-height:1.7;margin:0;">For a further discounted rate: You must have subscribed to the website <a href="https://gannonwaye.com" style="color:#f5d06e;">gannonwaye.com</a>, follow Gannon on Instagram @ganozwaye and also on TikTok @gannonwaye, like, comment and share the pinned "Sing Along Here" video tagging Gannon. Send <strong style="color:#f5d06e;">'DONE'</strong> and a message of support in reply to this email and when reviewed, the gift will be advised via email — sent after manual approval. Actions are not automatically verified. Do the steps in order or the offer may not be approved.</p>
   </div>
 
   <p style="color:#c9b99a;font-size:14px;line-height:1.8;text-align:center;">All are welcome here — regardless of who you are, who you love, or where you've been. The only thing that isn't welcome is cruelty.</p>

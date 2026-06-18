@@ -1,5 +1,5 @@
 // @ts-check
-/* eslint-disable no-undef */
+ 
 import { test, expect } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
@@ -65,13 +65,13 @@ test.describe('Contact Page', () => {
 
   test('Instagram link is present and correct', async ({ page }) => {
     await page.goto(`${BASE_URL}/contact`);
-    const igLink = page.locator('a[href*="instagram.com/gann0nwaye"]').first();
+    const igLink = page.locator('a[href*="instagram.com/ganozwaye"]').first();
     await expect(igLink).toBeVisible();
   });
 
   test('TikTok link is present and correct', async ({ page }) => {
     await page.goto(`${BASE_URL}/contact`);
-    const ttLink = page.locator('a[href*="tiktok.com/@gann0nwaye"]').first();
+    const ttLink = page.locator('a[href*="tiktok.com/@gannonwaye"]').first();
     await expect(ttLink).toBeVisible();
   });
 });

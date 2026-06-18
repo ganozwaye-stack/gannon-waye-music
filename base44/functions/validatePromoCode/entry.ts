@@ -113,6 +113,10 @@ Deno.serve(async (req) => {
             if (products && products.length > 0) {
               resolved.category = products[0].category;
               resolved.name = resolved.name || products[0].name;
+              resolved.promo_eligible = products[0].promo_eligible;
+              resolved.discount_excluded = products[0].discount_excluded;
+              resolved.exclude_from_discounts = products[0].exclude_from_discounts;
+              resolved.discount_lock_reason = products[0].discount_lock_reason;
             }
           } catch (_) { /* keep as-is */ }
         }
@@ -124,6 +128,8 @@ Deno.serve(async (req) => {
       const promoAllowedCats = (promo.allowed_categories || []).map(c => c.toLowerCase());
 
       function isItemIneligible(item) {
+        if (item.discount_excluded || item.exclude_from_discounts || item.promo_eligible === false) return true;
+
         const cat = (item.category || item.product_type || item.type || '').toLowerCase().trim();
         const name = (item.name || item.product_name || '').toLowerCase();
 

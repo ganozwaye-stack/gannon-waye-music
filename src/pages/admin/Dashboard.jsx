@@ -2,17 +2,19 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useAuth } from '@/lib/AuthContext';
 import { 
-  Flame, Megaphone, Zap, Radio, Clock, ShieldAlert, ShieldCheck, 
-  AlertTriangle, RefreshCw, Send, DollarSign, ListTodo, Users, 
-  ShoppingBag, HelpCircle, ArrowUpRight, ChevronDown, ChevronUp,
+  Flame, Megaphone, Radio, ShieldCheck, 
+  AlertTriangle, DollarSign, ListTodo, ArrowUpRight, ChevronDown, ChevronUp,
   CheckCircle2
 } from 'lucide-react';
 
 export default function Dashboard() {
+  const { user } = useAuth();
+  const isOwner = user?.email === 'ganozwaye@gmail.com';
   const [showDiagnostics, setShowDiagnostics] = useState(false);
 
   // Queries
@@ -191,10 +193,12 @@ export default function Dashboard() {
                 <span>Stripe Event Webhook:</span>
                 <Badge className="bg-green-500/10 text-green-400">Active</Badge>
               </Link>
-              <Link to="/admin/ganozmix" className="flex items-center justify-between hover:underline transition-all">
-                <span>eBay Seller OAuth API:</span>
-                <Badge className="bg-green-500/10 text-green-400">Connected</Badge>
-              </Link>
+              {isOwner && (
+                <Link to="/admin/ganozmix" className="flex items-center justify-between hover:underline transition-all">
+                  <span>eBay Seller OAuth API:</span>
+                  <Badge className="bg-green-500/10 text-green-400">Connected</Badge>
+                </Link>
+              )}
               {systemIssues.length > 0 && (
                 <Link to="/admin/site-health" className="block p-2 bg-red-500/10 border border-red-500/30 rounded text-red-400 mt-2 hover:bg-red-500/20 transition-all">
                   ⚠ {systemIssues.length} system diagnostic alerts require checkup.
@@ -236,14 +240,16 @@ export default function Dashboard() {
               </CardContent>
             </Card>
 
-            <Card className="border-border/40">
-              <CardHeader><CardTitle className="text-sm font-semibold text-white">GanozMix eBay Bridge</CardTitle></CardHeader>
-              <CardContent className="text-xs space-y-2">
-                <p>Marketplace: EBAY_AU</p>
-                <p>CJ Sourcing sync status: Active</p>
-                <p>Duplicate listing blocker: Enabled</p>
-              </CardContent>
-            </Card>
+            {isOwner && (
+              <Card className="border-border/40">
+                <CardHeader><CardTitle className="text-sm font-semibold text-white">GanozMix eBay Bridge</CardTitle></CardHeader>
+                <CardContent className="text-xs space-y-2">
+                  <p>Marketplace: EBAY_AU</p>
+                  <p>CJ Sourcing sync status: Active</p>
+                  <p>Duplicate listing blocker: Enabled</p>
+                </CardContent>
+              </Card>
+            )}
           </div>
         )}
       </div>

@@ -13,12 +13,12 @@
     "tiktok_followed": {
       "type": "boolean",
       "default": false,
-      "description": "User confirmed TikTok follow @gann0nwaye"
+      "description": "User confirmed TikTok follow @gannonwaye"
     },
     "instagram_followed": {
       "type": "boolean",
       "default": false,
-      "description": "User confirmed Instagram follow @gann0nwaye"
+      "description": "User confirmed Instagram follow @ganozwaye"
     },
     "post_engaged": {
       "type": "boolean",

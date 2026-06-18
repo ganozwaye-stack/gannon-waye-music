@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+ 
 // tests/enter-key-behaviour.spec.js
 // Verifies Enter key does NOT redirect to Dashboard from forms/inputs
 

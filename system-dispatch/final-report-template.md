@@ -1,0 +1,27 @@
+# Final Report Template
+
+- Production pack:
+- Visual assets:
+- TikTok recording:
+- Public routes:
+- Admin routes:
+- Clickability:
+- Store:
+- Checkout:
+- Promo codes:
+- Shipping:
+- Payment diagnostics:
+- Owner-only access:
+- Build:
+- Lint:
+- Typecheck:
+- Google Drive:
+- OneDrive:
+- iCloud:
+- Files copied:
+- Files skipped:
+- Cleanup:
+- Tests passed:
+- Tests failed:
+- Blockers:
+- Manual actions:

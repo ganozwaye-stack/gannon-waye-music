@@ -306,7 +306,7 @@ Email flows are handled in backend functions:
 - `welcomeNewSubscriber` - Signup confirmation
 - `sendGiftEmail` - Gift reminder
 - `notifyAdminNewOrder` - Admin alert
-- `sendRevealNewsletter` - May 10 reveal
+- `sendRevealNewsletter` - THANKYOU post-release announcement
 
 No changes needed—all working.
 

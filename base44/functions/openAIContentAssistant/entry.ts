@@ -39,7 +39,7 @@ Deno.serve(async (req) => {
 
 Platform: ${platform} (${platformGuide})
 Campaign: ${campaign}
-Context: ${context || 'Emotional indie pop music, Thank You single releasing June 5th, merch store, founding supporters program'}
+Context: ${context || 'Emotional indie pop music, THANKYOU single out now after its official 05 June 2026 release, merch store, founding supporters program'}
 
 Generate ${max_variants} post variant(s) in JSON:
 {
@@ -55,7 +55,7 @@ Generate ${max_variants} post variant(s) in JSON:
   ]
 }
 
-Rules: No profanity. Emotionally authentic. Gannon's voice. Always includes a CTA. Never auto-post.`;
+Rules: No profanity. Emotionally authentic. Gannon's voice. Always includes a CTA. Never auto-post. Do not use pre-save, coming soon, or unreleased wording for THANKYOU.`;
 
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',

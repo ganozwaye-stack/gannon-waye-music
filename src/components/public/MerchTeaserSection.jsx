@@ -52,7 +52,7 @@ export default function MerchTeaserSection() {
             Official Merch
           </h2>
           <p className="font-body text-sm text-muted-foreground max-w-md mx-auto mb-2 leading-relaxed">
-            Pre-order interest open now. No charge today. Payment scheduled for June 1, 2026.
+            Store is open now. Shipping and fees are shown clearly at checkout.
           </p>
           {isLaunchActive() && (
             <p className="font-body text-xs text-primary max-w-sm mx-auto mt-2">

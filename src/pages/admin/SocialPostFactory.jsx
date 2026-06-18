@@ -135,10 +135,10 @@ export default function SocialPostFactory() {
 
     const prompt = `You are a premium music marketing strategist for Gannon Waye, Australian singer-songwriter.
 
-Release: "Thank You" — June 5, 2026. ${daysLeft} days remaining.
+Release: "THANKYOU" - out now after its official 05 June 2026 release.
 Sprint Day ${sprintDay}/11 — Theme: ${theme}
 Platform: ${PLATFORMS.find(p => p.value === platform)?.label}
-${isReleaseDay ? 'THIS IS RELEASE DAY. Song is OUT. Use "Listen Now", "Out Now", "Available Everywhere".' : 'Song is NOT released. Never say "Out Now". Use "Pre-Save", "Coming June 5", "Drop date: June 5".'}
+${isReleaseDay ? 'THIS IS RELEASE DAY. Song is OUT. Use "Listen Now", "Out Now", "Available Everywhere".' : 'THANKYOU is out now. Use "Listen Now", "Stream Now", "Save it", "Share it", and "Comment your story". Never use pre-save, coming soon, or unreleased wording.'}
 
 ${assetContext}
 

@@ -128,7 +128,7 @@ export default function FanHighlightCommunity() {
           >
             <p className="font-body text-foreground/70 mb-2">Want to be featured here?</p>
             <p className="font-body text-sm text-muted-foreground mb-4">
-              Share your story, art, or support moment. Tag @gann0nwaye.
+              Share your story, art, or support moment. Tag @ganozwaye.
             </p>
             <Link to="/community">
               <Button className="rounded-full gap-2 gradient-gold-button border-0 font-body text-sm tracking-wider uppercase w-full">

@@ -33,6 +33,10 @@ const INELIGIBLE_NAME_KEYWORDS = [
 ];
 
 function categoriseItem(item) {
+  if (item.discount_excluded || item.exclude_from_discounts || item.promo_eligible === false) {
+    return 'ineligible';
+  }
+
   const cat = (item.category || item.product_type || item.type || '').toLowerCase().trim();
   const name = (item.name || item.product_name || '').toLowerCase();
 
@@ -106,6 +110,10 @@ Deno.serve(async (req) => {
           if (products && products.length > 0) {
             resolvedItem.category = products[0].category;
             resolvedItem.name = resolvedItem.name || products[0].name;
+            resolvedItem.promo_eligible = products[0].promo_eligible;
+            resolvedItem.discount_excluded = products[0].discount_excluded;
+            resolvedItem.exclude_from_discounts = products[0].exclude_from_discounts;
+            resolvedItem.discount_lock_reason = products[0].discount_lock_reason;
           }
         } catch (_) {
           // If can't resolve, keep as-is
@@ -128,7 +136,7 @@ Deno.serve(async (req) => {
         eligibleItems.push({ ...item, item_total: itemTotal });
       } else {
         const cat = (item.category || item.product_type || 'unknown').toLowerCase();
-        let reason = `Category "${cat}" is excluded from discounts`;
+        let reason = item.discount_lock_reason || `Category "${cat}" is excluded from discounts`;
 
         if (['cd', 'vinyl', 'music', 'digital_music', 'limited_edition_music', 'music_bundle'].includes(cat)) {
           reason = `Music item (${cat}) — discounts never apply to music products`;

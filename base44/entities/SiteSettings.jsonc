@@ -79,11 +79,11 @@
     },
     "live_stream_tiktok_url": {
       "type": "string",
-      "description": "Optional direct link to TikTok Live (e.g. https://www.tiktok.com/@gann0nwaye/live)"
+      "description": "Optional direct link to TikTok Live (e.g. https://www.tiktok.com/@gannonwaye/live)"
     },
     "live_stream_instagram_url": {
       "type": "string",
-      "description": "Optional direct link to Instagram Live (e.g. https://www.instagram.com/gann0nwaye/live)"
+      "description": "Optional direct link to Instagram Live (e.g. https://www.instagram.com/ganozwaye/live)"
     }
   },
   "required": [],

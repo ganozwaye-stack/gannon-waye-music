@@ -73,7 +73,7 @@ I want us all to be more connected 12 months from now than we are today. I want 
 
 I'm asking you to dare me on socials. Send me challenges, dares, questions, or ideas for content you want to see. If you have the courage to ask, I'll see if I have the courage to answer. hahaha
 
-Tag me @gann0nwaye or DM me. Let's see what happens.
+Tag me @ganozwaye or DM me. Let's see what happens.
 
 ---
 

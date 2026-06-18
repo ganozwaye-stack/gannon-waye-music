@@ -27,6 +27,7 @@ function PostHogPageTracker() {
 import Home from '@/pages/Home';
 import Music from '@/pages/Music';
 import Store from '@/pages/Store';
+import StoreProductDetail from '@/pages/StoreProductDetail';
 import StoreCheckout from '@/pages/StoreCheckout';
 import StoreCartDetails from '@/pages/StoreCartDetails';
 import StoreCartPage from '@/pages/StoreCartPage.jsx';
@@ -43,6 +44,7 @@ import TermsOfService from '@/pages/TermsOfService';
 import PublicLayout from '@/components/public/PublicLayout';
 import StickySupportBar from '@/components/global/StickySupportBar';
 import LyricsPage from '@/pages/LyricsPage';
+import LyricsDetail from '@/pages/LyricsDetail';
 import ThisIsMyLife from '@/pages/ThisIsMyLife';
 import FAQSection from '@/pages/FAQSection';
 import RecentFanActivity from '@/pages/RecentFanActivity';
@@ -268,6 +270,8 @@ import SystemsQaHub from '@/pages/admin/SystemsQaHub';
 import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
 import MissionControl from '@/pages/admin/MissionControl';
 import SystemsManagerOffer from '@/pages/SystemsManagerOffer';
+import SystemsServicePage from '@/pages/SystemsServicePage';
+import Base44ExitPlan from '@/pages/admin/Base44ExitPlan';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -301,6 +305,8 @@ const AuthenticatedApp = () => {
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
         <Route path="/store" element={<Store />} />
+        <Route path="/store/all" element={<Store />} />
+        <Route path="/store/product/:productKey" element={<StoreProductDetail />} />
         <Route path="/store/cart" element={<StoreCartPage />} />
         <Route path="/store/customer-details" element={<StoreCustomerDetails />} />
         <Route path="/store/cart-details" element={<StoreCartDetails />} />
@@ -317,6 +323,7 @@ const AuthenticatedApp = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/lyrics" element={<LyricsPage />} />
+        <Route path="/lyrics/:songId" element={<LyricsDetail />} />
         <Route path="/this-is-my-life" element={<ThisIsMyLife />} />
         <Route path="/faq" element={<FAQSection />} />
         <Route path="/supporter-activity" element={<RecentFanActivity />} />
@@ -348,6 +355,9 @@ const AuthenticatedApp = () => {
         <Route path="/systems-manager" element={<SystemsManagerOffer />} />
         <Route path="/ai-systems-manager" element={<SystemsManagerOffer />} />
         <Route path="/business-systems" element={<SystemsManagerOffer />} />
+        <Route path="/systems/packages/:slug" element={<SystemsServicePage packagePage />} />
+        <Route path="/systems/:slug" element={<SystemsServicePage />} />
+        <Route path="/systems/case-studies/:slug" element={<SystemsServicePage caseStudy />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -368,6 +378,15 @@ const AuthenticatedApp = () => {
         <Route path="/admin/owner-business" element={<OwnerBusinessHub />} />
         <Route path="/admin/mission-control" element={<MissionControl />} />
         <Route path="/admin/scheduler" element={<GannonScheduler />} />
+        <Route path="/admin/lyrics" element={<Navigate to="/admin/releases" replace />} />
+        <Route path="/admin/lyrics/new" element={<Navigate to="/admin/releases?action=new" replace />} />
+        <Route path="/admin/lyrics/:songId/edit" element={<Navigate to="/admin/releases" replace />} />
+        <Route path="/admin/services/:slug" element={<Navigate to="/admin/blueprint-builder" replace />} />
+        <Route path="/admin/packages/:slug" element={<Navigate to="/admin/blueprint-builder" replace />} />
+        <Route path="/admin/products/:slug" element={<Navigate to="/admin/merch" replace />} />
+        <Route path="/admin/base44-exit-plan" element={<Base44ExitPlan />} />
+        <Route path="/admin/legal-drafts" element={<LegalDashboard />} />
+        <Route path="/admin/ganozmix-direct/legal" element={<LegalDashboard />} />
         <Route path="/admin/today" element={<GannonScheduler />} />
         <Route path="/admin/action-centre" element={<GannonScheduler />} />
         <Route path="/admin/family-uploads" element={<FamilyUploads />} />
@@ -401,6 +420,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/merch-financials" element={<MerchFinancials />} />
         <Route path="/admin/image-editor" element={<ImageEditor />} />
         <Route path="/admin/site-health" element={<SiteHealthDashboard />} />
+        <Route path="/admin/system-health" element={<SiteHealthDashboard />} />
         <Route path="/admin/gift-progress" element={<GiftProgressAdmin />} />
         <Route path="/admin/release-countdown" element={<ReleaseCountdown />} />
         <Route path="/admin/birthdays" element={<BirthdayDiscounts />} />
@@ -459,6 +479,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/ganozmix" element={<GanozMixBridge />} />
         <Route path="/admin/sales-training" element={<SalesTraining />} />
         <Route path="/admin/client-onboarding" element={<ClientOnboarding />} />
+        <Route path="/admin/implementation-center" element={<Navigate to="/admin/integration-completion-centre" replace />} />
         <Route path="/admin/monthly-monitoring" element={<MonthlyMonitoring />} />
         <Route path="/admin/tiktok-screen-guide" element={<TikTokScreenGuide />} />
         <Route path="/admin/tiktok-platform-review" element={<TikTokPlatformReviewAdmin />} />
@@ -473,7 +494,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/stripe-command-centre" element={<StripeCommandCentre />} />
         <Route path="/admin/webhook-health" element={<WebhookHealth />} />
         <Route path="/admin/social-distribution-readiness" element={<SocialDistributionReadiness />} />
-        <Route path="/admin/coaching-command" element={<CoachingCommand />} />
         <Route path="/admin/coaching-command" element={<CoachingCommand />} />
         <Route path="/admin/coaching-launch-control" element={<CoachingLaunchControl />} />
         <Route path="/admin/coaching-programs" element={<CoachingPrograms />} />

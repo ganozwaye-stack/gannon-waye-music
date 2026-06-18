@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Heart, ChevronDown, Play, Pause } from 'lucide-react';
+import { Heart, ChevronDown } from 'lucide-react';
 import HeartOfGold from '@/components/mum/HeartOfGold';
 import MumStorySection  from '@/components/mum/MumStorySection';
 import MemoryWall3D     from '@/components/mum/MemoryWall3D';
 import MumSongSection   from '@/components/mum/MumSongSection';
 import WisdomGarden     from '@/components/mum/WisdomGarden';
-import MumLetterSection from '@/components/mum/MumLetterSection';
 import SoniaAmbientPlayer from '@/components/mum/SoniaAmbientPlayer';
 import LyricQuoteWall    from '@/components/mum/LyricQuoteWall';
 import HandwrittenLetter from '@/components/mum/HandwrittenLetter';
@@ -27,7 +26,6 @@ const PHOTOS = [
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e141f17cb_CopyofIMG_5599.JPG',  label: 'Sonia smiling', caption: 'That smile — once seen, never forgotten.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5544e4f02_5F77A0A5-95B5-4AFC-9BD0-9AAF81AB32DC.jpg', label: 'The whole family', caption: 'Together — the way she always wanted it.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/41d549365_49CE40E3-DBDB-46A9-87BE-332F16FAF1BF.jpg', label: "From Mum's chest to Gannon's", caption: "Her swallow, now carried over his heart — forever." },
-  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/795cc3eb2_generated_image.png', label: 'Her Flowers', caption: 'The colours she loved — always blooming in her memory.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1ddea2586_CopyofIMG_5327.jpg', label: 'Sonia & her granddaughter', caption: 'The love she gave just kept multiplying.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/173717f01_CopyofIMG_5440.jpg', label: 'Sonia in the backyard', caption: 'A coffee in hand — exactly where she belonged.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6101f75c0_CopyofIMG_5449.jpg', label: 'Sonia relaxing', caption: 'Her joy was simple. Her presence was everything.' },
@@ -196,7 +194,7 @@ const NAV = [
   { id: 'letters', label: 'Her Letter'},
   { id: 'music',   label: 'Music'     },
   { id: 'lyrics',  label: 'Her Song'  },
-  { id: 'gallery', label: 'Gallery'   },
+  { id: 'memories', label: 'Memories'  },
 ];
 
 function Nav() {
@@ -475,6 +473,7 @@ export default function MumTribute() {
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 7 — GALLERY
       ══════════════════════════════════════════════════════════════════ */}
+      {false && (
       <GardenScene id="gallery" photo={GARDEN_GALLERY} brightness={0.52} parallaxSpeed={0.18} minH="auto">
         <div className="py-20 px-6 max-w-5xl mx-auto">
           <motion.div className="text-center mb-10" initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }}>
@@ -482,7 +481,7 @@ export default function MumTribute() {
             <h2 className="font-display text-3xl md:text-5xl text-foreground mb-3">Moments We'll Cherish Forever</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {PHOTOS.map((img, i) => (
+            {PHOTOS.slice(0, 0).map((img, i) => (
               <motion.div key={i} className="relative overflow-hidden rounded-2xl group" style={{ border: '1px solid rgba(212,175,55,0.15)', aspectRatio: '4/3' }} initial={{ opacity: 0, scale: 0.96 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: (i % 6) * 0.08 }}>
                 <img src={img.src} alt={img.label} className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700" style={{ filter: 'brightness(0.82) saturate(0.95)' }} />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(3,6,3,0.88) 0%, transparent 55%)' }} />
@@ -495,6 +494,7 @@ export default function MumTribute() {
           </div>
         </div>
       </GardenScene>
+      )}
 
       {/* ══════════════════════════════════════════════════════════════════
           SECTION 8 — MEMORIES (3D wall)

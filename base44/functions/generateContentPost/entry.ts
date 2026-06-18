@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
       merch_cta:        'Drive to the store. Authentic connection between product and music/story. Never feel like an ad.',
       community:        'Celebrate and uplift fans. Make them feel seen. Invite participation. Thank them.',
       behind_scenes:    'Show the real creative process — recording, writing, production. Raw and authentic.',
-      presave:          'Drive pre-saves for "Thank You" June 5. Create urgency without being pushy. Emotional reason to care.',
+      presave:          'Drive streams, saves, shares, comments, and emotional connection for THANKYOU. Keep it human, not pushy.',
       vulnerability:    'Most personal, most human. Share something Gannon has never shared publicly. Trust and authenticity.',
     };
 

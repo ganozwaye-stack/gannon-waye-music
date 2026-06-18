@@ -19,26 +19,27 @@ Deno.serve(async (req) => {
 
 Thank you for signing up. You've shown me who you are, and that means everything.
 
-As a token of my appreciation, I'm sending you something special before the May 10 release.
+As a token of my appreciation, I will review gift requests manually for supporters who complete the current steps.
 
-**How to claim your gift:**
+How to be considered:
 
-1. Follow me on TikTok @gann0nwaye and Instagram @gann0nwaye
-2. Like, comment, and share my latest post
-3. Reply to this email or DM me on either platform with a screenshot
-4. I'll personally send your gift 🤍
+1. Subscribe at www.gannonwaye.com
+2. Follow Gannon on Instagram @ganozwaye and TikTok @gannonwaye
+3. Like, comment, share, and tag Gannon on the pinned "Sing Along Here" video
+4. Reply DONE with a message of support and your screenshot proof
 
-This is my way of saying thank you for believing in this from the beginning. You're not just a supporter — you're part of the story.
+The gift is advised by email after manual approval. Instagram and TikTok actions are not automatically verified. Do the steps in order or the offer may not be approved.
 
-See you on the other side,
+This is my way of saying thank you for believing in this from the beginning. You're not just a supporter - you're part of the story.
+
 Gannon
 
 ---
-P.S. The single is out now. Stream it today!`;
+P.S. THANKYOU is out now. Stream it today.`;
 
     await base44.integrations.Core.SendEmail({
       to: email,
-      subject: 'Your gift from Gannon Waye 🎁',
+      subject: 'Your gift review from Gannon Waye',
       body: emailBody,
       from_name: 'Gannon Waye',
     });

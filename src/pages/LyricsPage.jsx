@@ -19,6 +19,16 @@ export default function LyricsPage() {
 
   const localReleases = [
     {
+      id: 'thankyou',
+      title: 'THANKYOU',
+      type: 'Single',
+      status: 'released',
+      isLocked: true,
+      is_published: true,
+      artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg',
+      credits: 'Written & Performed by Gannon Waye'
+    },
+    {
       id: 'will-you-even-listen',
       title: 'Will You Even Listen',
       type: 'Single',
@@ -64,7 +74,7 @@ export default function LyricsPage() {
         {withLyrics.length === 0 ? (
           <div className="text-center py-20">
             <Music2 className="w-14 h-14 text-muted-foreground/20 mx-auto mb-4" />
-            <p className="font-body text-muted-foreground">Lyrics will be revealed when "Thank You" by Gannon Waye drops on June 5, 2026.</p>
+            <p className="font-body text-muted-foreground">Lyrics are being prepared for release. Stream "THANKYOU" by Gannon Waye now and check back for the official lyric drop.</p>
             <Link to="/music" className="mt-4 inline-block">
               <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase mt-4">
                 Go to Music
@@ -120,7 +130,7 @@ export default function LyricsPage() {
                               <h3 className="font-display text-2xl text-foreground mb-2">Studio Session</h3>
                               <p className="font-body text-sm text-yellow-500/90 tracking-wider uppercase font-semibold mb-3">Release Pending</p>
                               <p className="font-body text-base text-muted-foreground max-w-md">
-                                Lyrics under studio wraps — Single drop coming soon.
+                                Lyrics are being prepared for release. The single is streaming now.
                               </p>
                             </div>
                           </div>
@@ -149,6 +159,11 @@ export default function LyricsPage() {
                         </div>
 
                         <div className="flex gap-3 mt-5 flex-wrap">
+                          <Link to={`/lyrics/${release.id === 'thank-you-fallback' ? 'thankyou' : release.id}`}>
+                            <Button size="sm" variant="outline" className="rounded-full gap-2 font-body text-xs">
+                              Open lyric page
+                            </Button>
+                          </Link>
                           {release.spotify_link && (
                             <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
                               <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">

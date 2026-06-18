@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Copy, Download, Sparkles, ShoppingBag, Heart, Flame, Star, Package, AlertTriangle } from 'lucide-react';
+import { Copy, Flame } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -75,7 +75,7 @@ const SLIDES = [
       headline: '"Thank You" CDs\nAre GONE 🤍',
       sub: 'Both editions sold out — thank you.',
       body: 'The love has been INSANE.\nThank you to everyone who grabbed one.\nMore music coming — stay close.',
-      cta: 'FOLLOW THE JOURNEY → @gann0nwaye',
+      cta: 'FOLLOW THE JOURNEY → @ganozwaye',
     }
   },
   {
@@ -146,7 +146,7 @@ function StoryPreview({ slide }) {
             <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dc8919b4b_IMG_5624.png" alt="Gannon" className="w-full h-full object-cover" />
           </div>
           <div>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: 'rgba(255,255,255,0.9)', fontWeight: 600, letterSpacing: '0.02em' }}>gann0nwaye</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: 'rgba(255,255,255,0.9)', fontWeight: 600, letterSpacing: '0.02em' }}>ganozwaye</p>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 9, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.05em' }}>Official · gannonwaye.com</p>
           </div>
           {slide.content.badge && (

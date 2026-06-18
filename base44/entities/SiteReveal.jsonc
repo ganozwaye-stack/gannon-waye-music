@@ -14,7 +14,7 @@
     },
     "release_date_text": {
       "type": "string",
-      "description": "Human-readable release date shown on site e.g. June 10, 2026"
+      "description": "Human-readable release date shown on site e.g. 05 June 2026"
     },
     "release_date_iso": {
       "type": "string",

@@ -25,6 +25,12 @@ function isCategoryEligibleForDiscount(category) {
   return !ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c));
 }
 
+function isProductEligibleForDiscount(product, category) {
+  if (!product) return false;
+  if (product.discount_excluded || product.exclude_from_discounts || product.promo_eligible === false) return false;
+  return isCategoryEligibleForDiscount(category);
+}
+
 function needsShipping(category) {
   if (!category) return true;
   const cat = category.toLowerCase().trim();
@@ -135,14 +141,14 @@ Deno.serve(async (req) => {
           const quantity = item.quantity || 1;
           
           // === GLOBAL DISCOUNT GUARD ===
-          const eligible = isOwnerOverride ? true : isCategoryEligibleForDiscount(category);
+          const eligible = isOwnerOverride ? true : isProductEligibleForDiscount(product, category);
           const effectiveDiscountPercent = eligible ? rawDiscountPercent : 0;
           
           if (rawDiscountPercent > 0 && !eligible) {
             discountGuardInfo = {
               attempted_discount: rawDiscountPercent,
               blocked: true,
-              reason: `Category "${category}" is ineligible for discounts`,
+              reason: product.discount_lock_reason || `Category "${category}" is ineligible for discounts`,
               category,
             };
           }

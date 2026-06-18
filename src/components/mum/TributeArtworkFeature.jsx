@@ -77,7 +77,7 @@ export default function TributeArtworkFeature() {
           className="w-full h-auto block"
           style={{ display: 'block', borderRadius: '23px' }}
           loading="eager"
-          fetchpriority="high"
+          fetchPriority="high"
         />
       </motion.div>
 

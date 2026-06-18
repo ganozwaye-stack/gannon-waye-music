@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+ 
 // tests/link-integrity.spec.js
 // Verifies correct link intent routing across dashboard cards and owner action items
 
@@ -14,25 +14,25 @@ test.describe('Link Integrity — Public routes', () => {
     expect(badLinks).toBe(0);
   });
 
-  test('Instagram links point to @gann0nwaye', async ({ page }) => {
+  test('Instagram links point to @ganozwaye', async ({ page }) => {
     await page.goto(`${BASE_URL}/`);
     await page.waitForLoadState('networkidle');
     const links = await page.locator('a[href*="instagram.com"]').all();
     for (const link of links) {
       const href = await link.getAttribute('href');
-      expect(href).toMatch(/instagram\.com\/gann0nwaye/);
+      expect(href).toMatch(/instagram\.com\/ganozwaye/);
       expect(href).not.toMatch(/instagram\.com\/gannonwaye(?!official)/);
     }
   });
 
-  test('TikTok links point to @gann0nwaye', async ({ page }) => {
+  test('TikTok links point to @ganozwaye', async ({ page }) => {
     await page.goto(`${BASE_URL}/`);
     await page.waitForLoadState('networkidle');
     const links = await page.locator('a[href*="tiktok.com/@"]').all();
     for (const link of links) {
       const href = await link.getAttribute('href');
       if (href && !href.includes('developers')) {
-        expect(href).toMatch(/tiktok\.com\/@gann0nwaye/);
+        expect(href).toMatch(/tiktok\.com\/@ganozwaye/);
       }
     }
   });
@@ -41,8 +41,8 @@ test.describe('Link Integrity — Public routes', () => {
     await page.goto(`${BASE_URL}/contact`);
     await page.waitForLoadState('networkidle');
     const bodyText = await page.locator('body').textContent();
-    expect(bodyText).toContain('@gann0nwaye');
-    expect(bodyText).toContain('@gannonwayeofficial');
+    expect(bodyText).toContain('@ganozwaye');
+    expect(bodyText).toContain('@gannonwaye');
     // should NOT contain the old wrong handle
     expect(bodyText).not.toMatch(/(^|\s)@gannonwaye(?!official)/);
   });
@@ -51,8 +51,8 @@ test.describe('Link Integrity — Public routes', () => {
     await page.goto(`${BASE_URL}/`);
     await page.waitForLoadState('networkidle');
     const footerText = await page.locator('footer').textContent();
-    expect(footerText).toContain('@gann0nwaye');
-    expect(footerText).toContain('@gannonwayeofficial');
+    expect(footerText).toContain('@ganozwaye');
+    expect(footerText).toContain('@gannonwaye');
   });
 
   test('no public page redirects to admin dashboard', async ({ page }) => {

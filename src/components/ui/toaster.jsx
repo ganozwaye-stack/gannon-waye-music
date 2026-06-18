@@ -14,19 +14,18 @@ export function Toaster() {
 
   // Auto-dismiss after 4 seconds
   useEffect(() => {
-    toasts.forEach((t) => {
-      if (t.open) {
-        const timer = setTimeout(() => dismiss(t.id), 4000);
-        return () => clearTimeout(timer);
-      }
-    });
-  }, [toasts]);
+    const timers = toasts
+      .filter((toast) => toast.open)
+      .map((toast) => setTimeout(() => dismiss(toast.id), 4000));
+
+    return () => timers.forEach(clearTimeout);
+  }, [toasts, dismiss]);
 
   const visibleToasts = toasts.filter((t) => t.open !== false);
 
   return (
     <ToastProvider>
-      {visibleToasts.map(function ({ id, title, description, action, ...props }) {
+      {visibleToasts.map(function ({ id, title, description, action, onOpenChange: _onOpenChange, ...props }) {
         return (
           <Toast key={id} {...props}>
             <div className="grid gap-1">

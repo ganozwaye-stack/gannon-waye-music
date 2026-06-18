@@ -19,7 +19,12 @@ const NO_SHIPPING_CATS = ['digital', 'support', 'donation', 'song', 'music', 'di
 const INELIGIBLE_DISCOUNT_CATS = ['cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping', 'music', 'limited_edition_music', 'digital_music'];
 
 function needsShipping(cat) { return !NO_SHIPPING_CATS.includes((cat || '').toLowerCase().trim()); }
-function isEligible(cat) { const c = (cat || '').toLowerCase().trim(); return !INELIGIBLE_DISCOUNT_CATS.some(x => c.includes(x)); }
+function isDiscountEligible(product) {
+  if (!product) return false;
+  if (product.discount_excluded || product.exclude_from_discounts || product.promo_eligible === false) return false;
+  const c = (product.category || '').toLowerCase().trim();
+  return !INELIGIBLE_DISCOUNT_CATS.some(x => c.includes(x));
+}
 
 function calcShipping(items, country) {
   const physical = items.filter(i => needsShipping(i.product?.category));
@@ -70,7 +75,7 @@ export default function StoreCheckout() {
   const subtotal = items.reduce((s, i) => s + (i.product?.sale_price ?? 0) * i.quantity, 0);
   const shipping = calcShipping(items, details?.country);
 
-  const eligibleSubtotal = items.reduce((s, i) => isEligible(i.product?.category) ? s + (i.product?.sale_price ?? 0) * i.quantity : s, 0);
+  const eligibleSubtotal = items.reduce((s, i) => isDiscountEligible(i.product) ? s + (i.product?.sale_price ?? 0) * i.quantity : s, 0);
   const discountPercent = promo?.discount_percent || 0;
   const discountAmount = promo ? parseFloat((eligibleSubtotal * discountPercent / 100).toFixed(2)) : 0;
   const total = subtotal - discountAmount + shipping.amount + addSupport;
@@ -90,6 +95,10 @@ export default function StoreCheckout() {
           price: i.product.sale_price ?? 0,
           quantity: i.quantity,
           category: i.product.category || '',
+          promo_eligible: i.product.promo_eligible,
+          discount_excluded: i.product.discount_excluded,
+          exclude_from_discounts: i.product.exclude_from_discounts,
+          discount_lock_reason: i.product.discount_lock_reason || '',
         })),
       });
       if (!res.data?.valid) {
@@ -147,6 +156,10 @@ export default function StoreCheckout() {
               quantity: i.quantity,
               size: i.size || '',
               category: i.product.category || '',
+              promo_eligible: i.product.promo_eligible,
+              discount_excluded: i.product.discount_excluded,
+              exclude_from_discounts: i.product.exclude_from_discounts,
+              discount_lock_reason: i.product.discount_lock_reason || '',
             }))),
             shipping_address: `${details.street_address}, ${details.suburb} ${details.state} ${details.postcode}, ${details.country}`,
             mobile: details.mobile,
@@ -463,7 +476,7 @@ export default function StoreCheckout() {
               {promo && (
                 <div className="flex items-start gap-1.5 text-xs text-muted-foreground bg-secondary/30 rounded-lg px-3 py-2 mt-1">
                   <Info className="w-3 h-3 mt-0.5 shrink-0" />
-                  <span>Shipping and CDs/vinyl are excluded from promo discounts.</span>
+                  <span>Shipping, CDs/vinyl, support contributions and locked bundles are excluded from promo discounts.</span>
                 </div>
               )}
               <div data-testid="checkout-total" className="flex justify-between font-display text-lg text-foreground border-t border-border/40 pt-3">

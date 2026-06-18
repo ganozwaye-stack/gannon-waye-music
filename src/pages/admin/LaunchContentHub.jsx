@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -11,9 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
 import { 
-  Flame, Megaphone, Zap, Radio, Clock, ShieldAlert, ShieldCheck, 
-  AlertTriangle, RefreshCw, Send, Volume2, Video, Key, Calendar, 
-  HelpCircle, Link as LinkIcon, AlertCircle, Play, Pause, Save, CheckCircle
+  Flame, Radio, Clock, ShieldAlert, ShieldCheck, 
+  AlertTriangle, RefreshCw, Send, Volume2, Video, Link as LinkIcon, AlertCircle, CheckCircle
 } from 'lucide-react';
 
 export default function LaunchContentHub() {

@@ -106,11 +106,11 @@ Deno.serve(async (req) => {
 
         const prompt = `You are a premium music marketing strategist for Gannon Waye, Australian singer-songwriter.
 
-Release: "Thank You" — June 5, 2026 (${daysUntilRelease} days from today).
+Release: "THANKYOU" - out now after its official 05 June 2026 release.
 Sprint Day ${sprintDay.day}/11 — Date: ${sprintDay.date} — Theme: ${sprintDay.theme}
 ${sprintDay.isReleaseDay
   ? 'THIS IS RELEASE DAY. Song is OUT NOW. Use "Listen Now", "Out Now", "Available Everywhere".'
-  : 'Song is NOT released yet. Never say "Out Now". Use "Pre-Save", "Coming June 5", "Drop date: June 5".'}
+  : 'THANKYOU is out now. Use "Listen Now", "Stream Now", "Save it", "Share it", and "Comment your story". Never use pre-save, coming soon, or unreleased wording.'}
 
 Platforms to generate for: ${platformsToGenerate.join(', ')}
 

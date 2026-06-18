@@ -102,8 +102,8 @@ export default function HomeEmailSignup() {
               </p>
               <ol className="font-body text-xs text-foreground/60 space-y-1.5 list-decimal list-inside">
                 <li>Subscribe on <a href="https://www.gannonwaye.com" className="text-primary hover:underline">www.gannonwaye.com</a> ✓ (done)</li>
-                <li>Follow Gannon on Instagram: <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@gann0nwaye</a></li>
-                <li>Follow Gannon on TikTok: <a href="https://www.tiktok.com/@gann0nwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@gann0nwaye</a></li>
+                <li>Follow Gannon on Instagram: <a href="https://www.instagram.com/ganozwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@ganozwaye</a></li>
+                <li>Follow Gannon on TikTok: <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">@gannonwaye</a></li>
                 <li>Find the "Sing Along Here" video</li>
                 <li>Like it</li>
                 <li>Comment something you love about the song and tag Gannon</li>
@@ -150,7 +150,7 @@ export default function HomeEmailSignup() {
                 exit={{ opacity: 0, height: 0 }}
                 className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6 text-sm font-body text-foreground/70 leading-relaxed"
               >
-                <p className="mb-2">Sign up, follow me on Instagram <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer" className="text-primary">@gann0nwaye</a> and TikTok <a href="https://www.tiktok.com/@gann0nwaye" target="_blank" rel="noopener noreferrer" className="text-primary">@gann0nwaye</a>, engage with the "Sing Along Here" video, then reply to the welcome email with proof. Gannon reviews all claims manually. Subject to approval.</p>
+                <p className="mb-2">Sign up, follow me on Instagram <a href="https://www.instagram.com/ganozwaye" target="_blank" rel="noopener noreferrer" className="text-primary">@ganozwaye</a> and TikTok <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer" className="text-primary">@gannonwaye</a>, engage with the "Sing Along Here" video, then reply to the welcome email with proof. Gannon reviews all claims manually. Subject to approval.</p>
                 <p className="text-xs text-muted-foreground">No purchase necessary. Social actions are not automatically verified.</p>
               </motion.div>
             )}

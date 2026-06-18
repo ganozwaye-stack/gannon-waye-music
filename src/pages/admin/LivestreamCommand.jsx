@@ -250,7 +250,7 @@ export default function LivestreamCommand() {
                 type="url"
                 value={form.live_stream_tiktok_url || ''}
                 onChange={e => update('live_stream_tiktok_url', e.target.value)}
-                placeholder="https://www.tiktok.com/@gann0nwaye/live"
+                placeholder="https://www.tiktok.com/@gannonwaye/live"
                 className="w-full bg-secondary/50 border border-border/40 rounded-lg px-3 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
               />
             </div>
@@ -261,7 +261,7 @@ export default function LivestreamCommand() {
                 type="url"
                 value={form.live_stream_instagram_url || ''}
                 onChange={e => update('live_stream_instagram_url', e.target.value)}
-                placeholder="https://www.instagram.com/gann0nwaye/live"
+                placeholder="https://www.instagram.com/ganozwaye/live"
                 className="w-full bg-secondary/50 border border-border/40 rounded-lg px-3 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
               />
             </div>

@@ -143,7 +143,7 @@ export default function HoodieOffer() {
               Send the gift offer email to all {subscribers.length} current subscribers. They'll receive details on how to claim their gift by following you on social media.
             </p>
             <p className="font-body text-xs text-primary bg-primary/10 rounded px-3 py-2">
-              ℹ️ Emails sent after May 10 will automatically include the gift offer to all new signups until June 10, 2026.
+              ℹ️ New signups receive the current manually reviewed gift instructions in the welcome email. No gift is automatic or guaranteed before approval.
             </p>
           </div>
 
@@ -163,10 +163,10 @@ export default function HoodieOffer() {
           <div className="bg-secondary/30 rounded-lg p-4 font-body text-sm text-foreground/80 space-y-2 max-h-48 overflow-y-auto">
             <p>Hi there,</p>
             <p>Thank you for signing up. You've shown me who you are, and that means everything.</p>
-            <p>As a token of my appreciation, I'm sending you something special before the May 10 release.</p>
+            <p>As a token of my appreciation, I will review gift requests manually for supporters who complete the current steps.</p>
             <p className="font-semibold text-primary mt-2">How to claim your gift:</p>
             <ol className="list-decimal list-inside space-y-1 text-xs">
-              <li>Follow me on TikTok @gann0nwaye and Instagram @gann0nwaye</li>
+              <li>Follow me on TikTok @gannonwaye and Instagram @ganozwaye</li>
               <li>Like, comment, and share my latest post</li>
               <li>Reply to this email or DM me with a screenshot</li>
               <li>I'll personally send your gift 🤍</li>

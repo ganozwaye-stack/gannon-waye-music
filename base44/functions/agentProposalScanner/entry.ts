@@ -21,8 +21,11 @@ Deno.serve(async (req) => {
     return Response.json({ message: 'Not enough available products to create bundles', proposals_created: 0 });
   }
 
-  // Check for existing pending proposals to avoid duplicates
-  const existing = await base44.asServiceRole.entities.AgentActionProposal.filter({ status: 'pending_approval' });
+  // Check existing active decisions to avoid pitching the same thing again after approval.
+  // Previously this only checked pending items, so approved/published offers came back as new approvals.
+  const allExisting = await base44.asServiceRole.entities.AgentActionProposal.list('-created_date', 200);
+  const activeDecisionStatuses = new Set(['pending_approval', 'approved', 'published', 'editing']);
+  const existing = allExisting.filter(e => activeDecisionStatuses.has(e.status));
   const existingTitles = existing.map(e => e.title?.toLowerCase() || '');
 
   const proposals_created = [];
@@ -37,7 +40,7 @@ Deno.serve(async (req) => {
 
   if (hoodie && tshirt) {
     const bundleTitle = 'Limited Fan Fit Bundle — Hoodie + T-Shirt (20% Off)';
-    const alreadyExists = existingTitles.some(t => t.includes('fan fit') || t.includes('hoodie') && t.includes('t-shirt'));
+    const alreadyExists = existingTitles.some(t => t.includes('fan fit') || (t.includes('hoodie') && t.includes('t-shirt')));
 
     if (!alreadyExists) {
       const originalPrice = (hoodie.sale_price || 89) + (tshirt.sale_price || 49);
@@ -105,7 +108,8 @@ Deno.serve(async (req) => {
   if (highMarginProducts.length > 0) {
     const top = highMarginProducts[0];
     const highlightTitle = `Product Spotlight: ${top.name} — High Margin Featured Listing`;
-    const alreadyExists = existingTitles.some(t => t.includes(top.name?.toLowerCase()));
+    const topName = top.name?.toLowerCase() || '';
+    const alreadyExists = existingTitles.some(t => topName && t.includes(topName));
 
     if (!alreadyExists && top.profit_margin_percent > 55) {
       await base44.asServiceRole.entities.AgentActionProposal.create({

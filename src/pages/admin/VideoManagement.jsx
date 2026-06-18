@@ -121,7 +121,7 @@ export default function VideoManagement() {
             <div>
               <Label className="font-body text-xs tracking-wider uppercase">Video URL *</Label>
               <Input
-                placeholder={form.platform === 'instagram' ? 'https://www.instagram.com/reel/...' : 'https://www.tiktok.com/@gann0nwaye/video/...'}
+                placeholder={form.platform === 'instagram' ? 'https://www.instagram.com/reel/...' : 'https://www.tiktok.com/@gannonwaye/video/...'}
                 value={form.url}
                 onChange={e => setForm({ ...form, url: e.target.value })}
               />

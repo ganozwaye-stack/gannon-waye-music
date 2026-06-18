@@ -64,7 +64,7 @@ export const AGENT_REGISTRY_SEED = [
   { agent_name: 'Playlist Pitching Agent', group: 'marketing', purpose: 'Identifies playlist curators and drafts personalised pitches for new releases.', status: 'inactive', approval_level: 'always_approve', financial_risk: 'none', legal_risk: 'none', reputation_risk: 'low' },
   { agent_name: 'Brand Partnership Agent', group: 'marketing', purpose: 'Identifies aligned brands and drafts partnership proposal frameworks.', status: 'inactive', approval_level: 'always_approve', financial_risk: 'medium', legal_risk: 'medium', reputation_risk: 'high' },
   { agent_name: 'Charity Campaign Agent', group: 'marketing', purpose: 'Coordinates cause-aligned campaigns and tracks charitable impact metrics.', status: 'inactive', approval_level: 'always_approve', financial_risk: 'low', legal_risk: 'low', reputation_risk: 'medium' },
-  { agent_name: 'Pre-Save Campaign Agent', group: 'marketing', purpose: 'Builds and monitors pre-save campaigns for upcoming releases.', status: 'inactive', approval_level: 'low_risk_auto', financial_risk: 'none', legal_risk: 'none', reputation_risk: 'low' },
+  { agent_name: 'Stream Growth Campaign Agent', group: 'marketing', purpose: 'Builds and monitors stream, save, share, and playlist growth for active releases.', status: 'inactive', approval_level: 'low_risk_auto', financial_risk: 'none', legal_risk: 'none', reputation_risk: 'low' },
   { agent_name: 'Promo Code Agent', group: 'marketing', purpose: 'Creates, monitors, and retires promotional codes. Flags abuse patterns.', status: 'inactive', approval_level: 'low_risk_auto', financial_risk: 'low', legal_risk: 'none', reputation_risk: 'none' },
 
   // SOCIAL

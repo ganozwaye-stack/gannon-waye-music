@@ -38,14 +38,14 @@ export default function TourTracker() {
             <MapPin className="w-10 h-10 text-primary/30 mx-auto mb-4" />
             <p className="font-body text-foreground/60 leading-relaxed">{UPCOMING_NOTE}</p>
             <div className="flex justify-center gap-4 mt-6 flex-wrap">
-              <a href="https://www.tiktok.com/@gann0nwaye" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary">
-                  TikTok @gann0nwaye
+                  TikTok @gannonwaye
                 </Button>
               </a>
-              <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.instagram.com/ganozwaye" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary">
-                  Instagram @gann0nwaye
+                  Instagram @ganozwaye
                 </Button>
               </a>
             </div>

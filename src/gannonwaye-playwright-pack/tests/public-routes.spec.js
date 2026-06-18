@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+ 
 // tests/public-routes.spec.js
 // Verifies public routes load correctly and bookings/tours are hidden
 

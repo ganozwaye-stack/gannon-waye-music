@@ -13,15 +13,15 @@ const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBV
 const SOCIAL_LINKS = [
   {
     label: 'Instagram',
-    handle: '@gann0nwaye',
-    url: 'https://www.instagram.com/gann0nwaye',
+    handle: '@ganozwaye',
+    url: 'https://www.instagram.com/ganozwaye',
     icon: Instagram,
     desc: 'Behind the scenes, music moments & more',
   },
   {
     label: 'TikTok',
-    handle: '@gann0nwaye',
-    url: 'https://www.tiktok.com/@gann0nwaye',
+    handle: '@gannonwaye',
+    url: 'https://www.tiktok.com/@gannonwaye',
     icon: Music,
     desc: 'Short-form stories, music & community',
   },
@@ -47,21 +47,21 @@ export default function ContactGannon() {
 
   const settings = bizSettings[0] || {};
   const contactEmail = settings.public_contact_email || 'hello@gannonwaye.com';
-  const instagramUrl = settings.instagram_url || 'https://www.instagram.com/gann0nwaye';
-  const tiktokUrl = settings.tiktok_url || 'https://www.tiktok.com/@gann0nwaye';
+  const instagramUrl = settings.instagram_url || 'https://www.instagram.com/ganozwaye';
+  const tiktokUrl = settings.tiktok_url || 'https://www.tiktok.com/@gannonwaye';
   const spotifyUrl = settings.spotify_artist_url || SPOTIFY_ARTIST_URL;
 
   const socialLinks = [
     {
       label: 'Instagram',
-      handle: '@gann0nwaye',
+      handle: '@ganozwaye',
       url: instagramUrl,
       icon: Instagram,
       desc: 'Behind the scenes, music moments & more',
     },
     {
       label: 'TikTok',
-      handle: '@gann0nwaye',
+      handle: '@gannonwaye',
       url: tiktokUrl,
       icon: Music,
       desc: 'Short-form stories, music & community',

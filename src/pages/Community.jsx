@@ -96,8 +96,8 @@ export default function Community() {
             This is a space built on support, respect, and honesty. Whether you're here for the music, the message, or because something hit a little too close to home — you belong here. You are not alone.
           </p>
           <div className="flex justify-center gap-4 mt-5 flex-wrap">
-            <a href="https://www.tiktok.com/@gann0nwaye" target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline tracking-widest uppercase">TikTok @gann0nwaye</a>
-            <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline tracking-widest uppercase">Instagram @gann0nwaye</a>
+            <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline tracking-widest uppercase">TikTok @gannonwaye</a>
+            <a href="https://www.instagram.com/ganozwaye" target="_blank" rel="noopener noreferrer" className="font-body text-xs text-primary hover:underline tracking-widest uppercase">Instagram @ganozwaye</a>
           </div>
         </motion.div>
 

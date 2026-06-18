@@ -39,7 +39,7 @@ const FAQS = [
   },
   {
     q: 'Where can I follow Gannon on social media?',
-    a: 'On Instagram and TikTok as @gann0nwaye, and YouTube as @gannonwayeofficial. You can also find videos embedded on the Videos page directly on this site.',
+    a: 'On Instagram as @ganozwaye, and TikTok and YouTube as @gannonwaye. You can also find videos embedded on the Videos page directly on this site.',
   },
   {
     q: 'I have a question not listed here. How do I get in touch?',

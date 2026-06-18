@@ -83,6 +83,19 @@ Deno.serve(async (req) => {
       bundleOfferId = bundle.id;
     }
 
+    if (proposal.proposal_type === 'product_highlight' && proposal.products_involved?.length >= 1) {
+      const productName = proposal.products_involved[0];
+      const matches = await base44.asServiceRole.entities.MerchProduct.filter({ name: productName });
+      const product = matches[0];
+      if (!product) {
+        return Response.json({ error: `Product not found for highlight: ${productName}` }, { status: 404 });
+      }
+      await base44.asServiceRole.entities.MerchProduct.update(product.id, {
+        is_featured: true,
+        featured_reason: proposal.reason || 'Approved product highlight',
+      });
+    }
+
     // Update proposal to published
     await base44.asServiceRole.entities.AgentActionProposal.update(proposal_id, {
       status: 'published',

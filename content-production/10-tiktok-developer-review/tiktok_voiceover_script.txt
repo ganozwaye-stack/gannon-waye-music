@@ -1,0 +1,11 @@
+This is the TikTok creator workflow inside Gannon Waye Music.
+
+The platform connects to my authorised TikTok creator account using Login Kit.
+
+AI helps prepare content ideas, captions, drafts, and workflow recommendations, but nothing is automatically published without my approval.
+
+When a TikTok draft is ready, it goes through the Approval Queue first.
+
+After I approve it, the system uploads the draft to my authorised TikTok account for final creator review.
+
+The platform is designed for creator workflow management, not spam automation, not bulk posting, and not third-party account control.

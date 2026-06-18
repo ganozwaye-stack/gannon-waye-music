@@ -5,14 +5,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
+import { useAuth } from '@/lib/AuthContext';
 import { 
-  Lock, Calendar, Briefcase, RefreshCw, Send, AlertTriangle, 
-  CheckCircle, ShieldCheck, DollarSign, ListTodo, Plus, Trash2, Edit2
+  Lock, Briefcase, RefreshCw, Send, AlertTriangle, 
+  CheckCircle, DollarSign, ListTodo, Plus, Trash2
 } from 'lucide-react';
 
 const PINNED_TASKS_DEFAULT = [
@@ -22,9 +21,13 @@ const PINNED_TASKS_DEFAULT = [
   { id: 4, text: 'Verify Systems Manager lead form writing validation rules', done: false }
 ];
 
+const OWNER_EMAIL = 'ganozwaye@gmail.com';
+
 export default function OwnerBusinessHub() {
   const { toast } = useToast();
+  const { user, isLoadingAuth } = useAuth();
   const qc = useQueryClient();
+  const isOwner = user?.email === OWNER_EMAIL;
   const [activeTab, setActiveTab] = useState('overview');
 
   // Tonight tasks state
@@ -40,6 +43,7 @@ export default function OwnerBusinessHub() {
     queryKey: ['systems-leads'],
     queryFn: () => base44.entities.SystemsManagerLead.list('-created_date'),
     initialData: [],
+    enabled: isOwner,
   });
 
   // Mutate leads
@@ -68,6 +72,20 @@ export default function OwnerBusinessHub() {
     setTasks(prev => [...prev, { id: Date.now(), text: newTaskText, done: false }]);
     setNewTaskText('');
   };
+
+  if (isLoadingAuth) {
+    return <div className="flex items-center justify-center py-24 text-muted-foreground text-sm">Checking access...</div>;
+  }
+
+  if (!isOwner) {
+    return (
+      <div className="flex flex-col items-center justify-center py-32 gap-4 text-center">
+        <Lock className="w-10 h-10 text-muted-foreground" />
+        <h2 className="font-display text-xl text-foreground">Access Restricted</h2>
+        <p className="text-muted-foreground text-sm max-w-sm">This section is only available to the site owner.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6 pb-12">

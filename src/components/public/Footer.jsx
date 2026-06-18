@@ -14,9 +14,9 @@ export default function Footer() {
     queryFn: () => base44.entities.BusinessProfileSettings.list('-updated_date', 1),
   });
   const contactEmail = bizSettings[0]?.public_support_email || 'hello@gannonwaye.com';
-  const instagramUrl = bizSettings[0]?.instagram_url || 'https://www.instagram.com/gann0nwaye';
-  const tiktokUrl = bizSettings[0]?.tiktok_url || 'https://www.tiktok.com/@gann0nwaye';
-  const youtubeUrl = bizSettings[0]?.youtube_url || 'https://www.youtube.com/@gannonwayeofficial';
+  const instagramUrl = bizSettings[0]?.instagram_url || 'https://www.instagram.com/ganozwaye';
+  const tiktokUrl = bizSettings[0]?.tiktok_url || 'https://www.tiktok.com/@gannonwaye';
+  const youtubeUrl = bizSettings[0]?.youtube_url || 'https://www.youtube.com/@gannonwaye';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,9 +82,9 @@ export default function Footer() {
             </div>
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mt-4 mb-3">Social</h4>
             <div className="flex flex-col gap-2">
-              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Instagram @gann0nwaye</a>
-              <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">TikTok @gann0nwaye</a>
-              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">YouTube @gannonwayeofficial</a>
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Instagram @ganozwaye</a>
+              <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">TikTok @gannonwaye</a>
+              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">YouTube @gannonwaye</a>
             </div>
           </div>
         </div>

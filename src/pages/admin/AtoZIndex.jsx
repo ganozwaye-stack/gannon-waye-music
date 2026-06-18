@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Search, ChevronRight } from 'lucide-react';
+import { useAuth } from '@/lib/AuthContext';
 
 const ALL_PAGES = [
   { label: 'A-Z Index', route: '/admin/az-index', category: 'Navigation' },
@@ -43,7 +44,7 @@ const ALL_PAGES = [
   { label: 'Fan Management', route: '/admin/fans', category: 'Community' },
   { label: 'Fan Media', route: '/admin/fan-media', category: 'Community' },
   { label: 'Financial Dashboard', route: '/admin/financials', category: 'Finance' },
-  { label: 'GanozMix Bridge', route: '/admin/ganozmix', category: 'Operations' },
+  { label: 'GanozMix Bridge', route: '/admin/ganozmix', category: 'Operations', ownerOnly: true },
   { label: 'Gift Claims', route: '/admin/gift-claims', category: 'Community' },
   { label: 'Gift Progress', route: '/admin/gift-progress', category: 'Community' },
   { label: 'Gift Verification', route: '/admin/gift-verification', category: 'Community' },
@@ -135,6 +136,8 @@ const CATEGORY_COLOR = {
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
 export default function AtoZIndex() {
+  const { user } = useAuth();
+  const isOwner = user?.email === 'ganozwaye@gmail.com';
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
@@ -142,6 +145,7 @@ export default function AtoZIndex() {
   const categories = ['all', ...Object.keys(CATEGORY_COLOR)];
 
   const filtered = ALL_PAGES.filter(p => {
+    if (p.ownerOnly && !isOwner) return false;
     const matchSearch = !search || p.label.toLowerCase().includes(search.toLowerCase());
     const matchCat = categoryFilter === 'all' || p.category === categoryFilter;
     return matchSearch && matchCat;

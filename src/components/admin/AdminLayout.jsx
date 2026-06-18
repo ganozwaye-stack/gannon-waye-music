@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/AuthContext';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut,
+  LayoutDashboard, ShoppingBag, Package, Users, Settings, Globe, LogOut,
   Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift,
   MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command,
-  ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
-  Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
-  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal, Radio, Upload
+  ChevronRight, Menu, X, Zap, Brain, Shield, Lock, Eye, Megaphone, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
+  GraduationCap, Building2, ShoppingCart, Calculator, BarChart3, Terminal, Radio, Upload
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -193,7 +192,13 @@ export default function AdminLayout() {
   useEffect(() => {
     const handleKeyDown = (e) => {
       const tag = e.target?.tagName?.toLowerCase();
-      if (tag === 'input' || tag === 'textarea' || e.target?.isContentEditable) return;
+      const isTextEntry =
+        tag === 'input' ||
+        tag === 'textarea' ||
+        tag === 'select' ||
+        e.target?.isContentEditable ||
+        e.target?.closest?.('[contenteditable="true"], [role="textbox"]');
+      if (isTextEntry) return;
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); setShowCommand(true); }
       if ((e.metaKey || e.ctrlKey) && e.key === 'f') { e.preventDefault(); setShowSearch(true); }
     };

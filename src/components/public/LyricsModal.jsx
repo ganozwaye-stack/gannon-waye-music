@@ -114,7 +114,7 @@ export default function LyricsModal({ release, onClose }) {
                   <h3 className="font-display text-2xl text-foreground mb-2">Studio Session</h3>
                   <p className="font-body text-sm text-primary/90 tracking-wider uppercase font-semibold mb-3">Release Pending</p>
                   <p className="font-body text-base text-muted-foreground max-w-sm">
-                    Lyrics under studio wraps — Single drop coming soon.
+                    Lyrics are being prepared for release. The single is streaming now.
                   </p>
                 </div>
               </div>
@@ -124,8 +124,8 @@ export default function LyricsModal({ release, onClose }) {
               </pre>
             ) : (
               <div className="text-center py-12">
-                <p className="font-display text-xl text-muted-foreground">Lyrics coming soon.</p>
-                <p className="font-body text-xs text-muted-foreground mt-2">Check back closer to the release date.</p>
+                <p className="font-display text-xl text-muted-foreground">Lyrics are being prepared.</p>
+                <p className="font-body text-xs text-muted-foreground mt-2">Stream THANKYOU now and check back for the official lyric drop.</p>
               </div>
             )}
 

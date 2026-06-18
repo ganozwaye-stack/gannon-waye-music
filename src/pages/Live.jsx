@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
-import { Radio, Music, Instagram, Calendar, ArrowLeft } from 'lucide-react';
+import { Radio, Instagram, Calendar, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -143,14 +143,14 @@ function OfflineScreen({ settings }) {
           Follow on socials to be notified the moment Gannon goes live.
         </p>
         <div className="flex flex-wrap justify-center gap-3">
-          <a href="https://www.tiktok.com/@gann0nwaye" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.tiktok.com/@gannonwaye" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary">
-              TikTok @gann0nwaye
+              TikTok @gannonwaye
             </Button>
           </a>
-          <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer">
+          <a href="https://www.instagram.com/ganozwaye" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary">
-              <Instagram className="w-3 h-3 mr-1" /> Instagram @gann0nwaye
+              <Instagram className="w-3 h-3 mr-1" /> Instagram @ganozwaye
             </Button>
           </a>
         </div>

@@ -148,7 +148,7 @@ This is your complete guide to managing the Gannon Waye platform. Use the search
 **How to Set Countdown:**
 1. Go to `/admin/release-countdown`
 2. Click "Configure"
-3. Set release date text (e.g., "June 10, 2026")
+3. Set release date text (e.g., "THANKYOU out now")
 4. Set ISO date for countdown timer
 5. Toggle artwork/merch reveals
 6. Click "Save"
@@ -313,8 +313,8 @@ This is your complete guide to managing the Gannon Waye platform. Use the search
 - View completion status
 
 **Gift Requirements:**
-1. Follow on TikTok @gann0nwaye
-2. Follow on Instagram @gann0nwaye
+1. Follow on TikTok @gannonwaye
+2. Follow on Instagram @ganozwaye
 3. Like/comment/share latest post
 4. Submit screenshot
 

@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
 
     const goalMap = {
       store_visits: 'drive traffic to gannonwaye.com/store',
-      pre_saves: 'drive pre-saves for Thank You releasing June 5',
+      pre_saves: 'drive streams, saves, shares, comments, and playlist additions for THANKYOU',
       email_signups: 'grow email subscriber list',
       founding_supporters: 'convert fans to Founding Supporters at /founding-supporter',
     };
@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
     const prompt = `You are a music e-commerce conversion expert for indie artist Gannon Waye.
 
 Goal: ${goalMap[goal] || goal}
-Context: ${context || 'Gannon Waye music store. Products: CDs, merch, apparel. Thank You single June 5.'}
+Context: ${context || 'Gannon Waye music store. Products: CDs, merch, apparel. THANKYOU is out now after its official 05 June 2026 release.'}
 
 Return JSON with conversion optimisation suggestions:
 {

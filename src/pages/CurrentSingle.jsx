@@ -20,7 +20,7 @@ const FALLBACK_SINGLE = {
   release_date: '2026-06-05',
   artwork_url: THANK_YOU_COVER,
   description: '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again.',
-  current_single_hero_copy: '"Thank You" — the debut single from Gannon Waye. Out 5 June 2026.',
+  current_single_hero_copy: '"THANKYOU" - the debut single from Gannon Waye. Out now.',
   current_single_behind_story: 'This song was written at a turning point — when staying any longer would have meant abandoning himself all over again. There was a growing awareness that what he was experiencing was not new. It felt familiar in a way that traced back much further, to patterns already fought hard to outgrow.\n\nThis song is not about the pain. It is about the line being drawn. It is the moment of choosing self-respect over repetition. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.',
   credits: null,
   youtube_video_id: null,
@@ -37,7 +37,7 @@ function YouTubeEmbed({ videoId, fallbackUrl }) {
       <div className="aspect-video bg-secondary/30 rounded-2xl flex items-center justify-center border border-border/40">
         <div className="text-center">
           <Play className="w-12 h-12 text-muted-foreground/20 mx-auto mb-2" />
-          <p className="font-body text-sm text-muted-foreground">Music video coming soon.</p>
+          <p className="font-body text-sm text-muted-foreground">Official visual content is being prepared.</p>
         </div>
       </div>
     );
@@ -196,7 +196,7 @@ export default function CurrentSingle() {
             <iframe
               data-testid="embed-iframe"
               style={{ borderRadius: '12px' }}
-              src="https://open.spotify.com/embed/album/36qMYfzzJrq2j039l9Ex66?utm_source=generator"
+              src="https://open.spotify.com/embed/track/6xHQX9Yc2pcfRzVxdPmRHp?utm_source=generator"
               width="100%"
               height="352"
               frameBorder="0"
@@ -235,7 +235,7 @@ export default function CurrentSingle() {
 
         {/* Share */}
         <div className="flex justify-center mb-14">
-          <ShareButtons url={`${window.location.origin}/current-single`} text={`"${single.title}" — Gannon Waye. Out ${releaseDateText || 'soon'}.`} />
+          <ShareButtons url={`${window.location.origin}/current-single`} text={`"${single.title}" by Gannon Waye is out now.`} />
         </div>
 
         {/* Fan Reviews */}
