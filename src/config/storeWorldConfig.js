@@ -19,12 +19,14 @@ export const STORE_PRODUCTS = [
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3e484f441_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Back-removebg-preview.png",
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/babbbc3d4_ChatGPTImageJun17202605_07_15PM5.png",
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4f7409387_ChatGPTImageJun17202605_07_17PM6.png",
+      // Lifestyle — hoodie on display with bundle
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bde469918_ChatGPTImageJun16202609_38_45AM5.png",
     ],
     description: "Dark grey oversized hoodie featuring the Thankyou artwork on the front with Gannon Waye signature detail. A wearable piece from the Respect Is Earned collection.",
     options: { size: ["S", "M", "L", "XL", "2XL", "3XL"] },
     addons: ["mug-addon", "poster-addon"],
-    // Left clothing rack — spans the long rack running back along the wall
-    hotspot: { left: "0%", top: "30%", width: "16%", height: "56%" }
+    // Left clothing rack — tight around the hanging hoodies
+    hotspot: { left: "1%", top: "28%", width: "15%", height: "42%" }
   },
   {
     id: "back-hoodie",
@@ -42,12 +44,14 @@ export const STORE_PRODUCTS = [
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3e484f441_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Back-removebg-preview.png",
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/116a66e6b_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Front-removebg-preview.png",
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/27efba07c_ChatGPTImageJun17202605_07_15PM4.png",
+      // Lifestyle — hoodie on display with bundle
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bde469918_ChatGPTImageJun16202609_38_45AM5.png",
     ],
     description: "Dark grey oversized hoodie with the lyric line Respect Is Earned, Not A Game You Make Me Play across the back. Designed as a statement piece from Thankyou.",
     options: { size: ["S", "M", "L", "XL", "2XL", "3XL"] },
     addons: ["mug-addon", "poster-addon"],
-    // Right clothing rack — running back along right wall
-    hotspot: { left: "76%", top: "30%", width: "24%", height: "56%" }
+    // Right clothing rack — tight around the hanging hoodies
+    hotspot: { left: "84%", top: "28%", width: "15%", height: "42%" }
   },
   {
     id: "winter-writing-comfort-bundle",
@@ -80,8 +84,8 @@ export const STORE_PRODUCTS = [
     includes: ["Respect Is Earned Hoodie", "Thankyou Journal", "Thankyou Pen", "Thankyou Thermos Flask", "Gift Box"],
     options: { size: ["S", "M", "L", "XL", "2XL", "3XL"] },
     addons: ["mug-addon", "poster-addon"],
-    // Centre counter display — top shelf (folded hoodie + journal + thermos + pen + box)
-    hotspot: { left: "33%", top: "42%", width: "34%", height: "26%" }
+    // Centre counter — full bundle display area
+    hotspot: { left: "30%", top: "42%", width: "36%", height: "22%" }
   },
   {
     id: "journal-pen-thermos-bundle",
@@ -104,8 +108,8 @@ export const STORE_PRODUCTS = [
     ],
     description: "A premium Thankyou writing set featuring the Respect Is Earned journal, matching pen and thermos flask. Designed for reflection, writing, healing and comfort.",
     addons: ["mug-addon", "poster-addon"],
-    // Centre counter — sits alongside winter bundle top shelf
-    hotspot: { left: "50%", top: "42%", width: "17%", height: "22%" }
+    // Centre counter — thermos & journal area right of bundle box
+    hotspot: { left: "50%", top: "43%", width: "16%", height: "20%" }
   },
   {
     id: "mug",
@@ -127,8 +131,8 @@ export const STORE_PRODUCTS = [
     ],
     description: "Ceramic Thankyou coffee mug featuring the Respect Is Earned lyric artwork. A simple daily reminder from the song.",
     addons: ["poster-addon"],
-    // Lower shelf of centre counter — row of mugs
-    hotspot: { left: "30%", top: "68%", width: "42%", height: "14%" }
+    // Lower shelf — tight row of mugs
+    hotspot: { left: "34%", top: "69%", width: "32%", height: "11%" }
   },
   {
     id: "wall-poster",
@@ -161,8 +165,8 @@ export const STORE_PRODUCTS = [
     description: "Premium Thankyou lyric wall poster. Multiple sizes available — A4 $19 · A3 $29 · A2 $39 · A1 $59.",
     options: { size: ["A4 — $19", "A3 — $29", "A2 — $39", "A1 — $59"] },
     addons: ["mug-addon"],
-    // Wall poster display — the row of 6-7 framed posters on the back wall
-    hotspot: { left: "16%", top: "20%", width: "58%", height: "24%" }
+    // Wall poster display — tight around framed poster row on back wall
+    hotspot: { left: "14%", top: "15%", width: "58%", height: "26%" }
   },
   {
     id: "cd",
@@ -177,10 +181,12 @@ export const STORE_PRODUCTS = [
     link: "/store/product/thankyou-cd",
     images: [
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c2a1369c4_1.png",
+      // Album artwork
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4e1ee5100_3cc92327-85e8-4975-9798-8ab605e3fea5.png",
     ],
     description: "Thankyou physical CD collectable. Currently sold out — join the waitlist.",
-    // Lower shelf CDs
-    hotspot: { left: "30%", top: "82%", width: "42%", height: "10%" }
+    // Bottom shelf — CD displays
+    hotspot: { left: "34%", top: "80%", width: "32%", height: "10%" }
   },
   {
     id: "tote-bag",
@@ -202,7 +208,7 @@ export const STORE_PRODUCTS = [
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0c49da374_Respect_is_Earned_Tote_Bag_Back-removebg-preview.png",
     ],
     description: "Thankyou tote bag featuring campaign artwork and signature detail. Currently sold out.",
-    hotspot: { left: "67%", top: "78%", width: "9%", height: "13%" }
+    hotspot: { left: "66%", top: "72%", width: "8%", height: "12%" }
   },
   {
     id: "mums-garden",
@@ -214,19 +220,24 @@ export const STORE_PRODUCTS = [
     badge: "Private",
     category: "tribute",
     link: "/mums-garden",
-    images: [],
+    images: [
+      // Sonia portrait — silver hair, warm smile
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/7df2f998b_A181BD35-93F3-41FB-B671-2FABC71B701A.jpg",
+      // Garden scene
+      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3892d6143_093DD58D-2A3E-46F2-B235-ABD31D530F48.jpg",
+    ],
     description: "A private tribute space connected to Mum's Garden.",
-    // Far back right — the Mum's Garden shrine/mirror area, further back and smaller
-    hotspot: { left: "88%", top: "14%", width: "10%", height: "22%" }
+    // Mum's Garden shrine — tight around her photo and memorial display
+    hotspot: { left: "74%", top: "14%", width: "12%", height: "28%" }
   }
 ];
 
 export const STORE_ADDONS = [
   {
     id: "mug-addon",
-    name: 'Add Thankyou "Respect Is Earned" Mug — $10',
-    price: "$10",
-    priceValue: 10,
+    name: 'Add Thankyou "Respect Is Earned" Mug — $9.95',
+    price: "$9.95",
+    priceValue: 9.95,
     image: "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b24fe1cbb_MugFront-removebg-preview.png"
   },
   {
