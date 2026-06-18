@@ -235,7 +235,7 @@ The lyric is on the back. Wear the reminder. 🖤`,
     overlay_text: [
       'Screen 1: "Winter is the season for going deeper." — white italic, fade in.',
       'Screen 2: Products appear one by one — hoodie, journal, pen, thermos.',
-      'Screen 3: "$129 — the full Winter Writing & Comfort Bundle." — gold, bold.',
+      'Screen 3: "$119 — the full Winter Writing & Comfort Bundle." — gold, bold.',
       'Screen 4: ⚠️ "No further discounts apply to this bundle." — small amber text, visible clearly.',
       'Screen 5: "Write through the cold." — white italic.',
       'Screen 6: "gannonwaye.com/store" — gold, end card.',
@@ -271,7 +271,7 @@ Scene 6 (0:20–0:25): Hoodie close-up — front logo visible.
 
 Scene 7 (0:25–0:30): End card — black background, gold.
 — Text: "Winter Writing & Comfort Bundle"
-— "$129 · gannonwaye.com/store"
+— "$119 · gannonwaye.com/store"
 — "No further discounts." — small amber, visible but not alarming.
 — Music out. Fade to black.
 
@@ -291,7 +291,7 @@ The THANKYOU Winter Writing & Comfort Bundle:
 🖊️ Thankyou Pen
 ☕ Thermos Flask
 
-All for $129 — no further discounts apply to this bundle.
+All for $119 — no further discounts apply to this bundle.
 
 Write through the cold. Wear your values. Stay grounded.
 
@@ -299,7 +299,7 @@ Write through the cold. Wear your values. Stay grounded.
 
 #GannonWaye #WinterBundle #Thankyou #RespectIsEarned #ComfortSeason #WritingBundle #AustralianMusic #IndieArtistMerch #WinterVibes #WritingCommunity`,
 
-    first_comment: `🔗 Direct link: gannonwaye.com/store — The Winter Writing & Comfort Bundle. $129. This one is already priced as a bundle — no further discounts apply. 🖤`,
+    first_comment: `🔗 Direct link: gannonwaye.com/store — The Winter Writing & Comfort Bundle. $119. This one is already priced as a bundle — no further discounts apply. 🖤`,
   },
 ];
 

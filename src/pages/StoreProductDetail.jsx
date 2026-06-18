@@ -6,16 +6,24 @@ import { useToast } from '@/components/ui/use-toast';
 import { ShoppingCart, ArrowLeft, Heart, Package } from 'lucide-react';
 import { STORE_PRODUCTS } from '@/config/storeWorldConfig';
 
-// Slug → product lookup
+// Slug → product ID lookup (all known slug variants)
 const SLUG_MAP = {
   'winter-writing-comfort-bundle': 'winter-bundle',
   'thankyou-journal-pen-thermos-bundle': 'journal-bundle',
+  'journal-pen-thermos-bundle': 'journal-bundle',
   'respect-is-earned-oversized-hoodie': 'hoodie',
+  'thankyou-respect-is-earned-hoodie-front': 'hoodie',
   'respect-is-earned-coffee-mug': 'mug',
+  'thankyou-respect-is-earned-coffee-mug': 'mug',
   'respect-is-earned-wall-poster': 'poster',
+  'respect-is-earned-assorted-wall-poster-pricing-from-19': 'poster',
+  'thankyou-respect-is-earned-wall-poster': 'poster',
   'thankyou-cd-collectable': 'cd',
+  'thankyou-cd': 'cd',
   'tote-bag-waitlist': 'tote',
+  'thankyou-tote-bag': 'tote',
   'memorial': 'mums-garden',
+  'mums-garden': 'mums-garden',
 };
 
 const PRODUCT_DETAILS = {
@@ -77,10 +85,15 @@ export default function StoreProductDetail() {
   const { toast } = useToast();
   const addItem = useCartStore(s => s.addItem);
 
-  // Get slug from URL
+  // Get slug from URL — support slug lookup, ID lookup, and fallback
   const slug = window.location.pathname.split('/store/product/')[1] || '';
-  const productId = SLUG_MAP[slug] || slug;
-  const product = STORE_PRODUCTS.find(p => p.id === productId);
+  const mappedId = SLUG_MAP[slug];
+  // Try: slug map → direct ID match → match by link suffix
+  const product = mappedId
+    ? STORE_PRODUCTS.find(p => p.id === mappedId)
+    : STORE_PRODUCTS.find(p => p.id === slug) ||
+      STORE_PRODUCTS.find(p => p.link && p.link.endsWith('/' + slug));
+  const productId = product?.id || '';
   const details = PRODUCT_DETAILS[productId];
 
   const [selectedSize, setSelectedSize] = useState('');
