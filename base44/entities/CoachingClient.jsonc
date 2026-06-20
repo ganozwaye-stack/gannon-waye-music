@@ -1,0 +1,86 @@
+{
+  "name": "CoachingClient",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "offer_enrolled": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "paused",
+        "completed",
+        "cancelled"
+      ],
+      "default": "active"
+    },
+    "sessions_total": {
+      "type": "number",
+      "default": 0
+    },
+    "sessions_used": {
+      "type": "number",
+      "default": 0
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "goals": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "testimonial_given": {
+      "type": "boolean",
+      "default": false
+    },
+    "testimonial_text": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "testimonial_approved": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "full_name",
+    "email"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

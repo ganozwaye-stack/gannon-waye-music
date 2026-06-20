@@ -1,0 +1,82 @@
+{
+  "name": "CoachingLead",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "current_challenge": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "support_wanted": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "understands_coaching_not_therapy": {
+      "type": "boolean",
+      "default": false
+    },
+    "consent_to_contact": {
+      "type": "boolean",
+      "default": false
+    },
+    "source_page": {
+      "type": "string"
+    },
+    "source_offer": {
+      "type": "string"
+    },
+    "workbook_requested": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "contacted",
+        "booked",
+        "declined",
+        "unresponsive",
+        "archived"
+      ],
+      "default": "new"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "assigned_to": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "full_name",
+    "email"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

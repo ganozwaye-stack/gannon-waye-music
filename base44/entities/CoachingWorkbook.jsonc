@@ -1,0 +1,81 @@
+{
+  "name": "CoachingWorkbook",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "hook": {
+      "type": "string"
+    },
+    "who_its_for": {
+      "type": "string"
+    },
+    "whats_inside": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "is_free": {
+      "type": "boolean",
+      "default": true
+    },
+    "price_display": {
+      "type": "string"
+    },
+    "price_amount": {
+      "type": "number"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "Download URL for paid workbook"
+    },
+    "email_capture_required": {
+      "type": "boolean",
+      "default": true
+    },
+    "cover_image_url": {
+      "type": "string"
+    },
+    "is_published": {
+      "type": "boolean",
+      "default": false
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "title",
+    "slug"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

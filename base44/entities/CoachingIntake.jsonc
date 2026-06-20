@@ -1,0 +1,100 @@
+{
+  "name": "CoachingIntake",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "offer_interest": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "current_challenge": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "support_wanted": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "previous_coaching": {
+      "type": "boolean",
+      "default": false
+    },
+    "previous_coaching_notes": {
+      "type": "string"
+    },
+    "understands_coaching_not_therapy": {
+      "type": "boolean",
+      "default": false
+    },
+    "crisis_aware": {
+      "type": "boolean",
+      "default": false
+    },
+    "consent_to_contact": {
+      "type": "boolean",
+      "default": false
+    },
+    "preferred_time": {
+      "type": "string"
+    },
+    "preferred_format": {
+      "type": "string",
+      "enum": [
+        "zoom",
+        "phone",
+        "in_person",
+        "no_preference"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "submitted",
+        "reviewed",
+        "approved",
+        "waitlisted",
+        "declined"
+      ],
+      "default": "submitted"
+    },
+    "admin_notes": {
+      "type": "string",
+      "maxLength": 2000
+    }
+  },
+  "required": [
+    "full_name",
+    "email",
+    "understands_coaching_not_therapy",
+    "consent_to_contact"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

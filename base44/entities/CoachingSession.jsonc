@@ -1,0 +1,89 @@
+{
+  "name": "CoachingSession",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "client_name": {
+      "type": "string"
+    },
+    "session_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "duration_minutes": {
+      "type": "number",
+      "default": 60
+    },
+    "offer_type": {
+      "type": "string"
+    },
+    "session_notes": {
+      "type": "string",
+      "maxLength": 5000
+    },
+    "key_breakthroughs": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "action_items": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_session_focus": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "completed",
+        "cancelled",
+        "no_show"
+      ],
+      "default": "scheduled"
+    },
+    "payment_status": {
+      "type": "string",
+      "enum": [
+        "unpaid",
+        "paid",
+        "refunded",
+        "complimentary"
+      ],
+      "default": "unpaid"
+    },
+    "amount_paid": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "client_name",
+    "session_date"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

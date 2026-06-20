@@ -291,6 +291,17 @@ import MerchContentBriefs from '@/pages/admin/MerchContentBriefs';
 import PricingMarginCalculator from '@/pages/admin/PricingMarginCalculator';
 import FinalSystemReport from '@/pages/admin/FinalSystemReport';
 import GoogleDriveCommand from '@/pages/admin/GoogleDriveCommand';
+import Coaching from '@/pages/Coaching';
+import CoachingSelfWorthReset from '@/pages/CoachingSelfWorthReset';
+import CoachingBoundaries from '@/pages/CoachingBoundaries';
+import CoachingCreativeConfidence from '@/pages/CoachingCreativeConfidence';
+import CoachingWorkbooks from '@/pages/CoachingWorkbooks';
+import CoachingIntakePage from '@/pages/CoachingIntakePage';
+import CoachingClientResources from '@/pages/CoachingClientResources';
+import CoachingHub from '@/pages/admin/CoachingHub';
+import CoachingLeads from '@/pages/admin/CoachingLeads';
+import CoachingIntakes from '@/pages/admin/CoachingIntakes';
+import CoachingClients from '@/pages/admin/CoachingClients';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -377,6 +388,15 @@ const AuthenticatedApp = () => {
         <Route path="/support" element={<Support />} />
         <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />
         <Route path="/gift-tracker" element={<GiftTracker />} />
+
+        {/* Coaching public routes */}
+        <Route path="/coaching" element={<Coaching />} />
+        <Route path="/coaching/self-worth-reset" element={<CoachingSelfWorthReset />} />
+        <Route path="/coaching/boundaries" element={<CoachingBoundaries />} />
+        <Route path="/coaching/creative-confidence" element={<CoachingCreativeConfidence />} />
+        <Route path="/coaching/workbooks" element={<CoachingWorkbooks />} />
+        <Route path="/coaching/intake" element={<CoachingIntakePage />} />
+        <Route path="/coaching/client-resources" element={<CoachingClientResources />} />
 
         {/* Systems Manager public portfolio routes */}
         <Route path="/systems-manager" element={<SystemsManagerOffer />} />
@@ -681,6 +701,10 @@ const AuthenticatedApp = () => {
         <Route path="/admin/grants-bulletin" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/gig-finder" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/playlist-scout" element={<MusicOpportunityBulletin />} />
+        <Route path="/admin/coaching-hub" element={<CoachingHub />} />
+        <Route path="/admin/coaching-leads" element={<CoachingLeads />} />
+        <Route path="/admin/coaching-intakes" element={<CoachingIntakes />} />
+        <Route path="/admin/coaching-clients" element={<CoachingClients />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
