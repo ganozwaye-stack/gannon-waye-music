@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search } from 'lucide-react';
+import { Menu, X, Search, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SiteSearch from '@/components/public/SiteSearch';
 
@@ -9,20 +9,38 @@ const BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
-  { label: 'My Story', path: '/this-is-my-life' },
   { label: 'Music', path: '/music' },
-  // Live/Tour hidden until public launch enabled
   { label: 'Videos', path: '/videos' },
-  { label: 'Community', path: '/community' },
   { label: 'Store', path: '/store' },
+  { label: 'Community', path: '/community' },
+  { label: 'My Story', path: '/this-is-my-life' },
   { label: 'Contact', path: '/contact' },
   { label: 'Back This 🤍', path: '/back-this', highlight: true },
+];
+
+const MORE_LINKS = [
+  { label: 'Lyrics', path: '/lyrics' },
+  { label: 'Fan Wall', path: '/fan-wall' },
+  { label: 'Impact', path: '/impact' },
+  { label: 'Releases', path: '/releases' },
+  { label: 'Support', path: '/support' },
+  { label: 'About', path: '/this-is-my-life' },
+  { label: 'FAQ', path: '/faq' },
+  { label: 'Orders', path: '/orders' },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const moreRef = useRef(null);
   const location = useLocation();
+
+  useEffect(() => {
+    const handler = (e) => { if (moreRef.current && !moreRef.current.contains(e.target)) setMoreOpen(false); };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
@@ -42,7 +60,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden md:flex items-center gap-5">
           {NAV_LINKS.map(link => {
             const active = location.pathname === link.path;
             const isHighlighted = link.highlight || link.path === '/store';
@@ -51,11 +69,11 @@ export default function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-body text-sm tracking-widest uppercase transition-all duration-200 hover:scale-105 ${
+                className={`font-body text-[11px] tracking-widest uppercase transition-all duration-200 hover:scale-105 ${
                   isBoutique
                     ? active
-                      ? 'px-3 py-1 rounded-full gradient-gold-text border border-primary/80 bg-primary/10 text-[11px]'
-                      : 'px-3 py-1 rounded-full gradient-gold-text border border-primary/40 hover:border-primary/70 hover:bg-primary/10 text-[11px]'
+                      ? 'px-3 py-1 rounded-full gradient-gold-text border border-primary/80 bg-primary/10'
+                      : 'px-3 py-1 rounded-full gradient-gold-text border border-primary/40 hover:border-primary/70 hover:bg-primary/10'
                     : isHighlighted
                       ? active
                         ? 'px-4 py-1.5 rounded-full bg-primary text-primary-foreground'
@@ -69,6 +87,40 @@ export default function Navbar() {
               </Link>
             );
           })}
+
+          {/* More dropdown */}
+          <div ref={moreRef} className="relative">
+            <button
+              onClick={() => setMoreOpen(p => !p)}
+              className={`flex items-center gap-1 font-body text-[11px] tracking-widest uppercase transition-all duration-200 hover:scale-105 ${moreOpen ? 'gradient-gold-text' : 'text-muted-foreground hover:text-foreground'}`}
+            >
+              More <ChevronDown className={`w-3 h-3 transition-transform ${moreOpen ? 'rotate-180' : ''}`} />
+            </button>
+            <AnimatePresence>
+              {moreOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.15 }}
+                  className="absolute right-0 top-full mt-3 w-44 bg-background/98 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl overflow-hidden z-50"
+                >
+                  {MORE_LINKS.map(link => (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      onClick={() => setMoreOpen(false)}
+                      className={`block px-4 py-2.5 font-body text-[11px] tracking-widest uppercase transition-colors hover:bg-primary/8 ${
+                        location.pathname === link.path ? 'gradient-gold-text' : 'text-muted-foreground hover:text-foreground'
+                      }`}
+                    >
+                      {link.label}
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
 
         {/* Search + Mobile toggle */}
@@ -98,14 +150,27 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl"
           >
-            <div className="px-6 py-4 flex flex-col gap-4">
+            <div className="px-6 py-4 flex flex-col gap-1">
               {NAV_LINKS.map(link => (
                 <Link
                   key={link.path}
                   to={link.path}
                   onClick={() => setOpen(false)}
-                  className={`font-body text-sm tracking-widest uppercase ${
+                  className={`font-body text-sm tracking-widest uppercase py-2.5 border-b border-border/20 ${
                     location.pathname === link.path ? 'text-primary' : 'text-muted-foreground'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <p className="font-body text-[9px] tracking-[0.25em] uppercase text-muted-foreground/40 mt-3 mb-1">More</p>
+              {MORE_LINKS.map(link => (
+                <Link
+                  key={link.path + '-more'}
+                  to={link.path}
+                  onClick={() => setOpen(false)}
+                  className={`font-body text-xs tracking-widest uppercase py-2 border-b border-border/10 ${
+                    location.pathname === link.path ? 'text-primary' : 'text-muted-foreground/60 hover:text-muted-foreground'
                   }`}
                 >
                   {link.label}
