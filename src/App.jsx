@@ -302,6 +302,10 @@ import CoachingHub from '@/pages/admin/CoachingHub';
 import CoachingLeads from '@/pages/admin/CoachingLeads';
 import CoachingIntakes from '@/pages/admin/CoachingIntakes';
 import CoachingClients from '@/pages/admin/CoachingClients';
+import CoachingContentEngine from '@/pages/admin/CoachingContentEngine';
+import CoachingSocialDrafts from '@/pages/admin/CoachingSocialDrafts';
+import WorkbookBuilder from '@/pages/admin/WorkbookBuilder';
+import ClientResourceLibrary from '@/pages/admin/ClientResourceLibrary';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -705,6 +709,10 @@ const AuthenticatedApp = () => {
         <Route path="/admin/coaching-leads" element={<CoachingLeads />} />
         <Route path="/admin/coaching-intakes" element={<CoachingIntakes />} />
         <Route path="/admin/coaching-clients" element={<CoachingClients />} />
+        <Route path="/admin/coaching-content-engine" element={<CoachingContentEngine />} />
+        <Route path="/admin/social-drafts" element={<CoachingSocialDrafts />} />
+        <Route path="/admin/workbook-builder" element={<WorkbookBuilder />} />
+        <Route path="/admin/client-resource-library" element={<ClientResourceLibrary />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
