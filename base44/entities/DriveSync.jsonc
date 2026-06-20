@@ -1,0 +1,45 @@
+{
+  "name": "DriveSync",
+  "type": "object",
+  "properties": {
+    "page_token": {
+      "type": "string",
+      "description": "Google Drive Changes API page token for incremental sync"
+    },
+    "last_synced": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the last sync ran"
+    },
+    "changes_detected": {
+      "type": "number",
+      "default": 0,
+      "description": "Number of changes detected in the last sync"
+    }
+  },
+  "required": [
+    "page_token"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

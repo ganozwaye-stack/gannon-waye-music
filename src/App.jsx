@@ -290,6 +290,7 @@ import HumanActionRequired from '@/pages/admin/HumanActionRequired';
 import MerchContentBriefs from '@/pages/admin/MerchContentBriefs';
 import PricingMarginCalculator from '@/pages/admin/PricingMarginCalculator';
 import FinalSystemReport from '@/pages/admin/FinalSystemReport';
+import GoogleDriveCommand from '@/pages/admin/GoogleDriveCommand';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -675,6 +676,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/merch-content-briefs" element={<MerchContentBriefs />} />
         <Route path="/admin/pricing-margin-calculator" element={<PricingMarginCalculator />} />
         <Route path="/admin/final-system-report" element={<FinalSystemReport />} />
+        <Route path="/admin/google-drive" element={<GoogleDriveCommand />} />
         <Route path="/admin/music-opportunities" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/grants-bulletin" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/gig-finder" element={<MusicOpportunityBulletin />} />
