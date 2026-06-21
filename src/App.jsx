@@ -306,6 +306,7 @@ import CoachingContentEngine from '@/pages/admin/CoachingContentEngine';
 import CoachingSocialDrafts from '@/pages/admin/CoachingSocialDrafts';
 import WorkbookBuilder from '@/pages/admin/WorkbookBuilder';
 import ClientResourceLibrary from '@/pages/admin/ClientResourceLibrary';
+import PhoneSystem from '@/pages/admin/PhoneSystem';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -713,6 +714,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/social-drafts" element={<CoachingSocialDrafts />} />
         <Route path="/admin/workbook-builder" element={<WorkbookBuilder />} />
         <Route path="/admin/client-resource-library" element={<ClientResourceLibrary />} />
+        <Route path="/admin/phone-system" element={<PhoneSystem />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

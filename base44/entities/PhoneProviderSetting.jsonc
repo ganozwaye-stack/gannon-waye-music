@@ -1,0 +1,72 @@
+{
+  "name": "PhoneProviderSetting",
+  "type": "object",
+  "properties": {
+    "provider_name": {
+      "type": "string",
+      "enum": [
+        "openphone",
+        "quo",
+        "twilio",
+        "telnyx"
+      ]
+    },
+    "connection_status": {
+      "type": "string",
+      "enum": [
+        "not_connected",
+        "pending",
+        "active",
+        "error"
+      ],
+      "default": "not_connected"
+    },
+    "api_key_set": {
+      "type": "boolean",
+      "default": false
+    },
+    "webhook_url": {
+      "type": "string"
+    },
+    "test_mode": {
+      "type": "boolean",
+      "default": true
+    },
+    "notes": {
+      "type": "string"
+    },
+    "requires_gannon_approval": {
+      "type": "boolean",
+      "default": true
+    },
+    "approved_by_gannon": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "provider_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

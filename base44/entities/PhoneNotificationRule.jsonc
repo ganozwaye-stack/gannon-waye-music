@@ -1,0 +1,66 @@
+{
+  "name": "PhoneNotificationRule",
+  "type": "object",
+  "properties": {
+    "rule_name": {
+      "type": "string"
+    },
+    "trigger": {
+      "type": "string",
+      "enum": [
+        "missed_call",
+        "new_inbound_call",
+        "new_lead",
+        "follow_up_due",
+        "voicemail_received"
+      ]
+    },
+    "notification_channel": {
+      "type": "string",
+      "enum": [
+        "email",
+        "slack",
+        "admin_notification",
+        "sms_to_gannon"
+      ]
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": false,
+      "description": "Off by default \u2014 Gannon must activate"
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "default": true
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "rule_name",
+    "trigger"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

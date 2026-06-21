@@ -1,0 +1,64 @@
+{
+  "name": "PhoneLeadSource",
+  "type": "object",
+  "properties": {
+    "source_name": {
+      "type": "string"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "page_cta",
+        "social",
+        "referral",
+        "organic",
+        "paid",
+        "press",
+        "other"
+      ]
+    },
+    "page_url": {
+      "type": "string"
+    },
+    "cta_copy": {
+      "type": "string"
+    },
+    "is_live": {
+      "type": "boolean",
+      "default": false,
+      "description": "False until Gannon approves public phone number"
+    },
+    "lead_count": {
+      "type": "number",
+      "default": 0
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "source_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

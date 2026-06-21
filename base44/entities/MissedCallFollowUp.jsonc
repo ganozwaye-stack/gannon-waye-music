@@ -1,0 +1,68 @@
+{
+  "name": "MissedCallFollowUp",
+  "type": "object",
+  "properties": {
+    "lead_id": {
+      "type": "string"
+    },
+    "caller_number": {
+      "type": "string"
+    },
+    "caller_name": {
+      "type": "string"
+    },
+    "missed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "follow_up_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "called_back",
+        "sms_drafted",
+        "no_action_needed",
+        "closed"
+      ],
+      "default": "pending"
+    },
+    "sms_draft_id": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "actioned_by": {
+      "type": "string"
+    },
+    "actioned_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "missed_at"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

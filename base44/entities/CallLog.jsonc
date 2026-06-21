@@ -1,0 +1,99 @@
+{
+  "name": "CallLog",
+  "type": "object",
+  "properties": {
+    "lead_id": {
+      "type": "string"
+    },
+    "lead_name": {
+      "type": "string"
+    },
+    "phone_number_id": {
+      "type": "string"
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "inbound",
+        "outbound"
+      ],
+      "default": "inbound"
+    },
+    "call_type": {
+      "type": "string",
+      "enum": [
+        "answered",
+        "missed",
+        "voicemail",
+        "outbound_manual"
+      ],
+      "default": "answered"
+    },
+    "call_date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "duration_seconds": {
+      "type": "number",
+      "default": 0
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "no_answer",
+        "left_voicemail",
+        "spoke",
+        "callback_scheduled",
+        "converted",
+        "not_interested"
+      ],
+      "default": "spoke"
+    },
+    "follow_up_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "follow_up_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "recording_url": {
+      "type": "string",
+      "description": "Populated by provider when active"
+    },
+    "entered_by": {
+      "type": "string",
+      "description": "admin user who logged this manually"
+    }
+  },
+  "required": [
+    "call_date",
+    "direction"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

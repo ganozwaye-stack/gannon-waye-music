@@ -1,0 +1,76 @@
+{
+  "name": "SmsDraft",
+  "type": "object",
+  "properties": {
+    "template_name": {
+      "type": "string"
+    },
+    "template_type": {
+      "type": "string",
+      "enum": [
+        "missed_call_reply",
+        "coaching_enquiry",
+        "merch_support",
+        "press_enquiry",
+        "ganozmix_enquiry",
+        "general",
+        "custom"
+      ],
+      "default": "general"
+    },
+    "body": {
+      "type": "string",
+      "maxLength": 1600
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "do_not_send_automatically": {
+      "type": "boolean",
+      "default": true,
+      "description": "Safety flag \u2014 always true until Gannon approves automation"
+    }
+  },
+  "required": [
+    "template_name",
+    "body"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

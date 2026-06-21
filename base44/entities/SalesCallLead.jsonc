@@ -1,0 +1,116 @@
+{
+  "name": "SalesCallLead",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "lead_source": {
+      "type": "string",
+      "enum": [
+        "coaching_page",
+        "contact_page",
+        "press_page",
+        "store_support",
+        "ganozmix_page",
+        "inbound_call",
+        "missed_call",
+        "manual_entry",
+        "referral",
+        "other"
+      ],
+      "default": "manual_entry"
+    },
+    "enquiry_type": {
+      "type": "string",
+      "enum": [
+        "coaching",
+        "merch_support",
+        "press",
+        "booking",
+        "ganozmix",
+        "general",
+        "other"
+      ],
+      "default": "general"
+    },
+    "crm_stage": {
+      "type": "string",
+      "enum": [
+        "new_lead",
+        "contacted",
+        "clarity_session_requested",
+        "call_booked",
+        "proposal_sent",
+        "paid_client",
+        "active_client",
+        "follow_up",
+        "closed_lost"
+      ],
+      "default": "new_lead"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "call_log_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "linked_phone_number_id": {
+      "type": "string"
+    },
+    "linked_coaching_lead_id": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "medium"
+    },
+    "next_action": {
+      "type": "string"
+    },
+    "next_action_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "full_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
