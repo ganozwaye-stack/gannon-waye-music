@@ -15,160 +15,81 @@ import GlobalSearch from '@/components/global/GlobalSearch';
 import CommandPalette from '@/components/global/CommandPalette';
 import NotificationBell from '@/components/admin/NotificationBell';
 
-// ─── Consolidated Admin Navigation Hubs ───────────────────────────────────────
+// ─── Simplified Admin Navigation Hubs ───────────────────────────────────────
 const NAV_SECTIONS = [
   {
-    title: 'Executive',
+    title: 'Owner Dashboard',
     items: [
-      // Top 3-5 Important
       { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-      { label: 'Mission Control', path: '/admin/mission-control', icon: Star },
       { label: 'Attention Centre', path: '/admin/business-attention-centre', icon: Bell },
-      { label: 'Executive Feed', path: '/admin/executive-feed', icon: FileText },
-      { label: 'Owner Business Hub', path: '/admin/owner-business', icon: Lock, ownerOnly: true },
-      // Alphabetical Remaining
-      { label: 'Business Worth Command', path: '/admin/business-worth-command', icon: BarChart3 },
-      { label: 'Strategic Execution Plan', path: '/admin/strategic-execution-plan', icon: TrendingUp },
-      { label: 'System Blueprint', path: '/admin/system-blueprint', icon: Building2 },
-      { label: "Today's Money Moves", path: '/admin/todays-money-moves', icon: Zap }
     ]
   },
   {
-    title: 'Commerce',
+    title: 'Music and Releases',
     items: [
-      // Top 3-5 Important
-      { label: 'Store & Orders Hub', path: '/admin/store-orders', icon: ShoppingBag },
+      { label: 'Music and Fan Hub', path: '/admin/music-fan', icon: Music },
+      { label: 'Releases', path: '/admin/releases', icon: Star },
+      { label: 'Videos', path: '/admin/videos', icon: Video },
+      { label: 'Lyrics Archive', path: '/admin/lyrics-archive', icon: FileText },
+      { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
+    ]
+  },
+  {
+    title: 'Store and Orders',
+    items: [
+      { label: 'Store and Orders Hub', path: '/admin/store-orders', icon: ShoppingBag },
       { label: 'Merch Management', path: '/admin/merch', icon: Package },
       { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
-      { label: 'Offer Engine', path: '/admin/offer-engine', icon: Heart },
-      // Alphabetical Remaining
-      { label: 'Bundle Proposal Studio', path: '/admin/bundle-proposal-studio', icon: Tag },
-      { label: 'Discount Guard', path: '/admin/discount-guard', icon: Shield },
-      { label: 'Landed Cost Calculator', path: '/admin/landed-cost-calculator', icon: Calculator },
-      { label: 'Merch Designs', path: '/admin/merch-designs', icon: Palette },
-      { label: 'Merch Platforms', path: '/admin/merch-platforms', icon: Globe },
-      { label: 'Procurement Command', path: '/admin/procurement-command', icon: Package },
-      { label: 'Product Insights', path: '/admin/product-insights', icon: BarChart3 },
-      { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Calculator }
+      { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Calculator },
     ]
   },
   {
-    title: 'Social',
+    title: 'Content and Social',
     items: [
-      // Top 3-5 Important
-      { label: 'Launch & Content Hub', path: '/admin/launch-content', icon: Megaphone },
+      { label: 'Launch and Content Hub', path: '/admin/launch-content', icon: Megaphone },
       { label: 'Social Monitor', path: '/admin/social-monitor', icon: Activity },
-      { label: 'Social Command', path: '/admin/social-command', icon: Radio },
-      { label: 'Social Content Generator', path: '/admin/social-content', icon: Sparkles },
       { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Zap },
-      // Alphabetical Remaining
-      { label: 'Campaign Image Approval', path: '/admin/campaign-image-approval', icon: Image },
-      { label: 'Content Performance', path: '/admin/content-performance', icon: TrendingUp },
-      { label: 'Instagram Auto DM', path: '/admin/instagram-auto-dm-command', icon: MessageCircle },
-      { label: 'Metricool Command', path: '/admin/metricool-command', icon: Database },
-      { label: 'Social Agent OS', path: '/admin/social-agent-os', icon: Brain },
-      { label: 'Social Asset Library', path: '/admin/social-asset-library', icon: Image },
-      { label: 'Social Post Factory', path: '/admin/social-post-factory', icon: Package },
-      { label: 'Social Schedule Queue', path: '/admin/social-schedule-queue', icon: Calendar },
-      { label: 'TikTok App Review', path: '/admin/tiktok-review', icon: Video },
-      { label: 'TikTok Recording Studio', path: '/admin/tiktok-recording-studio', icon: Camera }
+      { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
     ]
   },
   {
-    title: 'Community',
+    title: 'Automations and Agents',
     items: [
-      // Top 3-5 Important
-      { label: 'Music & Fan Hub', path: '/admin/music-fan', icon: Users },
-      { label: 'Subscribers', path: '/admin/subscribers', icon: Mail },
-      { label: 'Fan Management', path: '/admin/fans', icon: Users },
-      { label: 'Newsletter', path: '/admin/newsletter', icon: Mail },
-      { label: 'Supporters', path: '/admin/supporters', icon: Heart },
-      // Alphabetical Remaining
-      { label: 'Birthday Discounts', path: '/admin/birthdays', icon: Tag },
-      { label: 'Fan Media', path: '/admin/fan-media', icon: Video },
-      { label: 'Gift Claims', path: '/admin/gift-claims', icon: Gift },
-      { label: 'Gift Progress Admin', path: '/admin/gift-progress', icon: TrendingUp },
-      { label: 'Gift Verification', path: '/admin/gift-verification', icon: Shield }
-    ]
-  },
-  {
-    title: 'Intelligence',
-    items: [
-      // Top 3-5 Important
-      { label: 'Automation & Agents', path: '/admin/automation-agents', icon: Brain },
+      { label: 'Automation and Agents Hub', path: '/admin/automation-agents', icon: Brain },
       { label: 'Agent Registry', path: '/admin/agent-registry', icon: Eye },
-      { label: 'Agent Intelligence', path: '/admin/agent-intelligence', icon: Activity },
       { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Terminal },
-      { label: 'Research Hub', path: '/admin/research-hub', icon: Search },
-      // Alphabetical Remaining
-      { label: 'Agent Learning', path: '/admin/agent-learning', icon: BookOpen },
-      { label: 'Agent Message Bus', path: '/admin/agent-message-bus', icon: Database },
       { label: 'Agent Workbench', path: '/admin/agent-workbench', icon: Terminal },
-      { label: 'Creator Insights', path: '/admin/creator-insights', icon: BarChart3 },
-      { label: 'Knowledge Vault', path: '/admin/knowledge-vault', icon: Database },
-      { label: 'Memory Graph', path: '/admin/memory-graph', icon: Activity },
-      { label: 'OpenAI Command Centre', path: '/admin/openai-command', icon: Brain },
-      { label: 'Research Grid', path: '/admin/research-grid', icon: Search },
-      { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: Activity }
     ]
   },
   {
-    title: 'Operations',
+    title: 'Business and Finance',
     items: [
-      // Top 3-5 Important
-      { label: 'Systems & QA Hub', path: '/admin/systems-qa', icon: Activity },
-      { label: 'Site Health', path: '/admin/site-health', icon: Heart },
-      { label: 'Go Live Checklist', path: '/admin/go-live', icon: Zap },
-      { label: 'Operational Status', path: '/admin/operational-status', icon: Activity },
-      { label: 'QA Command Centre', path: '/admin/qa-command-centre', icon: Shield },
-      // Alphabetical Remaining
-      { label: 'Autonomous Ops', path: '/admin/autonomous-ops', icon: Zap },
-      { label: 'Autonomous Repair Loop', path: '/admin/autonomous-repair-loop', icon: Activity },
-      { label: 'Client Installs', path: '/admin/client-installs', icon: Terminal },
-      { label: 'Code Audit Command', path: '/admin/code-audit', icon: FileText },
-      { label: 'Developer Handoff', path: '/admin/developer-handoff', icon: ExternalLink },
-      { label: 'Distributors', path: '/admin/distributors', icon: Building2 },
-      { label: 'Integration Completion', path: '/admin/integration-completion-centre', icon: Zap },
-      { label: 'Operation Registry', path: '/admin/operation-registry', icon: Database },
-      { label: 'Playwright Test Centre', path: '/admin/playwright-test-centre', icon: Terminal },
-      { label: 'Self Healing', path: '/admin/self-healing', icon: Zap }
-    ]
-  },
-  {
-    title: 'Finance',
-    items: [
-      // Top 3-5 Important
+      { label: 'Owner Business Hub', path: '/admin/owner-business', icon: Lock, ownerOnly: true },
       { label: 'Financial Dashboard', path: '/admin/financials', icon: DollarSign },
-      { label: 'Wealth Dashboard', path: '/admin/wealth-dashboard', icon: CreditCard },
-      { label: 'Revenue Command Centre', path: '/admin/revenue-command', icon: DollarSign },
-      { label: 'Stripe Command Centre', path: '/admin/stripe-command-centre', icon: CreditCard },
-      { label: 'Stripe Live Report', path: '/admin/stripe-live-report', icon: Activity },
-      // Alphabetical Remaining
-      { label: 'Charity Tracking', path: '/admin/charity-tracking', icon: Heart },
-      { label: 'Content to Cash', path: '/admin/content-to-cash', icon: DollarSign },
-      { label: 'Merch Financials', path: '/admin/merch-financials', icon: DollarSign },
-      { label: 'Revenue Actions', path: '/admin/revenue-actions', icon: Zap },
-      { label: 'Webhook Health', path: '/admin/webhook-health', icon: Activity },
-      { label: 'Weekly Money Report', path: '/admin/weekly-money-report', icon: FileText }
+      { label: 'Revenue Command', path: '/admin/revenue-command', icon: DollarSign },
+      { label: 'Stripe Command', path: '/admin/stripe-command-centre', icon: CreditCard },
     ]
   },
   {
-    title: 'Settings',
+    title: 'Coaching and Private Work',
     items: [
-      // Top 3-5 Important
+      { label: 'Coaching Hub', path: '/admin/coaching-hub', icon: GraduationCap },
+      { label: 'Coaching Leads', path: '/admin/coaching-leads', icon: Mail },
+      { label: 'Coaching Clients', path: '/admin/coaching-clients', icon: Users },
+      { label: "Mum's Garden", path: '/admin/mums-garden', icon: Heart },
+      { label: 'Mum Tribute', path: '/admin/mum', icon: Heart },
+      { label: 'Memorial', path: '/admin/memorial', icon: Heart },
+    ]
+  },
+  {
+    title: 'System Health',
+    items: [
+      { label: 'Systems and QA Hub', path: '/admin/systems-qa', icon: Activity },
+      { label: 'Site Health', path: '/admin/site-health', icon: Heart },
       { label: 'Site Settings', path: '/admin/settings', icon: Settings },
       { label: 'API Setup', path: '/admin/api-setup', icon: Zap },
-      { label: 'Business Details', path: '/admin/settings/business-details', icon: Settings },
-      { label: 'Quick Upload', path: '/admin/quick-upload', icon: Upload },
-      { label: 'Link Integrity Audit', path: '/admin/link-integrity-audit', icon: Activity },
       { label: 'Security Centre', path: '/admin/security-centre', icon: Shield },
-      // Alphabetical Remaining
-      { label: 'Audit Log', path: '/admin/audit-log', icon: FileText },
-      { label: 'Client Onboarding', path: '/admin/client-onboarding', icon: Building2 },
-      { label: 'Monthly Monitoring', path: '/admin/monthly-monitoring', icon: Activity },
-      { label: 'Training Hub', path: '/admin/training', icon: BookOpen },
-      { label: 'Sales Training', path: '/admin/sales-training', icon: GraduationCap }
     ]
   }
 ];
