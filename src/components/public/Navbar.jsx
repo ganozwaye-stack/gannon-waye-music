@@ -10,19 +10,19 @@ const BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
   { label: 'Music', path: '/music' },
+  { label: 'Lyrics', path: '/lyrics' },
   { label: 'Store', path: '/store' },
-  { label: 'Videos', path: '/videos' },
-  { label: 'Community', path: '/community' },
+  { label: 'Press', path: '/press' },
+  { label: 'Subscribe', path: '/back-this' },
   { label: 'Contact', path: '/contact' },
 ];
 
 const MORE_LINKS = [
   { label: 'My Story', path: '/this-is-my-life' },
-  { label: 'Back This 🤍', path: '/back-this' },
-  { label: 'Lyrics', path: '/lyrics' },
+  { label: 'Videos', path: '/videos' },
+  { label: 'Community', path: '/community' },
   { label: 'Fan Wall', path: '/fan-wall' },
   { label: 'Impact', path: '/impact' },
-  { label: 'Releases', path: '/releases' },
   { label: 'Support', path: '/support' },
   { label: 'FAQ', path: '/faq' },
   { label: 'Orders', path: '/orders' },

@@ -13,7 +13,7 @@ export default function Footer() {
     queryKey: ['BusinessProfileSettings'],
     queryFn: () => base44.entities.BusinessProfileSettings.list('-updated_date', 1),
   });
-  const contactEmail = bizSettings[0]?.public_support_email || 'hello@gannonwaye.com';
+  const contactEmail = bizSettings[0]?.public_support_email || 'gannonwayemusic@gmail.com';
   const instagramUrl = bizSettings[0]?.instagram_url || 'https://www.instagram.com/gann0nwaye';
   const tiktokUrl = bizSettings[0]?.tiktok_url || 'https://www.tiktok.com/@gann0nwaye';
   const youtubeUrl = bizSettings[0]?.youtube_url || 'https://www.youtube.com/@gannonwayeofficial';
@@ -57,17 +57,12 @@ export default function Footer() {
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Navigate</h4>
             <div className="flex flex-col gap-2">
               <Link to="/" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Home</Link>
-              <Link to="/this-is-my-life" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">My Story</Link>
               <Link to="/music" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Music</Link>
-              <Link to="/videos" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Videos</Link>
+              <Link to="/lyrics" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Lyrics</Link>
               <Link to="/store" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Store</Link>
-              <Link to="/community" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Community</Link>
+              <Link to="/press" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Press</Link>
+              <Link to="/back-this" className="font-body text-sm text-primary hover:text-primary/80 transition-colors">Subscribe 🤍</Link>
               <Link to="/contact" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Contact</Link>
-              <Link to="/order-status" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Order Status</Link>
-              <Link to="/7-day-standard" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">The 7 Day Standard</Link>
-              <Link to="/current-single" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Current Single</Link>
-              <Link to="/merch-feedback" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Merch Feedback</Link>
-              <Link to="/back-this" className="font-body text-sm text-primary hover:text-primary/80 transition-colors">Back This Project 🤍</Link>
             </div>
           </div>
           <div>

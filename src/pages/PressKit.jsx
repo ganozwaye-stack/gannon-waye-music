@@ -74,7 +74,7 @@ export default function PressKit() {
         <h2 className="font-display text-xl text-foreground mb-4">Contact</h2>
         <div className="flex items-center gap-3">
           <Mail className="w-4 h-4 text-primary" />
-          <a href="mailto:press@gannonwaye.com" className="font-body text-sm text-foreground hover:text-primary transition-colors">press@gannonwaye.com</a>
+          <a href="mailto:gannonwayemusic@gmail.com" className="font-body text-sm text-foreground hover:text-primary transition-colors">gannonwayemusic@gmail.com</a>
         </div>
       </section>
     </div>

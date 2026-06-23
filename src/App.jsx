@@ -43,6 +43,7 @@ import TermsOfService from '@/pages/TermsOfService';
 import PublicLayout from '@/components/public/PublicLayout';
 import StickySupportBar from '@/components/global/StickySupportBar';
 import LyricsPage from '@/pages/LyricsPage';
+import Press from '@/pages/Press';
 import ThisIsMyLife from '@/pages/ThisIsMyLife';
 import FAQSection from '@/pages/FAQSection';
 import RecentFanActivity from '@/pages/RecentFanActivity';
@@ -360,6 +361,7 @@ const AuthenticatedApp = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/lyrics" element={<LyricsPage />} />
+        <Route path="/press" element={<Press />} />
         <Route path="/this-is-my-life" element={<ThisIsMyLife />} />
         <Route path="/faq" element={<FAQSection />} />
         <Route path="/supporter-activity" element={<RecentFanActivity />} />
@@ -395,10 +397,10 @@ const AuthenticatedApp = () => {
         {/* Coaching routes moved to admin — hidden from public */}
 
         {/* Systems Manager public portfolio routes */}
-        <Route path="/systems-manager" element={<SystemsManagerOffer />} />
-        <Route path="/ai-systems-manager" element={<SystemsManagerOffer />} />
-        <Route path="/business-systems" element={<SystemsManagerOffer />} />
-        <Route path="/systems/cinematic-websites" element={<CinematicWebsites />} />
+        <Route path="/systems-manager" element={<Navigate to="/" replace />} />
+        <Route path="/ai-systems-manager" element={<Navigate to="/" replace />} />
+        <Route path="/business-systems" element={<Navigate to="/" replace />} />
+        <Route path="/systems/cinematic-websites" element={<Navigate to="/" replace />} />
         <Route path="/systems/social-automation" element={<Navigate to="/systems/cinematic-websites" replace />} />
         <Route path="/systems/dropshipping-inventory" element={<Navigate to="/systems/cinematic-websites" replace />} />
         <Route path="/systems/control-panels" element={<Navigate to="/systems/cinematic-websites" replace />} />
@@ -406,8 +408,8 @@ const AuthenticatedApp = () => {
         <Route path="/systems/approval-workflows" element={<Navigate to="/systems/cinematic-websites" replace />} />
         <Route path="/systems/ai-content-systems" element={<Navigate to="/systems/cinematic-websites" replace />} />
         <Route path="/systems/artist-release-systems" element={<Navigate to="/systems/cinematic-websites" replace />} />
-        <Route path="/systems/case-studies/gannon-waye-music-os" element={<CaseStudyGannonWaye />} />
-        <Route path="/systems/case-studies/ganozmix-direct" element={<CaseStudyGanozMix />} />
+        <Route path="/systems/case-studies/gannon-waye-music-os" element={<Navigate to="/" replace />} />
+        <Route path="/systems/case-studies/ganozmix-direct" element={<Navigate to="/" replace />} />
       </Route>
 
       {/* Embed timer (no layout) */}

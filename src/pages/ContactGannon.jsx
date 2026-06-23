@@ -46,7 +46,7 @@ export default function ContactGannon() {
   });
 
   const settings = bizSettings[0] || {};
-  const contactEmail = settings.public_contact_email || 'hello@gannonwaye.com';
+  const contactEmail = settings.public_contact_email || 'gannonwayemusic@gmail.com';
   const instagramUrl = settings.instagram_url || 'https://www.instagram.com/gann0nwaye';
   const tiktokUrl = settings.tiktok_url || 'https://www.tiktok.com/@gann0nwaye';
   const spotifyUrl = settings.spotify_artist_url || SPOTIFY_ARTIST_URL;
