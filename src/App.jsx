@@ -399,13 +399,13 @@ const AuthenticatedApp = () => {
         <Route path="/ai-systems-manager" element={<SystemsManagerOffer />} />
         <Route path="/business-systems" element={<SystemsManagerOffer />} />
         <Route path="/systems/cinematic-websites" element={<CinematicWebsites />} />
-        <Route path="/systems/social-automation" element={<CinematicWebsites />} />
-        <Route path="/systems/dropshipping-inventory" element={<CinematicWebsites />} />
-        <Route path="/systems/control-panels" element={<CinematicWebsites />} />
-        <Route path="/systems/ecommerce-merch-stores" element={<CinematicWebsites />} />
-        <Route path="/systems/approval-workflows" element={<CinematicWebsites />} />
-        <Route path="/systems/ai-content-systems" element={<CinematicWebsites />} />
-        <Route path="/systems/artist-release-systems" element={<CinematicWebsites />} />
+        <Route path="/systems/social-automation" element={<Navigate to="/systems/cinematic-websites" replace />} />
+        <Route path="/systems/dropshipping-inventory" element={<Navigate to="/systems/cinematic-websites" replace />} />
+        <Route path="/systems/control-panels" element={<Navigate to="/systems/cinematic-websites" replace />} />
+        <Route path="/systems/ecommerce-merch-stores" element={<Navigate to="/systems/cinematic-websites" replace />} />
+        <Route path="/systems/approval-workflows" element={<Navigate to="/systems/cinematic-websites" replace />} />
+        <Route path="/systems/ai-content-systems" element={<Navigate to="/systems/cinematic-websites" replace />} />
+        <Route path="/systems/artist-release-systems" element={<Navigate to="/systems/cinematic-websites" replace />} />
         <Route path="/systems/case-studies/gannon-waye-music-os" element={<CaseStudyGannonWaye />} />
         <Route path="/systems/case-studies/ganozmix-direct" element={<CaseStudyGanozMix />} />
       </Route>
@@ -460,7 +460,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/audit-log" element={<AuditLog />} />
         <Route path="/admin/operational-status" element={<OperationalStatus />} />
         <Route path="/admin/mastering" element={<MasteringAdmin />} />
-        <Route path="/admin/blueprint" element={<Blueprint />} />
         <Route path="/admin/social-content" element={<SocialContentGenerator />} />
         <Route path="/admin/command-centre" element={<CommandCentre />} />
         <Route path="/admin/agent-registry" element={<AgentRegistryPage />} />
@@ -520,11 +519,10 @@ const AuthenticatedApp = () => {
         <Route path="/admin/site-function-audit" element={<SiteFunctionAudit />} />
         <Route path="/admin/payment-diagnostics" element={<PaymentDiagnostics />} />
         <Route path="/admin/integration-completion-centre" element={<IntegrationCompletionCentre />} />
-        <Route path="/admin/integration-war-room" element={<IntegrationCompletionCentre />} />
+        <Route path="/admin/integration-war-room" element={<Navigate to="/admin/integration-completion-centre" replace />} />
         <Route path="/admin/stripe-command-centre" element={<StripeCommandCentre />} />
         <Route path="/admin/webhook-health" element={<WebhookHealth />} />
         <Route path="/admin/social-distribution-readiness" element={<SocialDistributionReadiness />} />
-        <Route path="/admin/coaching-command" element={<CoachingCommand />} />
         <Route path="/admin/coaching-command" element={<CoachingCommand />} />
         <Route path="/admin/coaching-launch-control" element={<CoachingLaunchControl />} />
         <Route path="/admin/coaching-programs" element={<CoachingPrograms />} />
@@ -539,31 +537,31 @@ const AuthenticatedApp = () => {
         <Route path="/admin/weekly-money-report" element={<WeeklyMoneyReport />} />
         <Route path="/admin/fan-conversion-engine" element={<FanConversionEngine />} />
         <Route path="/admin/artist-business-setup" element={<ArtistBusinessSetup />} />
-        <Route path="/admin/artist-management-command" element={<ArtistBusinessSetup />} />
-        <Route path="/admin/income-stream-planner" element={<ArtistBusinessSetup />} />
-        <Route path="/admin/social-platform-security" element={<ArtistBusinessSetup />} />
-        <Route path="/admin/june-4-recording-plan" element={<ArtistBusinessSetup />} />
-        <Route path="/admin/negotiation-rights-tracker" element={<ArtistBusinessSetup />} />
-        <Route path="/admin/creative-tools-stack" element={<ArtistBusinessSetup />} />
+        <Route path="/admin/artist-management-command" element={<Navigate to="/admin/artist-business-setup" replace />} />
+        <Route path="/admin/income-stream-planner" element={<Navigate to="/admin/artist-business-setup" replace />} />
+        <Route path="/admin/social-platform-security" element={<Navigate to="/admin/artist-business-setup" replace />} />
+        <Route path="/admin/june-4-recording-plan" element={<Navigate to="/admin/artist-business-setup" replace />} />
+        <Route path="/admin/negotiation-rights-tracker" element={<Navigate to="/admin/artist-business-setup" replace />} />
+        <Route path="/admin/creative-tools-stack" element={<Navigate to="/admin/artist-business-setup" replace />} />
         <Route path="/admin/sync-licensing-command" element={<SyncLicensingCommand />} />
-        <Route path="/admin/publishing-deal-readiness" element={<SyncLicensingCommand />} />
-        <Route path="/admin/music-supervisor-pitching" element={<SyncLicensingCommand />} />
-        <Route path="/admin/apple-playlist-pitching" element={<SyncLicensingCommand />} />
-        <Route path="/admin/catalogue-growth-command" element={<SyncLicensingCommand />} />
-        <Route path="/admin/ad-agency-writing-command" element={<SyncLicensingCommand />} />
-        <Route path="/admin/session-opportunity-command" element={<SyncLicensingCommand />} />
-        <Route path="/admin/catalogue-readiness" element={<SyncLicensingCommand />} />
-        <Route path="/admin/licensing-request-centre" element={<SyncLicensingCommand />} />
-        <Route path="/admin/song-testing-command" element={<SyncLicensingCommand />} />
+        <Route path="/admin/publishing-deal-readiness" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/music-supervisor-pitching" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/apple-playlist-pitching" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/catalogue-growth-command" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/ad-agency-writing-command" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/session-opportunity-command" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/catalogue-readiness" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/licensing-request-centre" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/song-testing-command" element={<Navigate to="/admin/sync-licensing-command" replace />} />
         <Route path="/admin/order-profit-intelligence" element={<OrderProfitIntelligence />} />
         <Route path="/admin/offer-engine" element={<OfferEngine />} />
         <Route path="/admin/content-to-cash" element={<ContentToCash />} />
         <Route path="/admin/business-attention-centre" element={<Notifications />} />
         <Route path="/admin/todays-money-moves" element={<TodaysMoneymoves />} />
         <Route path="/admin/website-evolution" element={<WebsiteEvolution />} />
-        <Route path="/admin/opportunity-engine" element={<GrowthEngine />} />
-        <Route path="/admin/agent-performance" element={<AgentIntelligence />} />
-        <Route path="/admin/growth-command" element={<GrowthEngine />} />
+        <Route path="/admin/opportunity-engine" element={<Navigate to="/admin/growth-engine" replace />} />
+        <Route path="/admin/agent-performance" element={<Navigate to="/admin/agent-intelligence" replace />} />
+        <Route path="/admin/growth-command" element={<Navigate to="/admin/growth-engine" replace />} />
         <Route path="/admin/business-worth-command" element={<BusinessWorthCommand />} />
         <Route path="/admin/agent-capability-matrix" element={<AgentCapabilityMatrix />} />
         <Route path="/admin/bundle-proposal-studio" element={<BundleProposalStudio />} />
@@ -575,12 +573,12 @@ const AuthenticatedApp = () => {
         <Route path="/admin/social-analytics-command" element={<SocialAnalyticsCommand />} />
         <Route path="/admin/qa-command-centre" element={<QACommandCentre />} />
         <Route path="/admin/playwright-test-centre" element={<PlaywrightTestCentre />} />
-        <Route path="/admin/clickability-audit" element={<QACommandCentre />} />
+        <Route path="/admin/clickability-audit" element={<Navigate to="/admin/qa-command-centre" replace />} />
         <Route path="/admin/developer-handoff" element={<DeveloperHandoff />} />
-        <Route path="/admin/source-export-readiness" element={<DeveloperHandoff />} />
-        <Route path="/admin/codex-task-packs" element={<DeveloperHandoff />} />
-        <Route path="/admin/cursor-task-packs" element={<DeveloperHandoff />} />
-        <Route path="/admin/claude-code-task-packs" element={<DeveloperHandoff />} />
+        <Route path="/admin/source-export-readiness" element={<Navigate to="/admin/developer-handoff" replace />} />
+        <Route path="/admin/codex-task-packs" element={<Navigate to="/admin/developer-handoff" replace />} />
+        <Route path="/admin/cursor-task-packs" element={<Navigate to="/admin/developer-handoff" replace />} />
+        <Route path="/admin/claude-code-task-packs" element={<Navigate to="/admin/developer-handoff" replace />} />
         <Route path="/admin/agent-tool-registry" element={<AgentToolRegistry />} />
         <Route path="/admin/code-audit-export" element={<CodeAuditExport />} />
         <Route path="/admin/chatgpt-code-review-export" element={<ChatGPTCodeReviewExport />} />
@@ -608,26 +606,26 @@ const AuthenticatedApp = () => {
         <Route path="/admin/metricool-diagnostics" element={<MetricoolDiagnostics />} />
         <Route path="/admin/social-agent-os" element={<SocialAgentOS />} />
         <Route path="/admin/daily-post-engine" element={<DailyPostEngine />} />
-        <Route path="/admin/live-setup-wizard" element={<GuidedSetupConcierge />} />
-        <Route path="/admin/external-login-assistant" element={<GuidedSetupConcierge />} />
-        <Route path="/admin/credential-install-centre" element={<GuidedSetupConcierge />} />
-        <Route path="/admin/connection-completion-centre" element={<GuidedSetupConcierge />} />
+        <Route path="/admin/live-setup-wizard" element={<Navigate to="/admin/guided-setup-concierge" replace />} />
+        <Route path="/admin/external-login-assistant" element={<Navigate to="/admin/guided-setup-concierge" replace />} />
+        <Route path="/admin/credential-install-centre" element={<Navigate to="/admin/guided-setup-concierge" replace />} />
+        <Route path="/admin/connection-completion-centre" element={<Navigate to="/admin/guided-setup-concierge" replace />} />
         <Route path="/admin/agent-workbench" element={<AgentWorkbench />} />
         <Route path="/admin/business-attention-centre" element={<BusinessAttentionCentre />} />
         <Route path="/admin/instagram-auto-dm-command" element={<InstagramAutoDMCommand />} />
-        <Route path="/admin/social-dm-funnel" element={<InstagramAutoDMCommand />} />
-        <Route path="/admin/comment-response-library" element={<InstagramAutoDMCommand />} />
-        <Route path="/admin/auto-reply-safety-centre" element={<InstagramAutoDMCommand />} />
+        <Route path="/admin/social-dm-funnel" element={<Navigate to="/admin/instagram-auto-dm-command" replace />} />
+        <Route path="/admin/comment-response-library" element={<Navigate to="/admin/instagram-auto-dm-command" replace />} />
+        <Route path="/admin/auto-reply-safety-centre" element={<Navigate to="/admin/instagram-auto-dm-command" replace />} />
         <Route path="/admin/discount-guard" element={<DiscountGuardAdmin />} />
         <Route path="/admin/procurement-command" element={<ProcurementCommand />} />
-        <Route path="/admin/alibaba-command" element={<ProcurementCommand />} />
-        <Route path="/admin/supplier-command" element={<ProcurementCommand />} />
-        <Route path="/admin/purchase-orders" element={<ProcurementCommand />} />
-        <Route path="/admin/supplier-products" element={<ProcurementCommand />} />
-        <Route path="/admin/stock-receiving" element={<StockFlowDashboard />} />
+        <Route path="/admin/alibaba-command" element={<Navigate to="/admin/procurement-command" replace />} />
+        <Route path="/admin/supplier-command" element={<Navigate to="/admin/procurement-command" replace />} />
+        <Route path="/admin/purchase-orders" element={<Navigate to="/admin/procurement-command" replace />} />
+        <Route path="/admin/supplier-products" element={<Navigate to="/admin/procurement-command" replace />} />
+        <Route path="/admin/stock-receiving" element={<Navigate to="/admin/stock-flow-dashboard" replace />} />
         <Route path="/admin/landed-cost-calculator" element={<LandedCostCalculator />} />
-        <Route path="/admin/inventory-batches" element={<StockFlowDashboard />} />
-        <Route path="/admin/inventory-costing" element={<LandedCostCalculator />} />
+        <Route path="/admin/inventory-batches" element={<Navigate to="/admin/stock-flow-dashboard" replace />} />
+        <Route path="/admin/inventory-costing" element={<Navigate to="/admin/landed-cost-calculator" replace />} />
         <Route path="/admin/stock-flow-dashboard" element={<StockFlowDashboard />} />
         <Route path="/admin/business-process-command" element={<BusinessProcessCommand />} />
         <Route path="/admin/agent-trust-hub" element={<AgentTrustHub />} />
@@ -638,12 +636,12 @@ const AuthenticatedApp = () => {
         <Route path="/admin/cursor-cloud-agent-command" element={<CursorCloudAgentCommand />} />
         <Route path="/admin/autonomous-repair-loop" element={<AutonomousRepairLoop />} />
         <Route path="/admin/content-command" element={<ContentCommand />} />
-        <Route path="/admin/content-command-v1" element={<ContentCommandCentre />} />
-        <Route path="/admin/content-command-centre" element={<ContentCommandCentre />} />
+        <Route path="/admin/content-command-v1" element={<Navigate to="/admin/content-command" replace />} />
+        <Route path="/admin/content-command-centre" element={<Navigate to="/admin/content-command" replace />} />
         <Route path="/admin/openai-command" element={<OpenAICommandCentre />} />
-        <Route path="/admin/chatgpt-control-centre" element={<OpenAICommandCentre />} />
+        <Route path="/admin/chatgpt-control-centre" element={<Navigate to="/admin/openai-command" replace />} />
         <Route path="/admin/agent-message-bus" element={<AgentMessageBus />} />
-        <Route path="/admin/ai-agent-command" element={<OpenAICommandCentre />} />
+        <Route path="/admin/ai-agent-command" element={<Navigate to="/admin/openai-command" replace />} />
         <Route path="/admin/video-agent-command" element={<VideoAgentCommand />} />
         <Route path="/admin/code-audit-command" element={<CodeAuditCommand />} />
         <Route path="/admin/strategic-execution-plan" element={<StrategicExecutionPlan />} />
@@ -657,35 +655,35 @@ const AuthenticatedApp = () => {
         <Route path="/admin/training-centre" element={<TrainingCentre />} />
         <Route path="/admin/announcement-studio" element={<AnnouncementStudio />} />
         <Route path="/admin/campaign-image-approval" element={<CampaignImageApproval />} />
-        <Route path="/admin/thankyou-image-review" element={<CampaignImageApproval />} />
+        <Route path="/admin/thankyou-image-review" element={<Navigate to="/admin/campaign-image-approval" replace />} />
         <Route path="/admin/master-blueprint" element={<MasterBlueprint />} />
         <Route path="/admin/livestream-command" element={<LivestreamCommand />} />
-        <Route path="/admin/blueprint" element={<MasterBlueprint />} />
-        <Route path="/admin/system-blueprint" element={<MasterBlueprint />} />
-        <Route path="/admin/site-blueprint" element={<MasterBlueprint />} />
-        <Route path="/admin/code-audit" element={<CodeAuditCommand />} />
+        <Route path="/admin/blueprint" element={<Navigate to="/admin/master-blueprint" replace />} />
+        <Route path="/admin/system-blueprint" element={<Navigate to="/admin/master-blueprint" replace />} />
+        <Route path="/admin/site-blueprint" element={<Navigate to="/admin/master-blueprint" replace />} />
+        <Route path="/admin/code-audit" element={<Navigate to="/admin/code-audit-command" replace />} />
         <Route path="/admin/click-audit" element={<ClickAudit />} />
         <Route path="/admin/priority-commander" element={<PriorityCommander />} />
-        <Route path="/admin/clip-idea-studio" element={<VideoAgentCommand />} />
-        <Route path="/admin/capcut-prompt-builder" element={<VideoAgentCommand />} />
-        <Route path="/admin/hook-detection-centre" element={<VideoAgentCommand />} />
-        <Route path="/admin/cursor-handoff" element={<ExternalEngineeringCommand />} />
-        <Route path="/admin/replit-handoff" element={<ExternalEngineeringCommand />} />
-        <Route path="/admin/warp-handoff" element={<ExternalEngineeringCommand />} />
-        <Route path="/admin/github-export-guide" element={<ExternalEngineeringCommand />} />
-        <Route path="/admin/external-engineering-task-list" element={<ExternalEngineeringCommand />} />
-        <Route path="/admin/ai-tool-budget-control" element={<AICostControl />} />
-        <Route path="/admin/action-required" element={<BusinessAttentionCentre />} />
-        <Route path="/admin/action-required-engineering" element={<BusinessAttentionCentre />} />
-        <Route path="/admin/go-live-checklist" element={<GoLiveChecklist />} />
-        <Route path="/admin/training-hub" element={<TrainingHub />} />
+        <Route path="/admin/clip-idea-studio" element={<Navigate to="/admin/video-agent-command" replace />} />
+        <Route path="/admin/capcut-prompt-builder" element={<Navigate to="/admin/video-agent-command" replace />} />
+        <Route path="/admin/hook-detection-centre" element={<Navigate to="/admin/video-agent-command" replace />} />
+        <Route path="/admin/cursor-handoff" element={<Navigate to="/admin/external-engineering-command" replace />} />
+        <Route path="/admin/replit-handoff" element={<Navigate to="/admin/external-engineering-command" replace />} />
+        <Route path="/admin/warp-handoff" element={<Navigate to="/admin/external-engineering-command" replace />} />
+        <Route path="/admin/github-export-guide" element={<Navigate to="/admin/external-engineering-command" replace />} />
+        <Route path="/admin/external-engineering-task-list" element={<Navigate to="/admin/external-engineering-command" replace />} />
+        <Route path="/admin/ai-tool-budget-control" element={<Navigate to="/admin/ai-cost-control" replace />} />
+        <Route path="/admin/action-required" element={<Navigate to="/admin/business-attention-centre" replace />} />
+        <Route path="/admin/action-required-engineering" element={<Navigate to="/admin/business-attention-centre" replace />} />
+        <Route path="/admin/go-live-checklist" element={<Navigate to="/admin/go-live" replace />} />
+        <Route path="/admin/training-hub" element={<Navigate to="/admin/training" replace />} />
         <Route path="/admin/site-upgrade-audit" element={<SiteUpgradeAudit />} />
         <Route path="/admin/base44-exit-plan" element={<Base44ExitPlan />} />
         <Route path="/admin/legal-drafts" element={<LegalDrafts />} />
         <Route path="/admin/ganozmix-direct/legal" element={<LegalDrafts />} />
-        <Route path="/admin/social-scheduler-health" element={<MetricoolCommand />} />
-        <Route path="/admin/metricool-profile-map" element={<MetricoolDiagnostics />} />
-        <Route path="/admin/metricool-performance-sync" element={<MetricoolPerformanceIntelligence />} />
+        <Route path="/admin/social-scheduler-health" element={<Navigate to="/admin/metricool-command" replace />} />
+        <Route path="/admin/metricool-profile-map" element={<Navigate to="/admin/metricool-diagnostics" replace />} />
+        <Route path="/admin/metricool-performance-sync" element={<Navigate to="/admin/metricool-performance-intelligence" replace />} />
         <Route path="/admin/music-opportunity-bulletin" element={<MusicOpportunityBulletin />} />
         <Route path="/admin/print-fulfilment" element={<PrintFulfilment />} />
         <Route path="/admin/human-action-required" element={<HumanActionRequired />} />
@@ -693,10 +691,10 @@ const AuthenticatedApp = () => {
         <Route path="/admin/pricing-margin-calculator" element={<PricingMarginCalculator />} />
         <Route path="/admin/final-system-report" element={<FinalSystemReport />} />
         <Route path="/admin/google-drive" element={<GoogleDriveCommand />} />
-        <Route path="/admin/music-opportunities" element={<MusicOpportunityBulletin />} />
-        <Route path="/admin/grants-bulletin" element={<MusicOpportunityBulletin />} />
-        <Route path="/admin/gig-finder" element={<MusicOpportunityBulletin />} />
-        <Route path="/admin/playlist-scout" element={<MusicOpportunityBulletin />} />
+        <Route path="/admin/music-opportunities" element={<Navigate to="/admin/music-opportunity-bulletin" replace />} />
+        <Route path="/admin/grants-bulletin" element={<Navigate to="/admin/music-opportunity-bulletin" replace />} />
+        <Route path="/admin/gig-finder" element={<Navigate to="/admin/music-opportunity-bulletin" replace />} />
+        <Route path="/admin/playlist-scout" element={<Navigate to="/admin/music-opportunity-bulletin" replace />} />
         <Route path="/admin/coaching-hub" element={<CoachingHub />} />
         <Route path="/admin/coaching-leads" element={<CoachingLeads />} />
         <Route path="/admin/coaching-intakes" element={<CoachingIntakes />} />
