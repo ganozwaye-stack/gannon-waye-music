@@ -21,18 +21,32 @@ const IMG = {
 
 function Interlude({ children }) {
   return (
-    <section className="relative flex items-center justify-center py-28 px-6" style={{ background: '#0a1120', minHeight: '55vh' }}>
+    <section className="relative flex items-center justify-center py-32 px-6" style={{ background: '#0a1120', minHeight: '60vh' }}>
       <GoldDust count={12} />
       <motion.div
         className="relative z-10 max-w-xl text-center"
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 1.2 }}
+        transition={{ duration: 1.5 }}
       >
         {children}
       </motion.div>
     </section>
+  );
+}
+
+function SceneCaption({ text }) {
+  return (
+    <div className="absolute bottom-0 left-0 right-0 pb-16 px-6 text-center">
+      <motion.p
+        initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }} transition={{ duration: 1.2 }}
+        className="font-display italic text-lg md:text-xl" style={{ color: 'rgba(255,255,255,0.55)' }}
+      >
+        {text}
+      </motion.p>
+    </div>
   );
 }
 
@@ -69,10 +83,14 @@ export default function MumsGarden() {
       </Interlude>
 
       {/* ══ SCENE — The Question ══ */}
-      <CinematicScene image={IMG.sky} />
+      <CinematicScene image={IMG.sky}>
+        <SceneCaption text="I looked up and asked the sky…" />
+      </CinematicScene>
 
       {/* ══ SCENE — Choosing the Title ══ */}
-      <CinematicScene image={IMG.title} />
+      <CinematicScene image={IMG.title}>
+        <SceneCaption text="Every word, a memory" />
+      </CinematicScene>
 
       {/* ══ INTERLUDE — The Production ══ */}
       <Interlude>
@@ -87,20 +105,42 @@ export default function MumsGarden() {
       </Interlude>
 
       {/* ══ SCENE — The Story Behind the Artwork ══ */}
-      <CinematicScene image={IMG.story} />
+      <CinematicScene image={IMG.story}>
+        <SceneCaption text="The story behind the artwork" />
+      </CinematicScene>
 
       {/* ══ SCENE — Built From Memory ══ */}
-      <CinematicScene image={IMG.built} />
+      <CinematicScene image={IMG.built}>
+        <SceneCaption text="Built from memory, stitch by stitch" />
+      </CinematicScene>
+
+      {/* ══ INTERLUDE — Presence ══ */}
+      <Interlude>
+        <p className="font-display italic text-lg md:text-xl leading-relaxed" style={{ color: 'rgba(255,255,255,0.55)' }}>
+          I wanted her to feel present —
+          not just remembered, but here.
+        </p>
+        <FiligreeDivider />
+      </Interlude>
 
       {/* ══ SCENE — I Wanted Her to Feel Present ══ */}
-      <CinematicScene image={IMG.present} />
+      <CinematicScene image={IMG.present}>
+        <SceneCaption text="I wanted her to feel present" />
+      </CinematicScene>
 
       {/* ══ SCENE — A Song for My Mum + Listen CTA ══ */}
       <CinematicScene image={IMG.song}>
         <div className="absolute bottom-0 left-0 right-0 pb-16 px-6 text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }} transition={{ duration: 1.2 }}
+            className="font-display italic text-lg md:text-xl mb-8" style={{ color: 'rgba(255,255,255,0.55)' }}
+          >
+            A song for my mum
+          </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }} transition={{ duration: 1 }}
+            viewport={{ once: true }} transition={{ duration: 1, delay: 0.3 }}
           >
             <Link to="/music">
               <button
@@ -115,13 +155,19 @@ export default function MumsGarden() {
       </CinematicScene>
 
       {/* ══ SCENE — The Single ══ */}
-      <CinematicScene image={IMG.single} />
+      <CinematicScene image={IMG.single}>
+        <SceneCaption text="The single" />
+      </CinematicScene>
 
       {/* ══ SCENE — Her Love Lights the Way ══ */}
-      <CinematicScene image={IMG.light} />
+      <CinematicScene image={IMG.light}>
+        <SceneCaption text="Her love lights the way" />
+      </CinematicScene>
 
       {/* ══ SCENE — Forever in My Heart ══ */}
-      <CinematicScene image={IMG.forever} />
+      <CinematicScene image={IMG.forever}>
+        <SceneCaption text="Forever in my heart" />
+      </CinematicScene>
 
       {/* ══ CLOSING — In Loving Memory ══ */}
       <CinematicScene image={IMG.coverAlt}>

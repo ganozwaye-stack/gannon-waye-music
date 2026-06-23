@@ -7,8 +7,8 @@
 ## Summary
 
 - **Total songs stored:** 17
-- **Songs with lyrics stored:** 16 (all pasted lyrics saved exactly as supplied)
-- **Songs needing source:** 1 (Thankyou — Gannon instruction: search online/video/YouTube, do not invent)
+- **Songs with lyrics stored:** 17 (all songs now have lyrics)
+- **Songs needing source:** 0 (Thankyou lyrics transcribed from mastered audio file)
 - **All marked private:** Yes (is_published = false for all)
 - **All marked not approved for publishing:** Yes (publishing_status = not_approved, publishing_safe = false)
 - **No lyrics published publicly:** Confirmed
@@ -24,7 +24,7 @@
 | 2 | Without You Here | Yes | — | draft | Yes | No | No |
 | 3 | I'm Still Here | Yes | 2026 | draft | Yes | No | Yes |
 | 4 | I've Been Set Free | Yes | 2026 | draft | Yes | No | Yes |
-| 5 | Thankyou | No | — | needs_source | No | No | No |
+| 5 | Thankyou | Yes | — | draft | No | No | No |
 | 6 | Because of You | Yes | — | draft | Yes | No | Yes |
 | 7 | Broken Inside | Yes | 2025 | draft | Yes | No | No |
 | 8 | Stand By Me Now | Yes | 2025 | draft | Yes | No | Yes |
@@ -38,23 +38,22 @@
 | 16 | One Day | Yes | — | draft | Yes | No | No |
 | 17 | Run | Yes | 2017 | draft | No | No | No |
 
+## Thankyou — Special Notes
+
+- Lyrics transcribed from mastered audio file (Mastered_Gannon_ThankYou_-0dBTP_2448_HiRes_320kbps.mp3)
+- Cross-referenced with film clip transcript screenshots (IMG_2490.jpg, IMG_2491.png)
+- Structured into verses/chorus/bridge based on audio analysis
+- Source: audio transcription (Whisper) + video transcript screenshots
+- Needs Gannon review before publishing
+
 ## Without You Here — Special Notes
 
-- Full lyrics pasted and stored as the current private version
-- Previously unresolved lines now resolved in this version:
-  - Line 1: "now go and you'll be free but"
-  - Line 2: "you were still trying to keep me here"
+- Full lyrics pasted by Gannon
+- Previously unresolved lines now resolved in this version
 - Signature lyric confirmed: "Your last breath took mine away / There's not much more I have to say"
 - Written on Mother's Day, 10 May 2026
 - Tribute to Gannon's late mother, Sonia Katisa Waye (1961–2022)
 - Needs Gannon approval before public publish
-
-## Thankyou — Special Notes
-
-- Lyrics source required
-- Gannon instruction: "Search lyrics online or video. Or my website? Or YouTube. Video… don't make them up."
-- Do not invent lyrics
-- Search only approved sources if instructed later
 
 ## Spelling / Grammar Notes (not auto-corrected)
 
@@ -65,20 +64,10 @@
 
 ## Sensitive Content Flags
 
-Songs flagged for sensitive review (12 total):
-- Will You Even Listen (emotional distress)
-- Without You Here (grief/mother tribute)
-- I'm Still Here (grief, self-harm reference)
-- I've Been Set Free (abuse, narcissistic behavior)
-- Because of You (abandonment, substance use)
-- Broken Inside (mental health, paranoia)
-- Stand By Me Now (emotional pain)
-- Killing Both Our Hearts (emotional neglect, mental health)
-- I Found Me (narcissistic abuse, "wishing you were dead")
-- So Arrogant (emotional abuse, cruelty)
-- You're My Mum (grief, loss of mother)
-- All I Ever Wanted (heartbreak, betrayal)
-- One Day (revenge, legal themes)
+Songs flagged for sensitive review (13 total):
+- Will You Even Listen, Without You Here, I'm Still Here, I've Been Set Free
+- Because of You, Broken Inside, Stand By Me Now, Killing Both Our Hearts
+- I Found Me, So Arrogant, You're My Mum, All I Ever Wanted, One Day
 
 ## Explicit Language Flags
 
@@ -106,9 +95,9 @@ The Lyrics Archive admin page at /admin/lyrics-archive includes:
 
 ## Next Actions for Gannon
 
-1. Search for and paste the Thankyou lyrics (online, video, or YouTube — do not invent)
-2. Review the 4 spelling/grammar notes (do not auto-correct — confirm with Gannon first)
-3. Review the 12 songs flagged for sensitive content
-4. Review the 1 song with explicit language (Unexpected)
-5. Confirm Without You Here is ready for publishing (unresolved lines now resolved)
+1. Review the 4 spelling/grammar notes (do not auto-correct — confirm with Gannon first)
+2. Review the 13 songs flagged for sensitive content
+3. Review the 1 song with explicit language (Unexpected)
+4. Confirm Without You Here is ready for publishing (unresolved lines now resolved)
+5. Confirm Thankyou lyrics are correct (transcribed from audio)
 6. Approve songs for publishing only when ready (set publishing_safe = true and is_published = true)
