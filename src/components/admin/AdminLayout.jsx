@@ -7,7 +7,8 @@ import {
   MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command,
   ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
   Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
-  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal, Radio, Upload
+  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal, Radio, Upload,
+  Film, MessageSquare
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -48,6 +49,8 @@ const NAV_SECTIONS = [
     title: 'Content and Social',
     items: [
       { label: 'Launch and Content Hub', path: '/admin/launch-content', icon: Megaphone },
+      { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
+      { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },
       { label: 'Social Monitor', path: '/admin/social-monitor', icon: Activity },
       { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Zap },
       { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },

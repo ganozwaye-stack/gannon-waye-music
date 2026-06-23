@@ -7,6 +7,52 @@ import { Link } from 'react-router-dom';
 
 // ── All human-required actions in one place ──────────────────────────────────
 const ACTIONS = [
+  // HIGH — Email cleanup
+  {
+    id: 'unapproved-ganozwaye-gmail',
+    priority: 'high',
+    category: 'Email',
+    title: 'Replace ganozwaye@gmail.com in AdminLayout with approved email',
+    detail: 'The AdminLayout uses OWNER_EMAIL = "ganozwaye@gmail.com" which is not the approved public email. The approved email is gannonwayemusic@gmail.com. This is admin-only (not public-facing) but should be updated. If Gannon confirms a different @gannonwaye.com email, use that instead.',
+    link: '/admin/settings/business-details',
+    linkLabel: 'Business Details',
+    status: 'open',
+    blocker: false,
+  },
+  {
+    id: 'confirm-public-page-visibility',
+    priority: 'high',
+    category: 'Brand',
+    title: 'Confirm which public pages should remain hidden from public navigation',
+    detail: 'The following pages have been redirected away from public view: Community, Fan Wall, Impact, Support, Gift Tracker, Member Tiers, Fan Profile, Portrait Gallery, Supporter Activity, 7-Day Standard, Mastering. Mum pages and Memorial pages are already admin-only. Confirm these should stay hidden, or tell Base44 which ones to restore.',
+    link: '/admin/human-action-required',
+    linkLabel: 'Review Here',
+    status: 'open',
+    blocker: false,
+  },
+  {
+    id: 'confirm-approved-gannonwaye-email',
+    priority: 'high',
+    category: 'Email',
+    title: 'Confirm the approved @gannonwaye.com email address (if any)',
+    detail: 'All public pages currently use gannonwayemusic@gmail.com as the contact email. If Gannon has an approved @gannonwaye.com email (e.g. hello@gannonwaye.com), confirm it and Base44 will update all public pages. Until confirmed, gannonwayemusic@gmail.com remains the public contact.',
+    link: '/admin/settings/business-details',
+    linkLabel: 'Business Details',
+    status: 'open',
+    blocker: false,
+  },
+  // CRITICAL — Lyrics
+  {
+    id: 'without-you-here-docx',
+    priority: 'critical',
+    category: 'Lyrics',
+    title: 'Upload Without You Here.docx or confirm current lyrics are complete',
+    detail: 'The Without You Here lyric record has lyrics pasted by Gannon, but the full Word document was not uploaded to Base44. Please upload Without You Here.docx into Base44 (via /admin/quick-upload) or paste the full lyrics into the Lyrics Archive (/admin/lyrics-archive) to confirm the current version is complete. Do not publish until confirmed. Signature lyric: "Your last breath took mine away / There\'s not much more I have to say."',
+    link: '/admin/lyrics-archive',
+    linkLabel: 'Lyrics Archive',
+    status: 'open',
+    blocker: true,
+  },
   // CRITICAL
   {
     id: 'poster-artwork',

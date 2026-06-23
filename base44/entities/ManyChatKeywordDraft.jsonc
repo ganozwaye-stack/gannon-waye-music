@@ -1,0 +1,91 @@
+{
+  "name": "ManyChatKeywordDraft",
+  "type": "object",
+  "properties": {
+    "keyword": {
+      "type": "string",
+      "description": "Trigger keyword (e.g. THANKYOU, LISTEN, BREATH)"
+    },
+    "keyword_tier": {
+      "type": "string",
+      "enum": [
+        "primary",
+        "secondary"
+      ],
+      "default": "primary"
+    },
+    "song": {
+      "type": "string",
+      "description": "Song this keyword connects to"
+    },
+    "music_link": {
+      "type": "string",
+      "description": "Spotify/streaming link"
+    },
+    "subscribe_link": {
+      "type": "string",
+      "description": "Website subscribe link"
+    },
+    "lyrics_link": {
+      "type": "string",
+      "description": "Lyrics page or draft page link"
+    },
+    "store_link": {
+      "type": "string",
+      "description": "Store link if relevant"
+    },
+    "press_link": {
+      "type": "string",
+      "description": "Press page link if relevant"
+    },
+    "response_message": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Draft DM response message sent when keyword is triggered"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "active",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "keyword",
+    "keyword_tier"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

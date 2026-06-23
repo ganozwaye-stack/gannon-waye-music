@@ -155,9 +155,7 @@ export default function Footer() {
           <p>
             * Support contributions are direct-support gifts to Gannon Waye as an independent artist to fund album production, merchandise sampling, and system operations; they are not tax-deductible.
           </p>
-          <p>
-            * The AI memorial reflective companion available on the tribute page (/mum) is configured as a comforting, gentle remembrance journal companion. It is not an active representation of Sonia, does not offer professional medical, legal, or grief counseling, and should not be used as a substitute for clinical therapy.
-          </p>
+
         </div>
 
         <div className="mt-4 pt-4 border-t border-border/40 flex flex-col items-center gap-3 text-center">

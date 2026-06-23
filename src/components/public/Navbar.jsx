@@ -20,10 +20,6 @@ const NAV_LINKS = [
 const MORE_LINKS = [
   { label: 'My Story', path: '/this-is-my-life' },
   { label: 'Videos', path: '/videos' },
-  { label: 'Community', path: '/community' },
-  { label: 'Fan Wall', path: '/fan-wall' },
-  { label: 'Impact', path: '/impact' },
-  { label: 'Support', path: '/support' },
   { label: 'FAQ', path: '/faq' },
   { label: 'Orders', path: '/orders' },
 ];

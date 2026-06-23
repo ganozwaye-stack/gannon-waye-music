@@ -311,6 +311,8 @@ import ClientResourceLibrary from '@/pages/admin/ClientResourceLibrary';
 import PhoneSystem from '@/pages/admin/PhoneSystem';
 import PressKit from '@/pages/PressKit';
 import LyricsArchive from '@/pages/admin/LyricsArchive';
+import ContentStudio from '@/pages/admin/ContentStudio';
+import ManyChatDrafts from '@/pages/admin/ManyChatDrafts';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -349,10 +351,10 @@ const AuthenticatedApp = () => {
         <Route path="/store/customer-details" element={<StoreCustomerDetails />} />
         <Route path="/store/cart-details" element={<StoreCartDetails />} />
         <Route path="/store/checkout" element={<StoreCheckout />} />
-        <Route path="/community" element={<Community />} />
+        <Route path="/community" element={<Navigate to="/" replace />} />
         <Route path="/videos" element={<Videos />} />
         <Route path="/email-preferences" element={<EmailPreferences />} />
-        <Route path="/fan-profile" element={<FanProfile />} />
+        <Route path="/fan-profile" element={<Navigate to="/" replace />} />
         <Route path="/orders" element={<OrderHistory />} />
         <Route path="/back-this" element={<BackThis />} />
         <Route path="/summary" element={<Summary />} />
@@ -364,14 +366,14 @@ const AuthenticatedApp = () => {
         <Route path="/press" element={<Press />} />
         <Route path="/this-is-my-life" element={<ThisIsMyLife />} />
         <Route path="/faq" element={<FAQSection />} />
-        <Route path="/supporter-activity" element={<RecentFanActivity />} />
-        <Route path="/fan-activity" element={<RecentFanActivity />} />
-        <Route path="/member-tiers" element={<MemberTiers />} />
-        <Route path="/portrait-gallery" element={<PortraitGallery />} />
-        <Route path="/impact" element={<Impact />} />
+        <Route path="/supporter-activity" element={<Navigate to="/" replace />} />
+        <Route path="/fan-activity" element={<Navigate to="/" replace />} />
+        <Route path="/member-tiers" element={<Navigate to="/" replace />} />
+        <Route path="/portrait-gallery" element={<Navigate to="/" replace />} />
+        <Route path="/impact" element={<Navigate to="/" replace />} />
         <Route path="/bookings" element={<Navigate to="/" replace />} />
-        <Route path="/7-day-standard" element={<SevenDayStandard />} />
-        <Route path="/mastering" element={<Mastering />} />
+        <Route path="/7-day-standard" element={<Navigate to="/" replace />} />
+        <Route path="/mastering" element={<Navigate to="/" replace />} />
         <Route path="/order-status" element={<OrderStatus />} />
         <Route path="/current-single" element={<CurrentSingle />} />
         <Route path="/merch-feedback" element={<MerchFeedback />} />
@@ -389,10 +391,10 @@ const AuthenticatedApp = () => {
         <Route path="/store/product/:slug" element={<StoreProductDetail />} />
         <Route path="/releases" element={<ReleasesRedirect />} />
         <Route path="/about" element={<About />} />
-        <Route path="/fan-wall" element={<FanWall />} />
-        <Route path="/support" element={<Support />} />
+        <Route path="/fan-wall" element={<Navigate to="/" replace />} />
+        <Route path="/support" element={<Navigate to="/contact" replace />} />
         <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />
-        <Route path="/gift-tracker" element={<GiftTracker />} />
+        <Route path="/gift-tracker" element={<Navigate to="/" replace />} />
 
         {/* Coaching routes moved to admin — hidden from public */}
 
@@ -720,6 +722,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/coaching/client-resources" element={<CoachingClientResources />} />
         <Route path="/admin/press-kit" element={<PressKit />} />
         <Route path="/admin/lyrics-archive" element={<LyricsArchive />} />
+        <Route path="/admin/content-studio" element={<ContentStudio />} />
+        <Route path="/admin/manychat-drafts" element={<ManyChatDrafts />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
