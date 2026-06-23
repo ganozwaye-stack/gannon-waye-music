@@ -121,9 +121,21 @@ export default function LyricsModal({ release, onClose }) {
                 </div>
               </div>
             ) : hasLyrics ? (
-              <pre className="font-body text-sm md:text-base text-foreground/85 leading-relaxed whitespace-pre-wrap font-normal">
-                {displayRelease.lyrics}
-              </pre>
+              <div className="relative">
+                <div className="flex items-center justify-center gap-3 mb-6">
+                  <div className="h-px w-10" style={{ background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.4))' }} />
+                  <span className="font-display text-2xl text-primary/40 leading-none">♪</span>
+                  <div className="h-px w-10" style={{ background: 'linear-gradient(to left, transparent, rgba(212,175,55,0.4))' }} />
+                </div>
+                <pre className="font-display text-base md:text-lg text-foreground/80 leading-[1.9] whitespace-pre-wrap font-normal tracking-wide">
+                  {displayRelease.lyrics}
+                </pre>
+                <div className="flex items-center justify-center gap-3 mt-8">
+                  <div className="h-px w-10" style={{ background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.4))' }} />
+                  <span className="font-display text-2xl text-primary/40 leading-none">♪</span>
+                  <div className="h-px w-10" style={{ background: 'linear-gradient(to left, transparent, rgba(212,175,55,0.4))' }} />
+                </div>
+              </div>
             ) : (
               <div className="text-center py-12">
                 <p className="font-display text-xl text-muted-foreground">Lyrics coming soon.</p>

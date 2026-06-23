@@ -145,20 +145,21 @@ export default function Music() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
-                className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-0 bg-card border border-border/40 rounded-2xl overflow-hidden hover:border-primary/20 transition-all"
+                className="group grid grid-cols-1 md:grid-cols-[280px_1fr] gap-0 bg-card border border-border/40 rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-500"
               >
-                <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden">
+                <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden relative">
                   {release.title === 'Thank You' || release.artwork_url ? (
                     <img
                       src={release.title === 'Thank You' ? THANK_YOU_COVER : release.artwork_url}
                       alt={release.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center">
                       <Play className="w-16 h-16 text-muted-foreground/20" />
                     </div>
                   )}
+                  <div className="absolute inset-0 pointer-events-none" style={{ boxShadow: 'inset 0 0 60px rgba(0,0,0,0.25)' }} />
                 </div>
                 <div className="p-5 md:p-8 flex flex-col justify-center">
                   <div className="flex items-center gap-3 mb-2">
