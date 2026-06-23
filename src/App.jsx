@@ -307,6 +307,8 @@ import CoachingSocialDrafts from '@/pages/admin/CoachingSocialDrafts';
 import WorkbookBuilder from '@/pages/admin/WorkbookBuilder';
 import ClientResourceLibrary from '@/pages/admin/ClientResourceLibrary';
 import PhoneSystem from '@/pages/admin/PhoneSystem';
+import PressKit from '@/pages/PressKit';
+import LyricsArchive from '@/pages/admin/LyricsArchive';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -373,10 +375,7 @@ const AuthenticatedApp = () => {
         <Route path="/tour" element={<Navigate to="/" replace />} />
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
-        <Route path="/mum" element={<MumTribute />} />
         <Route path="/upcoming-music" element={<UpcomingMusic />} />
-        <Route path="/without-you-here" element={<MumTribute />} />
-        <Route path="/merch-reel" element={<MerchReelPage />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/store/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/payment-success" element={<CheckoutSuccess />} />
@@ -384,7 +383,6 @@ const AuthenticatedApp = () => {
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/store/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/store-world" element={<StoreWorld />} />
-        <Route path="/memorial" element={<Memorial />} />
         <Route path="/store/product/:slug" element={<StoreProductDetail />} />
         <Route path="/releases" element={<ReleasesRedirect />} />
         <Route path="/about" element={<About />} />
@@ -393,14 +391,7 @@ const AuthenticatedApp = () => {
         <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />
         <Route path="/gift-tracker" element={<GiftTracker />} />
 
-        {/* Coaching public routes */}
-        <Route path="/coaching" element={<Coaching />} />
-        <Route path="/coaching/self-worth-reset" element={<CoachingSelfWorthReset />} />
-        <Route path="/coaching/boundaries" element={<CoachingBoundaries />} />
-        <Route path="/coaching/creative-confidence" element={<CoachingCreativeConfidence />} />
-        <Route path="/coaching/workbooks" element={<CoachingWorkbooks />} />
-        <Route path="/coaching/intake" element={<CoachingIntakePage />} />
-        <Route path="/coaching/client-resources" element={<CoachingClientResources />} />
+        {/* Coaching routes moved to admin — hidden from public */}
 
         {/* Systems Manager public portfolio routes */}
         <Route path="/systems-manager" element={<SystemsManagerOffer />} />
@@ -715,6 +706,19 @@ const AuthenticatedApp = () => {
         <Route path="/admin/client-resource-library" element={<ClientResourceLibrary />} />
         <Route path="/admin/phone-system" element={<PhoneSystem />} />
         <Route path="/admin/mums-garden" element={<MumsGarden />} />
+        <Route path="/admin/mum" element={<MumTribute />} />
+        <Route path="/admin/without-you-here" element={<MumTribute />} />
+        <Route path="/admin/memorial" element={<Memorial />} />
+        <Route path="/admin/merch-reel" element={<MerchReelPage />} />
+        <Route path="/admin/coaching" element={<Coaching />} />
+        <Route path="/admin/coaching/self-worth-reset" element={<CoachingSelfWorthReset />} />
+        <Route path="/admin/coaching/boundaries" element={<CoachingBoundaries />} />
+        <Route path="/admin/coaching/creative-confidence" element={<CoachingCreativeConfidence />} />
+        <Route path="/admin/coaching/workbooks" element={<CoachingWorkbooks />} />
+        <Route path="/admin/coaching/intake" element={<CoachingIntakePage />} />
+        <Route path="/admin/coaching/client-resources" element={<CoachingClientResources />} />
+        <Route path="/admin/press-kit" element={<PressKit />} />
+        <Route path="/admin/lyrics-archive" element={<LyricsArchive />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
