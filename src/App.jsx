@@ -384,7 +384,6 @@ const AuthenticatedApp = () => {
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/store/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/store-world" element={<StoreWorld />} />
-        <Route path="/mums-garden" element={<MumsGarden />} />
         <Route path="/memorial" element={<Memorial />} />
         <Route path="/store/product/:slug" element={<StoreProductDetail />} />
         <Route path="/releases" element={<ReleasesRedirect />} />
@@ -715,6 +714,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/workbook-builder" element={<WorkbookBuilder />} />
         <Route path="/admin/client-resource-library" element={<ClientResourceLibrary />} />
         <Route path="/admin/phone-system" element={<PhoneSystem />} />
+        <Route path="/admin/mums-garden" element={<MumsGarden />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
