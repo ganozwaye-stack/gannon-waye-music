@@ -50,6 +50,10 @@
     "estimated_lifespan": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "status": {
       "type": "string",
       "enum": [

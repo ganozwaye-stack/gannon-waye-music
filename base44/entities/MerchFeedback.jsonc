@@ -57,6 +57,10 @@
     "admin_note": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "notification_sent": {
       "type": "boolean",
       "default": false

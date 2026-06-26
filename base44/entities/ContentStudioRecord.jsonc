@@ -66,6 +66,10 @@
       "type": "string",
       "description": "What visual/video asset is needed"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "approval_status": {
       "type": "string",
       "enum": [

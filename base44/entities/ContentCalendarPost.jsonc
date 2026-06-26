@@ -72,6 +72,10 @@
     "content_notes": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "metricool_export": {
       "type": "string",
       "description": "Formatted text ready for Metricool copy-paste"

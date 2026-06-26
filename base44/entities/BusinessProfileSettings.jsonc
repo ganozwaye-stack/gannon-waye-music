@@ -74,6 +74,10 @@
     "business_address_optional": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "updated_by": {
       "type": "string"
     }

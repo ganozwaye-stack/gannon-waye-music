@@ -18,6 +18,10 @@
     "liker_session": {
       "type": "string",
       "description": "Anonymous session fingerprint to prevent duplicate likes"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
     }
   },
   "required": [

@@ -11,6 +11,10 @@
     "action_description": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "risk_type": {
       "type": "array",
       "items": {

@@ -75,6 +75,10 @@
     "estimated_revenue_impact": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "requires_approval": {
       "type": "boolean",
       "default": true

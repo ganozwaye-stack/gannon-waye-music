@@ -49,6 +49,10 @@
     "source_campaign": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "consent_marketing": {
       "type": "boolean",
       "default": false

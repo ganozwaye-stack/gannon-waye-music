@@ -68,6 +68,10 @@
       ],
       "default": "submitted"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "admin_notes": {
       "type": "string",
       "maxLength": 2000

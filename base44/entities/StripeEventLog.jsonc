@@ -81,6 +81,10 @@
     "error_message": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "retry_count": {
       "type": "number",
       "default": 0

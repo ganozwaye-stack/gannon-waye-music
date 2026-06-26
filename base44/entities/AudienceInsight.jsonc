@@ -38,6 +38,10 @@
     "recommended_offer": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "source": {
       "type": "string"
     },

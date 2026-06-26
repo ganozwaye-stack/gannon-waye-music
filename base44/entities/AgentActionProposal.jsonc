@@ -27,6 +27,10 @@
       "type": "string",
       "maxLength": 2000
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "products_involved": {
       "type": "array",
       "items": {

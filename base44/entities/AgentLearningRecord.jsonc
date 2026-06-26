@@ -32,6 +32,10 @@
       "type": "string",
       "maxLength": 3000
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "source": {
       "type": "string"
     },

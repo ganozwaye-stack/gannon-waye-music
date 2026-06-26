@@ -85,6 +85,10 @@
     "recommended_fix": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "retry_available": {
       "type": "boolean",
       "default": false

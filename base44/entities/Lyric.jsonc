@@ -21,6 +21,10 @@
       "maxLength": 5000,
       "description": "Story behind the song"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "is_published": {
       "type": "boolean",
       "default": false

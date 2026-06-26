@@ -15,6 +15,10 @@
       "type": "number",
       "default": 0,
       "description": "Number of changes detected in the last sync"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
     }
   },
   "required": [

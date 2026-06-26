@@ -44,6 +44,10 @@
       "type": "boolean",
       "default": true
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "source": {
       "type": "string",
       "default": "store_checkout"

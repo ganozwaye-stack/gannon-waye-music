@@ -46,6 +46,10 @@
     "customer_headline": {
       "type": "string"
     },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
     "show_original_price": {
       "type": "boolean",
       "default": true
