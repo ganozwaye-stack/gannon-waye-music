@@ -313,6 +313,7 @@ import PressKit from '@/pages/PressKit';
 import LyricsArchive from '@/pages/admin/LyricsArchive';
 import ContentStudio from '@/pages/admin/ContentStudio';
 import ManyChatDrafts from '@/pages/admin/ManyChatDrafts';
+import InstagramSync from '@/pages/admin/InstagramSync';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -724,6 +725,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/lyrics-archive" element={<LyricsArchive />} />
         <Route path="/admin/content-studio" element={<ContentStudio />} />
         <Route path="/admin/manychat-drafts" element={<ManyChatDrafts />} />
+        <Route path="/admin/instagram-sync" element={<InstagramSync />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

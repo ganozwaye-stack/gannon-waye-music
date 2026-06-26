@@ -4,6 +4,7 @@ import { ChevronDown, Play } from 'lucide-react';
 import CinematicScene from '@/components/mums-garden/CinematicScene';
 import GoldDust from '@/components/mums-garden/GoldDust';
 import FiligreeDivider from '@/components/mums-garden/FiligreeDivider';
+import MumGardenGallery from '@/components/mums-garden/MumGardenGallery';
 
 const IMG = {
   cover: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9998a206c_WithoutYouHereCover.jpg',
@@ -168,6 +169,9 @@ export default function MumsGarden() {
       <CinematicScene image={IMG.forever}>
         <SceneCaption text="Forever in my heart" />
       </CinematicScene>
+
+      {/* ══ GALLERY — A Garden of Memories ══ */}
+      <MumGardenGallery />
 
       {/* ══ CLOSING — In Loving Memory ══ */}
       <CinematicScene image={IMG.coverAlt}>

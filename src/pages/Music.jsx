@@ -10,6 +10,7 @@ import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
 import ShareButtons from '@/components/public/ShareButtons';
 import GoldShards from '@/components/public/GoldShards';
 import LyricsModal from '@/components/public/LyricsModal';
+import SpotifyPlayer from '@/components/public/SpotifyPlayer';
 import MusicRecommendations from '@/components/public/MusicRecommendations';
 import TourTracker from '@/components/public/TourTracker';
 
@@ -237,13 +238,24 @@ export default function Music() {
                        </a>
                      )}
                      {isReleased() && release.youtube_link && (
-                       <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
-                         <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
-                           ▶️ YouTube <ExternalLink className="w-3 h-3" />
-                         </Button>
-                       </a>
+                        <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
+                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
+                            ▶️ YouTube <ExternalLink className="w-3 h-3" />
+                          </Button>
+                        </a>
+                      )}
+                     </div>
+
+                     {/* Spotify Embed Player */}
+                     {isReleased() && (release.spotify_link || release.title === 'Thank You') && (
+                     <div className="mt-6">
+                      <SpotifyPlayer
+                        spotifyLink={release.spotify_link}
+                        fallbackUrl={release.title === 'Thank You' ? 'https://open.spotify.com/album/36qMYfzzJrq2j039l9Ex66' : null}
+                        height={152}
+                      />
+                     </div>
                      )}
-                  </div>
                 </div>
               </motion.div>
             ))}

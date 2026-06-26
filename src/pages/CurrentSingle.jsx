@@ -7,6 +7,7 @@ import { Play, ExternalLink, BookOpen, ShoppingBag, ArrowLeft } from 'lucide-rea
 import { Link, useNavigate } from 'react-router-dom';
 import ShareButtons from '@/components/public/ShareButtons';
 import LyricsModal from '@/components/public/LyricsModal';
+import SpotifyPlayer from '@/components/public/SpotifyPlayer';
 import FanReviewSection from '@/components/public/FanReviewSection';
 import FanCommentSection from '@/components/public/FanCommentSection';
 import {
@@ -188,19 +189,12 @@ export default function CurrentSingle() {
           </motion.div>
         </div>
 
-        {isReleased && (single.title === THANK_YOU_TITLE || single.id === 'thank-you-fallback') && (
+        {isReleased && (single.spotify_link || single.title === THANK_YOU_TITLE || single.id === 'thank-you-fallback') && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="mb-14">
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Listen on Spotify</p>
-            <iframe
-              data-testid="embed-iframe"
-              style={{ borderRadius: '12px' }}
-              src="https://open.spotify.com/embed/album/36qMYfzzJrq2j039l9Ex66?utm_source=generator"
-              width="100%"
-              height="352"
-              frameBorder="0"
-              allowFullScreen=""
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
+            <SpotifyPlayer
+              spotifyLink={single.spotify_link}
+              fallbackUrl="https://open.spotify.com/album/36qMYfzzJrq2j039l9Ex66"
             />
           </motion.div>
         )}
