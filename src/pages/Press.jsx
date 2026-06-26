@@ -7,9 +7,9 @@ import { Button } from '@/components/ui/button';
 
 const APPROVED_EMAIL = 'gannonwayemusic@gmail.com';
 
-const BIO = `Gannon Waye is a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to him — it's the language he uses to understand people, emotion, and the parts of life that don't always have words.
+const BIO = `Gannon Waye is a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to him. It's the language he uses to understand people, emotion, and the parts of life that don't always have words.
 
-His debut single "Thank You" marks the beginning of a deeply personal catalog. His upcoming single "Without You Here," releasing July 23, 2026, is a raw acoustic letter to his late mother — written on Mother's Day and produced by Will Henderson.
+His debut single "Thank You" marks the beginning of a deeply personal catalog. His upcoming single "Without You Here," releasing July 23, 2026, is a raw acoustic letter to his late mother, written on Mother's Day and produced by Will Henderson.
 
 Gannon's work explores self-worth, boundaries, grief, and the courage to choose yourself. This is more than music. This is choosing yourself.`;
 
@@ -89,7 +89,7 @@ export default function Press() {
 
           <div>
             <h3 className="font-body text-xs tracking-widest uppercase text-primary mb-2">Best audience fit</h3>
-            <p className="font-body text-sm text-foreground/70 leading-relaxed">Fans of raw, storytelling-driven acoustic pop — listeners who connect with artists like Lewis Capaldi, Dean Lewis, and Noah Kahan. Audiences navigating grief, loss, family, and emotional honesty.</p>
+            <p className="font-body text-sm text-foreground/70 leading-relaxed">Fans of raw, storytelling-driven acoustic pop. Listeners who connect with artists like Lewis Capaldi, Dean Lewis, and Noah Kahan. Audiences navigating grief, loss, family, and emotional honesty.</p>
           </div>
 
           <div>
@@ -105,7 +105,7 @@ export default function Press() {
 
           <div>
             <h3 className="font-body text-xs tracking-widest uppercase text-primary mb-2">Suggested radio intro</h3>
-            <p className="font-body text-sm text-foreground/70 leading-relaxed italic">"Next up is a song that stopped us in our tracks. Melbourne singer-songwriter Gannon Waye wrote this on Mother's Day as a letter to his late mum. This is 'Without You Here' — and that opening line says it all."</p>
+            <p className="font-body text-sm text-foreground/70 leading-relaxed italic">"Next up is a song that stopped us in our tracks. Melbourne singer-songwriter Gannon Waye wrote this on Mother's Day as a letter to his late mum. This is 'Without You Here,' and that opening line says it all."</p>
           </div>
 
           <div>
@@ -115,7 +115,7 @@ export default function Press() {
 
           <div>
             <h3 className="font-body text-xs tracking-widest uppercase text-primary mb-2">Suggested reel or creator angle</h3>
-            <p className="font-body text-sm text-foreground/70 leading-relaxed">"Comment BREATH and I'll send you the song" — hook around the signature lyric line. Behind-the-scenes studio footage. Mother's Day tribute reels. Raw vocal + acoustic performance clips.</p>
+            <p className="font-body text-sm text-foreground/70 leading-relaxed">"Comment BREATH and I'll send you the song": hook around the signature lyric line. Behind-the-scenes studio footage. Mother's Day tribute reels. Raw vocal and acoustic performance clips.</p>
           </div>
         </div>
       </motion.section>

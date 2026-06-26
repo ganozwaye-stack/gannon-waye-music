@@ -27,9 +27,9 @@ const STORE_OPEN = true;
 const PRODUCT_CONFIG = {
   '69f11d1fc43e13c61fe6b9d6': { sub: 'Sold out · Thank you for the love 🤍' },
   '69eed3e64e2da78ae4418a9d': { sub: 'Sold out · Limited hand-signed edition' },
-  '69f11d1fc43e13c61fe6b9d7': { sub: '⚡ Get in fast — stock running out · New shipment on its way · $89' },
+  '69f11d1fc43e13c61fe6b9d7': { sub: '⚡ Get in fast, stock running out. New shipment on its way. $89' },
   '69eed3e64e2da78ae4418a99': { sub: 'Sold out · Oversized premium tee · $49' },
-  '69fbd261b760426cede1b7a3': { sub: '❄️ Also available in the Winter Writing & Comfort Bundle — $129 with hoodie, pen & thermo. Journal features "Respect Is Earned, Not A Game You Make Me Play" lyric.' },
+  '69fbd261b760426cede1b7a3': { sub: '❄️ Also available in the Winter Writing & Comfort Bundle, $129 with hoodie, pen & thermo. Journal features "Respect Is Earned, Not A Game You Make Me Play" lyric.' },
   '69eed3e64e2da78ae4418a9a': { sub: 'Sold out due to popular demand. These will not be restocked. 🤍' },
 };
 
@@ -59,10 +59,10 @@ const PRODUCT_GALLERIES = {
 
 // Poster size → price map (for variant pricing display)
 const POSTER_SIZE_PRICES = {
-  'A4 — $19': 19,
-  'A3 — $29': 29,
-  'A2 — $39': 39,
-  'A1 — $59': 59,
+  'A4: $19': 19,
+  'A3: $29': 29,
+  'A2: $39': 39,
+  'A1: $59': 59,
 };
 
 // Corrected static product data
@@ -73,12 +73,12 @@ const FALLBACK_PRODUCTS = [
     sale_price: 10,
     category: 'cd',
     stock_quantity: 0,
-    image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6fbecc91f_THANKYOUOfficialSingleCover.bmp',
+    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg',
     description: 'Official debut single in a slim clear plastic jewel case.',
   },
   {
     id: '69eed3e64e2da78ae4418a9d',
-    name: 'Thank You — Deluxe Signed CD Single',
+    name: 'Thank You Deluxe Signed CD Single',
     sale_price: 20,
     category: 'cd',
     stock_quantity: 0,
@@ -121,7 +121,7 @@ const FALLBACK_PRODUCTS = [
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/146ccc6c7_5.jpg',
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3afc9d17f_3.jpg',
     ],
-    description: 'Journaling, processing, or needing a safe-space kit — this is it.',
+    description: 'Journaling, processing, or needing a safe-space kit. This is it.',
   },
   {
     id: '69eed3e64e2da78ae4418a9a',

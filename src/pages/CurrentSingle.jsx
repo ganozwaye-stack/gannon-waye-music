@@ -229,7 +229,7 @@ export default function CurrentSingle() {
         )}
 
         <div className="flex justify-center mb-14">
-          <ShareButtons url={`${window.location.origin}/current-single`} text={`"${single.title}" — Gannon Waye. Out ${releaseDateText || 'soon'}.`} />
+          <ShareButtons url={`${window.location.origin}/current-single`} text={`"${single.title}" by Gannon Waye. Out ${releaseDateText || 'soon'}.`} />
         </div>
 
         <FanReviewSection targetType="single_page" targetId={single.id} targetName={single.title} />

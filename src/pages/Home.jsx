@@ -223,13 +223,13 @@ export default function Home() {
           {/* Mobile fallback — stacked, full story */}
           <div className="md:hidden space-y-6">
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
-              I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me, it's the language I use to understand people, emotion, and the parts of life that don't always have words.
+              I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.
             </p>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.
             </p>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center italic">
-              I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong, it often means you're seeing something others aren't ready for yet.
+              I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong. It often means you're seeing something others aren't ready for yet.
             </p>
             <div className="border-l-2 border-primary pl-4 font-display text-sm gradient-gold-glow italic leading-7">
               <p>I didn't truly love myself</p>
@@ -371,7 +371,7 @@ export default function Home() {
                   <div className="p-6">
                     <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">{release.type}</p>
                     <h3 className="font-display text-2xl text-foreground mt-1">{release.title}</h3>
-                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" was written at a turning point. When staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
+                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
                     {release.release_date && (
                       <p className="font-body text-xs text-muted-foreground mt-3">
                         {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}

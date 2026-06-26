@@ -189,7 +189,7 @@ export default function Music() {
                   {release.description && (
                     <p className="font-body text-foreground/60 mt-4 leading-relaxed">
                       {release.title === 'Thank You'
-                        ? '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. There was a growing awareness that what he was experiencing was not new. It felt familiar in a way that traced back much further, to patterns already fought hard to outgrow. This song is not about the pain. It is about the line being drawn. It is the moment of choosing self respect over repetition. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.'
+                        ? '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. There was a growing awareness that what he was experiencing was not new. It felt familiar in a way that traced back much further, to patterns already fought hard to outgrow. This song is not about the pain. It is about the line being drawn. It is the moment of choosing self-respect over repetition. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.'
                         : release.description}
                     </p>
                   )}

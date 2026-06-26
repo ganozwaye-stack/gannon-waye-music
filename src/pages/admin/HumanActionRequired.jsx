@@ -31,6 +31,17 @@ const ACTIONS = [
     blocker: false,
   },
   {
+    id: 'social-media-handle-inconsistency',
+    priority: 'high',
+    category: 'Brand',
+    title: 'Confirm correct Instagram and TikTok handle: @gann0nwaye or @ganozwaye',
+    detail: 'The Contact page and FAQ page use @gann0nwaye (with a zero) for Instagram and TikTok, but the Press page uses @ganozwaye (with an o). These are two different handles. Gannon must confirm which is the correct, active handle so all pages can be updated to match.',
+    link: '/admin/settings/business-details',
+    linkLabel: 'Business Details',
+    status: 'open',
+    blocker: false,
+  },
+  {
     id: 'confirm-approved-gannonwaye-email',
     priority: 'high',
     category: 'Email',

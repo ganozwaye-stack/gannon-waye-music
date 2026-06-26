@@ -169,8 +169,8 @@ function EpisodeCard({ episode, index, onNotify }) {
                   <p className="font-body text-sm text-foreground/70 leading-relaxed mt-4 border-t border-border/30 pt-4">
                     {episode.excerpt}
                   </p>
-                  <Link to="/about" className="inline-flex items-center gap-1.5 mt-4 font-body text-xs text-primary hover:underline">
-                    Read the full story on About <ArrowRight className="w-3 h-3" />
+                  <Link to="/back-this" className="inline-flex items-center gap-1.5 mt-4 font-body text-xs text-primary hover:underline">
+                    Support this project <ArrowRight className="w-3 h-3" />
                   </Link>
                   <div className="mt-3 flex gap-3">
                     <Link to="/back-this">
@@ -219,9 +219,9 @@ export default function ThisIsMyLife() {
             I&apos;m sharing it because I know what it feels like to believe you&apos;re alone.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/about">
+            <Link to="/music">
               <Button className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase gradient-gold-button border-0">
-                Read the Full Story
+                Hear the Music
               </Button>
             </Link>
             <Link to="/back-this">
@@ -248,10 +248,10 @@ export default function ThisIsMyLife() {
 
           <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 items-start">
             <div className="space-y-4 font-body text-foreground/75 leading-relaxed text-base">
-              <p>I was born in Adelaide and now call Melbourne home — a city I've lived in for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
+              <p>I was born in Adelaide and now call Melbourne home, a city I've lived in for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
               <p>I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing — sometimes more than they even realise about themselves. That perspective finds its way into everything I write.</p>
-              <p>There has been a lot of loss in my world. Losing my Mum not too long ago, who was my best friend and my biggest fan. Also people I love that took their own life and others with diagnoses no one saw coming — these experiences did not just hurt, they reshaped me.</p>
-              <p className="italic">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong — it often means you're seeing something others aren't ready for yet.</p>
+              <p>There has been a lot of loss in my world. Losing my Mum not too long ago, who was my best friend and my biggest fan. Also people I love that took their own life and others with diagnoses no one saw coming. These experiences did not just hurt, they reshaped me.</p>
+              <p className="italic">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong. It often means you're seeing something others aren't ready for yet.</p>
               <p>Everything I create now comes from that moment of choosing myself. This is not just music. This is choosing yourself.</p>
             </div>
 
@@ -335,9 +335,9 @@ export default function ThisIsMyLife() {
                 Notify Me of New Episodes
               </Button>
             </Link>
-            <Link to="/community">
+            <Link to="/back-this">
               <Button variant="outline" className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase border-foreground/20">
-                Join the Community
+                Be Part of This
               </Button>
             </Link>
           </div>

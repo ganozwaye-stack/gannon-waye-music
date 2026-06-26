@@ -14,8 +14,8 @@ function isEligibleForDiscount(category) {
 function getShippingNote(category) {
   if (!category) return 'Ships Australia-wide. Combined packaging when ordering multiple items.';
   const cat = category.toLowerCase();
-  if (cat === 'cd' || cat === 'vinyl') return 'Physical item — shipped securely. Combined packaging when ordering multiple items.';
-  if (cat === 'digital' || cat === 'music') return 'Digital — no shipping required.';
+  if (cat === 'cd' || cat === 'vinyl') return 'Physical item, shipped securely. Combined packaging when ordering multiple items.';
+  if (cat === 'digital' || cat === 'music') return 'Digital, no shipping required.';
   return 'Ships Australia-wide in combined packaging when ordering multiple items. Free shipping on orders ≥ $150.';
 }
 

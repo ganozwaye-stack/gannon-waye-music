@@ -78,7 +78,7 @@ export default function UpcomingMusic() {
             </h1>
             <p className="font-body text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
               These are the songs being made right now. Some are in the studio. Some are still becoming themselves.
-              When they're ready — you'll be the first to know.
+              When they're ready, you'll be the first to know.
             </p>
             <div className="flex items-center justify-center gap-3 mt-6">
               <div className="w-16 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(212,175,55,0.3))' }} />
@@ -216,9 +216,9 @@ export default function UpcomingMusic() {
               Join the community and get notified the moment new music drops.
             </p>
             <div className="flex justify-center gap-3 flex-wrap">
-              <Link to="/community">
+              <Link to="/back-this">
                 <Button className="rounded-full font-body text-sm tracking-wider uppercase gradient-gold-button border-0">
-                  Join the Community
+                  Be Part of This
                 </Button>
               </Link>
               <Link to="/music">

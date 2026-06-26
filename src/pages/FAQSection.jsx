@@ -15,11 +15,11 @@ const FAQS = [
   },
   {
     q: 'How do I stay updated on new music and events?',
-    a: 'Sign up for the newsletter on the home page or visit your Fan Profile to choose exactly what you want to hear about — new music, merch drops, tour dates, behind-the-scenes content, and more. No spam, ever.',
+    a: 'Sign up for the newsletter on the home page or visit the Contact page to send a message. You can choose what you want to hear about: new music, merch drops, behind-the-scenes content, and more. No spam, ever.',
   },
   {
     q: 'How do I order merch?',
-    a: "Head to the Store page. The store opened May 10 at 2pm AEST. You can pre-order items and they'll ship before June 9, 2026. Use code LAUNCH15 for 15% off your first order (first 20 orders only).",
+    a: "Head to the Store page to browse and order merch. Use code LAUNCH15 for 15% off your first order (first 20 orders only).",
   },
   {
     q: 'What is the "Back This" page?',
@@ -27,15 +27,15 @@ const FAQS = [
   },
   {
     q: 'Can I share my own photos or videos on the fan wall?',
-    a: 'Yes! Head to the Community page or scroll down on the home page to find the Fan Media section. You can upload a photo or video, give consent for it to be featured, and become part of the visual story of this chapter.',
+    a: 'Yes! Scroll down on the home page to find the Fan Media section. You can upload a photo or video, give consent for it to be featured, and become part of the visual story of this chapter.',
   },
   {
     q: 'Can I leave a message for Gannon?',
-    a: 'Absolutely. The Community page has an open message wall where fans leave real messages. All posts are moderated before going live. You can also use the Contact page to send a direct message.',
+    a: 'Absolutely. You can use the Contact page to send a direct message to Gannon. All messages are read personally.',
   },
   {
     q: 'How does the AI reply work on my community post?',
-    a: "When you post in the Community section and include your email, Gannon's system sends a personalised reply based on the tone and meaning of your message. It's not a bot template — it's crafted to feel genuine and considered.",
+    a: "When you send a message through the Contact page and include your email, Gannon's system sends a personalised reply based on the tone and meaning of your message. It's not a bot template, it's crafted to feel genuine and considered.",
   },
   {
     q: 'Where can I follow Gannon on social media?',
@@ -43,7 +43,7 @@ const FAQS = [
   },
   {
     q: 'I have a question not listed here. How do I get in touch?',
-    a: 'Visit the Contact page and send a message directly. For bookings, press, or collaboration enquiries, email hello@gannonwaye.com.',
+    a: 'Visit the Contact page and send a message directly. For bookings, press, or collaboration enquiries, email gannonwayemusic@gmail.com.',
   },
 ];
 
