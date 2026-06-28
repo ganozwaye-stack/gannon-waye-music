@@ -54,6 +54,17 @@ const ACTIONS = [
   },
   // CRITICAL — Lyrics
   {
+    id: 'confirm-approved-lyrics-publishing',
+    priority: 'critical',
+    category: 'Lyrics',
+    title: 'Confirm which lyrics are approved for public publishing',
+    detail: 'SAFETY: All Lyric records are currently set to is_published: false and publishing_safe: false. No lyrics are publicly visible — the public Lyrics page shows a "Coming Soon" teaser only. Gannon must explicitly confirm which specific lyrics are approved for public publishing. Until confirmed, all lyrics remain private and admin-only.',
+    link: '/admin/lyrics-archive',
+    linkLabel: 'Lyrics Archive',
+    status: 'open',
+    blocker: true,
+  },
+  {
     id: 'without-you-here-docx',
     priority: 'critical',
     category: 'Lyrics',

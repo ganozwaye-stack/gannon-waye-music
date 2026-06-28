@@ -2,74 +2,22 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Music2, ChevronDown } from 'lucide-react';
+import { Music2, ChevronDown, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import GannonSignature from '@/components/global/GannonSignature';
-import LyricsScroller from '@/components/public/LyricsScroller';
-import {
-  applyThankYouLyrics,
-  isThankYouRelease,
-  THANK_YOU_LYRICS,
-  THANK_YOU_TITLE,
-  THANK_YOU_WRITTEN_CREDIT,
-} from '@/lib/thankYouLyrics';
 
 export default function LyricsPage() {
   const [openId, setOpenId] = useState(null);
 
-  const { data: releases } = useQuery({
-    queryKey: ['releases'],
-    queryFn: () => base44.entities.Release.list('-release_date'),
+  // SAFETY: Only fetch lyrics that are BOTH is_published: true AND publishing_safe: true.
+  // RLS also enforces is_published on the server side, so unpublished lyrics are never returned to public users.
+  // Until Gannon explicitly approves a lyric, this query returns empty and the page shows a "Coming Soon" teaser.
+  const { data: lyrics = [] } = useQuery({
+    queryKey: ['publishedSafeLyrics'],
+    queryFn: () => base44.entities.Lyric.filter({ is_published: true, publishing_safe: true }, 'sort_order'),
     initialData: [],
   });
-
-  const localReleases = [
-    {
-      id: 'thankyou',
-      title: THANK_YOU_TITLE,
-      type: 'Single',
-      status: 'released',
-      isLocked: false,
-      is_published: true,
-      artwork_url: 'https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=200&q=80',
-      credits: THANK_YOU_WRITTEN_CREDIT,
-      lyrics: THANK_YOU_LYRICS,
-      spotify_link: '',
-      apple_music_link: '',
-    },
-    {
-      id: 'will-you-even-listen',
-      title: 'Will You Even Listen',
-      type: 'Single',
-      status: 'recording',
-      isLocked: true,
-      is_published: true,
-      artwork_url: '/images/will_you_even_listen_cover.png',
-      credits: 'Written & Performed by Gannon Waye'
-    },
-    {
-      id: 'without-you-here',
-      title: 'Without You Here',
-      type: 'Single',
-      status: 'recording',
-      isLocked: true,
-      is_published: true,
-      artwork_url: '/images/mum/mum_gannon_young.jpg',
-      credits: 'Written & Performed by Gannon Waye'
-    }
-  ];
-
-  const publishedRemoteReleases = releases
-    .map(applyThankYouLyrics)
-    .filter(r => r.is_published && r.lyrics);
-
-  const hasRemoteThankYou = publishedRemoteReleases.some(isThankYouRelease);
-
-  const withLyrics = [
-    ...publishedRemoteReleases,
-    ...localReleases.filter(release => !(hasRemoteThankYou && isThankYouRelease(release)))
-  ];
 
   return (
     <div className="min-h-screen py-24 px-4 md:px-8">
@@ -87,44 +35,47 @@ export default function LyricsPage() {
           </p>
         </motion.div>
 
-        {withLyrics.length === 0 ? (
+        {lyrics.length === 0 ? (
+          /* ── COMING SOON / TEASER ── No full lyrics visible until a Lyric record is both is_published: true AND publishing_safe: true */
           <div className="text-center py-20">
-            <Music2 className="w-14 h-14 text-muted-foreground/20 mx-auto mb-4" />
-            <p className="font-body text-muted-foreground">Lyrics will appear here as each release is published.</p>
-            <Link to="/music" className="mt-4 inline-block">
-              <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase mt-4">
+            <div className="w-16 h-16 rounded-full bg-secondary/50 flex items-center justify-center border border-primary/20 text-primary/60 mx-auto mb-6">
+              <Lock className="w-7 h-7" />
+            </div>
+            <h2 className="font-display text-2xl text-foreground mb-3">Lyrics Coming Soon</h2>
+            <p className="font-body text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
+              The full lyrics archive is being carefully prepared. Each song's words will appear here once they're finalised and approved for publishing.
+            </p>
+            <Link to="/music" className="mt-6 inline-block">
+              <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase">
                 Go to Music
               </Button>
             </Link>
           </div>
         ) : (
           <div className="space-y-4">
-            {withLyrics.map((release, i) => (
+            {lyrics.map((lyric, i) => (
               <motion.div
-                key={release.id}
+                key={lyric.id}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
                 className="bg-card border border-border/40 rounded-2xl overflow-hidden"
               >
                 <button
-                  onClick={() => setOpenId(openId === release.id ? null : release.id)}
+                  onClick={() => setOpenId(openId === lyric.id ? null : lyric.id)}
                   className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-secondary/20 transition-colors"
                 >
-                  <div className="flex items-center gap-4">
-                    {release.artwork_url && (
-                      <img src={release.artwork_url} alt={release.title} className="w-12 h-12 rounded-lg object-cover" />
+                  <div>
+                    <p className="font-display text-xl text-foreground">{lyric.title}</p>
+                    {lyric.release_title && (
+                      <p className="font-body text-xs text-muted-foreground uppercase tracking-widest mt-0.5">{lyric.release_title}</p>
                     )}
-                    <div>
-                      <p className="font-display text-xl text-foreground">{release.title}</p>
-                      <p className="font-body text-xs text-muted-foreground uppercase tracking-widest mt-0.5">{release.type}</p>
-                    </div>
                   </div>
-                  <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform ${openId === release.id ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform ${openId === lyric.id ? 'rotate-180' : ''}`} />
                 </button>
 
                 <AnimatePresence>
-                  {openId === release.id && (
+                  {openId === lyric.id && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
@@ -133,62 +84,16 @@ export default function LyricsPage() {
                       className="overflow-hidden"
                     >
                       <div className="px-6 pb-8 border-t border-border/30 pt-6 space-y-6">
-                        {release.isLocked ? (
-                          <div className="bg-gradient-to-br from-card to-secondary/30 rounded-2xl p-8 border border-border/40 backdrop-blur-md text-center py-12 relative overflow-hidden">
-                            <div className="absolute -inset-10 bg-gradient-to-r from-yellow-500/10 to-amber-500/10 rounded-full blur-2xl opacity-60 animate-pulse pointer-events-none" />
-                            
-                            <div className="relative z-10 flex flex-col items-center">
-                              <div className="w-16 h-16 rounded-full bg-secondary/50 flex items-center justify-center border border-yellow-500/30 text-yellow-500 mb-4 shadow-lg shadow-yellow-500/5">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7">
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
-                                </svg>
-                              </div>
-                              <h3 className="font-display text-2xl text-foreground mb-2">Studio Session</h3>
-                              <p className="font-body text-sm text-yellow-500/90 tracking-wider uppercase font-semibold mb-3">Release Pending</p>
-                              <p className="font-body text-base text-muted-foreground max-w-md">
-                                Lyrics under studio wraps — Single drop coming soon.
-                              </p>
-                            </div>
-                          </div>
-                        ) : (
-                          <>
-                            {/* Scroller */}
-                            <LyricsScroller release={release} />
-
-                            {/* Traditional view */}
-                            <div>
-                              <p className="font-body text-xs text-muted-foreground uppercase tracking-widest mb-4">Traditional View</p>
-                              <pre className="font-display text-foreground/80 leading-loose text-base whitespace-pre-wrap italic bg-secondary/20 rounded-xl p-6">
-                                {release.lyrics}
-                              </pre>
-                            </div>
-                          </>
-                        )}
-                        {release.credits && (
+                        <pre className="font-display text-foreground/80 leading-loose text-base whitespace-pre-wrap italic bg-secondary/20 rounded-xl p-6">
+                          {lyric.lyrics_text}
+                        </pre>
+                        {lyric.copyright_year && (
                           <p className="font-body text-xs text-muted-foreground mt-6 pt-4 border-t border-border/30">
-                            {release.credits}
+                            Copyright © Gannon Waye {lyric.copyright_year}
                           </p>
                         )}
-                        {/* Signature */}
                         <div className="flex justify-end mt-8 pr-4">
                           <GannonSignature />
-                        </div>
-
-                        <div className="flex gap-3 mt-5 flex-wrap">
-                          {release.spotify_link && (
-                            <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
-                              <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
-                                🎧 Listen on Spotify
-                              </Button>
-                            </a>
-                          )}
-                          {release.apple_music_link && (
-                            <a href={release.apple_music_link} target="_blank" rel="noopener noreferrer">
-                              <Button size="sm" variant="outline" className="rounded-full gap-2 font-body text-xs">
-                                🍎 Apple Music
-                              </Button>
-                            </a>
-                          )}
                         </div>
                       </div>
                     </motion.div>
