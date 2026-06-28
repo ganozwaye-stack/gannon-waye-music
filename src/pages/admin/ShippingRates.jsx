@@ -225,20 +225,34 @@ export default function ShippingRates() {
         ))}
       </div>
 
-      {/* Defaults guide */}
+      {/* Current rates guide — based on Australia Post 2026 */}
       <Card className="border-blue-500/30 bg-blue-500/5">
         <CardHeader>
           <div className="flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-blue-400" />
-            <CardTitle className="text-base">Recommended Defaults</CardTitle>
+            <CardTitle className="text-base">Current Rates — Australia Post 2026 (from Melbourne)</CardTitle>
           </div>
         </CardHeader>
-        <CardContent className="space-y-2 text-sm">
-          <p><strong>🇦🇺 CD Standard:</strong> $7 base, $0.50 extra, free over $100</p>
-          <p><strong>🇦🇺 Merch Standard:</strong> $12 base, $2 extra, free over $100</p>
-          <p><strong>🇦🇺 Bundle:</strong> $15 base, $1.50 extra, free over $120</p>
-          <p><strong>🌍 CD International:</strong> $18 base, $3 extra</p>
-          <p><strong>🌍 Merch International:</strong> $25 base, $5 extra</p>
+        <CardContent className="space-y-3 text-sm">
+          <div>
+            <p className="text-xs text-muted-foreground mb-1">🇦🇺 Domestic (Parcel Post satchels, postage included)</p>
+            <p><strong>CD:</strong> $10.50 base, $2.00 extra, free over $100 <span className="text-muted-foreground">(XS satchel $9.70)</span></p>
+            <p><strong>Merch:</strong> $12.50 base, $2.50 extra, free over $100 <span className="text-muted-foreground">(Small satchel $11.15)</span></p>
+            <p><strong>Vinyl:</strong> $16.50 base, $3.00 extra, free over $100 <span className="text-muted-foreground">(Medium satchel $15.25)</span></p>
+            <p><strong>Bundle:</strong> $17.50 base, $3.50 extra, free over $120 <span className="text-muted-foreground">(Med/Large $15.25-$19.30)</span></p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground mb-1">🌍 International (Standard parcel)</p>
+            <p><strong>CD:</strong> $44.90 base, $5.00 extra <span className="text-muted-foreground">(up to 500g ~$39 with MyPost)</span></p>
+            <p><strong>Merch:</strong> $56.90 base, $6.00 extra <span className="text-muted-foreground">(up to 1kg $60.50)</span></p>
+            <p><strong>Vinyl:</strong> $61.90 base, $7.00 extra <span className="text-muted-foreground">(up to 1kg $60.50)</span></p>
+            <p><strong>Bundle:</strong> $92.90 base, $8.00 extra <span className="text-muted-foreground">(up to 2kg $96.65)</span></p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground mb-1">📍 Local Pickup</p>
+            <p><strong>All types:</strong> Free — customer collects from Melbourne</p>
+          </div>
+          <p className="text-xs text-muted-foreground pt-2 border-t border-border/40">⚠️ AusPost increasing Parcel Post ~4.95% on 1 July 2026. Rates above include buffer. Join MyPost Business for up to 40% off domestic & 35% off international.</p>
         </CardContent>
       </Card>
     </div>
