@@ -21,7 +21,7 @@ const NAV_SECTIONS = [
   {
     title: 'Owner Dashboard',
     items: [
-      { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+      { label: 'Daily Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
       { label: 'Attention Centre', path: '/admin/business-attention-centre', icon: Bell },
     ]
   },

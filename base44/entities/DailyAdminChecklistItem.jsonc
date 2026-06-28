@@ -1,0 +1,62 @@
+{
+  "name": "DailyAdminChecklistItem",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "checklist_type": {
+      "type": "string",
+      "enum": [
+        "morning",
+        "evening"
+      ],
+      "default": "morning"
+    },
+    "is_checked": {
+      "type": "boolean",
+      "default": false
+    },
+    "checked_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "related_page": {
+      "type": "string"
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "title",
+    "checklist_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

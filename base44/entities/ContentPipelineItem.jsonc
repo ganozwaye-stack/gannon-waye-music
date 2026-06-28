@@ -1,0 +1,124 @@
+{
+  "name": "ContentPipelineItem",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "category": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "idea",
+        "draft",
+        "needs_asset",
+        "needs_approval",
+        "ready_to_schedule",
+        "scheduled",
+        "posted",
+        "performance_review"
+      ],
+      "default": "idea"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "owner": {
+      "type": "string"
+    },
+    "related_page": {
+      "type": "string"
+    },
+    "related_song": {
+      "type": "string"
+    },
+    "related_release": {
+      "type": "string"
+    },
+    "related_product": {
+      "type": "string"
+    },
+    "related_link": {
+      "type": "string"
+    },
+    "dependencies": {
+      "type": "string"
+    },
+    "blocker_reason": {
+      "type": "string"
+    },
+    "approval_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "approval_notes": {
+      "type": "string"
+    },
+    "next_action": {
+      "type": "string"
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0
+    },
+    "content_type": {
+      "type": "string",
+      "enum": [
+        "reel",
+        "caption",
+        "hook",
+        "first_comment",
+        "lyric_quote_post",
+        "behind_song_post",
+        "merch_post",
+        "press_snippet",
+        "manychat_keyword_post",
+        "newsletter_draft",
+        "other"
+      ],
+      "default": "other"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -66,6 +66,7 @@ import CheckoutCancel from '@/pages/CheckoutCancel';
 import AdminLayout from '@/components/admin/AdminLayout';
 import Dashboard from '@/pages/admin/Dashboard';
 import OwnerDashboard from '@/pages/admin/OwnerDashboard';
+import DailyDashboard from '@/pages/admin/DailyDashboard';
 import Releases from '@/pages/admin/Releases';
 import MerchManagement from '@/pages/admin/MerchManagement';
 import Orders from '@/pages/admin/Orders';
@@ -424,7 +425,8 @@ const AuthenticatedApp = () => {
 
       {/* Admin routes */}
       <Route element={<AdminLayout />}>
-        <Route path="/admin" element={<OwnerDashboard />} />
+        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="/admin/dashboard" element={<DailyDashboard />} />
         <Route path="/admin/launch-content" element={<LaunchContentHub />} />
         <Route path="/admin/music-fan" element={<MusicFanHub />} />
         <Route path="/admin/store-orders" element={<StoreOrdersHub />} />
