@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { STORE_PRODUCTS, BOUTIQUE_HERO_IMAGE } from '@/config/storeWorldConfig';
 import StoreWorldHotspot from '@/components/store/StoreWorldHotspot';
 import ProductQuickViewModal from '@/components/store/ProductQuickViewModal';
+import MerchGallery from '@/components/store/MerchGallery';
 import { ShoppingCart, Grid, Music } from 'lucide-react';
 
 const ACCENT = '#D4AF37';
@@ -147,6 +148,9 @@ export default function StoreWorld() {
           <ProductCard key={product.id} product={product} onOpenModal={setActiveModal} />
           )}
         </div>
+
+        {/* ── MERCH GALLERY ── */}
+        <MerchGallery />
 
         <div style={{ textAlign: 'center', paddingBottom: '56px' }}>
           <button

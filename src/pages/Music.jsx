@@ -13,6 +13,7 @@ import LyricsModal from '@/components/public/LyricsModal';
 import SpotifyPlayer from '@/components/public/SpotifyPlayer';
 import MusicRecommendations from '@/components/public/MusicRecommendations';
 import TourTracker from '@/components/public/TourTracker';
+import FanPlaylists from '@/components/public/FanPlaylists';
 
 // Clean gold glow banner — blends into dark background on Music page
 const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
@@ -267,6 +268,9 @@ export default function Music() {
         </div>
         <BePartOfThisCTA context="If this music means something to you, you can help make more of it happen." />
       </div>
+
+      {/* Fan Playlists */}
+      <FanPlaylists />
 
       {/* Tour Dates */}
       <TourTracker />
