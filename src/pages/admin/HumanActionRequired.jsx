@@ -75,6 +75,17 @@ const ACTIONS = [
     status: 'open',
     blocker: true,
   },
+  {
+    id: 'confirm-thank-you-lyric-version',
+    priority: 'critical',
+    category: 'Lyrics',
+    title: 'Confirm final Thank You lyric version',
+    detail: 'Gannon must choose between "make me cave" and "make me misbehave", choose between "You showed me everything I\u2019ll never desire" and "You\u2019ve shown me everything I don\u2019t desire", confirm whether "Thank you" repeats once or three times after each chorus, and confirm whether the written date 02 January 2026 should appear publicly or only in metadata. The current private archive version uses "make me cave", "I\u2019ll never desire", and one "Thank you" after each chorus.',
+    link: '/admin/lyrics-archive',
+    linkLabel: 'Lyrics Archive',
+    status: 'open',
+    blocker: true,
+  },
   // CRITICAL
   {
     id: 'poster-artwork',
