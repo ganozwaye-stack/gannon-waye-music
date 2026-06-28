@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Heart } from 'lucide-react';
+import { ArrowRight, Heart, Music as MusicIcon, ShoppingBag, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SocialVideoEmbed from '@/components/public/SocialVideoEmbed';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
@@ -128,6 +128,36 @@ export default function Videos() {
             ))}
           </div>
         )}
+
+        {/* Conversion pathway — contextual next steps after watching */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-16 mb-12"
+        >
+          <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-6 text-center">What's Next</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Link to="/music" className="group p-5 rounded-2xl bg-card/60 border border-border/40 hover:border-primary/40 transition-all">
+              <MusicIcon className="w-5 h-5 text-primary mb-3" />
+              <h3 className="font-display text-base text-foreground mb-1">Stream the Music</h3>
+              <p className="font-body text-xs text-muted-foreground mb-3">Listen on Spotify, Apple Music, and YouTube</p>
+              <p className="font-body text-xs text-primary flex items-center gap-1 group-hover:gap-2 transition-all">Enter the Sound <ArrowRight className="w-3 h-3" /></p>
+            </Link>
+            <Link to="/store" className="group p-5 rounded-2xl bg-card/60 border border-border/40 hover:border-primary/40 transition-all">
+              <ShoppingBag className="w-5 h-5 text-primary mb-3" />
+              <h3 className="font-display text-base text-foreground mb-1">Shop the Collection</h3>
+              <p className="font-body text-xs text-muted-foreground mb-3">Wear the message. Limited edition merch.</p>
+              <p className="font-body text-xs text-primary flex items-center gap-1 group-hover:gap-2 transition-all">Claim Your Copy <ArrowRight className="w-3 h-3" /></p>
+            </Link>
+            <Link to="/this-is-my-life" className="group p-5 rounded-2xl bg-card/60 border border-border/40 hover:border-primary/40 transition-all">
+              <BookOpen className="w-5 h-5 text-primary mb-3" />
+              <h3 className="font-display text-base text-foreground mb-1">Behind the Music</h3>
+              <p className="font-body text-xs text-muted-foreground mb-3">The story behind every song</p>
+              <p className="font-body text-xs text-primary flex items-center gap-1 group-hover:gap-2 transition-all">Read the Story <ArrowRight className="w-3 h-3" /></p>
+            </Link>
+          </div>
+        </motion.div>
 
         <BePartOfThisCTA context="Enjoy the content? You can help fund more of it — directly." />
       </div>

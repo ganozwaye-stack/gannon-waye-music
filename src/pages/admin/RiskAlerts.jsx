@@ -137,7 +137,13 @@ export default function RiskAlerts() {
             </div>
             <div className="space-y-2">
               {group.map(alert => (
-                <Card key={alert.id} className={`${cfg.bar} bg-card hover:bg-card/80 transition-all`}>
+                <Card key={alert.id} className={`${cfg.bar} bg-card hover:bg-card/80 transition-all relative`}>
+                  {sev === 'critical' && alert.status === 'open' && (
+                    <span className="absolute top-3 right-3 flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500"></span>
+                    </span>
+                  )}
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">
                       <div className="flex-1 min-w-0">

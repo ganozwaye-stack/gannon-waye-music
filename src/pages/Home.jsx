@@ -22,6 +22,7 @@ import FanHighlightCommunity from '@/components/public/FanHighlightCommunity';
 import FeaturedVideoSection from '@/components/public/FeaturedVideoSection';
 import ThankYouCampaignSection from '@/components/public/ThankYouCampaignSection';
 import ThankYouStorySection from '@/components/public/ThankYouStorySection';
+import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
@@ -56,19 +57,20 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
+      <FirstVisitOnboarding />
       <TikTokWelcomeBanner />
 
       {/* Fixed background — visible behind ALL sections */}
-      <div className="fixed inset-0 -z-10">
+      <div className="fixed inset-0 -z-10 overflow-hidden">
         <AnimatePresence>
           <motion.img
             key={currentImg}
             src={HERO_IMAGES[currentImg]}
             alt="Gannon Waye"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 0.55 }}
+            initial={{ opacity: 0, scale: 1.15 }}
+            animate={{ opacity: 0.55, scale: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
+            transition={{ opacity: { duration: 1.5 }, scale: { duration: 8, ease: 'easeOut' } }}
             className="absolute inset-0 w-full h-full object-cover object-[center_50%]"
           />
         </AnimatePresence>
@@ -77,24 +79,39 @@ export default function Home() {
       {/* Hero */}
       <section className="relative min-h-[100svh] flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/20 to-background/90 z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.04),transparent_60%)] z-10" />
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/172f64a6b_0fac46594_generated_image-Edited.png" alt="Gannon Waye" className="max-w-full h-auto" style={{ maxHeight: '120px' }} />
-            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-8 mt-6">Singer, Songwriter, Storyteller</p>
-            <h2 className="font-display text-2xl md:text-3xl text-foreground italic leading-snug mt-2 mb-2">
+            <motion.img
+              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/172f64a6b_0fac46594_generated_image-Edited.png" alt="Gannon Waye" className="max-w-full h-auto mx-auto" style={{ maxHeight: '120px' }} />
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-8 mt-6">Singer, Songwriter, Storyteller</motion.p>
+            <motion.h2
+              initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.7, delay: 0.9 }}
+              className="font-display text-2xl md:text-3xl text-foreground italic leading-snug mt-2 mb-2">
               "For them, it was about appearance.<br className="hidden sm:block" /> For me, I was breaking inside."
-            </h2>
-            <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.2 }}
+              className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
               This is more than music. This is choosing yourself.
-            </p>
-            <div className="mt-6">
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 1.5 }}
+              className="mt-6">
               <HeroQuoteRotator />
-            </div>
-          </motion.div>
+            </motion.div>
 
           {/* "Thank You" teaser strip in the hero */}
           <motion.div

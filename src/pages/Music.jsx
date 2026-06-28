@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Play, ExternalLink, BookOpen, Star } from 'lucide-react';
+import { Play, ExternalLink, BookOpen, Star, ShoppingBag, Heart, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
@@ -245,6 +245,25 @@ export default function Music() {
                           </Button>
                         </a>
                       )}
+                     </div>
+
+                     {/* Add to Your World — conversion CTAs */}
+                     <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border/30">
+                       <Link to="/store" className="flex-1 min-w-[130px]">
+                         <Button size="sm" variant="outline" className="w-full rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-border/40 hover:border-primary/40">
+                           <ShoppingBag className="w-3 h-3" /> Claim Your Copy
+                         </Button>
+                       </Link>
+                       <Link to="/back-this" className="flex-1 min-w-[130px]">
+                         <Button size="sm" variant="outline" className="w-full rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-border/40 hover:border-primary/40">
+                           <Heart className="w-3 h-3" /> Stand With Me
+                         </Button>
+                       </Link>
+                       <Link to="/lyrics" className="flex-1 min-w-[130px]">
+                         <Button size="sm" variant="outline" className="w-full rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-border/40 hover:border-primary/40">
+                           <FileText className="w-3 h-3" /> Read the Lyrics
+                         </Button>
+                       </Link>
                      </div>
 
                      {/* Spotify Embed Player */}

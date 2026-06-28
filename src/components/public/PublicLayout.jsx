@@ -4,12 +4,11 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import MobileBottomTabs from './MobileBottomTabs';
+import SocialProofTicker from './SocialProofTicker';
 import CartButton from '@/components/store/CartButton';
-const ROOT_ROUTES = ['/', '/music', '/store', '/community'];
 
 export default function PublicLayout() {
   const { pathname } = useLocation();
-  const isRootRoute = ROOT_ROUTES.includes(pathname);
 
   return (
     <div className="min-h-screen flex flex-col pb-14">
@@ -21,7 +20,8 @@ export default function PublicLayout() {
         </AnimatePresence>
       </main>
       <Footer />
-      {isRootRoute && <MobileBottomTabs />}
+      <MobileBottomTabs />
+      <SocialProofTicker />
     </div>
   );
 }
