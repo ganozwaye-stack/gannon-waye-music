@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Upload, Music, Mic, Calendar, Users, FileText, Link as LinkIcon, Send, Heart, Sparkles } from 'lucide-react';
+import { Upload, Music, Mic, Calendar, Users, FileText, Link as LinkIcon, Send, Heart, Sparkles, Clock, Shield, Star } from 'lucide-react';
 import VoiceTextarea from '@/components/ui/VoiceTextarea';
 import { createBookingEnquiry } from '@/lib/bookingSystem';
 
@@ -195,6 +195,41 @@ export default function Bookings() {
                 <Icon className="w-5 h-5 text-primary mx-auto mb-2" />
                 <p className="font-display text-sm text-foreground">{item.label}</p>
                 <p className="font-body text-xs text-muted-foreground mt-1">{item.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+      </motion.div>
+
+      {/* Urgency + Trust Signals */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+        className="max-w-4xl mx-auto mb-12"
+      >
+        <div className="flex items-center justify-center gap-3 mb-8">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+          </span>
+          <p className="font-body text-sm text-foreground/80">
+            <strong className="text-primary">3 booking slots</strong> remaining for late 2026 · <span className="text-muted-foreground">Enquiries answered within 48 hours</span>
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { icon: Clock, title: '48-Hour Response', desc: 'Every enquiry answered within 2 business days — no waiting, no chasing.' },
+            { icon: Shield, title: 'Professional Delivery', desc: 'Full technical rider, stage plot, and promo assets provided.' },
+            { icon: Heart, title: 'Authentic Performance', desc: 'Every show is personal. Raw, honest, and unforgettable.' },
+          ].map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <div key={i} className="bg-card border border-border/40 rounded-2xl p-5">
+                <Icon className="w-5 h-5 text-primary mb-3" />
+                <p className="font-display text-sm text-foreground mb-1">{item.title}</p>
+                <p className="font-body text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
               </div>
             );
           })}

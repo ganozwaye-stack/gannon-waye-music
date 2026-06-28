@@ -4,6 +4,7 @@ import { STORE_PRODUCTS, BOUTIQUE_HERO_IMAGE } from '@/config/storeWorldConfig';
 import StoreWorldHotspot from '@/components/store/StoreWorldHotspot';
 import ProductQuickViewModal from '@/components/store/ProductQuickViewModal';
 import MerchGallery from '@/components/store/MerchGallery';
+import EditorialProductGrid from '@/components/store/EditorialProductGrid';
 import { ShoppingCart, Grid, Music } from 'lucide-react';
 
 const ACCENT = '#D4AF37';
@@ -143,11 +144,7 @@ export default function StoreWorld() {
           Gannon Waye Merch Store — Full Collection
         </h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px', marginBottom: '48px', padding: '0 4px' }}>
-          {STORE_PRODUCTS.map((product) =>
-          <ProductCard key={product.id} product={product} onOpenModal={setActiveModal} />
-          )}
-        </div>
+        <EditorialProductGrid products={STORE_PRODUCTS} onOpenModal={setActiveModal} />
 
         {/* ── MERCH GALLERY ── */}
         <MerchGallery />

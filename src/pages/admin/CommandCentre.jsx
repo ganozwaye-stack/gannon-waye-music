@@ -136,23 +136,40 @@ export default function CommandCentre() {
         </div>
       )}
 
-      {/* Dashboard Grid */}
+      {/* Dashboard Grid — Grouped by Category */}
       <div>
         <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
           <Star className="w-4 h-4 text-primary" /> Command Dashboards
         </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-          {DASHBOARDS.map(d => (
-            <Link key={d.path} to={d.path}>
-              <Card className="hover:border-primary/40 transition-all cursor-pointer h-full">
-                <CardContent className="p-4">
-                  <d.icon className={`w-6 h-6 ${d.color} mb-2`} />
-                  <p className="font-medium text-sm text-foreground">{d.label}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{d.desc}</p>
-                </CardContent>
-              </Card>
-            </Link>
-          ))}
+        <div className="space-y-6">
+          {[
+            { category: 'Security & Risk', labels: ['Risk Alerts', 'Security Centre', 'Knowledge Vault'] },
+            { category: 'Revenue & Legal', labels: ['Wealth Dashboard', 'Legal Dashboard', 'Approval Queue'] },
+            { category: 'Intelligence', labels: ['Research Hub', 'Trend Monitor', 'Orchestrator'] },
+            { category: 'Creative & Content', labels: ['Creative Studio', 'Marketing Centre', 'Social Command', 'Website Ops'] },
+            { category: 'Operations', labels: ['Agent Registry', 'Agent Task Log'] },
+          ].map(group => {
+            const items = DASHBOARDS.filter(d => group.labels.includes(d.label));
+            if (!items.length) return null;
+            return (
+              <div key={group.category}>
+                <p className="font-body text-[10px] tracking-widest uppercase text-muted-foreground mb-3">{group.category}</p>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+                  {items.map(d => (
+                    <Link key={d.path} to={d.path}>
+                      <Card className="hover:border-primary/40 transition-all cursor-pointer h-full">
+                        <CardContent className="p-4">
+                          <d.icon className={`w-6 h-6 ${d.color} mb-2`} />
+                          <p className="font-medium text-sm text-foreground">{d.label}</p>
+                          <p className="text-xs text-muted-foreground mt-1">{d.desc}</p>
+                        </CardContent>
+                      </Card>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 

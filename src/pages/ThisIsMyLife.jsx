@@ -303,9 +303,25 @@ export default function ThisIsMyLife() {
             </p>
           </motion.div>
 
-          <div className="space-y-6">
+          <div className="relative">
+            {/* Timeline line */}
+            <div className="absolute left-5 top-4 bottom-4 w-px bg-gradient-to-b from-primary/50 via-primary/20 to-transparent md:left-6" />
             {EPISODES.map((episode, i) => (
-              <div key={episode.number}>
+              <div key={episode.number} className="relative pl-14 md:pl-20 mb-6">
+                {/* Timeline node */}
+                <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                  className={`absolute left-0 top-4 w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center font-display text-xs md:text-sm z-10 ${
+                    episode.status === 'available'
+                      ? 'border-primary bg-primary/10 text-primary'
+                      : 'border-border/50 bg-background text-muted-foreground/50'
+                  }`}
+                >
+                  {String(episode.number).padStart(2, '0')}
+                </motion.div>
                 <EpisodeCard episode={episode} index={i} onNotify={setNotifyEpisode} />
                 {(i === 2 || i === 5 || i === 8) && (
                   <SignatureQuoteDivider quoteIndex={Math.floor(i / 3)} />
