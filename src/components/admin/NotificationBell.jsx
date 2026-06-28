@@ -27,21 +27,31 @@ const TYPE_CONFIG = {
 
 const SEVERITY_PRIORITY = { critical: 0, high: 1, warning: 2, info: 3 };
 
-// Ding audio using Web Audio API — no external file needed
+// Gentle notification chime — soft, low-volume, plays once per session
+let hasPlayedDingThisSession = false;
 function playDing() {
+  if (hasPlayedDingThisSession) return;
+  hasPlayedDingThisSession = true;
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(880, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.4);
-    gain.gain.setValueAtTime(0.3, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
-    osc.start(ctx.currentTime);
-    osc.stop(ctx.currentTime + 0.6);
+    // Soft two-note chime (C6 → G6) — gentle bell-like tone at low volume
+    const notes = [
+      { freq: 1046.5, start: 0, dur: 0.12 },
+      { freq: 1567.98, start: 0.07, dur: 0.18 },
+    ];
+    notes.forEach(({ freq, start, dur }) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+      gain.gain.setValueAtTime(0, ctx.currentTime + start);
+      gain.gain.linearRampToValueAtTime(0.05, ctx.currentTime + start + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur);
+      osc.start(ctx.currentTime + start);
+      osc.stop(ctx.currentTime + start + dur);
+    });
   } catch (e) {}
 }
 
@@ -55,7 +65,7 @@ export default function NotificationBell() {
   const { data: notifications = [] } = useQuery({
     queryKey: ['notif-bell'],
     queryFn: () => base44.entities.AdminNotification.list('-created_date', 100),
-    refetchInterval: 20000,
+    refetchInterval: 60000,
   });
 
   // Sort by severity then date, show up to 15
