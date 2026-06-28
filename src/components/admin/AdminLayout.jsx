@@ -8,7 +8,7 @@ import {
   ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
   Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
   GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal, Radio, Upload,
-  Film, MessageSquare
+  Film, MessageSquare, ListTodo
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -16,60 +16,36 @@ import GlobalSearch from '@/components/global/GlobalSearch';
 import CommandPalette from '@/components/global/CommandPalette';
 import NotificationBell from '@/components/admin/NotificationBell';
 
-// ─── Simplified Admin Navigation Hubs ───────────────────────────────────────
+// ─── Admin Navigation — Pinned daily operating first, then alphabetical ──────
 const NAV_SECTIONS = [
+  // ── PINNED: Daily operating areas (fixed order, not alphabetical) ──
   {
-    title: 'Owner Dashboard',
+    title: 'Daily Operating',
     items: [
       { label: 'Daily Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-      { label: 'Attention Centre', path: '/admin/business-attention-centre', icon: Bell },
-    ]
-  },
-  {
-    title: 'Music and Releases',
-    items: [
-      { label: 'Music and Fan Hub', path: '/admin/music-fan', icon: Music },
-      { label: 'Releases', path: '/admin/releases', icon: Star },
-      { label: 'Videos', path: '/admin/videos', icon: Video },
-      { label: 'Lyrics Archive', path: '/admin/lyrics-archive', icon: FileText },
-      { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
-    ]
-  },
-  {
-    title: 'Store and Orders',
-    items: [
-      { label: 'Store and Orders Hub', path: '/admin/store-orders', icon: ShoppingBag },
-      { label: 'Merch Management', path: '/admin/merch', icon: Package },
-      { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
-      { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
-      { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Calculator },
-    ]
-  },
-  {
-    title: 'Content and Social',
-    items: [
-      { label: 'Launch and Content Hub', path: '/admin/launch-content', icon: Megaphone },
-      { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
-      { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },
-      { label: 'Social Monitor', path: '/admin/social-monitor', icon: Activity },
-      { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Zap },
+      { label: 'Command Centre', path: '/admin/command-centre', icon: Zap },
+      { label: 'Priority Commander', path: '/admin/priority-commander', icon: ListTodo },
       { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
+      { label: 'Website Overhaul', path: '/admin/site-upgrade-audit', icon: AlertTriangle },
+      { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
+      { label: 'Release Prep', path: '/admin/release-sprint', icon: Star },
     ]
   },
+  // ── Alphabetical sections below ──
   {
     title: 'Automations and Agents',
     items: [
-      { label: 'Automation and Agents Hub', path: '/admin/automation-agents', icon: Brain },
       { label: 'Agent Registry', path: '/admin/agent-registry', icon: Eye },
       { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Terminal },
       { label: 'Agent Workbench', path: '/admin/agent-workbench', icon: Terminal },
+      { label: 'Automation and Agents Hub', path: '/admin/automation-agents', icon: Brain },
     ]
   },
   {
     title: 'Business and Finance',
     items: [
-      { label: 'Owner Business Hub', path: '/admin/owner-business', icon: Lock, ownerOnly: true },
       { label: 'Financial Dashboard', path: '/admin/financials', icon: DollarSign },
+      { label: 'Owner Business Hub', path: '/admin/owner-business', icon: Lock, ownerOnly: true },
       { label: 'Revenue Command', path: '/admin/revenue-command', icon: DollarSign },
       { label: 'Stripe Command', path: '/admin/stripe-command-centre', icon: CreditCard },
     ]
@@ -77,22 +53,51 @@ const NAV_SECTIONS = [
   {
     title: 'Coaching and Private Work',
     items: [
+      { label: 'Coaching Clients', path: '/admin/coaching-clients', icon: Users },
       { label: 'Coaching Hub', path: '/admin/coaching-hub', icon: GraduationCap },
       { label: 'Coaching Leads', path: '/admin/coaching-leads', icon: Mail },
-      { label: 'Coaching Clients', path: '/admin/coaching-clients', icon: Users },
-      { label: "Mum's Garden", path: '/admin/mums-garden', icon: Heart },
-      { label: 'Mum Tribute', path: '/admin/mum', icon: Heart },
       { label: 'Memorial', path: '/admin/memorial', icon: Heart },
+      { label: 'Mum Tribute', path: '/admin/mum', icon: Heart },
+      { label: "Mum's Garden", path: '/admin/mums-garden', icon: Heart },
+    ]
+  },
+  {
+    title: 'Content and Social',
+    items: [
+      { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Zap },
+      { label: 'Launch and Content Hub', path: '/admin/launch-content', icon: Megaphone },
+      { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },
+      { label: 'Social Monitor', path: '/admin/social-monitor', icon: Activity },
+    ]
+  },
+  {
+    title: 'Music and Releases',
+    items: [
+      { label: 'Lyrics Archive', path: '/admin/lyrics-archive', icon: FileText },
+      { label: 'Music and Fan Hub', path: '/admin/music-fan', icon: Music },
+      { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
+      { label: 'Releases', path: '/admin/releases', icon: Star },
+      { label: 'Videos', path: '/admin/videos', icon: Video },
+    ]
+  },
+  {
+    title: 'Store and Orders',
+    items: [
+      { label: 'Merch Management', path: '/admin/merch', icon: Package },
+      { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
+      { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
+      { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Calculator },
+      { label: 'Store and Orders Hub', path: '/admin/store-orders', icon: ShoppingBag },
     ]
   },
   {
     title: 'System Health',
     items: [
-      { label: 'Systems and QA Hub', path: '/admin/systems-qa', icon: Activity },
-      { label: 'Site Health', path: '/admin/site-health', icon: Heart },
-      { label: 'Site Settings', path: '/admin/settings', icon: Settings },
       { label: 'API Setup', path: '/admin/api-setup', icon: Zap },
       { label: 'Security Centre', path: '/admin/security-centre', icon: Shield },
+      { label: 'Site Health', path: '/admin/site-health', icon: Heart },
+      { label: 'Site Settings', path: '/admin/settings', icon: Settings },
+      { label: 'Systems and QA Hub', path: '/admin/systems-qa', icon: Activity },
     ]
   }
 ];

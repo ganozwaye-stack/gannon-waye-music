@@ -20,18 +20,23 @@ import Timeline from '@/components/admin/dashboard/Timeline';
 import DailyNotes from '@/components/admin/dashboard/DailyNotes';
 
 const QUICK_LINKS = [
-  { label: 'View Site', path: '/', icon: ExternalLink },
-  { label: 'Music Page', path: '/music', icon: Music },
+  // ── Pinned daily operating links (fixed order) ──
+  { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
+  { label: 'Website Overhaul', path: '/admin/site-upgrade-audit', icon: AlertTriangle },
+  { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
+  { label: 'Release Prep', path: '/admin/release-sprint', icon: Music },
+  // ── Remaining links (alphabetical by label) ──
+  { label: 'Fan List', path: '/admin/subscribers', icon: Heart },
   { label: 'Lyrics Admin', path: '/admin/lyrics-archive', icon: FileText },
-  { label: 'Store Admin', path: '/admin/merch', icon: ShoppingBag },
+  { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },
+  { label: 'Music Page', path: '/music', icon: Music },
+  { label: "Mum's Garden", path: '/admin/mums-garden', icon: Heart },
   { label: 'Orders', path: '/admin/orders', icon: ShoppingBag },
   { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
-  { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
-  { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },
-  { label: 'Fan List', path: '/admin/subscribers', icon: Heart },
-  { label: "Mum's Garden", path: '/admin/mums-garden', icon: Heart },
   { label: 'Releases', path: '/admin/releases', icon: Music },
   { label: 'Site Settings', path: '/admin/settings', icon: Settings },
+  { label: 'Store Admin', path: '/admin/merch', icon: ShoppingBag },
+  { label: 'View Site', path: '/', icon: ExternalLink },
 ];
 
 const SAFE_TO_DO = [
