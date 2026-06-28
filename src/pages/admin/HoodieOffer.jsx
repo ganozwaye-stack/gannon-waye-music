@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { Mail, Send } from 'lucide-react';
 
-const HOODIE_PRICE = 89;
+const HOODIE_PRICE = 98;
 const HOODIE_COST = 30;
 
 export default function HoodieOffer() {
@@ -99,7 +99,7 @@ export default function HoodieOffer() {
         </div>
         <div className="bg-secondary/30 rounded-lg p-3 border border-primary/20">
           <p className="font-body text-xs text-primary/80 leading-relaxed">
-            ✓ Discount applies only to the $89 hoodie sale price<br/>
+            ✓ Discount applies only to the $98 hoodie sale price<br/>
             ✓ All fees, shipping, and taxes are NOT discounted
           </p>
         </div>

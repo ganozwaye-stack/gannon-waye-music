@@ -32,7 +32,7 @@ const BRIEFS = [
     link: 'gannonwaye.com/store',
     formats: ['9:16 (Stories / TikTok)', '1:1 (Feed / Facebook)', '16:9 (YouTube / Facebook banner)'],
     products: [
-      'Respect Is Earned Hoodie — $89',
+      'Respect Is Earned Hoodie — $98',
       'Respect Is Earned Coffee Mug — $9.90',
       'Thankyou Journal, Pen & Thermos Bundle — $59',
       'Winter Writing & Comfort Bundle — $129 (no further discounts)',
@@ -185,7 +185,7 @@ Scene 3 (0:04–0:08): Hoodie back — lyric text clearly visible.
 
 Scene 4 (0:08–0:12): Hoodie front — logo/artwork close crop.
 — Slight push-in motion. 
-— Overlay (lower left): "Respect Is Earned Hoodie — $89"
+— Overlay (lower left): "Respect Is Earned Hoodie — $98"
 
 Scene 5 (0:12–0:16): Hoodie + Mug styled flat lay. Dark surface, gold rim on mug catches light.
 — Text: "The statement." — small white italic, upper centre.

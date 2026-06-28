@@ -27,7 +27,7 @@ const STORE_OPEN = true;
 const PRODUCT_CONFIG = {
   '69f11d1fc43e13c61fe6b9d6': { sub: 'Sold out · Thank you for the love 🤍' },
   '69eed3e64e2da78ae4418a9d': { sub: 'Sold out · Limited hand-signed edition' },
-  '69f11d1fc43e13c61fe6b9d7': { sub: '⚡ Get in fast, stock running out. New shipment on its way. $89' },
+  '69f11d1fc43e13c61fe6b9d7': { sub: '⚡ Get in fast, stock running out. New shipment on its way. $98' },
   '69eed3e64e2da78ae4418a99': { sub: 'Sold out · Oversized premium tee · $49' },
   '69fbd261b760426cede1b7a3': { sub: '❄️ Also available in the Winter Writing & Comfort Bundle, $129 with hoodie, pen & thermo. Journal features "Respect Is Earned, Not A Game You Make Me Play" lyric.' },
   '69eed3e64e2da78ae4418a9a': { sub: 'Sold out due to popular demand. These will not be restocked. 🤍' },
@@ -88,7 +88,7 @@ const FALLBACK_PRODUCTS = [
   {
     id: '69f11d1fc43e13c61fe6b9d7',
     name: '"Respect Is Earned" Hoodie Dark Grey',
-    sale_price: 89,
+    sale_price: 98,
     category: 'apparel',
     stock_quantity: 16,
     sizes_available: ['XS', 'S', 'M', 'L', 'XL', '2XL'],
