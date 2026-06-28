@@ -120,6 +120,20 @@ const ALL_PAGES = [
   { label: 'Weekly Money Report', route: '/admin/weekly-money-report', category: 'Commerce' },
 ].sort((a, b) => a.label.localeCompare(b.label));
 
+// Pinned daily operating items — shown at top before alphabetical listing
+const PINNED_PAGES = [
+  { label: 'Daily Dashboard', route: '/admin/dashboard', category: 'Executive' },
+  { label: 'Command Center', route: '/admin/command-centre', category: 'Executive' },
+  { label: "Today's Top Priorities", route: '/admin/dashboard', category: 'Executive' },
+  { label: 'Daily Admin Checklist', route: '/admin/dashboard', category: 'Executive' },
+  { label: 'Daily To-Dos', route: '/admin/dashboard', category: 'Executive' },
+  { label: 'Approval Queue', route: '/admin/approval-queue', category: 'Executive' },
+  { label: 'Blocked Items', route: '/admin/dashboard', category: 'Executive' },
+  { label: 'Website Overhaul', route: '/admin/site-upgrade-audit', category: 'Executive' },
+  { label: 'Content Studio', route: '/admin/content-studio', category: 'Social' },
+  { label: 'Release Prep', route: '/admin/release-sprint', category: 'Operations' },
+];
+
 const CATEGORY_COLOR = {
   Executive: 'bg-purple-500/20 text-purple-400',
   Commerce: 'bg-green-500/20 text-green-400',
@@ -182,6 +196,27 @@ export default function AtoZIndex() {
           ))}
         </div>
       </div>
+
+      {/* Pinned daily operating */}
+      {!search && categoryFilter === 'all' && (
+        <div className="space-y-2">
+          <div className="flex items-center gap-3 mb-1">
+            <span className="text-xs font-semibold uppercase tracking-widest text-primary">📌 Daily Operating</span>
+            <div className="flex-1 h-px bg-border/40" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+            {PINNED_PAGES.map(page => (
+              <Link key={page.route + page.label} to={page.route}>
+                <div className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-secondary/30 transition-colors group">
+                  <span className="font-body text-sm flex-1 group-hover:text-primary transition-colors">{page.label}</span>
+                  <Badge className={`text-xs shrink-0 ${CATEGORY_COLOR[page.category] || 'bg-secondary text-secondary-foreground'}`}>{page.category}</Badge>
+                  <ChevronRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Alphabet quick-jump */}
       {!search && (

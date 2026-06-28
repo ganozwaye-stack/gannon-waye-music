@@ -1,37 +1,41 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Plus, DollarSign, Package, Users, Heart, Gift, Tag, Mail, TrendingUp, FileText, ExternalLink, Command, ShoppingBag, Briefcase, Camera, Activity, BarChart3, RefreshCw, Download, Megaphone, Palette, Music, Brain, Lock, Zap, BookOpen } from 'lucide-react';
+import { Search, Plus, DollarSign, Package, Users, Heart, Gift, Tag, Mail, TrendingUp, FileText, ExternalLink, Command, ShoppingBag, Briefcase, Camera, Activity, BarChart3, RefreshCw, Download, Megaphone, Palette, Music, Brain, Lock, Zap, BookOpen, Terminal, Shield, Film, Star, Globe } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 
 const STATIC_COMMANDS = [
-  // Navigation to 7 Consolidated Hubs
-  { id: 'hub_launch', label: 'Hub: Launch & Content Hub', shortcut: 'G L', icon: Megaphone, action: '/admin/launch-content' },
-  { id: 'hub_creative', label: 'Hub: Creative Studio Hub', shortcut: 'G C', icon: Palette, action: '/admin/creative-studio' },
-  { id: 'hub_music', label: 'Hub: Music & Fan Hub', shortcut: 'G M', icon: Music, action: '/admin/music-fan' },
-  { id: 'hub_store', label: 'Hub: Store & Orders Hub', shortcut: 'G S', icon: ShoppingBag, action: '/admin/store-orders' },
-  { id: 'hub_automation', label: 'Hub: Automation & Agents Hub', shortcut: 'G A', icon: Brain, action: '/admin/automation-agents' },
-  { id: 'hub_systems', label: 'Hub: Systems & QA Hub', shortcut: 'G Q', icon: Activity, action: '/admin/systems-qa' },
-  { id: 'hub_owner', label: 'Hub: Owner Business Hub (Gannon Only)', shortcut: 'G B', icon: Lock, action: '/admin/owner-business' },
+  // Pinned daily operating (first)
+  { id: 'nav_daily_dashboard', label: 'Go to Daily Dashboard', shortcut: 'G D', icon: TrendingUp, action: '/admin/dashboard' },
+  { id: 'nav_command_center', label: 'Open Command Center', shortcut: 'G C', icon: Terminal, action: '/admin/command-centre' },
+  { id: 'nav_approval_queue', label: 'Open Approval Queue', shortcut: 'G A', icon: Shield, action: '/admin/approval-queue' },
+  { id: 'nav_website_overhaul', label: 'Open Website Overhaul', shortcut: 'G W', icon: Globe, action: '/admin/site-upgrade-audit' },
+  { id: 'nav_content_studio', label: 'Open Content Studio', shortcut: 'G S', icon: Film, action: '/admin/content-studio' },
+  { id: 'nav_release_prep', label: 'Open Release Prep', shortcut: 'G R', icon: Star, action: '/admin/release-sprint' },
 
-  // Older Direct Routes (kept active per routing rules)
-  { id: 'nav_dashboard', label: 'Go to Dashboard', shortcut: 'G D', icon: TrendingUp, action: '/admin' },
+  // Remaining commands alphabetical
+  { id: 'create_product', label: 'Create New Product', shortcut: 'C P', icon: Plus, action: '/admin/merch?action=new' },
+  { id: 'create_promo', label: 'Create Promo Code', shortcut: 'C K', icon: Plus, action: '/admin/promo-codes?action=new' },
+  { id: 'hub_automation', label: 'Hub: Automation & Agents Hub', shortcut: 'H A', icon: Brain, action: '/admin/automation-agents' },
+  { id: 'hub_creative', label: 'Hub: Creative Studio Hub', shortcut: 'H C', icon: Palette, action: '/admin/creative-studio' },
+  { id: 'hub_launch', label: 'Hub: Launch & Content Hub', shortcut: 'H L', icon: Megaphone, action: '/admin/launch-content' },
+  { id: 'hub_music', label: 'Hub: Music & Fan Hub', shortcut: 'H M', icon: Music, action: '/admin/music-fan' },
+  { id: 'hub_owner', label: 'Hub: Owner Business Hub (Gannon Only)', shortcut: 'H B', icon: Lock, action: '/admin/owner-business' },
+  { id: 'hub_store', label: 'Hub: Store & Orders Hub', shortcut: 'H S', icon: ShoppingBag, action: '/admin/store-orders' },
+  { id: 'hub_systems', label: 'Hub: Systems & QA Hub', shortcut: 'H Q', icon: Activity, action: '/admin/systems-qa' },
+  { id: 'nav_dashboard', label: 'Go to Admin Dashboard', shortcut: 'G A', icon: TrendingUp, action: '/admin' },
   { id: 'nav_orders', label: 'View Orders List', shortcut: 'G O', icon: Package, action: '/admin/orders' },
   { id: 'nav_products', label: 'View Products List', shortcut: 'G P', icon: ShoppingBag, action: '/admin/merch' },
   { id: 'nav_subscribers', label: 'View Supporter CRM', shortcut: 'G R', icon: Users, action: '/admin/subscribers' },
   { id: 'nav_financials', label: 'View Financials', shortcut: 'G F', icon: DollarSign, action: '/admin/financials' },
   { id: 'nav_health', label: 'Site Health Check', shortcut: 'G H', icon: Activity, action: '/admin/site-health' },
   { id: 'nav_site', label: 'View Public Site Home', shortcut: 'G V', icon: ExternalLink, action: '/' },
-  
-  // Quick Actions
   { id: 'action_leads', label: 'View Systems Manager Leads', shortcut: 'A L', icon: Briefcase, action: '/admin/owner-business?tab=leads' },
   { id: 'action_war_room', label: 'Open Launch War Room', shortcut: 'A W', icon: Zap, action: '/admin/launch-content?tab=war-room' },
   { id: 'action_story', label: 'Open Story Vault', shortcut: 'A V', icon: BookOpen, iconName: 'book', action: '/admin/music-fan?tab=story-vault' },
-  { id: 'create_product', label: 'Create New Product', shortcut: 'C P', icon: Plus, action: '/admin/merch?action=new' },
-  { id: 'create_promo', label: 'Create Promo Code', shortcut: 'C K', icon: Plus, action: '/admin/promo-codes?action=new' }
 ];
 
 export default function CommandPalette({ isOpen, onClose }) {

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import {
   Sun, Shield, Lock, Link2, Music, ShoppingBag, FileText, Megaphone,
   Film, MessageSquare, BarChart3, Heart, Settings, CheckCircle2, XCircle,
-  ExternalLink, Sparkles, AlertTriangle
+  ExternalLink, Sparkles, AlertTriangle, LayoutDashboard, Globe, Star
 } from 'lucide-react';
 
 import TodaysPriorities from '@/components/admin/dashboard/TodaysPriorities';
@@ -20,22 +20,25 @@ import Timeline from '@/components/admin/dashboard/Timeline';
 import DailyNotes from '@/components/admin/dashboard/DailyNotes';
 
 const QUICK_LINKS = [
-  // ── Pinned daily operating links (fixed order) ──
+  // Pinned daily operating links (first)
+  { label: 'Daily Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+  { label: "Today's Priorities", path: '/admin/dashboard', icon: Sun },
+  { label: 'Daily Admin Checklist', path: '/admin/dashboard', icon: CheckCircle2 },
   { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
-  { label: 'Website Overhaul', path: '/admin/site-upgrade-audit', icon: AlertTriangle },
+  { label: 'Blocked Items', path: '/admin/dashboard', icon: AlertTriangle },
+  { label: 'Website Overhaul', path: '/admin/site-upgrade-audit', icon: Globe },
   { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
-  { label: 'Release Prep', path: '/admin/release-sprint', icon: Music },
-  // ── Remaining links (alphabetical by label) ──
+  { label: 'Release Prep', path: '/admin/release-sprint', icon: Star },
+  // Remaining links alphabetical
   { label: 'Fan List', path: '/admin/subscribers', icon: Heart },
   { label: 'Lyrics Admin', path: '/admin/lyrics-archive', icon: FileText },
   { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },
+  { label: 'Merch Management', path: '/admin/merch', icon: ShoppingBag },
   { label: 'Music Page', path: '/music', icon: Music },
-  { label: "Mum's Garden", path: '/admin/mums-garden', icon: Heart },
   { label: 'Orders', path: '/admin/orders', icon: ShoppingBag },
   { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
   { label: 'Releases', path: '/admin/releases', icon: Music },
   { label: 'Site Settings', path: '/admin/settings', icon: Settings },
-  { label: 'Store Admin', path: '/admin/merch', icon: ShoppingBag },
   { label: 'View Site', path: '/', icon: ExternalLink },
 ];
 

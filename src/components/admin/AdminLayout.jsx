@@ -8,7 +8,7 @@ import {
   ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
   Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
   GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal, Radio, Upload,
-  Film, MessageSquare, ListTodo
+  Film, MessageSquare, Sun, CheckCircle2, ListTodo
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -16,22 +16,25 @@ import GlobalSearch from '@/components/global/GlobalSearch';
 import CommandPalette from '@/components/global/CommandPalette';
 import NotificationBell from '@/components/admin/NotificationBell';
 
-// ─── Admin Navigation — Pinned daily operating first, then alphabetical ──────
+// ─── Simplified Admin Navigation Hubs ───────────────────────────────────────
 const NAV_SECTIONS = [
-  // ── PINNED: Daily operating areas (fixed order, not alphabetical) ──
+  // ─── PINNED: Daily Operating (always at top) ───────────────────────────────
   {
     title: 'Daily Operating',
     items: [
       { label: 'Daily Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-      { label: 'Command Centre', path: '/admin/command-centre', icon: Zap },
-      { label: 'Priority Commander', path: '/admin/priority-commander', icon: ListTodo },
+      { label: 'Command Center', path: '/admin/command-centre', icon: Terminal },
+      { label: "Today's Top Priorities", path: '/admin/dashboard', icon: Sun },
+      { label: 'Daily Admin Checklist', path: '/admin/dashboard', icon: CheckCircle2 },
+      { label: 'Daily To-Dos', path: '/admin/dashboard', icon: ListTodo },
       { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
-      { label: 'Website Overhaul', path: '/admin/site-upgrade-audit', icon: AlertTriangle },
+      { label: 'Blocked Items', path: '/admin/dashboard', icon: AlertTriangle },
+      { label: 'Website Overhaul', path: '/admin/site-upgrade-audit', icon: Globe },
       { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
       { label: 'Release Prep', path: '/admin/release-sprint', icon: Star },
     ]
   },
-  // ── Alphabetical sections below ──
+  // ─── ALPHABETICAL SECTIONS ──────────────────────────────────────────────────
   {
     title: 'Automations and Agents',
     items: [
@@ -44,6 +47,7 @@ const NAV_SECTIONS = [
   {
     title: 'Business and Finance',
     items: [
+      { label: 'Attention Centre', path: '/admin/business-attention-centre', icon: Bell },
       { label: 'Financial Dashboard', path: '/admin/financials', icon: DollarSign },
       { label: 'Owner Business Hub', path: '/admin/owner-business', icon: Lock, ownerOnly: true },
       { label: 'Revenue Command', path: '/admin/revenue-command', icon: DollarSign },
