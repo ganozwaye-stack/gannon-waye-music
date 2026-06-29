@@ -1,13 +1,33 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Central admin notification dispatcher
 // Creates AdminNotification + sends Slack + sends Email
-// Call from any function: invoke('notifyAdmin', { type, title, summary, severity, route, entity, id, requiresAction })
+// Handles both direct invocation ({title, summary, ...}) and entity automation payloads ({event, data})
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
     const body = await req.json().catch(() => ({}));
+
+    // Handle entity automation payloads: { event, data, old_data, changed_fields }
+    let fields = body;
+    if (body.event && body.data) {
+      const eventType = body.event.type;
+      const entityName = body.event.entity_name;
+      const data = body.data;
+      const entityTitle = data.title || data.name || data.metric_name || data.keyword || data.business_name || entityName;
+      const verb = eventType === 'create' ? 'Created' : eventType === 'update' ? 'Updated' : eventType === 'delete' ? 'Deleted' : 'Changed';
+      fields = {
+        notification_type: 'system',
+        title: `${entityName} ${verb}: ${entityTitle}`,
+        summary: data.description || data.summary || data.notes || data.blocker_reason || data.next_action || '',
+        severity: data.severity || data.priority === 'critical' ? 'critical' : data.priority === 'high' ? 'high' : 'info',
+        linked_entity: entityName,
+        linked_id: body.event.entity_id || data.id || '',
+        requires_action: data.approval_required || data.status === 'needs_approval' || false,
+        source: `Automation: ${entityName}`,
+      };
+    }
 
     const {
       notification_type = 'system',
@@ -20,7 +40,7 @@ Deno.serve(async (req) => {
       requires_action = false,
       source = 'System',
       slack_message = null,
-    } = body;
+    } = fields;
 
     if (!title) return Response.json({ error: 'title is required' }, { status: 400 });
 
@@ -40,7 +60,7 @@ Deno.serve(async (req) => {
       delivered_email: false,
     });
 
-    // 2. Send Slack
+    // 2. Send Slack (optional — don't fail if Slack unavailable)
     const severityEmoji = { critical: '🚨', high: '⚠️', warning: '⚡', info: 'ℹ️' }[severity] || 'ℹ️';
     const slackText = slack_message || `${severityEmoji} *${title}*\n${summary || ''}${linked_route ? `\n→ ${linked_route}` : ''}`;
 
@@ -55,7 +75,7 @@ Deno.serve(async (req) => {
       // Slack optional
     }
 
-    // 3. Send Email for high/critical
+    // 3. Send Email for high/critical (optional)
     let emailSent = false;
     if (severity === 'high' || severity === 'critical' || requires_action) {
       try {
@@ -78,10 +98,14 @@ Deno.serve(async (req) => {
     }
 
     // Update delivery flags
-    await base44.asServiceRole.entities.AdminNotification.update(notification.id, {
-      delivered_slack: slackSent,
-      delivered_email: emailSent,
-    });
+    try {
+      await base44.asServiceRole.entities.AdminNotification.update(notification.id, {
+        delivered_slack: slackSent,
+        delivered_email: emailSent,
+      });
+    } catch (_) {
+      // Non-critical
+    }
 
     return Response.json({ success: true, notification_id: notification.id, slack_sent: slackSent, email_sent: emailSent });
 

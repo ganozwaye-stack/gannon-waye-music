@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Core alert dispatcher — evaluates system state and triggers Slack/email alerts
 // Called by automations or scheduled tasks to assess risks and notify
@@ -207,18 +207,22 @@ Deno.serve(async (req) => {
       const criticalList = criticalAlerts.map(a => `• ${a.title} (${a.alert_type})`).join('\n');
       const escalatedList = recentErrors.map(e => `• ${e.task_title}`).join('\n');
 
-      await base44.asServiceRole.functions.invoke('sendSlackAlert', {
-        channel: '#gannon-alerts',
-        title: '🚨 System Alert Summary',
-        urgency: 'critical',
-        message: `*${criticalAlerts.length} Critical Issues Detected*\n\n${criticalList || 'None'}\n\n*Recent Escalations:*\n${escalatedList || 'None'}`,
-        fields: [
-          { label: '🚨 Critical', value: String(criticalAlerts.length) },
-          { label: '⚠️ High', value: String(highAlerts.length) },
-          { label: '⏳ Pending', value: String(pendingApprovals.length) },
-        ],
-        action_url: 'https://gannonwaye.com/admin/risk-alerts',
-      });
+      try {
+        await base44.asServiceRole.functions.invoke('sendSlackAlert', {
+          channel: '#gannon-alerts',
+          title: '🚨 System Alert Summary',
+          urgency: 'critical',
+          message: `*${criticalAlerts.length} Critical Issues Detected*\n\n${criticalList || 'None'}\n\n*Recent Escalations:*\n${escalatedList || 'None'}`,
+          fields: [
+            { label: '🚨 Critical', value: String(criticalAlerts.length) },
+            { label: '⚠️ High', value: String(highAlerts.length) },
+            { label: '⏳ Pending', value: String(pendingApprovals.length) },
+          ],
+          action_url: 'https://gannonwaye.com/admin/risk-alerts',
+        });
+      } catch (_) {
+        // Slack optional — don't fail the alert system
+      }
     }
 
     return Response.json({ success: true, summary: alertSummary });

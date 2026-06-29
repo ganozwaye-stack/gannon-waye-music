@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 // Sync Release entities to Google Calendar
 // Runs weekly to keep calendar in sync with release database
@@ -6,7 +6,17 @@ Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
 
-    const { accessToken } = await base44.asServiceRole.connectors.getConnection('googlecalendar');
+    let accessToken;
+    try {
+      const conn = await base44.asServiceRole.connectors.getConnection('googlecalendar');
+      accessToken = conn.accessToken;
+    } catch (_) {
+      return Response.json({
+        success: true,
+        skipped: true,
+        message: 'Google Calendar connector not authorized. Skipping calendar sync.',
+      });
+    }
 
     // Fetch all releases
     const releases = await base44.asServiceRole.entities.Release.list('-created_date', 100);

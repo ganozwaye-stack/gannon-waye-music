@@ -1,4 +1,4 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 function buildMimeMessage({ to, subject, htmlBody }) {
   const boundary = `boundary_${Date.now()}`;
@@ -22,7 +22,13 @@ function buildMimeMessage({ to, subject, htmlBody }) {
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const { orderId } = await req.json();
+    const body = await req.json();
+
+    // Handle both direct invocation ({orderId}) and entity automation ({event, data})
+    let orderId = body.orderId;
+    if (!orderId && body.data?.id) {
+      orderId = body.data.id;
+    }
 
     if (!orderId) {
       return Response.json({ error: 'Order ID required' }, { status: 400 });
