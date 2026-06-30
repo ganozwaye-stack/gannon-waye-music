@@ -61,6 +61,8 @@ import MumTribute from '@/pages/MumTribute';
 import MerchReelPage from '@/components/mum/MerchReelPage';
 import CheckoutSuccess from '@/pages/CheckoutSuccess';
 import CheckoutCancel from '@/pages/CheckoutCancel';
+import PreSave from '@/pages/PreSave';
+import ReleaseDetail from '@/pages/ReleaseDetail';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -372,6 +374,8 @@ const AuthenticatedApp = () => {
         <Route path="/upcoming-music" element={<UpcomingMusic />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
+        <Route path="/presave" element={<PreSave />} />
+        <Route path="/release/:id" element={<ReleaseDetail />} />
         <Route path="/store/product/:slug" element={<StoreProductDetail />} />
         <Route path="/releases" element={<ReleasesRedirect />} />
         <Route path="/about" element={<About />} />
