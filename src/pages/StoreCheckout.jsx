@@ -12,25 +12,36 @@ import { useToast } from '@/components/ui/use-toast';
 
 const DETAILS_KEY = 'gannon_checkout_details_v1';
 
-const AU_SHIPPING_BASE = 12.95;
-const AU_SHIPPING_PER_EXTRA = 2.00;
-const FREE_SHIPPING_THRESHOLD = 150;
 const NO_SHIPPING_CATS = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
 const INELIGIBLE_DISCOUNT_CATS = ['cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping', 'music', 'limited_edition_music', 'digital_music'];
 
 function needsShipping(cat) { return !NO_SHIPPING_CATS.includes((cat || '').toLowerCase().trim()); }
 function isEligible(cat) { const c = (cat || '').toLowerCase().trim(); return !INELIGIBLE_DISCOUNT_CATS.some(x => c.includes(x)); }
 
-function calcShipping(items, country) {
+// Map merch category → shipping product type for rate lookup
+function mapProductType(category) {
+  const c = (category || '').toLowerCase().trim();
+  if (c === 'vinyl') return 'vinyl';
+  if (c === 'cd') return 'cd';
+  if (c === 'bundle') return 'bundle';
+  if (['apparel', 'accessories', 'poster'].includes(c)) return 'merch';
+  return 'other';
+}
+
+// Local fallback if backend rate lookup fails
+const FALLBACK_BASE = 12.95;
+const FALLBACK_PER_EXTRA = 2.00;
+const FALLBACK_FREE_THRESHOLD = 150;
+function fallbackShipping(items, country) {
   const physical = items.filter(i => needsShipping(i.product?.category));
   if (physical.length === 0) return { amount: 0, label: 'Free (digital)', intl: false };
   const isIntl = country && country !== 'Australia';
   if (isIntl) return { amount: 0, label: 'International — quote required', intl: true };
   const subtotal = items.reduce((s, i) => s + (i.product?.sale_price ?? 0) * i.quantity, 0);
-  if (subtotal >= FREE_SHIPPING_THRESHOLD) return { amount: 0, label: 'Free (order ≥ $150)', intl: false };
-  const qty = items.reduce((s, i) => s + i.quantity, 0);
-  const amt = qty <= 1 ? AU_SHIPPING_BASE : AU_SHIPPING_BASE + (qty - 1) * AU_SHIPPING_PER_EXTRA;
-  return { amount: parseFloat(amt.toFixed(2)), label: `$${amt.toFixed(2)} AUD (combined)`, intl: false };
+  if (subtotal >= FALLBACK_FREE_THRESHOLD) return { amount: 0, label: 'Free (order ≥ $150)', intl: false };
+  const qty = physical.reduce((s, i) => s + i.quantity, 0);
+  const amt = qty <= 1 ? FALLBACK_BASE : FALLBACK_BASE + (qty - 1) * FALLBACK_PER_EXTRA;
+  return { amount: parseFloat(amt.toFixed(2)), label: `$${amt.toFixed(2)} AUD`, intl: false };
 }
 
 export default function StoreCheckout() {
@@ -52,6 +63,7 @@ export default function StoreCheckout() {
   const [redirecting, setRedirecting] = useState(false);
   const [checkoutError, setCheckoutError] = useState(null);
   const [addSupport, setAddSupport] = useState(0);
+  const [shipping, setShipping] = useState({ amount: 0, label: 'Calculating…', intl: false });
 
   useEffect(() => {
     try {
@@ -59,6 +71,53 @@ export default function StoreCheckout() {
       if (saved) setDetails(JSON.parse(saved));
     } catch {}
   }, []);
+
+  // Fetch live shipping rate from backend (configurable rate rules)
+  useEffect(() => {
+    if (!hasHydrated || items.length === 0 || !details) return;
+
+    const physical = items.filter(i => needsShipping(i.product?.category));
+    if (physical.length === 0) {
+      setShipping({ amount: 0, label: 'Free (digital)', intl: false });
+      return;
+    }
+
+    const isIntl = details.country && details.country !== 'Australia';
+    if (isIntl) {
+      setShipping({ amount: 0, label: 'International — quote required', intl: true });
+      return;
+    }
+
+    const cartTotal = items.reduce((s, i) => s + (i.product?.sale_price ?? 0) * i.quantity, 0);
+    const totalQty = physical.reduce((s, i) => s + i.quantity, 0);
+    const productType = mapProductType(physical[0]?.product?.category);
+
+    let cancelled = false;
+    setShipping(prev => ({ ...prev, label: 'Calculating…' }));
+
+    base44.functions.invoke('calculateShippingRate', {
+      destination: 'australia',
+      product_type: productType,
+      quantity: totalQty,
+      cart_total: cartTotal,
+    }).then(res => {
+      if (cancelled) return;
+      const data = res.data;
+      if (data && data.shipping_cost !== null && data.shipping_cost !== undefined) {
+        setShipping({
+          amount: parseFloat(data.shipping_cost),
+          label: data.free_shipping ? 'Free (threshold reached)' : `$${parseFloat(data.shipping_cost).toFixed(2)} AUD`,
+          intl: false,
+        });
+      } else {
+        setShipping(fallbackShipping(items, details.country));
+      }
+    }).catch(() => {
+      if (!cancelled) setShipping(fallbackShipping(items, details.country));
+    });
+
+    return () => { cancelled = true; };
+  }, [hasHydrated, items, details]);
 
   // Redirect if no details filled
   useEffect(() => {
@@ -68,7 +127,6 @@ export default function StoreCheckout() {
   }, [hasHydrated, details, items.length, navigate]);
 
   const subtotal = items.reduce((s, i) => s + (i.product?.sale_price ?? 0) * i.quantity, 0);
-  const shipping = calcShipping(items, details?.country);
 
   const eligibleSubtotal = items.reduce((s, i) => isEligible(i.product?.category) ? s + (i.product?.sale_price ?? 0) * i.quantity : s, 0);
   const discountPercent = promo?.discount_percent || 0;
