@@ -21,7 +21,7 @@ Deno.serve(async (req) => {
         notification_type: 'system',
         title: `${entityName} ${verb}: ${entityTitle}`,
         summary: data.description || data.summary || data.notes || data.blocker_reason || data.next_action || '',
-        severity: data.severity || data.priority === 'critical' ? 'critical' : data.priority === 'high' ? 'high' : 'info',
+        severity: data.severity || (data.priority === 'critical' ? 'critical' : data.priority === 'high' ? 'high' : 'info'),
         linked_entity: entityName,
         linked_id: body.event.entity_id || data.id || '',
         requires_action: data.approval_required || data.status === 'needs_approval' || false,
