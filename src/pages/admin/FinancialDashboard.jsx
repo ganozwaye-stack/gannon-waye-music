@@ -7,6 +7,7 @@ import { DollarSign, TrendingUp, TrendingDown, AlertCircle, Package, Plus, Edit2
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import ExecutiveFinancialSummary from '@/components/admin/ExecutiveFinancialSummary';
 
 const GST_RATE = 0.1;
 
@@ -146,43 +147,13 @@ export default function FinancialDashboard() {
         </div>
       </div>
 
-      {/* Executive Summary */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-gradient-to-br from-card to-secondary/20 border border-primary/20 rounded-2xl p-6"
-      >
-        <div className="flex items-center gap-2 mb-5">
-          <TrendingUp className="w-4 h-4 text-primary" />
-          <p className="font-body text-xs tracking-widest uppercase text-primary">Executive Summary</p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div>
-            <p className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-1">Total Gross</p>
-            <p className="font-display text-2xl text-foreground">${metrics.totalGross.toFixed(2)}</p>
-          </div>
-          <div>
-            <p className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-1">Net Profit</p>
-            <p className={`font-display text-2xl ${metrics.netProfit >= 0 ? 'text-green-400' : 'text-red-400'}`}>${metrics.netProfit.toFixed(2)}</p>
-          </div>
-          <div>
-            <p className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-1">Margin</p>
-            <p className="font-display text-2xl text-foreground">{metrics.merchMarginPercent}%</p>
-          </div>
-          <div>
-            <p className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-1">Units Sold</p>
-            <p className="font-display text-2xl text-foreground">{metrics.merchUnits}</p>
-          </div>
-        </div>
-        <div className="mt-4 pt-4 border-t border-border/30">
-          <p className="font-body text-xs text-muted-foreground leading-relaxed">
-            {metrics.netProfit >= 0
-              ? `✓ Profitable — ${metrics.merchUnits} units sold across ${productMetrics.length} products. ${productsMissingCosts.length > 0 ? `${productsMissingCosts.length} products missing cost data — add costs for accurate margins.` : 'All products have cost data recorded.'}`
-              : `⚠ Not yet profitable — ${metrics.merchUnits} units sold. Focus on increasing margins or volume.`
-            }
-          </p>
-        </div>
-      </motion.div>
+      <ExecutiveFinancialSummary
+        orders={orders}
+        products={products}
+        contributions={contributions}
+        metrics={metrics}
+        productMetrics={productMetrics}
+      />
 
       {/* Alert: Products Missing Costs */}
       {productsMissingCosts.length > 0 && (

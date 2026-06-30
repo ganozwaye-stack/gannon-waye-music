@@ -31,7 +31,7 @@ Deno.serve(async (req) => {
 
       const event = {
         summary: `🎵 Release: ${release.title || 'Untitled'}`,
-        description: `Artist: Gannon Waye\nFormat: ${release.format || 'Digital'}\nPlatforms: ${release.platforms?.join(', ') || 'All'}`,
+        description: `Artist: Gannon Waye\nFormat: ${release.type || 'Single'}\nPlatforms: ${[release.spotify_link && 'Spotify', release.apple_music_link && 'Apple Music', release.youtube_link && 'YouTube'].filter(Boolean).join(', ') || 'All streaming platforms'}${release.description ? '\n\n' + release.description : ''}`,
         start: { dateTime: eventStart, timeZone: 'UTC' },
         end: { dateTime: eventEnd, timeZone: 'UTC' },
         location: 'Digital Release',
