@@ -33,11 +33,12 @@ function needsShipping(category) {
 
 Deno.serve(async (req) => {
   try {
-    const secretKey = Deno.env.get('STRIPE_SECRET_KEY');
-    const publishableKey = Deno.env.get('STRIPE_PUBLISHABLE_KEY');
+    const secretKey = (Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
+    const publishableKey = (Deno.env.get('STRIPE_PUBLISHABLE_KEY') || '').trim();
 
     // Stripe mode validation - CRITICAL BLOCK
-    if (!secretKey || !secretKey.startsWith('sk_')) {
+    // Accept both sk_ (secret) and rk_ (restricted) keys
+    if (!secretKey || !(secretKey.startsWith('sk_') || secretKey.startsWith('rk_'))) {
       try {
         const base44 = createClientFromRequest(req);
         await base44.asServiceRole.entities.PaymentDiagnostic.create({
@@ -57,9 +58,9 @@ Deno.serve(async (req) => {
     }
 
     // Check for key mismatch
-    const isSecretLive = secretKey.startsWith('sk_live_');
+    const isSecretLive = secretKey.startsWith('sk_live_') || secretKey.startsWith('rk_live_');
     const isPublishableLive = publishableKey?.startsWith('pk_live_');
-    const isSecretTest = secretKey.startsWith('sk_test_');
+    const isSecretTest = secretKey.startsWith('sk_test_') || secretKey.startsWith('rk_test_');
     const isPublishableTest = publishableKey?.startsWith('pk_test_');
 
     if ((isSecretLive && !isPublishableLive) || (isSecretTest && !isPublishableTest)) {
