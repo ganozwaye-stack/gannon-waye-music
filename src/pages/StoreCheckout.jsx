@@ -13,7 +13,7 @@ import { useToast } from '@/components/ui/use-toast';
 const DETAILS_KEY = 'gannon_checkout_details_v1';
 
 const NO_SHIPPING_CATS = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
-const INELIGIBLE_DISCOUNT_CATS = ['cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping', 'music', 'limited_edition_music', 'digital_music'];
+const INELIGIBLE_DISCOUNT_CATS = ['cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping', 'music', 'limited_edition_music', 'digital_music', 'bundle', 'bundles'];
 
 function needsShipping(cat) { return !NO_SHIPPING_CATS.includes((cat || '').toLowerCase().trim()); }
 function isEligible(cat) { const c = (cat || '').toLowerCase().trim(); return !INELIGIBLE_DISCOUNT_CATS.some(x => c.includes(x)); }
@@ -126,17 +126,27 @@ export default function StoreCheckout() {
     if (details !== null && !details.full_name) navigate('/store/cart-details');
   }, [hasHydrated, details, items.length, navigate]);
 
-  const subtotal = items.reduce((s, i) => s + (i.product?.sale_price ?? 0) * i.quantity, 0);
-
-  const isOwnerOverride = promo?.is_owner_override === true;
-  const eligibleSubtotal = isOwnerOverride
-    ? subtotal
-    : items.reduce((s, i) => isEligible(i.product?.category) ? s + (i.product?.sale_price ?? 0) * i.quantity : s, 0);
   const discountPercent = promo?.discount_percent || 0;
-  const discountAmount = promo ? parseFloat((eligibleSubtotal * discountPercent / 100).toFixed(2)) : 0;
+  const isOwnerOverride = promo?.is_owner_override === true;
   const freeShipping = promo?.free_shipping === true;
+
+  // Per-item cent-level math — mirrors createCheckoutSession backend exactly
+  const subtotalCents = items.reduce((s, i) => s + Math.round((i.product?.sale_price ?? 0) * 100) * i.quantity, 0);
+  const merchTotalCents = items.reduce((s, i) => {
+    const eligible = isOwnerOverride || isEligible(i.product?.category);
+    const price = i.product?.sale_price ?? 0;
+    const discountedPerUnit = eligible && promo
+      ? price * (1 - discountPercent / 100)
+      : price;
+    const unitAmountCents = Math.max(50, Math.round(discountedPerUnit * 100));
+    return s + unitAmountCents * i.quantity;
+  }, 0);
+  const discountAmountCents = subtotalCents - merchTotalCents;
+
+  const subtotal = subtotalCents / 100;
+  const discountAmount = discountAmountCents / 100;
   const shippingAmount = freeShipping ? 0 : shipping.amount;
-  const total = subtotal - discountAmount + shippingAmount + addSupport;
+  const total = (merchTotalCents + Math.round(shippingAmount * 100) + Math.round(addSupport * 100)) / 100;
 
   const handleValidatePromo = async () => {
     if (!promoCode.trim()) return;
