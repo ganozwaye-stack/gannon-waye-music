@@ -128,7 +128,10 @@ export default function StoreCheckout() {
 
   const subtotal = items.reduce((s, i) => s + (i.product?.sale_price ?? 0) * i.quantity, 0);
 
-  const eligibleSubtotal = items.reduce((s, i) => isEligible(i.product?.category) ? s + (i.product?.sale_price ?? 0) * i.quantity : s, 0);
+  const isOwnerOverride = promo?.is_owner_override === true;
+  const eligibleSubtotal = isOwnerOverride
+    ? subtotal
+    : items.reduce((s, i) => isEligible(i.product?.category) ? s + (i.product?.sale_price ?? 0) * i.quantity : s, 0);
   const discountPercent = promo?.discount_percent || 0;
   const discountAmount = promo ? parseFloat((eligibleSubtotal * discountPercent / 100).toFixed(2)) : 0;
   const freeShipping = promo?.free_shipping === true;
@@ -156,7 +159,7 @@ export default function StoreCheckout() {
         setPromoError(res.data?.reason || 'This code is not valid.');
       } else {
         setPromo(res.data);
-        toast({ title: `✅ ${res.data.code} applied — ${res.data.discount_percent}% off eligible merch` });
+        toast({ title: `✅ ${res.data.code} applied — ${res.data.discount_percent}% off ${res.data.is_owner_override ? 'all items' : 'eligible merch'}${res.data.free_shipping ? ' + free shipping' : ''}` });
       }
     } catch {
       setPromoError('Could not validate code. Please try again.');
@@ -472,7 +475,7 @@ export default function StoreCheckout() {
               {promo && (
                 <div className="mt-2 flex items-center gap-2 text-primary text-xs font-body">
                   <CheckCircle className="w-3.5 h-3.5" />
-                  <span>{promo.code} — {discountPercent}% off eligible merch</span>
+                  <span>{promo.code} — {discountPercent}% off {isOwnerOverride ? 'all items' : 'eligible merch'}{freeShipping ? ' + free shipping' : ''}</span>
                 </div>
               )}
               {promoError && (
@@ -522,7 +525,7 @@ export default function StoreCheckout() {
                   <span>Support 🤍</span><span>+${addSupport.toFixed(2)}</span>
                 </div>
               )}
-              {promo && (
+              {promo && !isOwnerOverride && (
                 <div className="flex items-start gap-1.5 text-xs text-muted-foreground bg-secondary/30 rounded-lg px-3 py-2 mt-1">
                   <Info className="w-3 h-3 mt-0.5 shrink-0" />
                   <span>Shipping and CDs/vinyl are excluded from promo discounts.</span>
