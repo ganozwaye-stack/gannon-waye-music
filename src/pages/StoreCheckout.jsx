@@ -213,6 +213,7 @@ export default function StoreCheckout() {
             promo_code: promo?.code || '',
             promo_discount_percent: String(discountPercent),
             promo_free_shipping: String(freeShipping),
+            promo_override: promo?.is_owner_override ? 'true' : 'false',
             discount_amount: String(discountAmount),
             add_support: String(addSupport),
             shipping_amount: String(shippingAmount),

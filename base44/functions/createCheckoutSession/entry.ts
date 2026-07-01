@@ -92,6 +92,7 @@ Deno.serve(async (req) => {
     let rawDiscountPercent = parseFloat(metadata?.promo_discount_percent || '0');
     let promoCode = metadata?.promo_code || '';
     let isOwnerOverride = metadata?.promo_override === 'true';
+    let promoFreeShipping = metadata?.promo_free_shipping === 'true';
     
     if (metadata?.items) {
       try {
@@ -187,20 +188,24 @@ Deno.serve(async (req) => {
       const hasPhysicalItems = cartItems.some(item => needsShipping(item.category || ''));
       
       if (hasPhysicalItems) {
-        internationalShipping = isInternational(shippingAddress);
-        
-        if (!internationalShipping) {
-          const merchTotalAUD = merchAmountCents / 100;
+        if (promoFreeShipping) {
+          shippingAmountCents = 0;
+        } else {
+          internationalShipping = isInternational(shippingAddress);
           
-          // Free shipping threshold
-          if (merchTotalAUD >= FREE_SHIPPING_THRESHOLD) {
-            shippingAmountCents = 0;
-          } else {
-            // Combined package: base + increment per additional item
-            const base = AU_SHIPPING_FLAT;
-            const additionalPerItem = 2.00;
-            const combinedShipping = totalQty <= 1 ? base : base + (totalQty - 1) * additionalPerItem;
-            shippingAmountCents = Math.round(combinedShipping * 100);
+          if (!internationalShipping) {
+            const merchTotalAUD = merchAmountCents / 100;
+            
+            // Free shipping threshold
+            if (merchTotalAUD >= FREE_SHIPPING_THRESHOLD) {
+              shippingAmountCents = 0;
+            } else {
+              // Combined package: base + increment per additional item
+              const base = AU_SHIPPING_FLAT;
+              const additionalPerItem = 2.00;
+              const combinedShipping = totalQty <= 1 ? base : base + (totalQty - 1) * additionalPerItem;
+              shippingAmountCents = Math.round(combinedShipping * 100);
+            }
           }
         }
       }

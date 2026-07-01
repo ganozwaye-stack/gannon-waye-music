@@ -80,6 +80,7 @@ Deno.serve(async (req) => {
         valid: true,
         code: promo.code,
         discount_percent: promo.discount_percent,
+        free_shipping: true,
         id: promo.id,
         is_owner_override: true,
         override_applies_to_all: true,
