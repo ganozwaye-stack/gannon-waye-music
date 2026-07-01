@@ -233,7 +233,11 @@ export default function StoreCheckout() {
         throw new Error(res.data?.error || 'Checkout could not be prepared.');
       }
     } catch (err) {
-      setCheckoutError(err.message || 'Checkout failed. You have not been charged.');
+      const realError = err?.response?.data?.friendly_message
+        || err?.response?.data?.error
+        || err?.message
+        || 'Checkout failed. You have not been charged.';
+      setCheckoutError(realError);
       setRedirecting(false);
     }
   };
