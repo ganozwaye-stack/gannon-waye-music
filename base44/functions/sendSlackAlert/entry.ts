@@ -21,6 +21,11 @@ Deno.serve(async (req) => {
 
     const { accessToken } = await base44.asServiceRole.connectors.getConnection('slack');
 
+    // Resolve the target channel — if the specified channel doesn't exist,
+    // fall back to a DM with the authenticated user themselves
+    let targetChannel = channel;
+    let usingDM = false;
+
     const urgencyColors = {
       critical: '#ef4444',
       high:     '#f97316',
@@ -66,29 +71,46 @@ Deno.serve(async (req) => {
 
     blocks.push({ type: 'divider' });
 
-    const payload = {
-      channel,
-      attachments: [{
-        color: urgencyColors[urgency] || urgencyColors.normal,
-        blocks,
-      }]
+    const sendToChannel = async (chan) => {
+      const payload = {
+        channel: chan,
+        attachments: [{
+          color: urgencyColors[urgency] || urgencyColors.normal,
+          blocks,
+        }]
+      };
+
+      const res = await fetch('https://slack.com/api/chat.postMessage', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+      return res.json();
     };
 
-    const res = await fetch('https://slack.com/api/chat.postMessage', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
+    let result = await sendToChannel(targetChannel);
 
-    const result = await res.json();
+    // If channel doesn't exist, fall back to DM with the authenticated user
+    if (!result.ok && result.error === 'channel_not_found') {
+      const authRes = await fetch('https://slack.com/api/auth.test', {
+        headers: { 'Authorization': `Bearer ${accessToken}` },
+      });
+      const authData = await authRes.json();
+      if (authData.ok && authData.user_id) {
+        targetChannel = authData.user_id;
+        usingDM = true;
+        result = await sendToChannel(targetChannel);
+      }
+    }
+
     if (!result.ok) {
       return Response.json({ error: result.error, detail: result }, { status: 502 });
     }
 
-    return Response.json({ success: true, ts: result.ts, channel: result.channel });
+    return Response.json({ success: true, ts: result.ts, channel: result.channel, delivered_via_dm: usingDM });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
