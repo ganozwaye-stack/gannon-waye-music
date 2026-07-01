@@ -191,6 +191,7 @@ Deno.serve(async (req) => {
       valid: true,
       code: promo.code, // Return exact stored code
       discount_percent: promo.discount_percent,
+      free_shipping: promo.free_shipping === true,
       id: promo.id,
       excludes_shipping: true, // Always true for global guard
       excludes_support: true,   // Always true for global guard

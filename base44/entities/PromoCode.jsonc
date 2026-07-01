@@ -10,6 +10,11 @@
       "type": "number",
       "description": "Discount percentage e.g. 15"
     },
+    "free_shipping": {
+      "type": "boolean",
+      "default": false,
+      "description": "If true, shipping cost is set to $0 when this code is applied"
+    },
     "expires_at": {
       "type": "string",
       "format": "date-time",

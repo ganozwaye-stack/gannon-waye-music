@@ -131,7 +131,9 @@ export default function StoreCheckout() {
   const eligibleSubtotal = items.reduce((s, i) => isEligible(i.product?.category) ? s + (i.product?.sale_price ?? 0) * i.quantity : s, 0);
   const discountPercent = promo?.discount_percent || 0;
   const discountAmount = promo ? parseFloat((eligibleSubtotal * discountPercent / 100).toFixed(2)) : 0;
-  const total = subtotal - discountAmount + shipping.amount + addSupport;
+  const freeShipping = promo?.free_shipping === true;
+  const shippingAmount = freeShipping ? 0 : shipping.amount;
+  const total = subtotal - discountAmount + shippingAmount + addSupport;
 
   const handleValidatePromo = async () => {
     if (!promoCode.trim()) return;
@@ -210,9 +212,10 @@ export default function StoreCheckout() {
             mobile: details.mobile,
             promo_code: promo?.code || '',
             promo_discount_percent: String(discountPercent),
+            promo_free_shipping: String(freeShipping),
             discount_amount: String(discountAmount),
             add_support: String(addSupport),
-            shipping_amount: String(shipping.amount),
+            shipping_amount: String(shippingAmount),
           },
         }),
         timeout,
@@ -509,8 +512,8 @@ export default function StoreCheckout() {
               )}
               <div data-testid="checkout-shipping" className="flex justify-between font-body text-sm text-foreground/70">
                 <span>Shipping</span>
-                <span className={shipping.amount === 0 && !shipping.intl ? 'text-primary' : ''}>
-                  {shipping.intl ? 'Quote required' : shipping.amount === 0 ? 'Free' : shipping.label}
+                <span className={shippingAmount === 0 && !shipping.intl ? 'text-primary' : ''}>
+                  {freeShipping ? 'Free (promo code)' : shipping.intl ? 'Quote required' : shipping.amount === 0 ? 'Free' : shipping.label}
                 </span>
               </div>
               {addSupport > 0 && (
