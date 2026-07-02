@@ -136,7 +136,7 @@ export default function Home() {
                 <span className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse" />
                 <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text">Next Single</p>
               </div>
-              <Link to="/mum" className="font-display text-base text-foreground/80 italic hover:underline">"Without You Here" — Coming Soon →</Link>
+              <Link to="/mum" className="font-display text-base text-foreground/80 italic hover:underline">"Without You Here" — Date TBA Very Soon →</Link>
             </div>
           </motion.div>
 
@@ -361,7 +361,7 @@ export default function Home() {
                   <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Single</p>
                   <h3 className="font-display text-2xl text-foreground mt-1 italic">Without You Here</h3>
                   <p className="font-body text-sm text-muted-foreground mt-2">A tribute. A love letter. A song for the voice I still reach for.</p>
-                  <p className="font-body text-xs text-muted-foreground/40 mt-3">Details revealed when it's ready.</p>
+                  <p className="font-body text-xs text-primary/60 mt-3 italic">Date to be announced very soon</p>
                 </div>
               </motion.div>
               {releases.filter((r) => r.is_published).slice(0, 2).map((release) => (

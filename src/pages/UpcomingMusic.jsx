@@ -17,10 +17,26 @@ export default function UpcomingMusic() {
     initialData: [],
   });
 
+  // Inject 'Without You Here' as featured upcoming single if not already published in DB
+  const withoutYouHereInDB = releases.some(r => r.title === 'Without You Here' && r.is_published);
+  const injectedUpcoming = withoutYouHereInDB ? [] : [{
+    id: 'without-you-here-upcoming',
+    title: 'Without You Here',
+    type: 'Single',
+    status: 'ready',
+    is_published: true,
+    description: 'Written in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did.',
+    artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
+    is_featured_new: true,
+  }];
+
   // Only show releases that are NOT yet released (idea, writing, pre_production, recording, mixing, mastering, ready)
-  const upcoming = releases.filter(r =>
-    r.status && !['released'].includes(r.status) && r.title
-  );
+  const upcoming = [
+    ...injectedUpcoming,
+    ...releases.filter(r =>
+      r.status && !['released'].includes(r.status) && r.title
+    ),
+  ];
 
   const togglePlay = (release) => {
     if (!release.preview_clip_url) return;
@@ -46,6 +62,8 @@ export default function UpcomingMusic() {
     mastering: { label: 'Mastering', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/30' },
     ready: { label: 'Coming Soon', color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/30' },
   };
+
+  const FEATURED_BADGE = { label: 'New Single', color: 'text-primary', bg: 'bg-primary/10 border-primary/30' };
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -169,14 +187,27 @@ export default function UpcomingMusic() {
                             <p className="font-display text-lg text-foreground leading-tight">{release.title}</p>
                             <p className="font-body text-xs text-muted-foreground mt-0.5 uppercase tracking-widest">{release.type || 'Single'}</p>
                           </div>
-                          <span className={`font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2.5 py-1 ${statusCfg.bg} ${statusCfg.color}`}>
-                            {statusCfg.label}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            {release.is_featured_new && (
+                              <span className={`font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2.5 py-1 ${FEATURED_BADGE.bg} ${FEATURED_BADGE.color}`}>
+                                {FEATURED_BADGE.label}
+                              </span>
+                            )}
+                            <span className={`font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2.5 py-1 ${statusCfg.bg} ${statusCfg.color}`}>
+                              {statusCfg.label}
+                            </span>
+                          </div>
                         </div>
 
                         {release.description && (
                           <p className="font-body text-xs text-muted-foreground mt-2 leading-relaxed line-clamp-2">
                             {release.description}
+                          </p>
+                        )}
+
+                        {release.is_featured_new && (
+                          <p className="mt-3 font-body text-[11px] tracking-wider italic" style={{ color: 'rgba(212,175,55,0.6)' }}>
+                            Date to be announced very soon
                           </p>
                         )}
 

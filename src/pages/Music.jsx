@@ -56,6 +56,7 @@ const STATUS_LABELS = {
   mastering: 'Mastering',
   ready: 'Out Now',
   released: 'Out Now',
+  coming_soon: 'Coming Soon',
 };
 
 export default function Music() {
@@ -68,6 +69,19 @@ export default function Music() {
   });
 
   const published = [
+    // 'Without You Here' — featured new single, shown first
+    ...(releases.some(r => r.title === 'Without You Here' && r.is_published) ? [] : [{
+      id: 'without-you-here-coming-soon',
+      title: 'Without You Here',
+      type: 'Single',
+      status: 'coming_soon',
+      is_published: true,
+      is_current_single: true,
+      is_featured_new: true,
+      description: 'Written in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did. This is the most honest Gannon has ever been in his music.',
+      credits: 'Written & Performed by Gannon Waye · Produced by Will Henderson · Mother\'s Day 2026',
+      artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
+    }]),
     ...releases.filter(r => r.is_published),
     // Inject 'Will You Even Listen' if not already in DB
     ...(releases.some(r => r.title === 'Will You Even Listen') ? [] : [{
@@ -80,17 +94,6 @@ export default function Music() {
       credits: 'Written & Performed by Gannon Waye',
       artwork_url: '/images/will_you_even_listen_cover.png',
     }]),
-    // Inject 'Without You Here' if not already in DB
-    ...(releases.some(r => r.title === 'Without You Here') ? [] : [{
-      id: 'without-you-here-recording',
-      title: 'Without You Here',
-      type: 'Single',
-      status: 'recording',
-      is_published: true,
-      description: 'Written in the early hours of Mother\'s Day, four years after losing his mum. A tribute to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did.',
-      credits: 'Written & Performed by Gannon Waye · Mother\'s Day 2026',
-      artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
-    }])
   ];
 
   return (
@@ -165,18 +168,28 @@ export default function Music() {
                 </div>
                 <div className="p-5 md:p-8 flex flex-col justify-center">
                   <div className="flex items-center gap-3 mb-2">
+                    {release.is_featured_new && (
+                      <Badge className="font-body text-[10px] tracking-widest uppercase gradient-gold-button border-0 flex items-center gap-1.5">
+                        <span className="relative flex h-1.5 w-1.5">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-foreground opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary-foreground"></span>
+                        </span>
+                        New Single
+                      </Badge>
+                    )}
                     <Badge variant="outline" className="font-body text-[10px] tracking-widest uppercase border-primary/30 text-primary">
                       {release.type}
                     </Badge>
                     <Badge className={`font-body text-[10px] tracking-widest uppercase flex items-center gap-1.5 ${
                       release.status === 'released' ? 'bg-primary/20 text-primary' : 
                       release.status === 'recording' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
+                      release.status === 'coming_soon' ? 'bg-primary/20 text-primary border border-primary/30' :
                       'bg-secondary text-muted-foreground'
                     }`}>
-                      {release.status === 'recording' && (
+                      {(release.status === 'recording' || release.status === 'coming_soon') && (
                         <span className="relative flex h-1.5 w-1.5">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500"></span>
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                          <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary"></span>
                         </span>
                       )}
                       {STATUS_LABELS[release.status] || release.status}
@@ -187,6 +200,9 @@ export default function Music() {
                     <p className="font-body text-sm text-muted-foreground mt-2">
                       {new Date(release.release_date).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' })}
                     </p>
+                  )}
+                  {release.status === 'coming_soon' && (
+                    <p className="font-body text-sm text-primary mt-2 italic">Date to be announced very soon</p>
                   )}
                   {release.description && (
                     <p className="font-body text-foreground/60 mt-4 leading-relaxed">
@@ -220,7 +236,11 @@ export default function Music() {
 
                   {/* Streaming Links */}
                   <div className="flex flex-wrap gap-3 mt-6">
-                    {isReleased() && release.spotify_link ? (
+                    {release.status === 'coming_soon' ? (
+                      <div className="text-xs font-body text-primary leading-relaxed max-w-sm italic">
+                        Coming Soon · Date to be announced very soon
+                      </div>
+                    ) : isReleased() && release.spotify_link ? (
                       <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
                         <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
                           🎧 Spotify <ExternalLink className="w-3 h-3" />
@@ -267,7 +287,7 @@ export default function Music() {
                      </div>
 
                      {/* Spotify Embed Player */}
-                     {isReleased() && (release.spotify_link || release.title === 'Thank You') && (
+                     {release.status !== 'coming_soon' && isReleased() && (release.spotify_link || release.title === 'Thank You') && (
                      <div className="mt-6">
                       <SpotifyPlayer
                         spotifyLink={release.spotify_link}
