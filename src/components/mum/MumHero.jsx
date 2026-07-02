@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import MovingHeart from './MovingHeart';
+import SingleCoverPlaque from './SingleCoverPlaque';
 
 // Best portrait of Sonia — silver hair, glasses, gold earrings, warm smile
 const HERO_IMG = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/7df2f998b_A181BD35-93F3-41FB-B671-2FABC71B701A.jpg';
@@ -122,6 +123,9 @@ export default function MumHero() {
               there's not much more I have to say."
             </p>
             <p className="font-body text-[10px] text-muted-foreground/50 mt-3 tracking-[0.3em] uppercase">Without You Here · Gannon Waye</p>
+            <div className="mt-4">
+              <SingleCoverPlaque size="sm" />
+            </div>
           </motion.div>
 
           <motion.p

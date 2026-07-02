@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import SingleCoverPlaque from './SingleCoverPlaque';
 
 const TRACKS = [
   {
@@ -221,6 +222,9 @@ export default function SoniaAmbientPlayer() {
         <p className="font-body text-[9px] tracking-[0.4em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.28)' }}>
           Written for her
         </p>
+        <div className="mb-5 flex justify-center">
+          <SingleCoverPlaque size="sm" />
+        </div>
         <p className="font-display italic text-lg md:text-xl mb-1" style={{ color: 'rgba(245,235,210,0.55)' }}>
           Without You Here
         </p>

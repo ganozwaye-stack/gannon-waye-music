@@ -148,7 +148,11 @@ export default function Press() {
           <p className="font-body text-[10px] text-muted-foreground/40">Upload high-res press photo in admin</p>
         </div>
         <div className="bg-card/50 border border-border/40 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 min-h-[200px]">
-          <Music className="w-8 h-8 text-muted-foreground/40" />
+          <img
+            src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png"
+            alt="Without You Here — Gannon Waye single cover"
+            className="w-32 h-32 rounded-lg object-cover border border-primary/20"
+          />
           <p className="font-body text-xs tracking-widest uppercase text-muted-foreground/60">Single Artwork</p>
           <p className="font-body text-[10px] text-muted-foreground/40">Without You Here — cover art</p>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Gift, Lock } from 'lucide-react';
+import SingleCoverPlaque from './SingleCoverPlaque';
 
 // "Without You Here" — approved hooks & signature lines only (full lyrics hidden until release)
 const LYRIC_HOOKS = [
@@ -110,6 +111,9 @@ export default function LyricQuoteWall() {
         <p className="font-body text-xs max-w-sm mx-auto" style={{ color: 'rgba(245,235,200,0.38)' }}>
           The moments that cannot be unsaid — straight from the song.
         </p>
+        <div className="mt-6">
+          <SingleCoverPlaque size="sm" />
+        </div>
       </motion.div>
 
       {/* Quote wall grid */}

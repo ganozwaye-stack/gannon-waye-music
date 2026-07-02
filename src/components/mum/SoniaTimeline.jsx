@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
+import SingleCoverPlaque from './SingleCoverPlaque';
 
 const TIMELINE = [
   {
@@ -140,6 +141,11 @@ export default function SoniaTimeline() {
                       style={{ color: item.quote ? 'rgba(245,208,110,0.65)' : 'rgba(245,235,200,0.50)' }}>
                       {item.story}
                     </p>
+                    {item.year === '2025' && (
+                      <div className="mt-4 flex justify-center">
+                        <SingleCoverPlaque size="sm" />
+                      </div>
+                    )}
                   </motion.div>
                 )}
               </div>

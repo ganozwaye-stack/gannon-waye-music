@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react';
 import HeartOfGold from './HeartOfGold';
 import TributeArtworkFeature from './TributeArtworkFeature';
 import LivingGardenBackground from './LivingGardenBackground';
+import SingleCoverPlaque from './SingleCoverPlaque';
 
 export default function ImmersiveHero() {
   const containerRef = useRef(null);
@@ -85,6 +86,9 @@ export default function ImmersiveHero() {
               Without You Here · Gannon Waye · Mother's Day 2026
             </p>
           </blockquote>
+
+          {/* Single cover plaque — ties the tribute to the song */}
+          <SingleCoverPlaque size="sm" delay={0.3} />
 
           {/* Subline */}
           <p className="font-body text-sm text-foreground/40 leading-relaxed max-w-sm">
