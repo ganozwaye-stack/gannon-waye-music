@@ -453,7 +453,8 @@ function ProductCard({ product, onCheckout, onViewCart }) {
                         : 'border-border/50 text-muted-foreground hover:border-primary/30'
                     }`}
                   >
-                    {variant.label}{variant.price ? ` — $${variant.price}` : ''}
+                    {variant.label}
+                    {product.category === 'poster' && variant.price ? ` — $${variant.price}` : ''}
                   </button>
                 ))}
               </div>

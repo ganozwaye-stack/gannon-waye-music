@@ -212,7 +212,7 @@ export default function StoreProductDetail() {
               </button>
               <button
                 data-testid="product-view-cart"
-                onClick={() => navigate('/store/cart-details')}
+                onClick={() => navigate('/store/cart')}
                 className="rounded-full py-3 border border-primary/40 text-primary font-body text-sm uppercase tracking-wider flex items-center justify-center gap-2"
               >
                 <ShoppingCart className="w-4 h-4" /> View Cart
