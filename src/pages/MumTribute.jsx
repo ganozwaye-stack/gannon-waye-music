@@ -13,6 +13,7 @@ import MemoryWall3D from '@/components/mum/MemoryWall3D';
 import SoniaTimeline from '@/components/mum/SoniaTimeline';
 import GoldenGatesFinale from '@/components/mum/GoldenGatesFinale';
 import MemoryPlaque from '@/components/mum/MemoryPlaque';
+import SingleCoverPlaque from '@/components/mum/SingleCoverPlaque';
 
 // ─── Garden environments ──────────────────────────────────────────────────────
 const GARDEN_HERO    = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png';
@@ -253,9 +254,10 @@ export default function MumTribute() {
               ♥ Light a Candle
             </button>
           </div>
-          <motion.div className="mt-10" animate={{ y: [0, 8, 0] }} transition={{ duration: 2.5, repeat: Infinity }}>
+          <motion.div className="mt-10 mb-6" animate={{ y: [0, 8, 0] }} transition={{ duration: 2.5, repeat: Infinity }}>
             <ChevronDown className="w-5 h-5" style={{ color: 'rgba(212,175,55,0.22)' }} />
           </motion.div>
+          <SingleCoverPlaque size="sm" delay={0.6} />
         </motion.div>
       </section>
 
@@ -272,6 +274,9 @@ export default function MumTribute() {
               Click a candle to light it in memory of Sonia Katisa Waye.
             </p>
           </motion.div>
+          <div className="mt-10">
+            <SingleCoverPlaque size="sm" delay={0.3} />
+          </div>
         </div>
       </GardenScene>
 
@@ -289,6 +294,9 @@ export default function MumTribute() {
             {ME_AND_MUM.map((p, i) => (
               <MemoryPlaque key={i} photo={p.src} label={p.label} caption={p.caption} delay={i * 0.15} />
             ))}
+          </div>
+          <div className="mt-12">
+            <SingleCoverPlaque size="sm" delay={0.4} />
           </div>
         </div>
       </GardenScene>
@@ -311,6 +319,9 @@ export default function MumTribute() {
           <div className="mt-14">
             <WisdomGarden />
           </div>
+          <div className="mt-12">
+            <SingleCoverPlaque size="sm" delay={0.4} />
+          </div>
         </div>
       </GardenScene>
 
@@ -328,6 +339,9 @@ export default function MumTribute() {
             {HER_HUMOUR.map((p, i) => (
               <MemoryPlaque key={i} photo={p.src} label={p.label} caption={p.caption} delay={i * 0.12} />
             ))}
+          </div>
+          <div className="mt-12">
+            <SingleCoverPlaque size="sm" delay={0.4} />
           </div>
         </div>
       </GardenScene>
@@ -347,12 +361,18 @@ export default function MumTribute() {
               <MemoryPlaque key={i} photo={p.src} label={p.label} caption={p.caption} delay={i * 0.15} />
             ))}
           </div>
+          <div className="mt-12">
+            <SingleCoverPlaque size="sm" delay={0.4} />
+          </div>
         </div>
       </GardenScene>
 
       {/* ══ SCENE 6 — HER STORY ═════════════════════════════════════════════════ */}
       <GardenScene id="story" photo={GARDEN_STORY} brightness={0.46} parallaxSpeed={0.25} minH="auto">
         <MumStorySection />
+        <div className="mt-12 px-6">
+          <SingleCoverPlaque size="md" delay={0.3} />
+        </div>
       </GardenScene>
 
       {/* ══ SCENE 7 — HER WORDS ═════════════════════════════════════════════════ */}
@@ -372,17 +392,26 @@ export default function MumTribute() {
           <div className="mt-12">
             <MumSongSection />
           </div>
+          <div className="mt-12">
+            <SingleCoverPlaque size="md" delay={0.3} />
+          </div>
         </div>
       </GardenScene>
 
       {/* ══ HANDWRITTEN LETTER ══════════════════════════════════════════════════ */}
       <GardenScene id="letters" photo={GARDEN_STORY} brightness={0.38} parallaxSpeed={0.20} minH="auto">
         <HandwrittenLetter />
+        <div className="mt-12 px-6">
+          <SingleCoverPlaque size="sm" delay={0.3} />
+        </div>
       </GardenScene>
 
       {/* ══ SCENE 8 — TIMELINE (her journey) ════════════════════════════════════ */}
       <GardenScene id="timeline" photo={GARDEN_WISDOM} brightness={0.42} parallaxSpeed={0.18} minH="auto">
         <SoniaTimeline />
+        <div className="mt-12 px-6">
+          <SingleCoverPlaque size="sm" delay={0.3} />
+        </div>
       </GardenScene>
 
       {/* ══ SCENE 8b — OLD DAYS (vintage pathway) ══════════════════════════════ */}
@@ -403,12 +432,18 @@ export default function MumTribute() {
           <div className="mt-14">
             <MemoryWall3D />
           </div>
+          <div className="mt-12">
+            <SingleCoverPlaque size="sm" delay={0.4} />
+          </div>
         </div>
       </GardenScene>
 
       {/* ══ SCENE 9 — GOLDEN GATES FINALE ══════════════════════════════════════ */}
       <GardenScene id="gates" photo={GARDEN_DEEP} brightness={0.30} parallaxSpeed={0.15} minH="auto">
         <GoldenGatesFinale />
+        <div className="mt-12 px-6 pb-8">
+          <SingleCoverPlaque size="md" delay={0.4} />
+        </div>
       </GardenScene>
 
       {/* Footer */}

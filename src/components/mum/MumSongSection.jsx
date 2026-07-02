@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import SingleCoverPlaque from '@/components/mum/SingleCoverPlaque';
 
 const FULL_LYRICS = `Without You Here — Gannon Waye
 Written: Mother's Day, 10 May 2026 @ 12:30am
@@ -115,6 +116,17 @@ export default function MumSongSection() {
         <p className="font-body text-xs text-muted-foreground/40 tracking-wider mb-8">
           Written in the early hours of Mother's Day, 10 May 2026.
         </p>
+      </motion.div>
+
+      {/* Single artwork — featured prominently */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.15 }}
+        className="mb-10"
+      >
+        <SingleCoverPlaque size="lg" delay={0.1} />
       </motion.div>
 
       <motion.div
