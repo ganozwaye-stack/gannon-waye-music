@@ -87,9 +87,9 @@ export default function Music() {
       type: 'Single',
       status: 'recording',
       is_published: true,
-      description: 'Gannon is currently recording this beautiful tribute song dedicated to his late mother, Sonia. An evocative and comforting masterpiece carrying her presence forward.',
-      credits: 'Written & Performed by Gannon Waye',
-      artwork_url: '/images/mum/mum_gannon_young.jpg',
+      description: 'Written in the early hours of Mother\'s Day, four years after losing his mum. A tribute to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did.',
+      credits: 'Written & Performed by Gannon Waye · Mother\'s Day 2026',
+      artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
     }])
   ];
 

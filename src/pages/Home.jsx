@@ -113,7 +113,7 @@ export default function Home() {
               <HeroQuoteRotator />
             </motion.div>
 
-          {/* "Thank You" teaser strip in the hero */}
+          {/* "Thank You" + "Without You Here" teaser strip in the hero */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -127,8 +127,16 @@ export default function Home() {
             <p className="font-display text-lg text-foreground italic">"Thank You"</p>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
             <div className="flex flex-col items-center gap-1">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Artwork & Song Release: Out Now</p>
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Out Now</p>
               <Link to="/music" className="font-display text-base text-primary italic hover:underline">Stream Now →</Link>
+            </div>
+            <div className="w-px h-4 bg-border/60 hidden sm:block" />
+            <div className="flex flex-col items-center gap-1">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse" />
+                <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text">Next Single</p>
+              </div>
+              <Link to="/mum" className="font-display text-base text-foreground/80 italic hover:underline">"Without You Here" — Coming Soon →</Link>
             </div>
           </motion.div>
 
@@ -330,42 +338,32 @@ export default function Home() {
               <h2 className="font-display text-3xl md:text-5xl text-foreground">Music</h2>
             </motion.div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-              {/* Mystery next song card — always shown alongside releases */}
-              {releases.filter((r) => r.is_published).length > 0 && releases.filter((r) => r.is_published).length < 2 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 border-dashed"
-                >
-                  <div className="aspect-square bg-secondary/30 overflow-hidden flex flex-col items-center justify-center gap-4 relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
-                    <motion.div
-                      animate={{ opacity: [0.4, 1, 0.4] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                      className="relative z-10 flex flex-col items-center gap-3"
-                    >
-                      <div className="flex gap-1.5">
-                        {[0, 0.2, 0.4].map((d, i) => (
-                          <motion.div
-                            key={i}
-                            className="w-1 rounded-full bg-primary"
-                            animate={{ height: ['8px', '24px', '8px'] }}
-                            transition={{ duration: 1.2, repeat: Infinity, delay: d, ease: 'easeInOut' }}
-                          />
-                        ))}
-                      </div>
-                      <p className="font-body text-[10px] tracking-[0.25em] uppercase gradient-gold-glow">Recording in progress</p>
-                    </motion.div>
+              {/* Without You Here — Coming Soon card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-primary/20 hover:border-primary/40 transition-all"
+              >
+                <div className="aspect-square bg-secondary/30 overflow-hidden relative">
+                  <img
+                    src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png"
+                    alt="Without You Here — Gannon Waye single cover"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
+                  <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/70 backdrop-blur-sm border border-primary/30">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                    <p className="font-body text-[9px] tracking-[0.2em] uppercase text-primary">Coming Soon</p>
                   </div>
-                  <div className="p-6">
-                    <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Single</p>
-                    <h3 className="font-display text-2xl text-foreground/60 mt-1 italic">Next Song Underway</h3>
-                    <p className="font-body text-sm text-muted-foreground/60 mt-2">Something new is being written. No hints. Just know it's coming.</p>
-                    <p className="font-body text-xs text-muted-foreground/40 mt-3">Details revealed when it's ready.</p>
-                  </div>
-                </motion.div>
-              )}
+                </div>
+                <div className="p-6">
+                  <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Single</p>
+                  <h3 className="font-display text-2xl text-foreground mt-1 italic">Without You Here</h3>
+                  <p className="font-body text-sm text-muted-foreground mt-2">A tribute. A love letter. A song for the voice I still reach for.</p>
+                  <p className="font-body text-xs text-muted-foreground/40 mt-3">Details revealed when it's ready.</p>
+                </div>
+              </motion.div>
               {releases.filter((r) => r.is_published).slice(0, 2).map((release) => (
                 <motion.div
                   key={release.id}

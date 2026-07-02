@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/AuthContext';
 import { Lock } from 'lucide-react';
+import SingleCoverPlaque from '@/components/mum/SingleCoverPlaque';
 
 export default function Memorial() {
   const navigate = useNavigate();
@@ -65,6 +66,10 @@ export default function Memorial() {
             <p style={{ color: 'rgba(255,210,160,0.5)', fontSize: '12px', marginBottom: '28px', letterSpacing: '0.05em' }}>
               This tribute space is ready for your memories, photos and words.
             </p>
+
+            <div style={{ marginBottom: '28px' }}>
+              <SingleCoverPlaque size="md" />
+            </div>
 
             <button
               onClick={() => navigate('/mum')}
