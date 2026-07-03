@@ -4,13 +4,14 @@ import { motion } from 'framer-motion';
 import {
   Upload, Music, Zap, Download, CheckCircle2, ArrowRight, ArrowLeft,
   Loader2, AlertCircle, SlidersHorizontal, Activity, Sparkles,
+  Layers, Sliders, Trash2, Plus,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useToast } from '@/components/ui/use-toast';
-import { masterTrack } from '@/lib/audioDSP';
+import { masterTrackPro, mixStems } from '@/lib/audioDSPPro';
 
 // ── Design toggle — Option 2 = Cinematic (default), Option 1 = Dark Luxury Glass
 const DESIGNS = {
@@ -48,6 +49,17 @@ const DESIGNS = {
 
 const ACCEPTED_EXTS = ['.wav', '.aiff', '.aif', '.flac', '.mp3'];
 const MAX_SIZE_MB = 200;
+
+const EXPORT_FORMATS = [
+  { value: 'wav24', label: '24-bit WAV', desc: 'Studio standard · PCM integer' },
+  { value: 'wav32', label: '32-bit Float WAV', desc: 'Maximum quality · no quantisation' },
+];
+
+const SAMPLE_RATES = [
+  { value: 44100, label: '44.1 kHz', desc: 'CD quality' },
+  { value: 48000, label: '48 kHz', desc: 'Video / pro standard' },
+  { value: 96000, label: '96 kHz', desc: 'High resolution' },
+];
 
 const PROFILES = [
   { value: 'streaming_master', label: 'Streaming Master', desc: 'Optimised for Spotify, Apple Music, YouTube · -14 LUFS', num: '01' },
@@ -137,6 +149,10 @@ export default function Mastering() {
   const [controls, setControls] = useState(DEFAULT_CONTROLS);
   const [form, setForm] = useState({ title: '', artist_name: '', artist_email: '' });
   const [file, setFile] = useState(null);
+  const [mode, setMode] = useState('master'); // 'master' | 'mix'
+  const [exportFormat, setExportFormat] = useState('wav24');
+  const [targetSampleRate, setTargetSampleRate] = useState(44100);
+  const [stems, setStems] = useState([]); // [{file, name, gain, pan, eq}]
 
   const validateFile = (f) => {
     const ext = '.' + f.name.split('.').pop().toLowerCase();
@@ -181,15 +197,59 @@ export default function Mastering() {
     setProcessing(true); setProgress(0);
     await base44.entities.MasteringProject.update(project.id, { mastering_profile: selectedProfile, settings: controls, status: 'mastering' });
     try {
-      const result = await masterTrack(file, selectedProfile, controls, setProgress);
+      const result = await masterTrackPro(file, selectedProfile, controls, setProgress, {
+        exportFormat,
+        targetSampleRate,
+      });
       setMasteredBlob(result.blob); setMasteredFilename(result.filename); setMasteredStats(result.stats);
       let mastered_file_url = null;
       try { const up = await base44.integrations.Core.UploadFile({ file: new File([result.blob], result.filename, { type: 'audio/wav' }) }); mastered_file_url = up.file_url; } catch {}
-      await base44.entities.MasteringProject.update(project.id, { status: 'mastered', mastered_file_url });
+      await base44.entities.MasteringProject.update(project.id, { status: 'mastered', mastered_file_url, export_format: exportFormat });
       setStep('done');
     } catch (err) {
       toast({ title: 'Mastering failed. Please try again.', description: err?.message, variant: 'destructive' });
       await base44.entities.MasteringProject.update(project.id, { status: 'failed' });
+    }
+    setProcessing(false);
+  };
+
+  // ── Mix mode: stem management ──
+  const addStem = (f) => {
+    if (!f) return;
+    const ext = '.' + f.name.split('.').pop().toLowerCase();
+    if (!ACCEPTED_EXTS.includes(ext)) { toast({ title: 'Unsupported file type', description: 'WAV, AIFF, FLAC, or MP3 only', variant: 'destructive' }); return; }
+    if (f.size > MAX_SIZE_MB * 1024 * 1024) { toast({ title: 'File too large', description: `Max ${MAX_SIZE_MB}MB`, variant: 'destructive' }); return; }
+    setStems(prev => [...prev, {
+      file: f,
+      name: f.name.replace(/\.[^/.]+$/, ''),
+      gain: 0,
+      pan: 0,
+      eq: { low: 0, mid: 0, high: 0 },
+    }]);
+  };
+
+  const updateStem = (idx, field, value) => {
+    setStems(prev => prev.map((s, i) => i === idx ? { ...s, [field]: value } : s));
+  };
+
+  const updateStemEQ = (idx, band, value) => {
+    setStems(prev => prev.map((s, i) => i === idx ? { ...s, eq: { ...s.eq, [band]: value } } : s));
+  };
+
+  const removeStem = (idx) => {
+    setStems(prev => prev.filter((_, i) => i !== idx));
+  };
+
+  const handleMix = async () => {
+    if (stems.length === 0) { toast({ title: 'Add at least one stem', variant: 'destructive' }); return; }
+    setProcessing(true); setProgress(0); setStep('profile');
+    try {
+      const result = await mixStems(stems, setProgress);
+      setMasteredBlob(result.blob); setMasteredFilename(result.filename); setMasteredStats(result.stats);
+      setStep('done');
+    } catch (err) {
+      toast({ title: 'Mixing failed. Please try again.', description: err?.message, variant: 'destructive' });
+      setStep('upload');
     }
     setProcessing(false);
   };
@@ -207,6 +267,7 @@ export default function Mastering() {
     setMasteredBlob(null); setMasteredFilename(null); setMasteredStats(null);
     setForm({ title: '', artist_name: '', artist_email: '' });
     setControls(DEFAULT_CONTROLS); setSelectedProfile('streaming_master'); setProgress(0);
+    setStems([]);
   };
 
   return (
@@ -233,6 +294,26 @@ export default function Mastering() {
 
       <div className="max-w-3xl mx-auto px-6 py-20">
 
+        {/* ── Mode Toggle: Master vs Mix ─────────────────────────────── */}
+        <div className="flex items-center justify-center gap-2 mb-10">
+          <button
+            onClick={() => { setMode('master'); resetAll(); }}
+            className={`px-6 py-2.5 rounded-full font-body text-xs tracking-wider uppercase transition-all border ${
+              mode === 'master' ? 'border-[#C9A84C] text-[#C9A84C] bg-[#C9A84C]/10' : 'border-white/10 text-white/40 hover:border-white/30'
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5 inline mr-1.5" /> Master
+          </button>
+          <button
+            onClick={() => { setMode('mix'); resetAll(); }}
+            className={`px-6 py-2.5 rounded-full font-body text-xs tracking-wider uppercase transition-all border ${
+              mode === 'mix' ? 'border-[#C9A84C] text-[#C9A84C] bg-[#C9A84C]/10' : 'border-white/10 text-white/40 hover:border-white/30'
+            }`}
+          >
+            <Layers className="w-3.5 h-3.5 inline mr-1.5" /> Mix Stems
+          </button>
+        </div>
+
         {/* ── Hero ──────────────────────────────────────────────────────── */}
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="mb-16">
           {design === 'cinematic' ? (
@@ -249,7 +330,9 @@ export default function Mastering() {
                 </h1>
               </div>
               <p className={`${d.sub} font-body text-sm leading-relaxed max-w-md mt-6`}>
-                Studio-grade mastering chain. 4-band EQ · Multi-band compression · M/S stereo · True-peak limiting · TPDF dither · K-weighted LUFS normalisation. Exports 24-bit WAV.
+                {mode === 'master'
+                  ? 'Pro mastering chain: Linkwitz-Riley 4th-order crossovers · True multiband compression · 4× oversampled true-peak limiter · K-weighted LUFS · 32-bit float export.'
+                  : 'Stem mixing engine: Upload individual stems (vocals, guitar, drums, etc.) · per-stem gain, pan & EQ · mix bus glue compression · true-peak limiting · 32-bit float export at 48 kHz.'}
               </p>
               <div className="flex items-center gap-3 mt-5">
                 <div className="h-px flex-1 max-w-12 bg-[#C9A84C]/30" />
@@ -271,8 +354,87 @@ export default function Mastering() {
           )}
         </motion.div>
 
-        {/* ── STEP 1 — UPLOAD ────────────────────────────────────────────── */}
-        {step === 'upload' && (
+        {/* ── STEP 1 — UPLOAD (MIX MODE: STEM UPLOADER) ────────────────── */}
+        {step === 'upload' && mode === 'mix' && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
+            {/* Stem drop zone */}
+            <div
+              onDragOver={e => { e.preventDefault(); setDragging(true); }}
+              onDragLeave={() => setDragging(false)}
+              onDrop={e => { e.preventDefault(); setDragging(false); const f = e.dataTransfer.files[0]; if (f) addStem(f); }}
+              className={`border-2 border-dashed rounded-2xl p-10 text-center transition-all cursor-pointer ${dragging ? 'border-[#C9A84C] bg-[#C9A84C]/5' : 'border-white/10 hover:border-white/20'}`}
+            >
+              <input type="file" id="stem-upload" className="hidden" accept=".wav,.aiff,.aif,.flac,.mp3" onChange={e => { if (e.target.files[0]) addStem(e.target.files[0]); e.target.value = ''; }} multiple />
+              <label htmlFor="stem-upload" className="cursor-pointer flex flex-col items-center gap-3">
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center ${dragging ? 'bg-[#C9A84C]/20' : 'bg-white/5'}`}>
+                  <Plus className={`w-6 h-6 ${dragging ? 'text-[#C9A84C]' : 'text-white/30'}`} />
+                </div>
+                <div>
+                  <p className={`font-body text-sm ${d.sub}`}>{dragging ? 'Drop to add stem' : 'Add a stem file'}</p>
+                  <p className="font-body text-xs text-white/20 mt-1">Vocals, guitar, drums, bass, keys... one at a time</p>
+                </div>
+              </label>
+            </div>
+
+            {/* Stem list with per-stem controls */}
+            {stems.length > 0 && (
+              <div className="space-y-3">
+                <p className={`font-body text-[10px] tracking-[0.3em] uppercase ${d.sub}`}>{stems.length} Stem{stems.length > 1 ? 's' : ''} Loaded</p>
+                {stems.map((stem, idx) => (
+                  <div key={idx} className={`${d.card} rounded-xl p-4 space-y-3`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <Music className="w-4 h-4 text-[#C9A84C] shrink-0" />
+                        <p className={`font-body text-sm truncate ${design === 'cinematic' ? 'text-[#F5F0E8]' : 'text-white'}`}>{stem.name}</p>
+                        <span className="font-body text-[10px] text-white/30 shrink-0">{(stem.file.size / 1024 / 1024).toFixed(1)}MB</span>
+                      </div>
+                      <button onClick={() => removeStem(idx)} className="text-white/30 hover:text-red-400 transition-colors shrink-0">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                    {/* Gain + Pan */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <div className="flex justify-between mb-1">
+                          <Label className={`font-body text-[10px] ${d.sub}`}>Gain</Label>
+                          <span className={`font-body text-[10px] ${d.sub}`}>{stem.gain > 0 ? '+' : ''}{stem.gain} dB</span>
+                        </div>
+                        <Slider value={[stem.gain]} min={-24} max={12} step={0.5} onValueChange={([v]) => updateStem(idx, 'gain', v)} className="w-full" />
+                      </div>
+                      <div>
+                        <div className="flex justify-between mb-1">
+                          <Label className={`font-body text-[10px] ${d.sub}`}>Pan</Label>
+                          <span className={`font-body text-[10px] ${d.sub}`}>{stem.pan === 0 ? 'C' : stem.pan < 0 ? `L${Math.abs(stem.pan * 100)}` : `R${stem.pan * 100}`}</span>
+                        </div>
+                        <Slider value={[stem.pan]} min={-1} max={1} step={0.05} onValueChange={([v]) => updateStem(idx, 'pan', v)} className="w-full" />
+                      </div>
+                    </div>
+                    {/* Per-stem EQ */}
+                    <div className="grid grid-cols-3 gap-3">
+                      {['low', 'mid', 'high'].map(band => (
+                        <div key={band}>
+                          <div className="flex justify-between mb-1">
+                            <Label className={`font-body text-[9px] uppercase ${d.sub}`}>{band}</Label>
+                            <span className={`font-body text-[9px] ${d.sub}`}>{stem.eq[band] > 0 ? '+' : ''}{stem.eq[band]}</span>
+                          </div>
+                          <Slider value={[stem.eq[band]]} min={-12} max={12} step={0.5} onValueChange={([v]) => updateStemEQ(idx, band, v)} className="w-full" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            <Button onClick={handleMix} disabled={processing || stems.length === 0} className={`w-full rounded-full ${d.btn} border-0 font-body text-sm tracking-wider uppercase py-6`}>
+              {processing ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Mixing {progress}%...</>
+                : <><Layers className="w-4 h-4 mr-2" />Mix {stems.length} Stem{stems.length !== 1 ? 's' : ''} → Master</>}
+            </Button>
+          </motion.div>
+        )}
+
+        {/* ── STEP 1 — UPLOAD (MASTER MODE) ───────────────────────────── */}
+        {step === 'upload' && mode === 'master' && (
           <motion.form initial={{ opacity: 0 }} animate={{ opacity: 1 }} onSubmit={handleUpload} className="space-y-5">
             <div
               onDragOver={e => { e.preventDefault(); setDragging(true); }}
@@ -386,6 +548,36 @@ export default function Mastering() {
               </div>
             </div>
 
+            {/* Export format selector */}
+            <div className={`${d.card} rounded-2xl p-5 space-y-3`}>
+              <div className="flex items-center gap-3">
+                <Download className="w-4 h-4 text-[#C9A84C]" />
+                <p className={`font-body text-[10px] tracking-[0.3em] uppercase ${d.sub}`}>Export Format</p>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {EXPORT_FORMATS.map(f => (
+                  <button key={f.value} type="button" onClick={() => setExportFormat(f.value)}
+                    className={`text-left p-3 rounded-xl border transition-all ${exportFormat === f.value ? d.profileActive : d.profileInactive}`}>
+                    <p className={`font-body text-xs ${design === 'cinematic' ? 'text-[#F5F0E8]' : 'text-white'}`}>{f.label}</p>
+                    <p className={`font-body text-[10px] ${d.sub} mt-0.5`}>{f.desc}</p>
+                  </button>
+                ))}
+              </div>
+              <div className="flex items-center gap-3 pt-1">
+                <Sliders className="w-4 h-4 text-[#C9A84C]" />
+                <p className={`font-body text-[10px] tracking-[0.3em] uppercase ${d.sub}`}>Sample Rate</p>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {SAMPLE_RATES.map(sr => (
+                  <button key={sr.value} type="button" onClick={() => setTargetSampleRate(sr.value)}
+                    className={`text-left p-2.5 rounded-lg border transition-all ${targetSampleRate === sr.value ? d.profileActive : d.profileInactive}`}>
+                    <p className={`font-body text-xs ${design === 'cinematic' ? 'text-[#F5F0E8]' : 'text-white'}`}>{sr.label}</p>
+                    <p className={`font-body text-[9px] ${d.sub} mt-0.5`}>{sr.desc}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Fine controls */}
             <div className={`${d.card} rounded-2xl p-6 space-y-5`}>
               <div className="flex items-center gap-3">
@@ -416,7 +608,7 @@ export default function Mastering() {
                 <div className="w-full bg-white/5 rounded-full h-1">
                   <div className="bg-gradient-to-r from-[#C9A84C] to-[#FFE08A] h-1 rounded-full transition-all duration-300" style={{ width: `${progress}%` }} />
                 </div>
-                <p className={`font-body text-[10px] ${d.sub} mt-2`}>HPF → 4-band EQ → Saturation → M/S Width → Multi-band Comp → LUFS → True-Peak → Dither → 24-bit WAV</p>
+                <p className={`font-body text-[10px] ${d.sub} mt-2`}>HPF → 4-band EQ → Saturation → M/S Width → LR4 Multiband Comp → K-weighted LUFS → 4× True-Peak Limiter → Dither → {exportFormat === 'wav32' ? '32-bit Float' : '24-bit'} WAV</p>
               </div>
             )}
 
@@ -450,7 +642,7 @@ export default function Mastering() {
                 <h2 className="font-display text-4xl text-white">Mastered</h2>
               </>
             )}
-            <p className={`font-body ${d.sub}`}>Full studio mastering chain applied. Your 24-bit WAV is ready to download.</p>
+            <p className={`font-body ${d.sub}`}>Pro mastering chain applied. Your {masteredStats?.export_format === 'wav32' ? '32-bit float' : '24-bit'} WAV is ready to download.</p>
 
             <div className={`${d.card} rounded-2xl p-6 text-left space-y-3`}>
               <div className="flex justify-between text-sm font-body">
@@ -463,7 +655,7 @@ export default function Mastering() {
                     { label: 'Output Loudness', value: `${masteredStats.output_lufs} LUFS` },
                     { label: 'Output Peak', value: `${masteredStats.output_peak_db} dBTP` },
                     { label: 'Sample Rate', value: `${masteredStats.sample_rate / 1000} kHz · ${masteredStats.channels}ch` },
-                    { label: 'Format', value: 'WAV · 24-bit PCM' },
+                    { label: 'Format', value: masteredStats?.export_format === 'wav32' ? 'WAV · 32-bit Float' : 'WAV · 24-bit PCM' },
                   ].map(row => (
                     <div key={row.label} className="flex justify-between text-sm font-body">
                       <span className={d.sub}>{row.label}</span>
