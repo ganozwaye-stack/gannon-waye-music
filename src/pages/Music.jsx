@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
+import GiftWrapRelease from '@/components/public/GiftWrapRelease';
+import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import ShareButtons from '@/components/public/ShareButtons';
 import GoldShards from '@/components/public/GoldShards';
 import LyricsModal from '@/components/public/LyricsModal';
@@ -68,7 +70,20 @@ export default function Music() {
     initialData: [],
   });
 
+  // Album — featured at top, most prominent
+  const albumRelease = releases.find(r => r.type === 'album' && r.is_published);
+
   const published = [
+    // Album — shown first, prominently featured
+    ...(albumRelease ? [albumRelease] : [{
+      id: 'album-coming-soon',
+      title: 'Gannon Waye — The Album',
+      type: 'Album',
+      status: 'coming_soon',
+      is_published: true,
+      is_featured_new: true,
+      description: 'The debut album. Releasing next year. Coming soon.',
+    }]),
     // 'Without You Here' — featured new single, shown first
     ...(releases.some(r => r.title === 'Without You Here' && r.is_published) ? [] : [{
       id: 'without-you-here-coming-soon',
@@ -83,17 +98,6 @@ export default function Music() {
       artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
     }]),
     ...releases.filter(r => r.is_published),
-    // Inject 'Will You Even Listen' if not already in DB
-    ...(releases.some(r => r.title === 'Will You Even Listen') ? [] : [{
-      id: 'will-you-even-listen-recording',
-      title: 'Will You Even Listen',
-      type: 'Single',
-      status: 'recording',
-      is_published: true,
-      description: 'Gannon is currently recording this new track in the studio. A vulnerable, raw, and emotional piece tracing the space between holding on and letting go.',
-      credits: 'Written & Performed by Gannon Waye',
-      artwork_url: '/images/will_you_even_listen_cover.png',
-    }]),
   ];
 
   return (
@@ -144,7 +148,17 @@ export default function Music() {
           <ThankYouFallbackCard />
         ) : (
           <div className="space-y-12">
-            {published.map((release, i) => (
+            {/* Album — featured at top with gift-wrap styling */}
+            {published.filter(r => r.type === 'album' || r.type === 'Album').length > 0 && (
+              <div className="mb-8">
+                {published.filter(r => r.type === 'album' || r.type === 'Album').map(release => (
+                  <GiftWrapRelease key={release.id} release={release} isAlbum={true} />
+                ))}
+              </div>
+            )}
+
+            {/* Released singles — standard card format */}
+            {published.filter(r => r.type !== 'album' && r.type !== 'Album' && r.status !== 'idea').map((release, i) => (
               <motion.div
                 key={release.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -297,15 +311,27 @@ export default function Music() {
                      </div>
                      )}
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        )}
+                </motion.div>
+                ))}
+
+                {/* Coming soon singles — gift-wrapped */}
+                {published.filter(r => r.type !== 'album' && r.type !== 'Album' && (r.status === 'idea' || r.status === 'coming_soon')).length > 0 && (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {published.filter(r => r.type !== 'album' && r.type !== 'Album' && (r.status === 'idea' || r.status === 'coming_soon')).map(release => (
+                 <GiftWrapRelease key={release.id} release={release} isAlbum={false} />
+                ))}
+                </div>
+                )}
+                </div>
+                )}
 
         <div className="flex justify-center mt-10 mb-4">
           <ShareButtons url="https://gannonwaye.com/music" text="Gannon Waye — debut single 'Thank You' out now." />
         </div>
         <BePartOfThisCTA context="If this music means something to you, you can help make more of it happen." />
+        <div className="mt-12">
+          <ThankYouProjectCTA context="Support the Thank You Project — help fund more music, build the community, and keep independent art alive. 10% of all support goes to 1800RESPECT." />
+        </div>
       </div>
 
       {/* Fan Playlists */}

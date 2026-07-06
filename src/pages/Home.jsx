@@ -23,6 +23,7 @@ import FeaturedVideoSection from '@/components/public/FeaturedVideoSection';
 import ThankYouCampaignSection from '@/components/public/ThankYouCampaignSection';
 import ThankYouStorySection from '@/components/public/ThankYouStorySection';
 import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
+import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
@@ -320,6 +321,13 @@ export default function Home() {
       {/* Supporter Leaderboard */}
       <SupporterLeaderboard />
 
+      {/* Thank You Project CTA — donations, community, socials */}
+      <section className="py-16 px-4 md:px-6">
+        <div className="max-w-4xl mx-auto">
+          <ThankYouProjectCTA context="Every contribution fuels independent music, supports healing, and builds a community where stories matter. 10% of all support goes to 1800RESPECT. Join the Thank You Project today." />
+        </div>
+      </section>
+
       {/* Safe Space Banner */}
       <SafeSpaceBanner />
 
@@ -337,6 +345,30 @@ export default function Home() {
               <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Latest</p>
               <h2 className="font-display text-3xl md:text-5xl text-foreground">Music</h2>
             </motion.div>
+
+            {/* Album — featured at top center */}
+            {releases.find(r => r.type === 'album' && r.is_published) && (
+              <div className="mb-8 max-w-2xl mx-auto">
+                <div className="relative overflow-hidden rounded-2xl p-8 md:p-10 text-center"
+                  style={{
+                    background: 'linear-gradient(135deg, rgba(212,175,55,0.12) 0%, rgba(245,208,110,0.06) 50%, rgba(212,175,55,0.12) 100%)',
+                    border: '2px solid rgba(245,208,110,0.35)',
+                    boxShadow: '0 0 50px rgba(212,175,55,0.12)',
+                  }}>
+                  <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Album — Releasing Next Year</p>
+                  <h3 className="font-display text-3xl md:text-4xl text-foreground mb-2">{releases.find(r => r.type === 'album').title}</h3>
+                  <p className="font-body text-sm text-muted-foreground">{releases.find(r => r.type === 'album').description}</p>
+                  <div className="flex items-center justify-center gap-2 mt-4">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                    </span>
+                    <span className="font-body text-xs text-primary/70 uppercase tracking-wider">In Production</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
               {/* Without You Here — Coming Soon card */}
               <motion.div

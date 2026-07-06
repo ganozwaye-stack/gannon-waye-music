@@ -95,21 +95,6 @@ export default function MemoryPlaque({ photo, label, caption, align = 'center', 
           )}
         </motion.div>
 
-        {/* Label plaque */}
-        <div style={{
-          background: 'linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.06))',
-          border: '1px solid rgba(212,175,55,0.25)',
-          borderTop: 'none',
-          padding: '6px 12px',
-          textAlign: 'center',
-        }}>
-          <p style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 12,
-            color: 'rgba(245,208,110,0.55)',
-            letterSpacing: '0.08em',
-          }}>{label}</p>
-        </div>
       </div>
     </motion.div>
   );

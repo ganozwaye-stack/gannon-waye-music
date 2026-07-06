@@ -12,6 +12,13 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { useToast } from '@/components/ui/use-toast';
 import { masterTrackPro, mixStems } from '@/lib/audioDSPPro';
+import StripePaymentForm from '@/components/store/StripePaymentForm';
+import { CreditCard, Lock } from 'lucide-react';
+
+const MASTERING_PRICES = {
+  master: { amount: 49, label: 'Professional Mastering', desc: 'Full track mastering with pro DSP chain · 24-bit WAV export' },
+  mix: { amount: 89, label: 'Stem Mixing & Mastering', desc: 'Multi-stem mixing + mastering · per-stem EQ, gain, pan · 24-bit WAV export' },
+};
 
 // ── Design toggle — Option 2 = Cinematic (default), Option 1 = Dark Luxury Glass
 const DESIGNS = {
@@ -153,6 +160,8 @@ export default function Mastering() {
   const [exportFormat, setExportFormat] = useState('wav24');
   const [targetSampleRate, setTargetSampleRate] = useState(44100);
   const [stems, setStems] = useState([]); // [{file, name, gain, pan, eq}]
+  const [paid, setPaid] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
 
   const validateFile = (f) => {
     const ext = '.' + f.name.split('.').pop().toLowerCase();
@@ -268,6 +277,8 @@ export default function Mastering() {
     setForm({ title: '', artist_name: '', artist_email: '' });
     setControls(DEFAULT_CONTROLS); setSelectedProfile('streaming_master'); setProgress(0);
     setStems([]);
+    setPaid(false);
+    setShowPayment(false);
   };
 
   return (
@@ -675,14 +686,49 @@ export default function Mastering() {
               )}
             </div>
 
-            <div className="flex gap-3 justify-center flex-wrap">
-              <Button onClick={handleDownload} className={`${d.btn} rounded-full border-0 gap-2 px-8`}>
-                <Download className="w-4 h-4" /> Download Mastered WAV
-              </Button>
-              <Button variant="outline" onClick={resetAll} className="rounded-full border-white/10 text-white/50 hover:border-white/30">
-                Master Another
-              </Button>
-            </div>
+            {/* Payment gate — unlock download after purchase */}
+            {!paid ? (
+              <div className={`${d.card} rounded-2xl p-6 space-y-4`}>
+                <div className="flex items-center gap-3 justify-center">
+                  <Lock className="w-4 h-4 text-[#C9A84C]" />
+                  <p className={`font-body text-sm ${design === 'cinematic' ? 'text-[#F5F0E8]' : 'text-white'}`}>Your master is ready. Complete your purchase to unlock the download.</p>
+                </div>
+                <div className="flex items-center justify-between p-4 rounded-xl" style={{ background: 'rgba(212,175,55,0.05)', border: '1px solid rgba(212,175,55,0.15)' }}>
+                  <div>
+                    <p className={`font-display text-lg ${design === 'cinematic' ? 'text-[#F5F0E8]' : 'text-white'}`}>{MASTERING_PRICES[mode].label}</p>
+                    <p className={`font-body text-xs ${d.sub} mt-0.5`}>{MASTERING_PRICES[mode].desc}</p>
+                  </div>
+                  <p className={`font-display text-2xl text-[#C9A84C]`}>${MASTERING_PRICES[mode].amount} AUD</p>
+                </div>
+                {showPayment ? (
+                  <StripePaymentForm
+                    amount={MASTERING_PRICES[mode].amount}
+                    customerEmail={form.artist_email}
+                    customerName={form.artist_name || 'Artist'}
+                    productName={`${MASTERING_PRICES[mode].label} — ${form.title || 'Track'}`}
+                    metadata={{ service: mode, track_title: form.title }}
+                    onSuccess={() => { setPaid(true); setShowPayment(false); toast({ title: 'Payment successful! Download unlocked.' }); }}
+                    onError={(msg) => toast({ title: msg || 'Payment failed', variant: 'destructive' })}
+                  />
+                ) : (
+                  <Button onClick={() => setShowPayment(true)} className={`w-full rounded-full ${d.btn} border-0 font-body text-sm tracking-wider uppercase py-5`}>
+                    <CreditCard className="w-4 h-4 mr-2" /> Purchase & Unlock Download — ${MASTERING_PRICES[mode].amount} AUD
+                  </Button>
+                )}
+                <Button variant="outline" onClick={resetAll} className="rounded-full border-white/10 text-white/50 hover:border-white/30 w-full">
+                  Start Over
+                </Button>
+              </div>
+            ) : (
+              <div className="flex gap-3 justify-center flex-wrap">
+                <Button onClick={handleDownload} className={`${d.btn} rounded-full border-0 gap-2 px-8`}>
+                  <Download className="w-4 h-4" /> Download Mastered WAV
+                </Button>
+                <Button variant="outline" onClick={resetAll} className="rounded-full border-white/10 text-white/50 hover:border-white/30">
+                  Master Another
+                </Button>
+              </div>
+            )}
           </motion.div>
         )}
 

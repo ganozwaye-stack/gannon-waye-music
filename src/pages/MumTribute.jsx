@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Heart, ChevronDown } from 'lucide-react';
+import EnhancedCandle, { CandleGarden } from '@/components/mum/EnhancedCandle';
 import HeartOfGold from '@/components/mum/HeartOfGold';
 import MumStorySection from '@/components/mum/MumStorySection';
 import MumSongSection from '@/components/mum/MumSongSection';
@@ -115,25 +116,7 @@ function GardenScene({ photo, brightness = 0.5, blur = 0, parallaxSpeed = 0.2, c
   );
 }
 
-// ─── Candle ───────────────────────────────────────────────────────────────────
-function Candle() {
-  const [lit, setLit] = useState(false);
-  return (
-    <button onClick={() => setLit(true)} aria-label="Light a candle" className="group relative flex flex-col items-center transition-transform duration-300 hover:scale-110 active:scale-95" style={{ width: 56 }}>
-      <AnimatePresence>
-        {lit && (
-          <motion.div className="absolute" style={{ bottom: '100%', marginBottom: 4 }}
-            initial={{ opacity: 0, scaleY: 0 }} animate={{ opacity: 1, scaleY: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5, ease: 'backOut' }}>
-            <motion.div style={{ width: 18, height: 30, borderRadius: '50% 50% 30% 30%', background: 'radial-gradient(ellipse at 50% 85%, #fff 0%, #f5c842 40%, #e07c10 75%, transparent 100%)', boxShadow: '0 0 20px 8px rgba(245,200,66,0.6), 0 0 50px 14px rgba(220,130,20,0.22)' }}
-              animate={{ scaleX: [1, 1.18, 0.9, 1.12, 1], scaleY: [1, 0.88, 1.12, 0.94, 1] }}
-              transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-      <div style={{ width: '100%', height: 72, borderRadius: 3, background: lit ? 'linear-gradient(180deg,#f5ead0 0%,#ede0b6 70%,#c9a84c 100%)' : 'linear-gradient(180deg,#c8c0a4 0%,#a8a080 100%)', border: `1px solid ${lit ? 'rgba(212,175,55,0.7)' : 'rgba(180,160,120,0.25)'}`, boxShadow: lit ? '0 0 40px rgba(245,200,66,0.30), 0 0 80px rgba(212,175,55,0.12)' : 'none', transition: 'all 0.8s ease' }} />
-    </button>
-  );
-}
+// ─── Candle (now uses EnhancedCandle) ────────────────────────────────────────
 
 // ─── Nav ──────────────────────────────────────────────────────────────────────
 const NAV = [
@@ -267,9 +250,10 @@ export default function MumTribute() {
           <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }}>
             <p className="font-body text-[9px] tracking-[0.6em] uppercase mb-4" style={{ color: 'rgba(212,175,55,0.40)' }}>Light a Candle</p>
             <h2 className="font-display text-3xl md:text-5xl text-foreground mb-6">In Her Honour</h2>
-            <div className="flex justify-center gap-6 mb-6">
-              <Candle /><Candle /><Candle />
-            </div>
+            <CandleGarden count={7} />
+            <p className="font-body text-sm max-w-sm mx-auto mt-8" style={{ color: 'rgba(245,235,200,0.45)' }}>
+              Click each candle to light it in memory of Sonia. Each flame carries a prayer, a memory, a moment of love.
+            </p>
             <p className="font-body text-sm max-w-sm mx-auto" style={{ color: 'rgba(245,235,200,0.45)' }}>
               Click a candle to light it in memory of Sonia Katisa Waye.
             </p>
@@ -445,6 +429,40 @@ export default function MumTribute() {
           <SingleCoverPlaque size="md" delay={0.4} />
         </div>
       </GardenScene>
+
+      {/* Share memory link for family */}
+      <div className="text-center py-12 px-6" style={{ background: 'rgba(2,5,2,0.6)' }}>
+        <div className="max-w-md mx-auto">
+          <p className="font-body text-[9px] tracking-[0.5em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.35)' }}>Share a Memory</p>
+          <p className="font-body text-sm mb-4" style={{ color: 'rgba(245,235,200,0.5)' }}>
+            Have a memory of Sonia you'd like to share? Family and friends can upload photos and stories.
+          </p>
+          <a href="/remember-mum" className="inline-block rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 font-semibold transition-all hover:scale-105"
+            style={{ background: 'linear-gradient(135deg,#c9a84c,#f5d06e)', color: '#060c06', boxShadow: '0 0 24px rgba(212,175,55,0.30)' }}>
+            Share Your Memory
+          </a>
+        </div>
+      </div>
+
+      {/* Thank You Project support CTA */}
+      <div className="py-12 px-6" style={{ background: 'rgba(2,5,2,0.8)' }}>
+        <div className="max-w-lg mx-auto text-center">
+          <p className="font-body text-[9px] tracking-[0.5em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.35)' }}>Support the Thank You Project</p>
+          <p className="font-body text-sm mb-5" style={{ color: 'rgba(245,235,200,0.45)' }}>
+            "Without You Here" is dedicated to Sonia. 10% of all support goes to 1800RESPECT, helping others affected by loss and violence.
+          </p>
+          <div className="flex flex-wrap gap-3 justify-center">
+            <a href="/back-this" className="rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 font-semibold transition-all hover:scale-105"
+              style={{ background: 'linear-gradient(135deg,#c9a84c,#f5d06e)', color: '#060c06', boxShadow: '0 0 24px rgba(212,175,55,0.30)' }}>
+              ♥ Support the Project
+            </a>
+            <a href="/community" className="rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 transition-all hover:bg-white/5"
+              style={{ border: '1px solid rgba(212,175,55,0.28)', color: 'rgba(212,175,55,0.72)' }}>
+              Join the Community
+            </a>
+          </div>
+        </div>
+      </div>
 
       {/* Footer */}
       <div className="text-center py-16 px-6" style={{ background: 'linear-gradient(to bottom, rgba(2,5,2,0) 0%, rgba(2,5,2,1) 40%)' }}>

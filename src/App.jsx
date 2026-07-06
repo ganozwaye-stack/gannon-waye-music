@@ -305,6 +305,7 @@ import CoachingWorkbooks from '@/pages/CoachingWorkbooks';
 import CoachingIntakePage from '@/pages/CoachingIntakePage';
 import CoachingClientResources from '@/pages/CoachingClientResources';
 import CoachingHub from '@/pages/admin/CoachingHub';
+import CoachingOverview from '@/pages/admin/CoachingOverview';
 import CoachingLeads from '@/pages/admin/CoachingLeads';
 import CoachingIntakes from '@/pages/admin/CoachingIntakes';
 import CoachingClients from '@/pages/admin/CoachingClients';
@@ -606,6 +607,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/final-system-report" element={<FinalSystemReport />} />
         <Route path="/admin/google-drive" element={<GoogleDriveCommand />} />
         <Route path="/admin/coaching-hub" element={<CoachingHub />} />
+        <Route path="/admin/coaching-overview" element={<CoachingOverview />} />
         <Route path="/admin/coaching-leads" element={<CoachingLeads />} />
         <Route path="/admin/coaching-intakes" element={<CoachingIntakes />} />
         <Route path="/admin/coaching-clients" element={<CoachingClients />} />
