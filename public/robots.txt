@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /embed-timer
+Disallow: /tiktok-callback
+Disallow: /gift-checklist
+Disallow: /email-preferences
+Disallow: /checkout-success
+Disallow: /checkout-cancel
+
+Sitemap: https://gannonwaye.com/sitemap.xml

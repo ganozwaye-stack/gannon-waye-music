@@ -20,8 +20,11 @@ const NAV_LINKS = [
 const MORE_LINKS = [
   { label: 'My Story', path: '/this-is-my-life' },
   { label: 'Videos', path: '/videos' },
+  { label: 'Community', path: '/community' },
+  { label: 'Mum Tribute', path: '/remember-mum' },
   { label: 'FAQ', path: '/faq' },
   { label: 'Orders', path: '/orders' },
+  { label: 'Systems Manager', path: '/systems-manager' },
 ];
 
 export default function Navbar() {

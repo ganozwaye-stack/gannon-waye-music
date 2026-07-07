@@ -319,6 +319,7 @@ import LyricsArchive from '@/pages/admin/LyricsArchive';
 import ContentStudio from '@/pages/admin/ContentStudio';
 import ManyChatDrafts from '@/pages/admin/ManyChatDrafts';
 import InstagramSync from '@/pages/admin/InstagramSync';
+import CommunicationsHub from '@/pages/admin/CommunicationsHub';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -385,6 +386,12 @@ const AuthenticatedApp = () => {
         <Route path="/support" element={<Navigate to="/contact" replace />} />
         <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />
         {/* Coaching routes moved to admin — hidden from public */}
+
+        {/* Systems Manager — sell this platform to others */}
+        <Route path="/systems-manager" element={<SystemsManagerOffer />} />
+        <Route path="/systems/cinematic-websites" element={<CinematicWebsites />} />
+        <Route path="/systems/case-studies/gannon-waye-music-os" element={<CaseStudyGannonWaye />} />
+        <Route path="/systems/case-studies/ganozmix-direct" element={<CaseStudyGanozMix />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -633,6 +640,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/content-studio" element={<ContentStudio />} />
         <Route path="/admin/manychat-drafts" element={<ManyChatDrafts />} />
         <Route path="/admin/instagram-sync" element={<InstagramSync />} />
+        <Route path="/admin/communications-hub" element={<CommunicationsHub />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

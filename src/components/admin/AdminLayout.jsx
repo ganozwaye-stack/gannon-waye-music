@@ -23,6 +23,7 @@ const NAV_SECTIONS = [
     title: 'Daily Operating',
     items: [
       { label: 'Daily Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
+      { label: 'Communications Hub', path: '/admin/communications-hub', icon: Mail },
       { label: 'Command Center', path: '/admin/command-centre', icon: Terminal },
       { label: "Today's Top Priorities", path: '/admin/dashboard', icon: Sun },
       { label: 'Daily Admin Checklist', path: '/admin/dashboard', icon: CheckCircle2 },

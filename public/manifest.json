@@ -1,0 +1,21 @@
+{
+  "short_name": "Gannon Waye",
+  "name": "Gannon Waye — Singer, Songwriter, Storyteller",
+  "description": "Australian singer-songwriter crafting honest stories through melody and verse.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0d0a",
+  "theme_color": "#c9a84c",
+  "icons": [
+    {
+      "src": "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/094c64c87_image.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/094c64c87_image.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
