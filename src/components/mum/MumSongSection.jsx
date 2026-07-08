@@ -114,7 +114,7 @@ export default function MumSongSection() {
         <p className="font-body text-[9px] tracking-[0.6em] uppercase text-primary/40 mb-3">The Song</p>
         <h2 className="font-display text-4xl md:text-5xl text-foreground mb-2">Without You Here</h2>
         <p className="font-body text-xs text-muted-foreground/40 tracking-wider mb-8">
-          Written in the early hours of Mother's Day, 10 May 2026.
+          Written in the loungeroom, in the early hours of Mother's Day, 10 May 2026.
         </p>
       </motion.div>
 
@@ -137,7 +137,7 @@ export default function MumSongSection() {
         className="font-body text-base text-foreground/65 leading-relaxed space-y-4 mb-10 gsap-reveal"
       >
         <p>
-          "Without You Here" was written in the early hours of Mother's Day, four years after losing my mum.
+          "Without You Here" was written in the loungeroom, in the early hours of Mother's Day, four years after losing my mum.
         </p>
         <p>
           It came from grief, longing, memory, and the unbearable reality of learning how to keep living after losing the person who grounded so much of my world.

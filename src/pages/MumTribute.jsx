@@ -15,6 +15,7 @@ import SoniaTimeline from '@/components/mum/SoniaTimeline';
 import GoldenGatesFinale from '@/components/mum/GoldenGatesFinale';
 import MemoryPlaque from '@/components/mum/MemoryPlaque';
 import SingleCoverPlaque from '@/components/mum/SingleCoverPlaque';
+import SkyToGardenHero from '@/components/mum/SkyToGardenHero';
 
 // ─── Garden environments ──────────────────────────────────────────────────────
 const GARDEN_HERO    = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png';
@@ -120,15 +121,16 @@ function GardenScene({ photo, brightness = 0.5, blur = 0, parallaxSpeed = 0.2, c
 
 // ─── Nav ──────────────────────────────────────────────────────────────────────
 const NAV = [
-  { id: 'entrance',  label: 'Entrance'  },
-  { id: 'me-mum',   label: 'Me & Mum'  },
-  { id: 'her',      label: 'Her'       },
-  { id: 'humour',   label: 'Humour'    },
-  { id: 'family',   label: 'Family'    },
-  { id: 'words',    label: 'Her Words' },
-  { id: 'timeline', label: 'Journey'   },
-  { id: 'olddays',  label: 'Old Days'  },
-  { id: 'gates',    label: '✦ Gates'   },
+  { id: 'entrance',      label: 'Sky'        },
+  { id: 'garden-welcome',label: 'Garden'     },
+  { id: 'me-mum',       label: 'Me & Mum'   },
+  { id: 'her',          label: 'Her'         },
+  { id: 'humour',       label: 'Humour'      },
+  { id: 'family',       label: 'Family'      },
+  { id: 'words',         label: 'Her Words'   },
+  { id: 'timeline',      label: 'Journey'     },
+  { id: 'olddays',       label: 'Old Days'    },
+  { id: 'gates',         label: '✦ Gates'     },
 ];
 
 function Nav() {
@@ -168,81 +170,51 @@ function Nav() {
 
 // ─── Main page ─────────────────────────────────────────────────────────────────
 export default function MumTribute() {
-  const { scrollY } = useScroll();
-  const heroOpacity = useTransform(scrollY, [0, 500], [1, 0]);
-  const heroY = useTransform(scrollY, [0, 500], [0, -80]);
-
   return (
     <div className="relative overflow-x-hidden" style={{ background: '#020502' }}>
       <Nav />
 
-      {/* ══ SCENE 1 — GARDEN ENTRANCE ══════════════════════════════════════════ */}
-      <section id="entrance" className="relative overflow-hidden" style={{ minHeight: '100vh' }}>
-        <div className="absolute inset-0">
-          <img src={GARDEN_DEEP} alt="" aria-hidden style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 25%', filter: 'brightness(0.35) saturate(0.88)' }} />
-        </div>
-        <motion.div className="absolute inset-0" style={{ y: useTransform(scrollY, [0, 800], [0, 100]) }}>
-          <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/ef4adf36e_generated_image.png" alt="" aria-hidden style={{ width: '100%', height: '115%', objectFit: 'cover', objectPosition: 'center 30%', filter: 'brightness(0.45) saturate(1.1)' }} />
-        </motion.div>
-        <motion.div className="absolute inset-0" style={{ y: useTransform(scrollY, [0, 800], [0, 60]) }}>
-          <img src={GARDEN_HERO} alt="" aria-hidden style={{ width: '100%', height: '110%', objectFit: 'cover', objectPosition: 'center 30%', filter: 'brightness(0.55) saturate(1.12) contrast(1.04)', mixBlendMode: 'multiply', opacity: 0.7 }} />
-        </motion.div>
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: `
-            linear-gradient(to right,  rgba(2,5,2,0.95) 0%, rgba(2,5,2,0.45) 16%, transparent 38%),
-            linear-gradient(to left,   rgba(2,5,2,0.95) 0%, rgba(2,5,2,0.45) 16%, transparent 38%),
-            linear-gradient(to bottom, rgba(2,5,2,0.85) 0%, transparent 30%),
-            linear-gradient(to top,    rgba(2,5,2,0.96) 0%, rgba(2,5,2,0.60) 28%, transparent 55%)
-          `,
-        }} />
-        <Pollen count={30} />
+      {/* ══ SKY TO GARDEN — Sonia as angel in the sky, scrolling down to her garden ══ */}
+      <SkyToGardenHero />
 
-        <motion.div className="absolute inset-0 flex flex-col items-center justify-end pb-16 px-6 text-center z-10"
-          style={{ opacity: heroOpacity, y: heroY }}>
-          <p className="font-body text-[8px] tracking-[0.8em] uppercase mb-5" style={{ color: 'rgba(212,175,55,0.40)' }}>
-            A Tribute · Forever in Our Hearts
-          </p>
-          <HeartOfGold size="lg" />
-          <div className="mt-6 mb-3">
-            <p className="font-display italic mb-1" style={{ color: 'rgba(245,208,110,0.45)', fontSize: 'clamp(0.9rem,2.2vw,1.2rem)' }}>In Loving Memory of</p>
-            <h1 className="font-display leading-none" style={{
-              fontSize: 'clamp(3.5rem,11vw,7.5rem)',
-              background: 'linear-gradient(145deg,#c9a84c 0%,#f5d06e 38%,#ffe08a 50%,#f5d06e 62%,#c9a84c 100%)',
-              WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-              filter: 'drop-shadow(0 0 40px rgba(255,220,80,0.75)) drop-shadow(0 0 80px rgba(212,175,55,0.45)) drop-shadow(0 2px 4px rgba(0,0,0,0.9))',
-            }}>Sonia</h1>
-            <h2 className="font-display text-foreground/90 tracking-widest" style={{ fontSize: 'clamp(1.1rem,3.5vw,2.2rem)', letterSpacing: '0.14em', textShadow: '0 0 20px rgba(212,175,55,0.5), 0 2px 8px rgba(0,0,0,0.9)' }}>Katisa Waye</h2>
-            <p className="font-body tracking-[0.65em] mt-2" style={{ color: 'rgba(212,175,55,0.42)', fontSize: '0.7rem' }}>1961 – 2022</p>
-          </div>
-          <div className="flex items-center gap-3 my-4">
-            <div className="w-14 h-px" style={{ background: 'linear-gradient(to right,transparent,rgba(212,175,55,0.35))' }} />
-            <Heart className="w-3 h-3" fill="rgba(212,175,55,0.25)" style={{ color: 'rgba(212,175,55,0.3)' }} />
-            <div className="w-14 h-px" style={{ background: 'linear-gradient(to left,transparent,rgba(212,175,55,0.35))' }} />
-          </div>
-          <blockquote className="mb-8 max-w-sm">
-            <p className="font-display italic text-foreground/65 leading-relaxed" style={{ fontSize: 'clamp(1rem,2.5vw,1.4rem)' }}>
-              "As long as you remember me,<br />my memory will live on."
+      {/* ══ GARDEN WELCOME — entrance buttons after the sky transition ══ */}
+      <GardenScene id="garden-welcome" photo={GARDEN_HERO} brightness={0.45} parallaxSpeed={0.12} minH="auto">
+        <div className="py-24 px-6 max-w-lg mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.2 }}
+          >
+            <HeartOfGold size="lg" />
+            <p className="font-body text-[9px] tracking-[0.6em] uppercase mt-6 mb-3" style={{ color: 'rgba(212,175,55,0.40)' }}>
+              Welcome to Her Garden
             </p>
-            <p className="font-body text-xs mt-2" style={{ color: 'rgba(212,175,55,0.28)' }}>— from the funeral service</p>
-          </blockquote>
-          <div className="flex flex-wrap justify-center gap-3">
-            <button onClick={() => document.getElementById('me-mum')?.scrollIntoView({ behavior: 'smooth' })}
-              className="rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 font-semibold transition-all hover:scale-105"
-              style={{ background: 'linear-gradient(135deg,#c9a84c,#f5d06e)', color: '#060c06', boxShadow: '0 0 24px rgba(212,175,55,0.40)' }}>
-              Enter Her Garden
-            </button>
-            <button onClick={() => document.getElementById('candles')?.scrollIntoView({ behavior: 'smooth' })}
-              className="rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 transition-all hover:bg-white/5"
-              style={{ border: '1px solid rgba(212,175,55,0.28)', color: 'rgba(212,175,55,0.72)' }}>
-              ♥ Light a Candle
-            </button>
-          </div>
-          <motion.div className="mt-10 mb-6" animate={{ y: [0, 8, 0] }} transition={{ duration: 2.5, repeat: Infinity }}>
-            <ChevronDown className="w-5 h-5" style={{ color: 'rgba(212,175,55,0.22)' }} />
+            <h2 className="font-display text-3xl md:text-5xl text-foreground mb-4">
+              A Place to Spend Time with Her
+            </h2>
+            <p className="font-body text-sm leading-relaxed max-w-sm mx-auto mb-8" style={{ color: 'rgba(245,235,200,0.45)' }}>
+              This garden is a living tribute to Sonia's life. Wander through her memories, her laughter, her wisdom.
+              Stay as long as you like. She'd want you to feel at home here.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <button onClick={() => document.getElementById('me-mum')?.scrollIntoView({ behavior: 'smooth' })}
+                className="rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 font-semibold transition-all hover:scale-105"
+                style={{ background: 'linear-gradient(135deg,#c9a84c,#f5d06e)', color: '#060c06', boxShadow: '0 0 24px rgba(212,175,55,0.40)' }}>
+                Begin Her Journey
+              </button>
+              <button onClick={() => document.getElementById('candles')?.scrollIntoView({ behavior: 'smooth' })}
+                className="rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 transition-all hover:bg-white/5"
+                style={{ border: '1px solid rgba(212,175,55,0.28)', color: 'rgba(212,175,55,0.72)' }}>
+                ♥ Light a Candle
+              </button>
+            </div>
           </motion.div>
-          <SingleCoverPlaque size="sm" delay={0.6} />
-        </motion.div>
-      </section>
+          <div className="mt-10">
+            <SingleCoverPlaque size="sm" delay={0.4} />
+          </div>
+        </div>
+      </GardenScene>
 
       {/* ══ CANDLES (floats after entrance) ════════════════════════════════════ */}
       <GardenScene id="candles" photo={GARDEN_WISDOM} brightness={0.50} parallaxSpeed={0.18} minH="auto">

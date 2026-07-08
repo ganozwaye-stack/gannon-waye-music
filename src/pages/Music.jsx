@@ -94,7 +94,7 @@ export default function Music() {
       is_published: true,
       is_current_single: true,
       is_featured_new: true,
-      description: 'Written in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did. This is the most honest Gannon has ever been in his music.',
+      description: 'Written in the loungeroom, in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did. This is the most honest Gannon has ever been in his music.',
       credits: 'Written & Performed by Gannon Waye · Produced by Will Henderson · Mother\'s Day 2026',
       artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
     }]),
@@ -234,6 +234,8 @@ export default function Music() {
                     <p className="font-body text-foreground/60 mt-4 leading-relaxed">
                       {release.title === 'Thank You'
                         ? '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. There was a growing awareness that what he was experiencing was not new. It felt familiar in a way that traced back much further, to patterns already fought hard to outgrow. This song is not about the pain. It is about the line being drawn. It is the moment of choosing self-respect over repetition. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.'
+                        : release.title === 'Without You Here'
+                        ? '"Without You Here" was written in the loungeroom, in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did. This is the most honest Gannon has ever been in his music.'
                         : release.description}
                     </p>
                   )}
