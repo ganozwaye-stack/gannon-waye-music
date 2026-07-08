@@ -16,6 +16,7 @@ import SpotifyPlayer from '@/components/public/SpotifyPlayer';
 import MusicRecommendations from '@/components/public/MusicRecommendations';
 import TourTracker from '@/components/public/TourTracker';
 import FanPlaylists from '@/components/public/FanPlaylists';
+import LyricsHighlights from '@/components/public/LyricsHighlights';
 
 // Clean gold glow banner — blends into dark background on Music page
 const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
@@ -140,6 +141,16 @@ export default function Music() {
                 Read Lyrics →
               </Button>
             </Link>
+            <Link to="/lyric-library" className="inline-block ml-2">
+              <Button variant="ghost" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase text-muted-foreground hover:text-primary">
+                Lyric Library →
+              </Button>
+            </Link>
+            <Link to="/discover" className="inline-block ml-2">
+              <Button variant="ghost" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase text-muted-foreground hover:text-primary">
+                Discover Music →
+              </Button>
+            </Link>
           </motion.div>
         </div>
 
@@ -148,6 +159,7 @@ export default function Music() {
           <ThankYouFallbackCard />
         ) : (
           <div className="space-y-12">
+            <LyricsHighlights />
             {/* Album — featured at top with gift-wrap styling */}
             {published.filter(r => r.type === 'album' || r.type === 'Album').length > 0 && (
               <div className="mb-8">

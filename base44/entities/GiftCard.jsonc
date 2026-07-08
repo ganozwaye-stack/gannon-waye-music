@@ -1,0 +1,98 @@
+{
+  "name": "GiftCard",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Unique gift card code (auto-generated)"
+    },
+    "value": {
+      "type": "number",
+      "description": "Gift card value in AUD"
+    },
+    "purchaser_email": {
+      "type": "string",
+      "description": "Email of the person who bought the gift card"
+    },
+    "purchaser_name": {
+      "type": "string",
+      "description": "Name of the purchaser"
+    },
+    "recipient_email": {
+      "type": "string",
+      "description": "Email of the gift card recipient"
+    },
+    "recipient_name": {
+      "type": "string",
+      "description": "Name of the recipient"
+    },
+    "message": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Personal message from purchaser to recipient"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "redeemed",
+        "expired"
+      ],
+      "default": "pending"
+    },
+    "stripe_session_id": {
+      "type": "string",
+      "description": "Stripe checkout session ID"
+    },
+    "redeemed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Expiry date (default 12 months from purchase)"
+    }
+  },
+  "required": [
+    "code",
+    "value",
+    "purchaser_email"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.purchaser_email": "user.email"
+        },
+        {
+          "data.recipient_email": "user.email"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.purchaser_email": "user.email"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

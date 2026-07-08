@@ -19,9 +19,15 @@ const NAV_LINKS = [
 
 const MORE_LINKS = [
   { label: 'My Story', path: '/this-is-my-life' },
+  { label: 'Biography', path: '/biography' },
   { label: 'Videos', path: '/videos' },
+  { label: 'Lyric Library', path: '/lyric-library' },
+  { label: 'Discover Music', path: '/discover' },
   { label: 'Community', path: '/community' },
   { label: 'Mum Tribute', path: '/remember-mum' },
+  { label: 'Mixing Services', path: '/mixing-services' },
+  { label: 'Gift Cards', path: '/gift-cards' },
+  { label: 'Fan Reminders', path: '/fan-reminders' },
   { label: 'FAQ', path: '/faq' },
   { label: 'Orders', path: '/orders' },
   { label: 'Systems Manager', path: '/systems-manager' },

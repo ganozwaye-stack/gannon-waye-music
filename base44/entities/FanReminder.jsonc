@@ -1,0 +1,78 @@
+{
+  "name": "FanReminder",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Fan email address to send the reminder to"
+    },
+    "name": {
+      "type": "string",
+      "description": "Fan name (optional)"
+    },
+    "reminder_type": {
+      "type": "string",
+      "enum": [
+        "new_release",
+        "album_drop",
+        "next_single",
+        "tour_date",
+        "merch_drop",
+        "general"
+      ],
+      "default": "new_release"
+    },
+    "custom_message": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Optional custom note from the fan about what they want to be reminded of"
+    },
+    "remind_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When to send the reminder email"
+    },
+    "is_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "related_release": {
+      "type": "string",
+      "description": "Release title this reminder is connected to"
+    }
+  },
+  "required": [
+    "email",
+    "reminder_type",
+    "remind_at"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "$or": [
+        {
+          "data.email": "user.email"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

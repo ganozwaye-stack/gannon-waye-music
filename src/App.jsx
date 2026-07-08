@@ -268,6 +268,12 @@ import LegalDrafts from '@/pages/admin/LegalDrafts';
 import CinematicWebsites from '@/pages/systems/CinematicWebsites';
 import CaseStudyGannonWaye from '@/pages/systems/CaseStudyGannonWaye';
 import CaseStudyGanozMix from '@/pages/systems/CaseStudyGanozMix';
+import LyricLibrary from '@/pages/LyricLibrary';
+import GiftCards from '@/pages/GiftCards';
+import MixingServices from '@/pages/MixingServices';
+import Biography from '@/pages/Biography';
+import MusicRecommender from '@/pages/MusicRecommender';
+import FanReminders from '@/pages/FanReminders';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -392,6 +398,12 @@ const AuthenticatedApp = () => {
         <Route path="/systems/cinematic-websites" element={<CinematicWebsites />} />
         <Route path="/systems/case-studies/gannon-waye-music-os" element={<CaseStudyGannonWaye />} />
         <Route path="/systems/case-studies/ganozmix-direct" element={<CaseStudyGanozMix />} />
+        <Route path="/lyric-library" element={<LyricLibrary />} />
+        <Route path="/gift-cards" element={<GiftCards />} />
+        <Route path="/mixing-services" element={<MixingServices />} />
+        <Route path="/biography" element={<Biography />} />
+        <Route path="/discover" element={<MusicRecommender />} />
+        <Route path="/fan-reminders" element={<FanReminders />} />
       </Route>
 
       {/* Embed timer (no layout) */}
