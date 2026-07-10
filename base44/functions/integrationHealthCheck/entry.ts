@@ -22,28 +22,36 @@ Deno.serve(async (req) => {
       alerts.push({ type, severity, message, route });
     };
 
-    // 1. Stripe Secret Key
+    // 1. Stripe Secret Key — validate format, then report mode
     const stripeSecret = Deno.env.get('STRIPE_SECRET_KEY');
+    const secretValidFormat = stripeSecret && (stripeSecret.startsWith('sk_live_') || stripeSecret.startsWith('sk_test_'));
     if (!stripeSecret) {
       addAlert('stripe_key_missing', 'critical', 'STRIPE_SECRET_KEY is not set.', '/admin/stripe-command-centre');
-    } else if (!stripeSecret.startsWith('sk_live_')) {
+    } else if (!secretValidFormat) {
+      addAlert('stripe_key_invalid', 'critical', 'STRIPE_SECRET_KEY format is invalid — must start with sk_live_ or sk_test_.', '/admin/stripe-command-centre');
+    } else if (stripeSecret.startsWith('sk_test_')) {
       addAlert('stripe_not_live', 'high', 'STRIPE_SECRET_KEY is in test mode (sk_test_). Switch to sk_live_ for production.', '/admin/stripe-command-centre');
+      checks.push({ platform: 'Stripe Secret Key', status: 'test' });
     } else {
       checks.push({ platform: 'Stripe Secret Key', status: 'live' });
     }
 
-    // 2. Stripe Publishable Key
+    // 2. Stripe Publishable Key — validate format, then report mode
     const stripePk = Deno.env.get('STRIPE_PUBLISHABLE_KEY');
+    const pkValidFormat = stripePk && (stripePk.startsWith('pk_live_') || stripePk.startsWith('pk_test_'));
     if (!stripePk) {
       addAlert('stripe_pk_missing', 'critical', 'STRIPE_PUBLISHABLE_KEY is not set.', '/admin/stripe-command-centre');
-    } else if (!stripePk.startsWith('pk_live_')) {
+    } else if (!pkValidFormat) {
+      addAlert('stripe_pk_invalid', 'critical', 'STRIPE_PUBLISHABLE_KEY format is invalid — must start with pk_live_ or pk_test_.', '/admin/stripe-command-centre');
+    } else if (stripePk.startsWith('pk_test_')) {
       addAlert('stripe_pk_test', 'high', 'STRIPE_PUBLISHABLE_KEY is in test mode. Switch to pk_live_ for production.', '/admin/stripe-command-centre');
+      checks.push({ platform: 'Stripe Publishable Key', status: 'test' });
     } else {
       checks.push({ platform: 'Stripe Publishable Key', status: 'live' });
     }
 
-    // 2b. Check for live/test key mismatch — this is a critical safety issue
-    if (stripeSecret && stripePk) {
+    // 2b. Check for live/test key mismatch — only when both formats are valid
+    if (secretValidFormat && pkValidFormat) {
       const secretIsLive = stripeSecret.startsWith('sk_live_');
       const pkIsLive = stripePk.startsWith('pk_live_');
       if (secretIsLive !== pkIsLive) {
@@ -66,7 +74,7 @@ Deno.serve(async (req) => {
     }
 
     // 4. Stripe API connectivity test
-    if (stripeSecret) {
+    if (secretValidFormat) {
       try {
         const stripe = new Stripe(stripeSecret);
         await stripe.balance.retrieve();
@@ -148,7 +156,6 @@ Deno.serve(async (req) => {
         is_read: false,
       });
 
-      // Create SystemHealthIssue records for critical alerts
       for (const alert of alerts.filter(a => a.severity === 'critical' || a.severity === 'high')) {
         try {
           await base44.asServiceRole.entities.SystemHealthIssue.create({

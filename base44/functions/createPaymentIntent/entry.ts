@@ -1,8 +1,6 @@
 import Stripe from 'npm:stripe@14.21.0';
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
-const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
-
 // ── Pricing constants (must mirror CheckoutModal) ──────────────────────────
 const AU_SHIPPING_FLAT = 12.95;
 const FREE_SHIPPING_THRESHOLD = 150;
@@ -43,16 +41,53 @@ const MUSIC_CATEGORIES = ['cd', 'vinyl', 'digital'];
 function validatePromoForCategory(promoCode, category) {
   if (!promoCode) return true;
   const code = promoCode.toUpperCase();
-  // GIFTAPPROVED25 — always requires approval (handled in validatePromoCode fn)
-  // THANKYOU15 / FAMILYFRIENDS30 — must not apply to CDs/vinyl/digital
   if (PROMO_EXCLUDED_FROM_MERCH.includes(code) && MUSIC_CATEGORIES.includes((category || '').toLowerCase())) {
     return false;
   }
   return true;
 }
 
+// ── Deduped PaymentDiagnostic — prevents spamming duplicates ──────────────
+async function ensureSingleOpenDiagnostic(base44, issueSummary, extra) {
+  try {
+    const existing = await base44.asServiceRole.entities.PaymentDiagnostic.filter({
+      issue_summary: issueSummary,
+      status: 'open',
+    });
+    if (existing && existing.length > 0) return existing[0];
+    return await base44.asServiceRole.entities.PaymentDiagnostic.create({
+      diagnostic_type: 'missing_stripe_config',
+      severity: 'critical',
+      status: 'open',
+      issue_summary: issueSummary,
+      ...extra,
+    });
+  } catch (_) { /* best-effort — do not crash checkout */ }
+}
+
 Deno.serve(async (req) => {
   try {
+    // ── Validate Stripe secret inside the handler, not at module load ──────
+    const secretKey = (Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
+
+    if (!secretKey || !secretKey.startsWith('sk_')) {
+      const issueSummary = 'STRIPE_SECRET_KEY is missing or invalid (must start with sk_) in createPaymentIntent';
+      const base44 = createClientFromRequest(req);
+      await ensureSingleOpenDiagnostic(base44, issueSummary, {
+        admin_message: 'Checkout is unavailable — STRIPE_SECRET_KEY is missing or does not start with sk_. Set it in Base44 → Settings → Environment Variables.',
+        recommended_fix: 'Go to Stripe Dashboard → Developers → API Keys → Reveal secret key → copy sk_live_... → add to Base44 Secrets as STRIPE_SECRET_KEY.',
+        webhook_processed: false,
+        source_chain: 'createPaymentIntent → key_validation_failed',
+      });
+
+      return Response.json({
+        error: 'Checkout temporarily unavailable',
+        friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
+        code: 'STRIPE_CONFIG_ERROR',
+      }, { status: 503 });
+    }
+
+    const stripe = new Stripe(secretKey);
     const base44 = createClientFromRequest(req);
     const body = await req.json();
     const { amount, currency, customerEmail, customerName, productName, metadata, mode } = body;

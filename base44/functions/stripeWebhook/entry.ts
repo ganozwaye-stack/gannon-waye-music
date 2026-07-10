@@ -1,3 +1,21 @@
+/**
+ * stripeWebhook — PRIMARY Stripe webhook endpoint (order fulfillment).
+ *
+ * This is the REQUIRED order fulfillment webhook. It handles:
+ *   - checkout.session.completed → MerchOrder creation (primary path)
+ *   - Inventory decrement + profit calculation
+ *   - Order receipt email
+ *   - Admin notification
+ *   - Promo usage recording
+ *
+ * SECURITY: In live mode (sk_live_), STRIPE_WEBHOOK_SECRET is required and
+ * unsigned payloads are rejected. In test mode without a secret, unsigned
+ * payloads are accepted for local development only.
+ *
+ * STRIPE REQUIREMENT: Must return HTTP 200–299 within timeout.
+ * This handler returns 200 immediately; all processing is fire-and-forget.
+ */
+
 import Stripe from 'npm:stripe@14.21.0';
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
 
@@ -13,14 +31,16 @@ function isCategoryEligibleForDiscount(category) {
 }
 
 Deno.serve(async (req) => {
-  // CRITICAL: Create base44 client BEFORE reading body stream.
-  // Deno's Request body can only be read once. createClientFromRequest reads headers only,
-  // but must be called before req.text() to avoid any internal body consumption issues.
+  // CRITICAL: Create base44 client BEFORE reading the body stream.
+  // Deno's Request body can only be read once. createClientFromRequest reads
+  // headers only, but must be called before req.text() consumes the body.
   const base44 = createClientFromRequest(req);
 
-  const secretKey = Deno.env.get('STRIPE_SECRET_KEY');
-  const webhookSecret = Deno.env.get('STRIPE_WEBHOOK_SECRET');
+  const secretKey = (Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
+  const webhookSecret = (Deno.env.get('STRIPE_WEBHOOK_SECRET') || '').trim();
+  const isLiveMode = secretKey.startsWith('sk_live_');
 
+  // Validate Stripe secret key
   if (!secretKey || !secretKey.startsWith('sk_')) {
     return Response.json({ error: 'Stripe not configured' }, { status: 500 });
   }
@@ -37,11 +57,20 @@ Deno.serve(async (req) => {
   const stripe = new Stripe(secretKey);
 
   let event;
-  if (webhookSecret && signature) {
+
+  // ── Signature verification ────────────────────────────────────────────
+  // Live mode: STRIPE_WEBHOOK_SECRET is REQUIRED. Reject unsigned payloads.
+  if (isLiveMode) {
+    if (!webhookSecret) {
+      return Response.json({ error: 'STRIPE_WEBHOOK_SECRET not configured — live mode requires signed webhooks' }, { status: 500 });
+    }
+    if (!signature) {
+      return Response.json({ error: 'Missing stripe-signature header — live mode rejects unsigned payloads' }, { status: 400 });
+    }
     try {
       event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
     } catch (err) {
-      // Log signature failure and notify admin
+      // Log signature failure — fire and forget, do not block the 400
       (async () => {
         try {
           await base44.asServiceRole.entities.PaymentDiagnostic.create({
@@ -67,16 +96,32 @@ Deno.serve(async (req) => {
       })();
       return Response.json({ error: 'Webhook signature failed' }, { status: 400 });
     }
-  } else if (!webhookSecret) {
-    // No secret configured — accept (dev/fallback only)
+  } else if (webhookSecret && signature) {
+    // Test mode with secret configured — verify signature
+    try {
+      event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
+    } catch (err) {
+      (async () => {
+        try {
+          await base44.asServiceRole.entities.PaymentDiagnostic.create({
+            diagnostic_type: 'webhook_signature_failure',
+            severity: 'critical',
+            status: 'open',
+            issue_summary: `stripeWebhook signature failed (test mode): ${err.message}`,
+            webhook_processed: false,
+            source_chain: 'Stripe → stripeWebhook → signature_failed',
+          });
+        } catch (_) {}
+      })();
+      return Response.json({ error: 'Webhook signature failed' }, { status: 400 });
+    }
+  } else {
+    // Dev/fallback: no secret or no signature — accept raw JSON (dev only)
     try {
       event = JSON.parse(body);
     } catch {
       return Response.json({ error: 'Invalid JSON payload' }, { status: 400 });
     }
-  } else {
-    // Secret configured but no signature header
-    return Response.json({ error: 'Missing stripe-signature header' }, { status: 400 });
   }
 
   // ✅ Return 200 IMMEDIATELY — all heavy processing below is fire-and-forget
@@ -88,6 +133,7 @@ Deno.serve(async (req) => {
 
     // =============================================
     // CHECKOUT SESSION COMPLETED — full order chain
+    // (PRIMARY order creation path)
     // =============================================
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
@@ -130,7 +176,6 @@ Deno.serve(async (req) => {
         const existingOrders = await base44.asServiceRole.entities.MerchOrder.filter({ stripe_session_id: session.id });
         const activeExisting = (existingOrders || []).filter(o => o.status !== 'duplicate' && o.financial_status !== 'duplicate_void');
         if (activeExisting.length > 0) {
-          // Already processed — log duplicate skipped and return 200
           await base44.asServiceRole.entities.StripeEventLog.create({
             stripe_event_id: event.id,
             event_type: event.type,
@@ -145,7 +190,7 @@ Deno.serve(async (req) => {
             processed_at: new Date().toISOString(),
             source_chain: 'stripeWebhook → idempotency_check → duplicate_skipped',
           }).catch(() => {});
-          return Response.json({ received: true, duplicate_skipped: true, existing_order_id: activeExisting[0].id });
+          return; // already processed — exit async block
         }
       } catch (_) {}
 
@@ -213,19 +258,16 @@ Deno.serve(async (req) => {
         const itemRevenue = (item.price || 0) * quantity;
 
         try {
-          // Fetch product to get current stock and cost
           const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: item.product_id });
           if (products && products.length > 0) {
             const product = products[0];
             const currentStock = product.stock_quantity || 0;
             const newStock = Math.max(0, currentStock - quantity);
 
-            // Decrement stock
             await base44.asServiceRole.entities.MerchProduct.update(item.product_id, {
               stock_quantity: newStock,
             });
 
-            // Low stock alert
             if (newStock === 0) {
               await base44.asServiceRole.functions.invoke('notifyAdmin', {
                 notification_type: 'system',
@@ -257,7 +299,6 @@ Deno.serve(async (req) => {
             const itemDeliveryCost = deliveryCost * quantity;
             const merchantFee = (itemRevenue * merchantFeePercent) / 100;
 
-            // Promo discount allocated proportionally to eligible items
             let itemDiscount = 0;
             if (discountAmount > 0 && isCategoryEligibleForDiscount(item.category || product.category || '')) {
               const eligibleCartTotal = cartItems
@@ -268,7 +309,6 @@ Deno.serve(async (req) => {
               }
             }
 
-            // Shipping allocated proportionally
             const itemShippingContrib = cartItems.length > 1 && shippingCharged > 0
               ? shippingCharged * (quantity / cartItems.reduce((s, ci) => s + (ci.quantity || 1), 0))
               : shippingCharged;
@@ -276,7 +316,6 @@ Deno.serve(async (req) => {
             const grossProfit = (itemRevenue - itemDiscount) - itemCost - itemDeliveryCost - merchantFee;
             const profitMargin = itemRevenue > 0 ? (grossProfit / itemRevenue) * 100 : 0;
 
-            // Create StripeEventLog with profit data
             await base44.asServiceRole.entities.StripeEventLog.create({
               stripe_event_id: `${event.id}_item_${item.product_id}`,
               event_type: 'checkout.item.fulfilled',
@@ -299,7 +338,6 @@ Deno.serve(async (req) => {
             });
           }
         } catch (itemErr) {
-          // Log item processing failure but don't abort others
           try {
             await base44.asServiceRole.entities.SystemHealthIssue.create({
               system_area: 'payments',
@@ -411,7 +449,7 @@ Deno.serve(async (req) => {
   } catch (error) {
     // Log unexpected errors but don't crash — 200 already sent
     base44.asServiceRole.entities.PaymentDiagnostic.create({
-      diagnostic_type: 'webhook_processing_error',
+      diagnostic_type: 'webhook_failure',
       severity: 'high',
       status: 'open',
       issue_summary: `stripeWebhook async processing error: ${error.message}`,

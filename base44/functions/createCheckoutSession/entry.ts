@@ -33,35 +33,84 @@ function needsShipping(category) {
   return !NO_SHIPPING_CATEGORIES.some(c => cat.includes(c));
 }
 
+// ── Deduped PaymentDiagnostic — prevents spamming duplicates ──────────────
+async function ensureSingleOpenDiagnostic(base44, issueSummary, extra) {
+  try {
+    const existing = await base44.asServiceRole.entities.PaymentDiagnostic.filter({
+      issue_summary: issueSummary,
+      status: 'open',
+    });
+    if (existing && existing.length > 0) return existing[0];
+    return await base44.asServiceRole.entities.PaymentDiagnostic.create({
+      diagnostic_type: 'missing_stripe_config',
+      severity: 'critical',
+      status: 'open',
+      issue_summary: issueSummary,
+      ...extra,
+    });
+  } catch (_) { /* best-effort — do not block checkout */ }
+}
+
 Deno.serve(async (req) => {
   try {
+    const base44 = createClientFromRequest(req);
     const secretKey = (Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
     const publishableKey = (Deno.env.get('STRIPE_PUBLISHABLE_KEY') || '').trim();
 
-    // Stripe key validation
-    if (!secretKey || !(secretKey.startsWith('sk_') || secretKey.startsWith('rk_'))) {
+    // ── Validate secret key format ───────────────────────────────────────
+    if (!secretKey || !secretKey.startsWith('sk_')) {
+      const issueSummary = 'STRIPE_SECRET_KEY is missing or invalid (must start with sk_) in createCheckoutSession';
+      await ensureSingleOpenDiagnostic(base44, issueSummary, {
+        admin_message: 'Checkout is unavailable — STRIPE_SECRET_KEY is missing or does not start with sk_.',
+        recommended_fix: 'Go to Stripe Dashboard → Developers → API Keys → Reveal secret key → add sk_live_... to Base44 Secrets.',
+        webhook_processed: false,
+        source_chain: 'createCheckoutSession → secret_key_validation_failed',
+      });
       return Response.json({
         error: 'Checkout temporarily unavailable',
         friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
-        code: 'STRIPE_CONFIG_ERROR'
+        code: 'STRIPE_CONFIG_ERROR',
       }, { status: 503 });
     }
 
-    const isSecretLive = secretKey.startsWith('sk_live_') || secretKey.startsWith('rk_live_');
-    const isPublishableLive = publishableKey?.startsWith('pk_live_');
-    const isSecretTest = secretKey.startsWith('sk_test_') || secretKey.startsWith('rk_test_');
-    const isPublishableTest = publishableKey?.startsWith('pk_test_');
-
-    if ((isSecretLive && !isPublishableLive) || (isSecretTest && !isPublishableTest)) {
+    // ── Validate publishable key format ──────────────────────────────────
+    if (!publishableKey || !publishableKey.startsWith('pk_')) {
+      const issueSummary = 'STRIPE_PUBLISHABLE_KEY is missing or invalid (must start with pk_) in createCheckoutSession';
+      await ensureSingleOpenDiagnostic(base44, issueSummary, {
+        admin_message: 'Checkout is unavailable — STRIPE_PUBLISHABLE_KEY is missing or does not start with pk_.',
+        recommended_fix: 'Go to Stripe Dashboard → Developers → API Keys → Copy publishable key → add pk_live_... to Base44 Secrets.',
+        webhook_processed: false,
+        source_chain: 'createCheckoutSession → publishable_key_validation_failed',
+      });
       return Response.json({
         error: 'Checkout temporarily unavailable',
         friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
-        code: 'STRIPE_MODE_MISMATCH'
+        code: 'STRIPE_CONFIG_ERROR',
+      }, { status: 503 });
+    }
+
+    // ── Mode-match: sk_live_ with pk_live_ OR sk_test_ with pk_test_ ─────
+    const isSecretLive = secretKey.startsWith('sk_live_');
+    const isPublishableLive = publishableKey.startsWith('pk_live_');
+    const isSecretTest = secretKey.startsWith('sk_test_');
+    const isPublishableTest = publishableKey.startsWith('pk_test_');
+
+    if ((isSecretLive && !isPublishableLive) || (isSecretTest && !isPublishableTest)) {
+      const issueSummary = 'STRIPE key mode mismatch: secret is ' + (isSecretLive ? 'live' : 'test') + ' but publishable is ' + (isPublishableLive ? 'live' : 'test');
+      await ensureSingleOpenDiagnostic(base44, issueSummary, {
+        admin_message: 'Checkout is unavailable — STRIPE_SECRET_KEY is ' + (isSecretLive ? 'live' : 'test') + ' mode but STRIPE_PUBLISHABLE_KEY is ' + (isPublishableLive ? 'live' : 'test') + ' mode. Both must match.',
+        recommended_fix: 'Update both keys to the same mode in Base44 Secrets. Use sk_live_ + pk_live_ for production.',
+        webhook_processed: false,
+        source_chain: 'createCheckoutSession → key_mode_mismatch',
+      });
+      return Response.json({
+        error: 'Checkout temporarily unavailable',
+        friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
+        code: 'STRIPE_MODE_MISMATCH',
       }, { status: 503 });
     }
 
     const stripe = new Stripe(secretKey);
-    const base44 = createClientFromRequest(req);
     const body = await req.json();
     const { customerEmail, customerName, metadata } = body;
 
@@ -102,15 +151,12 @@ Deno.serve(async (req) => {
     let internationalShipping = false;
 
     for (const item of cartItems) {
-      // Try DB lookup — may fail for slug-based IDs (e.g. "mug", "front-hoodie")
-      // Fall back to client-provided data when DB lookup fails
       let product = null;
       try {
         const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: item.product_id });
         if (products && products.length > 0) product = products[0];
       } catch (_) { /* slug-based ID — use client-provided data */ }
 
-      // Use verified price from DB if available, else client-provided price
       const verifiedPrice = product?.sale_price ?? product?.price ?? item.price ?? 0;
       const category = (product?.category || item.category || '').toLowerCase().trim();
       const quantity = item.quantity || 1;
@@ -123,7 +169,7 @@ Deno.serve(async (req) => {
         discountGuardInfo = {
           attempted_discount: rawDiscountPercent,
           blocked: true,
-          reason: `Category "${category}" is ineligible for discounts`,
+          reason: 'Category "' + category + '" is ineligible for discounts',
           category,
         };
       }
@@ -135,7 +181,7 @@ Deno.serve(async (req) => {
       const unitAmountCents = Math.max(50, Math.round(discountedPerUnit * 100));
 
       // Build description
-      let description = item.size ? `Size: ${item.size}` : undefined;
+      let description = item.size ? 'Size: ' + item.size : undefined;
       if (rawDiscountPercent > 0 && !eligible) {
         description = (description ? description + ' | ' : '') + 'Discount blocked';
       }
@@ -232,8 +278,8 @@ Deno.serve(async (req) => {
       } : {}),
       automatic_tax: { enabled: false },
       line_items: lineItems,
-      success_url: `${origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/store?checkout=cancelled`,
+      success_url: origin + '/checkout-success?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: origin + '/store?checkout=cancelled',
       metadata: {
         customer_name: customerName || '',
         items: metadata?.items || '',
@@ -249,7 +295,7 @@ Deno.serve(async (req) => {
         total_amount_aud: String((totalAmountCents / 100).toFixed(2)),
       },
       payment_intent_data: {
-        description: `Gannon Waye Store Order`,
+        description: 'Gannon Waye Store Order',
         receipt_email: customerEmail,
         metadata: {
           customer_name: customerName || '',

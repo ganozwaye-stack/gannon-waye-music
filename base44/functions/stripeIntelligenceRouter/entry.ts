@@ -1,24 +1,20 @@
 /**
  * stripeIntelligenceRouter
  *
- * STATUS: ACTIVE — Secondary Stripe webhook endpoint.
+ * STATUS: SECONDARY / OPTIONAL — intelligence layer only.
  *
  * PRIMARY webhook handler: stripeWebhook (full order fulfillment chain)
- * THIS handler: Intelligence layer — logs events, creates diagnostics, admin alerts.
- * DOES NOT duplicate order creation (checks for existing order first).
+ *   → https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook
  *
- * ROOT CAUSE OF 75 FAILURES (FIXED):
- * req.text() was called to read the body for signature verification, then
- * createClientFromRequest(req) was called afterwards. In Deno, once req.text()
- * consumes the body stream, it cannot be re-read. createClientFromRequest internally
- * attempts to re-read the body, causing it to throw, which propagated as a 500
- * response to Stripe instead of the required 2xx.
+ * THIS handler: Supplemental intelligence — logs events, creates diagnostics,
+ * admin alerts. Does NOT create orders (that is exclusively stripeWebhook's job).
  *
- * FIX: Create base44 client BEFORE reading req.text(), capture the body string,
- * then use it for signature verification. Return 200 immediately after validation.
- * All DB writes are fire-and-forget (never block the 200 response).
+ * SECURITY: In live mode (sk_live_), STRIPE_WEBHOOK_SECRET is required and
+ * unsigned payloads are rejected. In test mode without a secret, unsigned
+ * payloads are accepted for local development only.
  *
  * STRIPE REQUIREMENT: Must return HTTP 200–299 within timeout.
+ * Returns 200 immediately; all processing is fire-and-forget.
  */
 
 import Stripe from 'npm:stripe@14.21.0';
@@ -48,18 +44,15 @@ function safeSummary(event) {
 }
 
 Deno.serve(async (req) => {
-  const secretKey = Deno.env.get('STRIPE_SECRET_KEY');
-  const webhookSecret = Deno.env.get('STRIPE_WEBHOOK_SECRET');
-  const receivedAt = new Date().toISOString();
-
-  // CRITICAL FIX: Create base44 client BEFORE consuming req body.
-  // createClientFromRequest reads the Authorization header, not the body —
-  // but Deno's Request body stream can only be read once. We must not call
-  // req.text() before createClientFromRequest, or vice versa in the wrong order.
-  // Solution: clone the request for the SDK, use original for body reading.
+  // CRITICAL: Create base44 client BEFORE consuming req body.
   const base44 = createClientFromRequest(req);
 
-  if (!secretKey) {
+  const secretKey = (Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
+  const webhookSecret = (Deno.env.get('STRIPE_WEBHOOK_SECRET') || '').trim();
+  const receivedAt = new Date().toISOString();
+  const isLiveMode = secretKey.startsWith('sk_live_');
+
+  if (!secretKey || !secretKey.startsWith('sk_')) {
     return new Response(JSON.stringify({ error: 'Stripe not configured' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
@@ -81,19 +74,31 @@ Deno.serve(async (req) => {
   const stripe = new Stripe(secretKey);
   let event;
 
-  // Signature verification
-  if (webhookSecret && signature) {
+  // ── Signature verification ────────────────────────────────────────────
+  // Live mode: STRIPE_WEBHOOK_SECRET is REQUIRED. Reject unsigned payloads.
+  if (isLiveMode) {
+    if (!webhookSecret) {
+      return new Response(JSON.stringify({ error: 'STRIPE_WEBHOOK_SECRET not configured — live mode requires signed webhooks' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+    if (!signature) {
+      return new Response(JSON.stringify({ error: 'Missing stripe-signature header — live mode rejects unsigned payloads' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
     try {
       event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
     } catch (err) {
-      // Log signature failure async — do not block response
       (async () => {
         try {
           await base44.asServiceRole.entities.PaymentDiagnostic.create({
             diagnostic_type: 'webhook_signature_failure',
             severity: 'critical',
             status: 'open',
-            issue_summary: `Stripe webhook signature failed: ${err.message}`,
+            issue_summary: `stripeIntelligenceRouter signature failed: ${err.message}`,
             admin_message: 'A webhook arrived with invalid signature. Possible: wrong STRIPE_WEBHOOK_SECRET or wrong endpoint.',
             recommended_fix: 'Verify STRIPE_WEBHOOK_SECRET in app secrets matches Stripe Dashboard → Webhooks → endpoint signing secret.',
             webhook_processed: false,
@@ -115,8 +120,30 @@ Deno.serve(async (req) => {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-  } else if (!webhookSecret) {
-    // No secret — accept but log (dev/fallback mode only)
+  } else if (webhookSecret && signature) {
+    // Test mode with secret configured — verify signature
+    try {
+      event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
+    } catch (err) {
+      (async () => {
+        try {
+          await base44.asServiceRole.entities.PaymentDiagnostic.create({
+            diagnostic_type: 'webhook_signature_failure',
+            severity: 'critical',
+            status: 'open',
+            issue_summary: `stripeIntelligenceRouter signature failed (test mode): ${err.message}`,
+            webhook_processed: false,
+            source_chain: 'Stripe → stripeIntelligenceRouter → signature_failed',
+          });
+        } catch (_) {}
+      })();
+      return new Response(JSON.stringify({ error: 'Webhook signature failed' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+  } else {
+    // Dev/fallback: no secret or no signature — accept raw JSON (dev only)
     try {
       event = JSON.parse(body);
     } catch {
@@ -125,23 +152,15 @@ Deno.serve(async (req) => {
         headers: { 'Content-Type': 'application/json' },
       });
     }
-  } else {
-    // Webhook secret configured but no signature header — reject
-    return new Response(JSON.stringify({ error: 'Missing stripe-signature header' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
   }
 
   // ✅ RETURN 200 TO STRIPE IMMEDIATELY — all processing is fire-and-forget
-  // This is the critical fix. Stripe requires 2xx within seconds.
-  // All downstream DB writes are async and must NOT block this response.
   const response200 = new Response(JSON.stringify({ received: true }), {
     status: 200,
     headers: { 'Content-Type': 'application/json' },
   });
 
-  // Fire-and-forget async processing
+  // Fire-and-forget async processing — INTELLIGENCE ONLY, no order creation
   (async () => {
     const eventId = event.id;
     const eventType = event.type;
@@ -152,7 +171,6 @@ Deno.serve(async (req) => {
     try {
       const existing = await base44.asServiceRole.entities.StripeEventLog.filter({ stripe_event_id: eventId });
       if (existing && existing.length > 0) {
-        // Already logged (likely by stripeWebhook) — mark as duplicate and exit
         await base44.asServiceRole.entities.StripeEventLog.create({
           stripe_event_id: `${eventId}_router_dup`,
           event_type: eventType,
@@ -194,7 +212,7 @@ Deno.serve(async (req) => {
     } catch (_) {}
 
     // ---- INTELLIGENCE LAYER — supplemental diagnostics only ----
-    // Order creation is handled exclusively by stripeWebhook.
+    // Order creation is handled EXCLUSIVELY by stripeWebhook.
     // This router only creates supplemental intelligence/diagnostic records.
 
     if (eventType === 'checkout.session.completed') {
@@ -220,8 +238,8 @@ Deno.serve(async (req) => {
             amount: (session.amount_total || 0) / 100,
             currency: 'aud',
             issue_summary: `checkout.session.completed received by router — order not yet found. May be processing via stripeWebhook.`,
-            admin_message: `Session ${session.id} completed. If no MerchOrder exists within 60s, use /admin/stripe-webhook-health to recover.`,
-            recommended_fix: 'Check /admin/orders. If missing, use order recovery scan in /admin/stripe-webhook-health.',
+            admin_message: `Session ${session.id} completed. If no MerchOrder exists within 60s, use /admin/webhook-health to recover.`,
+            recommended_fix: 'Check /admin/orders. If missing, use order recovery scan in /admin/webhook-health.',
             webhook_processed: false,
             source_chain: `Stripe → stripeIntelligenceRouter → checkout.session.completed → order_pending`,
           });

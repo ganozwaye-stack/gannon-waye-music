@@ -10,7 +10,8 @@ import {
   Eye, EyeOff, Package, AlertCircle, Repeat, Settings
 } from 'lucide-react';
 
-const WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
+const PRIMARY_WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook';
+const SECONDARY_WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
 
 const RECOMMENDED_EVENTS = [
   'checkout.session.completed', 'checkout.session.expired',
@@ -57,9 +58,9 @@ export default function StripeCommandCentreNew() {
 
   const refetchAll = () => { refetchOrders(); refetchDiags(); refetchLogs(); };
 
-  const copyUrl = () => {
-    navigator.clipboard.writeText(WEBHOOK_ENDPOINT);
-    setCopiedUrl(true);
+  const copyUrl = (url) => {
+    navigator.clipboard.writeText(url);
+    setCopiedUrl(url);
     setTimeout(() => setCopiedUrl(false), 2000);
   };
 
@@ -167,11 +168,11 @@ export default function StripeCommandCentreNew() {
                   <div><p className="text-muted-foreground">Sig Failures</p><p className={`font-bold text-lg ${webhookFails.length > 0 ? 'text-red-400' : 'text-muted-foreground'}`}>{webhookFails.length}</p></div>
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1">Endpoint</p>
-                  <div className="flex items-center gap-2">
-                    <p className="font-mono text-xs bg-secondary/50 rounded p-2 flex-1 break-all text-muted-foreground">{WEBHOOK_ENDPOINT}</p>
-                    <Button variant="ghost" size="sm" onClick={copyUrl}>{copiedUrl ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}</Button>
-                  </div>
+                   <p className="text-xs text-muted-foreground mb-1">Primary Endpoint (Order Fulfillment)</p>
+                   <div className="flex items-center gap-2">
+                     <p className="font-mono text-xs bg-green-500/10 rounded p-2 flex-1 break-all text-muted-foreground border border-green-500/20">{PRIMARY_WEBHOOK_ENDPOINT}</p>
+                     <Button variant="ghost" size="sm" onClick={() => copyUrl(PRIMARY_WEBHOOK_ENDPOINT)}>{copiedUrl === PRIMARY_WEBHOOK_ENDPOINT ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}</Button>
+                   </div>
                 </div>
               </CardContent>
             </Card>
@@ -289,11 +290,17 @@ export default function StripeCommandCentreNew() {
             <CardHeader><CardTitle className="text-sm flex items-center gap-2"><Settings className="w-4 h-4 text-primary" />Stripe Webhook Setup Guide</CardTitle></CardHeader>
             <CardContent className="space-y-4 text-sm">
               <div>
-                <p className="font-semibold mb-2">Step 1 — Create Webhook Endpoint in Stripe</p>
+                <p className="font-semibold mb-2">Step 1 — Create the PRIMARY Webhook Endpoint in Stripe (Required)</p>
                 <p className="text-muted-foreground mb-2">Go to <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-primary underline">Stripe Dashboard → Developers → Webhooks → Add endpoint</a></p>
+                <p className="text-xs text-foreground/70 mb-1">This endpoint handles order fulfillment — MerchOrder creation, inventory, receipts, admin alerts.</p>
+                <div className="flex items-center gap-2 mb-3">
+                  <p className="font-mono text-xs bg-green-500/10 rounded p-2 flex-1 break-all border border-green-500/20">{PRIMARY_WEBHOOK_ENDPOINT}</p>
+                  <Button variant="ghost" size="sm" onClick={() => copyUrl(PRIMARY_WEBHOOK_ENDPOINT)}>{copiedUrl === PRIMARY_WEBHOOK_ENDPOINT ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}</Button>
+                </div>
+                <p className="text-xs text-muted-foreground mb-1 mt-3">Optional secondary intelligence endpoint (logs, disputes, refunds diagnostics — no order creation):</p>
                 <div className="flex items-center gap-2">
-                  <p className="font-mono text-xs bg-secondary/70 rounded p-2 flex-1 break-all">{WEBHOOK_ENDPOINT}</p>
-                  <Button variant="ghost" size="sm" onClick={copyUrl}>{copiedUrl ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}</Button>
+                  <p className="font-mono text-xs bg-secondary/40 rounded p-2 flex-1 break-all border border-border/40">{SECONDARY_WEBHOOK_ENDPOINT}</p>
+                  <Button variant="ghost" size="sm" onClick={() => copyUrl(SECONDARY_WEBHOOK_ENDPOINT)}>{copiedUrl === SECONDARY_WEBHOOK_ENDPOINT ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}</Button>
                 </div>
               </div>
               <div>

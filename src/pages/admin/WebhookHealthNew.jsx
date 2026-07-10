@@ -9,7 +9,8 @@ import {
   ArrowLeft, ExternalLink, RefreshCw, Webhook, CheckCircle2, AlertTriangle, Copy, Activity, Shield, Search, RotateCcw, Package
 } from 'lucide-react';
 
-const WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
+const PRIMARY_WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook';
+const SECONDARY_WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
 
 const statusBadge = (s) => {
   if (s === 'processed') return 'bg-green-500/20 text-green-300';
@@ -65,9 +66,9 @@ export default function WebhookHealthNew() {
     onError: () => setRecoveringId(null),
   });
 
-  const copyUrl = () => {
-    navigator.clipboard.writeText(WEBHOOK_ENDPOINT);
-    setCopied(true);
+  const copyUrl = (url) => {
+    navigator.clipboard.writeText(url);
+    setCopied(url);
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -144,13 +145,25 @@ export default function WebhookHealthNew() {
       </div>
 
       <Card>
-        <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><Webhook className="w-4 h-4 text-primary" />Active Endpoint</CardTitle></CardHeader>
+        <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><Webhook className="w-4 h-4 text-primary" />Webhook Endpoints</CardTitle></CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-center gap-2">
-            <p className="font-mono text-xs bg-secondary/50 rounded p-2 flex-1 break-all">{WEBHOOK_ENDPOINT}</p>
-            <Button variant="ghost" size="sm" onClick={copyUrl}>
-              {copied ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}
-            </Button>
+          <div>
+            <p className="text-xs text-muted-foreground mb-1">Primary — Order Fulfillment (Required)</p>
+            <div className="flex items-center gap-2">
+              <p className="font-mono text-xs bg-green-500/10 rounded p-2 flex-1 break-all border border-green-500/20">{PRIMARY_WEBHOOK_ENDPOINT}</p>
+              <Button variant="ghost" size="sm" onClick={() => copyUrl(PRIMARY_WEBHOOK_ENDPOINT)}>
+                {copied === PRIMARY_WEBHOOK_ENDPOINT ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}
+              </Button>
+            </div>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground mb-1">Secondary — Intelligence Only (Optional)</p>
+            <div className="flex items-center gap-2">
+              <p className="font-mono text-xs bg-secondary/40 rounded p-2 flex-1 break-all border border-border/40">{SECONDARY_WEBHOOK_ENDPOINT}</p>
+              <Button variant="ghost" size="sm" onClick={() => copyUrl(SECONDARY_WEBHOOK_ENDPOINT)}>
+                {copied === SECONDARY_WEBHOOK_ENDPOINT ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}
+              </Button>
+            </div>
           </div>
           <div className="flex flex-wrap gap-2">
             <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer">
@@ -164,34 +177,30 @@ export default function WebhookHealthNew() {
         </CardContent>
       </Card>
 
-      {/* ── CRITICAL ACTION REQUIRED BANNER ── */}
-      <div className="border border-red-500/50 bg-red-500/10 rounded-xl p-4">
+      {/* ── WEBHOOK VERIFICATION GUIDE ── */}
+      <div className="border border-yellow-500/40 bg-yellow-500/5 rounded-xl p-4">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+          <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
           <div className="flex-1">
-            <p className="font-semibold text-red-300">Stripe Webhook Delivery Failure — Verification Required Before June 4, 2026</p>
+            <p className="font-semibold text-yellow-300">Verify Webhook Delivery in Stripe Dashboard</p>
             <p className="text-sm text-foreground/70 mt-1">
-              Stripe reported 75 failed attempts to <code className="text-xs bg-secondary/60 px-1 rounded">stripeIntelligenceRouter</code> since May 26.
-              Root cause (body stream consumed before SDK init) is now fixed in both <strong>stripeIntelligenceRouter</strong> and <strong>stripeWebhook</strong>.
+              Confirm your <strong>stripeWebhook</strong> endpoint is receiving signed events and returning 2xx. This is the primary order fulfillment path.
             </p>
             <div className="mt-3 space-y-1.5 text-sm text-foreground/65">
-              <p>✅ <strong>stripeIntelligenceRouter:</strong> returns 200 immediately, all processing fire-and-forget.</p>
-              <p>✅ <strong>stripeWebhook:</strong> SDK client created before body read, 200 returned immediately, all fulfillment fire-and-forget.</p>
-              <p className="text-red-300 font-semibold">⚠️ Only Stripe Dashboard → Recent deliveries proves this is fixed. Event log below only shows events that already succeeded.</p>
+              <p>✅ <strong>stripeWebhook:</strong> Primary — creates MerchOrder, decrements inventory, sends receipts, notifies admin.</p>
+              <p>✅ <strong>stripeIntelligenceRouter:</strong> Optional secondary — logs events, creates diagnostics. Does NOT create orders.</p>
+              <p className="text-yellow-300 font-semibold">⚠️ Only Stripe Dashboard → Recent deliveries proves delivery is working.</p>
             </div>
-            <div className="mt-3 border border-red-500/30 rounded-lg p-3 text-xs text-foreground/70 space-y-1">
-              <p className="font-semibold text-red-300">Manual Stripe Dashboard steps required:</p>
+            <div className="mt-3 border border-yellow-500/30 rounded-lg p-3 text-xs text-foreground/70 space-y-1">
+              <p className="font-semibold text-yellow-300">Manual Stripe Dashboard steps:</p>
               <ol className="list-decimal list-inside space-y-0.5">
                 <li>Open <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-primary underline">dashboard.stripe.com/webhooks</a></li>
-                <li>Click the <code className="bg-secondary/50 px-1 rounded">stripeIntelligenceRouter</code> endpoint</li>
-                <li>Open <strong>Recent deliveries</strong></li>
-                <li>Click a failed event → read HTTP status and response body</li>
-                <li>If you see <em>"Webhook signature failed"</em> → click <strong>Reveal</strong> on Signing secret → copy it → update <code className="bg-secondary/50 px-1 rounded">STRIPE_WEBHOOK_SECRET</code> in Base44 → App Settings → Secrets</li>
-                <li>Click <strong>Resend</strong> on one recent failed event</li>
-                <li>Confirm HTTP 2xx appears in the delivery attempt</li>
+                <li>Click the <code className="bg-secondary/50 px-1 rounded">stripeWebhook</code> endpoint</li>
+                <li>Open <strong>Recent deliveries</strong> — confirm HTTP 2xx responses</li>
+                <li>If you see <em>"Webhook signature failed"</em> → click <strong>Reveal</strong> on Signing secret → copy it → update <code className="bg-secondary/50 px-1 rounded">STRIPE_WEBHOOK_SECRET</code> in Base44 → Settings → Environment Variables</li>
+                <li>Click <strong>Resend</strong> on a recent event and confirm 2xx</li>
               </ol>
             </div>
-            <p className="text-xs text-muted-foreground/60 mt-2 italic">⚠️ "Run Health Check" below tests internal connectivity only — it does NOT prove Stripe delivery is working. Only a Stripe Dashboard resend confirms the fix.</p>
           </div>
         </div>
       </div>
