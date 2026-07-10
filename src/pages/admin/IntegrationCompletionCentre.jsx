@@ -321,8 +321,10 @@ export default function IntegrationCompletionCentre() {
             )}
             {selected.name === 'Stripe Webhooks' && (
               <div className="rounded-lg border border-primary/20 bg-primary/5 p-3 text-sm">
-                <p className="font-semibold text-primary mb-1">Stripe Router Endpoint</p>
-                <code className="block rounded bg-secondary p-2 text-xs break-all">https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter</code>
+                <p className="font-semibold text-primary mb-1">Required Stripe Order Fulfillment Endpoint</p>
+                <code className="block rounded bg-secondary p-2 text-xs break-all">https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook</code>
+                <p className="text-xs text-muted-foreground mt-2">Optional intelligence endpoint after order fulfillment is working:</p>
+                <code className="block rounded bg-secondary/60 p-2 text-xs break-all">https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter</code>
               </div>
             )}
             <div className="rounded-lg border border-border/50 p-3 text-xs text-muted-foreground">

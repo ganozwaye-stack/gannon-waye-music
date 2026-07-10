@@ -37,24 +37,36 @@ function needsShipping(category) {
   return !NO_SHIPPING_CATEGORIES.some(c => cat.includes(c));
 }
 
+async function createPaymentDiagnosticOnce(base44, record) {
+  try {
+    const existing = await base44.asServiceRole.entities.PaymentDiagnostic.filter({
+      diagnostic_type: record.diagnostic_type,
+      status: 'open',
+    });
+    const alreadyOpen = (existing || []).some(d => d.issue_summary === record.issue_summary);
+    if (!alreadyOpen) {
+      await base44.asServiceRole.entities.PaymentDiagnostic.create(record);
+    }
+  } catch (_) {}
+}
+
 Deno.serve(async (req) => {
   try {
+    const base44 = createClientFromRequest(req);
     const secretKey = Deno.env.get('STRIPE_SECRET_KEY');
     const publishableKey = Deno.env.get('STRIPE_PUBLISHABLE_KEY');
 
     // Stripe mode validation - CRITICAL BLOCK
     if (!secretKey || !secretKey.startsWith('sk_')) {
-      try {
-        const base44 = createClientFromRequest(req);
-        await base44.asServiceRole.entities.PaymentDiagnostic.create({
-          diagnostic_type: 'missing_stripe_config',
-          severity: 'critical',
-          issue_summary: 'STRIPE_SECRET_KEY missing or invalid',
-          admin_message: 'Checkout blocked: STRIPE_SECRET_KEY not configured or invalid',
-          status: 'open',
-          retry_available: false,
-        });
-      } catch (_) {}
+      await createPaymentDiagnosticOnce(base44, {
+        diagnostic_type: 'missing_stripe_config',
+        severity: 'critical',
+        issue_summary: 'STRIPE_SECRET_KEY missing or invalid',
+        admin_message: 'Checkout blocked: STRIPE_SECRET_KEY not configured or invalid',
+        recommended_fix: 'Set STRIPE_SECRET_KEY in Base44 Secrets using a valid sk_live_ or sk_test_ key. Match it with STRIPE_PUBLISHABLE_KEY from the same Stripe mode.',
+        status: 'open',
+        retry_available: false,
+      });
       return Response.json({
         error: 'Checkout temporarily unavailable',
         friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
@@ -69,17 +81,15 @@ Deno.serve(async (req) => {
     const isPublishableTest = publishableKey?.startsWith('pk_test_');
 
     if ((isSecretLive && !isPublishableLive) || (isSecretTest && !isPublishableTest)) {
-      try {
-        const base44 = createClientFromRequest(req);
-        await base44.asServiceRole.entities.PaymentDiagnostic.create({
-          diagnostic_type: 'missing_stripe_config',
-          severity: 'critical',
-          issue_summary: `STRIPE KEY MISMATCH: secret=${isSecretLive ? 'live' : 'test'}, publishable=${publishableKey ? (isPublishableLive ? 'live' : 'test') : 'missing'}`,
-          admin_message: 'Checkout blocked: Stripe keys are in different modes (test vs live)',
-          status: 'open',
-          retry_available: false,
-        });
-      } catch (_) {}
+      await createPaymentDiagnosticOnce(base44, {
+        diagnostic_type: 'missing_stripe_config',
+        severity: 'critical',
+        issue_summary: `STRIPE KEY MISMATCH: secret=${isSecretLive ? 'live' : 'test'}, publishable=${publishableKey ? (isPublishableLive ? 'live' : 'test') : 'missing'}`,
+        admin_message: 'Checkout blocked: Stripe keys are in different modes (test vs live)',
+        recommended_fix: 'Set STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY from the same Stripe environment: both test or both live.',
+        status: 'open',
+        retry_available: false,
+      });
       return Response.json({
         error: 'Checkout temporarily unavailable',
         friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
@@ -88,7 +98,6 @@ Deno.serve(async (req) => {
     }
 
     const stripe = new Stripe(secretKey);
-    const base44 = createClientFromRequest(req);
     const body = await req.json();
     const { customerEmail, customerName, metadata } = body;
 

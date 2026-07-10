@@ -9,7 +9,8 @@ import {
   ArrowLeft, ExternalLink, RefreshCw, Webhook, CheckCircle2, AlertTriangle, Copy, Activity, Shield, Search, RotateCcw, Package
 } from 'lucide-react';
 
-const WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
+const WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook';
+const INTELLIGENCE_WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
 
 const statusBadge = (s) => {
   if (s === 'processed') return 'bg-green-500/20 text-green-300';
@@ -87,7 +88,7 @@ export default function WebhookHealthNew() {
         <Link to="/admin/stripe-command-centre"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4" /></Button></Link>
         <div>
           <h1 className="text-3xl font-display font-bold gradient-gold-text">Webhook Health</h1>
-          <p className="text-muted-foreground text-sm mt-1">Stripe Intelligence Router monitoring</p>
+          <p className="text-muted-foreground text-sm mt-1">Stripe fulfillment webhook and intelligence monitoring</p>
         </div>
         <Button variant="ghost" size="sm" className="ml-auto gap-1 text-xs" onClick={() => { refetchLogs(); refetchDiags(); }}>
           <RefreshCw className="w-3 h-3" /> Refresh
@@ -144,13 +145,17 @@ export default function WebhookHealthNew() {
       </div>
 
       <Card>
-        <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><Webhook className="w-4 h-4 text-primary" />Active Endpoint</CardTitle></CardHeader>
+        <CardHeader className="pb-2"><CardTitle className="text-sm flex items-center gap-2"><Webhook className="w-4 h-4 text-primary" />Required Fulfillment Endpoint</CardTitle></CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center gap-2">
             <p className="font-mono text-xs bg-secondary/50 rounded p-2 flex-1 break-all">{WEBHOOK_ENDPOINT}</p>
             <Button variant="ghost" size="sm" onClick={copyUrl}>
               {copied ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}
             </Button>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground mb-1">Optional intelligence endpoint, only after the fulfillment endpoint is configured:</p>
+            <p className="font-mono text-xs bg-secondary/30 rounded p-2 break-all text-muted-foreground">{INTELLIGENCE_WEBHOOK_ENDPOINT}</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer">
@@ -171,7 +176,7 @@ export default function WebhookHealthNew() {
           <div className="flex-1">
             <p className="font-semibold text-red-300">Stripe Webhook Delivery Failure — Verification Required Before June 4, 2026</p>
             <p className="text-sm text-foreground/70 mt-1">
-              Stripe reported 75 failed attempts to <code className="text-xs bg-secondary/60 px-1 rounded">stripeIntelligenceRouter</code> since May 26.
+              Stripe reported failed attempts to webhook endpoints since May 26.
               Root cause (body stream consumed before SDK init) is now fixed in both <strong>stripeIntelligenceRouter</strong> and <strong>stripeWebhook</strong>.
             </p>
             <div className="mt-3 space-y-1.5 text-sm text-foreground/65">
@@ -183,7 +188,7 @@ export default function WebhookHealthNew() {
               <p className="font-semibold text-red-300">Manual Stripe Dashboard steps required:</p>
               <ol className="list-decimal list-inside space-y-0.5">
                 <li>Open <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-primary underline">dashboard.stripe.com/webhooks</a></li>
-                <li>Click the <code className="bg-secondary/50 px-1 rounded">stripeIntelligenceRouter</code> endpoint</li>
+                <li>Open the required <code className="bg-secondary/50 px-1 rounded">stripeWebhook</code> endpoint first</li>
                 <li>Open <strong>Recent deliveries</strong></li>
                 <li>Click a failed event → read HTTP status and response body</li>
                 <li>If you see <em>"Webhook signature failed"</em> → click <strong>Reveal</strong> on Signing secret → copy it → update <code className="bg-secondary/50 px-1 rounded">STRIPE_WEBHOOK_SECRET</code> in Base44 → App Settings → Secrets</li>
@@ -354,7 +359,7 @@ export default function WebhookHealthNew() {
             <p className="text-xs font-semibold text-muted-foreground mb-1.5">Stripe Dashboard Steps for Gannon:</p>
             <ol className="text-xs text-muted-foreground/70 space-y-1 list-decimal list-inside">
               <li>Go to <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-primary/70 hover:underline">dashboard.stripe.com/webhooks</a></li>
-              <li>Open endpoint: <code className="bg-secondary/50 px-1 rounded">stripeIntelligenceRouter</code></li>
+              <li>Open endpoint: <code className="bg-secondary/50 px-1 rounded">stripeWebhook</code></li>
               <li>Check failed events log — copy latest error</li>
               <li>Click "Resend" on any failed events from May 26 onwards</li>
               <li>Confirm <a href="/admin/orders" className="text-primary/70 hover:underline">/admin/orders</a> shows matching orders</li>

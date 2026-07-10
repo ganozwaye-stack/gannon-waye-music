@@ -25,6 +25,23 @@ Deno.serve(async (req) => {
     return Response.json({ error: 'Stripe not configured' }, { status: 500 });
   }
 
+  const isLiveMode = secretKey.startsWith('sk_live_');
+  if (isLiveMode && !webhookSecret) {
+    try {
+      await base44.asServiceRole.entities.PaymentDiagnostic.create({
+        diagnostic_type: 'webhook_failure',
+        severity: 'critical',
+        status: 'open',
+        issue_summary: 'STRIPE_WEBHOOK_SECRET missing for live Stripe webhook',
+        admin_message: 'Live Stripe webhook rejected because STRIPE_WEBHOOK_SECRET is missing. This prevents accepting unverified live payment events.',
+        recommended_fix: 'Open Stripe Dashboard → Developers → Webhooks → stripeWebhook endpoint → Reveal signing secret → update STRIPE_WEBHOOK_SECRET in Base44 Secrets.',
+        webhook_processed: false,
+        source_chain: 'Stripe → stripeWebhook → live_signature_required',
+      });
+    } catch (_) {}
+    return Response.json({ error: 'Stripe webhook signing secret required for live mode' }, { status: 500 });
+  }
+
   // Read raw body AFTER SDK client creation
   let body;
   try {

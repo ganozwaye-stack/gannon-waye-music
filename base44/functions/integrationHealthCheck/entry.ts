@@ -4,7 +4,7 @@
  * Do NOT use this as the Stripe webhook receiver.
  */
 import Stripe from 'npm:stripe@14.21.0';
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
 
 Deno.serve(async (req) => {
   try {
@@ -26,6 +26,8 @@ Deno.serve(async (req) => {
     const stripeSecret = Deno.env.get('STRIPE_SECRET_KEY');
     if (!stripeSecret) {
       addAlert('stripe_key_missing', 'critical', 'STRIPE_SECRET_KEY is not set.', '/admin/stripe-command-centre');
+    } else if (!stripeSecret.startsWith('sk_')) {
+      addAlert('stripe_key_invalid', 'critical', 'STRIPE_SECRET_KEY is invalid. It must start with sk_live_ or sk_test_.', '/admin/stripe-command-centre');
     } else if (!stripeSecret.startsWith('sk_live_')) {
       addAlert('stripe_not_live', 'high', 'STRIPE_SECRET_KEY is in test mode (sk_test_). Switch to sk_live_ for production.', '/admin/stripe-command-centre');
     } else {
@@ -36,6 +38,8 @@ Deno.serve(async (req) => {
     const stripePk = Deno.env.get('STRIPE_PUBLISHABLE_KEY');
     if (!stripePk) {
       addAlert('stripe_pk_missing', 'critical', 'STRIPE_PUBLISHABLE_KEY is not set.', '/admin/stripe-command-centre');
+    } else if (!stripePk.startsWith('pk_')) {
+      addAlert('stripe_pk_invalid', 'critical', 'STRIPE_PUBLISHABLE_KEY is invalid. It must start with pk_live_ or pk_test_.', '/admin/stripe-command-centre');
     } else if (!stripePk.startsWith('pk_live_')) {
       addAlert('stripe_pk_test', 'high', 'STRIPE_PUBLISHABLE_KEY is in test mode. Switch to pk_live_ for production.', '/admin/stripe-command-centre');
     } else {
@@ -43,7 +47,7 @@ Deno.serve(async (req) => {
     }
 
     // 2b. Check for live/test key mismatch — this is a critical safety issue
-    if (stripeSecret && stripePk) {
+    if (stripeSecret?.startsWith('sk_') && stripePk?.startsWith('pk_')) {
       const secretIsLive = stripeSecret.startsWith('sk_live_');
       const pkIsLive = stripePk.startsWith('pk_live_');
       if (secretIsLive !== pkIsLive) {
@@ -66,7 +70,7 @@ Deno.serve(async (req) => {
     }
 
     // 4. Stripe API connectivity test
-    if (stripeSecret) {
+    if (stripeSecret?.startsWith('sk_')) {
       try {
         const stripe = new Stripe(stripeSecret);
         await stripe.balance.retrieve();

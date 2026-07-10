@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import StepBlock from './StepBlock';
 import SecureSecretInput from './SecureSecretInput';
 
-const WEBHOOK_URL = 'https://base44.app/api/functions/stripeWebhook';
+const WEBHOOK_URL = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook';
 
 export default function SetupStripeFlow({ onComplete, onBlocked }) {
   const [phase, setPhase] = useState('intro'); // intro | rotate | test | checkout | done

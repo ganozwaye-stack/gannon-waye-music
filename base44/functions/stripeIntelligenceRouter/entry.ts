@@ -22,7 +22,7 @@
  */
 
 import Stripe from 'npm:stripe@14.21.0';
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
 
 function categoriseEvent(type) {
   if (['payment_intent.succeeded', 'invoice.paid', 'payout.paid', 'checkout.session.completed'].includes(type)) return 'revenue';
@@ -59,8 +59,28 @@ Deno.serve(async (req) => {
   // Solution: clone the request for the SDK, use original for body reading.
   const base44 = createClientFromRequest(req);
 
-  if (!secretKey) {
+  if (!secretKey || !secretKey.startsWith('sk_')) {
     return new Response(JSON.stringify({ error: 'Stripe not configured' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  }
+
+  const isLiveMode = secretKey.startsWith('sk_live_');
+  if (isLiveMode && !webhookSecret) {
+    try {
+      await base44.asServiceRole.entities.PaymentDiagnostic.create({
+        diagnostic_type: 'webhook_failure',
+        severity: 'critical',
+        status: 'open',
+        issue_summary: 'STRIPE_WEBHOOK_SECRET missing for live Stripe intelligence router',
+        admin_message: 'Live Stripe router rejected because STRIPE_WEBHOOK_SECRET is missing. This prevents accepting unverified live payment events.',
+        recommended_fix: 'Open Stripe Dashboard → Developers → Webhooks → stripeIntelligenceRouter endpoint → Reveal signing secret → update STRIPE_WEBHOOK_SECRET in Base44 Secrets.',
+        webhook_processed: false,
+        source_chain: 'Stripe → stripeIntelligenceRouter → live_signature_required',
+      });
+    } catch (_) {}
+    return new Response(JSON.stringify({ error: 'Stripe webhook signing secret required for live mode' }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },
     });

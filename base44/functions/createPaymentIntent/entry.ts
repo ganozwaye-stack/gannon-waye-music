@@ -1,7 +1,18 @@
 import Stripe from 'npm:stripe@14.21.0';
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
 
-const stripe = new Stripe(Deno.env.get('STRIPE_SECRET_KEY'));
+async function createPaymentDiagnosticOnce(base44, record) {
+  try {
+    const existing = await base44.asServiceRole.entities.PaymentDiagnostic.filter({
+      diagnostic_type: record.diagnostic_type,
+      status: 'open',
+    });
+    const alreadyOpen = (existing || []).some(d => d.issue_summary === record.issue_summary);
+    if (!alreadyOpen) {
+      await base44.asServiceRole.entities.PaymentDiagnostic.create(record);
+    }
+  } catch (_) {}
+}
 
 // ── Pricing constants (must mirror CheckoutModal) ──────────────────────────
 const AU_SHIPPING_FLAT = 12.95;
@@ -54,6 +65,27 @@ function validatePromoForCategory(promoCode, category) {
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+    const secretKey = Deno.env.get('STRIPE_SECRET_KEY');
+
+    if (!secretKey || !secretKey.startsWith('sk_')) {
+      await createPaymentDiagnosticOnce(base44, {
+        diagnostic_type: 'missing_stripe_config',
+        severity: 'critical',
+        issue_summary: 'STRIPE_SECRET_KEY missing or invalid',
+        admin_message: 'PaymentIntent checkout blocked: STRIPE_SECRET_KEY is not configured or invalid.',
+        recommended_fix: 'Set STRIPE_SECRET_KEY in Base44 Secrets using a valid sk_live_ or sk_test_ key, then run integrationHealthCheck.',
+        status: 'open',
+        retry_available: false,
+      });
+
+      return Response.json({
+        error: 'Payment temporarily unavailable',
+        friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged.',
+        code: 'STRIPE_CONFIG_ERROR',
+      }, { status: 503 });
+    }
+
+    const stripe = new Stripe(secretKey);
     const body = await req.json();
     const { amount, currency, customerEmail, customerName, productName, metadata, mode } = body;
 
