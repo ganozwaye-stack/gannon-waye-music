@@ -1,0 +1,86 @@
+{
+  "name": "SoniaMemorySubmission",
+  "type": "object",
+  "properties": {
+    "submitter_name": {
+      "type": "string",
+      "description": "Name of the person submitting a Sonia memory"
+    },
+    "relationship_to_sonia": {
+      "type": "string",
+      "description": "How the submitter knew Sonia"
+    },
+    "contact": {
+      "type": "string",
+      "description": "Optional contact information for follow-up"
+    },
+    "memory_title": {
+      "type": "string",
+      "description": "Short title for the submitted memory"
+    },
+    "memory_text": {
+      "type": "string",
+      "description": "Written memory, story, eulogy excerpt, or context for the submitted file"
+    },
+    "submission_type": {
+      "type": "string",
+      "enum": ["story", "photo", "video", "voice_note", "eulogy", "other"],
+      "default": "story",
+      "description": "Type of memory submitted"
+    },
+    "file_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Uploaded file URL, if one was attached"
+    },
+    "file_name": {
+      "type": "string",
+      "description": "Original uploaded file name"
+    },
+    "consent_to_review": {
+      "type": "boolean",
+      "default": false,
+      "description": "Submitter consented to Gannon reviewing the memory"
+    },
+    "consent_to_publish_if_approved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Submitter consented to public display if Gannon approves it"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": ["pending", "approved", "rejected", "needs_follow_up"],
+      "default": "pending",
+      "description": "Gannon review status"
+    },
+    "is_public": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the memory is allowed to appear publicly"
+    },
+    "review_notes": {
+      "type": "string",
+      "description": "Private review notes for Gannon"
+    },
+    "source_page": {
+      "type": "string",
+      "description": "Page or route where the memory was submitted"
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Submission timestamp"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Approval timestamp"
+    },
+    "published_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Publication timestamp"
+    }
+  },
+  "required": ["submitter_name", "memory_text", "consent_to_review", "approval_status", "is_public"]
+}

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
 import ThankYouSingle from '@/components/public/ThankYouSingle';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
+import { WITHOUT_YOU_HERE_COVER } from '@/constants/musicAssets';
 
 function CinematicCelebration() {
   const canvasRef = useRef(null);
@@ -568,6 +569,8 @@ export default function Home() {
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
                     {release.title === 'Thank You' ? (
                       <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    ) : release.title === 'Without You Here' ? (
+                      <img src={WITHOUT_YOU_HERE_COVER} alt="Without You Here — Gannon Waye single cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : release.artwork_url ? (
                       <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (

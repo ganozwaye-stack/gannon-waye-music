@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { WITHOUT_YOU_HERE_COVER } from '@/constants/musicAssets';
 
 const FULL_LYRICS = `Without You Here — Gannon Waye
 Written: Mother's Day, 10 May 2026 @ 12:30am
@@ -115,6 +116,21 @@ export default function MumSongSection() {
         <p className="font-body text-xs text-muted-foreground/40 tracking-wider mb-8">
           Written in the early hours of Mother's Day, 10 May 2026.
         </p>
+      </motion.div>
+
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.15 }}
+        className="mb-10 overflow-hidden rounded-2xl border border-primary/20 bg-card/40 shadow-[0_24px_80px_rgba(0,0,0,0.35)]"
+      >
+        <img
+          src={WITHOUT_YOU_HERE_COVER}
+          alt="Without You Here — Gannon Waye single cover"
+          className="w-full h-auto block"
+          loading="lazy"
+        />
       </motion.div>
 
       <motion.div

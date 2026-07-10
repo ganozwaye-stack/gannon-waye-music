@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Play, ExternalLink, BookOpen, Star } from 'lucide-react';
+import { Play, ExternalLink, BookOpen, Star, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
@@ -12,11 +12,18 @@ import GoldShards from '@/components/public/GoldShards';
 import LyricsModal from '@/components/public/LyricsModal';
 import MusicRecommendations from '@/components/public/MusicRecommendations';
 import TourTracker from '@/components/public/TourTracker';
+import { WITHOUT_YOU_HERE_COVER } from '@/constants/musicAssets';
 
 // Clean gold glow banner — blends into dark background on Music page
 const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
 
 const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
+
+function getReleaseArtwork(release) {
+  if (release.title === 'Thank You') return THANK_YOU_COVER;
+  if (release.title === 'Without You Here') return WITHOUT_YOU_HERE_COVER;
+  return release.artwork_url;
+}
 
 function ThankYouFallbackCard() {
   return (
@@ -42,7 +49,6 @@ function ThankYouFallbackCard() {
   );
 }
 
-const RELEASE_DATE = new Date('2026-06-05T00:00:00+10:00');
 const isReleased = () => true;
 
 const STATUS_LABELS = {
@@ -87,7 +93,7 @@ export default function Music() {
       is_published: true,
       description: 'Gannon is currently recording this beautiful tribute song dedicated to his late mother, Sonia. An evocative and comforting masterpiece carrying her presence forward.',
       credits: 'Written & Performed by Gannon Waye',
-      artwork_url: '/images/mum/mum_gannon_young.jpg',
+      artwork_url: WITHOUT_YOU_HERE_COVER,
     }])
   ];
 
@@ -139,7 +145,10 @@ export default function Music() {
           <ThankYouFallbackCard />
         ) : (
           <div className="space-y-12">
-            {published.map((release, i) => (
+            {published.map((release, i) => {
+                const artworkUrl = getReleaseArtwork(release);
+
+                return (
               <motion.div
                 key={release.id}
                 initial={{ opacity: 0, y: 20 }}
@@ -148,10 +157,10 @@ export default function Music() {
                 className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-0 bg-card border border-border/40 rounded-2xl overflow-hidden hover:border-primary/20 transition-all"
               >
                 <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden">
-                  {release.title === 'Thank You' || release.artwork_url ? (
+                  {artworkUrl ? (
                     <img
-                      src={release.title === 'Thank You' ? THANK_YOU_COVER : release.artwork_url}
-                      alt={release.title}
+                      src={artworkUrl}
+                      alt={`${release.title} artwork`}
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -213,6 +222,13 @@ export default function Music() {
                         </Button>
                       </Link>
                     )}
+                    {release.title === 'Without You Here' && (
+                      <Link to="/mum">
+                        <Button size="sm" variant="outline" className="rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-[#d4af37]/30 text-[#f5d06e] hover:bg-primary/10">
+                          <Heart className="w-3 h-3" />Mum's Garden
+                        </Button>
+                      </Link>
+                    )}
                   </div>
 
                   {/* Streaming Links */}
@@ -245,7 +261,8 @@ export default function Music() {
                   </div>
                 </div>
               </motion.div>
-            ))}
+                );
+              })}
           </div>
         )}
 

@@ -8,8 +8,6 @@ import MovingHeart from './MovingHeart';
 const HERO_IMG = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/7df2f998b_A181BD35-93F3-41FB-B671-2FABC71B701A.jpg';
 // Burgundy robe / garden scene
 const ROBE_IMG = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3892d6143_093DD58D-2A3E-46F2-B235-ABD31D530F48.jpg';
-// Casket with flowers
-const FLOWERS_IMG = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d4bf542bf_E6BC1469-782B-438C-99BE-17596D2C85EC.jpg';
 
 export default function MumHero() {
   return (
@@ -21,9 +19,9 @@ export default function MumHero() {
         background: 'linear-gradient(160deg, #0d0608 0%, #1a0a0c 40%, #0f1108 70%, #080d0a 100%)'
       }} />
 
-      {/* Background photo — flowers/casket, very dark */}
+      {/* Background photo — garden robe memory, very dark */}
       <div className="absolute inset-0 z-[1] opacity-[0.07]"
-        style={{ backgroundImage: `url(${FLOWERS_IMG})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        style={{ backgroundImage: `url(${ROBE_IMG})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
       />
 
       {/* Garden robe photo — left side, atmospheric */}

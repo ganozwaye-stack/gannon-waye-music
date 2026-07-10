@@ -1,23 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { WITHOUT_YOU_HERE_COVER } from '@/constants/musicAssets';
 
 const TRACKS = [
   {
     id: 'ave_maria',
     title: 'Ave Maria',
-    subtitle: 'Gannon Waye — sung live at Sonia\'s funeral',
+    subtitle: 'Gannon Waye — sung live for Sonia',
     src: 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/6e65f5e12_AveMariaGannonSinging.mp3',
-    soniaNote: `"When I was just a boy, I would sit by Mum's side and she would say to me — 'My boy, when I go to heaven, will you sing Ave Maria for me?' I was only young. I said yes, Mum. Years later, in the weeks before she passed, she looked at me softly and said — 'It's okay if you can't.' But I did. I sang for her. And I know she was there, listening."`,
-    soniaLabel: "Sonia\u2019s request \u2014 fulfilled with love",
+    memoryNote: `"When I was just a boy, I would sit by Mum's side and she would say to me — 'My boy, when I go to heaven, will you sing Ave Maria for me?' I was only young. I said yes, Mum. Years later, in the weeks before she passed, she looked at me softly and said — 'It's okay if you can't.' But I did. I sang for her. And I know she was there, listening."`,
+    memoryLabel: "Sonia\u2019s request \u2014 fulfilled with love",
+    attribution: 'Gannon’s memory',
   },
   {
     id: 'amazing_grace',
     title: 'Amazing Grace',
-    subtitle: 'Gannon Waye — acapella, at her graveside',
+    subtitle: 'Gannon Waye — acapella, sung in her memory',
     src: 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/bb1ad3db4_AmazingGraceAcaapellaGannonSinging.mp3',
-    soniaNote: `"Amazing Grace was one of Sonia's most beloved hymns. It was the song we sang when we laid her to rest — her voice, her warmth, and her grace all wrapped into those timeless words. She always said it gave her peace."`,
-    soniaLabel: 'Sung at her graveside — a farewell in music',
+    memoryNote: `"Amazing Grace was one of Sonia's most beloved hymns. It became part of the way we honoured her — her warmth and her grace all wrapped into those timeless words."`,
+    memoryLabel: 'Sung in her memory — a farewell in music',
+    attribution: 'Family note',
   },
 ];
 
@@ -72,7 +75,7 @@ function TrackPlayer({ track, isAmbient }) {
 
   return (
     <div className="relative">
-      {/* Sonia's voice introducing the track */}
+      {/* Memorial context for the track */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -81,7 +84,7 @@ function TrackPlayer({ track, isAmbient }) {
         className="mb-5 px-1"
       >
         <p className="font-body text-[9px] tracking-[0.4em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.35)' }}>
-          ♥ {track.soniaLabel}
+          ♥ {track.memoryLabel}
         </p>
         <blockquote
           className="relative pl-5 leading-relaxed"
@@ -93,9 +96,9 @@ function TrackPlayer({ track, isAmbient }) {
             borderLeft: '2px solid rgba(212,175,55,0.22)',
           }}
         >
-          {track.soniaNote}
+          {track.memoryNote}
           <span className="block mt-2 font-body not-italic text-[9px] tracking-[0.3em] uppercase" style={{ color: 'rgba(212,175,55,0.30)' }}>
-            — Sonia Katisa Waye
+            — {track.attribution}
           </span>
         </blockquote>
       </motion.div>
@@ -221,6 +224,20 @@ export default function SoniaAmbientPlayer() {
         <p className="font-body text-[9px] tracking-[0.4em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.28)' }}>
           Written for her
         </p>
+        <div
+          className="mx-auto mb-6 max-w-[210px] overflow-hidden rounded-2xl"
+          style={{
+            border: '1px solid rgba(212,175,55,0.22)',
+            boxShadow: '0 22px 70px rgba(0,0,0,0.45), 0 0 34px rgba(212,175,55,0.12)',
+          }}
+        >
+          <img
+            src={WITHOUT_YOU_HERE_COVER}
+            alt="Without You Here — Gannon Waye single cover"
+            className="w-full h-auto block"
+            loading="lazy"
+          />
+        </div>
         <p className="font-display italic text-lg md:text-xl mb-1" style={{ color: 'rgba(245,235,210,0.55)' }}>
           Without You Here
         </p>

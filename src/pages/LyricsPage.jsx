@@ -7,6 +7,12 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import GannonSignature from '@/components/global/GannonSignature';
 import LyricsScroller from '@/components/public/LyricsScroller';
+import { WITHOUT_YOU_HERE_COVER } from '@/constants/musicAssets';
+
+function getReleaseArtwork(release) {
+  if (release.title === 'Without You Here') return WITHOUT_YOU_HERE_COVER;
+  return release.artwork_url;
+}
 
 export default function LyricsPage() {
   const [openId, setOpenId] = useState(null);
@@ -45,7 +51,7 @@ export default function LyricsPage() {
       status: 'recording',
       isLocked: true,
       is_published: true,
-      artwork_url: '/images/mum/mum_gannon_young.jpg',
+      artwork_url: WITHOUT_YOU_HERE_COVER,
       credits: 'Written & Performed by Gannon Waye'
     }
   ];
@@ -96,8 +102,8 @@ export default function LyricsPage() {
                   className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-secondary/20 transition-colors"
                 >
                   <div className="flex items-center gap-4">
-                    {release.artwork_url && (
-                      <img src={release.artwork_url} alt={release.title} className="w-12 h-12 rounded-lg object-cover" />
+                    {getReleaseArtwork(release) && (
+                      <img src={getReleaseArtwork(release)} alt={`${release.title} artwork`} className="w-12 h-12 rounded-lg object-cover" />
                     )}
                     <div>
                       <p className="font-display text-xl text-foreground">{release.title}</p>

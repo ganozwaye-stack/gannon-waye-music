@@ -9,7 +9,7 @@ const OBJECTS = [
   { icon: '🧥', label: 'Burgundy Robe', desc: 'Worn in the garden. Worn everywhere. Hers.' },
   { icon: '🥿', label: 'Ugg Slippers', desc: 'She wore them in the letter. A letter I still have.' },
   { icon: '🐾', label: 'The Dogs', desc: 'Big, loyal, warm. Part of the family — always.' },
-  { icon: '🌸', label: 'Orange Gerberas', desc: 'On her casket. In every goodbye. Still so her.' },
+  { icon: '🌸', label: 'Orange Gerberas', desc: 'Her colour, her softness, her bloom — still so her.' },
   { icon: '🌴', label: 'Elephant Ears', desc: 'Big lush leaves. Her garden had them. Memory lives there.' },
   { icon: '🕯️', label: 'Warm Light', desc: 'Her home always felt lit from inside. By her.' },
   { icon: '🎂', label: 'Birthday Cake', desc: '"Sonia xo" — one last birthday, on a cruise.' },

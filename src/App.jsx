@@ -340,8 +340,10 @@ const AuthenticatedApp = () => {
         <Route path="/tour" element={<Navigate to="/" replace />} />
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
-        <Route path="/mum" element={<Navigate to="/" replace />} />
-        <Route path="/without-you-here" element={<Navigate to="/" replace />} />
+        <Route path="/mum-garden" element={<MumTribute />} />
+        <Route path="/mum-garden-preview" element={<MumTribute />} />
+        <Route path="/mum" element={<MumTribute />} />
+        <Route path="/without-you-here" element={<Navigate to="/mum#lyrics" replace />} />
         <Route path="/family/sonia-upload" element={<SoniaUpload />} />
         <Route path="/merch-reel" element={<MerchReelPage />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />

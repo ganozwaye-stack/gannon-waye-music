@@ -1,53 +1,78 @@
-# AI Agent Development Guidelines & Rules
+# Gannon Waye Music — Agent Rules
 
-Welcome to the Gannon Waye Music repository. This project uses AI agents (including Codex, Claude Code, and cursor agents) to manage, upgrade, and test the codebase. All agents must strictly follow these rules to ensure safety, security, stability, and brand compliance.
+## Project mission
 
----
+Build and protect the Gannon Waye Music ecosystem: the public artist website, music release pages, merch experiences, content workflow, and Sonia Waye’s private pre-launch memorial page at `/mum`.
 
-## 1. Git Workflow & Approval Rules
+The work should feel healing, premium, cinematic, truthful, and emotionally safe. It must support Gannon’s music and business without turning intimate memorial content into a hard sales page.
 
-* **Single Source of Truth:** GitHub is the single source of truth.
-* **No Direct Pushing:** Never push directly to `main` or `master`. All updates must be made through branches and Pull Requests (PRs).
-* **PR Process:** 
-  1. Create a new branch with a clean naming convention (e.g., `bugfix/`, `feature/`, or `upgrade/`).
-  2. Open a Pull Request with a clear, concise summary of changes, files modified, test evidence, risks, and manual verification steps.
-  3. Wait for Gannon's manual review/approval or the agent approval pipeline before merging.
-* **One Issue at a Time:** Use GitHub Issues to track bugs and tasks. Create and fix issues one PR at a time.
+## Brand voice
 
----
+- Honest, direct, warm, grief-aware, resilient, spiritual without being preachy.
+- Music is framed as healing and strength, not fame-chasing.
+- Copy should sound like Gannon: plain-spoken, heartfelt, protective, and powerful.
+- Do not invent family history, quotes, lyrics, eulogy text, or Sonia’s words.
 
-## 2. Safety & "Do Not" Rules
+## Coding standards
 
-* **DO NOT Expose Secrets:** Never hardcode API keys, client secrets, passwords, or tokens in source files or environment configuration files committed to Git.
-* **GitHub Secrets Only:** Add any required configuration variables as GitHub Repository Settings Secrets or load them from non-committed `.env.local` files.
-* **DO NOT Charge Stripe Live Accounts:** Never process real money, modify live Stripe pricing structures, or switch environments to live mode without explicit Gannon approval. Use Stripe Sandbox/Test Mode.
-* **DO NOT Auto-Publish Social Posts:** Agents may generate and queue social media posts, captions, and visual prompts, but **must not** publish directly. All content must go to the Approval Queue first.
-* **DO NOT Delete User Data:** Never run scripts or modify models that truncate, delete, or wipe user accounts, orders, fan activity, or memorial tribute data.
-* **DO NOT Bypass Approval Queues:** Bypassing moderation or publishing content without approval is strictly forbidden.
-* **DO NOT Run Unofficial Packages:** Avoid unofficial, unverified Codex or agent packages/apps to prevent credential theft.
+- Follow the existing Vite + React + Tailwind + Base44 structure.
+- Keep components focused and reusable.
+- Prefer real assets and approved media over placeholders.
+- Use semantic HTML, accessible labels, keyboard-friendly controls, and `prefers-reduced-motion` where motion may be intense.
+- Do not add heavy animation or autoplay behaviour that makes the memorial page feel unsafe or gimmicky.
 
----
+## Testing commands
 
-## 3. Naming Rules
+- Install: `npm install`
+- Local dev: `npm run dev`
+- Build: `npm run build`
+- Lint: `npm run lint`
+- Type check if supported: `npm run typecheck`
 
-* **Branches:** Prefix with lowercase types:
-  * `bugfix/issue-description` for bug fixes.
-  * `feature/new-capability` for new pages or components.
-  * `upgrade/platform-overhaul` for design system and architectural modifications.
-* **Commits:** Follow semantic-ish patterns:
-  * `fix: correct Instagram handle links in footer`
-  * `feat: add support drawer and tipping modal`
-  * `perf: lazy load large components on Dashboard`
+## Deployment commands
 
----
+- Build first: `npm run build`
+- Base44 deploy only after approval: `npx base44 deploy -y`
+- Do not deploy, publish, sync, post, email, or schedule anything publicly without Gannon’s final approval.
 
-## 4. Operational Requirements
+## Media asset locations
 
-* **Performance:** Ensure fast load times, query pagination, and skeleton loading screens for all dashboards.
-* **Global Clickability:** Every card, metric tile, row item, and agent action must click through to its specific source/detail view.
-* **Aesthetics:** The interface must feel cinematic, luxury, premium, and emotionally immersive (focusing on healing, grief, survival, and community).
+- Mum page images: `public/images/mum/`
+- Mum memory lane images: `public/images/mum/memory-lane/`
+- Mum audio/voice notes: `public/audio/mum/`
+- Music artwork: `public/images/music/`
+- Pressmaster/video export assets may be staged outside the app until approved.
 
----
+## Mum memorial page requirements
 
-## 5. Contact & Support
-If any issue or test failure arises that you cannot resolve autonomously, stop work immediately and notify Gannon via a GitHub issue or the chat interface. Do not force override failing tests.
+- Primary route: `/mum`
+- Private review route aliases: `/mum-garden`, `/mum-garden-preview`, `/admin/mum`
+- Family/friends upload route: `/family/sonia-upload?invite=family`
+- Admin review route: `/admin/family-uploads`
+- The page must begin in a peaceful blue sky with Sonia as an angelic presence, then scroll down into the garden.
+- It must clearly state that “Without You Here” was written in Gannon’s loungeroom, not in a garden.
+- Use exact Sonia/family photos only. Do not create fake family members or swap people into images.
+- Do not use grave, coffin, funeral-room, or harsh black funeral imagery on the public memorial experience.
+- Service-card and newspaper content should be softened into respectful copy unless Gannon explicitly approves showing the scans.
+- The guestbook must save submissions as pending and private by default.
+
+## AI twin requirements
+
+- Gannon’s AI twin is not complete until the identity photo set, clear speaking footage, consent, voice clone, avatar test, script templates, captions, backgrounds, exports, and human approval workflow are all approved.
+- No generated public audio or avatar video should be published without Gannon’s review.
+- Sonia’s voice must use original recordings only unless the family explicitly approves a future synthetic direction. Do not present generated speech as Sonia.
+
+## Approval rules
+
+- Before posting publicly: ask Gannon for final approval.
+- Before sending email: ask Gannon for final approval.
+- Before changing live product pricing, payments, DNS, domains, billing, or connected platform settings: ask Gannon for final approval.
+- Before deleting or trashing files/data/profiles: ask Gannon for final approval.
+- Before publishing family memories: confirm consent and Gannon approval.
+
+## Security rules
+
+- Never hardcode passwords, API keys, tokens, cookies, private keys, or session secrets.
+- Do not ask Gannon to paste secrets into chat.
+- Use Base44/GitHub/platform secret stores or `.env.local` files that are not committed.
+- Keep memory submissions private until reviewed.

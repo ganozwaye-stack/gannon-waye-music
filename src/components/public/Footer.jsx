@@ -66,6 +66,7 @@ export default function Footer() {
               <Link to="/order-status" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Order Status</Link>
               <Link to="/7-day-standard" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">The 7 Day Standard</Link>
               <Link to="/current-single" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Current Single</Link>
+              <Link to="/mum" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Mum&apos;s Garden</Link>
               <Link to="/merch-feedback" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Merch Feedback</Link>
               <Link to="/back-this" className="font-body text-sm text-primary hover:text-primary/80 transition-colors">Back This Project 🤍</Link>
             </div>

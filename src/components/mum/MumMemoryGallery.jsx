@@ -50,12 +50,6 @@ const PHOTOS = [
     caption: 'The woman who kept showing up',
     category: 'Family',
   },
-  // Casket — flowers, name plate
-  {
-    url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d4bf542bf_E6BC1469-782B-438C-99BE-17596D2C85EC.jpg',
-    caption: 'Sonia K. Waye · 27.04.2022',
-    category: 'Final Chapter',
-  },
   // Swallow tattoo collage
   {
     url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f739f95a9_7A480C51-5118-4A98-899B-6885A7AC415A.jpg',
@@ -74,12 +68,6 @@ const PHOTOS = [
     caption: 'A lifetime of family',
     category: 'Memories',
   },
-  // Big family gathering — guitar, backyard
-  {
-    url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c8a44cfd3_EC8C41F8-38A5-480A-993B-D80ED296C3AA.jpg',
-    caption: 'Where music and love gathered',
-    category: 'Memories',
-  },
   // Early hospital — laughing, new baby
   {
     url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6c1d1f71e_FF948CCF-003E-45CB-A1EA-E7632AD074EA.jpg',
@@ -90,7 +78,7 @@ const PHOTOS = [
   {
     url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d67b6bc40_5F4167C5-F30A-4B6C-BB25-231D0441B72D.jpg',
     caption: 'Still herself, all the way through',
-    category: 'Final Chapter',
+    category: 'Her Courage',
   },
   // Facebook birthday message
   {

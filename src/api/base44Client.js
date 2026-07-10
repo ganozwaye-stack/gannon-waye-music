@@ -54,6 +54,14 @@ if (isLocal || token === 'mock-admin-token') {
     }
   };
 
+  base44.integrations = base44.integrations || {};
+  base44.integrations.Core = base44.integrations.Core || {};
+  base44.integrations.Core.UploadFile = base44.integrations.Core.UploadFile || (async ({ file }) => ({
+    file_url: file ? `local-preview-upload://${file.name}` : '',
+    file_name: file?.name || ''
+  }));
+
+  // 3. Mock entities
   const mockOrders = [
     { id: 'o1', customer_name: 'Thea Elsworth', customer_email: 'dorotheae@icloud.com', total_amount: 90.48, status: 'cancelled', financial_status: 'duplicate_void', created_date: '2026-06-01T12:00:00Z', items: [{ product_id: 'p1', product_name: 'Tee', price: 90.48, quantity: 1 }] },
     { id: 'o2', customer_name: 'Jane Smith', customer_email: 'jane@example.com', total_amount: 50.00, status: 'confirmed', financial_status: 'paid', created_date: '2026-06-02T12:00:00Z', items: [{ product_id: 'p1', product_name: 'Tee', price: 50.00, quantity: 1 }] },
@@ -219,6 +227,7 @@ if (isLocal || token === 'mock-admin-token') {
     ActionItem: [],
     SystemsManagerLead: [],
     StoreCustomer: [],
+    SoniaMemorySubmission: []
   };
 
   const createDummyHandler = (entityName) => ({

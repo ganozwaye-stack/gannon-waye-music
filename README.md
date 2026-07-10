@@ -1,39 +1,67 @@
-**Welcome to your Base44 project** 
+# Gannon Waye Music Base44 App
 
-**About**
+This repository contains the Gannon Waye Music website and Base44 app code.
 
-View and Edit  your app on [Base44.com](http://Base44.com) 
+## Current priority
 
-This project contains everything you need to run your app locally.
+The current launch priority is Sonia Waye’s private pre-launch memorial page:
 
-**Edit the code in your local development environment**
+- Main memorial route: `/mum`
+- Preview aliases: `/mum-garden`, `/mum-garden-preview`
+- Family/friends upload link: `/family/sonia-upload?invite=family`
+- Admin upload review: `/admin/family-uploads`
+- Admin page review: `/admin/mum`
 
-Any change pushed to the repo will also be reflected in the Base44 Builder.
+The `/mum` page is intentionally gated for pre-launch review. Family/friend uploads remain open for submissions, and all submissions are private/pending until approved.
 
-**Prerequisites:** 
+## Local setup
 
-1. Clone the repository using the project's Git URL 
-2. Navigate to the project directory
-3. Install dependencies: `npm install`
-4. Create an `.env.local` file and set the right environment variables
-
-```
-VITE_BASE44_APP_ID=your_app_id
-VITE_BASE44_APP_BASE_URL=your_backend_url
-
-e.g.
-VITE_BASE44_APP_ID=cbef744a8545c389ef439ea6
-VITE_BASE44_APP_BASE_URL=https://my-to-do-list-81bfaad7.base44.app
+```bash
+npm install
+npm run dev
 ```
 
-Run the app: `npm run dev`
+## Verification
 
-**Publish your changes**
+```bash
+npm run build
+npm run lint
+```
 
-Open [Base44.com](http://Base44.com) and click on Publish.
+If the project supports type checks in the current checkout:
 
-**Docs & Support**
+```bash
+npm run typecheck
+```
 
-Documentation: [https://docs.base44.com/Integrations/Using-GitHub](https://docs.base44.com/Integrations/Using-GitHub)
+## Base44
 
-Support: [https://app.base44.com/support](https://app.base44.com/support)
+The Base44 config lives in `base44/config.jsonc`. Build before deployment:
+
+```bash
+npm run build
+npx base44 deploy -y
+```
+
+Do not deploy without Gannon’s final approval.
+
+## Media locations
+
+- Mum images: `public/images/mum/`
+- Mum memory-lane images: `public/images/mum/memory-lane/`
+- Mum audio: `public/audio/mum/`
+- Music artwork: `public/images/music/`
+
+## Important content rule
+
+“Without You Here” was written in Gannon’s loungeroom, not in a garden. Mum’s Garden is the memorial destination and emotional world around the song.
+
+## Project docs
+
+- `AGENTS.md`
+- `CONTENT_WORKFLOW.md`
+- `BRAND_GUIDE.md`
+- `MUM_MEMORIAL_PAGE_SPEC.md`
+- `AI_TWIN_VIDEO_REQUIREMENTS.md`
+- `INTEGRATIONS_CHECKLIST.md`
+- `SECURITY_AND_APPROVAL_RULES.md`
