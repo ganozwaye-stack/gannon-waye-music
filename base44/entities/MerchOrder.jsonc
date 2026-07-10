@@ -30,12 +30,56 @@
           },
           "price": {
             "type": "number"
+          },
+          "category": {
+            "type": "string",
+            "description": "Product category for revenue/charity exclusions (apparel, accessories, vinyl, cd, poster, bundle, other)"
           }
         }
       }
     },
     "total_amount": {
       "type": "number"
+    },
+    "subtotal_amount": {
+      "type": "number",
+      "description": "Sum of item prices \u00d7 quantities before shipping/discount"
+    },
+    "shipping_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "discount_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "support_contribution": {
+      "type": "number",
+      "default": 0,
+      "description": "Optional fan support contribution included in total"
+    },
+    "promo_code": {
+      "type": "string"
+    },
+    "stripe_session_id": {
+      "type": "string",
+      "description": "Stripe Checkout Session ID \u2014 primary key for reconciling paid sessions"
+    },
+    "stripe_payment_intent": {
+      "type": "string",
+      "description": "Stripe Payment Intent ID captured from webhook"
+    },
+    "payment_status": {
+      "type": "string",
+      "enum": [
+        "unpaid",
+        "paid",
+        "failed",
+        "refunded",
+        "partially_refunded",
+        "disputed"
+      ],
+      "default": "unpaid"
     },
     "status": {
       "type": "string",
@@ -44,11 +88,52 @@
         "confirmed",
         "shipped",
         "delivered",
-        "cancelled"
+        "cancelled",
+        "needs_admin_review",
+        "duplicate"
       ],
       "default": "pending"
     },
+    "financial_status": {
+      "type": "string",
+      "description": "Free-text reconciliation label (e.g. captured, refunded, disputed, under_review)"
+    },
+    "fulfillment_status": {
+      "type": "string",
+      "description": "Free-text fulfillment label (e.g. unfulfilled, in_progress, shipped, delivered)"
+    },
     "tracking_number": {
+      "type": "string"
+    },
+    "receipt_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "admin_notification_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "duplicate_of_order_id": {
+      "type": "string",
+      "description": "If this order is a duplicate, the ID of the original MerchOrder"
+    },
+    "excluded_from_revenue": {
+      "type": "boolean",
+      "default": false
+    },
+    "excluded_from_inventory": {
+      "type": "boolean",
+      "default": false
+    },
+    "excluded_from_profit": {
+      "type": "boolean",
+      "default": false
+    },
+    "excluded_from_1800respect_donation": {
+      "type": "boolean",
+      "default": false
+    },
+    "admin_note": {
       "type": "string"
     },
     "notes": {
