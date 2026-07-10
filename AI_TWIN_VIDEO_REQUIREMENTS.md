@@ -1,5 +1,51 @@
 # AI Twin and Avatar Video Requirements
 
+## Tool roles and boundaries
+
+Pressmaster has confirmed through Twin Chat that it is currently acting as a knowledge graph and content brain, not the physical avatar video system.
+
+Use the Gannon Waye Music AI content architecture like this:
+
+- Pressmaster: brand brain, identity, ideas, captions, post drafts, scripts, campaign thinking.
+- Codex: website, workflows, integrations, file structure, automation logic, approval gates, documentation, content calendar structure, asset naming, and repository management.
+- HeyGen: physical AI version of Gannon for avatar videos, voice clone, lip sync, speaking videos, and video exports.
+- Google Drive: master asset vault for photos, song previews, artwork, memorial assets, scripts, captions, exports, and approvals.
+- Metricool or native social platforms: scheduling and publishing only after approval.
+
+Do not represent Pressmaster as the final video avatar tool unless Pressmaster support confirms that active avatar video generation is available in this account.
+
+## Approved content production pipeline
+
+Content must move through these stages:
+
+1. Idea created in Pressmaster or Codex.
+2. Script created.
+3. Script checked against the Gannon Waye brand guide.
+4. Media selected from Google Drive.
+5. Avatar video requested in HeyGen when approved.
+6. Captions generated.
+7. Platform versions exported.
+8. Final file saved to Google Drive.
+9. Gannon approval required.
+10. Publish or schedule after approval only.
+
+## Current AI Twin completion definition
+
+The AI Twin is not complete until Gannon has:
+
+1. Approved identity photos.
+2. Approved speaking footage.
+3. Approved clean voice recording.
+4. Completed HeyGen consent.
+5. Created private avatar.
+6. Created private voice clone.
+7. Tested one 15 second video.
+8. Tested one 30 second video.
+9. Approved captions style.
+10. Approved background style.
+11. Approved export formats.
+12. Approved publishing workflow.
+
 ## Gannon AI twin completion checklist
 
 The AI twin is not complete until all of these are approved:
