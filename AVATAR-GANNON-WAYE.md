@@ -43,12 +43,25 @@ Status:
 
 ## HeyGen
 
-- Group ID:
-- Voice ID:
-- Voice Name:
-- Voice Designed:
+- Primary Group ID: `6c33e7e3542c4466a17ef46c74e9ac58`
+- Primary Avatar Look ID: `646da572f3284a1fa6bff984d6f3471c`
+- Primary Voice ID: `f7ffebd851b74bd1ad83d83a1087b2f4`
+- Voice Name: Gannon
+- Voice Type: private cloned voice
+- Voice Designed: false
 - Voice Seed:
-- Looks:
-- Last Synced:
+- Primary Look:
+  - Name: Gannon
+  - Type: digital_twin
+  - Preferred orientation: portrait
+  - Status: completed
+  - Supported engines: avatar_v, avatar_iv, avatar_iii
+- Alternate Group ID: `17284084da024908b8c247c27b483dd4`
+- Alternate Looks:
+  - `3457470516184172a19fc79472f7912a` — Gannon, digital_twin, portrait, completed
+  - `f623b10c204b487c941d4bb7efdc3037` — The Laneway's Unbroken Voice, photo_avatar, portrait, completed
+  - `b1927471159f4ba2ba3e413402d43094` — The Laneway's Unbroken Voice, photo_avatar, portrait, completed
+  - `fbca4c1bad1e4472b318a97a12b05cd0` — Joyful man celebrating with a big smile, photo_avatar, landscape, completed
+- Last Synced: 2026-07-10 18:52 +10:00
 
-Note: no HeyGen avatar has been created from this file yet.
+Note: HeyGen already contains private Gannon avatar and voice assets. Do not create a duplicate Gannon avatar unless Gannon explicitly asks for a replacement. Use the primary completed portrait digital twin for approved music, merch, and Mum's Garden narration tests.
