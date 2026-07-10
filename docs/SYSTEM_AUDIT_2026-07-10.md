@@ -20,6 +20,9 @@ The Gannon Waye Music codebase is buildable and the main public pages render loc
 
 - `npm run build`: passed.
 - `npm run lint`: passed.
+- `npm audit fix` without `--force`: completed.
+- Vulnerabilities reduced from 31 total to 2 moderate remaining Quill/react-quill issues.
+- Remaining Quill issue should not be force-fixed blindly because npm proposes a breaking downgrade path. Replace or isolate the rich text editor in a planned change instead.
 - Public local pages tested at `http://127.0.0.1:5180`:
   - `/` passed.
   - `/music` passed.
