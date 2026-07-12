@@ -11,6 +11,7 @@ const TABS = [
   { key: 'needs_source', label: 'Needs Source' },
   { key: 'sensitive_review', label: 'Sensitive Review' },
   { key: 'publish_later', label: 'Publish Later' },
+  { key: 'approved', label: 'Approved' },
 ];
 
 const STATUS_LABELS = {
@@ -137,7 +138,7 @@ export default function LyricsArchive() {
   };
 
   const counts = useMemo(() => {
-    const c = { all: lyrics.length, draft: 0, ready_for_review: 0, needs_source: 0, sensitive_review: 0, publish_later: 0 };
+    const c = { all: lyrics.length, draft: 0, ready_for_review: 0, needs_source: 0, sensitive_review: 0, publish_later: 0, approved: 0 };
     lyrics.forEach(l => { if (c[l.version_status] !== undefined) c[l.version_status]++; });
     return c;
   }, [lyrics]);
@@ -148,7 +149,7 @@ export default function LyricsArchive() {
         <div>
           <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary mb-1">Admin · Private Archive</p>
           <h1 className="font-display text-3xl text-foreground">Lyrics Archive</h1>
-          <p className="font-body text-xs text-muted-foreground mt-1">Private storage only. No lyrics are published publicly.</p>
+          <p className="font-body text-xs text-muted-foreground mt-1">All lyrics stored here. Published lyrics also appear on the public /lyrics page.</p>
         </div>
         <div className="flex gap-2">
           <Button onClick={handleExport} variant="outline" className="gap-2"><Download className="w-4 h-4" /> Export</Button>
@@ -257,7 +258,7 @@ export default function LyricsArchive() {
 
       <div className="mt-6 flex items-center gap-2 text-[10px] text-muted-foreground/50">
         <Shield className="w-3 h-3" />
-        <span>Private archive — all lyrics stored privately. No public lyric pages created. Not indexed. Not added to sitemap.</span>
+        <span>Lyrics archive — all lyrics stored here. Published lyrics (is_published) appear on the public /lyrics page. Unpublished lyrics are private.</span>
       </div>
     </div>
   );
