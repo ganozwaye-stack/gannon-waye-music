@@ -400,7 +400,7 @@ const AuthenticatedApp = () => {
         <Route path="/systems/case-studies/ganozmix-direct" element={<CaseStudyGanozMix />} />
         <Route path="/lyric-library" element={<LyricLibrary />} />
         <Route path="/gift-cards" element={<GiftCards />} />
-        <Route path="/mixing-services" element={<MixingServices />} />
+        <Route path="/admin/mixing-services" element={<MixingServices />} />
         <Route path="/biography" element={<Biography />} />
         <Route path="/discover" element={<MusicRecommender />} />
         <Route path="/fan-reminders" element={<FanReminders />} />

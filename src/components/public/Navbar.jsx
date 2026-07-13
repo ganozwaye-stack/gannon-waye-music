@@ -25,7 +25,6 @@ const MORE_LINKS = [
   { label: 'Discover Music', path: '/discover' },
   { label: 'Community', path: '/community' },
   { label: 'Mum Tribute', path: '/remember-mum' },
-  { label: 'Mixing Services', path: '/mixing-services' },
   { label: 'Gift Cards', path: '/gift-cards' },
   { label: 'Fan Reminders', path: '/fan-reminders' },
   { label: 'FAQ', path: '/faq' },
