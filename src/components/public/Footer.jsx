@@ -65,6 +65,7 @@ export default function Footer() {
               <Link to="/community" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Community</Link>
               <Link to="/biography" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Biography</Link>
               <Link to="/lyric-library" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Lyric Library</Link>
+              <Link to="/mixing-services" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Mixing Services</Link>
               <Link to="/gift-cards" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Gift Cards</Link>
               <Link to="/remember-mum" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Mum Tribute</Link>
               <Link to="/systems-manager" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Systems Manager</Link>
