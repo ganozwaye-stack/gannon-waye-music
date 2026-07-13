@@ -33,6 +33,7 @@ const NAV_SECTIONS = [
       { label: 'Website Overhaul', path: '/admin/site-upgrade-audit', icon: Globe },
       { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
       { label: 'Release Prep', path: '/admin/release-sprint', icon: Star },
+      { label: 'Owner Command V3', path: '/admin/owner-command-v3', icon: Zap },
     ]
   },
   // ─── ALPHABETICAL SECTIONS ──────────────────────────────────────────────────

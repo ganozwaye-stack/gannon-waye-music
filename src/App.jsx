@@ -70,6 +70,7 @@ import Dashboard from '@/pages/admin/Dashboard';
 import OwnerDashboard from '@/pages/admin/OwnerDashboard';
 import DailyDashboard from '@/pages/admin/DailyDashboard';
 import DailyDashboardV2 from '@/pages/admin/DailyDashboardV2';
+import OwnerCommandV3 from '@/pages/admin/OwnerCommandV3';
 import Releases from '@/pages/admin/Releases';
 import MerchManagement from '@/pages/admin/MerchManagement';
 import Orders from '@/pages/admin/Orders';
@@ -419,6 +420,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
         <Route path="/admin/dashboard" element={<DailyDashboard />} />
         <Route path="/admin/dashboard-v2" element={<DailyDashboardV2 />} />
+        <Route path="/admin/owner-command-v3" element={<OwnerCommandV3 />} />
         <Route path="/admin/launch-content" element={<LaunchContentHub />} />
         <Route path="/admin/music-fan" element={<MusicFanHub />} />
         <Route path="/admin/store-orders" element={<StoreOrdersHub />} />
