@@ -276,6 +276,9 @@ import MixingServices from '@/pages/MixingServices';
 import Biography from '@/pages/Biography';
 import MusicRecommender from '@/pages/MusicRecommender';
 import FanReminders from '@/pages/FanReminders';
+import Gallery from '@/pages/Gallery';
+import MusicProduction from '@/pages/admin/MusicProduction';
+import ProducerDirectory from '@/pages/admin/ProducerDirectory';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -406,6 +409,7 @@ const AuthenticatedApp = () => {
         <Route path="/biography" element={<Biography />} />
         <Route path="/discover" element={<MusicRecommender />} />
         <Route path="/fan-reminders" element={<FanReminders />} />
+        <Route path="/gallery" element={<Gallery />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -526,6 +530,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/coaching-command" element={<CoachingCommand />} />
         <Route path="/admin/coaching-launch-control" element={<CoachingLaunchControl />} />
         <Route path="/admin/coaching-programs" element={<CoachingPrograms />} />
+        <Route path="/music-production" element={<MusicProduction />} />
+        <Route path="/producer-directory" element={<ProducerDirectory />} />
         <Route path="/admin/coaching-legal" element={<CoachingLegal />} />
         <Route path="/admin/coaching-content-library" element={<CoachingContentLibrary />} />
         <Route path="/admin/meditation-library" element={<CoachingMeditationLibrary />} />

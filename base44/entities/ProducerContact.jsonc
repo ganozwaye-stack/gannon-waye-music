@@ -1,0 +1,97 @@
+{
+  "name": "ProducerContact",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Producer name"
+    },
+    "email": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string",
+      "description": "Portfolio or website URL"
+    },
+    "instagram": {
+      "type": "string"
+    },
+    "specialty": {
+      "type": "string",
+      "description": "Genre or production style (e.g. pop, hip-hop, cinematic)"
+    },
+    "credits": {
+      "type": "string",
+      "description": "Notable past work or artist credits"
+    },
+    "price_quote": {
+      "type": "number",
+      "description": "Quoted price per track or project"
+    },
+    "price_currency": {
+      "type": "string",
+      "default": "AUD"
+    },
+    "price_notes": {
+      "type": "string",
+      "description": "Details on what the price includes (per track, per day, includes mix, etc.)"
+    },
+    "rating": {
+      "type": "number",
+      "description": "1-5 personal rating"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "researching",
+        "contacted",
+        "quoted",
+        "shortlisted",
+        "selected",
+        "passed"
+      ],
+      "default": "researching"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 3000,
+      "description": "General notes, impressions, communication history"
+    },
+    "contacted_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "quoted_date": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
