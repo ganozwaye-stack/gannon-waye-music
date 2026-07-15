@@ -70,6 +70,7 @@ const NAV_SECTIONS = [
   {
     title: 'Content and Social',
     items: [
+      { label: 'Brand Kit', path: '/admin/brand-kit', icon: Palette },
       { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
       { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Zap },
       { label: 'Launch and Content Hub', path: '/admin/launch-content', icon: Megaphone },
@@ -81,8 +82,10 @@ const NAV_SECTIONS = [
     title: 'Music and Releases',
     items: [
       { label: 'Lyrics Archive', path: '/admin/lyrics-archive', icon: FileText },
+      { label: 'Music Roadmap', path: '/admin/music-roadmap', icon: Calendar },
       { label: 'Music and Fan Hub', path: '/admin/music-fan', icon: Music },
       { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
+      { label: 'Production Tracker', path: '/admin/production-tracker', icon: Film },
       { label: 'Releases', path: '/admin/releases', icon: Star },
       { label: 'Videos', path: '/admin/videos', icon: Video },
     ]

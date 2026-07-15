@@ -280,6 +280,9 @@ import Gallery from '@/pages/Gallery';
 import MusicProduction from '@/pages/admin/MusicProduction';
 import ProducerDirectory from '@/pages/admin/ProducerDirectory';
 import ProductionTracker from '@/pages/admin/ProductionTracker';
+import MusicRoadmap from '@/pages/admin/MusicRoadmap';
+import BrandKit from '@/pages/admin/BrandKit';
+import FanLeaderboard from '@/pages/FanLeaderboard';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -411,6 +414,8 @@ const AuthenticatedApp = () => {
         <Route path="/discover" element={<MusicRecommender />} />
         <Route path="/fan-reminders" element={<FanReminders />} />
         <Route path="/gallery" element={<Gallery />} />
+        <Route path="/press-kit" element={<PressKit />} />
+        <Route path="/fan-leaderboard" element={<FanLeaderboard />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -534,6 +539,8 @@ const AuthenticatedApp = () => {
         <Route path="/music-production" element={<MusicProduction />} />
         <Route path="/producer-directory" element={<ProducerDirectory />} />
         <Route path="/admin/production-tracker" element={<ProductionTracker />} />
+        <Route path="/admin/music-roadmap" element={<MusicRoadmap />} />
+        <Route path="/admin/brand-kit" element={<BrandKit />} />
         <Route path="/admin/coaching-legal" element={<CoachingLegal />} />
         <Route path="/admin/coaching-content-library" element={<CoachingContentLibrary />} />
         <Route path="/admin/meditation-library" element={<CoachingMeditationLibrary />} />

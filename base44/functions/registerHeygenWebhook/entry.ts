@@ -46,6 +46,10 @@ Deno.serve(async (req) => {
             'avatar_video.fail',
             'video_agent.success',
             'video_agent.fail',
+            'photo_avatar_train.success',
+            'photo_avatar_train.fail',
+            'instant_avatar.success',
+            'instant_avatar.fail',
           ],
         }),
       });
@@ -76,6 +80,10 @@ Deno.serve(async (req) => {
           'avatar_video.fail',
           'video_agent.success',
           'video_agent.fail',
+          'photo_avatar_train.success',
+          'photo_avatar_train.fail',
+          'instant_avatar.success',
+          'instant_avatar.fail',
         ],
       }),
     });

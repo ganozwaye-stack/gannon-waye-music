@@ -154,6 +154,39 @@ Deno.serve(async (req) => {
       return Response.json({ status: 'success', message: 'Video failure processed.' });
     }
 
+    // ─── HANDLE photo avatar events ──────────────────────────────────────────
+    if (eventType === 'photo_avatar_train.success' || eventType === 'photo_avatar_train.fail' ||
+        eventType === 'photo_avatar_generation.success' || eventType === 'photo_avatar_generation.fail' ||
+        eventType === 'instant_avatar.success' || eventType === 'instant_avatar.fail') {
+      const isFail = eventType.includes('.fail');
+      const { avatar_id, photo_avatar_id, callback_id } = eventData;
+      const avatarId = avatar_id || photo_avatar_id;
+
+      // Find the production job tracking this avatar
+      const jobs = await base44.asServiceRole.entities.ContentProductionJob.filter({
+        heygen_avatar_id: avatarId
+      });
+
+      if (jobs.length > 0) {
+        const job = jobs[0];
+        await base44.asServiceRole.entities.ContentProductionJob.update(job.id, {
+          status: isFail ? 'failed' : 'completed',
+          error_message: isFail ? `Photo avatar training failed: ${eventType}` : null,
+          notes: (job.notes || '') + `\n[Avatar Event ${new Date().toISOString()}] ${eventType} — avatar_id: ${avatarId}`,
+        });
+
+        await base44.asServiceRole.integrations.Core.SendEmail({
+          to: 'ganozwaye@gmail.com',
+          subject: isFail ? 'HeyGen Avatar Training FAILED' : 'HeyGen Avatar Ready! 🎬',
+          body: isFail
+            ? `Photo avatar training failed.\n\nAvatar ID: ${avatarId}\nEvent: ${eventType}\n\nCheck your HeyGen dashboard for details.`
+            : `Your HeyGen photo avatar is ready!\n\nAvatar ID: ${avatarId}\n\nYou can now use this avatar ID in video generation scripts. Review it in the Production Tracker at /admin/production-tracker.`
+        });
+      }
+
+      return Response.json({ status: 'success', message: `Photo avatar event ${eventType} processed.` });
+    }
+
     // ─── HANDLE video_agent.success / video_agent.fail ──────────────────────
     if (eventType === 'video_agent.success' || eventType === 'video_agent.fail') {
       const isFail = eventType === 'video_agent.fail';
