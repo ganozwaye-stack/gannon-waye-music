@@ -70,6 +70,7 @@ const NAV_SECTIONS = [
   {
     title: 'Content and Social',
     items: [
+      { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
       { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Zap },
       { label: 'Launch and Content Hub', path: '/admin/launch-content', icon: Megaphone },
       { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },

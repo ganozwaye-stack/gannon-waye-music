@@ -1,0 +1,176 @@
+{
+  "name": "ContentProductionJob",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Job title \u2014 what is being produced"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 3000,
+      "description": "Brief description of the production job"
+    },
+    "job_type": {
+      "type": "string",
+      "enum": [
+        "heygen_video",
+        "social_reel",
+        "content_post",
+        "newsletter",
+        "image_generation",
+        "audio_generation",
+        "other"
+      ],
+      "default": "heygen_video"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "processing",
+        "completed",
+        "failed",
+        "cancelled"
+      ],
+      "default": "queued"
+    },
+    "script": {
+      "type": "string",
+      "maxLength": 10000,
+      "description": "The script or text content for the production (e.g. HeyGen avatar script, social post text)"
+    },
+    "video_url": {
+      "type": "string",
+      "description": "Completed video download URL (set when status is completed)"
+    },
+    "video_share_url": {
+      "type": "string",
+      "description": "Shareable video URL from HeyGen"
+    },
+    "heygen_video_id": {
+      "type": "string",
+      "description": "HeyGen video ID returned when creating a video"
+    },
+    "heygen_avatar_id": {
+      "type": "string",
+      "description": "HeyGen Digital Twin avatar look ID used"
+    },
+    "heygen_voice_id": {
+      "type": "string",
+      "description": "HeyGen voice ID used"
+    },
+    "heygen_engine": {
+      "type": "string",
+      "enum": [
+        "avatar_iv",
+        "avatar_v",
+        "avatar_iii"
+      ],
+      "default": "avatar_iv",
+      "description": "HeyGen rendering engine"
+    },
+    "resolution": {
+      "type": "string",
+      "enum": [
+        "720p",
+        "1080p",
+        "4k"
+      ],
+      "default": "1080p"
+    },
+    "aspect_ratio": {
+      "type": "string",
+      "enum": [
+        "auto",
+        "16:9",
+        "9:16",
+        "4:5",
+        "5:4",
+        "1:1"
+      ],
+      "default": "9:16"
+    },
+    "related_release": {
+      "type": "string",
+      "description": "Linked release title if applicable"
+    },
+    "related_content_item_id": {
+      "type": "string",
+      "description": "Linked ContentPipelineItem ID if this job was generated from pipeline content"
+    },
+    "research_sources": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Credible sources used in the content (from literature_researcher)"
+    },
+    "agent_generated_by": {
+      "type": "string",
+      "description": "Which agent initiated this job (e.g. literature_researcher, academic_writing_coach)"
+    },
+    "agent_generated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this was created by an agent"
+    },
+    "error_message": {
+      "type": "string",
+      "description": "Error details if status is failed"
+    },
+    "callback_id": {
+      "type": "string",
+      "description": "Callback ID passed to HeyGen for webhook correlation"
+    },
+    "platform_target": {
+      "type": "string",
+      "description": "Target platform (instagram, tiktok, youtube, etc.)"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "needs_review",
+        "approved",
+        "rejected",
+        "published"
+      ],
+      "default": "needs_review"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "title",
+    "job_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

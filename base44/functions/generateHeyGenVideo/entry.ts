@@ -1,7 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.38';
 
-const HEYGEN_API_BASE = 'https://api.heygen.com';
-
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -9,104 +7,102 @@ Deno.serve(async (req) => {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await req.json();
-    const { script, avatar_id, voice_id, topic, related_release, dimension } = body;
+    const { script, title, avatar_id, voice_id, resolution, aspect_ratio, engine, related_release, related_content_item_id, agent_generated_by, callback_id } = body;
 
-    if (!script && !topic) return Response.json({ error: 'script or topic is required' }, { status: 400 });
-
-    // If topic provided but no script, generate a script using InvokeLLM
-    let finalScript = script;
-    if (!script && topic) {
-      const scriptResult = await base44.integrations.Core.InvokeLLM({
-        prompt: `Write a 30-60 second video script for a social media video for independent music artist Gannon Waye.
-Topic: ${topic}
-${related_release ? `Related release: ${related_release}` : ''}
-
-Rules:
-- Conversational, authentic, warm tone
-- Hook in the first 3 seconds
-- Clear call-to-action at the end
-- 60-90 words max (30-60 seconds spoken)
-- No stage directions, just the spoken words
-
-Return only the script text.`,
-      });
-      finalScript = typeof scriptResult === 'string' ? scriptResult : scriptResult?.content || String(scriptResult);
-    }
+    if (!script) return Response.json({ error: 'script is required' }, { status: 400 });
+    if (!avatar_id) return Response.json({ error: 'avatar_id is required — pass a HeyGen Digital Twin look ID' }, { status: 400 });
+    if (!voice_id) return Response.json({ error: 'voice_id is required — pass a HeyGen voice ID' }, { status: 400 });
 
     const apiKey = Deno.env.get('HEYGEN_API_KEY');
-    if (!apiKey) return Response.json({ error: 'HEYGEN_API_KEY not set' }, { status: 500 });
+    if (!apiKey) return Response.json({ error: 'HEYGEN_API_KEY secret is not set' }, { status: 500 });
 
-    // Default avatar and voice if not provided
-    const finalAvatarId = avatar_id || 'Anna_public_3_9d8e6e066f'; // Default public avatar
-    const finalVoiceId = voice_id || '0776d3e0d0e04776926ab1b1893975c1'; // Default natural voice
+    // ─── CREATE PRODUCTION JOB RECORD ────────────────────────────────────────
+    const finalCallbackId = callback_id || `gw_${Date.now()}`;
+    const finalEngine = engine || 'avatar_iv';
+    const finalResolution = resolution || '1080p';
+    const finalAspectRatio = aspect_ratio || '9:16';
 
-    // Create video via HeyGen API
-    const videoResponse = await fetch(`${HEYGEN_API_BASE}/v2/video/generate`, {
-      method: 'POST',
-      headers: {
-        'X-Api-Key': apiKey,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        video_inputs: [{
-          character: {
-            type: 'avatar',
-            avatar_id: finalAvatarId,
-            avatar_style: 'normal',
-          },
-          voice: {
-            type: 'text',
-            input_text: finalScript,
-            voice_id: finalVoiceId,
-          },
-          background: {
-            type: 'color',
-            value: '#000000',
-          },
-        }],
-        dimension: dimension || { width: 1080, height: 1920 },
-        test: false,
-      }),
+    const job = await base44.entities.ContentProductionJob.create({
+      title: title || `HeyGen Video — ${script.slice(0, 50)}`,
+      description: `AI avatar video generated via HeyGen ${finalEngine} engine`,
+      job_type: 'heygen_video',
+      status: 'queued',
+      script,
+      heygen_avatar_id: avatar_id,
+      heygen_voice_id: voice_id,
+      heygen_engine: finalEngine,
+      resolution: finalResolution,
+      aspect_ratio: finalAspectRatio,
+      related_release: related_release || null,
+      related_content_item_id: related_content_item_id || null,
+      agent_generated_by: agent_generated_by || null,
+      agent_generated: !!agent_generated_by,
+      callback_id: finalCallbackId,
+      platform_target: 'instagram',
+      approval_status: 'needs_review',
+      sort_order: 0,
     });
 
-    if (!videoResponse.ok) {
-      const errorText = await videoResponse.text();
-      return Response.json({ error: `HeyGen API error: ${errorText}` }, { status: 502 });
-    }
+    // ─── CALL HEYGEN API TO CREATE VIDEO ────────────────────────────────────
+    const webhookUrl = `https://api.base44.app/api/v2/apps/${Deno.env.get('BASE44_APP_ID')}/webhook/heygen`;
 
-    const videoData = await videoResponse.json();
+    const heygenBody = {
+      type: 'avatar',
+      avatar_id: avatar_id,
+      script: script,
+      voice_id: voice_id,
+      title: title || `GW Video ${finalCallbackId}`,
+      resolution: finalResolution,
+      aspect_ratio: finalAspectRatio,
+      engine: { type: finalEngine },
+      callback_url: webhookUrl,
+      callback_id: finalCallbackId,
+    };
 
-    // Save to SocialVideo entity for tracking
-    let socialVideo = null;
-    try {
-      socialVideo = await base44.entities.SocialVideo.create({
-        title: `${topic || 'HeyGen Video'} — ${new Date().toLocaleDateString('en-AU')}`,
-        description: finalScript,
-        status: 'generating',
-        related_release: related_release || null,
-        notes: `HeyGen video_id: ${videoData.data?.video_id}`,
-        sort_order: 0,
+    const heygenResponse = await fetch('https://api.heygen.com/v3/videos', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(heygenBody),
+    });
+
+    const heygenData = await heygenResponse.json();
+
+    if (!heygenResponse.ok) {
+      // Update job to failed
+      const errorMsg = typeof heygenData?.message === 'string' ? heygenData.message
+        : typeof heygenData?.error === 'string' ? heygenData.error
+        : JSON.stringify(heygenData?.error || heygenData) || 'HeyGen API error';
+      await base44.entities.ContentProductionJob.update(job.id, {
+        status: 'failed',
+        error_message: errorMsg.slice(0, 2000),
       });
-    } catch (e) {
-      // SocialVideo entity may not have a status field — try without
-      try {
-        socialVideo = await base44.entities.SocialVideo.create({
-          title: `${topic || 'HeyGen Video'} — ${new Date().toLocaleDateString('en-AU')}`,
-          description: finalScript,
-          notes: `HeyGen video_id: ${videoData.data?.video_id}`,
-          sort_order: 0,
-        });
-      } catch (e2) {
-        // Entity might not exist — continue without saving
-      }
+
+      return Response.json({
+        status: 'error',
+        error: errorMsg,
+        heygen_response: heygenData,
+        job_id: job.id,
+      }, { status: 502 });
     }
+
+    const heygenVideoId = heygenData?.data?.video_id;
+
+    // ─── UPDATE JOB WITH HEYGEN VIDEO ID ─────────────────────────────────────
+    await base44.entities.ContentProductionJob.update(job.id, {
+      status: 'processing',
+      heygen_video_id: heygenVideoId,
+    });
 
     return Response.json({
       status: 'success',
-      video_id: videoData.data?.video_id,
-      script: finalScript,
-      social_video_id: socialVideo?.id,
-      message: 'Video generation started. You will be notified when it is ready.',
+      message: 'HeyGen video generation started. You will receive a webhook callback when it is ready.',
+      job_id: job.id,
+      heygen_video_id: heygenVideoId,
+      callback_id: finalCallbackId,
+      webhook_url: webhookUrl,
     });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });

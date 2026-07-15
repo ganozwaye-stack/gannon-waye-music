@@ -279,6 +279,7 @@ import FanReminders from '@/pages/FanReminders';
 import Gallery from '@/pages/Gallery';
 import MusicProduction from '@/pages/admin/MusicProduction';
 import ProducerDirectory from '@/pages/admin/ProducerDirectory';
+import ProductionTracker from '@/pages/admin/ProductionTracker';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -532,6 +533,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/coaching-programs" element={<CoachingPrograms />} />
         <Route path="/music-production" element={<MusicProduction />} />
         <Route path="/producer-directory" element={<ProducerDirectory />} />
+        <Route path="/admin/production-tracker" element={<ProductionTracker />} />
         <Route path="/admin/coaching-legal" element={<CoachingLegal />} />
         <Route path="/admin/coaching-content-library" element={<CoachingContentLibrary />} />
         <Route path="/admin/meditation-library" element={<CoachingMeditationLibrary />} />

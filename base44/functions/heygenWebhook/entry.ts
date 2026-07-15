@@ -2,78 +2,119 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.38';
 
 Deno.serve(async (req) => {
   try {
-    const base44 = createClientFromRequest(req);
+    const body = await req.text();
 
-    // HeyGen webhook payload structure:
-    // { event_type: "video.render.completed" | "video.render.failed", 
-    //   event_data: { video_id, video_url, ... } }
-    const payload = await req.json();
+    // ─── VERIFY AUTHENTICITY ────────────────────────────────────────────────
+    // HeyGen sends X-Api-Key header matching our API key, or a Bearer token.
+    // We verify against our stored HEYGEN_API_KEY.
+    const heygenApiKey = Deno.env.get('HEYGEN_API_KEY');
+    const incomingKey = req.headers.get('x-api-key') || '';
+    const authHeader = req.headers.get('authorization') || '';
 
-    // Verify webhook if secret is set (HeyGen sends signature in header)
-    const webhookSecret = Deno.env.get('HEYGEN_WEBHOOK_SECRET');
-    if (webhookSecret) {
-      const signature = req.headers.get('x-webhook-signature') || req.headers.get('signature');
-      // HeyGen doesn't document a specific signature verification method,
-      // but if present we compare. For now, log and proceed.
+    if (heygenApiKey && incomingKey !== heygenApiKey && !authHeader) {
+      return Response.json({ error: 'Unauthorized — missing or invalid API key' }, { status: 401 });
     }
 
+    const payload = JSON.parse(body);
     const eventType = payload.event_type;
-    const videoId = payload.event_data?.video_id;
-    const videoUrl = payload.event_data?.video_url;
+    const eventData = payload.event_data || {};
 
-    if (eventType === 'video.render.completed' && videoUrl) {
-      // Update SocialVideo record if it exists
-      try {
-        const videos = await base44.asServiceRole.entities.SocialVideo.filter({
-          notes: { $regex: videoId, $options: 'i' }
+    const base44 = createClientFromRequest(req);
+
+    // ─── HANDLE avatar_video.success ────────────────────────────────────────
+    if (eventType === 'avatar_video.success') {
+      const { video_id, url, gif_download_url, video_page_url, video_share_page_url, callback_id } = eventData;
+
+      // Find the production job by callback_id or heygen_video_id
+      const jobs = await base44.asServiceRole.entities.ContentProductionJob.filter({
+        callback_id: callback_id || video_id
+      });
+
+      if (jobs.length > 0) {
+        const job = jobs[0];
+        await base44.asServiceRole.entities.ContentProductionJob.update(job.id, {
+          status: 'completed',
+          video_url: url,
+          video_share_url: video_share_page_url,
+          heygen_video_id: video_id,
+          error_message: null,
         });
-        if (videos && videos.length > 0) {
-          for (const v of videos) {
-            await base44.asServiceRole.entities.SocialVideo.update(v.id, {
-              status: 'ready',
-              notes: `${v.notes}\n\nVideo URL: ${videoUrl}\nReady: ${new Date().toISOString()}`,
-            });
-          }
-        }
-      } catch (e) {
-        // SocialVideo entity may not exist — continue to notification
+
+        // Notify admin
+        await base44.asServiceRole.integrations.Core.SendEmail({
+          to: 'ganozwaye@gmail.com',
+          subject: 'HeyGen Video Ready: ' + (job.title || video_id),
+          body: `Your HeyGen video has been generated successfully.\n\nTitle: ${job.title}\nVideo ID: ${video_id}\nDownload URL: ${url}\nShare URL: ${video_share_page_url || 'N/A'}\n\nReview it in the Production Tracker at /admin/production-tracker.`
+        });
+
+        return Response.json({ status: 'success', message: 'Video completed and job updated.' });
       }
 
-      // Notify admin
+      // No matching job — create a notification anyway
       await base44.asServiceRole.entities.AdminNotification.create({
         notification_type: 'system',
         severity: 'info',
-        title: 'HeyGen Video Ready',
-        summary: `Video ${videoId} has finished rendering and is ready to review.`,
-        source: 'HeyGen Webhook',
-        requires_action: true,
-        linked_entity: 'SocialVideo',
+        title: 'HeyGen Video Completed',
+        summary: `Video ${video_id} completed but no matching production job was found.`,
+        source: 'heygen_webhook',
+        linked_entity: 'ContentProductionJob',
         is_read: false,
-        delivered_slack: false,
-        delivered_email: false,
       });
 
-      return Response.json({ status: 'success', message: 'Video marked as ready, admin notified.' });
+      return Response.json({ status: 'success', message: 'Video completed — no matching job found.' });
     }
 
-    if (eventType === 'video.render.failed') {
-      await base44.asServiceRole.entities.AdminNotification.create({
-        notification_type: 'system',
-        severity: 'warning',
-        title: 'HeyGen Video Failed',
-        summary: `Video ${videoId} failed to render. Check HeyGen dashboard for details.`,
-        source: 'HeyGen Webhook',
-        requires_action: true,
-        is_read: false,
-        delivered_slack: false,
-        delivered_email: false,
+    // ─── HANDLE avatar_video.fail ───────────────────────────────────────────
+    if (eventType === 'avatar_video.fail') {
+      const { video_id, callback_id, failure_message, failure } = eventData;
+      const errorMsg = failure_message || failure || 'Unknown error';
+
+      const jobs = await base44.asServiceRole.entities.ContentProductionJob.filter({
+        callback_id: callback_id || video_id
       });
 
-      return Response.json({ status: 'success', message: 'Video failure logged, admin notified.' });
+      if (jobs.length > 0) {
+        const job = jobs[0];
+        await base44.asServiceRole.entities.ContentProductionJob.update(job.id, {
+          status: 'failed',
+          error_message: errorMsg,
+          heygen_video_id: video_id,
+        });
+
+        await base44.asServiceRole.integrations.Core.SendEmail({
+          to: 'ganozwaye@gmail.com',
+          subject: 'HeyGen Video FAILED: ' + (job.title || video_id),
+          body: `Your HeyGen video generation failed.\n\nTitle: ${job.title}\nVideo ID: ${video_id}\nError: ${errorMsg}\n\nReview and retry in the Production Tracker at /admin/production-tracker.`
+        });
+      }
+
+      return Response.json({ status: 'success', message: 'Video failure processed.' });
     }
 
-    // Unknown event — acknowledge receipt
-    return Response.json({ status: 'success', message: 'Webhook received.', event_type: eventType });
+    // ─── HANDLE video_agent.success / video_agent.fail ──────────────────────
+    if (eventType === 'video_agent.success' || eventType === 'video_agent.fail') {
+      const isFail = eventType === 'video_agent.fail';
+      const { video_id, session_id, url, callback_id } = eventData;
+
+      const jobs = await base44.asServiceRole.entities.ContentProductionJob.filter({
+        callback_id: callback_id || session_id || video_id
+      });
+
+      if (jobs.length > 0) {
+        const job = jobs[0];
+        await base44.asServiceRole.entities.ContentProductionJob.update(job.id, {
+          status: isFail ? 'failed' : 'completed',
+          video_url: url || job.video_url,
+          heygen_video_id: video_id || job.heygen_video_id,
+          error_message: isFail ? 'Video Agent session failed' : null,
+        });
+      }
+
+      return Response.json({ status: 'success', message: 'Video agent event processed.' });
+    }
+
+    // Unhandled event type — acknowledge receipt
+    return Response.json({ status: 'success', message: `Event type ${eventType} acknowledged but not processed.` });
   } catch (error) {
     return Response.json({ error: error.message }, { status: 500 });
   }
