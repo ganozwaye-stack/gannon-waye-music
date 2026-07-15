@@ -1,21 +1,85 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.38';
 
+// Replay protection — reject deliveries older than 5 minutes
+const MAX_SKEW_SECONDS = 300;
+
+// In-memory dedup set for Heygen-Event-Id (survives within a single warm instance)
+const deliveredEventIds = new Set();
+
 Deno.serve(async (req) => {
   try {
-    const body = await req.text();
+    const rawBody = await req.text();
 
-    // ─── VERIFY AUTHENTICITY ────────────────────────────────────────────────
-    // HeyGen sends X-Api-Key header matching our API key, or a Bearer token.
-    // We verify against our stored HEYGEN_API_KEY.
-    const heygenApiKey = Deno.env.get('HEYGEN_API_KEY');
-    const incomingKey = req.headers.get('x-api-key') || '';
-    const authHeader = req.headers.get('authorization') || '';
+    // ─── SIGNATURE VERIFICATION (per HeyGen webhook docs) ───────────────────
+    const webhookSecret = Deno.env.get('HEYGEN_WEBHOOK_SECRET');
+    const signature = req.headers.get('heygen-signature') || '';
+    const timestamp = req.headers.get('heygen-timestamp') || '';
+    const eventId = req.headers.get('heygen-event-id') || '';
 
-    if (heygenApiKey && incomingKey !== heygenApiKey && !authHeader) {
-      return Response.json({ error: 'Unauthorized — missing or invalid API key' }, { status: 401 });
+    // If the webhook secret is configured, enforce HMAC verification
+    if (webhookSecret) {
+      if (!signature || !timestamp) {
+        return Response.json({ error: 'Missing signature headers' }, { status: 400 });
+      }
+
+      // Replay defense — reject stale timestamps
+      const now = Math.floor(Date.now() / 1000);
+      if (Math.abs(now - Number(timestamp)) > MAX_SKEW_SECONDS) {
+        return Response.json({ error: 'Stale timestamp' }, { status: 400 });
+      }
+
+      // Dedup by event ID — events can be redelivered on retry
+      if (eventId && deliveredEventIds.has(eventId)) {
+        return Response.json({ status: 'success', message: 'Duplicate event already processed.' });
+      }
+
+      // Compute HMAC-SHA256 of the raw body using the webhook secret
+      const key = await crypto.subtle.importKey(
+        'raw',
+        new TextEncoder().encode(webhookSecret),
+        { name: 'HMAC', hash: 'SHA-256' },
+        false,
+        ['sign']
+      );
+      const sigBuf = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(rawBody));
+      const expected = Array.from(new Uint8Array(sigBuf))
+        .map(b => b.toString(16).padStart(2, '0'))
+        .join('');
+
+      // Constant-time comparison
+      const sigBytes = new Uint8Array(Array.from(signature.match(/.{1,2}/g)?.map(b => parseInt(b, 16)) || []));
+      const expBytes = new Uint8Array(Array.from(expected.match(/.{1,2}/g)?.map(b => parseInt(b, 16)) || []));
+      if (sigBytes.length !== expBytes.length) {
+        return Response.json({ error: 'Bad signature' }, { status: 401 });
+      }
+      let diff = 0;
+      for (let i = 0; i < sigBytes.length; i++) {
+        diff |= sigBytes[i] ^ expBytes[i];
+      }
+      if (diff !== 0) {
+        return Response.json({ error: 'Bad signature' }, { status: 401 });
+      }
+
+      // Mark event as processed
+      if (eventId) {
+        deliveredEventIds.add(eventId);
+        // Prevent unbounded growth
+        if (deliveredEventIds.size > 1000) {
+          const first = deliveredEventIds.values().next().value;
+          if (first) deliveredEventIds.delete(first);
+        }
+      }
+    } else {
+      // Fallback: API key check (for initial setup before webhook secret is configured)
+      const heygenApiKey = Deno.env.get('HEYGEN_API_KEY');
+      const incomingKey = req.headers.get('x-api-key') || '';
+      const authHeader = req.headers.get('authorization') || '';
+      if (heygenApiKey && incomingKey !== heygenApiKey && !authHeader) {
+        return Response.json({ error: 'Unauthorized — configure HEYGEN_WEBHOOK_SECRET for secure verification' }, { status: 401 });
+      }
     }
 
-    const payload = JSON.parse(body);
+    const payload = JSON.parse(rawBody);
     const eventType = payload.event_type;
     const eventData = payload.event_data || {};
 
@@ -25,7 +89,6 @@ Deno.serve(async (req) => {
     if (eventType === 'avatar_video.success') {
       const { video_id, url, gif_download_url, video_page_url, video_share_page_url, callback_id } = eventData;
 
-      // Find the production job by callback_id or heygen_video_id
       const jobs = await base44.asServiceRole.entities.ContentProductionJob.filter({
         callback_id: callback_id || video_id
       });
@@ -40,7 +103,6 @@ Deno.serve(async (req) => {
           error_message: null,
         });
 
-        // Notify admin
         await base44.asServiceRole.integrations.Core.SendEmail({
           to: 'ganozwaye@gmail.com',
           subject: 'HeyGen Video Ready: ' + (job.title || video_id),
@@ -50,7 +112,6 @@ Deno.serve(async (req) => {
         return Response.json({ status: 'success', message: 'Video completed and job updated.' });
       }
 
-      // No matching job — create a notification anyway
       await base44.asServiceRole.entities.AdminNotification.create({
         notification_type: 'system',
         severity: 'info',
@@ -67,7 +128,9 @@ Deno.serve(async (req) => {
     // ─── HANDLE avatar_video.fail ───────────────────────────────────────────
     if (eventType === 'avatar_video.fail') {
       const { video_id, callback_id, failure_message, failure } = eventData;
-      const errorMsg = failure_message || failure || 'Unknown error';
+      const errorMsg = typeof failure_message === 'string' ? failure_message
+        : typeof failure === 'string' ? failure
+        : JSON.stringify(failure || failure_message) || 'Unknown error';
 
       const jobs = await base44.asServiceRole.entities.ContentProductionJob.filter({
         callback_id: callback_id || video_id
@@ -77,7 +140,7 @@ Deno.serve(async (req) => {
         const job = jobs[0];
         await base44.asServiceRole.entities.ContentProductionJob.update(job.id, {
           status: 'failed',
-          error_message: errorMsg,
+          error_message: errorMsg.slice(0, 2000),
           heygen_video_id: video_id,
         });
 
