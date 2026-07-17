@@ -18,12 +18,12 @@ const QUICK_LINKS = [
 ];
 
 const MONEY_ACTIONS = [
-  { label: '🔥 Import Winning Products', url: 'https://ganozmixdirect.base44.app/discover', desc: 'Find trending dropship products' },
-  { label: '🚀 Launch to eBay', url: 'https://ganozmixdirect.base44.app/products', desc: 'Publish live with one click' },
-  { label: '💰 Check Profit Report', url: 'https://ganozmixdirect.base44.app/profit-dashboard', desc: 'Real-time margin analysis' },
-  { label: '📦 Bulk Upload Products', url: 'https://ganozmixdirect.base44.app/bulk-upload', desc: 'Scale fast with bulk ops' },
-  { label: '🏆 View Top Opportunities', url: 'https://ganozmixdirect.base44.app/admin/product-rankings', desc: 'AI-scored products ready to sell' },
-  { label: '🔒 Lock Best Prices', url: 'https://ganozmixdirect.base44.app/admin/price-protection', desc: 'Protect margins automatically' },
+  { label: 'Import Winning Products', url: 'https://ganozmixdirect.base44.app/discover', desc: 'Find trending dropship products' },
+  { label: 'Review eBay Readiness', url: 'https://ganozmixdirect.base44.app/products', desc: 'OAuth and approval required before publishing' },
+  { label: 'Check Profit Report', url: 'https://ganozmixdirect.base44.app/profit-dashboard', desc: 'Margin analysis for review' },
+  { label: 'Bulk Upload Products', url: 'https://ganozmixdirect.base44.app/bulk-upload', desc: 'Prepare imports after source checks' },
+  { label: 'View Top Opportunities', url: 'https://ganozmixdirect.base44.app/admin/product-rankings', desc: 'AI-scored products still need approval' },
+  { label: 'Lock Best Prices', url: 'https://ganozmixdirect.base44.app/admin/price-protection', desc: 'Protect margins after verification' },
 ];
 
 export default function GanozMixBridge() {
@@ -50,14 +50,13 @@ export default function GanozMixBridge() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-display font-bold gradient-gold-text">GanozMix Direct</h1>
-          <p className="text-muted-foreground text-sm mt-1">Your dropship money machine — AI ecommerce operating system</p>
+          <p className="text-muted-foreground text-sm mt-1">Owner-only GanozMix Direct bridge. Marketplace publishing stays approval-gated.</p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge className="bg-green-500/10 text-green-400 border-green-500/20">eBay Connected</Badge>
+          <Badge className="bg-yellow-500/10 text-yellow-300 border-yellow-500/20">eBay reconnect required</Badge>
           <Button
             onClick={() => window.open('https://ganozmixdirect.base44.app', '_blank')}
             className="gradient-gold-button gap-2"
@@ -68,9 +67,8 @@ export default function GanozMixBridge() {
         </div>
       </div>
 
-      {/* Money Actions — primary CTAs */}
       <div>
-        <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3">💸 Make Money Now</p>
+        <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3">Priority actions</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {MONEY_ACTIONS.map(action => (
             <a
@@ -87,9 +85,8 @@ export default function GanozMixBridge() {
         </div>
       </div>
 
-      {/* Quick Nav Links */}
       <div>
-        <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3">⚡ Quick Navigation</p>
+        <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3">Quick navigation</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {QUICK_LINKS.map(link => {
             const Icon = link.icon;
@@ -109,10 +106,9 @@ export default function GanozMixBridge() {
         </div>
       </div>
 
-      {/* Live Embedded App */}
       <div>
         <div className="flex items-center justify-between mb-3">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">📺 Live View</p>
+          <p className="text-xs uppercase tracking-widest text-muted-foreground">Live view</p>
           <Button variant="outline" size="sm" onClick={() => setIframeKey(k => k + 1)} className="gap-1 text-xs">
             <RefreshCw className="w-3 h-3" /> Refresh
           </Button>
@@ -127,7 +123,7 @@ export default function GanozMixBridge() {
           />
         </div>
         <p className="text-xs text-muted-foreground mt-2 text-center">
-          Viewing ganozmixdirect.base44.app — <a href="https://ganozmixdirect.base44.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">open in new tab ↗</a>
+          Viewing ganozmixdirect.base44.app. <a href="https://ganozmixdirect.base44.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Open in new tab</a>
         </p>
       </div>
     </div>
