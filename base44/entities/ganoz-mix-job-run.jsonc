@@ -1,0 +1,72 @@
+{
+  "name": "GanozMixJobRun",
+  "type": "object",
+  "properties": {
+    "source_id": {
+      "type": "string"
+    },
+    "job_name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "running",
+        "complete",
+        "failed",
+        "dead_letter",
+        "blocked"
+      ],
+      "default": "queued"
+    },
+    "run_mode": {
+      "type": "string",
+      "enum": [
+        "read_only",
+        "draft_only",
+        "approval_required"
+      ],
+      "default": "read_only"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "finished_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "job_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

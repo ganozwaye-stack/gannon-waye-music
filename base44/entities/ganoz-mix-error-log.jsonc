@@ -1,0 +1,72 @@
+{
+  "name": "GanozMixErrorLog",
+  "type": "object",
+  "properties": {
+    "source_id": {
+      "type": "string"
+    },
+    "error_type": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "info",
+        "warning",
+        "high",
+        "critical"
+      ],
+      "default": "warning"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "safe_detail": {
+      "type": "string"
+    },
+    "contains_secret": {
+      "type": "boolean",
+      "default": false
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "reviewing",
+        "resolved",
+        "ignored",
+        "blocked"
+      ],
+      "default": "open"
+    },
+    "linked_job_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "error_type",
+    "summary"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

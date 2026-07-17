@@ -1,0 +1,88 @@
+{
+  "name": "GanozMixApprovalItem",
+  "type": "object",
+  "properties": {
+    "item_type": {
+      "type": "string",
+      "enum": [
+        "product_candidate",
+        "supplier",
+        "listing_draft",
+        "marketplace_reconnect",
+        "test_purchase",
+        "publish_request"
+      ],
+      "default": "product_candidate"
+    },
+    "title": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "linked_entity": {
+      "type": "string"
+    },
+    "linked_id": {
+      "type": "string"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected",
+        "needs_edit",
+        "blocked",
+        "archived"
+      ],
+      "default": "pending"
+    },
+    "decision_note": {
+      "type": "string"
+    },
+    "payload": {
+      "type": "object"
+    },
+    "decided_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "item_type",
+    "title"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

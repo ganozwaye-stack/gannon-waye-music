@@ -145,6 +145,79 @@ if (isLocal || token === 'mock-admin-token') {
     { id: 'i1', platform_name: 'Stripe', setup_status: 'live', credential_status: 'saved', last_checked: '2026-06-04T12:00:00Z' }
   ];
 
+  const mockGanozMixCandidates = [
+    {
+      id: 'gmx-candidate-magnetic-cable-organiser',
+      source_app_id: '69eb857abaebfe9e3df48083',
+      source_entity: 'ProductOpportunity',
+      source_id: '6a37065a616a405a3c1be0cc',
+      title: 'Magnetic Cable Organiser (Bamboo)',
+      category: 'desk organisation',
+      marketplace: 'EBAY_AU',
+      cleanup_status: 'keep',
+      approval_status: 'needs_review',
+      publish_locked: true,
+      return_risk: 'low',
+      competition_level: 'medium',
+      social_content_potential: 'medium',
+      hero_potential: 'medium',
+      notes: 'First proof product. Verify supplier URL, variants, stock, landed cost, shipping time, returns, image rights, retail price, and competition before any listing draft.'
+    },
+    {
+      id: 'gmx-candidate-fridge-bins',
+      source_app_id: '69eb857abaebfe9e3df48083',
+      source_entity: 'ProductOpportunity',
+      source_id: '6a37065a616a405a3c1be0d0',
+      title: 'Fridge Organisation Bins Set (6-piece)',
+      category: 'home organisation',
+      marketplace: 'EBAY_AU',
+      cleanup_status: 'maybe',
+      approval_status: 'needs_review',
+      publish_locked: true,
+      return_risk: 'medium',
+      competition_level: 'high',
+      social_content_potential: 'medium',
+      hero_potential: 'low'
+    },
+    {
+      id: 'gmx-candidate-travel-bottles',
+      source_app_id: '69eb857abaebfe9e3df48083',
+      source_entity: 'ProductOpportunity',
+      source_id: '6a37065a616a405a3c1be0cd',
+      title: 'Silicone Travel Bottle Set (3-pack)',
+      category: 'travel',
+      marketplace: 'EBAY_AU',
+      cleanup_status: 'maybe',
+      approval_status: 'needs_review',
+      publish_locked: true,
+      return_risk: 'medium',
+      competition_level: 'high',
+      social_content_potential: 'low',
+      hero_potential: 'low'
+    }
+  ];
+
+  const mockGanozMixStores = [
+    {
+      id: 'gmx-store-ebay-ganoz1988',
+      name: 'eBay - ganoz1988',
+      marketplace: 'EBAY_AU',
+      seller_username: 'ganoz1988',
+      connection_status: 'needs_oauth',
+      orders_enabled: false,
+      publishing_enabled: false,
+      notes: 'Source app shows eBay store, but token/OAuth state requires manual reconnect before any marketplace action.'
+    }
+  ];
+
+  const mockGanozMixJobs = [
+    { id: 'gmx-job-deadletter-summary', job_name: 'Source app job queue audit', status: 'dead_letter', run_mode: 'read_only', summary: '36 source JobQueue records were found, including dead letters. Do not resume jobs without review.' }
+  ];
+
+  const mockGanozMixErrors = [
+    { id: 'gmx-error-ebay-oauth', error_type: 'eBay OAuth', severity: 'high', summary: 'Source app error logs include invalid token type / eBay 401 failures.', safe_detail: 'Reconnect must be manual and read-only first.', contains_secret: false, status: 'open' }
+  ];
+
   const entityMockData = {
     MerchOrder: mockOrders,
     MerchProduct: mockProducts,
@@ -153,7 +226,14 @@ if (isLocal || token === 'mock-admin-token') {
     AgentActionProposal: [],
     SystemHealthIssue: [],
     ApprovalQueue: [],
-    StoreCustomer: []
+    StoreCustomer: [],
+    GanozMixProductCandidate: mockGanozMixCandidates,
+    GanozMixSupplier: [],
+    GanozMixListingDraft: [],
+    GanozMixMarketplaceStore: mockGanozMixStores,
+    GanozMixApprovalItem: [],
+    GanozMixJobRun: mockGanozMixJobs,
+    GanozMixErrorLog: mockGanozMixErrors
   };
 
   const createDummyHandler = (entityName) => {
