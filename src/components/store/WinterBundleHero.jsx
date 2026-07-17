@@ -4,32 +4,21 @@ import { ShoppingCart, Shield, Snowflake } from 'lucide-react';
 import { useCartStore } from '@/lib/cartStore';
 import { useToast } from '@/components/ui/use-toast';
 import AdminEditButton from '@/components/store/AdminEditButton';
+import { STORE_PRODUCTS } from '@/config/storeWorldConfig';
 
-// Winter Writing & Comfort Bundle — static ID
-const WINTER_BUNDLE = {
-  id: 'winter_writing_bundle',
-  name: 'Winter Writing & Comfort Bundle',
-  sale_price: 129,
-  category: 'bundle',
-  stock_quantity: 10,
-  description: 'The Winter Writing & Comfort Bundle brings together the Respect Is Earned hoodie, journal, pen, and thermos for a premium comfort set built around reflection, warmth, and self-worth.',
-  image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg',
-  images_array: [
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/146ccc6c7_5.jpg',
-  ],
-};
+const WINTER_BUNDLE = STORE_PRODUCTS.find(product => product.id === '6a2d595ef7bb7ff53258cdfd');
 
 export default function WinterBundleHero({ onViewCart }) {
   const { toast } = useToast();
   const addItem = useCartStore(state => state.addItem);
   const [added, setAdded] = React.useState(false);
+  const images = WINTER_BUNDLE?.images || [];
 
   const handleAdd = () => {
+    if (!WINTER_BUNDLE) return;
     addItem(WINTER_BUNDLE, 1, null);
     setAdded(true);
-    toast({ title: 'Winter Bundle added to cart! 🤍', description: 'No discounts apply — priced as marked.' });
+    toast({ title: 'Winter Bundle added to cart', description: 'No discounts apply - priced as marked.' });
     setTimeout(() => setAdded(false), 4000);
   };
 
@@ -39,68 +28,58 @@ export default function WinterBundleHero({ onViewCart }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       data-testid="winter-bundle-hero"
-      className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-slate-900 via-card to-slate-900 mb-12"
+      className="relative mb-12 overflow-hidden rounded-xl border border-primary/25 bg-card/40"
     >
-      {/* Ambient glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-64 h-64 bg-primary/8 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-48 h-48 bg-blue-500/5 rounded-full blur-2xl" />
-      </div>
-
-      <div className="relative z-10 flex flex-col md:flex-row gap-8 p-6 md:p-10">
-        {/* Images */}
-        <div className="flex gap-3 shrink-0 md:w-80">
-          <img
-            src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png"
-            alt="Hoodie"
-            className="w-1/2 rounded-xl object-cover aspect-square"
-          />
-          <div className="w-1/2 flex flex-col gap-3">
+      <div className="grid gap-6 p-4 md:grid-cols-[1.18fr_1fr] md:p-6 lg:p-8">
+        <div className="grid gap-3">
+          <div className="aspect-[16/10] overflow-hidden rounded-lg border border-primary/20 bg-black/35">
             <img
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg"
-              alt="Journal bundle"
-              className="w-full rounded-xl object-cover aspect-square"
+              src={images[0]}
+              alt={WINTER_BUNDLE?.name || 'Winter Writing & Comfort Bundle'}
+              className="h-full w-full object-cover"
             />
-            <img
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/146ccc6c7_5.jpg"
-              alt="Thermos"
-              className="w-full rounded-xl object-cover aspect-square"
-            />
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            {images.slice(1, 4).map((image, index) => (
+              <div key={image} className="aspect-[16/10] overflow-hidden rounded-lg border border-border/30 bg-black/30">
+                <img
+                  src={image}
+                  alt={`${WINTER_BUNDLE?.shortName || 'Winter Bundle'} view ${index + 2}`}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Content */}
-        <div className="flex flex-col justify-center gap-4 flex-1">
+        <div className="flex flex-col justify-center gap-4">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-body text-[9px] tracking-[0.2em] uppercase px-2.5 py-1 rounded-full bg-primary/15 border border-primary/30 text-primary flex items-center gap-1.5">
-              <Snowflake className="w-3 h-3" /> Feature Bundle
+            <span className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/15 px-2.5 py-1 font-body text-[9px] uppercase tracking-[0.2em] text-primary">
+              <Snowflake className="h-3 w-3" /> Feature Bundle
             </span>
-            <span className="font-body text-[9px] tracking-[0.15em] uppercase px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/25 text-red-400 flex items-center gap-1.5">
-              <Shield className="w-3 h-3" /> No further discounts apply
+            <span className="flex items-center gap-1.5 rounded-full border border-red-500/25 bg-red-500/10 px-2.5 py-1 font-body text-[9px] uppercase tracking-[0.15em] text-red-400">
+              <Shield className="h-3 w-3" /> No further discounts apply
             </span>
             <AdminEditButton href="/admin/merch" label="Edit Bundle" />
           </div>
 
           <div>
-            <h2 className="font-display text-2xl md:text-3xl text-foreground leading-tight mb-1">
-              Winter Writing &<br />Comfort Bundle
+            <h2 className="font-display text-2xl leading-tight text-foreground md:text-3xl">
+              {WINTER_BUNDLE?.name || 'Winter Writing & Comfort Bundle'}
             </h2>
-            <p className="font-display text-3xl gradient-gold-glow mt-2">$129 <span className="text-base font-body text-muted-foreground">AUD + postage</span></p>
+            <p className="mt-2 font-display text-3xl gradient-gold-glow">
+              {WINTER_BUNDLE?.price || '$119'} <span className="font-body text-base text-muted-foreground">AUD + postage</span>
+            </p>
           </div>
 
-          <p className="font-body text-sm text-muted-foreground leading-relaxed max-w-md">
-            Built for cold nights, reflection, comfort, and the lyric that started a movement. Includes the hoodie, journal, pen, and thermos flask.
+          <p className="max-w-xl font-body text-sm leading-relaxed text-muted-foreground">
+            {WINTER_BUNDLE?.description}
           </p>
 
-          <ul className="space-y-1.5">
-            {[
-              'Respect Is Earned Hoodie — Dark Grey',
-              'Thankyou Journal',
-              'Pen',
-              'Thermos Flask',
-            ].map(item => (
+          <ul className="grid gap-1.5 sm:grid-cols-2">
+            {(WINTER_BUNDLE?.includes || []).map(item => (
               <li key={item} className="flex items-center gap-2 font-body text-xs text-muted-foreground">
-                <span className="w-1 h-1 rounded-full bg-primary shrink-0" />
+                <span className="h-1 w-1 shrink-0 rounded-full bg-primary" />
                 {item}
               </li>
             ))}
@@ -110,31 +89,34 @@ export default function WinterBundleHero({ onViewCart }) {
             {added ? (
               <>
                 <button
+                  type="button"
                   onClick={() => onViewCart?.()}
-                  className="gradient-gold-button rounded-full px-6 py-2.5 font-body text-sm tracking-wider uppercase"
+                  className="rounded-full px-6 py-2.5 font-body text-sm uppercase tracking-wider gradient-gold-button"
                 >
                   View Cart
                 </button>
                 <button
+                  type="button"
                   onClick={() => setAdded(false)}
-                  className="border border-border/40 rounded-full px-5 py-2.5 font-body text-xs text-muted-foreground"
+                  className="rounded-full border border-border/40 px-5 py-2.5 font-body text-xs text-muted-foreground"
                 >
                   Continue Shopping
                 </button>
               </>
             ) : (
               <button
+                type="button"
                 data-testid="winter-bundle-add-to-cart"
                 onClick={handleAdd}
-                className="gradient-gold-button rounded-full px-8 py-2.5 font-body text-sm tracking-wider uppercase flex items-center gap-2"
+                className="flex items-center gap-2 rounded-full px-8 py-2.5 font-body text-sm uppercase tracking-wider gradient-gold-button"
               >
-                <ShoppingCart className="w-4 h-4" /> Add Winter Bundle to Cart
+                <ShoppingCart className="h-4 w-4" /> Add Winter Bundle to Cart
               </button>
             )}
           </div>
 
           <p className="font-body text-[10px] text-muted-foreground/50">
-            Promo codes do not apply to this bundle. Price is as marked.
+            Base44 stock: {WINTER_BUNDLE?.stock_quantity ?? 0} available. Promo codes do not apply to this bundle.
           </p>
         </div>
       </div>

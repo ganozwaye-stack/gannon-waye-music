@@ -1,5 +1,6 @@
 import { createClient } from '@base44/sdk';
 import { appParams } from '@/lib/app-params';
+import { STORE_PRODUCTS, toMerchProduct } from '@/config/storeWorldConfig';
 
 const { appId, token, functionsVersion, appBaseUrl } = appParams;
 
@@ -66,7 +67,7 @@ if (isLocal || token === 'mock-admin-token') {
     { id: 'o4', customer_name: 'Bob Wilson', customer_email: 'bob@example.com', total_amount: 75.00, status: 'pending', financial_status: 'pending', created_date: '2026-06-04T12:00:00Z', items: [{ product_id: 'p3', product_name: 'CD', price: 75.00, quantity: 1 }] }
   ];
 
-  const mockProducts = [
+  const legacyMockProducts = [
     {
       id: '69f11d1fc43e13c61fe6b9d6',
       name: '"Thank You" CD Single Slim Case',
@@ -130,6 +131,10 @@ if (isLocal || token === 'mock-admin-token') {
       is_active: true
     }
   ];
+
+  const mockProducts = STORE_PRODUCTS.length > 0
+    ? STORE_PRODUCTS.filter(product => product.is_active).map(toMerchProduct)
+    : legacyMockProducts;
 
   const mockNotifications = [
     { id: 'n1', notification_type: 'order', severity: 'info', title: 'New order #o2', summary: 'Jane Smith placed a new order for Tee', source: 'Stripe Webhook', requires_action: false, is_read: false, created_date: '2026-06-02T12:05:00Z' },

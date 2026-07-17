@@ -6,6 +6,12 @@ import pluginUnusedImports from "eslint-plugin-unused-imports";
 
 export default [
   {
+    ignores: [
+      "src/gannonwaye-playwright-pack/playwright-report/**",
+      "src/gannonwaye-playwright-pack/test-results/**",
+    ],
+  },
+  {
     files: [
       "src/components/**/*.{js,mjs,cjs,jsx}",
       "src/pages/**/*.{js,mjs,cjs,jsx}",
