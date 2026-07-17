@@ -11,6 +11,9 @@ Scope: safe overnight work only. No marketplace reconnect, no publishing, no pai
 - Added local mock GanozMix data so the admin page can render in development without pushing live schema changes first.
 - Rebuilt `/admin/ganozmix` as a review-mode dashboard instead of a direct "go sell now" bridge.
 - Updated the public GanozMix case study so it presents the system as an approval-first rebuild, not a live marketplace automation.
+- Exported sanitized source cleanup snapshots:
+  - `docs/ganozmix-source-cleanup-snapshot-2026-07-18.json`
+  - `docs/ganozmix-source-cleanup-snapshot-2026-07-18.csv`
 
 ## Source App Audit Snapshot
 
@@ -23,6 +26,16 @@ Scope: safe overnight work only. No marketplace reconnect, no publishing, no pai
 - Marketplace store found: eBay seller `ganoz1988`
 - Job records found: 36, including dead letters
 - Error logs found: 10, including eBay OAuth/token failures
+
+## Cleanup Snapshot Counts
+
+- Total product/opportunity review rows: 50
+- `keep`: 4
+- `maybe`: 25
+- `gwm_merch`: 3
+- `delete_later`: 18
+- Job statuses: 27 `DEAD_LETTER`, 9 `COMPLETED`
+- Error details were not exported raw, to avoid storing possible OAuth/token fragments.
 
 ## Safe Verdict
 
