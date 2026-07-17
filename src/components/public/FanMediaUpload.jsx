@@ -24,8 +24,8 @@ export default function FanMediaUpload() {
   };
 
   return (
-    <section className="py-16 md:py-24 px-4 md:px-6">
-      <div className="max-w-xl mx-auto text-center">
+    <section className="py-12 md:py-10 md:py-12 px-4 md:px-6">
+      <div className="max-w-xl mx-auto text-left">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -42,7 +42,7 @@ export default function FanMediaUpload() {
           {done ? (
             <div className="flex flex-col items-center gap-3">
               <CheckCircle2 className="w-10 h-10 text-primary" />
-              <p className="font-body text-sm text-foreground">Thanks for sharing! 🤍</p>
+              <p className="font-body text-sm text-foreground">Thanks for sharing!</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-3 text-left">

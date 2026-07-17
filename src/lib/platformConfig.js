@@ -75,9 +75,10 @@ export const CAMPAIGN_CONFIG = {
     VALID_DAYS: 14,
   },
   LAUNCH_PROMO: {
-    CODE: 'LAUNCH15',
-    DISCOUNT_PERCENT: 15,
-    MAX_USES: 20,
+    ENABLED: false,
+    CODE: null,
+    DISCOUNT_PERCENT: 0,
+    MAX_USES: 0,
   },
 };
 

@@ -2,28 +2,27 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SingleCoverPlaque from '@/components/mum/SingleCoverPlaque';
 
-const FULL_LYRICS = `Without You Here — Gannon Waye
-Written: Mother's Day, 10 May 2026 @ 12:30am
+const FULL_LYRICS = `Without You Here
 
-VERSE 1
+Verse 1
 You sent someone to be there when you called
-because you didn't want me to be alone.
-You said, "My boy… I don't think I've got long"
+because You didn't want me to be alone.
+You said, "My boy... I don't think I've got long"
 I'm thinking this must all be wrong.
-Stage four, you said — I dropped everything,
-I flew back and I saw you in pain.
-Hard to look into your eyes.
+Stage four, you said I dropped everything,
+Flew back and I saw you in pain.
+Hard to look into your eyes
 This pain I can't disguise.
 Never thought that I'd lose you,
-it was only twenty days.
+It was only twenty days.
 Mumma, I can't do this without you,
-it's not the way that I had planned.
+It's not the way that I had planned.
 
-CHORUS
+Chorus
 I don't wanna live this life without you here
 I never thought the world could feel this wrong
 Cause you were the voice
-that made my troubles disappear
+To make my troubles disappear
 And now there's silence
 where your wisdom used to be
 I've been up thinking about how I'm alone
@@ -31,10 +30,10 @@ Thinking about how you're not here anymore
 You were my best friend
 How am I supposed to do this without you here?
 
-VERSE 2
+Verse 2
 There's a wisdom that I'm missing now
 without your voice inside my ear.
-Sometimes I still go to call you
+Sometimes I still try to call you
 before remembering you're not here.
 And it's hard to picture life
 without your eyes looking back at me.
@@ -45,14 +44,14 @@ but honestly, your absence just gets louder
 And some nights I still break down
 trying to undo the ending.
 
-PRE-CHORUS
+Pre-chorus
 Now I can't breathe in this living hell
 you protected me, I could tell
 Thanks for your apology
-now go and you'll be free but —
+now go and you'll be free cause
 
-CHORUS
-I don't wanna live this life without you here
+Chorus
+I don't wanna live this life without my mama
 I never thought the world could feel this wrong
 Cause you were the voice
 that made my troubles disappear
@@ -63,43 +62,44 @@ Thinking about how you're not here anymore
 You were my best friend
 How am I supposed to do this without you here?
 
-BRIDGE
+Bridge
 Two seconds without you feels too long.
 Some days I still wanna disappear.
 But I know you'd hate to hear me say that
 because even while dying,
-you were still trying to help me heal.
-And maybe that's the hardest part of losing you —
-even while leaving, you were still loving me.
-Your last breath took mine away.
+you were still trying to keep me here.
+And maybe that's the hardest part of losing you
+Even while leaving. you were still loving me.
+Your last breath took mine away
 There's not much more I have to say.
 
-FINAL CHORUS
-I don't wanna live this life without my mama
+Final Chorus
+I don't wanna live this life without my mum
 But somehow I know I have to
 Cause every part of me that survives this,
 will survive because of you.
-Your voice, your heart,
-the way you loved us
+Your voice, your heart
+the way you loved me
 Still lives inside of me.
 I've been up thinking about how I'm alone
 Thinking about how you're not here anymore
 But I still hear you say
-"Boy… you're not finished yet"
+"Boy... you're not finished yet"
 
-OUTRO
+Outro
 I miss you so much
 That's why I wrote this song right here
 You didn't want me alone
 So I'll learn how to live
 carrying your love with me
 
-Written by Gannon Waye · Mother's Day · 10 May 2026 @ 12:30am
-© Gannon Waye · All rights reserved`;
+Written by: Gannon Waye
+Mothers Day
+10 May 2026 @ 12:30am
 
-// Lyrics hidden until release — gift reveal mechanic
+Copyright Gannon Waye. All rights reserved.`;
+
 export default function MumSongSection() {
-  const [showLyrics, setShowLyrics] = useState(false);
   const [giftOpen, setGiftOpen] = useState(false);
 
   return (
@@ -114,11 +114,10 @@ export default function MumSongSection() {
         <p className="font-body text-[9px] tracking-[0.6em] uppercase text-primary/40 mb-3">The Song</p>
         <h2 className="font-display text-4xl md:text-5xl text-foreground mb-2">Without You Here</h2>
         <p className="font-body text-xs text-muted-foreground/40 tracking-wider mb-8">
-          Written in the loungeroom, in the early hours of Mother's Day, 10 May 2026.
+          Written in the loungeroom, in the early hours of Mothers Day, 10 May 2026.
         </p>
       </motion.div>
 
-      {/* Single artwork — featured prominently */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -137,7 +136,7 @@ export default function MumSongSection() {
         className="font-body text-base text-foreground/65 leading-relaxed space-y-4 mb-10 gsap-reveal"
       >
         <p>
-          "Without You Here" was written in the loungeroom, in the early hours of Mother's Day, four years after losing my mum.
+          "Without You Here" was written in the loungeroom, in the early hours of Mothers Day, four years after losing my mum.
         </p>
         <p>
           It came from grief, longing, memory, and the unbearable reality of learning how to keep living after losing the person who grounded so much of my world.
@@ -147,7 +146,6 @@ export default function MumSongSection() {
         </p>
       </motion.div>
 
-      {/* Primary lyric hook */}
       <motion.div
         initial={{ opacity: 0, y: 14 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -156,12 +154,11 @@ export default function MumSongSection() {
         className="border-l-2 border-primary/30 pl-6 mb-8 gsap-reveal"
       >
         <p className="font-display text-2xl md:text-3xl italic text-foreground/80 leading-relaxed">
-          "Your last breath took mine away,<br />
-          there's not much more I have to say."
+          "Your last breath took mine away.<br />
+          There's not much more I have to say."
         </p>
       </motion.div>
 
-      {/* Secondary lyric */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -170,12 +167,11 @@ export default function MumSongSection() {
         className="border-l-2 border-border/20 pl-6 mb-10"
       >
         <p className="font-display text-lg italic text-foreground/50 leading-relaxed">
-          "I don't wanna live this life without my mama,<br />
+          "I don't wanna live this life without my mum,<br />
           but somehow I know I have to."
         </p>
       </motion.div>
 
-      {/* Gift-wrapped full lyrics — hidden until release */}
       <AnimatePresence mode="wait">
         {!giftOpen ? (
           <motion.div
@@ -186,7 +182,7 @@ export default function MumSongSection() {
             className="flex flex-col items-start gap-3 mb-4"
           >
             <p className="font-body text-[9px] tracking-[0.4em] uppercase" style={{ color: 'rgba(212,175,55,0.28)' }}>
-              Full lyrics · Releasing soon
+              Full lyrics - Releasing 31 July 2026
             </p>
             <motion.button
               onClick={() => setGiftOpen(true)}
@@ -195,8 +191,7 @@ export default function MumSongSection() {
               className="flex items-center gap-3 font-body text-xs tracking-widest uppercase px-6 py-3 rounded-full transition-all"
               style={{ border: '1px solid rgba(212,175,55,0.25)', color: 'rgba(212,175,55,0.65)' }}
             >
-              <span style={{ fontSize: '1.2rem' }}>🎁</span>
-              Unwrap the full song — coming with the release
+              Unwrap the full lyrics preview
             </motion.button>
           </motion.div>
         ) : (
@@ -210,18 +205,17 @@ export default function MumSongSection() {
           >
             <div className="rounded-2xl p-8 mt-2" style={{ background: 'rgba(8,14,8,0.72)', border: '1px solid rgba(212,175,55,0.12)' }}>
               <div className="flex items-center gap-2 mb-4">
-                <span style={{ fontSize: '1.2rem' }}>🎁</span>
-                <p className="font-body text-[9px] tracking-[0.4em] uppercase" style={{ color: 'rgba(212,175,55,0.28)' }}>Full lyrics preview · © Gannon Waye 2026</p>
+                <p className="font-body text-[9px] tracking-[0.4em] uppercase" style={{ color: 'rgba(212,175,55,0.28)' }}>Full lyrics preview - Copyright Gannon Waye 2026</p>
               </div>
               <pre className="font-display text-base italic text-foreground/65 leading-loose whitespace-pre-wrap">
                 {FULL_LYRICS}
               </pre>
               <p className="font-body text-[9px] tracking-[0.3em] uppercase mt-4" style={{ color: 'rgba(212,175,55,0.18)' }}>
-                Full song releasing soon · All rights reserved
+                Full song releasing 31 July 2026 - All rights reserved
               </p>
             </div>
             <button onClick={() => setGiftOpen(false)} className="mt-3 font-body text-[9px] tracking-[0.3em] uppercase" style={{ color: 'rgba(212,175,55,0.28)' }}>
-              Close ✕
+              Close
             </button>
           </motion.div>
         )}

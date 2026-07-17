@@ -368,6 +368,7 @@ const AuthenticatedApp = () => {
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
         <Route path="/store" element={<StoreWorld />} />
+        <Route path="/store-world" element={<Navigate to="/store" replace />} />
         <Route path="/store/all" element={<Store />} />
         <Route path="/store/cart" element={<StoreCartPage />} />
         <Route path="/store/customer-details" element={<StoreCustomerDetails />} />
@@ -377,6 +378,7 @@ const AuthenticatedApp = () => {
         <Route path="/email-preferences" element={<EmailPreferences />} />
         <Route path="/orders" element={<OrderHistory />} />
         <Route path="/back-this" element={<BackThis />} />
+        <Route path="/community" element={<Community />} />
         <Route path="/summary" element={<Summary />} />
         <Route path="/contact" element={<ContactGannon />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -391,6 +393,9 @@ const AuthenticatedApp = () => {
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/upcoming-music" element={<UpcomingMusic />} />
         <Route path="/remember-mum" element={<RememberMum />} />
+        <Route path="/mum" element={<MumTribute />} />
+        <Route path="/without-you-here" element={<MumTribute />} />
+        <Route path="/mums-garden" element={<MumsGarden />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/presave" element={<PreSave />} />

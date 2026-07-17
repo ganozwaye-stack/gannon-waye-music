@@ -58,11 +58,11 @@ export default function ThankYouHeroBanner() {
 
             <h2 className="font-display text-4xl md:text-6xl text-foreground italic mb-2">Thank You</h2>
             <p className="font-body text-sm text-foreground/50 mb-6 max-w-md">
-              A powerful expression of gratitude born from tragic heartbreak—where the rose-colored glasses fell away and the hard truths became clear.
+              A powerful expression of gratitude born from tragic heartbreak - where the rose-colored glasses fell away and the hard truths became clear.
             </p>
 
             <div className="space-y-4">
-              <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Out Now · Stream on all leading platforms</p>
+              <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">Out Now - Stream on all leading platforms</p>
               <Link to="/music" className="inline-block mt-3">
                 <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase px-7 gradient-gold-button border-0">
                   Listen Now <ArrowRight className="w-4 h-4" />

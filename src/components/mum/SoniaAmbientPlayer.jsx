@@ -23,6 +23,9 @@ const TRACKS = [
   },
 ];
 
+const WITHOUT_YOU_HERE_CLIP_START_SECONDS = 3 * 60 + 46;
+const WITHOUT_YOU_HERE_CLIP_END_SECONDS = 4 * 60 + 30;
+
 function fmt(s) {
   if (!s || isNaN(s)) return '0:00';
   return `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -176,6 +179,168 @@ function TrackPlayer({ track, isAmbient }) {
   );
 }
 
+function WithoutYouHereClipPlayer() {
+  const audioRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [current, setCurrent] = useState(WITHOUT_YOU_HERE_CLIP_START_SECONDS);
+  const [muted, setMuted] = useState(false);
+  const clipDuration = WITHOUT_YOU_HERE_CLIP_END_SECONDS - WITHOUT_YOU_HERE_CLIP_START_SECONDS;
+  const progress = Math.max(
+    0,
+    Math.min(100, ((current - WITHOUT_YOU_HERE_CLIP_START_SECONDS) / clipDuration) * 100)
+  );
+
+  const cueClipStart = (audio) => {
+    if (audio.duration > WITHOUT_YOU_HERE_CLIP_START_SECONDS) {
+      audio.currentTime = WITHOUT_YOU_HERE_CLIP_START_SECONDS;
+      setCurrent(WITHOUT_YOU_HERE_CLIP_START_SECONDS);
+    }
+  };
+
+  const toggle = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (playing) {
+      audio.pause();
+      setPlaying(false);
+      return;
+    }
+
+    if (
+      audio.currentTime < WITHOUT_YOU_HERE_CLIP_START_SECONDS ||
+      audio.currentTime >= WITHOUT_YOU_HERE_CLIP_END_SECONDS
+    ) {
+      audio.currentTime = WITHOUT_YOU_HERE_CLIP_START_SECONDS;
+    }
+
+    audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+  };
+
+  const seek = (e) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    audio.currentTime = WITHOUT_YOU_HERE_CLIP_START_SECONDS + pct * clipDuration;
+    setCurrent(audio.currentTime);
+  };
+
+  const toggleMute = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.muted = !muted;
+    setMuted(!muted);
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleLoadedMetadata = () => cueClipStart(audio);
+    const handleTimeUpdate = () => {
+      setCurrent(audio.currentTime);
+      if (audio.currentTime >= WITHOUT_YOU_HERE_CLIP_END_SECONDS) {
+        audio.pause();
+        audio.currentTime = WITHOUT_YOU_HERE_CLIP_START_SECONDS;
+        setCurrent(WITHOUT_YOU_HERE_CLIP_START_SECONDS);
+        setPlaying(false);
+      }
+    };
+    const handleEnded = () => {
+      audio.currentTime = WITHOUT_YOU_HERE_CLIP_START_SECONDS;
+      setCurrent(WITHOUT_YOU_HERE_CLIP_START_SECONDS);
+      setPlaying(false);
+    };
+
+    audio.volume = 0.85;
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, []);
+
+  return (
+    <div
+      className="mx-auto mb-5 max-w-md rounded-2xl p-4 text-left"
+      style={{
+        background: 'rgba(8,12,7,0.78)',
+        border: '1px solid rgba(212,175,55,0.24)',
+        boxShadow: '0 0 36px rgba(212,175,55,0.10)',
+        backdropFilter: 'blur(18px)',
+      }}
+    >
+      <p className="font-body text-[8px] tracking-[0.35em] uppercase mb-4 text-center" style={{ color: 'rgba(212,175,55,0.35)' }}>
+        Internal preview - 3:46 to 4:30
+      </p>
+
+      <div className="flex items-center gap-4">
+        <button
+          onClick={toggle}
+          aria-label={playing ? 'Pause Without You Here preview' : 'Play Without You Here preview from 3:46 to 4:30'}
+          className="flex h-[52px] w-[52px] min-h-[52px] min-w-[52px] items-center justify-center rounded-full transition-transform hover:scale-105 active:scale-95"
+          style={{
+            background: 'linear-gradient(135deg, #c9a84c 0%, #f5d06e 100%)',
+            boxShadow: playing ? '0 0 30px rgba(245,208,110,0.52)' : '0 0 14px rgba(212,175,55,0.25)',
+          }}
+        >
+          {playing ? <Pause className="h-5 w-5 text-black" /> : <Play className="ml-0.5 h-5 w-5 text-black" />}
+        </button>
+
+        <div className="min-w-0 flex-1">
+          <p className="font-display text-lg italic text-foreground/85 leading-tight">Without You Here</p>
+          <p className="font-body text-[10px] tracking-[0.22em] uppercase mt-1 mb-3" style={{ color: 'rgba(212,175,55,0.42)' }}>
+            bridge preview
+          </p>
+          <button
+            type="button"
+            onClick={seek}
+            className="h-2 w-full overflow-hidden rounded-full text-left"
+            style={{ background: 'rgba(212,175,55,0.12)' }}
+            aria-label="Seek Without You Here preview clip"
+          >
+            <span
+              className="block h-full rounded-full transition-all"
+              style={{
+                width: `${progress}%`,
+                background: 'linear-gradient(90deg, #c9a84c, #f5d06e)',
+                boxShadow: playing ? '0 0 10px rgba(245,208,110,0.55)' : 'none',
+              }}
+            />
+          </button>
+          <div className="mt-2 flex justify-between font-body text-[9px]" style={{ color: 'rgba(212,175,55,0.32)' }}>
+            <span>{fmt(current)}</span>
+            <span>{fmt(WITHOUT_YOU_HERE_CLIP_END_SECONDS)}</span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={toggleMute}
+          aria-label={muted ? 'Unmute Without You Here preview' : 'Mute Without You Here preview'}
+          className="shrink-0 opacity-45 transition-opacity hover:opacity-80"
+        >
+          {muted
+            ? <VolumeX className="h-4 w-4" style={{ color: 'rgba(212,175,55,0.70)' }} />
+            : <Volume2 className="h-4 w-4" style={{ color: 'rgba(212,175,55,0.70)' }} />
+          }
+        </button>
+      </div>
+
+      <audio
+        ref={audioRef}
+        src={`${WITHOUT_YOU_HERE_FULL_AUDIO_URL}#t=${WITHOUT_YOU_HERE_CLIP_START_SECONDS},${WITHOUT_YOU_HERE_CLIP_END_SECONDS}`}
+        preload="metadata"
+      />
+    </div>
+  );
+}
+
 export default function SoniaAmbientPlayer() {
   return (
     <motion.div
@@ -232,25 +397,7 @@ export default function SoniaAmbientPlayer() {
         <p className="font-body text-xs mb-4" style={{ color: 'rgba(212,175,55,0.30)' }}>
           Gannon Waye — Original Song
         </p>
-        <div
-          className="mx-auto mb-5 max-w-md rounded-2xl p-4"
-          style={{
-            background: 'rgba(8,12,7,0.72)',
-            border: '1px solid rgba(212,175,55,0.18)',
-            backdropFilter: 'blur(18px)',
-          }}
-        >
-          <p className="font-body text-[8px] tracking-[0.35em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.32)' }}>
-            Full studio master
-          </p>
-          <audio
-            src={WITHOUT_YOU_HERE_FULL_AUDIO_URL}
-            controls
-            preload="metadata"
-            className="w-full"
-            aria-label="Play Without You Here by Gannon Waye"
-          />
-        </div>
+        <WithoutYouHereClipPlayer />
         <a
           href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz"
           target="_blank"

@@ -9,7 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { format } from 'date-fns';
 
 const STATUS_COLORS = {
-  pending: 'bg-yellow-500/20 text-yellow-400',
+  pending: 'bg-primary/15 text-primary',
   confirmed: 'bg-primary/20 text-primary',
   shipped: 'bg-blue-500/20 text-blue-400',
   delivered: 'bg-green-500/20 text-green-400',

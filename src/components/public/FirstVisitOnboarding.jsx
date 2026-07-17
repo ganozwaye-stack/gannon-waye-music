@@ -12,7 +12,7 @@ const PATHS = [
     desc: 'Stream the latest singles, explore the discography, and feel every lyric.',
     cta: 'Enter the Sound',
     route: '/music',
-    accent: 'from-amber-500/20 to-transparent',
+    accent: 'from-primary/15 to-transparent',
   },
   {
     icon: Users,

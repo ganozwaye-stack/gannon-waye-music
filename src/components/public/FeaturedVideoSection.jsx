@@ -30,13 +30,13 @@ export default function FeaturedVideoSection() {
   }
 
   return (
-    <section className="py-16 md:py-24 px-4 md:px-6 bg-secondary/20">
+    <section className="py-12 md:py-10 md:py-12 px-4 md:px-6 bg-secondary/20">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-10"
+          className="text-left mb-8"
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Official Video</p>
           <h2 className="font-display text-3xl md:text-5xl text-foreground">{featured.title || 'Thank You'}</h2>

@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 export default function ThankYouProjectCTA({ variant = 'banner', context = '' }) {
   if (variant === 'compact') {
     return (
-      <div className="bg-primary/5 border border-primary/20 rounded-xl p-5 text-center">
+      <div className="bg-card/50 border border-border/40 rounded-xl p-5 text-left">
         <p className="font-body text-xs text-foreground/70 mb-3">
           {context || 'Support the Thank You Project — help fund more music and healing.'}
         </p>
@@ -19,7 +19,7 @@ export default function ThankYouProjectCTA({ variant = 'banner', context = '' })
             </Button>
           </Link>
           <Link to="/community">
-            <Button size="sm" variant="outline" className="rounded-full font-body text-xs tracking-wider uppercase gap-1.5 border-primary/30 text-primary">
+            <Button size="sm" variant="outline" className="rounded-full font-body text-xs tracking-wider uppercase gap-1.5 border-foreground/20 text-foreground/80">
               <Users className="w-3 h-3" /> Join Community
             </Button>
           </Link>
@@ -44,10 +44,10 @@ export default function ThankYouProjectCTA({ variant = 'banner', context = '' })
         background: 'radial-gradient(ellipse at 50% 0%, rgba(245,208,110,0.08) 0%, transparent 60%)',
       }} />
 
-      <div className="relative z-10 text-center max-w-2xl mx-auto">
+      <div className="relative z-10 text-left max-w-3xl">
         <div className="flex items-center justify-center gap-2 mb-4">
-          <Sparkles className="w-4 h-4 text-primary/60" />
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary/60">The Thank You Project</p>
+          <Sparkles className="w-4 h-4 text-muted-foreground" />
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow">The Thank You Project</p>
         </div>
 
         <h2 className="font-display text-3xl md:text-4xl text-foreground mb-4">
@@ -61,28 +61,28 @@ export default function ThankYouProjectCTA({ variant = 'banner', context = '' })
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
           <Link to="/back-this" className="block">
             <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center hover:border-primary/30 transition-all">
-              <Heart className="w-5 h-5 text-primary/60 mx-auto mb-2" />
+              <Heart className="w-5 h-5 text-muted-foreground mx-auto mb-2" />
               <p className="font-body text-xs font-semibold text-foreground">Donate</p>
               <p className="font-body text-[10px] text-muted-foreground mt-0.5">From $5</p>
             </div>
           </Link>
           <Link to="/community" className="block">
             <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center hover:border-primary/30 transition-all">
-              <Users className="w-5 h-5 text-primary/60 mx-auto mb-2" />
+              <Users className="w-5 h-5 text-muted-foreground mx-auto mb-2" />
               <p className="font-body text-xs font-semibold text-foreground">Join</p>
               <p className="font-body text-[10px] text-muted-foreground mt-0.5">Free</p>
             </div>
           </Link>
           <Link to="/store" className="block">
             <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center hover:border-primary/30 transition-all">
-              <ShoppingBag className="w-5 h-5 text-primary/60 mx-auto mb-2" />
+              <ShoppingBag className="w-5 h-5 text-muted-foreground mx-auto mb-2" />
               <p className="font-body text-xs font-semibold text-foreground">Shop</p>
               <p className="font-body text-[10px] text-muted-foreground mt-0.5">Merch</p>
             </div>
           </Link>
           <a href="https://www.instagram.com/gannonwaye" target="_blank" rel="noopener noreferrer" className="block">
             <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center hover:border-primary/30 transition-all">
-              <Share2 className="w-5 h-5 text-primary/60 mx-auto mb-2" />
+              <Share2 className="w-5 h-5 text-muted-foreground mx-auto mb-2" />
               <p className="font-body text-xs font-semibold text-foreground">Follow</p>
               <p className="font-body text-[10px] text-muted-foreground mt-0.5">Socials</p>
             </div>
@@ -96,7 +96,7 @@ export default function ThankYouProjectCTA({ variant = 'banner', context = '' })
             </Button>
           </Link>
           <Link to="/music">
-            <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase gap-2 border-primary/30 text-primary">
+            <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase gap-2 border-foreground/20 text-foreground/80">
               <Music className="w-4 h-4" /> Listen to Music
             </Button>
           </Link>

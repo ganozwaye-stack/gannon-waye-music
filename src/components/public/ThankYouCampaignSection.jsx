@@ -6,7 +6,7 @@ const IMAGE_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f7
 
 export default function ThankYouCampaignSection() {
   return (
-    <section className="relative py-16 md:py-24 px-4 md:px-8 overflow-hidden">
+    <section className="relative py-12 md:py-16 px-4 md:px-8 overflow-hidden">
       {/* Subtle background glow */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
 
@@ -44,22 +44,22 @@ export default function ThankYouCampaignSection() {
             className="space-y-6"
           >
             <div>
-              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3">Thank You · Debut Single · June 5, 2026</p>
+              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3">Thank You - Debut Single - June 5, 2026</p>
               <h2 className="font-display text-3xl md:text-4xl text-foreground leading-tight">
                 More than a song.
               </h2>
-              <p className="font-display text-xl md:text-2xl gradient-gold-text italic mt-1">
+              <p className="font-display text-xl md:text-2xl text-muted-foreground italic mt-1">
                 A thank-you to everyone who chooses to heal.
               </p>
             </div>
 
             <p className="font-body text-sm text-foreground/70 leading-relaxed">
-              "Thank You" is for everyone who chose healing, growth, freedom, and gratitude — even when it was hard.
+              "Thank You" is for everyone who chose healing, growth, freedom, and gratitude - even when it was hard.
               This is Gannon's debut single and it carries a message for the people who needed to hear it most.
             </p>
 
             <div className="space-y-2.5">
-              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Be part of this</p>
+              <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow">Be part of this</p>
               <div className="flex flex-wrap gap-3">
                 <Link to="/back-this">
                   <button className="flex items-center gap-2 px-5 py-2.5 rounded-full gradient-gold-button font-body text-xs tracking-wider uppercase">
@@ -67,7 +67,7 @@ export default function ThankYouCampaignSection() {
                   </button>
                 </Link>
                 <Link to="/music">
-                  <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-primary/40 text-primary hover:bg-primary/10 transition-all font-body text-xs tracking-wider uppercase">
+                  <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-foreground/20 text-foreground/80 hover:bg-primary/10 transition-all font-body text-xs tracking-wider uppercase">
                     <Music className="w-3.5 h-3.5" /> Stream Thank You
                   </button>
                 </Link>
@@ -86,7 +86,7 @@ export default function ThankYouCampaignSection() {
 
             {/* Spotify player — play Thank You live */}
             <div className="pt-2">
-              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">▶ Play Thank You now</p>
+              <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow mb-2">Play Thank You now</p>
               <iframe
                 style={{ borderRadius: '12px' }}
                 src="https://open.spotify.com/embed/album/36qMYfzzJrq2j039l9Ex66?utm_source=generator&theme=0"
@@ -102,7 +102,7 @@ export default function ThankYouCampaignSection() {
             {/* Values strip */}
             <div className="flex flex-wrap gap-2 pt-2">
               {['Healing', 'Growth', 'Freedom', 'Gratitude'].map(v => (
-                <span key={v} className="font-body text-[10px] tracking-[0.2em] uppercase px-3 py-1 border border-primary/20 rounded-full text-primary/80">
+                <span key={v} className="font-body text-[10px] tracking-[0.2em] uppercase px-3 py-1 border border-border/40 rounded-full text-muted-foreground">
                   {v}
                 </span>
               ))}

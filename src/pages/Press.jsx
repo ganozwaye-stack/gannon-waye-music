@@ -9,7 +9,7 @@ const APPROVED_EMAIL = 'gannonwayemusic@gmail.com';
 
 const BIO = `Gannon Waye is a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to him. It's the language he uses to understand people, emotion, and the parts of life that don't always have words.
 
-His debut single "Thank You" marks the beginning of a deeply personal catalog. His upcoming single "Without You Here," releasing July 23, 2026, is a raw acoustic letter to his late mother, written on Mother's Day and produced by Will Henderson.
+His debut single "Thank You" marks the beginning of a deeply personal catalog. His upcoming single "Without You Here," releasing July 31, 2026, is a raw acoustic letter to his late mother, written on Mother's Day and produced by Will Henderson.
 
 Gannon's work explores self-worth, boundaries, grief, and the courage to choose yourself. This is more than music. This is choosing yourself.`;
 
@@ -76,7 +76,7 @@ export default function Press() {
           <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow">Current Release Pitch</p>
         </div>
         <h2 className="font-display text-2xl md:text-3xl text-foreground mb-2">Without You Here</h2>
-        <p className="font-body text-xs text-muted-foreground mb-6">Single · Release date: July 23, 2026 · Produced by Will Henderson</p>
+        <p className="font-body text-xs text-muted-foreground mb-6">Single · Release date: July 31, 2026 · Produced by Will Henderson</p>
 
         <div className="space-y-5">
           <div>

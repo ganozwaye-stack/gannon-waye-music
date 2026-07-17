@@ -7,6 +7,7 @@ const AUDIO_URL = THANKYOU_FULL_AUDIO_URL;
 const AUDIO_SRC = `${AUDIO_URL}#t=${THANKYOU_HOME_PLAYER_START_SECONDS}`;
 const VOLUME = 0.18;
 const PREF_KEY = 'gw_ambient_playing';
+const BAR_GOLD = 'linear-gradient(180deg, #d8c071 0%, #b8913b 52%, #7f6125 100%)';
 
 function cueThankyouSegment(audio) {
   if (!audio || audio.readyState === 0) return;
@@ -135,7 +136,8 @@ export default function AmbientPlayer() {
               playing && !audioMissing ? (
                 <motion.div
                   key={i}
-                  className="w-0.5 bg-primary rounded-full"
+                  className="w-0.5 rounded-full"
+                  style={{ background: BAR_GOLD, boxShadow: '0 0 6px rgba(184,145,59,0.35)' }}
                   animate={{ height: ['4px', '10px', '4px'] }}
                   transition={{ duration: 0.8, repeat: Infinity, delay, ease: 'easeInOut' }}
                 />
@@ -157,7 +159,7 @@ export default function AmbientPlayer() {
             audioMissing
               ? 'bg-card/50 border-border/20 text-muted-foreground/40 cursor-not-allowed'
               : playing
-                ? 'bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/20'
+                ? 'gradient-gold-button border-primary/60 text-primary-foreground shadow-[0_0_18px_rgba(184,145,59,0.35)]'
                 : 'bg-card/80 backdrop-blur border-border/40 text-muted-foreground hover:border-primary/40 hover:text-primary'
           }`}
         >

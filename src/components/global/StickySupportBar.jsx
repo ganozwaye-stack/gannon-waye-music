@@ -14,6 +14,7 @@ const PREF_KEY = 'gw_ambient_playing';
 const GW_HEART_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/094c64c87_image.png';
 
 const MEMORIAL_PATHS = ['/mum', '/without-you-here'];
+const BAR_GOLD = 'linear-gradient(180deg, #d8c071 0%, #b8913b 52%, #7f6125 100%)';
 
 function cueThankyouSegment(audio) {
   if (!audio || audio.readyState === 0) return;
@@ -118,7 +119,7 @@ export default function StickySupportBar() {
               audioMissing ?
               'bg-card/50 border-border/20 text-muted-foreground/40 cursor-not-allowed' :
               playing ?
-              'bg-primary border-primary text-primary-foreground' :
+              'gradient-gold-button border-primary/60 text-primary-foreground shadow-[0_0_18px_rgba(184,145,59,0.35)]' :
               'bg-card/80 border-border/40 text-muted-foreground hover:border-primary/40 hover:text-primary'}`
               }>
               
@@ -128,7 +129,8 @@ export default function StickySupportBar() {
             <div className="flex items-end gap-0.5 h-3 hidden sm:flex" aria-hidden>
               {[0, 0.15, 0.3, 0.45].map((delay, i) =>
               playing && !audioMissing ?
-              <motion.div key={i} className="w-0.5 bg-primary rounded-full"
+              <motion.div key={i} className="w-0.5 rounded-full"
+              style={{ background: BAR_GOLD, boxShadow: '0 0 6px rgba(184,145,59,0.35)' }}
               animate={{ height: ['4px', '10px', '4px'] }}
               transition={{ duration: 0.8, repeat: Infinity, delay, ease: 'easeInOut' }} /> :
 

@@ -57,8 +57,8 @@ export default function UpcomingMusic() {
     idea: { label: 'In Conception', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/30' },
     writing: { label: 'Being Written', color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/30' },
     pre_production: { label: 'Pre-Production', color: 'text-cyan-400', bg: 'bg-cyan-500/10 border-cyan-500/30' },
-    recording: { label: 'In the Studio', color: 'text-yellow-400', bg: 'bg-yellow-500/10 border-yellow-500/30' },
-    mixing: { label: 'Mixing', color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/30' },
+    recording: { label: 'In the Studio', color: 'text-primary', bg: 'bg-primary/10 border-primary/30' },
+    mixing: { label: 'Mixing', color: 'text-primary', bg: 'bg-primary/10 border-primary/30' },
     mastering: { label: 'Mastering', color: 'text-red-400', bg: 'bg-red-500/10 border-red-500/30' },
     ready: { label: 'Coming Soon', color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/30' },
   };

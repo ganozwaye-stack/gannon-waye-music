@@ -57,7 +57,7 @@ export default function ThankYouSingle() {
   };
 
   return (
-    <section className="py-16 md:py-28 px-4 md:px-6 relative overflow-hidden">
+    <section className="py-12 md:py-10 md:py-12 px-4 md:px-6 relative overflow-hidden">
       {/* subtle background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl" />
@@ -68,15 +68,15 @@ export default function ThankYouSingle() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-left mb-8"
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2">Debut Single</p>
           <h2 className="font-display text-5xl md:text-7xl text-foreground italic mb-1">Thank You</h2>
           <p className="font-body text-sm text-muted-foreground mb-6 max-w-2xl mx-auto leading-relaxed">
-            "Thank You" — Gannon Waye. Written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. The moment of choosing self respect over repetition.
+            "Thank You" - Gannon Waye. Written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. The moment of choosing self respect over repetition.
           </p>
-          <p className="font-body text-sm gradient-gold-glow font-medium tracking-wider">
-            {released ? `Out Now · Available on all leading platforms` : `Coming ${releaseDateText} · Available on all leading platforms`}
+          <p className="font-body text-sm text-muted-foreground font-medium tracking-wider">
+            {released ? `Out Now - Available on all leading platforms` : `Coming ${releaseDateText} - Available on all leading platforms`}
           </p>
         </motion.div>
 
@@ -103,17 +103,17 @@ export default function ThankYouSingle() {
             <div>
               <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow mb-2">About the single</p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm">
-                "Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. The dynamic mirrored something already fought hard to outgrow — and in recognising that, the decision became simple.
+                "Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. The dynamic mirrored something already fought hard to outgrow - and in recognising that, the decision became simple.
               </p>
               <p className="font-body text-foreground/70 leading-relaxed text-sm mt-3">
-                This is what it sounds like when you break a cycle and refuse to return to it. "Thank You" — Gannon Waye.
+                This is what it sounds like when you break a cycle and refuse to return to it. "Thank You" - Gannon Waye.
               </p>
             </div>
 
             {/* Release countdown or pre-save */}
             <div className="border-t border-border/30 pt-6 space-y-4">
               <p className="font-body text-xs tracking-[0.2em] uppercase gradient-gold-glow">
-                {released ? 'Out Now' : `Coming ${releaseDateText} · All leading platforms`}
+                {released ? 'Out Now' : `Coming ${releaseDateText} - All leading platforms`}
               </p>
               {!released && <CountdownTimer targetDate={releaseDateIso} />}
               {released ? (
@@ -136,7 +136,7 @@ export default function ThankYouSingle() {
                 </a>
               )}
               <div className="space-y-2">
-                <p className="font-body text-xs tracking-[0.15em] uppercase text-muted-foreground">Available on</p>
+                <p className="font-body text-xs tracking-[0.15em] uppercase gradient-gold-glow">Available on</p>
                 <div className="flex flex-wrap gap-2">
                   {[
                     { name: 'Spotify', color: '#1DB954', bg: 'bg-[#1DB954]/10 border-[#1DB954]/30 text-[#1DB954]' },
@@ -147,7 +147,7 @@ export default function ThankYouSingle() {
                     { name: 'YouTube Music', color: '#FF0000', bg: 'bg-[#FF0000]/10 border-[#FF0000]/30 text-[#FF0000]' },
                     { name: 'SoundCloud', color: '#FF5500', bg: 'bg-[#FF5500]/10 border-[#FF5500]/30 text-[#FF5500]' },
                     { name: 'Anghami', color: '#F5594E', bg: 'bg-[#F5594E]/10 border-[#F5594E]/30 text-[#F5594E]' },
-                    { name: 'Audiomack', color: '#FFA200', bg: 'bg-[#FFA200]/10 border-[#FFA200]/30 text-[#FFA200]' },
+                    { name: 'Audiomack', color: 'brand', bg: 'bg-primary/10 border-primary/30 text-primary' },
                   ].map(p => (
                     <a key={p.name} href="https://too.fm/thankyou_gannonwaye" target="_blank" rel="noopener noreferrer"
                       className={`px-2.5 py-1 rounded-full border font-body text-[10px] tracking-wider transition-all hover:scale-105 ${p.bg}`}>
@@ -221,7 +221,7 @@ export default function ThankYouSingle() {
               {signupDone ? (
                 <div className="text-center py-4 space-y-2">
                   <CheckCircle2 className="w-10 h-10 text-primary mx-auto" />
-                  <p className="font-display text-2xl text-foreground">You're in. 🤍</p>
+                  <p className="font-display text-2xl gradient-gold-glow">You're in.</p>
                   <p className="font-body text-sm text-muted-foreground">Welcome to the inner circle, {form.name.split(' ')[0]}. Check your email for a message from Gannon.</p>
                 </div>
               ) : (
@@ -241,10 +241,10 @@ export default function ThankYouSingle() {
 
                   {/* Form */}
                   <div className="text-center md:text-left">
-                    <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">🎁 Get a gift from Gannon</p>
+                    <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">Get a gift from Gannon</p>
                     <h3 className="font-display text-2xl md:text-3xl text-foreground italic mb-1">Stay in the Loop</h3>
                     <p className="font-body text-sm text-foreground/50 mb-5 max-w-md">
-                      New music, behind-the-scenes stories, exclusive updates — and a chance at a personal gift.
+                      New music, behind-the-scenes stories, exclusive updates - and a chance at a personal gift.
                     </p>
 
                     {/* Step dots */}
@@ -270,7 +270,7 @@ export default function ThankYouSingle() {
                           inputMode="email"
                         />
                         <Button type="submit" className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase whitespace-nowrap">
-                          Continue →
+                          Continue
                         </Button>
                       </form>
                     ) : (
@@ -297,7 +297,7 @@ export default function ThankYouSingle() {
                         <div className="flex gap-2">
                           <Button type="button" variant="outline" onClick={() => setSignupStep(1)} className="rounded-full border-border/40 font-body text-sm">← Back</Button>
                           <Button type="submit" disabled={signupLoading} className="flex-1 rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase">
-                            {signupLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Subscribe 🤍'}
+                            {signupLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Subscribe'}
                           </Button>
                         </div>
                       </form>

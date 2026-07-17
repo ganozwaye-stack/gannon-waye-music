@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Star, Gift, AlertCircle } from 'lucide-react';
+import { ShoppingBag, Star, Sparkles, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
@@ -79,7 +79,9 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-2">
-              <Gift className="w-8 h-8 text-primary" />
+              <div className="flex h-11 w-11 items-center justify-center rounded-full border border-primary/35 bg-black/45 shadow-[0_0_22px_rgba(184,145,59,0.18)]">
+                <Sparkles className="w-5 h-5 text-primary/85" />
+              </div>
               <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text">Revealed May 10</p>
             </div>
           </>

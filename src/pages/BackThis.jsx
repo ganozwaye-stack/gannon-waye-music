@@ -477,7 +477,7 @@ export default function BackThis() {
 
             {/* Non-refundable disclaimer */}
             <div className="bg-secondary/30 border border-border/30 rounded-xl p-4 mb-6 text-left">
-              <p className="font-body text-xs text-amber-500 font-semibold uppercase tracking-wider mb-1">⚠️ Contribution Disclaimer</p>
+              <p className="font-body text-xs text-primary font-semibold uppercase tracking-wider mb-1">⚠️ Contribution Disclaimer</p>
               <p className="font-body text-xs text-muted-foreground leading-relaxed">
                 All contributions are 100% voluntary, direct-support payments and are strictly non-refundable. Physical rewards for the $50 and $100 tiers will be shipped upon release. The $200 tier video session will be scheduled via email.
               </p>
