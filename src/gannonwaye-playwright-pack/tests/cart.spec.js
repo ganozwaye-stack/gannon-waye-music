@@ -3,30 +3,31 @@
 const { test, expect } = require('@playwright/test');
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
+const gotoStore = (page) => page.goto(`${BASE_URL}/store`, { waitUntil: 'domcontentloaded' });
 
 test.describe('Cart Flow', () => {
   test('/store loads', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
   });
 
   test('products are visible', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await expect(page.locator('[data-testid="product-card"]').first()).toBeVisible();
   });
 
   test('product images are visible', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await expect(page.locator('[data-testid="product-image"]').first()).toBeVisible();
   });
 
   test('cart button is visible with data-testid', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await expect(page.locator('[data-testid="cart-button"]')).toBeVisible();
   });
 
   test('add to cart shows confirmation', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await page.waitForSelector('[data-testid="add-to-cart-btn"]');
 
     // Select size if required
@@ -44,7 +45,7 @@ test.describe('Cart Flow', () => {
   });
 
   test('continue shopping button closes confirmation', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
@@ -57,7 +58,7 @@ test.describe('Cart Flow', () => {
   });
 
   test('view cart button opens cart drawer', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
@@ -70,7 +71,7 @@ test.describe('Cart Flow', () => {
   });
 
   test('cart checkout button routes to cart-details', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
@@ -85,7 +86,7 @@ test.describe('Cart Flow', () => {
   });
 
   test('sticky checkout bar appears when cart has items', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
@@ -98,7 +99,7 @@ test.describe('Cart Flow', () => {
   });
 
   test('sticky checkout button routes to cart-details', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
@@ -111,7 +112,7 @@ test.describe('Cart Flow', () => {
   });
 
   test('go-to-checkout button from confirmation routes to cart-details', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
@@ -125,7 +126,7 @@ test.describe('Cart Flow', () => {
   });
 
   test('cart count badge shows item count', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
