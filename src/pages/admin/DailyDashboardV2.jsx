@@ -5,8 +5,8 @@ import { base44 } from '@/api/base44Client';
 import {
   DollarSign, Shield, Film, Star, ArrowRight, Circle,
   Music, ShoppingBag, FileText, Megaphone, Settings, Globe,
-  Users, Heart, Image, Mail, Calendar, AlertTriangle, CheckCircle2,
-  ExternalLink, Book, Tag, Gift
+  Users, Heart, Mail, CheckCircle2,
+  ExternalLink, Gift
 } from 'lucide-react';
 
 // ─── Quick Links (alphabetised, clean grid) ───────────────────────────────

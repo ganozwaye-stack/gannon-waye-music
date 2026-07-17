@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { Heart, ChevronDown } from 'lucide-react';
-import EnhancedCandle, { CandleGarden } from '@/components/mum/EnhancedCandle';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Heart } from 'lucide-react';
+import { CandleGarden } from '@/components/mum/EnhancedCandle';
 import HeartOfGold from '@/components/mum/HeartOfGold';
 import MumStorySection from '@/components/mum/MumStorySection';
 import MumSongSection from '@/components/mum/MumSongSection';
 import WisdomGarden from '@/components/mum/WisdomGarden';
-import MumLetterSection from '@/components/mum/MumLetterSection';
 import SoniaAmbientPlayer from '@/components/mum/SoniaAmbientPlayer';
 import LyricQuoteWall from '@/components/mum/LyricQuoteWall';
 import HandwrittenLetter from '@/components/mum/HandwrittenLetter';

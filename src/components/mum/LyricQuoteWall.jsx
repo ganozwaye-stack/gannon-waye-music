@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Lock } from 'lucide-react';
+import { Lock } from 'lucide-react';
 import SingleCoverPlaque from './SingleCoverPlaque';
 
 // "Without You Here" — approved hooks & signature lines only (full lyrics hidden until release)

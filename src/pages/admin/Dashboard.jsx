@@ -5,12 +5,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-  Flame, Megaphone, Zap, Radio, Clock, ShieldAlert, ShieldCheck,
+  Flame, Zap, Radio, ShieldAlert, ShieldCheck,
   AlertTriangle, DollarSign, ListTodo, Users, ShoppingBag,
-  ArrowUpRight, ChevronDown, ChevronUp, CheckCircle2,
+  ArrowUpRight, ChevronDown, ChevronUp,
   PackageCheck, CreditCard, Truck, Bell, Music, TrendingUp,
-  BarChart2, Star, MessageSquare, Globe, AlertCircle, Settings,
-  FileCheck, Bot, Activity, RefreshCw, Heart, ExternalLink, Mail
+  BarChart2, Star, MessageSquare, Globe, AlertCircle,
+  FileCheck, Bot, Activity, Heart, Mail
 } from 'lucide-react';
 
 // Tile component

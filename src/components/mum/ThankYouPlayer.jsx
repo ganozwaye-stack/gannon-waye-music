@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause } from 'lucide-react';
+import { THANKYOU_FULL_AUDIO_URL } from '@/config/audioAssets';
 
-const THANK_YOU_MP3     = 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/f9280287d_Gannon_ThankYou_-0dBTP_2448_HiRes_320kbps.mp3';
+const THANK_YOU_MP3     = THANKYOU_FULL_AUDIO_URL;
 const SONIA_PORTRAIT    = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/da5efd6c2_reel1_s2_keyframe1.jpg';
 const GANNON_SPOTIFY    = 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz';
 

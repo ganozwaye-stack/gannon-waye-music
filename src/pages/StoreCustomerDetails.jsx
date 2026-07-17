@@ -2,7 +2,7 @@
 // Re-uses the same form logic as StoreCartDetails but with updated testids
 // and routes from /store/cart → /store/customer-details → /store/checkout
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ShoppingBag } from 'lucide-react';

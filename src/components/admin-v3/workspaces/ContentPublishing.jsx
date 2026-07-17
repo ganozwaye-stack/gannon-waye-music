@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Film, Filter, ChevronDown, ChevronRight, ImageIcon } from 'lucide-react';
-import { SectionCard, RowItem, LoadingState, EmptyState, StatusBadge } from '@/components/admin-v3/shared/SharedComponents';
+import { SectionCard, RowItem, LoadingState, EmptyState } from '@/components/admin-v3/shared/SharedComponents';
 import { CONTENT_STAGES, mapContentStage } from '@/lib/adminV3Adapters';
 
 export default function ContentPublishing() {

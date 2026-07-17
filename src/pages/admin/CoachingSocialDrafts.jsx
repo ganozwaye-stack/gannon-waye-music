@@ -3,9 +3,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { RefreshCw, Eye, ChevronDown, ChevronUp, Send, CheckCircle, Clock, Filter } from 'lucide-react';
+import { RefreshCw, ChevronDown, ChevronUp, CheckCircle, Clock } from 'lucide-react';
 import { toast } from 'sonner';
-import { format } from 'date-fns';
 
 const PILLAR_COLORS = {
   'Self Worth': 'text-rose-400 bg-rose-500/10 border-rose-500/20',

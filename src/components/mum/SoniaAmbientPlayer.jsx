@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import SingleCoverPlaque from './SingleCoverPlaque';
+import { WITHOUT_YOU_HERE_FULL_AUDIO_URL } from '@/config/audioAssets';
 
 const TRACKS = [
   {
@@ -231,6 +232,25 @@ export default function SoniaAmbientPlayer() {
         <p className="font-body text-xs mb-4" style={{ color: 'rgba(212,175,55,0.30)' }}>
           Gannon Waye — Original Song
         </p>
+        <div
+          className="mx-auto mb-5 max-w-md rounded-2xl p-4"
+          style={{
+            background: 'rgba(8,12,7,0.72)',
+            border: '1px solid rgba(212,175,55,0.18)',
+            backdropFilter: 'blur(18px)',
+          }}
+        >
+          <p className="font-body text-[8px] tracking-[0.35em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.32)' }}>
+            Full studio master
+          </p>
+          <audio
+            src={WITHOUT_YOU_HERE_FULL_AUDIO_URL}
+            controls
+            preload="metadata"
+            className="w-full"
+            aria-label="Play Without You Here by Gannon Waye"
+          />
+        </div>
         <a
           href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz"
           target="_blank"

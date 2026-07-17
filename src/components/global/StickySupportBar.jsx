@@ -3,8 +3,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import { THANKYOU_FULL_AUDIO_URL, THANKYOU_HOME_PLAYER_START_SECONDS } from '@/config/audioAssets';
 
-const AUDIO_URL = "/ThankYou_Full_Master.mp3";
+const AUDIO_URL = THANKYOU_FULL_AUDIO_URL;
+const AUDIO_SRC = `${AUDIO_URL}#t=${THANKYOU_HOME_PLAYER_START_SECONDS}`;
 const VOLUME = 0.18;
 const PREF_KEY = 'gw_ambient_playing';
 
@@ -12,6 +14,13 @@ const PREF_KEY = 'gw_ambient_playing';
 const GW_HEART_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/094c64c87_image.png';
 
 const MEMORIAL_PATHS = ['/mum', '/without-you-here'];
+
+function cueThankyouSegment(audio) {
+  if (!audio || audio.readyState === 0) return;
+  if (audio.duration > THANKYOU_HOME_PLAYER_START_SECONDS && (audio.currentTime < THANKYOU_HOME_PLAYER_START_SECONDS || audio.ended)) {
+    audio.currentTime = THANKYOU_HOME_PLAYER_START_SECONDS;
+  }
+}
 
 export default function StickySupportBar() {
   const audioRef = useRef(null);
@@ -25,13 +34,29 @@ export default function StickySupportBar() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    audio.addEventListener('error', () => setAudioMissing(true));
+    const handleError = () => setAudioMissing(true);
+    const handleLoadedMetadata = () => cueThankyouSegment(audio);
+    const handleEnded = () => {
+      cueThankyouSegment(audio);
+      audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    };
+
+    audio.addEventListener('error', handleError);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('ended', handleEnded);
     audio.volume = VOLUME;
     audio.muted = true;
+    cueThankyouSegment(audio);
     audio.play().then(() => {
       setPlaying(true);
       startedRef.current = true;
     }).catch(() => {});
+
+    return () => {
+      audio.removeEventListener('error', handleError);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('ended', handleEnded);
+    };
   }, []);
 
   useEffect(() => {
@@ -40,6 +65,7 @@ export default function StickySupportBar() {
       if (!audio || startedRef.current) return;
       audio.volume = VOLUME;
       audio.muted = true;
+      cueThankyouSegment(audio);
       audio.play().then(() => {setPlaying(true);startedRef.current = true;}).catch(() => {});
     };
     window.addEventListener('pointerdown', handle, { passive: true, once: true });
@@ -56,6 +82,7 @@ export default function StickySupportBar() {
     } else {
       audio.muted = false;
       audio.volume = VOLUME;
+      cueThankyouSegment(audio);
       if (audio.paused) {
         audio.play().then(() => {setPlaying(true);localStorage.setItem(PREF_KEY, 'true');}).catch(() => {});
       } else {
@@ -70,7 +97,7 @@ export default function StickySupportBar() {
   return (
     <>
       {!audioMissing &&
-      <audio ref={audioRef} src={AUDIO_URL} loop preload="auto" style={{ display: 'none' }} />
+      <audio ref={audioRef} src={AUDIO_SRC} preload="auto" style={{ display: 'none' }} />
       }
 
       <motion.div

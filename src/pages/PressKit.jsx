@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { ExternalLink, Music, Mail, Download, Image as ImageIcon, FileText, Link2, Headphones } from 'lucide-react';
+import { ExternalLink, Music, Mail, Download, Image as ImageIcon, FileText, Headphones } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 

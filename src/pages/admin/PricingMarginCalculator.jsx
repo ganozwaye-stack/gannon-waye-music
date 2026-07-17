@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { DollarSign, TrendingUp, Package, AlertTriangle, CheckCircle2, Calculator } from 'lucide-react';
+import { DollarSign, TrendingUp, Package, AlertTriangle, Calculator } from 'lucide-react';
 
 // ── Product reference data ────────────────────────────────────────────────────
 const PRESET_PRODUCTS = [

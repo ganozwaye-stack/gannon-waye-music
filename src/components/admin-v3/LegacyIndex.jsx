@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, ExternalLink, Filter } from 'lucide-react';
-import { SectionCard, StatusBadge, LoadingState, EmptyState } from '@/components/admin-v3/shared/SharedComponents';
+import { Search, ExternalLink } from 'lucide-react';
+import { SectionCard, EmptyState } from '@/components/admin-v3/shared/SharedComponents';
 import { LEGACY_ROUTES, WORKSPACES, getRouteStats } from '@/lib/adminV3Routes';
 import { ROUTE_CLASSIFICATIONS, ROUTE_RECOMMENDATIONS } from '@/lib/adminV3Adapters';
 

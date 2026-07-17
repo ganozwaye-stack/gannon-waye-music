@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Users, Inbox, BookOpen, Calendar, AlertCircle, CheckCircle, ExternalLink } from 'lucide-react';
+import { Users, Inbox, Calendar, AlertCircle, CheckCircle, ExternalLink } from 'lucide-react';
 
 const HUMAN_ACTIONS = [
   'Set pricing for Self Worth Reset Session before publishing /coaching/self-worth-reset',

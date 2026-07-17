@@ -1,10 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { THANKYOU_FULL_AUDIO_URL, THANKYOU_HOME_PLAYER_START_SECONDS } from '@/config/audioAssets';
 
-const AUDIO_URL = "/ThankYou_Full_Master.mp3";
+const AUDIO_URL = THANKYOU_FULL_AUDIO_URL;
+const AUDIO_SRC = `${AUDIO_URL}#t=${THANKYOU_HOME_PLAYER_START_SECONDS}`;
 const VOLUME = 0.18;
 const PREF_KEY = 'gw_ambient_playing';
+
+function cueThankyouSegment(audio) {
+  if (!audio || audio.readyState === 0) return;
+  if (audio.duration > THANKYOU_HOME_PLAYER_START_SECONDS && (audio.currentTime < THANKYOU_HOME_PLAYER_START_SECONDS || audio.ended)) {
+    audio.currentTime = THANKYOU_HOME_PLAYER_START_SECONDS;
+  }
+}
 
 export default function AmbientPlayer() {
   const audioRef = useRef(null);
@@ -19,11 +28,19 @@ export default function AmbientPlayer() {
     if (!audio) return;
 
     const handleError = () => setAudioMissing(true);
+    const handleLoadedMetadata = () => cueThankyouSegment(audio);
+    const handleEnded = () => {
+      cueThankyouSegment(audio);
+      audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+    };
     audio.addEventListener('error', handleError);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('ended', handleEnded);
 
     // Always muted autoplay (browser-safe), volume pre-set for when unmuted
     audio.volume = VOLUME;
     audio.muted = true;
+    cueThankyouSegment(audio);
     audio.play().then(() => {
       setPlaying(true);
       startedRef.current = true;
@@ -31,7 +48,11 @@ export default function AmbientPlayer() {
       // Autoplay blocked entirely — show tap to play
     });
 
-    return () => audio.removeEventListener('error', handleError);
+    return () => {
+      audio.removeEventListener('error', handleError);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('ended', handleEnded);
+    };
   }, []);
 
   // First-interaction: start audio if not yet started
@@ -41,6 +62,7 @@ export default function AmbientPlayer() {
       if (!audio || startedRef.current) return;
       audio.volume = VOLUME;
       audio.muted = true;
+      cueThankyouSegment(audio);
       audio.play().then(() => {
         setPlaying(true);
         startedRef.current = true;
@@ -66,6 +88,7 @@ export default function AmbientPlayer() {
       audio.muted = false;
       audio.volume = VOLUME;
       setTapToPlay(false);
+      cueThankyouSegment(audio);
 
       if (audio.paused) {
         audio.play().then(() => {
@@ -93,8 +116,7 @@ export default function AmbientPlayer() {
       {!audioMissing && (
         <audio
           ref={audioRef}
-          src={AUDIO_URL}
-          loop
+          src={AUDIO_SRC}
           preload="auto"
           style={{ display: 'none' }}
           aria-label="Ambient background music: Thank You by Gannon Waye"

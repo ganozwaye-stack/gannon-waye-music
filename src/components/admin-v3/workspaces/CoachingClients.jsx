@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Users, Book, Calendar, Heart } from 'lucide-react';
-import { SectionCard, RowItem, LoadingState, EmptyState, StatusBadge } from '@/components/admin-v3/shared/SharedComponents';
+import { SectionCard, RowItem, LoadingState, EmptyState } from '@/components/admin-v3/shared/SharedComponents';
 import { COACHING_STAGES, mapCoachingStage } from '@/lib/adminV3Adapters';
 
 export default function CoachingClients() {

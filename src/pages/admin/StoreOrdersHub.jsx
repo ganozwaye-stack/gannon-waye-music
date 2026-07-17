@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/use-toast';
-import { 
-  ShoppingBag, Package, DollarSign, Calculator, Tag, Percent, 
-  Send, RefreshCw, BarChart3, TrendingUp, AlertTriangle, ShieldCheck, 
-  Calendar, Info, HelpCircle
+import { Package, Calculator,
+  Send, RefreshCw, BarChart3, AlertTriangle, ShieldCheck, Info
 } from 'lucide-react';
 
 export default function StoreOrdersHub() {
@@ -195,7 +192,7 @@ export default function StoreOrdersHub() {
                     <p>Parameters entered on the left will generate a tracking URL with UTM parameters to attribute clicks and orders.</p>
                   </div>
                 )}
-                
+
                 <div className="p-3 bg-secondary/20 rounded-xl border border-border/20 text-[10px] text-muted-foreground flex items-start gap-2">
                   <Info className="w-4 h-4 text-primary shrink-0" />
                   <p>Attribution data is automatically tracked inside the database logs when checkout successes match incoming browser UTM referrers.</p>

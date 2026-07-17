@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Mail, Music, Radio, Mic, Headphones, Clapperboard, Image } from 'lucide-react';
+import { ExternalLink, Mail, Image } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';

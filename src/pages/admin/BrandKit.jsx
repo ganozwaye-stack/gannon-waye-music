@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Github, Palette, Type, Image as ImageIcon, Mic, Upload, Loader2, CheckCircle2, ExternalLink, Copy, Check } from 'lucide-react';
+import { Github, Palette, Type, Image as ImageIcon, Mic, Loader2, CheckCircle2, ExternalLink, Copy, Check } from 'lucide-react';
 
 const BRAND_COLORS = [
   { name: 'Primary Gold', hex: '#F5D06E', token: '--primary', usage: 'CTAs, highlights, accents' },

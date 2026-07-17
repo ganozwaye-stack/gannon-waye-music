@@ -3,7 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Edit2, Trash2, Save, X, Music, Clock, ChevronRight, Flag, CheckCircle2, Circle, Disc3 } from 'lucide-react';
+import { Edit2, Save, X, Clock, ChevronRight, Flag, CheckCircle2, Circle, Disc3 } from 'lucide-react';
 
 const STAGES = [
   { key: 'idea', label: 'Idea', color: 'border-l-muted-foreground bg-muted/5' },

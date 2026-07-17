@@ -3,8 +3,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
-import { 
-  Upload, Folder, File, Trash2, CheckCircle2, AlertTriangle, 
+import {
+  Upload, Folder, File, Trash2,
   Image as ImageIcon, Video, Music, Plus, Grid, List, Search
 } from 'lucide-react';
 
@@ -14,13 +14,14 @@ export default function QuickUpload() {
   const [viewMode, setViewMode] = useState('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFolder, setSelectedFolder] = useState('all');
-  
+
   const [files, setFiles] = useState([
-    { id: 1, name: 'ThankYou_Full_Master.mp3', size: '11.4 MB', type: 'audio', folder: 'releases', date: '2026-06-05', url: '/ThankYou_Full_Master.mp3' },
-    { id: 2, name: 'ThankYou_Cover_Artwork.png', size: '2.8 MB', type: 'image', folder: 'releases', date: '2026-06-05', url: '/images/thankyou_cover.png' },
-    { id: 3, name: 'Gannon_Bio_Press_Kit.pdf', size: '4.5 MB', type: 'document', folder: 'press', date: '2026-06-04', url: '/docs/bio_kit.pdf' },
-    { id: 4, name: 'Hoodie_Black_Front_Mockup.jpg', size: '1.2 MB', type: 'image', folder: 'merchandise', date: '2026-06-03', url: '/images/hoodie_black.jpg' },
-    { id: 5, name: 'Sonia_Memorial_Tribute.jpg', size: '3.1 MB', type: 'image', folder: 'tribute', date: '2026-06-02', url: '/images/sonia_memorial.jpg' },
+    { id: 1, name: 'thankyou-full-master.mp3', size: '7.5 MB', type: 'audio', folder: 'releases', date: '2026-07-17', url: '/audio/releases/thankyou-full-master.mp3' },
+    { id: 2, name: 'without-you-here-full-master.mp3', size: '11.9 MB', type: 'audio', folder: 'releases', date: '2026-07-17', url: '/audio/releases/without-you-here-full-master.mp3' },
+    { id: 3, name: 'ThankYou_Cover_Artwork.png', size: '2.8 MB', type: 'image', folder: 'releases', date: '2026-06-05', url: '/images/thankyou_cover.png' },
+    { id: 4, name: 'Gannon_Bio_Press_Kit.pdf', size: '4.5 MB', type: 'document', folder: 'press', date: '2026-06-04', url: '/docs/bio_kit.pdf' },
+    { id: 5, name: 'Hoodie_Black_Front_Mockup.jpg', size: '1.2 MB', type: 'image', folder: 'merchandise', date: '2026-06-03', url: '/images/hoodie_black.jpg' },
+    { id: 6, name: 'Sonia_Memorial_Tribute.jpg', size: '3.1 MB', type: 'image', folder: 'tribute', date: '2026-06-02', url: '/images/sonia_memorial.jpg' },
   ]);
 
   const folders = [
@@ -45,7 +46,7 @@ export default function QuickUpload() {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
-    
+
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       handleFiles(e.dataTransfer.files);
     }
