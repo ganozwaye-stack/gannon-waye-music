@@ -9,6 +9,8 @@ module.exports = {
         "./src/**/*.jsx",
         "./src/**/*.ts",
         "./src/**/*.tsx",
+        "!./src/gannonwaye-playwright-pack/**",
+        "!./src/**/node_modules/**",
       ],
     },
   theme: {

@@ -9,3 +9,4 @@
 - Sign Google Drive for Desktop into `ganozwaye@gmail.com` and confirm the destination is visible.
 - Confirm the uploaded Google Drive copy before any OneDrive unlink or local cleanup.
 - Complete a Stripe test-mode payment only when ready; no live charge has been run.
+- Add real secret values only through Base44/GitHub secret managers; `.env.example` contains placeholders only.

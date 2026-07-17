@@ -12,8 +12,12 @@ Rules:
 
 Current priorities:
 
-1. Validate the store and checkout without charging a card.
-2. Complete exact production-pack filenames and assets.
-3. Prepare TikTok recording files, then wait for recording confirmation.
-4. Inventory laptop files and verify Google Drive access before copying.
-5. Produce evidence-backed final reports.
+1. Keep GitHub as the source of truth for code, tests, dispatch files and migration decisions.
+2. Preserve the live Base44 site in stabilize/export mode while Emergent work starts separately.
+3. Validate the store and checkout without charging a card.
+4. Complete exact production-pack filenames and assets.
+5. Prepare TikTok recording files, then wait for recording confirmation.
+6. Inventory laptop files and verify Google Drive access before copying.
+7. Produce evidence-backed final reports.
+
+Current migration priority source: `docs/base44-to-emergent-priority-list.md`.
