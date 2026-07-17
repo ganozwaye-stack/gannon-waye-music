@@ -62,15 +62,26 @@ const FALLBACK_CANDIDATES = [
     id: 'gmx-candidate-magnetic-cable-organiser',
     title: 'Magnetic Cable Organiser (Bamboo)',
     category: 'desk organisation',
+    supplier_name: 'CJ Dropshipping',
+    supplier_url: 'https://cjdropshipping.com/',
+    cost_price_aud: 8.5,
+    shipping_cost_aud: 6,
+    landed_cost_aud: 14.5,
+    target_price_aud: 39.95,
+    estimated_margin_percent: 42.1,
+    delivery_time_days: '8-15 days',
+    supplier_rating: 4.3,
+    problem_solved: 'Tangled cables and a messy desk every morning',
+    target_audience: 'Work from home professionals, students, creator desks',
     marketplace: 'EBAY_AU',
     cleanup_status: 'keep',
     approval_status: 'needs_review',
     publish_locked: true,
     return_risk: 'low',
     competition_level: 'medium',
-    social_content_potential: 'medium',
-    hero_potential: 'medium',
-    notes: 'First proof product. Check supplier URL, variants, stock, landed cost, shipping, returns, image rights, retail price, and competition.'
+    social_content_potential: 'high',
+    hero_potential: 'high',
+    notes: 'First proof product. Source estimate only: verify exact supplier SKU, image rights, live stock, eBay fees, postage, returns, and live competition before any listing draft.'
   },
   {
     id: 'gmx-candidate-fridge-bins',
@@ -113,6 +124,9 @@ const STATUS_STYLE = {
 };
 
 const formatStatus = (value = '') => value.replace(/_/g, ' ');
+const hasValue = value => value !== undefined && value !== null && value !== '';
+const formatMoney = value => hasValue(value) ? `$${Number(value).toFixed(2)}` : 'unverified';
+const formatPercent = value => hasValue(value) ? `${Number(value).toFixed(1)}%` : 'unverified';
 
 const safeList = async (entityName, sort = '-created_date', limit = 50) => {
   try {
@@ -290,6 +304,21 @@ export default function GanozMixBridge() {
                     </div>
                   </div>
                   <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{candidate.notes}</p>
+                  {(hasValue(candidate.landed_cost_aud) || hasValue(candidate.target_price_aud) || hasValue(candidate.estimated_margin_percent) || hasValue(candidate.delivery_time_days)) && (
+                    <div className="mt-4 grid gap-2 rounded-lg border border-primary/15 bg-primary/5 p-3 text-xs text-muted-foreground sm:grid-cols-2 lg:grid-cols-4">
+                      <span>Landed: <strong className="text-foreground">{formatMoney(candidate.landed_cost_aud)}</strong></span>
+                      <span>Target: <strong className="text-foreground">{formatMoney(candidate.target_price_aud)}</strong></span>
+                      <span>Margin: <strong className="text-foreground">{formatPercent(candidate.estimated_margin_percent)}</strong></span>
+                      <span>Delivery: <strong className="text-foreground">{candidate.delivery_time_days || 'unverified'}</strong></span>
+                    </div>
+                  )}
+                  {(candidate.supplier_name || candidate.supplier_rating || candidate.problem_solved) && (
+                    <div className="mt-3 grid gap-2 text-xs text-muted-foreground sm:grid-cols-3">
+                      <span>Supplier: <strong className="text-foreground">{candidate.supplier_name || 'unverified'}</strong></span>
+                      <span>Rating: <strong className="text-foreground">{candidate.supplier_rating || 'unverified'}</strong></span>
+                      <span>Solves: <strong className="text-foreground">{candidate.problem_solved || 'needs angle'}</strong></span>
+                    </div>
+                  )}
                   <div className="mt-4 grid gap-2 text-xs text-muted-foreground sm:grid-cols-4">
                     <span>Return risk: <strong className="text-foreground">{candidate.return_risk || 'unknown'}</strong></span>
                     <span>Competition: <strong className="text-foreground">{candidate.competition_level || 'unknown'}</strong></span>
