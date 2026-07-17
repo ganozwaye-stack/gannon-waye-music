@@ -14,6 +14,7 @@ Updated 17 July 2026.
 - Local validation passed: `npm run lint`, `npm run build`, and 30 Playwright smoke tests.
 - Dependency audit note: `npm ci` reports two moderate dependency vulnerabilities; no forced upgrade was applied.
 - Base44 connector verification: main `Gannon Waye Music` app is reachable and has `ApprovalQueue` plus `ContentCalendarPost` entities; specific four campaign approval records were not created from this connector because direct record creation is not exposed here.
+- Created first review-only approval pack at `content-production/approval-packs/2026-07-17-reel-1-thankyou/` from a live Base44 Instagram Reels draft and verified remote `Thank You` media URLs.
 
 ## Ready
 

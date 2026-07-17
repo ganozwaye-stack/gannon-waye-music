@@ -8,7 +8,8 @@ Purpose: move toward Emergent without losing the working Gannon Waye Music site,
 
 - GitHub repo: `ganozwaye-stack/gannon-waye-music`.
 - GitHub tracker: `https://github.com/ganozwaye-stack/gannon-waye-music/issues/27`.
-- Current local branch: `upgrade/gwm-command-centre-v2`.
+- Current clean migration branch: `upgrade/base44-emergent-migration`.
+- Historical route-integration branch `upgrade/gwm-command-centre-v2` remains open, but is not the clean Base44-to-Emergent merge path because it conflicts broadly with current `main`.
 - Base44 project config exists at `base44/config.jsonc`.
 - Build, lint, and public/store/cart smoke tests passed locally after the July 17 workflow updates.
 - Base44 remains the live/stability source until an Emergent replacement has feature parity and approval.
@@ -54,7 +55,7 @@ Human approval/login needed:
 
 ### 3. Define the Emergent Build Boundary
 
-Status: not yet implemented in this repo.
+Status: implemented as a handoff brief in `docs/emergent-ganozmix-handoff.md`; still pending Emergent import/build.
 
 Emergent should own:
 
@@ -97,13 +98,13 @@ Human approval/login needed:
 
 ### 5. Convert One Content Draft Into a Real Approved Asset
 
-Status: content drafts exist, media readiness is weak.
+Status: first review-only approval pack created at `content-production/approval-packs/2026-07-17-reel-1-thankyou/`; final media export still needs Gannon approval and edit/export work.
 
 Do next:
 
-- Pick one draft from ApprovalQueue.
-- Match it to existing THANKYOU visuals/audio.
-- Create the final media asset path.
+- Picked the 16 July Instagram Reels emotional story draft from Base44 ApprovalQueue.
+- Matched it to verified `Thank You` cover, banner and reveal-audio URLs.
+- Created a review-only approval pack with no executable publish payload.
 - Keep Metricool status as draft until approved.
 
 Human approval needed:
@@ -157,15 +158,14 @@ These require Gannon approval or login:
 - Public legal/policy changes.
 - Sending customer/bulk emails.
 
-## Stale or Conflicting Sources to Repair
+## Stale or Conflicting Sources Repaired
 
 These files should not override the July 17 migration priority order:
 
-- `DISASTER_RECOVERY.md` still references `main` as the active repository branch; current migration work is on `upgrade/gwm-command-centre-v2`.
-- `DISASTER_RECOVERY.md` points Stripe recovery at `stripeIntelligenceRouter`, while later Stripe fix notes say fulfillment should use `stripeWebhook` first.
-- `src/docs/FINAL_OWNER_HANDOFF.md` overstates production readiness compared with the July 10 audit findings.
-- `src/pages/admin/GanozMixBridge.jsx` says eBay is connected and implies one-click live publishing, but the July 10 audit found expired eBay auth, zero orders, false-live listing state, and dead-letter jobs.
-- `system-dispatch/master-cross-platform-dispatch.md` calls itself the single source of truth. It remains the broad dispatch brief, but this file is the current migration priority order.
+- `DISASTER_RECOVERY.md` now distinguishes default `main` from the active clean migration branch and points order fulfillment at `stripeWebhook`.
+- `src/docs/FINAL_OWNER_HANDOFF.md` is now marked historical and superseded by July 2026 audit/migration docs.
+- `src/pages/admin/GanozMixBridge.jsx` now shows eBay reconnect/approval-gated marketplace publishing rather than "connected" or one-click live publishing.
+- `system-dispatch/master-cross-platform-dispatch.md` may still call itself the single source of truth. It remains the broad dispatch brief, but this file is the current migration priority order.
 
 ## Recommended Next GitHub Commit Scope
 

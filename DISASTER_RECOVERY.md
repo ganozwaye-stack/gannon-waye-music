@@ -10,7 +10,7 @@ This document contains key credentials inventory, webhook paths, DNS specificati
 * **Base44 Live Domain:** `https://gannonwaye.com`
 * **GanozMix Direct URL:** `https://ganozmixdirect.base44.app`
 * **GitHub Default Branch:** `main`
-* **Active Migration Branch:** `upgrade/gwm-command-centre-v2`
+* **Active Clean Migration Branch:** `upgrade/base44-emergent-migration`
 * **Base44 Editor Workspace:** `https://app.base44.com/apps/69eb7905ca6eb4180010f794/editor`
 
 ---
