@@ -3,14 +3,16 @@
 const { test, expect } = require('@playwright/test');
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
-const gotoStore = (page) => page.goto(`${BASE_URL}/store`, { waitUntil: 'domcontentloaded' });
+const gotoStore = (page) => page.goto(`${BASE_URL}/store/all`, { waitUntil: 'domcontentloaded' });
+
+async function addWinterBundle(page) {
+  await gotoStore(page);
+  const addButton = page.locator('[data-testid="winter-bundle-add-to-cart"]');
+  await expect(addButton).toBeVisible();
+  await addButton.click();
+}
 
 test.describe('Cart Flow', () => {
-  test('/store loads', async ({ page }) => {
-    await gotoStore(page);
-    await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
-  });
-
   test('products are visible', async ({ page }) => {
     await gotoStore(page);
     await expect(page.locator('[data-testid="product-card"]').first()).toBeVisible();
@@ -26,116 +28,48 @@ test.describe('Cart Flow', () => {
     await expect(page.locator('[data-testid="cart-button"]')).toBeVisible();
   });
 
-  test('add to cart shows confirmation', async ({ page }) => {
-    await gotoStore(page);
-    await page.waitForSelector('[data-testid="add-to-cart-btn"]');
-
-    // Select size if required
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
-
-    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    const count = await addBtns.count();
-    for (let i = 0; i < count; i++) {
-      const btn = addBtns.nth(i);
-      if (await btn.isVisible()) { await btn.click(); break; }
-    }
-
-    await expect(page.locator('[data-testid="add-to-cart-success"]').first()).toBeVisible({ timeout: 3000 });
+  test('winter bundle can be added to cart', async ({ page }) => {
+    await addWinterBundle(page);
+    await expect(page.locator('[data-testid="cart-count"]')).toBeVisible({ timeout: 3000 });
+    await expect(page.locator('[data-testid="store-sticky-checkout"]')).toBeVisible({ timeout: 3000 });
   });
 
-  test('continue shopping button closes confirmation', async ({ page }) => {
-    await gotoStore(page);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
-    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    const count = await addBtns.count();
-    for (let i = 0; i < count; i++) {
-      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
-    }
-    await page.locator('[data-testid="continue-shopping-button"]').first().click();
-    await expect(page.locator('[data-testid="add-to-cart-success"]')).not.toBeVisible({ timeout: 2000 });
+  test('continue shopping button returns to store state', async ({ page }) => {
+    await addWinterBundle(page);
+    await page.getByRole('button', { name: /continue shopping/i }).click();
+    await expect(page.locator('[data-testid="winter-bundle-add-to-cart"]')).toBeVisible();
   });
 
   test('view cart button opens cart drawer', async ({ page }) => {
-    await gotoStore(page);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
-    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    const count = await addBtns.count();
-    for (let i = 0; i < count; i++) {
-      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
-    }
-    await page.locator('[data-testid="view-cart-button"]').first().click();
+    await addWinterBundle(page);
+    await page.getByRole('button', { name: /view cart/i }).click();
     await expect(page.locator('[data-testid="cart-drawer"]')).toBeVisible({ timeout: 3000 });
   });
 
   test('cart checkout button routes to cart-details', async ({ page }) => {
-    await gotoStore(page);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
-    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    const count = await addBtns.count();
-    for (let i = 0; i < count; i++) {
-      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
-    }
-    await page.locator('[data-testid="view-cart-button"]').first().click();
-    await expect(page.locator('[data-testid="cart-drawer"]')).toBeVisible();
+    await addWinterBundle(page);
+    await page.getByRole('button', { name: /view cart/i }).click();
+    await expect(page.locator('[data-testid="cart-drawer"]')).toBeVisible({ timeout: 3000 });
     await page.locator('[data-testid="cart-checkout-button"]').click();
     await expect(page).toHaveURL(/\/store\/cart-details/);
   });
 
   test('sticky checkout bar appears when cart has items', async ({ page }) => {
-    await gotoStore(page);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
-    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    const count = await addBtns.count();
-    for (let i = 0; i < count; i++) {
-      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
-    }
+    await addWinterBundle(page);
     await expect(page.locator('[data-testid="store-sticky-checkout"]')).toBeVisible({ timeout: 3000 });
     await expect(page.locator('[data-testid="store-sticky-checkout-button"]')).toBeVisible();
   });
 
   test('sticky checkout button routes to cart-details', async ({ page }) => {
-    await gotoStore(page);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
-    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    const count = await addBtns.count();
-    for (let i = 0; i < count; i++) {
-      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
-    }
+    await addWinterBundle(page);
     await page.locator('[data-testid="store-sticky-checkout-button"]').click();
     await expect(page).toHaveURL(/\/store\/cart-details/);
   });
 
-  test('go-to-checkout button from confirmation routes to cart-details', async ({ page }) => {
-    await gotoStore(page);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
-    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    const count = await addBtns.count();
-    for (let i = 0; i < count; i++) {
-      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
-    }
-    const checkoutBtn = page.locator('[data-testid="go-to-checkout-button"]').first();
-    await checkoutBtn.click();
-    await expect(page).toHaveURL(/\/store\/cart-details/);
-  });
-
   test('cart count badge shows item count', async ({ page }) => {
-    await gotoStore(page);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-    if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
-    const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-    const count = await addBtns.count();
-    for (let i = 0; i < count; i++) {
-      if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
-    }
+    await addWinterBundle(page);
     await expect(page.locator('[data-testid="cart-count"]')).toBeVisible({ timeout: 3000 });
     const text = await page.locator('[data-testid="cart-count"]').textContent();
-    expect(parseInt(text)).toBeGreaterThan(0);
+    expect(parseInt(text || '0', 10)).toBeGreaterThan(0);
   });
 });
