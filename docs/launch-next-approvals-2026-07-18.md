@@ -10,6 +10,10 @@ Launch target: 20 July 2026
 
 - `gannonwaye.com` was deployed through Base44 and smoke-checked after the launch site updates.
 - Store launch scope is accepted as Base44/current state, with final checkout/payment test still pending.
+- Current code now includes the public Base44 app-id fallback needed to prevent `/api/apps/null/...` requests in the next deployed build.
+- Mum tribute image handling has been hardened with recovered local images and graceful gold fallback cards for unavailable old Base44 media.
+- Checkout persistence has been fixed locally: cart/details are no longer cleared before Stripe redirect, cancel preserves them, and success clears them after a `session_id` return.
+- Local no-payment browser test passed from product page to cart details to checkout review, then cancel/success cart persistence checks.
 - GanozMix has been moved into safe review mode locally.
 - GanozMix source data has been exported into sanitized JSON and CSV cleanup snapshots.
 - GanozMix Drive folder now contains:
@@ -37,6 +41,7 @@ Launch target: 20 July 2026
 
 ## Blocked Until External Login Or Approval
 
+- Base44 live deployment is blocked until this local clone is linked to the correct Base44 project. `npx base44 site deploy -y` failed because no `base44/.app.jsonc` is configured, and linking to historical app id `69eb7905ca6eb4180010f794` was not available to the logged-in account.
 - Adobe re-auth and cover-face correction.
 - eBay OAuth reconnect for GanozMix.
 - Live Stripe/checkout proof test.

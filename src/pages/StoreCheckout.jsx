@@ -49,7 +49,7 @@ export default function StoreCheckout() {
   const { toast } = useToast();
   const rawItems = useCartStore(state => state.items);
   const items = Array.isArray(rawItems) ? rawItems : [];
-  const { updateQuantity, removeItem, clearCart } = useCartStore();
+  const { updateQuantity, removeItem } = useCartStore();
   const [hasHydrated, setHasHydrated] = useState(false);
   useEffect(() => {
     setHasHydrated(true);
@@ -236,8 +236,6 @@ export default function StoreCheckout() {
       ]);
 
       if (res.data?.url) {
-        clearCart();
-        try { localStorage.removeItem(DETAILS_KEY); } catch {}
         window.location.href = res.data.url;
       } else {
         throw new Error(res.data?.error || 'Checkout could not be prepared.');

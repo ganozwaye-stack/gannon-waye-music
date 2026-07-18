@@ -26,7 +26,7 @@ const GARDEN_DEEP    = 'https://media.base44.com/images/public/69eb7905ca6eb4180
 
 // ─── Photo groups (locked — do not auto-assign new images) ───────────────────
 const ME_AND_MUM = [
-  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/8fe42604b_CopyofIMG_5326.jpg', label: 'Gannon & Sonia', caption: 'Two hearts, one love.' },
+  { src: '/images/mum-gallery/8fe42604b_CopyofIMG_5326.jpg', label: 'Gannon & Sonia', caption: 'Two hearts, one love.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/41d549365_49CE40E3-DBDB-46A9-87BE-332F16FAF1BF.jpg', label: 'Her Swallow, His Heart', caption: "Her swallow, now carried over his heart — forever." },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0dd386db9_IMG_5681.jpg', label: 'Together', caption: 'Two of a kind. Always.' },
 ];
@@ -34,8 +34,8 @@ const ME_AND_MUM = [
 const HER = [
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dc8919b4b_IMG_5624.png', label: 'Sonia — The Portrait', caption: 'This is her. This is Mum.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e141f17cb_CopyofIMG_5599.JPG', label: 'That Smile', caption: 'Once seen, never forgotten.' },
-  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/173717f01_CopyofIMG_5440.jpg', label: 'Coffee & Sunshine', caption: 'A coffee in hand — exactly where she belonged.' },
-  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6101f75c0_CopyofIMG_5449.jpg', label: 'Her Joy', caption: 'Her joy was simple. Her presence was everything.' },
+  { src: '/images/mum-gallery/173717f01_CopyofIMG_5440.jpg', label: 'Coffee & Sunshine', caption: 'A coffee in hand — exactly where she belonged.' },
+  { src: '/images/mum-gallery/6101f75c0_CopyofIMG_5449.jpg', label: 'Her Joy', caption: 'Her joy was simple. Her presence was everything.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/8b2d006fe_CopyofIMG_5501.jpg', label: 'At the Café', caption: 'She made every ordinary moment feel special.' },
 ];
 
@@ -47,7 +47,7 @@ const HER_HUMOUR = [
 
 const FAMILY = [
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5544e4f02_5F77A0A5-95B5-4AFC-9BD0-9AAF81AB32DC.jpg', label: 'The Whole Family', caption: 'Together — the way she always wanted it.' },
-  { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1ddea2586_CopyofIMG_5327.jpg', label: 'Her Granddaughter', caption: 'The love she gave just kept multiplying.' },
+  { src: '/images/mum-gallery/1ddea2586_CopyofIMG_5327.jpg', label: 'Her Granddaughter', caption: 'The love she gave just kept multiplying.' },
   { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c1ecb80cd_CopyofIMG_5546.jpg', label: 'Her Faithful Companion', caption: 'Always by her side.' },
 ];
 

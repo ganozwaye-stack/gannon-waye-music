@@ -2,14 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ShoppingBag, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useCartStore } from '@/lib/cartStore';
+
+const DETAILS_KEY = 'gannon_checkout_details_v1';
 
 export default function CheckoutSuccess() {
   const [sessionId, setSessionId] = useState(null);
+  const clearCart = useCartStore(state => state.clearCart);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setSessionId(params.get('session_id'));
-  }, []);
+    const stripeSessionId = params.get('session_id');
+    setSessionId(stripeSessionId);
+    if (stripeSessionId) {
+      clearCart();
+      try { localStorage.removeItem(DETAILS_KEY); } catch {}
+    }
+  }, [clearCart]);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6" data-testid="checkout-success-page">
