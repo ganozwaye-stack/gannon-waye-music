@@ -128,7 +128,7 @@ export default function ImmersiveGardenHero() {
             className="font-display leading-none"
             style={{
               fontSize: 'clamp(3.2rem, 10vw, 7rem)',
-              background: 'linear-gradient(135deg, #c9a84c 0%, #f5d06e 35%, #ffe08a 50%, #f5d06e 65%, #c9a84c 100%)',
+              background: 'linear-gradient(135deg, #c9a84c 0%, #d8c071 35%, #d8c071 50%, #d8c071 65%, #c9a84c 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',

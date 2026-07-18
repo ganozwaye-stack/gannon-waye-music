@@ -3,6 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { ExternalLink, Music, Mail, Download, Image as ImageIcon, FileText, Headphones } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { getReleaseArtwork } from '@/config/releaseAssets';
 
 const BIO = `Gannon Waye is a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to him — it's the language he uses to understand people, emotion, and the parts of life that don't always have words.
 
@@ -119,8 +120,8 @@ export default function PressKit() {
             <section className="bg-gradient-to-br from-primary/10 to-card border border-primary/30 rounded-xl p-6">
               <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-2">Current Single</p>
               <div className="flex items-start gap-4">
-                {currentSingle.artwork_url && (
-                  <img src={currentSingle.artwork_url} alt={currentSingle.title} className="w-24 h-24 rounded-lg object-cover shrink-0" />
+                {getReleaseArtwork(currentSingle) && (
+                  <img src={getReleaseArtwork(currentSingle)} alt={currentSingle.title} className="w-24 h-24 rounded-lg object-cover shrink-0" />
                 )}
                 <div className="flex-1">
                   <h2 className="font-display text-2xl text-foreground mb-1">{currentSingle.title}</h2>
@@ -173,8 +174,8 @@ export default function PressKit() {
               <div className="space-y-3">
                 {publishedReleases.map(release => (
                   <div key={release.id} className="flex items-center gap-4 p-4 bg-secondary/30 rounded-lg hover:bg-secondary/40 transition-colors">
-                    {release.artwork_url ? (
-                      <img src={release.artwork_url} alt={release.title} className="w-16 h-16 rounded object-cover shrink-0" />
+                    {getReleaseArtwork(release) ? (
+                      <img src={getReleaseArtwork(release)} alt={release.title} className="w-16 h-16 rounded object-cover shrink-0" />
                     ) : (
                       <div className="w-16 h-16 rounded bg-secondary flex items-center justify-center shrink-0">
                         <Music className="w-5 h-5 text-muted-foreground" />

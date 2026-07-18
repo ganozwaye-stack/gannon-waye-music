@@ -24,13 +24,11 @@ import ThankYouStorySection from '@/components/public/ThankYouStorySection';
 import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import SignatureQuoteDivider from '@/components/public/SignatureQuoteDivider';
+import { WITHOUT_YOU_HERE_COVER, SPOTIFY_ARTIST_URL, getReleaseArtwork } from '@/config/releaseAssets';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
 ];
-
-const WITHOUT_YOU_HERE_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png';
-const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz';
 
 const HERO_FEATURES = [
   {
@@ -508,7 +506,7 @@ export default function Home() {
               >
                 <div className="aspect-square bg-secondary/30 overflow-hidden relative">
                   <img
-                    src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png"
+                    src={WITHOUT_YOU_HERE_COVER}
                     alt="Without You Here — Gannon Waye single cover"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
@@ -536,8 +534,8 @@ export default function Home() {
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
                     {release.title === 'Thank You' ? (
                       <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    ) : release.artwork_url ? (
-                      <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    ) : getReleaseArtwork(release) ? (
+                      <img src={getReleaseArtwork(release)} alt={release.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <Play className="w-12 h-12 text-muted-foreground/30" />

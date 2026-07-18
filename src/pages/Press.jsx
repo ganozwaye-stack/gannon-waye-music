@@ -4,6 +4,7 @@ import { ExternalLink, Mail, Image } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
+import { WITHOUT_YOU_HERE_COVER } from '@/config/releaseAssets';
 
 const APPROVED_EMAIL = 'gannonwayemusic@gmail.com';
 
@@ -149,7 +150,7 @@ export default function Press() {
         </div>
         <div className="bg-card/50 border border-border/40 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 min-h-[200px]">
           <img
-            src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png"
+            src={WITHOUT_YOU_HERE_COVER}
             alt="Without You Here — Gannon Waye single cover"
             className="w-32 h-32 rounded-lg object-cover border border-primary/20"
           />

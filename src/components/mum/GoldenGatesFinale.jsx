@@ -5,16 +5,16 @@ import { Heart } from 'lucide-react';
 export default function GoldenGatesFinale() {
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Gate structure — pure CSS/SVG, no AI image dependency */}
+      {/* Gate structure - pure CSS/SVG, no AI image dependency */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        {/* Distant light source — the beyond */}
+        {/* Distant light source - the beyond */}
         <motion.div
           className="absolute"
           style={{
             width: 400,
             height: 400,
             borderRadius: '50%',
-            background: 'radial-gradient(ellipse, rgba(255,220,80,0.18) 0%, rgba(212,175,55,0.06) 40%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(216,192,113,0.18) 0%, rgba(212,175,55,0.06) 40%, transparent 70%)',
           }}
           animate={{ opacity: [0.5, 1, 0.5], scale: [0.95, 1.05, 0.95] }}
           transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
@@ -32,7 +32,7 @@ export default function GoldenGatesFinale() {
           {/* Pillar body */}
           <div style={{
             width: 16, height: '100%',
-            background: 'linear-gradient(180deg, #c9a84c 0%, #f5d06e 20%, #c9a84c 50%, #e8c55a 80%, #c9a84c 100%)',
+            background: 'linear-gradient(180deg, #c9a84c 0%, #d8c071 20%, #c9a84c 50%, #e8c55a 80%, #c9a84c 100%)',
             borderRadius: 4,
             boxShadow: '0 0 24px rgba(212,175,55,0.4), 0 0 60px rgba(212,175,55,0.12)',
           }} />
@@ -40,7 +40,7 @@ export default function GoldenGatesFinale() {
           <div style={{
             position: 'absolute', top: -12, left: -12,
             width: 40, height: 24,
-            background: 'linear-gradient(180deg, #f5d06e, #c9a84c)',
+            background: 'linear-gradient(180deg, #d8c071, #c9a84c)',
             borderRadius: '4px 4px 0 0',
             boxShadow: '0 0 20px rgba(212,175,55,0.5)',
           }} />
@@ -57,14 +57,14 @@ export default function GoldenGatesFinale() {
         >
           <div style={{
             width: 16, height: '100%',
-            background: 'linear-gradient(180deg, #c9a84c 0%, #f5d06e 20%, #c9a84c 50%, #e8c55a 80%, #c9a84c 100%)',
+            background: 'linear-gradient(180deg, #c9a84c 0%, #d8c071 20%, #c9a84c 50%, #e8c55a 80%, #c9a84c 100%)',
             borderRadius: 4,
             boxShadow: '0 0 24px rgba(212,175,55,0.4), 0 0 60px rgba(212,175,55,0.12)',
           }} />
           <div style={{
             position: 'absolute', top: -12, left: -12,
             width: 40, height: 24,
-            background: 'linear-gradient(180deg, #f5d06e, #c9a84c)',
+            background: 'linear-gradient(180deg, #d8c071, #c9a84c)',
             borderRadius: '4px 4px 0 0',
             boxShadow: '0 0 20px rgba(212,175,55,0.5)',
           }} />
@@ -93,7 +93,7 @@ export default function GoldenGatesFinale() {
           }}
         />
 
-        {/* Gate bars — left panel */}
+        {/* Gate bars - left panel */}
         {[0,1,2,3,4].map(i => (
           <motion.div
             key={`L${i}`}
@@ -107,7 +107,7 @@ export default function GoldenGatesFinale() {
               top: '20%',
               bottom: '22%',
               width: 6,
-              background: 'linear-gradient(180deg, #f5d06e 0%, #c9a84c 50%, #f5d06e 100%)',
+              background: 'linear-gradient(180deg, #d8c071 0%, #c9a84c 50%, #d8c071 100%)',
               borderRadius: 3,
               boxShadow: '0 0 8px rgba(212,175,55,0.3)',
               transformOrigin: 'top',
@@ -115,7 +115,7 @@ export default function GoldenGatesFinale() {
           />
         ))}
 
-        {/* Gate bars — right panel */}
+        {/* Gate bars - right panel */}
         {[0,1,2,3,4].map(i => (
           <motion.div
             key={`R${i}`}
@@ -129,7 +129,7 @@ export default function GoldenGatesFinale() {
               top: '20%',
               bottom: '22%',
               width: 6,
-              background: 'linear-gradient(180deg, #f5d06e 0%, #c9a84c 50%, #f5d06e 100%)',
+              background: 'linear-gradient(180deg, #d8c071 0%, #c9a84c 50%, #d8c071 100%)',
               borderRadius: 3,
               boxShadow: '0 0 8px rgba(212,175,55,0.3)',
               transformOrigin: 'top',
@@ -137,7 +137,7 @@ export default function GoldenGatesFinale() {
           />
         ))}
 
-        {/* Sonia — silhouette beyond the gates */}
+        {/* Sonia - silhouette beyond the gates */}
         <motion.div
           className="absolute"
           style={{ bottom: '22%', left: '50%', transform: 'translateX(-50%)' }}
@@ -203,17 +203,17 @@ export default function GoldenGatesFinale() {
           transition={{ duration: 1.5, delay: 2.5 }}
         >
           <p className="font-body text-[9px] tracking-[0.6em] uppercase mb-4" style={{ color: 'rgba(212,175,55,0.30)' }}>
-            The Garden's End · A New Beginning
+            The Garden's End - A New Beginning
           </p>
           <h2
             className="font-display leading-none mb-6"
             style={{
               fontSize: 'clamp(2.5rem,8vw,5rem)',
-              background: 'linear-gradient(145deg,#c9a84c 0%,#f5d06e 38%,#ffe08a 50%,#f5d06e 62%,#c9a84c 100%)',
+              background: 'linear-gradient(145deg,#c9a84c 0%,#d8c071 38%,#d8c071 50%,#d8c071 62%,#c9a84c 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
-              filter: 'drop-shadow(0 0 30px rgba(255,220,80,0.5))',
+              filter: 'drop-shadow(0 0 30px rgba(216,192,113,0.5))',
             }}
           >
             Until We Meet<br />Again, Mum
@@ -229,7 +229,7 @@ export default function GoldenGatesFinale() {
           </div>
 
           <p className="font-body text-xs tracking-[0.4em] uppercase" style={{ color: 'rgba(212,175,55,0.22)' }}>
-            Sonia Katisa Waye · 1961 – 2022
+            Sonia Katisa Waye - 1961 - 2022
           </p>
         </motion.div>
       </div>

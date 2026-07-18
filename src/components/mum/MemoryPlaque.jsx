@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// A garden memory plaque — photo in a "frame" on a garden post
-// Used instead of a gallery grid — each photo feels like a stop on a journey
+// A garden memory plaque - photo in a "frame" on a garden post
+// Used instead of a gallery grid - each photo feels like a stop on a journey
 export default function MemoryPlaque({ photo, label, caption, align = 'center', delay = 0 }) {
   const [flipped, setFlipped] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -75,11 +75,11 @@ export default function MemoryPlaque({ photo, label, caption, align = 'center', 
                 }}
               >
                 {failed && (
-                  <p className="font-body text-[9px] tracking-[0.28em] uppercase mb-3" style={{ color: 'rgba(245,208,110,0.52)' }}>
+                  <p className="font-body text-[9px] tracking-[0.28em] uppercase mb-3" style={{ color: 'rgba(216,192,113,0.52)' }}>
                     Memory Held
                   </p>
                 )}
-                <p className="font-display italic text-base leading-relaxed" style={{ color: 'rgba(245,208,110,0.7)' }}>
+                <p className="font-display italic text-base leading-relaxed" style={{ color: 'rgba(216,192,113,0.7)' }}>
                   "{caption}"
                 </p>
               </motion.div>
@@ -102,7 +102,7 @@ export default function MemoryPlaque({ photo, label, caption, align = 'center', 
               fontSize: 10, color: 'rgba(212,175,55,0.4)',
               fontFamily: 'var(--font-body)',
               letterSpacing: '0.1em',
-            }}>tap ↩</div>
+            }}>tap</div>
           )}
         </motion.div>
 

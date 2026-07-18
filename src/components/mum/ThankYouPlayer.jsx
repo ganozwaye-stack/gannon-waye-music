@@ -72,9 +72,9 @@ export default function ThankYouPlayer() {
             aria-label={playing ? 'Pause' : 'Play Thank You'}
             className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-200 hover:scale-110 active:scale-95"
             style={{
-              background:  'linear-gradient(135deg, #c9a84c 0%, #f5d06e 100%)',
+              background:  'linear-gradient(135deg, #c9a84c 0%, #d8c071 100%)',
               boxShadow:   playing
-                ? '0 0 28px rgba(245,208,110,0.6), 0 4px 16px rgba(0,0,0,0.4)'
+                ? '0 0 28px rgba(216,192,113,0.6), 0 4px 16px rgba(0,0,0,0.4)'
                 : '0 0 12px rgba(212,175,55,0.3), 0 4px 12px rgba(0,0,0,0.4)',
             }}
           >
@@ -101,8 +101,8 @@ export default function ThankYouPlayer() {
                 className="h-full rounded-full"
                 style={{
                   width:      `${progress}%`,
-                  background: 'linear-gradient(90deg, #c9a84c, #f5d06e)',
-                  boxShadow:  playing ? '0 0 8px rgba(245,208,110,0.6)' : 'none',
+                  background: 'linear-gradient(90deg, #c9a84c, #d8c071)',
+                  boxShadow:  playing ? '0 0 8px rgba(216,192,113,0.6)' : 'none',
                 }}
               />
             </div>

@@ -71,7 +71,7 @@ export default function MumMemorialNav() {
             onClick={() => scrollTo(s.id)}
             className="font-body text-[9px] md:text-[10px] tracking-[0.18em] uppercase px-3 py-1.5 rounded-full transition-all duration-300"
             style={{
-              color:      active === s.id ? 'rgba(245,208,110,1)' : 'rgba(212,175,55,0.45)',
+              color:      active === s.id ? 'rgba(216,192,113,1)' : 'rgba(212,175,55,0.45)',
               background: active === s.id ? 'rgba(212,175,55,0.12)' : 'transparent',
               letterSpacing: '0.18em',
             }}
@@ -85,7 +85,7 @@ export default function MumMemorialNav() {
           onClick={() => scrollTo('light-a-candle')}
           className="ml-1 flex items-center gap-1 font-body text-[9px] md:text-[10px] tracking-[0.18em] uppercase px-3 py-1.5 rounded-full transition-all hover:scale-105"
           style={{
-            background:  'linear-gradient(135deg, #c9a84c, #f5d06e)',
+            background:  'linear-gradient(135deg, #c9a84c, #d8c071)',
             color:       '#09100a',
             boxShadow:   '0 0 14px rgba(212,175,55,0.35)',
             fontWeight:  600,

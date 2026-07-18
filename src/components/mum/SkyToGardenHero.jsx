@@ -1,189 +1,95 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 import { ChevronDown, Heart } from 'lucide-react';
+import { WithoutYouHereFeature } from './SoniaAmbientPlayer';
 
-const SKY_ANGEL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f61fd7d43_generated_image.png';
-const GARDEN_ENTRY = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png';
+const SKY_WASH = '/images/mum/mum-sky-clean-crop.jpg';
 
 export default function SkyToGardenHero() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start start', 'end start'],
-  });
-
-  // Sky layer moves up and fades out as you scroll
-  const skyY = useTransform(scrollYProgress, [0, 1], ['0%', '-30%']);
-  const skyOpacity = useTransform(scrollYProgress, [0, 0.55, 0.8], [1, 0.8, 0]);
-  const skyScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
-
-  // Garden layer fades in from below
-  const gardenY = useTransform(scrollYProgress, [0.3, 1], ['40%', '0%']);
-  const gardenOpacity = useTransform(scrollYProgress, [0.3, 0.65], [0, 1]);
-
-  // Content fades
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.15, 0.3], [1, 1, 0]);
-  const contentY = useTransform(scrollYProgress, [0, 0.3], [0, -60]);
-
-  // Scroll hint fades
-  const hintOpacity = useTransform(scrollYProgress, [0, 0.1], [1, 0]);
-
   return (
     <section
       id="entrance"
-      ref={ref}
-      className="relative overflow-hidden"
-      style={{ height: '200vh' }}
+      className="relative min-h-[118vh] overflow-hidden"
+      style={{ background: '#020502' }}
     >
-      {/* ══ SKY LAYER — Sonia as angel in blue sky ══ */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ y: skyY, opacity: skyOpacity, height: '100vh' }}
-      >
-        <motion.img
-          src={SKY_ANGEL}
-          alt="Sonia — forever watching over us"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center 25%',
-            scale: skyScale,
-          }}
-        />
-        {/* Soft sky vignette */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: `
-            radial-gradient(ellipse 70% 50% at 50% 30%, transparent 30%, rgba(15,30,60,0.15) 70%, rgba(5,10,25,0.4) 100%),
-            linear-gradient(to bottom, transparent 60%, rgba(5,15,10,0.3) 90%, rgba(2,5,2,0.6) 100%)
-          `,
-        }} />
-      </motion.div>
-
-      {/* ══ GARDEN LAYER — emerges as sky scrolls away ══ */}
-      <motion.div
-        className="absolute inset-0"
-        style={{ y: gardenY, opacity: gardenOpacity, height: '100vh', top: '100vh' }}
-      >
+      <div className="absolute inset-x-0 top-0 h-[58vh] md:h-[66vh]">
         <img
-          src={GARDEN_ENTRY}
+          src={SKY_WASH}
           alt=""
           aria-hidden
+          className="h-full w-full object-cover"
           style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center 40%',
-            filter: 'brightness(0.42) saturate(0.9) contrast(1.05)',
+            objectPosition: 'center top',
+            filter: 'brightness(0.72) saturate(0.86) contrast(1.02)',
           }}
         />
-        <div className="absolute inset-0 pointer-events-none" style={{
+      </div>
+      <div
+        className="absolute inset-x-0 top-0 h-[72vh] pointer-events-none"
+        style={{
+          background: 'linear-gradient(to bottom, rgba(2,5,2,0.08) 0%, rgba(2,5,2,0.45) 58%, rgba(2,5,2,0.98) 100%)',
+        }}
+      />
+
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
           background: `
-            linear-gradient(to right,  rgba(2,5,2,0.92) 0%, rgba(2,5,2,0.35) 16%, transparent 40%),
-            linear-gradient(to left,   rgba(2,5,2,0.92) 0%, rgba(2,5,2,0.35) 16%, transparent 40%),
-            linear-gradient(to top,    rgba(2,5,2,0.95) 0%, rgba(2,5,2,0.40) 30%, transparent 60%),
-            linear-gradient(to bottom, rgba(2,5,2,0.50) 0%, transparent 30%)
+            radial-gradient(ellipse 65% 45% at 68% 34%, rgba(216,192,113,0.10), transparent 62%),
+            linear-gradient(to right, rgba(2,5,2,0.96) 0%, rgba(2,5,2,0.64) 42%, rgba(2,5,2,0.22) 100%),
+            linear-gradient(to bottom, rgba(2,5,2,0.38) 0%, rgba(2,5,2,0.10) 30%, rgba(2,5,2,0.88) 100%)
           `,
-        }} />
-      </motion.div>
+        }}
+      />
 
-      {/* ══ HERO CONTENT — name and intro ══ */}
-      <motion.div
-        className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center z-10"
-        style={{ opacity: contentOpacity, y: contentY, height: '100vh' }}
-      >
-        <motion.p
-          className="font-body text-[8px] md:text-[10px] tracking-[0.8em] uppercase mb-6"
-          style={{ color: 'rgba(255,255,255,0.45)' }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 1.5 }}
-        >
-          A Tribute · Forever in Our Hearts
-        </motion.p>
-
+      <div className="relative z-10 mx-auto grid min-h-screen w-full max-w-7xl items-center gap-10 px-5 pb-28 pt-24 md:grid-cols-[minmax(0,0.9fr)_minmax(420px,0.82fr)] md:px-10 md:pt-32 lg:px-14">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 26 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 1.8 }}
+          transition={{ duration: 1.1 }}
+          className="max-w-2xl text-left"
         >
-          <p className="font-display italic mb-2" style={{
-            color: 'rgba(255,255,255,0.5)',
-            fontSize: 'clamp(0.9rem,2.2vw,1.2rem)',
-          }}>
-            In Loving Memory of
+          <p className="font-body mb-5 text-[9px] uppercase text-primary/55" style={{ letterSpacing: '0.46em' }}>
+            For Mum - Sonia Katisa Waye
           </p>
-          <h1 className="font-display leading-none" style={{
-            fontSize: 'clamp(3.5rem,11vw,7.5rem)',
-            background: 'linear-gradient(145deg, #ffffff 0%, #f5d06e 40%, #ffe08a 50%, #f5d06e 60%, #ffffff 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-            filter: 'drop-shadow(0 0 40px rgba(255,255,255,0.5)) drop-shadow(0 0 80px rgba(255,220,100,0.3))',
-          }}>
-            Sonia
+          <h1
+            className="font-display leading-[0.94] text-foreground"
+            style={{ fontSize: 'clamp(2.55rem, 8vw, 8.2rem)' }}
+          >
+            Her love meets us in the sky first.
           </h1>
-          <h2 className="font-display text-foreground/90 tracking-widest" style={{
-            fontSize: 'clamp(1.1rem,3.5vw,2.2rem)',
-            letterSpacing: '0.14em',
-            textShadow: '0 0 20px rgba(255,255,255,0.4), 0 2px 8px rgba(0,0,0,0.8)',
-          }}>
-            Katisa Waye
-          </h2>
-          <p className="font-body tracking-[0.65em] mt-2" style={{
-            color: 'rgba(255,255,255,0.35)',
-            fontSize: '0.7rem',
-          }}>
-            1961 – 2022
+          <div className="my-5 flex items-center gap-3 md:my-7">
+            <div className="h-px w-20" style={{ background: 'linear-gradient(to right, rgba(212,175,55,0.72), transparent)' }} />
+            <Heart className="h-4 w-4 text-primary/45" fill="rgba(212,175,55,0.22)" />
+          </div>
+          <div className="mb-8 md:hidden">
+            <WithoutYouHereFeature compact />
+          </div>
+          <p className="font-body max-w-xl text-base leading-relaxed text-foreground/68 md:text-lg">
+            A page for the song, the memories, and the garden she left behind. Sky first, then the page carries you down through light, voice, photographs, and the love that keeps rising.
+          </p>
+          <p className="font-display mt-8 max-w-xl text-2xl italic leading-snug text-primary/80 md:text-3xl">
+            "Boy... you're not finished yet."
+          </p>
+          <p className="font-body mt-8 text-[10px] uppercase text-primary/38" style={{ letterSpacing: '0.32em' }}>
+            1961 - 2022 / Forever in our hearts
           </p>
         </motion.div>
 
-        <motion.div
-          className="flex items-center gap-3 my-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-        >
-          <div className="w-14 h-px" style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3))' }} />
-          <Heart className="w-3 h-3" fill="rgba(255,255,255,0.2)" style={{ color: 'rgba(255,255,255,0.25)' }} />
-          <div className="w-14 h-px" style={{ background: 'linear-gradient(to left, transparent, rgba(255,255,255,0.3))' }} />
-        </motion.div>
+        <div className="hidden md:block">
+          <WithoutYouHereFeature compact />
+        </div>
+      </div>
 
-        <motion.blockquote
-          className="max-w-sm"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8, duration: 1.5 }}
-        >
-          <p className="font-display italic leading-relaxed" style={{
-            color: 'rgba(255,255,255,0.6)',
-            fontSize: 'clamp(1rem,2.5vw,1.4rem)',
-          }}>
-            "As long as you remember me,<br />my memory will live on."
-          </p>
-        </motion.blockquote>
-      </motion.div>
-
-      {/* ══ SCROLL HINT ══ */}
       <motion.div
-        className="absolute bottom-8 left-0 right-0 flex flex-col items-center gap-2 z-10"
-        style={{ opacity: hintOpacity, height: '100vh' }}
+        className="absolute bottom-12 left-0 right-0 z-10 flex flex-col items-center gap-2"
+        animate={{ opacity: [0.45, 0.8, 0.45] }}
+        transition={{ duration: 3, repeat: Infinity }}
       >
-        <div className="flex-1" />
-        <motion.p
-          className="font-body text-[9px] tracking-[0.4em] uppercase"
-          style={{ color: 'rgba(255,255,255,0.35)' }}
-          animate={{ opacity: [0.35, 0.6, 0.35] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        >
-          Scroll to her garden
-        </motion.p>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <ChevronDown className="w-5 h-5" style={{ color: 'rgba(255,255,255,0.25)' }} />
-        </motion.div>
+        <p className="font-body text-[9px] uppercase text-primary/42" style={{ letterSpacing: '0.36em' }}>
+          Scroll into her garden
+        </p>
+        <ChevronDown className="h-5 w-5 text-primary/38" />
       </motion.div>
     </section>
   );

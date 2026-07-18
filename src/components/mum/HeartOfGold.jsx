@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * HeartOfGold — refined gold memorial emblem with SVG heart, swallow, MUM text.
+ * HeartOfGold - refined gold memorial emblem with SVG heart, swallow, MUM text.
  * Uses CSS animations as fallback (no external deps needed).
  * Respects prefers-reduced-motion.
  */
@@ -13,7 +13,7 @@ export default function HeartOfGold({ size = 'lg' }) {
   return (
     <div
       className="memorial-heart"
-      aria-label="Forever in my heart — Sonia Katisa Waye"
+      aria-label="Forever in my heart - Sonia Katisa Waye"
       style={{
         position: 'relative',
         width: `clamp(96px, 16vw, ${dim}px)`,
@@ -30,7 +30,7 @@ export default function HeartOfGold({ size = 'lg' }) {
         xmlns="http://www.w3.org/2000/svg"
         style={{ overflow: 'visible' }}
       >
-        {/* Outer heart outline — pulsing */}
+        {/* Outer heart outline - pulsing */}
         <path
           d="M90 155 C 18 92 4 42 38 16 C 62 -2 84 10 90 32 C 96 10 118 -2 142 16 C 176 42 162 92 90 155 Z"
           stroke="rgba(212,175,55,0.88)"
@@ -54,7 +54,7 @@ export default function HeartOfGold({ size = 'lg' }) {
           style={{ animation: 'goldBreath 5s ease-in-out infinite', transformOrigin: '90px 82px' }}
         />
 
-        {/* Orbit shimmer dots — 6 evenly spaced */}
+        {/* Orbit shimmer dots - 6 evenly spaced */}
         {[0, 60, 120, 180, 240, 300].map((deg, i) => {
           const rad = (deg * Math.PI) / 180;
           // Approximate heart perimeter points
@@ -76,7 +76,7 @@ export default function HeartOfGold({ size = 'lg' }) {
           );
         })}
 
-        {/* Swallow silhouette — centred inside heart */}
+        {/* Swallow silhouette - centred inside heart */}
         <g transform="translate(90,72) scale(1)" opacity="0.82">
           {/* Left wing */}
           <path

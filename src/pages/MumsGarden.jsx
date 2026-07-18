@@ -5,10 +5,11 @@ import CinematicScene from '@/components/mums-garden/CinematicScene';
 import GoldDust from '@/components/mums-garden/GoldDust';
 import FiligreeDivider from '@/components/mums-garden/FiligreeDivider';
 import MumGardenGallery from '@/components/mums-garden/MumGardenGallery';
+import { WITHOUT_YOU_HERE_COVER } from '@/config/releaseAssets';
 
 const IMG = {
-  cover: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9998a206c_WithoutYouHereCover.jpg',
-  coverAlt: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d79a33a43_ChatGPTImageJun23202603_50_22PM.png',
+  cover: WITHOUT_YOU_HERE_COVER,
+  coverAlt: WITHOUT_YOU_HERE_COVER,
   sky: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3f0a494fe_ChatGPTImageJun23202605_44_12PM.png',
   title: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f40dcf451_ChatGPTImageJun23202605_44_06PM.png',
   story: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/70762b7fa_ChatGPTImageJun23202605_44_19PM.png',

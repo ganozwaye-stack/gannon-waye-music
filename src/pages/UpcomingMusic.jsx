@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { Music2, Lock, Play, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import { WITHOUT_YOU_HERE_COVER, getReleaseArtwork } from '@/config/releaseAssets';
 
 // Garden-themed upcoming music preview page
 export default function UpcomingMusic() {
@@ -26,7 +27,7 @@ export default function UpcomingMusic() {
     status: 'ready',
     is_published: true,
     description: 'Written in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did.',
-    artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
+    artwork_url: WITHOUT_YOU_HERE_COVER,
     is_featured_new: true,
   }];
 
@@ -157,8 +158,8 @@ export default function UpcomingMusic() {
                       {/* Artwork / play area */}
                       <div className="relative shrink-0 w-20 h-20 rounded-xl overflow-hidden"
                         style={{ border: '1px solid rgba(212,175,55,0.2)', background: 'rgba(212,175,55,0.06)' }}>
-                        {release.artwork_url ? (
-                          <img src={release.artwork_url} alt={release.title}
+                        {getReleaseArtwork(release) ? (
+                          <img src={getReleaseArtwork(release)} alt={release.title}
                             className="w-full h-full object-cover"
                             style={{ filter: 'brightness(0.8)' }} />
                         ) : (

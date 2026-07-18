@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import SingleCoverPlaque from '@/components/mum/SingleCoverPlaque';
 
 const FULL_LYRICS = `Without You Here
 
@@ -100,7 +99,7 @@ Mothers Day
 Copyright Gannon Waye. All rights reserved.`;
 
 export default function MumSongSection() {
-  const [giftOpen, setGiftOpen] = useState(false);
+  const [lyricsOpen, setLyricsOpen] = useState(false);
 
   return (
     <section id="without-you-here" className="px-4 md:px-8 max-w-3xl mx-auto py-16">
@@ -116,16 +115,6 @@ export default function MumSongSection() {
         <p className="font-body text-xs text-muted-foreground/40 tracking-wider mb-8">
           Written in the loungeroom, in the early hours of Mothers Day, 10 May 2026.
         </p>
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.15 }}
-        className="mb-10"
-      >
-        <SingleCoverPlaque size="lg" delay={0.1} />
       </motion.div>
 
       <motion.div
@@ -173,9 +162,9 @@ export default function MumSongSection() {
       </motion.div>
 
       <AnimatePresence mode="wait">
-        {!giftOpen ? (
+        {!lyricsOpen ? (
           <motion.div
-            key="gift-box"
+            key="lyrics-preview-closed"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ scale: 1.1, opacity: 0 }}
@@ -185,18 +174,18 @@ export default function MumSongSection() {
               Full lyrics - Releasing 31 July 2026
             </p>
             <motion.button
-              onClick={() => setGiftOpen(true)}
+              onClick={() => setLyricsOpen(true)}
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               className="flex items-center gap-3 font-body text-xs tracking-widest uppercase px-6 py-3 rounded-full transition-all"
               style={{ border: '1px solid rgba(212,175,55,0.25)', color: 'rgba(212,175,55,0.65)' }}
             >
-              Unwrap the full lyrics preview
+              Open the full lyrics preview
             </motion.button>
           </motion.div>
         ) : (
           <motion.div
-            key="gift-open"
+            key="lyrics-preview-open"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
@@ -214,7 +203,7 @@ export default function MumSongSection() {
                 Full song releasing 31 July 2026 - All rights reserved
               </p>
             </div>
-            <button onClick={() => setGiftOpen(false)} className="mt-3 font-body text-[9px] tracking-[0.3em] uppercase" style={{ color: 'rgba(212,175,55,0.28)' }}>
+            <button onClick={() => setLyricsOpen(false)} className="mt-3 font-body text-[9px] tracking-[0.3em] uppercase" style={{ color: 'rgba(212,175,55,0.28)' }}>
               Close
             </button>
           </motion.div>
