@@ -2,42 +2,43 @@
  
 const { test, expect } = require('@playwright/test');
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
+const gotoStore = (page) => page.goto(`${BASE_URL}/store`, { waitUntil: 'domcontentloaded' });
 
 test.describe('Store Load & Product Cards', () => {
   test('/store loads', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
   });
 
   test('products are visible', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await expect(page.locator('[data-testid="product-card"]').first()).toBeVisible();
   });
 
   test('product images are visible', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await expect(page.locator('[data-testid="product-image"]').first()).toBeVisible({ timeout: 5000 });
   });
 
   test('product titles are visible', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await expect(page.locator('[data-testid="product-title"]').first()).toBeVisible();
   });
 
   test('product prices are visible', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await expect(page.locator('[data-testid="product-price"]').first()).toBeVisible();
   });
 
   test('add-to-cart button visible on each in-stock card', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
     const count = await addBtns.count();
     expect(count).toBeGreaterThan(0);
   });
 
   test('NO size buttons visible on main product grid', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     // Size buttons should NOT be visible directly on the grid (they live in the modal)
     // Check that no size-selector testid exists outside of a modal
     const sizeSelector = page.locator('[data-testid="size-selector"]');
@@ -46,7 +47,7 @@ test.describe('Store Load & Product Cards', () => {
   });
 
   test('add-to-cart button works and shows confirmation', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     // Find a non-apparel product (no size required) or select size first
     const cards = page.locator('[data-testid="product-card"]');
     const count = await cards.count();
@@ -68,7 +69,7 @@ test.describe('Store Load & Product Cards', () => {
   });
 
   test('apparel size must be selected before adding', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     const cards = page.locator('[data-testid="product-card"]');
     const count = await cards.count();
     for (let i = 0; i < count; i++) {
@@ -85,12 +86,12 @@ test.describe('Store Load & Product Cards', () => {
   });
 
   test('cart button is visible with testid', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     await expect(page.locator('[data-testid="cart-button"]')).toBeVisible();
   });
 
   test('no free shipping text on store page', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await gotoStore(page);
     const content = await page.content();
     expect(content.toLowerCase()).not.toContain('free shipping');
   });

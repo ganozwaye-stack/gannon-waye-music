@@ -2,6 +2,19 @@
 
 Prepared 18 June 2026.
 
+Updated 17 July 2026.
+
+## Repository Validation Update
+
+- Added `.github/workflows/build.yml` for `npm run lint` and `npm run build`.
+- Added `.github/workflows/playwright.yml` for the public routes, store load and cart smoke suite.
+- Added `.env.example` with placeholder-only environment variable names.
+- Updated `.gitignore` so `.env.example` is trackable while real env files stay ignored.
+- Updated the GitHub Actions dispatch plan and human-action checklist.
+- Local validation passed: `npm run lint`, `npm run build`, and 30 Playwright smoke tests.
+- Dependency audit note: `npm ci` reports two moderate dependency vulnerabilities; no forced upgrade was applied.
+- Base44 connector verification: main `Gannon Waye Music` app is reachable and has `ApprovalQueue` plus `ContentCalendarPost` entities; specific four campaign approval records were not created from this connector because direct record creation is not exposed here.
+
 ## Ready
 
 - Premium merch advertisement brief and copy.
