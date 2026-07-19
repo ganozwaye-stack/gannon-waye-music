@@ -21,6 +21,7 @@ const NAV_SECTIONS = [
     items: [
       // Top 3-5 Important
       { label: 'Dashboard', path: '/admin', icon: LayoutDashboard },
+      { label: 'Ask Gannon OS', path: '/admin/ask-gannon-os', icon: Command },
       { label: 'Mission Control', path: '/admin/mission-control', icon: Star },
       { label: 'Attention Centre', path: '/admin/business-attention-centre', icon: Bell },
       { label: 'Executive Feed', path: '/admin/executive-feed', icon: FileText },
@@ -57,6 +58,7 @@ const NAV_SECTIONS = [
     items: [
       // Top 3-5 Important
       { label: 'Launch & Content Hub', path: '/admin/launch-content', icon: Megaphone },
+      { label: 'AI Twin Content Studio', path: '/admin/ai-twin-content-studio', icon: Video },
       { label: 'Social Monitor', path: '/admin/social-monitor', icon: Activity },
       { label: 'Social Command', path: '/admin/social-command', icon: Radio },
       { label: 'Social Content Generator', path: '/admin/social-content', icon: Sparkles },

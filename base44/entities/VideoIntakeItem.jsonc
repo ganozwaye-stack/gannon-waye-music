@@ -1,0 +1,134 @@
+{
+  "name": "VideoIntakeItem",
+  "type": "object",
+  "properties": {
+    "file_name": {
+      "type": "string"
+    },
+    "drive_path": {
+      "type": "string",
+      "description": "Google Drive Desktop path or human-readable Drive folder path."
+    },
+    "drive_file_id": {
+      "type": "string",
+      "description": "Google Drive file id once connected through the Drive API."
+    },
+    "drive_url": {
+      "type": "string",
+      "description": "Drive share or preview URL when available."
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "phone_video",
+        "screen_recording",
+        "voice_note",
+        "heygen_export",
+        "capcut_export",
+        "canva_export",
+        "other"
+      ],
+      "default": "phone_video"
+    },
+    "campaign": {
+      "type": "string",
+      "default": "thankyou_merch_push"
+    },
+    "platform_targets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "editing_preset": {
+      "type": "string",
+      "enum": [
+        "raw_truth",
+        "black_gold_merch",
+        "memorial_garden",
+        "release_energy"
+      ],
+      "default": "raw_truth"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "inbox",
+        "selected",
+        "transcribed",
+        "scripted",
+        "editing",
+        "draft_ready",
+        "approval_pending",
+        "approved",
+        "scheduled",
+        "posted",
+        "archived",
+        "rejected"
+      ],
+      "default": "inbox"
+    },
+    "transcript": {
+      "type": "string"
+    },
+    "hook": {
+      "type": "string"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "first_comment": {
+      "type": "string"
+    },
+    "hashtags": {
+      "type": "string"
+    },
+    "capcut_prompt": {
+      "type": "string"
+    },
+    "thumbnail_brief": {
+      "type": "string"
+    },
+    "approval_id": {
+      "type": "string"
+    },
+    "content_calendar_post_id": {
+      "type": "string"
+    },
+    "public_media_url": {
+      "type": "string",
+      "description": "Approved public URL only. Needed before Metricool scheduling."
+    },
+    "performance_notes": {
+      "type": "string"
+    },
+    "safety_notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "file_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

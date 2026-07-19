@@ -124,6 +124,9 @@ export default function CurrentSingle() {
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Current Single</p>
             <h1 className="font-display text-5xl md:text-7xl text-foreground leading-none mb-4">{single.title}</h1>
+            <p className="font-body text-xs uppercase tracking-[0.32em] text-primary/70 mb-4">
+              {single.artist || 'Gannon Waye'}
+            </p>
             {releaseDateText && (
               <motion.p
                 className="font-body text-sm text-muted-foreground mb-6"

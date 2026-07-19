@@ -1,0 +1,85 @@
+{
+  "name": "EditingPreset",
+  "type": "object",
+  "properties": {
+    "preset_key": {
+      "type": "string",
+      "description": "Stable machine key, e.g. raw_truth, black_gold_merch."
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "testing",
+        "paused",
+        "retired"
+      ],
+      "default": "active"
+    },
+    "primary_use": {
+      "type": "string"
+    },
+    "platforms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "colour_grade": {
+      "type": "string"
+    },
+    "filter_stack": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "edit_rhythm": {
+      "type": "string"
+    },
+    "caption_style": {
+      "type": "string"
+    },
+    "thumbnail_style": {
+      "type": "string"
+    },
+    "music_direction": {
+      "type": "string"
+    },
+    "export_specs": {
+      "type": "object"
+    },
+    "approval_notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "preset_key",
+    "display_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@ export const POSTER_PRODUCT_FALLBACK = {
   stock_quantity: 100,
   is_active: true,
   promo_eligible: true,
-  sizes_available: ['A4 — $19', 'A3 — $29', 'A2 — $39', 'A1 — $59'],
+  sizes_available: ['A4 - $19', 'A3 - $29', 'A2 - $39', 'A1 - $59'],
   image_url:
     'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/a54656262_5e2e49fe-b4c2-448f-9390-35847282f185.png',
   images_array: [
@@ -49,7 +49,7 @@ export function getProductVariants(product) {
   return (product?.sizes_available || [])
     .map((option) => {
       const value = String(option);
-      const match = value.match(/^(.*?)\s*[—–-]\s*\$?\s*(\d+(?:\.\d+)?)\s*$/);
+      const match = value.match(/^(.*?)\s*[-]\s*\$?\s*(\d+(?:\.\d+)?)\s*$/);
       if (!match) {
         return {
           label: value,
@@ -78,7 +78,7 @@ export function productWithVariantPrice(product, variant) {
   return {
     ...product,
     sale_price: variant.price,
-    price_note: `${variant.label} — $${variant.price} AUD`,
+    price_note: `${variant.label} - $${variant.price} AUD`,
     selected_variant: variant.label,
   };
 }

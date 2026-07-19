@@ -7,6 +7,10 @@ const TRACKS = [
   {
     id: 'ave_maria',
     title: 'Ave Maria',
+    displaySubtitle: 'Gannon Waye - sung live for Sonia',
+    displayMemoryNote: `"When I was just a boy, I would sit by Mum's side and she would say to me - 'My boy, when I go to heaven, will you sing Ave Maria for me?' I was only young. I said yes, Mum. Years later, in the weeks before she passed, she looked at me softly and said - 'It's okay if you can't.' But I did. I sang for her. And I know she was there, listening."`,
+    displayMemoryLabel: "Sonia's request - fulfilled with love",
+    displayAttribution: "Gannon's memory",
     subtitle: 'Gannon Waye — sung live for Sonia',
     src: 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/6e65f5e12_AveMariaGannonSinging.mp3',
     memoryNote: `"When I was just a boy, I would sit by Mum's side and she would say to me — 'My boy, when I go to heaven, will you sing Ave Maria for me?' I was only young. I said yes, Mum. Years later, in the weeks before she passed, she looked at me softly and said — 'It's okay if you can't.' But I did. I sang for her. And I know she was there, listening."`,
@@ -16,6 +20,10 @@ const TRACKS = [
   {
     id: 'amazing_grace',
     title: 'Amazing Grace',
+    displaySubtitle: 'Gannon Waye - acapella, sung in her memory',
+    displayMemoryNote: `"Amazing Grace was one of Sonia's most beloved hymns. It became part of the way we honoured her - her warmth and her grace all wrapped into those timeless words."`,
+    displayMemoryLabel: 'Sung in her memory - a farewell in music',
+    displayAttribution: 'Family note',
     subtitle: 'Gannon Waye — acapella, sung in her memory',
     src: 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/bb1ad3db4_AmazingGraceAcaapellaGannonSinging.mp3',
     memoryNote: `"Amazing Grace was one of Sonia's most beloved hymns. It became part of the way we honoured her — her warmth and her grace all wrapped into those timeless words."`,
@@ -84,10 +92,28 @@ function TrackPlayer({ track, isAmbient }) {
         className="mb-5 px-1"
       >
         <p className="font-body text-[9px] tracking-[0.4em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.35)' }}>
+          {track.displayMemoryLabel || track.memoryLabel}
+        </p>
+        <p className="hidden font-body text-[9px] tracking-[0.4em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.35)' }}>
           ♥ {track.memoryLabel}
         </p>
         <blockquote
           className="relative pl-5 leading-relaxed"
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            fontStyle: 'italic',
+            fontSize: 'clamp(0.85rem, 2vw, 1.05rem)',
+            color: 'rgba(245,235,210,0.62)',
+            borderLeft: '2px solid rgba(212,175,55,0.22)',
+          }}
+        >
+          {track.displayMemoryNote || track.memoryNote}
+          <span className="block mt-2 font-body not-italic text-[9px] tracking-[0.3em] uppercase" style={{ color: 'rgba(212,175,55,0.30)' }}>
+            {track.displayAttribution || track.attribution}
+          </span>
+        </blockquote>
+        <blockquote
+          className="hidden relative pl-5 leading-relaxed"
           style={{
             fontFamily: "'Playfair Display', serif",
             fontStyle: 'italic',
@@ -137,7 +163,7 @@ function TrackPlayer({ track, isAmbient }) {
         <div className="flex-1 min-w-0">
           <p className="font-display text-base md:text-lg text-foreground/85 truncate mb-0.5">{track.title}</p>
           <p className="font-body text-[9px] tracking-wider mb-3" style={{ color: 'rgba(212,175,55,0.38)' }}>
-            {track.subtitle}
+            {track.displaySubtitle || track.subtitle}
           </p>
           <div
             className="h-0.5 rounded-full cursor-pointer overflow-hidden mb-1"
@@ -241,8 +267,11 @@ export default function SoniaAmbientPlayer() {
         <p className="font-display italic text-lg md:text-xl mb-1" style={{ color: 'rgba(245,235,210,0.55)' }}>
           Without You Here
         </p>
-        <p className="font-body text-xs mb-4" style={{ color: 'rgba(212,175,55,0.30)' }}>
+        <p className="hidden font-body text-xs mb-4" style={{ color: 'rgba(212,175,55,0.30)' }}>
           Gannon Waye — Original Song
+        </p>
+        <p className="font-body text-xs mb-4" style={{ color: 'rgba(212,175,55,0.36)' }}>
+          Gannon Waye - Original Song
         </p>
         <a
           href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz"
@@ -258,9 +287,12 @@ export default function SoniaAmbientPlayer() {
           <svg width="11" height="11" viewBox="0 0 24 24" fill="white">
             <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
           </svg>
-          Stream on Spotify
+          Follow Gannon Waye on Spotify
         </a>
-        <p className="font-body text-[9px] mt-5 italic" style={{ color: 'rgba(212,175,55,0.22)' }}>
+        <p className="font-body text-[9px] mt-5 italic" style={{ color: 'rgba(212,175,55,0.26)' }}>
+          Spotify player appears here on release. For now, the memorial page uses Gannon's private timed preview.
+        </p>
+        <p className="hidden font-body text-[9px] mt-5 italic" style={{ color: 'rgba(212,175,55,0.22)' }}>
           You're My Mum — coming soon · Written 2016, reborn for her
         </p>
       </motion.div>

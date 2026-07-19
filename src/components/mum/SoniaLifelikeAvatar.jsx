@@ -1,16 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Camera, Heart, ShieldCheck, Volume2 } from 'lucide-react';
+import { Camera, Heart, ShieldCheck } from 'lucide-react';
 
 const APPROVED_RULES = [
   'Uses an exact Sonia garden photo only.',
   'No generated face, no face swap, no strange portrait crop.',
   'No talking-mouth avatar is active on this page.',
-  'Original Sonia voice notes can play only as original recordings.',
+  'Original Sonia voice notes stay private unless an exact clip is approved.',
   'Any future animation must be approved before it appears publicly.',
 ];
 
-export default function SoniaLifelikeAvatar({ onComfort, onVoice }) {
+export default function SoniaLifelikeAvatar({ onComfort }) {
   return (
     <div className="mx-auto mt-14 grid max-w-6xl gap-7 px-5 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
       <motion.div
@@ -67,7 +67,7 @@ export default function SoniaLifelikeAvatar({ onComfort, onVoice }) {
 
         <div className="mt-6 rounded-[1.5rem] border border-[#d4af37]/14 bg-[#fff7df]/[0.055] p-5">
           <p className="font-display text-2xl italic leading-snug text-[#fff7df]/90">
-            We are not recreating Mum. We are giving her real photos, her real voice notes, and Gannon’s real memories a beautiful place to breathe.
+            We are not recreating Mum. We are giving her real photos, protected family memories, and Gannon’s real words a beautiful place to breathe.
           </p>
         </div>
 
@@ -89,16 +89,6 @@ export default function SoniaLifelikeAvatar({ onComfort, onVoice }) {
             <Heart className="h-4 w-4" />
             Open comfort room
           </button>
-          {onVoice && (
-            <button
-              type="button"
-              onClick={onVoice}
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-[#d4af37]/24 bg-[#fff7df]/[0.045] px-6 py-3 font-body text-[10px] font-bold uppercase tracking-[0.24em] text-[#f5d06e] transition hover:-translate-y-0.5"
-            >
-              <Volume2 className="h-4 w-4" />
-              Hear real voice notes
-            </button>
-          )}
         </div>
       </motion.div>
     </div>

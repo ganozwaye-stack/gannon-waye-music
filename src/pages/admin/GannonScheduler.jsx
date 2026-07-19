@@ -12,7 +12,7 @@ const SEED_FLAG = 'gwm-action-items-seeded-v1';
 
 const SEED_TASKS = [
   { title: 'Make Mum page private', category: 'Mum Tribute', priority: 'critical', status: 'todo', suggested_by: 'System', notes: 'Protect /mum and /without-you-here from public access.', linked_route: '/admin/mum', brand_risk: true, requires_approval: true },
-  { title: 'Build family upload portal', category: 'Family', priority: 'critical', status: 'todo', suggested_by: 'System', notes: 'Create a place for family to submit photos, videos, voice notes, eulogies, speeches, and stories.', linked_route: '/family/sonia-upload' },
+  { title: 'Build family upload portal', category: 'Family', priority: 'critical', status: 'todo', suggested_by: 'System', notes: 'Create a place for family to submit photos, videos, voice notes, eulogies, speeches, and stories.', linked_route: '/remember-mum' },
   { title: 'Review family photos and voice messages', category: 'Family', priority: 'high', status: 'todo', suggested_by: 'Agent', notes: 'Approve only files that should become part of the tribute archive.', linked_route: '/admin/family-uploads' },
   { title: 'Correct Sonia memorial image groups', category: 'Mum Tribute', priority: 'critical', status: 'todo', suggested_by: 'System', notes: 'Use the approved Me & Mum, Her, Her Humour, Family, Her Animals, Carrying Her, Her Words and Old Days groupings. No photo alteration.', linked_route: '/admin/mum' },
   { title: 'Prepare Sonia Memory Chat knowledge base', category: 'Mum Tribute', priority: 'medium', status: 'todo', suggested_by: 'Agent', notes: 'Use approved memories only. Do not invent. Do not clone voice without explicit approval.', linked_route: '/admin/sonia-memory-chat', brand_risk: true, requires_approval: true },

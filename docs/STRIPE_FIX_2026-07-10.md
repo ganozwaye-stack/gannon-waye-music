@@ -52,6 +52,23 @@ Recommended events:
 - `charge.refunded`
 - `charge.dispute.created`
 
+## Current live setup status — 2026-07-10
+
+- Base44 CLI authenticated as `ganozwaye@gmail.com`.
+- `STRIPE_WEBHOOK_SECRET` was saved to Base44 app `69eb7905ca6eb4180010f794`.
+- Stripe destination `we_1TrdLiEMr9QX7GBLryEIahQn` is active for the `stripeWebhook` endpoint above.
+- Base44 secrets list confirms `STRIPE_SECRET_KEY`, `STRIPE_PUBLISHABLE_KEY`, and `STRIPE_WEBHOOK_SECRET` are present.
+- `integrationHealthCheck` passed with 9 checks, 0 alerts, and 0 open diagnostics.
+- Five stale July 1 `missing_stripe_config` `PaymentDiagnostic` records were marked `resolved` after the clean health check.
+- A non-charging live Checkout Session smoke test succeeded for `Respect Is Earned Coffee Mug`; session creation returned a `cs_live_...` ID.
+
+Still required before marking payments fully complete:
+
+- Complete one controlled live payment test.
+- Confirm Stripe webhook delivery returns HTTP 2xx.
+- Confirm the paid session creates a `MerchOrder`.
+- Confirm receipt email, admin notification, inventory, and profit updates.
+
 ## Verification checklist
 
 Do not mark Stripe complete until all pass:
@@ -64,4 +81,3 @@ Do not mark Stripe complete until all pass:
 6. Admin notification sends.
 7. Inventory/profit logic runs.
 8. Open `PaymentDiagnostic` records are reviewed and resolved only after the successful test.
-

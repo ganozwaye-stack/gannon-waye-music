@@ -37,6 +37,7 @@ function ThankYouFallbackCard() {
           <Badge className="font-body text-[10px] tracking-widest uppercase bg-primary/20 text-primary">Out Now</Badge>
         </div>
         <h2 className="font-display text-3xl md:text-4xl text-foreground">Thank You</h2>
+        <p className="font-body text-xs uppercase tracking-[0.28em] text-primary/70 mt-2">Gannon Waye</p>
         <p className="font-body text-sm text-muted-foreground mt-2">5 June 2026</p>
         <p className="font-body text-foreground/60 mt-4 leading-relaxed">
           "Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.
@@ -49,7 +50,17 @@ function ThankYouFallbackCard() {
   );
 }
 
-const isReleased = () => true;
+const isReleaseStreamable = (release) => {
+  if (release.title === 'Without You Here') return false;
+  return release.status === 'released' || release.status === 'ready' || release.title === 'Thank You';
+};
+
+const getStreamingStatusText = (release) => {
+  if (release.title === 'Without You Here') {
+    return 'Preview only until release. Spotify player will appear here once live. Artist: Gannon Waye.';
+  }
+  return 'Out Now - Listen on Spotify, Apple Music, and YouTube. Artist: Gannon Waye.';
+};
 
 const STATUS_LABELS = {
   idea: 'In the works',
@@ -189,6 +200,9 @@ export default function Music() {
                     </Badge>
                   </div>
                   <h2 className="font-display text-3xl md:text-4xl text-foreground">{release.title}</h2>
+                  <p className="font-body text-xs uppercase tracking-[0.28em] text-primary/70 mt-2">
+                    {release.artist || 'Gannon Waye'}
+                  </p>
                   {release.release_date && release.status === 'released' && (
                     <p className="font-body text-sm text-muted-foreground mt-2">
                       {new Date(release.release_date).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' })}
@@ -233,25 +247,30 @@ export default function Music() {
 
                   {/* Streaming Links */}
                   <div className="flex flex-wrap gap-3 mt-6">
-                    {isReleased() && release.spotify_link ? (
+                    {isReleaseStreamable(release) && release.spotify_link ? (
                       <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
                         <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
                           🎧 Spotify <ExternalLink className="w-3 h-3" />
                         </Button>
                       </a>
                     ) : (
+                      <>
                       <div className="text-xs font-body text-muted-foreground leading-relaxed max-w-sm">
+                        {getStreamingStatusText(release)}
+                      </div>
+                      <div className="hidden text-xs font-body text-muted-foreground leading-relaxed max-w-sm">
                         Out Now · Listen on Spotify, Apple Music, and YouTube
                       </div>
+                      </>
                     )}
-                     {isReleased() && release.apple_music_link && (
+                     {isReleaseStreamable(release) && release.apple_music_link && (
                        <a href={release.apple_music_link} target="_blank" rel="noopener noreferrer">
                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
                            🍎 Apple Music <ExternalLink className="w-3 h-3" />
                          </Button>
                        </a>
                      )}
-                     {isReleased() && release.youtube_link && (
+                     {isReleaseStreamable(release) && release.youtube_link && (
                        <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
                          <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">
                            ▶️ YouTube <ExternalLink className="w-3 h-3" />

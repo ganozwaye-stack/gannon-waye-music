@@ -223,6 +223,24 @@ const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
 ];
 
+const HOME_FEATURE_MOMENTS = [
+  {
+    eyebrow: 'New music',
+    title: 'Without You Here',
+    line: '"Your last breath took mine away. There\'s not much more I have to say."',
+  },
+  {
+    eyebrow: 'Out now',
+    title: 'Thank You',
+    line: '"This is what survival sounds like."',
+  },
+  {
+    eyebrow: 'Worth seeing',
+    title: "Mum's Garden",
+    line: '"Even while leaving, she was still loving me."',
+  },
+];
+
 export default function Home() {
   const { data: settings } = useQuery({
     queryKey: ['siteSettings'],
@@ -253,10 +271,8 @@ export default function Home() {
 
   useEffect(() => {
     const checkCelebration = () => {
-      const now = new Date();
-      const target = new Date('2026-06-05T06:00:00+10:00'); // Friday June 5, 2026 at 6 AM AEST
       const params = new URLSearchParams(window.location.search);
-      if (now >= target || params.get('celebration') === 'true') {
+      if (params.get('celebration') === 'true') {
         setShowCelebration(true);
       }
     };
@@ -278,16 +294,133 @@ export default function Home() {
             src={HERO_IMAGES[currentImg]}
             alt="Gannon Waye"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.55 }}
+            animate={{ opacity: 0.68, scale: [1.02, 1.055, 1.02] }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 1.5 }}
+            transition={{ opacity: { duration: 1.5 }, scale: { duration: 18, repeat: Infinity, ease: 'easeInOut' } }}
             className="absolute inset-0 w-full h-full object-cover object-[center_50%]"
           />
         </AnimatePresence>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#050708_0%,rgba(5,7,8,0.68)_21%,rgba(5,7,8,0.12)_50%,rgba(5,7,8,0.76)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,8,0.82)_0%,rgba(5,7,8,0.24)_26%,rgba(5,7,8,0.52)_66%,#050708_100%)]" />
+        <div className="absolute inset-0 opacity-[0.08] mix-blend-screen [background-image:repeating-linear-gradient(90deg,rgba(255,231,157,0.35)_0px,rgba(255,231,157,0.35)_1px,transparent_1px,transparent_5px)]" />
+        <motion.div
+          className="absolute inset-x-0 top-[18%] h-px bg-gradient-to-r from-transparent via-[#f5d06e]/40 to-transparent"
+          animate={{ opacity: [0.22, 0.56, 0.22], y: [0, 18, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        />
       </div>
 
       {/* Hero */}
-      <section className="relative min-h-[100svh] flex items-center justify-center">
+      <section className="relative min-h-[100svh] overflow-hidden px-4 py-10 md:px-8 md:py-14">
+        <div className="mx-auto flex min-h-[calc(100svh-7rem)] w-full max-w-7xl flex-col justify-center gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center"
+          >
+            <h1 className="bg-gradient-to-b from-[#fff8dc] via-[#f5d06e] to-[#b88926] bg-clip-text font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[0.08em] text-transparent [filter:drop-shadow(0_4px_18px_rgba(0,0,0,0.86))_drop-shadow(0_0_28px_rgba(212,175,55,0.34))] sm:text-7xl lg:text-8xl">
+              Gannon Waye
+            </h1>
+            <p className="mt-4 font-body text-[10px] uppercase tracking-[0.42em] text-[#f5d06e]/80 [text-shadow:0_2px_14px_rgba(0,0,0,0.8),0_0_18px_rgba(212,175,55,0.36)] md:text-xs">
+              Singer-songwriter storyteller
+            </p>
+          </motion.div>
+
+          <div className="grid items-end gap-6 lg:grid-cols-[0.95fr_0.6fr_0.95fr]">
+            <motion.div
+              initial={{ opacity: 0, x: -28 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.85, delay: 0.12 }}
+              className="max-w-xl text-left"
+            >
+              <p className="font-body text-[10px] uppercase tracking-[0.48em] text-[#d4af37]/76">Next single</p>
+              <blockquote className="mt-5 font-display text-3xl italic leading-[1.05] text-[#fff7df] [text-shadow:0_4px_20px_rgba(0,0,0,0.86),0_0_24px_rgba(212,175,55,0.25)] md:text-5xl">
+                "Your last breath took mine away. There's not much more I have to say."
+              </blockquote>
+              <p className="mt-5 max-w-md font-body text-sm leading-7 text-[#fff7df]/68">
+                Without You Here is the next chapter: a tribute, a love letter, and the song for the voice I still reach for.
+              </p>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link to="/music">
+                  <Button className="gap-2 rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#071007] shadow-[0_0_34px_rgba(212,175,55,0.24)]">
+                    <Play className="w-4 h-4" /> Stream now
+                  </Button>
+                </Link>
+                <Link to="/this-is-my-life">
+                  <Button variant="outline" className="gap-2 rounded-full border-[#fff7df]/18 bg-black/12 px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#fff7df] hover:bg-[#fff7df]/6">
+                    My story <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <Link to="/mum">
+                  <Button variant="outline" className="gap-2 rounded-full border-[#d4af37]/28 bg-black/12 px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#f5d06e] hover:bg-[#d4af37]/10">
+                    Without You Here <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+
+            <div className="hidden min-h-[12rem] lg:block" aria-hidden="true" />
+
+            <motion.div
+              initial={{ opacity: 0, x: 28, rotateY: 5 }}
+              animate={{ opacity: 1, x: 0, rotateY: [3, -2, 3] }}
+              transition={{ opacity: { duration: 0.85, delay: 0.2 }, x: { duration: 0.85, delay: 0.2 }, rotateY: { duration: 8, repeat: Infinity, ease: 'easeInOut' } }}
+              className="justify-self-end"
+              style={{ perspective: 1200 }}
+            >
+              <div className="w-full max-w-[430px] rounded-lg border border-[#d4af37]/24 bg-[#060806]/58 p-5 shadow-[0_28px_95px_rgba(0,0,0,0.52),0_0_42px_rgba(212,175,55,0.12)] backdrop-blur-md">
+                <div className="grid gap-4 sm:grid-cols-[116px_1fr]">
+                  <div className="relative aspect-square overflow-hidden rounded-lg border border-[#f5d06e]/34 shadow-[0_0_28px_rgba(212,175,55,0.22)]">
+                    <img src={WITHOUT_YOU_HERE_COVER} alt="Without You Here - Gannon Waye cover art" className="h-full w-full object-cover" />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/16">
+                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007] shadow-[0_0_26px_rgba(212,175,55,0.42)]">
+                        <Play className="h-5 w-5 fill-current" />
+                      </span>
+                    </div>
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/72">Current focus</p>
+                    <h2 className="mt-2 font-display text-3xl italic leading-none text-[#fff7df]">Without You Here</h2>
+                    <p className="mt-2 font-body text-[10px] uppercase tracking-[0.24em] text-[#fff7df]/54">Gannon Waye</p>
+                    <p className="mt-3 font-body text-xs leading-6 text-[#fff7df]/58">
+                      Releasing 31 July 2026. Until Spotify is live, the memorial page carries the private timed preview.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <a href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz" target="_blank" rel="noopener noreferrer">
+                    <Button variant="outline" className="w-full rounded-full border-[#d4af37]/28 bg-black/16 font-body text-[10px] uppercase tracking-[0.22em] text-[#f5d06e] hover:bg-[#d4af37]/10">
+                      Spotify profile
+                    </Button>
+                  </a>
+                  <Link to="/music">
+                    <Button className="w-full rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] font-body text-[10px] uppercase tracking-[0.22em] text-[#071007]">
+                      Stream Thank You
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: 0.38 }}
+            className="grid gap-4 border-y border-[#d4af37]/10 py-5 md:grid-cols-3"
+          >
+            {HOME_FEATURE_MOMENTS.map((moment) => (
+              <Link key={moment.title} to={moment.title === "Mum's Garden" ? '/mum' : '/music'} className="group block">
+                <p className="font-body text-[9px] uppercase tracking-[0.34em] text-[#d4af37]/60">{moment.eyebrow}</p>
+                <h3 className="mt-2 font-display text-xl italic text-[#fff7df] transition group-hover:text-[#f5d06e]">{moment.title}</h3>
+                <p className="mt-2 font-body text-xs leading-5 text-[#fff7df]/54">{moment.line}</p>
+              </Link>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+      <section className="hidden relative min-h-[100svh] flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/20 to-background/90 z-10" />
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
           <motion.div

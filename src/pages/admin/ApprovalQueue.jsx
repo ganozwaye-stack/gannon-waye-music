@@ -303,7 +303,7 @@ function ApprovalDetailModal({ item, onClose, onDecide }) {
           <div className="grid grid-cols-2 gap-2 text-xs">
             <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-2">
               <p className="text-green-400 font-medium mb-0.5">If Approved</p>
-              <p className="text-muted-foreground">{item.tags?.includes('social') ? 'Content scheduled/published' : item.tags?.includes('revenue') ? 'Offer goes live on store' : 'Action is executed by agent'}</p>
+              <p className="text-muted-foreground">{item.tags?.includes('social') ? 'Moves to scheduling or platform draft prep' : item.tags?.includes('revenue') ? 'Moves to proposal execution or store prep' : 'Approved for the next controlled step'}</p>
             </div>
             <div className="bg-red-500/5 border border-red-500/20 rounded-lg p-2">
               <p className="text-red-400 font-medium mb-0.5">If Rejected</p>
@@ -340,7 +340,7 @@ function ApprovalDetailModal({ item, onClose, onDecide }) {
               onClick={() => handleDecide('approved')}
               disabled={acting}
             >
-              <CheckCircle2 className="w-3 h-3" />Approve & Publish
+              <CheckCircle2 className="w-3 h-3" />Approve Next Step
             </Button>
             <Button
               size="sm"
@@ -462,7 +462,7 @@ export default function ApprovalQueue() {
       qc.invalidateQueries({ queryKey: ['approval-queue-all'] });
       qc.invalidateQueries({ queryKey: ['sprint-posts'] });
       qc.invalidateQueries({ queryKey: ['sprint-approvals'] });
-      toast.success(`Action Executed and Status updated to: ${vars.status}`);
+      toast.success(`Approval status updated to: ${vars.status}`);
       setSelected(null);
     },
     onError: (err) => {

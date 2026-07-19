@@ -5,6 +5,8 @@ This document tracks the consolidation of the 171 individual admin paths into th
 | Old Route | New Hub | New Route | Visible Label | Access Level | Status | Reason |
 |-----------|---------|-----------|---------------|--------------|--------|--------|
 | `/admin` | Dashboard | `/admin` | Dashboard | Admin | Active | Main cockpit entry point |
+| `/admin/ask-gannon-os` | Dashboard | `/admin/ask-gannon-os` | Ask Gannon OS | Admin | Active | Natural-language owner command layer |
+| `/admin/ai-twin-content-studio` | Launch & Content | `/admin/ai-twin-content-studio` | AI Twin Content Studio | Admin | Active | Pressmaster feed, HeyGen script queue and approval-gated content bank |
 | `/admin/releases` | Music & Fan | `/admin/music-fan?tab=releases` | Music | Admin | Redirected | Consolidate under Music & Fan |
 | `/admin/merch` | Store & Orders | `/admin/store-orders?tab=merch` | Store | Admin | Redirected | Consolidate under Store & Orders |
 | `/admin/orders` | Store & Orders | `/admin/store-orders?tab=orders` | Orders | Admin | Redirected | Consolidate under Store & Orders |

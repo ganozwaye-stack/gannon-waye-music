@@ -10,17 +10,19 @@ const ROOT_ROUTES = ['/', '/music', '/store', '/community'];
 export default function PublicLayout() {
   const { pathname } = useLocation();
   const isRootRoute = ROOT_ROUTES.includes(pathname);
+  const isStoreLanding = pathname === '/store';
+  const isImmersiveMemorial = pathname === '/mum' || pathname === '/mum/garden' || pathname === '/mum-garden' || pathname === '/mum-garden-preview';
 
   return (
-    <div className="min-h-screen flex flex-col pb-14">
+      <div className="min-h-screen flex flex-col pb-14">
       <Navbar />
-      <CartButton />
-      <main className="flex-1 pt-16">
+      {!isImmersiveMemorial && <CartButton />}
+      <main className={`flex-1 ${isStoreLanding || isImmersiveMemorial ? 'pt-0' : 'pt-16'}`}>
         <AnimatePresence mode="wait">
           <Outlet key={pathname} />
         </AnimatePresence>
       </main>
-      <Footer />
+      {!isImmersiveMemorial && <Footer />}
       {isRootRoute && <MobileBottomTabs />}
     </div>
   );

@@ -1,16 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import {
+  ArrowRight,
   BookOpen,
   ChevronDown,
+  Clock3,
   Coffee,
   Heart,
-  Image as ImageIcon,
+  LockKeyhole,
   Music2,
   Play,
   Send,
   ShieldCheck,
   ShoppingBag,
+  Sprout,
   UploadCloud,
   X,
 } from 'lucide-react';
@@ -18,21 +21,21 @@ import { base44 } from '@/api/base44Client';
 import SoniaAmbientPlayer from '@/components/mum/SoniaAmbientPlayer';
 import SoniaLifelikeAvatar from '@/components/mum/SoniaLifelikeAvatar';
 import SoniaHeyGenReadiness from '@/components/mum/SoniaHeyGenReadiness';
-import SoniaVoiceNotes from '@/components/mum/SoniaVoiceNotes';
 import { WITHOUT_YOU_HERE_COVER } from '@/constants/musicAssets';
 
 // Approved direction:
 // - one continuous scroll page
 // - immersive real-feeling Australian backyard garden
 // - pop-up drawers for deeper moments
-// - no generated family members or fake Sonia likenesses
+// - opening uses approved memorial tribute artwork of Sonia in the sky
 // - family photos are presented as exact original images only
 
+const SKY_ANGEL_HERO = '/images/mum/sonia_sky_angel_hero.png';
 const GARDEN_HERO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png';
 const GARDEN_GALLERY = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6591fa60b_generated_image.png';
 const GARDEN_MUSIC = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/63f84cf4f_generated_image.png';
 const GARDEN_WISDOM = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fc387c2b6_generated_image.png';
-const SKY_ANGEL_HERO = '/images/mum/sonia_sky_angel_hero.png';
+const MEMORY_UPLOAD_PATH = '/remember-mum?invite=family';
 
 const REAL_PHOTOS = [
   {
@@ -70,41 +73,41 @@ const REAL_PHOTOS = [
 const SERVICE_CARD_QUOTES = [
   {
     title: 'Her life, remembered',
-    source: 'Funeral service card',
-    text: 'Sonia Katisa Waye · 5 February 1961 — 27 April 2022 · Aged 61.',
+    source: 'Private family record',
+    text: 'Sonia Katisa Waye. 5 February 1961 to 27 April 2022. Aged 61.',
   },
   {
     title: 'Family was her centre',
-    source: 'Funeral service card',
+    source: 'Family remembrance',
     text: 'Totally devoted to family and forever loved by all.',
   },
   {
     title: 'Still our guide',
-    source: 'The Broken Chain · service card',
+    source: 'Family poem',
     text: 'Your love is still our guide.',
   },
   {
     title: 'A grateful goodbye',
-    source: 'Funeral service card',
-    text: 'Thank you for celebrating Sonia’s life with us.',
+    source: 'Family thank-you',
+    text: "Thank you for celebrating Sonia's life with us.",
   },
 ];
 
 const MEMORIAL_TEXT_CARDS = [
   {
-    eyebrow: 'Service card',
+    eyebrow: 'Life record',
     title: 'Sonia Katisa Waye',
-    body: '5 February 1961 — 27 April 2022. Aged 61.',
+    body: '5 February 1961 to 27 April 2022. Aged 61.',
   },
   {
     eyebrow: 'Home',
     title: 'Peacefully, with family beside her',
-    body: 'The service card remembers Sonia passing peacefully at home, with her man and children by her side.',
+    body: 'The private family record remembers Sonia peacefully at home, with her man and children by her side.',
   },
   {
     eyebrow: 'Family',
     title: 'Mother to Carla, Gannon, Jarrad and Crystal',
-    body: 'Forever loved by all — a mother, soulmate, Nanny, and the centre of so many people’s world.',
+    body: "Forever loved by all: a mother, soulmate, Nanny, and the centre of so many people's world.",
   },
   {
     eyebrow: 'Nanny',
@@ -114,7 +117,7 @@ const MEMORIAL_TEXT_CARDS = [
   {
     eyebrow: 'Public tribute',
     title: 'Forever cherished',
-    body: 'The newspaper notice closes with the words: “Forever cherished and in our hearts.”',
+    body: 'The public tribute closes with the words: "Forever cherished and in our hearts."',
   },
 ];
 
@@ -178,7 +181,82 @@ const TATTOO_SCRAPBOOK_PHOTOS = [
   },
 ];
 
+const YOUNGER_YEARS_PHOTOS = [
+  {
+    src: '/images/mum/memory-lane/ML001_FS006.jpg',
+    label: 'Little Sonia',
+    caption: 'An early family photo, kept soft and clear as the opening note for her younger-years tribute.',
+    source: 'Younger years family archive',
+    objectPosition: 'center',
+  },
+  {
+    src: '/images/mum/memory-lane/ML005_FS010.jpg',
+    label: 'Young Sonia in the sun',
+    caption: 'A younger memory given a gentler frame and light enhancement, without changing who is in the photo.',
+    source: 'Younger years family archive',
+    objectPosition: 'center 34%',
+  },
+  {
+    src: '/images/mum/memory-lane/ML007_FS013.jpg',
+    label: 'That look, that spark',
+    caption: 'One of the clearer older images: personality first, archive noise softened.',
+    source: 'Younger years family archive',
+    objectPosition: 'center 34%',
+  },
+];
+
+const FAVOURITE_MOMENTS = [
+  {
+    title: 'Her children',
+    note: 'Carla, Gannon, Jarrad and Crystal were the centre of her world.',
+    detail: 'This should become one of the strongest emotional feature pieces: not a generic family note, but the truth of what mattered most to her.',
+  },
+  {
+    title: 'Gold jewellery',
+    note: 'A little shine, a little glamour, and the kind of detail that felt like her.',
+    detail: 'The space is ready for a real approved photo or cutout. No fake jewellery image should be invented for the public page.',
+  },
+  {
+    title: 'Coffee in the garden',
+    note: 'Morning comfort, familiar warmth, and the everyday ritual that still feels like home.',
+    detail: 'This links the garden, the robe, the chair, and the feeling of visiting her world.',
+  },
+  {
+    title: 'Flowers and colour',
+    note: 'Colour, care, and the living softness that belongs in the garden around her.',
+    detail: 'Use this as a visual pause between heavier story moments.',
+  },
+  {
+    title: 'The song for Mum',
+    note: 'The cover artwork and lyric path sit close to the start, where visitors first enter her world.',
+    detail: 'Without You Here is the emotional spine of the page, not background decoration.',
+  },
+];
+
 const CLEAN_GALLERY_MANIFEST = '/images/mum/memory-lane/_clean_public_gallery_manifest.json';
+
+const USER_REMOVED_MEMORY_SOURCE_IDS = new Set([
+  'FS001',
+  'FS002',
+  'FS003',
+  'FS004',
+  'FS005',
+  'FS008',
+  'FS011',
+  'FS014',
+  'FS016',
+]);
+
+function memoryLaneSourceId(photo) {
+  const value = [photo?.sourceId, photo?.id, photo?.src].filter(Boolean).join(' ');
+  const match = value.match(/FS\d{3}/i);
+  return match ? match[0].toUpperCase() : '';
+}
+
+function isPublicMemoryLanePhoto(photo) {
+  const sourceId = memoryLaneSourceId(photo);
+  return !sourceId || !USER_REMOVED_MEMORY_SOURCE_IDS.has(sourceId);
+}
 
 const GUESTBOOK_STORAGE_KEY = 'sonia-memory-guestbook-submissions-v1';
 const FAMILY_UPLOAD_STORAGE_KEY = 'sonia-family-upload-submissions-v1';
@@ -318,109 +396,169 @@ function GoldButton({ children, onClick, subtle = false, icon: Icon }) {
   );
 }
 
-function SkyToGardenPrologue({ onEnterGarden, onOpenLyrics, onOpenPhoto }) {
-  const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const skyOpacity = useTransform(scrollYProgress, [0, 0.28, 0.54], [1, 1, 0]);
-  const skyScale = useTransform(scrollYProgress, [0, 1], [1, 1.06]);
-  const skyY = useTransform(scrollYProgress, [0, 1], ['0%', '4%']);
-  const gardenOpacity = useTransform(scrollYProgress, [0.1, 0.42, 0.72], [0, 0.72, 1]);
-  const gardenScale = useTransform(scrollYProgress, [0.1, 1], [1.12, 1.01]);
-  const gardenY = useTransform(scrollYProgress, [0, 1], ['6%', '0%']);
-  const angelTextOpacity = useTransform(scrollYProgress, [0, 0.18, 0.3], [1, 1, 0]);
-  const angelTextY = useTransform(scrollYProgress, [0, 0.34], [0, -38]);
-  const gardenTextOpacity = useTransform(scrollYProgress, [0.28, 0.44, 0.7], [0, 1, 1]);
-  const gardenTextY = useTransform(scrollYProgress, [0.28, 0.48], [36, 0]);
-  const scrollCueOpacity = useTransform(scrollYProgress, [0, 0.14, 0.24], [0.55, 0.85, 0]);
+function WithoutYouHerePreviewPlayer({ onLyrics, variant = 'hero' }) {
+  const wide = variant === 'wide';
+  const hero = variant === 'hero';
 
   return (
-    <section ref={sectionRef} id="hero" className="relative h-[180vh] bg-[#020814]">
-      <div className="sticky top-0 h-screen overflow-hidden">
-        <motion.div className="absolute inset-0" style={{ opacity: skyOpacity, scale: skyScale, y: skyY }}>
-          <img
-            src={SKY_ANGEL_HERO}
-            alt=""
-            aria-hidden="true"
-            className="h-full w-full object-cover object-center"
-          />
-        </motion.div>
-
-        <motion.div className="absolute inset-0" style={{ opacity: gardenOpacity, scale: gardenScale, y: gardenY }}>
-          <img
-            src={GARDEN_HERO}
-            alt=""
-            aria-hidden="true"
-            className="h-full w-full object-cover object-center"
-          />
-        </motion.div>
-
+    <div
+      className={
+        wide
+          ? 'mt-8 flex w-full flex-col gap-4 rounded-[1.6rem] border border-[#f5d06e]/20 bg-[#020502]/42 p-4 shadow-[0_22px_70px_rgba(0,0,0,0.34)] backdrop-blur-sm md:flex-row md:items-center md:p-5'
+          : 'flex min-h-[360px] w-full max-w-[330px] flex-col justify-between rounded-[1.8rem] border border-[#f5d06e]/24 bg-[#020502]/46 p-5 text-left shadow-[0_28px_86px_rgba(0,0,0,0.34)] backdrop-blur-sm'
+      }
+    >
+      <div className={wide ? 'flex items-center gap-4 md:w-[27%]' : 'flex flex-col gap-4'}>
         <div
-          className="absolute inset-0"
-          style={{
-            background: `
-              linear-gradient(180deg, rgba(6,20,46,0.34) 0%, rgba(7,16,26,0.05) 24%, rgba(6,14,11,0.18) 62%, rgba(3,8,4,0.92) 100%),
-              linear-gradient(180deg, rgba(8,17,38,0.18) 0%, rgba(8,15,20,0.14) 32%, rgba(4,10,6,0.42) 66%, rgba(3,8,4,0.76) 100%),
-              radial-gradient(circle at 50% 18%, rgba(255,241,212,0.24), transparent 30%),
-              radial-gradient(circle at 12% 28%, rgba(163,198,255,0.2), transparent 24%),
-              radial-gradient(circle at 84% 22%, rgba(250,213,135,0.16), transparent 24%)
-            `,
-          }}
-        />
-
-        <motion.div
-          className="absolute inset-x-0 top-[14vh] z-10 mx-auto max-w-4xl px-6 text-center md:px-10"
-          style={{ opacity: angelTextOpacity, y: angelTextY }}
+          className={
+            wide
+              ? 'relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-[#f5d06e]/42 shadow-[0_0_34px_rgba(212,175,55,0.26)]'
+              : 'relative h-36 w-36 shrink-0 overflow-hidden rounded-2xl border border-[#f5d06e]/42 shadow-[0_0_34px_rgba(212,175,55,0.26)]'
+          }
         >
-          <p className="font-body text-[10px] uppercase tracking-[0.78em] text-white/64">For Mum · Sonia Katisa Waye</p>
-          <h1 className="mt-6 font-display text-5xl leading-[0.95] text-white md:text-7xl">
-            She meets us in the sky first.
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl font-body text-base leading-8 text-white/72 md:text-lg">
-            A peaceful blue opening before the page carries visitors down through light, clouds, and into the garden that still feels like her.
+          <img
+            src={WITHOUT_YOU_HERE_COVER}
+            alt="Without You Here single artwork"
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,transparent,rgba(0,0,0,0.22)_70%)]" />
+        </div>
+        <div className="min-w-0">
+          <p className="font-body text-[10px] uppercase tracking-[0.36em] text-[#f5d06e]/74 [text-shadow:0_0_16px_rgba(212,175,55,0.45)]">
+            Written for her
           </p>
-        </motion.div>
+          <p className={`${hero ? 'max-w-[12rem] text-3xl leading-[0.96]' : 'text-2xl leading-none'} mt-1 font-display italic text-[#fff7df] [text-shadow:0_2px_18px_rgba(0,0,0,0.7),0_0_18px_rgba(212,175,55,0.28)]`}>
+            Without You Here
+          </p>
+          <p className="mt-1 font-body text-[10px] uppercase tracking-[0.24em] text-[#fff7df]/58">
+            Gannon Waye
+          </p>
+          <p className="mt-2 font-body text-[10px] uppercase tracking-[0.22em] text-[#f5d06e]/56">
+            Internal preview - 3:46 to 4:35
+          </p>
+        </div>
+      </div>
 
-        <motion.div
-          className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/58 md:flex"
-          style={{ opacity: scrollCueOpacity }}
-        >
-          <span className="font-body text-[9px] uppercase tracking-[0.42em]">Scroll into the garden</span>
-          <motion.div animate={{ y: [0, 8, 0] }} transition={{ duration: 2, repeat: Infinity }}>
-            <ChevronDown className="h-5 w-5" />
-          </motion.div>
-        </motion.div>
-
-        <motion.div
-          className="absolute inset-x-0 bottom-[11vh] z-10 mx-auto max-w-6xl px-5 md:px-10"
-          style={{ opacity: gardenTextOpacity, y: gardenTextY }}
-        >
-          <div className="max-w-2xl rounded-[2rem] border border-[#d4af37]/18 bg-[#071007]/56 p-6 shadow-[0_30px_100px_rgba(0,0,0,0.4)] backdrop-blur-md md:p-8">
-            <p className="font-body text-[10px] uppercase tracking-[0.72em] text-[#d4af37]/55">Mum's Garden</p>
-            <h2 className="mt-5 font-display text-5xl leading-[0.95] text-[#fff7df] md:text-7xl">
-              Then the garden begins.
-            </h2>
-            <p className="mt-6 max-w-xl font-body text-base leading-8 text-[#fff7df]/66 md:text-lg">
-              From the sky, the page settles into her garden — and from there the story, the music, the photos, and the memories unfold as one long walk with her.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <GoldButton onClick={onEnterGarden} icon={ChevronDown}>
-                Enter her garden
-              </GoldButton>
-              <GoldButton onClick={onOpenLyrics} subtle icon={Music2}>
-                Without You Here
-              </GoldButton>
-              <GoldButton onClick={onOpenPhoto} subtle icon={ImageIcon}>
-                View real photo
-              </GoldButton>
+      <div className={wide ? 'min-w-0 flex-1' : 'mt-7'}>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={onLyrics}
+            className={`${hero ? 'h-14 w-14' : 'h-12 w-12'} flex shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007] shadow-[0_0_30px_rgba(212,175,55,0.34)] transition hover:-translate-y-0.5`}
+            aria-label="Open Without You Here lyrics"
+          >
+            <Play className="h-5 w-5 fill-current" />
+          </button>
+          <div className="min-w-0 flex-1">
+            <div className="h-1.5 overflow-hidden rounded-full bg-[#f5d06e]/18">
+              <div className="h-full w-[58%] rounded-full bg-[linear-gradient(90deg,#caa647,#f8dc82)] shadow-[0_0_18px_rgba(245,208,110,0.55)]" />
+            </div>
+            <div className="mt-2 flex justify-between font-body text-[10px] uppercase tracking-[0.18em] text-[#fff7df]/50">
+              <span>3:46</span>
+              <span>4:35</span>
             </div>
           </div>
-        </motion.div>
+          <Music2 className="hidden h-5 w-5 shrink-0 text-[#f5d06e]/58 md:block" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MumSkyFoyer({ onEnterGarden, onOpenLyrics }) {
+  return (
+    <section id="hero" className="relative min-h-screen overflow-hidden bg-[#020502]">
+      <img
+        src={SKY_ANGEL_HERO}
+        alt="Memorial artwork of Sonia Waye held in a blue sky above soft clouds."
+        className="absolute inset-0 h-full w-full object-cover object-[50%_24%]"
+      />
+      <motion.div
+        className="absolute -left-[10%] bottom-[2%] h-56 w-[64%] rounded-full bg-white/36 blur-3xl"
+        animate={{ x: [0, 24, 0], opacity: [0.32, 0.48, 0.32] }}
+        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute right-[-8%] top-[10%] h-64 w-[58%] rounded-full bg-[#ffe7b0]/24 blur-3xl"
+        animate={{ x: [0, -22, 0], opacity: [0.28, 0.44, 0.28] }}
+        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,28,0.08)_0%,rgba(5,12,28,0.02)_32%,rgba(9,18,13,0.15)_64%,rgba(3,8,4,0.76)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(255,237,176,0.2),transparent_30%),linear-gradient(90deg,rgba(2,5,2,0.48),transparent_30%,transparent_64%,rgba(2,5,2,0.42))]" />
+
+      <div className="relative z-10 flex min-h-screen flex-col px-5 pb-8 pt-24 text-[#fff7df] md:px-10 md:pt-24 lg:px-14">
+        <p className="mx-auto max-w-6xl text-center font-body text-[10px] uppercase tracking-[0.66em] text-[#f5d06e]/88 [text-shadow:0_2px_12px_rgba(0,0,0,0.74),0_0_24px_rgba(212,175,55,0.68)] md:text-sm md:tracking-[0.86em]">
+          A tribute to forever in our hearts
+        </p>
+
+        <div className="grid flex-1 gap-8 pt-7 md:grid-cols-[0.74fr_1.12fr_0.92fr] md:items-start md:pt-0">
+          <blockquote className="max-w-[16rem] self-start pt-[6vh] font-display text-3xl italic leading-[1.18] text-[#fff2bd] [text-shadow:0_3px_16px_rgba(0,0,0,0.82),0_0_26px_rgba(212,175,55,0.4)] sm:text-4xl md:max-w-[18rem] md:pt-[16vh] md:text-5xl">
+            <span className="block">"As long</span>
+            <span className="block pt-2">as you</span>
+            <span className="block pt-2">remember</span>
+            <span className="block pt-2">me, my</span>
+            <span className="block pt-2">memory</span>
+            <span className="block pt-2">will live on."</span>
+          </blockquote>
+
+          <div className="self-start text-center md:pt-[20vh]">
+            <p className="font-display text-2xl italic leading-none text-[#f5d06e]/92 [text-shadow:0_3px_14px_rgba(0,0,0,0.74),0_0_24px_rgba(212,175,55,0.58)] md:-translate-x-24 md:text-3xl">
+              In Loving Memory of
+            </p>
+            <h1 className="mt-1 bg-gradient-to-b from-[#fff8dc] via-[#f5d06e] to-[#b98a2b] bg-clip-text font-display text-7xl leading-[0.82] text-transparent [filter:drop-shadow(0_4px_12px_rgba(0,0,0,0.72))_drop-shadow(0_0_26px_rgba(212,175,55,0.42))] sm:text-8xl md:text-9xl">
+              Sonia
+            </h1>
+            <p className="mt-4 text-center font-body text-2xl text-[#fff2bd]/90 [text-shadow:0_3px_12px_rgba(0,0,0,0.76),0_0_18px_rgba(212,175,55,0.45)] md:translate-x-24 md:text-3xl">
+              <span className="inline-block min-w-[17.2rem] text-left tracking-[0.26em]">
+                Katisa Waye
+              </span>
+            </p>
+            <p className="mt-5 text-center font-body text-xs text-[#f5d06e]/78 [text-shadow:0_3px_12px_rgba(0,0,0,0.76),0_0_16px_rgba(212,175,55,0.42)] md:translate-x-24 md:text-sm">
+              <span className="inline-block min-w-[17.2rem] text-justify tracking-[0.62em] after:inline-block after:w-full after:content-['']">
+                1961 - 2022
+              </span>
+            </p>
+            <button
+              type="button"
+              onClick={onEnterGarden}
+              className="mt-8 inline-flex items-center justify-center gap-3 rounded-full border border-[#ffe28a]/48 bg-[linear-gradient(135deg,#caa647,#f8dc82)] px-7 py-3 font-body text-[10px] font-bold uppercase tracking-[0.32em] text-[#071007] shadow-[0_0_36px_rgba(212,175,55,0.36),0_18px_50px_rgba(0,0,0,0.32)] transition hover:-translate-y-0.5 md:translate-x-8"
+            >
+              Enter Sonia's Garden
+              <ChevronDown className="h-4 w-4" />
+            </button>
+          </div>
+
+          <div className="hidden self-start justify-self-end pt-[15vh] md:block">
+            <WithoutYouHerePreviewPlayer onLyrics={onOpenLyrics} />
+          </div>
+        </div>
       </div>
     </section>
+  );
+}
+
+function SoniaGardenWelcome({ onOpenLyrics }) {
+  return (
+    <GardenWorld id="garden-entry" image={GARDEN_HERO} brightness={0.66} minHeight="100vh" align="center 45%">
+      <div className="flex min-h-screen items-center px-5 py-24 md:px-10 md:py-28">
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="rounded-[2.2rem] border border-[#d4af37]/16 bg-[#071007]/34 p-6 shadow-[0_30px_110px_rgba(0,0,0,0.36)] backdrop-blur-sm md:p-8 lg:p-10">
+            <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+              <div>
+                <p className="font-body text-[10px] uppercase tracking-[0.72em] text-[#f5d06e]/62 [text-shadow:0_0_16px_rgba(212,175,55,0.35)]">Mum's Garden</p>
+                <h1 className="mt-5 font-display text-5xl leading-[0.95] text-[#fff7df] [text-shadow:0_3px_18px_rgba(0,0,0,0.78),0_0_22px_rgba(212,175,55,0.22)] md:text-7xl">
+                  Welcome to Sonia's Garden
+                </h1>
+                <p className="mt-6 max-w-2xl font-body text-base leading-8 text-[#fff7df]/72 md:text-lg">
+                  A soft walk through the world she left behind: the garden light, the family photos, the song written for her, and the ordinary details that made Sonia feel like home.
+                </p>
+              </div>
+              <WithoutYouHerePreviewPlayer onLyrics={onOpenLyrics} variant="wide" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </GardenWorld>
   );
 }
 
@@ -431,7 +569,7 @@ function StickyListenBar({ onLyrics }) {
 
   return (
     <motion.div
-      className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-1.5rem)] max-w-3xl -translate-x-1/2 rounded-full border border-[#d4af37]/20 bg-[#071007]/88 px-3 py-2 shadow-[0_22px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl md:bottom-6 md:px-4"
+      className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-1.5rem)] max-w-3xl -translate-x-1/2 rounded-[1.6rem] border border-[#d4af37]/20 bg-[#071007]/88 px-3 py-2.5 shadow-[0_22px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:rounded-full md:bottom-6 md:left-auto md:right-6 md:w-[420px] md:translate-x-0 md:px-4"
       style={{ opacity, y }}
     >
       <div className="flex items-center gap-3">
@@ -446,16 +584,16 @@ function StickyListenBar({ onLyrics }) {
           </div>
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate font-display text-sm text-[#fff7df]">Without You Here</p>
-          <p className="truncate font-body text-[10px] uppercase tracking-[0.22em] text-[#d4af37]/46">Gannon Waye · for Mum</p>
+          <p className="font-display text-sm leading-snug text-[#fff7df]">Without You Here</p>
+          <p className="font-body text-[10px] uppercase leading-snug tracking-[0.16em] text-[#d4af37]/46 sm:tracking-[0.22em]">Gannon Waye · for Mum</p>
         </div>
         <button
           onClick={onLyrics}
-          className="hidden rounded-full border border-[#d4af37]/18 px-4 py-2 font-body text-[10px] uppercase tracking-[0.24em] text-[#f5d06e]/78 transition hover:bg-white/5 sm:block"
+          className="hidden shrink-0 rounded-full border border-[#d4af37]/18 px-4 py-2 font-body text-[10px] uppercase tracking-[0.24em] text-[#f5d06e]/78 transition hover:bg-white/5 sm:block"
         >
           Lyrics
         </button>
-        <button className="rounded-full bg-[#f5d06e] px-4 py-2 font-body text-[10px] font-bold uppercase tracking-[0.24em] text-[#071007]">
+        <button className="shrink-0 rounded-full bg-[#f5d06e] px-4 py-2 font-body text-[10px] font-bold uppercase tracking-[0.24em] text-[#071007]">
           Listen
         </button>
       </div>
@@ -512,6 +650,53 @@ function LuxuryObjectScene({ onComfort }) {
   );
 }
 
+function FavouriteThingsFeature({ onOpen }) {
+  return (
+    <div className="mx-auto mt-16 max-w-6xl px-5">
+      <div className="mb-8 grid gap-5 md:grid-cols-[0.92fr_1.08fr] md:items-end">
+        <div>
+          <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/52">Favourite things</p>
+          <h3 className="mt-3 font-display text-4xl leading-tight text-[#fff7df] md:text-5xl">
+            The things that made the garden feel like Sonia.
+          </h3>
+        </div>
+        <p className="font-body text-sm leading-7 text-[#fff7df]/54">
+          These are memory plaques rather than product cards. Some can open now, and some are waiting for an approved real photo before they become visual cutouts.
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+        {FAVOURITE_MOMENTS.map((item, index) => (
+          <motion.button
+            key={item.title}
+            type="button"
+            onClick={() => onOpen(item)}
+            className={`group relative min-h-[240px] overflow-hidden rounded-[1.6rem] border border-[#d4af37]/14 bg-[#071007]/68 p-5 text-left shadow-[0_20px_70px_rgba(0,0,0,0.3)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#d4af37]/34 ${index === 0 ? 'lg:col-span-2' : ''}`}
+            initial={{ opacity: 0, y: 22 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: index * 0.05 }}
+          >
+            <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#f5d06e]/10 blur-3xl transition group-hover:bg-[#f5d06e]/18" />
+            <div className="relative flex min-h-[208px] flex-col justify-between">
+              <div>
+                <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-full border border-[#d4af37]/18 bg-[#f5d06e]/12 text-[#f5d06e] shadow-[0_0_22px_rgba(212,175,55,0.22)]">
+                  <Heart className="h-4 w-4" fill="rgba(245,208,110,0.18)" />
+                </div>
+                <p className="font-display text-2xl leading-tight text-[#fff7df]">{item.title}</p>
+                <p className="mt-3 font-body text-sm leading-6 text-[#fff7df]/58">{item.note}</p>
+              </div>
+              <p className="mt-6 font-body text-[10px] uppercase tracking-[0.24em] text-[#d4af37]/58">
+                Open memory note
+              </p>
+            </div>
+          </motion.button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function LyricLanterns({ onOpen }) {
   return (
     <div className="mx-auto mt-14 grid max-w-5xl gap-5 px-5 md:grid-cols-3">
@@ -525,9 +710,9 @@ function LyricLanterns({ onOpen }) {
           viewport={{ once: true }}
           transition={{ duration: 0.65, delay: index * 0.08 }}
         >
-          <div className="relative min-h-[270px] overflow-hidden rounded-[1.7rem] border border-[#d4af37]/18 bg-[#071007]/68 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-md transition duration-300 group-hover:-translate-y-1 group-hover:border-[#d4af37]/36">
+          <div className="relative flex min-h-[320px] overflow-hidden rounded-[1.7rem] border border-[#d4af37]/18 bg-[#071007]/68 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-md transition duration-300 group-hover:-translate-y-1 group-hover:border-[#d4af37]/36 sm:min-h-[290px] md:min-h-[310px]">
             <div className="absolute inset-x-10 top-0 h-28 rounded-full bg-[#f5d06e]/18 blur-3xl" />
-            <div className="relative flex h-full flex-col justify-between">
+            <div className="relative flex min-h-full flex-1 flex-col justify-between gap-10">
               <span className="w-fit rounded-full border border-[#d4af37]/16 bg-[#f5d06e]/8 px-3 py-1 font-body text-[9px] uppercase tracking-[0.34em] text-[#d4af37]/62">
                 {moment.kicker}
               </span>
@@ -585,12 +770,7 @@ function PhotoGarden({ onOpen }) {
       {REAL_PHOTOS.map((photo, index) => (
         <motion.button
           key={photo.src}
-          onClick={() => onOpen({
-            ...photo,
-            label: 'Original family photograph',
-            caption: 'Held exactly as the original image was provided. No people are generated, swapped, redrawn, or replaced.',
-            source: 'Family photo archive',
-          })}
+          onClick={() => onOpen(photo)}
           className="group text-left"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -612,6 +792,54 @@ function PhotoGarden({ onOpen }) {
           </div>
         </motion.button>
       ))}
+    </div>
+  );
+}
+
+function YoungerYearsTribute({ onOpen }) {
+  return (
+    <div className="mx-auto mt-14 max-w-6xl px-5">
+      <div className="mb-6 max-w-3xl">
+        <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/52">Younger years</p>
+        <h3 className="mt-3 font-display text-3xl text-[#fff7df]">A softer space for the earlier photos.</h3>
+        <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/52">
+          These older images are kept true to the archive, with light, contrast, and framing improved on the page so they feel cared for without changing the people inside them.
+        </p>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {YOUNGER_YEARS_PHOTOS.map((photo, index) => (
+          <motion.button
+            key={photo.src}
+            onClick={() => onOpen(photo)}
+            className="group text-left"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.65, delay: index * 0.07 }}
+          >
+            <div className="overflow-hidden rounded-lg border border-[#d4af37]/14 bg-[#071007]/72 shadow-[0_24px_80px_rgba(0,0,0,0.34)] backdrop-blur-md transition duration-300 group-hover:-translate-y-1 group-hover:border-[#d4af37]/30">
+              <div className="relative aspect-[4/5] overflow-hidden bg-black/28">
+                <img
+                  src={photo.src}
+                  alt={photo.label}
+                  loading="lazy"
+                  className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
+                  style={{
+                    objectPosition: photo.objectPosition,
+                    filter: 'brightness(1.04) contrast(1.08) saturate(1.04) sepia(0.05)',
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#071007]/66 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4">
+                  <p className="font-display text-xl text-[#fff7df]">{photo.label}</p>
+                  <p className="mt-1 font-body text-[10px] uppercase tracking-[0.22em] text-[#d4af37]/58">Open photo</p>
+                </div>
+              </div>
+            </div>
+          </motion.button>
+        ))}
+      </div>
     </div>
   );
 }
@@ -698,7 +926,9 @@ function CapturedSlideshow({ onOpen }) {
     };
   }, []);
 
-  const galleryPhotos = cleanGallery.length > 0 ? cleanGallery : CAPTURED_SLIDESHOW_PHOTOS;
+  const approvedCleanGallery = cleanGallery.filter(isPublicMemoryLanePhoto);
+  const approvedFallbackGallery = CAPTURED_SLIDESHOW_PHOTOS.filter(isPublicMemoryLanePhoto);
+  const galleryPhotos = approvedCleanGallery.length > 0 ? approvedCleanGallery : approvedFallbackGallery;
 
   return (
     <div className="mx-auto mt-14 max-w-6xl px-5">
@@ -709,7 +939,7 @@ function CapturedSlideshow({ onOpen }) {
             <h3 className="mt-2 font-display text-3xl text-[#fff7df]">A cleaned walk through her life, held without labels.</h3>
           </div>
           <p className="max-w-md font-body text-xs leading-6 text-[#fff7df]/48">
-            This gallery is auto-screened to remove doubles, blurred candidates, service-card scans, newspaper crops, approval sheets, and funeral-room/coffin/grave-style material from the public garden.
+            This gallery is screened to remove crossed-out images, blurred candidates, heavy document scans, approval sheets, and any grave, coffin, or no-Sonia material from the public garden.
           </p>
         </div>
 
@@ -719,7 +949,7 @@ function CapturedSlideshow({ onOpen }) {
               key={`${photo.src}-${index}`}
               onClick={() => onOpen({
                 ...photo,
-                label: 'Original memory image',
+                label: photo.label || 'Original memory image',
                 caption: photo.caption || 'Captured for Gannon and family approval before public use.',
               })}
               className="group text-left"
@@ -751,7 +981,7 @@ function CapturedSlideshow({ onOpen }) {
 
 
 function FamilyContributionAccess() {
-  const contributionPath = '/family/sonia-upload?invite=family';
+  const contributionPath = MEMORY_UPLOAD_PATH;
   const reviewPath = '/admin/family-uploads';
   const displayContributionUrl = typeof window !== 'undefined'
     ? `${window.location.origin}${contributionPath}`
@@ -794,7 +1024,7 @@ function FamilyContributionAccess() {
 function MumPrivateGate({ onUnlock }) {
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
-  const contributionPath = '/family/sonia-upload?invite=family';
+  const contributionPath = MEMORY_UPLOAD_PATH;
 
   const submit = (event) => {
     event.preventDefault();
@@ -807,54 +1037,136 @@ function MumPrivateGate({ onUnlock }) {
   };
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#020502] px-5 py-12 text-[#fff7df]">
+    <main className="relative min-h-screen overflow-hidden bg-[#030804] text-[#fff7df]">
+      <img
+        src={SKY_ANGEL_HERO}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover object-[50%_22%]"
+        style={{ filter: 'brightness(0.72) saturate(1.04) contrast(1.02)' }}
+      />
       <img
         src={GARDEN_HERO}
         alt=""
         aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover opacity-45"
-        style={{ filter: 'brightness(0.54) saturate(1.05)' }}
+        className="absolute inset-0 h-full w-full object-cover object-center opacity-48 mix-blend-multiply"
+        style={{ filter: 'brightness(0.78) saturate(1.08)' }}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_18%,rgba(245,208,110,0.18),transparent_34%),linear-gradient(90deg,rgba(2,5,2,0.94),rgba(2,5,2,0.70),rgba(2,5,2,0.94))]" />
+      <div
+        className="absolute inset-0"
+        style={{
+          background: `
+            linear-gradient(180deg, rgba(7,17,38,0.34) 0%, rgba(6,12,12,0.20) 36%, rgba(3,8,4,0.92) 100%),
+            linear-gradient(90deg, rgba(2,5,2,0.94) 0%, rgba(2,5,2,0.62) 44%, rgba(2,5,2,0.84) 100%),
+            radial-gradient(circle at 24% 22%, rgba(245,208,110,0.20), transparent 30%),
+            radial-gradient(circle at 72% 16%, rgba(255,247,223,0.18), transparent 28%)
+          `,
+        }}
+      />
 
-      <section className="relative z-10 w-full max-w-2xl rounded-[2rem] border border-[#d4af37]/20 bg-[#071007]/82 p-6 text-center shadow-[0_34px_120px_rgba(0,0,0,0.58)] backdrop-blur-xl md:p-9">
-        <ShieldCheck className="mx-auto h-10 w-10 text-[#f5d06e]" />
-        <p className="mt-5 font-body text-[10px] uppercase tracking-[0.46em] text-[#d4af37]/55">Private pre-launch memorial</p>
-        <h1 className="mt-4 font-display text-4xl leading-tight text-[#fff7df] md:text-6xl">Mum&apos;s Garden is closed for family review.</h1>
-        <p className="mx-auto mt-5 max-w-xl font-body text-sm leading-7 text-[#fff7df]/62">
-          This page is ready to inspect, but it is intentionally kept behind a private preview code until Gannon approves it for launch.
-        </p>
-
-        <form onSubmit={submit} className="mx-auto mt-8 flex max-w-md flex-col gap-3 sm:flex-row">
-          <input
-            value={code}
-            onChange={(event) => setCode(event.target.value)}
-            placeholder="Enter preview code"
-            className="min-h-[48px] flex-1 rounded-full border border-[#d4af37]/20 bg-black/32 px-5 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/34 focus:border-[#f5d06e]/60"
-          />
-          <button
-            type="submit"
-            className="rounded-full bg-[#f5d06e] px-6 py-3 font-body text-[10px] font-bold uppercase tracking-[0.24em] text-[#071007] transition hover:-translate-y-0.5"
+      <div className="relative z-10 flex min-h-screen flex-col justify-between px-5 py-6 md:px-10 md:py-8">
+        <header className="flex items-center justify-between gap-4">
+          <a
+            href="/"
+            className="inline-flex items-center gap-3 font-body text-[10px] font-semibold uppercase tracking-[0.28em] text-[#fff7df]/70 transition hover:text-[#f5d06e]"
           >
-            Unlock
-          </button>
-        </form>
-        {error && <p className="mt-3 font-body text-xs text-amber-300">{error}</p>}
-
-        <div className="mt-8 rounded-[1.4rem] border border-[#d4af37]/14 bg-black/22 p-4">
-          <p className="font-body text-[9px] uppercase tracking-[0.34em] text-[#d4af37]/45">Family uploads stay open</p>
-          <p className="mt-3 font-body text-sm leading-6 text-[#fff7df]/58">
-            Family and friends can still send memories, photos, videos, voice notes, and eulogy pieces for Gannon to approve.
-          </p>
+            <Heart className="h-4 w-4 text-[#f5d06e]" fill="rgba(245,208,110,0.18)" />
+            Gannon Waye
+          </a>
           <a
             href={contributionPath}
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-[#d4af37]/24 bg-[#fff7df]/[0.045] px-5 py-3 font-body text-[10px] font-bold uppercase tracking-[0.22em] text-[#f5d06e] transition hover:-translate-y-0.5"
+            className="hidden items-center gap-2 rounded-full border border-[#f5d06e]/24 bg-[#fff7df]/[0.055] px-4 py-2 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#f5d06e] backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-[#fff7df]/[0.08] sm:inline-flex"
           >
             <UploadCloud className="h-4 w-4" />
-            Open family upload link
+            Send a memory
           </a>
-        </div>
-      </section>
+        </header>
+
+        <section className="grid flex-1 items-center gap-10 py-16 md:grid-cols-[minmax(0,1.05fr)_minmax(280px,0.62fr)] md:py-20">
+          <div className="max-w-4xl">
+            <div className="inline-flex items-center gap-2 border border-[#f5d06e]/18 bg-black/22 px-3 py-2 font-body text-[9px] font-bold uppercase tracking-[0.34em] text-[#f5d06e]/76 backdrop-blur-md">
+              <Sprout className="h-3.5 w-3.5" />
+              Coming soon
+            </div>
+            <h1 className="mt-7 max-w-4xl font-display text-5xl leading-[0.92] text-white sm:text-6xl md:text-8xl">
+              Mum&apos;s Garden is being prepared with care.
+            </h1>
+            <p className="mt-7 max-w-2xl font-body text-base leading-8 text-[#fff7df]/74 md:text-lg">
+              A memorial garden for Sonia Waye is almost ready: music, photos, family memories, and a quiet place to visit when love needs somewhere to go.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href={contributionPath}
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-[#f5d06e] px-6 py-3 font-body text-[10px] font-bold uppercase tracking-[0.22em] text-[#071007] transition hover:-translate-y-0.5"
+              >
+                <UploadCloud className="h-4 w-4" />
+                Send a memory
+              </a>
+              <a
+                href="/music"
+                className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full border border-[#fff7df]/18 bg-[#fff7df]/[0.055] px-6 py-3 font-body text-[10px] font-bold uppercase tracking-[0.22em] text-[#fff7df] backdrop-blur-md transition hover:-translate-y-0.5 hover:border-[#f5d06e]/36"
+              >
+                <Music2 className="h-4 w-4" />
+                Gannon&apos;s music
+              </a>
+            </div>
+          </div>
+
+          <aside className="border border-[#d4af37]/18 bg-[#071007]/72 p-5 shadow-[0_28px_90px_rgba(0,0,0,0.42)] backdrop-blur-xl md:p-6">
+            <div className="flex items-start gap-3">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#f5d06e]/12 text-[#f5d06e]">
+                <Clock3 className="h-5 w-5" />
+              </div>
+              <div>
+                <p className="font-body text-[9px] font-bold uppercase tracking-[0.28em] text-[#d4af37]/56">Launch status</p>
+                <p className="mt-2 font-display text-2xl leading-tight text-[#fff7df]">Final family review is open now.</p>
+              </div>
+            </div>
+
+            <div className="mt-6 space-y-4 font-body text-sm leading-6 text-[#fff7df]/62">
+              <p>The public garden is intentionally held until the images, wording, music links, and consent language are approved.</p>
+              <p>Family and friends can still contribute memories while the page is being finished.</p>
+            </div>
+
+            <form onSubmit={submit} className="mt-7 space-y-3">
+              <label htmlFor="mum-garden-preview-code" className="flex items-center gap-2 font-body text-[9px] font-bold uppercase tracking-[0.24em] text-[#d4af37]/54">
+                <LockKeyhole className="h-3.5 w-3.5" />
+                Private preview
+              </label>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <input
+                  id="mum-garden-preview-code"
+                  value={code}
+                  onChange={(event) => setCode(event.target.value)}
+                  placeholder="Preview code"
+                  className="min-h-[48px] min-w-0 flex-1 border border-[#d4af37]/20 bg-black/34 px-4 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/34 focus:border-[#f5d06e]/60"
+                />
+                <button
+                  type="submit"
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-[#f5d06e] px-5 py-3 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#071007] transition hover:-translate-y-0.5"
+                >
+                  Unlock
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+              </div>
+              {error && <p className="font-body text-xs text-amber-300">{error}</p>}
+            </form>
+
+            <a
+              href={contributionPath}
+              className="mt-6 inline-flex w-full min-h-[48px] items-center justify-center gap-2 rounded-full border border-[#d4af37]/24 bg-[#fff7df]/[0.045] px-5 py-3 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#f5d06e] transition hover:-translate-y-0.5"
+            >
+              <ShieldCheck className="h-4 w-4" />
+              Family upload link stays open
+            </a>
+          </aside>
+        </section>
+
+        <footer className="flex flex-col gap-3 border-t border-[#fff7df]/10 pt-5 font-body text-[10px] uppercase tracking-[0.24em] text-[#fff7df]/46 sm:flex-row sm:items-center sm:justify-between">
+          <span>Sonia Katisa Waye memorial garden</span>
+          <span>Music, memory, family review</span>
+        </footer>
+      </div>
     </main>
   );
 }
@@ -1049,12 +1361,12 @@ function ServiceCardSection() {
         viewport={{ once: true }}
         transition={{ duration: 0.7, delay: 0.08 }}
       >
-        <p className="font-body text-[10px] uppercase tracking-[0.42em] text-[#d4af37]/52">From the service card</p>
+        <p className="font-body text-[10px] uppercase tracking-[0.42em] text-[#d4af37]/52">Her life remembered</p>
         <h3 className="mt-4 font-display text-4xl leading-tight text-[#fff7df] md:text-5xl">
-          The facts are kept. The funeral feeling is softened.
+          The facts are kept softly.
         </h3>
         <p className="mt-5 font-body text-sm leading-7 text-[#fff7df]/58">
-          The original service card and newspaper notice are preserved in the private source archive, but the public page uses garden cards and respectful copy instead of showing document scans. This keeps the launch page warm, living, and song-led.
+          The original records stay preserved in the private source archive, while the public page carries only gentle garden cards and respectful copy. This keeps the launch page warm, living, and song-led.
         </p>
 
         <div className="mt-7 grid gap-4 sm:grid-cols-2">
@@ -1144,6 +1456,32 @@ function Drawer({ drawer, onClose }) {
       );
     }
 
+    if (drawer.type === 'favorite') {
+      return (
+        <div className="grid gap-5 md:grid-cols-[0.72fr_1.28fr] md:items-stretch">
+          <div
+            className="min-h-[260px] rounded-[1.4rem] border border-[#d4af37]/14"
+            style={{
+              backgroundImage: `linear-gradient(180deg, rgba(3,8,4,0.16), rgba(3,8,4,0.82)), url(${GARDEN_HERO})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+          <div>
+            <p className="font-body text-[10px] uppercase tracking-[0.38em] text-[#d4af37]/52">Favourite things</p>
+            <h3 className="mt-3 font-display text-4xl text-[#fff7df]">{drawer.data.title}</h3>
+            <p className="mt-5 font-body text-base leading-8 text-[#fff7df]/64">{drawer.data.note}</p>
+            <div className="mt-6 rounded-[1.4rem] border border-[#d4af37]/16 bg-[#fff7df]/[0.06] p-5">
+              <p className="font-body text-sm leading-6 text-[#fff7df]/58">{drawer.data.detail}</p>
+            </div>
+            <p className="mt-5 font-body text-xs leading-6 text-[#fff7df]/42">
+              This is a visual memory note. If a real matching photo is approved, this drawer can become a richer feature with the exact image.
+            </p>
+          </div>
+        </div>
+      );
+    }
+
     if (drawer.type === 'comfort') {
       return (
         <div className="grid gap-5 md:grid-cols-[0.85fr_1.15fr]">
@@ -1214,8 +1552,9 @@ function Drawer({ drawer, onClose }) {
   );
 }
 
-export default function MumTribute() {
+export default function MumTribute({ mode = 'foyer' }) {
   const [drawer, setDrawer] = useState(null);
+  const isGardenMode = mode === 'garden';
   const [unlocked, setUnlocked] = useState(() => {
     if (typeof window === 'undefined') return false;
     const isAdminRoute = window.location.pathname.startsWith('/admin/');
@@ -1228,10 +1567,14 @@ export default function MumTribute() {
 
   useEffect(() => {
     if (typeof document === 'undefined' || typeof window === 'undefined') return;
-    const title = 'Mum’s Garden | Sonia Waye Memorial | Gannon Waye Music';
-    const description = 'A private pre-launch memorial garden for Sonia Waye: photos, memories, music, family contributions, and Gannon Waye’s Without You Here.';
+    const title = isGardenMode
+      ? 'Sonia’s Garden | Sonia Waye Memorial | Gannon Waye Music'
+      : 'In Loving Memory of Sonia | Gannon Waye Music';
+    const description = isGardenMode
+      ? 'A private pre-launch memorial garden for Sonia Waye: photos, memories, music, family contributions, and Gannon Waye’s Without You Here.'
+      : 'A sky foyer for Sonia Waye: a loving entry point into Mum’s Garden, held in music, family memory, and gold light.';
     const image = `${window.location.origin}${WITHOUT_YOU_HERE_COVER}`;
-    const url = `${window.location.origin}/mum`;
+    const url = `${window.location.origin}${isGardenMode ? '/mum/garden' : '/mum'}`;
 
     document.title = title;
     setMetaTag('meta[name="description"]', { name: 'description', content: description });
@@ -1245,7 +1588,7 @@ export default function MumTribute() {
     setMetaTag('meta[name="twitter:description"]', { name: 'twitter:description', content: description });
     setMetaTag('meta[name="twitter:image"]', { name: 'twitter:image', content: image });
     setLinkTag('link[rel="canonical"]', { rel: 'canonical', href: url });
-  }, []);
+  }, [isGardenMode]);
 
   useEffect(() => {
     if (!unlocked || typeof window === 'undefined') return;
@@ -1256,33 +1599,48 @@ export default function MumTribute() {
     return <MumPrivateGate onUnlock={() => setUnlocked(true)} />;
   }
 
+  if (!isGardenMode) {
+    return (
+      <main className="relative overflow-x-hidden bg-[#020502] text-[#fff7df]">
+        <MumSkyFoyer
+          onEnterGarden={() => {
+            const query = window.location.search || '';
+            window.location.href = `/mum/garden${query}`;
+          }}
+          onOpenLyrics={() => {
+            const query = window.location.search || '';
+            window.location.href = `/mum/garden${query}#lyrics`;
+          }}
+        />
+      </main>
+    );
+  }
+
   return (
     <main className="relative overflow-x-hidden bg-[#020502] pb-24 text-[#fff7df]">
       <StickyListenBar onLyrics={() => openDrawer('lyric', LYRIC_MOMENTS[0])} />
-      <SkyToGardenPrologue
-        onEnterGarden={() => document.getElementById('world')?.scrollIntoView({ behavior: 'smooth' })}
-        onOpenLyrics={() => document.getElementById('lyrics')?.scrollIntoView({ behavior: 'smooth' })}
-        onOpenPhoto={() => openDrawer('photo', REAL_PHOTOS[0])}
-      />
+      <SoniaGardenWelcome onOpenLyrics={() => document.getElementById('lyrics')?.scrollIntoView({ behavior: 'smooth' })} />
 
-      <div className="relative z-20 -mt-[28vh]">
-        <GardenWorld id="world" image={GARDEN_HERO} brightness={0.52} minHeight="auto" align="center 45%">
+      <div className="relative z-0">
+        <GardenWorld id="world" image={GARDEN_HERO} brightness={0.62} minHeight="auto" align="center 45%">
           <div className="py-24 md:py-32">
             <SectionHeading eyebrow="The garden world" title="Real backyard, made sacred.">
               <p>
                 A more immaculate, luminous version of the world that still feels like her: robe, coffee, chair, leaves, light, lyrics, and exact family images.
               </p>
             </SectionHeading>
+            <WithoutYouHereCoverFeature />
             <LuxuryObjectScene onComfort={() => openDrawer('comfort')} />
+            <FavouriteThingsFeature onOpen={(item) => openDrawer('favorite', item)} />
           </div>
         </GardenWorld>
       </div>
 
       <GardenWorld id="service-card" image={GARDEN_MUSIC} brightness={0.46} minHeight="auto">
         <div className="py-24 md:py-32">
-          <SectionHeading eyebrow="Her life remembered" title="The service card, held gently.">
+          <SectionHeading eyebrow="Her life remembered" title="The formal facts, held gently.">
             <p>
-              The service card and newspaper tribute are held softly here as memory anchors, with the weight lifted into warmth, garden light, and love.
+              The family records are held softly here as memory anchors, with the weight lifted into warmth, garden light, and love.
             </p>
           </SectionHeading>
           <ServiceCardSection />
@@ -1290,13 +1648,12 @@ export default function MumTribute() {
       </GardenWorld>
 
       <GardenWorld id="lyrics" image={GARDEN_WISDOM} brightness={0.48} minHeight="auto">
-        <div className="py-24 md:py-32">
+        <div className="py-28 pb-36 md:py-36 md:pb-44">
           <SectionHeading eyebrow="Without You Here" title="Lyrics as the path through the garden.">
             <p>
               The lyrics become lanterns in the page, guiding visitors through the garden without breaking the feeling of the walk.
             </p>
           </SectionHeading>
-          <WithoutYouHereCoverFeature />
           <LyricLanterns onOpen={(moment) => openDrawer('lyric', moment)} />
         </div>
       </GardenWorld>
@@ -1311,7 +1668,6 @@ export default function MumTribute() {
           <div className="mt-14">
             <SoniaAmbientPlayer />
           </div>
-          <SoniaVoiceNotes />
         </div>
       </GardenWorld>
 
@@ -1323,6 +1679,7 @@ export default function MumTribute() {
             </p>
           </SectionHeading>
           <PhotoGarden onOpen={(photo) => openDrawer('photo', photo)} />
+          <YoungerYearsTribute onOpen={(photo) => openDrawer('photo', photo)} />
           <TattooScrapbook onOpen={(photo) => openDrawer('photo', photo)} />
           <CapturedSlideshow onOpen={(photo) => openDrawer('photo', photo)} />
         </div>
@@ -1332,16 +1689,13 @@ export default function MumTribute() {
         <div className="py-24 md:py-32">
           <SectionHeading eyebrow="Sonia’s Memory Presence" title="No fake Mum. Just her, held beautifully.">
             <p>
-              This section uses exact Sonia imagery and original voice notes only. No strange avatar crop, no generated replacement person, and no pretending technology can replace her.
+              This section uses exact Sonia imagery and protected family recordings only where approved. No strange avatar crop, no generated replacement person, and no pretending technology can replace her.
             </p>
           </SectionHeading>
           <SoniaLifelikeAvatar
             onComfort={() => openDrawer('comfort')}
-            onVoice={() => document.getElementById('sonia-voice-notes')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
           />
-          <SoniaHeyGenReadiness
-            onVoice={() => document.getElementById('sonia-voice-notes')?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-          />
+          <SoniaHeyGenReadiness />
         </div>
       </GardenWorld>
 

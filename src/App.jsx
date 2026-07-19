@@ -243,6 +243,7 @@ import ContentCommand from '@/pages/admin/ContentCommand';
 import OpenAICommandCentre from '@/pages/admin/OpenAICommandCentre';
 import AgentMessageBus from '@/pages/admin/AgentMessageBus';
 import VideoAgentCommand from '@/pages/admin/VideoAgentCommand';
+import AITwinContentStudio from '@/pages/admin/AITwinContentStudio';
 import CodeAuditCommand from '@/pages/admin/CodeAuditCommand';
 import StrategicExecutionPlan from '@/pages/admin/StrategicExecutionPlan';
 import MerchVisualLab from '@/pages/admin/MerchVisualLab';
@@ -269,12 +270,19 @@ import AutomationAgentsHub from '@/pages/admin/AutomationAgentsHub';
 import SystemsQaHub from '@/pages/admin/SystemsQaHub';
 import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
 import MissionControl from '@/pages/admin/MissionControl';
+import AskGannonOS from '@/pages/admin/AskGannonOS';
 import SystemsManagerOffer from '@/pages/SystemsManagerOffer';
 import SystemsServicePage from '@/pages/SystemsServicePage';
 import Base44ExitPlan from '@/pages/admin/Base44ExitPlan';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const location = useLocation();
+  const isMemorialRoute = location.pathname === '/mum'
+    || location.pathname === '/mum/garden'
+    || location.pathname === '/mum-garden'
+    || location.pathname === '/mum-garden-preview';
+  const showStickySupportBar = !location.pathname.startsWith('/admin') && !isMemorialRoute;
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -298,13 +306,14 @@ const AuthenticatedApp = () => {
 
   return (
     <>
-    <StickySupportBar />
+    {showStickySupportBar && <StickySupportBar />}
     <Routes>
       {/* Public routes */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
         <Route path="/store" element={<Store />} />
+        <Route path="/store-world" element={<Navigate to="/store" replace />} />
         <Route path="/store/all" element={<Store />} />
         <Route path="/store/product/:productKey" element={<StoreProductDetail />} />
         <Route path="/store/cart" element={<StoreCartPage />} />
@@ -340,10 +349,12 @@ const AuthenticatedApp = () => {
         <Route path="/tour" element={<Navigate to="/" replace />} />
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
-        <Route path="/mum-garden" element={<MumTribute />} />
-        <Route path="/mum-garden-preview" element={<MumTribute />} />
-        <Route path="/mum" element={<MumTribute />} />
-        <Route path="/without-you-here" element={<Navigate to="/mum#lyrics" replace />} />
+        <Route path="/mum" element={<MumTribute mode="foyer" />} />
+        <Route path="/mum/garden" element={<MumTribute mode="garden" />} />
+        <Route path="/mum-garden" element={<MumTribute mode="garden" />} />
+        <Route path="/mum-garden-preview" element={<MumTribute mode="garden" />} />
+        <Route path="/without-you-here" element={<Navigate to="/mum/garden#lyrics" replace />} />
+        <Route path="/remember-mum" element={<SoniaUpload />} />
         <Route path="/family/sonia-upload" element={<SoniaUpload />} />
         <Route path="/merch-reel" element={<MerchReelPage />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
@@ -372,6 +383,8 @@ const AuthenticatedApp = () => {
       {/* Admin routes */}
       <Route element={<AdminLayout />}>
         <Route path="/admin" element={<Dashboard />} />
+        <Route path="/admin/ask-gannon-os" element={<AskGannonOS />} />
+        <Route path="/admin/ai-twin-content-studio" element={<AITwinContentStudio />} />
         <Route path="/admin/launch-content" element={<LaunchContentHub />} />
         <Route path="/admin/music-fan" element={<MusicFanHub />} />
         <Route path="/admin/store-orders" element={<StoreOrdersHub />} />
@@ -392,9 +405,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/today" element={<GannonScheduler />} />
         <Route path="/admin/action-centre" element={<GannonScheduler />} />
         <Route path="/admin/family-uploads" element={<FamilyUploads />} />
-        <Route path="/admin/mum" element={<MumTribute />} />
-        <Route path="/admin/mum-tribute" element={<MumTribute />} />
-        <Route path="/admin/without-you-here" element={<MumTribute />} />
+        <Route path="/admin/mum" element={<MumTribute mode="garden" />} />
+        <Route path="/admin/mum-tribute" element={<MumTribute mode="garden" />} />
+        <Route path="/admin/without-you-here" element={<MumTribute mode="garden" />} />
         <Route path="/admin/mum-tribute-studio" element={<MumTributeStudio />} />
         <Route path="/admin/sonia-memory-chat" element={<SoniaMemoryChatAdmin />} />
         <Route path="/admin/releases" element={<Releases />} />

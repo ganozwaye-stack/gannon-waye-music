@@ -8,8 +8,8 @@ import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
 import { useCartStore } from '@/lib/cartStore';
 import CartDrawer from '@/components/store/CartDrawer';
+import { LIVE_RETAIL_PRODUCTS, LIVE_RETAIL_PRODUCT_GALLERIES } from '@/lib/liveRetailProducts';
 import {
-  POSTER_PRODUCT_FALLBACK,
   POSTER_PRODUCT_ID,
   getProductVariants,
   productWithVariantPrice,
@@ -17,6 +17,7 @@ import {
 } from '@/lib/storeProduct';
 
 const STORE_OPEN = true;
+const RETAIL_STORE_HERO_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png';
 
 const CD_SLIM_ID = '69f11d1fc43e13c61fe6b9d6';
 const CD_SIGNED_ID = '69eed3e64e2da78ae4418a9d';
@@ -25,7 +26,7 @@ const TEE_ID = '69eed3e64e2da78ae4418a99';
 const JOURNAL_BUNDLE_ID = '69fbd261b760426cede1b7a3';
 const TOTE_ID = '69eed3e64e2da78ae4418a9a';
 const MUG_ID = '6a16abb0198d4c5d294edc11';
-const WINTER_BUNDLE_ID = 'winter-warmer-bundle-2026';
+const WINTER_BUNDLE_ID = '6a2d595ef7bb7ff53258cdfd';
 const POSTER_ID = POSTER_PRODUCT_ID;
 
 const GROUP_ORDER = {
@@ -51,158 +52,18 @@ const PRODUCT_BADGES = {
 const PRODUCT_CONFIG = {
   [CD_SLIM_ID]: { sub: 'Sold out - official Thankyou CD single.' },
   [CD_SIGNED_ID]: { sub: 'Sold out - deluxe signed edition.' },
-  [HOODIE_ID]: { sub: 'Taking pre-orders now - $89 plus postage.' },
-  [TEE_ID]: { sub: 'Oversized premium tee - $59 plus postage.' },
+  [HOODIE_ID]: { sub: 'Available now - $98 plus postage.' },
+  [TEE_ID]: { sub: 'Sold out - oversized premium tee.' },
   [JOURNAL_BUNDLE_ID]: { sub: 'Limited safe-space journaling bundle - $59 plus postage.' },
   [MUG_ID]: { sub: 'Coffee mug - $9.90 plus postage.' },
-  [WINTER_BUNDLE_ID]: { sub: 'Hoodie plus journal, pen and thermos bundle - $129 plus postage.' },
+  [WINTER_BUNDLE_ID]: { sub: 'Hoodie plus journal, pen and thermos bundle - $119 plus postage.' },
   [TOTE_ID]: { sub: 'Sold out due to popular demand. These will not be restocked.' },
   [POSTER_ID]: { sub: 'Assorted wall poster sizes - pricing varies.' },
 };
 
-const PRODUCT_GALLERIES = {
-  [MUG_ID]: [
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0261db66f_MugBack.png',
-  ],
-  [TOTE_ID]: [
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/39dab5737_RespectisEarnedToteBagBack.png',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9259d695b_RespectisEarnedToteBag-Copy.png',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6e67c609a_RespectisEarnedToteBag.png',
-  ],
-  [TEE_ID]: [
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4b7f96472_IMG_1725.JPG',
-  ],
-};
+const PRODUCT_GALLERIES = LIVE_RETAIL_PRODUCT_GALLERIES;
 
-const FALLBACK_PRODUCTS = [
-  {
-    id: CD_SLIM_ID,
-    name: 'Thankyou CD Single',
-    sale_price: 10,
-    category: 'cd',
-    stock_quantity: 0,
-    price_note: 'Sold Out',
-    image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6fbecc91f_THANKYOUOfficialSingleCover.bmp',
-    description: 'Official Thankyou CD single in a slim clear case.',
-    is_active: true,
-    promo_eligible: false,
-    discount_excluded: true,
-    exclude_from_discounts: true,
-    discount_lock_reason: 'CDs are excluded from discounts.',
-  },
-  {
-    id: CD_SIGNED_ID,
-    name: 'Thankyou Deluxe Signed CD Single',
-    sale_price: 20,
-    category: 'cd',
-    stock_quantity: 0,
-    price_note: 'Sold Out',
-    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c2a1369c4_1.png',
-    description: 'Hand-signed by Gannon Waye. A limited, personal piece of this moment.',
-    is_active: true,
-    promo_eligible: false,
-    discount_excluded: true,
-    exclude_from_discounts: true,
-    discount_lock_reason: 'CDs are excluded from discounts.',
-  },
-  {
-    id: HOODIE_ID,
-    name: 'Thankyou "Respect Is Earned" Oversized Hoodie - Dark Grey',
-    sale_price: 89,
-    category: 'apparel',
-    stock_quantity: 16,
-    price_note: '$89 plus postage',
-    sizes_available: ['XS', 'S', 'M', 'L', 'XL', '2XL'],
-    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png',
-    description: 'Premium dark grey oversized hoodie from the Thankyou collection.',
-    is_active: true,
-    promo_eligible: true,
-  },
-  {
-    id: TEE_ID,
-    name: 'Thankyou "Respect Is Earned" Oversized Tee',
-    sale_price: 59,
-    category: 'apparel',
-    stock_quantity: 20,
-    price_note: '$59 plus postage',
-    sizes_available: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
-    images_array: PRODUCT_GALLERIES[TEE_ID],
-    description: 'Premium oversized tee from the Thankyou collection.',
-    is_active: true,
-    promo_eligible: true,
-  },
-  {
-    id: MUG_ID,
-    name: 'Thankyou "Respect Is Earned" Coffee Mug',
-    sale_price: 9.9,
-    category: 'drinkware',
-    stock_quantity: 30,
-    price_note: '$9.90 plus postage',
-    image_url: PRODUCT_GALLERIES[MUG_ID][0],
-    images_array: PRODUCT_GALLERIES[MUG_ID],
-    description: 'Coffee mug with the Respect Is Earned Thankyou artwork.',
-    is_active: true,
-    promo_eligible: true,
-  },
-  {
-    id: JOURNAL_BUNDLE_ID,
-    name: 'Thankyou Journal, Pen and Thermos Flask Bundle',
-    sale_price: 59,
-    category: 'bundle',
-    stock_quantity: 20,
-    price_note: '$59 plus postage',
-    image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e14220834_Bundle.png',
-    description: 'For journaling, processing and building a safe space. This kit brings the essentials together.',
-    is_active: true,
-    is_featured: true,
-    bundle_includes: ['Journal', 'Pen', 'Thermos Flask'],
-    promo_eligible: false,
-    discount_excluded: true,
-    exclude_from_discounts: true,
-    discount_lock_reason: 'Limited bundles are excluded from promo discounts.',
-  },
-  {
-    id: WINTER_BUNDLE_ID,
-    name: 'Winter Warmer Bundle',
-    sale_price: 129,
-    category: 'bundle',
-    stock_quantity: 12,
-    price_note: '$129 plus postage',
-    image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e14220834_Bundle.png',
-    description: 'Includes the hoodie plus the journal, pen and thermos flask bundle.',
-    is_active: true,
-    is_featured: true,
-    bundle_includes: [
-      'Thankyou "Respect Is Earned" Oversized Hoodie - Dark Grey',
-      'Thankyou Journal, Pen and Thermos Flask Bundle',
-    ],
-    promo_eligible: false,
-    discount_excluded: true,
-    exclude_from_discounts: true,
-    discount_lock_reason: 'Limited bundles are excluded from promo discounts.',
-  },
-  {
-    id: TOTE_ID,
-    name: 'Thankyou Tote Bag',
-    sale_price: 15,
-    category: 'accessories',
-    stock_quantity: 0,
-    price_note: 'Sold Out',
-    image_url: PRODUCT_GALLERIES[TOTE_ID][0],
-    images_array: PRODUCT_GALLERIES[TOTE_ID],
-    description: 'Limited series tote bag featuring the official Thankyou artwork.',
-    is_active: true,
-    promo_eligible: true,
-  },
-  {
-    ...POSTER_PRODUCT_FALLBACK,
-    price_note: 'A4, A3, A2 and A1 — from $19',
-  },
-];
+const FALLBACK_PRODUCTS = LIVE_RETAIL_PRODUCTS;
 
 function formatPrice(product) {
   if (product.price_note) return product.price_note;
@@ -230,6 +91,86 @@ function sortProducts(products) {
 
     return Number(a.sale_price ?? a.price ?? 0) - Number(b.sale_price ?? b.price ?? 0);
   });
+}
+
+function getGalleryImages(product) {
+  return PRODUCT_GALLERIES[product?.id] || product?.images_array || (product?.image_url ? [product.image_url] : []);
+}
+
+function findRetailProduct(products, productId) {
+  return products.find((product) => product.id === productId) || FALLBACK_PRODUCTS.find((product) => product.id === productId);
+}
+
+function NeonFallbackScene({ products, onProduct }) {
+  const railProduct = findRetailProduct(products, HOODIE_ID);
+  const bundleProduct = findRetailProduct(products, WINTER_BUNDLE_ID);
+  const journalProduct = findRetailProduct(products, JOURNAL_BUNDLE_ID);
+  const mugProduct = findRetailProduct(products, MUG_ID);
+  const posterProduct = findRetailProduct(products, POSTER_ID);
+
+  const railImage = getGalleryImages(railProduct)[0];
+  const bundleImage = getGalleryImages(bundleProduct)[0];
+  const journalImage = getGalleryImages(journalProduct)[0];
+  const mugImage = getGalleryImages(mugProduct)[0];
+  const posterImage = getGalleryImages(posterProduct)[0];
+
+  return (
+    <div className="relative min-h-[520px] overflow-hidden bg-[#090806] md:min-h-[680px]">
+      <div className="absolute inset-x-[4%] top-[6%] h-[58%] border border-[#d4af37]/10 bg-[linear-gradient(180deg,#1a1610,#0d0b08)]" />
+      <div className="absolute inset-x-[16%] bottom-[18%] h-[15%] border border-[#d4af37]/20 bg-[linear-gradient(180deg,#352816,#160f08)] shadow-[0_24px_70px_rgba(0,0,0,0.55)]" />
+
+      <button type="button" onClick={() => onProduct(posterProduct)} className="absolute left-[23%] top-[18%] z-10 grid h-[24%] w-[54%] grid-cols-4 gap-2 p-2">
+        {[posterImage, posterImage, posterImage, posterImage].map((image, index) => (
+          <span key={index} className="overflow-hidden border border-[#d4af37]/20 bg-black/50 shadow-[0_8px_30px_rgba(0,0,0,0.45)]">
+            {image && <img src={image} alt="" className="h-full w-full object-cover opacity-80" />}
+          </span>
+        ))}
+      </button>
+
+      <button type="button" onClick={() => onProduct(railProduct)} className="absolute left-[5%] top-[28%] z-20 flex h-[40%] w-[18%] items-end justify-center gap-2">
+        {[0, 1, 2].map((item) => (
+          <span key={item} className="h-[78%] flex-1 overflow-hidden rounded bg-[#161616] shadow-[0_12px_38px_rgba(0,0,0,0.6)]">
+            {railImage && <img src={railImage} alt="" className="h-full w-full object-contain p-1" />}
+          </span>
+        ))}
+      </button>
+
+      <button type="button" onClick={() => onProduct(bundleProduct)} className="absolute bottom-[24%] left-1/2 z-30 h-[34%] w-[25%] -translate-x-1/2 overflow-hidden rounded border border-[#d4af37]/30 bg-black/55 shadow-[0_0_50px_rgba(212,175,55,0.18)]">
+        {bundleImage && <img src={bundleImage} alt="" className="h-full w-full object-contain p-3" />}
+      </button>
+
+      <button type="button" onClick={() => onProduct(journalProduct)} className="absolute bottom-[25%] right-[22%] z-30 h-[18%] w-[14%] overflow-hidden rounded border border-[#d4af37]/20 bg-black/55">
+        {journalImage && <img src={journalImage} alt="" className="h-full w-full object-contain p-2" />}
+      </button>
+
+      <button type="button" onClick={() => onProduct(mugProduct)} className="absolute bottom-[23%] left-[28%] z-30 h-[16%] w-[12%] overflow-hidden rounded border border-[#d4af37]/20 bg-black/55">
+        {mugImage && <img src={mugImage} alt="" className="h-full w-full object-contain p-2" />}
+      </button>
+    </div>
+  );
+}
+
+function RetailStoreHero({ products, onProduct }) {
+  const [imageFailed, setImageFailed] = useState(false);
+
+  return (
+    <section className="bg-[#050505] px-3 pb-8 pt-[76px] md:px-6 md:pt-[84px]">
+      <div className="mx-auto max-w-[1680px]">
+        <div className="relative overflow-hidden rounded-lg border border-[#d4af37]/20 bg-black shadow-[0_40px_120px_rgba(0,0,0,0.72)]">
+          {imageFailed ? (
+            <NeonFallbackScene products={products} onProduct={onProduct} />
+          ) : (
+            <img
+              src={RETAIL_STORE_HERO_IMAGE}
+              alt="Gannon Waye neon merch store interior"
+              onError={() => setImageFailed(true)}
+              className="block h-[calc(100svh-84px)] min-h-[520px] max-h-[860px] w-full object-cover object-[center_18%]"
+            />
+          )}
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function BadgeForProduct({ product }) {
@@ -534,9 +475,19 @@ export default function Store() {
   const cdProducts = sortedProducts.filter((product) => product.category === 'cd' || product.category === 'vinyl');
   const merchProducts = sortedProducts.filter((product) => product.category !== 'cd' && product.category !== 'vinyl');
 
+  const openProduct = (product) => {
+    if (!product?.name) return;
+    navigate(`/store/product/${slugifyProductName(product.name)}`);
+  };
+
   return (
-    <div data-testid="store-page" className="min-h-screen py-24 px-4 md:px-8">
-      <div className="max-w-6xl mx-auto">
+    <div data-testid="store-page" className="min-h-screen pb-24">
+      <RetailStoreHero
+        products={sortedProducts}
+        onProduct={openProduct}
+      />
+
+      <div id="store-products" className="max-w-6xl mx-auto scroll-mt-24 px-4 pt-14 md:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

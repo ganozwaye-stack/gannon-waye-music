@@ -30,12 +30,66 @@
           },
           "price": {
             "type": "number"
+          },
+          "category": {
+            "type": "string"
           }
         }
       }
     },
+    "subtotal_amount": {
+      "type": "number",
+      "description": "Cart subtotal before discount, shipping, and support contribution"
+    },
     "total_amount": {
       "type": "number"
+    },
+    "shipping_amount": {
+      "type": "number",
+      "default": 0,
+      "description": "Shipping charged to the customer in AUD"
+    },
+    "discount_amount": {
+      "type": "number",
+      "default": 0,
+      "description": "Promo discount amount applied in AUD"
+    },
+    "support_contribution": {
+      "type": "number",
+      "default": 0,
+      "description": "Optional extra support contribution paid at checkout"
+    },
+    "promo_code": {
+      "type": "string",
+      "description": "Promo code applied at checkout, if any"
+    },
+    "stripe_session_id": {
+      "type": "string",
+      "description": "Stripe Checkout Session ID used for reconciliation and idempotency"
+    },
+    "stripe_payment_intent": {
+      "type": "string",
+      "description": "Stripe PaymentIntent ID for the paid checkout"
+    },
+    "payment_status": {
+      "type": "string",
+      "enum": [
+        "unpaid",
+        "paid",
+        "failed",
+        "refunded",
+        "partially_refunded",
+        "disputed"
+      ],
+      "default": "unpaid"
+    },
+    "financial_status": {
+      "type": "string",
+      "description": "Internal accounting state such as paid, recovered, duplicate_void, refunded, or test_hold"
+    },
+    "fulfillment_status": {
+      "type": "string",
+      "description": "Internal fulfilment state such as pending, ready_to_ship, shipped, delivered, do_not_ship, or hold_internal_test"
     },
     "status": {
       "type": "string",
@@ -44,11 +98,44 @@
         "confirmed",
         "shipped",
         "delivered",
-        "cancelled"
+        "cancelled",
+        "needs_admin_review",
+        "duplicate"
       ],
       "default": "pending"
     },
+    "receipt_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "admin_notification_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "duplicate_of_order_id": {
+      "type": "string",
+      "description": "If this order is voided as a duplicate, the surviving active order ID"
+    },
+    "excluded_from_revenue": {
+      "type": "boolean",
+      "default": false
+    },
+    "excluded_from_inventory": {
+      "type": "boolean",
+      "default": false
+    },
+    "excluded_from_profit": {
+      "type": "boolean",
+      "default": false
+    },
+    "excluded_from_1800respect_donation": {
+      "type": "boolean",
+      "default": false
+    },
     "tracking_number": {
+      "type": "string"
+    },
+    "admin_note": {
       "type": "string"
     },
     "notes": {

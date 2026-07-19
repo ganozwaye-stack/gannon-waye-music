@@ -27,11 +27,6 @@
       "src": "/images/mum/memory-lane/ML005_FS010.jpg"
     },
     {
-      "memoryLaneId": "ML006",
-      "sourceId": "FS011",
-      "src": "/images/mum/memory-lane/ML006_FS011.jpg"
-    },
-    {
       "memoryLaneId": "ML007",
       "sourceId": "FS013",
       "src": "/images/mum/memory-lane/ML007_FS013.jpg"
@@ -323,6 +318,7 @@
     "FS003",
     "FS005",
     "FS008",
+    "FS011",
     "FS014",
     "FS016",
     "FS023",
