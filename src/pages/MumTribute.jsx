@@ -39,7 +39,7 @@ const GARDEN_HERO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010
 const GARDEN_GALLERY = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6591fa60b_generated_image.png';
 const GARDEN_MUSIC = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/63f84cf4f_generated_image.png';
 const GARDEN_WISDOM = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fc387c2b6_generated_image.png';
-const SONIA_GARDEN_PHOTO = '/images/mum/mum_garden.jpg';
+const SONIA_GARDEN_PHOTO = '/images/mum/memory-lane/ML058_FS116.jpg';
 const AVE_MARIA_GANNON = 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/6e65f5e12_AveMariaGannonSinging.mp3';
 const MEMORY_UPLOAD_PATH = '/remember-mum?invite=family';
 
@@ -127,39 +127,6 @@ const MEMORIAL_TEXT_CARDS = [
   },
 ];
 
-const CAPTURED_SLIDESHOW_PHOTOS = [
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1ddea2586_CopyofIMG_5327.jpg',
-    label: 'S03 · Simple love',
-    caption: 'A younger memory with the same backyard feeling.',
-    source: 'Captured from older Mum image wall',
-  },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/173717f01_CopyofIMG_5440.jpg',
-    label: 'S07 · Coffee and sun',
-    caption: 'A grounded everyday moment — the kind of memory the garden should hold.',
-    source: 'Captured from older Mum image wall',
-  },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6101f75c0_CopyofIMG_5449.jpg',
-    label: 'S08 · Family gathered',
-    caption: 'Backyard, family, guitar, and the sense of home.',
-    source: 'Captured from older Mum image wall',
-  },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c828ecdaa_48963FA0-D6D3-4132-94AC-BCDE290D8224.jpg',
-    label: 'S13 · Surrounded',
-    caption: 'A family moment that feels alive rather than heavy.',
-    source: 'Captured from older Mum image wall',
-  },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e08e9be77_CopyofD355346C-88AB-482B-AF02-8C0FFBC2FDDE.JPG',
-    label: 'S17 · Her companion',
-    caption: 'One of the gentle animal memories from the older image wall.',
-    source: 'Captured from older Mum image wall',
-  },
-];
-
 const TATTOO_SCRAPBOOK_PHOTOS = [
   {
     src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/7df2f998b_A181BD35-93F3-41FB-B671-2FABC71B701A.jpg',
@@ -235,15 +202,29 @@ const USER_REMOVED_MEMORY_SOURCE_IDS = new Set([
   'FS016',
 ]);
 
+const FEATURED_TOP_MEMORY_SOURCE_IDS = new Set(['FS116', 'FS117']);
+
 function memoryLaneSourceId(photo) {
   const value = [photo?.sourceId, photo?.id, photo?.src].filter(Boolean).join(' ');
   const match = value.match(/FS\d{3}/i);
   return match ? match[0].toUpperCase() : '';
 }
 
+function memoryLaneId(photo) {
+  const value = [photo?.memoryLaneId, photo?.id, photo?.src].filter(Boolean).join(' ');
+  const match = value.match(/ML\d{3}/i);
+  return match ? match[0].toUpperCase() : '';
+}
+
 function isPublicMemoryLanePhoto(photo) {
   const sourceId = memoryLaneSourceId(photo);
   return !sourceId || !USER_REMOVED_MEMORY_SOURCE_IDS.has(sourceId);
+}
+
+function isFeaturedTopMemoryPhoto(photo) {
+  const sourceId = memoryLaneSourceId(photo);
+  const laneId = memoryLaneId(photo);
+  return FEATURED_TOP_MEMORY_SOURCE_IDS.has(sourceId) || laneId === 'ML058' || laneId === 'ML059';
 }
 
 function memoryLaneOrder(photo, index) {
@@ -682,22 +663,35 @@ function SoniaGardenPresenceFeature() {
         animate={{ opacity: [0.16, 0.34, 0.16], x: [0, 22, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <div className="absolute -right-2 bottom-0 top-6 w-[72%] max-w-[520px]">
-        <img
-          src={SONIA_GARDEN_PHOTO}
-          alt="Sonia sitting in her garden."
-          className="h-full w-full rounded-tl-[4rem] object-cover object-[58%_50%] opacity-95 shadow-[0_30px_80px_rgba(0,0,0,0.48)]"
-          style={{
-            filter: 'brightness(0.96) contrast(1.02) saturate(0.98)',
-            maskImage: 'linear-gradient(90deg, transparent 0%, #000 20%, #000 100%)',
-            WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, #000 20%, #000 100%)',
-          }}
-        />
+      <div className="absolute -right-5 bottom-4 top-8 flex w-[70%] max-w-[500px] items-center justify-center pr-4">
+        <div className="relative aspect-square w-full max-w-[390px]">
+          <div
+            className="absolute -inset-3 bg-[linear-gradient(135deg,#7d5b19,#f7db7d,#b08325)] shadow-[0_0_38px_rgba(245,208,110,0.3),0_28px_80px_rgba(0,0,0,0.48)]"
+            style={{
+              clipPath: 'polygon(50% 96%, 10% 57%, 7% 31%, 25% 10%, 50% 24%, 75% 10%, 93% 31%, 90% 57%)',
+            }}
+          />
+          <div
+            className="relative h-full w-full overflow-hidden bg-[#071007]"
+            style={{
+              clipPath: 'polygon(50% 96%, 10% 57%, 7% 31%, 25% 10%, 50% 24%, 75% 10%, 93% 31%, 90% 57%)',
+            }}
+          >
+            <img
+              src={SONIA_GARDEN_PHOTO}
+              alt="Sonia memory portrait."
+              className="h-full w-full object-cover object-center opacity-95"
+              style={{ filter: 'brightness(1.03) contrast(1.05) saturate(1.02)' }}
+            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,transparent_34%,rgba(7,16,7,0.18)_62%,rgba(7,16,7,0.52)_100%)]" />
+          </div>
+          <div className="absolute -bottom-6 left-1/2 h-16 w-36 -translate-x-1/2 rounded-full bg-[#f5d06e]/18 blur-3xl" />
+        </div>
       </div>
       <div className="absolute bottom-5 left-5 max-w-[17rem] rounded-[1.25rem] border border-[#d4af37]/18 bg-[#071007]/68 p-4 backdrop-blur-md">
         <p className="font-body text-[9px] uppercase tracking-[0.36em] text-[#d4af37]/62">She is here in the garden</p>
         <p className="mt-2 font-display text-2xl italic leading-tight text-[#fff7df] [text-shadow:0_3px_16px_rgba(0,0,0,0.82)]">
-          Coffee, robe, light, and the seat that still feels like Mum.
+          A memory held close, right at the entrance to her garden.
         </p>
       </div>
     </motion.div>
@@ -1074,34 +1068,182 @@ function WithoutYouHereCoverFeature() {
   );
 }
 
-function PhotoGarden({ onOpen }) {
+function memoryLanePhotoLabel(photo, index) {
+  const laneId = memoryLaneId(photo);
+  if (photo?.label) return photo.label;
+  if (laneId) return `Memory ${Number(laneId.replace('ML', ''))}`;
+  return `Memory ${index + 1}`;
+}
+
+function MemoryLaneJourneyCard({ photo, index, onOpen, side = 'left', compact = false }) {
+  const displayPhoto = {
+    ...photo,
+    label: memoryLanePhotoLabel(photo, index),
+    caption: photo.caption || 'Ready for Gannon to caption during review.',
+    source: photo.source || 'Cleaned Mum Garden image audit',
+  };
+
   return (
-    <div className="mx-auto mt-14 grid max-w-6xl gap-5 px-5 sm:grid-cols-2 lg:grid-cols-3">
-      {REAL_PHOTOS.map((photo, index) => (
-        <motion.button
-          key={photo.src}
-          onClick={() => onOpen(photo)}
-          className="group text-left"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65, delay: (index % 3) * 0.08 }}
-        >
-          <div className="overflow-hidden rounded-[1.6rem] border border-[#d4af37]/16 bg-[#071007]/66 shadow-[0_26px_84px_rgba(0,0,0,0.35)] backdrop-blur-md transition duration-300 group-hover:-translate-y-1 group-hover:border-[#d4af37]/30">
-            <div className="relative aspect-[4/3] overflow-hidden">
-              <img
-                src={photo.src}
-                alt="Original family memory photograph"
-                loading="lazy"
-                className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-105"
-                style={{ filter: 'brightness(0.92) saturate(0.98)' }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#071007]/52 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
-              <span className="sr-only">Open original family photograph</span>
+    <motion.button
+      key={`${photo.src}-${index}-${side}`}
+      onClick={() => onOpen(displayPhoto)}
+      className={`group relative block w-full shrink-0 snap-start text-left ${compact ? 'max-w-[150px]' : ''}`}
+      initial={{ opacity: 0, y: 26, rotate: side === 'left' ? -1.5 : 1.5 }}
+      whileInView={{ opacity: 1, y: 0, rotate: side === 'left' ? -0.8 : 0.8 }}
+      viewport={{ once: true, margin: '-10%' }}
+      transition={{ duration: 0.62, delay: Math.min(index * 0.025, 0.22) }}
+    >
+      <div className="relative rounded-[1.05rem] bg-[linear-gradient(145deg,#7d5b19,#f5d06e_48%,#8d651c)] p-[1px] shadow-[0_18px_60px_rgba(0,0,0,0.32),0_0_20px_rgba(212,175,55,0.12)] transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_22px_70px_rgba(0,0,0,0.38),0_0_28px_rgba(245,208,110,0.24)]">
+        <div className="rounded-[1rem] bg-[#f8ecd0]/94 p-1.5">
+          <div className="relative [perspective:1200px]">
+            <div className="relative aspect-[4/5] rounded-[0.72rem] transition duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+              <div className="absolute inset-0 overflow-hidden rounded-[0.72rem] bg-[#071007] [backface-visibility:hidden]">
+                <img
+                  src={photo.src}
+                  alt={displayPhoto.label || 'Sonia family memory photograph'}
+                  loading="lazy"
+                  className="h-full w-full object-cover object-center transition duration-700 group-hover:scale-105"
+                  style={{ filter: 'brightness(1.02) contrast(1.04) saturate(1.02)' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#071007]/56 via-transparent to-transparent" />
+              </div>
+              <div className="absolute inset-0 flex rounded-[0.72rem] bg-[#071007]/92 p-3 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                <div className="flex min-h-full flex-col justify-between">
+                  <div>
+                    <p className="font-body text-[8px] uppercase tracking-[0.24em] text-[#d4af37]/62">
+                      Memory note
+                    </p>
+                    <p className="mt-2 font-display text-lg leading-tight text-[#fff7df]">
+                      {displayPhoto.label}
+                    </p>
+                  </div>
+                  <p className="line-clamp-5 font-body text-[10px] leading-5 text-[#fff7df]/58">
+                    {displayPhoto.caption}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </motion.button>
-      ))}
+          <div className="px-1.5 pb-1 pt-2">
+            <p className="truncate font-body text-[9px] font-bold uppercase tracking-[0.18em] text-[#6f4c12]">
+              {displayPhoto.label}
+            </p>
+          </div>
+        </div>
+      </div>
+      <span className="sr-only">Open memory photo</span>
+    </motion.button>
+  );
+}
+
+function PhotoGarden({ onOpen }) {
+  const [galleryPhotos, setGalleryPhotos] = useState([]);
+
+  useEffect(() => {
+    let alive = true;
+
+    fetch(CLEAN_GALLERY_MANIFEST)
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('Clean gallery manifest unavailable'))))
+      .then((manifest) => {
+        if (!alive) return;
+        setGalleryPhotos(Array.isArray(manifest?.items) ? manifest.items : []);
+      })
+      .catch(() => {
+        if (!alive) return;
+        setGalleryPhotos([]);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const approvedCleanGallery = sortMemoryLanePhotos(
+    galleryPhotos.filter(isPublicMemoryLanePhoto).filter((photo) => !isFeaturedTopMemoryPhoto(photo)),
+  );
+  const approvedFallbackGallery = REAL_PHOTOS.filter((photo) => !isFeaturedTopMemoryPhoto(photo));
+  const journeyPhotos = approvedCleanGallery.length > 0 ? approvedCleanGallery : approvedFallbackGallery;
+  const leftPhotos = journeyPhotos.filter((_, index) => index % 2 === 0);
+  const rightPhotos = journeyPhotos.filter((_, index) => index % 2 === 1);
+
+  return (
+    <div className="mx-auto mt-16 max-w-[1400px] px-4 sm:px-5">
+      <div className="relative overflow-hidden rounded-[2.2rem] border border-[#d4af37]/14 bg-[#071007]/62 shadow-[0_34px_120px_rgba(0,0,0,0.42)] backdrop-blur-sm">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(245,208,110,0.16),transparent_34%),linear-gradient(180deg,rgba(7,16,7,0.12),rgba(7,16,7,0.78))]" />
+        <div className="relative px-4 py-9 sm:px-6 md:px-8 lg:px-10">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="font-body text-[9px] uppercase tracking-[0.46em] text-[#d4af37]/58">Memory lane</p>
+            <h3 className="mt-3 font-display text-4xl leading-tight text-[#fff7df] [text-shadow:0_3px_18px_rgba(0,0,0,0.74),0_0_20px_rgba(212,175,55,0.18)] md:text-5xl">
+              A walk through her life.
+            </h3>
+            <p className="mx-auto mt-4 max-w-2xl font-body text-sm leading-7 text-[#fff7df]/58">
+              The earliest memories begin at the top. Each photo becomes a small stop along the garden path, ready for your notes and stories.
+            </p>
+          </div>
+
+          <div className="mt-9 flex gap-3 overflow-x-auto pb-4 lg:hidden">
+            {journeyPhotos.map((photo, index) => (
+              <MemoryLaneJourneyCard
+                key={`${photo.src}-mobile-${index}`}
+                photo={photo}
+                index={index}
+                onOpen={onOpen}
+                side={index % 2 === 0 ? 'left' : 'right'}
+                compact
+              />
+            ))}
+          </div>
+
+          <div className="relative mt-12 hidden grid-cols-[minmax(130px,180px)_minmax(0,1fr)_minmax(130px,180px)] gap-8 lg:grid">
+            <div className="space-y-10">
+              {leftPhotos.map((photo, index) => (
+                <MemoryLaneJourneyCard
+                  key={`${photo.src}-left-${index}`}
+                  photo={photo}
+                  index={index * 2}
+                  onOpen={onOpen}
+                  side="left"
+                />
+              ))}
+            </div>
+
+            <div className="relative min-h-[132vh] rounded-[2rem] border border-[#d4af37]/10 bg-[#061006]/28 p-8 shadow-[inset_0_0_90px_rgba(0,0,0,0.24)]">
+              <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#d4af37]/28 to-transparent" />
+              <div className="sticky top-28 mx-auto flex max-w-xl flex-col items-center text-center">
+                <div className="relative mb-7 h-28 w-28 rounded-full border border-[#d4af37]/24 bg-[#f5d06e]/[0.055] shadow-[0_0_38px_rgba(245,208,110,0.16)]">
+                  <div className="absolute inset-4 rounded-full border border-[#d4af37]/18" />
+                  <Heart className="absolute left-1/2 top-1/2 h-9 w-9 -translate-x-1/2 -translate-y-1/2 text-[#f5d06e]" />
+                </div>
+                <p className="font-display text-3xl italic leading-tight text-[#fff7df] [text-shadow:0_3px_16px_rgba(0,0,0,0.78)]">
+                  Every photo is a doorway back to her.
+                </p>
+                <p className="mt-5 font-body text-sm leading-7 text-[#fff7df]/52">
+                  The centre stays calm while the memories travel with the visitor. Personal captions can be added as you approve each one.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => journeyPhotos[0] && onOpen(journeyPhotos[0])}
+                  className="mt-7 inline-flex items-center justify-center rounded-full border border-[#d4af37]/20 bg-[#f5d06e]/[0.08] px-6 py-3 font-body text-[10px] font-bold uppercase tracking-[0.28em] text-[#f5d06e] transition hover:border-[#f5d06e]/44 hover:bg-[#f5d06e]/[0.14]"
+                >
+                  Open first memory
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-10 pt-24">
+              {rightPhotos.map((photo, index) => (
+                <MemoryLaneJourneyCard
+                  key={`${photo.src}-right-${index}`}
+                  photo={photo}
+                  index={index * 2 + 1}
+                  onOpen={onOpen}
+                  side="right"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1214,121 +1356,8 @@ function LanternCandles() {
   );
 }
 
-function CapturedSlideshow({ onOpen }) {
-  const [cleanGallery, setCleanGallery] = useState([]);
-
-  useEffect(() => {
-    let alive = true;
-
-    fetch(CLEAN_GALLERY_MANIFEST)
-      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('Clean gallery manifest unavailable'))))
-      .then((manifest) => {
-        if (!alive) return;
-        setCleanGallery(Array.isArray(manifest?.items) ? manifest.items : []);
-      })
-      .catch(() => {
-        if (!alive) return;
-        setCleanGallery([]);
-      });
-
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  const approvedCleanGallery = cleanGallery.filter(isPublicMemoryLanePhoto);
-  const approvedFallbackGallery = CAPTURED_SLIDESHOW_PHOTOS.filter(isPublicMemoryLanePhoto);
-  const galleryPhotos = sortMemoryLanePhotos(approvedCleanGallery.length > 0 ? approvedCleanGallery : approvedFallbackGallery);
-
-  return (
-    <div className="mx-auto mt-20 max-w-7xl px-5">
-      <div className="mx-auto max-w-4xl text-center">
-        <p className="font-body text-[9px] uppercase tracking-[0.44em] text-[#d4af37]/56">Memory lane</p>
-        <h3 className="mt-3 font-display text-4xl leading-tight text-[#fff7df] md:text-6xl">
-          A walk through her life, oldest memories first.
-        </h3>
-        <p className="mx-auto mt-5 max-w-2xl font-body text-sm leading-7 text-[#fff7df]/54">
-          These public photos are screened against your rules, then placed as feature moments down the sides of the garden. Each card opens for your caption and approval notes.
-        </p>
-      </div>
-
-      <div className="relative mt-14">
-        <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#d4af37]/28 to-transparent lg:block" />
-        <div className="space-y-8 md:space-y-10">
-          {galleryPhotos.map((photo, index) => {
-            const isRight = index % 2 === 1;
-            const displayPhoto = {
-              ...photo,
-              label: photo.label || `Memory ${String(index + 1).padStart(2, '0')}`,
-              caption: photo.caption || 'Ready for Gannon to caption during review.',
-              source: photo.source || 'Cleaned Mum Garden image audit',
-            };
-
-            return (
-              <motion.button
-                key={`${photo.src}-${index}`}
-                type="button"
-                onClick={() => onOpen(displayPhoto)}
-                className="group grid w-full gap-4 text-left lg:grid-cols-[minmax(0,1fr)_5rem_minmax(0,1fr)] lg:items-center"
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-10%' }}
-                transition={{ duration: 0.65, delay: (index % 6) * 0.035 }}
-              >
-                <div
-                  className={`w-full max-w-[360px] ${isRight ? 'lg:col-start-3 lg:justify-self-start' : 'lg:col-start-1 lg:justify-self-end'}`}
-                >
-                  <div className="relative [perspective:1200px]">
-                    <div className="relative aspect-[4/5] rounded-[1.25rem] transition duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                      <div className="absolute inset-0 overflow-hidden rounded-[1.25rem] border border-[#d4af37]/16 bg-black/28 shadow-[0_24px_80px_rgba(0,0,0,0.36)] [backface-visibility:hidden]">
-                        <img
-                          src={photo.src}
-                          alt="Sonia memory from the public garden archive"
-                          loading="lazy"
-                          className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-105"
-                          style={{ filter: 'brightness(0.94) contrast(1.04) saturate(0.98)' }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#071007]/58 via-transparent to-transparent" />
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <p className="font-body text-[9px] uppercase tracking-[0.26em] text-[#d4af37]/62">
-                            {displayPhoto.label}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="absolute inset-0 flex rounded-[1.25rem] border border-[#d4af37]/22 bg-[#071007]/88 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.36)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                        <div className="flex min-h-full flex-col justify-between">
-                          <div>
-                            <p className="font-body text-[9px] uppercase tracking-[0.28em] text-[#d4af37]/62">
-                              Caption side
-                            </p>
-                            <p className="mt-4 font-display text-2xl leading-tight text-[#fff7df]">
-                              {displayPhoto.label}
-                            </p>
-                            <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/58">
-                              {displayPhoto.caption}
-                            </p>
-                          </div>
-                          <p className="mt-6 font-body text-[9px] uppercase tracking-[0.24em] text-[#d4af37]/48">
-                            Click to open approval drawer
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="hidden lg:col-start-2 lg:row-start-1 lg:flex lg:justify-center">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#d4af37]/22 bg-[#071007]/72 font-body text-[10px] uppercase tracking-[0.16em] text-[#f5d06e]/70 shadow-[0_0_32px_rgba(212,175,55,0.14)]">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                </div>
-              </motion.button>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
+function CapturedSlideshow() {
+  return null;
 }
 
 
