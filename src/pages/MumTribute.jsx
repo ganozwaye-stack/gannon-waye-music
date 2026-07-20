@@ -1302,7 +1302,7 @@ function TattooScrapbook({ onOpen }) {
       <div className="rounded-[2.2rem] border border-[#d4af37]/16 bg-[#071007]/72 p-5 shadow-[0_28px_90px_rgba(0,0,0,0.38)] backdrop-blur-md md:p-8">
         <div className="mb-7 max-w-2xl">
           <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/52">Carrying her with you</p>
-          <h3 className="mt-3 font-display text-3xl text-[#fff7df]">The tattoo memories stay together, scrapbook-style.</h3>
+          <h3 className="mt-3 font-display text-3xl text-[#fff7df]">Tattoo scrapbook memories stay together.</h3>
           <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/52">
             These are treated as one intimate collage, not scattered through the garden. Final public use still needs your approval.
           </p>
