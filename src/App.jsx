@@ -395,6 +395,7 @@ const AuthenticatedApp = () => {
         <Route path="/upcoming-music" element={<UpcomingMusic />} />
         <Route path="/remember-mum" element={<RememberMum />} />
         <Route path="/mum" element={<MumTribute />} />
+        <Route path="/mum/garden" element={<MumTribute mode="garden" />} />
         <Route path="/without-you-here" element={<MumTribute />} />
         <Route path="/mums-garden" element={<MumsGarden />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
