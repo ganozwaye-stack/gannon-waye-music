@@ -82,19 +82,9 @@ export default function Music() {
     initialData: [],
   });
 
+  const publicReleaseTitles = new Set(['Thank You', 'THANKYOU', 'Without You Here']);
   const published = [
-    ...releases.filter(r => r.is_published),
-    // Inject 'Will You Even Listen' if not already in DB
-    ...(releases.some(r => r.title === 'Will You Even Listen') ? [] : [{
-      id: 'will-you-even-listen-recording',
-      title: 'Will You Even Listen',
-      type: 'Single',
-      status: 'recording',
-      is_published: true,
-      description: 'Gannon is currently recording this new track in the studio. A vulnerable, raw, and emotional piece tracing the space between holding on and letting go.',
-      credits: 'Written & Performed by Gannon Waye',
-      artwork_url: '/images/will_you_even_listen_cover.png',
-    }]),
+    ...releases.filter(r => r.is_published && publicReleaseTitles.has(r.title)),
     // Inject 'Without You Here' if not already in DB
     ...(releases.some(r => r.title === 'Without You Here') ? [] : [{
       id: 'without-you-here-recording',
@@ -237,9 +227,9 @@ export default function Music() {
                       </Link>
                     )}
                     {release.title === 'Without You Here' && (
-                      <Link to="/mum">
+                      <Link to="/current-single">
                         <Button size="sm" variant="outline" className="rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-[#d4af37]/30 text-[#f5d06e] hover:bg-primary/10">
-                          <Heart className="w-3 h-3" />Mum's Garden
+                          <Heart className="w-3 h-3" />Release Story
                         </Button>
                       </Link>
                     )}

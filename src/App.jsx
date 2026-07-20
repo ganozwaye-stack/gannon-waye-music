@@ -60,6 +60,7 @@ import MerchFeedback from '@/pages/MerchFeedback';
 import Tour from '@/pages/Tour';
 import FoundingSupporterPage from '@/pages/FoundingSupporter';
 import MumTribute from '@/pages/MumTribute';
+import MumDesignLab from '@/pages/MumDesignLab';
 import SoniaUpload from '@/pages/family/SoniaUpload';
 import MerchReelPage from '@/components/mum/MerchReelPage';
 import CheckoutSuccess from '@/pages/CheckoutSuccess';
@@ -281,9 +282,13 @@ const AuthenticatedApp = () => {
   const location = useLocation();
   const isMemorialRoute = location.pathname === '/mum'
     || location.pathname === '/mum/garden'
+    || location.pathname === '/mum/design-lab'
     || location.pathname === '/mum-garden'
     || location.pathname === '/mum-garden-preview';
-  const showStickySupportBar = !location.pathname.startsWith('/admin') && !isMemorialRoute;
+  const isCleanEntranceRoute = location.pathname === '/'
+    || location.pathname === '/store'
+    || location.pathname === '/store-world';
+  const showStickySupportBar = !location.pathname.startsWith('/admin') && !isMemorialRoute && !isCleanEntranceRoute;
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -352,9 +357,10 @@ const AuthenticatedApp = () => {
         <Route path="/become-founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/mum" element={<MumTribute mode="foyer" />} />
         <Route path="/mum/garden" element={<MumTribute mode="garden" />} />
+        <Route path="/mum/design-lab" element={<MumDesignLab />} />
         <Route path="/mum-garden" element={<MumTribute mode="garden" />} />
         <Route path="/mum-garden-preview" element={<MumTribute mode="garden" />} />
-        <Route path="/without-you-here" element={<Navigate to="/mum/garden#lyrics" replace />} />
+        <Route path="/without-you-here" element={<Navigate to="/current-single" replace />} />
         <Route path="/remember-mum" element={<SoniaUpload />} />
         <Route path="/family/sonia-upload" element={<SoniaUpload />} />
         <Route path="/merch-reel" element={<MerchReelPage />} />

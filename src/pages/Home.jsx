@@ -3,12 +3,11 @@ import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Pause, Play } from 'lucide-react';
+import { Clipboard, Move, RotateCcw, ArrowRight, Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
 import ThankYouSingle from '@/components/public/ThankYouSingle';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
-import { useSongFeedback } from '@/components/global/SongFeedbackGate';
 import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/musicAssets';
 
 function CinematicCelebration() {
@@ -220,6 +219,8 @@ import FeaturedVideoSection from '@/components/public/FeaturedVideoSection';
 import ThankYouCampaignSection from '@/components/public/ThankYouCampaignSection';
 import ThankYouStorySection from '@/components/public/ThankYouStorySection';
 
+const GANNON_WAYE_WIDE_BANNER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
+
 const HERO_IMAGES = [
   '/images/home/gannon-waye-home-hero.png',
 ];
@@ -230,7 +231,7 @@ const HOME_FEATURE_MOMENTS = [
     title: 'Without You Here',
     line: 'Your last breath took mine away. There\'s not much more I have to say.',
     copy: 'A tribute, a love letter, and the next chapter in the story.',
-    to: '/mum',
+    to: '/current-single',
   },
   {
     eyebrow: 'Out now',
@@ -240,20 +241,165 @@ const HOME_FEATURE_MOMENTS = [
     to: '/music',
   },
   {
-    eyebrow: 'Worth seeing',
-    title: "Mum's Garden",
+    eyebrow: 'Coming 31 July',
+    title: 'Without You Here',
     line: 'Even while leaving, she was still loving me.',
-    copy: 'The memorial foyer and garden experience behind Without You Here.',
-    to: '/mum',
+    copy: 'The release story is open now. The memorial garden stays private until the song is released.',
+    to: '/current-single',
   },
 ];
 
-const HERO_ACTIONS = [
-  { label: 'Back this', to: '/back-this' },
-  { label: 'Join community', to: '/community' },
-  { label: "Mum's Garden", to: '/mum' },
-  { label: 'Merch', to: '/store' },
-];
+const HERO_LAYOUT_STORAGE_KEY = 'gwm-home-hero-layout-draft-v1';
+const HERO_LAYOUT_KEYS = ['brand', 'hook', 'player', 'moments'];
+
+function normaliseOffset(value) {
+  return {
+    x: Number.isFinite(Number(value?.x)) ? Number(value.x) : 0,
+    y: Number.isFinite(Number(value?.y)) ? Number(value.y) : 0,
+  };
+}
+
+function useHeroLayoutEditor() {
+  const [enabled, setEnabled] = useState(false);
+  const [offsets, setOffsets] = useState(() => (
+    HERO_LAYOUT_KEYS.reduce((next, key) => ({ ...next, [key]: { x: 0, y: 0 } }), {})
+  ));
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const shouldEnable = params.get('layout') === 'edit' || params.get('edit') === 'hero';
+    setEnabled(shouldEnable);
+
+    const saved = window.localStorage.getItem(HERO_LAYOUT_STORAGE_KEY);
+    if (!saved) return;
+
+    try {
+      const parsed = JSON.parse(saved);
+      setOffsets((current) => (
+        HERO_LAYOUT_KEYS.reduce((next, key) => ({
+          ...next,
+          [key]: normaliseOffset(parsed[key] || current[key]),
+        }), {})
+      ));
+    } catch {
+      window.localStorage.removeItem(HERO_LAYOUT_STORAGE_KEY);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
+    window.localStorage.setItem(HERO_LAYOUT_STORAGE_KEY, JSON.stringify(offsets));
+  }, [enabled, offsets]);
+
+  const setOffset = useCallback((key, offset) => {
+    setOffsets((current) => ({
+      ...current,
+      [key]: normaliseOffset(offset),
+    }));
+  }, []);
+
+  const reset = useCallback(() => {
+    const resetOffsets = HERO_LAYOUT_KEYS.reduce((next, key) => ({ ...next, [key]: { x: 0, y: 0 } }), {});
+    setOffsets(resetOffsets);
+    window.localStorage.removeItem(HERO_LAYOUT_STORAGE_KEY);
+  }, []);
+
+  return { enabled, offsets, reset, setOffset };
+}
+
+function HeroEditableBlock({ children, className = '', editor, id, label }) {
+  const blockRef = useRef(null);
+  const dragRef = useRef(null);
+  const offset = editor.offsets[id] || { x: 0, y: 0 };
+
+  const handlePointerDown = (event) => {
+    if (!editor.enabled) return;
+    event.preventDefault();
+    event.stopPropagation();
+    dragRef.current = {
+      pointerId: event.pointerId,
+      startX: event.clientX,
+      startY: event.clientY,
+      origin: offset,
+    };
+    blockRef.current?.setPointerCapture?.(event.pointerId);
+  };
+
+  const handlePointerMove = (event) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    editor.setOffset(id, {
+      x: Math.round(drag.origin.x + event.clientX - drag.startX),
+      y: Math.round(drag.origin.y + event.clientY - drag.startY),
+    });
+  };
+
+  const stopDrag = (event) => {
+    if (dragRef.current?.pointerId === event.pointerId) {
+      dragRef.current = null;
+      blockRef.current?.releasePointerCapture?.(event.pointerId);
+    }
+  };
+
+  return (
+    <div
+      ref={blockRef}
+      onPointerMove={handlePointerMove}
+      onPointerUp={stopDrag}
+      onPointerCancel={stopDrag}
+      className={`relative ${editor.enabled ? 'rounded-lg ring-1 ring-[#b88a34]/36 ring-offset-4 ring-offset-transparent' : ''} ${className}`}
+      style={editor.enabled ? { transform: `translate3d(${offset.x}px, ${offset.y}px, 0)` } : undefined}
+    >
+      {editor.enabled && (
+        <button
+          type="button"
+          onPointerDown={handlePointerDown}
+          className="absolute -top-8 left-0 z-[90] flex cursor-grab items-center gap-1 rounded-full border border-[#b88a34]/40 bg-[#050708]/88 px-3 py-1 font-body text-[10px] uppercase tracking-[0.16em] text-[#d6b56a] shadow-[0_10px_28px_rgba(0,0,0,0.38)] active:cursor-grabbing"
+        >
+          <Move className="h-3 w-3" /> {label}
+        </button>
+      )}
+      {children}
+    </div>
+  );
+}
+
+function HeroLayoutEditorPanel({ editor }) {
+  const [copied, setCopied] = useState(false);
+
+  const copyLayout = async () => {
+    await navigator.clipboard.writeText(JSON.stringify(editor.offsets, null, 2));
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1400);
+  };
+
+  if (!editor.enabled) return null;
+
+  return (
+    <div className="fixed bottom-4 right-4 z-[120] w-[min(21rem,calc(100vw-2rem))] rounded-lg border border-[#d4af37]/24 bg-[#050708]/92 p-4 shadow-[0_20px_70px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+      <p className="font-body text-[10px] uppercase tracking-[0.28em] text-[#d6b56a]">Hero layout edit mode</p>
+      <p className="mt-2 font-body text-xs leading-5 text-[#fff7df]/62">
+        Drag the gold handles. Every move saves automatically in this browser. When it feels right, tell Codex "layout done".
+      </p>
+      <div className="mt-3 flex gap-2">
+        <button
+          type="button"
+          onClick={copyLayout}
+          className="inline-flex items-center gap-2 rounded-full border border-[#b88a34]/38 px-3 py-2 font-body text-[10px] uppercase tracking-[0.16em] text-[#d6b56a]"
+        >
+          <Clipboard className="h-3.5 w-3.5" /> {copied ? 'Copied' : 'Copy'}
+        </button>
+        <button
+          type="button"
+          onClick={editor.reset}
+          className="inline-flex items-center gap-2 rounded-full border border-[#fff7df]/16 px-3 py-2 font-body text-[10px] uppercase tracking-[0.16em] text-[#fff7df]/76"
+        >
+          <RotateCcw className="h-3.5 w-3.5" /> Reset
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const { data: settings } = useQuery({
@@ -276,9 +422,8 @@ export default function Home() {
   const [currentImg, setCurrentImg] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
   const [wyhPlaying, setWyhPlaying] = useState(false);
-  const [wyhProgress, setWyhProgress] = useState(0);
   const wyhAudioRef = useRef(null);
-  const { requestSongFeedback } = useSongFeedback();
+  const heroLayoutEditor = useHeroLayoutEditor();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -303,25 +448,18 @@ export default function Home() {
     const audio = wyhAudioRef.current;
     if (!audio) return undefined;
 
-    const handleTimeUpdate = () => {
-      const duration = audio.duration || 49;
-      setWyhProgress(Math.min((audio.currentTime / duration) * 100, 100));
-    };
     const handleEnded = () => {
       audio.currentTime = 0;
-      setWyhProgress(0);
       setWyhPlaying(false);
     };
     const handlePause = () => setWyhPlaying(false);
     const handlePlay = () => setWyhPlaying(true);
 
-    audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('ended', handleEnded);
     audio.addEventListener('pause', handlePause);
     audio.addEventListener('play', handlePlay);
 
     return () => {
-      audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('ended', handleEnded);
       audio.removeEventListener('pause', handlePause);
       audio.removeEventListener('play', handlePlay);
@@ -334,7 +472,6 @@ export default function Home() {
 
     if (audio.currentTime >= (audio.duration || 49) - 0.25) {
       audio.currentTime = 0;
-      setWyhProgress(0);
     }
 
     try {
@@ -355,18 +492,14 @@ export default function Home() {
       return;
     }
 
-    await requestSongFeedback({
-      songTitle: 'Without You Here',
-      artist: 'Gannon Waye',
-      source: 'home-current-focus-player',
-      onApproved: playWithoutYouHerePreview,
-    });
-  }, [playWithoutYouHerePreview, requestSongFeedback]);
+    await playWithoutYouHerePreview();
+  }, [playWithoutYouHerePreview]);
 
   return (
     <div className="min-h-screen relative">
       {showCelebration && <CinematicCelebration />}
       <TikTokWelcomeBanner />
+      <HeroLayoutEditorPanel editor={heroLayoutEditor} />
 
       {/* Fixed background — visible behind ALL sections */}
       <div className="fixed inset-0 -z-10">
@@ -384,93 +517,69 @@ export default function Home() {
         </AnimatePresence>
         <div className="absolute inset-0 bg-[linear-gradient(90deg,#050708_0%,rgba(5,7,8,0.68)_21%,rgba(5,7,8,0.12)_50%,rgba(5,7,8,0.76)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,8,0.82)_0%,rgba(5,7,8,0.24)_26%,rgba(5,7,8,0.52)_66%,#050708_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_27%,rgba(245,208,110,0.08),transparent_28%),radial-gradient(circle_at_79%_45%,rgba(212,175,55,0.08),transparent_32%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_27%,rgba(184,138,52,0.09),transparent_28%),radial-gradient(circle_at_79%_45%,rgba(198,161,91,0.08),transparent_32%)]" />
         <motion.div
-          className="absolute inset-x-0 top-[18%] h-px bg-gradient-to-r from-transparent via-[#f5d06e]/40 to-transparent"
+          className="absolute inset-x-0 top-[18%] h-px bg-gradient-to-r from-transparent via-[#b88a34]/42 to-transparent"
           animate={{ opacity: [0.22, 0.56, 0.22], y: [0, 18, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
       </div>
 
       {/* Hero */}
-      <section className="relative min-h-[100svh] overflow-hidden px-4 py-10 md:px-8 md:py-14">
-        <div className="mx-auto flex min-h-[calc(100svh-7rem)] w-full max-w-7xl flex-col justify-center gap-8">
+      <section className="relative min-h-[100svh] overflow-hidden px-4 py-5 md:px-8 md:py-6">
+        <div className="mx-auto flex min-h-[calc(100svh-5rem)] w-full max-w-7xl flex-col justify-between gap-5 pt-1 md:pt-2">
           <motion.div
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center"
           >
-            <h1 className="brand-wordmark text-5xl leading-[0.88] sm:text-7xl lg:text-8xl xl:text-9xl">
-              Gannon Waye
-            </h1>
-            <p className="mt-4 font-body text-[10px] uppercase tracking-[0.42em] text-[#f5d06e]/80 [text-shadow:0_2px_14px_rgba(0,0,0,0.8),0_0_18px_rgba(212,175,55,0.36)] md:text-xs">
-              Singer-songwriter storyteller
-            </p>
+            <HeroEditableBlock editor={heroLayoutEditor} id="brand" label="Brand" className="text-center">
+              <h1 className="sr-only">Gannon Waye</h1>
+              <img
+                src="/images/brand/gannon-waye-wordmark-base44.png"
+                alt="Gannon Waye"
+                className="mx-auto h-auto w-full max-w-[980px] drop-shadow-[0_20px_46px_rgba(0,0,0,0.84)]"
+              />
+              <p className="mt-3 font-body text-[10px] uppercase tracking-[0.42em] text-[#d6b56a]/86 [text-shadow:0_2px_14px_rgba(0,0,0,0.8),0_0_18px_rgba(184,138,52,0.38)] md:text-xs">
+                Singer-songwriter storyteller
+              </p>
+            </HeroEditableBlock>
           </motion.div>
 
-          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.74fr)]">
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(340px,0.68fr)]">
             <motion.div
               initial={{ opacity: 0, x: -28 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.85, delay: 0.12 }}
-              className="max-w-xl text-left"
+              className="max-w-[34rem] text-left"
             >
-              <p className="font-body text-[10px] uppercase tracking-[0.48em] text-[#d4af37]/76">Next single</p>
-              <h2 className="mt-3 font-display text-4xl italic leading-none text-[#fff7df] [text-shadow:0_4px_20px_rgba(0,0,0,0.86),0_0_24px_rgba(212,175,55,0.25)] md:text-6xl">
-                Without You Here
-              </h2>
-              <blockquote className="mt-5 font-display text-2xl italic leading-[1.08] text-[#fff7df]/95 [text-shadow:0_4px_20px_rgba(0,0,0,0.86),0_0_24px_rgba(212,175,55,0.25)] md:text-4xl">
-                "Your last breath took mine away. There's not much more I have to say."
-              </blockquote>
-              <p className="mt-5 max-w-lg font-body text-sm leading-7 text-[#fff7df]/72 md:text-base">
-                A tribute, a love letter, and the song for the voice I still reach for. This next chapter moves through grief, family, survival, and the promise to keep living with love carried forward.
-              </p>
-              <div className="mt-6 rounded-lg border border-[#d4af37]/18 bg-black/24 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.26)] backdrop-blur-sm">
-                <p className="font-body text-xs uppercase tracking-[0.32em] text-[#d4af37]/70">Start here</p>
-                <p className="mt-3 font-body text-sm leading-7 text-[#fff7df]/70">
-                  Gannon Waye writes cinematic pop from the parts of life people usually hide: loss, healing, family, self-respect, and finding a voice strong enough to turn pain into connection.
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {HERO_ACTIONS.map((action) => (
-                    <Link
-                      key={action.label}
-                      to={action.to}
-                      className="rounded-full border border-[#d4af37]/22 px-4 py-2 font-body text-[10px] uppercase tracking-[0.18em] text-[#f5d06e]/86 transition hover:border-[#f5d06e]/55 hover:bg-[#d4af37]/10"
-                    >
-                      {action.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <Link to="/music">
-                  <Button
-                    data-song-feedback-trigger="true"
-                    data-song-title="Without You Here"
-                    data-song-artist="Gannon Waye"
-                    data-song-feedback-source="home-stream-now"
-                    className="gap-2 rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#071007] shadow-[0_0_34px_rgba(212,175,55,0.24)]"
-                  >
-                    <Play className="w-4 h-4" /> Stream now
-                  </Button>
-                </Link>
-                <Link to="/this-is-my-life">
-                  <Button variant="outline" className="gap-2 rounded-full border-[#fff7df]/18 bg-black/12 px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#fff7df] hover:bg-[#fff7df]/6">
-                    My story <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-                <Link to="/back-this">
-                  <Button variant="outline" className="gap-2 rounded-full border-[#d4af37]/28 bg-black/12 px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#f5d06e] hover:bg-[#d4af37]/10">
-                    Back this <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-                <Link to="/mum">
-                  <Button variant="outline" className="gap-2 rounded-full border-[#d4af37]/28 bg-black/12 px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#f5d06e] hover:bg-[#d4af37]/10">
-                    Without You Here <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-              </div>
+              <HeroEditableBlock editor={heroLayoutEditor} id="hook" label="Hook" className="relative isolate">
+                <div
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -inset-x-8 -inset-y-10 -z-10 opacity-[0.09] mix-blend-screen"
+                  style={{
+                    backgroundImage: `url(${WITHOUT_YOU_HERE_COVER})`,
+                    backgroundPosition: '22% 43%',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: '150% auto',
+                    WebkitMaskImage: 'radial-gradient(ellipse at 42% 48%, black 0%, rgba(0,0,0,.72) 34%, transparent 73%)',
+                    maskImage: 'radial-gradient(ellipse at 42% 48%, black 0%, rgba(0,0,0,.72) 34%, transparent 73%)',
+                  }}
+                />
+                <p className="font-body text-[10px] uppercase tracking-[0.44em] text-[#b88a34]/86">Next single</p>
+                <h2 className="mt-2 font-display text-3xl italic leading-none text-[#e7d5ad] [text-shadow:0_4px_20px_rgba(0,0,0,0.86),0_0_24px_rgba(184,138,52,0.34)] md:text-[2.35rem]">
+                  Without You Here
+                </h2>
+                <blockquote
+                  aria-label="Your last breath took mine away. There's not much more I have to say."
+                  className="ml-6 mt-6 max-w-[29rem] font-display text-[1.48rem] italic leading-[1.34] text-[#fff7df]/94 [text-shadow:0_4px_20px_rgba(0,0,0,0.9),0_0_20px_rgba(184,138,52,0.2)] sm:ml-10 md:ml-14 md:text-[1.66rem]"
+                >
+                  <span className="block">"Your last breath took</span>
+                  <span className="mt-1 block pl-[2.8em] text-[#d6b56a]">mine away. There's not</span>
+                  <span className="mt-1 block pl-[1.15em]">much more I have</span>
+                  <span className="mt-1 block pl-[7.1em] text-[#e7d5ad]">to say."</span>
+                </blockquote>
+              </HeroEditableBlock>
             </motion.div>
 
             <motion.div
@@ -478,117 +587,77 @@ export default function Home() {
               animate={{ opacity: 1, x: 0, rotateY: [3, -2, 3] }}
               transition={{ opacity: { duration: 0.85, delay: 0.2 }, x: { duration: 0.85, delay: 0.2 }, rotateY: { duration: 8, repeat: Infinity, ease: 'easeInOut' } }}
               style={{ perspective: 1200 }}
-              className="w-full justify-self-end lg:mt-20"
+              className="w-full justify-self-end"
             >
-              <div className="w-full max-w-[460px] rounded-lg border border-[#d4af37]/24 bg-[#060806]/62 p-5 shadow-[0_28px_95px_rgba(0,0,0,0.52),0_0_42px_rgba(212,175,55,0.12)] backdrop-blur-md">
-                <audio
-                  ref={wyhAudioRef}
-                  src={WITHOUT_YOU_HERE_PREVIEW}
-                  preload="metadata"
-                  data-song-title="Without You Here"
-                  data-song-artist="Gannon Waye"
-                  data-song-feedback-source="home-current-focus-audio"
-                  data-song-feedback-exempt="true"
-                />
-                <div className="grid gap-4 sm:grid-cols-[126px_1fr]">
-                  <button
-                    type="button"
-                    onClick={toggleWithoutYouHerePreview}
+              <HeroEditableBlock editor={heroLayoutEditor} id="player" label="Player">
+                <div className="w-full max-w-[420px] rounded-lg border border-[#d4af37]/20 bg-[#060806]/54 p-4 shadow-[0_24px_70px_rgba(0,0,0,0.48),0_0_34px_rgba(212,175,55,0.1)] backdrop-blur-md">
+                  <audio
+                    ref={wyhAudioRef}
+                    src={WITHOUT_YOU_HERE_PREVIEW}
+                    preload="metadata"
                     data-song-title="Without You Here"
                     data-song-artist="Gannon Waye"
-                    data-song-feedback-source="home-current-focus-cover"
+                    data-song-feedback-source="home-current-focus-audio"
                     data-song-feedback-exempt="true"
-                    aria-label={wyhPlaying ? 'Pause Without You Here preview' : 'Play Without You Here preview'}
-                    className="group relative aspect-square overflow-hidden rounded-lg border border-[#f5d06e]/34 shadow-[0_0_28px_rgba(212,175,55,0.22)]"
-                  >
-                    <img src={WITHOUT_YOU_HERE_COVER} alt="Without You Here - Gannon Waye cover art" className="h-full w-full object-cover" />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/18 transition group-hover:bg-black/4">
-                      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007] shadow-[0_0_26px_rgba(212,175,55,0.42)]">
-                        {wyhPlaying ? <Pause className="h-6 w-6 fill-current" /> : <Play className="h-6 w-6 fill-current" />}
-                      </span>
+                  />
+                  <div className="grid gap-4 sm:grid-cols-[108px_1fr]">
+                    <button
+                      type="button"
+                      onClick={toggleWithoutYouHerePreview}
+                      data-song-title="Without You Here"
+                      data-song-artist="Gannon Waye"
+                      data-song-feedback-source="home-current-focus-cover"
+                      data-song-feedback-exempt="true"
+                      aria-label={wyhPlaying ? 'Pause Without You Here preview' : 'Play Without You Here preview'}
+                      className="group relative aspect-square overflow-hidden rounded-lg border border-[#b88a34]/42 shadow-[0_0_28px_rgba(184,138,52,0.24)]"
+                    >
+                      <img src={WITHOUT_YOU_HERE_COVER} alt="Without You Here - Gannon Waye cover art" className="h-full w-full object-cover" />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/18 transition group-hover:bg-black/4">
+                        <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[linear-gradient(135deg,#7f591c,#b88a34,#d6b56a)] text-[#071007] shadow-[0_0_22px_rgba(184,138,52,0.42)]">
+                          {wyhPlaying ? <Pause className="h-5 w-5 fill-current" /> : <Play className="h-5 w-5 fill-current" />}
+                        </span>
+                      </div>
+                    </button>
+                    <div className="min-w-0">
+                      <p className="font-body text-[8px] uppercase tracking-[0.34em] text-[#d4af37]/72">Current focus</p>
+                      <h2 className="mt-2 font-display text-2xl italic leading-none text-[#fff7df]">Without You Here</h2>
+                      <p className="mt-2 font-body text-[10px] uppercase tracking-[0.24em] text-[#fff7df]/54">Gannon Waye</p>
+                      <p className="mt-3 font-body text-[11px] leading-5 text-[#fff7df]/56">
+                        Releasing 31 July 2026. Until Spotify is live, this plays the approved preview from 3:46 to 4:35.
+                      </p>
                     </div>
-                  </button>
-                  <div className="min-w-0">
-                    <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/72">Next single</p>
-                    <h2 className="mt-2 font-display text-3xl italic leading-none text-[#fff7df]">Without You Here</h2>
-                    <p className="mt-2 font-body text-[10px] uppercase tracking-[0.24em] text-[#fff7df]/54">Gannon Waye</p>
-                    <p className="mt-3 font-body text-xs leading-6 text-[#fff7df]/58">
-                      Releasing 31 July 2026. Until Spotify is live, this plays the approved preview from 3:46 to 4:35.
-                    </p>
                   </div>
+                  <p className="mt-4 border-t border-[#d4af37]/14 pt-3 font-body text-[9px] uppercase tracking-[0.22em] text-[#d4af37]/58">
+                    Spotify stream unlocks on release day
+                  </p>
                 </div>
-                <button
-                  type="button"
-                  onClick={toggleWithoutYouHerePreview}
-                  data-song-title="Without You Here"
-                  data-song-artist="Gannon Waye"
-                  data-song-feedback-source="home-current-focus-player"
-                  data-song-feedback-exempt="true"
-                  className="mt-5 flex w-full items-center gap-4 rounded-lg border border-[#d4af37]/22 bg-black/24 p-4 text-left transition hover:border-[#f5d06e]/46 hover:bg-[#d4af37]/8"
-                >
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007]">
-                    {wyhPlaying ? <Pause className="h-5 w-5 fill-current" /> : <Play className="h-5 w-5 fill-current" />}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-body text-[10px] uppercase tracking-[0.24em] text-[#d4af37]/74">
-                      {wyhPlaying ? 'Playing preview' : 'Play preview'}
-                    </span>
-                    <span className="mt-1 block font-body text-sm text-[#fff7df]/82">
-                      Bridge preview - 3:46 to 4:35
-                    </span>
-                    <span className="mt-3 block h-1.5 overflow-hidden rounded-full bg-[#fff7df]/10">
-                      <span
-                        className="block h-full rounded-full bg-[linear-gradient(90deg,#caa647,#f8dc82)] shadow-[0_0_14px_rgba(212,175,55,0.46)]"
-                        style={{ width: `${wyhProgress}%` }}
-                      />
-                    </span>
-                  </span>
-                </button>
-                <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  <a
-                    href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-song-feedback-trigger="true"
-                    data-song-title="Without You Here"
-                    data-song-artist="Gannon Waye"
-                    data-song-feedback-source="home-spotify-profile"
-                  >
-                    <Button variant="outline" className="w-full rounded-full border-[#d4af37]/28 bg-black/16 font-body text-[10px] uppercase tracking-[0.22em] text-[#f5d06e] hover:bg-[#d4af37]/10">
-                      Spotify profile
-                    </Button>
-                  </a>
-                  <Link to="/mum">
-                    <Button className="w-full rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] font-body text-[10px] uppercase tracking-[0.22em] text-[#071007]">
-                      Enter Mum's Garden
-                    </Button>
-                  </Link>
-                </div>
-              </div>
+              </HeroEditableBlock>
             </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.38 }}
-            className="grid gap-5 border-y border-[#d4af37]/14 bg-black/12 py-5 backdrop-blur-[2px] md:grid-cols-[0.78fr_1fr_1fr_1fr]"
-          >
-            <div className="text-left md:pr-5">
-              <p className="font-body text-[9px] uppercase tracking-[0.34em] text-[#d4af37]/66">Worth seeing now</p>
-              <h3 className="mt-2 font-display text-2xl italic leading-tight text-[#fff7df]">
-                New music. Real story. No filler.
-              </h3>
-            </div>
-            {HOME_FEATURE_MOMENTS.map((moment) => (
-              <Link key={moment.title} to={moment.to} className="group block border-l border-[#d4af37]/16 pl-4 text-left transition hover:border-[#f5d06e]/46">
-                <p className="font-body text-[9px] uppercase tracking-[0.3em] text-[#d4af37]/58 transition group-hover:text-[#f5d06e]/78">{moment.eyebrow}</p>
-                <h4 className="mt-2 font-display text-xl italic text-[#fff7df] transition group-hover:text-[#f5d06e]">{moment.title}</h4>
-                <p className="mt-2 font-display text-sm italic leading-5 text-[#f5d06e]/74">"{moment.line}"</p>
-                <p className="mt-3 font-body text-xs leading-5 text-[#fff7df]/50">{moment.copy}</p>
-              </Link>
-            ))}
-          </motion.div>
+          <HeroEditableBlock editor={heroLayoutEditor} id="moments" label="Moments">
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, delay: 0.38 }}
+              className="grid gap-4 border-y border-[#d4af37]/14 bg-[#050708]/58 py-4 backdrop-blur-md md:grid-cols-[0.62fr_1fr_1fr_1fr]"
+            >
+              <div className="text-left md:pr-4">
+                <p className="font-body text-[8px] uppercase tracking-[0.3em] text-[#d4af37]/66">Worth seeing now</p>
+                <h3 className="mt-1 font-display text-xl italic leading-tight text-[#fff7df]">
+                  New music. Real story. No filler.
+                </h3>
+              </div>
+              {HOME_FEATURE_MOMENTS.map((moment) => (
+                <Link key={moment.title} to={moment.to} className="group block border-l border-[#b88a34]/22 pl-4 text-left transition hover:border-[#b88a34]/62">
+                  <p className="font-body text-[8px] uppercase tracking-[0.24em] text-[#b88a34]/72 transition group-hover:text-[#d6b56a]">{moment.eyebrow}</p>
+                  <h4 className="mt-1 font-display text-lg italic text-[#fff7df] transition group-hover:text-[#e7d5ad]">{moment.title}</h4>
+                  <p className="mt-1 font-display text-xs italic leading-5 text-[#c6a15b]/78">"{moment.line}"</p>
+                  <p className="mt-2 font-body text-[11px] leading-4 text-[#fff7df]/48">{moment.copy}</p>
+                </Link>
+              ))}
+            </motion.div>
+          </HeroEditableBlock>
         </div>
       </section>
       <section className="hidden relative min-h-[100svh] flex items-center justify-center">
@@ -658,17 +727,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Thank You Single — moved up */}
-      <ThankYouSingle />
-
-      {/* Thank You Campaign Visual — LIVE, awaiting Gannon approval in /admin/website-evolution */}
-      {site.show_thank_you_campaign_section !== false && <ThankYouCampaignSection />}
-
-      {/* Thankyou Song Story — LIVE, awaiting Gannon review */}
-      <ThankYouStorySection />
-
       {/* About Section — magazine 3-column */}
-      <section className="py-16 md:py-24 px-4 md:px-6 relative">
+      <section className="px-4 pb-16 pt-10 md:px-6 md:pb-24 md:pt-12 relative">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -783,6 +843,30 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* Full-width Gannon Waye visual bridge */}
+      <Link
+        to="/music"
+        aria-label="Open Gannon Waye music"
+        className="group relative block w-full overflow-hidden border-y border-[#b88a34]/24 bg-black"
+      >
+        <img
+          src={GANNON_WAYE_WIDE_BANNER}
+          alt="Gannon Waye"
+          className="h-auto min-h-[220px] w-full object-cover object-center transition duration-700 group-hover:scale-[1.012]"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/32" />
+      </Link>
+
+
+      {/* Thank You Campaign Visual — LIVE, awaiting Gannon approval in /admin/website-evolution */}
+      {site.show_thank_you_campaign_section !== false && <ThankYouCampaignSection />}
+
+      {/* Thankyou Song Story — LIVE, awaiting Gannon review */}
+      <ThankYouStorySection />
+
+      {/* Thank You Single - kept lower so the hero and story lead first */}
+      <ThankYouSingle />
 
 
       {/* Merch Teaser */}

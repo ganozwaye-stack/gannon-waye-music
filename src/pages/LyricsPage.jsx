@@ -35,16 +35,6 @@ export default function LyricsPage() {
       credits: 'Written & Performed by Gannon Waye'
     },
     {
-      id: 'will-you-even-listen',
-      title: 'Will You Even Listen',
-      type: 'Single',
-      status: 'recording',
-      isLocked: true,
-      is_published: true,
-      artwork_url: '/images/will_you_even_listen_cover.png',
-      credits: 'Written & Performed by Gannon Waye'
-    },
-    {
       id: 'without-you-here',
       title: 'Without You Here',
       type: 'Single',
@@ -56,8 +46,9 @@ export default function LyricsPage() {
     }
   ];
 
+  const publicReleaseTitles = new Set(['Thank You', 'THANKYOU', 'Without You Here']);
   const withLyrics = [
-    ...releases.filter(r => r.is_published && r.lyrics && !localReleases.some(lr => lr.title === r.title)),
+    ...releases.filter(r => r.is_published && publicReleaseTitles.has(r.title) && r.lyrics && !localReleases.some(lr => lr.title === r.title)),
     ...localReleases
   ];
 
