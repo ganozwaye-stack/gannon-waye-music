@@ -59,6 +59,7 @@ import MerchFeedback from '@/pages/MerchFeedback';
 import Tour from '@/pages/Tour';
 import FoundingSupporterPage from '@/pages/FoundingSupporter';
 import MumTribute from '@/pages/MumTribute';
+import MumDesignLab from '@/pages/MumDesignLab';
 import MerchReelPage from '@/components/mum/MerchReelPage';
 import CheckoutSuccess from '@/pages/CheckoutSuccess';
 import CheckoutCancel from '@/pages/CheckoutCancel';
@@ -339,6 +340,13 @@ import CommunicationsHub from '@/pages/admin/CommunicationsHub';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const location = useLocation();
+  const isMemorialRoute = location.pathname === '/mum'
+    || location.pathname === '/mum/garden'
+    || location.pathname === '/mum/design-lab'
+    || location.pathname === '/mum-garden'
+    || location.pathname === '/mum-garden-preview';
+  const showStickySupportBar = !location.pathname.startsWith('/admin') && !isMemorialRoute;
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -362,7 +370,7 @@ const AuthenticatedApp = () => {
 
   return (
     <>
-    <StickySupportBar />
+    {showStickySupportBar && <StickySupportBar />}
     <Routes>
       {/* Public routes */}
       <Route element={<PublicLayout />}>
@@ -396,6 +404,7 @@ const AuthenticatedApp = () => {
         <Route path="/remember-mum" element={<RememberMum />} />
         <Route path="/mum" element={<MumTribute />} />
         <Route path="/mum/garden" element={<MumTribute mode="garden" />} />
+        <Route path="/mum/design-lab" element={<MumDesignLab />} />
         <Route path="/without-you-here" element={<MumTribute />} />
         <Route path="/mums-garden" element={<MumsGarden />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
