@@ -9,14 +9,13 @@ const BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f
 
 const NAV_LINKS = [
   { label: 'Home', path: '/' },
-  { label: 'My Story', path: '/this-is-my-life' },
   { label: 'Music', path: '/music' },
-  // Live/Tour hidden until public launch enabled
-  { label: 'Videos', path: '/videos' },
-  { label: 'Community', path: '/community' },
+  { label: 'Lyrics', path: '/lyrics' },
   { label: 'Store', path: '/store' },
+  { label: 'Press', path: '/videos' },
+  { label: 'Subscribe', path: '/community' },
   { label: 'Contact', path: '/contact' },
-  { label: 'Back This 🤍', path: '/back-this', highlight: true },
+  { label: 'More', path: '/this-is-my-life' },
 ];
 
 export default function Navbar() {
@@ -26,7 +25,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="mx-auto flex max-w-[1210px] items-center justify-between px-5 py-2.5 md:px-6">
         <Link
           to="/"
           aria-label="Gannon Waye — Home"
@@ -34,15 +33,15 @@ export default function Navbar() {
         >
           {/* TODO: replace src with uploaded gold circular GW mark — set gwLogoUrl in SiteSettings or upload to /files/public/... */}
           {/* Using text fallback until asset is uploaded */}
-          <div className="h-11 md:h-12 w-auto flex items-center justify-center">
-            <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-primary/60 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
-              <span className="font-display text-sm gradient-gold-text font-semibold tracking-wider">GW</span>
+          <div className="flex h-10 w-auto items-center justify-center">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#9f792d]/72 bg-[#10110f]/72">
+              <span className="font-display text-xs font-semibold text-[#c9aa63]">GW</span>
             </div>
           </div>
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden items-center gap-5 md:flex">
           {NAV_LINKS.map(link => {
             const active = location.pathname === link.path;
             const isHighlighted = link.highlight || link.path === '/store';
@@ -50,13 +49,13 @@ export default function Navbar() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-body text-sm tracking-widest uppercase transition-all duration-200 hover:scale-105 ${
+                className={`font-body text-[10px] font-semibold uppercase tracking-[0.08em] transition-all duration-200 hover:text-[#d0b06c] ${
                   isHighlighted
                     ? active
-                      ? 'px-4 py-1.5 rounded-full bg-primary text-primary-foreground'
-                      : 'px-4 py-1.5 rounded-full border border-primary/60 hover:bg-primary/10 gradient-gold-text'
+                      ? 'rounded-full border border-[#9f792d] bg-[#9f792d]/10 px-4 py-1.5 text-[#d0b06c]'
+                      : 'rounded-full border border-[#9f792d]/75 px-4 py-1.5 text-[#c9aa63] hover:bg-[#9f792d]/10'
                     : active
-                      ? 'gradient-gold-text'
+                      ? 'text-[#d0b06c]'
                       : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
