@@ -45,6 +45,7 @@ import StickySupportBar from '@/components/global/StickySupportBar';
 import LyricsPage from '@/pages/LyricsPage';
 import Press from '@/pages/Press';
 import ThisIsMyLife from '@/pages/ThisIsMyLife';
+import SongFeedbackProvider from '@/components/global/SongFeedbackGate';
 import FAQSection from '@/pages/FAQSection';
 import RecentFanActivity from '@/pages/RecentFanActivity';
 import Summary from '@/pages/Summary';
@@ -690,9 +691,11 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
-          <ScrollToTop />
-          <PostHogPageTracker />
-          <AuthenticatedApp />
+          <SongFeedbackProvider>
+            <ScrollToTop />
+            <PostHogPageTracker />
+            <AuthenticatedApp />
+          </SongFeedbackProvider>
         </Router>
         <Toaster />
       </QueryClientProvider>

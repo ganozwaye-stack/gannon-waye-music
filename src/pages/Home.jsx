@@ -1,19 +1,217 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
 import ThankYouSingle from '@/components/public/ThankYouSingle';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
+import { useSongFeedback } from '@/components/global/SongFeedbackGate';
+import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/musicAssets';
 
+function CinematicCelebration() {
+  const canvasRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(true);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+    window.addEventListener('resize', handleResize);
+
+    class Particle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 5 + 2;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.alpha = 1;
+        this.decay = Math.random() * 0.015 + 0.01;
+        this.gravity = 0.05;
+      }
+      update() {
+        this.vx *= 0.98;
+        this.vy *= 0.98;
+        this.vy += this.gravity;
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= this.decay;
+      }
+      draw(c) {
+        c.save();
+        c.globalAlpha = this.alpha;
+        c.fillStyle = this.color;
+        c.beginPath();
+        c.arc(this.x, this.y, Math.random() * 2 + 1, 0, Math.PI * 2);
+        c.fill();
+        c.restore();
+      }
+    }
+
+    class Firework {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = height;
+        this.tx = this.x + (Math.random() * 200 - 100);
+        this.ty = Math.random() * (height * 0.4) + 100;
+        const speed = Math.random() * 4 + 8;
+        const angle = Math.atan2(this.ty - this.y, this.tx - this.x);
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.exploded = false;
+        this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.vy >= 0 || this.y <= this.ty) {
+          this.exploded = true;
+        }
+      }
+      draw(c) {
+        c.save();
+        c.fillStyle = '#c9a84c';
+        c.beginPath();
+        c.arc(this.x, this.y, 2.5, 0, Math.PI * 2);
+        c.fill();
+        c.restore();
+      }
+    }
+
+    let fireworks = [];
+    let particles = [];
+    let tick = 0;
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height);
+      tick++;
+
+      ctx.save();
+      const leftAngle = Math.sin(tick * 0.005) * 0.2 + 0.3;
+      const rightAngle = Math.cos(tick * 0.005) * 0.2 - 0.3;
+      
+      let gradient = ctx.createLinearGradient(0, height, Math.cos(leftAngle) * height, 0);
+      gradient.addColorStop(0, 'rgba(201, 168, 76, 0.12)');
+      gradient.addColorStop(1, 'rgba(201, 168, 76, 0)');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(0, height);
+      ctx.lineTo(Math.cos(leftAngle - 0.08) * height * 1.5, 0);
+      ctx.lineTo(Math.cos(leftAngle + 0.08) * height * 1.5, 0);
+      ctx.closePath();
+      ctx.fill();
+
+      gradient = ctx.createLinearGradient(width, height, width + Math.sin(rightAngle) * height, 0);
+      gradient.addColorStop(0, 'rgba(201, 168, 76, 0.12)');
+      gradient.addColorStop(1, 'rgba(201, 168, 76, 0)');
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.moveTo(width, height);
+      ctx.lineTo(width + Math.sin(rightAngle - 0.08) * height * 1.5, 0);
+      ctx.lineTo(width + Math.sin(rightAngle + 0.08) * height * 1.5, 0);
+      ctx.closePath();
+      ctx.fill();
+      ctx.restore();
+
+      if (Math.random() < 0.02) {
+        fireworks.push(new Firework());
+      }
+
+      fireworks.forEach((fw, i) => {
+        fw.update();
+        fw.draw(ctx);
+        if (fw.exploded) {
+          for (let p = 0; p < 60; p++) {
+            particles.push(new Particle(fw.x, fw.y, fw.color));
+          }
+          fireworks.splice(i, 1);
+        }
+      });
+
+      particles.forEach((p, i) => {
+        p.update();
+        p.draw(ctx);
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+        }
+      });
+
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    const handleCanvasClick = (e) => {
+      const clickX = e.clientX;
+      const clickY = e.clientY;
+      const color = `hsl(${Math.random() * 360}, 100%, 75%)`;
+      for (let p = 0; p < 40; p++) {
+        particles.push(new Particle(clickX, clickY, color));
+      }
+    };
+    window.addEventListener('click', handleCanvasClick);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('click', handleCanvasClick);
+    };
+  }, []);
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-[100]" />
+      <div className="fixed bottom-6 right-6 z-[110] max-w-sm w-full bg-card/90 backdrop-blur-md border border-primary/30 rounded-2xl p-6 shadow-2xl">
+        <div className="flex justify-between items-start gap-4">
+          <div className="space-y-2 text-left">
+            <span className="inline-block bg-primary/20 text-primary border border-primary/30 rounded-full px-2.5 py-0.5 font-body text-[10px] tracking-widest uppercase">
+              🎉 Release Celebration
+            </span>
+            <h3 className="font-display text-xl text-foreground italic">"Thank You" is Live!</h3>
+            <p className="font-body text-xs text-muted-foreground leading-relaxed">
+              Gannon's debut single is streaming globally. Click anywhere on your screen to launch celebratory fireworks! 🎆
+            </p>
+            <div className="pt-2 flex gap-2">
+              <a href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz" target="_blank" rel="noopener noreferrer">
+                <Button size="sm" className="rounded-full text-[10px] font-body uppercase tracking-wider gradient-gold-button border-0 h-8">
+                  Spotify
+                </Button>
+              </a>
+              <a href="/music">
+                <Button size="sm" variant="outline" className="rounded-full text-[10px] font-body uppercase tracking-wider h-8">
+                  Listen
+                </Button>
+              </a>
+            </div>
+          </div>
+          <button onClick={() => setIsOpen(false)} className="text-muted-foreground hover:text-foreground text-sm font-semibold p-1">
+            ✕
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
 import ThankYouHeroBanner from '@/components/public/ThankYouHeroBanner';
 import VideoPreviewSection from '@/components/public/VideoPreviewSection';
 import MerchTeaserSection from '@/components/public/MerchTeaserSection';
-import StoreWorldTeaser from '@/components/public/StoreWorldTeaser';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
+import HeroQuoteRotator from '@/components/public/HeroQuoteRotator';
 import FanMediaUpload from '@/components/public/FanMediaUpload';
 import TikTokWelcomeBanner from '@/components/public/TikTokWelcomeBanner';
 import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
@@ -21,37 +219,40 @@ import FanHighlightCommunity from '@/components/public/FanHighlightCommunity';
 import FeaturedVideoSection from '@/components/public/FeaturedVideoSection';
 import ThankYouCampaignSection from '@/components/public/ThankYouCampaignSection';
 import ThankYouStorySection from '@/components/public/ThankYouStorySection';
-import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
-import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
-import SignatureQuoteDivider from '@/components/public/SignatureQuoteDivider';
-import { WITHOUT_YOU_HERE_COVER, SPOTIFY_ARTIST_URL, getReleaseArtwork } from '@/config/releaseAssets';
 
 const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
+  '/images/home/gannon-waye-home-hero.png',
 ];
 
-const HERO_FEATURES = [
+const HOME_FEATURE_MOMENTS = [
   {
-    eyebrow: 'New music',
+    eyebrow: 'Next single',
     title: 'Without You Here',
-    line: 'Your voice, your heart, the way you loved me still lives inside of me.',
-    copy: 'The next single arrives 31 July 2026: grief, love, and the moment a goodbye becomes a song.',
+    line: 'Your last breath took mine away. There\'s not much more I have to say.',
+    copy: 'A tribute, a love letter, and the next chapter in the story.',
     to: '/mum',
   },
   {
     eyebrow: 'Out now',
     title: 'Thank You',
     line: 'This is what survival sounds like.',
-    copy: 'The debut single is streaming now, written at the moment self-respect finally became louder than the cycle.',
+    copy: 'The debut single is streaming now on all leading platforms.',
     to: '/music',
   },
   {
     eyebrow: 'Worth seeing',
     title: "Mum's Garden",
     line: 'Even while leaving, she was still loving me.',
-    copy: 'Step into the memorial space, hear the internal preview, and sit with the story behind Without You Here.',
+    copy: 'The memorial foyer and garden experience behind Without You Here.',
     to: '/mum',
   },
+];
+
+const HERO_ACTIONS = [
+  { label: 'Back this', to: '/back-this' },
+  { label: 'Join community', to: '/community' },
+  { label: "Mum's Garden", to: '/mum' },
+  { label: 'Merch', to: '/store' },
 ];
 
 export default function Home() {
@@ -73,6 +274,11 @@ export default function Home() {
 
 
   const [currentImg, setCurrentImg] = useState(0);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [wyhPlaying, setWyhPlaying] = useState(false);
+  const [wyhProgress, setWyhProgress] = useState(0);
+  const wyhAudioRef = useRef(null);
+  const { requestSongFeedback } = useSongFeedback();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -81,96 +287,347 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const checkCelebration = () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('celebration') === 'true') {
+        setShowCelebration(true);
+      }
+    };
+    checkCelebration();
+    const timer = setInterval(checkCelebration, 60000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const audio = wyhAudioRef.current;
+    if (!audio) return undefined;
+
+    const handleTimeUpdate = () => {
+      const duration = audio.duration || 49;
+      setWyhProgress(Math.min((audio.currentTime / duration) * 100, 100));
+    };
+    const handleEnded = () => {
+      audio.currentTime = 0;
+      setWyhProgress(0);
+      setWyhPlaying(false);
+    };
+    const handlePause = () => setWyhPlaying(false);
+    const handlePlay = () => setWyhPlaying(true);
+
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('play', handlePlay);
+
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('play', handlePlay);
+    };
+  }, []);
+
+  const playWithoutYouHerePreview = useCallback(async () => {
+    const audio = wyhAudioRef.current;
+    if (!audio) return;
+
+    if (audio.currentTime >= (audio.duration || 49) - 0.25) {
+      audio.currentTime = 0;
+      setWyhProgress(0);
+    }
+
+    try {
+      audio.muted = false;
+      await audio.play();
+    } catch (error) {
+      console.warn('Without You Here preview could not play.', error);
+      setWyhPlaying(false);
+    }
+  }, []);
+
+  const toggleWithoutYouHerePreview = useCallback(async () => {
+    const audio = wyhAudioRef.current;
+    if (!audio) return;
+
+    if (!audio.paused) {
+      audio.pause();
+      return;
+    }
+
+    await requestSongFeedback({
+      songTitle: 'Without You Here',
+      artist: 'Gannon Waye',
+      source: 'home-current-focus-player',
+      onApproved: playWithoutYouHerePreview,
+    });
+  }, [playWithoutYouHerePreview, requestSongFeedback]);
+
   return (
     <div className="min-h-screen relative">
-      <FirstVisitOnboarding />
+      {showCelebration && <CinematicCelebration />}
       <TikTokWelcomeBanner />
 
       {/* Fixed background — visible behind ALL sections */}
-      <div className="fixed inset-0 -z-10 overflow-hidden">
+      <div className="fixed inset-0 -z-10">
         <AnimatePresence>
           <motion.img
             key={currentImg}
             src={HERO_IMAGES[currentImg]}
             alt="Gannon Waye"
-            initial={{ opacity: 0, scale: 1.15 }}
-            animate={{ opacity: 0.55, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.68, scale: [1.02, 1.055, 1.02] }}
             exit={{ opacity: 0 }}
-            transition={{ opacity: { duration: 1.5 }, scale: { duration: 8, ease: 'easeOut' } }}
-            className="absolute inset-y-0 right-0 h-full w-full md:w-[68%] object-cover object-center"
-            style={{ WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 18%)', maskImage: 'linear-gradient(to right, transparent 0%, black 18%)' }}
+            transition={{ opacity: { duration: 1.5 }, scale: { duration: 18, repeat: Infinity, ease: 'easeInOut' } }}
+            className="absolute inset-0 w-full h-full object-cover object-[center_50%]"
           />
         </AnimatePresence>
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#050708_0%,rgba(5,7,8,0.68)_21%,rgba(5,7,8,0.12)_50%,rgba(5,7,8,0.76)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,8,0.82)_0%,rgba(5,7,8,0.24)_26%,rgba(5,7,8,0.52)_66%,#050708_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_27%,rgba(245,208,110,0.08),transparent_28%),radial-gradient(circle_at_79%_45%,rgba(212,175,55,0.08),transparent_32%)]" />
+        <motion.div
+          className="absolute inset-x-0 top-[18%] h-px bg-gradient-to-r from-transparent via-[#f5d06e]/40 to-transparent"
+          animate={{ opacity: [0.22, 0.56, 0.22], y: [0, 18, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        />
       </div>
 
       {/* Hero */}
-      <section className="relative min-h-[calc(100svh-4rem)] md:min-h-[760px] flex items-start">
-        <div className="absolute inset-0 bg-gradient-to-r from-background/96 via-background/76 to-background/18 z-10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/86 z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_74%_42%,rgba(212,175,55,0.12),transparent_48%)] z-10" />
-        <div className="relative z-20 w-full px-4 sm:px-6 pt-7 pb-12 md:pt-10 md:pb-16 lg:pt-12">
-          <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.8, delay: 0.25 }}
-              className="text-center mb-7 md:mb-9"
-            >
-              <h1 className="sr-only">Gannon Waye</h1>
-              <img
-                src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/172f64a6b_0fac46594_generated_image-Edited.png"
-                alt="Gannon Waye"
-                className="mx-auto w-[min(92vw,760px)] h-auto"
-                style={{ maxHeight: '168px' }}
-              />
-              <p className="font-body text-xs md:text-sm tracking-[0.28em] uppercase gradient-gold-glow mt-5">
-                Singer-songwriter storyteller
-              </p>
-            </motion.div>
-            <div className="grid lg:grid-cols-[minmax(0,0.95fr)_minmax(320px,0.72fr)] items-center gap-7 lg:gap-12">
-              <div className="max-w-2xl text-left lg:pl-4">
-            <p className="font-body text-[10px] md:text-xs tracking-[0.34em] uppercase gradient-gold-glow mb-4">
-              Next single
+      <section className="relative min-h-[100svh] overflow-hidden px-4 py-10 md:px-8 md:py-14">
+        <div className="mx-auto flex min-h-[calc(100svh-7rem)] w-full max-w-7xl flex-col justify-center gap-8">
+          <motion.div
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-center"
+          >
+            <h1 className="brand-wordmark text-5xl leading-[0.88] sm:text-7xl lg:text-8xl xl:text-9xl">
+              Gannon Waye
+            </h1>
+            <p className="mt-4 font-body text-[10px] uppercase tracking-[0.42em] text-[#f5d06e]/80 [text-shadow:0_2px_14px_rgba(0,0,0,0.8),0_0_18px_rgba(212,175,55,0.36)] md:text-xs">
+              Singer-songwriter storyteller
             </p>
-            <motion.h2
-              initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.7, delay: 0.9 }}
-              className="font-display text-3xl md:text-4xl xl:text-5xl text-foreground italic leading-tight mt-2 mb-2 max-w-3xl">
-              "Your last breath took mine away. There's not much more I have to say."
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.2 }}
-              className="font-body text-sm md:text-base text-foreground/68 mt-5 max-w-xl leading-relaxed">
-              Without You Here is the next chapter: a tribute, a love letter, and the song for the voice I still reach for.
-            </motion.p>
+          </motion.div>
 
-          {/* "Thank You" + "Without You Here" teaser strip in the hero */}
+          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.74fr)]">
+            <motion.div
+              initial={{ opacity: 0, x: -28 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.85, delay: 0.12 }}
+              className="max-w-xl text-left"
+            >
+              <p className="font-body text-[10px] uppercase tracking-[0.48em] text-[#d4af37]/76">Next single</p>
+              <h2 className="mt-3 font-display text-4xl italic leading-none text-[#fff7df] [text-shadow:0_4px_20px_rgba(0,0,0,0.86),0_0_24px_rgba(212,175,55,0.25)] md:text-6xl">
+                Without You Here
+              </h2>
+              <blockquote className="mt-5 font-display text-2xl italic leading-[1.08] text-[#fff7df]/95 [text-shadow:0_4px_20px_rgba(0,0,0,0.86),0_0_24px_rgba(212,175,55,0.25)] md:text-4xl">
+                "Your last breath took mine away. There's not much more I have to say."
+              </blockquote>
+              <p className="mt-5 max-w-lg font-body text-sm leading-7 text-[#fff7df]/72 md:text-base">
+                A tribute, a love letter, and the song for the voice I still reach for. This next chapter moves through grief, family, survival, and the promise to keep living with love carried forward.
+              </p>
+              <div className="mt-6 rounded-lg border border-[#d4af37]/18 bg-black/24 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.26)] backdrop-blur-sm">
+                <p className="font-body text-xs uppercase tracking-[0.32em] text-[#d4af37]/70">Start here</p>
+                <p className="mt-3 font-body text-sm leading-7 text-[#fff7df]/70">
+                  Gannon Waye writes cinematic pop from the parts of life people usually hide: loss, healing, family, self-respect, and finding a voice strong enough to turn pain into connection.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {HERO_ACTIONS.map((action) => (
+                    <Link
+                      key={action.label}
+                      to={action.to}
+                      className="rounded-full border border-[#d4af37]/22 px-4 py-2 font-body text-[10px] uppercase tracking-[0.18em] text-[#f5d06e]/86 transition hover:border-[#f5d06e]/55 hover:bg-[#d4af37]/10"
+                    >
+                      {action.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-7 flex flex-wrap gap-3">
+                <Link to="/music">
+                  <Button
+                    data-song-feedback-trigger="true"
+                    data-song-title="Without You Here"
+                    data-song-artist="Gannon Waye"
+                    data-song-feedback-source="home-stream-now"
+                    className="gap-2 rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#071007] shadow-[0_0_34px_rgba(212,175,55,0.24)]"
+                  >
+                    <Play className="w-4 h-4" /> Stream now
+                  </Button>
+                </Link>
+                <Link to="/this-is-my-life">
+                  <Button variant="outline" className="gap-2 rounded-full border-[#fff7df]/18 bg-black/12 px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#fff7df] hover:bg-[#fff7df]/6">
+                    My story <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <Link to="/back-this">
+                  <Button variant="outline" className="gap-2 rounded-full border-[#d4af37]/28 bg-black/12 px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#f5d06e] hover:bg-[#d4af37]/10">
+                    Back this <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <Link to="/mum">
+                  <Button variant="outline" className="gap-2 rounded-full border-[#d4af37]/28 bg-black/12 px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#f5d06e] hover:bg-[#d4af37]/10">
+                    Without You Here <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 28, rotateY: 5 }}
+              animate={{ opacity: 1, x: 0, rotateY: [3, -2, 3] }}
+              transition={{ opacity: { duration: 0.85, delay: 0.2 }, x: { duration: 0.85, delay: 0.2 }, rotateY: { duration: 8, repeat: Infinity, ease: 'easeInOut' } }}
+              style={{ perspective: 1200 }}
+              className="w-full justify-self-end lg:mt-20"
+            >
+              <div className="w-full max-w-[460px] rounded-lg border border-[#d4af37]/24 bg-[#060806]/62 p-5 shadow-[0_28px_95px_rgba(0,0,0,0.52),0_0_42px_rgba(212,175,55,0.12)] backdrop-blur-md">
+                <audio
+                  ref={wyhAudioRef}
+                  src={WITHOUT_YOU_HERE_PREVIEW}
+                  preload="metadata"
+                  data-song-title="Without You Here"
+                  data-song-artist="Gannon Waye"
+                  data-song-feedback-source="home-current-focus-audio"
+                  data-song-feedback-exempt="true"
+                />
+                <div className="grid gap-4 sm:grid-cols-[126px_1fr]">
+                  <button
+                    type="button"
+                    onClick={toggleWithoutYouHerePreview}
+                    data-song-title="Without You Here"
+                    data-song-artist="Gannon Waye"
+                    data-song-feedback-source="home-current-focus-cover"
+                    data-song-feedback-exempt="true"
+                    aria-label={wyhPlaying ? 'Pause Without You Here preview' : 'Play Without You Here preview'}
+                    className="group relative aspect-square overflow-hidden rounded-lg border border-[#f5d06e]/34 shadow-[0_0_28px_rgba(212,175,55,0.22)]"
+                  >
+                    <img src={WITHOUT_YOU_HERE_COVER} alt="Without You Here - Gannon Waye cover art" className="h-full w-full object-cover" />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/18 transition group-hover:bg-black/4">
+                      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007] shadow-[0_0_26px_rgba(212,175,55,0.42)]">
+                        {wyhPlaying ? <Pause className="h-6 w-6 fill-current" /> : <Play className="h-6 w-6 fill-current" />}
+                      </span>
+                    </div>
+                  </button>
+                  <div className="min-w-0">
+                    <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/72">Next single</p>
+                    <h2 className="mt-2 font-display text-3xl italic leading-none text-[#fff7df]">Without You Here</h2>
+                    <p className="mt-2 font-body text-[10px] uppercase tracking-[0.24em] text-[#fff7df]/54">Gannon Waye</p>
+                    <p className="mt-3 font-body text-xs leading-6 text-[#fff7df]/58">
+                      Releasing 31 July 2026. Until Spotify is live, this plays the approved preview from 3:46 to 4:35.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={toggleWithoutYouHerePreview}
+                  data-song-title="Without You Here"
+                  data-song-artist="Gannon Waye"
+                  data-song-feedback-source="home-current-focus-player"
+                  data-song-feedback-exempt="true"
+                  className="mt-5 flex w-full items-center gap-4 rounded-lg border border-[#d4af37]/22 bg-black/24 p-4 text-left transition hover:border-[#f5d06e]/46 hover:bg-[#d4af37]/8"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007]">
+                    {wyhPlaying ? <Pause className="h-5 w-5 fill-current" /> : <Play className="h-5 w-5 fill-current" />}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-body text-[10px] uppercase tracking-[0.24em] text-[#d4af37]/74">
+                      {wyhPlaying ? 'Playing preview' : 'Play preview'}
+                    </span>
+                    <span className="mt-1 block font-body text-sm text-[#fff7df]/82">
+                      Bridge preview - 3:46 to 4:35
+                    </span>
+                    <span className="mt-3 block h-1.5 overflow-hidden rounded-full bg-[#fff7df]/10">
+                      <span
+                        className="block h-full rounded-full bg-[linear-gradient(90deg,#caa647,#f8dc82)] shadow-[0_0_14px_rgba(212,175,55,0.46)]"
+                        style={{ width: `${wyhProgress}%` }}
+                      />
+                    </span>
+                  </span>
+                </button>
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                  <a
+                    href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-song-feedback-trigger="true"
+                    data-song-title="Without You Here"
+                    data-song-artist="Gannon Waye"
+                    data-song-feedback-source="home-spotify-profile"
+                  >
+                    <Button variant="outline" className="w-full rounded-full border-[#d4af37]/28 bg-black/16 font-body text-[10px] uppercase tracking-[0.22em] text-[#f5d06e] hover:bg-[#d4af37]/10">
+                      Spotify profile
+                    </Button>
+                  </a>
+                  <Link to="/mum">
+                    <Button className="w-full rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] font-body text-[10px] uppercase tracking-[0.22em] text-[#071007]">
+                      Enter Mum's Garden
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: 0.38 }}
+            className="grid gap-5 border-y border-[#d4af37]/14 bg-black/12 py-5 backdrop-blur-[2px] md:grid-cols-[0.78fr_1fr_1fr_1fr]"
+          >
+            <div className="text-left md:pr-5">
+              <p className="font-body text-[9px] uppercase tracking-[0.34em] text-[#d4af37]/66">Worth seeing now</p>
+              <h3 className="mt-2 font-display text-2xl italic leading-tight text-[#fff7df]">
+                New music. Real story. No filler.
+              </h3>
+            </div>
+            {HOME_FEATURE_MOMENTS.map((moment) => (
+              <Link key={moment.title} to={moment.to} className="group block border-l border-[#d4af37]/16 pl-4 text-left transition hover:border-[#f5d06e]/46">
+                <p className="font-body text-[9px] uppercase tracking-[0.3em] text-[#d4af37]/58 transition group-hover:text-[#f5d06e]/78">{moment.eyebrow}</p>
+                <h4 className="mt-2 font-display text-xl italic text-[#fff7df] transition group-hover:text-[#f5d06e]">{moment.title}</h4>
+                <p className="mt-2 font-display text-sm italic leading-5 text-[#f5d06e]/74">"{moment.line}"</p>
+                <p className="mt-3 font-body text-xs leading-5 text-[#fff7df]/50">{moment.copy}</p>
+              </Link>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+      <section className="hidden relative min-h-[100svh] flex items-center justify-center">
+        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/20 to-background/90 z-10" />
+        <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/172f64a6b_0fac46594_generated_image-Edited.png" alt="Gannon Waye" className="max-w-full h-auto" style={{ maxHeight: '120px' }} />
+            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-8 mt-6">Singer, Songwriter, Storyteller</p>
+            <h2 className="font-display text-2xl md:text-3xl text-foreground italic leading-snug mt-2 mb-2">
+              "For them, it was about appearance.<br className="hidden sm:block" /> For me, I was breaking inside."
+            </h2>
+            <p className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
+              This is more than music. This is choosing yourself.
+            </p>
+            <div className="mt-6">
+              <HeroQuoteRotator />
+            </div>
+          </motion.div>
+
+          {/* "Thank You" teaser strip in the hero */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.35 }}
-            className="hidden"
+            className="mt-10 inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-5 bg-card/40 backdrop-blur-sm border border-primary/20 rounded-2xl px-6 py-4 mx-auto"
           >
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-foreground/45 animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.26em] uppercase text-muted-foreground">Debut Single</p>
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow">Debut Single</p>
             </div>
             <p className="font-display text-lg text-foreground italic">"Thank You"</p>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
-            <div className="flex flex-col items-start gap-1">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Out Now</p>
-              <Link to="/music" className="font-display text-base text-foreground/85 italic hover:text-foreground transition-colors">Stream Now →</Link>
-            </div>
-            <div className="w-px h-4 bg-border/60 hidden sm:block" />
-            <div className="flex flex-col items-start gap-1">
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-foreground/35 animate-pulse" />
-                <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Next Single</p>
-              </div>
-              <Link to="/mum" className="font-display text-base text-foreground/80 italic hover:underline">"Without You Here" — Releasing 31 July 2026 →</Link>
+            <div className="flex flex-col items-center gap-1">
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Artwork & Song Release: Out Now</p>
+              <Link to="/music" className="font-display text-base text-primary italic hover:underline">Stream Now →</Link>
             </div>
           </motion.div>
 
@@ -178,7 +635,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-7 flex flex-col sm:flex-row gap-3 justify-start"
+            className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
           >
             <Link to="/music" className="w-full sm:w-auto">
               <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
@@ -190,104 +647,14 @@ export default function Home() {
                 My Story <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
-            <Link to="/mum" className="w-full sm:w-auto">
-              <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 text-foreground/80 hover:bg-foreground/5">
-                Without You Here <ArrowRight className="w-4 h-4" />
+            <Link to="/back-this" className="w-full sm:w-auto">
+              <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10">
+                Be Part Of This 🤍
               </Button>
             </Link>
           </motion.div>
-            </div>
-            <motion.div
-              initial={{ opacity: 0, x: 18, scale: 0.98 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.55 }}
-              className="rounded-2xl border border-primary/28 bg-card/58 backdrop-blur-md p-4 sm:p-5 shadow-[0_0_48px_rgba(212,175,55,0.12)]"
-            >
-              <div className="grid sm:grid-cols-[160px_1fr] gap-5 items-center">
-                <div className="relative aspect-square overflow-hidden rounded-xl border border-primary/25 bg-secondary/50">
-                  <img
-                    src={WITHOUT_YOU_HERE_COVER}
-                    alt="Without You Here single cover"
-                    className="h-full w-full object-cover"
-                  />
-                  <Link
-                    to="/mum"
-                    aria-label="Open Without You Here release page"
-                    className="absolute inset-0 flex items-center justify-center bg-background/10 transition-colors hover:bg-background/0"
-                  >
-                    <span className="flex h-14 w-14 items-center justify-center rounded-full gradient-gold-button shadow-[0_0_28px_rgba(255,224,138,0.38)]">
-                      <Play className="h-6 w-6" />
-                    </span>
-                  </Link>
-                </div>
-                <div className="text-left">
-                  <p className="font-body text-[10px] tracking-[0.32em] uppercase gradient-gold-glow mb-2">
-                    Current single
-                  </p>
-                  <h3 className="font-display text-3xl text-foreground italic leading-tight">
-                    Without You Here
-                  </h3>
-                  <p className="font-body text-xs tracking-[0.18em] uppercase text-foreground/62 mt-3">
-                    Releasing 31 July 2026
-                  </p>
-                  <p className="font-body text-sm text-muted-foreground mt-4 leading-relaxed">
-                    Spotify goes live on release day. Until then, follow the artist profile and stream Thank You.
-                  </p>
-                  <div className="mt-5 flex flex-col gap-2">
-                    <a
-                      href={SPOTIFY_ARTIST_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 rounded-full border border-primary/35 px-5 py-3 font-body text-xs tracking-wider uppercase text-foreground transition-colors hover:bg-primary/10"
-                    >
-                      <Play className="h-3.5 w-3.5" /> Spotify profile
-                    </a>
-                    <Link to="/music" className="inline-flex items-center justify-center rounded-full gradient-gold-button px-5 py-3 font-body text-xs tracking-wider uppercase">
-                      Stream Thank You now
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.75, delay: 0.95 }}
-            className="mt-10 md:mt-14 border-y border-primary/20 bg-background/20 backdrop-blur-[2px] py-5 md:py-6"
-          >
-            <div className="grid gap-5 md:grid-cols-[0.72fr_1fr_1fr_1fr] md:items-stretch">
-              <div className="text-left md:pr-5">
-                <p className="font-body text-[10px] tracking-[0.34em] uppercase gradient-gold-glow mb-2">
-                  Worth seeing now
-                </p>
-                <h2 className="font-display text-2xl md:text-3xl text-foreground italic leading-tight">
-                  New music. Real story. No filler.
-                </h2>
-              </div>
-              {HERO_FEATURES.map((feature) => (
-                <Link
-                  key={feature.title}
-                  to={feature.to}
-                  className="group border-l border-primary/20 pl-4 text-left transition-colors hover:border-primary/55"
-                >
-                  <p className="font-body text-[9px] tracking-[0.26em] uppercase text-foreground/45 group-hover:text-primary/75 transition-colors">
-                    {feature.eyebrow}
-                  </p>
-                  <p className="font-display text-xl text-foreground italic mt-1">
-                    {feature.title}
-                  </p>
-                  <p className="font-display text-sm gradient-gold-glow italic leading-relaxed mt-2">
-                    "{feature.line}"
-                  </p>
-                  <p className="font-body text-xs text-muted-foreground leading-relaxed mt-3 max-w-sm">
-                    {feature.copy}
-                  </p>
-                </Link>
-              ))}
-            </div>
-          </motion.div>
-          </div>
+          
+
         </div>
       </section>
 
@@ -300,17 +667,15 @@ export default function Home() {
       {/* Thankyou Song Story — LIVE, awaiting Gannon review */}
       <ThankYouStorySection />
 
-      <SignatureQuoteDivider quoteIndex={3} />
-
       {/* About Section — magazine 3-column */}
-      <section className="py-12 md:py-16 px-4 md:px-6 relative">
+      <section className="py-16 md:py-24 px-4 md:px-6 relative">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-8"
+            className="text-center mb-10"
           >
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">About</p>
             <h2 className="font-display text-3xl md:text-5xl text-foreground">The Story</h2>
@@ -324,11 +689,11 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="font-body text-foreground/70 leading-relaxed text-sm text-left space-y-4 pt-8 flex flex-col items-start"
+              className="font-body text-foreground/70 leading-relaxed text-sm text-left space-y-4 pt-8"
             >
-              <p className="max-w-[34rem]">I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
-              <p className="max-w-[32rem]">I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.</p>
-              <p className="italic text-sm max-w-[35rem]">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong. It often means you're seeing something others aren't ready for yet.</p>
+              <p>I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
+              <p>I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.</p>
+              <p className="italic text-sm">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong. It often means you're seeing something others aren't ready for yet.</p>
             </motion.div>
 
             {/* Centre — quote centrepiece */}
@@ -352,7 +717,7 @@ export default function Home() {
                 <p>and for the first time,</p>
                 <p>I didn't want to be</p>
                 <p>anyone else.</p>
-                <p className="mt-2 text-primary/60 not-italic tracking-widest uppercase text-[9px]">Gannon Waye</p>
+                <p className="mt-2 text-primary/50 not-italic tracking-widest uppercase text-[9px]">Gannon Waye</p>
               </div>
               <div className="w-0.5 h-6 bg-gradient-to-b from-primary/30 to-primary" />
             </motion.div>
@@ -363,24 +728,24 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-body text-foreground/70 leading-relaxed text-sm text-right space-y-4 pt-8 flex flex-col items-end"
+              className="font-body text-foreground/70 leading-relaxed text-sm text-right space-y-4 pt-8"
             >
-              <p className="max-w-[32rem]">My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say.</p>
-              <p className="max-w-[35rem]">I began singing at a young age, runner up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.</p>
-              <p className="max-w-[29rem]">That work is now becoming an album: a collection for anyone who needs a message of hope, or an anthem that reminds them they're not alone.</p>
+              <p>My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say.</p>
+              <p>I began singing at a young age, runner up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.</p>
+              <p>That work is now becoming an album, a collection for anyone who needs a message of hope or just an anthem that reminds them they're not alone.</p>
             </motion.div>
           </div>
 
           {/* Mobile fallback — stacked, full story */}
           <div className="md:hidden space-y-6">
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left">
-              I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
+              I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me, it's the language I use to understand people, emotion, and the parts of life that don't always have words.
             </p>
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left">
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.
             </p>
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left italic">
-              I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong. It often means you're seeing something others aren't ready for yet.
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center italic">
+              I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong, it often means you're seeing something others aren't ready for yet.
             </p>
             <div className="border-l-2 border-primary pl-4 font-display text-sm gradient-gold-glow italic leading-7">
               <p>I didn't truly love myself</p>
@@ -395,13 +760,13 @@ export default function Home() {
               <p>I didn't want to be</p>
               <p>anyone else.</p>
             </div>
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left">
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say.
             </p>
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left">
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               I began singing at a young age, runner up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.
             </p>
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left">
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               That work is now becoming an album, a collection for anyone who needs a message of hope or just an anthem that reminds them they're not alone.
             </p>
           </div>
@@ -411,7 +776,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-10 flex justify-center"
+            className="mt-12 flex justify-center"
           >
             <SocialLinks settings={site} className="justify-center" />
           </motion.div>
@@ -422,11 +787,6 @@ export default function Home() {
 
       {/* Merch Teaser */}
       <MerchTeaserSection />
-
-      {/* Boutique Store World CTA */}
-      <StoreWorldTeaser />
-
-      <SignatureQuoteDivider quoteIndex={9} />
 
       {/* Fan Highlight Wall + Join Community (Merged) */}
       <FanHighlightCommunity />
@@ -448,81 +808,60 @@ export default function Home() {
       {/* Supporter Leaderboard */}
       <SupporterLeaderboard />
 
-      {/* Thank You Project CTA — donations, community, socials */}
-      <section className="py-10 md:py-12 px-4 md:px-6">
-        <div className="max-w-4xl mx-auto">
-          <ThankYouProjectCTA context="Every contribution fuels independent music, supports healing, and builds a community where stories matter. 10% of all support goes to 1800RESPECT. Join the Thank You Project today." />
-        </div>
-      </section>
-
       {/* Safe Space Banner */}
       <SafeSpaceBanner />
 
       {/* Latest Releases Preview */}
       {releases.length > 0 && (
-        <section className="py-12 md:py-16 px-4 md:px-6">
+        <section className="py-16 md:py-24 px-4 md:px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="text-center mb-8"
+              className="text-center mb-12"
             >
               <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Latest</p>
               <h2 className="font-display text-3xl md:text-5xl text-foreground">Music</h2>
             </motion.div>
-
-            {/* Album — featured at top center */}
-            {releases.find(r => r.type === 'album' && r.is_published) && (
-              <div className="mb-8 max-w-3xl">
-                <div className="relative overflow-hidden rounded-2xl p-6 md:p-8 text-left"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(212,175,55,0.12) 0%, rgba(245,208,110,0.06) 50%, rgba(212,175,55,0.12) 100%)',
-                    border: '2px solid rgba(245,208,110,0.35)',
-                    boxShadow: '0 0 50px rgba(212,175,55,0.12)',
-                  }}>
-                  <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Album - Releasing Next Year</p>
-                  <h3 className="font-display text-3xl md:text-4xl text-foreground mb-2">{releases.find(r => r.type === 'album').title}</h3>
-                  <p className="font-body text-sm text-muted-foreground">{releases.find(r => r.type === 'album').description}</p>
-                  <div className="flex items-center justify-start gap-2 mt-4">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                    </span>
-                    <span className="font-body text-xs text-primary/70 uppercase tracking-wider">In Production</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
-              {/* Without You Here — Coming Soon card */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-primary/20 hover:border-primary/40 transition-all"
-              >
-                <div className="aspect-square bg-secondary/30 overflow-hidden relative">
-                  <img
-                    src={WITHOUT_YOU_HERE_COVER}
-                    alt="Without You Here — Gannon Waye single cover"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                  <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/70 backdrop-blur-sm border border-primary/30">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                    <p className="font-body text-[9px] tracking-[0.2em] uppercase text-primary">Coming Soon</p>
+              {/* Mystery next song card — always shown alongside releases */}
+              {releases.filter((r) => r.is_published).length > 0 && releases.filter((r) => r.is_published).length < 2 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 border-dashed"
+                >
+                  <div className="aspect-square bg-secondary/30 overflow-hidden flex flex-col items-center justify-center gap-4 relative">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
+                    <motion.div
+                      animate={{ opacity: [0.4, 1, 0.4] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+                      className="relative z-10 flex flex-col items-center gap-3"
+                    >
+                      <div className="flex gap-1.5">
+                        {[0, 0.2, 0.4].map((d, i) => (
+                          <motion.div
+                            key={i}
+                            className="w-1 rounded-full bg-primary"
+                            animate={{ height: ['8px', '24px', '8px'] }}
+                            transition={{ duration: 1.2, repeat: Infinity, delay: d, ease: 'easeInOut' }}
+                          />
+                        ))}
+                      </div>
+                      <p className="font-body text-[10px] tracking-[0.25em] uppercase gradient-gold-glow">Recording in progress</p>
+                    </motion.div>
                   </div>
-                </div>
-                <div className="p-6">
-                  <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow">Single</p>
-                  <h3 className="font-display text-2xl text-foreground mt-1 italic">Without You Here</h3>
-                  <p className="font-body text-sm text-muted-foreground mt-2">A tribute. A love letter. A song for the voice I still reach for.</p>
-                  <p className="font-body text-xs text-primary/70 mt-3 italic">Releasing 31 July 2026</p>
-                </div>
-              </motion.div>
+                  <div className="p-6">
+                    <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">Single</p>
+                    <h3 className="font-display text-2xl text-foreground/60 mt-1 italic">Next Song Underway</h3>
+                    <p className="font-body text-sm text-muted-foreground/60 mt-2">Something new is being written. No hints. Just know it's coming.</p>
+                    <p className="font-body text-xs text-muted-foreground/40 mt-3">Details revealed when it's ready.</p>
+                  </div>
+                </motion.div>
+              )}
               {releases.filter((r) => r.is_published).slice(0, 2).map((release) => (
                 <motion.div
                   key={release.id}
@@ -534,8 +873,10 @@ export default function Home() {
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
                     {release.title === 'Thank You' ? (
                       <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    ) : getReleaseArtwork(release) ? (
-                      <img src={getReleaseArtwork(release)} alt={release.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    ) : release.title === 'Without You Here' ? (
+                      <img src={WITHOUT_YOU_HERE_COVER} alt="Without You Here — Gannon Waye single cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    ) : release.artwork_url ? (
+                      <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <Play className="w-12 h-12 text-muted-foreground/30" />
@@ -543,9 +884,9 @@ export default function Home() {
                     )}
                   </div>
                   <div className="p-6">
-                    <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow">{release.type}</p>
+                    <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">{release.type}</p>
                     <h3 className="font-display text-2xl text-foreground mt-1">{release.title}</h3>
-                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
+                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" was written at a turning point. When staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
                     {release.release_date && (
                       <p className="font-body text-xs text-muted-foreground mt-3">
                         {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}
@@ -556,7 +897,7 @@ export default function Home() {
                 </motion.div>
               ))}
             </div>
-            <div className="text-center mt-8">
+            <div className="text-center mt-10">
               <Link to="/music">
                 <Button className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase gradient-gold-button border-0">
                   View All Music <ArrowRight className="w-4 h-4 ml-2" />

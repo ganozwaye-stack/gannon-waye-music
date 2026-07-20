@@ -3,10 +3,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { Volume2, VolumeX } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { THANKYOU_FULL_AUDIO_URL, THANKYOU_HOME_PLAYER_START_SECONDS } from '@/config/audioAssets';
 
-const AUDIO_URL = THANKYOU_FULL_AUDIO_URL;
-const AUDIO_SRC = `${AUDIO_URL}#t=${THANKYOU_HOME_PLAYER_START_SECONDS}`;
+const AUDIO_URL = "/ThankYou_Full_Master.mp3";
 const VOLUME = 0.18;
 const PREF_KEY = 'gw_ambient_playing';
 
@@ -14,14 +12,6 @@ const PREF_KEY = 'gw_ambient_playing';
 const GW_HEART_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/094c64c87_image.png';
 
 const MEMORIAL_PATHS = ['/mum', '/without-you-here'];
-const BAR_GOLD = 'linear-gradient(180deg, #d8c071 0%, #b8913b 52%, #7f6125 100%)';
-
-function cueThankyouSegment(audio) {
-  if (!audio || audio.readyState === 0) return;
-  if (audio.duration > THANKYOU_HOME_PLAYER_START_SECONDS && (audio.currentTime < THANKYOU_HOME_PLAYER_START_SECONDS || audio.ended)) {
-    audio.currentTime = THANKYOU_HOME_PLAYER_START_SECONDS;
-  }
-}
 
 export default function StickySupportBar() {
   const audioRef = useRef(null);
@@ -35,29 +25,13 @@ export default function StickySupportBar() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    const handleError = () => setAudioMissing(true);
-    const handleLoadedMetadata = () => cueThankyouSegment(audio);
-    const handleEnded = () => {
-      cueThankyouSegment(audio);
-      audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
-    };
-
-    audio.addEventListener('error', handleError);
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('error', () => setAudioMissing(true));
     audio.volume = VOLUME;
     audio.muted = true;
-    cueThankyouSegment(audio);
     audio.play().then(() => {
-      setPlaying(true);
+      setPlaying(false);
       startedRef.current = true;
     }).catch(() => {});
-
-    return () => {
-      audio.removeEventListener('error', handleError);
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      audio.removeEventListener('ended', handleEnded);
-    };
   }, []);
 
   useEffect(() => {
@@ -66,8 +40,7 @@ export default function StickySupportBar() {
       if (!audio || startedRef.current) return;
       audio.volume = VOLUME;
       audio.muted = true;
-      cueThankyouSegment(audio);
-      audio.play().then(() => {setPlaying(true);startedRef.current = true;}).catch(() => {});
+      audio.play().then(() => {setPlaying(false);startedRef.current = true;}).catch(() => {});
     };
     window.addEventListener('pointerdown', handle, { passive: true, once: true });
     return () => window.removeEventListener('pointerdown', handle);
@@ -83,7 +56,6 @@ export default function StickySupportBar() {
     } else {
       audio.muted = false;
       audio.volume = VOLUME;
-      cueThankyouSegment(audio);
       if (audio.paused) {
         audio.play().then(() => {setPlaying(true);localStorage.setItem(PREF_KEY, 'true');}).catch(() => {});
       } else {
@@ -98,14 +70,24 @@ export default function StickySupportBar() {
   return (
     <>
       {!audioMissing &&
-      <audio ref={audioRef} src={AUDIO_SRC} preload="auto" style={{ display: 'none' }} />
+      <audio
+        ref={audioRef}
+        src={AUDIO_URL}
+        loop
+        preload="auto"
+        style={{ display: 'none' }}
+        data-song-title="Thank You"
+        data-song-artist="Gannon Waye"
+        data-song-feedback-source="sticky-support-audio"
+        data-song-feedback-exempt="true"
+      />
       }
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-sm border-t border-border/40 px-4 py-2.5 z-50">
+        className="fixed left-4 right-4 top-16 z-40 mx-auto max-w-[760px] rounded-b-2xl border-x border-b border-[#d4af37]/18 bg-[#070907]/78 px-3 py-2 shadow-[0_16px_44px_rgba(0,0,0,0.32)] backdrop-blur-md">
         
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
 
@@ -114,12 +96,16 @@ export default function StickySupportBar() {
             <button
               onClick={toggle}
               disabled={audioMissing}
+              data-song-feedback-trigger="true"
+              data-song-title="Thank You"
+              data-song-artist="Gannon Waye"
+              data-song-feedback-source="sticky-support-player"
               aria-label={playing ? 'Pause music' : 'Play Thank You'}
               className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${
               audioMissing ?
               'bg-card/50 border-border/20 text-muted-foreground/40 cursor-not-allowed' :
               playing ?
-              'gradient-gold-button border-primary/60 text-primary-foreground shadow-[0_0_18px_rgba(184,145,59,0.35)]' :
+              'bg-primary border-primary text-primary-foreground' :
               'bg-card/80 border-border/40 text-muted-foreground hover:border-primary/40 hover:text-primary'}`
               }>
               
@@ -129,8 +115,7 @@ export default function StickySupportBar() {
             <div className="flex items-end gap-0.5 h-3 hidden sm:flex" aria-hidden>
               {[0, 0.15, 0.3, 0.45].map((delay, i) =>
               playing && !audioMissing ?
-              <motion.div key={i} className="w-0.5 rounded-full"
-              style={{ background: BAR_GOLD, boxShadow: '0 0 6px rgba(184,145,59,0.35)' }}
+              <motion.div key={i} className="w-0.5 bg-primary rounded-full"
               animate={{ height: ['4px', '10px', '4px'] }}
               transition={{ duration: 0.8, repeat: Infinity, delay, ease: 'easeInOut' }} /> :
 
