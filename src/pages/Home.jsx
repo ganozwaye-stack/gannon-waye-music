@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Play } from 'lucide-react';
+import { ArrowRight, Pause, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
 import ThankYouSingle from '@/components/public/ThankYouSingle';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
-import { WITHOUT_YOU_HERE_COVER } from '@/constants/musicAssets';
+import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/musicAssets';
 
 function CinematicCelebration() {
   const canvasRef = useRef(null);
@@ -225,20 +225,33 @@ const HERO_IMAGES = [
 
 const HOME_FEATURE_MOMENTS = [
   {
-    eyebrow: 'New music',
+    eyebrow: 'Next single',
     title: 'Without You Here',
-    line: '"Your last breath took mine away. There\'s not much more I have to say."',
+    line: 'Your last breath took mine away. There\'s not much more I have to say.',
+    copy: 'A tribute, a love letter, and the next chapter in the story.',
+    to: '/mum',
   },
   {
     eyebrow: 'Out now',
     title: 'Thank You',
-    line: '"This is what survival sounds like."',
+    line: 'This is what survival sounds like.',
+    copy: 'The debut single is streaming now on all leading platforms.',
+    to: '/music',
   },
   {
     eyebrow: 'Worth seeing',
     title: "Mum's Garden",
-    line: '"Even while leaving, she was still loving me."',
+    line: 'Even while leaving, she was still loving me.',
+    copy: 'The memorial foyer and garden experience behind Without You Here.',
+    to: '/mum',
   },
+];
+
+const HERO_ACTIONS = [
+  { label: 'Back this', to: '/back-this' },
+  { label: 'Join community', to: '/community' },
+  { label: "Mum's Garden", to: '/mum' },
+  { label: 'Merch', to: '/store' },
 ];
 
 export default function Home() {
@@ -261,6 +274,9 @@ export default function Home() {
 
   const [currentImg, setCurrentImg] = useState(0);
   const [showCelebration, setShowCelebration] = useState(false);
+  const [wyhPlaying, setWyhPlaying] = useState(false);
+  const [wyhProgress, setWyhProgress] = useState(0);
+  const wyhAudioRef = useRef(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -280,6 +296,57 @@ export default function Home() {
     const timer = setInterval(checkCelebration, 60000);
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const audio = wyhAudioRef.current;
+    if (!audio) return undefined;
+
+    const handleTimeUpdate = () => {
+      const duration = audio.duration || 49;
+      setWyhProgress(Math.min((audio.currentTime / duration) * 100, 100));
+    };
+    const handleEnded = () => {
+      audio.currentTime = 0;
+      setWyhProgress(0);
+      setWyhPlaying(false);
+    };
+    const handlePause = () => setWyhPlaying(false);
+    const handlePlay = () => setWyhPlaying(true);
+
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('play', handlePlay);
+
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('play', handlePlay);
+    };
+  }, []);
+
+  const toggleWithoutYouHerePreview = async () => {
+    const audio = wyhAudioRef.current;
+    if (!audio) return;
+
+    if (!audio.paused) {
+      audio.pause();
+      return;
+    }
+
+    if (audio.currentTime >= (audio.duration || 49) - 0.25) {
+      audio.currentTime = 0;
+      setWyhProgress(0);
+    }
+
+    try {
+      await audio.play();
+    } catch (error) {
+      console.warn('Without You Here preview could not play.', error);
+      setWyhPlaying(false);
+    }
+  };
 
   return (
     <div className="min-h-screen relative">
@@ -319,7 +386,7 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center"
           >
-            <h1 className="bg-gradient-to-b from-[#fff8dc] via-[#f5d06e] to-[#b88926] bg-clip-text font-display text-5xl font-semibold uppercase leading-[0.9] tracking-[0.08em] text-transparent [filter:drop-shadow(0_4px_18px_rgba(0,0,0,0.86))_drop-shadow(0_0_28px_rgba(212,175,55,0.34))] sm:text-7xl lg:text-8xl">
+            <h1 className="brand-wordmark text-5xl leading-[0.88] sm:text-7xl lg:text-8xl xl:text-9xl">
               Gannon Waye
             </h1>
             <p className="mt-4 font-body text-[10px] uppercase tracking-[0.42em] text-[#f5d06e]/80 [text-shadow:0_2px_14px_rgba(0,0,0,0.8),0_0_18px_rgba(212,175,55,0.36)] md:text-xs">
@@ -327,7 +394,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid items-end gap-6 lg:grid-cols-[0.95fr_0.6fr_0.95fr]">
+          <div className="grid items-center gap-6 lg:grid-cols-[0.95fr_0.6fr_0.95fr]">
             <motion.div
               initial={{ opacity: 0, x: -28 }}
               animate={{ opacity: 1, x: 0 }}
@@ -335,12 +402,32 @@ export default function Home() {
               className="max-w-xl text-left"
             >
               <p className="font-body text-[10px] uppercase tracking-[0.48em] text-[#d4af37]/76">Next single</p>
-              <blockquote className="mt-5 font-display text-3xl italic leading-[1.05] text-[#fff7df] [text-shadow:0_4px_20px_rgba(0,0,0,0.86),0_0_24px_rgba(212,175,55,0.25)] md:text-5xl">
+              <h2 className="mt-3 font-display text-4xl italic leading-none text-[#fff7df] [text-shadow:0_4px_20px_rgba(0,0,0,0.86),0_0_24px_rgba(212,175,55,0.25)] md:text-6xl">
+                Without You Here
+              </h2>
+              <blockquote className="mt-5 font-display text-2xl italic leading-[1.08] text-[#fff7df]/95 [text-shadow:0_4px_20px_rgba(0,0,0,0.86),0_0_24px_rgba(212,175,55,0.25)] md:text-4xl">
                 "Your last breath took mine away. There's not much more I have to say."
               </blockquote>
-              <p className="mt-5 max-w-md font-body text-sm leading-7 text-[#fff7df]/68">
-                Without You Here is the next chapter: a tribute, a love letter, and the song for the voice I still reach for.
+              <p className="mt-5 max-w-lg font-body text-sm leading-7 text-[#fff7df]/72 md:text-base">
+                A tribute, a love letter, and the song for the voice I still reach for. This next chapter moves through grief, family, survival, and the promise to keep living with love carried forward.
               </p>
+              <div className="mt-6 rounded-lg border border-[#d4af37]/18 bg-black/24 p-4 shadow-[0_18px_60px_rgba(0,0,0,0.26)] backdrop-blur-sm">
+                <p className="font-body text-xs uppercase tracking-[0.32em] text-[#d4af37]/70">Start here</p>
+                <p className="mt-3 font-body text-sm leading-7 text-[#fff7df]/70">
+                  Gannon Waye writes cinematic pop from the parts of life people usually hide: loss, healing, family, self-respect, and finding a voice strong enough to turn pain into connection.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {HERO_ACTIONS.map((action) => (
+                    <Link
+                      key={action.label}
+                      to={action.to}
+                      className="rounded-full border border-[#d4af37]/22 px-4 py-2 font-body text-[10px] uppercase tracking-[0.18em] text-[#f5d06e]/86 transition hover:border-[#f5d06e]/55 hover:bg-[#d4af37]/10"
+                    >
+                      {action.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link to="/music">
                   <Button className="gap-2 rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#071007] shadow-[0_0_34px_rgba(212,175,55,0.24)]">
@@ -350,6 +437,11 @@ export default function Home() {
                 <Link to="/this-is-my-life">
                   <Button variant="outline" className="gap-2 rounded-full border-[#fff7df]/18 bg-black/12 px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#fff7df] hover:bg-[#fff7df]/6">
                     My story <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </Link>
+                <Link to="/back-this">
+                  <Button variant="outline" className="gap-2 rounded-full border-[#d4af37]/28 bg-black/12 px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#f5d06e] hover:bg-[#d4af37]/10">
+                    Back this <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
                 <Link to="/mum">
@@ -369,34 +461,63 @@ export default function Home() {
               className="justify-self-end"
               style={{ perspective: 1200 }}
             >
-              <div className="w-full max-w-[430px] rounded-lg border border-[#d4af37]/24 bg-[#060806]/58 p-5 shadow-[0_28px_95px_rgba(0,0,0,0.52),0_0_42px_rgba(212,175,55,0.12)] backdrop-blur-md">
-                <div className="grid gap-4 sm:grid-cols-[116px_1fr]">
-                  <div className="relative aspect-square overflow-hidden rounded-lg border border-[#f5d06e]/34 shadow-[0_0_28px_rgba(212,175,55,0.22)]">
+              <div className="w-full max-w-[460px] rounded-lg border border-[#d4af37]/24 bg-[#060806]/62 p-5 shadow-[0_28px_95px_rgba(0,0,0,0.52),0_0_42px_rgba(212,175,55,0.12)] backdrop-blur-md">
+                <audio ref={wyhAudioRef} src={WITHOUT_YOU_HERE_PREVIEW} preload="metadata" />
+                <div className="grid gap-4 sm:grid-cols-[126px_1fr]">
+                  <button
+                    type="button"
+                    onClick={toggleWithoutYouHerePreview}
+                    aria-label={wyhPlaying ? 'Pause Without You Here preview' : 'Play Without You Here preview'}
+                    className="group relative aspect-square overflow-hidden rounded-lg border border-[#f5d06e]/34 shadow-[0_0_28px_rgba(212,175,55,0.22)]"
+                  >
                     <img src={WITHOUT_YOU_HERE_COVER} alt="Without You Here - Gannon Waye cover art" className="h-full w-full object-cover" />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/16">
-                      <span className="flex h-12 w-12 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007] shadow-[0_0_26px_rgba(212,175,55,0.42)]">
-                        <Play className="h-5 w-5 fill-current" />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/18 transition group-hover:bg-black/4">
+                      <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007] shadow-[0_0_26px_rgba(212,175,55,0.42)]">
+                        {wyhPlaying ? <Pause className="h-6 w-6 fill-current" /> : <Play className="h-6 w-6 fill-current" />}
                       </span>
                     </div>
-                  </div>
+                  </button>
                   <div className="min-w-0">
-                    <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/72">Current focus</p>
+                    <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/72">Next single</p>
                     <h2 className="mt-2 font-display text-3xl italic leading-none text-[#fff7df]">Without You Here</h2>
                     <p className="mt-2 font-body text-[10px] uppercase tracking-[0.24em] text-[#fff7df]/54">Gannon Waye</p>
                     <p className="mt-3 font-body text-xs leading-6 text-[#fff7df]/58">
-                      Releasing 31 July 2026. Until Spotify is live, the memorial page carries the private timed preview.
+                      Releasing 31 July 2026. Until Spotify is live, this plays the approved preview from 3:46 to 4:35.
                     </p>
                   </div>
                 </div>
+                <button
+                  type="button"
+                  onClick={toggleWithoutYouHerePreview}
+                  className="mt-5 flex w-full items-center gap-4 rounded-lg border border-[#d4af37]/22 bg-black/24 p-4 text-left transition hover:border-[#f5d06e]/46 hover:bg-[#d4af37]/8"
+                >
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007]">
+                    {wyhPlaying ? <Pause className="h-5 w-5 fill-current" /> : <Play className="h-5 w-5 fill-current" />}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-body text-[10px] uppercase tracking-[0.24em] text-[#d4af37]/74">
+                      {wyhPlaying ? 'Playing preview' : 'Play preview'}
+                    </span>
+                    <span className="mt-1 block font-body text-sm text-[#fff7df]/82">
+                      Bridge preview - 3:46 to 4:35
+                    </span>
+                    <span className="mt-3 block h-1.5 overflow-hidden rounded-full bg-[#fff7df]/10">
+                      <span
+                        className="block h-full rounded-full bg-[linear-gradient(90deg,#caa647,#f8dc82)] shadow-[0_0_14px_rgba(212,175,55,0.46)]"
+                        style={{ width: `${wyhProgress}%` }}
+                      />
+                    </span>
+                  </span>
+                </button>
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
                   <a href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz" target="_blank" rel="noopener noreferrer">
                     <Button variant="outline" className="w-full rounded-full border-[#d4af37]/28 bg-black/16 font-body text-[10px] uppercase tracking-[0.22em] text-[#f5d06e] hover:bg-[#d4af37]/10">
                       Spotify profile
                     </Button>
                   </a>
-                  <Link to="/music">
+                  <Link to="/mum">
                     <Button className="w-full rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] font-body text-[10px] uppercase tracking-[0.22em] text-[#071007]">
-                      Stream Thank You
+                      Enter Mum's Garden
                     </Button>
                   </Link>
                 </div>
@@ -408,13 +529,20 @@ export default function Home() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, delay: 0.38 }}
-            className="grid gap-4 border-y border-[#d4af37]/10 py-5 md:grid-cols-3"
+            className="grid gap-5 border-y border-[#d4af37]/14 bg-black/12 py-5 backdrop-blur-[2px] md:grid-cols-[0.78fr_1fr_1fr_1fr]"
           >
+            <div className="text-left md:pr-5">
+              <p className="font-body text-[9px] uppercase tracking-[0.34em] text-[#d4af37]/66">Worth seeing now</p>
+              <h3 className="mt-2 font-display text-2xl italic leading-tight text-[#fff7df]">
+                New music. Real story. No filler.
+              </h3>
+            </div>
             {HOME_FEATURE_MOMENTS.map((moment) => (
-              <Link key={moment.title} to={moment.title === "Mum's Garden" ? '/mum' : '/music'} className="group block">
-                <p className="font-body text-[9px] uppercase tracking-[0.34em] text-[#d4af37]/60">{moment.eyebrow}</p>
-                <h3 className="mt-2 font-display text-xl italic text-[#fff7df] transition group-hover:text-[#f5d06e]">{moment.title}</h3>
-                <p className="mt-2 font-body text-xs leading-5 text-[#fff7df]/54">{moment.line}</p>
+              <Link key={moment.title} to={moment.to} className="group block border-l border-[#d4af37]/16 pl-4 text-left transition hover:border-[#f5d06e]/46">
+                <p className="font-body text-[9px] uppercase tracking-[0.3em] text-[#d4af37]/58 transition group-hover:text-[#f5d06e]/78">{moment.eyebrow}</p>
+                <h4 className="mt-2 font-display text-xl italic text-[#fff7df] transition group-hover:text-[#f5d06e]">{moment.title}</h4>
+                <p className="mt-2 font-display text-sm italic leading-5 text-[#f5d06e]/74">"{moment.line}"</p>
+                <p className="mt-3 font-body text-xs leading-5 text-[#fff7df]/50">{moment.copy}</p>
               </Link>
             ))}
           </motion.div>
