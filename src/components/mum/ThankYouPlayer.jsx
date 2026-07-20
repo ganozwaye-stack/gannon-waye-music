@@ -69,6 +69,10 @@ export default function ThankYouPlayer() {
           <button
             onClick={toggle}
             aria-label={playing ? 'Pause' : 'Play Thank You'}
+            data-song-feedback-trigger="true"
+            data-song-title="Thank You"
+            data-song-artist="Gannon Waye"
+            data-song-feedback-source="thank-you-player-button"
             className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-200 hover:scale-110 active:scale-95"
             style={{
               background:  'linear-gradient(135deg, #c9a84c 0%, #f5d06e 100%)',
@@ -152,6 +156,10 @@ export default function ThankYouPlayer() {
         ref={audioRef}
         src={THANK_YOU_MP3}
         preload="metadata"
+        data-song-title="Thank You"
+        data-song-artist="Gannon Waye"
+        data-song-feedback-source="thank-you-player-audio"
+        data-song-feedback-exempt="true"
       />
     </motion.div>
   );

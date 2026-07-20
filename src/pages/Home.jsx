@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
 import ThankYouSingle from '@/components/public/ThankYouSingle';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
+import { useSongFeedback } from '@/components/global/SongFeedbackGate';
 import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/musicAssets';
 
 function CinematicCelebration() {
@@ -220,7 +221,7 @@ import ThankYouCampaignSection from '@/components/public/ThankYouCampaignSection
 import ThankYouStorySection from '@/components/public/ThankYouStorySection';
 
 const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
+  '/images/home/gannon-waye-home-hero.png',
 ];
 
 const HOME_FEATURE_MOMENTS = [
@@ -277,6 +278,7 @@ export default function Home() {
   const [wyhPlaying, setWyhPlaying] = useState(false);
   const [wyhProgress, setWyhProgress] = useState(0);
   const wyhAudioRef = useRef(null);
+  const { requestSongFeedback } = useSongFeedback();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -326,7 +328,25 @@ export default function Home() {
     };
   }, []);
 
-  const toggleWithoutYouHerePreview = async () => {
+  const playWithoutYouHerePreview = useCallback(async () => {
+    const audio = wyhAudioRef.current;
+    if (!audio) return;
+
+    if (audio.currentTime >= (audio.duration || 49) - 0.25) {
+      audio.currentTime = 0;
+      setWyhProgress(0);
+    }
+
+    try {
+      audio.muted = false;
+      await audio.play();
+    } catch (error) {
+      console.warn('Without You Here preview could not play.', error);
+      setWyhPlaying(false);
+    }
+  }, []);
+
+  const toggleWithoutYouHerePreview = useCallback(async () => {
     const audio = wyhAudioRef.current;
     if (!audio) return;
 
@@ -335,18 +355,13 @@ export default function Home() {
       return;
     }
 
-    if (audio.currentTime >= (audio.duration || 49) - 0.25) {
-      audio.currentTime = 0;
-      setWyhProgress(0);
-    }
-
-    try {
-      await audio.play();
-    } catch (error) {
-      console.warn('Without You Here preview could not play.', error);
-      setWyhPlaying(false);
-    }
-  };
+    await requestSongFeedback({
+      songTitle: 'Without You Here',
+      artist: 'Gannon Waye',
+      source: 'home-current-focus-player',
+      onApproved: playWithoutYouHerePreview,
+    });
+  }, [playWithoutYouHerePreview, requestSongFeedback]);
 
   return (
     <div className="min-h-screen relative">
@@ -369,7 +384,7 @@ export default function Home() {
         </AnimatePresence>
         <div className="absolute inset-0 bg-[linear-gradient(90deg,#050708_0%,rgba(5,7,8,0.68)_21%,rgba(5,7,8,0.12)_50%,rgba(5,7,8,0.76)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,7,8,0.82)_0%,rgba(5,7,8,0.24)_26%,rgba(5,7,8,0.52)_66%,#050708_100%)]" />
-        <div className="absolute inset-0 opacity-[0.08] mix-blend-screen [background-image:repeating-linear-gradient(90deg,rgba(255,231,157,0.35)_0px,rgba(255,231,157,0.35)_1px,transparent_1px,transparent_5px)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_52%_27%,rgba(245,208,110,0.08),transparent_28%),radial-gradient(circle_at_79%_45%,rgba(212,175,55,0.08),transparent_32%)]" />
         <motion.div
           className="absolute inset-x-0 top-[18%] h-px bg-gradient-to-r from-transparent via-[#f5d06e]/40 to-transparent"
           animate={{ opacity: [0.22, 0.56, 0.22], y: [0, 18, 0] }}
@@ -394,7 +409,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid items-center gap-6 lg:grid-cols-[0.95fr_0.6fr_0.95fr]">
+          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(360px,0.74fr)]">
             <motion.div
               initial={{ opacity: 0, x: -28 }}
               animate={{ opacity: 1, x: 0 }}
@@ -430,7 +445,13 @@ export default function Home() {
               </div>
               <div className="mt-7 flex flex-wrap gap-3">
                 <Link to="/music">
-                  <Button className="gap-2 rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#071007] shadow-[0_0_34px_rgba(212,175,55,0.24)]">
+                  <Button
+                    data-song-feedback-trigger="true"
+                    data-song-title="Without You Here"
+                    data-song-artist="Gannon Waye"
+                    data-song-feedback-source="home-stream-now"
+                    className="gap-2 rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] px-7 py-5 font-body text-xs uppercase tracking-[0.2em] text-[#071007] shadow-[0_0_34px_rgba(212,175,55,0.24)]"
+                  >
                     <Play className="w-4 h-4" /> Stream now
                   </Button>
                 </Link>
@@ -452,21 +473,31 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <div className="hidden min-h-[12rem] lg:block" aria-hidden="true" />
-
             <motion.div
               initial={{ opacity: 0, x: 28, rotateY: 5 }}
               animate={{ opacity: 1, x: 0, rotateY: [3, -2, 3] }}
               transition={{ opacity: { duration: 0.85, delay: 0.2 }, x: { duration: 0.85, delay: 0.2 }, rotateY: { duration: 8, repeat: Infinity, ease: 'easeInOut' } }}
-              className="justify-self-end"
               style={{ perspective: 1200 }}
+              className="w-full justify-self-end lg:mt-20"
             >
               <div className="w-full max-w-[460px] rounded-lg border border-[#d4af37]/24 bg-[#060806]/62 p-5 shadow-[0_28px_95px_rgba(0,0,0,0.52),0_0_42px_rgba(212,175,55,0.12)] backdrop-blur-md">
-                <audio ref={wyhAudioRef} src={WITHOUT_YOU_HERE_PREVIEW} preload="metadata" />
+                <audio
+                  ref={wyhAudioRef}
+                  src={WITHOUT_YOU_HERE_PREVIEW}
+                  preload="metadata"
+                  data-song-title="Without You Here"
+                  data-song-artist="Gannon Waye"
+                  data-song-feedback-source="home-current-focus-audio"
+                  data-song-feedback-exempt="true"
+                />
                 <div className="grid gap-4 sm:grid-cols-[126px_1fr]">
                   <button
                     type="button"
                     onClick={toggleWithoutYouHerePreview}
+                    data-song-title="Without You Here"
+                    data-song-artist="Gannon Waye"
+                    data-song-feedback-source="home-current-focus-cover"
+                    data-song-feedback-exempt="true"
                     aria-label={wyhPlaying ? 'Pause Without You Here preview' : 'Play Without You Here preview'}
                     className="group relative aspect-square overflow-hidden rounded-lg border border-[#f5d06e]/34 shadow-[0_0_28px_rgba(212,175,55,0.22)]"
                   >
@@ -489,6 +520,10 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={toggleWithoutYouHerePreview}
+                  data-song-title="Without You Here"
+                  data-song-artist="Gannon Waye"
+                  data-song-feedback-source="home-current-focus-player"
+                  data-song-feedback-exempt="true"
                   className="mt-5 flex w-full items-center gap-4 rounded-lg border border-[#d4af37]/22 bg-black/24 p-4 text-left transition hover:border-[#f5d06e]/46 hover:bg-[#d4af37]/8"
                 >
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007]">
@@ -510,7 +545,15 @@ export default function Home() {
                   </span>
                 </button>
                 <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                  <a href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-song-feedback-trigger="true"
+                    data-song-title="Without You Here"
+                    data-song-artist="Gannon Waye"
+                    data-song-feedback-source="home-spotify-profile"
+                  >
                     <Button variant="outline" className="w-full rounded-full border-[#d4af37]/28 bg-black/16 font-body text-[10px] uppercase tracking-[0.22em] text-[#f5d06e] hover:bg-[#d4af37]/10">
                       Spotify profile
                     </Button>

@@ -146,6 +146,10 @@ function TrackPlayer({ track, isAmbient }) {
         <button
           onClick={toggle}
           aria-label={playing ? 'Pause' : `Play ${track.title}`}
+          data-song-feedback-trigger="true"
+          data-song-title={track.title}
+          data-song-artist="Gannon Waye"
+          data-song-feedback-source="sonia-garden-track-button"
           className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
           style={{
             background: 'linear-gradient(135deg, #c9a84c 0%, #f5d06e 100%)',
@@ -198,7 +202,15 @@ function TrackPlayer({ track, isAmbient }) {
         </button>
       </motion.div>
 
-      <audio ref={audioRef} src={track.src} preload="metadata" />
+      <audio
+        ref={audioRef}
+        src={track.src}
+        preload="metadata"
+        data-song-title={track.title}
+        data-song-artist="Gannon Waye"
+        data-song-feedback-source="sonia-garden-track-audio"
+        data-song-feedback-exempt="true"
+      />
     </div>
   );
 }

@@ -90,6 +90,8 @@ if (isLocal || token === 'mock-admin-token') {
     SystemHealthIssue: [],
     ApprovalQueue: [],
     VideoIntakeItem: [],
+    EmailSubscriber: [],
+    SongFeedback: [],
     EditingPreset: [
       { id: 'preset-raw-truth', preset_key: 'raw_truth', display_name: 'Raw Truth', status: 'active' },
       { id: 'preset-black-gold-merch', preset_key: 'black_gold_merch', display_name: 'Black Gold Merch', status: 'active' },

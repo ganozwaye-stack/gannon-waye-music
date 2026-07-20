@@ -70,6 +70,9 @@ export default function Videos() {
                 className="w-full"
                 style={{ accentColor: '#f5d06e' }}
                 preload="metadata"
+                data-song-title="Thank You"
+                data-song-artist="Gannon Waye"
+                data-song-feedback-source="videos-featured-reveal-audio"
               />
               <p className="font-body text-xs text-muted-foreground mt-3 text-center">05 June 2026 · All platforms</p>
             </div>

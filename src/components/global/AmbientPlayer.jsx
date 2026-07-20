@@ -25,7 +25,7 @@ export default function AmbientPlayer() {
     audio.volume = VOLUME;
     audio.muted = true;
     audio.play().then(() => {
-      setPlaying(true);
+      setPlaying(false);
       startedRef.current = true;
     }).catch(() => {
       // Autoplay blocked entirely — show tap to play
@@ -42,7 +42,7 @@ export default function AmbientPlayer() {
       audio.volume = VOLUME;
       audio.muted = true;
       audio.play().then(() => {
-        setPlaying(true);
+        setPlaying(false);
         startedRef.current = true;
         setTapToPlay(false);
       }).catch(() => {});
@@ -98,6 +98,10 @@ export default function AmbientPlayer() {
           preload="auto"
           style={{ display: 'none' }}
           aria-label="Ambient background music: Thank You by Gannon Waye"
+          data-song-title="Thank You"
+          data-song-artist="Gannon Waye"
+          data-song-feedback-source="ambient-player-audio"
+          data-song-feedback-exempt="true"
         />
       )}
 
@@ -131,6 +135,10 @@ export default function AmbientPlayer() {
           onClick={audioMissing ? undefined : toggle}
           disabled={audioMissing}
           aria-label={playing ? 'Pause ambient music' : 'Play Thank You by Gannon Waye'}
+          data-song-feedback-trigger="true"
+          data-song-title="Thank You"
+          data-song-artist="Gannon Waye"
+          data-song-feedback-source="ambient-player-button"
           className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all duration-300 ${
             audioMissing
               ? 'bg-card/50 border-border/20 text-muted-foreground/40 cursor-not-allowed'

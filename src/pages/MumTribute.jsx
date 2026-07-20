@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion, useScroll, useTransform } from 'framer-motion';
 import {
   ArrowRight,
@@ -9,19 +9,23 @@ import {
   Heart,
   LockKeyhole,
   Music2,
+  Pause,
   Play,
   Send,
   ShieldCheck,
   ShoppingBag,
   Sprout,
   UploadCloud,
+  Volume2,
+  VolumeX,
   X,
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import SoniaAmbientPlayer from '@/components/mum/SoniaAmbientPlayer';
 import SoniaLifelikeAvatar from '@/components/mum/SoniaLifelikeAvatar';
 import SoniaHeyGenReadiness from '@/components/mum/SoniaHeyGenReadiness';
-import { WITHOUT_YOU_HERE_COVER } from '@/constants/musicAssets';
+import { useSongFeedback } from '@/components/global/SongFeedbackGate';
+import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/musicAssets';
 
 // Approved direction:
 // - one continuous scroll page
@@ -35,6 +39,8 @@ const GARDEN_HERO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010
 const GARDEN_GALLERY = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6591fa60b_generated_image.png';
 const GARDEN_MUSIC = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/63f84cf4f_generated_image.png';
 const GARDEN_WISDOM = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fc387c2b6_generated_image.png';
+const SONIA_GARDEN_PHOTO = '/images/mum/mum_garden.jpg';
+const AVE_MARIA_GANNON = 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/6e65f5e12_AveMariaGannonSinging.mp3';
 const MEMORY_UPLOAD_PATH = '/remember-mum?invite=family';
 
 const REAL_PHOTOS = [
@@ -161,24 +167,6 @@ const TATTOO_SCRAPBOOK_PHOTOS = [
     caption: 'A carrying-her-with-me image. Keep tattoo memories together as one scrapbook moment.',
     source: 'Family tattoo memory',
   },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/41d549365_49CE40E3-DBDB-46A9-87BE-332F16FAF1BF.jpg',
-    label: 'Tattoo scrapbook memory',
-    caption: 'A carrying-her-with-me image. Keep tattoo memories together as one scrapbook moment.',
-    source: 'Family tattoo memory',
-  },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/942521645_CopyofIMG_5460.JPG',
-    label: 'Tattoo scrapbook memory',
-    caption: 'A carrying-her-with-me image. Keep tattoo memories together as one scrapbook moment.',
-    source: 'Family tattoo memory',
-  },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/01878507b_CopyofIMG_5454.jpg',
-    label: 'Tattoo scrapbook memory',
-    caption: 'A carrying-her-with-me image. Keep tattoo memories together as one scrapbook moment.',
-    source: 'Family tattoo memory',
-  },
 ];
 
 const YOUNGER_YEARS_PHOTOS = [
@@ -256,6 +244,19 @@ function memoryLaneSourceId(photo) {
 function isPublicMemoryLanePhoto(photo) {
   const sourceId = memoryLaneSourceId(photo);
   return !sourceId || !USER_REMOVED_MEMORY_SOURCE_IDS.has(sourceId);
+}
+
+function memoryLaneOrder(photo, index) {
+  const value = [photo?.id, photo?.sourceId, photo?.src].filter(Boolean).join(' ');
+  const memoryMatch = value.match(/ML(\d{3})/i);
+  const sourceMatch = value.match(/FS(\d{3})/i);
+  if (memoryMatch) return Number(memoryMatch[1]);
+  if (sourceMatch) return Number(sourceMatch[1]) + 1000;
+  return index + 2000;
+}
+
+function sortMemoryLanePhotos(photos) {
+  return [...photos].sort((a, b) => memoryLaneOrder(a, 0) - memoryLaneOrder(b, 0));
 }
 
 const GUESTBOOK_STORAGE_KEY = 'sonia-memory-guestbook-submissions-v1';
@@ -355,10 +356,44 @@ function GardenWorld({ children, image = GARDEN_HERO, id, minHeight = '100vh', b
         ))}
       </div>
 
+      <CoverArtGardenVeil />
       <LanternCandles />
 
       <div className="relative z-10">{children}</div>
     </section>
+  );
+}
+
+function CoverArtGardenVeil() {
+  return (
+    <div className="pointer-events-none absolute inset-0 z-[1] overflow-hidden opacity-35">
+      <motion.div
+        className="absolute -left-28 top-[8%] h-[120%] w-40 rotate-[-13deg] rounded-full blur-[1px] md:w-56"
+        style={{
+          backgroundImage: `linear-gradient(180deg, rgba(245,208,110,0.48), rgba(245,208,110,0.08)), url(${WITHOUT_YOU_HERE_COVER})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          mixBlendMode: 'screen',
+          maskImage: 'linear-gradient(180deg, transparent 0%, #000 18%, #000 80%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(180deg, transparent 0%, #000 18%, #000 80%, transparent 100%)',
+        }}
+        animate={{ y: [-18, 18, -18], opacity: [0.18, 0.34, 0.18] }}
+        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <motion.div
+        className="absolute -right-28 top-[34%] h-[105%] w-36 rotate-[12deg] rounded-full blur-[1px] md:w-52"
+        style={{
+          backgroundImage: `linear-gradient(180deg, rgba(245,208,110,0.36), rgba(245,208,110,0.05)), url(${WITHOUT_YOU_HERE_COVER})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          mixBlendMode: 'soft-light',
+          maskImage: 'linear-gradient(180deg, transparent 0%, #000 20%, #000 82%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(180deg, transparent 0%, #000 20%, #000 82%, transparent 100%)',
+        }}
+        animate={{ y: [20, -16, 20], opacity: [0.14, 0.28, 0.14] }}
+        transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </div>
   );
 }
 
@@ -399,6 +434,71 @@ function GoldButton({ children, onClick, subtle = false, icon: Icon }) {
 function WithoutYouHerePreviewPlayer({ onLyrics, variant = 'hero' }) {
   const wide = variant === 'wide';
   const hero = variant === 'hero';
+  const audioRef = useRef(null);
+  const { requestSongFeedback } = useSongFeedback();
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+
+  const playPreview = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (audio.currentTime >= (audio.duration || 49) - 0.25) {
+      audio.currentTime = 0;
+      setProgress(0);
+    }
+
+    audio.muted = false;
+    await audio.play();
+    setPlaying(true);
+  }, []);
+
+  const togglePreview = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (!audio.paused) {
+      audio.pause();
+      setPlaying(false);
+      return;
+    }
+
+    await requestSongFeedback({
+      songTitle: 'Without You Here',
+      artist: 'Gannon Waye',
+      source: `mum-${variant}-without-you-here-player`,
+      onApproved: playPreview,
+    });
+  }, [playPreview, requestSongFeedback, variant]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return undefined;
+
+    const handleTimeUpdate = () => {
+      const duration = audio.duration || 49;
+      setProgress(Math.min((audio.currentTime / duration) * 100, 100));
+    };
+    const handlePlay = () => setPlaying(true);
+    const handlePause = () => setPlaying(false);
+    const handleEnded = () => {
+      setPlaying(false);
+      audio.currentTime = 0;
+      setProgress(0);
+    };
+
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, []);
 
   return (
     <div
@@ -407,7 +507,17 @@ function WithoutYouHerePreviewPlayer({ onLyrics, variant = 'hero' }) {
           ? 'mt-8 flex w-full flex-col gap-4 rounded-[1.6rem] border border-[#f5d06e]/20 bg-[#020502]/42 p-4 shadow-[0_22px_70px_rgba(0,0,0,0.34)] backdrop-blur-sm md:flex-row md:items-center md:p-5'
           : 'flex min-h-[360px] w-full max-w-[330px] flex-col justify-between rounded-[1.8rem] border border-[#f5d06e]/24 bg-[#020502]/46 p-5 text-left shadow-[0_28px_86px_rgba(0,0,0,0.34)] backdrop-blur-sm'
       }
+      data-song-feedback-exempt="true"
     >
+      <audio
+        ref={audioRef}
+        src={WITHOUT_YOU_HERE_PREVIEW}
+        preload="metadata"
+        data-song-title="Without You Here"
+        data-song-artist="Gannon Waye"
+        data-song-feedback-source={`mum-${variant}-without-you-here-audio`}
+        data-song-feedback-exempt="true"
+      />
       <div className={wide ? 'flex items-center gap-4 md:w-[27%]' : 'flex flex-col gap-4'}>
         <div
           className={
@@ -443,15 +553,19 @@ function WithoutYouHerePreviewPlayer({ onLyrics, variant = 'hero' }) {
         <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={onLyrics}
+            onClick={togglePreview}
             className={`${hero ? 'h-14 w-14' : 'h-12 w-12'} flex shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007] shadow-[0_0_30px_rgba(212,175,55,0.34)] transition hover:-translate-y-0.5`}
-            aria-label="Open Without You Here lyrics"
+            aria-label={playing ? 'Pause Without You Here preview' : 'Play Without You Here preview'}
+            data-song-feedback-exempt="true"
           >
-            <Play className="h-5 w-5 fill-current" />
+            {playing ? <Pause className="h-5 w-5 fill-current" /> : <Play className="h-5 w-5 fill-current" />}
           </button>
           <div className="min-w-0 flex-1">
             <div className="h-1.5 overflow-hidden rounded-full bg-[#f5d06e]/18">
-              <div className="h-full w-[58%] rounded-full bg-[linear-gradient(90deg,#caa647,#f8dc82)] shadow-[0_0_18px_rgba(245,208,110,0.55)]" />
+              <div
+                className="h-full rounded-full bg-[linear-gradient(90deg,#caa647,#f8dc82)] shadow-[0_0_18px_rgba(245,208,110,0.55)]"
+                style={{ width: `${progress}%` }}
+              />
             </div>
             <div className="mt-2 flex justify-between font-body text-[10px] uppercase tracking-[0.18em] text-[#fff7df]/50">
               <span>3:46</span>
@@ -460,6 +574,15 @@ function WithoutYouHerePreviewPlayer({ onLyrics, variant = 'hero' }) {
           </div>
           <Music2 className="hidden h-5 w-5 shrink-0 text-[#f5d06e]/58 md:block" />
         </div>
+        {onLyrics && (
+          <button
+            type="button"
+            onClick={onLyrics}
+            className="mt-4 rounded-full border border-[#d4af37]/18 px-4 py-2 font-body text-[10px] uppercase tracking-[0.22em] text-[#f5d06e]/78 transition hover:bg-white/5"
+          >
+            Lyrics
+          </button>
+        )}
       </div>
     </div>
   );
@@ -537,13 +660,57 @@ function MumSkyFoyer({ onEnterGarden, onOpenLyrics }) {
   );
 }
 
+function SoniaGardenPresenceFeature() {
+  return (
+    <motion.div
+      className="relative min-h-[420px] overflow-hidden rounded-[2rem] border border-[#d4af37]/18 bg-[#061006]/44 shadow-[0_28px_95px_rgba(0,0,0,0.38)]"
+      initial={{ opacity: 0, x: 30 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: '-12%' }}
+      transition={{ duration: 0.85 }}
+    >
+      <img
+        src={GARDEN_HERO}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full object-cover"
+        style={{ filter: 'brightness(0.72) saturate(1.05)' }}
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_26%,rgba(245,208,110,0.24),transparent_30%),linear-gradient(90deg,rgba(4,10,4,0.28),rgba(4,10,4,0.12)_44%,rgba(4,10,4,0.74))]" />
+      <motion.div
+        className="absolute left-2 top-8 h-72 w-40 rounded-full bg-[#f5d06e]/18 blur-3xl"
+        animate={{ opacity: [0.16, 0.34, 0.16], x: [0, 22, 0] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+      />
+      <div className="absolute -right-2 bottom-0 top-6 w-[72%] max-w-[520px]">
+        <img
+          src={SONIA_GARDEN_PHOTO}
+          alt="Sonia sitting in her garden."
+          className="h-full w-full rounded-tl-[4rem] object-cover object-[58%_50%] opacity-95 shadow-[0_30px_80px_rgba(0,0,0,0.48)]"
+          style={{
+            filter: 'brightness(0.96) contrast(1.02) saturate(0.98)',
+            maskImage: 'linear-gradient(90deg, transparent 0%, #000 20%, #000 100%)',
+            WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, #000 20%, #000 100%)',
+          }}
+        />
+      </div>
+      <div className="absolute bottom-5 left-5 max-w-[17rem] rounded-[1.25rem] border border-[#d4af37]/18 bg-[#071007]/68 p-4 backdrop-blur-md">
+        <p className="font-body text-[9px] uppercase tracking-[0.36em] text-[#d4af37]/62">She is here in the garden</p>
+        <p className="mt-2 font-display text-2xl italic leading-tight text-[#fff7df] [text-shadow:0_3px_16px_rgba(0,0,0,0.82)]">
+          Coffee, robe, light, and the seat that still feels like Mum.
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
 function SoniaGardenWelcome({ onOpenLyrics }) {
   return (
     <GardenWorld id="garden-entry" image={GARDEN_HERO} brightness={0.66} minHeight="100vh" align="center 45%">
       <div className="flex min-h-screen items-center px-5 py-24 md:px-10 md:py-28">
         <div className="mx-auto w-full max-w-7xl">
-          <div className="rounded-[2.2rem] border border-[#d4af37]/16 bg-[#071007]/34 p-6 shadow-[0_30px_110px_rgba(0,0,0,0.36)] backdrop-blur-sm md:p-8 lg:p-10">
-            <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+          <div className="rounded-[2.2rem] border border-[#d4af37]/16 bg-[#071007]/30 p-6 shadow-[0_30px_110px_rgba(0,0,0,0.36)] backdrop-blur-sm md:p-8 lg:p-10">
+            <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
               <div>
                 <p className="font-body text-[10px] uppercase tracking-[0.72em] text-[#f5d06e]/62 [text-shadow:0_0_16px_rgba(212,175,55,0.35)]">Mum's Garden</p>
                 <h1 className="mt-5 font-display text-5xl leading-[0.95] text-[#fff7df] [text-shadow:0_3px_18px_rgba(0,0,0,0.78),0_0_22px_rgba(212,175,55,0.22)] md:text-7xl">
@@ -553,8 +720,9 @@ function SoniaGardenWelcome({ onOpenLyrics }) {
                   A soft walk through the world she left behind: the garden light, the family photos, the song written for her, and the ordinary details that made Sonia feel like home.
                 </p>
               </div>
-              <WithoutYouHerePreviewPlayer onLyrics={onOpenLyrics} variant="wide" />
+              <SoniaGardenPresenceFeature />
             </div>
+            <WithoutYouHerePreviewPlayer onLyrics={onOpenLyrics} variant="wide" />
           </div>
         </div>
       </div>
@@ -562,16 +730,155 @@ function SoniaGardenWelcome({ onOpenLyrics }) {
   );
 }
 
+function GardenAmbientAveMaria() {
+  const audioRef = useRef(null);
+  const [audible, setAudible] = useState(false);
+  const [playing, setPlaying] = useState(false);
+
+  const startAmbient = useCallback(async ({ makeAudible = false } = {}) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.loop = true;
+    audio.volume = 0.11;
+    audio.muted = !makeAudible;
+    await audio.play();
+    setPlaying(true);
+    setAudible(makeAudible);
+  }, []);
+
+  useEffect(() => {
+    startAmbient({ makeAudible: false }).catch(() => {});
+  }, [startAmbient]);
+
+  useEffect(() => {
+    const handleFirstGesture = () => {
+      startAmbient({ makeAudible: true }).catch(() => {});
+    };
+    window.addEventListener('pointerdown', handleFirstGesture, { once: true });
+    return () => window.removeEventListener('pointerdown', handleFirstGesture);
+  }, [startAmbient]);
+
+  const toggleAmbient = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (audible && !audio.paused) {
+      audio.pause();
+      setPlaying(false);
+      setAudible(false);
+      return;
+    }
+
+    await startAmbient({ makeAudible: true }).catch(() => {});
+  };
+
+  return (
+    <div
+      className="fixed bottom-4 left-4 z-50 max-w-[calc(100vw-2rem)] rounded-full border border-[#d4af37]/18 bg-[#071007]/76 px-3 py-2 shadow-[0_18px_60px_rgba(0,0,0,0.42)] backdrop-blur-xl md:bottom-6 md:left-6"
+      data-song-feedback-exempt="true"
+    >
+      <audio
+        ref={audioRef}
+        src={AVE_MARIA_GANNON}
+        preload="metadata"
+        data-song-title="Ave Maria"
+        data-song-artist="Gannon Waye"
+        data-song-feedback-source="sonia-garden-ambient-ave-maria"
+        data-song-feedback-exempt="true"
+      />
+      <button
+        type="button"
+        onClick={toggleAmbient}
+        className="flex items-center gap-2 rounded-full text-left font-body text-[9px] uppercase tracking-[0.2em] text-[#fff7df]/64 transition hover:text-[#f5d06e]"
+        aria-label={audible ? 'Pause Ave Maria garden ambience' : 'Play Ave Maria garden ambience'}
+      >
+        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007] shadow-[0_0_22px_rgba(212,175,55,0.32)]">
+          {audible && playing ? <Volume2 className="h-3.5 w-3.5" /> : <VolumeX className="h-3.5 w-3.5" />}
+        </span>
+        <span className="hidden sm:block">
+          Ave Maria ambience
+        </span>
+      </button>
+    </div>
+  );
+}
+
 function StickyListenBar({ onLyrics }) {
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 280, 560], [0, 0.12, 1]);
   const y = useTransform(scrollY, [0, 560], [26, 0]);
+  const audioRef = useRef(null);
+  const { requestSongFeedback } = useSongFeedback();
+  const [playing, setPlaying] = useState(false);
+
+  const playPreview = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (audio.currentTime >= (audio.duration || 49) - 0.25) {
+      audio.currentTime = 0;
+    }
+
+    audio.muted = false;
+    await audio.play();
+    setPlaying(true);
+  }, []);
+
+  const togglePreview = useCallback(async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (!audio.paused) {
+      audio.pause();
+      setPlaying(false);
+      return;
+    }
+
+    await requestSongFeedback({
+      songTitle: 'Without You Here',
+      artist: 'Gannon Waye',
+      source: 'mum-sticky-listen-bar',
+      onApproved: playPreview,
+    });
+  }, [playPreview, requestSongFeedback]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return undefined;
+
+    const handlePlay = () => setPlaying(true);
+    const handlePause = () => setPlaying(false);
+    const handleEnded = () => {
+      audio.currentTime = 0;
+      setPlaying(false);
+    };
+
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, []);
 
   return (
     <motion.div
       className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-1.5rem)] max-w-3xl -translate-x-1/2 rounded-[1.6rem] border border-[#d4af37]/20 bg-[#071007]/88 px-3 py-2.5 shadow-[0_22px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:rounded-full md:bottom-6 md:left-auto md:right-6 md:w-[420px] md:translate-x-0 md:px-4"
       style={{ opacity, y }}
+      data-song-feedback-exempt="true"
     >
+      <audio
+        ref={audioRef}
+        src={WITHOUT_YOU_HERE_PREVIEW}
+        preload="metadata"
+        data-song-title="Without You Here"
+        data-song-artist="Gannon Waye"
+        data-song-feedback-source="mum-sticky-listen-bar-audio"
+        data-song-feedback-exempt="true"
+      />
       <div className="flex items-center gap-3">
         <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-[#d4af37]/35 shadow-[0_0_28px_rgba(212,175,55,0.25)]">
           <img
@@ -580,7 +887,7 @@ function StickyListenBar({ onLyrics }) {
             className="h-full w-full object-cover"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/24 text-[#fff7df]">
-            <Play className="h-4 w-4 fill-current drop-shadow" />
+            {playing ? <Pause className="h-4 w-4 fill-current drop-shadow" /> : <Play className="h-4 w-4 fill-current drop-shadow" />}
           </div>
         </div>
         <div className="min-w-0 flex-1">
@@ -593,8 +900,11 @@ function StickyListenBar({ onLyrics }) {
         >
           Lyrics
         </button>
-        <button className="shrink-0 rounded-full bg-[#f5d06e] px-4 py-2 font-body text-[10px] font-bold uppercase tracking-[0.24em] text-[#071007]">
-          Listen
+        <button
+          onClick={togglePreview}
+          className="shrink-0 rounded-full bg-[#f5d06e] px-4 py-2 font-body text-[10px] font-bold uppercase tracking-[0.24em] text-[#071007]"
+        >
+          {playing ? 'Pause' : 'Listen'}
         </button>
       </div>
     </motion.div>
@@ -928,51 +1238,93 @@ function CapturedSlideshow({ onOpen }) {
 
   const approvedCleanGallery = cleanGallery.filter(isPublicMemoryLanePhoto);
   const approvedFallbackGallery = CAPTURED_SLIDESHOW_PHOTOS.filter(isPublicMemoryLanePhoto);
-  const galleryPhotos = approvedCleanGallery.length > 0 ? approvedCleanGallery : approvedFallbackGallery;
+  const galleryPhotos = sortMemoryLanePhotos(approvedCleanGallery.length > 0 ? approvedCleanGallery : approvedFallbackGallery);
 
   return (
-    <div className="mx-auto mt-14 max-w-6xl px-5">
-      <div className="overflow-hidden rounded-[2rem] border border-[#d4af37]/16 bg-[#071007]/70 p-4 shadow-[0_28px_90px_rgba(0,0,0,0.38)] backdrop-blur-md md:p-6">
-        <div className="mb-5 flex flex-col justify-between gap-3 md:flex-row md:items-end">
-          <div>
-            <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/52">Memory lane</p>
-            <h3 className="mt-2 font-display text-3xl text-[#fff7df]">A cleaned walk through her life, held without labels.</h3>
-          </div>
-          <p className="max-w-md font-body text-xs leading-6 text-[#fff7df]/48">
-            This gallery is screened to remove crossed-out images, blurred candidates, heavy document scans, approval sheets, and any grave, coffin, or no-Sonia material from the public garden.
-          </p>
-        </div>
+    <div className="mx-auto mt-20 max-w-7xl px-5">
+      <div className="mx-auto max-w-4xl text-center">
+        <p className="font-body text-[9px] uppercase tracking-[0.44em] text-[#d4af37]/56">Memory lane</p>
+        <h3 className="mt-3 font-display text-4xl leading-tight text-[#fff7df] md:text-6xl">
+          A walk through her life, oldest memories first.
+        </h3>
+        <p className="mx-auto mt-5 max-w-2xl font-body text-sm leading-7 text-[#fff7df]/54">
+          These public photos are screened against your rules, then placed as feature moments down the sides of the garden. Each card opens for your caption and approval notes.
+        </p>
+      </div>
 
-        <div className="grid max-h-[740px] gap-3 overflow-y-auto pr-1 sm:grid-cols-2 lg:grid-cols-4">
-          {galleryPhotos.map((photo, index) => (
-            <motion.button
-              key={`${photo.src}-${index}`}
-              onClick={() => onOpen({
-                ...photo,
-                label: photo.label || 'Original memory image',
-                caption: photo.caption || 'Captured for Gannon and family approval before public use.',
-              })}
-              className="group text-left"
-              initial={{ opacity: 0, x: 24 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.55, delay: (index % 8) * 0.025 }}
-            >
-              <div className="overflow-hidden rounded-[1.25rem] border border-[#d4af37]/12 bg-black/24 transition duration-300 group-hover:-translate-y-1 group-hover:border-[#d4af37]/30">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img
-                    src={photo.src}
-                    alt="Captured slideshow memory"
-                    loading="lazy"
-                    className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-105"
-                    style={{ filter: 'brightness(0.92) saturate(0.98)' }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#071007]/46 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
-                  <span className="sr-only">Open captured slideshow memory</span>
+      <div className="relative mt-14">
+        <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#d4af37]/28 to-transparent lg:block" />
+        <div className="space-y-8 md:space-y-10">
+          {galleryPhotos.map((photo, index) => {
+            const isRight = index % 2 === 1;
+            const displayPhoto = {
+              ...photo,
+              label: photo.label || `Memory ${String(index + 1).padStart(2, '0')}`,
+              caption: photo.caption || 'Ready for Gannon to caption during review.',
+              source: photo.source || 'Cleaned Mum Garden image audit',
+            };
+
+            return (
+              <motion.button
+                key={`${photo.src}-${index}`}
+                type="button"
+                onClick={() => onOpen(displayPhoto)}
+                className="group grid w-full gap-4 text-left lg:grid-cols-[minmax(0,1fr)_5rem_minmax(0,1fr)] lg:items-center"
+                initial={{ opacity: 0, y: 28 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-10%' }}
+                transition={{ duration: 0.65, delay: (index % 6) * 0.035 }}
+              >
+                <div
+                  className={`w-full max-w-[360px] ${isRight ? 'lg:col-start-3 lg:justify-self-start' : 'lg:col-start-1 lg:justify-self-end'}`}
+                >
+                  <div className="relative [perspective:1200px]">
+                    <div className="relative aspect-[4/5] rounded-[1.25rem] transition duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+                      <div className="absolute inset-0 overflow-hidden rounded-[1.25rem] border border-[#d4af37]/16 bg-black/28 shadow-[0_24px_80px_rgba(0,0,0,0.36)] [backface-visibility:hidden]">
+                        <img
+                          src={photo.src}
+                          alt="Sonia memory from the public garden archive"
+                          loading="lazy"
+                          className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-105"
+                          style={{ filter: 'brightness(0.94) contrast(1.04) saturate(0.98)' }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-[#071007]/58 via-transparent to-transparent" />
+                        <div className="absolute bottom-4 left-4 right-4">
+                          <p className="font-body text-[9px] uppercase tracking-[0.26em] text-[#d4af37]/62">
+                            {displayPhoto.label}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="absolute inset-0 flex rounded-[1.25rem] border border-[#d4af37]/22 bg-[#071007]/88 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.36)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                        <div className="flex min-h-full flex-col justify-between">
+                          <div>
+                            <p className="font-body text-[9px] uppercase tracking-[0.28em] text-[#d4af37]/62">
+                              Caption side
+                            </p>
+                            <p className="mt-4 font-display text-2xl leading-tight text-[#fff7df]">
+                              {displayPhoto.label}
+                            </p>
+                            <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/58">
+                              {displayPhoto.caption}
+                            </p>
+                          </div>
+                          <p className="mt-6 font-body text-[9px] uppercase tracking-[0.24em] text-[#d4af37]/48">
+                            Click to open approval drawer
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </motion.button>
-          ))}
+
+                <div className="hidden lg:col-start-2 lg:row-start-1 lg:flex lg:justify-center">
+                  <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#d4af37]/22 bg-[#071007]/72 font-body text-[10px] uppercase tracking-[0.16em] text-[#f5d06e]/70 shadow-[0_0_32px_rgba(212,175,55,0.14)]">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                </div>
+              </motion.button>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -1618,6 +1970,7 @@ export default function MumTribute({ mode = 'foyer' }) {
 
   return (
     <main className="relative overflow-x-hidden bg-[#020502] pb-24 text-[#fff7df]">
+      <GardenAmbientAveMaria />
       <StickyListenBar onLyrics={() => openDrawer('lyric', LYRIC_MOMENTS[0])} />
       <SoniaGardenWelcome onOpenLyrics={() => document.getElementById('lyrics')?.scrollIntoView({ behavior: 'smooth' })} />
 
@@ -1678,10 +2031,10 @@ export default function MumTribute({ mode = 'foyer' }) {
               Every family photo stays true to the original. Images are framed gently, with real people and real memories left intact.
             </p>
           </SectionHeading>
-          <PhotoGarden onOpen={(photo) => openDrawer('photo', photo)} />
           <YoungerYearsTribute onOpen={(photo) => openDrawer('photo', photo)} />
-          <TattooScrapbook onOpen={(photo) => openDrawer('photo', photo)} />
           <CapturedSlideshow onOpen={(photo) => openDrawer('photo', photo)} />
+          <PhotoGarden onOpen={(photo) => openDrawer('photo', photo)} />
+          <TattooScrapbook onOpen={(photo) => openDrawer('photo', photo)} />
         </div>
       </GardenWorld>
 
