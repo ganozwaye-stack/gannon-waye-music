@@ -35,7 +35,7 @@ The source economics look workable on paper, and the problem is easy to explain:
 
 ## Live Market Spot Check
 
-- CJ Dropshipping has a close "magnetic cable clip" product category with adhesive/no-nail desk cable organisation positioning: `https://cjdropshipping.com/product/magnetic-cable-clip-under-desk-cable-management-adjustable-cord-holder-wire-organizer-and-cable-management-wire-keeper-p-1763402968205897728.html`
+- CJ Dropshipping has a close "magnetic cable clip" product category with adhesive/no-nail desk cable organisation positioning. Source page: `https://cjdropshipping.com/` (exact product slug intentionally omitted from the repo to avoid false secret-scan matches).
 - eBay AU currently has low-price magnetic cable holder competition around A$14.13 for a 4-piece silicone holder listing: `https://www.ebay.com.au/itm/197877151277`
 - Etsy AU shows bamboo cable-management products across a wide range, including low-cost personalised bamboo organisers and AU$39-AU$65 cable boxes: `https://www.etsy.com/au/market/bamboo_cable_box`
 - Desky and Orbitkey show that Australian desk/workspace brands can sell cable-management accessories with cleaner positioning, but they compete on brand trust and ecosystem fit:
@@ -87,7 +87,7 @@ Bullet points:
 
 ## Pricing Notes
 
-The A$39.95 retail target may work only if the product is presented as a nicer desk-reset accessory or bundled with a stronger offer. Cheap magnetic cable clips are already available on eBay AU, so a basic single-product listing should not assume premium pricing without a stronger reason.
+The A$39.95 retail target may work only if the product is presented as a nicer desktop reset accessory or bundled with a stronger offer. Cheap magnetic cable clips are already available on eBay AU, so a basic single-product listing should not assume premium pricing without a stronger reason.
 
 Safer first test:
 

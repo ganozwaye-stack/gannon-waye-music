@@ -33,7 +33,7 @@ Launch target: 20 July 2026
   - reject
   - keep researching
   - build private listing draft
-  - bundle into a desk-reset kit
+  - bundle into a desktop reset kit
 - Approve any live checkout/payment test.
 - Approve any eBay OAuth reconnect.
 - Approve any live GanozMix entity push/import.
