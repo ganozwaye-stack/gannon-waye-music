@@ -33,6 +33,15 @@ const slug = (value = 'gannon-waye-music') =>
 
 const getSessionKey = (songTitle) => `gwm-song-feedback-submitted:${slug(songTitle)}`;
 
+const isSpotifyHref = (href = '') => {
+  try {
+    const url = new URL(href, window.location.origin);
+    return url.hostname === 'spotify.com' || url.hostname.endsWith('.spotify.com');
+  } catch {
+    return false;
+  }
+};
+
 const getTriggerContext = (element) => {
   const trigger = element?.closest?.('[data-song-feedback-trigger="true"], a, button, [role="button"], audio, video');
   if (
@@ -52,14 +61,15 @@ const getTriggerContext = (element) => {
   ].filter(Boolean).join(' ').toLowerCase();
 
   const isExplicit = trigger.dataset?.songFeedbackTrigger === 'true';
-  const looksLikeListenAction = /\b(play|stream|listen|spotify|preview)\b/.test(label) || href.includes('spotify.com');
+  const isSpotifyLink = isSpotifyHref(href);
+  const looksLikeListenAction = /\b(play|stream|listen|spotify|preview)\b/.test(label) || isSpotifyLink;
   const looksLikeAdminTool = /\bplaywright\b/.test(label);
 
   if (!isExplicit && (!looksLikeListenAction || looksLikeAdminTool)) return null;
 
   return {
     element: trigger,
-    songTitle: trigger.dataset?.songTitle || (href.includes('spotify.com') ? 'Gannon Waye Music' : 'Gannon Waye Music'),
+    songTitle: trigger.dataset?.songTitle || 'Gannon Waye Music',
     artist: trigger.dataset?.songArtist || 'Gannon Waye',
     source: trigger.dataset?.songFeedbackSource || tagName || 'site-play-action',
   };
