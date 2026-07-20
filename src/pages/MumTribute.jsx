@@ -166,26 +166,42 @@ const FAVOURITE_MOMENTS = [
     title: 'Her children',
     note: 'Carla, Gannon, Jarrad and Crystal were the centre of her world.',
     detail: 'This should become one of the strongest emotional feature pieces: not a generic family note, but the truth of what mattered most to her.',
+    image: '/images/mum/memory-lane/ML023_FS057.jpg',
+    imageAlt: 'Sonia with family around her.',
+    objectPosition: 'center',
   },
   {
     title: 'Gold jewellery',
     note: 'A little shine, a little glamour, and the kind of detail that felt like her.',
     detail: 'The space is ready for a real approved photo or cutout. No fake jewellery image should be invented for the public page.',
+    image: '/images/mum/memory-lane/ML052_FS107.jpg',
+    imageAlt: 'Sonia holding a little one, with her rings and watch visible.',
+    objectPosition: 'center',
+    temporaryImageNote: 'temporary approved-family-photo placeholder',
   },
   {
     title: 'Coffee in the garden',
     note: 'Morning comfort, familiar warmth, and the everyday ritual that still feels like home.',
     detail: 'This links the garden, the robe, the chair, and the feeling of visiting her world.',
+    image: '/images/mum/mum_garden.jpg',
+    imageAlt: 'Sonia in the garden with her mug.',
+    objectPosition: 'center 28%',
   },
   {
     title: 'Flowers and colour',
     note: 'Colour, care, and the living softness that belongs in the garden around her.',
     detail: 'Use this as a visual pause between heavier story moments.',
+    image: GARDEN_GALLERY,
+    imageAlt: 'Golden garden flowers and light.',
+    objectPosition: 'center',
   },
   {
     title: 'The song for Mum',
     note: 'The cover artwork and lyric path sit close to the start, where visitors first enter her world.',
     detail: 'Without You Here is the emotional spine of the page, not background decoration.',
+    image: WITHOUT_YOU_HERE_COVER,
+    imageAlt: 'Without You Here single artwork.',
+    objectPosition: 'center',
   },
 ];
 
@@ -976,24 +992,44 @@ function FavouriteThingsFeature({ onOpen }) {
             key={item.title}
             type="button"
             onClick={() => onOpen(item)}
-            className={`group relative min-h-[240px] overflow-hidden rounded-[1.6rem] border border-[#d4af37]/14 bg-[#071007]/68 p-5 text-left shadow-[0_20px_70px_rgba(0,0,0,0.3)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#d4af37]/34 ${index === 0 ? 'lg:col-span-2' : ''}`}
+            className={`group relative min-h-[320px] overflow-hidden rounded-[1.6rem] border border-[#d4af37]/14 bg-[#071007]/68 p-3 text-left shadow-[0_20px_70px_rgba(0,0,0,0.3)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#d4af37]/34 ${index === 0 ? 'lg:col-span-2' : ''}`}
             initial={{ opacity: 0, y: 22 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: index * 0.05 }}
           >
             <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#f5d06e]/10 blur-3xl transition group-hover:bg-[#f5d06e]/18" />
-            <div className="relative flex min-h-[208px] flex-col justify-between">
-              <div>
-                <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-full border border-[#d4af37]/18 bg-[#f5d06e]/12 text-[#f5d06e] shadow-[0_0_22px_rgba(212,175,55,0.22)]">
-                  <Heart className="h-4 w-4" fill="rgba(245,208,110,0.18)" />
+            <div className="relative flex min-h-[296px] flex-col">
+              <div className="relative overflow-hidden rounded-[1.25rem] border border-[#f5d06e]/18 bg-[#020502] shadow-[inset_0_0_28px_rgba(245,208,110,0.08)]">
+                <img
+                  src={item.image}
+                  alt={item.imageAlt || item.title}
+                  loading="lazy"
+                  className={`w-full object-cover transition duration-700 group-hover:scale-[1.035] ${index === 0 ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}
+                  style={{
+                    objectPosition: item.objectPosition || 'center',
+                    filter: 'brightness(0.94) contrast(1.04) saturate(1.02)',
+                  }}
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,16,7,0.04),rgba(7,16,7,0.5)),radial-gradient(circle_at_50%_12%,rgba(255,244,189,0.12),transparent_42%)]" />
+                <div className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#d4af37]/20 bg-[#071007]/62 text-[#f5d06e] shadow-[0_0_22px_rgba(212,175,55,0.22)] backdrop-blur-md">
+                  <Heart className="h-3.5 w-3.5" fill="rgba(245,208,110,0.18)" />
                 </div>
-                <p className="font-display text-2xl leading-tight text-[#fff7df]">{item.title}</p>
-                <p className="mt-3 font-body text-sm leading-6 text-[#fff7df]/58">{item.note}</p>
               </div>
-              <p className="mt-6 font-body text-[10px] uppercase tracking-[0.24em] text-[#d4af37]/58">
-                Open memory note
-              </p>
+              <div className="flex flex-1 flex-col justify-between px-2 pb-2 pt-4">
+                <div>
+                  <p className="font-display text-2xl leading-tight text-[#fff7df]">{item.title}</p>
+                  <p className="mt-3 font-body text-sm leading-6 text-[#fff7df]/58">{item.note}</p>
+                  {item.temporaryImageNote && (
+                    <p className="mt-3 font-body text-[9px] uppercase tracking-[0.2em] text-[#f5d06e]/42">
+                      {item.temporaryImageNote}
+                    </p>
+                  )}
+                </div>
+                <p className="mt-6 font-body text-[10px] uppercase tracking-[0.24em] text-[#d4af37]/58">
+                  Open memory note
+                </p>
+              </div>
             </div>
           </motion.button>
         ))}
