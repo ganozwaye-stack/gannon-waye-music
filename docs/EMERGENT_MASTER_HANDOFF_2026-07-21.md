@@ -3,7 +3,7 @@
 Date: 2026-07-21
 Production domain: `gannonwaye.com`
 GitHub: `ganozwaye-stack/gannon-waye-music`
-Current local source branch: `launch/emergent-gannonwaye-2026-07-20`
+Current local source branch: `feature/sonia-foyer-16x9-emergent-2026-07-21`
 
 ## Mission
 
@@ -86,18 +86,18 @@ This document is a verified project summary. It is not a dump of private convers
 - Voice notes and generated Sonia voice/avatar material remain private and unpublished without exact-result family approval.
 - Memorial content must never be used as sales content without explicit item-level approval.
 
-### New foyer implementation to import
+### Foyer implementation status
 
 - True 16:9 foyer stage.
-- Approved Sonia sky artwork as the opening frame.
-- Supplied 10-second wing animation transitions to Sonia with her father.
+- The story concept is approved: Sonia remains present while Pa enters from the left and joins her.
+- The current rendered video is a layout and motion reference only. Its Sonia likeness is not approved for public release and must be replaced after exact-frame review.
 - Single minimal `Enter garden` control.
 - Assets:
   - `public/images/mum/foyer/sonia-sky-opening.jpg`
   - `public/images/mum/foyer/sonia-and-pa-sky.png`
   - `public/images/mum/foyer/sonia-and-pa-16x9.mp4`
   - `public/images/mum/foyer/sonia-and-pa-16x9-poster.jpg`
-- The iCloud animation was downloaded and reframed into a true 1920x1080 H.264 master. The public foyer autoplays it muted and falls back to the widescreen poster when reduced motion is preferred or video playback is unavailable.
+- The iCloud animation was downloaded and reframed into a true 1920x1080 H.264 review master. It must remain private until the replacement likeness is approved. The final public foyer may autoplay muted and use an approved widescreen poster when reduced motion is preferred or video playback is unavailable.
 - Source component: `src/pages/MumTribute.jsx`, function `MumSkyFoyer`.
 
 ## Admin And Operating System
@@ -197,6 +197,8 @@ Base44's export repository exists and is publicly readable:
 Verified contents include the entity schema export, secret-name checklist, connectors, backend-function inventory, agent inventory, route map, automations, design system, migration roadmap, Emergent setup guide, architecture notes, data-migration guide and parity checklist. The secrets document contains environment-variable names and instructions only; no secret values are exported.
 
 This export is reference documentation, not proof of migrated runtime parity. Do not assume its counts, functions or routes are live in Emergent until implemented and tested.
+
+The export currently documents 111 entities, 115 backend functions, 32 agent definitions, 13 secret names, 6 connectors and 59 public routes. These are export inventory counts only. They do not mean those items are connected, enabled or production-ready in Emergent.
 
 ## Stripe Status Verified In Emergent
 
