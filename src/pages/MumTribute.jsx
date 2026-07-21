@@ -35,8 +35,8 @@ import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/mu
 // - family photos are presented as exact original images only
 
 const SKY_ANGEL_HERO = '/images/mum/sonia_sky_angel_hero.png';
-const SKY_FOYER_POSTER = '/images/mum/foyer/sonia-sky-opening.jpg';
-const SKY_FOYER_FINAL = '/images/mum/foyer/sonia-and-pa-sky.png';
+const SKY_FOYER_VIDEO = '/images/mum/foyer/sonia-and-pa-16x9.mp4';
+const SKY_FOYER_POSTER = '/images/mum/foyer/sonia-and-pa-16x9-poster.jpg';
 const GARDEN_HERO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png';
 const GARDEN_GALLERY = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6591fa60b_generated_image.png';
 const GARDEN_MUSIC = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/63f84cf4f_generated_image.png';
@@ -589,16 +589,7 @@ function WithoutYouHerePreviewPlayer({ onLyrics, variant = 'hero' }) {
 }
 
 function MumSkyFoyer({ onEnterGarden }) {
-  const [showFamilyStill, setShowFamilyStill] = useState(false);
-
-  useEffect(() => {
-    const firstReveal = window.setTimeout(() => setShowFamilyStill(true), 4200);
-    const cycle = window.setInterval(() => setShowFamilyStill((visible) => !visible), 9800);
-    return () => {
-      window.clearTimeout(firstReveal);
-      window.clearInterval(cycle);
-    };
-  }, []);
+  const [videoReady, setVideoReady] = useState(false);
 
   return (
     <section
@@ -608,36 +599,37 @@ function MumSkyFoyer({ onEnterGarden }) {
     >
       <img
         src={SKY_FOYER_POSTER}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full scale-105 object-cover opacity-85"
-        style={{ filter: 'brightness(0.9) saturate(1.02) blur(14px)' }}
+        alt="Sonia and her father together in a luminous sky."
+        className="absolute inset-0 h-full w-full object-cover"
       />
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(9,13,23,0.3),rgba(255,239,196,0.06)_32%,rgba(255,239,196,0.06)_68%,rgba(9,13,23,0.3))]" />
+      <video
+        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 motion-reduce:hidden ${videoReady ? 'opacity-100' : 'opacity-0'}`}
+        src={SKY_FOYER_VIDEO}
+        poster={SKY_FOYER_POSTER}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        onCanPlay={() => setVideoReady(true)}
+        aria-label="Sonia's wings move as she is reunited with her father in the sky."
+      />
 
-      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-        <motion.img
-          src={SKY_FOYER_POSTER}
-          alt="Sonia Waye held in a luminous sky with angel wings."
-          className="absolute inset-0 h-full w-full object-contain"
-          animate={{
-            opacity: showFamilyStill ? 0 : 1,
-            scale: showFamilyStill ? 1.012 : 1,
-          }}
-          transition={{ duration: 2.2, ease: 'easeInOut' }}
-        />
-        <motion.img
-          src={SKY_FOYER_FINAL}
-          alt="Sonia and her father together in a luminous sky."
-          className="absolute inset-0 h-full w-full object-contain"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: showFamilyStill ? 1 : 0, scale: showFamilyStill ? 1 : 1.012 }}
-          transition={{ duration: 2.2, ease: 'easeInOut' }}
-        />
-      </div>
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(5,8,15,0.58),transparent_42%,transparent_68%,rgba(5,8,15,0.24)),linear-gradient(0deg,rgba(5,8,15,0.62),transparent_45%)]" />
 
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,transparent_42%,rgba(5,8,15,0.12)_72%,rgba(5,8,15,0.58)_100%)]" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#05080f]/74 to-transparent" />
+      <motion.div
+        className="absolute bottom-6 left-6 z-10 max-w-[58%] sm:bottom-9 sm:left-10"
+        initial={{ opacity: 0, y: 14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.35 }}
+      >
+        <p className="font-body text-[9px] font-semibold uppercase tracking-[0.38em] text-[#f1dda1] sm:text-[11px]">
+          A garden held in love
+        </p>
+        <h1 className="mt-2 font-display text-2xl italic leading-none text-[#fff8e8] drop-shadow-[0_3px_18px_rgba(0,0,0,0.6)] sm:text-4xl lg:text-5xl">
+          Welcome to Sonia&apos;s Garden
+        </h1>
+      </motion.div>
 
       <motion.button
         type="button"

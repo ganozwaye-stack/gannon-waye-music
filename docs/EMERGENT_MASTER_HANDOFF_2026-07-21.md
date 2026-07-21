@@ -95,7 +95,9 @@ This document is a verified project summary. It is not a dump of private convers
 - Assets:
   - `public/images/mum/foyer/sonia-sky-opening.jpg`
   - `public/images/mum/foyer/sonia-and-pa-sky.png`
-- The two approved stills crossfade cinematically in the launch build. The original iCloud wing-animation MP4 is still an offline placeholder and must only be added after the real bytes have downloaded and browser playback has been verified.
+  - `public/images/mum/foyer/sonia-and-pa-16x9.mp4`
+  - `public/images/mum/foyer/sonia-and-pa-16x9-poster.jpg`
+- The iCloud animation was downloaded and reframed into a true 1920x1080 H.264 master. The public foyer autoplays it muted and falls back to the widescreen poster when reduced motion is preferred or video playback is unavailable.
 - Source component: `src/pages/MumTribute.jsx`, function `MumSkyFoyer`.
 
 ## Admin And Operating System
@@ -185,3 +187,29 @@ Do not switch `gannonwaye.com` until all are true:
 6. Save the finished Emergent project back to GitHub on a separate branch or PR.
 7. Present the final deploy cost/credit impact to Gannon before clicking paid deployment.
 8. After explicit approval, deploy, link `gannonwaye.com`, then run post-deploy checkout, email, privacy and playback checks.
+
+## Verified Exit Repository
+
+Base44's export repository exists and is publicly readable:
+
+`https://github.com/ganozwaye-stack/gannonwaye-exit-plan`
+
+Verified contents include the entity schema export, secret-name checklist, connectors, backend-function inventory, agent inventory, route map, automations, design system, migration roadmap, Emergent setup guide, architecture notes, data-migration guide and parity checklist. The secrets document contains environment-variable names and instructions only; no secret values are exported.
+
+This export is reference documentation, not proof of migrated runtime parity. Do not assume its counts, functions or routes are live in Emergent until implemented and tested.
+
+## Stripe Status Verified In Emergent
+
+The Emergent Payments screen currently shows:
+
+- Test-payment instructions available.
+- `Claim your Sandbox` still incomplete.
+- `Make payments Live` still incomplete.
+
+Therefore Stripe is not yet fully connected for live payments. Do not describe live keys as configured. Gannon must complete the Stripe account claim/KYC and live-app installation in the browser. No keys should be pasted into chat or committed to GitHub.
+
+## Mum Video Transfer
+
+Use `docs/MUM_VIDEO_AUDIT_2026-07-21.md` as the approval manifest. Only approved public assets should enter the Emergent runtime. Private funeral/burial recordings, unrelated clips, duplicates and uncertain identity footage remain outside the public project.
+
+The replacement foyer brief is: 16:9, Sonia remains in the sky for the full sequence, Pa enters slowly from the left, wings move gently, clouds drift slowly, and the final frame holds them together for the garden entrance. Preserve Sonia's real face by compositing approved real photographs rather than regenerating her identity.
