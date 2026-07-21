@@ -1,0 +1,1545 @@
+{
+  "generated_at": "2026-07-20T22:07:54.701Z",
+  "source": {
+    "platform": "Base44",
+    "app_id": "6a1d91c28109c1a7274f350a",
+    "deployed_agent_count_verified": 20,
+    "github_agent_definition_count": 33,
+    "live_agent_registry_record_count_verified": 0,
+    "catalogue_template_count": 94,
+    "legacy_seed_definition_count": 118
+  },
+  "target": {
+    "platform": "Emergent",
+    "import_mode": "recreate_from_github_manifest",
+    "direct_base44_agent_import_supported": false
+  },
+  "controls": {
+    "default_agent_state": "disabled",
+    "human_approval_gate_required": true,
+    "no_auto_publish": true,
+    "no_spend_or_financial_commitment": true,
+    "no_secrets_in_manifest": true
+  },
+  "approval_queue_producers": [
+    {
+      "name": "generateDailyDrafts",
+      "current_base44_schedule": "daily",
+      "target_state": "disabled_until_queue_qa_passes"
+    },
+    {
+      "name": "autonomousTrendEngine",
+      "current_base44_schedule": "daily",
+      "target_state": "disabled_until_queue_qa_passes"
+    }
+  ],
+  "agents": [
+    {
+      "name": "academic_writing_coach",
+      "source_file": "base44/agents/academic_writing_coach.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 3,
+      "description": "An academic writing coach who helps structure arguments, develop thesis statements, link ideas cohesively, and strengthen critical analysis — without writing the work for you.",
+      "entity_permissions": [],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "api_setup_assistant",
+      "source_file": "base44/agents/api_setup_assistant.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 3,
+      "description": "API Setup Assistant for Gannon Core. Helps research API requirements, draft app descriptions, prepare setup checklists, and guide safe credential setup for integrations.",
+      "entity_permissions": [],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "approval_gate",
+      "source_file": "base44/agents/approval_gate.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "Approval Gate Agent — Enforces the human-in-the-loop validation barrier, checks all drafts for compliance, and alerts Gannon of pending approvals.",
+      "entity_permissions": [
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "booking_revenue_agent",
+      "source_file": "base44/agents/booking_revenue_agent.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Actively pursues gig bookings, corporate event opportunities, and private show revenue by identifying and acting on booking opportunities.",
+      "entity_permissions": [
+        {
+          "entity": "BookingEnquiry",
+          "operations": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "KnowledgeVault",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "content_revenue_agent",
+      "source_file": "base44/agents/content_revenue_agent.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "Generates revenue-driving social content ideas, viral hooks, and posting strategies that funnel audience directly to the store and support page.",
+      "entity_permissions": [
+        {
+          "entity": "GrowthOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "SocialVideo",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "email_revenue_agent",
+      "source_file": "base44/agents/email_revenue_agent.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Drives revenue through email campaigns — flash sales, re-engagement sequences, and post-purchase upsells to the subscriber list.",
+      "entity_permissions": [
+        {
+          "entity": "EmailSubscriber",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "PromoCode",
+          "operations": [
+            "read",
+            "create"
+          ]
+        },
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "fan_engagement_agent",
+      "source_file": "base44/agents/fan_engagement_agent.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Manages fan community health, identifies superfans, responds to engagement patterns, and ensures Gannon's community feels seen and valued.",
+      "entity_permissions": [
+        {
+          "entity": "FanPost",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "CommunityReply",
+          "operations": [
+            "read",
+            "create"
+          ]
+        },
+        {
+          "entity": "SuperfanProfile",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "ganozmix_direct",
+      "source_file": "base44/agents/ganozmix_direct.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "GanozMix Direct Agent — Implements e-commerce automation including product discovery, supplier mapping, margin calculations, and shipping compliance checks.",
+      "entity_permissions": [
+        {
+          "entity": "MerchProduct",
+          "operations": [
+            "read",
+            "create",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "link_integrity_agent",
+      "source_file": "base44/agents/link_integrity_agent.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 3,
+      "description": "Link Integrity & Intent Routing Agent. Audits every clickable and non-clickable visual element across the whole system and assigns each element to the correct destination based on what it represents. Checks dashboard cubes, stat cards, notification cards, approval cards, music release cards, Spotify link cards, lyrics cards, upload prompts, action buttons, result boxes, product cards, order cards, campaign cards, agent cards, visual lab cards, site health cards, Metricool cards, TikTok review cards, and more. Reports broken routes, generic dashboard redirects, missing intent mappings, and Enter key misuse. Never routes Spotify/lyrics owner actions to generic Notifications or Business Attention Centre — always routes to the specific edit page for that entity.",
+      "entity_permissions": [
+        {
+          "entity": "SystemHealthIssue",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "Release",
+          "operations": [
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "Link Integrity & Intent Routing Agent",
+      "source_file": "base44/agents/link_integrity_intent_routing_agent.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 3,
+      "description": "Audits cards, tiles, service offers, product displays, lyrics items, alerts and dashboard blocks so every visible item routes to the correct next action.",
+      "entity_permissions": [],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "literature_researcher",
+      "source_file": "base44/agents/literature_researcher.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 3,
+      "description": "A PhD-level academic research specialist who finds, analyses, and synthesises peer-reviewed literature. Skilled at identifying themes, research gaps, contrasting perspectives, and linking studies together in deep analytical discussion.",
+      "entity_permissions": [],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "master_blueprint_agent",
+      "source_file": "base44/agents/master_blueprint_agent.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 3,
+      "description": "Master Blueprint Agent — Aggregates system metrics, checks route health status, monitors agent task logs, and highlights human-in-the-loop pending actions.",
+      "entity_permissions": [
+        {
+          "entity": "SystemHealthIssue",
+          "operations": [
+            "read",
+            "create"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AgentTaskLog",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "merch_sales_agent",
+      "source_file": "base44/agents/merch_sales_agent.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "Drives merch sales by identifying low-converting products, suggesting price adjustments, creating urgency campaigns, and flagging restock opportunities.",
+      "entity_permissions": [
+        {
+          "entity": "MerchProduct",
+          "operations": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "merch_visual_agent",
+      "source_file": "base44/agents/merch_visual_agent.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Merch Visual Agent — Operates the Merch Visual Lab mockup generation pipeline, manages bulk file staging, and prepares visual assets for products.",
+      "entity_permissions": [
+        {
+          "entity": "MerchProduct",
+          "operations": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "metricool_agent",
+      "source_file": "base44/agents/metricool_agent.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "Metricool Agent — Manages social scheduling, monitors posting pipeline health, checks connected profile statuses, and ensures the unwanted profile remains disabled.",
+      "entity_permissions": [
+        {
+          "entity": "ContentCalendarPost",
+          "operations": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "music_orchestrator",
+      "source_file": "base44/agents/music_orchestrator.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "Master music orchestrator for Gannon Waye. Coordinates all music, merch, fan, sync, booking, and growth agents. Prioritises highest-value opportunities daily.",
+      "entity_permissions": [
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "GrowthOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "KnowledgeVault",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "EmailSubscriber",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "Release",
+          "operations": [
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "orchestrator",
+      "source_file": "base44/agents/orchestrator.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "Master Orchestrator for the Gannon Waye AI Operating System. Routes tasks to specialist agents, enforces the Do-Not-Spend-Or-Lose rule, and manages the approval queue. Knows Gannon's brand, voice, music direction, supporter community, legal protection goals, financial boundaries, spiritual values, and wealth-building vision.",
+      "entity_permissions": [
+        {
+          "entity": "AgentRegistry",
+          "operations": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "KnowledgeVault",
+          "operations": [
+            "read",
+            "create"
+          ]
+        },
+        {
+          "entity": "AgentTaskLog",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "RiskAlert",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "EmailSubscriber",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "FanPost",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "BookingEnquiry",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "SupportContribution",
+          "operations": [
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "order_support",
+      "source_file": "base44/agents/order_support.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Customer support agent for merchandise orders. Monitors order status, provides shipping updates, and resolves customer inquiries.",
+      "entity_permissions": [
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "partnership_agent",
+      "source_file": "base44/agents/partnership_agent.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Identifies brand partnership, sponsorship, and collaboration opportunities that generate direct income for Gannon Waye.",
+      "entity_permissions": [
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "KnowledgeVault",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "performance_learning_agent",
+      "source_file": "base44/agents/performance_learning_agent.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "Performance Learning Agent - reviews clicks, sales, engagement, watch-time signals, and email capture results, then recommends more of what is working.",
+      "entity_permissions": [
+        {
+          "entity": "AudienceInsight",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "GrowthOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AgentLearningRecord",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ContentCalendarPost",
+          "operations": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "EmailSubscriber",
+          "operations": [
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "pricing_optimiser",
+      "source_file": "base44/agents/pricing_optimiser.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Analyses product margins, shipping costs, and market rates to recommend optimal pricing that maximises profit per sale.",
+      "entity_permissions": [
+        {
+          "entity": "MerchProduct",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "ShippingRateRule",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "qa_systems_auditor",
+      "source_file": "base44/agents/qa_systems_auditor.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "QA Systems Auditor — continuously inspects the Gannon Waye Business OS for broken functions, dead routes, dead clicks, missing source chains, incomplete data, unsafe public exposure, and revenue-blocking issues. Produces daily clickability reports, weekly reliability reports, and revenue-blocking issue reports.",
+      "entity_permissions": [
+        {
+          "entity": "SystemHealthIssue",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AgentTaskLog",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AgentRegistry",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "KnowledgeVault",
+          "operations": [
+            "read",
+            "create"
+          ]
+        },
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "PaymentDiagnostic",
+          "operations": [
+            "read",
+            "create"
+          ]
+        },
+        {
+          "entity": "StripeEventLog",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "release_launch_agent",
+      "source_file": "base44/agents/release_launch_agent.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Dedicated growth agent for the 'THANKYOU' single, officially released on 05 June 2026. Manages post-release streaming, sharing, playlist, fan notification, and conversion opportunities.",
+      "entity_permissions": [
+        {
+          "entity": "Release",
+          "operations": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "EmailSubscriber",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "SuperfanProfile",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "GrowthOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "MerchProduct",
+          "operations": [
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "revenue_orchestrator",
+      "source_file": "base44/agents/revenue_orchestrator.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Master revenue orchestrator that coordinates all 9 other revenue agents, prioritises the highest-value opportunities, and ensures Gannon sees a daily revenue action list.",
+      "entity_permissions": [
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "KnowledgeVault",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "SupportContribution",
+          "operations": [
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "scripting_caption_agent",
+      "source_file": "base44/agents/scripting_caption_agent.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "Scripting and Caption Agent - turns approved raw ideas into short-form scripts, hooks, captions, first comments, hashtags, and CapCut edit prompts.",
+      "entity_permissions": [
+        {
+          "entity": "VideoIntakeItem",
+          "operations": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "SocialVideo",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "ContentCalendarPost",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "EditingPreset",
+          "operations": [
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "security_secrets_agent",
+      "source_file": "base44/agents/security_secrets_agent.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "Security/Secrets Agent — Continuously scans the codebase for exposed keys, passwords, credentials, and API secrets. Enforces secure vault policies.",
+      "entity_permissions": [
+        {
+          "entity": "SystemHealthIssue",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "shipping_optimisation",
+      "source_file": "base44/agents/shipping_optimisation.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Autonomous shipping rate auditor — detects excessive postage, recommends fair rates, protects profit margin, flags approval needs",
+      "entity_permissions": [
+        {
+          "entity": "ShippingRateRule",
+          "operations": [
+            "read",
+            "create",
+            "update"
+          ]
+        },
+        {
+          "entity": "MerchProduct",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "social_grid_architect",
+      "source_file": "base44/agents/social_grid_architect.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Social Grid Architect Agent — Outlines visual grid structures, styles layout mockups, maps video hooks to feed patterns, and verifies brand typography consistency.",
+      "entity_permissions": [
+        {
+          "entity": "SocialAsset",
+          "operations": [
+            "read",
+            "create",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "streaming_royalty_agent",
+      "source_file": "base44/agents/streaming_royalty_agent.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Maximises streaming revenue by identifying playlist placement opportunities, pitching to curators, and optimising Spotify/Apple Music presence.",
+      "entity_permissions": [
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "KnowledgeVault",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "Release",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "stripe_revenue_protection",
+      "source_file": "base44/agents/stripe_revenue_protection.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Stripe Revenue Protection Agent — Monitors Stripe payments, checks for failed webhooks, validates checkout flow, flags pricing discrepancies, and prevents duplicate orders.",
+      "entity_permissions": [
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "PaymentDiagnostic",
+          "operations": [
+            "read",
+            "create"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "superfan_converter",
+      "source_file": "base44/agents/superfan_converter.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Identifies high-engagement fans and converts them into paying customers through personalised outreach, exclusive offers, and VIP upgrade prompts.",
+      "entity_permissions": [
+        {
+          "entity": "SuperfanProfile",
+          "operations": [
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "SupporterProfile",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "EmailSubscriber",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "MerchOrder",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "sync_licensing_agent",
+      "source_file": "base44/agents/sync_licensing_agent.jsonc",
+      "base44_status": "deployed",
+      "emergent_status": "import_ready",
+      "migration_wave": 2,
+      "description": "Hunts for sync licensing deals, music placement opportunities in film/TV/ads, and royalty income streams for Gannon's catalogue.",
+      "entity_permissions": [
+        {
+          "entity": "RevenueOpportunity",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create"
+          ]
+        },
+        {
+          "entity": "KnowledgeVault",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AgentMemory",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    },
+    {
+      "name": "video_intake_agent",
+      "source_file": "base44/agents/video_intake_agent.jsonc",
+      "base44_status": "github_only",
+      "emergent_status": "import_ready",
+      "migration_wave": 1,
+      "description": "Video Intake Agent - watches the Google Drive content-production source of truth, classifies raw videos, chooses the right brand editing preset, and prepares draft-ready records for approval.",
+      "entity_permissions": [
+        {
+          "entity": "VideoIntakeItem",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        },
+        {
+          "entity": "EditingPreset",
+          "operations": [
+            "read"
+          ]
+        },
+        {
+          "entity": "ApprovalQueue",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "AdminNotification",
+          "operations": [
+            "create",
+            "read"
+          ]
+        },
+        {
+          "entity": "ContentCalendarPost",
+          "operations": [
+            "create",
+            "read",
+            "update"
+          ]
+        }
+      ],
+      "safety": {
+        "approval_required_for_publication": true,
+        "approval_required_for_spending": true,
+        "secrets_must_be_recreated_in_target": true
+      }
+    }
+  ]
+}

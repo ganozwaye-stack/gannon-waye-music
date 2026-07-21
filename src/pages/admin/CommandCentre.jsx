@@ -46,11 +46,8 @@ export default function CommandCentre() {
     queryFn: () => base44.entities.AgentTaskLog.list('-created_date', 5),
   });
 
-  // Fallback to static seed if DB returns empty
-  const usingFallback = !agentsLoading && dbAgents.length === 0;
-  const agents = usingFallback ? AGENT_REGISTRY_SEED : dbAgents;
-
-  const activeAgents = agents.filter(a => a.status === 'active').length;
+  const catalogAgents = AGENT_REGISTRY_SEED;
+  const activeAgents = dbAgents.filter(a => a.status === 'active').length;
   const criticalAlerts = openAlerts.filter(a => a.severity === 'critical').length;
 
   return (
@@ -68,7 +65,7 @@ export default function CommandCentre() {
             </Badge>
           )}
           <Badge className="bg-primary/20 text-primary border-primary/30">
-            {agentsLoading ? '…' : activeAgents} Active / {agentsLoading ? '…' : agents.length} Total
+            {agentsLoading ? '…' : activeAgents} Live / {catalogAgents.length} Catalogue
           </Badge>
         </div>
       </div>
@@ -77,7 +74,7 @@ export default function CommandCentre() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatusCard icon={CheckCircle2} color="text-yellow-400" bg="bg-yellow-500/10" label="Pending Approvals" value={pendingApprovals.length} link="/admin/approval-queue" />
         <StatusCard icon={AlertTriangle} color="text-red-400" bg="bg-red-500/10" label="Open Risk Alerts" value={openAlerts.length} link="/admin/risk-alerts" />
-        <StatusCard icon={Brain} color="text-purple-400" bg="bg-purple-500/10" label="Agents Registered" value={agents.length} link="/admin/agent-registry" />
+        <StatusCard icon={Brain} color="text-purple-400" bg="bg-purple-500/10" label="Live Registry Records" value={dbAgents.length} link="/admin/agent-registry" />
         <StatusCard icon={Activity} color="text-green-400" bg="bg-green-500/10" label="Tasks Logged Today" value={recentLogs.length} link="/admin/agent-task-log" />
       </div>
 

@@ -235,7 +235,7 @@ function AgentDetailModal({ agent, onClose, onUpdate }) {
                   )}
                 </>
               ) : (
-                <p className="text-xs text-muted-foreground italic">Seed configuration — active on production backend only.</p>
+                <p className="text-xs text-muted-foreground italic">Catalogue template only — this is not a deployed or running agent.</p>
               )}
             </div>
           </div>
@@ -374,13 +374,13 @@ export default function AgentRegistry() {
         <div>
           <h1 className="text-2xl font-display font-bold gradient-gold-text">Agent Registry</h1>
           <p className="text-muted-foreground text-sm">
-            {agents.length} agents · <span className="text-green-400">{activeCount} active</span> · <span className="text-yellow-400">{inactiveCount} inactive</span>
+            {usingFallback ? `${agents.length} catalogue templates` : `${agents.length} live registry records`} · <span className="text-green-400">{activeCount} active</span> · <span className="text-yellow-400">{inactiveCount} inactive</span>
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {usingFallback && (
             <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/30 flex items-center gap-1">
-              <AlertTriangle className="w-3 h-3" /> Base Registry — Click an agent to activate
+              <AlertTriangle className="w-3 h-3" /> Catalogue only — no live AgentRegistry records
             </Badge>
           )}
           <Button size="sm" variant="outline" onClick={() => setShowLegend(!showLegend)}>

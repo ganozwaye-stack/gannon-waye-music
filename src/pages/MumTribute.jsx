@@ -35,11 +35,14 @@ import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/mu
 // - family photos are presented as exact original images only
 
 const SKY_ANGEL_HERO = '/images/mum/sonia_sky_angel_hero.png';
+const SKY_FOYER_POSTER = '/images/mum/foyer/sonia-sky-opening.jpg';
+const SKY_FOYER_FINAL = '/images/mum/foyer/sonia-and-pa-sky.png';
 const GARDEN_HERO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png';
 const GARDEN_GALLERY = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6591fa60b_generated_image.png';
 const GARDEN_MUSIC = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/63f84cf4f_generated_image.png';
 const GARDEN_WISDOM = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fc387c2b6_generated_image.png';
-const SONIA_GARDEN_PHOTO = '/images/mum/mum_garden.jpg';
+const SONIA_GARDEN_PHOTO = '/images/mum/memory-lane/ML058_FS116.jpg';
+const SONIA_LOVE_PHOTO = '/images/mum/memory-lane/ML061_FS120.jpg';
 const AVE_MARIA_GANNON = 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/6e65f5e12_AveMariaGannonSinging.mp3';
 const MEMORY_UPLOAD_PATH = '/remember-mum?invite=family';
 
@@ -127,39 +130,6 @@ const MEMORIAL_TEXT_CARDS = [
   },
 ];
 
-const CAPTURED_SLIDESHOW_PHOTOS = [
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1ddea2586_CopyofIMG_5327.jpg',
-    label: 'S03 · Simple love',
-    caption: 'A younger memory with the same backyard feeling.',
-    source: 'Captured from older Mum image wall',
-  },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/173717f01_CopyofIMG_5440.jpg',
-    label: 'S07 · Coffee and sun',
-    caption: 'A grounded everyday moment — the kind of memory the garden should hold.',
-    source: 'Captured from older Mum image wall',
-  },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6101f75c0_CopyofIMG_5449.jpg',
-    label: 'S08 · Family gathered',
-    caption: 'Backyard, family, guitar, and the sense of home.',
-    source: 'Captured from older Mum image wall',
-  },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c828ecdaa_48963FA0-D6D3-4132-94AC-BCDE290D8224.jpg',
-    label: 'S13 · Surrounded',
-    caption: 'A family moment that feels alive rather than heavy.',
-    source: 'Captured from older Mum image wall',
-  },
-  {
-    src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e08e9be77_CopyofD355346C-88AB-482B-AF02-8C0FFBC2FDDE.JPG',
-    label: 'S17 · Her companion',
-    caption: 'One of the gentle animal memories from the older image wall.',
-    source: 'Captured from older Mum image wall',
-  },
-];
-
 const TATTOO_SCRAPBOOK_PHOTOS = [
   {
     src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/7df2f998b_A181BD35-93F3-41FB-B671-2FABC71B701A.jpg',
@@ -198,26 +168,42 @@ const FAVOURITE_MOMENTS = [
     title: 'Her children',
     note: 'Carla, Gannon, Jarrad and Crystal were the centre of her world.',
     detail: 'This should become one of the strongest emotional feature pieces: not a generic family note, but the truth of what mattered most to her.',
+    image: '/images/mum/favourite-things/mums-children.png',
+    imageAlt: "Mum's children in a family portrait with their grandfather.",
+    objectPosition: 'center',
   },
   {
     title: 'Gold jewellery',
     note: 'A little shine, a little glamour, and the kind of detail that felt like her.',
     detail: 'The space is ready for a real approved photo or cutout. No fake jewellery image should be invented for the public page.',
+    image: '/images/mum/memory-lane/ML052_FS107.jpg',
+    imageAlt: 'Sonia holding a little one, with her rings and watch visible.',
+    objectPosition: 'center',
+    temporaryImageNote: 'temporary approved-family-photo placeholder',
   },
   {
     title: 'Coffee in the garden',
     note: 'Morning comfort, familiar warmth, and the everyday ritual that still feels like home.',
     detail: 'This links the garden, the robe, the chair, and the feeling of visiting her world.',
+    image: '/images/mum/mum_garden.jpg',
+    imageAlt: 'Sonia in the garden with her mug.',
+    objectPosition: 'center 28%',
   },
   {
     title: 'Flowers and colour',
     note: 'Colour, care, and the living softness that belongs in the garden around her.',
     detail: 'Use this as a visual pause between heavier story moments.',
+    image: GARDEN_GALLERY,
+    imageAlt: 'Golden garden flowers and light.',
+    objectPosition: 'center',
   },
   {
     title: 'The song for Mum',
     note: 'The cover artwork and lyric path sit close to the start, where visitors first enter her world.',
     detail: 'Without You Here is the emotional spine of the page, not background decoration.',
+    image: WITHOUT_YOU_HERE_COVER,
+    imageAlt: 'Without You Here single artwork.',
+    objectPosition: 'center',
   },
 ];
 
@@ -235,15 +221,29 @@ const USER_REMOVED_MEMORY_SOURCE_IDS = new Set([
   'FS016',
 ]);
 
+const FEATURED_TOP_MEMORY_SOURCE_IDS = new Set(['FS116', 'FS117', 'FS120', 'FS121']);
+
 function memoryLaneSourceId(photo) {
   const value = [photo?.sourceId, photo?.id, photo?.src].filter(Boolean).join(' ');
   const match = value.match(/FS\d{3}/i);
   return match ? match[0].toUpperCase() : '';
 }
 
+function memoryLaneId(photo) {
+  const value = [photo?.memoryLaneId, photo?.id, photo?.src].filter(Boolean).join(' ');
+  const match = value.match(/ML\d{3}/i);
+  return match ? match[0].toUpperCase() : '';
+}
+
 function isPublicMemoryLanePhoto(photo) {
   const sourceId = memoryLaneSourceId(photo);
   return !sourceId || !USER_REMOVED_MEMORY_SOURCE_IDS.has(sourceId);
+}
+
+function isFeaturedTopMemoryPhoto(photo) {
+  const sourceId = memoryLaneSourceId(photo);
+  const laneId = memoryLaneId(photo);
+  return FEATURED_TOP_MEMORY_SOURCE_IDS.has(sourceId) || ['ML058', 'ML059', 'ML061', 'ML062'].includes(laneId);
 }
 
 function memoryLaneOrder(photo, index) {
@@ -588,74 +588,68 @@ function WithoutYouHerePreviewPlayer({ onLyrics, variant = 'hero' }) {
   );
 }
 
-function MumSkyFoyer({ onEnterGarden, onOpenLyrics }) {
+function MumSkyFoyer({ onEnterGarden }) {
+  const [showFamilyStill, setShowFamilyStill] = useState(false);
+
+  useEffect(() => {
+    const firstReveal = window.setTimeout(() => setShowFamilyStill(true), 4200);
+    const cycle = window.setInterval(() => setShowFamilyStill((visible) => !visible), 9800);
+    return () => {
+      window.clearTimeout(firstReveal);
+      window.clearInterval(cycle);
+    };
+  }, []);
+
   return (
-    <section id="hero" className="relative min-h-screen overflow-hidden bg-[#020502]">
+    <section
+      id="hero"
+      className="relative aspect-video w-full overflow-hidden bg-[#080b12] text-[#fff7df]"
+      aria-label="Welcome to Sonia's Garden"
+    >
       <img
-        src={SKY_ANGEL_HERO}
-        alt="Memorial artwork of Sonia Waye held in a blue sky above soft clouds."
-        className="absolute inset-0 h-full w-full object-cover object-[50%_24%]"
+        src={SKY_FOYER_POSTER}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 h-full w-full scale-105 object-cover opacity-85"
+        style={{ filter: 'brightness(0.9) saturate(1.02) blur(14px)' }}
       />
-      <motion.div
-        className="absolute -left-[10%] bottom-[2%] h-56 w-[64%] rounded-full bg-white/36 blur-3xl"
-        animate={{ x: [0, 24, 0], opacity: [0.32, 0.48, 0.32] }}
-        transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <motion.div
-        className="absolute right-[-8%] top-[10%] h-64 w-[58%] rounded-full bg-[#ffe7b0]/24 blur-3xl"
-        animate={{ x: [0, -22, 0], opacity: [0.28, 0.44, 0.28] }}
-        transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,12,28,0.08)_0%,rgba(5,12,28,0.02)_32%,rgba(9,18,13,0.15)_64%,rgba(3,8,4,0.76)_100%)]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_22%,rgba(255,237,176,0.2),transparent_30%),linear-gradient(90deg,rgba(2,5,2,0.48),transparent_30%,transparent_64%,rgba(2,5,2,0.42))]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(9,13,23,0.3),rgba(255,239,196,0.06)_32%,rgba(255,239,196,0.06)_68%,rgba(9,13,23,0.3))]" />
 
-      <div className="relative z-10 flex min-h-screen flex-col px-5 pb-8 pt-24 text-[#fff7df] md:px-10 md:pt-24 lg:px-14">
-        <p className="mx-auto max-w-6xl text-center font-body text-[10px] uppercase tracking-[0.66em] text-[#f5d06e]/88 [text-shadow:0_2px_12px_rgba(0,0,0,0.74),0_0_24px_rgba(212,175,55,0.68)] md:text-sm md:tracking-[0.86em]">
-          A tribute to forever in our hearts
-        </p>
-
-        <div className="grid flex-1 gap-8 pt-7 md:grid-cols-[0.74fr_1.12fr_0.92fr] md:items-start md:pt-0">
-          <blockquote className="max-w-[16rem] self-start pt-[6vh] font-display text-3xl italic leading-[1.18] text-[#fff2bd] [text-shadow:0_3px_16px_rgba(0,0,0,0.82),0_0_26px_rgba(212,175,55,0.4)] sm:text-4xl md:max-w-[18rem] md:pt-[16vh] md:text-5xl">
-            <span className="block">"As long</span>
-            <span className="block pt-2">as you</span>
-            <span className="block pt-2">remember</span>
-            <span className="block pt-2">me, my</span>
-            <span className="block pt-2">memory</span>
-            <span className="block pt-2">will live on."</span>
-          </blockquote>
-
-          <div className="self-start text-center md:pt-[20vh]">
-            <p className="font-display text-2xl italic leading-none text-[#f5d06e]/92 [text-shadow:0_3px_14px_rgba(0,0,0,0.74),0_0_24px_rgba(212,175,55,0.58)] md:-translate-x-24 md:text-3xl">
-              In Loving Memory of
-            </p>
-            <h1 className="mt-1 bg-gradient-to-b from-[#fff8dc] via-[#f5d06e] to-[#b98a2b] bg-clip-text font-display text-7xl leading-[0.82] text-transparent [filter:drop-shadow(0_4px_12px_rgba(0,0,0,0.72))_drop-shadow(0_0_26px_rgba(212,175,55,0.42))] sm:text-8xl md:text-9xl">
-              Sonia
-            </h1>
-            <p className="mt-4 text-center font-body text-2xl text-[#fff2bd]/90 [text-shadow:0_3px_12px_rgba(0,0,0,0.76),0_0_18px_rgba(212,175,55,0.45)] md:translate-x-24 md:text-3xl">
-              <span className="inline-block min-w-[17.2rem] text-left tracking-[0.26em]">
-                Katisa Waye
-              </span>
-            </p>
-            <p className="mt-5 text-center font-body text-xs text-[#f5d06e]/78 [text-shadow:0_3px_12px_rgba(0,0,0,0.76),0_0_16px_rgba(212,175,55,0.42)] md:translate-x-24 md:text-sm">
-              <span className="inline-block min-w-[17.2rem] text-justify tracking-[0.62em] after:inline-block after:w-full after:content-['']">
-                1961 - 2022
-              </span>
-            </p>
-            <button
-              type="button"
-              onClick={onEnterGarden}
-              className="mt-8 inline-flex items-center justify-center gap-3 rounded-full border border-[#ffe28a]/48 bg-[linear-gradient(135deg,#caa647,#f8dc82)] px-7 py-3 font-body text-[10px] font-bold uppercase tracking-[0.32em] text-[#071007] shadow-[0_0_36px_rgba(212,175,55,0.36),0_18px_50px_rgba(0,0,0,0.32)] transition hover:-translate-y-0.5 md:translate-x-8"
-            >
-              Enter Sonia's Garden
-              <ChevronDown className="h-4 w-4" />
-            </button>
-          </div>
-
-          <div className="hidden self-start justify-self-end pt-[15vh] md:block">
-            <WithoutYouHerePreviewPlayer onLyrics={onOpenLyrics} />
-          </div>
-        </div>
+      <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+        <motion.img
+          src={SKY_FOYER_POSTER}
+          alt="Sonia Waye held in a luminous sky with angel wings."
+          className="absolute inset-0 h-full w-full object-contain"
+          animate={{
+            opacity: showFamilyStill ? 0 : 1,
+            scale: showFamilyStill ? 1.012 : 1,
+          }}
+          transition={{ duration: 2.2, ease: 'easeInOut' }}
+        />
+        <motion.img
+          src={SKY_FOYER_FINAL}
+          alt="Sonia and her father together in a luminous sky."
+          className="absolute inset-0 h-full w-full object-contain"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: showFamilyStill ? 1 : 0, scale: showFamilyStill ? 1 : 1.012 }}
+          transition={{ duration: 2.2, ease: 'easeInOut' }}
+        />
       </div>
+
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_42%,transparent_42%,rgba(5,8,15,0.12)_72%,rgba(5,8,15,0.58)_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#05080f]/74 to-transparent" />
+
+      <motion.button
+        type="button"
+        onClick={onEnterGarden}
+        className="absolute bottom-5 right-5 z-10 inline-flex items-center gap-3 rounded-full border border-[#e2c46d]/48 bg-[#080b12]/68 px-5 py-3 font-body text-[10px] font-semibold uppercase tracking-[0.28em] text-[#fff5d6] shadow-[0_14px_42px_rgba(0,0,0,0.38),0_0_28px_rgba(212,175,55,0.16)] backdrop-blur-md transition hover:border-[#f0d98e]/72 hover:bg-[#080b12]/82 sm:bottom-7 sm:right-7"
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.6 }}
+      >
+        Enter garden
+        <ChevronDown className="h-4 w-4" />
+      </motion.button>
     </section>
   );
 }
@@ -682,22 +676,35 @@ function SoniaGardenPresenceFeature() {
         animate={{ opacity: [0.16, 0.34, 0.16], x: [0, 22, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       />
-      <div className="absolute -right-2 bottom-0 top-6 w-[72%] max-w-[520px]">
-        <img
-          src={SONIA_GARDEN_PHOTO}
-          alt="Sonia sitting in her garden."
-          className="h-full w-full rounded-tl-[4rem] object-cover object-[58%_50%] opacity-95 shadow-[0_30px_80px_rgba(0,0,0,0.48)]"
-          style={{
-            filter: 'brightness(0.96) contrast(1.02) saturate(0.98)',
-            maskImage: 'linear-gradient(90deg, transparent 0%, #000 20%, #000 100%)',
-            WebkitMaskImage: 'linear-gradient(90deg, transparent 0%, #000 20%, #000 100%)',
-          }}
-        />
+      <div className="absolute -right-4 bottom-4 top-8 flex w-[72%] max-w-[520px] items-center justify-center pr-4">
+        <div className="relative aspect-[4/5] w-full max-w-[360px]">
+          <div className="absolute -inset-10 rounded-full bg-[radial-gradient(circle,rgba(255,237,178,0.32),rgba(212,175,55,0.12)_42%,transparent_68%)] blur-2xl" />
+          <div className="absolute -left-10 top-8 h-52 w-28 rotate-12 rounded-full bg-[#fff2bd]/16 blur-2xl" />
+          <div className="absolute -right-8 top-16 h-64 w-28 -rotate-12 rounded-full bg-[#f5d06e]/16 blur-2xl" />
+          <div
+            className="absolute -inset-3 bg-[linear-gradient(145deg,#6f4c12,#f7dc82_42%,#fff4bd_52%,#a9791f_78%,#4d350d)] shadow-[0_0_42px_rgba(245,208,110,0.28),0_30px_90px_rgba(0,0,0,0.52)]"
+            style={{ borderRadius: '48% 48% 42% 42% / 56% 56% 38% 38%' }}
+          />
+          <div
+            className="relative h-full w-full overflow-hidden border border-[#fff0ad]/45 bg-[#071007] shadow-[inset_0_0_32px_rgba(255,244,189,0.16)]"
+            style={{ borderRadius: '48% 48% 42% 42% / 56% 56% 38% 38%' }}
+          >
+            <img
+              src={SONIA_GARDEN_PHOTO}
+              alt="Sonia memory portrait."
+              className="h-full w-full object-cover object-center opacity-96"
+              style={{ filter: 'brightness(1.05) contrast(1.04) saturate(1.02)' }}
+            />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_48%_24%,transparent_30%,rgba(255,242,189,0.08)_48%,rgba(7,16,7,0.2)_70%,rgba(7,16,7,0.58)_100%)]" />
+            <div className="absolute inset-x-8 top-6 h-px bg-gradient-to-r from-transparent via-[#fff2bd]/68 to-transparent" />
+          </div>
+          <div className="absolute -bottom-7 left-1/2 h-16 w-48 -translate-x-1/2 rounded-full bg-[#f5d06e]/18 blur-3xl" />
+        </div>
       </div>
       <div className="absolute bottom-5 left-5 max-w-[17rem] rounded-[1.25rem] border border-[#d4af37]/18 bg-[#071007]/68 p-4 backdrop-blur-md">
         <p className="font-body text-[9px] uppercase tracking-[0.36em] text-[#d4af37]/62">She is here in the garden</p>
         <p className="mt-2 font-display text-2xl italic leading-tight text-[#fff7df] [text-shadow:0_3px_16px_rgba(0,0,0,0.82)]">
-          Coffee, robe, light, and the seat that still feels like Mum.
+          A memory held close, right at the entrance to her garden.
         </p>
       </div>
     </motion.div>
@@ -981,24 +988,44 @@ function FavouriteThingsFeature({ onOpen }) {
             key={item.title}
             type="button"
             onClick={() => onOpen(item)}
-            className={`group relative min-h-[240px] overflow-hidden rounded-[1.6rem] border border-[#d4af37]/14 bg-[#071007]/68 p-5 text-left shadow-[0_20px_70px_rgba(0,0,0,0.3)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#d4af37]/34 ${index === 0 ? 'lg:col-span-2' : ''}`}
+            className={`group relative min-h-[320px] overflow-hidden rounded-[1.6rem] border border-[#d4af37]/14 bg-[#071007]/68 p-3 text-left shadow-[0_20px_70px_rgba(0,0,0,0.3)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#d4af37]/34 ${index === 0 ? 'lg:col-span-2' : ''}`}
             initial={{ opacity: 0, y: 22 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: index * 0.05 }}
           >
             <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-[#f5d06e]/10 blur-3xl transition group-hover:bg-[#f5d06e]/18" />
-            <div className="relative flex min-h-[208px] flex-col justify-between">
-              <div>
-                <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-full border border-[#d4af37]/18 bg-[#f5d06e]/12 text-[#f5d06e] shadow-[0_0_22px_rgba(212,175,55,0.22)]">
-                  <Heart className="h-4 w-4" fill="rgba(245,208,110,0.18)" />
+            <div className="relative flex min-h-[296px] flex-col">
+              <div className="relative overflow-hidden rounded-[1.25rem] border border-[#f5d06e]/18 bg-[#020502] shadow-[inset_0_0_28px_rgba(245,208,110,0.08)]">
+                <img
+                  src={item.image}
+                  alt={item.imageAlt || item.title}
+                  loading="lazy"
+                  className={`w-full object-cover transition duration-700 group-hover:scale-[1.035] ${index === 0 ? 'aspect-[16/9]' : 'aspect-[4/3]'}`}
+                  style={{
+                    objectPosition: item.objectPosition || 'center',
+                    filter: 'brightness(0.94) contrast(1.04) saturate(1.02)',
+                  }}
+                />
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,16,7,0.04),rgba(7,16,7,0.5)),radial-gradient(circle_at_50%_12%,rgba(255,244,189,0.12),transparent_42%)]" />
+                <div className="absolute left-3 top-3 flex h-9 w-9 items-center justify-center rounded-full border border-[#d4af37]/20 bg-[#071007]/62 text-[#f5d06e] shadow-[0_0_22px_rgba(212,175,55,0.22)] backdrop-blur-md">
+                  <Heart className="h-3.5 w-3.5" fill="rgba(245,208,110,0.18)" />
                 </div>
-                <p className="font-display text-2xl leading-tight text-[#fff7df]">{item.title}</p>
-                <p className="mt-3 font-body text-sm leading-6 text-[#fff7df]/58">{item.note}</p>
               </div>
-              <p className="mt-6 font-body text-[10px] uppercase tracking-[0.24em] text-[#d4af37]/58">
-                Open memory note
-              </p>
+              <div className="flex flex-1 flex-col justify-between px-2 pb-2 pt-4">
+                <div>
+                  <p className="font-display text-2xl leading-tight text-[#fff7df]">{item.title}</p>
+                  <p className="mt-3 font-body text-sm leading-6 text-[#fff7df]/58">{item.note}</p>
+                  {item.temporaryImageNote && (
+                    <p className="mt-3 font-body text-[9px] uppercase tracking-[0.2em] text-[#f5d06e]/42">
+                      {item.temporaryImageNote}
+                    </p>
+                  )}
+                </div>
+                <p className="mt-6 font-body text-[10px] uppercase tracking-[0.24em] text-[#d4af37]/58">
+                  Open memory note
+                </p>
+              </div>
             </div>
           </motion.button>
         ))}
@@ -1074,34 +1101,302 @@ function WithoutYouHereCoverFeature() {
   );
 }
 
-function PhotoGarden({ onOpen }) {
+function memoryLanePhotoLabel(photo, index) {
+  const laneId = memoryLaneId(photo);
+  if (photo?.label) return photo.label;
+  if (laneId) return `Memory ${Number(laneId.replace('ML', ''))}`;
+  return `Memory ${index + 1}`;
+}
+
+function MemoryLaneJourneyCard({ photo, index, onOpen, side = 'left', compact = false }) {
+  const displayPhoto = {
+    ...photo,
+    label: memoryLanePhotoLabel(photo, index),
+    caption: photo.caption || 'Ready for Gannon to caption during review.',
+    source: photo.source || 'Cleaned Mum Garden image audit',
+  };
+
   return (
-    <div className="mx-auto mt-14 grid max-w-6xl gap-5 px-5 sm:grid-cols-2 lg:grid-cols-3">
-      {REAL_PHOTOS.map((photo, index) => (
-        <motion.button
-          key={photo.src}
-          onClick={() => onOpen(photo)}
-          className="group text-left"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.65, delay: (index % 3) * 0.08 }}
-        >
-          <div className="overflow-hidden rounded-[1.6rem] border border-[#d4af37]/16 bg-[#071007]/66 shadow-[0_26px_84px_rgba(0,0,0,0.35)] backdrop-blur-md transition duration-300 group-hover:-translate-y-1 group-hover:border-[#d4af37]/30">
-            <div className="relative aspect-[4/3] overflow-hidden">
-              <img
-                src={photo.src}
-                alt="Original family memory photograph"
-                loading="lazy"
-                className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-105"
-                style={{ filter: 'brightness(0.92) saturate(0.98)' }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#071007]/52 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
-              <span className="sr-only">Open original family photograph</span>
+    <motion.button
+      key={`${photo.src}-${index}-${side}`}
+      onClick={() => onOpen(displayPhoto)}
+      className={`group relative block w-full shrink-0 snap-start text-left ${compact ? 'max-w-[150px]' : ''}`}
+      initial={{ opacity: 0, y: 26, rotate: side === 'left' ? -1.5 : 1.5 }}
+      whileInView={{ opacity: 1, y: 0, rotate: side === 'left' ? -0.8 : 0.8 }}
+      viewport={{ once: true, margin: '-10%' }}
+      transition={{ duration: 0.62, delay: Math.min(index * 0.025, 0.22) }}
+    >
+      <div className="relative rounded-[1.05rem] bg-[linear-gradient(145deg,#7d5b19,#f5d06e_48%,#8d651c)] p-[1px] shadow-[0_18px_60px_rgba(0,0,0,0.32),0_0_20px_rgba(212,175,55,0.12)] transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_22px_70px_rgba(0,0,0,0.38),0_0_28px_rgba(245,208,110,0.24)]">
+        <div className="rounded-[1rem] bg-[#f8ecd0]/94 p-1.5">
+          <div className="relative [perspective:1200px]">
+            <div className="relative aspect-[4/5] rounded-[0.72rem] transition duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
+              <div className="absolute inset-0 overflow-hidden rounded-[0.72rem] bg-[#071007] [backface-visibility:hidden]">
+                <img
+                  src={photo.src}
+                  alt={displayPhoto.label || 'Sonia family memory photograph'}
+                  loading="lazy"
+                  className="h-full w-full object-cover object-center transition duration-700 group-hover:scale-105"
+                  style={{ filter: 'brightness(1.02) contrast(1.04) saturate(1.02)' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#071007]/56 via-transparent to-transparent" />
+              </div>
+              <div className="absolute inset-0 flex rounded-[0.72rem] bg-[#071007]/92 p-3 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+                <div className="flex min-h-full flex-col justify-between">
+                  <div>
+                    <p className="font-body text-[8px] uppercase tracking-[0.24em] text-[#d4af37]/62">
+                      Memory note
+                    </p>
+                    <p className="mt-2 font-display text-lg leading-tight text-[#fff7df]">
+                      {displayPhoto.label}
+                    </p>
+                  </div>
+                  <p className="line-clamp-5 font-body text-[10px] leading-5 text-[#fff7df]/58">
+                    {displayPhoto.caption}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </motion.button>
-      ))}
+          <div className="px-1.5 pb-1 pt-2">
+            <p className="truncate font-body text-[9px] font-bold uppercase tracking-[0.18em] text-[#6f4c12]">
+              {displayPhoto.label}
+            </p>
+          </div>
+        </div>
+      </div>
+      <span className="sr-only">Open memory photo</span>
+    </motion.button>
+  );
+}
+
+function MemoryLaneCenterMoment({ eyebrow, title, body, quote, image }) {
+  return (
+    <motion.div
+      className="relative overflow-hidden rounded-[1.7rem] border border-[#d4af37]/14 bg-[#071007]/62 p-5 shadow-[0_24px_78px_rgba(0,0,0,0.35)] backdrop-blur-md"
+      initial={{ opacity: 0, y: 34 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-14%' }}
+      transition={{ duration: 0.72 }}
+    >
+      {image && (
+        <img
+          src={image}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover opacity-24"
+          style={{ filter: 'brightness(0.72) saturate(1.06)' }}
+        />
+      )}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_16%,rgba(245,208,110,0.2),transparent_34%),linear-gradient(135deg,rgba(7,16,7,0.62),rgba(7,16,7,0.86))]" />
+      <div className="relative">
+        <p className="font-body text-[9px] uppercase tracking-[0.42em] text-[#f5d06e]/62">{eyebrow}</p>
+        <h4 className="mt-3 font-display text-3xl leading-tight text-[#fff7df] [text-shadow:0_3px_16px_rgba(0,0,0,0.78)] md:text-4xl">
+          {title}
+        </h4>
+        <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/62">{body}</p>
+        {quote && (
+          <blockquote className="mt-6 border-l border-[#f5d06e]/48 pl-5 font-display text-2xl italic leading-tight text-[#fff8df] [text-shadow:0_3px_18px_rgba(0,0,0,0.82),0_0_18px_rgba(212,175,55,0.2)]">
+            {quote}
+          </blockquote>
+        )}
+      </div>
+    </motion.div>
+  );
+}
+
+function MemoryLaneCoverMoment({ onOpenLyrics }) {
+  return (
+    <motion.div
+      className="relative overflow-hidden rounded-[1.8rem] border border-[#f5d06e]/18 bg-[#020502]/60 p-5 shadow-[0_28px_90px_rgba(0,0,0,0.42)]"
+      initial={{ opacity: 0, y: 34 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-14%' }}
+      transition={{ duration: 0.72 }}
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_22%,rgba(245,208,110,0.18),transparent_34%),radial-gradient(circle_at_88%_18%,rgba(116,139,93,0.18),transparent_34%)]" />
+      <div className="relative grid gap-5 xl:grid-cols-[0.45fr_1fr] xl:items-center">
+        <div className="overflow-hidden rounded-[1.2rem] border border-[#f5d06e]/36 bg-[#071007] shadow-[0_0_42px_rgba(212,175,55,0.2)]">
+          <img
+            src={WITHOUT_YOU_HERE_COVER}
+            alt="Without You Here single artwork"
+            className="aspect-square w-full object-cover"
+          />
+        </div>
+        <div>
+          <p className="font-body text-[9px] uppercase tracking-[0.42em] text-[#f5d06e]/62">The song at the centre</p>
+          <h4 className="mt-3 font-display text-4xl italic leading-none text-[#fff7df] [text-shadow:0_3px_18px_rgba(0,0,0,0.82)]">
+            Without You Here
+          </h4>
+          <p className="mt-3 font-body text-sm uppercase tracking-[0.22em] text-[#fff7df]/54">Gannon Waye</p>
+          <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/62">
+            The cover art belongs near the memories, as the bridge between the garden, the grief, and the way her love keeps moving through the page.
+          </p>
+        </div>
+      </div>
+      <div className="relative mt-6">
+        <WithoutYouHerePreviewPlayer onLyrics={onOpenLyrics} variant="wide" />
+      </div>
+    </motion.div>
+  );
+}
+
+function SoniaLoveFeature({ onOpen }) {
+  const photo = {
+    src: SONIA_LOVE_PHOTO,
+    label: 'Love stayed close',
+    caption: 'A feature memory of Sonia and the love beside her, held as a real photo rather than a cutout effect.',
+    source: 'Memory lane FS120',
+  };
+
+  return (
+    <motion.button
+      type="button"
+      onClick={() => onOpen(photo)}
+      className="group relative block w-full overflow-hidden rounded-[1.9rem] border border-[#f5d06e]/22 bg-[#071007]/68 p-3 text-left shadow-[0_32px_100px_rgba(0,0,0,0.44)]"
+      initial={{ opacity: 0, y: 34 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-14%' }}
+      transition={{ duration: 0.72 }}
+    >
+      <div className="absolute -inset-10 bg-[radial-gradient(circle_at_52%_24%,rgba(255,244,189,0.24),transparent_38%),radial-gradient(circle_at_18%_76%,rgba(245,208,110,0.16),transparent_32%)] blur-2xl" />
+      <div className="relative overflow-hidden rounded-[1.45rem] border border-[#fff0ad]/30 bg-[#020502]">
+        <img
+          src={SONIA_LOVE_PHOTO}
+          alt="Sonia and her partner sharing a kiss"
+          className="aspect-[16/10] w-full object-cover object-center transition duration-700 group-hover:scale-[1.025]"
+          style={{ filter: 'brightness(1.02) contrast(1.04) saturate(0.98)' }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,16,7,0.04),rgba(7,16,7,0.48)),radial-gradient(circle_at_50%_10%,rgba(255,244,189,0.14),transparent_38%)]" />
+      </div>
+      <div className="relative -mt-12 ml-4 max-w-[21rem] rounded-[1.25rem] border border-[#f5d06e]/16 bg-[#071007]/76 p-4 shadow-[0_22px_70px_rgba(0,0,0,0.42)] backdrop-blur-md">
+        <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#f5d06e]/66">Love stayed close</p>
+        <p className="mt-2 font-display text-2xl italic leading-tight text-[#fff7df] [text-shadow:0_3px_16px_rgba(0,0,0,0.82)]">
+          A real moment, kept sacred, not dressed up beyond recognition.
+        </p>
+      </div>
+    </motion.button>
+  );
+}
+
+function MemoryLaneCenterStack({ onOpen, onOpenLyrics }) {
+  return (
+    <div className="relative space-y-10">
+      <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#d4af37]/18 to-transparent" />
+      <MemoryLaneCenterMoment
+        eyebrow="Real backyard made sacred"
+        title="The garden becomes the place we meet her."
+        body="The page should feel like stepping from the sky into the backyard she loved: soft light, real family photos, music close by, and enough room for every memory to breathe."
+        quote="As long as you remember me, my memory will live on."
+        image={GARDEN_GALLERY}
+      />
+      <MemoryLaneCoverMoment onOpenLyrics={onOpenLyrics} />
+      <SoniaLoveFeature onOpen={onOpen} />
+      <MemoryLaneCenterMoment
+        eyebrow="Lyric moment"
+        title="Even while leaving, she was still loving."
+        body="Short signature lines can appear as small cinematic pauses between the photos, so visitors feel the story instead of reading one long block."
+        quote="Your last breath took mine away. There's not much more I have to say."
+        image={GARDEN_WISDOM}
+      />
+      <MemoryLaneCenterMoment
+        eyebrow="Favourite things"
+        title="Children, coffee, gold, flowers, and the little rituals."
+        body="This centre lane is ready for your approved photo of the kids with Mum, jewellery details, coffee memories, and the tattoo-making images when we confirm the right files."
+        image={GARDEN_MUSIC}
+      />
+    </div>
+  );
+}
+
+function PhotoGarden({ onOpen, onOpenLyrics }) {
+  const [galleryPhotos, setGalleryPhotos] = useState([]);
+
+  useEffect(() => {
+    let alive = true;
+
+    fetch(CLEAN_GALLERY_MANIFEST)
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('Clean gallery manifest unavailable'))))
+      .then((manifest) => {
+        if (!alive) return;
+        setGalleryPhotos(Array.isArray(manifest?.items) ? manifest.items : []);
+      })
+      .catch(() => {
+        if (!alive) return;
+        setGalleryPhotos([]);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const approvedCleanGallery = sortMemoryLanePhotos(
+    galleryPhotos.filter(isPublicMemoryLanePhoto).filter((photo) => !isFeaturedTopMemoryPhoto(photo)),
+  );
+  const approvedFallbackGallery = REAL_PHOTOS.filter((photo) => !isFeaturedTopMemoryPhoto(photo));
+  const journeyPhotos = approvedCleanGallery.length > 0 ? approvedCleanGallery : approvedFallbackGallery;
+  const leftPhotos = journeyPhotos.filter((_, index) => index % 2 === 0);
+  const rightPhotos = journeyPhotos.filter((_, index) => index % 2 === 1);
+
+  return (
+    <div className="mx-auto mt-16 max-w-[1400px] px-4 sm:px-5">
+      <div className="relative overflow-hidden rounded-[2.2rem] border border-[#d4af37]/14 bg-[#071007]/62 shadow-[0_34px_120px_rgba(0,0,0,0.42)] backdrop-blur-sm">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(245,208,110,0.16),transparent_34%),linear-gradient(180deg,rgba(7,16,7,0.12),rgba(7,16,7,0.78))]" />
+        <div className="relative px-4 py-9 sm:px-6 md:px-8 lg:px-10">
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="font-body text-[9px] uppercase tracking-[0.46em] text-[#d4af37]/58">Memory lane</p>
+            <h3 className="mt-3 font-display text-4xl leading-tight text-[#fff7df] [text-shadow:0_3px_18px_rgba(0,0,0,0.74),0_0_20px_rgba(212,175,55,0.18)] md:text-5xl">
+              A walk through her life.
+            </h3>
+            <p className="mx-auto mt-4 max-w-2xl font-body text-sm leading-7 text-[#fff7df]/58">
+              The earliest memories begin at the top. Each photo becomes a small stop along the garden path, ready for your notes and stories.
+            </p>
+          </div>
+
+          <div className="mt-9 flex gap-3 overflow-x-auto pb-4 lg:hidden">
+            {journeyPhotos.map((photo, index) => (
+              <MemoryLaneJourneyCard
+                key={`${photo.src}-mobile-${index}`}
+                photo={photo}
+                index={index}
+                onOpen={onOpen}
+                side={index % 2 === 0 ? 'left' : 'right'}
+                compact
+              />
+            ))}
+          </div>
+
+          <div className="relative mt-12 hidden grid-cols-[minmax(130px,180px)_minmax(0,1fr)_minmax(130px,180px)] gap-8 lg:grid">
+            <div className="space-y-10">
+              {leftPhotos.map((photo, index) => (
+                <MemoryLaneJourneyCard
+                  key={`${photo.src}-left-${index}`}
+                  photo={photo}
+                  index={index * 2}
+                  onOpen={onOpen}
+                  side="left"
+                />
+              ))}
+            </div>
+
+            <div className="relative rounded-[2rem] border border-[#d4af37]/10 bg-[#061006]/28 p-6 shadow-[inset_0_0_90px_rgba(0,0,0,0.24)]">
+              <MemoryLaneCenterStack onOpen={onOpen} onOpenLyrics={onOpenLyrics} />
+            </div>
+
+            <div className="space-y-10 pt-24">
+              {rightPhotos.map((photo, index) => (
+                <MemoryLaneJourneyCard
+                  key={`${photo.src}-right-${index}`}
+                  photo={photo}
+                  index={index * 2 + 1}
+                  onOpen={onOpen}
+                  side="right"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -1160,7 +1455,7 @@ function TattooScrapbook({ onOpen }) {
       <div className="rounded-[2.2rem] border border-[#d4af37]/16 bg-[#071007]/72 p-5 shadow-[0_28px_90px_rgba(0,0,0,0.38)] backdrop-blur-md md:p-8">
         <div className="mb-7 max-w-2xl">
           <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/52">Carrying her with you</p>
-          <h3 className="mt-3 font-display text-3xl text-[#fff7df]">The tattoo memories stay together, scrapbook-style.</h3>
+          <h3 className="mt-3 font-display text-3xl text-[#fff7df]">Tattoo scrapbook memories stay together.</h3>
           <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/52">
             These are treated as one intimate collage, not scattered through the garden. Final public use still needs your approval.
           </p>
@@ -1214,121 +1509,8 @@ function LanternCandles() {
   );
 }
 
-function CapturedSlideshow({ onOpen }) {
-  const [cleanGallery, setCleanGallery] = useState([]);
-
-  useEffect(() => {
-    let alive = true;
-
-    fetch(CLEAN_GALLERY_MANIFEST)
-      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('Clean gallery manifest unavailable'))))
-      .then((manifest) => {
-        if (!alive) return;
-        setCleanGallery(Array.isArray(manifest?.items) ? manifest.items : []);
-      })
-      .catch(() => {
-        if (!alive) return;
-        setCleanGallery([]);
-      });
-
-    return () => {
-      alive = false;
-    };
-  }, []);
-
-  const approvedCleanGallery = cleanGallery.filter(isPublicMemoryLanePhoto);
-  const approvedFallbackGallery = CAPTURED_SLIDESHOW_PHOTOS.filter(isPublicMemoryLanePhoto);
-  const galleryPhotos = sortMemoryLanePhotos(approvedCleanGallery.length > 0 ? approvedCleanGallery : approvedFallbackGallery);
-
-  return (
-    <div className="mx-auto mt-20 max-w-7xl px-5">
-      <div className="mx-auto max-w-4xl text-center">
-        <p className="font-body text-[9px] uppercase tracking-[0.44em] text-[#d4af37]/56">Memory lane</p>
-        <h3 className="mt-3 font-display text-4xl leading-tight text-[#fff7df] md:text-6xl">
-          A walk through her life, oldest memories first.
-        </h3>
-        <p className="mx-auto mt-5 max-w-2xl font-body text-sm leading-7 text-[#fff7df]/54">
-          These public photos are screened against your rules, then placed as feature moments down the sides of the garden. Each card opens for your caption and approval notes.
-        </p>
-      </div>
-
-      <div className="relative mt-14">
-        <div className="absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[#d4af37]/28 to-transparent lg:block" />
-        <div className="space-y-8 md:space-y-10">
-          {galleryPhotos.map((photo, index) => {
-            const isRight = index % 2 === 1;
-            const displayPhoto = {
-              ...photo,
-              label: photo.label || `Memory ${String(index + 1).padStart(2, '0')}`,
-              caption: photo.caption || 'Ready for Gannon to caption during review.',
-              source: photo.source || 'Cleaned Mum Garden image audit',
-            };
-
-            return (
-              <motion.button
-                key={`${photo.src}-${index}`}
-                type="button"
-                onClick={() => onOpen(displayPhoto)}
-                className="group grid w-full gap-4 text-left lg:grid-cols-[minmax(0,1fr)_5rem_minmax(0,1fr)] lg:items-center"
-                initial={{ opacity: 0, y: 28 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-10%' }}
-                transition={{ duration: 0.65, delay: (index % 6) * 0.035 }}
-              >
-                <div
-                  className={`w-full max-w-[360px] ${isRight ? 'lg:col-start-3 lg:justify-self-start' : 'lg:col-start-1 lg:justify-self-end'}`}
-                >
-                  <div className="relative [perspective:1200px]">
-                    <div className="relative aspect-[4/5] rounded-[1.25rem] transition duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                      <div className="absolute inset-0 overflow-hidden rounded-[1.25rem] border border-[#d4af37]/16 bg-black/28 shadow-[0_24px_80px_rgba(0,0,0,0.36)] [backface-visibility:hidden]">
-                        <img
-                          src={photo.src}
-                          alt="Sonia memory from the public garden archive"
-                          loading="lazy"
-                          className="h-full w-full object-cover object-top transition duration-700 group-hover:scale-105"
-                          style={{ filter: 'brightness(0.94) contrast(1.04) saturate(0.98)' }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#071007]/58 via-transparent to-transparent" />
-                        <div className="absolute bottom-4 left-4 right-4">
-                          <p className="font-body text-[9px] uppercase tracking-[0.26em] text-[#d4af37]/62">
-                            {displayPhoto.label}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="absolute inset-0 flex rounded-[1.25rem] border border-[#d4af37]/22 bg-[#071007]/88 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.36)] [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                        <div className="flex min-h-full flex-col justify-between">
-                          <div>
-                            <p className="font-body text-[9px] uppercase tracking-[0.28em] text-[#d4af37]/62">
-                              Caption side
-                            </p>
-                            <p className="mt-4 font-display text-2xl leading-tight text-[#fff7df]">
-                              {displayPhoto.label}
-                            </p>
-                            <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/58">
-                              {displayPhoto.caption}
-                            </p>
-                          </div>
-                          <p className="mt-6 font-body text-[9px] uppercase tracking-[0.24em] text-[#d4af37]/48">
-                            Click to open approval drawer
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="hidden lg:col-start-2 lg:row-start-1 lg:flex lg:justify-center">
-                  <span className="flex h-12 w-12 items-center justify-center rounded-full border border-[#d4af37]/22 bg-[#071007]/72 font-body text-[10px] uppercase tracking-[0.16em] text-[#f5d06e]/70 shadow-[0_0_32px_rgba(212,175,55,0.14)]">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                </div>
-              </motion.button>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
+function CapturedSlideshow() {
+  return null;
 }
 
 
@@ -1959,10 +2141,6 @@ export default function MumTribute({ mode = 'foyer' }) {
             const query = window.location.search || '';
             window.location.href = `/mum/garden${query}`;
           }}
-          onOpenLyrics={() => {
-            const query = window.location.search || '';
-            window.location.href = `/mum/garden${query}#lyrics`;
-          }}
         />
       </main>
     );
@@ -2033,7 +2211,10 @@ export default function MumTribute({ mode = 'foyer' }) {
           </SectionHeading>
           <YoungerYearsTribute onOpen={(photo) => openDrawer('photo', photo)} />
           <CapturedSlideshow onOpen={(photo) => openDrawer('photo', photo)} />
-          <PhotoGarden onOpen={(photo) => openDrawer('photo', photo)} />
+          <PhotoGarden
+            onOpen={(photo) => openDrawer('photo', photo)}
+            onOpenLyrics={() => openDrawer('lyric', LYRIC_MOMENTS[0])}
+          />
           <TattooScrapbook onOpen={(photo) => openDrawer('photo', photo)} />
         </div>
       </GardenWorld>
