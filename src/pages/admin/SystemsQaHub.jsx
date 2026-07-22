@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/components/ui/use-toast';
-import { 
-  Activity, ShieldAlert, CreditCard, RefreshCw, Send, AlertTriangle, 
-  CheckCircle, PlayCircle, BarChart3, Clock, Zap, Cpu, Terminal
+import {
+  Activity, ShieldAlert, CreditCard, RefreshCw, Send,
+  CheckCircle, PlayCircle, Cpu
 } from 'lucide-react';
 
 export default function SystemsQaHub() {

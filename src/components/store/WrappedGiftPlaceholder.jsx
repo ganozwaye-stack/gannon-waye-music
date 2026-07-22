@@ -1,92 +1,48 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Gift } from 'lucide-react';
 
-const GIFT_CONFIGS = [
-  { bg: 'from-red-600 to-red-800', ribbon: 'from-gold-400 to-yellow-500', bow: 'from-red-500 to-red-700' },
-  { bg: 'from-emerald-600 to-emerald-800', ribbon: 'from-gold-400 to-yellow-500', bow: 'from-emerald-500 to-emerald-700' },
-  { bg: 'from-purple-600 to-purple-800', ribbon: 'from-pink-400 to-rose-500', bow: 'from-purple-500 to-purple-700' },
-  { bg: 'from-blue-600 to-blue-800', ribbon: 'from-cyan-400 to-blue-500', bow: 'from-blue-500 to-blue-700' },
-  { bg: 'from-amber-600 to-amber-800', ribbon: 'from-gold-400 to-yellow-500', bow: 'from-amber-500 to-amber-700' },
-];
+const GOLD_EDGE = 'linear-gradient(135deg, #7f6125 0%, #b8913b 36%, #d8c071 50%, #b8913b 64%, #7f6125 100%)';
 
 export default function WrappedGiftPlaceholder({ index = 0 }) {
-  const config = GIFT_CONFIGS[index % GIFT_CONFIGS.length];
+  const offset = index % 3;
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
+      initial={{ opacity: 0, scale: 0.96 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
-      whileHover={{ scale: 1.05, rotateY: 10 }}
+      whileHover={{ scale: 1.03 }}
       transition={{ duration: 0.4 }}
-      className="relative h-full w-full flex items-center justify-center perspective"
+      className="relative h-full w-full overflow-hidden rounded-xl border border-primary/25 bg-[#080807]"
     >
-      {/* Wrapped Gift Box */}
-      <div className={`relative w-32 h-32 md:w-40 md:h-40 bg-gradient-to-br ${config.bg} rounded-lg shadow-2xl overflow-hidden`}>
-        
-        {/* Ribbon - Vertical */}
-        <motion.div
-          animate={{ opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          className={`absolute inset-0 bg-gradient-to-b ${config.ribbon} opacity-20 w-8 left-1/2 transform -translate-x-1/2`}
-        />
+      <div
+        className="absolute inset-0 opacity-70"
+        style={{
+          background: `radial-gradient(circle at ${34 + offset * 14}% 20%, rgba(216,192,113,0.18), transparent 28%), linear-gradient(135deg, rgba(255,255,255,0.05), transparent 35%)`,
+        }}
+      />
+      <div className="absolute inset-4 rounded-lg border border-primary/25" />
+      <div className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-primary/25" />
+      <div className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-primary/20" />
 
-        {/* Ribbon - Horizontal */}
-        <motion.div
-          animate={{ opacity: [0.7, 1, 0.7] }}
-          transition={{ duration: 3, repeat: Infinity, delay: 0.5 }}
-          className={`absolute inset-0 bg-gradient-to-r ${config.ribbon} opacity-20 h-8 top-1/2 transform -translate-y-1/2`}
-        />
-
-        {/* Bow */}
-        <motion.div
-          animate={{ y: [0, -4, 0], rotateZ: [0, 2, -2, 0] }}
-          transition={{ duration: 2.5, repeat: Infinity }}
-          className={`absolute top-4 right-6 w-10 h-10 bg-gradient-to-br ${config.bow} rounded-full shadow-lg flex items-center justify-center`}
-        >
-          <div className={`w-6 h-6 bg-gradient-to-b ${config.bow} rounded-full opacity-70`} />
-        </motion.div>
-
-        {/* Gift Icon */}
-        <motion.div
-          animate={{ scale: [1, 1.1, 1] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute inset-0 flex items-center justify-center"
-        >
-          <Gift className="w-12 h-12 md:w-16 md:h-16 text-white/40" />
-        </motion.div>
-
-        {/* Mystery Shimmer */}
-        <motion.div
-          animate={{ opacity: [0, 0.3, 0] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent"
-        />
+      <motion.div
+        animate={{ opacity: [0.58, 0.95, 0.58] }}
+        transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute left-1/2 top-1/2 h-20 w-20 -translate-x-1/2 -translate-y-1/2 rounded-full"
+        style={{ background: GOLD_EDGE, boxShadow: '0 0 36px rgba(184,145,59,0.22)' }}
+      />
+      <div className="absolute left-1/2 top-1/2 flex h-[72px] w-[72px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-black/50 bg-[#0b0b0a]">
+        <span className="font-display text-xl italic gradient-gold-glow">GW</span>
       </div>
 
-      {/* Floating Particles */}
-      {[0, 1, 2].map(i => (
-        <motion.div
-          key={i}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0, 1, 0],
-            x: [0, Math.sin(i * 2) * 20, 0],
-          }}
-          transition={{
-            duration: 3 + i * 0.5,
-            repeat: Infinity,
-            delay: i * 0.3,
-          }}
-          className="absolute w-1 h-1 bg-gold-400 rounded-full"
-          style={{
-            left: '50%',
-            bottom: '20%',
-            marginLeft: `${(i - 1) * 15}px`,
-          }}
-        />
-      ))}
+      <div className="absolute inset-x-0 bottom-6 px-5 text-center">
+        <p className="font-body text-[9px] tracking-[0.28em] uppercase gradient-gold-glow">
+          Merch Reveal
+        </p>
+        <p className="mt-1 font-body text-[10px] text-foreground/45">
+          Official artwork locked until launch
+        </p>
+      </div>
     </motion.div>
   );
 }

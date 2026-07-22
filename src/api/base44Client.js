@@ -1,5 +1,6 @@
 import { createClient } from '@base44/sdk';
 import { appParams } from '@/lib/app-params';
+import { STORE_PRODUCTS, toMerchProduct } from '@/config/storeWorldConfig';
 
 const { appId, token, functionsVersion, appBaseUrl } = appParams;
 
@@ -66,7 +67,7 @@ if (isLocal || token === 'mock-admin-token') {
     { id: 'o4', customer_name: 'Bob Wilson', customer_email: 'bob@example.com', total_amount: 75.00, status: 'pending', financial_status: 'pending', created_date: '2026-06-04T12:00:00Z', items: [{ product_id: 'p3', product_name: 'CD', price: 75.00, quantity: 1 }] }
   ];
 
-  const mockProducts = [
+  const legacyMockProducts = [
     {
       id: '69f11d1fc43e13c61fe6b9d6',
       name: '"Thank You" CD Single Slim Case',
@@ -131,6 +132,10 @@ if (isLocal || token === 'mock-admin-token') {
     }
   ];
 
+  const mockProducts = STORE_PRODUCTS.length > 0
+    ? STORE_PRODUCTS.filter(product => product.is_active).map(toMerchProduct)
+    : legacyMockProducts;
+
   const mockNotifications = [
     { id: 'n1', notification_type: 'order', severity: 'info', title: 'New order #o2', summary: 'Jane Smith placed a new order for Tee', source: 'Stripe Webhook', requires_action: false, is_read: false, created_date: '2026-06-02T12:05:00Z' },
     { id: 'n2', notification_type: 'payment_warning', severity: 'high', title: 'Stripe Webhook Failure', summary: 'Webhook delivery failed for event evt_123', source: 'Stripe Router', requires_action: true, is_read: false, created_date: '2026-06-03T12:05:00Z' }
@@ -138,6 +143,167 @@ if (isLocal || token === 'mock-admin-token') {
 
   const mockIntegrations = [
     { id: 'i1', platform_name: 'Stripe', setup_status: 'live', credential_status: 'saved', last_checked: '2026-06-04T12:00:00Z' }
+  ];
+
+  const mockGanozMixCandidates = [
+    {
+      id: 'gmx-candidate-magnetic-cable-organiser',
+      source_app_id: '69eb857abaebfe9e3df48083',
+      source_entity: 'ProductOpportunity',
+      source_id: '6a37065a616a405a3c1be0cc',
+      title: 'Magnetic Cable Organiser (Bamboo)',
+      category: 'desk organisation',
+      supplier_name: 'CJ Dropshipping',
+      supplier_url: 'https://cjdropshipping.com/',
+      cost_price_aud: 8.5,
+      shipping_cost_aud: 6,
+      landed_cost_aud: 14.5,
+      target_price_aud: 39.95,
+      estimated_margin_percent: 42.1,
+      delivery_time_days: '8-15 days',
+      supplier_rating: 4.3,
+      problem_solved: 'Tangled cables and a messy desk every morning',
+      target_audience: 'Work from home professionals, students, creator desks',
+      marketplace: 'EBAY_AU',
+      cleanup_status: 'keep',
+      approval_status: 'needs_review',
+      publish_locked: true,
+      return_risk: 'low',
+      competition_level: 'medium',
+      social_content_potential: 'high',
+      hero_potential: 'high',
+      notes: 'First proof product. Source estimate only: verify exact supplier SKU, image rights, live stock, eBay fees, postage, returns, and live competition before any listing draft.'
+    },
+    {
+      id: 'gmx-candidate-fridge-bins',
+      source_app_id: '69eb857abaebfe9e3df48083',
+      source_entity: 'ProductOpportunity',
+      source_id: '6a37065a616a405a3c1be0d0',
+      title: 'Fridge Organisation Bins Set (6-piece)',
+      category: 'home organisation',
+      supplier_name: 'CJ Dropshipping',
+      supplier_url: 'https://cjdropshipping.com/',
+      cost_price_aud: 9,
+      shipping_cost_aud: 6.5,
+      landed_cost_aud: 15.5,
+      target_price_aud: 44.95,
+      estimated_margin_percent: 41,
+      delivery_time_days: '8-15 days',
+      supplier_rating: 4.2,
+      problem_solved: 'Fridge chaos and food waste',
+      target_audience: 'Home organisers, busy families, minimalists',
+      marketplace: 'EBAY_AU',
+      cleanup_status: 'maybe',
+      approval_status: 'needs_review',
+      publish_locked: true,
+      return_risk: 'low',
+      competition_level: 'medium',
+      social_content_potential: 'viral',
+      hero_potential: 'low'
+    },
+    {
+      id: 'gmx-candidate-travel-bottles',
+      source_app_id: '69eb857abaebfe9e3df48083',
+      source_entity: 'ProductOpportunity',
+      source_id: '6a37065a616a405a3c1be0cd',
+      title: 'Silicone Travel Bottle Set (3-pack)',
+      category: 'travel',
+      supplier_name: 'CJ Dropshipping',
+      supplier_url: 'https://cjdropshipping.com/',
+      cost_price_aud: 6,
+      shipping_cost_aud: 5.5,
+      landed_cost_aud: 11.5,
+      target_price_aud: 34.95,
+      estimated_margin_percent: 43.7,
+      delivery_time_days: '8-15 days',
+      supplier_rating: 4.1,
+      problem_solved: 'Airport security confiscates full-size toiletries',
+      target_audience: 'Frequent travellers, backpackers, business travellers',
+      marketplace: 'EBAY_AU',
+      cleanup_status: 'maybe',
+      approval_status: 'needs_review',
+      publish_locked: true,
+      return_risk: 'low',
+      competition_level: 'medium',
+      social_content_potential: 'high',
+      hero_potential: 'low'
+    },
+    {
+      id: 'gmx-candidate-laptop-stand',
+      source_app_id: '69eb857abaebfe9e3df48083',
+      source_entity: 'ProductOpportunity',
+      source_id: '6a37065a616a405a3c1be0ce',
+      title: 'Adjustable Laptop Stand (Aluminium)',
+      category: 'creator desk setup',
+      supplier_name: 'CJ Dropshipping',
+      supplier_url: 'https://cjdropshipping.com/',
+      cost_price_aud: 14,
+      shipping_cost_aud: 8,
+      landed_cost_aud: 22,
+      target_price_aud: 59.95,
+      estimated_margin_percent: 40.2,
+      delivery_time_days: '10-18 days',
+      supplier_rating: 4.5,
+      problem_solved: 'Neck pain and poor posture from staring down at a laptop all day',
+      target_audience: 'Remote workers, students, content creators',
+      marketplace: 'EBAY_AU',
+      cleanup_status: 'keep',
+      approval_status: 'needs_review',
+      publish_locked: true,
+      return_risk: 'low',
+      competition_level: 'medium',
+      social_content_potential: 'high',
+      hero_potential: 'high'
+    },
+    {
+      id: 'gmx-candidate-pet-water-fountain',
+      source_app_id: '69eb857abaebfe9e3df48083',
+      source_entity: 'ProductOpportunity',
+      source_id: '6a37065a616a405a3c1be0cf',
+      title: 'Pet Water Fountain (Auto-circulating)',
+      category: 'pet convenience',
+      supplier_name: 'CJ Dropshipping',
+      supplier_url: 'https://cjdropshipping.com/',
+      cost_price_aud: 12,
+      shipping_cost_aud: 9,
+      landed_cost_aud: 21,
+      target_price_aud: 54.95,
+      estimated_margin_percent: 38.4,
+      delivery_time_days: '10-20 days',
+      supplier_rating: 4,
+      problem_solved: 'Pets do not drink enough water from stagnant bowls',
+      target_audience: 'Cat and dog owners, pet lovers',
+      marketplace: 'EBAY_AU',
+      cleanup_status: 'maybe',
+      approval_status: 'blocked',
+      publish_locked: true,
+      return_risk: 'medium',
+      competition_level: 'low',
+      social_content_potential: 'viral',
+      hero_potential: 'high',
+      notes: 'Potentially strong content product, but blocked until pump failure, return policy, replacement parts, and pet rejection risk are reviewed.'
+    }
+  ];
+
+  const mockGanozMixStores = [
+    {
+      id: 'gmx-store-ebay-ganoz1988',
+      name: 'eBay - ganoz1988',
+      marketplace: 'EBAY_AU',
+      seller_username: 'ganoz1988',
+      connection_status: 'needs_oauth',
+      orders_enabled: false,
+      publishing_enabled: false,
+      notes: 'Source app shows eBay store, but token/OAuth state requires manual reconnect before any marketplace action.'
+    }
+  ];
+
+  const mockGanozMixJobs = [
+    { id: 'gmx-job-deadletter-summary', job_name: 'Source app job queue audit', status: 'dead_letter', run_mode: 'read_only', summary: '36 source JobQueue records were found, including dead letters. Do not resume jobs without review.' }
+  ];
+
+  const mockGanozMixErrors = [
+    { id: 'gmx-error-ebay-oauth', error_type: 'eBay OAuth', severity: 'high', summary: 'Source app error logs include invalid token type / eBay 401 failures.', safe_detail: 'Reconnect must be manual and read-only first.', contains_secret: false, status: 'open' }
   ];
 
   const entityMockData = {
@@ -148,7 +314,25 @@ if (isLocal || token === 'mock-admin-token') {
     AgentActionProposal: [],
     SystemHealthIssue: [],
     ApprovalQueue: [],
-    StoreCustomer: []
+    VideoIntakeItem: [],
+    EmailSubscriber: [],
+    SongFeedback: [],
+    EditingPreset: [
+      { id: 'preset-raw-truth', preset_key: 'raw_truth', display_name: 'Raw Truth', status: 'active' },
+      { id: 'preset-black-gold-merch', preset_key: 'black_gold_merch', display_name: 'Black Gold Merch', status: 'active' },
+      { id: 'preset-memorial-garden', preset_key: 'memorial_garden', display_name: 'Memorial Garden', status: 'active' },
+      { id: 'preset-release-energy', preset_key: 'release_energy', display_name: 'Release Energy', status: 'active' },
+    ],
+    ActionItem: [],
+    SystemsManagerLead: [],
+    StoreCustomer: [],
+    GanozMixProductCandidate: mockGanozMixCandidates,
+    GanozMixSupplier: [],
+    GanozMixListingDraft: [],
+    GanozMixMarketplaceStore: mockGanozMixStores,
+    GanozMixApprovalItem: [],
+    GanozMixJobRun: mockGanozMixJobs,
+    GanozMixErrorLog: mockGanozMixErrors
   };
 
   const createDummyHandler = (entityName) => {

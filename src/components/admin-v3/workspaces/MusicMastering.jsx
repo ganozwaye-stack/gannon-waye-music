@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
-import { Music, Disc3, Mic2, FileText, Star, ChevronRight, ChevronDown } from 'lucide-react';
+import { Disc3, Mic2, ChevronRight } from 'lucide-react';
 import { SectionCard, RowItem, LoadingState, EmptyState, StatusBadge, StatusDot } from '@/components/admin-v3/shared/SharedComponents';
 import { calcReleaseReadiness } from '@/lib/adminV3Metrics';
 

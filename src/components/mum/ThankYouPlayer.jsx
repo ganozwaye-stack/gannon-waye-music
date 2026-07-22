@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause } from 'lucide-react';
+import { THANKYOU_FULL_AUDIO_URL } from '@/config/audioAssets';
 
-const THANK_YOU_MP3     = 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/f9280287d_Gannon_ThankYou_-0dBTP_2448_HiRes_320kbps.mp3';
+const THANK_YOU_MP3     = THANKYOU_FULL_AUDIO_URL;
 const SONIA_PORTRAIT    = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/da5efd6c2_reel1_s2_keyframe1.jpg';
 const GANNON_SPOTIFY    = 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz';
 
@@ -69,11 +70,15 @@ export default function ThankYouPlayer() {
           <button
             onClick={toggle}
             aria-label={playing ? 'Pause' : 'Play Thank You'}
+            data-song-feedback-trigger="true"
+            data-song-title="Thank You"
+            data-song-artist="Gannon Waye"
+            data-song-feedback-source="thank-you-player-button"
             className="flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-200 hover:scale-110 active:scale-95"
             style={{
-              background:  'linear-gradient(135deg, #c9a84c 0%, #f5d06e 100%)',
+              background:  'linear-gradient(135deg, #c9a84c 0%, #d8c071 100%)',
               boxShadow:   playing
-                ? '0 0 28px rgba(245,208,110,0.6), 0 4px 16px rgba(0,0,0,0.4)'
+                ? '0 0 28px rgba(216,192,113,0.6), 0 4px 16px rgba(0,0,0,0.4)'
                 : '0 0 12px rgba(212,175,55,0.3), 0 4px 12px rgba(0,0,0,0.4)',
             }}
           >
@@ -100,8 +105,8 @@ export default function ThankYouPlayer() {
                 className="h-full rounded-full"
                 style={{
                   width:      `${progress}%`,
-                  background: 'linear-gradient(90deg, #c9a84c, #f5d06e)',
-                  boxShadow:  playing ? '0 0 8px rgba(245,208,110,0.6)' : 'none',
+                  background: 'linear-gradient(90deg, #c9a84c, #d8c071)',
+                  boxShadow:  playing ? '0 0 8px rgba(216,192,113,0.6)' : 'none',
                 }}
               />
             </div>
@@ -152,6 +157,10 @@ export default function ThankYouPlayer() {
         ref={audioRef}
         src={THANK_YOU_MP3}
         preload="metadata"
+        data-song-title="Thank You"
+        data-song-artist="Gannon Waye"
+        data-song-feedback-source="thank-you-player-audio"
+        data-song-feedback-exempt="true"
       />
     </motion.div>
   );

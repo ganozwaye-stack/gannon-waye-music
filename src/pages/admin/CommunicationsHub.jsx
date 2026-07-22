@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   Mail, ShoppingCart, Heart, Users, MessageCircle, BookOpen, Star, TrendingUp,
-  DollarSign, AlertTriangle, Clock, ArrowRight, Sparkles,
-  Lightbulb, Network, Zap, Bell, Package, FileText, Video, Calendar, Gift,
+  DollarSign, AlertTriangle, Clock, ArrowRight, Sparkles, Network, Zap, Bell, Package, FileText, Video, Calendar, Gift,
   ChevronRight, Target, Music
 } from 'lucide-react';
 

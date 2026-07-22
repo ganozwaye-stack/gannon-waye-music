@@ -111,8 +111,8 @@ export default function CoachingSelfWorthReset() {
             <p className="font-body text-[9px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Ready to begin?</p>
             <h2 className="font-display text-3xl text-foreground italic mb-2">Self Worth Reset Session</h2>
             <p className="font-body text-xs text-muted-foreground mb-1">60 minutes · Zoom or phone</p>
-            <div className="inline-block bg-yellow-500/10 border border-yellow-500/30 rounded-full px-4 py-1.5 mb-6">
-              <p className="font-body text-xs text-yellow-400">⚠ Price pending — Gannon to confirm before publishing</p>
+            <div className="inline-block bg-primary/10 border border-primary/30 rounded-full px-4 py-1.5 mb-6">
+              <p className="font-body text-xs text-primary">⚠ Price pending — Gannon to confirm before publishing</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/coaching/intake">

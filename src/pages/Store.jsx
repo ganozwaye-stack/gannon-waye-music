@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Heart, Sparkles, ShoppingCart, Plus, ZoomIn } from 'lucide-react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
 import { useCartStore } from '@/lib/cartStore';
@@ -11,6 +11,7 @@ import ProductDetailModal from '@/components/store/ProductDetailModal';
 import CartDrawer from '@/components/store/CartDrawer';
 import WinterBundleHero from '@/components/store/WinterBundleHero';
 import AdminEditButton from '@/components/store/AdminEditButton';
+import { STORE_PRODUCTS, toMerchProduct } from '@/config/storeWorldConfig';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -18,6 +19,10 @@ const PRODUCT_BADGES = {
   '69eed3e64e2da78ae4418a9d': { label: 'Deluxe · Signed', color: 'bg-primary/20 text-primary border-primary/40' },
   '69f11d1fc43e13c61fe6b9d7': { label: 'Available Now', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
   '69eed3e64e2da78ae4418a99': { label: 'In Stock', color: 'bg-green-500/15 text-green-400 border-green-500/30' },
+  '6a2d595ef7bb7ff53258cdfd': { label: 'Featured Bundle', color: 'bg-primary/20 text-primary border-primary/40' },
+  '69fbd261b760426cede1b7a3': { label: 'Bundle', color: 'bg-primary/20 text-primary border-primary/40' },
+  '6a16abb0198d4c5d294edc11': { label: 'Mug', color: 'bg-secondary text-muted-foreground border-border/40' },
+  '6a2d595ef7bb7ff53258cdfe': { label: 'Poster', color: 'bg-secondary text-muted-foreground border-border/40' },
 };
 
 // Store is OPEN — products show buy button
@@ -29,14 +34,16 @@ const PRODUCT_CONFIG = {
   '69eed3e64e2da78ae4418a9d': { sub: 'Sold out · Limited hand-signed edition' },
   '69f11d1fc43e13c61fe6b9d7': { sub: '⚡ Get in fast, stock running out. New shipment on its way. $98' },
   '69eed3e64e2da78ae4418a99': { sub: 'Sold out · Oversized premium tee · $49' },
-  '69fbd261b760426cede1b7a3': { sub: '❄️ Also available in the Winter Writing & Comfort Bundle, $129 with hoodie, pen & thermo. Journal features "Respect Is Earned, Not A Game You Make Me Play" lyric.' },
   '69eed3e64e2da78ae4418a9a': { sub: 'Sold out due to popular demand. These will not be restocked. 🤍' },
+  '6a2d595ef7bb7ff53258cdfd': { sub: 'Hero bundle at the Base44 price: hoodie, journal bundle, thermo bottle and pen.' },
+  '69fbd261b760426cede1b7a3': { sub: 'Also available inside the Winter Writing & Comfort Bundle, now correctly shown at $119.' },
+  '6a16abb0198d4c5d294edc11': { sub: '11oz ceramic mug with lyric artwork and official Thank You single artwork.' },
+  '6a2d595ef7bb7ff53258cdfe': { sub: 'Poster size pricing starts at A4 $19 and updates by size.' },
 };
 
 // Multi-image galleries per product id (auto-rotates in card)
-const MUG_ID = '6a16abb0198d4c5d294edc11';
 // Use explicit string keys — computed key [MUG_ID] can cause runtime errors in some build paths
-const PRODUCT_GALLERIES = {
+const LEGACY_PRODUCT_GALLERIES = {
   '6a16abb0198d4c5d294edc11': [
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png',
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0261db66f_MugBack.png',
@@ -63,10 +70,27 @@ const POSTER_SIZE_PRICES = {
   'A3: $29': 29,
   'A2: $39': 39,
   'A1: $59': 59,
+  'A4 - $19': 19,
+  'A3 - $29': 29,
+  'A2 - $39': 39,
+  'A1 - $59': 59,
+  'A4 — $19': 19,
+  'A3 — $29': 29,
+  'A2 — $39': 39,
+  'A1 — $59': 59,
+};
+
+const formatAud = (value) => {
+  const amount = Number(value);
+  if (!Number.isFinite(amount)) return '$0 AUD';
+  return `$${amount.toLocaleString('en-AU', {
+    minimumFractionDigits: amount % 1 === 0 ? 0 : 2,
+    maximumFractionDigits: 2,
+  })} AUD`;
 };
 
 // Corrected static product data
-const FALLBACK_PRODUCTS = [
+const LEGACY_FALLBACK_PRODUCTS = [
   {
     id: '69f11d1fc43e13c61fe6b9d6',
     name: '"Thank You" CD Single Slim Case',
@@ -138,6 +162,16 @@ const FALLBACK_PRODUCTS = [
     description: "Large folding tote bag featuring the official 'Thank You' single cover artwork.",
   },
 ];
+
+const PRODUCT_GALLERIES = STORE_PRODUCTS.reduce((galleries, product) => {
+  const gallery = product.images_array?.length > 0 ? product.images_array : product.images;
+  if (gallery?.length > 0) galleries[product.id] = gallery;
+  return galleries;
+}, LEGACY_PRODUCT_GALLERIES);
+
+const FALLBACK_PRODUCTS = STORE_PRODUCTS.length > 0
+  ? STORE_PRODUCTS.filter(product => product.is_active).map(toMerchProduct)
+  : LEGACY_FALLBACK_PRODUCTS;
 
 function InterestButton({ productId, productName }) {
   const { toast } = useToast();
@@ -298,7 +332,7 @@ function ProductCard({ product, onCheckout, onViewCart }) {
             <p data-testid="product-title" className="font-display text-sm text-foreground leading-snug">{product.name}</p>
             <AdminEditButton href={`/admin/merch`} label="Edit" className="shrink-0" />
           </div>
-          <p data-testid="product-price" className="font-body text-sm gradient-gold-glow font-medium">${price} AUD</p>
+          <p data-testid="product-price" className="font-body text-sm gradient-gold-glow font-medium">{formatAud(price)}</p>
           {cfg?.sub && (
             <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
           )}

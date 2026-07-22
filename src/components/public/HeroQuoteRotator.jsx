@@ -18,7 +18,7 @@ const QUOTES = [
   { lines: ['This is what rebuilding yourself sounds like.'] },
 ];
 
-export default function HeroQuoteRotator() {
+export default function HeroQuoteRotator({ align = 'center' }) {
   const [index, setIndex] = useState(() => Math.floor(Math.random() * QUOTES.length));
 
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function HeroQuoteRotator() {
   const quote = QUOTES[index];
 
   return (
-    <div className="min-h-[3.5rem] flex items-center justify-center">
+    <div className={`min-h-[3.5rem] flex items-center ${align === 'left' ? 'justify-start' : 'justify-center'}`}>
       <AnimatePresence mode="wait">
         <motion.div
           key={index}
@@ -39,7 +39,7 @@ export default function HeroQuoteRotator() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 1.2, ease: 'easeInOut' }}
-          className="text-center"
+          className={align === 'left' ? 'text-left' : 'text-center'}
         >
           {quote.lines.map((line, i) => (
             <p

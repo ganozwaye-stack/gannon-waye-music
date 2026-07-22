@@ -38,11 +38,11 @@ export default function StoreWorldTeaser() {
       >
         {/* Eyebrow */}
         <p style={{
-          color: 'rgba(212,175,55,0.55)',
+          color: 'rgba(212,175,55,0.72)',
           fontSize: '10px',
           letterSpacing: '0.32em',
           textTransform: 'uppercase',
-          marginBottom: '16px',
+          marginBottom: '12px',
           fontWeight: 600,
         }}>
           Official Merch Boutique
@@ -70,19 +70,19 @@ export default function StoreWorldTeaser() {
           fontSize: '14px',
           lineHeight: 1.75,
           maxWidth: '440px',
-          margin: '0 auto 32px',
+          margin: '0 auto 24px',
         }}>
-          Shop Official Merch — the <em>Respect Is Earned</em> collection,<br />
+          Shop Official Merch - the <em>Respect Is Earned</em> collection,<br />
           bundles, wall posters and music collectables.
         </p>
 
         {/* Decorative divider */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: '16px',
-          justifyContent: 'center', marginBottom: '32px',
+          justifyContent: 'center', marginBottom: '24px',
         }}>
           <div style={{ flex: 1, maxWidth: '80px', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.3))' }} />
-          <span style={{ color: 'rgba(212,175,55,0.4)', fontSize: '14px' }}>✦</span>
+          <span style={{ color: 'rgba(212,175,55,0.4)', fontSize: '14px' }}>*</span>
           <div style={{ flex: 1, maxWidth: '80px', height: '1px', background: 'linear-gradient(270deg, transparent, rgba(212,175,55,0.3))' }} />
         </div>
 
@@ -108,7 +108,7 @@ export default function StoreWorldTeaser() {
             onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; e.currentTarget.style.transform = 'translateY(-1px)'; }}
             onMouseLeave={e => { e.currentTarget.style.opacity = '1'; e.currentTarget.style.transform = 'translateY(0)'; }}
           >
-            Enter the Store ✦
+            Enter the Store
           </button>
 
           <button
@@ -130,17 +130,17 @@ export default function StoreWorldTeaser() {
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(212,175,55,0.08)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.7)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.35)'; }}
           >
-            Shop All Merch →
+            Shop All Merch
           </button>
         </div>
 
         {/* Small product teaser pills */}
-        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '28px' }}>
+        <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '24px' }}>
           {[
-            'Winter Bundle — $129',
-            'Journal Bundle — $59',
-            'Hoodie — $89',
-            'Mug — $9.90',
+            'Winter Bundle - $119',
+            'Journal Bundle - $59',
+            'Hoodie - $98',
+            'Mug - $9.90',
             'Posters from $19',
           ].map(label => (
             <button
@@ -152,14 +152,14 @@ export default function StoreWorldTeaser() {
                 border: '1px solid rgba(212,175,55,0.15)',
                 borderRadius: '20px',
                 padding: '4px 12px',
-                color: 'rgba(212,175,55,0.5)',
+                color: 'rgba(255,255,255,0.48)',
                 fontSize: '10px',
                 letterSpacing: '0.08em',
                 cursor: 'pointer',
                 transition: 'all 0.15s ease',
               }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(212,175,55,0.4)'; e.currentTarget.style.color = ACCENT; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(212,175,55,0.15)'; e.currentTarget.style.color = 'rgba(212,175,55,0.5)'; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(212,175,55,0.4)'; e.currentTarget.style.color = 'rgba(255,255,255,0.78)'; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(212,175,55,0.15)'; e.currentTarget.style.color = 'rgba(255,255,255,0.48)'; }}
             >
               {label}
             </button>

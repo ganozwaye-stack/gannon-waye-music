@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { Send, Copy, Check, Users, Loader2, Mail, History, Plus, Trash2 } from 'lucide-react';
+import { Send, Copy, Check, Users, Loader2, Mail, History, Plus } from 'lucide-react';
 
 const WELCOME_TEMPLATE = {
   subject: "Welcome. You're part of something real 🤍",

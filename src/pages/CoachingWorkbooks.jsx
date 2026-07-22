@@ -158,7 +158,7 @@ function WorkbookCard({ workbook }) {
           )
         ) : (
           <div className="flex items-center justify-between">
-            <span className="font-body text-xs text-yellow-400">{workbook.price}</span>
+            <span className="font-body text-xs text-primary">{workbook.price}</span>
             <Button size="sm" variant="outline" className="rounded-full text-xs border-border/50 gap-1">
               <BookOpen className="w-3 h-3" /> Coming Soon
             </Button>

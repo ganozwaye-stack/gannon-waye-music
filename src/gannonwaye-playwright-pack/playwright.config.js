@@ -8,9 +8,10 @@ const { defineConfig, devices } = require('@playwright/test');
 module.exports = defineConfig({
   testDir: './tests',
   fullyParallel: true,
+  timeout: 60000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 4 : undefined,
+  workers: 2,
   reporter: 'html',
   use: {
     baseURL: process.env.BASE_URL || 'http://localhost:5173',
@@ -23,7 +24,7 @@ module.exports = defineConfig({
     }
   },
   webServer: {
-    command: 'npm run dev',
+    command: 'npm run build && node scripts/serve-production.mjs',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
     cwd: '../../',

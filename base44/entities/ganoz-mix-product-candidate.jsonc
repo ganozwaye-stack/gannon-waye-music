@@ -1,0 +1,163 @@
+{
+  "name": "GanozMixProductCandidate",
+  "type": "object",
+  "properties": {
+    "source_app_id": {
+      "type": "string"
+    },
+    "source_entity": {
+      "type": "string"
+    },
+    "source_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string"
+    },
+    "supplier_name": {
+      "type": "string"
+    },
+    "supplier_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "marketplace": {
+      "type": "string",
+      "default": "EBAY_AU"
+    },
+    "image_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "product_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "cost_price_aud": {
+      "type": "number"
+    },
+    "shipping_cost_aud": {
+      "type": "number"
+    },
+    "landed_cost_aud": {
+      "type": "number"
+    },
+    "target_price_aud": {
+      "type": "number"
+    },
+    "estimated_margin_percent": {
+      "type": "number"
+    },
+    "return_risk": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "unknown"
+    },
+    "competition_level": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "unknown"
+    },
+    "social_content_potential": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "unknown"
+    },
+    "hero_potential": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "unknown"
+    },
+    "cleanup_status": {
+      "type": "string",
+      "enum": [
+        "unreviewed",
+        "keep",
+        "maybe",
+        "test",
+        "gwm_merch",
+        "delete_later"
+      ],
+      "default": "unreviewed"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "needs_review",
+        "approved",
+        "rejected",
+        "blocked"
+      ],
+      "default": "needs_review"
+    },
+    "publish_locked": {
+      "type": "boolean",
+      "default": true
+    },
+    "notes": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "source_snapshot": {
+      "type": "object"
+    },
+    "last_reviewed_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

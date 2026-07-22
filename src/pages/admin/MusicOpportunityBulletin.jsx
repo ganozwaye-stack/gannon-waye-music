@@ -1,13 +1,10 @@
 import { useState } from 'react';
-import { base44 } from '@/api/base44Client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Music, Radio, Mic2, Calendar, DollarSign, Zap, RefreshCw,
-  ExternalLink, Clock, Star, ChevronDown, ChevronUp, Filter,
-  MapPin, Award, Headphones, BookOpen, Send, CheckCircle2, Globe
+  ExternalLink, Clock, Star, ChevronDown, ChevronUp, Award, Headphones, BookOpen, Send, CheckCircle2, Globe
 } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 

@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { BookOpen, Download, Lock, Unlock, Star, AlertCircle, CheckCircle, ExternalLink } from 'lucide-react';
+import { Lock, Unlock, AlertCircle, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const LEAD_MAGNETS = [

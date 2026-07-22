@@ -1,0 +1,84 @@
+{
+  "name": "GanozMixListingDraft",
+  "type": "object",
+  "properties": {
+    "candidate_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "marketplace": {
+      "type": "string",
+      "default": "EBAY_AU"
+    },
+    "listing_title": {
+      "type": "string"
+    },
+    "listing_description": {
+      "type": "string",
+      "format": "richtext"
+    },
+    "seo_keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "price_aud": {
+      "type": "number"
+    },
+    "shipping_profile": {
+      "type": "string"
+    },
+    "image_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "compliance_notes": {
+      "type": "string"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "needs_review",
+        "approved",
+        "rejected",
+        "blocked"
+      ],
+      "default": "draft"
+    },
+    "publish_locked": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

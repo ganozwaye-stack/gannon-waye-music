@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Enhanced candle lighting feature — multiple candle styles, ambient glow intensifies with each lit candle
+// Enhanced candle lighting feature - multiple candle styles, ambient glow intensifies with each lit candle
 export default function EnhancedCandle({ variant = 'pillar', index = 0 }) {
   const [lit, setLit] = useState(false);
 
@@ -36,7 +36,7 @@ export default function EnhancedCandle({ variant = 'pillar', index = 0 }) {
                 top: '50%',
                 marginLeft: -v.glowSize * 1.25,
                 marginTop: -v.glowSize * 1.25,
-                background: 'radial-gradient(circle, rgba(255,200,80,0.35) 0%, rgba(255,160,40,0.12) 40%, transparent 70%)',
+                background: 'radial-gradient(circle, rgba(216,192,113,0.35) 0%, rgba(184,145,59,0.12) 40%, transparent 70%)',
                 borderRadius: '50%',
                 pointerEvents: 'none',
               }}
@@ -53,8 +53,8 @@ export default function EnhancedCandle({ variant = 'pillar', index = 0 }) {
                 width: v.flameSize * 24,
                 height: v.flameSize * 40,
                 borderRadius: '50% 50% 30% 30%',
-                background: 'radial-gradient(ellipse at 50% 80%, #fff 0%, #ffe08a 20%, #f5c842 45%, #e07c10 75%, transparent 100%)',
-                boxShadow: `0 0 ${v.glowSize}px ${v.glowSize * 0.3}px rgba(245,200,66,0.6), 0 0 ${v.glowSize * 2}px ${v.glowSize * 0.5}px rgba(220,130,20,0.25)`,
+                background: 'radial-gradient(ellipse at 50% 80%, #fff 0%, #d8c071 20%, #d8c071 45%, #7f6125 75%, transparent 100%)',
+                boxShadow: `0 0 ${v.glowSize}px ${v.glowSize * 0.3}px rgba(216,192,113,0.6), 0 0 ${v.glowSize * 2}px ${v.glowSize * 0.5}px rgba(127,97,37,0.25)`,
                 position: 'relative',
               }}
               animate={{
@@ -117,9 +117,9 @@ export default function EnhancedCandle({ variant = 'pillar', index = 0 }) {
             background: lit
               ? 'linear-gradient(180deg, #fff8e0 0%, #f5ead0 30%, #ede0b6 70%, #c9a84c 100%)'
               : 'linear-gradient(180deg, #c8c0a4 0%, #a8a080 60%, #988e6e 100%)',
-            border: `1px solid ${lit ? 'rgba(245,200,66,0.6)' : 'rgba(160,140,100,0.25)'}`,
+            border: `1px solid ${lit ? 'rgba(216,192,113,0.6)' : 'rgba(160,140,100,0.25)'}`,
             boxShadow: lit
-              ? `0 0 ${v.glowSize * 1.5}px rgba(245,200,66,0.4), 0 0 ${v.glowSize * 3}px rgba(212,175,55,0.18), inset -2px 0 6px rgba(0,0,0,0.15), inset 2px 0 6px rgba(255,255,255,0.1)`
+              ? `0 0 ${v.glowSize * 1.5}px rgba(216,192,113,0.4), 0 0 ${v.glowSize * 3}px rgba(212,175,55,0.18), inset -2px 0 6px rgba(0,0,0,0.15), inset 2px 0 6px rgba(255,255,255,0.1)`
               : 'inset -2px 0 6px rgba(0,0,0,0.2), inset 2px 0 6px rgba(255,255,255,0.05)',
             transition: 'all 1s ease',
             position: 'relative',
@@ -155,7 +155,7 @@ export default function EnhancedCandle({ variant = 'pillar', index = 0 }) {
   );
 }
 
-// Candle garden — multiple candles of different styles
+// Candle garden - multiple candles of different styles
 export function CandleGarden({ count = 5 }) {
   const variants = ['pillar', 'votive', 'tea', 'votive', 'pillar'];
   return (

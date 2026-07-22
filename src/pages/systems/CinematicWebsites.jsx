@@ -37,8 +37,8 @@ export default function CinematicWebsites() {
             ← Systems Manager
           </Link>
           <div className="flex items-start justify-between flex-wrap gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-              <Layout className="w-6 h-6 text-amber-400" />
+            <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+              <Layout className="w-6 h-6 text-primary" />
             </div>
             <AdminEditButton href="/admin/services/cinematic-websites" label="Edit This Page" />
           </div>
@@ -89,13 +89,13 @@ export default function CinematicWebsites() {
         </div>
 
         {/* Proof */}
-        <div className="bg-gradient-to-br from-amber-500/5 to-card border border-amber-500/20 rounded-2xl p-7 space-y-3">
+        <div className="bg-gradient-to-br from-primary/5 to-card border border-primary/20 rounded-2xl p-7 space-y-3">
           <h2 className="font-display text-xl text-foreground">Proof</h2>
           <p className="font-body text-sm text-muted-foreground">
             The Gannon Waye Music OS is a live example — parallax hero, animated sections, cinematic memorial tribute page, full merch store, lyrics page, and community wall.
           </p>
           <Link to="/systems/case-studies/gannon-waye-music-os">
-            <Button variant="outline" size="sm" className="rounded-full gap-2 border-amber-500/30 text-amber-400 hover:bg-amber-500/10 mt-2">
+            <Button variant="outline" size="sm" className="rounded-full gap-2 border-primary/30 text-primary hover:bg-primary/10 mt-2">
               View Case Study <ArrowRight className="w-3.5 h-3.5" />
             </Button>
           </Link>

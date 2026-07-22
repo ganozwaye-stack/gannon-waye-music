@@ -33,8 +33,8 @@ export default function CoachingClientResources() {
 
       <section className="py-4 px-4 md:px-6 pb-16">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 mb-10 text-center">
-            <p className="font-body text-xs text-yellow-400">⚠ Resources are being prepared. Gannon to upload files before this page goes live.</p>
+          <div className="bg-primary/10 border border-primary/30 rounded-xl p-4 mb-10 text-center">
+            <p className="font-body text-xs text-primary">⚠ Resources are being prepared. Gannon to upload files before this page goes live.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             {RESOURCES.map((resource, i) => {

@@ -6,13 +6,13 @@ import { Button } from '@/components/ui/button';
 
 export default function SafeSpaceBanner() {
   return (
-    <section className="py-16 md:py-24 px-4 md:px-6">
+    <section className="py-12 md:py-10 md:py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative rounded-3xl border border-primary/20 bg-card/50 backdrop-blur-sm overflow-hidden p-10 md:p-14 text-center"
+          className="relative rounded-2xl border border-border/40 bg-card/50 backdrop-blur-sm overflow-hidden p-7 md:p-10 text-left"
         >
           {/* Glow */}
           <div className="absolute inset-0 pointer-events-none">
@@ -45,14 +45,14 @@ export default function SafeSpaceBanner() {
 
             {/* Crisis line */}
             <div className="mt-10 pt-8 border-t border-border/30">
-              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">If you need support right now</p>
+              <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow mb-2">If you need support right now</p>
               <p className="font-body text-xs text-foreground/50">
                 Australia · Lifeline{' '}
-                <a href="tel:131114" className="text-primary hover:underline">13 11 14</a>
+                <a href="tel:131114" className="text-foreground/85 underline-offset-4 hover:underline">13 11 14</a>
                 {' '}· 1800RESPECT{' '}
-                <a href="tel:1800737732" className="text-primary hover:underline">1800 737 732</a>
+                <a href="tel:1800737732" className="text-foreground/85 underline-offset-4 hover:underline">1800 737 732</a>
                 {' '}· Beyond Blue{' '}
-                <a href="tel:1300224636" className="text-primary hover:underline">1300 22 4636</a>
+                <a href="tel:1300224636" className="text-foreground/85 underline-offset-4 hover:underline">1300 22 4636</a>
               </p>
             </div>
           </div>

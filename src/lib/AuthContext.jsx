@@ -5,7 +5,7 @@ import { createAxiosClient } from '@base44/sdk/dist/utils/axios-client';
 
 const AuthContext = createContext();
 
-const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders', '/mum', '/without-you-here'];
+const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders'];
 
 const shouldCheckUserForCurrentRoute = () => {
   if (typeof window === 'undefined') return !!appParams.token;
@@ -167,7 +167,7 @@ export const AuthProvider = ({ children }) => {
 
   const navigateToLogin = () => {
     const currentPath = window.location.pathname;
-    // Avoid redirect loops — don't redirect if already going to login
+    // Avoid redirect loops; don't redirect if already going to login.
     if (currentPath === '/login' || currentPath === '/auth') return;
     base44.auth.redirectToLogin(currentPath);
   };

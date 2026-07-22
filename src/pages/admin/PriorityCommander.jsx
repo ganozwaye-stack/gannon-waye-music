@@ -1,11 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CheckCircle2, Clock, AlertTriangle, Zap, User, Bot, RefreshCw, ArrowUpRight } from 'lucide-react';
+import { CheckCircle2, User, Bot, RefreshCw, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const PRIORITY_COLORS = { critical: '#ef4444', high: '#f59e0b', medium: '#3b82f6', low: '#6b7280' };

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Lock, CheckCircle2, Circle, Shield } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Circle, Shield } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
 const GATES = [
   { label: 'Design approved by Gannon', desc: 'Review all pages, layouts, and branding for the coaching section', link: '/admin/coaching-programs' },

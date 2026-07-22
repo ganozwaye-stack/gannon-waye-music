@@ -15,9 +15,9 @@ const TIER_LABELS = {
 };
 
 const RANK_ICONS = [
-  { icon: Crown, color: 'text-yellow-400', bg: 'from-yellow-500/20 to-yellow-500/5', label: '1st' },
+  { icon: Crown, color: 'text-primary', bg: 'from-primary/15 to-primary/5', label: '1st' },
   { icon: Medal, color: 'text-gray-300', bg: 'from-gray-400/20 to-gray-400/5', label: '2nd' },
-  { icon: Trophy, color: 'text-orange-400', bg: 'from-orange-500/20 to-orange-500/5', label: '3rd' },
+  { icon: Trophy, color: 'text-primary', bg: 'from-primary/15 to-primary/5', label: '3rd' },
 ];
 
 export default function FanLeaderboard() {
@@ -159,7 +159,7 @@ export default function FanLeaderboard() {
               <div className="space-y-2">
                 {foundingSupporters.slice(0, 8).map((f, i) => (
                   <div key={f.id} className="flex items-center gap-2 text-sm font-body">
-                    <Star className="w-3 h-3 text-yellow-400 shrink-0" />
+                    <Star className="w-3 h-3 text-primary shrink-0" />
                     <span className="text-foreground/70 truncate">{f.name || f.email || 'Anonymous'}</span>
                   </div>
                 ))}

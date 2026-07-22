@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
 import {
-  Sun, Shield, Lock, Link2, Music, ShoppingBag, FileText, Megaphone,
+  Sun, Shield, Link2, Music, ShoppingBag, FileText, Megaphone,
   Film, MessageSquare, BarChart3, Heart, Settings, CheckCircle2, XCircle,
-  ExternalLink, Sparkles, AlertTriangle, LayoutDashboard, Globe, Star
+  ExternalLink, AlertTriangle, LayoutDashboard, Globe, Star
 } from 'lucide-react';
 
 import TodaysPriorities from '@/components/admin/dashboard/TodaysPriorities';

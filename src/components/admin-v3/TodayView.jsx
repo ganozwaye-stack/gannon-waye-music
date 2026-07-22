@@ -1,13 +1,11 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Link } from 'react-router-dom';
 import {
-  Shield, DollarSign, Star, Film, AlertTriangle, CheckCircle2,
-  Clock, Zap, ChevronRight
+  Shield, DollarSign, Star, AlertTriangle, CheckCircle2
 } from 'lucide-react';
 import {
-  KpiCard, SectionCard, RowItem, StatusBadge, LoadingState, EmptyState, StatusDot
+  KpiCard, SectionCard, RowItem, LoadingState, EmptyState
 } from '@/components/admin-v3/shared/SharedComponents';
 import {
   calcPendingApprovals, calcVerifiedRevenue, calcPaymentExceptions

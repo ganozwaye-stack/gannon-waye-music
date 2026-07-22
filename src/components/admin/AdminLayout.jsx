@@ -3,11 +3,9 @@ import { useAuth } from '@/lib/AuthContext';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut,
-  Video, Mail, Palette, Heart, Camera, Tag, TrendingUp, Sparkles, Star, Gift,
-  MessageCircle, DollarSign, Image, Activity, Calendar, Search, Command,
-  ChevronRight, Menu, X, Zap, Book, Brain, Shield, Lock, Eye, Megaphone,
-  Lightbulb, CreditCard, Database, BookOpen, Bell, ExternalLink, FileText,
-  GraduationCap, Building2, Play, AlertTriangle, ShoppingCart, Calculator, BarChart3, Terminal, Radio, Upload,
+  Video, Mail, Palette, Heart, Tag, Star, DollarSign, Activity, Calendar, Search, Command,
+  ChevronRight, Menu, X, Zap, Brain, Shield, Lock, Eye, Megaphone, CreditCard, Bell, FileText,
+  GraduationCap, AlertTriangle, ShoppingCart, Calculator, Terminal,
   Film, MessageSquare, Sun, CheckCircle2, ListTodo
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';

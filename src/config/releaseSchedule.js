@@ -1,0 +1,3 @@
+export const WITHOUT_YOU_HERE_RELEASE_DATE = '2026-07-31';
+export const WITHOUT_YOU_HERE_RELEASE_TIME_ZONE = 'Australia/Melbourne';
+export const WITHOUT_YOU_HERE_RELEASE_DATE_TEXT = '31 July 2026';

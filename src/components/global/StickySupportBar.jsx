@@ -29,7 +29,7 @@ export default function StickySupportBar() {
     audio.volume = VOLUME;
     audio.muted = true;
     audio.play().then(() => {
-      setPlaying(true);
+      setPlaying(false);
       startedRef.current = true;
     }).catch(() => {});
   }, []);
@@ -40,7 +40,7 @@ export default function StickySupportBar() {
       if (!audio || startedRef.current) return;
       audio.volume = VOLUME;
       audio.muted = true;
-      audio.play().then(() => {setPlaying(true);startedRef.current = true;}).catch(() => {});
+      audio.play().then(() => {setPlaying(false);startedRef.current = true;}).catch(() => {});
     };
     window.addEventListener('pointerdown', handle, { passive: true, once: true });
     return () => window.removeEventListener('pointerdown', handle);
@@ -70,14 +70,24 @@ export default function StickySupportBar() {
   return (
     <>
       {!audioMissing &&
-      <audio ref={audioRef} src={AUDIO_URL} loop preload="auto" style={{ display: 'none' }} />
+      <audio
+        ref={audioRef}
+        src={AUDIO_URL}
+        loop
+        preload="auto"
+        style={{ display: 'none' }}
+        data-song-title="Thank You"
+        data-song-artist="Gannon Waye"
+        data-song-feedback-source="sticky-support-audio"
+        data-song-feedback-exempt="true"
+      />
       }
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-sm border-t border-border/40 px-4 py-2.5 z-50">
+        className="fixed left-4 right-4 top-16 z-40 mx-auto max-w-[760px] rounded-b-2xl border-x border-b border-[#d4af37]/18 bg-[#070907]/78 px-3 py-2 shadow-[0_16px_44px_rgba(0,0,0,0.32)] backdrop-blur-md">
         
         <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
 
@@ -86,6 +96,10 @@ export default function StickySupportBar() {
             <button
               onClick={toggle}
               disabled={audioMissing}
+              data-song-feedback-trigger="true"
+              data-song-title="Thank You"
+              data-song-artist="Gannon Waye"
+              data-song-feedback-source="sticky-support-player"
               aria-label={playing ? 'Pause music' : 'Play Thank You'}
               className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${
               audioMissing ?

@@ -9,7 +9,8 @@ This document contains key credentials inventory, webhook paths, DNS specificati
 * **Base44 App ID:** `69eb7905ca6eb4180010f794`
 * **Base44 Live Domain:** `https://gannonwaye.com`
 * **GanozMix Direct URL:** `https://ganozmixdirect.base44.app`
-* **GitHub Repository Branch:** `main` (gannonwaye-live-eject-2026-06-01-tiktokfix)
+* **GitHub Default Branch:** `main`
+* **Active Clean Migration Branch:** `upgrade/base44-emergent-migration`
 * **Base44 Editor Workspace:** `https://app.base44.com/apps/69eb7905ca6eb4180010f794/editor`
 
 ---
@@ -28,8 +29,9 @@ This document contains key credentials inventory, webhook paths, DNS specificati
 
 ## 💳 Stripe Webhook Configuration
 
-* **Failing Endpoint (DO NOT USE):** `https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter`
-* **Active Production Webhook URL (USE THIS):** `https://api.base44.app/api/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter`
+* **Required Order Fulfillment Webhook URL:** `https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook`
+* **Intelligence/diagnostic router:** `https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter`
+* **Do not rely on `stripeIntelligenceRouter` alone for order creation.**
 * **Subscribed Events Checklist:**
   * `checkout.session.completed`
   * `checkout.session.expired`

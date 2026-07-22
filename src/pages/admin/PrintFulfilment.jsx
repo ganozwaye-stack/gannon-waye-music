@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { CheckCircle2, XCircle, AlertTriangle, Printer, Package, DollarSign, Image, Clock, Globe, FileText, Zap, ChevronRight, ChevronDown, Info } from 'lucide-react';
+import { CheckCircle2, XCircle, AlertTriangle, Printer, Image, FileText, Zap } from 'lucide-react';
 
 // ── Provider Data ────────────────────────────────────────────────────────────
 const PROVIDERS = [

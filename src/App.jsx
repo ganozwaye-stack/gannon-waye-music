@@ -11,6 +11,8 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { posthog } from '@/lib/posthog';
 import ScrollToTop from '@/components/global/ScrollToTop';
+import LegacyRouteRedirect from '@/components/global/LegacyRouteRedirect';
+import { LEGACY_PUBLIC_ROUTE_DESTINATIONS } from '@/config/legacyPublicRoutes';
 
 // Initialize event-driven automation system
 initializeEventSystem();
@@ -45,6 +47,7 @@ import StickySupportBar from '@/components/global/StickySupportBar';
 import LyricsPage from '@/pages/LyricsPage';
 import Press from '@/pages/Press';
 import ThisIsMyLife from '@/pages/ThisIsMyLife';
+import SongFeedbackProvider from '@/components/global/SongFeedbackGate';
 import FAQSection from '@/pages/FAQSection';
 import RecentFanActivity from '@/pages/RecentFanActivity';
 import Summary from '@/pages/Summary';
@@ -58,6 +61,7 @@ import MerchFeedback from '@/pages/MerchFeedback';
 import Tour from '@/pages/Tour';
 import FoundingSupporterPage from '@/pages/FoundingSupporter';
 import MumTribute from '@/pages/MumTribute';
+import MumDesignLab from '@/pages/MumDesignLab';
 import MerchReelPage from '@/components/mum/MerchReelPage';
 import CheckoutSuccess from '@/pages/CheckoutSuccess';
 import CheckoutCancel from '@/pages/CheckoutCancel';
@@ -300,8 +304,6 @@ import Memorial from '@/pages/Memorial';
 import StoreProductDetail from '@/pages/StoreProductDetail';
 import PriorityCommander from '@/pages/admin/PriorityCommander';
 import ClickAudit from '@/pages/admin/ClickAudit';
-import ReleasesRedirect from '@/pages/Releases';
-import About from '@/pages/About';
 import FanWall from '@/pages/FanWall';
 import Support from '@/pages/Support';
 import GiftTracker from '@/pages/GiftTracker';
@@ -338,6 +340,13 @@ import CommunicationsHub from '@/pages/admin/CommunicationsHub';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const location = useLocation();
+  const isMemorialRoute = location.pathname === '/mum'
+    || location.pathname === '/mum/garden'
+    || location.pathname === '/mum/design-lab'
+    || location.pathname === '/mum-garden'
+    || location.pathname === '/mum-garden-preview';
+  const showStickySupportBar = !location.pathname.startsWith('/admin') && !isMemorialRoute;
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -361,13 +370,16 @@ const AuthenticatedApp = () => {
 
   return (
     <>
-    <StickySupportBar />
+    {showStickySupportBar && <StickySupportBar />}
     <Routes>
       {/* Public routes */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
         <Route path="/store" element={<StoreWorld />} />
+        <Route path="/store-world" element={<LegacyRouteRedirect to={LEGACY_PUBLIC_ROUTE_DESTINATIONS['/store-world']} />} />
+        <Route path="/tour" element={<LegacyRouteRedirect to={LEGACY_PUBLIC_ROUTE_DESTINATIONS['/tour']} />} />
+        <Route path="/bookings" element={<LegacyRouteRedirect to={LEGACY_PUBLIC_ROUTE_DESTINATIONS['/bookings']} />} />
         <Route path="/store/all" element={<Store />} />
         <Route path="/store/cart" element={<StoreCartPage />} />
         <Route path="/store/customer-details" element={<StoreCustomerDetails />} />
@@ -377,6 +389,7 @@ const AuthenticatedApp = () => {
         <Route path="/email-preferences" element={<EmailPreferences />} />
         <Route path="/orders" element={<OrderHistory />} />
         <Route path="/back-this" element={<BackThis />} />
+        <Route path="/community" element={<Community />} />
         <Route path="/summary" element={<Summary />} />
         <Route path="/contact" element={<ContactGannon />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -391,14 +404,19 @@ const AuthenticatedApp = () => {
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/upcoming-music" element={<UpcomingMusic />} />
         <Route path="/remember-mum" element={<RememberMum />} />
+        <Route path="/mum" element={<MumTribute />} />
+        <Route path="/mum/garden" element={<MumTribute mode="garden" />} />
+        <Route path="/mum/design-lab" element={<MumDesignLab />} />
+        <Route path="/without-you-here" element={<MumTribute />} />
+        <Route path="/mums-garden" element={<MumsGarden />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/presave" element={<PreSave />} />
         <Route path="/release/:id" element={<ReleaseDetail />} />
         <Route path="/store/product/:slug" element={<StoreProductDetail />} />
-        <Route path="/releases" element={<ReleasesRedirect />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/support" element={<Navigate to="/contact" replace />} />
+        <Route path="/releases" element={<LegacyRouteRedirect to={LEGACY_PUBLIC_ROUTE_DESTINATIONS['/releases']} />} />
+        <Route path="/about" element={<LegacyRouteRedirect to={LEGACY_PUBLIC_ROUTE_DESTINATIONS['/about']} />} />
+        <Route path="/support" element={<LegacyRouteRedirect to={LEGACY_PUBLIC_ROUTE_DESTINATIONS['/support']} />} />
         <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />
         {/* Coaching routes moved to admin — hidden from public */}
 
@@ -423,6 +441,7 @@ const AuthenticatedApp = () => {
       <Route path="/tiktok-platform-review" element={<TikTokPlatformReview />} />
       <Route path="/tiktok-callback" element={<TikTokCallback />} />
       <Route path="/gift-checklist" element={<GiftChecklistPage />} />
+      <Route path="/gift-tracker" element={<LegacyRouteRedirect to={LEGACY_PUBLIC_ROUTE_DESTINATIONS['/gift-tracker']} />} />
       <Route path="/live" element={<Live />} />
 
       {/* Admin routes */}
@@ -685,9 +704,11 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
         <Router>
-          <ScrollToTop />
-          <PostHogPageTracker />
-          <AuthenticatedApp />
+          <SongFeedbackProvider>
+            <ScrollToTop />
+            <PostHogPageTracker />
+            <AuthenticatedApp />
+          </SongFeedbackProvider>
         </Router>
         <Toaster />
       </QueryClientProvider>

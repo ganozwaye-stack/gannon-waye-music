@@ -19,7 +19,7 @@ const FAQS = [
   },
   {
     q: 'How do I order merch?',
-    a: "Head to the Store page to browse and order merch. Use code LAUNCH15 for 15% off your first order (first 20 orders only).",
+    a: 'Head to the Store page to browse and order merch. If you have a current promo code, you can apply it at checkout on eligible items.',
   },
   {
     q: 'What is the "Back This" page?',

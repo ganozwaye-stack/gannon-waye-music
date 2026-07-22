@@ -1,0 +1,67 @@
+{
+  "name": "GanozMixMarketplaceStore",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "marketplace": {
+      "type": "string",
+      "default": "EBAY_AU"
+    },
+    "seller_username": {
+      "type": "string"
+    },
+    "connection_status": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "disconnected",
+        "needs_oauth",
+        "connected_read_only",
+        "connected_publish_locked"
+      ],
+      "default": "needs_oauth"
+    },
+    "orders_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "publishing_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "last_checked_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

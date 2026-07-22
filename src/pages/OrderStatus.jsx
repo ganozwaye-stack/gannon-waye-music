@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 const STATUS_CONFIG = {
-  pending:   { icon: Clock,         color: 'text-yellow-400', bg: 'bg-yellow-400/10 border-yellow-400/30', label: 'Pending',   desc: 'Your order has been received and is being reviewed.' },
+  pending:   { icon: Clock,         color: 'text-primary', bg: 'bg-primary/10 border-primary/30', label: 'Pending',   desc: 'Your order has been received and is being reviewed.' },
   confirmed: { icon: Package,       color: 'text-blue-400',   bg: 'bg-blue-400/10 border-blue-400/30',     label: 'Confirmed', desc: 'Your order is confirmed and being prepared.' },
   shipped:   { icon: Truck,         color: 'text-primary',    bg: 'bg-primary/10 border-primary/30',        label: 'Shipped',   desc: 'Your order is on its way!' },
   delivered: { icon: CheckCircle2,  color: 'text-green-400',  bg: 'bg-green-400/10 border-green-400/30',   label: 'Delivered', desc: 'Your order has been delivered. Enjoy!' },

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Search, ChevronLeft, X, ArrowRight } from 'lucide-react';
+import { Search, ChevronLeft, ArrowRight } from 'lucide-react';
 import { LEGACY_ROUTES, getRouteStats } from '@/lib/adminV3Routes';
 
 const TABS = [

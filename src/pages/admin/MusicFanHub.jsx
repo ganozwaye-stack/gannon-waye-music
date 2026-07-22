@@ -10,14 +10,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
-import { 
-  Users, Music, BookOpen, Mail, Send, Award, Heart, MessageSquare, 
-  Trash2, RefreshCw, Plus, Calendar, Film, HelpCircle, Loader2
+import {
+  Users, Music, BookOpen, Mail, Send, Award, Heart,
+  Trash2, RefreshCw, Film, Loader2
 } from 'lucide-react';
 
 const STORY_THEMES = [
-  'grief and mum', 'THANKYOU story', 'survival', 'breaking cycles', 
-  'toxic family', 'self-worth', 'music recovery', 'rebuilding life', 
+  'grief and mum', 'THANKYOU story', 'survival', 'breaking cycles',
+  'toxic family', 'self-worth', 'music recovery', 'rebuilding life',
   'business comeback', 'future vision'
 ];
 
@@ -80,18 +80,18 @@ export default function MusicFanHub() {
     setVaultOutline('');
     try {
       const prompt = `You are Gannon Waye's writing assistant. Create a detailed 10-15 minute episode script outline and a 20-second TikTok hook clip script based on the following life memory.
-      
+
       Theme: ${memory.summary}
       Memory content: ${memory.content}
-      
+
       Format the output with:
       1. Episode Title
       2. 20-Second Scroll-Stopping TikTok Hook Script (word-for-word)
       3. Episode Scene Checklist (10-15 min layout)
       4. Key Emotional Focus / Vulnerability prompt for free-speech input.
-      
+
       Keep the tone authentic, emotionally raw, vulnerable, and respectful. Use no AI-sounding corporate clichés.`;
-      
+
       const res = await base44.integrations.Core.InvokeLLM({ prompt });
       setVaultOutline(res);
       toast({ title: 'Episode outline draft generated ✓' });
@@ -239,9 +239,9 @@ export default function MusicFanHub() {
                         </div>
                         <p className="text-muted-foreground text-[11px] line-clamp-3">{mem.content}</p>
                         <div className="flex justify-between pt-2 border-t border-border/10">
-                          <Button 
-                            size="sm" 
-                            variant="outline" 
+                          <Button
+                            size="sm"
+                            variant="outline"
                             className="h-7 text-[10px] border-border/40"
                             onClick={() => generateEpisodeOutline(mem)}
                           >

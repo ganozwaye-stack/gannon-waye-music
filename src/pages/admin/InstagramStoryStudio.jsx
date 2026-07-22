@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Copy, Download, Sparkles, ShoppingBag, Heart, Flame, Star, Package, AlertTriangle } from 'lucide-react';
+import { Copy, Flame } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 

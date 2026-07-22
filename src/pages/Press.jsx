@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Mail, Music, Radio, Mic, Headphones, Clapperboard, Image } from 'lucide-react';
+import { ExternalLink, Mail, Image } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
+import { WITHOUT_YOU_HERE_COVER } from '@/config/releaseAssets';
+import { WITHOUT_YOU_HERE_RELEASE_DATE_TEXT } from '@/config/releaseSchedule';
 
 const APPROVED_EMAIL = 'gannonwayemusic@gmail.com';
 
 const BIO = `Gannon Waye is a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to him. It's the language he uses to understand people, emotion, and the parts of life that don't always have words.
 
-His debut single "Thank You" marks the beginning of a deeply personal catalog. His upcoming single "Without You Here," releasing July 23, 2026, is a raw acoustic letter to his late mother, written on Mother's Day and produced by Will Henderson.
+His debut single "Thank You" marks the beginning of a deeply personal catalog. His upcoming single "Without You Here," releasing ${WITHOUT_YOU_HERE_RELEASE_DATE_TEXT}, is a raw acoustic letter to his late mother, written on Mother's Day and produced by Will Henderson.
 
 Gannon's work explores self-worth, boundaries, grief, and the courage to choose yourself. This is more than music. This is choosing yourself.`;
 
@@ -76,7 +78,7 @@ export default function Press() {
           <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow">Current Release Pitch</p>
         </div>
         <h2 className="font-display text-2xl md:text-3xl text-foreground mb-2">Without You Here</h2>
-        <p className="font-body text-xs text-muted-foreground mb-6">Single · Release date: July 23, 2026 · Produced by Will Henderson</p>
+        <p className="font-body text-xs text-muted-foreground mb-6">Single · Release date: {WITHOUT_YOU_HERE_RELEASE_DATE_TEXT} · Produced by Will Henderson</p>
 
         <div className="space-y-5">
           <div>
@@ -149,7 +151,7 @@ export default function Press() {
         </div>
         <div className="bg-card/50 border border-border/40 rounded-2xl p-6 flex flex-col items-center justify-center gap-3 min-h-[200px]">
           <img
-            src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png"
+            src={WITHOUT_YOU_HERE_COVER}
             alt="Without You Here — Gannon Waye single cover"
             className="w-32 h-32 rounded-lg object-cover border border-primary/20"
           />

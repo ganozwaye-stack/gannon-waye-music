@@ -25,7 +25,7 @@ const TIERS = [
     name: 'Inner Circle',
     price: 25,
     icon: Star,
-    color: 'from-yellow-500/20',
+    color: 'from-primary/15',
     accentColor: 'gradient-gold-glow',
     description: 'Being part of something real',
     perks: [
@@ -43,8 +43,8 @@ const TIERS = [
     name: 'Movement Leader',
     price: 50,
     icon: Crown,
-    color: 'from-amber-600/20',
-    accentColor: 'text-amber-400',
+    color: 'from-primary/15',
+    accentColor: 'text-primary',
     description: 'Building the legacy',
     perks: [
       'Everything in Inner Circle, plus:',

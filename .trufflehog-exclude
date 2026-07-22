@@ -1,0 +1,4 @@
+^public/audio/
+^public/images/
+^dist/
+^node_modules/

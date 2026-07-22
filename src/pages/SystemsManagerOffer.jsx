@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,11 +7,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import {
   ArrowRight, Sparkles, Layout, ShoppingCart, ShieldCheck,
   Cpu, Music, Package, RefreshCw, Send, Star, Zap,
-  CheckCircle2, ExternalLink, Globe, Users, BarChart3
+  CheckCircle2, ExternalLink
 } from 'lucide-react';
 
 const SERVICE_CARDS = [
@@ -23,8 +22,8 @@ const SERVICE_CARDS = [
     from: 'From $1,500 AUD',
     cta: 'View Cinematic Website Systems',
     href: '/systems/cinematic-websites',
-    color: 'from-amber-500/10 to-transparent',
-    border: 'border-amber-500/20',
+    color: 'from-primary/10 to-transparent',
+    border: 'border-primary/20',
   },
   {
     icon: ShoppingCart,
@@ -63,8 +62,8 @@ const SERVICE_CARDS = [
     from: 'From $3,500 AUD',
     cta: 'View Dropshipping Systems',
     href: '/systems/dropshipping-inventory',
-    color: 'from-orange-500/10 to-transparent',
-    border: 'border-orange-500/20',
+    color: 'from-primary/10 to-transparent',
+    border: 'border-primary/20',
   },
   {
     icon: Music,
@@ -123,7 +122,7 @@ const PACKAGES = [
     title: 'Dropshipping Command Centre',
     price: 'From $3,500',
     badge: 'Commerce',
-    badgeColor: 'bg-orange-500/20 text-orange-400 border border-orange-500/30',
+    badgeColor: 'bg-primary/15 text-primary border border-primary/30',
     copy: 'Product sourcing, supplier workflow, margin calculator, image lab, approval queue, launch calendar, risk flags, and publishing status in one dashboard.',
     includes: ['Product sourcing queue', 'Supplier manager', 'Margin calculator', 'Image lab', 'Approval queue', 'Launch calendar'],
     cta: 'Build My Dashboard',
@@ -133,7 +132,7 @@ const PACKAGES = [
     title: 'Full Business Command System',
     price: 'From $6,500',
     badge: 'Enterprise',
-    badgeColor: 'bg-amber-500/20 text-amber-400 border border-amber-500/30',
+    badgeColor: 'bg-primary/15 text-primary border border-primary/30',
     copy: 'The complete operating system: website, store, approvals, AI agents, order management, analytics, social pipeline, and a central command dashboard that shows your whole business at once.',
     includes: ['All modules included', 'Central command dashboard', 'AI agents', 'Full order management', 'Analytics', 'Priority support'],
     cta: 'Enquire Now',
@@ -153,8 +152,8 @@ const PROOF_CARDS = [
       { label: 'Site Health', href: '/admin/site-health' },
       { label: 'Orders', href: '/admin/orders' },
     ],
-    color: 'border-amber-500/30',
-    glow: 'from-amber-500/5',
+    color: 'border-primary/30',
+    glow: 'from-primary/5',
   },
   {
     title: 'GanozMix Direct',

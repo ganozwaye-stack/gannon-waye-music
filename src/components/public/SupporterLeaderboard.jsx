@@ -14,8 +14,8 @@ const TIER_LABELS = {
 };
 
 const BADGE_COLORS = {
-  day_one: 'text-yellow-400',
-  top_supporter: 'text-primary',
+  day_one: 'text-muted-foreground',
+  top_supporter: 'text-foreground',
   inner_circle: 'text-purple-400',
   supporter: 'text-muted-foreground',
 };
@@ -36,13 +36,13 @@ export default function SupporterLeaderboard() {
   if (supporters.length === 0 && contributions.length === 0) return null;
 
   return (
-    <section className="py-16 px-4 md:px-6">
+    <section className="py-10 md:py-12 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-10"
+          className="text-left mb-8"
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">The People Behind This</p>
           <h2 className="font-display text-3xl md:text-4xl text-foreground">Supporters</h2>
@@ -63,7 +63,7 @@ export default function SupporterLeaderboard() {
                 className="flex items-center gap-4 bg-card border border-border/40 rounded-xl p-4 hover:border-primary/20 transition-all"
               >
                 <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <span className="font-display text-lg text-primary">
+                  <span className="font-display text-lg text-foreground">
                     {(s.supporter_name || '?')[0].toUpperCase()}
                   </span>
                 </div>
@@ -89,7 +89,7 @@ export default function SupporterLeaderboard() {
         {/* Recent activity */}
         {contributions.length > 0 && (
           <div className="space-y-2 mb-8">
-            <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Recent Support</p>
+            <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow mb-3">Recent Support</p>
             {contributions.map((c, i) => (
               <motion.div
                 key={c.id}

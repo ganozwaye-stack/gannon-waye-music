@@ -5,14 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
-import { 
-  Lock, Calendar, Briefcase, RefreshCw, Send, AlertTriangle, 
-  CheckCircle, ShieldCheck, DollarSign, ListTodo, Plus, Trash2, Edit2
+import {
+  Lock, Briefcase, RefreshCw, Send, AlertTriangle,
+  CheckCircle, DollarSign, ListTodo, Plus, Trash2
 } from 'lucide-react';
 
 const PINNED_TASKS_DEFAULT = [
@@ -103,10 +101,10 @@ export default function OwnerBusinessHub() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="flex gap-2">
-                <Input 
-                  value={newTaskText} 
-                  onChange={e => setNewTaskText(e.target.value)} 
-                  placeholder="Add a priority item..." 
+                <Input
+                  value={newTaskText}
+                  onChange={e => setNewTaskText(e.target.value)}
+                  placeholder="Add a priority item..."
                   className="bg-secondary/40 text-xs border-border/40"
                   onKeyDown={e => e.key === 'Enter' && addTask()}
                 />
@@ -119,9 +117,9 @@ export default function OwnerBusinessHub() {
                 {tasks.map(task => (
                   <div key={task.id} className="p-3 bg-secondary/20 rounded-xl border border-border/30 flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2.5">
-                      <input 
-                        type="checkbox" 
-                        checked={task.done} 
+                      <input
+                        type="checkbox"
+                        checked={task.done}
                         onChange={() => toggleTask(task.id)}
                         className="w-4 h-4 rounded border-border bg-transparent text-primary focus:ring-0 cursor-pointer"
                       />
@@ -163,8 +161,8 @@ export default function OwnerBusinessHub() {
                         <div className="flex gap-1.5 items-center">
                           <Badge className="bg-yellow-500/15 text-yellow-400 border border-yellow-500/20 uppercase text-[9px]">{lead.urgency}</Badge>
                           <Badge className="bg-green-500/15 text-green-400 border border-green-500/20 text-[9px]">{lead.budget_range}</Badge>
-                          <Select 
-                            value={lead.proposal_status || 'received'} 
+                          <Select
+                            value={lead.proposal_status || 'received'}
                             onValueChange={val => updateLead.mutate({ id: lead.id, data: { proposal_status: val } })}
                           >
                             <SelectTrigger className="h-7 text-[10px] w-28 border-border/40 bg-secondary"><SelectValue /></SelectTrigger>
@@ -178,7 +176,7 @@ export default function OwnerBusinessHub() {
                           </Select>
                         </div>
                       </div>
-                      
+
                       <div className="p-2.5 bg-black/30 rounded border border-border/20">
                         <p className="font-bold text-white mb-1">Requested Automations / Problem Description:</p>
                         <p className="text-muted-foreground text-[11px] whitespace-pre-wrap">{lead.problem}</p>

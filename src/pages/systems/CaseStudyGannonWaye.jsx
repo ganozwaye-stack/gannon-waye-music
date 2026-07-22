@@ -43,8 +43,8 @@ export default function CaseStudyGannonWaye() {
           </Link>
           <div className="flex items-start justify-between flex-wrap gap-3">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                <Star className="w-6 h-6 text-amber-400" />
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+                <Star className="w-6 h-6 text-primary" />
               </div>
               <span className="font-body text-xs tracking-[0.2em] uppercase text-primary">Case Study</span>
             </div>

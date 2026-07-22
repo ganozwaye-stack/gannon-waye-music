@@ -1,0 +1,83 @@
+{
+  "name": "GanozMixSupplier",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "supplier_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "platform": {
+      "type": "string"
+    },
+    "contact_notes": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "currency": {
+      "type": "string",
+      "default": "AUD"
+    },
+    "minimum_order_quantity": {
+      "type": "number"
+    },
+    "average_lead_time_days": {
+      "type": "number"
+    },
+    "returns_policy": {
+      "type": "string"
+    },
+    "image_rights_status": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "allowed",
+        "needs_permission",
+        "not_allowed"
+      ],
+      "default": "unknown"
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": [
+        "unverified",
+        "checking",
+        "verified",
+        "rejected"
+      ],
+      "default": "unverified"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

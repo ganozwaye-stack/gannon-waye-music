@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { 
-  Shield, CheckCircle2, AlertTriangle, XCircle, RefreshCw, 
-  ExternalLink, Search, Globe, Lock, Info, Activity
+  Shield, CheckCircle2, AlertTriangle, XCircle, RefreshCw, Search, Globe, Activity
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
 export default function LinkIntegrityAudit() {
   const { toast } = useToast();

@@ -1,26 +1,31 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import SingleCoverPlaque from './SingleCoverPlaque';
+import { WITHOUT_YOU_HERE_PREVIEW } from '@/constants/musicAssets';
 
 const TRACKS = [
   {
     id: 'ave_maria',
     title: 'Ave Maria',
-    subtitle: 'Gannon Waye — sung live at Sonia\'s funeral',
+    subtitle: 'Gannon Waye - sung live at Sonia\'s funeral',
     src: 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/6e65f5e12_AveMariaGannonSinging.mp3',
-    soniaNote: `"When I was just a boy, I would sit by Mum's side and she would say to me — 'My boy, when I go to heaven, will you sing Ave Maria for me?' I was only young. I said yes, Mum. Years later, in the weeks before she passed, she looked at me softly and said — 'It's okay if you can't.' But I did. I sang for her. And I know she was there, listening."`,
+    soniaNote: `"When I was just a boy, I would sit by Mum's side and she would say to me - 'My boy, when I go to heaven, will you sing Ave Maria for me?' I was only young. I said yes, Mum. Years later, in the weeks before she passed, she looked at me softly and said - 'It's okay if you can't.' But I did. I sang for her. And I know she was there, listening."`,
     soniaLabel: "Sonia\u2019s request \u2014 fulfilled with love",
   },
   {
     id: 'amazing_grace',
     title: 'Amazing Grace',
-    subtitle: 'Gannon Waye — acapella, at her graveside',
+    subtitle: 'Gannon Waye - acapella, at her graveside',
     src: 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/bb1ad3db4_AmazingGraceAcaapellaGannonSinging.mp3',
-    soniaNote: `"Amazing Grace was one of Sonia's most beloved hymns. It was the song we sang when we laid her to rest — her voice, her warmth, and her grace all wrapped into those timeless words. She always said it gave her peace."`,
-    soniaLabel: 'Sung at her graveside — a farewell in music',
+    soniaNote: `"Amazing Grace was one of Sonia's most beloved hymns. It was the song we sang when we laid her to rest - her voice, her warmth, and her grace all wrapped into those timeless words. She always said it gave her peace."`,
+    soniaLabel: 'Sung at her graveside - a farewell in music',
   },
 ];
+
+const WITHOUT_YOU_HERE_CLIP_START_SECONDS = 3 * 60 + 46;
+const WITHOUT_YOU_HERE_CLIP_END_SECONDS = 4 * 60 + 35;
+const WITHOUT_YOU_HERE_PREVIEW_DURATION_SECONDS = WITHOUT_YOU_HERE_CLIP_END_SECONDS - WITHOUT_YOU_HERE_CLIP_START_SECONDS;
 
 function fmt(s) {
   if (!s || isNaN(s)) return '0:00';
@@ -82,7 +87,7 @@ function TrackPlayer({ track, isAmbient }) {
         className="mb-5 px-1"
       >
         <p className="font-body text-[9px] tracking-[0.4em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.35)' }}>
-          ♥ {track.soniaLabel}
+          {track.soniaLabel}
         </p>
         <blockquote
           className="relative pl-5 leading-relaxed"
@@ -96,7 +101,7 @@ function TrackPlayer({ track, isAmbient }) {
         >
           {track.soniaNote}
           <span className="block mt-2 font-body not-italic text-[9px] tracking-[0.3em] uppercase" style={{ color: 'rgba(212,175,55,0.30)' }}>
-            — Sonia Katisa Waye
+            - Sonia Katisa Waye
           </span>
         </blockquote>
       </motion.div>
@@ -118,11 +123,15 @@ function TrackPlayer({ track, isAmbient }) {
         <button
           onClick={toggle}
           aria-label={playing ? 'Pause' : `Play ${track.title}`}
+          data-song-feedback-trigger="true"
+          data-song-title={track.title}
+          data-song-artist="Gannon Waye"
+          data-song-feedback-source="sonia-garden-track-button"
           className="flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center transition-transform hover:scale-110 active:scale-95"
           style={{
-            background: 'linear-gradient(135deg, #c9a84c 0%, #f5d06e 100%)',
+            background: 'linear-gradient(135deg, #c9a84c 0%, #d8c071 100%)',
             boxShadow: playing
-              ? '0 0 24px rgba(245,208,110,0.55), 0 4px 14px rgba(0,0,0,0.4)'
+              ? '0 0 24px rgba(216,192,113,0.55), 0 4px 14px rgba(0,0,0,0.4)'
               : '0 0 10px rgba(212,175,55,0.25)',
           }}
         >
@@ -146,8 +155,8 @@ function TrackPlayer({ track, isAmbient }) {
               className="h-full rounded-full transition-all"
               style={{
                 width: `${progress}%`,
-                background: 'linear-gradient(90deg, #c9a84c, #f5d06e)',
-                boxShadow: playing ? '0 0 6px rgba(245,208,110,0.5)' : 'none',
+                background: 'linear-gradient(90deg, #c9a84c, #d8c071)',
+                boxShadow: playing ? '0 0 6px rgba(216,192,113,0.5)' : 'none',
               }}
             />
           </div>
@@ -170,12 +179,238 @@ function TrackPlayer({ track, isAmbient }) {
         </button>
       </motion.div>
 
-      <audio ref={audioRef} src={track.src} preload="metadata" />
+      <audio
+        ref={audioRef}
+        src={track.src}
+        preload="metadata"
+        data-song-title={track.title}
+        data-song-artist="Gannon Waye"
+        data-song-feedback-source="sonia-garden-track-audio"
+        data-song-feedback-exempt="true"
+      />
     </div>
   );
 }
 
-export default function SoniaAmbientPlayer() {
+export function WithoutYouHereClipPlayer() {
+  const audioRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [muted, setMuted] = useState(false);
+  const clipDuration = WITHOUT_YOU_HERE_PREVIEW_DURATION_SECONDS;
+  const progress = Math.max(
+    0,
+    Math.min(100, (current / clipDuration) * 100)
+  );
+
+  const toggle = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (playing) {
+      audio.pause();
+      setPlaying(false);
+      return;
+    }
+
+    if (audio.currentTime >= clipDuration) {
+      audio.currentTime = 0;
+    }
+
+    audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
+  };
+
+  const seek = (e) => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    audio.currentTime = pct * clipDuration;
+    setCurrent(audio.currentTime);
+  };
+
+  const toggleMute = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.muted = !muted;
+    setMuted(!muted);
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleTimeUpdate = () => {
+      setCurrent(audio.currentTime);
+      if (audio.currentTime >= clipDuration) {
+        audio.pause();
+        audio.currentTime = 0;
+        setCurrent(0);
+        setPlaying(false);
+      }
+    };
+    const handleEnded = () => {
+      audio.currentTime = 0;
+      setCurrent(0);
+      setPlaying(false);
+    };
+
+    audio.volume = 0.85;
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('ended', handleEnded);
+
+    return () => {
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, []);
+
+  return (
+    <div
+      className="mx-auto mb-5 max-w-md rounded-2xl p-4 text-left"
+      style={{
+        background: 'rgba(8,12,7,0.78)',
+        border: '1px solid rgba(212,175,55,0.24)',
+        boxShadow: '0 0 36px rgba(212,175,55,0.10)',
+        backdropFilter: 'blur(18px)',
+      }}
+    >
+      <p className="font-body text-[8px] tracking-[0.35em] uppercase mb-4 text-center" style={{ color: 'rgba(212,175,55,0.35)' }}>
+        Internal preview - 3:46 to 4:35
+      </p>
+
+      <div className="flex items-center gap-4">
+        <button
+          onClick={toggle}
+          aria-label={playing ? 'Pause Without You Here preview' : 'Play Without You Here preview from 3:46 to 4:35'}
+          className="flex h-[52px] w-[52px] min-h-[52px] min-w-[52px] items-center justify-center rounded-full transition-transform hover:scale-105 active:scale-95"
+          style={{
+            background: 'linear-gradient(135deg, #c9a84c 0%, #d8c071 100%)',
+            boxShadow: playing ? '0 0 30px rgba(216,192,113,0.52)' : '0 0 14px rgba(212,175,55,0.25)',
+          }}
+        >
+          {playing ? <Pause className="h-5 w-5 text-black" /> : <Play className="ml-0.5 h-5 w-5 text-black" />}
+        </button>
+
+        <div className="min-w-0 flex-1">
+          <p className="font-display text-lg italic text-foreground/85 leading-tight">Without You Here</p>
+          <p className="font-body text-[10px] tracking-[0.22em] uppercase mt-1 mb-3" style={{ color: 'rgba(212,175,55,0.42)' }}>
+            bridge preview
+          </p>
+          <button
+            type="button"
+            onClick={seek}
+            className="h-2 w-full overflow-hidden rounded-full text-left"
+            style={{ background: 'rgba(212,175,55,0.12)' }}
+            aria-label="Seek Without You Here preview clip"
+          >
+            <span
+              className="block h-full rounded-full transition-all"
+              style={{
+                width: `${progress}%`,
+                background: 'linear-gradient(90deg, #c9a84c, #d8c071)',
+                boxShadow: playing ? '0 0 10px rgba(216,192,113,0.55)' : 'none',
+              }}
+            />
+          </button>
+          <div className="mt-2 flex justify-between font-body text-[9px]" style={{ color: 'rgba(212,175,55,0.32)' }}>
+            <span>{fmt(WITHOUT_YOU_HERE_CLIP_START_SECONDS + current)}</span>
+            <span>{fmt(WITHOUT_YOU_HERE_CLIP_END_SECONDS)}</span>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={toggleMute}
+          aria-label={muted ? 'Unmute Without You Here preview' : 'Mute Without You Here preview'}
+          className="shrink-0 opacity-45 transition-opacity hover:opacity-80"
+        >
+          {muted
+            ? <VolumeX className="h-4 w-4" style={{ color: 'rgba(212,175,55,0.70)' }} />
+            : <Volume2 className="h-4 w-4" style={{ color: 'rgba(212,175,55,0.70)' }} />
+          }
+        </button>
+      </div>
+
+      <audio
+        ref={audioRef}
+        src={WITHOUT_YOU_HERE_PREVIEW}
+        preload="metadata"
+        data-song-title="Without You Here"
+        data-song-artist="Gannon Waye"
+        data-song-feedback-exempt="true"
+      />
+    </div>
+  );
+}
+
+export function WithoutYouHereFeature({ compact = false }) {
+  return (
+    <motion.aside
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1, delay: 0.35 }}
+      className={`w-full ${compact ? 'max-w-xl' : 'max-w-2xl'} mx-auto`}
+    >
+      <div
+        className="rounded-[28px] p-4 md:p-6"
+        style={{
+          background: 'linear-gradient(145deg, rgba(6,9,7,0.82), rgba(18,13,7,0.72))',
+          border: '1px solid rgba(212,175,55,0.20)',
+          boxShadow: '0 22px 70px rgba(0,0,0,0.42), 0 0 42px rgba(212,175,55,0.10)',
+          backdropFilter: 'blur(22px)',
+        }}
+      >
+        <p className="font-body text-[8px] tracking-[0.44em] uppercase text-primary/40 text-center mb-4">
+          Written for her
+        </p>
+        <div className="grid gap-5 md:grid-cols-[150px_minmax(0,1fr)] md:items-center">
+          <SingleCoverPlaque size="sm" />
+          <div className="text-center md:text-left">
+            <div className="mb-4 md:hidden">
+              <WithoutYouHereClipPlayer />
+            </div>
+            <p className="font-display italic text-2xl md:text-3xl text-foreground/90 leading-none mb-2">
+              Without You Here
+            </p>
+            <p className="font-body text-[10px] tracking-[0.24em] uppercase text-primary/40 mb-3">
+              Gannon Waye - original song
+            </p>
+            <div className="mt-4 hidden md:block">
+              <WithoutYouHereClipPlayer />
+            </div>
+          </div>
+        </div>
+        <p className="font-display mt-4 text-center text-lg italic leading-snug text-foreground/70 md:text-left">
+          "Your last breath took mine away. There's not much more I have to say."
+        </p>
+        <div className="text-center">
+          <a
+            href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 font-body text-[10px] tracking-wider font-semibold uppercase px-5 py-2 rounded-full transition-all hover:scale-105"
+            style={{
+              background: '#1DB954',
+              color: 'white',
+              boxShadow: '0 4px 14px rgba(29,185,84,0.3)',
+            }}
+          >
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="white" aria-hidden>
+              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+            </svg>
+            Stream on Spotify
+          </a>
+        </div>
+        <p className="font-body text-[9px] mt-5 text-center italic" style={{ color: 'rgba(212,175,55,0.26)' }}>
+          Internal preview plays 3:46 to 4:35.
+        </p>
+      </div>
+    </motion.aside>
+  );
+}
+
+export default function SoniaAmbientPlayer({ showWithoutYouHere = true } = {}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -187,20 +422,20 @@ export default function SoniaAmbientPlayer() {
       {/* Section intro */}
       <div className="text-center mb-10">
         <p className="font-body text-[9px] tracking-[0.6em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.32)' }}>
-          His Voice · Her Request
+          His Voice - Her Request
         </p>
         <h3 className="font-display text-2xl md:text-3xl text-foreground/80 mb-2">
           Songs Sung for Sonia
         </h3>
         <p className="font-body text-xs max-w-xs mx-auto leading-relaxed" style={{ color: 'rgba(245,235,200,0.35)' }}>
-          These recordings were made live — no studio, no rehearsal. Just love, and a promise kept.
+          These recordings were made live - no studio, no rehearsal. Just love, and a promise kept.
         </p>
       </div>
 
       {/* Ambient note */}
       <div className="text-center mb-8">
         <p className="font-body text-[8px] tracking-[0.3em] uppercase" style={{ color: 'rgba(212,175,55,0.22)' }}>
-          ♪ Play softly · Let them fill the room
+          Play softly - Let them fill the room
         </p>
       </div>
 
@@ -211,6 +446,7 @@ export default function SoniaAmbientPlayer() {
       </div>
 
       {/* Without You Here release note */}
+      {showWithoutYouHere && (
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -229,8 +465,9 @@ export default function SoniaAmbientPlayer() {
           Without You Here
         </p>
         <p className="font-body text-xs mb-4" style={{ color: 'rgba(212,175,55,0.30)' }}>
-          Gannon Waye — Original Song
+          Gannon Waye - Original Song
         </p>
+        <WithoutYouHereClipPlayer />
         <a
           href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz"
           target="_blank"
@@ -248,9 +485,10 @@ export default function SoniaAmbientPlayer() {
           Stream on Spotify
         </a>
         <p className="font-body text-[9px] mt-5 italic" style={{ color: 'rgba(212,175,55,0.22)' }}>
-          You're My Mum — coming soon · Written 2016, reborn for her
+          You're My Mum - coming soon - Written 2016, reborn for her
         </p>
       </motion.div>
+      )}
     </motion.div>
   );
 }

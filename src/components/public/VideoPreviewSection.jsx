@@ -19,13 +19,13 @@ export default function VideoPreviewSection() {
   if (featured.length === 0) return null;
 
   return (
-    <section className="py-16 md:py-24 px-4 md:px-6">
+    <section className="py-12 md:py-10 md:py-12 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-left mb-8"
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Social</p>
           <h2 className="font-display text-3xl md:text-5xl text-foreground">Latest Videos</h2>
@@ -48,7 +48,7 @@ export default function VideoPreviewSection() {
           ))}
         </div>
 
-        <div className="text-center mt-10">
+        <div className="text-left mt-8">
           <Link to="/videos">
             <Button variant="outline" className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase border-foreground/20">
               View All Videos <ArrowRight className="w-4 h-4 ml-2" />

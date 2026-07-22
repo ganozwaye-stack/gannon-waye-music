@@ -24,11 +24,11 @@ export default function FanHighlightCommunity() {
   const [selectedItem, setSelectedItem] = useState(null);
 
   return (
-    <section className="py-20 md:py-28 px-4 md:px-6 relative overflow-hidden">
+    <section className="py-12 md:py-14 px-4 md:px-6 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-6xl mx-auto relative z-10">
@@ -37,7 +37,7 @@ export default function FanHighlightCommunity() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-10"
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Community Spotlight</p>
           <h2 className="font-display text-4xl md:text-5xl text-foreground mb-4">Fan Highlight Wall</h2>
@@ -90,7 +90,7 @@ export default function FanHighlightCommunity() {
                     <div>
                       <div className="flex items-center gap-2 mb-3">
                         <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
-                          <span className="font-display text-xs text-primary">
+                          <span className="font-display text-xs text-foreground">
                             {item.author_name?.[0]?.toUpperCase() || '?'}
                           </span>
                         </div>
@@ -142,15 +142,15 @@ export default function FanHighlightCommunity() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="bg-card border border-accent/20 rounded-2xl p-6 text-center"
+            className="bg-card border border-primary/20 rounded-2xl p-6 text-center"
           >
-            <ImageIcon className="w-8 h-8 text-accent mx-auto mb-2" />
+            <ImageIcon className="w-8 h-8 text-primary mx-auto mb-2" />
             <p className="font-body text-foreground/70 mb-2">View Full Gallery</p>
             <p className="font-body text-sm text-muted-foreground mb-4">
               Browse all community portraits in our dedicated gallery.
             </p>
             <Link to="/portrait-gallery">
-              <Button variant="outline" className="rounded-full gap-2 font-body text-sm tracking-wider uppercase w-full border-accent/40 text-accent hover:bg-accent/10">
+              <Button className="rounded-full gap-2 font-body text-sm tracking-wider uppercase w-full gradient-gold-button border-0">
                 View Portraits <ArrowRight className="w-4 h-4" />
               </Button>
             </Link>
@@ -190,7 +190,7 @@ export default function FanHighlightCommunity() {
               <div className="p-6 overflow-y-auto flex-1">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                    <span className="font-display text-xs text-primary">
+                    <span className="font-display text-xs text-foreground">
                       {selectedItem.author_name?.[0]?.toUpperCase() || '?'}
                     </span>
                   </div>

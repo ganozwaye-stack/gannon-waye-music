@@ -1,65 +1,64 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Gift, Lock } from 'lucide-react';
-import SingleCoverPlaque from './SingleCoverPlaque';
+import { Lock } from 'lucide-react';
 
-// "Without You Here" — approved hooks & signature lines only (full lyrics hidden until release)
+// "Without You Here" - approved hooks & signature lines only (full lyrics hidden until release)
 const LYRIC_HOOKS = [
   {
     id: 1,
     text: "I don't wanna live this life without you here\nI never thought the world could feel this wrong",
     type: 'hook',
     size: 'large',
-    label: '✦ Chorus Hook',
+    label: 'Chorus hook',
   },
   {
     id: 2,
     text: "Cause you were the voice\nthat made my troubles disappear",
     type: 'verse',
     size: 'medium',
-    label: '· Verse',
+    label: 'Verse',
   },
   {
     id: 3,
     text: "Without You Here",
     type: 'signature',
     size: 'signature',
-    label: '♥ Signature',
+    label: 'Signature',
   },
   {
     id: 4,
     text: "And now there's silence\nwhere your wisdom used to be",
     type: 'verse',
     size: 'medium',
-    label: '· Verse',
+    label: 'Verse',
   },
   {
     id: 5,
     text: "You were my best friend\nHow am I supposed to do this without you here?",
     type: 'bridge',
     size: 'large',
-    label: '◈ Bridge',
+    label: 'Bridge',
   },
   {
     id: 6,
     text: "Even while leaving,\nyou were still loving me.",
     type: 'bridge',
     size: 'medium',
-    label: '◈ Bridge',
+    label: 'Bridge',
   },
   {
     id: 7,
     text: "Mum",
     type: 'signature',
     size: 'signature',
-    label: '♥ Signature',
+    label: 'Signature',
   },
   {
     id: 8,
-    text: "Boy… you're not finished yet",
+    text: "Boy... you\'re not finished yet",
     type: 'hook',
     size: 'large',
-    label: '✦ Outro Hook',
+    label: 'Outro hook',
   },
 ];
 
@@ -91,7 +90,7 @@ const typeAccent = {
 
 export default function LyricQuoteWall() {
   const [hovered, setHovered] = useState(null);
-  const [giftOpen, setGiftOpen] = useState(false);
+  const [lyricsOpen, setLyricsOpen] = useState(false);
 
   return (
     <div className="max-w-5xl mx-auto px-4 md:px-8">
@@ -103,17 +102,14 @@ export default function LyricQuoteWall() {
         className="text-center mb-10"
       >
         <p className="font-body text-[9px] tracking-[0.6em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.32)' }}>
-          Without You Here · Gannon Waye
+          Without You Here - Gannon Waye
         </p>
         <h2 className="font-display text-3xl md:text-5xl text-foreground/85 mb-3">
           Words Written for Her
         </h2>
         <p className="font-body text-xs max-w-sm mx-auto" style={{ color: 'rgba(245,235,200,0.38)' }}>
-          The moments that cannot be unsaid — straight from the song.
+          The moments that cannot be unsaid - straight from the song.
         </p>
-        <div className="mt-6">
-          <SingleCoverPlaque size="sm" />
-        </div>
       </motion.div>
 
       {/* Quote wall grid */}
@@ -156,7 +152,7 @@ export default function LyricQuoteWall() {
                   fontStyle: quote.type === 'signature' ? 'italic' : 'normal',
                   fontSize: style.fontSize,
                   lineHeight: 1.4,
-                  color: quote.type === 'signature' ? 'rgba(245,208,110,0.70)' : 'rgba(245,235,210,0.72)',
+                  color: quote.type === 'signature' ? 'rgba(216,192,113,0.70)' : 'rgba(245,235,210,0.72)',
                   whiteSpace: 'pre-line',
                 }}
               >
@@ -169,7 +165,7 @@ export default function LyricQuoteWall() {
         })}
       </div>
 
-      {/* Gift-wrapped full lyrics — hidden until release */}
+      {/* Locked full lyrics - hidden until release */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -178,9 +174,9 @@ export default function LyricQuoteWall() {
         className="mt-14 flex flex-col items-center"
       >
         <AnimatePresence mode="wait">
-          {!giftOpen ? (
+          {!lyricsOpen ? (
             <motion.div
-              key="gift"
+              key="lyrics-locked"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 1.1, opacity: 0 }}
@@ -188,37 +184,37 @@ export default function LyricQuoteWall() {
               className="text-center"
             >
               <p className="font-body text-[9px] tracking-[0.4em] uppercase mb-4" style={{ color: 'rgba(212,175,55,0.30)' }}>
-                Full lyrics · Coming with the release
+                Full lyrics - Coming with the release
               </p>
               <motion.button
-                onClick={() => setGiftOpen(true)}
+                onClick={() => setLyricsOpen(true)}
                 whileHover={{ scale: 1.06 }}
                 whileTap={{ scale: 0.96 }}
                 className="relative flex flex-col items-center gap-3 group"
               >
-                {/* Gift box visual */}
-                <div className="relative" style={{ width: 100, height: 110 }}>
-                  {/* Bow */}
-                  <motion.div
-                    animate={{ rotate: [0, 5, -5, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                    className="absolute left-1/2 -translate-x-1/2 -top-5"
-                  >
-                    <div style={{ fontSize: '2.8rem' }}>🎁</div>
-                  </motion.div>
-                  {/* Glow */}
+                <div className="relative flex h-28 w-28 items-center justify-center">
                   <motion.div
                     className="absolute inset-0 rounded-full pointer-events-none"
-                    animate={{ opacity: [0.2, 0.5, 0.2] }}
-                    transition={{ duration: 2.5, repeat: Infinity }}
-                    style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.25) 0%, transparent 70%)', filter: 'blur(12px)' }}
+                    animate={{ opacity: [0.18, 0.46, 0.18], scale: [0.92, 1.08, 0.92] }}
+                    transition={{ duration: 2.8, repeat: Infinity }}
+                    style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.26) 0%, transparent 70%)', filter: 'blur(12px)' }}
                   />
+                  <div
+                    className="relative flex h-16 w-16 items-center justify-center rounded-full"
+                    style={{
+                      border: '1px solid rgba(212,175,55,0.42)',
+                      background: 'rgba(8,12,7,0.74)',
+                      boxShadow: '0 0 24px rgba(212,175,55,0.14), inset 0 0 18px rgba(212,175,55,0.06)',
+                    }}
+                  >
+                    <Lock className="h-6 w-6 text-primary/70" />
+                  </div>
                 </div>
                 <div className="mt-2">
-                  <p className="font-display italic text-lg" style={{ color: 'rgba(245,208,110,0.65)' }}>Unwrap the full song</p>
+                  <p className="font-display italic text-lg" style={{ color: 'rgba(216,192,113,0.65)' }}>Open the full song</p>
                   <p className="font-body text-[9px] tracking-[0.3em] uppercase mt-1" style={{ color: 'rgba(212,175,55,0.28)' }}>
                     <Lock className="inline w-3 h-3 mr-1" style={{ verticalAlign: 'middle' }} />
-                    Releasing soon — a gift from Gannon, for Sonia
+                    Sealed until release
                   </p>
                 </div>
               </motion.button>
@@ -236,9 +232,9 @@ export default function LyricQuoteWall() {
                 style={{ background: 'rgba(8,14,8,0.75)', border: '1px solid rgba(212,175,55,0.18)', backdropFilter: 'blur(24px)' }}
               >
                 <div className="text-center mb-6">
-                  <span style={{ fontSize: '2rem' }}>🎁</span>
-                  <p className="font-display italic text-xl mt-2" style={{ color: 'rgba(245,208,110,0.65)' }}>Without You Here</p>
-                  <p className="font-body text-[9px] tracking-[0.4em] uppercase mt-1" style={{ color: 'rgba(212,175,55,0.28)' }}>Full lyrics · Preview · © Gannon Waye 2026</p>
+                  <Lock className="mx-auto h-7 w-7 text-primary/60" />
+                  <p className="font-display italic text-xl mt-2" style={{ color: 'rgba(216,192,113,0.65)' }}>Without You Here</p>
+                  <p className="font-body text-[9px] tracking-[0.4em] uppercase mt-1" style={{ color: 'rgba(212,175,55,0.28)' }}>Full lyrics preview - (c) Gannon Waye 2026</p>
                 </div>
                 <pre className="font-display text-sm italic leading-loose whitespace-pre-wrap" style={{ color: 'rgba(245,235,210,0.62)' }}>
 {`I don't wanna live this life without you here
@@ -260,18 +256,18 @@ But somehow I know I have to
 Cause every part of me that survives this,
 will survive because of you.
 
-"Boy… you're not finished yet"`}
+"Boy... you're not finished yet"`}
                 </pre>
                 <p className="text-center font-body text-[9px] tracking-[0.4em] uppercase mt-6" style={{ color: 'rgba(212,175,55,0.20)' }}>
-                  Full lyrics available on release · © Gannon Waye · All rights reserved
+                  Full lyrics available on release - (c) Gannon Waye - All rights reserved
                 </p>
               </div>
               <button
-                onClick={() => setGiftOpen(false)}
+                onClick={() => setLyricsOpen(false)}
                 className="mt-4 mx-auto block font-body text-[9px] tracking-[0.3em] uppercase"
                 style={{ color: 'rgba(212,175,55,0.28)' }}
               >
-                Close ✕
+                Close
               </button>
             </motion.div>
           )}
@@ -286,7 +282,7 @@ will survive because of you.
         className="text-center mt-10 font-body text-[9px] tracking-[0.3em] uppercase italic"
         style={{ color: 'rgba(212,175,55,0.18)' }}
       >
-        Without You Here · © Gannon Waye · All rights reserved
+        Without You Here - (c) Gannon Waye - All rights reserved
       </motion.p>
     </div>
   );

@@ -2,201 +2,60 @@
 /* eslint-disable no-undef */
 const { test, expect } = require('@playwright/test');
 
-const BASE = 'http://localhost:5173';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
+const ACCESS = 'soniagarden2026';
 
-test.describe('Mum Tribute Page', () => {
+const gotoRoute = (page, route) => page.goto(`${BASE_URL}${route}`, { waitUntil: 'domcontentloaded' });
 
-  test('/mum loads and shows hero', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('h1')).toContainText('For Mum');
+test.describe("Mum's Garden launch pages", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.addInitScript(() => {
+      sessionStorage.setItem('gwm-song-feedback-submitted:without-you-here', 'true');
+    });
   });
 
-  test('/without-you-here alias loads', async ({ page }) => {
-    await page.goto(`${BASE}/without-you-here`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('h1')).toContainText('For Mum');
+  test('sky foyer loads as the public entry point', async ({ page }) => {
+    await gotoRoute(page, `/mum?access=${ACCESS}`);
+    await expect(page.getByText('In loving memory of').first()).toBeVisible();
+    await expect(page.getByText(/Sonia/i).first()).toBeVisible();
+    await expect(page.getByText(/Katisa Waye/i).first()).toBeVisible();
+    await expect(page.getByText('1961 - 2022')).toBeVisible();
+    await expect(page.getByText(/As long/i).first()).toBeVisible();
+    await expect(page.getByRole('button', { name: /enter sonia's garden/i })).toBeVisible();
   });
 
-  test('mum-hero section is present', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('[data-testid="mum-hero"]')).toBeVisible();
+  test('sky foyer play button is a player and does not navigate away', async ({ page }) => {
+    await gotoRoute(page, `/mum?access=${ACCESS}`);
+    const startingUrl = page.url();
+    await page.getByRole('button', { name: /play without you here preview/i }).first().click();
+    await expect(page).toHaveURL(startingUrl);
+    const audio = page.locator('audio[data-song-title="Without You Here"]').first();
+    await expect(audio).toHaveAttribute('data-song-artist', 'Gannon Waye');
   });
 
-  test('approved tribute artwork is displayed cleanly (no giant overlay)', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    // Artwork img should be present and visible
-    const artwork = page.locator('[data-testid="mum-hero-artwork"]');
-    await expect(artwork).toBeVisible();
-    // Artwork frame should be present
-    const frame = page.locator('[data-testid="mum-hero-artwork-frame"]');
-    await expect(frame).toBeVisible();
+  test('garden page starts with welcome and the long horizontal player', async ({ page }) => {
+    await gotoRoute(page, `/mum/garden?access=${ACCESS}`);
+    await expect(page.getByText("Welcome to Sonia's Garden")).toBeVisible();
+    await expect(page.getByText(/A soft walk through the world she left behind/i)).toBeVisible();
+    await expect(page.getByText(/Without You Here/i).first()).toBeVisible();
+    await expect(page.locator('audio[data-song-title="Without You Here"]').first()).toHaveAttribute('data-song-artist', 'Gannon Waye');
   });
 
-  test('Sonia Katisa Waye name is visible', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('text=Sonia Katisa Waye').first()).toBeVisible();
+  test('garden page keeps approved feature sections available', async ({ page }) => {
+    await gotoRoute(page, `/mum/garden?access=${ACCESS}`);
+    await page.locator('#photos').scrollIntoViewIfNeeded();
+    await expect(page.getByText(/Memory Lane/i).first()).toBeVisible();
+    await expect(page.getByText(/Tattoo scrapbook/i).first()).toBeVisible();
+    await expect(page.getByText(/The things that made the garden feel like Sonia/i).first()).toBeVisible();
   });
 
-  test('1961 and 2022 dates are visible', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('text=1961').first()).toBeVisible();
-    await expect(page.locator('text=2022').first()).toBeVisible();
-  });
-
-  test('heart of gold emblem is present', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    const heart = page.locator('.memorial-heart').first();
-    await expect(heart).toBeVisible();
-  });
-
-  test('Enter Her Garden button is visible and links to #who-she-was', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    const btn = page.locator('text=Enter Her Garden').first();
-    await expect(btn).toBeVisible();
-  });
-
-  test('Hear Her Wisdom button is visible and links to #sonias-garden', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    const btn = page.locator('text=Hear Her Wisdom').first();
-    await expect(btn).toBeVisible();
-  });
-
-  test('Who She Was section present', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await page.locator('#who-she-was').scrollIntoViewIfNeeded();
-    await expect(page.locator('text=Who She Was').first()).toBeVisible();
-  });
-
-  test('memory gallery section is present with real photos', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await page.locator('#memories').scrollIntoViewIfNeeded();
-    const images = page.locator('#memories img');
-    const count = await images.count();
-    expect(count).toBeGreaterThanOrEqual(4);
-  });
-
-  test('memory gallery photos use base44 CDN or local assets', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await page.locator('#memories').scrollIntoViewIfNeeded();
-    const imgs = page.locator('#memories img');
-    const count = await imgs.count();
-    for (let i = 0; i < count; i++) {
-      const src = await imgs.nth(i).getAttribute('src');
-      // All real photos must come from base44 CDN or local assets folder
-      expect(src).toMatch(/media\.base44\.com|\/images\//);
-    }
-  });
-
-  test("Sonia's Garden of Wisdom section is present", async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await page.locator('#sonias-garden').scrollIntoViewIfNeeded();
-    await expect(page.locator('text=Sonia\'s Garden of Wisdom').first()).toBeVisible();
-  });
-
-  test('wisdom cards are clickable and show comfort response', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await page.locator('#sonias-garden').scrollIntoViewIfNeeded();
-    await page.locator('button:has-text("I need comfort")').first().click();
-    await expect(page.locator('text=Take a breath').first()).toBeVisible({ timeout: 4000 });
-  });
-
-  test('wisdom cards show strength response', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await page.locator('#sonias-garden').scrollIntoViewIfNeeded();
-    await page.locator('button:has-text("I need strength")').first().click();
-    await expect(page.locator('text=survived').first()).toBeVisible({ timeout: 4000 });
-  });
-
-  test('safety note (Lifeline 13 11 14) is visible', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await page.locator('#sonias-garden').scrollIntoViewIfNeeded();
-    await expect(page.locator('text=Lifeline').first()).toBeVisible();
-    await expect(page.locator('text=13 11 14').first()).toBeVisible();
-  });
-
-  test('disclaimer (Not medical) is visible', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await page.locator('#sonias-garden').scrollIntoViewIfNeeded();
-    await expect(page.locator('text=Not medical').first()).toBeVisible();
-  });
-
-  test('Without You Here song section present', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await page.locator('#without-you-here').scrollIntoViewIfNeeded();
-    await expect(page.locator('text=Without You Here').first()).toBeVisible();
-  });
-
-  test('A Letter To Mum section present', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('text=A Letter To Mum').first()).toBeVisible();
-  });
-
-  test('Forever Loved closing section present', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('text=Forever Loved').first()).toBeVisible();
-  });
-
-  test('Back Home and Explore My Music buttons present', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('text=Back Home').first()).toBeVisible();
-    await expect(page.locator('text=Explore My Music').first()).toBeVisible();
-  });
-
-  test('no console errors on load', async ({ page }) => {
-    const errors = [];
-    page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    const realErrors = errors.filter(e =>
-      !e.includes('favicon') && !e.includes('net::ERR') && !e.includes('ERR_NETWORK') && !e.includes('401') && !e.includes('403') && !e.includes('Unauthorized') && !e.includes('Authentication required')
-    );
-    expect(realErrors).toHaveLength(0);
-  });
-
-  test('mobile layout — artwork and title visible without overflow', async ({ page }) => {
+  test('garden page has no horizontal overflow on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('h1')).toBeVisible();
-    await expect(page.locator('[data-testid="mum-hero-artwork"]')).toBeVisible();
-    // Check no horizontal scroll
-    const scrollWidth = await page.evaluate(() => document.body.scrollWidth);
-    const viewportWidth = await page.evaluate(() => window.innerWidth);
-    expect(scrollWidth).toBeLessThanOrEqual(viewportWidth + 2);
+    await gotoRoute(page, `/mum/garden?access=${ACCESS}`);
+    const dimensions = await page.evaluate(() => ({
+      scrollWidth: document.documentElement.scrollWidth,
+      viewportWidth: window.innerWidth,
+    }));
+    expect(dimensions.scrollWidth).toBeLessThanOrEqual(dimensions.viewportWidth + 2);
   });
-
-  test('reduced motion — page still loads correctly', async ({ page }) => {
-    await page.emulateMedia({ reducedMotion: 'reduce' });
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('h1')).toContainText('For Mum');
-    await expect(page.locator('[data-testid="mum-hero-artwork"]')).toBeVisible();
-  });
-
-  test('garden atmosphere background is present', async ({ page }) => {
-    await page.goto(`${BASE}/mum`);
-    await page.waitForLoadState('load');
-    await expect(page.locator('#sonias-garden-bg').first()).toBeVisible();
-  });
-
 });

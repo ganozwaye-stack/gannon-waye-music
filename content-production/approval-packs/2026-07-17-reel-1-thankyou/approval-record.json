@@ -1,0 +1,27 @@
+{
+  "agent_name": "Codex",
+  "action_title": "[Approval Pack] Reel 1 Thank You - Instagram Reels",
+  "action_description": "Review-only social asset pack for the Thank You emotional engagement reel. No publish action is included.",
+  "risk_type": ["publishing", "brand"],
+  "risk_level": "medium",
+  "status": "pending",
+  "auto_eligible": false,
+  "escalate_to_professional": false,
+  "tags": ["social_post", "instagram_reels", "thank_you", "approval_pack", "review_only"],
+  "payload": {
+    "source_campaign": "thank_you_june5_sprint",
+    "source_content_calendar_post_id": "6a58c7f3de862d4b377902f0",
+    "source_approval_queue_id": "6a58c7f35927e36b0de24dd7",
+    "platform": "instagram_reels",
+    "publish_action_allowed": false,
+    "metricool_ready": false,
+    "requires_gannon_caption_approval": true,
+    "requires_gannon_visual_approval": true,
+    "requires_gannon_audio_timestamp_approval": true
+  },
+  "proposed_output": "Create a review-only vertical Reel using the verified Thank You banner, cover, and reveal audio source. Keep Metricool and platform scheduling disabled until approved.",
+  "final_output": null,
+  "decision_note": null,
+  "decided_by": null,
+  "decided_at": null
+}

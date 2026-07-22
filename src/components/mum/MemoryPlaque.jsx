@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// A garden memory plaque — photo in a "frame" on a garden post
-// Used instead of a gallery grid — each photo feels like a stop on a journey
+// A garden memory plaque - photo in a "frame" on a garden post
+// Used instead of a gallery grid - each photo feels like a stop on a journey
 export default function MemoryPlaque({ photo, label, caption, align = 'center', delay = 0 }) {
   const [flipped, setFlipped] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   return (
     <motion.div
@@ -43,11 +44,12 @@ export default function MemoryPlaque({ photo, label, caption, align = 'center', 
           }}
         >
           <AnimatePresence mode="wait">
-            {!flipped ? (
+            {!flipped && !failed ? (
               <motion.img
                 key="photo"
                 src={photo}
                 alt={label}
+                onError={() => setFailed(true)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -60,15 +62,24 @@ export default function MemoryPlaque({ photo, label, caption, align = 'center', 
               />
             ) : (
               <motion.div
-                key="caption"
+                key={failed ? 'fallback' : 'caption'}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
-                className="w-full h-full flex items-center justify-center p-5 text-center"
-                style={{ background: 'rgba(3,6,3,0.97)' }}
+                className="w-full h-full flex flex-col items-center justify-center p-5 text-center"
+                style={{
+                  background: failed
+                    ? 'radial-gradient(circle at 50% 20%, rgba(212,175,55,0.16), rgba(3,6,3,0.97) 62%)'
+                    : 'rgba(3,6,3,0.97)'
+                }}
               >
-                <p className="font-display italic text-base leading-relaxed" style={{ color: 'rgba(245,208,110,0.7)' }}>
+                {failed && (
+                  <p className="font-body text-[9px] tracking-[0.28em] uppercase mb-3" style={{ color: 'rgba(216,192,113,0.52)' }}>
+                    Memory Held
+                  </p>
+                )}
+                <p className="font-display italic text-base leading-relaxed" style={{ color: 'rgba(216,192,113,0.7)' }}>
                   "{caption}"
                 </p>
               </motion.div>
@@ -91,7 +102,7 @@ export default function MemoryPlaque({ photo, label, caption, align = 'center', 
               fontSize: 10, color: 'rgba(212,175,55,0.4)',
               fontFamily: 'var(--font-body)',
               letterSpacing: '0.1em',
-            }}>tap ↩</div>
+            }}>tap</div>
           )}
         </motion.div>
 

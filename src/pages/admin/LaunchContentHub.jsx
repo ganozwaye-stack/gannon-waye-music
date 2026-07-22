@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,17 +10,16 @@ import { Switch } from '@/components/ui/switch';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
-import { 
-  Flame, Megaphone, Zap, Radio, Clock, ShieldAlert, ShieldCheck, 
-  AlertTriangle, RefreshCw, Send, Volume2, Video, Key, Calendar, 
-  HelpCircle, Link as LinkIcon, AlertCircle, Play, Pause, Save, CheckCircle
+import {
+  Flame, Radio, Clock, ShieldAlert, ShieldCheck,
+  AlertTriangle, RefreshCw, Send, Volume2, Video, Link as LinkIcon, AlertCircle, CheckCircle
 } from 'lucide-react';
 
 export default function LaunchContentHub() {
   const { toast } = useToast();
   const qc = useQueryClient();
   const [activeTab, setActiveTab] = useState('war-room');
-  
+
   // War room panic states
   const [maintenanceMode, setMaintenanceMode] = useState(false);
   const [pauseStore, setPauseStore] = useState(false);
@@ -33,7 +32,7 @@ export default function LaunchContentHub() {
   const [tiktokConnected, setTiktokConnected] = useState(false);
   const [streamTopic, setStreamTopic] = useState('THANKYOU Release Chat & Story Q&A');
   const [manualTimestamps, setManualTimestamps] = useState([]);
-  
+
   // AI Brand Guardian inputs
   const [guardianText, setGuardianText] = useState('');
   const [guardianLink, setGuardianLink] = useState('https://gannonwaye.com/store');
@@ -77,12 +76,12 @@ export default function LaunchContentHub() {
   const runGuardianCheck = () => {
     const issues = [];
     const text = guardianText;
-    
+
     // Spelling checks
     if (text.toLowerCase().includes('thank you') && !text.includes('THANKYOU')) {
       issues.push('Spelling violation: Brand guide mandates exact capitalised spelling "THANKYOU" for CTA/Titles.');
     }
-    
+
     // Prohibited legal assertions
     if (text.toLowerCase().includes('tax-deductible') || text.toLowerCase().includes('tax deductible')) {
       issues.push('Legal Violation: Prohibited assertion "tax-deductible" detected for support tiers.');
@@ -306,10 +305,10 @@ export default function LaunchContentHub() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label className="text-xs text-white">Caption / Hook Content Text</Label>
-                  <Textarea 
-                    value={guardianText} 
-                    onChange={e => setGuardianText(e.target.value)} 
-                    placeholder="Paste draft post copy here..." 
+                  <Textarea
+                    value={guardianText}
+                    onChange={e => setGuardianText(e.target.value)}
+                    placeholder="Paste draft post copy here..."
                     rows={6}
                     className="bg-secondary/40 text-sm border-border/40"
                   />
@@ -317,10 +316,10 @@ export default function LaunchContentHub() {
 
                 <div className="space-y-2">
                   <Label className="text-xs text-white">Call-To-Action Link</Label>
-                  <Input 
-                    value={guardianLink} 
-                    onChange={e => setGuardianLink(e.target.value)} 
-                    placeholder="https://gannonwaye.com/..." 
+                  <Input
+                    value={guardianLink}
+                    onChange={e => setGuardianLink(e.target.value)}
+                    placeholder="https://gannonwaye.com/..."
                     className="bg-secondary/40 text-xs border-border/40"
                   />
                 </div>
@@ -397,8 +396,8 @@ export default function LaunchContentHub() {
                         <p className="text-[10px] text-muted-foreground">{item.notes}</p>
                       </div>
                       <div className="flex gap-2">
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           onClick={() => {
                             base44.entities.SocialAsset.update(item.id, { status: 'ready' })
                               .then(() => {
@@ -410,9 +409,9 @@ export default function LaunchContentHub() {
                         >
                           Approve
                         </Button>
-                        <Button 
-                          size="sm" 
-                          variant="ghost" 
+                        <Button
+                          size="sm"
+                          variant="ghost"
                           onClick={() => {
                             base44.entities.SocialAsset.update(item.id, { status: 'archived' })
                               .then(() => {

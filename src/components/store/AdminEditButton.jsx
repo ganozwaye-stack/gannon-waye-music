@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Pencil, ExternalLink } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import { useAuth } from '@/lib/AuthContext';
 
 /**

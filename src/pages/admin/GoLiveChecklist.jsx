@@ -21,7 +21,7 @@ const CHECKLIST = [
       { id: 'stripe_admin_notification', label: 'Admin notification fires on new order', status: 'todo', note: 'Verify admin alert appears in /admin/notifications after test purchase.' },
       { id: 'stripe_inventory_profit', label: 'Inventory decremented + profit calculated automatically', status: 'todo', note: 'Verify MerchProduct.stock_quantity decreased and StripeEventLog shows profit margin after test purchase.' },
       { id: 'stripe_tax', label: 'Tax settings reviewed (GST for AU)', status: 'done', note: 'Exempt: Current revenue is below $75,000 AUD threshold. No GST registration required at this stage.' },
-      { id: 'promo_codes_tested', label: 'Promo code validation tested live', status: 'done', note: 'LAUNCH15 (15% off) and THANKYOU10 (10% off) active and working ✓' },
+      { id: 'promo_codes_tested', label: 'Promo code validation tested live', status: 'review', note: 'Public launch codes are not currently active. Verify the current live Base44 codes before advertising any discount.' },
     ],
   },
   {

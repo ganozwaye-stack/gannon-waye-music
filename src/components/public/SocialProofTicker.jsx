@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Sparkles, X } from 'lucide-react';
 
+const MEMORIAL_PATHS = ['/mum', '/without-you-here'];
+
 export default function SocialProofTicker() {
   const [dismissed, setDismissed] = useState(false);
   const [index, setIndex] = useState(0);
+  const location = useLocation();
+  const isMemorialPage = MEMORIAL_PATHS.includes(location.pathname);
 
   const { data: subscribers = [] } = useQuery({
     queryKey: ['ticker-subs'],
@@ -38,7 +43,7 @@ export default function SocialProofTicker() {
     setDismissed(true);
   };
 
-  if (dismissed) return null;
+  if (dismissed || isMemorialPage) return null;
 
   return (
     <div className="fixed bottom-16 md:bottom-5 left-1/2 -translate-x-1/2 z-30 px-4 w-full max-w-sm pointer-events-none">

@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Shield, AlertTriangle, Zap, Lock, Activity, Server } from 'lucide-react';
+import { Shield, Lock, Activity, Server } from 'lucide-react';
 import { SectionCard, RowItem, LoadingState, EmptyState, StatusBadge, IncidentCard, CrewCard } from '@/components/admin-v3/shared/SharedComponents';
-import { groupIncidents, AGENT_CREW_NAMES, CREW_PURPOSES } from '@/lib/adminV3Adapters';
-import { calcSystemHealth, calcAgentStatus } from '@/lib/adminV3Metrics';
+import { groupIncidents, AGENT_CREW_NAMES } from '@/lib/adminV3Adapters';
+import { calcSystemHealth } from '@/lib/adminV3Metrics';
 
 export default function SystemsApprovals() {
   const { data: approvalQueue = [], isLoading } = useQuery({

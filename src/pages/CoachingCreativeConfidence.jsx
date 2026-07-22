@@ -97,8 +97,8 @@ export default function CoachingCreativeConfidence() {
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <h2 className="font-display text-3xl text-foreground italic mb-2">Creative Confidence Mentoring</h2>
             <p className="font-body text-xs text-muted-foreground mb-1">60 minutes · Zoom or phone · Ongoing pathway available</p>
-            <div className="inline-block bg-yellow-500/10 border border-yellow-500/30 rounded-full px-4 py-1.5 mb-6">
-              <p className="font-body text-xs text-yellow-400">⚠ Price pending — Gannon to confirm before publishing</p>
+            <div className="inline-block bg-primary/10 border border-primary/30 rounded-full px-4 py-1.5 mb-6">
+              <p className="font-body text-xs text-primary">⚠ Price pending — Gannon to confirm before publishing</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Link to="/coaching/intake">

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import PhoneNumberSetup from '@/components/phone/PhoneNumberSetup';
 import ProviderOptions from '@/components/phone/ProviderOptions';
@@ -8,7 +8,7 @@ import CallLogs from '@/components/phone/CallLogs';
 import SmsDrafts from '@/components/phone/SmsDrafts';
 import LeadSources from '@/components/phone/LeadSources';
 import PhoneActionRequired from '@/components/phone/PhoneActionRequired';
-import { Phone, Users, FileText, MessageSquare, MapPin, AlertTriangle, BookOpen, PhoneCall } from 'lucide-react';
+import { Phone, Users, MessageSquare, MapPin, AlertTriangle, BookOpen, PhoneCall } from 'lucide-react';
 
 const TABS = [
   { id: 'setup', label: 'Number Setup', icon: Phone },

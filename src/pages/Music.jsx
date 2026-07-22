@@ -17,6 +17,8 @@ import MusicRecommendations from '@/components/public/MusicRecommendations';
 import TourTracker from '@/components/public/TourTracker';
 import FanPlaylists from '@/components/public/FanPlaylists';
 import LyricsHighlights from '@/components/public/LyricsHighlights';
+import { WITHOUT_YOU_HERE_COVER, getReleaseArtwork } from '@/config/releaseAssets';
+import { WITHOUT_YOU_HERE_RELEASE_DATE } from '@/config/releaseSchedule';
 
 // Clean gold glow banner — blends into dark background on Music page
 const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
@@ -96,7 +98,8 @@ export default function Music() {
       is_featured_new: true,
       description: 'Written in the loungeroom, in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did. This is the most honest Gannon has ever been in his music.',
       credits: 'Written & Performed by Gannon Waye · Produced by Will Henderson · Mother\'s Day 2026',
-      artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
+      artwork_url: WITHOUT_YOU_HERE_COVER,
+      release_date: WITHOUT_YOU_HERE_RELEASE_DATE,
     }]),
     ...releases.filter(r => r.is_published),
   ];
@@ -179,9 +182,9 @@ export default function Music() {
                 className="group grid grid-cols-1 md:grid-cols-[280px_1fr] gap-0 bg-card border border-border/40 rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-500"
               >
                 <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden relative">
-                  {release.title === 'Thank You' || release.artwork_url ? (
+                  {release.title === 'Thank You' || getReleaseArtwork(release) ? (
                     <img
-                      src={release.title === 'Thank You' ? THANK_YOU_COVER : release.artwork_url}
+                      src={release.title === 'Thank You' ? THANK_YOU_COVER : getReleaseArtwork(release)}
                       alt={release.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />

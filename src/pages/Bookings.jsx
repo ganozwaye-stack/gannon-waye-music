@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
-import { Upload, Music, Mic, Calendar, Users, FileText, Link as LinkIcon, Send, Heart, Sparkles, Clock, Shield, Star } from 'lucide-react';
+import { Upload, Music, Mic, Calendar, Users, FileText, Link as LinkIcon, Send, Heart, Sparkles, Clock, Shield } from 'lucide-react';
 import VoiceTextarea from '@/components/ui/VoiceTextarea';
 import { createBookingEnquiry } from '@/lib/bookingSystem';
 

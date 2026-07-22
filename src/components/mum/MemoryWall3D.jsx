@@ -4,15 +4,15 @@ import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PHOTOS = [
   // Me & Mum
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/8fe42604b_CopyofIMG_5326.jpg', caption: 'Gannon & Sonia — two of a kind, always', category: 'Me & Mum', featured: true },
+  { url: '/images/mum-gallery/8fe42604b_CopyofIMG_5326.jpg', caption: 'Gannon & Sonia — two of a kind, always', category: 'Me & Mum', featured: true },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0dd386db9_IMG_5681.jpg', caption: 'Side by side — home was wherever she was', category: 'Me & Mum', featured: true },
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1ddea2586_CopyofIMG_5327.jpg', caption: 'A love so simple it felt like breathing', category: 'Me & Mum' },
+  { url: '/images/mum-gallery/1ddea2586_CopyofIMG_5327.jpg', caption: 'A love so simple it felt like breathing', category: 'Me & Mum' },
   // Her
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dc8919b4b_IMG_5624.png', caption: 'Sonia Katisa Waye — this is her', category: 'Her', featured: true },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e141f17cb_CopyofIMG_5599.JPG', caption: 'That smile. Once seen, never forgotten.', category: 'Her', featured: true },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/25ab2bda2_CopyofIMG_5493.JPG', caption: 'She had a way of looking at you like you mattered', category: 'Her' },
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/173717f01_CopyofIMG_5440.jpg', caption: 'A coffee, the sun, and Sonia — perfect morning', category: 'Her' },
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6101f75c0_CopyofIMG_5449.jpg', caption: 'Joy in the simplest things', category: 'Her' },
+  { url: '/images/mum-gallery/173717f01_CopyofIMG_5440.jpg', caption: 'A coffee, the sun, and Sonia — perfect morning', category: 'Her' },
+  { url: '/images/mum-gallery/6101f75c0_CopyofIMG_5449.jpg', caption: 'Joy in the simplest things', category: 'Her' },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/8b2d006fe_CopyofIMG_5501.jpg', caption: 'Her world was wherever she planted herself', category: 'Her' },
   // Her Humour
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fe33da01b_IMG_5732.jpg', caption: '"Best Company" — she always was', category: 'Her Humour', featured: true },
@@ -20,7 +20,7 @@ const PHOTOS = [
   // Family
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5544e4f02_5F77A0A5-95B5-4AFC-9BD0-9AAF81AB32DC.jpg', caption: 'The whole family — the way she always wanted it', category: 'Family', featured: true },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d5b3ed6ae_CopyofIMG_5464.jpg', caption: 'She carried the family — all of it, always', category: 'Family' },
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c6dfcbbd2_CopyofIMG_5500.png', caption: 'Family gatherings — her favourite place to be', category: 'Family' },
+  { url: null, caption: 'Family gatherings — her favourite place to be', category: 'Family' },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/7b5464e8c_CopyofIMG_5519.jpg', caption: 'Old times — when music filled every backyard', category: 'Family' },
   { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/af1ae71b5_CopyofIMG_5551.jpg', caption: 'She raised love — not just children', category: 'Family' },
   // Her Animals
@@ -45,10 +45,32 @@ const PHOTOS = [
 
 const CATEGORIES = ['All', 'Me & Mum', 'Her', 'Her Humour', 'Family', 'Her Animals', 'Carrying Her', 'Her Flowers', 'Her Words', 'Old Days'];
 
+function MemoryImageFallback({ caption, category, compact = false }) {
+  return (
+    <div
+      className={`w-full ${compact ? 'min-h-[260px]' : 'min-h-[360px]'} flex flex-col items-center justify-center p-6 text-center`}
+      style={{
+        background: 'radial-gradient(circle at 50% 18%, rgba(212,175,55,0.18), rgba(3,6,3,0.96) 62%)',
+      }}
+    >
+      <p className="font-body text-[9px] tracking-[0.28em] uppercase text-primary/55 mb-3">
+        Memory Held
+      </p>
+      <p className="font-display italic text-lg leading-relaxed text-primary/75">
+        "{caption}"
+      </p>
+      {category && (
+        <p className="font-body text-[9px] tracking-widest uppercase text-primary/40 mt-4">{category}</p>
+      )}
+    </div>
+  );
+}
+
 // 3D-tilt card
 function MemoryCard({ photo, index, onClick }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [hovered, setHovered] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -87,12 +109,17 @@ function MemoryCard({ photo, index, onClick }) {
         className="relative overflow-hidden rounded-xl border border-primary/10 bg-card/20"
         style={{ transformStyle: 'preserve-3d' }}
       >
-        <img
-          src={photo.url}
-          alt={photo.caption}
-          loading="lazy"
-          className="w-full h-auto object-cover"
-        />
+        {failed || !photo.url ? (
+          <MemoryImageFallback caption={photo.caption} category={photo.category} compact />
+        ) : (
+          <img
+            src={photo.url}
+            alt={photo.caption}
+            loading="lazy"
+            onError={() => setFailed(true)}
+            className="w-full h-auto object-cover"
+          />
+        )}
         {/* Caption overlay */}
         <motion.div
           animate={{ opacity: hovered ? 1 : 0 }}
@@ -147,12 +174,7 @@ function Lightbox({ photos, index, onClose }) {
         className="max-w-3xl max-h-[85vh] flex flex-col items-center gap-4"
         onClick={e => e.stopPropagation()}
       >
-        <img
-          src={photos[current].url}
-          alt={photos[current].caption}
-          className="max-h-[70vh] max-w-full object-contain rounded-xl shadow-2xl border border-primary/10"
-          loading="lazy"
-        />
+        <LightboxImage key={photos[current].url || photos[current].caption} photo={photos[current]} />
         <div className="text-center">
           <p className="font-body text-sm text-white/65 italic">{photos[current].caption}</p>
           {photos[current].category && (
@@ -220,5 +242,27 @@ export default function MemoryWall3D() {
         )}
       </AnimatePresence>
     </section>
+  );
+}
+
+function LightboxImage({ photo }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed || !photo.url) {
+    return (
+      <div className="w-[min(92vw,520px)] rounded-xl shadow-2xl border border-primary/10 overflow-hidden">
+        <MemoryImageFallback caption={photo.caption} category={photo.category} />
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={photo.url}
+      alt={photo.caption}
+      className="max-h-[70vh] max-w-full object-contain rounded-xl shadow-2xl border border-primary/10"
+      loading="lazy"
+      onError={() => setFailed(true)}
+    />
   );
 }

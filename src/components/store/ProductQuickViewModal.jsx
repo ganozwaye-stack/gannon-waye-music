@@ -29,13 +29,17 @@ export default function ProductQuickViewModal({ productId, onClose }) {
 
   const isSoldOut = product.status === 'sold_out';
   const isMemorial = product.status === 'memorial';
+  const selectedPrice = product.sizePriceMap?.[selectedSize] || product.priceValue || 0;
+  const displayPrice = product.sizePriceMap?.[selectedSize]
+    ? `$${product.sizePriceMap[selectedSize]}`
+    : product.price;
 
   const toggleAddon = (addonId) => {
     setSelectedAddons(prev => prev.includes(addonId) ? prev.filter(id => id !== addonId) : [...prev, addonId]);
   };
 
   const subtotal = !isSoldOut && !isMemorial
-    ? product.priceValue * qty + selectedAddons.reduce((sum, addonId) => {
+    ? selectedPrice * qty + selectedAddons.reduce((sum, addonId) => {
         const addon = STORE_ADDONS.find(a => a.id === addonId);
         return sum + (addon?.priceValue || 0);
       }, 0)
@@ -46,8 +50,8 @@ export default function ProductQuickViewModal({ productId, onClose }) {
     const productForCart = {
       id: product.id,
       name: product.name,
-      sale_price: product.priceValue,
-      price: product.priceValue,
+      sale_price: selectedPrice,
+      price: selectedPrice,
       image_url: product.images?.[0],
       excludeFromDiscounts: product.excludeFromDiscounts || false,
       category: product.category,
@@ -114,7 +118,7 @@ export default function ProductQuickViewModal({ productId, onClose }) {
             <p style={{ color: '#777', lineHeight: 1.7, fontSize: '13px', marginBottom: '16px' }}>{product.description}</p>
 
             <div style={{ color: isSoldOut ? '#e05555' : ACCENT, fontSize: '1.6rem', fontWeight: 800, marginBottom: '18px' }}>
-              {product.price}
+              {displayPrice}
               {product.priceNote && !isSoldOut && <span style={{ fontSize: '0.72rem', color: '#777', marginLeft: '8px' }}>{product.priceNote}</span>}
             </div>
 

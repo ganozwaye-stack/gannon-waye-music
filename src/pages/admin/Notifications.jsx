@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import {
   Bell, CheckCheck, ShoppingBag, MessageCircle, AlertTriangle, Zap, TrendingUp,
   Star, Mail, Eye, ChevronRight, RefreshCw,
-  CheckCircle2, Hash, ArrowLeft, ExternalLink
+  CheckCircle2, Hash, ArrowLeft
 } from 'lucide-react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';

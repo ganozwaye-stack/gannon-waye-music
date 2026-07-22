@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
-import { Copy, Send, Megaphone, CheckCircle2, Loader2, Heart, Users } from 'lucide-react';
+import { Copy, Send, Megaphone, CheckCircle2, Loader2, Users } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { Link } from 'react-router-dom';
 
