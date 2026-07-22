@@ -35,13 +35,21 @@ test.describe('Legacy public routes on the production build', () => {
       });
 
       const suffix = '?utm_source=legacy-route-test&campaign=without-you-here';
-      const response = await page.goto(expectedUrl(from, suffix), { waitUntil: 'domcontentloaded' });
+      const legacyUrl = expectedUrl(from, suffix);
+      const canonicalUrl = expectedUrl(to, suffix);
+      const response = await page.goto(legacyUrl, { waitUntil: 'domcontentloaded' });
 
       expect(response?.status()).toBeLessThan(400);
-      await expect(page).toHaveURL(expectedUrl(to, suffix));
+      await expect(page).toHaveURL(canonicalUrl);
       await expect(page.locator('body')).not.toContainText(NOT_FOUND_COPY);
       await expect(page.locator(landmark).first()).toBeVisible();
-      expect(navigations.length).toBeLessThanOrEqual(3);
+
+      const canonicalNavigationIndex = navigations.lastIndexOf(canonicalUrl);
+      expect(canonicalNavigationIndex).toBeGreaterThanOrEqual(0);
+
+      await page.waitForTimeout(500);
+      expect(page.url()).toBe(canonicalUrl);
+      expect(navigations.slice(canonicalNavigationIndex + 1)).not.toContain(legacyUrl);
       await context.close();
     });
   }
