@@ -66,7 +66,7 @@ const ALL_PAGES = [
   { label: 'Merch Platforms', route: '/admin/merch-platforms', category: 'Settings' },
   { label: 'Monthly Monitoring', route: '/admin/monthly-monitoring', category: 'Settings' },
   { label: 'Music Command', route: '/admin/music-command', category: 'Operations' },
-  { label: 'Newsletter', route: '/admin/newsletter', category: 'Community' },
+  { label: 'Subscriber Newsletter', route: '/admin/newsletter', category: 'Community' },
   { label: 'Notifications / BAC', route: '/admin/notifications', category: 'Executive' },
   { label: 'Offer Engine', route: '/admin/offer-engine', category: 'Commerce' },
   { label: 'Operation Registry', route: '/admin/operation-registry', category: 'Intelligence' },

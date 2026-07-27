@@ -302,7 +302,7 @@ export default function SoniaAmbientPlayer() {
           Follow Gannon Waye on Spotify
         </a>
         <p className="font-body text-[9px] mt-5 italic" style={{ color: 'rgba(212,175,55,0.26)' }}>
-          Spotify player appears here on release. For now, the memorial page uses Gannon's private timed preview.
+          Follow Gannon Waye on Spotify. The single link can be updated here when the release is live.
         </p>
         <p className="hidden font-body text-[9px] mt-5 italic" style={{ color: 'rgba(212,175,55,0.22)' }}>
           You're My Mum — coming soon · Written 2016, reborn for her

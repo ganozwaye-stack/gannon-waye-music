@@ -76,7 +76,7 @@ const MODULES = [
     items: [
       { label: 'Subscribers', path: '/admin/subscribers', desc: 'Email list management — supporters, VIPs, all segments', icon: Mail, level: 'essential' },
       { label: 'Fan Management', path: '/admin/fans', desc: 'Moderate community posts, approve/reject fan content', icon: Users, level: 'essential' },
-      { label: 'Newsletter', path: '/admin/newsletter', desc: 'Send emails to subscribers — release alerts, special offers', icon: Mail, level: 'essential' },
+      { label: 'Subscriber Newsletter', path: '/admin/newsletter', desc: 'Send emails to subscribers — release alerts, special offers', icon: Mail, level: 'essential' },
       { label: 'Birthday Discounts', path: '/admin/birthdays', desc: 'Automated birthday campaigns — 10% off for fans on their birthday', icon: Heart, level: 'standard' },
       { label: 'Gift Claims', path: '/admin/gift-claims', desc: 'Family hoodie gift claims — verification and fulfilment', icon: Heart, level: 'standard' },
       { label: 'Fan Media', path: '/admin/fan-media', desc: 'Fan-uploaded photos/videos — review and approve for community', icon: Video, level: 'standard' },

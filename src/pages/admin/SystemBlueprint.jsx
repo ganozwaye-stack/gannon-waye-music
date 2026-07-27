@@ -19,7 +19,7 @@ const PUBLIC_ROUTES = [
   { path: '/current-single', name: 'Current Single', description: '"Thank You" — behind story, lyrics, links' },
   { path: '/back-this', name: 'Back This', description: 'Fan support / subscription page' },
   { path: '/bookings', name: 'Bookings', description: 'Booking enquiry form' },
-  { path: '/about', name: 'About', description: 'Redirects to /this-is-my-life' },
+  { path: '/about', name: 'About', description: 'Artist profile page' },
   { path: '/this-is-my-life', name: 'This Is My Life', description: 'Artist story page' },
   { path: '/lyrics', name: 'Lyrics', description: 'All lyrics browser' },
   { path: '/faq', name: 'FAQ', description: 'Common questions' },
@@ -140,7 +140,7 @@ const ADMIN_SECTIONS = [
     routes: [
       { path: '/admin/fans', name: 'Fan Management' },
       { path: '/admin/subscribers', name: 'Subscribers' },
-      { path: '/admin/newsletter', name: 'Newsletter' },
+      { path: '/admin/newsletter', name: 'Subscriber Newsletter' },
       { path: '/admin/fan-media', name: 'Fan Media' },
       { path: '/admin/gift-claims', name: 'Gift Claims' },
       { path: '/admin/gift-progress', name: 'Gift Progress' },

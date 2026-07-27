@@ -116,7 +116,7 @@ export default function MusicFanHub() {
           <TabsTrigger value="crm" className="text-xs py-2"><Users className="w-3.5 h-3.5 mr-1 text-primary" /> CRM Registry</TabsTrigger>
           <TabsTrigger value="story-vault" className="text-xs py-2"><BookOpen className="w-3.5 h-3.5 mr-1 text-yellow-400" /> Story Vault</TabsTrigger>
           <TabsTrigger value="releases" className="text-xs py-2"><Music className="w-3.5 h-3.5 mr-1 text-green-400" /> Releases</TabsTrigger>
-          <TabsTrigger value="newsletter" className="text-xs py-2"><Mail className="w-3.5 h-3.5 mr-1 text-purple-400" /> Newsletter</TabsTrigger>
+          <TabsTrigger value="newsletter" className="text-xs py-2"><Mail className="w-3.5 h-3.5 mr-1 text-purple-400" /> Subscriber Newsletter</TabsTrigger>
           <TabsTrigger value="quick-links" className="text-xs py-2"><Send className="w-3.5 h-3.5 mr-1" /> All Fan Tools</TabsTrigger>
         </TabsList>
 
@@ -323,12 +323,12 @@ export default function MusicFanHub() {
         <TabsContent value="newsletter" className="space-y-6">
           <Card className="border-border/40">
             <CardHeader>
-              <CardTitle className="font-display text-lg text-white">Newsletter Engine</CardTitle>
+              <CardTitle className="font-display text-lg text-white">Subscriber Newsletter Engine</CardTitle>
               <CardDescription className="text-xs">Quick portal to send updates, release details, or merchandise offers directly to subscribers.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/newsletter'}>
-                <Mail className="w-4 h-4 mr-2 text-purple-400" /> Send a New Email Newsletter Campaign
+                <Mail className="w-4 h-4 mr-2 text-purple-400" /> Send a New Subscriber Newsletter Campaign
               </Button>
               <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/reveal-newsletter'}>
                 <Award className="w-4 h-4 mr-2 text-yellow-400" /> Draft Sonia Memorial Celebration Newsletter

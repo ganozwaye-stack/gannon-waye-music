@@ -57,6 +57,7 @@ export default function Footer() {
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Navigate</h4>
             <div className="flex flex-col gap-2">
               <Link to="/" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Home</Link>
+              <Link to="/about" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">About</Link>
               <Link to="/this-is-my-life" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">My Story</Link>
               <Link to="/music" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Music</Link>
               <Link to="/videos" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Videos</Link>
@@ -66,6 +67,7 @@ export default function Footer() {
               <Link to="/order-status" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Order Status</Link>
               <Link to="/7-day-standard" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">The 7 Day Standard</Link>
               <Link to="/current-single" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Current Single</Link>
+              <Link to="/current-single" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Without You Here</Link>
               <Link to="/mum" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Mum&apos;s Garden</Link>
               <Link to="/merch-feedback" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Merch Feedback</Link>
               <Link to="/back-this" className="font-body text-sm text-primary hover:text-primary/80 transition-colors">Back This Project 🤍</Link>
@@ -162,7 +164,7 @@ export default function Footer() {
             * Support contributions are direct-support gifts to Gannon Waye as an independent artist to fund album production, merchandise sampling, and system operations; they are not tax-deductible.
           </p>
           <p>
-            * The AI memorial reflective companion available on the tribute page (/mum) is configured as a comforting, gentle remembrance journal companion. It is not an active representation of Sonia, does not offer professional medical, legal, or grief counseling, and should not be used as a substitute for clinical therapy.
+            * Any memorial reflective companion remains private until the tribute area is approved for release. It is not an active representation of Sonia, does not offer professional medical, legal, or grief counseling, and should not be used as a substitute for clinical therapy.
           </p>
         </div>
 

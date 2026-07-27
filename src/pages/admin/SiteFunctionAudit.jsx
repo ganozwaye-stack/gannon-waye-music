@@ -70,7 +70,7 @@ const AUDIT_DATA = [
     pages: [
       { page: 'Fan Messages', route: '/admin/fans', status: 'Working', issues: 0, notes: 'Comment rows, approve/reject/reply all working.' },
       { page: 'Subscribers', route: '/admin/subscribers', status: 'Working', issues: 1, notes: 'Search and export work. Subscriber profile detail pending.' },
-      { page: 'Newsletter', route: '/admin/newsletter', status: 'Working', issues: 0, notes: 'Send newsletter and list display working.' },
+      { page: 'Subscriber Newsletter', route: '/admin/newsletter', status: 'Working', issues: 0, notes: 'Send subscriber newsletter and list display working.' },
       { page: 'Birthday Discounts', route: '/admin/birthdays', status: 'Working', issues: 0, notes: 'Birthday list and send discount working.' },
       { page: 'Fan Media', route: '/admin/fan-media', status: 'Working', issues: 0, notes: 'Media rows and approve/reject working.' },
       { page: 'Gift Claims', route: '/admin/gift-claims', status: 'Working', issues: 0, notes: 'Claim rows and verify flow working.' },

@@ -6,6 +6,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 
 const STATIC_PAGES = [
+  { label: 'About', path: '/about', icon: BookOpen, description: 'About Gannon Waye Music and the independent artist building it' },
   { label: 'My Story', path: '/this-is-my-life', icon: BookOpen, description: 'About Gannon — ten-episode life series' },
   { label: 'Community', path: '/community', icon: Users, description: 'Fan messages and connection' },
   { label: 'Back This Project', path: '/back-this', icon: Heart, description: 'Support the music directly' },

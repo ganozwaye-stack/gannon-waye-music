@@ -280,7 +280,7 @@ export default function IntelligenceToIncome() {
           {[
             { rank: 1, action: 'Approve pending bundle offer proposals', where: 'Revenue Actions', route: '/admin/revenue-actions', speed: 'Today', income: 'Direct sales' },
             { rank: 2, action: 'Upload TikTok draft → creator publishes → viral discovery', where: 'TikTok Platform Review', route: '/tiktok-platform-review', speed: 'This week', income: 'Store traffic + sales' },
-            { rank: 3, action: 'Activate a limited-time merch offer for email list', where: 'Newsletter', route: '/admin/newsletter', speed: 'This week', income: 'Existing list conversion' },
+            { rank: 3, action: 'Activate a limited-time merch offer for email list', where: 'Subscriber Newsletter', route: '/admin/newsletter', speed: 'This week', income: 'Existing list conversion' },
             { rank: 4, action: 'Fix abandoned checkout recovery email', where: 'Payment Diagnostics', route: '/admin/payment-diagnostics', speed: 'This week', income: 'Recover lost carts' },
             { rank: 5, action: 'Pitch current single for sync/playlist placement', where: 'Sync Licensing', route: '/admin/sync-licensing-command', speed: 'This month', income: 'Licensing fees' },
           ].map(item => (

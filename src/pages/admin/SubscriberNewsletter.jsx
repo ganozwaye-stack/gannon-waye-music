@@ -100,7 +100,7 @@ export default function FanNewsletterDashboard() {
       {/* Header */}
       <div className="flex items-start justify-between mb-8 flex-wrap gap-4">
         <div>
-          <h1 className="font-display text-2xl text-foreground">Newsletter</h1>
+          <h1 className="font-display text-2xl text-foreground">Subscriber Newsletter</h1>
           <p className="font-body text-sm text-muted-foreground mt-1">Your welcome newsletter, ready to send</p>
         </div>
         <div className="flex items-center gap-2 bg-secondary/60 border border-border/40 rounded-full px-4 py-2">

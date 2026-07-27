@@ -29,7 +29,7 @@ const PAGES = [
   { label: 'Subscribers', path: '/admin/subscribers', admin: true },
   { label: 'Fan Management', path: '/admin/fans', admin: true },
   { label: 'Supporters', path: '/admin/supporters', admin: true },
-  { label: 'Newsletter', path: '/admin/newsletter', admin: true },
+  { label: 'Subscriber Newsletter', path: '/admin/newsletter', admin: true },
   { label: 'Videos', path: '/admin/videos', admin: true },
   { label: 'Financial Dashboard', path: '/admin/financials', admin: true },
   { label: 'Site Settings', path: '/admin/settings', admin: true },

@@ -7,12 +7,12 @@ import GannonSignature from '@/components/global/GannonSignature';
 import ShareButtons from '@/components/public/ShareButtons';
 
 const STORY_PARAGRAPHS = [
-  "I was born in Adelaide and now call Melbourne home.",
-  "For a long time, I learned to stay in places that never held me. To adjust, to stay quiet, to make sense of things that never made sense.",
-  "Over time, I realised I was not broken. I had just been taught the wrong things about love, worth, and belonging.",
-  "Everything shifted when I stopped abandoning myself.",
-  "Everything I create now comes from that moment.",
-  "This is not just music. This is choosing yourself.",
+  "Gannon Waye Music is the home of Australian independent singer-songwriter Gannon Waye: a music world built around truth, grief, survival, self-respect, faith, identity and the decision to keep choosing yourself.",
+  "This site is for people who feel deeply. It is for listeners who have lived through heartbreak, family loss, toxic love, abuse recovery, shame, silence, rebuilding and the strange loneliness of carrying things that are hard to explain. The music is not here to perform perfection. It is here to give language to the parts of life people often survive quietly.",
+  "I was born and raised in Adelaide and have been based in Melbourne for more than 13 years. My work as an artist comes from lived experience: childhood performance, early rejection, public and private loss, recovery, faith, grief, identity and the long process of becoming someone who no longer abandons himself to be accepted.",
+  "Gannon Waye Music is built by me as an independent artist. Every release, story, lyric, video, supporter moment and merch piece is part of a wider promise: to make emotionally honest music that helps people feel less alone while building a sustainable creative life around songs that actually mean something.",
+  "For a long time, I learned to stay in places that never held me. To adjust, to stay quiet, to make sense of things that never made sense. Over time, I realised I was not broken. I had just been taught the wrong things about love, worth and belonging.",
+  "Everything shifted when I stopped abandoning myself. Everything I create now comes from that moment. This is not just music. This is choosing yourself.",
 ];
 
 export default function AboutGannon() {
@@ -44,7 +44,7 @@ export default function AboutGannon() {
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">The Story Behind the Music</p>
           <h1 className="font-display text-5xl md:text-7xl text-foreground mb-6 leading-tight">About</h1>
           <p className="font-body text-base md:text-lg text-foreground/70 leading-relaxed max-w-md">
-            I was born in Adelaide and now call Melbourne home. Everything I create comes from lived experience — the moments that changed me and the ones that nearly broke me.
+            Gannon Waye Music is where lived experience becomes emotional pop, honest storytelling and a place for listeners who need songs that feel human.
           </p>
         </motion.div>
       </section>

@@ -180,7 +180,7 @@ export default function InstagramAutoDMCommand() {
               'Opening DM',
               'Link DM (UTM)',
               'gannonwaye.com visit',
-              'Community / Fan Profile / Newsletter',
+              'Community / Fan Profile / Subscriber Newsletter',
               'Business Attention Centre alert',
               'Fan CRM record (consent only)',
               'Agent learning',

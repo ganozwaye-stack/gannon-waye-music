@@ -108,7 +108,7 @@ export default function FanConversionEngine() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {[
-          { to: '/admin/newsletter', icon: Mail, label: 'Newsletter', desc: 'Email campaigns and sequences' },
+          { to: '/admin/newsletter', icon: Mail, label: 'Subscriber Newsletter', desc: 'Email campaigns and sequences' },
           { to: '/admin/fans', icon: Users, label: 'Fan Management', desc: 'Fan profiles and engagement' },
           { to: '/admin/supporters', icon: Heart, label: 'Supporters', desc: 'Backers and contributors' },
         ].map(({ to, icon: Icon, label, desc }) => (

@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { label: 'Music', path: '/music' },
   { label: 'Lyrics', path: '/lyrics' },
   { label: 'Store', path: '/store' },
+  { label: 'About', path: '/about' },
   { label: 'Press', path: '/videos' },
   { label: 'Subscribe', path: '/community' },
   { label: 'Contact', path: '/contact' },

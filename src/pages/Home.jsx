@@ -222,7 +222,7 @@ import ThankYouStorySection from '@/components/public/ThankYouStorySection';
 const GANNON_WAYE_WIDE_BANNER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
 
 const HERO_IMAGES = [
-  '/images/home/gannon-waye-home-hero.png',
+  '/images/home/gannon-waye-home-hero-looking-up.png',
 ];
 
 const HOME_FEATURE_MOMENTS = [
@@ -248,6 +248,8 @@ const HOME_FEATURE_MOMENTS = [
     to: '/current-single',
   },
 ];
+
+const UPCOMING_RELEASE_PLATFORMS = ['Spotify', 'Apple Music', 'YouTube Music', 'Amazon Music', 'TIDAL'];
 
 const HERO_LAYOUT_STORAGE_KEY = 'gwm-home-hero-layout-draft-v1';
 const HERO_LAYOUT_KEYS = ['brand', 'hook', 'player', 'moments'];
@@ -509,19 +511,27 @@ export default function Home() {
             src={HERO_IMAGES[currentImg]}
             alt="Gannon Waye"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 0.78, scale: [1.01, 1.035, 1.01] }}
+            animate={{ opacity: 0.9, scale: [1.01, 1.035, 1.01] }}
             exit={{ opacity: 0 }}
             transition={{ opacity: { duration: 1.5 }, scale: { duration: 18, repeat: Infinity, ease: 'easeInOut' } }}
-            className="absolute inset-y-0 left-0 h-full w-full object-cover object-[center_42%] [filter:brightness(1.12)_contrast(1.04)] md:left-[10%]"
+            className="absolute inset-0 h-full w-full object-cover object-[64%_center] [filter:brightness(1.08)_contrast(1.03)]"
           />
         </AnimatePresence>
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,#090c0e_0%,rgba(9,12,14,0.9)_20%,rgba(9,12,14,0.22)_51%,rgba(9,12,14,0.56)_76%,rgba(9,12,14,0.9)_100%)]" />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,12,14,0.5)_0%,rgba(9,12,14,0.08)_34%,rgba(9,12,14,0.34)_72%,#090c0e_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,#090c0e_0%,rgba(9,12,14,0.64)_25%,rgba(9,12,14,0.18)_52%,rgba(9,12,14,0.08)_72%,rgba(9,12,14,0.32)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(9,12,14,0.28)_0%,rgba(9,12,14,0.04)_34%,rgba(9,12,14,0.18)_72%,#090c0e_100%)]" />
       </div>
 
       {/* Hero */}
       <section className="relative min-h-[calc(100svh-4rem)] overflow-hidden px-4 md:px-6">
-        <div className="mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-[1240px] flex-col justify-between gap-4 py-5 md:py-7">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+          <img
+            src="/images/music/without-you-here-cover.png"
+            alt=""
+            className="absolute -left-[12%] bottom-[-28%] w-[72%] max-w-[880px] opacity-[0.12] mix-blend-screen [mask-image:linear-gradient(115deg,black_0%,rgba(0,0,0,0.82)_36%,transparent_76%)]"
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_28%_58%,rgba(66,104,132,0.12),transparent_34%),radial-gradient(circle_at_42%_72%,rgba(183,144,61,0.13),transparent_30%)]" />
+        </div>
+        <div className="relative mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-[1240px] flex-col justify-between gap-4 py-5 md:py-7">
           <motion.div
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
@@ -532,7 +542,7 @@ export default function Home() {
               <img
                 src="/images/brand/gannon-waye-wordmark-base44.png"
                 alt="Gannon Waye"
-                className="mx-auto h-auto w-full max-w-[510px] drop-shadow-[0_12px_28px_rgba(0,0,0,0.82)] md:max-w-[540px]"
+                className="mx-auto h-auto w-full max-w-[680px] drop-shadow-[0_14px_34px_rgba(0,0,0,0.9)] md:max-w-[880px]"
               />
               <p className="mt-3 font-body text-[10px] font-semibold uppercase tracking-[0.3em] text-[#d0b06c] [text-shadow:0_2px_12px_rgba(0,0,0,0.9)] md:text-xs">
                 Singer-songwriter storyteller
@@ -540,36 +550,33 @@ export default function Home() {
             </HeroEditableBlock>
           </motion.div>
 
-          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.06fr)_minmax(420px,0.86fr)] lg:gap-16">
+          <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(390px,0.82fr)] lg:gap-14">
             <motion.div
               initial={{ opacity: 0, x: -28 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.85, delay: 0.12 }}
-              className="max-w-[37rem] text-left"
+              className="max-w-[39rem] text-left"
             >
               <HeroEditableBlock editor={heroLayoutEditor} id="hook" label="Hook" className="relative">
                 <p className="font-body text-[10px] font-semibold uppercase tracking-[0.3em] text-[#c5a868] [text-shadow:0_2px_12px_rgba(0,0,0,0.9)]">Next single</p>
+                <h2 className="mt-2 font-display text-[clamp(2rem,3.4vw,3.6rem)] font-bold italic leading-[0.9] text-[#f2d493] [text-shadow:0_0_8px_rgba(255,241,199,0.72),0_0_22px_rgba(190,137,44,0.66),0_4px_24px_rgba(0,0,0,0.96)]">
+                  Without You Here
+                </h2>
                 <blockquote
                   aria-label="Your last breath took mine away. There's not much more I have to say."
-                  className="mt-4 max-w-[37rem] font-display text-[2.25rem] italic leading-[1.07] text-[#f4f0e8] [text-shadow:0_4px_20px_rgba(0,0,0,0.94)] sm:text-[2.65rem] lg:text-[2.85rem]"
+                  className="mt-5 max-w-[35rem] overflow-visible font-display text-[clamp(1.25rem,2.25vw,2.05rem)] italic leading-[1.08] [text-shadow:0_4px_22px_rgba(0,0,0,0.96)]"
                 >
-                  "Your last breath took mine away. There's not much more I have to say."
+                  <span className="block whitespace-nowrap text-[#f4f0e8]">&ldquo;Your last breath</span>
+                  <span className="ml-[12%] block whitespace-nowrap text-[#f4f0e8]">
+                    Took <span className="gradient-gold-glow">mine</span>
+                  </span>
+                  <span className="ml-[12%] block whitespace-nowrap">
+                    <span className="gradient-gold-glow">away.</span>{' '}
+                    <span className="text-[#f4f0e8]">There&apos;s not</span>
+                  </span>
+                  <span className="ml-[28%] block whitespace-nowrap text-[#d7d0c5]">much more I have</span>
+                  <span className="ml-[28%] block whitespace-nowrap gradient-gold-glow">to say.&rdquo;</span>
                 </blockquote>
-                <p className="mt-4 max-w-[35rem] font-body text-sm font-medium leading-6 text-[#f4f0e8]/88 md:text-[15px]">
-                  Without You Here is the next chapter: a tribute, a love letter, and the song for the voice I still reach for.
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <button type="button" onClick={toggleWithoutYouHerePreview} className="inline-flex h-10 items-center gap-2 rounded-full bg-[linear-gradient(100deg,#8d671d_0%,#b7903d_48%,#c9aa63_100%)] px-7 font-body text-xs font-semibold uppercase text-[#090c0e] shadow-[0_8px_24px_rgba(0,0,0,0.32)] transition hover:brightness-110">
-                    {wyhPlaying ? <Pause className="h-3.5 w-3.5 fill-current" /> : <Play className="h-3.5 w-3.5 fill-current" />}
-                    {wyhPlaying ? 'Pause preview' : 'Stream now'}
-                  </button>
-                  <Link to="/this-is-my-life" className="inline-flex h-10 items-center gap-3 rounded-full border border-white/12 bg-black/15 px-7 font-body text-xs font-semibold uppercase text-[#f4f0e8]/86 transition hover:border-[#b7903d]/55 hover:text-white">
-                    My story <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                  <Link to="/current-single" className="inline-flex h-10 items-center gap-3 rounded-full border border-white/12 bg-black/15 px-7 font-body text-xs font-semibold uppercase text-[#f4f0e8]/76 transition hover:border-[#b7903d]/55 hover:text-white">
-                    Without You Here <ArrowRight className="h-3.5 w-3.5" />
-                  </Link>
-                </div>
               </HeroEditableBlock>
             </motion.div>
 
@@ -610,25 +617,46 @@ export default function Home() {
                       </div>
                     </button>
                     <div className="min-w-0">
-                      <p className="font-body text-[9px] font-semibold uppercase tracking-[0.27em] text-[#c9aa63]">Current single</p>
-                      <h2 className="mt-2 font-display text-[1.75rem] italic leading-none text-[#f4f0e8]">Without You Here</h2>
+                      <p className="font-body text-[9px] font-semibold uppercase tracking-[0.27em] text-[#c9aa63]">Current focus</p>
+                      <h2 className="mt-2 font-display text-[1.75rem] font-bold italic leading-none text-[#f2d493] [text-shadow:0_0_14px_rgba(183,144,61,0.48)]">Without You Here</h2>
+                      <p className="mt-2 font-body text-[9px] font-semibold uppercase tracking-[0.24em] text-[#f4f0e8]/82">Gannon Waye</p>
                       <p className="mt-3 font-body text-[10px] font-semibold uppercase tracking-[0.2em] text-[#f4f0e8]/88">Releasing 31 July 2026</p>
-                      <p className="mt-4 font-body text-[12px] leading-5 text-[#a8a9ad]">
-                        Spotify goes live on release day. Until then, follow the artist profile and stream Thank You.
+                      <p className="mt-3 font-body text-[12px] leading-5 text-[#a8a9ad]">
+                        Preview plays 3:46 to 4:35. Spotify stream unlocks on release day.
                       </p>
-                      <div className="mt-4 grid gap-2">
-                        <a href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz" target="_blank" rel="noopener noreferrer" className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-[#9f792d]/48 font-body text-[10px] font-semibold uppercase text-[#f4f0e8]/86 transition hover:bg-[#9f792d]/10">
-                          <Play className="h-3 w-3" /> Spotify profile
-                        </a>
-                        <Link to="/music" className="inline-flex h-10 items-center justify-center rounded-full bg-[linear-gradient(100deg,#8d671d_0%,#b7903d_48%,#c9aa63_100%)] font-body text-[10px] font-semibold uppercase text-[#090c0e] shadow-[0_8px_24px_rgba(0,0,0,0.32)] transition hover:brightness-110">
-                          Stream Thank You now
-                        </Link>
-                      </div>
                     </div>
+                  </div>
+                  <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 border-t border-[#c9aa63]/18 pt-4" aria-label="Release platforms coming soon">
+                    {UPCOMING_RELEASE_PLATFORMS.map((platform) => (
+                      <span key={platform} className="font-body text-[8px] font-semibold uppercase tracking-[0.12em] text-[#f4f0e8]/52">
+                        {platform}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </HeroEditableBlock>
             </motion.div>
+          </div>
+
+          <div className="text-center">
+            <p className="mx-auto max-w-[1100px] font-body text-sm font-medium leading-6 text-[#f4f0e8]/86 md:whitespace-nowrap md:text-[15px]">
+              Without You Here is the next chapter: a tribute, a love letter, and the song for the voice I still reach for.
+            </p>
+            <div className="mt-4 flex flex-wrap justify-center gap-3">
+              <button type="button" onClick={toggleWithoutYouHerePreview} className="inline-flex h-10 items-center gap-2 rounded-full bg-[linear-gradient(100deg,#8d671d_0%,#b7903d_48%,#c9aa63_100%)] px-7 font-body text-xs font-semibold uppercase text-[#090c0e] shadow-[0_8px_24px_rgba(0,0,0,0.32)] transition hover:brightness-110">
+                {wyhPlaying ? <Pause className="h-3.5 w-3.5 fill-current" /> : <Play className="h-3.5 w-3.5 fill-current" />}
+                {wyhPlaying ? 'Pause preview' : 'Play preview'}
+              </button>
+              <Link to="/this-is-my-life" className="inline-flex h-10 items-center gap-3 rounded-full border border-white/12 bg-black/20 px-7 font-body text-xs font-semibold uppercase text-[#f4f0e8]/86 transition hover:border-[#b7903d]/55 hover:text-white">
+                My story <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              <Link to="/current-single" className="inline-flex h-10 items-center gap-3 rounded-full border border-white/12 bg-black/20 px-7 font-body text-xs font-semibold uppercase text-[#f4f0e8]/82 transition hover:border-[#b7903d]/55 hover:text-white">
+                Without You Here <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              <a href="https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz" target="_blank" rel="noopener noreferrer" className="inline-flex h-10 items-center gap-2 rounded-full border border-[#9f792d]/48 bg-black/20 px-7 font-body text-xs font-semibold uppercase text-[#f4f0e8]/86 transition hover:bg-[#9f792d]/10">
+                <Play className="h-3.5 w-3.5" /> Spotify profile
+              </a>
+            </div>
           </div>
 
           <HeroEditableBlock editor={heroLayoutEditor} id="moments" label="Moments">
@@ -636,7 +664,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.75, delay: 0.38 }}
-               className="grid gap-4 border-y border-[#9f792d]/20 bg-[#090c0e]/62 py-4 backdrop-blur-sm md:grid-cols-[0.72fr_1fr_1fr_1fr]"
+               className="mx-auto grid w-full max-w-[1120px] gap-4 border-y border-[#9f792d]/20 bg-[#090c0e]/62 py-3 backdrop-blur-sm md:grid-cols-[0.72fr_1fr_1fr_1fr]"
             >
               <div className="text-left md:pr-4">
                  <p className="font-body text-[8px] font-semibold uppercase tracking-[0.26em] text-[#c9aa63]">Worth seeing now</p>

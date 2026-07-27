@@ -165,17 +165,24 @@ export default function SoniaUpload() {
           <CardContent>
             <form onSubmit={submit} className="space-y-4">
               <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-                <Input placeholder="Your name" value={form.name} onChange={(event) => update('name', event.target.value)} />
-                <Input placeholder="Relationship to Sonia" value={form.relationship} onChange={(event) => update('relationship', event.target.value)} />
-                <Input placeholder="Email or phone optional" value={form.contact} onChange={(event) => update('contact', event.target.value)} />
-                <select className="rounded-md border border-input bg-background px-3 text-sm" value={form.uploadType} onChange={(event) => update('uploadType', event.target.value)}>
+                <label className="sr-only" htmlFor="sonia-upload-name">Your name</label>
+                <Input id="sonia-upload-name" placeholder="Your name" value={form.name} onChange={(event) => update('name', event.target.value)} />
+                <label className="sr-only" htmlFor="sonia-upload-relationship">Relationship to Sonia</label>
+                <Input id="sonia-upload-relationship" placeholder="Relationship to Sonia" value={form.relationship} onChange={(event) => update('relationship', event.target.value)} />
+                <label className="sr-only" htmlFor="sonia-upload-contact">Email or phone optional</label>
+                <Input id="sonia-upload-contact" placeholder="Email or phone optional" value={form.contact} onChange={(event) => update('contact', event.target.value)} />
+                <label className="sr-only" htmlFor="sonia-upload-type">Upload type</label>
+                <select id="sonia-upload-type" className="rounded-md border border-input bg-background px-3 text-sm" value={form.uploadType} onChange={(event) => update('uploadType', event.target.value)}>
                   {uploadTypes.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}
                 </select>
               </div>
 
-              <Input placeholder="Memory title" value={form.memoryTitle} onChange={(event) => update('memoryTitle', event.target.value)} />
-              <Textarea rows={6} placeholder="Write the memory, story, or context for the file" value={form.memory} onChange={(event) => update('memory', event.target.value)} />
-              <Input type="file" onChange={(event) => update('file', event.target.files?.[0] || null)} />
+              <label className="sr-only" htmlFor="sonia-upload-title">Memory title</label>
+              <Input id="sonia-upload-title" placeholder="Memory title" value={form.memoryTitle} onChange={(event) => update('memoryTitle', event.target.value)} />
+              <label className="sr-only" htmlFor="sonia-upload-memory">Memory, story, or context for the file</label>
+              <Textarea id="sonia-upload-memory" rows={6} placeholder="Write the memory, story, or context for the file" value={form.memory} onChange={(event) => update('memory', event.target.value)} />
+              <label className="sr-only" htmlFor="sonia-upload-file">Memory file</label>
+              <Input id="sonia-upload-file" type="file" onChange={(event) => update('file', event.target.files?.[0] || null)} />
               {form.file?.name && <p className="text-xs text-muted-foreground">Selected file: {form.file.name}</p>}
 
               <label className="flex items-start gap-2 text-sm text-muted-foreground">

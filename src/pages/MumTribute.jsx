@@ -35,6 +35,7 @@ import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/mu
 // - family photos are presented as exact original images only
 
 const SKY_ANGEL_HERO = '/images/mum/sonia_sky_angel_hero.png';
+const SONIA_DAD_KISS_FEATURE = '/images/mum/sonia-and-dad-kiss-restored-16x9.png';
 const SKY_FOYER_VIDEO = '/images/mum/foyer/sonia-and-pa-16x9.mp4';
 const SKY_FOYER_POSTER = '/images/mum/foyer/sonia-and-pa-16x9-poster.jpg';
 const GARDEN_HERO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png';
@@ -129,6 +130,41 @@ const MEMORIAL_TEXT_CARDS = [
     body: 'The public tribute closes with the words: "Forever cherished and in our hearts."',
   },
 ];
+
+const FEATURED_SERVICE_MOMENTS = [
+  {
+    eyebrow: 'Life record',
+    title: 'Sonia Katisa Waye',
+    body: '5 February 1961 to 27 April 2022. Aged 61. A real name, a real life, and the beginning of the story this page is holding.',
+    source: 'Memorial service card',
+  },
+  {
+    eyebrow: 'Family centre',
+    title: 'Mother to Carla, Gannon, Jarrad and Crystal',
+    body: "The service record keeps the family truth close: Sonia was a mother, soulmate, Nanny, and the centre of so many people's world.",
+    source: 'Family remembrance',
+  },
+  {
+    eyebrow: 'Signature line',
+    title: 'Still our guide',
+    body: 'This line works as a quiet hook for the page because it says the whole thing simply: love does not leave when the person does.',
+    quote: 'Your love is still our guide.',
+    source: 'Family poem',
+  },
+  {
+    eyebrow: 'Flower card',
+    title: "Urmika's note of comfort",
+    body: 'A partly visible flower-card photo from Urmika remembers the feeling of laughing with Sonia, being loved by her, and letting those memories bring comfort in time.',
+    source: 'Recovered flower-card photo, rewritten for family review',
+  },
+];
+
+const URMIKA_NOTE_MEMORY = {
+  eyebrow: 'Handwritten memory',
+  title: "Urmika's flower note",
+  body: "You will always remember how it felt to laugh with your mum and be loved by her. Let those memories bring comfort in time. My sympathies and love go to you and your family, Gannon.",
+  source: 'Rewritten from a partly visible sympathy card from Urmika',
+};
 
 const TATTOO_SCRAPBOOK_PHOTOS = [
   {
@@ -544,7 +580,7 @@ function WithoutYouHerePreviewPlayer({ onLyrics, variant = 'hero' }) {
             Gannon Waye
           </p>
           <p className="mt-2 font-body text-[10px] uppercase tracking-[0.22em] text-[#f5d06e]/56">
-            Internal preview - 3:46 to 4:35
+            Preview excerpt - 3:46 to 4:35
           </p>
         </div>
       </div>
@@ -594,7 +630,7 @@ function MumSkyFoyer({ onEnterGarden }) {
   return (
     <section
       id="hero"
-      className="relative aspect-video w-full overflow-hidden bg-[#080b12] text-[#fff7df]"
+      className="relative min-h-[100svh] w-full overflow-hidden bg-[#080b12] text-[#fff7df]"
       aria-label="Welcome to Sonia's Garden"
     >
       <img
@@ -649,56 +685,20 @@ function MumSkyFoyer({ onEnterGarden }) {
 function SoniaGardenPresenceFeature() {
   return (
     <motion.div
-      className="relative min-h-[420px] overflow-hidden rounded-[2rem] border border-[#d4af37]/18 bg-[#061006]/44 shadow-[0_28px_95px_rgba(0,0,0,0.38)]"
+      className="relative aspect-video w-full overflow-hidden rounded-[1.35rem] border border-[#d4af37]/28 bg-[#061006]/44 shadow-[0_28px_95px_rgba(0,0,0,0.38),0_0_36px_rgba(212,175,55,0.1)]"
       initial={{ opacity: 0, x: 30 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true, margin: '-12%' }}
       transition={{ duration: 0.85 }}
     >
       <img
-        src={GARDEN_HERO}
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 h-full w-full object-cover"
-        style={{ filter: 'brightness(0.72) saturate(1.05)' }}
+        src={SONIA_DAD_KISS_FEATURE}
+        alt="Sonia and her husband sharing a kiss."
+        className="absolute inset-0 h-full w-full object-cover object-center"
+        style={{ filter: 'brightness(0.94) contrast(1.04) saturate(0.96)' }}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_24%_26%,rgba(245,208,110,0.24),transparent_30%),linear-gradient(90deg,rgba(4,10,4,0.28),rgba(4,10,4,0.12)_44%,rgba(4,10,4,0.74))]" />
-      <motion.div
-        className="absolute left-2 top-8 h-72 w-40 rounded-full bg-[#f5d06e]/18 blur-3xl"
-        animate={{ opacity: [0.16, 0.34, 0.16], x: [0, 22, 0] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-      />
-      <div className="absolute -right-4 bottom-4 top-8 flex w-[72%] max-w-[520px] items-center justify-center pr-4">
-        <div className="relative aspect-[4/5] w-full max-w-[360px]">
-          <div className="absolute -inset-10 rounded-full bg-[radial-gradient(circle,rgba(255,237,178,0.32),rgba(212,175,55,0.12)_42%,transparent_68%)] blur-2xl" />
-          <div className="absolute -left-10 top-8 h-52 w-28 rotate-12 rounded-full bg-[#fff2bd]/16 blur-2xl" />
-          <div className="absolute -right-8 top-16 h-64 w-28 -rotate-12 rounded-full bg-[#f5d06e]/16 blur-2xl" />
-          <div
-            className="absolute -inset-3 bg-[linear-gradient(145deg,#6f4c12,#f7dc82_42%,#fff4bd_52%,#a9791f_78%,#4d350d)] shadow-[0_0_42px_rgba(245,208,110,0.28),0_30px_90px_rgba(0,0,0,0.52)]"
-            style={{ borderRadius: '48% 48% 42% 42% / 56% 56% 38% 38%' }}
-          />
-          <div
-            className="relative h-full w-full overflow-hidden border border-[#fff0ad]/45 bg-[#071007] shadow-[inset_0_0_32px_rgba(255,244,189,0.16)]"
-            style={{ borderRadius: '48% 48% 42% 42% / 56% 56% 38% 38%' }}
-          >
-            <img
-              src={SONIA_GARDEN_PHOTO}
-              alt="Sonia memory portrait."
-              className="h-full w-full object-cover object-center opacity-96"
-              style={{ filter: 'brightness(1.05) contrast(1.04) saturate(1.02)' }}
-            />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_48%_24%,transparent_30%,rgba(255,242,189,0.08)_48%,rgba(7,16,7,0.2)_70%,rgba(7,16,7,0.58)_100%)]" />
-            <div className="absolute inset-x-8 top-6 h-px bg-gradient-to-r from-transparent via-[#fff2bd]/68 to-transparent" />
-          </div>
-          <div className="absolute -bottom-7 left-1/2 h-16 w-48 -translate-x-1/2 rounded-full bg-[#f5d06e]/18 blur-3xl" />
-        </div>
-      </div>
-      <div className="absolute bottom-5 left-5 max-w-[17rem] rounded-[1.25rem] border border-[#d4af37]/18 bg-[#071007]/68 p-4 backdrop-blur-md">
-        <p className="font-body text-[9px] uppercase tracking-[0.36em] text-[#d4af37]/62">She is here in the garden</p>
-        <p className="mt-2 font-display text-2xl italic leading-tight text-[#fff7df] [text-shadow:0_3px_16px_rgba(0,0,0,0.82)]">
-          A memory held close, right at the entrance to her garden.
-        </p>
-      </div>
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(6,16,6,0.02),rgba(6,16,6,0.2)),radial-gradient(circle_at_54%_42%,transparent_42%,rgba(5,10,5,0.16)_100%)]" />
+      <div className="pointer-events-none absolute inset-x-8 bottom-4 h-px bg-gradient-to-r from-transparent via-[#f5d06e]/62 to-transparent" />
     </motion.div>
   );
 }
@@ -744,18 +744,6 @@ function GardenAmbientAveMaria() {
     setPlaying(true);
     setAudible(makeAudible);
   }, []);
-
-  useEffect(() => {
-    startAmbient({ makeAudible: false }).catch(() => {});
-  }, [startAmbient]);
-
-  useEffect(() => {
-    const handleFirstGesture = () => {
-      startAmbient({ makeAudible: true }).catch(() => {});
-    };
-    window.addEventListener('pointerdown', handleFirstGesture, { once: true });
-    return () => window.removeEventListener('pointerdown', handleFirstGesture);
-  }, [startAmbient]);
 
   const toggleAmbient = async () => {
     const audio = audioRef.current;
@@ -1196,6 +1184,98 @@ function MemoryLaneCenterMoment({ eyebrow, title, body, quote, image }) {
   );
 }
 
+function FeaturedServiceMoments() {
+  return (
+    <motion.section
+      className="relative overflow-hidden rounded-[1.8rem] border border-[#d4af37]/16 bg-[#071007]/66 p-5 shadow-[0_28px_86px_rgba(0,0,0,0.38)] backdrop-blur-md"
+      initial={{ opacity: 0, y: 34 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-14%' }}
+      transition={{ duration: 0.72 }}
+      aria-label="Featured service moments"
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(245,208,110,0.18),transparent_34%),linear-gradient(135deg,rgba(7,16,7,0.5),rgba(7,16,7,0.92))]" />
+      <div className="relative">
+        <p className="font-body text-[9px] uppercase tracking-[0.42em] text-[#f5d06e]/62">Featured moments</p>
+        <h4 className="mt-3 font-display text-3xl leading-tight text-[#fff7df] [text-shadow:0_3px_16px_rgba(0,0,0,0.78)] md:text-4xl">
+          The service gives the page its first anchors.
+        </h4>
+        <p className="mt-4 max-w-3xl font-body text-sm leading-7 text-[#fff7df]/62">
+          These are the verified pieces we can safely carry forward now, with space kept for the full service transcript when the audio is ready.
+        </p>
+        <div className="mt-6 grid gap-3 md:grid-cols-2">
+          {FEATURED_SERVICE_MOMENTS.map((moment) => (
+            <article
+              key={moment.title}
+              className="relative overflow-hidden rounded-[1.25rem] border border-[#f5d06e]/14 bg-[#fff7df]/[0.045] p-4"
+            >
+              <p className="font-body text-[8px] uppercase tracking-[0.34em] text-[#f5d06e]/58">{moment.eyebrow}</p>
+              <h5 className="mt-2 font-display text-2xl leading-tight text-[#fff7df]">{moment.title}</h5>
+              <p className="mt-3 font-body text-[13px] leading-6 text-[#fff7df]/62">{moment.body}</p>
+              {moment.quote && (
+                <blockquote className="mt-4 border-l border-[#f5d06e]/46 pl-4 font-display text-xl italic leading-tight text-[#fff8df]">
+                  {moment.quote}
+                </blockquote>
+              )}
+              <p className="mt-4 font-body text-[8px] uppercase tracking-[0.26em] text-[#f5d06e]/44">{moment.source}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </motion.section>
+  );
+}
+
+function HandwrittenUrmikaNote() {
+  return (
+    <motion.section
+      className="relative overflow-hidden rounded-[1.9rem] border border-[#f5d06e]/20 bg-[#080b05]/74 p-4 shadow-[0_30px_90px_rgba(0,0,0,0.42)]"
+      initial={{ opacity: 0, y: 34 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-14%' }}
+      transition={{ duration: 0.72 }}
+      aria-label="Urmika handwritten note"
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_18%,rgba(245,208,110,0.16),transparent_32%),radial-gradient(circle_at_86%_12%,rgba(255,247,223,0.08),transparent_30%)]" />
+      <div className="relative grid gap-5 lg:grid-cols-[0.42fr_0.58fr] lg:items-center">
+        <div>
+          <p className="font-body text-[9px] uppercase tracking-[0.42em] text-[#f5d06e]/62">{URMIKA_NOTE_MEMORY.eyebrow}</p>
+          <h4 className="mt-3 font-display text-3xl leading-tight text-[#fff7df] [text-shadow:0_3px_16px_rgba(0,0,0,0.78)] md:text-4xl">
+            {URMIKA_NOTE_MEMORY.title}
+          </h4>
+          <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/62">
+            The original card photo is partly cut off, so this is presented as a rewritten memorial moment for review rather than an exact full transcript.
+          </p>
+          <p className="mt-4 font-body text-[9px] uppercase tracking-[0.28em] text-[#f5d06e]/48">{URMIKA_NOTE_MEMORY.source}</p>
+        </div>
+        <div className="relative mx-auto w-full max-w-xl rotate-[-1.2deg] rounded-[0.7rem] border border-[#d1b06a]/42 bg-[#f8edcf] px-7 py-8 text-[#2b2116] shadow-[0_24px_70px_rgba(0,0,0,0.34)]">
+          <div className="absolute inset-x-0 top-0 h-full bg-[repeating-linear-gradient(180deg,transparent_0,transparent_30px,rgba(91,68,40,0.13)_31px,transparent_32px)] opacity-65" />
+          <div className="absolute left-5 top-0 h-full w-px bg-[#d79d8b]/42" />
+          <div className="relative">
+            <p className="font-body text-[10px] uppercase tracking-[0.26em] text-[#7d5e35]">For Gannon and family</p>
+            <p className="mt-5 font-display text-2xl italic leading-9 md:text-3xl">
+              {URMIKA_NOTE_MEMORY.body}
+            </p>
+            <p className="mt-6 font-display text-2xl italic text-[#3b2b18]">Love, Urmika</p>
+          </div>
+        </div>
+      </div>
+    </motion.section>
+  );
+}
+
+function HospitalTranscriptHoldMoment() {
+  return (
+    <MemoryLaneCenterMoment
+      eyebrow="Service transcript next"
+      title="The hospital lady's memory is being held for the exact words."
+      body="The service video has been found in Google Drive, but the full audio still needs transcription. This moment is reserved so the page can honour the lady who cherished Sonia without inventing her words."
+      quote="Exact transcript pending family review."
+      image={GARDEN_WISDOM}
+    />
+  );
+}
+
 function MemoryLaneCoverMoment({ onOpenLyrics }) {
   return (
     <motion.div
@@ -1283,6 +1363,9 @@ function MemoryLaneCenterStack({ onOpen, onOpenLyrics }) {
       />
       <MemoryLaneCoverMoment onOpenLyrics={onOpenLyrics} />
       <SoniaLoveFeature onOpen={onOpen} />
+      <FeaturedServiceMoments />
+      <HandwrittenUrmikaNote />
+      <HospitalTranscriptHoldMoment />
       <MemoryLaneCenterMoment
         eyebrow="Lyric moment"
         title="Even while leaving, she was still loving."
@@ -1331,61 +1414,86 @@ function PhotoGarden({ onOpen, onOpenLyrics }) {
   const rightPhotos = journeyPhotos.filter((_, index) => index % 2 === 1);
 
   return (
-    <div className="mx-auto mt-16 max-w-[1400px] px-4 sm:px-5">
-      <div className="relative overflow-hidden rounded-[2.2rem] border border-[#d4af37]/14 bg-[#071007]/62 shadow-[0_34px_120px_rgba(0,0,0,0.42)] backdrop-blur-sm">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(245,208,110,0.16),transparent_34%),linear-gradient(180deg,rgba(7,16,7,0.12),rgba(7,16,7,0.78))]" />
-        <div className="relative px-4 py-9 sm:px-6 md:px-8 lg:px-10">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="font-body text-[9px] uppercase tracking-[0.46em] text-[#d4af37]/58">Memory lane</p>
-            <h3 className="mt-3 font-display text-4xl leading-tight text-[#fff7df] [text-shadow:0_3px_18px_rgba(0,0,0,0.74),0_0_20px_rgba(212,175,55,0.18)] md:text-5xl">
-              A walk through her life.
-            </h3>
-            <p className="mx-auto mt-4 max-w-2xl font-body text-sm leading-7 text-[#fff7df]/58">
-              The earliest memories begin at the top. Each photo becomes a small stop along the garden path, ready for your notes and stories.
-            </p>
-          </div>
+    <div className="relative left-1/2 mt-16 w-screen -translate-x-1/2 overflow-hidden py-14 sm:py-16 lg:py-20">
+      <div className="absolute inset-0">
+        <img
+          src={GARDEN_GALLERY}
+          alt=""
+          aria-hidden="true"
+          className="h-full w-full scale-110 object-cover"
+          style={{ filter: 'brightness(0.62) saturate(1.08) contrast(1.06)' }}
+        />
+      </div>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_18%,rgba(245,208,110,0.2),transparent_34%),radial-gradient(ellipse_at_50%_92%,rgba(245,208,110,0.18),transparent_28%),linear-gradient(90deg,rgba(2,5,2,0.92),rgba(2,5,2,0.22)_42%,rgba(2,5,2,0.88)),linear-gradient(0deg,rgba(2,5,2,0.96),rgba(2,5,2,0.18)_52%,rgba(2,5,2,0.72))]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-72 bg-[radial-gradient(ellipse_at_50%_100%,rgba(7,16,7,0.9),transparent_62%)]" />
+      <div className="pointer-events-none absolute left-1/2 top-36 h-[calc(100%-10rem)] w-[min(36rem,76vw)] -translate-x-1/2 bg-[radial-gradient(ellipse_at_50%_0%,rgba(245,208,110,0.18),transparent_28%),linear-gradient(180deg,rgba(245,208,110,0.16),rgba(116,139,93,0.05)_44%,transparent)] opacity-80 blur-xl" />
+      <div className="pointer-events-none absolute -left-20 top-0 h-full w-52 rotate-6 bg-[linear-gradient(90deg,rgba(14,42,17,0.76),transparent)] blur-sm" />
+      <div className="pointer-events-none absolute -right-20 top-0 h-full w-52 -rotate-6 bg-[linear-gradient(270deg,rgba(14,42,17,0.72),transparent)] blur-sm" />
 
-          <div className="mt-9 flex gap-3 overflow-x-auto pb-4 lg:hidden">
-            {journeyPhotos.map((photo, index) => (
+      <div className="relative mx-auto max-w-[1500px] px-4 sm:px-5" style={{ perspective: '1500px' }}>
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="font-body text-[9px] uppercase tracking-[0.46em] text-[#d4af37]/68">Memory lane</p>
+          <h3 className="mt-3 font-display text-4xl leading-tight text-[#fff7df] [text-shadow:0_4px_22px_rgba(0,0,0,0.82),0_0_20px_rgba(212,175,55,0.2)] md:text-5xl">
+            Walk the garden before the lyrics.
+          </h3>
+          <p className="mx-auto mt-4 max-w-2xl font-body text-sm leading-7 text-[#fff7df]/62">
+            The memories now sit inside the garden scene, like photos and notes you reach toward as you move along the path.
+          </p>
+        </div>
+
+        <div className="mt-9 flex snap-x gap-3 overflow-x-auto pb-4 lg:hidden">
+          {journeyPhotos.map((photo, index) => (
+            <MemoryLaneJourneyCard
+              key={`${photo.src}-mobile-${index}`}
+              photo={photo}
+              index={index}
+              onOpen={onOpen}
+              side={index % 2 === 0 ? 'left' : 'right'}
+              compact
+            />
+          ))}
+        </div>
+
+        <div
+          className="relative mt-12 hidden grid-cols-[minmax(130px,178px)_minmax(0,1fr)_minmax(130px,178px)] gap-8 lg:grid"
+          style={{ transformStyle: 'preserve-3d' }}
+        >
+          <div
+            className="space-y-10"
+            style={{ transform: 'rotateY(9deg) translateZ(24px)', transformOrigin: 'right center' }}
+          >
+            {leftPhotos.map((photo, index) => (
               <MemoryLaneJourneyCard
-                key={`${photo.src}-mobile-${index}`}
+                key={`${photo.src}-left-${index}`}
                 photo={photo}
-                index={index}
+                index={index * 2}
                 onOpen={onOpen}
-                side={index % 2 === 0 ? 'left' : 'right'}
-                compact
+                side="left"
               />
             ))}
           </div>
 
-          <div className="relative mt-12 hidden grid-cols-[minmax(130px,180px)_minmax(0,1fr)_minmax(130px,180px)] gap-8 lg:grid">
-            <div className="space-y-10">
-              {leftPhotos.map((photo, index) => (
-                <MemoryLaneJourneyCard
-                  key={`${photo.src}-left-${index}`}
-                  photo={photo}
-                  index={index * 2}
-                  onOpen={onOpen}
-                  side="left"
-                />
-              ))}
-            </div>
+          <div
+            className="relative rounded-[2.1rem] border border-[#d4af37]/12 bg-[#061006]/18 p-6 shadow-[inset_0_0_120px_rgba(0,0,0,0.28),0_30px_120px_rgba(0,0,0,0.22)] backdrop-blur-[2px]"
+            style={{ transform: 'translateZ(70px)' }}
+          >
+            <div className="pointer-events-none absolute inset-x-10 top-0 h-24 rounded-full bg-[#f5d06e]/14 blur-3xl" />
+            <MemoryLaneCenterStack onOpen={onOpen} onOpenLyrics={onOpenLyrics} />
+          </div>
 
-            <div className="relative rounded-[2rem] border border-[#d4af37]/10 bg-[#061006]/28 p-6 shadow-[inset_0_0_90px_rgba(0,0,0,0.24)]">
-              <MemoryLaneCenterStack onOpen={onOpen} onOpenLyrics={onOpenLyrics} />
-            </div>
-
-            <div className="space-y-10 pt-24">
-              {rightPhotos.map((photo, index) => (
-                <MemoryLaneJourneyCard
-                  key={`${photo.src}-right-${index}`}
-                  photo={photo}
-                  index={index * 2 + 1}
-                  onOpen={onOpen}
-                  side="right"
-                />
-              ))}
-            </div>
+          <div
+            className="space-y-10 pt-24"
+            style={{ transform: 'rotateY(-9deg) translateZ(24px)', transformOrigin: 'left center' }}
+          >
+            {rightPhotos.map((photo, index) => (
+              <MemoryLaneJourneyCard
+                key={`${photo.src}-right-${index}`}
+                photo={photo}
+                index={index * 2 + 1}
+                onOpen={onOpen}
+                side="right"
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -1501,14 +1609,89 @@ function LanternCandles() {
   );
 }
 
-function CapturedSlideshow() {
-  return null;
+function CapturedSlideshow({ onOpen }) {
+  const [galleryPhotos, setGalleryPhotos] = useState([]);
+
+  useEffect(() => {
+    let alive = true;
+
+    fetch(CLEAN_GALLERY_MANIFEST)
+      .then((response) => (response.ok ? response.json() : Promise.reject(new Error('Clean gallery manifest unavailable'))))
+      .then((manifest) => {
+        if (!alive) return;
+        setGalleryPhotos(Array.isArray(manifest?.items) ? manifest.items : []);
+      })
+      .catch(() => {
+        if (!alive) return;
+        setGalleryPhotos([]);
+      });
+
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const approvedPhotos = sortMemoryLanePhotos(
+    galleryPhotos.filter(isPublicMemoryLanePhoto),
+  );
+  const displayPhotos = approvedPhotos.length > 0 ? approvedPhotos.slice(0, 16) : REAL_PHOTOS;
+
+  return (
+    <div className="mx-auto mt-14 max-w-6xl px-5">
+      <div className="mb-6 max-w-3xl">
+        <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/52">Exact photo gallery</p>
+        <h3 className="mt-3 font-display text-3xl text-[#fff7df]">A first wall of real family photographs.</h3>
+        <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/52">
+          These images come from the cleaned local Mum Garden gallery set. They stay as real photos, with captions ready for family review.
+        </p>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {displayPhotos.map((photo, index) => {
+          const displayPhoto = {
+            ...photo,
+            label: memoryLanePhotoLabel(photo, index),
+            caption: photo.caption || 'Ready for Gannon and family to caption during review.',
+            source: photo.source || 'Cleaned Mum Garden image audit',
+          };
+
+          return (
+            <motion.button
+              key={`${displayPhoto.src}-captured-${index}`}
+              type="button"
+              onClick={() => onOpen(displayPhoto)}
+              className="group overflow-hidden rounded-lg border border-[#d4af37]/14 bg-[#071007]/72 text-left shadow-[0_22px_72px_rgba(0,0,0,0.34)] transition duration-300 hover:-translate-y-1 hover:border-[#d4af37]/34"
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-10%' }}
+              transition={{ duration: 0.56, delay: Math.min(index * 0.035, 0.24) }}
+              aria-label={`Open ${displayPhoto.label}`}
+            >
+              <div className="relative aspect-[4/5] bg-black/30">
+                <img
+                  src={displayPhoto.src}
+                  alt={displayPhoto.label}
+                  loading="lazy"
+                  className="h-full w-full object-cover object-center transition duration-700 group-hover:scale-105"
+                  style={{ filter: 'brightness(1.02) contrast(1.04) saturate(1.02)' }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#071007]/78 via-transparent to-transparent" />
+                <div className="absolute bottom-4 left-4 right-4">
+                  <p className="font-display text-xl leading-tight text-[#fff7df]">{displayPhoto.label}</p>
+                  <p className="mt-1 font-body text-[9px] uppercase tracking-[0.22em] text-[#d4af37]/58">Open photo</p>
+                </div>
+              </div>
+            </motion.button>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 
 function FamilyContributionAccess() {
   const contributionPath = MEMORY_UPLOAD_PATH;
-  const reviewPath = '/admin/family-uploads';
   const displayContributionUrl = typeof window !== 'undefined'
     ? `${window.location.origin}${contributionPath}`
     : contributionPath;
@@ -1518,9 +1701,9 @@ function FamilyContributionAccess() {
       <div className="grid gap-5 rounded-[2rem] border border-[#d4af37]/16 bg-[#071007]/72 p-5 shadow-[0_26px_90px_rgba(0,0,0,0.35)] backdrop-blur-md md:grid-cols-[1fr_auto] md:items-center md:p-7">
         <div>
           <p className="font-body text-[9px] uppercase tracking-[0.42em] text-[#d4af37]/52">Family contribution access</p>
-          <h3 className="mt-3 font-display text-3xl text-[#fff7df]">Send this to your brother before launch.</h3>
+          <h3 className="mt-3 font-display text-3xl text-[#fff7df]">Share a memory when it feels right.</h3>
           <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/58">
-            He can submit photos, stories, voice notes, eulogy pieces, and context. Nothing goes public automatically; it lands in your review area first.
+            Family and friends can submit photos, stories, voice notes, eulogy pieces, and context. Nothing goes public automatically; every memory waits for Gannon to review it first.
           </p>
           <p className="mt-4 rounded-[1rem] border border-[#d4af37]/12 bg-black/18 p-3 font-mono text-xs text-[#fff7df]/60">
             {displayContributionUrl}
@@ -1533,13 +1716,6 @@ function FamilyContributionAccess() {
           >
             <UploadCloud className="h-4 w-4" />
             Open family link
-          </a>
-          <a
-            href={reviewPath}
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-[#d4af37]/22 bg-[#fff7df]/[0.04] px-5 py-3 font-body text-[10px] font-bold uppercase tracking-[0.24em] text-[#f5d06e] transition hover:-translate-y-0.5"
-          >
-            <ShieldCheck className="h-4 w-4" />
-            Review submissions
           </a>
         </div>
       </div>
@@ -1559,7 +1735,7 @@ function MumPrivateGate({ onUnlock }) {
       onUnlock();
       return;
     }
-    setError('That code did not unlock the private preview.');
+    setError('That code did not unlock the family preview.');
   };
 
   return (
@@ -1657,7 +1833,7 @@ function MumPrivateGate({ onUnlock }) {
             <form onSubmit={submit} className="mt-7 space-y-3">
               <label htmlFor="mum-garden-preview-code" className="flex items-center gap-2 font-body text-[9px] font-bold uppercase tracking-[0.24em] text-[#d4af37]/54">
                 <LockKeyhole className="h-3.5 w-3.5" />
-                Private preview
+                Family preview
               </label>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <input
@@ -1827,10 +2003,14 @@ function MemoryGuestbook() {
           transition={{ duration: 0.7, delay: 0.06 }}
         >
           <div className="grid gap-3 sm:grid-cols-2">
-            <input className="rounded-full border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-3 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/28 focus:border-[#d4af37]/38" placeholder="Your name" value={form.name} onChange={(event) => update('name', event.target.value)} />
-            <input className="rounded-full border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-3 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/28 focus:border-[#d4af37]/38" placeholder="Relationship to Sonia" value={form.relationship} onChange={(event) => update('relationship', event.target.value)} />
-            <input className="rounded-full border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-3 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/28 focus:border-[#d4af37]/38" placeholder="Email or phone, optional" value={form.contact} onChange={(event) => update('contact', event.target.value)} />
-            <select className="rounded-full border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-3 font-body text-sm text-[#fff7df] outline-none focus:border-[#d4af37]/38" value={form.submissionType} onChange={(event) => update('submissionType', event.target.value)}>
+            <label className="sr-only" htmlFor="sonia-memory-name">Your name</label>
+            <input id="sonia-memory-name" className="rounded-full border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-3 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/28 focus:border-[#d4af37]/38" placeholder="Your name" value={form.name} onChange={(event) => update('name', event.target.value)} />
+            <label className="sr-only" htmlFor="sonia-memory-relationship">Relationship to Sonia</label>
+            <input id="sonia-memory-relationship" className="rounded-full border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-3 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/28 focus:border-[#d4af37]/38" placeholder="Relationship to Sonia" value={form.relationship} onChange={(event) => update('relationship', event.target.value)} />
+            <label className="sr-only" htmlFor="sonia-memory-contact">Email or phone, optional</label>
+            <input id="sonia-memory-contact" className="rounded-full border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-3 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/28 focus:border-[#d4af37]/38" placeholder="Email or phone, optional" value={form.contact} onChange={(event) => update('contact', event.target.value)} />
+            <label className="sr-only" htmlFor="sonia-memory-type">Memory type</label>
+            <select id="sonia-memory-type" className="rounded-full border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-3 font-body text-sm text-[#fff7df] outline-none focus:border-[#d4af37]/38" value={form.submissionType} onChange={(event) => update('submissionType', event.target.value)}>
               <option value="story">Story</option>
               <option value="photo">Photo</option>
               <option value="video">Video</option>
@@ -1840,8 +2020,10 @@ function MemoryGuestbook() {
             </select>
           </div>
 
-          <input className="mt-3 w-full rounded-full border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-3 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/28 focus:border-[#d4af37]/38" placeholder="Memory title" value={form.memoryTitle} onChange={(event) => update('memoryTitle', event.target.value)} />
-          <textarea className="mt-3 min-h-[150px] w-full rounded-[1.4rem] border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-4 font-body text-sm leading-6 text-[#fff7df] outline-none placeholder:text-[#fff7df]/28 focus:border-[#d4af37]/38" placeholder="Write your memory of Sonia..." value={form.memoryText} onChange={(event) => update('memoryText', event.target.value)} />
+          <label className="sr-only" htmlFor="sonia-memory-title">Memory title</label>
+          <input id="sonia-memory-title" className="mt-3 w-full rounded-full border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-3 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/28 focus:border-[#d4af37]/38" placeholder="Memory title" value={form.memoryTitle} onChange={(event) => update('memoryTitle', event.target.value)} />
+          <label className="sr-only" htmlFor="sonia-memory-text">Memory text</label>
+          <textarea id="sonia-memory-text" className="mt-3 min-h-[150px] w-full rounded-[1.4rem] border border-[#d4af37]/14 bg-[#071007]/80 px-4 py-4 font-body text-sm leading-6 text-[#fff7df] outline-none placeholder:text-[#fff7df]/28 focus:border-[#d4af37]/38" placeholder="Write your memory of Sonia..." value={form.memoryText} onChange={(event) => update('memoryText', event.target.value)} />
 
           <label className="mt-3 flex cursor-pointer items-center gap-3 rounded-[1.25rem] border border-dashed border-[#d4af37]/18 bg-[#fff7df]/[0.04] p-4 font-body text-sm text-[#fff7df]/56">
             <UploadCloud className="h-5 w-5 text-[#f5d06e]/62" />
@@ -2097,7 +2279,7 @@ export default function MumTribute({ mode = 'foyer' }) {
       ? 'Sonia’s Garden | Sonia Waye Memorial | Gannon Waye Music'
       : 'In Loving Memory of Sonia | Gannon Waye Music';
     const description = isGardenMode
-      ? 'A private pre-launch memorial garden for Sonia Waye: photos, memories, music, family contributions, and Gannon Waye’s Without You Here.'
+      ? "A family-preview memorial garden for Sonia Waye: photos, memories, music, family contributions, and Gannon Waye's Without You Here."
       : 'A sky foyer for Sonia Waye: a loving entry point into Mum’s Garden, held in music, family memory, and gold light.';
     const image = `${window.location.origin}${WITHOUT_YOU_HERE_COVER}`;
     const url = `${window.location.origin}${isGardenMode ? '/mum/garden' : '/mum'}`;
@@ -2170,11 +2352,28 @@ export default function MumTribute({ mode = 'foyer' }) {
         </div>
       </GardenWorld>
 
+      <GardenWorld id="photos" image={GARDEN_GALLERY} brightness={0.6} minHeight="auto" align="center 42%">
+        <div className="py-24 md:py-32">
+          <SectionHeading eyebrow="Memory gallery" title="The memories become the path.">
+            <p>
+              The photo walk now comes before the lyrics, so visitors move through Sonia's life inside the garden before the song opens its deeper meaning.
+            </p>
+          </SectionHeading>
+          <YoungerYearsTribute onOpen={(photo) => openDrawer('photo', photo)} />
+          <CapturedSlideshow onOpen={(photo) => openDrawer('photo', photo)} />
+          <PhotoGarden
+            onOpen={(photo) => openDrawer('photo', photo)}
+            onOpenLyrics={() => openDrawer('lyric', LYRIC_MOMENTS[0])}
+          />
+          <TattooScrapbook onOpen={(photo) => openDrawer('photo', photo)} />
+        </div>
+      </GardenWorld>
+
       <GardenWorld id="lyrics" image={GARDEN_WISDOM} brightness={0.48} minHeight="auto">
         <div className="py-28 pb-36 md:py-36 md:pb-44">
-          <SectionHeading eyebrow="Without You Here" title="Lyrics as the path through the garden.">
+          <SectionHeading eyebrow="Without You Here" title="Lyrics after the garden path.">
             <p>
-              The lyrics become lanterns in the page, guiding visitors through the garden without breaking the feeling of the walk.
+              After the photos, the lyrics become lanterns: small lines of the song that help visitors understand what the garden is holding.
             </p>
           </SectionHeading>
           <LyricLanterns onOpen={(moment) => openDrawer('lyric', moment)} />
@@ -2191,23 +2390,6 @@ export default function MumTribute({ mode = 'foyer' }) {
           <div className="mt-14">
             <SoniaAmbientPlayer />
           </div>
-        </div>
-      </GardenWorld>
-
-      <GardenWorld id="photos" image={GARDEN_GALLERY} brightness={0.54} minHeight="auto">
-        <div className="py-24 md:py-32">
-          <SectionHeading eyebrow="Memory gallery" title="Exact photos, placed beautifully.">
-            <p>
-              Every family photo stays true to the original. Images are framed gently, with real people and real memories left intact.
-            </p>
-          </SectionHeading>
-          <YoungerYearsTribute onOpen={(photo) => openDrawer('photo', photo)} />
-          <CapturedSlideshow onOpen={(photo) => openDrawer('photo', photo)} />
-          <PhotoGarden
-            onOpen={(photo) => openDrawer('photo', photo)}
-            onOpenLyrics={() => openDrawer('lyric', LYRIC_MOMENTS[0])}
-          />
-          <TattooScrapbook onOpen={(photo) => openDrawer('photo', photo)} />
         </div>
       </GardenWorld>
 

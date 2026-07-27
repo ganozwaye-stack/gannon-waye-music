@@ -83,7 +83,7 @@ const NAV_SECTIONS = [
       { label: 'Music & Fan Hub', path: '/admin/music-fan', icon: Users },
       { label: 'Subscribers', path: '/admin/subscribers', icon: Mail },
       { label: 'Fan Management', path: '/admin/fans', icon: Users },
-      { label: 'Newsletter', path: '/admin/newsletter', icon: Mail },
+      { label: 'Subscriber Newsletter', path: '/admin/newsletter', icon: Mail },
       { label: 'Supporters', path: '/admin/supporters', icon: Heart },
       // Alphabetical Remaining
       { label: 'Birthday Discounts', path: '/admin/birthdays', icon: Tag },
@@ -159,6 +159,7 @@ const NAV_SECTIONS = [
     items: [
       // Top 3-5 Important
       { label: 'Site Settings', path: '/admin/settings', icon: Settings },
+      { label: 'Style Studio', path: '/admin/style-studio', icon: Palette, ownerOnly: true },
       { label: 'API Setup', path: '/admin/api-setup', icon: Zap },
       { label: 'Business Details', path: '/admin/settings/business-details', icon: Settings },
       { label: 'Quick Upload', path: '/admin/quick-upload', icon: Upload },
