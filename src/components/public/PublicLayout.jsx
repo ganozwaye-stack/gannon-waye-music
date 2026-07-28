@@ -9,19 +9,20 @@ import CartButton from '@/components/store/CartButton';
 
 export default function PublicLayout() {
   const { pathname } = useLocation();
+  const isMumGardenRoute = pathname === '/mum/garden';
 
   return (
-    <div className="min-h-screen flex flex-col pb-14">
-      <Navbar />
-      <CartButton />
-      <main className="flex-1 pt-16">
+    <div className={`min-h-screen flex flex-col ${isMumGardenRoute ? '' : 'pb-14'}`}>
+      {!isMumGardenRoute && <Navbar />}
+      {!isMumGardenRoute && <CartButton />}
+      <main className={`flex-1 ${isMumGardenRoute ? '' : 'pt-16'}`}>
         <AnimatePresence mode="wait">
           <Outlet key={pathname} />
         </AnimatePresence>
       </main>
-      <Footer />
-      <MobileBottomTabs />
-      <SocialProofTicker />
+      {!isMumGardenRoute && <Footer />}
+      {!isMumGardenRoute && <MobileBottomTabs />}
+      {!isMumGardenRoute && <SocialProofTicker />}
     </div>
   );
 }

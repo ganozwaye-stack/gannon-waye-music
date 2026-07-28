@@ -24,6 +24,7 @@ import { base44 } from '@/api/base44Client';
 import SoniaAmbientPlayer from '@/components/mum/SoniaAmbientPlayer';
 import SoniaLifelikeAvatar from '@/components/mum/SoniaLifelikeAvatar';
 import SoniaHeyGenReadiness from '@/components/mum/SoniaHeyGenReadiness';
+import GardenWalkEntrance from '@/components/mum/GardenWalkEntrance';
 import { useSongFeedback } from '@/components/global/SongFeedbackGate';
 import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/musicAssets';
 
@@ -35,12 +36,13 @@ import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/mu
 // - family photos are presented as exact original images only
 
 const SKY_ANGEL_HERO = '/images/mum/sonia_sky_angel_hero.png';
-const GARDEN_HERO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png';
-const GARDEN_GALLERY = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6591fa60b_generated_image.png';
-const GARDEN_MUSIC = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/63f84cf4f_generated_image.png';
-const GARDEN_WISDOM = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fc387c2b6_generated_image.png';
+const MUM_GARDEN_PHOTO = '/images/mum/mum_garden.jpg';
 const SONIA_GARDEN_PHOTO = '/images/mum/memory-lane/ML058_FS116.jpg';
 const SONIA_LOVE_PHOTO = '/images/mum/memory-lane/ML061_FS120.jpg';
+const GARDEN_HERO = MUM_GARDEN_PHOTO;
+const GARDEN_GALLERY = MUM_GARDEN_PHOTO;
+const GARDEN_MUSIC = SONIA_GARDEN_PHOTO;
+const GARDEN_WISDOM = SONIA_LOVE_PHOTO;
 const AVE_MARIA_GANNON = 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/6e65f5e12_AveMariaGannonSinging.mp3';
 const MEMORY_UPLOAD_PATH = '/remember-mum?invite=family';
 
@@ -785,7 +787,7 @@ function GardenAmbientAveMaria() {
 
   return (
     <div
-      className="fixed bottom-4 left-4 z-50 max-w-[calc(100vw-2rem)] rounded-full border border-[#d4af37]/18 bg-[#071007]/76 px-3 py-2 shadow-[0_18px_60px_rgba(0,0,0,0.42)] backdrop-blur-xl md:bottom-6 md:left-6"
+      className="fixed right-4 top-4 z-40 rounded-full border border-[#d4af37]/18 bg-[#071007]/46 p-2 shadow-[0_18px_60px_rgba(0,0,0,0.34)] backdrop-blur-xl transition hover:bg-[#071007]/76 md:right-6 md:top-6"
       data-song-feedback-exempt="true"
     >
       <audio
@@ -800,14 +802,11 @@ function GardenAmbientAveMaria() {
       <button
         type="button"
         onClick={toggleAmbient}
-        className="flex items-center gap-2 rounded-full text-left font-body text-[9px] uppercase tracking-[0.2em] text-[#fff7df]/64 transition hover:text-[#f5d06e]"
+        className="flex items-center justify-center rounded-full text-left font-body text-[9px] uppercase tracking-[0.2em] text-[#fff7df]/64 transition hover:text-[#f5d06e]"
         aria-label={audible ? 'Pause Ave Maria garden ambience' : 'Play Ave Maria garden ambience'}
       >
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] text-[#071007] shadow-[0_0_22px_rgba(212,175,55,0.32)]">
           {audible && playing ? <Volume2 className="h-3.5 w-3.5" /> : <VolumeX className="h-3.5 w-3.5" />}
-        </span>
-        <span className="hidden sm:block">
-          Ave Maria ambience
         </span>
       </button>
     </div>
@@ -815,12 +814,10 @@ function GardenAmbientAveMaria() {
 }
 
 function StickyListenBar({ onLyrics }) {
-  const { scrollY } = useScroll();
-  const opacity = useTransform(scrollY, [0, 280, 560], [0, 0.12, 1]);
-  const y = useTransform(scrollY, [0, 560], [26, 0]);
   const audioRef = useRef(null);
   const { requestSongFeedback } = useSongFeedback();
   const [playing, setPlaying] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const playPreview = useCallback(async () => {
     const audio = audioRef.current;
@@ -875,10 +872,28 @@ function StickyListenBar({ onLyrics }) {
     };
   }, []);
 
+  useEffect(() => {
+    const updateVisibility = () => {
+      const world = document.getElementById('world');
+      if (!world) return;
+      setVisible(world.getBoundingClientRect().top < window.innerHeight * 0.88);
+    };
+    updateVisibility();
+    window.addEventListener('scroll', updateVisibility, { passive: true });
+    window.addEventListener('resize', updateVisibility);
+    return () => {
+      window.removeEventListener('scroll', updateVisibility);
+      window.removeEventListener('resize', updateVisibility);
+    };
+  }, []);
+
   return (
     <motion.div
-      className="fixed bottom-4 left-1/2 z-50 w-[calc(100%-1.5rem)] max-w-3xl -translate-x-1/2 rounded-[1.6rem] border border-[#d4af37]/20 bg-[#071007]/88 px-3 py-2.5 shadow-[0_22px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:rounded-full md:bottom-6 md:left-auto md:right-6 md:w-[420px] md:translate-x-0 md:px-4"
-      style={{ opacity, y }}
+      className={`fixed bottom-4 left-1/2 z-50 w-[calc(100%-1.5rem)] max-w-3xl -translate-x-1/2 rounded-[1.6rem] border border-[#d4af37]/20 bg-[#071007]/88 px-3 py-2.5 shadow-[0_22px_80px_rgba(0,0,0,0.55)] backdrop-blur-xl sm:rounded-full md:bottom-6 md:left-auto md:right-6 md:w-[420px] md:translate-x-0 md:px-4 ${
+        visible ? 'pointer-events-auto' : 'pointer-events-none'
+      }`}
+      animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 26 }}
+      transition={{ duration: 0.45, ease: 'easeOut' }}
       data-song-feedback-exempt="true"
     >
       <audio
@@ -2155,17 +2170,20 @@ export default function MumTribute({ mode = 'foyer' }) {
   }
 
   return (
-    <main className="relative overflow-x-hidden bg-[#020502] pb-24 text-[#fff7df]">
+    <main className="relative bg-[#020502] pb-24 text-[#fff7df]">
       <GardenAmbientAveMaria />
       <StickyListenBar onLyrics={() => openDrawer('lyric', LYRIC_MOMENTS[0])} />
-      <SoniaGardenWelcome onOpenLyrics={() => document.getElementById('lyrics')?.scrollIntoView({ behavior: 'smooth' })} />
+      <GardenWalkEntrance
+        onOpenMemory={(photo) => openDrawer('photo', photo)}
+        onFinish={() => document.getElementById('world')?.scrollIntoView({ behavior: 'smooth' })}
+      />
 
       <div className="relative z-0">
         <GardenWorld id="world" image={GARDEN_HERO} brightness={0.62} minHeight="auto" align="center 45%">
           <div className="py-24 md:py-32">
             <SectionHeading eyebrow="The garden world" title="Real backyard, made sacred.">
               <p>
-                A more immaculate, luminous version of the world that still feels like her: robe, coffee, chair, leaves, light, lyrics, and exact family images.
+                The walk stays close to Sonia's backyard: robe, coffee, chair, concrete, leaves, orange flowers, lyrics, and exact family images.
               </p>
             </SectionHeading>
             <WithoutYouHereCoverFeature />
