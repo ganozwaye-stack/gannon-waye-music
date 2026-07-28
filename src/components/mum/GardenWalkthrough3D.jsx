@@ -501,51 +501,56 @@ export default function GardenWalkthrough3D({ onOpenFamily }) {
               {currentStop.detail}
             </p>
           </div>
+        </div>
 
-          <div className="flex flex-wrap items-center gap-2">
+        <div className="pointer-events-auto absolute bottom-28 right-5 z-30 flex flex-wrap items-center justify-end gap-2 sm:bottom-auto sm:top-28 md:right-10 md:top-32">
+          <button
+            type="button"
+            onClick={() => { setAutoWalk(false); goToStop(activeStop - 1); }}
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f5d06e]/26 bg-[#020502]/72 text-[#fff7df] shadow-[0_18px_38px_rgba(0,0,0,0.34)] backdrop-blur-md transition hover:border-[#f5d06e]/60 hover:text-[#f5d06e]"
+            aria-label="Previous garden stop"
+            title="Previous stop"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => { setAutoWalk(false); goToStop(activeStop + 1); }}
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f5d06e]/26 bg-[#020502]/72 text-[#fff7df] shadow-[0_18px_38px_rgba(0,0,0,0.34)] backdrop-blur-md transition hover:border-[#f5d06e]/60 hover:text-[#f5d06e]"
+            aria-label="Next garden stop"
+            title="Next stop"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setAutoWalk((value) => !value)}
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f5d06e]/26 bg-[#020502]/72 text-[#fff7df] shadow-[0_18px_38px_rgba(0,0,0,0.34)] backdrop-blur-md transition hover:border-[#f5d06e]/60 hover:text-[#f5d06e]"
+            aria-label={autoWalk ? 'Pause garden walk' : 'Play garden walk'}
+            title={autoWalk ? 'Pause walk' : 'Play walk'}
+          >
+            {autoWalk ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
+          </button>
+          <button
+            type="button"
+            onClick={() => { setAutoWalk(false); goToStop(0); }}
+            className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f5d06e]/26 bg-[#020502]/72 text-[#fff7df] shadow-[0_18px_38px_rgba(0,0,0,0.34)] backdrop-blur-md transition hover:border-[#f5d06e]/60 hover:text-[#f5d06e]"
+            aria-label="Return to garden gate"
+            title="Return to gate"
+          >
+            <RotateCcw className="h-5 w-5" />
+          </button>
+          {onOpenFamily && (
             <button
               type="button"
-              onClick={() => { setAutoWalk(false); goToStop(activeStop - 1); }}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f5d06e]/26 bg-[#020502]/58 text-[#fff7df] backdrop-blur-md transition hover:border-[#f5d06e]/60 hover:text-[#f5d06e]"
-              aria-label="Previous garden stop"
+              onClick={onOpenFamily}
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f5d06e]/36 bg-[#f5d06e]/18 text-[#fff7df] shadow-[0_18px_38px_rgba(0,0,0,0.34)] backdrop-blur-md transition hover:border-[#f5d06e]/70 hover:text-[#f5d06e]"
+              aria-label="Open family memory"
+              title="Open family memory"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <Footprints className="h-5 w-5" />
             </button>
-            <button
-              type="button"
-              onClick={() => { setAutoWalk(false); goToStop(activeStop + 1); }}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f5d06e]/26 bg-[#020502]/58 text-[#fff7df] backdrop-blur-md transition hover:border-[#f5d06e]/60 hover:text-[#f5d06e]"
-              aria-label="Next garden stop"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-            <button
-              type="button"
-              onClick={() => setAutoWalk((value) => !value)}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f5d06e]/26 bg-[#020502]/58 text-[#fff7df] backdrop-blur-md transition hover:border-[#f5d06e]/60 hover:text-[#f5d06e]"
-              aria-label={autoWalk ? 'Pause garden walk' : 'Play garden walk'}
-            >
-              {autoWalk ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
-            </button>
-            <button
-              type="button"
-              onClick={() => { setAutoWalk(false); goToStop(0); }}
-              className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f5d06e]/26 bg-[#020502]/58 text-[#fff7df] backdrop-blur-md transition hover:border-[#f5d06e]/60 hover:text-[#f5d06e]"
-              aria-label="Return to garden gate"
-            >
-              <RotateCcw className="h-5 w-5" />
-            </button>
-            {onOpenFamily && (
-              <button
-                type="button"
-                onClick={onOpenFamily}
-                className="flex h-12 w-12 items-center justify-center rounded-full border border-[#f5d06e]/36 bg-[#f5d06e]/18 text-[#fff7df] backdrop-blur-md transition hover:border-[#f5d06e]/70 hover:text-[#f5d06e]"
-                aria-label="Open family memory"
-              >
-                <Footprints className="h-5 w-5" />
-              </button>
-            )}
-          </div>
+          )}
         </div>
       </div>
     </section>
