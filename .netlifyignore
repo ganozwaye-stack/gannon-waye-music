@@ -1,0 +1,20 @@
+review-screenshots/
+
+# Raw reference downloads and rejected generated crops kept out of Netlify uploads.
+public/images/mum/garden-textures/melbourne-fern-gully-2017.jpg
+public/images/mum/garden-textures/mum-real-paver-corner-soft.png
+public/images/mum/garden-textures/real-backyard-pavers.jpg
+public/images/mum/garden-textures/real-concrete-pavers.png
+public/images/mum/garden-textures/real-hanging-fern.png
+public/images/mum/garden-textures/real-monstera-left.png
+public/images/mum/garden-textures/real-monstera-right.png
+public/images/mum/mum_garden_real_concrete_path_wide.jpg
+public/images/mum/mum_garden_real_foliage_soft.jpg
+public/images/mum/mum_garden_real_foliage_wide.jpg
+
+# Unverified local family-photo candidates are not deployed unless explicitly approved.
+public/images/mum/memory-lane/_memory_lane_manifest.json
+public/images/mum/memory-lane/ML006_FS011.jpg
+public/images/mum/memory-lane/ML031_FS070.jpg
+public/images/mum/memory-lane/ML053_FS108.jpg
+public/images/mum/memory-lane/ML063_FS124.jpg
