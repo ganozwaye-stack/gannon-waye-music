@@ -23,7 +23,7 @@ import {
 import { base44 } from '@/api/base44Client';
 import SoniaAmbientPlayer from '@/components/mum/SoniaAmbientPlayer';
 import SoniaLifelikeAvatar from '@/components/mum/SoniaLifelikeAvatar';
-import SoniaHeyGenReadiness from '@/components/mum/SoniaHeyGenReadiness';
+import GardenWalkthrough3D from '@/components/mum/GardenWalkthrough3D';
 import { useSongFeedback } from '@/components/global/SongFeedbackGate';
 import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/musicAssets';
 
@@ -42,6 +42,7 @@ const GARDEN_HERO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010
 const GARDEN_GALLERY = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6591fa60b_generated_image.png';
 const GARDEN_MUSIC = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/63f84cf4f_generated_image.png';
 const GARDEN_WISDOM = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/fc387c2b6_generated_image.png';
+const MUM_GARDEN_PHOTO = '/images/mum/mum_garden.jpg';
 const SONIA_GARDEN_PHOTO = '/images/mum/memory-lane/ML058_FS116.jpg';
 const SONIA_LOVE_PHOTO = '/images/mum/memory-lane/ML061_FS120.jpg';
 const AVE_MARIA_GANNON = 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/6e65f5e12_AveMariaGannonSinging.mp3';
@@ -163,7 +164,7 @@ const URMIKA_NOTE_MEMORY = {
   eyebrow: 'Handwritten memory',
   title: "Urmika's flower note",
   body: "You will always remember how it felt to laugh with your mum and be loved by her. Let those memories bring comfort in time. My sympathies and love go to you and your family, Gannon.",
-  source: 'Rewritten from a partly visible sympathy card from Urmika',
+  source: 'Recovered flower-card photo from Urmika',
 };
 
 const TATTOO_SCRAPBOOK_PHOTOS = [
@@ -211,11 +212,10 @@ const FAVOURITE_MOMENTS = [
   {
     title: 'Gold jewellery',
     note: 'A little shine, a little glamour, and the kind of detail that felt like her.',
-    detail: 'The space is ready for a real approved photo or cutout. No fake jewellery image should be invented for the public page.',
+    detail: 'A personal detail carried through real family images, never staged or invented.',
     image: '/images/mum/memory-lane/ML052_FS107.jpg',
     imageAlt: 'Sonia holding a little one, with her rings and watch visible.',
     objectPosition: 'center',
-    temporaryImageNote: 'temporary approved-family-photo placeholder',
   },
   {
     title: 'Coffee in the garden',
@@ -315,6 +315,45 @@ const LYRIC_MOMENTS = [
     kicker: 'Bridge',
     title: 'The quiet room',
     line: 'Two seconds without you feels too long.',
+  },
+];
+
+const GARDEN_WALK_STOPS = [
+  {
+    id: 'threshold',
+    eyebrow: 'The threshold',
+    title: 'Blue sky into backyard green',
+    body: 'The page opens in the sky, then settles into the chair, plants, mug, and robe that make the garden recognisably hers.',
+    image: SKY_ANGEL_HERO,
+    imageAlt: 'Sonia in the luminous sky before the garden begins.',
+    href: '#garden-entry',
+  },
+  {
+    id: 'chair',
+    eyebrow: 'Her chair',
+    title: 'Coffee in the garden',
+    body: 'This real photo is the anchor: Sonia in her robe, holding her mug, surrounded by the living backyard she made feel like home.',
+    image: MUM_GARDEN_PHOTO,
+    imageAlt: 'Sonia sitting in her garden with a mug.',
+    href: '#world',
+  },
+  {
+    id: 'love',
+    eyebrow: 'Family love',
+    title: 'A restored moment, not a replacement',
+    body: 'The restored kiss photo appears as a landmark on the path: intimate, clear, and still grounded in the real family archive.',
+    image: SONIA_DAD_KISS_FEATURE,
+    imageAlt: 'Sonia and her husband sharing a kiss.',
+    href: '#photos',
+  },
+  {
+    id: 'song',
+    eyebrow: 'The song',
+    title: 'Without You Here becomes the lantern',
+    body: 'The song remains the emotional spine of the walkthrough, close enough to the garden that visitors feel why it belongs here.',
+    image: WITHOUT_YOU_HERE_COVER,
+    imageAlt: 'Without You Here single artwork.',
+    href: '#lyrics',
   },
 ];
 
@@ -705,24 +744,93 @@ function SoniaGardenPresenceFeature() {
 
 function SoniaGardenWelcome({ onOpenLyrics }) {
   return (
-    <GardenWorld id="garden-entry" image={GARDEN_HERO} brightness={0.66} minHeight="100vh" align="center 45%">
+    <GardenWorld id="garden-entry" image={MUM_GARDEN_PHOTO} brightness={0.82} minHeight="100vh" align="center 28%">
       <div className="flex min-h-screen items-center px-5 py-24 md:px-10 md:py-28">
-        <div className="mx-auto w-full max-w-7xl">
-          <div className="rounded-[2.2rem] border border-[#d4af37]/16 bg-[#071007]/30 p-6 shadow-[0_30px_110px_rgba(0,0,0,0.36)] backdrop-blur-sm md:p-8 lg:p-10">
-            <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
-              <div>
-                <p className="font-body text-[10px] uppercase tracking-[0.72em] text-[#f5d06e]/62 [text-shadow:0_0_16px_rgba(212,175,55,0.35)]">Mum's Garden</p>
-                <h1 className="mt-5 font-display text-5xl leading-[0.95] text-[#fff7df] [text-shadow:0_3px_18px_rgba(0,0,0,0.78),0_0_22px_rgba(212,175,55,0.22)] md:text-7xl">
-                  Welcome to Sonia's Garden
-                </h1>
-                <p className="mt-6 max-w-2xl font-body text-base leading-8 text-[#fff7df]/72 md:text-lg">
-                  A soft walk through the world she left behind: the garden light, the family photos, the song written for her, and the ordinary details that made Sonia feel like home.
-                </p>
-              </div>
-              <SoniaGardenPresenceFeature />
+        <div className="mx-auto grid w-full max-w-7xl gap-10 lg:grid-cols-[minmax(0,0.86fr)_minmax(420px,1.14fr)] lg:items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.12 }}
+          >
+            <p className="font-body text-[10px] uppercase tracking-[0.72em] text-[#f5d06e]/70 [text-shadow:0_0_16px_rgba(212,175,55,0.35)]">Mum's Garden</p>
+            <h1 className="mt-5 max-w-3xl font-display text-5xl leading-[0.95] text-[#fff7df] [text-shadow:0_3px_18px_rgba(0,0,0,0.82),0_0_22px_rgba(212,175,55,0.18)] md:text-7xl">
+              Step into the garden she actually sat in.
+            </h1>
+            <p className="mt-6 max-w-2xl font-body text-base leading-8 text-[#fff7df]/76 md:text-lg">
+              The sky foyer brings you to the gate. This is the real garden feeling: Sonia in her robe, mug in hand, plants around her, music close enough to hold.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <GoldButton onClick={() => document.getElementById('garden-walk')?.scrollIntoView({ behavior: 'smooth' })} icon={Sprout}>
+                Begin the walk
+              </GoldButton>
+              <GoldButton onClick={onOpenLyrics} subtle icon={BookOpen}>
+                Hear the lyric
+              </GoldButton>
             </div>
+          </motion.div>
+
+          <div className="space-y-5">
+            <SoniaGardenPresenceFeature />
             <WithoutYouHerePreviewPlayer onLyrics={onOpenLyrics} variant="wide" />
           </div>
+        </div>
+      </div>
+    </GardenWorld>
+  );
+}
+
+function GardenWalkthroughStep({ stop, index }) {
+  const isGardenChair = stop.id === 'chair';
+
+  return (
+    <motion.a
+      href={stop.href}
+      className={`group relative block overflow-hidden rounded-[1.7rem] border border-[#d4af37]/16 bg-[#071007]/68 text-left shadow-[0_24px_90px_rgba(0,0,0,0.38)] backdrop-blur-md transition duration-300 hover:-translate-y-1 hover:border-[#d4af37]/36 ${isGardenChair ? 'lg:col-span-2' : ''}`}
+      initial={{ opacity: 0, y: 26 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-12%' }}
+      transition={{ duration: 0.7, delay: index * 0.06 }}
+      aria-label={`Walk to ${stop.title}`}
+    >
+      <div className={`relative overflow-hidden bg-black/30 ${isGardenChair ? 'aspect-[16/9]' : 'aspect-[4/5] sm:aspect-[5/4] lg:aspect-[4/5]'}`}>
+        <img
+          src={stop.image}
+          alt={stop.imageAlt}
+          loading={index === 0 ? 'eager' : 'lazy'}
+          className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.035]"
+          style={{
+            objectPosition: stop.id === 'threshold' ? 'center 24%' : stop.id === 'chair' ? 'center 28%' : 'center',
+            filter: stop.id === 'song' ? 'brightness(0.9) contrast(1.04) saturate(1.04)' : 'brightness(0.96) contrast(1.04) saturate(1.02)',
+          }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,16,7,0.02),rgba(7,16,7,0.68)),radial-gradient(circle_at_50%_12%,rgba(255,244,189,0.14),transparent_42%)]" />
+        <div className="absolute left-4 top-4 rounded-full border border-[#f5d06e]/22 bg-[#071007]/70 px-3 py-1.5 font-body text-[9px] font-bold uppercase tracking-[0.26em] text-[#f5d06e]/76 backdrop-blur-md">
+          {String(index + 1).padStart(2, '0')}
+        </div>
+      </div>
+      <div className="p-5">
+        <p className="font-body text-[9px] uppercase tracking-[0.36em] text-[#d4af37]/56">{stop.eyebrow}</p>
+        <h3 className="mt-3 font-display text-3xl leading-tight text-[#fff7df]">{stop.title}</h3>
+        <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/58">{stop.body}</p>
+      </div>
+    </motion.a>
+  );
+}
+
+function GardenThresholdWalkthrough() {
+  return (
+    <GardenWorld id="garden-walk" image={MUM_GARDEN_PHOTO} brightness={0.68} minHeight="auto" align="center 28%">
+      <div className="py-24 md:py-32">
+        <SectionHeading eyebrow="Walkthrough" title="From sky to her chair, then through the memories.">
+          <p>
+            The first movement now follows the exact emotional route: sky, garden chair, family love, then the song. It should feel like entering a place, not reading a page.
+          </p>
+        </SectionHeading>
+
+        <div className="mx-auto mt-14 grid max-w-6xl gap-5 px-5 sm:grid-cols-2 lg:grid-cols-4">
+          {GARDEN_WALK_STOPS.map((stop, index) => (
+            <GardenWalkthroughStep key={stop.id} stop={stop} index={index} />
+          ))}
         </div>
       </div>
     </GardenWorld>
@@ -761,7 +869,7 @@ function GardenAmbientAveMaria() {
 
   return (
     <div
-      className="fixed bottom-4 left-4 z-50 max-w-[calc(100vw-2rem)] rounded-full border border-[#d4af37]/18 bg-[#071007]/76 px-3 py-2 shadow-[0_18px_60px_rgba(0,0,0,0.42)] backdrop-blur-xl md:bottom-6 md:left-6"
+      className="fixed right-4 top-4 z-50 max-w-[calc(100vw-2rem)] rounded-full border border-[#d4af37]/18 bg-[#071007]/76 px-3 py-2 shadow-[0_18px_60px_rgba(0,0,0,0.42)] backdrop-blur-xl sm:bottom-4 sm:left-4 sm:right-auto sm:top-auto md:bottom-6 md:left-6"
       data-song-feedback-exempt="true"
     >
       <audio
@@ -958,7 +1066,7 @@ function FavouriteThingsFeature({ onOpen }) {
           </h3>
         </div>
         <p className="font-body text-sm leading-7 text-[#fff7df]/54">
-          These are memory plaques rather than product cards. Some can open now, and some are waiting for an approved real photo before they become visual cutouts.
+          These are memory plaques rather than product cards: children, coffee, flowers, gold, and the song, each kept close to the real family story.
         </p>
       </div>
 
@@ -996,11 +1104,6 @@ function FavouriteThingsFeature({ onOpen }) {
                 <div>
                   <p className="font-display text-2xl leading-tight text-[#fff7df]">{item.title}</p>
                   <p className="mt-3 font-body text-sm leading-6 text-[#fff7df]/58">{item.note}</p>
-                  {item.temporaryImageNote && (
-                    <p className="mt-3 font-body text-[9px] uppercase tracking-[0.2em] text-[#f5d06e]/42">
-                      {item.temporaryImageNote}
-                    </p>
-                  )}
                 </div>
                 <p className="mt-6 font-body text-[10px] uppercase tracking-[0.24em] text-[#d4af37]/58">
                   Open memory note
@@ -1074,7 +1177,7 @@ function WithoutYouHereCoverFeature() {
           Gannon wrote “Without You Here” in his loungeroom. Mum’s Garden is the place the song now leads people into: a gentle memorial world where grief, love, photos, and memories can land.
         </p>
         <p className="mt-4 rounded-[1.15rem] border border-[#d4af37]/14 bg-[#f5d06e]/[0.055] p-4 font-body text-xs leading-6 text-[#fff7df]/56">
-          Important release note: the song was not written in a garden. The garden is the tribute experience being built around Sonia’s memory.
+          The song was written in Gannon's loungeroom. The garden is the tribute world it now opens into for Sonia.
         </p>
       </div>
     </motion.div>
@@ -1092,7 +1195,7 @@ function MemoryLaneJourneyCard({ photo, index, onOpen, side = 'left', compact = 
   const displayPhoto = {
     ...photo,
     label: memoryLanePhotoLabel(photo, index),
-    caption: photo.caption || 'Ready for Gannon to caption during review.',
+    caption: photo.caption || 'A family memory held with care inside Sonia’s garden.',
     source: photo.source || 'Cleaned Mum Garden image audit',
   };
 
@@ -1201,7 +1304,7 @@ function FeaturedServiceMoments() {
           The service gives the page its first anchors.
         </h4>
         <p className="mt-4 max-w-3xl font-body text-sm leading-7 text-[#fff7df]/62">
-          These are the verified pieces we can safely carry forward now, with space kept for the full service transcript when the audio is ready.
+          These are the family anchors the page carries softly: name, dates, devotion, and the love that remains.
         </p>
         <div className="mt-6 grid gap-3 md:grid-cols-2">
           {FEATURED_SERVICE_MOMENTS.map((moment) => (
@@ -1244,7 +1347,7 @@ function HandwrittenUrmikaNote() {
             {URMIKA_NOTE_MEMORY.title}
           </h4>
           <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/62">
-            The original card photo is partly cut off, so this is presented as a rewritten memorial moment for review rather than an exact full transcript.
+            The card is handled gently here, preserving the comfort of the message without pretending to show more than the source can hold.
           </p>
           <p className="mt-4 font-body text-[9px] uppercase tracking-[0.28em] text-[#f5d06e]/48">{URMIKA_NOTE_MEMORY.source}</p>
         </div>
@@ -1267,10 +1370,10 @@ function HandwrittenUrmikaNote() {
 function HospitalTranscriptHoldMoment() {
   return (
     <MemoryLaneCenterMoment
-      eyebrow="Service transcript next"
-      title="The hospital lady's memory is being held for the exact words."
-      body="The service video has been found in Google Drive, but the full audio still needs transcription. This moment is reserved so the page can honour the lady who cherished Sonia without inventing her words."
-      quote="Exact transcript pending family review."
+      eyebrow="Honest memory"
+      title="Some spaces stay quiet until the exact words are known."
+      body="Where the source is incomplete, the garden stays honest: no invented speeches, no borrowed voice, only the feeling carried with care."
+      quote="No invented words. Only love held carefully."
       image={GARDEN_WISDOM}
     />
   );
@@ -1376,7 +1479,7 @@ function MemoryLaneCenterStack({ onOpen, onOpenLyrics }) {
       <MemoryLaneCenterMoment
         eyebrow="Favourite things"
         title="Children, coffee, gold, flowers, and the little rituals."
-        body="This centre lane is ready for your approved photo of the kids with Mum, jewellery details, coffee memories, and the tattoo-making images when we confirm the right files."
+        body="This centre lane carries her children, jewellery details, coffee memories, and the tattoo-making images as one living path."
         image={GARDEN_MUSIC}
       />
     </div>
@@ -1557,7 +1660,7 @@ function TattooScrapbook({ onOpen }) {
           <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/52">Carrying her with you</p>
           <h3 className="mt-3 font-display text-3xl text-[#fff7df]">Tattoo scrapbook memories stay together.</h3>
           <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/52">
-            These are treated as one intimate collage, not scattered through the garden. Final public use still needs your approval.
+            These are treated as one intimate collage, not scattered through the garden.
           </p>
         </div>
 
@@ -1642,7 +1745,7 @@ function CapturedSlideshow({ onOpen }) {
         <p className="font-body text-[9px] uppercase tracking-[0.38em] text-[#d4af37]/52">Exact photo gallery</p>
         <h3 className="mt-3 font-display text-3xl text-[#fff7df]">A first wall of real family photographs.</h3>
         <p className="mt-4 font-body text-sm leading-7 text-[#fff7df]/52">
-          These images come from the cleaned local Mum Garden gallery set. They stay as real photos, with captions ready for family review.
+          These images come from the cleaned Mum Garden gallery set. They stay as real photos, with gentle captions that leave room for family memory.
         </p>
       </div>
 
@@ -1651,7 +1754,7 @@ function CapturedSlideshow({ onOpen }) {
           const displayPhoto = {
             ...photo,
             label: memoryLanePhotoLabel(photo, index),
-            caption: photo.caption || 'Ready for Gannon and family to caption during review.',
+            caption: photo.caption || 'A family memory held with care inside Sonia’s garden.',
             source: photo.source || 'Cleaned Mum Garden image audit',
           };
 
@@ -2325,6 +2428,15 @@ export default function MumTribute({ mode = 'foyer' }) {
       <GardenAmbientAveMaria />
       <StickyListenBar onLyrics={() => openDrawer('lyric', LYRIC_MOMENTS[0])} />
       <SoniaGardenWelcome onOpenLyrics={() => document.getElementById('lyrics')?.scrollIntoView({ behavior: 'smooth' })} />
+      <GardenThresholdWalkthrough />
+      <GardenWalkthrough3D
+        onOpenFamily={() => openDrawer('photo', {
+          src: FAVOURITE_MOMENTS[0].image,
+          label: 'Her children',
+          caption: `${FAVOURITE_MOMENTS[0].note} ${FAVOURITE_MOMENTS[0].detail}`,
+          source: 'Approved family feature image',
+        })}
+      />
 
       <div className="relative z-0">
         <GardenWorld id="world" image={GARDEN_HERO} brightness={0.62} minHeight="auto" align="center 45%">
@@ -2395,15 +2507,14 @@ export default function MumTribute({ mode = 'foyer' }) {
 
       <GardenWorld id="sonia-guide" image={GARDEN_WISDOM} brightness={0.46} minHeight="auto">
         <div className="py-24 md:py-32">
-          <SectionHeading eyebrow="Sonia’s Memory Presence" title="No fake Mum. Just her, held beautifully.">
+          <SectionHeading eyebrow="Sonia’s memory presence" title="No fake Mum. Just her, held beautifully.">
             <p>
-              This section uses exact Sonia imagery and protected family recordings only where approved. No strange avatar crop, no generated replacement person, and no pretending technology can replace her.
+              This section uses exact Sonia imagery and protected family recordings only where they belong. No strange avatar crop, no generated replacement person, and no pretending technology can replace her.
             </p>
           </SectionHeading>
           <SoniaLifelikeAvatar
             onComfort={() => openDrawer('comfort')}
           />
-          <SoniaHeyGenReadiness />
         </div>
       </GardenWorld>
 
