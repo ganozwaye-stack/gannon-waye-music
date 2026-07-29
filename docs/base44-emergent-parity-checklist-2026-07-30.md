@@ -11,15 +11,17 @@ Base44 remains live until every required replacement lane below is proven on a n
 - Current PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 - Current PR head and CI status: tracked in PR #31 checkpoint comments
 - Latest current-head local audit snapshot: `docs/current-head-audit-2026-07-30-0351.md`
+- Latest fresh launch-critical local slice: 2026-07-30 06:22 AEST, `61 passed`
 - Base44 live position: keep live as fallback/stability source
 
 ## What Is Proven On The Staging Branch
 
 - Main public routes load in the local/CI smoke scope.
-- Store front, product grid, cart, customer details, checkout result aliases, promo rules, and shipping guardrails have passing Playwright coverage.
+- Store front, product grid, cart, customer details, checkout result aliases, promo rules, and shipping/commerce guardrails have passing Playwright coverage.
 - Mum's Garden private route, old public redirect, media exposure guard, and master-audio exposure checks have passing coverage.
 - `npm run lint`, `npm run build`, `npm audit --audit-level=moderate`, direct `tsc`, and focused Playwright checks passed locally for the current safe set.
 - GitHub CI passed on the latest PR head.
+- The fresh 06:22 local slice passed `public-routes`, `store-load`, `store-visuals`, `mum-tribute`, `security`, `coaching-private-lock`, `master-exposure`, and `commerce-guardrails`.
 
 ## What Is Not Proven Yet
 
@@ -56,7 +58,7 @@ This bounded scan confirms the migration blocker is still present in current cod
 - `base44/functions/createCheckoutSession/entry.ts:1-2` imports Stripe and `@base44/sdk`, then reads `MerchProduct` records through Base44 at `base44/functions/createCheckoutSession/entry.ts:126-137` and `base44/functions/createCheckoutSession/entry.ts:153-158`.
 - `base44/agents/qa_systems_auditor.jsonc:1-3` shows Base44 agent definitions remain part of the system design, including entity/notification/approval workflow expectations.
 
-Conclusion: PR #31 is a green staging candidate for local preview, but it is not an Emergent parity build. Emergent needs a separate rebuild/import lane for Base44 data, functions, agents, auth, checkout, Stripe webhooks, OAuth connectors, and GanozMix state before any live cutover.
+Conclusion: PR #31 is a green staging candidate for local preview, but it is not an Emergent parity build. Emergent needs a separate rebuild/import lane for Base44 data, functions, agents, auth, checkout, Stripe webhooks, OAuth connectors, and GanozMix state before any live cutover. A green website/store PR does not prove replacement-platform parity.
 
 ## Required Emergent Staging Phases
 
