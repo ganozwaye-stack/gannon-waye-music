@@ -1,6 +1,6 @@
 # Emergent GanozMix Direct Handoff
 
-Updated: 17 July 2026
+Updated: 30 July 2026
 
 Purpose: give Emergent a clean, bounded build brief for GanozMix Direct without importing unstable Base44 marketplace state or mixing it with Gannon Waye Music commerce.
 
@@ -9,8 +9,23 @@ Purpose: give Emergent a clean, bounded build brief for GanozMix Direct without 
 - GitHub source of truth: `ganozwaye-stack/gannon-waye-music`.
 - Migration tracker: `https://github.com/ganozwaye-stack/gannon-waye-music/issues/27`.
 - Current migration priority order: `docs/base44-to-emergent-priority-list.md`.
+- Current launch staging PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`.
+- Current launch staging head: `1017ce79282a493c41e2f5d1bd2553fbd838feba`.
+- Current parity checklist: `docs/base44-emergent-parity-checklist-2026-07-30.md`.
+- Current dropshipping procedure: `docs/micro-brand-dropshipping-procedure-2026-07-30.md`.
 - Base44 source app: `GanozMix Direct`, app id `69eb857abaebfe9e3df48083`.
 - Base44 copy app exists, but the July 10 audit says the original app contains the real product state.
+
+## Current Launch-Control Position
+
+The Gannon Waye staging branch is green, but this is not a production cutover approval. Emergent should be treated as a separate non-production rebuild/import path until the parity checklist passes.
+
+Current safe position:
+
+- Keep Base44 live.
+- Keep GanozMix Direct review-only.
+- Keep Gannon Waye Music merch/payment/order data separate from GanozMix experiments.
+- Keep marketplace publishing, supplier ordering, live Stripe proof, customer email, DNS, and Base44 live-state changes approval-gated.
 
 ## Current Base44 Evidence
 

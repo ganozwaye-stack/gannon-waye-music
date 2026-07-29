@@ -1,6 +1,6 @@
 # Base44 to Emergent Priority List
 
-Updated: 17 July 2026
+Updated: 30 July 2026
 
 Purpose: move toward Emergent without losing the working Gannon Waye Music site, store, approvals, content records, or evidence trail. GitHub is the source of truth for code, docs, tests, dispatch files, migration decisions, and handoff packs.
 
@@ -8,10 +8,15 @@ Purpose: move toward Emergent without losing the working Gannon Waye Music site,
 
 - GitHub repo: `ganozwaye-stack/gannon-waye-music`.
 - GitHub tracker: `https://github.com/ganozwaye-stack/gannon-waye-music/issues/27`.
-- Current clean migration branch: `upgrade/base44-emergent-migration`.
+- Current launch staging branch: `launch/gannon-waye-suite-2026-07-29`.
+- Current launch staging PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`.
+- Current launch staging head: `1017ce79282a493c41e2f5d1bd2553fbd838feba`.
+- Detailed parity checklist: `docs/base44-emergent-parity-checklist-2026-07-30.md`.
+- Detailed dropshipping procedure: `docs/micro-brand-dropshipping-procedure-2026-07-30.md`.
+- Previous clean migration branch `upgrade/base44-emergent-migration` remains useful for history, but PR #31 is the current audited launch-control branch.
 - Historical route-integration branch `upgrade/gwm-command-centre-v2` remains open, but is not the clean Base44-to-Emergent merge path because it conflicts broadly with current `main`.
 - Base44 project config exists at `base44/config.jsonc`.
-- Build, lint, and public/store/cart smoke tests passed locally after the July 17 workflow updates.
+- Build, lint, direct typecheck, local npm audit, focused Playwright checks, and 8 of 8 GitHub checks passed on the current launch staging head.
 - Base44 remains the live/stability source until an Emergent replacement has feature parity and approval.
 - Emergent must stay separate from Gannon Waye Music checkout, Stripe, supporter identity, and order logic unless a later migration is explicitly approved.
 
@@ -19,7 +24,7 @@ Purpose: move toward Emergent without losing the working Gannon Waye Music site,
 
 ### 1. Lock GitHub as the Source of Truth
 
-Status: in progress.
+Status: current staging branch is green, but not production-approved.
 
 Do now:
 
@@ -27,6 +32,7 @@ Do now:
 - Keep `.env.example` placeholder-only; real secrets stay in Base44/GitHub secret stores.
 - Keep all migration decisions in `docs/` or `system-dispatch/`.
 - Commit changes only after lint/build/smoke checks pass.
+- Keep PR #31 as the current launch-control evidence thread unless a cleaner replacement PR is explicitly created.
 
 Evidence to require:
 
@@ -55,7 +61,7 @@ Human approval/login needed:
 
 ### 3. Define the Emergent Build Boundary
 
-Status: implemented as a handoff brief in `docs/emergent-ganozmix-handoff.md`; still pending Emergent import/build.
+Status: implemented as a handoff brief in `docs/emergent-ganozmix-handoff.md` and strengthened by `docs/base44-emergent-parity-checklist-2026-07-30.md`; still pending Emergent import/build.
 
 Emergent should own:
 
@@ -75,7 +81,7 @@ Emergent must not inherit automatically:
 
 ### 4. Repair GanozMix Direct Before Marketplace Push
 
-Status: blocked by external marketplace/OAuth state.
+Status: procedure documented and approval-only; live marketplace push remains blocked by external marketplace/OAuth state and missing supplier verification.
 
 Priority product to action first:
 
@@ -191,6 +197,6 @@ Do not include:
 1. Confirm this priority order.
 2. Commit/push the GitHub source-of-truth updates.
 3. Open or update a GitHub PR for migration readiness.
-4. Build an Emergent handoff pack from the Base44/GanozMix boundaries.
+4. Build an Emergent handoff pack from the Base44/GanozMix boundaries and `docs/base44-emergent-parity-checklist-2026-07-30.md`.
 5. Use Base44 editor/connector to create or confirm approval records.
 6. Reconnect blocked external services only when Gannon is present.

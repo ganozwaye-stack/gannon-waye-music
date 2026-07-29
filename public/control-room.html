@@ -85,8 +85,8 @@
         </article>
         <article class="card metric">
           <p class="eyebrow">Code Checkpoint</p>
-          <strong>7f067bb</strong>
-          <span>Launch typing/status hardening is green. Newest pushed branch head 758affc is board-only and also green.</span>
+          <strong>1017ce7</strong>
+          <span>Latest pushed PR head is green: 8 of 8 GitHub Actions checks passed.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Clean Core</p>
@@ -102,23 +102,23 @@
 
       <section class="grid lane-grid">
         <article class="card lane">
-          <span class="state amber">Doing</span>
+          <span class="state green">Green PR</span>
           <h3>Main Website</h3>
           <ul>
             <li>PR staging branch is active.</li>
             <li>Homepage/public routes passed launch-critical checks.</li>
             <li>Final-run document and PR checkpoint reflect current evidence.</li>
-            <li>Local typecheck is now clean after public fixes and explicit admin legacy exemptions.</li>
+            <li>Production deploy is still approval-gated.</li>
           </ul>
         </article>
         <article class="card lane">
-          <span class="state green">Mostly Clean</span>
+          <span class="state green">Sonia First</span>
           <h3>Mum's Garden</h3>
           <ul>
             <li>Private/gated route passed launch-critical checks.</li>
             <li>Private Mum audio and raw media are blocked from dev/build/deploy output.</li>
             <li>Old public /mums-garden route redirects to the private gate.</li>
-            <li>Sitemap/social metadata no longer advertise Mum's Garden.</li>
+            <li>Latest garden entrance uses Sonia-present images and keeps the single artwork feature at the top.</li>
           </ul>
         </article>
         <article class="card lane">
@@ -145,8 +145,8 @@
           <h3>GitHub Audit</h3>
           <ul>
             <li>PR #31 is draft/open/mergeable.</li>
-            <li>GitHub checks passed on code checkpoint 7f067bb.</li>
-            <li>Board-only branch head 758affc is also green, 8 of 8 checks passed.</li>
+            <li>GitHub checks passed on latest pushed head 1017ce7.</li>
+            <li>8 of 8 Actions checks are green, including CodeQL, secret scanning, security/coaching, and store/cart.</li>
             <li>Private Mum media remains unstaged.</li>
           </ul>
         </article>
@@ -156,14 +156,15 @@
         <article class="card">
           <h2>Everything Needed To Finish</h2>
           <ul>
-            <li>Main website: preserve the working public site, run lint/build/route checks, and keep a launch preview ready without changing production.</li>
-            <li>Mum's Garden: keep private gate protection, coming-soon/private access, approved preview-only audio, no grave/funeral/blurred/wrong-person images, and no AI Sonia publication without approval.</li>
-            <li>Mum media curation: only publish images where Sonia is present, keep personal/raw review media unstaged until approved, and separate younger-years, perfume/favourite-things, tattoo imagery, and single artwork feature sections.</li>
-            <li>Merch store: keep the store-first view, neon Gannon Waye retail identity, cart/checkout guardrails, international shipping quote lock, and no live Stripe/supplier/marketplace action without approval.</li>
-            <li>Dropshipping procedure: document supplier, listing, fulfilment, refund, margin, and approval steps before any product goes live.</li>
-            <li>Base44 to Emergent: audit code parity, keep Base44 live, and only stage migration once auth, data, functions, checkout, orders, and agents match.</li>
-            <li>GitHub/local audit loop: typecheck, lint, build, Playwright batches, security greps, npm audit, PR checks, then fix and rerun until clean or clearly blocked.</li>
-            <li>Approval gates: ask before hosted preview, final deploy, DNS, Stripe, marketplace, supplier orders, customer emails, passwords, 2FA, Base44 live changes, or AI Sonia voice/avatar publication.</li>
+            <li>1. Main website and launch preview: preserve working public pages, store routes, mobile layout, security locks, and PR staging evidence.</li>
+            <li>2. Mum's Garden gate and memorial: private access stays protected; coming-soon/private entry must feel finished; no grave, funeral, blurred, wrong-person, or no-Sonia images are allowed.</li>
+            <li>3. Mum media curation: use Sonia-present images only; keep younger-years, perfume/favourite-things, tattoo imagery, family, and single artwork sections separated for approval.</li>
+            <li>4. Audio and avatar policy: approved preview-only music can be referenced; AI Sonia voice/avatar and raw voicemail audio stay unpublished until you explicitly approve.</li>
+            <li>5. Merch store: store-first view, neon Gannon Waye retail design, cart rules, product drops, sizing, domestic/international shipping guardrails, and checkout locks must all work.</li>
+            <li>6. Micro-brand dropshipping procedure: supplier choice, print file rules, listing workflow, margins, fulfilment, returns, customer service, and approval checkpoints must be written before orders go live.</li>
+            <li>7. Base44 to Emergent migration: prove parity for auth, data, products, cart, checkout, orders, functions, agents, redirects, and analytics before switching anything live.</li>
+            <li>8. GitHub/local audit loop: typecheck, lint, build, npm audit, security greps, Playwright batches, GitHub checks, fix, rerun, and repeat until green or clearly approval-blocked.</li>
+            <li>9. Live-action approvals: ask before hosted preview, production deploy, DNS, Stripe, marketplace, supplier orders, customer emails, passwords, 2FA, Base44 live changes, or AI Sonia publication.</li>
           </ul>
         </article>
 
@@ -190,8 +191,17 @@
 Still blocked, watchlisted, or approval-gated:
 - Admin legacy screens use explicit // @ts-nocheck exemptions to avoid risky business-logic edits under launch pressure
 - One checkout Playwright test was flaky but passed on retry: different sizes create separate cart lines
-- GitHub checks for 7f067bb: 8 of 8 passed as of 2026-07-30 00:04 AEST
-- GitHub checks for board-only head 758affc: 8 of 8 passed as of 2026-07-30 00:08 AEST
+- GitHub checks for 1017ce7: 8 of 8 passed as of 2026-07-30 01:17 AEST
+- Mum's Garden Sonia-first update:
+  - generic no-Sonia garden-reference images are not used in the launch component
+  - single artwork cover is featured in the top section
+  - local Ave Maria acapella file remains unstaged and unpublished
+- Evidence docs added/updated locally:
+  - docs/micro-brand-dropshipping-procedure-2026-07-30.md
+  - docs/base44-emergent-parity-checklist-2026-07-30.md
+  - docs/gannon-waye-suite-final-run-2026-07-29.md
+  - docs/base44-to-emergent-priority-list.md
+  - docs/emergent-ganozmix-handoff.md
 - Base44 to Emergent is not parity-proven; keep Base44 live
 - GitHub reports Dependabot warnings on the default branch
 - Production deploy/preview/DNS/Stripe/supplier/AI Sonia actions require approval</div>
@@ -206,11 +216,12 @@ Still blocked, watchlisted, or approval-gated:
             <li>2. Stabilize the current local WIP by patching launch-relevant typecheck errors only. Done.</li>
             <li>3. Rerun typecheck and record the remaining count. Done: 0 errors.</li>
             <li>4. Rerun npm lint, npm build, npm audit, and the launch-critical Playwright route batches. Done locally.</li>
-            <li>5. Remove generated local logs, stage only safe tracked changes, and keep private Mum media unstaged.</li>
-            <li>6. Commit and push the safe fix set to PR #31. Done: 7f067bb.</li>
-            <li>7. Watch GitHub checks, fix failures, and repeat the audit loop until green or clearly blocked. In progress.</li>
-            <li>8. Update this board, the final-run doc, and the PR checkpoint with evidence.</li>
-            <li>9. Ask for explicit approval before any hosted preview, production deploy, DNS, Stripe, supplier, marketplace, email, Base44 live, password/2FA, or AI Sonia action.</li>
+            <li>5. Remove generated local logs, stage only safe tracked changes, and keep private Mum media unstaged. Done for the current safe set.</li>
+            <li>6. Commit and push the safe fix set to PR #31. Done: 1017ce7.</li>
+            <li>7. Watch GitHub checks, fix failures, and repeat the audit loop until green or clearly blocked. Done for current head: 8 of 8 passed.</li>
+            <li>8. Keep this board, the final-run doc, and the PR checkpoint updated with evidence as work continues.</li>
+            <li>9. Next execution pass: validate the new docs/checklists, commit safe evidence updates if clean, then prepare approval request for preview/deploy.</li>
+            <li>10. Ask for explicit approval before any hosted preview, production deploy, DNS, Stripe, supplier, marketplace, email, Base44 live, password/2FA, or AI Sonia action.</li>
           </ul>
         </article>
 
@@ -221,7 +232,7 @@ Still blocked, watchlisted, or approval-gated:
             <li>Hilbert: completed Mum's Garden and memorial media safety audit.</li>
             <li>Ohm: completed merch store and dropshipping procedure audit.</li>
             <li>Ampere: completed Base44-to-Emergent parity blocker audit.</li>
-            <li>No subagent is currently running; I am doing the local patch/audit loop directly from this control room.</li>
+            <li>No subagent is currently running; I am doing the local patch, GitHub check, and visible board loop directly from this control room.</li>
             <li>Local tools helping: npm, Vite build, Playwright, git, GitHub connector.</li>
             <li>Browser page: this live control-room board for observation.</li>
           </ul>
@@ -229,7 +240,7 @@ Still blocked, watchlisted, or approval-gated:
       </section>
 
       <footer>
-        Last updated: 2026-07-30 00:41 AEST. This is a local preview board only.
+        Last updated: 2026-07-30 01:21 AEST. This is a local preview board only.
       </footer>
     </main>
   </body>
