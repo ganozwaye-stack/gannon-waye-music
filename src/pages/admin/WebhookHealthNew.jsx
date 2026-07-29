@@ -183,7 +183,10 @@ export default function WebhookHealthNew() {
         <div className="flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
           <div className="flex-1">
-            <p className="font-semibold text-yellow-300">Verify Webhook Delivery in Stripe Dashboard</p>
+            <p className="font-semibold text-yellow-300">Stripe Webhook Delivery Failure Check</p>
+            <p className="text-xs text-yellow-200/80 mt-1">
+              Treat missing or failed Stripe deliveries as order-risk until Stripe Dashboard proves the primary webhook is returning 2xx.
+            </p>
             <p className="text-sm text-foreground/70 mt-1">
               Confirm your <strong>stripeWebhook</strong> endpoint is receiving signed events and returning 2xx. This is the primary order fulfillment path.
             </p>
