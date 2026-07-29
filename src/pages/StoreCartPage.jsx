@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, ShoppingBag, Trash2, Plus, Minus } from 'lucide-react';
 import { useCartStore } from '@/lib/cartStore';
 import { Button } from '@/components/ui/button';
+import CartItemImage from '@/components/store/CartItemImage';
 
 export default function StoreCartPage() {
   const navigate = useNavigate();
@@ -71,13 +72,12 @@ export default function StoreCartPage() {
                 data-testid="cart-item"
                 className="bg-card/40 border border-border/30 rounded-2xl p-4 flex gap-4"
               >
-                {item.product?.image_url && (
-                  <img
-                    src={item.product.image_url}
-                    alt={item.product.name}
-                    className="w-16 h-16 object-cover rounded-lg shrink-0"
-                  />
-                )}
+                <CartItemImage
+                  product={item.product}
+                  alt={item.product?.name}
+                  testId="cart-page-item-image"
+                  className="w-16 h-16 object-cover rounded-lg shrink-0 bg-secondary/50"
+                />
                 <div className="flex-1 min-w-0">
                   <p className="font-display text-sm text-foreground leading-snug">{item.product?.name}</p>
                   {item.size && (

@@ -68,6 +68,16 @@ test.describe('Order Review / Checkout Page', () => {
     await expect(lines.first()).toBeVisible();
   });
 
+  test('missing product images use a checkout fallback', async ({ page }) => {
+    await fillDetailsAndNavigate(page);
+    await expect(page.locator('[data-testid="cart-line-image-fallback"]').first()).toBeVisible();
+    await expect(page.locator('[data-testid="cart-line"] img')).toHaveCount(0);
+    const brokenImages = await page.locator('img').evaluateAll(images =>
+      images.filter(img => img.complete && img.naturalWidth === 0).length
+    );
+    expect(brokenImages).toBe(0);
+  });
+
   test('customer can increase item quantity', async ({ page }) => {
     await fillDetailsAndNavigate(page);
     const increaseBtn = page.locator('[data-testid="cart-line-increase"]').first();

@@ -2,6 +2,7 @@ import { useCartStore } from '@/lib/cartStore';
 import { ShoppingCart, Minus, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
+import CartItemImage from './CartItemImage';
 
 export default function CartDrawer({ isOpen, onClose }) {
   const navigate = useNavigate();
@@ -62,9 +63,10 @@ export default function CartDrawer({ isOpen, onClose }) {
                     key={`${item.product_id}-${item.size}-${index}`}
                     className="flex gap-4 p-4 bg-secondary/30 rounded-xl border border-border/30"
                   >
-                    <img 
-                      src={item.product.image_url} 
-                      alt={item.product.name}
+                    <CartItemImage
+                      product={item.product}
+                      alt={item.product?.name}
+                      testId="cart-drawer-item-image"
                       className="w-20 h-20 object-cover rounded-lg bg-secondary/50"
                     />
                     <div className="flex-1">

@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import CartItemImage from '@/components/store/CartItemImage';
 
 const DETAILS_KEY = 'gannon_checkout_details_v1';
 
@@ -382,9 +383,10 @@ export default function StoreCheckout() {
                       layout
                       className="flex gap-4 p-4 bg-secondary/30 rounded-xl border border-border/20"
                     >
-                      <img
-                        src={item.product?.image_url}
+                      <CartItemImage
+                        product={item.product}
                         alt={item.product?.name}
+                        testId="cart-line-image"
                         className="w-20 h-20 object-cover rounded-lg bg-secondary/50 shrink-0"
                       />
                       <div className="flex-1 min-w-0">
