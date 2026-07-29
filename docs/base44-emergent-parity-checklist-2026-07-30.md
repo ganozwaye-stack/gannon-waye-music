@@ -43,6 +43,21 @@ The replacement is not parity-proven because these lanes still need authenticate
 16. DNS/domain cutover and rollback procedure.
 17. 48-hour post-cutover monitoring plan.
 
+## Fresh Current Code Evidence - 2026-07-30 04:02 AEST
+
+This bounded scan confirms the migration blocker is still present in current code, not only in older notes:
+
+- `src/api/base44Client.js:1` imports `@base44/sdk`, and `src/api/base44Client.js:8-15` creates the shared Base44 client used across the app.
+- `src/api/base44Client.js:23-62` still swaps in local/mock auth and `functions.invoke` behavior for local or mock-token runs, including a mock Stripe checkout session at `src/api/base44Client.js:58-60`.
+- `src/api/base44Client.js:150-178`, `src/api/base44Client.js:290-309`, and `src/api/base44Client.js:331-337` still define local GanozMix candidate, marketplace, job, and error-log mock data, including eBay OAuth needs and publish locks.
+- Many public/admin files still import the shared Base44 client. Representative current examples include `src/pages/Home.jsx:3`, `src/pages/MumTribute.jsx:23`, `src/pages/Store.jsx:2`, `src/pages/StoreCheckout.jsx:3`, and `src/components/admin/AdminLayout.jsx:11`.
+- `src/pages/StoreCheckout.jsx:99-118` invokes `calculateShippingRate`; `src/pages/StoreCheckout.jsx:163-173` invokes `validatePromoCode`; `src/pages/StoreCheckout.jsx:201-226` writes a `StoreCustomer` entity and starts `createCheckoutSession`.
+- `src/components/store/StripePaymentForm.jsx:12-14` obtains Stripe config through Base44, and `src/components/store/StripePaymentForm.jsx:134-142` invokes `createPaymentIntent`.
+- `base44/functions/createCheckoutSession/entry.ts:1-2` imports Stripe and `@base44/sdk`, then reads `MerchProduct` records through Base44 at `base44/functions/createCheckoutSession/entry.ts:126-137` and `base44/functions/createCheckoutSession/entry.ts:153-158`.
+- `base44/agents/qa_systems_auditor.jsonc:1-3` shows Base44 agent definitions remain part of the system design, including entity/notification/approval workflow expectations.
+
+Conclusion: PR #31 is a green staging candidate for local preview, but it is not an Emergent parity build. Emergent needs a separate rebuild/import lane for Base44 data, functions, agents, auth, checkout, Stripe webhooks, OAuth connectors, and GanozMix state before any live cutover.
+
 ## Required Emergent Staging Phases
 
 ### Phase 1 - Export And Freeze
