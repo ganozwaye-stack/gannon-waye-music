@@ -4,7 +4,7 @@ Status: staging is green; live-facing actions are waiting for explicit approval.
 
 Current staging PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 
-Current verified head: `fa41c6ba50d2475c9989ab70ad3ff2fc2c15b7f6`
+Current PR head and check status: tracked in the PR #31 body and newest checkpoint comments.
 
 Current local control board: `http://127.0.0.1:5173/control-room.html`
 
