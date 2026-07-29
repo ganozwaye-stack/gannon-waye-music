@@ -58,4 +58,12 @@ test.describe('Store Visuals — Public safety checks', () => {
     await expect(page.locator('text=/store|merch|hoodie|mug|shirt/i').first()).toBeVisible();
   });
 
+  test('public store copy does not expose internal platform wording', async ({ page }) => {
+    await page.goto(`${BASE_URL}/store`);
+    await page.waitForLoadState('domcontentloaded');
+    await expect(page.getByText('Gannon Waye Store Products')).toBeVisible();
+    await expect(page.getByText('Base44 Store Products')).toHaveCount(0);
+    await expect(page.getByText('Pulled from the Base44 store list.')).toHaveCount(0);
+  });
+
 });

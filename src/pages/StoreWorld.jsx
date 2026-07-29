@@ -77,7 +77,7 @@ export default function StoreWorld() {
               Full Collection
             </p>
             <h2 style={{ color: '#f0e8d8', fontSize: 'clamp(1.7rem, 3vw, 3.5rem)', margin: 0, lineHeight: 1 }}>
-              Base44 Store Products
+              Gannon Waye Store Products
             </h2>
           </div>
           <button
@@ -255,7 +255,7 @@ function FeaturedGear({ products, onOpenModal }) {
           <h2 style={{ fontSize: 'clamp(1.4rem, 2.2vw, 2.4rem)', fontWeight: 700, color: '#f0e8d8', margin: 0 }}>Featured Gear</h2>
         </div>
         <p style={{ color: 'rgba(255,255,255,0.42)', fontSize: '12px', margin: 0 }}>
-          Pulled from the Base44 store list.
+          Curated from the current store list.
         </p>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 320px), 1fr))', gap: '18px' }}>
