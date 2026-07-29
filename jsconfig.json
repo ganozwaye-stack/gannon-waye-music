@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "react-router-dom": ["./src/lib/SpaRouter.jsx"]
+      "react-router-dom": ["./src/lib/react-router-dom.d.ts"]
     },
     "jsx": "react-jsx",
     "module": "esnext",
@@ -12,11 +12,12 @@
     "target": "esnext",
     "checkJs": true,
     "skipLibCheck": true,
+    "maxNodeModuleJsDepth": 0,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "types": []
   },
-  "include": ["src/components/**/*.js", "src/pages/**/*.jsx", "src/Layout.jsx"],
+  "include": ["src/components/**/*.js", "src/pages/**/*.jsx", "src/Layout.jsx", "src/**/*.d.ts"],
   "exclude": ["node_modules", "dist", "src/vite-plugins", "src/components/ui", "src/api", "src/lib"]
 }
