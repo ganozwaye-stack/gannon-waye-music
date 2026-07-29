@@ -1,7 +1,17 @@
 // Print Fulfilment Admin Page Tests
 import { test, expect } from '@playwright/test';
 
+const grantMockAdminSession = async (page) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('base44_access_token', 'mock-admin-token');
+  });
+};
+
 test.describe('Print Fulfilment Admin Page', () => {
+
+  test.beforeEach(async ({ page }) => {
+    await grantMockAdminSession(page);
+  });
 
   test('/admin/print-fulfilment loads', async ({ page }) => {
     await page.goto('/admin/print-fulfilment');

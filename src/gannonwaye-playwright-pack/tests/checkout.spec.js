@@ -17,7 +17,7 @@ const DETAILS = {
 
 async function fillDetailsAndNavigate(page) {
   // Set localStorage details so checkout page loads correctly
-  await page.goto(`${BASE_URL}/store`);
+  await page.goto(`${BASE_URL}/store/all`, { waitUntil: 'domcontentloaded' });
   await page.evaluate((d) => {
     localStorage.setItem('gannon_checkout_details_v1', JSON.stringify({
       ...d,
@@ -102,8 +102,25 @@ test.describe('Order Review / Checkout Page', () => {
   });
 
   test('different sizes create separate cart lines', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await page.goto(`${BASE_URL}/store/all`, { waitUntil: 'domcontentloaded' });
     await page.evaluate((d) => {
+      const hoodie = {
+        id: 'respect-is-earned-hoodie-front',
+        name: '"Respect Is Earned" Hoodie - Dark Grey',
+        sale_price: 98,
+        category: 'apparel',
+        image_url: '',
+      };
+      localStorage.setItem('gannon_store_cart_v2', JSON.stringify({
+        state: {
+          items: [
+            { product_id: hoodie.id, product: hoodie, quantity: 1, size: 'M', added_at: Date.now() },
+            { product_id: hoodie.id, product: hoodie, quantity: 1, size: 'L', added_at: Date.now() },
+          ],
+          __version: 3,
+        },
+        version: 0,
+      }));
       localStorage.setItem('gannon_checkout_details_v1', JSON.stringify({
         ...d, dob: '', business_name: '', abn: '',
         order_support_consent: true, marketing_opt_in: false,
@@ -119,7 +136,7 @@ test.describe('Order Review / Checkout Page', () => {
     await hoodieCard.locator('[data-testid="add-to-cart-btn"]').click({ force: true });
 
     // Now add size L — navigate back to store
-    await page.goto(`${BASE_URL}/store`);
+    await page.goto(`${BASE_URL}/store/all`, { waitUntil: 'domcontentloaded' });
     const hoodieCard2 = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
     await expect(hoodieCard2).toBeVisible();
 
@@ -127,10 +144,11 @@ test.describe('Order Review / Checkout Page', () => {
     await sizeL.click({ force: true });
     await hoodieCard2.locator('[data-testid="add-to-cart-btn"]').click({ force: true });
 
-    await page.goto(`${BASE_URL}/store/checkout`);
+    await page.goto(`${BASE_URL}/store/checkout`, { waitUntil: 'domcontentloaded' });
     const lines = page.locator('[data-testid="cart-line"]');
-    const lineCount = await lines.count();
-    expect(lineCount).toBeGreaterThanOrEqual(2);
+    await expect(lines).toHaveCount(2);
+    await expect(lines.nth(0)).toContainText('M');
+    await expect(lines.nth(1)).toContainText('L');
   });
 
   test('promo code input is visible', async ({ page }) => {

@@ -5,7 +5,8 @@ import { test, expect } from '@playwright/test';
 test.describe('Admin Inline Edit Buttons — Public Visibility', () => {
 
   test('Edit buttons NOT visible to unauthenticated public user on store', async ({ page }) => {
-    await page.goto('/store/all');
+    await page.goto('/store/all', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('[data-testid="store-page"]')).toBeVisible({ timeout: 10000 });
     // Admin edit buttons have no data-testid by design — look for Edit text in gold admin buttons
     // They should not appear for unauthenticated users
     const editLinks = await page.locator('a[href*="/admin/merch"]:has-text("Edit")').count();
@@ -13,7 +14,7 @@ test.describe('Admin Inline Edit Buttons — Public Visibility', () => {
   });
 
   test('Edit buttons NOT visible on public store world page', async ({ page }) => {
-    await page.goto('/store');
+    await page.goto('/store', { waitUntil: 'domcontentloaded' });
     const editLinks = await page.locator('a:has-text("Edit")').count();
     expect(editLinks).toBe(0);
   });

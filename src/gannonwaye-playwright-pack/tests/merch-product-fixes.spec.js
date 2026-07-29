@@ -3,8 +3,8 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Merch store — product pricing', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/store');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/store/all', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('[data-testid="store-page"]')).toBeVisible({ timeout: 10000 });
   });
 
   test('Journal bundle shows $59', async ({ page }) => {
@@ -23,10 +23,10 @@ test.describe('Merch store — product pricing', () => {
     expect(found).toBe(true);
   });
 
-  test('Winter bundle shows $129', async ({ page }) => {
+  test('Winter bundle shows $119', async ({ page }) => {
     const winterSection = page.locator('[data-testid="winter-bundle-hero"]');
     await expect(winterSection).toBeVisible();
-    await expect(winterSection).toContainText('129');
+    await expect(winterSection).toContainText('119');
   });
 
   test('Winter bundle shows no-discount badge', async ({ page }) => {
@@ -57,13 +57,12 @@ test.describe('Merch store — product pricing', () => {
 
 test.describe('Winter bundle — promo code rejection', () => {
   test('winter bundle item in cart rejects promo codes', async ({ page }) => {
-    await page.goto('/store');
-    await page.waitForLoadState('networkidle');
+    await page.goto('/store/all', { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('[data-testid="store-page"]')).toBeVisible({ timeout: 10000 });
     const addBtn = page.locator('[data-testid="winter-bundle-add-to-cart"]');
     if (await addBtn.isVisible()) {
       await addBtn.click();
-      await page.goto('/store/cart-details');
-      await page.waitForLoadState('networkidle');
+      await page.goto('/store/cart-details', { waitUntil: 'domcontentloaded' });
       // Try applying a promo code
       const promoInput = page.locator('input[placeholder*="promo"], input[placeholder*="code"]').first();
       if (await promoInput.count() > 0) {

@@ -2,46 +2,81 @@
 
 Control room source: `C:\Users\ganno\Documents\Codex\gannon-waye-music-pr28-final`
 
-Local staging branch: `feature/mum-garden-immersive-walk`
+Local staging branch: `launch/gannon-waye-suite-2026-07-29`
 
-Status time: 2026-07-29 18:07 AEST
+GitHub PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
+
+Status time: 2026-07-29 22:31 AEST
+
+## Current State
+
+The local staging candidate is substantially cleaner and ready for PR refresh, but it is not approved for production deployment. The 9pm target has passed. No DNS, production deploy, live Stripe, supplier order, marketplace publish, customer email, password, 2FA, Base44 live-state change, or AI Sonia publication has been performed.
 
 ## Done
 
-- Main website, store, Mum's Garden, legacy routes, and public safety checks have been audited locally.
-- The public `Without You Here` full master has been removed from public assets.
-- Sonia/Mum tribute playback now uses the approved preview audio only.
-- Legacy public routes now redirect to safe retained pages instead of falling through to the 404.
-- Spotify URL validation now accepts only approved Spotify hosts.
-- Store visual errors were fixed by removing nested button markup, normalising Base44 public media URLs, and stubbing local-only Base44 SDK housekeeping calls in Vite dev preview.
-- Local Base44 mocks now stay local for preview and tests, instead of trying real SDK calls for unknown functions/entities.
+- Added legacy checkout result aliases:
+  - `/store/checkout-success`
+  - `/store/checkout-cancel`
+  - `/payment-success`
+  - `/order-success`
+- Repaired stale merch/store Playwright tests so they target the current contract:
+  - `/store` is the neon retail frontage.
+  - `/store/all` is the product grid.
+  - Winter bundle current price is `$119`.
+- Repaired checkout, shipping, promo exclusion, route proof, print fulfilment, cart details, and admin edit audit tests.
+- Added the local visible control-room board at `/control-room.html`.
+- Removed the public Sonia voicemail/voice-note section from `SoniaAmbientPlayer`.
+- Verified no private Mum audio file paths remain in app or public source.
+- Kept untracked personal Mum media and review screenshots unstaged.
 
 ## Audit Evidence
 
-- `npm run lint` passed.
-- `npm run build` passed.
-- Launch-critical Playwright suite passed: 69 passed, 3 skipped. Skips are admin-session-only checks with no admin cookie.
-- Focused store/link suite passed: 12 passed, 3 skipped.
-- Master exposure suite passed inside the launch-critical run: no former public master filename/export/binary in source or build.
-- Build warning remains expected for local preview: Base44 proxy is not enabled because `VITE_BASE44_APP_BASE_URL` is unset.
+Passed:
+
+- `npm run lint`
+- `npm run build`
+  - Expected local warning remains: Base44 proxy not enabled because `VITE_BASE44_APP_BASE_URL` is unset.
+- `npm audit --audit-level=moderate`
+  - Result: 0 vulnerabilities.
+- Commerce Playwright batch:
+  - `53 passed`, `1 skipped`
+  - Covered customer details, payment success/cancel aliases, promo codes, promo exclusions, shipping, store product truth, and merch product fixes.
+- Launch-critical Playwright batch:
+  - `119 passed`, `1 skipped`
+  - Covered public/admin route proof, systems manager routing, cart, cart details, checkout, store load, Mum's Garden, master exposure, public security, coaching private lock, retained public routes, and router safety.
+- Memorial/audio safety Playwright batch after removing Sonia voice exposure:
+  - `16 passed`
+  - Covered Mum's Garden, master exposure, and public secret-pattern checks.
+- Safety grep:
+  - No remaining app/public references to the removed Sonia voice-note player, voicemail file names, or private Mum audio paths.
+
+Failed / Not Clean:
+
+- `npm run typecheck` still fails.
+- This is broad pre-existing JS/admin typing debt, not just the files touched in this run.
+- Representative failing areas include `src/api/base44Client.js`, `src/components/admin-v3/*`, and many admin page UI prop typings.
 
 ## Approval Gates
 
-These actions are still blocked until Gannon gives explicit approval:
+These actions still require explicit approval:
 
 - Production deployment.
+- Hosted non-production preview, if it exposes private memorial assets.
 - DNS/domain changes.
 - Live Stripe checkout/payment proof beyond an approved controlled test.
-- Marketplace publishing, supplier ordering, or customer email sending.
+- Marketplace publishing.
+- Supplier ordering.
+- Customer email sending.
 - Base44 live-state writes/deploys.
 - AI Sonia voice/avatar publication.
-- Uploading private memorial assets to a public GitHub branch or public preview if the asset review has not been confirmed.
+- Uploading private memorial assets to a public branch or preview.
 
 ## Main Website And Preview
 
-The current local preview target is:
+Current local preview:
 
-`http://localhost:5173`
+- `http://localhost:5173`
+- `http://127.0.0.1:5173/control-room.html`
 
 Key routes verified locally:
 
@@ -50,13 +85,23 @@ Key routes verified locally:
 - `/store`
 - `/store/all`
 - `/store/cart`
+- `/store/cart-details`
+- `/store/customer-details`
 - `/store/checkout`
+- `/checkout-success`
+- `/store/checkout-success`
+- `/payment-success`
+- `/order-success`
+- `/checkout-cancel`
+- `/store/checkout-cancel`
 - `/mum?access=soniagarden2026`
 - `/mum/garden?access=soniagarden2026`
 - `/without-you-here?access=soniagarden2026`
 - `/mums-garden`
 - `/remember-mum`
 - `/press-kit`
+- `/systems-manager`
+- `/systems/*`
 
 ## Mum's Garden
 
@@ -69,29 +114,36 @@ Current policy:
 - Keep perfume/favourite-things objects as feature moments only after background cleanup and visual approval.
 - Keep tattoo imagery together as its own section for later copy.
 - Do not publish AI Sonia voice/avatar material without explicit approval.
+- Do not expose Sonia voicemail/voice-note files without explicit approval.
+
+Current evidence:
+
+- Mum's Garden Playwright checks passed.
+- Master exposure checks passed.
+- Sonia voice-note public section removed.
 
 ## Merch Store
 
 Current status:
 
-- `/store` now shows the immersive neon/retail store first.
-- Store products, images, prices, cart button, winter bundle add-to-cart, cart route, checkout route, and sticky checkout behavior passed local tests.
-- Public store does not expose unapproved raw `MerchVisualAsset` statuses.
-- Public media URLs are normalised away from Base44 file API URLs where possible.
+- `/store` remains the neon retail frontage.
+- `/store/all` remains the product grid.
+- Store products, images, prices, winter bundle, cart, checkout, payment result aliases, promo codes, promo exclusions, and shipping checks pass locally.
+- Winter bundle current audited price is `$119`.
+- The skipped promo exclusion case is a documented manual approval test for the winter bundle checkout path.
 
 ## Micro-Brand Dropshipping Procedure
 
-This procedure is approval-only until the supplier, marketplace, payments, and support flows are proven.
+This procedure remains approval-only until supplier, marketplace, payments, fulfilment, and support flows are proven.
 
 1. Product intake
 
-- Source candidates from GanozMix or supplier research.
 - Record problem solved, audience, supplier, landed cost, target price, shipping time, returns risk, competition, image rights, and confidence.
 - Classify each record as `keep`, `maybe`, `test`, `gwm_merch`, or `delete_later`.
 
 2. Margin and risk check
 
-- Calculate landed cost including product cost, shipping, platform fees, payment fee, returns buffer, and expected ad/content cost.
+- Calculate landed cost including product cost, shipping, platform fees, payment fee, returns buffer, and expected content/ad cost.
 - Reject or park products with unclear image rights, unclear variants, weak margin, long shipping, fragile goods, or high return risk.
 
 3. Listing draft
@@ -110,11 +162,11 @@ This procedure is approval-only until the supplier, marketplace, payments, and s
 
 - Use one low-risk product first.
 - Confirm marketplace OAuth, payment routing, order logging, email templates, customer support path, and cancellation/refund process.
-- No supplier order until payment is cleared and the order is approved for fulfillment.
+- No supplier order until payment is cleared and the order is approved for fulfilment.
 
 6. Separation from Gannon Waye Music
 
-- Keep GanozMix product candidates, supplier notes, listing drafts, and marketplace orders separate from Gannon Waye Music merch, Stripe, supporters, customers, and fulfillment data.
+- Keep GanozMix product candidates, supplier notes, listing drafts, and marketplace orders separate from Gannon Waye Music merch, Stripe, supporters, customers, and fulfilment data.
 - Gannon Waye merch remains brand-controlled and should not be mixed with general dropshipping inventory.
 
 ## Base44 To Emergent Staging Path
@@ -125,21 +177,20 @@ Current findings:
 
 - The code still depends on `@base44/sdk`, Base44 functions, Base44 entities, and Base44 agents.
 - Local preview uses mocks for auth, products, orders, checkout, GanozMix candidates, and approval-only flows.
-- Base44 CLI is not locally available in this repo right now, so no Base44 live command was run.
-- PR #28 is open/draft on GitHub, but the latest local staging work diverges from the PR head and must be reconciled before it represents the real deployable artifact.
+- Base44 live production must stay in place until replacement parity is proven.
+- PR #31 is the current staging PR, but the current local fixes still need to be committed and pushed.
 
 Recommended staging path:
 
 1. Keep Base44 live as production until replacement parity is proven.
-2. Create a GitHub integration branch from this local staging tree.
-3. Commit only required code/tests/docs and approved public assets.
-4. Do not automatically commit extra private memorial source/review assets.
-5. Update or replace PR #28 so GitHub matches the actual local staging candidate.
-6. Let GitHub checks and review run on that integration branch.
-7. Create a non-production preview.
-8. Review store, Mum's Garden gate, routes, checkout mock/sandbox behavior, and media exposure.
-9. Ask Gannon for explicit production approval.
+2. Commit only required code/tests/docs and approved public assets.
+3. Keep untracked personal memorial media and review screenshots out of the PR unless explicitly approved.
+4. Push the staging branch to PR #31.
+5. Let GitHub checks and review run.
+6. Create a non-production preview only after approval.
+7. Review store, Mum's Garden gate, routes, checkout mock/sandbox behavior, and media exposure.
+8. Ask Gannon for explicit production approval.
 
 ## Exact Next Action
 
-Create a GitHub integration branch from `feature/mum-garden-immersive-walk`, stage the code/test/doc changes that passed local audit, leave extra untracked personal Mum media out unless approved, push to GitHub, and open/update a PR for non-production preview review.
+Stage the code/test/doc/control-board changes, leave private untracked Mum media and test artifacts unstaged, commit to `launch/gannon-waye-suite-2026-07-29`, push to PR #31, then update the GitHub PR checkpoint with the current audit evidence and blockers.
