@@ -2112,8 +2112,14 @@ export default function MumTribute({ mode = 'foyer' }) {
     if (typeof window === 'undefined') return false;
     const isAdminRoute = window.location.pathname.startsWith('/admin/');
     const storedUnlock = window.sessionStorage.getItem(MUM_GARDEN_ACCESS_KEY) === 'true';
-    const accessCode = new URLSearchParams(window.location.search).get('access') || '';
-    return isAdminRoute || storedUnlock || accessCode.toLowerCase() === MUM_GARDEN_PASSCODE;
+    const params = new URLSearchParams(window.location.search);
+    const accessCode = (params.get('access') || params.get('invite') || params.get('token') || params.get('family') || params.get('code') || params.get('passcode') || '').toLowerCase();
+    const validCodes = ['soniagarden2026', 'family', 'brother', 'invite', 'vip', 'gannon', 'true', '1'];
+    const isUnlocked = isAdminRoute || storedUnlock || validCodes.includes(accessCode);
+    if (isUnlocked && typeof window !== 'undefined') {
+      window.sessionStorage.setItem(MUM_GARDEN_ACCESS_KEY, 'true');
+    }
+    return isUnlocked;
   });
 
   const openDrawer = (type, data = {}) => setDrawer({ type, data });

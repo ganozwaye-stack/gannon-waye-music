@@ -23,6 +23,41 @@ const TRACKS = [
   },
 ];
 
+const SONIA_VOICE_TRACKS = [
+  {
+    id: 'happy_birthday',
+    title: 'Mum Singing Happy Birthday',
+    subtitle: 'Sonia Katisa Waye — voicemail recording',
+    src: '/audio/mum/happy_birthday.m4a',
+    soniaNote: `"This is a recording of Mum singing Happy Birthday. When I hear it, it brings back her laughter, her warmth, and that cheeky, beautiful spark. She was always singing, always celebrating the people she loved."`,
+    soniaLabel: "Sonia's voice — singing Happy Birthday",
+  },
+  {
+    id: 'voicemail',
+    title: "Mum's Voicemail",
+    subtitle: 'Sonia Katisa Waye — voicemail message',
+    src: '/audio/mum/voicemail.m4a',
+    soniaNote: `"A voicemail from Mum, left during one of her quiet check-ins. Just her voice, talking about the simple things, asking how I was. A quiet reminder that she is always with us in spirit."`,
+    soniaLabel: 'A message left in love',
+  },
+  {
+    id: 'horsham',
+    title: 'Greetings from Horsham',
+    subtitle: 'Sonia Katisa Waye — voicemail message',
+    src: '/audio/mum/horsham.m4a',
+    soniaNote: `"Sonia checking in from Horsham. A sweet, quiet greeting that keeps her voice alive in our hearts."`,
+    soniaLabel: "Sonia's voice — checking in",
+  },
+  {
+    id: 'mumma',
+    title: 'Mumma Voice Note',
+    subtitle: 'Sonia Katisa Waye — voice note',
+    src: '/audio/mum/mumma.m4a',
+    soniaNote: `"Mumma's gentle voice note — keeping her warmth, love and presence close."`,
+    soniaLabel: "Sonia's voice note",
+  },
+];
+
 const WITHOUT_YOU_HERE_CLIP_START_SECONDS = 3 * 60 + 46;
 const WITHOUT_YOU_HERE_CLIP_END_SECONDS = 4 * 60 + 35;
 const WITHOUT_YOU_HERE_PREVIEW_DURATION_SECONDS = WITHOUT_YOU_HERE_CLIP_END_SECONDS - WITHOUT_YOU_HERE_CLIP_START_SECONDS;
@@ -443,6 +478,25 @@ export default function SoniaAmbientPlayer({ showWithoutYouHere = true } = {}) {
       <div className="space-y-10">
         {TRACKS.map((track) => (
           <TrackPlayer key={track.id} track={track} isAmbient />
+        ))}
+      </div>
+
+      {/* Sonia's Voicemails & Voice Notes Section */}
+      <div className="text-center mt-16 mb-8">
+        <p className="font-body text-[9px] tracking-[0.6em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.32)' }}>
+          Her Voice · Real Recordings
+        </p>
+        <h3 className="font-display text-2xl md:text-3xl text-foreground/80 mb-2">
+          Sonia’s Voicemails & Voice Notes
+        </h3>
+        <p className="font-body text-xs max-w-xs mx-auto leading-relaxed" style={{ color: 'rgba(245,235,200,0.35)' }}>
+          Original voicemail recordings and voice notes left by Sonia, preserved exactly as she recorded them to keep her laughter, singing and warmth alive.
+        </p>
+      </div>
+
+      <div className="space-y-10">
+        {SONIA_VOICE_TRACKS.map((track) => (
+          <TrackPlayer key={track.id} track={track} isAmbient={false} />
         ))}
       </div>
 
