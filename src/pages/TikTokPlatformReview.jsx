@@ -42,7 +42,7 @@ const COMPLIANCE = [
   'No Share Kit, no Webhooks, no video.publish, no video.list',
 ];
 
-function TikTokConnectionCard() {
+function TikTokConnectionCard({ onStatusChange = null } = {}) {
   return (
     <Card className="border-primary/20 bg-primary/5">
       <CardContent className="p-4 space-y-2">
@@ -59,7 +59,7 @@ function TikTokConnectionCard() {
   );
 }
 
-function TikTokDraftUpload() {
+function TikTokDraftUpload({ connected = false } = {}) {
   return (
     <Card className="border-primary/20 bg-primary/5">
       <CardContent className="p-4 space-y-2">

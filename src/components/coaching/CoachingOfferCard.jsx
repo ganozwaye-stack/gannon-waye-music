@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
-export default function CoachingOfferCard({ icon, title, hook, description, ctaLabel, ctaLink, price, delay = 0 }) {
+export default function CoachingOfferCard({ icon, title, hook, description, ctaLabel, ctaLink, price = null, delay = 0 }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

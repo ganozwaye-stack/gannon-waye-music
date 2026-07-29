@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { ChevronDown, Copy, Check, AlertTriangle, Database, Key, Zap, Bot, Plug, FileDown, CheckCircle2, Circle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';

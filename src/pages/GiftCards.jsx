@@ -21,7 +21,7 @@ function generateCode() {
 
 export default function GiftCards() {
   const [step, setStep] = useState('select'); // select → details → processing → done
-  const [value, setValue] = useState(50);
+  const [value, setValue] = useState(/** @type {number | 'custom'} */ (50));
   const [customValue, setCustomValue] = useState('');
   const [form, setForm] = useState({
     purchaserName: '', purchaserEmail: '',

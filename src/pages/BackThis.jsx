@@ -535,7 +535,7 @@ export default function BackThis() {
                   </div>
                   <div>
                     <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Address Line 2 (Optional)</Label>
-                    <Input placeholder="Apartment, suite, unit, etc." value={shipping.address2} onChange={s => setShipping(s => ({ ...s, address2: s.target.value }))} className="bg-secondary/50 border-border/40" />
+                    <Input placeholder="Apartment, suite, unit, etc." value={shipping.address2} onChange={e => setShipping(s => ({ ...s, address2: e.target.value }))} className="bg-secondary/50 border-border/40" />
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -619,6 +619,7 @@ export default function BackThis() {
               metadata={{ frequency, base_amount: String(baseAmount), type: 'support_contribution' }}
               onSuccess={handlePaymentSuccess}
               onError={handlePaymentError}
+              promoCode={null}
             />
 
             <p className="font-body text-xs text-muted-foreground text-center mt-3">🔒 Payments secured by Stripe</p>

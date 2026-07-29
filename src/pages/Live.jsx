@@ -162,7 +162,7 @@ function OfflineScreen({ settings }) {
             width="100%"
             height="352"
             frameBorder="0"
-            allowFullScreen=""
+            allowFullScreen
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
             loading="lazy"
           />
@@ -568,6 +568,7 @@ function LiveTippingModal({ gift, onClose }) {
               metadata={{ frequency: 'once', base_amount: String(baseAmount), type: 'support_contribution' }}
               onSuccess={handlePaymentSuccess}
               onError={handlePaymentError}
+              promoCode={null}
             />
           </>
         )}

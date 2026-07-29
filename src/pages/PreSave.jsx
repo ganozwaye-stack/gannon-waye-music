@@ -19,13 +19,13 @@ export default function PreSave() {
   const upcomingRelease = useMemo(() => {
     const now = new Date();
     return releases
-      .filter(r => r.release_date && new Date(r.release_date) > now && r.status !== 'released')
-      .sort((a, b) => new Date(a.release_date) - new Date(b.release_date))[0];
+      .filter(r => r.release_date && new Date(r.release_date).getTime() > now.getTime() && r.status !== 'released')
+      .sort((a, b) => new Date(a.release_date).getTime() - new Date(b.release_date).getTime())[0];
   }, [releases]);
 
   const countdown = useMemo(() => {
     if (!upcomingRelease?.release_date) return null;
-    const diff = new Date(upcomingRelease.release_date) - new Date();
+    const diff = new Date(upcomingRelease.release_date).getTime() - Date.now();
     if (diff <= 0) return null;
     return {
       days: Math.floor(diff / 86400000),

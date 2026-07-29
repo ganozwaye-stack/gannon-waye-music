@@ -268,7 +268,7 @@ function FeaturedGear({ products, onOpenModal }) {
 }
 
 function swiperButtonStyle(side) {
-  return {
+  return /** @type {import('react').CSSProperties} */ ({
     position: 'absolute',
     [side]: '8px',
     top: '50%',
@@ -285,7 +285,7 @@ function swiperButtonStyle(side) {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-  };
+  });
 }
 
 function btnStyle(variant) {

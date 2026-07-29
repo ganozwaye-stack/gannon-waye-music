@@ -95,7 +95,7 @@ async function analyseAudio(file) {
     reader.onload = async (e) => {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const buffer = await ctx.decodeAudioData(e.target.result);
+        const buffer = await ctx.decodeAudioData(/** @type {ArrayBuffer} */ (e.target.result));
         const ch0 = buffer.getChannelData(0);
         let peak = 0, sumSq = 0, clipping = false;
         for (let i = 0; i < ch0.length; i++) {
@@ -709,6 +709,7 @@ export default function Mastering() {
                     metadata={{ service: mode, track_title: form.title }}
                     onSuccess={() => { setPaid(true); setShowPayment(false); toast({ title: 'Payment successful! Download unlocked.' }); }}
                     onError={(msg) => toast({ title: msg || 'Payment failed', variant: 'destructive' })}
+                    promoCode={null}
                   />
                 ) : (
                   <Button onClick={() => setShowPayment(true)} className={`w-full rounded-full ${d.btn} border-0 font-body text-sm tracking-wider uppercase py-5`}>

@@ -20,7 +20,7 @@ export default function PortraitGallery() {
   });
 
   const combined = [...posts.slice(0, 8), ...media.slice(0, 8)].sort((a, b) => 
-    new Date(b.created_date || 0) - new Date(a.created_date || 0)
+    new Date(b.created_date || 0).getTime() - new Date(a.created_date || 0).getTime()
   );
 
   return (
@@ -69,10 +69,11 @@ export default function PortraitGallery() {
                         className="w-full h-auto object-cover"
                         muted
                         loop
-                        onMouseEnter={e => e.target.play()}
+                        onMouseEnter={e => /** @type {HTMLVideoElement} */ (e.currentTarget).play()}
                         onMouseLeave={e => {
-                          e.target.pause();
-                          e.target.currentTime = 0;
+                          const video = /** @type {HTMLVideoElement} */ (e.currentTarget);
+                          video.pause();
+                          video.currentTime = 0;
                         }}
                       />
                     )}

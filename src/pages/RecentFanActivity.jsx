@@ -24,7 +24,7 @@ export default function RecentFanActivity() {
   const allActivity = [
     ...posts.map(p => ({ ...p, _type: 'post' })),
     ...media.map(m => ({ ...m, _type: 'media' })),
-  ].sort((a, b) => new Date(b.created_date) - new Date(a.created_date)).slice(0, 30);
+  ].sort((a, b) => new Date(b.created_date).getTime() - new Date(a.created_date).getTime()).slice(0, 30);
 
   return (
     <div className="min-h-screen py-24 px-4 md:px-8">

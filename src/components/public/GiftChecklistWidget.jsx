@@ -12,7 +12,7 @@ const REQUIREMENTS = [
   { id: 'post_engaged', label: 'Like, comment & share latest post', icon: '💬' },
 ];
 
-export default function GiftChecklistWidget({ trackerToken, onComplete }) {
+export default function GiftChecklistWidget({ trackerToken, onComplete = null }) {
   const { toast } = useToast();
   const [tracker, setTracker] = useState(null);
   const [loading, setLoading] = useState(true);

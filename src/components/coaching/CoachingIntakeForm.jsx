@@ -7,7 +7,7 @@ import { Label } from '@/components/ui/label';
 import { CheckCircle } from 'lucide-react';
 import CoachingDisclaimer from './CoachingDisclaimer';
 
-export default function CoachingIntakeForm({ offerInterest = '', onSuccess }) {
+export default function CoachingIntakeForm({ offerInterest = '', onSuccess = null }) {
   const [form, setForm] = useState({
     full_name: '',
     email: '',

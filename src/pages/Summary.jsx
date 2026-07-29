@@ -27,7 +27,8 @@ function StatCard({ icon: Icon, label, value, sub }) {
   );
 }
 
-const CustomTooltip = ({ active, payload, label }) => {
+const CustomTooltip = (props = {}) => {
+  const { active, payload, label } = /** @type {any} */ (props);
   if (!active || !payload?.length) return null;
   return (
     <div className="bg-card border border-border/40 rounded-xl px-4 py-3 shadow-xl">
