@@ -1,10 +1,18 @@
 import base44 from "@base44/vite-plugin"
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import { fileURLToPath } from 'node:url'
+
+const spaRouterPath = fileURLToPath(new URL('./src/lib/SpaRouter.jsx', import.meta.url));
 
 // https://vite.dev/config/
 export default defineConfig({
   logLevel: 'error', // Suppress warnings, only show errors
+  resolve: {
+    alias: {
+      'react-router-dom': spaRouterPath,
+    },
+  },
   server: {
     proxy: {
       '^/api/apps/public/prod/public-settings/by-id/': {
