@@ -83,8 +83,8 @@
         </article>
         <article class="card metric">
           <p class="eyebrow">Last Pushed</p>
-          <strong>6c3f61e</strong>
-          <span>Latest pushed PR checks are green. New privacy/checkout guardrails are locally green and pending push.</span>
+          <strong>Current PR head</strong>
+          <span>Privacy/checkout guardrails are pushed. GitHub checks are running on the newest launch branch commit.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Clean Core</p>
@@ -138,13 +138,13 @@
           </ul>
         </article>
         <article class="card lane">
-          <span class="state green">Green</span>
+          <span class="state blue">Running</span>
           <h3>GitHub Audit</h3>
           <ul>
             <li>PR #31 is draft/open/mergeable.</li>
-            <li>Latest pushed checks passed on 6c3f61e.</li>
-            <li>New local guardrails passed affected audits.</li>
-            <li>Next: commit, push, and watch GitHub checks again.</li>
+            <li>Latest pushed head is the newest launch branch commit.</li>
+            <li>Local guardrails passed affected audits.</li>
+            <li>GitHub checks are currently running on the new head.</li>
           </ul>
         </article>
       </section>
@@ -156,7 +156,7 @@
             <li>Keep the local staging branch healthy: lint, build, npm audit, and route checks.</li>
             <li>Finish split Playwright audit batches instead of one unreliable timeout-heavy run.</li>
             <li>Fix only launch-relevant issues; mark stale tests as stale only when current behavior is correct.</li>
-            <li>Push the privacy and checkout guardrail commit to PR #31.</li>
+            <li>Watch the privacy and checkout guardrail commit on PR #31.</li>
             <li>Fix any new CI/security/audit issue and rerun the affected tests.</li>
             <li>Update final-run documentation with exact current status and caveats.</li>
             <li>Update the GitHub PR checkpoint comment with passed/failed/blocked evidence after CI settles.</li>
@@ -186,7 +186,7 @@
 Still failing or pending:
 - npm run typecheck remains broad legacy JS/admin typing debt, not clean
 - GitHub checks for 6c3f61e: all passed
-- New local guardrail commit still needs push and GitHub rerun
+- GitHub checks for the newest launch branch commit: running
 - Production deploy/preview/DNS/Stripe/supplier/AI Sonia actions require approval</div>
         </article>
       </section>
@@ -196,8 +196,8 @@ Still failing or pending:
           <h2>Detailed Execution Plan</h2>
           <ul>
             <li>1. Keep the control-room page open so you can watch the run.</li>
-            <li>2. Commit and push the local guardrail fixes.</li>
-            <li>3. Watch GitHub checks again on the new head.</li>
+            <li>2. Commit and push the local guardrail fixes. Done.</li>
+            <li>3. Watch GitHub checks again on the new head. Running now.</li>
             <li>4. Refresh the final-run documentation and GitHub PR checkpoint with current evidence.</li>
             <li>5. Ask you for explicit approval before any hosted preview, production deploy, DNS, Stripe, supplier, marketplace, email, or AI Sonia action.</li>
           </ul>
