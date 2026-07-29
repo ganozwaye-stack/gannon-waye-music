@@ -85,13 +85,13 @@
         </article>
         <article class="card metric">
           <p class="eyebrow">Code Checkpoint</p>
-          <strong>PR #31</strong>
-          <span>Latest exact SHA and CI status are tracked in the PR checkpoint comments.</span>
+          <strong>9870c2d</strong>
+          <span>PR #31 head matches the local branch and is draft/open/mergeable.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Clean Core</p>
           <strong class="green">Clean</strong>
-          <span>Typecheck, lint, build, npm audit, and focused Playwright are clean locally; one checkout Playwright test passed on retry.</span>
+          <span>GitHub Checks API shows 8 of 8 completed successfully; local lint, build, audit, and focused Playwright are green.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Live Changes</p>
@@ -145,9 +145,35 @@
           <h3>GitHub Audit</h3>
           <ul>
             <li>PR #31 is draft/open/mergeable.</li>
-            <li>Latest exact SHA and GitHub check status are tracked in PR #31 checkpoint comments.</li>
-            <li>Recent Actions checks are green, including CodeQL, secret scanning, security/coaching, and store/cart.</li>
+            <li>Current head is 9870c2dc334994881e888599ea65eb16ff3bfbb5.</li>
+            <li>GitHub Checks API confirms CodeQL, lint/build, Playwright, secret scan, security/coaching, and store/cart are green.</li>
             <li>Private Mum media remains unstaged.</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="grid two">
+        <article class="card">
+          <h2>Execution Mode Right Now</h2>
+          <ul>
+            <li>Mode: safe staging control-room run. I am auditing, documenting, and updating PR #31, not publishing live changes.</li>
+            <li>Onscreen board: this local page auto-refreshes every 20 seconds so you can watch checkpoints appear.</li>
+            <li>Allowed now: local repo checks, local browser preview checks, GitHub PR/check inspection, docs/control-board updates, safe commits to the staging PR.</li>
+            <li>Held for your approval: hosted preview, production deploy, DNS, Stripe, marketplace, supplier orders, customer emails, Base44 live changes, passwords, 2FA, private memorial uploads, and AI Sonia publication.</li>
+            <li>Personal files policy: no deleting personal files; private Mum media and review screenshots stay local and unstaged unless you explicitly approve otherwise.</li>
+            <li>Local WIP notice: a Mum's Garden hallway/3D portal experiment is present in the workspace but is not yet committed or pushed to PR #31.</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h2>What I Am Watching</h2>
+          <ul>
+            <li>Does the website still build and load cleanly?</li>
+            <li>Does Mum's Garden stay private, Sonia-first, and free from grave/funeral/blurred/wrong-person imagery in the launch component?</li>
+            <li>Does the merch store show the neon retail experience first and avoid internal Base44 wording?</li>
+            <li>Are checkout, cart, shipping, promo, and public route guardrails still passing?</li>
+            <li>Is Base44-to-Emergent still separated from live production until parity is proven?</li>
+            <li>Are GitHub checks green after every safe staging update?</li>
           </ul>
         </article>
       </section>
@@ -170,11 +196,37 @@
 
         <article class="card">
           <h2>Current Audit Results</h2>
-          <div class="log">Passed:
-- npm run typecheck / direct tsc: exit 0
+          <div class="log">Current verified checkpoint:
+- Branch: launch/gannon-waye-suite-2026-07-29
+- PR: https://github.com/ganozwaye-stack/gannon-waye-music/pull/31
+- Head: 9870c2dc334994881e888599ea65eb16ff3bfbb5
+- GitHub PR state: draft/open/mergeable
+
+GitHub checks verified by Checks API: 8 completed successfully:
+- Build & Playwright Tests
+- CodeQL
+- CodeQL Security Scan
+- Lint and build
+- Public routes and store smoke tests
+- Secret Scanning & Credentials Check
+- Security & Coaching Lock Tests
+- Store & Cart Tests
+
+Local passed evidence:
+- direct tsc: exit 0
 - npm run lint
 - npm run build
 - npm audit --audit-level=moderate: 0 vulnerabilities
+- Fresh requirement-scoped split Playwright audit: 94 passed
+  - master/private-media exposure: 7 passed
+  - public routes, security, coaching lock: 25 passed
+  - store load, store visuals, Mum's Garden: 23 passed
+  - cart: 10 passed
+  - cart details: 5 passed
+  - checkout: 16 passed
+  - shipping: 8 passed
+- Broad combined Playwright command exceeded the tool window, so the same scope was split into smaller lanes with no failing test found
+- Important scope note: the fresh 94-pass split audit ran against this local workspace, which currently includes uncommitted Mum's Garden hallway/3D portal WIP. PR #31 exact head remains verified by GitHub's 8 green checks.
 - Focused launch smoke Playwright: 72 passed, 1 flaky passed on retry
 - Commerce Playwright: 53 passed, 1 skipped
 - Launch-critical Playwright: 119 passed, 1 skipped
@@ -205,11 +257,14 @@ Still blocked, watchlisted, or approval-gated:
   - docs/platform-pricing-snapshot-2026-07-30.md
   - docs/launch-approval-request-2026-07-30.md
   - docs/local-preview-audit-2026-07-30.md
+  - docs/final-product-completion-audit-2026-07-30.md
 - Local preview audit:
   - main/store/public-routes/Mum batch: 34 passed
   - post-store-copy polish batch: 23 passed
   - public store now says Gannon Waye Store Products, not Base44 Store Products
+- Current local server: /control-room.html, /store, and /mum?access=soniagarden2026 serve from 127.0.0.1:5173
 - Base44 to Emergent is not parity-proven; keep Base44 live
+- Local Mum's Garden hallway/3D portal WIP is under review and not part of PR #31 until explicitly staged/committed
 - Pricing recommendation: do not move the live suite to Emergent tonight just because of price; prove parity first
 - GitHub reports Dependabot warnings on the default branch
 - Production deploy/preview/DNS/Stripe/supplier/AI Sonia actions require approval</div>
@@ -220,16 +275,16 @@ Still blocked, watchlisted, or approval-gated:
         <article class="card">
           <h2>Detailed Execution Plan</h2>
           <ul>
-            <li>1. Keep this control-room page open and refresh it as I update checkpoints.</li>
-            <li>2. Stabilize the current local WIP by patching launch-relevant typecheck errors only. Done.</li>
-            <li>3. Rerun typecheck and record the remaining count. Done: 0 errors.</li>
-            <li>4. Rerun npm lint, npm build, npm audit, and the launch-critical Playwright route batches. Done locally.</li>
-            <li>5. Remove generated local logs, stage only safe tracked changes, and keep private Mum media unstaged. Done for the current safe set.</li>
-            <li>6. Commit and push the safe fix set to PR #31. Done: 1017ce7.</li>
-            <li>7. Watch GitHub checks, fix failures, and repeat the audit loop until green or clearly blocked. Done for current head: 8 of 8 passed.</li>
-            <li>8. Keep this board, the final-run doc, and the PR checkpoint updated with evidence as work continues.</li>
-            <li>9. Next execution pass: use the approval request to choose preview, staging-only, or later production/Stripe proof.</li>
-            <li>10. Ask for explicit approval before any hosted preview, production deploy, DNS, Stripe, supplier, marketplace, email, Base44 live, password/2FA, or AI Sonia action.</li>
+            <li>1. Keep this control-room page open so you can observe the run. Done.</li>
+            <li>2. Verify the current local branch, PR, SHA, and GitHub check status. Done: PR #31 at 9870c2d with 8 of 8 checks green.</li>
+            <li>3. Protect local private/review assets by keeping Mum media, local audio, screenshots, and test artifacts unstaged unless you approve them. Ongoing.</li>
+            <li>4. Run the next requirement-scoped local audit across website, store, Mum's Garden, cart, checkout, security, public routes, and master/private-media exposure. Done: 94 passed in split lanes.</li>
+            <li>5. If anything fails, patch only the smallest launch-relevant surface, rerun the affected test, then rerun the wider batch. No failure found in the split run.</li>
+            <li>6. Record the completion matrix in docs and keep this board aligned with it. Done: docs/final-product-completion-audit-2026-07-30.md.</li>
+            <li>7. Commit and push only safe tracked evidence/docs/control-board updates to PR #31; keep the uncommitted hallway/3D WIP and private media out until reviewed. Doing next.</li>
+            <li>8. Recheck GitHub after every push and repeat fix/audit until green or clearly approval-blocked. Next after push.</li>
+            <li>9. Present the exact approval options, with non-production preview separated from production/DNS/Stripe/marketplace actions.</li>
+            <li>10. Stop at approval gates until you explicitly approve the next live or private-media action.</li>
           </ul>
         </article>
 
@@ -237,18 +292,18 @@ Still blocked, watchlisted, or approval-gated:
           <h2>Active Helpers</h2>
           <ul>
             <li>This central Codex task is the control room.</li>
-            <li>Hilbert: completed Mum's Garden and memorial media safety audit.</li>
-            <li>Ohm: completed merch store and dropshipping procedure audit.</li>
-            <li>Ampere: completed Base44-to-Emergent parity blocker audit.</li>
-            <li>No subagent is currently running; I am doing the local patch, GitHub check, and visible board loop directly from this control room.</li>
-            <li>Local tools helping: npm, Vite build, Playwright, git, GitHub connector.</li>
-            <li>Browser page: this live control-room board for observation.</li>
+            <li>Currently active: Codex in this task, local shell audits, Playwright, Vite/npm, git, GitHub connector, and the in-app browser/control-room page.</li>
+            <li>Previously completed sidecar helpers: Hilbert for Mum's Garden/media safety, Ohm for merch/dropshipping, and Ampere for Base44-to-Emergent parity blockers.</li>
+            <li>No background subagent is currently running. If I start another helper, I will list it here with its lane and status.</li>
+            <li>GitHub connector role: PR #31 metadata and checks.</li>
+            <li>Local audit role: build, lint, npm audit, route tests, security/media checks, visual smoke checks.</li>
+            <li>Browser role: keep this board and local preview visible for observation.</li>
           </ul>
         </article>
       </section>
 
       <footer>
-        Last updated: 2026-07-30 01:21 AEST. This is a local preview board only.
+        Last updated: 2026-07-30 02:43 AEST. This is a local preview board only.
       </footer>
     </main>
   </body>

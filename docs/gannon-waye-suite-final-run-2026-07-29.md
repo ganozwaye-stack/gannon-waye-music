@@ -6,11 +6,13 @@ Local staging branch: `launch/gannon-waye-suite-2026-07-29`
 
 GitHub PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 
-Status time: 2026-07-30 01:21 AEST
+Status time: 2026-07-30 02:43 AEST
 
 ## Current State
 
-The latest pushed staging candidate is PR #31. Exact current head and CI status are tracked in PR #31 checkpoint comments so this document does not become stale every time evidence docs are committed. Latest verified launch-code checkpoint before the documentation update: `1017ce79282a493c41e2f5d1bd2553fbd838feba` (`1017ce7`), with all 8 GitHub checks green. It is not approved for production deployment. The 9pm target has passed, but the staging branch now has a green current checkpoint and the remaining work is approval-gated migration/commerce proof rather than a failing local build. No DNS, production deploy, live Stripe, supplier order, marketplace publish, customer email, password, 2FA, Base44 live-state change, or AI Sonia publication has been performed.
+The latest pushed staging candidate is PR #31 at `9870c2dc334994881e888599ea65eb16ff3bfbb5` (`9870c2d`), with all 8 GitHub checks verified green through the GitHub Checks API. It is not approved for production deployment. The 9pm target has passed, but the staging branch now has a green current checkpoint and the remaining work is approval-gated migration/commerce proof rather than a failing local build. No DNS, production deploy, live Stripe, supplier order, marketplace publish, customer email, password, 2FA, Base44 live-state change, or AI Sonia publication has been performed.
+
+Local WIP notice: this workspace currently contains a Mum's Garden hallway/3D portal experiment and private hallway dev-server guardrails that are not yet committed or pushed to PR #31. The fresh local split audit below ran against this local workspace. PR #31 exact head remains verified separately by GitHub's green checks at `9870c2d`.
 
 ## Done
 
@@ -43,6 +45,7 @@ The latest pushed staging candidate is PR #31. Exact current head and CI status 
 - Added the current platform pricing decision snapshot at `docs/platform-pricing-snapshot-2026-07-30.md`.
 - Added the current launch approval request at `docs/launch-approval-request-2026-07-30.md`.
 - Added the local preview audit at `docs/local-preview-audit-2026-07-30.md`.
+- Added the final product completion audit at `docs/final-product-completion-audit-2026-07-30.md`.
 - Removed internal `Base44 Store Products` wording from the public store and added regression coverage.
 
 ## Audit Evidence
@@ -67,7 +70,7 @@ Passed:
   - No remaining app/public references to the removed Sonia voice-note player, voicemail file names, or private Mum audio paths.
 - Direct typecheck:
   - `tsc -p ./jsconfig.json --pretty false`: exit 0.
-- GitHub checks for commit `1017ce7`:
+- GitHub checks for current commit `9870c2d`:
   - Build & Playwright Tests: success.
   - CodeQL: success.
   - CodeQL Security Scan: success.
@@ -86,6 +89,16 @@ Passed:
   - Public routes Playwright: `12 passed`.
   - Mum/security/master affected batch: `18 passed`.
   - Build output check: `dist/audio/mum` absent, flagged raw memory-lane files absent, and risky private Mum audio filenames absent from `dist`.
+- Fresh requirement-scoped split audit:
+  - Master/private-media exposure: `7 passed`.
+  - Public routes, security, coaching lock: `25 passed`.
+  - Store load, store visuals, Mum's Garden: `23 passed`.
+  - Cart: `10 passed`.
+  - Cart details: `5 passed`.
+  - Checkout: `16 passed`.
+  - Shipping: `8 passed`.
+  - Total: `94 passed`.
+  - Scope note: this fresh split audit includes the current uncommitted hallway/3D local WIP and is not the same as a clean PR-head-only local checkout audit.
 
 Failed / Not Clean:
 
@@ -93,6 +106,7 @@ Failed / Not Clean:
 - Some admin legacy JS screens use explicit `// @ts-nocheck` exemptions to avoid risky launch-pressure business-logic rewrites.
 - One checkout Playwright scenario previously showed local flake and passed on retry: `different sizes create separate cart lines`.
 - The current worktree still contains local-only board changes plus untracked private/review media and test artifacts. These are intentionally not published unless approved.
+- The current worktree also contains uncommitted Mum's Garden hallway/3D portal WIP. It is under review and should not be staged unless explicitly accepted for the staging PR.
 
 ## Approval Gates
 
@@ -227,6 +241,8 @@ Current approval request: `docs/launch-approval-request-2026-07-30.md`.
 
 Local preview audit: `docs/local-preview-audit-2026-07-30.md`.
 
+Final product completion audit: `docs/final-product-completion-audit-2026-07-30.md`.
+
 Migration is not parity-proven yet.
 
 Current findings:
@@ -234,7 +250,7 @@ Current findings:
 - The code still depends on `@base44/sdk`, Base44 functions, Base44 entities, and Base44 agents.
 - Local preview uses mocks for auth, products, orders, checkout, GanozMix candidates, and approval-only flows.
 - Base44 live production must stay in place until replacement parity is proven.
-- PR #31 is the current staging PR at `1017ce7`. GitHub checks are green.
+- PR #31 is the current staging PR at `9870c2d`. GitHub checks are green.
 - Ampere sidecar finding: staging boundary is acceptable, but migration parity remains blocked until Base44 SDK/functions/entities/agents and mock commerce/auth are replaced or isolated.
 
 Recommended staging path:
@@ -250,4 +266,4 @@ Recommended staging path:
 
 ## Exact Next Action
 
-Review and, if acceptable, commit the new documentation/control-room evidence update. Then rerun targeted docs/route checks, update PR #31 with the refreshed evidence, and continue only into approval-gated preview/deploy steps when Gannon explicitly approves them.
+Commit the new completion audit and refreshed control-room evidence update only, leaving private media and the unreviewed hallway/3D WIP unstaged. Then update PR #31 with the refreshed evidence, recheck GitHub on the new head, and continue only into approval-gated preview/deploy steps when Gannon explicitly approves them.
