@@ -50,6 +50,7 @@ Mum's Garden hallway/3D portal status: the experiment has been hardened for stag
 - Added the final product completion audit at `docs/final-product-completion-audit-2026-07-30.md`.
 - Added the current-head audit snapshot at `docs/current-head-audit-2026-07-30-0351.md`.
 - Removed internal `Base44 Store Products` wording from the public store and added regression coverage.
+- Added a shared cart item image fallback so checkout, cart drawer, and cart page do not show broken thumbnails when product data has no usable image URL.
 
 ## Audit Evidence
 
@@ -113,6 +114,13 @@ Passed:
   - `docs/current-head-audit-2026-07-30-0351.md`.
   - Local split Playwright total: `96 passed`.
   - Lint, typecheck, build, and npm audit passed.
+- Latest cart image fallback guard:
+  - Commit: `fa41c6ba50d2475c9989ab70ad3ff2fc2c15b7f6`.
+  - Checkout fallback regression: `17 passed`.
+  - Store visuals after fallback: `7 passed`.
+  - CI-shaped launch-critical lane: `51 passed`.
+  - Master/private-media and commerce approval guardrails: `13 passed`.
+  - GitHub workflows on the commit passed 4 of 4.
 
 Failed / Not Clean:
 

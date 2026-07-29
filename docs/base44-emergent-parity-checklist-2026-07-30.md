@@ -9,7 +9,7 @@ Base44 remains live until every required replacement lane below is proven on a n
 - Local staging repo: `C:\Users\ganno\Documents\Codex\gannon-waye-music-pr28-final`
 - Current staging branch: `launch/gannon-waye-suite-2026-07-29`
 - Current PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
-- Current PR head and CI status: tracked in PR #31 checkpoint comments
+- Current PR head and CI status: latest verified head `fa41c6ba50d2475c9989ab70ad3ff2fc2c15b7f6`, tracked in PR #31 checkpoint comments
 - Latest current-head local audit snapshot: `docs/current-head-audit-2026-07-30-0351.md`
 - Latest fresh launch-critical local slice: 2026-07-30 06:22 AEST, `61 passed`
 - Base44 live position: keep live as fallback/stability source
@@ -18,9 +18,10 @@ Base44 remains live until every required replacement lane below is proven on a n
 
 - Main public routes load in the local/CI smoke scope.
 - Store front, product grid, cart, customer details, checkout result aliases, promo rules, and shipping/commerce guardrails have passing Playwright coverage.
+- The staged store now includes a shared cart image fallback for checkout, cart drawer, and cart page; local checkout fallback coverage passed `17` tests and store visuals passed `7` tests after the patch.
 - Mum's Garden private route, old public redirect, media exposure guard, and master-audio exposure checks have passing coverage.
 - `npm run lint`, `npm run build`, `npm audit --audit-level=moderate`, direct `tsc`, and focused Playwright checks passed locally for the current safe set.
-- GitHub CI passed on the latest PR head.
+- GitHub CI passed 4 of 4 workflows on the latest verified PR head `fa41c6ba50d2475c9989ab70ad3ff2fc2c15b7f6`.
 - The fresh 06:22 local slice passed `public-routes`, `store-load`, `store-visuals`, `mum-tribute`, `security`, `coaching-private-lock`, `master-exposure`, and `commerce-guardrails`.
 
 ## What Is Not Proven Yet

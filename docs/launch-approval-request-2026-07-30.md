@@ -4,6 +4,8 @@ Status: staging is green; live-facing actions are waiting for explicit approval.
 
 Current staging PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 
+Current verified head: `fa41c6ba50d2475c9989ab70ad3ff2fc2c15b7f6`
+
 Current local control board: `http://127.0.0.1:5173/control-room.html`
 
 ## What Is Ready To Review
@@ -23,6 +25,7 @@ Current local control board: `http://127.0.0.1:5173/control-room.html`
 - `npm run build` passed with the expected local Base44 proxy warning.
 - `npm audit --audit-level=moderate` found 0 local vulnerabilities.
 - Local focused, commerce, and launch-critical Playwright batches passed as recorded in `docs/gannon-waye-suite-final-run-2026-07-29.md`.
+- Latest cart image fallback guard passed checkout (`17 passed`), store visuals (`7 passed`), CI-shaped launch-critical (`51 passed`), and safety guardrail (`13 passed`) lanes before GitHub workflows passed 4 of 4 on the verified head.
 
 ## What Is Not Approved Yet
 
