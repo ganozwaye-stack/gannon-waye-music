@@ -135,12 +135,20 @@ export default function SongFeedbackProvider({ children }) {
       return Promise.resolve(true);
     }
 
+    if (typeof playContext.onApproved === 'function') {
+      try {
+        Promise.resolve(playContext.onApproved()).catch(() => {});
+      } catch {
+        // The visible player remains clickable if the browser blocks playback.
+      }
+    }
+
     setContext({
       songTitle,
       artist: playContext.artist || 'Gannon Waye',
       source: playContext.source || 'manual-request',
     });
-    pendingApprovedAction.current = typeof playContext.onApproved === 'function' ? playContext.onApproved : null;
+    pendingApprovedAction.current = null;
     resetForm();
     setOpen(true);
 
@@ -163,15 +171,12 @@ export default function SongFeedbackProvider({ children }) {
       if (open) return;
       const triggerContext = getTriggerContext(event.target);
       if (!triggerContext) return;
+      if (triggerContext.element.closest?.('a[href]')) return;
 
       const sessionKey = getSessionKey(triggerContext.songTitle);
       if (sessionStorage.getItem(sessionKey) === 'true') return;
 
-      event.preventDefault();
-      event.stopPropagation();
-      pendingAction.current = () => {
-        setTimeout(() => triggerContext.element.click(), 25);
-      };
+      pendingAction.current = null;
       requestSongFeedback(triggerContext);
     };
 
@@ -190,10 +195,7 @@ export default function SongFeedbackProvider({ children }) {
       const sessionKey = getSessionKey(mediaContext.songTitle);
       if (sessionStorage.getItem(sessionKey) === 'true') return;
 
-      event.target.pause();
-      pendingAction.current = () => {
-        setTimeout(() => event.target.play().catch(() => {}), 25);
-      };
+      pendingAction.current = null;
       requestSongFeedback(mediaContext);
     };
 
@@ -295,7 +297,7 @@ export default function SongFeedbackProvider({ children }) {
           className="max-h-[92svh] overflow-y-auto border-[#d4af37]/28 bg-[#070907]/96 text-[#fff7df] shadow-[0_28px_120px_rgba(0,0,0,0.72),0_0_50px_rgba(212,175,55,0.16)] sm:max-w-2xl"
         >
           <DialogHeader>
-            <p className="font-body text-[10px] uppercase tracking-[0.36em] text-[#d4af37]/82">Before you listen</p>
+            <p className="font-body text-[10px] uppercase tracking-[0.36em] text-[#d4af37]/82">While you listen</p>
             <DialogTitle className="font-display text-3xl italic text-[#fff7df]">
               Tell Gannon what lands.
             </DialogTitle>
@@ -415,7 +417,7 @@ export default function SongFeedbackProvider({ children }) {
                 disabled={!canSubmit || submitting}
                 className="rounded-full border-0 bg-[linear-gradient(135deg,#caa647,#f8dc82)] px-7 py-6 font-body text-xs uppercase tracking-[0.2em] text-[#071007] disabled:cursor-not-allowed disabled:opacity-45"
               >
-                {submitting ? 'Saving...' : 'Submit and listen'}
+                {submitting ? 'Saving...' : 'Submit feedback'}
               </Button>
             </div>
           </form>

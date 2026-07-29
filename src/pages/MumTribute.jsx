@@ -183,8 +183,8 @@ const FAVOURITE_MOMENTS = [
   },
   {
     title: 'Coffee in the garden',
-    note: 'Morning comfort, familiar warmth, and the everyday ritual that still feels like home.',
-    detail: 'This links the garden, the robe, the chair, and the feeling of visiting her world.',
+    note: "Every drive with the kids seemed to come with the chance of a Macca's coffee run.",
+    detail: "Mum would drink a minimum of 20 coffees a day, and the order had to be an extra-extra-hot cappuccino. If anyone said it was a health and safety risk, she would tell them to take extra care then.",
     image: '/images/mum/mum_garden.jpg',
     imageAlt: 'Sonia in the garden with her mug.',
     objectPosition: 'center 28%',

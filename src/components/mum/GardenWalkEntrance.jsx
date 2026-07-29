@@ -25,7 +25,7 @@ const MEMORY_PHOTOS = [
     id: 'garden-chair',
     src: '/images/mum/mum_garden.jpg',
     label: 'Coffee in the garden',
-    caption: 'Sonia in her real garden: robe, mug, chair, plants, and the ordinary morning presence this memorial begins with.',
+    caption: "Sonia in her real garden: robe, mug, chair, plants, and the coffee habit everyone knew. Any drive with the kids could turn into a Macca's coffee run for an extra-extra-hot cappuccino. If they said it was a health and safety risk, Mum would tell them to take extra care then.",
     source: 'Original family garden photo',
     position: [-2.6, 2.15, 1.2],
     rotationY: 0.54,
@@ -64,11 +64,9 @@ const MEMORY_PHOTOS = [
 ];
 
 const JOURNEY_STOPS = [
-  { label: 'Canopy', note: 'Descending from the sky into tall trees.' },
-  { label: 'Garden path', note: 'Concrete path, table, dense backyard plants.' },
-  { label: 'Memories', note: 'Exact photos hanging inside the garden.' },
-  { label: 'Archway', note: "Onya & Gay's Archway between the driveways." },
-  { label: 'Stone', note: 'The memorial stone becomes part of the path.' },
+  { label: 'Real garden', note: "Start with Sonia's real garden photo and the feeling of arriving." },
+  { label: 'Family memories', note: 'The exact photos sit gently along the path, like memory cards in the garden.' },
+  { label: 'Quiet memorial', note: 'The walk settles into the song, warm light, and a simple place to remember her.' },
 ];
 
 function clamp(value, min = 0, max = 1) {
@@ -447,70 +445,33 @@ function addTallGardenTree(scene, {
   height,
   radius = 0.22,
   lean = 0,
-  barkMaterial,
   leafTexture,
   kind = 'fern-gully',
 }) {
   const group = new THREE.Group();
-  group.position.set(x, 0, z);
+  group.position.set(x, 0.2, z);
   group.rotation.z = lean;
   group.userData.realTree = true;
   group.userData.baseRotation = group.rotation.clone();
-  group.userData.motion = 0.004;
-
-  const lowerRadius = kind === 'ficus' ? radius * 1.55 : radius * 1.2;
-  const trunk = new THREE.Mesh(
-    new THREE.CylinderGeometry(radius * 0.72, lowerRadius, height, 18, 8),
-    barkMaterial,
-  );
-  trunk.position.y = height / 2;
-  trunk.name = kind === 'ficus' ? 'Adelaide Ficus Avenue inspired real tree trunk' : 'Melbourne Fern Gully inspired real tree trunk';
-  group.add(trunk);
-
-  const flare = new THREE.Mesh(
-    new THREE.CylinderGeometry(radius * 1.15, lowerRadius * 1.55, 0.62, 18, 2),
-    barkMaterial,
-  );
-  flare.position.y = 0.28;
-  group.add(flare);
-
-  const rootCount = kind === 'ficus' ? 7 : 4;
-  for (let i = 0; i < rootCount; i += 1) {
-    addButtressRoot(group, (Math.PI * 2 * i) / rootCount + Math.sin(i * 1.7) * 0.14, kind === 'ficus' ? 1.35 + (i % 3) * 0.32 : 0.8 + (i % 2) * 0.24, barkMaterial);
-  }
-
-  const branchStarts = [
-    [0, height * 0.68, 0],
-    [0, height * 0.76, 0],
-    [0, height * 0.84, 0],
-  ];
-  branchStarts.forEach((start, index) => {
-    const side = index % 2 === 0 ? -1 : 1;
-    const end = [
-      side * (0.48 + index * 0.22),
-      height * (0.78 + index * 0.035),
-      -0.35 - index * 0.24,
-    ];
-    group.add(cylinderBetween(start, end, radius * (0.1 + index * 0.012), radius * (0.24 - index * 0.035), barkMaterial, 10));
-  });
+  group.userData.motion = 0.0015;
 
   addCanopyCluster(group, leafTexture, {
-    position: [-0.65, height * 0.96, -0.55],
-    scale: kind === 'ficus' ? [6.4, 3.1] : [4.1, 2.35],
+    position: [-0.55, height * 0.46, -0.55],
+    scale: kind === 'ficus' ? [5.8 + radius, 3.0] : [4.4 + radius, 2.45],
     rotation: [-0.08, 0.12, -0.08],
-    opacity: kind === 'ficus' ? 0.34 : 0.28,
+    opacity: kind === 'ficus' ? 0.25 : 0.22,
   });
   addCanopyCluster(group, leafTexture, {
-    position: [0.9, height * 0.9, -1.1],
-    scale: kind === 'ficus' ? [5.4, 2.7] : [3.7, 2.0],
+    position: [0.78, height * 0.42, -1.1],
+    scale: kind === 'ficus' ? [4.8, 2.55] : [3.8, 2.05],
     rotation: [-0.06, -0.28, 0.08],
-    opacity: kind === 'ficus' ? 0.3 : 0.24,
+    opacity: kind === 'ficus' ? 0.22 : 0.18,
   });
   addCanopyCluster(group, leafTexture, {
-    position: [0.1, height * 1.02, 0.55],
-    scale: kind === 'ficus' ? [4.9, 2.55] : [3.3, 1.9],
+    position: [0.1, height * 0.5, 0.45],
+    scale: kind === 'ficus' ? [4.4, 2.32] : [3.4, 1.92],
     rotation: [-0.18, 0.42, 0.02],
-    opacity: kind === 'ficus' ? 0.24 : 0.2,
+    opacity: kind === 'ficus' ? 0.18 : 0.16,
   });
 
   scene.add(group);
@@ -856,23 +817,26 @@ function buildGardenScene({ scene, memoryMeshesRef, onReady }) {
   rightBed.position.set(4.7, -0.028, -16);
   scene.add(rightBed);
 
-  const leftFence = new THREE.Group();
-  leftFence.position.set(-6.15, 1.0, -17);
-  for (let i = 0; i < 15; i += 1) {
-    const panel = new THREE.Mesh(
-      new THREE.BoxGeometry(0.06, 1.75 + (i % 4) * 0.045, 3.9),
-      new THREE.MeshStandardMaterial({ color: i % 2 ? 0x5d624c : 0x68705a, roughness: 0.92 }),
-    );
-    panel.position.set(Math.sin(i * 1.7) * 0.04, 0, 26 - i * 3.9);
-    panel.rotation.y = 0.04;
-    leftFence.add(panel);
-  }
-  scene.add(leftFence);
+  const showConstructedMarkers = false;
+  if (showConstructedMarkers) {
+    const leftFence = new THREE.Group();
+    leftFence.position.set(-6.15, 1.0, -17);
+    for (let i = 0; i < 15; i += 1) {
+      const panel = new THREE.Mesh(
+        new THREE.BoxGeometry(0.06, 1.75 + (i % 4) * 0.045, 3.9),
+        new THREE.MeshStandardMaterial({ color: i % 2 ? 0x5d624c : 0x68705a, roughness: 0.92 }),
+      );
+      panel.position.set(Math.sin(i * 1.7) * 0.04, 0, 26 - i * 3.9);
+      panel.rotation.y = 0.04;
+      leftFence.add(panel);
+    }
+    scene.add(leftFence);
 
-  const rightFence = leftFence.clone();
-  rightFence.position.x = 6.25;
-  rightFence.rotation.y = Math.PI;
-  scene.add(rightFence);
+    const rightFence = leftFence.clone();
+    rightFence.position.x = 6.25;
+    rightFence.rotation.y = Math.PI;
+    scene.add(rightFence);
+  }
 
   for (let i = 0; i < 18; i += 1) {
     const z = 15 - i * 3.55;
@@ -918,78 +882,80 @@ function buildGardenScene({ scene, memoryMeshesRef, onReady }) {
   table.add(mug);
   scene.add(table);
 
-  const arch = new THREE.Group();
-  arch.position.set(0, 0, -31);
-  const leftPost = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.11, 4.15, 10), materials.orangeDark);
-  leftPost.position.set(-2.05, 2.05, 0);
-  const rightPost = leftPost.clone();
-  rightPost.position.x = 2.05;
-  const topBar = new THREE.Mesh(new THREE.TorusGeometry(2.08, 0.062, 10, 56, Math.PI), materials.orangeDark);
-  topBar.position.set(0, 4.18, 0);
-  topBar.rotation.z = Math.PI;
-  arch.add(leftPost, rightPost, topBar);
+  if (showConstructedMarkers) {
+    const arch = new THREE.Group();
+    arch.position.set(0, 0, -31);
+    const leftPost = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.11, 4.15, 10), materials.orangeDark);
+    leftPost.position.set(-2.05, 2.05, 0);
+    const rightPost = leftPost.clone();
+    rightPost.position.x = 2.05;
+    const topBar = new THREE.Mesh(new THREE.TorusGeometry(2.08, 0.062, 10, 56, Math.PI), materials.orangeDark);
+    topBar.position.set(0, 4.18, 0);
+    topBar.rotation.z = Math.PI;
+    arch.add(leftPost, rightPost, topBar);
 
-  for (let strand = 0; strand < 9; strand += 1) {
-    const side = strand % 3;
-    const offset = (strand - 4) * 0.035;
-    const points = [];
-    for (let step = 0; step <= 18; step += 1) {
-      const t = step / 18;
-      const angle = Math.PI * t;
-      const x = Math.cos(angle) * (2.0 + offset);
-      const y = 3.18 + Math.sin(angle) * (0.9 + offset);
-      const postLean = side === 0 ? -2.02 : side === 1 ? 2.02 : x;
-      points.push(new THREE.Vector3(
-        side === 2 ? x : lerp(postLean, x, t),
-        side === 2 ? y : lerp(0.78 + t * 3.3, y, t),
-        Math.sin(step * 0.9 + strand) * 0.09,
-      ));
+    for (let strand = 0; strand < 9; strand += 1) {
+      const side = strand % 3;
+      const offset = (strand - 4) * 0.035;
+      const points = [];
+      for (let step = 0; step <= 18; step += 1) {
+        const t = step / 18;
+        const angle = Math.PI * t;
+        const x = Math.cos(angle) * (2.0 + offset);
+        const y = 3.18 + Math.sin(angle) * (0.9 + offset);
+        const postLean = side === 0 ? -2.02 : side === 1 ? 2.02 : x;
+        points.push(new THREE.Vector3(
+          side === 2 ? x : lerp(postLean, x, t),
+          side === 2 ? y : lerp(0.78 + t * 3.3, y, t),
+          Math.sin(step * 0.9 + strand) * 0.09,
+        ));
+      }
+      const vine = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points), 46, 0.012, 7, false), materials.vine);
+      arch.add(vine);
     }
-    const vine = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(points), 46, 0.012, 7, false), materials.vine);
-    arch.add(vine);
-  }
 
-  for (let i = 0; i < 132; i += 1) {
-    const flower = new THREE.Sprite(new THREE.SpriteMaterial({
-      map: flowerTexture,
-      transparent: true,
-      opacity: 0.82 + (i % 5) * 0.025,
-      depthWrite: false,
-      toneMapped: false,
-    }));
-    const t = i / 89;
-    const angle = Math.PI * t;
-    const onTop = i > 25 && i < 65;
-    flower.position.set(
-      onTop ? Math.cos(angle) * 2.05 : (i % 2 === 0 ? -2.05 : 2.05) + Math.sin(i) * 0.1,
-      onTop ? 4.02 + Math.sin(angle) * 0.74 : 0.8 + (i % 27) * 0.115,
-      Math.sin(i * 1.8) * 0.18,
+    for (let i = 0; i < 132; i += 1) {
+      const flower = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: flowerTexture,
+        transparent: true,
+        opacity: 0.82 + (i % 5) * 0.025,
+        depthWrite: false,
+        toneMapped: false,
+      }));
+      const t = i / 89;
+      const angle = Math.PI * t;
+      const onTop = i > 25 && i < 65;
+      flower.position.set(
+        onTop ? Math.cos(angle) * 2.05 : (i % 2 === 0 ? -2.05 : 2.05) + Math.sin(i) * 0.1,
+        onTop ? 4.02 + Math.sin(angle) * 0.74 : 0.8 + (i % 27) * 0.115,
+        Math.sin(i * 1.8) * 0.18,
+      );
+      const scale = 0.105 + (i % 4) * 0.026;
+      flower.scale.set(scale, scale, scale);
+      arch.add(flower);
+    }
+
+    const signTexture = createLabelTexture("Onya & Gay's Archway", 'street right - garden left');
+    const sign = new THREE.Mesh(
+      new THREE.PlaneGeometry(3.55, 0.82),
+      new THREE.MeshBasicMaterial({ map: signTexture, transparent: true, toneMapped: false }),
     );
-    const scale = 0.105 + (i % 4) * 0.026;
-    flower.scale.set(scale, scale, scale);
-    arch.add(flower);
+    sign.position.set(0, 3.44, -0.13);
+    arch.add(sign);
+    scene.add(arch);
+
+    const streetSignTexture = createTextTexture('Street');
+    const streetSign = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.42), new THREE.MeshBasicMaterial({ map: streetSignTexture, transparent: true, toneMapped: false }));
+    streetSign.position.set(5.1, 1.15, -35.2);
+    streetSign.rotation.y = -0.65;
+    scene.add(streetSign);
+
+    const gardenSignTexture = createTextTexture('Garden');
+    const gardenSign = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.42), new THREE.MeshBasicMaterial({ map: gardenSignTexture, transparent: true, toneMapped: false }));
+    gardenSign.position.set(-5.0, 1.15, -35);
+    gardenSign.rotation.y = 0.65;
+    scene.add(gardenSign);
   }
-
-  const signTexture = createLabelTexture("Onya & Gay's Archway", 'street right - garden left');
-  const sign = new THREE.Mesh(
-    new THREE.PlaneGeometry(3.55, 0.82),
-    new THREE.MeshBasicMaterial({ map: signTexture, transparent: true, toneMapped: false }),
-  );
-  sign.position.set(0, 3.44, -0.13);
-  arch.add(sign);
-  scene.add(arch);
-
-  const streetSignTexture = createTextTexture('Street');
-  const streetSign = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.42), new THREE.MeshBasicMaterial({ map: streetSignTexture, transparent: true, toneMapped: false }));
-  streetSign.position.set(5.1, 1.15, -35.2);
-  streetSign.rotation.y = -0.65;
-  scene.add(streetSign);
-
-  const gardenSignTexture = createTextTexture('Garden');
-  const gardenSign = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.42), new THREE.MeshBasicMaterial({ map: gardenSignTexture, transparent: true, toneMapped: false }));
-  gardenSign.position.set(-5.0, 1.15, -35);
-  gardenSign.rotation.y = 0.65;
-  scene.add(gardenSign);
 
   const memorial = new THREE.Group();
   memorial.position.set(-1.05, 0, -43.2);
@@ -1076,14 +1042,11 @@ function buildGardenScene({ scene, memoryMeshesRef, onReady }) {
 
 function cameraPoint(progress) {
   const stops = [
-    { p: 0, pos: [-0.35, 3.25, 16.2], target: [-1.7, 6.6, 10.2] },
-    { p: 0.14, pos: [0.05, 2.78, 13.2], target: [0.24, 4.95, 5.2] },
-    { p: 0.24, pos: [0, 2.28, 9.2], target: [0, 2.05, -1.5] },
-    { p: 0.38, pos: [-0.38, 1.72, 0.4], target: [-0.25, 1.65, -10.5] },
-    { p: 0.58, pos: [0.35, 1.68, -12.8], target: [0.05, 1.6, -24.0] },
-    { p: 0.76, pos: [0.1, 1.68, -24.2], target: [0, 2.55, -31.6] },
-    { p: 0.9, pos: [-1.25, 1.62, -35.2], target: [-1.65, 1.12, -43.2] },
-    { p: 1, pos: [-0.38, 1.58, -42.0], target: [-0.92, 1.05, -44.2] },
+    { p: 0, pos: [0, 2.35, 13.8], target: [0, 2.08, 4.2] },
+    { p: 0.28, pos: [0, 2.08, 7.4], target: [0, 1.92, -2.8] },
+    { p: 0.56, pos: [0, 1.82, -5.8], target: [0, 1.72, -16.2] },
+    { p: 0.8, pos: [0, 1.72, -20.6], target: [0, 1.62, -31.6] },
+    { p: 1, pos: [0, 1.68, -34.8], target: [-0.72, 1.16, -43.0] },
   ];
 
   const nextIndex = stops.findIndex((stop) => progress <= stop.p);
@@ -1108,11 +1071,9 @@ function cameraPoint(progress) {
 }
 
 function progressToStop(progress) {
-  if (progress < 0.18) return 0;
-  if (progress < 0.42) return 1;
-  if (progress < 0.66) return 2;
-  if (progress < 0.84) return 3;
-  return 4;
+  if (progress < 0.34) return 0;
+  if (progress < 0.72) return 1;
+  return 2;
 }
 
 export default function GardenWalkEntrance({ onOpenMemory, onFinish }) {
