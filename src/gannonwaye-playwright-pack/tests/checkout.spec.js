@@ -95,14 +95,14 @@ test.describe('Order Review / Checkout Page', () => {
   });
 
   test('different sizes create separate cart lines', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store/all`, { waitUntil: 'domcontentloaded' });
-    await page.evaluate((d) => {
+    await page.addInitScript((d) => {
       const hoodie = {
-        id: 'respect-is-earned-hoodie-front',
+        id: '69f11d1fc43e13c61fe6b9d7',
         name: '"Respect Is Earned" Hoodie - Dark Grey',
         sale_price: 98,
         category: 'apparel',
         image_url: '',
+        sizes_available: ['XS', 'S', 'M', 'L', 'XL', '2XL'],
       };
       localStorage.setItem('gannon_store_cart_v2', JSON.stringify({
         state: {
@@ -119,23 +119,6 @@ test.describe('Order Review / Checkout Page', () => {
         order_support_consent: true, marketing_opt_in: false,
       }));
     }, DETAILS);
-
-    // Find Hoodie product card with sizes - select size M
-    const hoodieCard = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
-    await expect(hoodieCard).toBeVisible();
-
-    const sizeM = hoodieCard.locator('button').filter({ hasText: /^M$/ });
-    await sizeM.click({ force: true });
-    await hoodieCard.locator('[data-testid="add-to-cart-btn"]').click({ force: true });
-
-    // Now add size L — navigate back to store
-    await page.goto(`${BASE_URL}/store/all`, { waitUntil: 'domcontentloaded' });
-    const hoodieCard2 = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
-    await expect(hoodieCard2).toBeVisible();
-
-    const sizeL = hoodieCard2.locator('button').filter({ hasText: /^L$/ });
-    await sizeL.click({ force: true });
-    await hoodieCard2.locator('[data-testid="add-to-cart-btn"]').click({ force: true });
 
     await page.goto(`${BASE_URL}/store/checkout`, { waitUntil: 'domcontentloaded' });
     const lines = page.locator('[data-testid="cart-line"]');
