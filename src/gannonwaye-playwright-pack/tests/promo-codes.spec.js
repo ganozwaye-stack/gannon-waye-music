@@ -6,13 +6,13 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 const DETAILS = { full_name: 'Test User', email: 'test@example.com', mobile: '0400000000', street_address: '123 Test St', suburb: 'Melbourne', state: 'VIC', postcode: '3000', country: 'Australia', dob: '', business_name: '', abn: '', order_only: true, subscribe_community: false };
 
 async function seedCheckout(page) {
-  await page.goto(`${BASE_URL}/store`);
+  await page.goto(`${BASE_URL}/store/all`, { waitUntil: 'domcontentloaded' });
   await page.evaluate((details) => {
     const items = [{ product_id: 'p1', product: { id: 'p1', name: 'Tee', sale_price: 98, category: 'apparel', image_url: '' }, quantity: 1, size: 'M', added_at: Date.now() }];
     localStorage.setItem('gannon_store_cart_v2', JSON.stringify({ state: { items, __version: 3 }, version: 0 }));
     localStorage.setItem('gannon_checkout_details_v1', JSON.stringify(details));
   }, DETAILS);
-  await page.goto(`${BASE_URL}/store/checkout`);
+  await page.goto(`${BASE_URL}/store/checkout`, { waitUntil: 'domcontentloaded' });
   await page.waitForSelector('[data-testid="checkout-page"]');
 }
 

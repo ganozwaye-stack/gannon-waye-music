@@ -56,6 +56,18 @@ if (isLocal || token === 'mock-admin-token') {
       return { data: { valid: false, reason: 'Invalid code' } };
     }
     if (functionName === 'createCheckoutSession') {
+      const metadata = payload?.metadata || {};
+      let mockItems = [];
+      try { mockItems = JSON.parse(metadata.items || '[]'); } catch (_) { mockItems = []; }
+      const noShippingCategories = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
+      const hasPhysicalItems = mockItems.length > 0
+        ? mockItems.some(item => !noShippingCategories.some(cat => String(item.category || '').toLowerCase().includes(cat)))
+        : Boolean(metadata.shipping_address);
+      const normalizedAddress = String(metadata.shipping_address || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ');
+      const isAustralianAddress = /\baustralia\b/.test(normalizedAddress) || /\bau\b/.test(normalizedAddress);
+      if (hasPhysicalItems && !isAustralianAddress) {
+        throw new Error('International delivery for physical items needs a shipping quote before payment. You have not been charged.');
+      }
       return { data: { url: 'https://checkout.stripe.com/mock-session' } };
     }
     return { data: {} };

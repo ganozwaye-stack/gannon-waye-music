@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 const { test, expect } = require('@playwright/test');
+const { execFileSync } = require('node:child_process');
 const { createHash } = require('node:crypto');
 const { existsSync, readdirSync, readFileSync, statSync } = require('node:fs');
 const { resolve, relative } = require('node:path');
@@ -82,6 +83,15 @@ test.describe('Without You Here master exposure regression', () => {
     const distAudioFiles = walkFiles(resolve(DIST_ROOT, 'audio/mum'))
       .map(path => relative(resolve(DIST_ROOT, 'audio/mum'), path));
     expect(distAudioFiles).toEqual([]);
+  });
+
+  test('private Mum voice-note audio files are not tracked by git', () => {
+    const trackedAudio = execFileSync('git', ['ls-files', 'public/audio/mum'], {
+      cwd: REPOSITORY_ROOT,
+      encoding: 'utf8',
+    }).trim().split(/\r?\n/).filter(Boolean);
+
+    expect(trackedAudio).toEqual([]);
   });
 
   test('raw hallway source video is not stored or shipped as a public static asset', () => {

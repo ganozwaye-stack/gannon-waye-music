@@ -33,3 +33,6 @@ dist-ssr
 base44/.app.jsonc
 src/gannonwaye-playwright-pack/playwright-report/
 src/gannonwaye-playwright-pack/test-results/
+
+# Private memorial audio stays local only.
+public/audio/mum/

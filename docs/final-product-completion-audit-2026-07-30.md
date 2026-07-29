@@ -1,6 +1,6 @@
 # Final Product Completion Audit - 2026-07-30
 
-Status time: 2026-07-30 05:00 AEST
+Status time: 2026-07-30 05:58 AEST
 
 Control room: `http://127.0.0.1:5173/control-room.html`
 
@@ -10,7 +10,9 @@ Branch: `launch/gannon-waye-suite-2026-07-29`
 
 PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 
-Exact PR head: tracked in the latest PR #31 checkpoint comment so this committed document does not self-stale.
+Previous pushed PR head before this local safety patch: `7abc97a7e42ec9dc2bf2d68fe8085185c6433668`.
+
+Last launch-code checkpoint before evidence-only refresh: `5fa00031931cb6fc1261f4c1a9b75255945c0224`.
 
 ## Execution Mode
 
@@ -30,19 +32,21 @@ Mum's Garden hallway/3D portal status: the experiment has been hardened for stag
   - Hilbert: Mum's Garden and memorial media safety.
   - Ohm: merch store and dropshipping procedure.
   - Ampere: Base44-to-Emergent parity blockers.
-
-No background subagent is currently running.
+- Completed read-only sidecar helpers for the current observation run:
+  - Maxwell: PR/GitHub/checkpoint status audit.
+  - Avicenna: Mum's Garden/media safety audit.
+  - Mill: merch/dropshipping/Base44 readiness audit.
 
 ## Completion Matrix
 
 | Lane | Current State | Evidence Passed | Remaining Gate |
 | --- | --- | --- | --- |
-| Main website and launch preview | Staging branch is active and PR #31 is draft/open/mergeable. Public routes and homepage are covered by local and GitHub checks. | GitHub 4 of 4 workflow runs green on head `5fa00031931cb6fc1261f4c1a9b75255945c0224`; public routes/security/coaching split audit `25 passed`; build/lint/typecheck/audit passed. | Hosted preview and production deployment require explicit approval. |
-| Mum's Garden private gate and memorial | Private/gated experience is Sonia-first; old `/mums-garden` redirects to `/mum`; single artwork is preserved in the top section; hallway/3D entrance is hardened for staging; private media remains local. | Mum/store visual lane `23 passed`; hallway/3D affected audit: Mum tests `5 passed`, master/private-media exposure `9 passed`, visual screenshot pixel check passed; no private Mum audio/video in build output. | Final visual approval and any private memorial media upload require explicit approval. AI Sonia remains unpublished. |
-| Merch store | `/store` remains the neon retail frontage; `/store/all` is product grid; public copy no longer exposes internal Base44 wording. The checkout size-line test is now deterministic. | Store/load visual lane `18 passed`; cart/details/customer/shipping `29 passed`; checkout `16 passed`; promo/payment-success `24 passed`, `1 skipped`. | Live Stripe proof, marketplace publishing, supplier orders, and customer emails require explicit approval. |
+| Main website and launch preview | Staging branch is active and PR #31 was draft/open/mergeable at the previous pushed head. Public routes and homepage are covered by local and GitHub checks. | Previous pushed head `7abc97a7e42ec9dc2bf2d68fe8085185c6433668` had 4 of 4 GitHub workflow runs green. Current local safety patch: build/lint/typecheck passed; public routes/security/coaching serial lane `25 passed`. | Hosted preview and production deployment require explicit approval; GitHub checks must rerun after this safety patch is pushed. |
+| Mum's Garden private gate and memorial | Private/gated experience is Sonia-first; old `/mums-garden` redirects to `/mum`; single artwork is preserved in the top section; hallway/3D entrance is hardened for staging; private media remains local. Active hallway frame now uses Sonia-present `mum_bar.png` instead of the no-Sonia children image. | Mum/store visual lane `23 passed`; sidecar guardrail lane `33 passed`; final source/dist guardrail rerun `13 passed`; no private Mum audio/video in build output; private Mum voice-note audio removed from Git tracking and ignored. | Final visual approval and any private memorial media upload require explicit approval. AI Sonia remains unpublished. |
+| Merch store | `/store` remains the neon retail frontage; `/store/all` is product grid; public copy no longer exposes internal Base44 wording. The checkout size-line test is deterministic. Backend checkout now rejects international physical orders before Stripe, Stripe shipping countries are AU-only, and procurement is approval-proposal only. | Store/load visual lane `18 passed`; cart/details/customer serial lane `21 passed`; checkout serial lane `16 passed`; shipping lane `8 passed`; promo code lane `9 passed`; payment success/cancel lane `10 passed`; commerce guardrail tests passed. | Live Stripe proof, marketplace publishing, supplier orders, and customer emails require explicit approval. |
 | Micro-brand dropshipping procedure | Procedure is documented and approval-only; GanozMix remains separated from Gannon Waye Music merch. | Procedure doc exists at `docs/micro-brand-dropshipping-procedure-2026-07-30.md`; checkout/shipping guardrails passed locally. | Supplier selection, marketplace OAuth, live listings, payments, fulfilment, and returns proof require approval. |
 | Base44 to Emergent migration audit | Not parity-proven. Base44 stays live. Current scan confirms Base44 SDK/functions/entities/agents, checkout/Stripe function dependencies, local mocks, and GanozMix marketplace locks remain in code. | Parity checklist now includes fresh file/line evidence; staging boundary is documented. | Do not switch live system until auth, data, products, cart, checkout, orders, functions, agents, redirects, and analytics parity passes. |
-| GitHub/local audit loop | Current PR head is green per the latest PR checkpoint comment. Hallway/3D work is pushed and hardened for staging without private media. | GitHub workflow runs: 4 of 4 success on `5fa00031931cb6fc1261f4c1a9b75255945c0224`. Local fresh split audit: `94 passed`; current-head audit also records a `96 passed` split. Hallway/3D affected audit passed. Lint, typecheck, build, and npm audit passed. | Keep PR #31 green until a non-production preview is explicitly approved. |
+| GitHub/local audit loop | Previous pushed PR head is green. Current safety patch is locally validated and ready for PR #31 push. | GitHub workflow runs: 4 of 4 success on previous pushed head `7abc97a7e42ec9dc2bf2d68fe8085185c6433668`; last launch-code checkpoint was `5fa00031931cb6fc1261f4c1a9b75255945c0224`. Current local patch: `git diff --check`, lint, typecheck, build, focused guardrails, checkout, cart/details/customer, public/security/coaching, payment, and promo passed. | Push current patch, wait for GitHub checks, then keep PR #31 green until a non-production preview is explicitly approved. |
 
 ## Fresh Local Audit Evidence
 
@@ -57,6 +61,28 @@ The broad combined Playwright command exceeded the tool window, so it was split 
 - `shipping.spec.js`: `8 passed`.
 
 Fresh split-audit total: `94 passed`.
+
+## Sidecar Safety Patch Evidence
+
+- Maxwell verified PR #31 was open/draft/mergeable, with previous pushed head `7abc97a7e42ec9dc2bf2d68fe8085185c6433668` and 4 of 4 GitHub workflows green.
+- Avicenna found one active no-Sonia hallway image and tracked private Mum voice files. The hallway now uses tracked Sonia-present `public/images/mum/mum_bar.png`; private Mum voice-note audio has been removed from Git tracking and added to `.gitignore` while remaining on disk.
+- Mill found a backend/direct-call commerce gap. `base44/functions/createCheckoutSession/entry.ts` now rejects international physical checkout before Stripe and restricts Stripe shipping countries to `AU`; the local Base44 mock mirrors the block.
+- `src/pages/admin/ProcurementCommand.jsx` now creates approval proposals only; inventory batch creation is guarded behind an approved PO state.
+- New guardrail spec: `src/gannonwaye-playwright-pack/tests/commerce-guardrails.spec.js`.
+- Updated guardrail spec: `src/gannonwaye-playwright-pack/tests/master-exposure.spec.js` now verifies private Mum audio is not tracked by Git.
+- Stabilized promo test helper: `promo-codes.spec.js` now uses `domcontentloaded` and `/store/all` for checkout seeding.
+- Validation after patch:
+  - `git diff --check`: passed.
+  - `npm run lint`: passed.
+  - `npx tsc -p ./jsconfig.json --pretty false`: passed.
+  - `npm run build`: passed with expected Base44 proxy warning.
+  - Focused sidecar guardrail lane: `33 passed`.
+  - Checkout serial lane: `16 passed`.
+  - Cart/details/customer serial lane: `21 passed`.
+  - Public routes/security/coaching serial lane: `25 passed`.
+  - Payment success/cancel lane: `10 passed`.
+  - Promo code lane: `9 passed`.
+  - Final source/dist guardrail rerun: `13 passed`.
 
 ## Hallway/3D Promotion Evidence
 

@@ -8,7 +8,7 @@ const GARDEN_PHOTO = '/images/mum/mum_garden.jpg';
 const SONIA_AVATAR = '/images/mum/memory-lane/ML037_FS082.jpg';
 const SONIA_SKY = '/images/mum/sonia_sky_angel_hero.png';
 const GANNON_AND_MUM = '/images/mum/mum_gannon_young.jpg';
-const FAMILY_CHILDREN = '/images/mum/favourite-things/mums-children.png';
+const SONIA_FRIENDSHIP_MEMORY = '/images/mum/mum_bar.png';
 const SONIA_AND_PA = '/images/mum/foyer/sonia-and-pa-sky.png';
 const SINGLE_ARTWORK = '/images/music/without-you-here-cover.png';
 
@@ -277,7 +277,7 @@ export default function HallwayGardenPortal3D({ onOpenMemory, onFinish }) {
     const soniaTexture = loadTexture(SONIA_AVATAR);
     const skyTexture = loadTexture(SONIA_SKY);
     const gannonTexture = loadTexture(GANNON_AND_MUM);
-    const familyTexture = loadTexture(FAMILY_CHILDREN);
+    const familyTexture = loadTexture(SONIA_FRIENDSHIP_MEMORY);
     const paTexture = loadTexture(SONIA_AND_PA);
     const singleTexture = loadTexture(SINGLE_ARTWORK);
 

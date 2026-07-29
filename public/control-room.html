@@ -85,13 +85,13 @@
         </article>
         <article class="card metric">
           <p class="eyebrow">Code Checkpoint</p>
-          <strong>PR #31</strong>
-          <span>Exact current SHA and check state are tracked in the latest PR checkpoint comment so this page does not self-stale.</span>
+          <strong>Safety Patch</strong>
+          <span>Previous pushed PR head was 7abc97a. Current local safety patch is validated; exact pushed SHA will be recorded in the next PR checkpoint.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Clean Core</p>
           <strong class="green">Clean</strong>
-          <span>GitHub workflow runs show 4 of 4 completed successfully on the current PR head; local lint, build, audit, and focused Playwright are green.</span>
+          <span>Previous pushed PR head had 4 of 4 GitHub workflows green; current safety patch has local lint, build, typecheck, and focused Playwright green.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Live Changes</p>
@@ -145,7 +145,7 @@
           <h3>GitHub Audit</h3>
           <ul>
             <li>PR #31 is draft/open/mergeable.</li>
-            <li>Latest exact head and check result are recorded in the newest PR #31 checkpoint comment.</li>
+            <li>Previous pushed PR head was 7abc97a7e42ec9dc2bf2d68fe8085185c6433668; current local safety patch is ready to push.</li>
             <li>GitHub Checks API confirmed CodeQL, lint/build, Playwright, secret scan, security/coaching, and store/cart green on the latest evidence push.</li>
             <li>Private Mum media remains unstaged.</li>
           </ul>
@@ -158,11 +158,12 @@
           <ul>
             <li>Mode: safe staging control-room run. I am auditing, documenting, and updating PR #31, not publishing live changes.</li>
             <li>Onscreen board: this local page auto-refreshes every 20 seconds so you can watch checkpoints appear.</li>
-            <li>Active step now: holding the green staging PR, keeping evidence current, and waiting for explicit non-production preview approval.</li>
+            <li>Active step now: folding read-only sidecar findings into a safe staging patch, then pushing PR #31 and waiting for GitHub checks.</li>
             <li>Allowed now: local repo checks, local browser preview checks, GitHub PR/check inspection, docs/control-board updates, safe commits to the staging PR.</li>
             <li>Held for your approval: hosted preview, production deploy, DNS, Stripe, marketplace, supplier orders, customer emails, Base44 live changes, passwords, 2FA, private memorial uploads, and AI Sonia publication.</li>
             <li>Personal files policy: no deleting personal files; private Mum media and review screenshots stay local and unstaged unless you explicitly approve otherwise.</li>
             <li>Mum's Garden hallway/3D portal status: hardened for staging; private hallway video is env-only and no private video/media file is committed.</li>
+            <li>Read-only helper agents completed: Maxwell checked PR/GitHub state, Avicenna checked Mum's Garden/media safety, and Mill checked merch/dropshipping/Base44 readiness.</li>
           </ul>
         </article>
 
@@ -200,7 +201,8 @@
           <div class="log">Current verified checkpoint:
 - Branch: launch/gannon-waye-suite-2026-07-29
 - PR: https://github.com/ganozwaye-stack/gannon-waye-music/pull/31
-- Exact head: 5fa00031931cb6fc1261f4c1a9b75255945c0224
+- Previous pushed PR head: 7abc97a7e42ec9dc2bf2d68fe8085185c6433668
+- Last launch-code checkpoint before evidence refresh: 5fa00031931cb6fc1261f4c1a9b75255945c0224
 - GitHub PR state: draft/open/mergeable
 
 GitHub workflow runs verified on the current head: 4 completed successfully:
@@ -258,6 +260,17 @@ Local passed evidence:
   - Mum/security/master batch: 18 passed
 - dist output: no private Mum audio or flagged raw memorial media
 - Safety grep: no Sonia voice-note/audio paths remain
+- Sidecar safety patch:
+  - Maxwell confirmed PR #31 was open/draft/mergeable, 4 of 4 workflows green, and only wording was stale.
+  - Avicenna found one active no-Sonia hallway image and tracked private Mum audio. Hallway now uses tracked Sonia-present mum_bar.png, and private voice-note audio has been removed from Git tracking while staying on disk.
+  - Mill found backend/direct-call commerce gaps. Base44 createCheckoutSession now rejects international physical checkout before Stripe, Stripe allowed shipping countries are AU-only, local mock mirrors the block, procurement is approval-proposal only, and guardrail tests cover these rules.
+  - Focused guardrail Playwright: 33 passed.
+  - Checkout serial lane: 16 passed.
+  - Cart/details/customer serial lane: 21 passed.
+  - Public routes/security/coaching serial lane: 25 passed.
+  - Payment success/cancel lane: 10 passed.
+  - Promo code lane stabilized and passed: 9 passed.
+  - Final source/dist guardrail rerun: 13 passed.
 
 Still blocked, watchlisted, or approval-gated:
 - Admin legacy screens use explicit // @ts-nocheck exemptions to avoid risky business-logic edits under launch pressure
@@ -291,6 +304,7 @@ Still blocked, watchlisted, or approval-gated:
   - base44/functions/createCheckoutSession still depends on Stripe plus @base44/sdk and Base44 MerchProduct records
   - Base44 agent definitions still exist and need an Emergent equivalent before parity can be claimed
 - Private/review Mum media remains unstaged; hallway video source is not committed and can only be supplied locally through MUM_HALLWAY_VIDEO_SOURCE
+- Private Mum voice-note audio remains on disk but is removed from Git tracking and ignored by .gitignore.
 - Pricing recommendation: do not move the live suite to Emergent tonight just because of price; prove parity first
 - GitHub reports Dependabot warnings on the default branch
 - Production deploy/preview/DNS/Stripe/supplier/AI Sonia actions require approval</div>
@@ -302,7 +316,7 @@ Still blocked, watchlisted, or approval-gated:
           <h2>Detailed Execution Plan</h2>
           <ul>
             <li>1. Keep this control-room page open so you can observe the run. Done.</li>
-            <li>2. Verify the current local branch, PR, SHA, and GitHub check status. Done; exact head/check result is recorded in the latest PR checkpoint comment.</li>
+            <li>2. Verify the current local branch, PR, SHA, and GitHub check status. Done; previous pushed PR head 7abc97a had 4 of 4 GitHub workflows successful, and the current safety patch is locally validated.</li>
             <li>3. Protect local private/review assets by keeping Mum media, local audio, screenshots, and test artifacts unstaged unless you approve them. Ongoing.</li>
             <li>4. Run the next requirement-scoped local audit across website, store, Mum's Garden, cart, checkout, security, public routes, and master/private-media exposure. Done: 94 passed in split lanes.</li>
             <li>5. If anything fails, patch only the smallest launch-relevant surface, rerun the affected test, then rerun the wider batch. No failure found in the split run.</li>
@@ -313,6 +327,7 @@ Still blocked, watchlisted, or approval-gated:
             <li>10. Stabilize the checkout size-line audit flake and re-run the commerce lane. Done: checkout 16 passed, commerce slices green.</li>
             <li>11. Present the exact approval options, with non-production preview separated from production/DNS/Stripe/marketplace actions. Current next approval is non-production preview only.</li>
             <li>12. Stop at approval gates until you explicitly approve the next live or private-media action. Holding.</li>
+            <li>13. Collected Maxwell, Avicenna, and Mill's read-only audit reports; real gaps were patched in the smallest safe surfaces, checks were rerun, and the patch is ready for PR #31.</li>
           </ul>
         </article>
 
@@ -321,8 +336,10 @@ Still blocked, watchlisted, or approval-gated:
           <ul>
             <li>This central Codex task is the control room.</li>
             <li>Currently active: Codex in this task, local shell audits, Playwright, Vite/npm, git, GitHub connector, and the in-app browser/control-room page.</li>
+            <li>Maxwell: completed read-only PR/GitHub/checkpoint status audit.</li>
+            <li>Avicenna: completed read-only Mum's Garden/media safety audit.</li>
+            <li>Mill: completed read-only merch/dropshipping/Base44 readiness audit.</li>
             <li>Previously completed sidecar helpers: Hilbert for Mum's Garden/media safety, Ohm for merch/dropshipping, and Ampere for Base44-to-Emergent parity blockers.</li>
-            <li>No background subagent is currently running. If I start another helper, I will list it here with its lane and status.</li>
             <li>GitHub connector role: PR #31 metadata and checks.</li>
             <li>Local audit role: build, lint, npm audit, route tests, security/media checks, visual smoke checks.</li>
             <li>Browser role: keep this board and local preview visible for observation.</li>
@@ -331,7 +348,7 @@ Still blocked, watchlisted, or approval-gated:
       </section>
 
       <footer>
-        Last updated: 2026-07-30 05:00 AEST. This is a local preview board only.
+        Last updated: 2026-07-30 05:58 AEST. This is a local preview board only.
       </footer>
     </main>
   </body>

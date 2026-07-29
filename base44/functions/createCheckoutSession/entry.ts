@@ -16,9 +16,9 @@ const ALWAYS_INELIGIBLE_CATEGORIES = [
 const NO_SHIPPING_CATEGORIES = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
 
 function isInternational(address) {
-  if (!address) return false;
-  const lower = address.toLowerCase();
-  return ['usa', 'united states', 'uk', 'united kingdom', 'canada', 'new zealand', 'nz', 'europe', 'india', 'singapore'].some(k => lower.includes(k));
+  if (!address) return true;
+  const normalized = address.toLowerCase().replace(/[^a-z0-9]+/g, ' ');
+  return !(/\baustralia\b/.test(normalized) || /\bau\b/.test(normalized));
 }
 
 function isCategoryEligibleForDiscount(category) {
@@ -215,6 +215,15 @@ Deno.serve(async (req) => {
     const hasPhysicalItems = cartItems.some(item => needsShipping(item.category || ''));
 
     if (hasPhysicalItems) {
+      internationalShipping = isInternational(shippingAddress);
+      if (internationalShipping) {
+        return Response.json({
+          error: 'International shipping quote required',
+          friendly_message: 'International delivery for physical items needs a shipping quote before payment. You have not been charged.',
+          code: 'INTERNATIONAL_SHIPPING_QUOTE_REQUIRED',
+        }, { status: 400 });
+      }
+
       if (promoFreeShipping) {
         shippingAmountCents = 0;
       } else {
@@ -273,7 +282,7 @@ Deno.serve(async (req) => {
       billing_address_collection: 'required',
       ...(orderHasPhysical ? {
         shipping_address_collection: {
-          allowed_countries: ['AU', 'NZ', 'US', 'GB', 'CA', 'SG', 'IN'],
+          allowed_countries: ['AU'],
         },
       } : {}),
       automatic_tax: { enabled: false },

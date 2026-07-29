@@ -78,7 +78,7 @@ export default function ProcurementCommand() {
       currency_conversion_fee_aud: parseFloat(newPO.currency_conversion_fee_aud) || 0,
       total_landed_cost_aud: total,
       expected_arrival: newPO.expected_arrival || null,
-      notes: newPO.notes,
+      notes: [newPO.notes, 'Approval proposal only. No supplier order has been placed from this screen.'].filter(Boolean).join('\n'),
       status: 'pending_approval',
       is_preliminary: isMissingShipping,
       source_chain: `ProcurementCommand → ${new Date().toISOString()}`,
@@ -103,7 +103,9 @@ export default function ProcurementCommand() {
       calculated_by: 'ProcurementCommand',
     });
 
-    await base44.entities.InventoryBatch.create({
+    const createInventoryAfterApproval = po.status === 'approved';
+    if (createInventoryAfterApproval) {
+      await base44.entities.InventoryBatch.create({
       purchase_order_id: po.id,
       product_name: newPO.product_name,
       qty_ordered: qty,
@@ -115,7 +117,8 @@ export default function ProcurementCommand() {
       status: 'ordered',
       is_preliminary_cost: isMissingShipping,
       source_chain: `ProcurementCommand → PO ${poNumber}`,
-    });
+      });
+    }
 
     if (isMissingShipping) {
       await base44.entities.AdminNotification.create({
@@ -309,7 +312,7 @@ export default function ProcurementCommand() {
             <div className="flex gap-2">
               <Button onClick={handleCreate} disabled={saving} className="gap-2">
                 {saving ? <RefreshCw className="w-4 h-4 animate-spin" /> : <CheckCircle2 className="w-4 h-4" />}
-                Create PO + Landed Cost
+                Create Approval Proposal
               </Button>
               <Button variant="outline" onClick={() => setShowNewPO(false)}>Cancel</Button>
             </div>
