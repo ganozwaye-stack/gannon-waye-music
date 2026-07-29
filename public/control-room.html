@@ -83,8 +83,8 @@
         </article>
         <article class="card metric">
           <p class="eyebrow">Last Pushed</p>
-          <strong>012941b</strong>
-          <span>Current local fixes are audited and ready to commit/push.</span>
+          <strong>6c3f61e</strong>
+          <span>Latest pushed PR checks are green. New privacy/checkout guardrails are locally green and pending push.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Clean Core</p>
@@ -113,8 +113,9 @@
           <h3>Mum's Garden</h3>
           <ul>
             <li>Private/gated route passed launch-critical checks.</li>
-            <li>Preview-only audio policy passed.</li>
-            <li>Sonia voicemail/voice-note exposure removed pending explicit approval.</li>
+            <li>Private Mum audio and raw media are blocked from dev/build/deploy output.</li>
+            <li>Old public /mums-garden route redirects to the private gate.</li>
+            <li>Sitemap/social metadata no longer advertise Mum's Garden.</li>
           </ul>
         </article>
         <article class="card lane">
@@ -123,7 +124,8 @@
           <ul>
             <li>Neon store frontage remains at /store.</li>
             <li>Product grid is at /store/all.</li>
-            <li>Commerce batch is clean: 53 passed, 1 skipped.</li>
+            <li>International checkout is locked until shipping is quoted.</li>
+            <li>Old synthetic add-ons are blocked from payment.</li>
           </ul>
         </article>
         <article class="card lane">
@@ -136,12 +138,13 @@
           </ul>
         </article>
         <article class="card lane">
-          <span class="state blue">Looping</span>
+          <span class="state green">Green</span>
           <h3>GitHub Audit</h3>
           <ul>
             <li>PR #31 is draft/open/mergeable.</li>
-            <li>Current local fixes must be committed and pushed.</li>
-            <li>PR checkpoint will be updated after push.</li>
+            <li>Latest pushed checks passed on 6c3f61e.</li>
+            <li>New local guardrails passed affected audits.</li>
+            <li>Next: commit, push, and watch GitHub checks again.</li>
           </ul>
         </article>
       </section>
@@ -153,9 +156,10 @@
             <li>Keep the local staging branch healthy: lint, build, npm audit, and route checks.</li>
             <li>Finish split Playwright audit batches instead of one unreliable timeout-heavy run.</li>
             <li>Fix only launch-relevant issues; mark stale tests as stale only when current behavior is correct.</li>
-            <li>Commit and push the new fixes to PR #31.</li>
+            <li>Push the privacy and checkout guardrail commit to PR #31.</li>
+            <li>Fix any new CI/security/audit issue and rerun the affected tests.</li>
             <li>Update final-run documentation with exact current status and caveats.</li>
-            <li>Update the GitHub PR checkpoint comment with passed/failed/blocked evidence.</li>
+            <li>Update the GitHub PR checkpoint comment with passed/failed/blocked evidence after CI settles.</li>
             <li>Ask you before any hosted preview, final deployment, DNS, Stripe, marketplace, supplier, email, password, 2FA, or AI Sonia action.</li>
             <li>Keep untracked personal Mum's Garden media and screenshots unstaged unless you approve.</li>
           </ul>
@@ -170,10 +174,19 @@
 - Commerce Playwright: 53 passed, 1 skipped
 - Launch-critical Playwright: 119 passed, 1 skipped
 - Memorial/audio safety Playwright: 16 passed
+- Private media, shipping, checkout, public-route safety:
+  - master exposure: 7 passed
+  - shipping: 8 passed
+  - checkout: 16 passed
+  - public routes: 12 passed
+  - Mum/security/master batch: 18 passed
+- dist output: no private Mum audio or flagged raw memorial media
 - Safety grep: no Sonia voice-note/audio paths remain
 
 Still failing or pending:
 - npm run typecheck remains broad legacy JS/admin typing debt, not clean
+- GitHub checks for 6c3f61e: all passed
+- New local guardrail commit still needs push and GitHub rerun
 - Production deploy/preview/DNS/Stripe/supplier/AI Sonia actions require approval</div>
         </article>
       </section>
@@ -182,11 +195,11 @@ Still failing or pending:
         <article class="card">
           <h2>Detailed Execution Plan</h2>
           <ul>
-            <li>1. Stage only code/tests/docs/control board, not private untracked Mum media or test artifacts.</li>
-            <li>2. Commit the audited local fixes.</li>
-            <li>3. Push the branch to PR #31.</li>
-            <li>4. Refresh the GitHub PR checkpoint comment with current evidence.</li>
-            <li>5. Ask you for explicit approval before any hosted preview or production action.</li>
+            <li>1. Keep the control-room page open so you can watch the run.</li>
+            <li>2. Commit and push the local guardrail fixes.</li>
+            <li>3. Watch GitHub checks again on the new head.</li>
+            <li>4. Refresh the final-run documentation and GitHub PR checkpoint with current evidence.</li>
+            <li>5. Ask you for explicit approval before any hosted preview, production deploy, DNS, Stripe, supplier, marketplace, email, or AI Sonia action.</li>
           </ul>
         </article>
 
@@ -194,7 +207,9 @@ Still failing or pending:
           <h2>Active Helpers</h2>
           <ul>
             <li>This central Codex task is the control room.</li>
-            <li>No separate Codex subagents are currently spawned.</li>
+            <li>Hilbert: completed Mum's Garden and memorial media safety audit.</li>
+            <li>Ohm: completed merch store and dropshipping procedure audit.</li>
+            <li>Ampere: completed Base44-to-Emergent parity blocker audit.</li>
             <li>Local tools helping: npm, Vite build, Playwright, git, GitHub connector.</li>
             <li>Browser page: this live control-room board for observation.</li>
           </ul>
@@ -202,7 +217,7 @@ Still failing or pending:
       </section>
 
       <footer>
-        Last updated: 2026-07-29 22:31 AEST. This is a local preview board only.
+        Last updated: 2026-07-29 23:22 AEST. This is a local preview board only.
       </footer>
     </main>
   </body>

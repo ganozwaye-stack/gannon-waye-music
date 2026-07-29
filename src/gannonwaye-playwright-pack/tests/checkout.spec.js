@@ -16,36 +16,29 @@ const DETAILS = {
 };
 
 async function fillDetailsAndNavigate(page) {
-  // Set localStorage details so checkout page loads correctly
   await page.goto(`${BASE_URL}/store/all`, { waitUntil: 'domcontentloaded' });
   await page.evaluate((d) => {
+    const hoodie = {
+      id: 'respect-is-earned-hoodie-front',
+      name: '"Respect Is Earned" Hoodie - Dark Grey',
+      sale_price: 98,
+      category: 'apparel',
+      image_url: '',
+      sizes_available: ['S', 'M', 'L', 'XL'],
+    };
+    localStorage.setItem('gannon_store_cart_v2', JSON.stringify({
+      state: {
+        items: [{ product_id: hoodie.id, product: hoodie, quantity: 1, size: 'M', added_at: Date.now() }],
+        __version: 3,
+      },
+      version: 0,
+    }));
     localStorage.setItem('gannon_checkout_details_v1', JSON.stringify({
       ...d,
       dob: '', business_name: '', abn: '',
       order_support_consent: true, marketing_opt_in: false,
     }));
   }, DETAILS);
-
-  // Add item to cart via UI
-  await page.waitForSelector('[data-testid="product-card"]');
-  
-  // Select size M first if visible
-  const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-  if (await sizeM.isVisible().catch(() => false)) {
-    await sizeM.click({ force: true });
-  }
-
-  const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-  const count = await addBtns.count();
-  for (let i = 0; i < count; i++) {
-    const btn = addBtns.nth(i);
-    if (await btn.isVisible()) {
-      await btn.click({ force: true });
-      // Wait for the cart drawer checkout button to ensure Zustand state is saved
-      await page.waitForSelector('[data-testid="go-to-checkout-button"]', { timeout: 5000 }).catch(() => {});
-      break;
-    }
-  }
   await page.goto(`${BASE_URL}/store/checkout`);
   await page.waitForSelector('[data-testid="checkout-page"]');
 }
@@ -195,6 +188,35 @@ test.describe('Order Review / Checkout Page', () => {
     const payBtn = page.locator('[data-testid="checkout-pay-button"]');
     await expect(payBtn).toBeVisible();
     await expect(payBtn).not.toBeDisabled();
+  });
+
+  test('old synthetic add-on cart items cannot proceed to payment', async ({ page }) => {
+    await page.goto(`${BASE_URL}/store/all`, { waitUntil: 'domcontentloaded' });
+    await page.evaluate((d) => {
+      const addon = {
+        id: 'mug-addon',
+        name: 'Add Respect Is Earned Coffee Mug - $9.90',
+        sale_price: 9.9,
+        category: 'accessories',
+        image_url: '',
+      };
+      localStorage.setItem('gannon_store_cart_v2', JSON.stringify({
+        state: {
+          items: [{ product_id: addon.id, product: addon, quantity: 1, size: null, added_at: Date.now() }],
+          __version: 3,
+        },
+        version: 0,
+      }));
+      localStorage.setItem('gannon_checkout_details_v1', JSON.stringify({
+        ...d,
+        dob: '', business_name: '', abn: '',
+        order_support_consent: true, marketing_opt_in: false,
+      }));
+    }, DETAILS);
+
+    await page.goto(`${BASE_URL}/store/checkout`, { waitUntil: 'domcontentloaded' });
+    await expect(page.locator('[data-testid="blocked-addon-checkout"]')).toBeVisible();
+    await expect(page.locator('[data-testid="checkout-pay-button"]')).toBeDisabled();
   });
 
   test('empty cart shows return to store button', async ({ page }) => {

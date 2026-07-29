@@ -14,6 +14,7 @@ const DETAILS_KEY = 'gannon_checkout_details_v1';
 
 const NO_SHIPPING_CATS = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
 const INELIGIBLE_DISCOUNT_CATS = ['cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping', 'music', 'limited_edition_music', 'digital_music', 'bundle', 'bundles'];
+const BLOCKED_SYNTHETIC_PRODUCT_IDS = new Set(['mug-addon', 'poster-addon']);
 
 function needsShipping(cat) { return !NO_SHIPPING_CATS.includes((cat || '').toLowerCase().trim()); }
 function isEligible(cat) { const c = (cat || '').toLowerCase().trim(); return !INELIGIBLE_DISCOUNT_CATS.some(x => c.includes(x)); }
@@ -129,6 +130,11 @@ export default function StoreCheckout() {
   const discountPercent = promo?.discount_percent || 0;
   const isOwnerOverride = promo?.is_owner_override === true;
   const freeShipping = promo?.free_shipping === true;
+  const hasPhysicalItems = items.some(i => needsShipping(i.product?.category));
+  const isInternationalQuoteRequired = hasPhysicalItems && details?.country && details.country !== 'Australia';
+  const hasBlockedSyntheticItems = items.some(i =>
+    BLOCKED_SYNTHETIC_PRODUCT_IDS.has(i.product_id) || BLOCKED_SYNTHETIC_PRODUCT_IDS.has(i.product?.id)
+  );
 
   // Per-item cent-level math — mirrors createCheckoutSession backend exactly
   const subtotalCents = items.reduce((s, i) => s + Math.round((i.product?.sale_price ?? 0) * 100) * i.quantity, 0);
@@ -179,6 +185,14 @@ export default function StoreCheckout() {
 
   const handlePay = async () => {
     if (redirecting) return;
+    if (isInternationalQuoteRequired) {
+      setCheckoutError('International delivery needs a shipping quote before payment. Please contact Gannon or change the delivery country to Australia before checkout.');
+      return;
+    }
+    if (hasBlockedSyntheticItems) {
+      setCheckoutError('One or more add-on items are no longer approved for checkout. Please remove them from the cart and add the real mug or poster product instead.');
+      return;
+    }
     setRedirecting(true);
     setCheckoutError(null);
 
@@ -559,10 +573,34 @@ export default function StoreCheckout() {
               </div>
             )}
 
+            {isInternationalQuoteRequired && (
+              <div data-testid="international-shipping-block" className="flex items-start gap-2 p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl">
+                <AlertTriangle className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-body text-sm text-amber-200 font-medium">Shipping quote required</p>
+                  <p className="font-body text-xs text-muted-foreground mt-1">
+                    International orders are review-only for now. Payment is locked until postage is quoted and approved.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {hasBlockedSyntheticItems && (
+              <div data-testid="blocked-addon-checkout" className="flex items-start gap-2 p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl">
+                <AlertTriangle className="w-4 h-4 text-amber-300 shrink-0 mt-0.5" />
+                <div>
+                  <p className="font-body text-sm text-amber-200 font-medium">Cart item needs review</p>
+                  <p className="font-body text-xs text-muted-foreground mt-1">
+                    Old add-on items are blocked until they are converted into real store products with stock and fulfilment rules.
+                  </p>
+                </div>
+              </div>
+            )}
+
             <Button
               data-testid="checkout-pay-button"
               onClick={handlePay}
-              disabled={redirecting || items.length === 0}
+              disabled={redirecting || items.length === 0 || isInternationalQuoteRequired || hasBlockedSyntheticItems}
               className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-6 gap-2"
             >
               {redirecting ? (
@@ -573,7 +611,11 @@ export default function StoreCheckout() {
               ) : (
                 <>
                   <Lock className="w-4 h-4" />
-                  Confirm & Pay ${total.toFixed(2)} AUD
+                  {isInternationalQuoteRequired
+                    ? 'Shipping Quote Required'
+                    : hasBlockedSyntheticItems
+                      ? 'Remove Add-on Item'
+                      : `Confirm & Pay $${total.toFixed(2)} AUD`}
                 </>
               )}
             </Button>

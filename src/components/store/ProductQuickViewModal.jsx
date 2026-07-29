@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react';
-import { STORE_PRODUCTS, STORE_ADDONS } from '@/config/storeWorldConfig';
+import { useState } from 'react';
+import { STORE_PRODUCTS } from '@/config/storeWorldConfig';
 import { useCartStore } from '@/lib/cartStore';
 
 const ACCENT = '#D4AF37';
@@ -16,12 +16,6 @@ export default function ProductQuickViewModal({ productId, onClose }) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [qty, setQty] = useState(1);
   const [selectedSize, setSelectedSize] = useState(product?.options?.size?.[0] || '');
-  const [selectedAddons, setSelectedAddons] = useState([]);
-
-  const addonOptions = useMemo(() => {
-    if (!product?.addons) return [];
-    return STORE_ADDONS.filter(addon => product.addons.includes(addon.id));
-  }, [product]);
 
   const addItem = useCartStore(state => state.addItem);
 
@@ -34,15 +28,8 @@ export default function ProductQuickViewModal({ productId, onClose }) {
     ? `$${product.sizePriceMap[selectedSize]}`
     : product.price;
 
-  const toggleAddon = (addonId) => {
-    setSelectedAddons(prev => prev.includes(addonId) ? prev.filter(id => id !== addonId) : [...prev, addonId]);
-  };
-
   const subtotal = !isSoldOut && !isMemorial
-    ? selectedPrice * qty + selectedAddons.reduce((sum, addonId) => {
-        const addon = STORE_ADDONS.find(a => a.id === addonId);
-        return sum + (addon?.priceValue || 0);
-      }, 0)
+    ? selectedPrice * qty
     : 0;
 
   const handleAddToCart = () => {
@@ -57,20 +44,6 @@ export default function ProductQuickViewModal({ productId, onClose }) {
       category: product.category,
     };
     addItem(productForCart, qty, selectedSize || null);
-
-    // Also add any selected add-ons as separate cart items
-    selectedAddons.forEach(addonId => {
-      const addon = STORE_ADDONS.find(a => a.id === addonId);
-      if (addon) {
-        addItem({
-          id: addon.id,
-          name: addon.name,
-          sale_price: addon.priceValue,
-          price: addon.priceValue,
-          image_url: addon.image,
-        }, 1, null);
-      }
-    });
 
     onClose();
   };
@@ -147,24 +120,6 @@ export default function ProductQuickViewModal({ productId, onClose }) {
                   <button type="button" onClick={() => setQty(q => Math.max(1, q - 1))} style={qtyBtn}>−</button>
                   <span style={{ padding: '10px 18px', color: '#fff' }}>{qty}</span>
                   <button type="button" onClick={() => setQty(q => q + 1)} style={qtyBtn}>+</button>
-                </div>
-              </div>
-            )}
-
-            {addonOptions.length > 0 && !isSoldOut && !isMemorial && (
-              <div style={{ marginBottom: '20px' }}>
-                <p style={labelStyle}>Complete the experience</p>
-                <div style={{ display: 'grid', gap: '10px' }}>
-                  {addonOptions.map(addon => (
-                    <label key={addon.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', border: '1px solid rgba(212,175,55,0.18)', borderRadius: '10px', cursor: 'pointer', background: selectedAddons.includes(addon.id) ? 'rgba(212,175,55,0.12)' : 'rgba(255,255,255,0.02)' }}>
-                      <input type="checkbox" checked={selectedAddons.includes(addon.id)} onChange={() => toggleAddon(addon.id)} />
-                      <div style={{ width: 42, height: 42, flexShrink: 0, borderRadius: 6, overflow: 'hidden', background: '#111' }}>
-                        <ProductImage src={addon.image} alt={addon.name} emoji="🛍️" />
-                      </div>
-                      <span style={{ flex: 1, color: '#ddd', fontSize: 12 }}>{addon.name}</span>
-                      <strong style={{ color: ACCENT, fontSize: 12 }}>{addon.price}</strong>
-                    </label>
-                  ))}
                 </div>
               </div>
             )}

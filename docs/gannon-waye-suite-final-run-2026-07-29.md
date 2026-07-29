@@ -6,11 +6,11 @@ Local staging branch: `launch/gannon-waye-suite-2026-07-29`
 
 GitHub PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 
-Status time: 2026-07-29 22:31 AEST
+Status time: 2026-07-29 23:22 AEST
 
 ## Current State
 
-The local staging candidate is substantially cleaner and ready for PR refresh, but it is not approved for production deployment. The 9pm target has passed. No DNS, production deploy, live Stripe, supplier order, marketplace publish, customer email, password, 2FA, Base44 live-state change, or AI Sonia publication has been performed.
+The latest pushed staging candidate is PR #31 at `6c3f61e`, with all GitHub checks green. A new local guardrail set is now passing affected local audits and is pending commit/push. It is not approved for production deployment. The 9pm target has passed. No DNS, production deploy, live Stripe, supplier order, marketplace publish, customer email, password, 2FA, Base44 live-state change, or AI Sonia publication has been performed.
 
 ## Done
 
@@ -28,6 +28,15 @@ The local staging candidate is substantially cleaner and ready for PR refresh, b
 - Removed the public Sonia voicemail/voice-note section from `SoniaAmbientPlayer`.
 - Verified no private Mum audio file paths remain in app or public source.
 - Kept untracked personal Mum media and review screenshots unstaged.
+- Pushed the Instagram URL preview security fix that removes the unsafe image preview sink and validates image URLs before posting.
+- Blocked private Mum audio and flagged raw memorial media from local dev access and Vite build output without deleting source files.
+- Added Netlify 404 rules for private Mum audio and flagged raw memorial media.
+- Removed Mum's Garden/private memorial URLs from the sitemap and global social preview metadata.
+- Added noindex/nofollow/noarchive posture for Mum's Garden/private memorial routes.
+- Redirected old `/mums-garden` public route into the `/mum` private gate.
+- Tightened the Mum's Garden URL access shortcuts to the explicit `soniagarden2026` code only.
+- Blocked international physical checkout until shipping is quoted.
+- Removed old synthetic quick-view add-ons from checkout and blocked saved synthetic add-on cart items from payment.
 
 ## Audit Evidence
 
@@ -49,12 +58,32 @@ Passed:
   - Covered Mum's Garden, master exposure, and public secret-pattern checks.
 - Safety grep:
   - No remaining app/public references to the removed Sonia voice-note player, voicemail file names, or private Mum audio paths.
+- GitHub checks for commit `6c3f61e`:
+  - Build & Playwright Tests: success.
+  - CodeQL: success.
+  - CodeQL Security Scan: success.
+  - Lint and build: success.
+  - Public routes and store smoke tests: success.
+  - Secret Scanning & Credentials Check: success.
+  - Security & Coaching Lock Tests: success.
+  - Store & Cart Tests: success.
+- New local guardrail audit evidence:
+  - `npm run lint`: passed.
+  - `npm run build`: passed with expected local Base44 proxy warning.
+  - `npm audit --audit-level=moderate`: passed with `0` vulnerabilities.
+  - Master exposure/private media Playwright: `7 passed`.
+  - Shipping Playwright: `8 passed`.
+  - Checkout Playwright: `16 passed`.
+  - Public routes Playwright: `12 passed`.
+  - Mum/security/master affected batch: `18 passed`.
+  - Build output check: `dist/audio/mum` absent, flagged raw memory-lane files absent, and risky private Mum audio filenames absent from `dist`.
 
 Failed / Not Clean:
 
 - `npm run typecheck` still fails.
 - This is broad pre-existing JS/admin typing debt, not just the files touched in this run.
 - Representative failing areas include `src/api/base44Client.js`, `src/components/admin-v3/*`, and many admin page UI prop typings.
+- The new local guardrail commit still needs to be pushed and rechecked by GitHub Actions.
 
 ## Approval Gates
 
@@ -97,7 +126,7 @@ Key routes verified locally:
 - `/mum?access=soniagarden2026`
 - `/mum/garden?access=soniagarden2026`
 - `/without-you-here?access=soniagarden2026`
-- `/mums-garden`
+- `/mums-garden` redirects to `/mum`
 - `/remember-mum`
 - `/press-kit`
 - `/systems-manager`
@@ -115,12 +144,17 @@ Current policy:
 - Keep tattoo imagery together as its own section for later copy.
 - Do not publish AI Sonia voice/avatar material without explicit approval.
 - Do not expose Sonia voicemail/voice-note files without explicit approval.
+- Keep private Mum voice-note files out of build/deploy output.
+- Do not advertise memorial routes in sitemap/global social metadata.
 
 Current evidence:
 
 - Mum's Garden Playwright checks passed.
 - Master exposure checks passed.
 - Sonia voice-note public section removed.
+- Private Mum audio direct URL is blocked in local preview.
+- Private Mum audio and flagged raw memorial media are absent from `dist`.
+- Hilbert sidecar finding resolved locally: old `/mums-garden` public route no longer renders the generated-scene memorial page.
 
 ## Merch Store
 
@@ -131,6 +165,9 @@ Current status:
 - Store products, images, prices, winter bundle, cart, checkout, payment result aliases, promo codes, promo exclusions, and shipping checks pass locally.
 - Winter bundle current audited price is `$119`.
 - The skipped promo exclusion case is a documented manual approval test for the winter bundle checkout path.
+- International physical checkout is blocked until shipping is quoted and approved.
+- Old synthetic add-ons are removed from quick-view checkout and blocked if found in saved cart state.
+- Ohm sidecar finding remains approval-gated: real Stripe proof still requires explicit approval.
 
 ## Micro-Brand Dropshipping Procedure
 
@@ -178,19 +215,20 @@ Current findings:
 - The code still depends on `@base44/sdk`, Base44 functions, Base44 entities, and Base44 agents.
 - Local preview uses mocks for auth, products, orders, checkout, GanozMix candidates, and approval-only flows.
 - Base44 live production must stay in place until replacement parity is proven.
-- PR #31 is the current staging PR, but the current local fixes still need to be committed and pushed.
+- PR #31 is the current staging PR, and the latest local security fix is pushed. GitHub checks are green.
+- Ampere sidecar finding: staging boundary is acceptable, but migration parity remains blocked until Base44 SDK/functions/entities/agents and mock commerce/auth are replaced or isolated.
 
 Recommended staging path:
 
 1. Keep Base44 live as production until replacement parity is proven.
 2. Commit only required code/tests/docs and approved public assets.
 3. Keep untracked personal memorial media and review screenshots out of the PR unless explicitly approved.
-4. Push the staging branch to PR #31.
-5. Let GitHub checks and review run.
+4. Keep GitHub checks green and refresh the PR checkpoint with current evidence.
+5. If any later check fails, fix it locally, rerun the affected audit, commit, push, and repeat.
 6. Create a non-production preview only after approval.
 7. Review store, Mum's Garden gate, routes, checkout mock/sandbox behavior, and media exposure.
 8. Ask Gannon for explicit production approval.
 
 ## Exact Next Action
 
-Stage the code/test/doc/control-board changes, leave private untracked Mum media and test artifacts unstaged, commit to `launch/gannon-waye-suite-2026-07-29`, push to PR #31, then update the GitHub PR checkpoint with the current audit evidence and blockers.
+Commit and push the local privacy/checkout guardrail fixes, watch GitHub checks on the new head, then update PR #31 and the checkpoint comment with the final pass/fail evidence and remaining approval gates.

@@ -7,5 +7,13 @@ Disallow: /gift-checklist
 Disallow: /email-preferences
 Disallow: /checkout-success
 Disallow: /checkout-cancel
+Disallow: /mum
+Disallow: /mum/
+Disallow: /mums-garden
+Disallow: /without-you-here
+Disallow: /remember-mum
+Disallow: /audio/mum/
+Disallow: /images/mum/memory-lane/
+Disallow: /images/mum/garden-textures/
 
 Sitemap: https://gannonwaye.com/sitemap.xml

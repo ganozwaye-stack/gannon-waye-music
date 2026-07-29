@@ -31,7 +31,7 @@ export default function StoreProductDetail() {
   }
 
   if (product.status === 'memorial') {
-    navigate('/mums-garden');
+    navigate('/mum');
     return null;
   }
 

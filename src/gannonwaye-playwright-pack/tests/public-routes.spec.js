@@ -12,12 +12,12 @@ const legacyRoutes = [
   { from: '/releases', to: '/music', landmark: 'h1' },
   { from: '/gift-tracker', to: '/gift-checklist', landmark: 'h1' },
   { from: '/about', to: '/this-is-my-life', landmark: 'h1' },
+  { from: '/mums-garden', to: '/mum', landmark: 'h1' },
 ];
 
 const retainedBase44Routes = [
   { route: '/mum', landmark: 'h1' },
   { route: '/without-you-here', landmark: 'h1' },
-  { route: '/mums-garden', landmark: "text=Written on Mother's Day" },
   { route: '/remember-mum', landmark: 'h1' },
   { route: '/press-kit', landmark: 'h1' },
 ];

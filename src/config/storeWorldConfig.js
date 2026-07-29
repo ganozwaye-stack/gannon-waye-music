@@ -297,7 +297,7 @@ export const STORE_PRODUCTS = [
     category: 'tribute',
     stock_quantity: 0,
     is_active: false,
-    link: '/mums-garden',
+    link: '/mum',
     images: [
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/7df2f998b_A181BD35-93F3-41FB-B671-2FABC71B701A.jpg',
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3892d6143_093DD58D-2A3E-46F2-B235-ABD31D530F48.jpg',

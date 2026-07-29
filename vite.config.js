@@ -1,9 +1,62 @@
 import base44 from "@base44/vite-plugin"
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
+import { rmSync } from 'node:fs'
+import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const spaRouterPath = fileURLToPath(new URL('./src/lib/SpaRouter.jsx', import.meta.url));
+const repoRoot = fileURLToPath(new URL('.', import.meta.url));
+
+const PRIVATE_PUBLIC_PATHS = [
+  '/audio/mum',
+  '/images/mum/garden-textures/melbourne-fern-gully-2017.jpg',
+  '/images/mum/garden-textures/mum-real-paver-corner-soft.png',
+  '/images/mum/garden-textures/real-backyard-pavers.jpg',
+  '/images/mum/garden-textures/real-concrete-pavers.png',
+  '/images/mum/garden-textures/real-hanging-fern.png',
+  '/images/mum/garden-textures/real-monstera-left.png',
+  '/images/mum/garden-textures/real-monstera-right.png',
+  '/images/mum/memory-lane/_memory_lane_manifest.json',
+  '/images/mum/memory-lane/ML006_FS011.jpg',
+  '/images/mum/memory-lane/ML031_FS070.jpg',
+  '/images/mum/memory-lane/ML053_FS108.jpg',
+  '/images/mum/memory-lane/ML063_FS124.jpg',
+  '/images/mum/mum_garden_real_concrete_path_wide.jpg',
+  '/images/mum/mum_garden_real_foliage_soft.jpg',
+  '/images/mum/mum_garden_real_foliage_wide.jpg',
+];
+
+function isPrivatePublicPath(pathname) {
+  return PRIVATE_PUBLIC_PATHS.some(privatePath =>
+    pathname === privatePath || pathname.startsWith(`${privatePath}/`)
+  );
+}
+
+function privateMemorialMediaGuard() {
+  return {
+    name: 'private-memorial-media-guard',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const pathname = new URL(req.url || '/', 'http://localhost').pathname;
+        if (!isPrivatePublicPath(pathname)) {
+          next();
+          return;
+        }
+
+        res.statusCode = 404;
+        res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        res.end('Not found');
+      });
+    },
+    closeBundle() {
+      for (const privatePath of PRIVATE_PUBLIC_PATHS) {
+        rmSync(resolve(repoRoot, 'dist', privatePath.replace(/^\//, '')), { recursive: true, force: true });
+      }
+    },
+  };
+}
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -62,6 +115,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    privateMemorialMediaGuard(),
     base44({
       // Support for legacy code that imports the base44 SDK with @/integrations, @/entities, etc.
       // can be removed if the code has been updated to use the new SDK imports from @base44/sdk

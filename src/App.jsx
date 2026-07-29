@@ -300,7 +300,6 @@ import MissionControl from '@/pages/admin/MissionControl';
 import SystemsManagerOffer from '@/pages/SystemsManagerOffer';
 import StoreWorld from '@/pages/StoreWorld';
 import PrintFulfilment from '@/pages/admin/PrintFulfilment';
-import MumsGarden from '@/pages/MumsGarden';
 import Memorial from '@/pages/Memorial';
 import StoreProductDetail from '@/pages/StoreProductDetail';
 import PriorityCommander from '@/pages/admin/PriorityCommander';
@@ -413,7 +412,7 @@ const AuthenticatedApp = () => {
         <Route path="/mum/garden" element={<MumTribute mode="garden" />} />
         <Route path="/mum/design-lab" element={<MumDesignLab />} />
         <Route path="/without-you-here" element={<MumTribute />} />
-        <Route path="/mums-garden" element={<MumsGarden />} />
+        <Route path="/mums-garden" element={<LegacyRouteRedirect to="/mum" />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/payment-success" element={<CheckoutSuccess />} />
         <Route path="/order-success" element={<CheckoutSuccess />} />
@@ -687,7 +686,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/workbook-builder" element={<WorkbookBuilder />} />
         <Route path="/admin/client-resource-library" element={<ClientResourceLibrary />} />
         <Route path="/admin/phone-system" element={<PhoneSystem />} />
-        <Route path="/admin/mums-garden" element={<MumsGarden />} />
+        <Route path="/admin/mums-garden" element={<MumTribute mode="garden" />} />
         <Route path="/admin/mum" element={<MumTribute />} />
         <Route path="/admin/without-you-here" element={<MumTribute />} />
         <Route path="/admin/memorial" element={<Memorial />} />

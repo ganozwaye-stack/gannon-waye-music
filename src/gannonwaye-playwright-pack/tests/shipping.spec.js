@@ -4,14 +4,15 @@ const { test, expect } = require('@playwright/test');
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 const DETAILS = { full_name: 'Test User', email: 'test@example.com', mobile: '0400000000', street_address: '123 Test St', suburb: 'Melbourne', state: 'VIC', postcode: '3000', country: 'Australia', dob: '', business_name: '', abn: '', order_only: true, subscribe_community: false };
+const INTERNATIONAL_DETAILS = { ...DETAILS, state: '', country: 'New Zealand' };
 
-async function seedCheckout(page, items) {
+async function seedCheckout(page, items, details = DETAILS) {
   await page.goto(`${BASE_URL}/store/all`, { waitUntil: 'domcontentloaded' });
-  await page.evaluate(([cartItems, details]) => {
+  await page.evaluate(([cartItems, customerDetails]) => {
     const cart = { state: { items: cartItems, __version: 3 }, version: 0 };
     localStorage.setItem('gannon_store_cart_v2', JSON.stringify(cart));
-    localStorage.setItem('gannon_checkout_details_v1', JSON.stringify(details));
-  }, [items, DETAILS]);
+    localStorage.setItem('gannon_checkout_details_v1', JSON.stringify(customerDetails));
+  }, [items, details]);
   await page.goto(`${BASE_URL}/store/checkout`, { waitUntil: 'domcontentloaded' });
 }
 
@@ -81,5 +82,14 @@ test.describe('Shipping Rules', () => {
       const shippingAmt = parseFloat(numbers[0]);
       expect(shippingAmt).toBeGreaterThan(0);
     }
+  });
+
+  test('international physical checkout is blocked until shipping is quoted', async ({ page }) => {
+    const items = [{ product_id: 'p1', product: { id: 'p1', name: 'Tee', sale_price: 59, category: 'apparel', image_url: '' }, quantity: 1, size: 'M', added_at: Date.now() }];
+    await seedCheckout(page, items, INTERNATIONAL_DETAILS);
+
+    await expect(page.locator('[data-testid="checkout-shipping"]')).toContainText(/quote required/i);
+    await expect(page.locator('[data-testid="international-shipping-block"]')).toBeVisible();
+    await expect(page.locator('[data-testid="checkout-pay-button"]')).toBeDisabled();
   });
 });

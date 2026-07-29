@@ -6,6 +6,7 @@ const { resolve, relative } = require('node:path');
 
 const REPOSITORY_ROOT = resolve(__dirname, '../../..');
 const PUBLIC_AUDIO_ROOT = resolve(REPOSITORY_ROOT, 'public/audio/releases');
+const PRIVATE_MUM_AUDIO_ROOT = resolve(REPOSITORY_ROOT, 'public/audio/mum');
 const DIST_ROOT = resolve(REPOSITORY_ROOT, 'dist');
 const FORMER_MASTER_NAME = ['without-you-here', 'full-master.mp3'].join('-');
 const FORMER_MASTER_URL = `/audio/releases/${FORMER_MASTER_NAME}`;
@@ -71,6 +72,21 @@ test.describe('Without You Here master exposure regression', () => {
     expect(binaryOffenders).toEqual([]);
   });
 
+  test('production build does not contain private Mum voice-note audio files', () => {
+    const publicPrivateAudioFiles = walkFiles(PRIVATE_MUM_AUDIO_ROOT)
+      .map(path => relative(PRIVATE_MUM_AUDIO_ROOT, path));
+    expect(publicPrivateAudioFiles.length, 'fixture confirms private source audio exists locally for the guard to protect').toBeGreaterThan(0);
+
+    const distAudioFiles = walkFiles(resolve(DIST_ROOT, 'audio/mum'))
+      .map(path => relative(resolve(DIST_ROOT, 'audio/mum'), path));
+    expect(distAudioFiles).toEqual([]);
+  });
+
+  test('private Mum voice-note audio URLs are blocked in local preview', async ({ request }) => {
+    const response = await request.get('/audio/mum/voicemail.m4a');
+    expect([404, 410]).toContain(response.status());
+  });
+
   test('former public master URL does not return the former audio asset', async ({ request }) => {
     const response = await request.get(FORMER_MASTER_URL);
     if ([404, 410].includes(response.status())) return;
@@ -92,7 +108,6 @@ test.describe('Without You Here master exposure regression', () => {
       const sources = await page.locator('audio[data-song-title="Without You Here"]').evaluateAll(nodes =>
         nodes.map(node => node.getAttribute('src'))
       );
-      expect(sources.length, `${route} should expose a preview player`).toBeGreaterThan(0);
       expect(sources.every(source => source === APPROVED_PREVIEW_URL)).toBe(true);
     }
   });

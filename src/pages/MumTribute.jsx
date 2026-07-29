@@ -2113,8 +2113,8 @@ export default function MumTribute({ mode = 'foyer' }) {
     const isAdminRoute = window.location.pathname.startsWith('/admin/');
     const storedUnlock = window.sessionStorage.getItem(MUM_GARDEN_ACCESS_KEY) === 'true';
     const params = new URLSearchParams(window.location.search);
-    const accessCode = (params.get('access') || params.get('invite') || params.get('token') || params.get('family') || params.get('code') || params.get('passcode') || '').toLowerCase();
-    const validCodes = ['soniagarden2026', 'family', 'brother', 'invite', 'vip', 'gannon', 'true', '1'];
+    const accessCode = (params.get('access') || params.get('invite') || params.get('token') || params.get('code') || params.get('passcode') || '').toLowerCase();
+    const validCodes = ['soniagarden2026'];
     const isUnlocked = isAdminRoute || storedUnlock || validCodes.includes(accessCode);
     if (isUnlocked && typeof window !== 'undefined') {
       window.sessionStorage.setItem(MUM_GARDEN_ACCESS_KEY, 'true');
@@ -2142,6 +2142,7 @@ export default function MumTribute({ mode = 'foyer' }) {
     setMetaTag('meta[property="og:type"]', { property: 'og:type', content: 'website' });
     setMetaTag('meta[property="og:url"]', { property: 'og:url', content: url });
     setMetaTag('meta[property="og:image"]', { property: 'og:image', content: image });
+    setMetaTag('meta[name="robots"]', { name: 'robots', content: 'noindex,nofollow,noarchive' });
     setMetaTag('meta[name="twitter:card"]', { name: 'twitter:card', content: 'summary_large_image' });
     setMetaTag('meta[name="twitter:title"]', { name: 'twitter:title', content: title });
     setMetaTag('meta[name="twitter:description"]', { name: 'twitter:description', content: description });

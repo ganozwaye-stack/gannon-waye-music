@@ -5,6 +5,117 @@
 [build.environment]
   NODE_VERSION = "22"
 
+[[headers]]
+  for = "/mum*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/without-you-here*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[headers]]
+  for = "/mums-garden*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow, noarchive"
+
+[[redirects]]
+  from = "/audio/mum/*"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/garden-textures/melbourne-fern-gully-2017.jpg"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/garden-textures/mum-real-paver-corner-soft.png"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/garden-textures/real-backyard-pavers.jpg"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/garden-textures/real-concrete-pavers.png"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/garden-textures/real-hanging-fern.png"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/garden-textures/real-monstera-left.png"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/garden-textures/real-monstera-right.png"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/memory-lane/_memory_lane_manifest.json"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/memory-lane/ML006_FS011.jpg"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/memory-lane/ML031_FS070.jpg"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/memory-lane/ML053_FS108.jpg"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/memory-lane/ML063_FS124.jpg"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/mum_garden_real_concrete_path_wide.jpg"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/mum_garden_real_foliage_soft.jpg"
+  to = "/404"
+  status = 404
+  force = true
+
+[[redirects]]
+  from = "/images/mum/mum_garden_real_foliage_wide.jpg"
+  to = "/404"
+  status = 404
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -381,7 +381,7 @@ export default function BoutiqueScene({ onOpenModal }) {
       {/* ── MUM'S GARDEN TRIBUTE CORNER (far left) ── */}
       <ZoneButton
         label="Mum's Garden — Private Tribute"
-        onClick={() => { window.location.href = '/mums-garden'; }}
+        onClick={() => { window.location.href = '/mum'; }}
         aria-label="Visit Mum's Garden tribute"
         style={{
           position: 'absolute',
