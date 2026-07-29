@@ -8,7 +8,7 @@ const TRACKS = [
   {
     id: 'ave_maria',
     title: 'Ave Maria',
-    subtitle: 'Gannon Waye - sung live at Sonia\'s funeral',
+    subtitle: 'Gannon Waye - a promise kept for Sonia',
     src: 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/6e65f5e12_AveMariaGannonSinging.mp3',
     soniaNote: `"When I was just a boy, I would sit by Mum's side and she would say to me - 'My boy, when I go to heaven, will you sing Ave Maria for me?' I was only young. I said yes, Mum. Years later, in the weeks before she passed, she looked at me softly and said - 'It's okay if you can't.' But I did. I sang for her. And I know she was there, listening."`,
     soniaLabel: "Sonia\u2019s request \u2014 fulfilled with love",
@@ -16,10 +16,10 @@ const TRACKS = [
   {
     id: 'amazing_grace',
     title: 'Amazing Grace',
-    subtitle: 'Gannon Waye - acapella, at her graveside',
+    subtitle: 'Gannon Waye - a quiet hymn for Sonia',
     src: 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/bb1ad3db4_AmazingGraceAcaapellaGannonSinging.mp3',
-    soniaNote: `"Amazing Grace was one of Sonia's most beloved hymns. It was the song we sang when we laid her to rest - her voice, her warmth, and her grace all wrapped into those timeless words. She always said it gave her peace."`,
-    soniaLabel: 'Sung at her graveside - a farewell in music',
+    soniaNote: `"Amazing Grace was one of Sonia's most beloved hymns. Her voice, her warmth, and her grace all sit inside that melody for us. She always said it gave her peace."`,
+    soniaLabel: 'A farewell held gently in music',
   },
 ];
 
