@@ -7,12 +7,14 @@ const { resolve, relative } = require('node:path');
 const REPOSITORY_ROOT = resolve(__dirname, '../../..');
 const PUBLIC_AUDIO_ROOT = resolve(REPOSITORY_ROOT, 'public/audio/releases');
 const PRIVATE_MUM_AUDIO_ROOT = resolve(REPOSITORY_ROOT, 'public/audio/mum');
+const PRIVATE_HALLWAY_PUBLIC_ROOT = resolve(REPOSITORY_ROOT, 'public/video/mum');
 const DIST_ROOT = resolve(REPOSITORY_ROOT, 'dist');
 const FORMER_MASTER_NAME = ['without-you-here', 'full-master.mp3'].join('-');
 const FORMER_MASTER_URL = `/audio/releases/${FORMER_MASTER_NAME}`;
 const FORMER_MASTER_EXPORT = ['WITHOUT_YOU_HERE', 'FULL_AUDIO_URL'].join('_');
 const APPROVED_PREVIEW_NAME = 'without-you-here-preview-3m46-4m35.mp3';
 const APPROVED_PREVIEW_URL = `/audio/releases/${APPROVED_PREVIEW_NAME}`;
+const RAW_HALLWAY_NAME = 'hallway-garden-source.mov';
 const FORMER_MASTER_SHA256 = 'fef71c077747b070cd72610dc692e21f03484e263590e47861d1f821093d0ae4';
 
 function walkFiles(root, ignored = new Set()) {
@@ -80,6 +82,20 @@ test.describe('Without You Here master exposure regression', () => {
     const distAudioFiles = walkFiles(resolve(DIST_ROOT, 'audio/mum'))
       .map(path => relative(resolve(DIST_ROOT, 'audio/mum'), path));
     expect(distAudioFiles).toEqual([]);
+  });
+
+  test('raw hallway source video is not stored or shipped as a public static asset', () => {
+    expect(existsSync(resolve(PRIVATE_HALLWAY_PUBLIC_ROOT, RAW_HALLWAY_NAME))).toBe(false);
+
+    const distFiles = walkFiles(DIST_ROOT).map(path => relative(DIST_ROOT, path));
+    expect(distFiles.filter(path => path.includes(RAW_HALLWAY_NAME))).toEqual([]);
+    expect(distFiles.filter(path => path.startsWith('video/mum'))).toEqual([]);
+  });
+
+  test('private hallway dev video source is env-only and not hard-coded to a local personal path', () => {
+    const config = readFileSync(resolve(REPOSITORY_ROOT, 'vite.config.js'), 'utf8');
+    expect(config).toContain('process.env.MUM_HALLWAY_VIDEO_SOURCE');
+    expect(config).not.toMatch(/iCloudPhotos|C:\/Users\/ganno/i);
   });
 
   test('private Mum voice-note audio URLs are blocked in local preview', async ({ request }) => {

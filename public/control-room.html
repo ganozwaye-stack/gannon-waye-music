@@ -161,7 +161,7 @@
             <li>Allowed now: local repo checks, local browser preview checks, GitHub PR/check inspection, docs/control-board updates, safe commits to the staging PR.</li>
             <li>Held for your approval: hosted preview, production deploy, DNS, Stripe, marketplace, supplier orders, customer emails, Base44 live changes, passwords, 2FA, private memorial uploads, and AI Sonia publication.</li>
             <li>Personal files policy: no deleting personal files; private Mum media and review screenshots stay local and unstaged unless you explicitly approve otherwise.</li>
-            <li>Local WIP notice: a Mum's Garden hallway/3D portal experiment is present in the workspace but is not yet committed or pushed to PR #31.</li>
+            <li>Mum's Garden hallway/3D portal status: hardened for staging; private hallway video is env-only and no private video/media file is committed.</li>
           </ul>
         </article>
 
@@ -226,7 +226,15 @@ Local passed evidence:
   - checkout: 16 passed
   - shipping: 8 passed
 - Broad combined Playwright command exceeded the tool window, so the same scope was split into smaller lanes with no failing test found
-- Important scope note: the fresh 94-pass split audit ran against this local workspace, which currently includes uncommitted Mum's Garden hallway/3D portal WIP. PR #31 exact head/check state is verified separately in the latest PR checkpoint comment.
+- Mum's Garden hallway/3D promotion audit:
+  - private local hallway path removed from config
+  - visitor-facing internal fallback/private-copy removed
+  - old approved garden-room content preserved through shared GardenRooms
+  - Mum's Garden Playwright: 5 passed on fresh port 5174
+  - master/private-media exposure Playwright: 9 passed
+  - lint, typecheck, and build passed
+  - desktop/mobile visual screenshots saved under review-screenshots/hallway-3d-wip-20260730
+  - screenshot pixel diversity check: desktop 777 sampled colors, mobile 829 sampled colors
 - Focused launch smoke Playwright: 72 passed, 1 flaky passed on retry
 - Commerce Playwright: 53 passed, 1 skipped
 - Launch-critical Playwright: 119 passed, 1 skipped
@@ -264,7 +272,7 @@ Still blocked, watchlisted, or approval-gated:
   - public store now says Gannon Waye Store Products, not Base44 Store Products
 - Current local server: /control-room.html, /store, and /mum?access=soniagarden2026 serve from 127.0.0.1:5173
 - Base44 to Emergent is not parity-proven; keep Base44 live
-- Local Mum's Garden hallway/3D portal WIP is under review and not part of PR #31 until explicitly staged/committed
+- Private/review Mum media remains unstaged; hallway video source is not committed and can only be supplied locally through MUM_HALLWAY_VIDEO_SOURCE
 - Pricing recommendation: do not move the live suite to Emergent tonight just because of price; prove parity first
 - GitHub reports Dependabot warnings on the default branch
 - Production deploy/preview/DNS/Stripe/supplier/AI Sonia actions require approval</div>
@@ -281,7 +289,7 @@ Still blocked, watchlisted, or approval-gated:
             <li>4. Run the next requirement-scoped local audit across website, store, Mum's Garden, cart, checkout, security, public routes, and master/private-media exposure. Done: 94 passed in split lanes.</li>
             <li>5. If anything fails, patch only the smallest launch-relevant surface, rerun the affected test, then rerun the wider batch. No failure found in the split run.</li>
             <li>6. Record the completion matrix in docs and keep this board aligned with it. Done: docs/final-product-completion-audit-2026-07-30.md.</li>
-            <li>7. Commit and push only safe tracked evidence/docs/control-board updates to PR #31; keep the uncommitted hallway/3D WIP and private media out until reviewed. Doing next.</li>
+            <li>7. Commit and push only safe tracked hallway/3D code, guardrail tests, docs, and control-board updates to PR #31; keep private media out. Doing next.</li>
             <li>8. Recheck GitHub after every push and repeat fix/audit until green or clearly approval-blocked. Next after push.</li>
             <li>9. Present the exact approval options, with non-production preview separated from production/DNS/Stripe/marketplace actions.</li>
             <li>10. Stop at approval gates until you explicitly approve the next live or private-media action.</li>
@@ -303,7 +311,7 @@ Still blocked, watchlisted, or approval-gated:
       </section>
 
       <footer>
-        Last updated: 2026-07-30 02:52 AEST. This is a local preview board only.
+        Last updated: 2026-07-30 03:22 AEST. This is a local preview board only.
       </footer>
     </main>
   </body>

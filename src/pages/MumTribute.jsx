@@ -24,7 +24,7 @@ import { base44 } from '@/api/base44Client';
 import SoniaAmbientPlayer from '@/components/mum/SoniaAmbientPlayer';
 import SoniaLifelikeAvatar from '@/components/mum/SoniaLifelikeAvatar';
 import SoniaHeyGenReadiness from '@/components/mum/SoniaHeyGenReadiness';
-import GardenWalkEntrance from '@/components/mum/GardenWalkEntrance';
+import HallwayGardenPortal3D from '@/components/mum/HallwayGardenPortal3D';
 import { useSongFeedback } from '@/components/global/SongFeedbackGate';
 import { WITHOUT_YOU_HERE_COVER, WITHOUT_YOU_HERE_PREVIEW } from '@/constants/musicAssets';
 
@@ -2180,7 +2180,7 @@ export default function MumTribute({ mode = 'foyer' }) {
     <main className="relative bg-[#020502] pb-24 text-[#fff7df]">
       <GardenAmbientAveMaria />
       <StickyListenBar onLyrics={() => openDrawer('lyric', LYRIC_MOMENTS[0])} />
-      <GardenWalkEntrance
+      <HallwayGardenPortal3D
         onOpenMemory={(photo) => openDrawer('photo', photo)}
         onFinish={() => document.getElementById('world')?.scrollIntoView({ behavior: 'smooth' })}
       />

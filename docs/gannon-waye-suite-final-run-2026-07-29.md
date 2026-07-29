@@ -6,13 +6,13 @@ Local staging branch: `launch/gannon-waye-suite-2026-07-29`
 
 GitHub PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 
-Status time: 2026-07-30 02:52 AEST
+Status time: 2026-07-30 03:22 AEST
 
 ## Current State
 
 The latest pushed staging candidate is PR #31. Exact current head and GitHub check state are tracked in the latest PR checkpoint comment so this committed document does not self-stale every time evidence docs are updated. It is not approved for production deployment. The 9pm target has passed, but the staging branch now has a green current checkpoint and the remaining work is approval-gated migration/commerce proof rather than a failing local build. No DNS, production deploy, live Stripe, supplier order, marketplace publish, customer email, password, 2FA, Base44 live-state change, or AI Sonia publication has been performed.
 
-Local WIP notice: this workspace currently contains a Mum's Garden hallway/3D portal experiment and private hallway dev-server guardrails that are not yet committed or pushed to PR #31. The fresh local split audit below ran against this local workspace. PR #31 exact head/check state is verified separately in the latest PR checkpoint comment.
+Mum's Garden hallway/3D portal status: the experiment has been hardened for staging. The private hallway video source is env-only through `MUM_HALLWAY_VIDEO_SOURCE`; no private video/media file is committed or shipped.
 
 ## Done
 
@@ -40,6 +40,7 @@ Local WIP notice: this workspace currently contains a Mum's Garden hallway/3D po
 - Blocked international physical checkout until shipping is quoted.
 - Removed old synthetic quick-view add-ons from checkout and blocked saved synthetic add-on cart items from payment.
 - Updated Mum's Garden entrance so the launch component is Sonia-first, uses Sonia-present/family/single-artwork assets, does not use generic no-Sonia garden-reference images, and keeps the single artwork cover as a top-section feature.
+- Hardened the Mum's Garden hallway/3D entrance for staging while keeping private hallway video env-only and preserving approved garden-room content.
 - Added the micro-brand dropshipping approval-only procedure at `docs/micro-brand-dropshipping-procedure-2026-07-30.md`.
 - Added the Base44-to-Emergent parity checklist at `docs/base44-emergent-parity-checklist-2026-07-30.md`.
 - Added the current platform pricing decision snapshot at `docs/platform-pricing-snapshot-2026-07-30.md`.
@@ -98,7 +99,14 @@ Passed:
   - Checkout: `16 passed`.
   - Shipping: `8 passed`.
   - Total: `94 passed`.
-  - Scope note: this fresh split audit includes the current uncommitted hallway/3D local WIP and is not the same as a clean PR-head-only local checkout audit.
+- Hallway/3D promotion audit:
+  - Mum's Garden Playwright on fresh local port 5174: `5 passed`.
+  - Master/private-media exposure Playwright: `9 passed`.
+  - `npm run lint`: passed.
+  - `npx tsc -p ./jsconfig.json --pretty false`: passed.
+  - `npm run build`: passed with expected local Base44 proxy warning.
+  - Private hallway URL returned `404` when no env source was set.
+  - Desktop/mobile screenshot pixel diversity passed.
 
 Failed / Not Clean:
 
@@ -106,7 +114,7 @@ Failed / Not Clean:
 - Some admin legacy JS screens use explicit `// @ts-nocheck` exemptions to avoid risky launch-pressure business-logic rewrites.
 - One checkout Playwright scenario previously showed local flake and passed on retry: `different sizes create separate cart lines`.
 - The current worktree still contains local-only board changes plus untracked private/review media and test artifacts. These are intentionally not published unless approved.
-- The current worktree also contains uncommitted Mum's Garden hallway/3D portal WIP. It is under review and should not be staged unless explicitly accepted for the staging PR.
+- Private/review Mum media and generated screenshots/test artifacts remain unstaged unless explicitly approved.
 
 ## Approval Gates
 
@@ -175,6 +183,7 @@ Current evidence:
 - Mum's Garden Playwright checks passed.
 - Master exposure checks passed.
 - Sonia voice-note public section removed.
+- Hallway/3D entrance is staged with no committed private video source; `MUM_HALLWAY_VIDEO_SOURCE` is local-only.
 - Private Mum audio direct URL is blocked in local preview.
 - Private Mum audio and flagged raw memorial media are absent from `dist`.
 - Hilbert sidecar finding resolved locally: old `/mums-garden` public route no longer renders the generated-scene memorial page.
@@ -266,4 +275,4 @@ Recommended staging path:
 
 ## Exact Next Action
 
-Commit the new completion audit and refreshed control-room evidence update only, leaving private media and the unreviewed hallway/3D WIP unstaged. Then update PR #31 with the refreshed evidence, recheck GitHub on the new head, and continue only into approval-gated preview/deploy steps when Gannon explicitly approves them.
+Commit the safe hallway/3D code, guardrail tests, completion audit, and refreshed control-room evidence update, leaving private media unstaged. Then update PR #31 with the refreshed evidence, recheck GitHub on the new head, and continue only into approval-gated preview/deploy steps when Gannon explicitly approves them.

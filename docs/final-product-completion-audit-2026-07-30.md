@@ -1,6 +1,6 @@
 # Final Product Completion Audit - 2026-07-30
 
-Status time: 2026-07-30 02:43 AEST
+Status time: 2026-07-30 03:22 AEST
 
 Control room: `http://127.0.0.1:5173/control-room.html`
 
@@ -18,7 +18,7 @@ This is a safe staging control-room run. Local audits, documentation, PR evidenc
 
 No personal files were deleted. No DNS, production deployment, live Stripe action, marketplace publish, supplier order, customer email, Base44 live-state change, password, 2FA, private memorial upload, or AI Sonia voice/avatar publication was performed.
 
-Local WIP notice: the workspace currently contains a Mum's Garden hallway/3D portal experiment and private hallway dev-server guardrails that are not yet committed or pushed to PR #31. The fresh local split audit below ran against this local workspace. PR #31 exact head/check state is verified separately in the latest PR checkpoint comment.
+Mum's Garden hallway/3D portal status: the experiment has been hardened for staging. The private hallway video source is env-only through `MUM_HALLWAY_VIDEO_SOURCE`; no private video/media file is committed or shipped.
 
 ## Current Helpers
 
@@ -38,15 +38,15 @@ No background subagent is currently running.
 | Lane | Current State | Evidence Passed | Remaining Gate |
 | --- | --- | --- | --- |
 | Main website and launch preview | Staging branch is active and PR #31 is draft/open/mergeable. Public routes and homepage are covered by local and GitHub checks. | GitHub 8 of 8 checks green on `9870c2d`; public routes/security/coaching split audit `25 passed`; build/lint/typecheck/audit passed. | Hosted preview and production deployment require explicit approval. |
-| Mum's Garden private gate and memorial | Private/gated experience is Sonia-first; old `/mums-garden` redirects to `/mum`; single artwork is preserved in the top section; private media remains local. | Mum/store visual lane `23 passed`; master/private-media exposure lane `7 passed`; no private Mum audio in build output from prior guard checks. | Final visual approval and any private memorial media upload require explicit approval. AI Sonia remains unpublished. |
+| Mum's Garden private gate and memorial | Private/gated experience is Sonia-first; old `/mums-garden` redirects to `/mum`; single artwork is preserved in the top section; hallway/3D entrance is hardened for staging; private media remains local. | Mum/store visual lane `23 passed`; hallway/3D affected audit: Mum tests `5 passed`, master/private-media exposure `9 passed`, visual screenshot pixel check passed; no private Mum audio/video in build output. | Final visual approval and any private memorial media upload require explicit approval. AI Sonia remains unpublished. |
 | Merch store | `/store` remains the neon retail frontage; `/store/all` is product grid; public copy no longer exposes internal Base44 wording. | Store/Mum visual lane `23 passed`; cart `10 passed`; cart details `5 passed`; checkout `16 passed`; shipping `8 passed`. | Live Stripe proof, marketplace publishing, supplier orders, and customer emails require explicit approval. |
 | Micro-brand dropshipping procedure | Procedure is documented and approval-only; GanozMix remains separated from Gannon Waye Music merch. | Procedure doc exists at `docs/micro-brand-dropshipping-procedure-2026-07-30.md`; checkout/shipping guardrails passed locally. | Supplier selection, marketplace OAuth, live listings, payments, fulfilment, and returns proof require approval. |
 | Base44 to Emergent migration audit | Not parity-proven. Base44 stays live. Code still has Base44 SDK/functions/entities/agents and local mock flows. | Parity checklist and pricing snapshot docs exist; staging boundary is documented. | Do not switch live system until auth, data, products, cart, checkout, orders, functions, agents, redirects, and analytics parity passes. |
-| GitHub/local audit loop | Current PR head is green per the latest PR checkpoint comment. Local split audit is fresh, but it includes uncommitted hallway/3D WIP in this workspace. | GitHub Checks API: 8 completed successfully on the latest evidence push. Local fresh split audit: `94 passed`. Lint, typecheck, build, and npm audit passed after board update. | Commit/push only the safe evidence/control-room docs, recheck GitHub, and review the hallway/3D WIP separately before it is staged. |
+| GitHub/local audit loop | Current PR head is green per the latest PR checkpoint comment. Hallway/3D work is now hardened for staging and ready to push without private media. | GitHub Checks API: 8 completed successfully on the latest evidence push. Local fresh split audit: `94 passed`. Hallway/3D affected audit passed. Lint, typecheck, build, and npm audit passed. | Commit/push the safe hallway/3D code, guardrail tests, and refreshed evidence; recheck GitHub. |
 
 ## Fresh Local Audit Evidence
 
-The broad combined Playwright command exceeded the tool window, so it was split into smaller auditable lanes. No failure was found in the split run. This split run reflects the current local workspace, including uncommitted Mum's Garden hallway/3D WIP.
+The broad combined Playwright command exceeded the tool window, so it was split into smaller auditable lanes. No failure was found in the split run.
 
 - `master-exposure.spec.js`: `7 passed`.
 - `public-routes.spec.js`, `security.spec.js`, `coaching-private-lock.spec.js`: `25 passed`.
@@ -57,6 +57,23 @@ The broad combined Playwright command exceeded the tool window, so it was split 
 - `shipping.spec.js`: `8 passed`.
 
 Fresh split-audit total: `94 passed`.
+
+## Hallway/3D Promotion Evidence
+
+- Private local hallway path removed from `vite.config.js`.
+- Private hallway video can only be supplied locally through `MUM_HALLWAY_VIDEO_SOURCE`.
+- Visitor-facing internal copy such as `3D fallback`, `WebGL or video texture`, and `private hallway capture` was removed.
+- Approved garden-room content from `GardenWalkEntrance` is preserved through shared `GardenRooms`.
+- `mum-tribute.spec.js`: `5 passed` on fresh local port `5174`.
+- `master-exposure.spec.js`: `9 passed`.
+- `npm run lint`: passed.
+- `npx tsc -p ./jsconfig.json --pretty false`: passed.
+- `npm run build`: passed with expected Base44 proxy warning.
+- Private hallway URL check on fresh local server: `/__private_mum_video/hallway-garden-source.mov` returned `404` when no env source was set.
+- Desktop/mobile screenshots saved locally under `review-screenshots/hallway-3d-wip-20260730/`.
+- Screenshot pixel diversity check:
+  - desktop: `777` unique sampled colors, `913` non-dark samples from `1600`.
+  - mobile: `829` unique sampled colors, `1080` non-dark samples from `1599`.
 
 Fresh non-Playwright checks after the visible board update:
 
@@ -77,4 +94,4 @@ Production approval should remain separate from preview approval.
 
 ## Exact Next Action
 
-Commit and push this completion audit plus the refreshed local control-room board to PR #31 without staging private media or the unreviewed hallway/3D WIP, then recheck GitHub Checks API on the new head. If any check fails, fix only the failing lane, rerun locally, push again, and recheck.
+Commit and push the safe hallway/3D code, guardrail tests, completion audit, and refreshed local control-room board to PR #31 without staging private media, then recheck GitHub Checks API on the new head. If any check fails, fix only the failing lane, rerun locally, push again, and recheck.

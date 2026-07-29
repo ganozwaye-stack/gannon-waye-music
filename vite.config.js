@@ -1,7 +1,7 @@
 import base44 from "@base44/vite-plugin"
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-import { rmSync } from 'node:fs'
+import { createReadStream, existsSync, rmSync, statSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -9,7 +9,9 @@ const spaRouterPath = fileURLToPath(new URL('./src/lib/SpaRouter.jsx', import.me
 const repoRoot = fileURLToPath(new URL('.', import.meta.url));
 
 const PRIVATE_PUBLIC_PATHS = [
+  '/__private_mum_video',
   '/audio/mum',
+  '/video/mum',
   '/images/mum/garden-textures/melbourne-fern-gully-2017.jpg',
   '/images/mum/garden-textures/mum-real-paver-corner-soft.png',
   '/images/mum/garden-textures/real-backyard-pavers.jpg',
@@ -26,6 +28,8 @@ const PRIVATE_PUBLIC_PATHS = [
   '/images/mum/mum_garden_real_foliage_soft.jpg',
   '/images/mum/mum_garden_real_foliage_wide.jpg',
 ];
+
+const PRIVATE_HALLWAY_VIDEO_SOURCE = process.env.MUM_HALLWAY_VIDEO_SOURCE?.trim();
 
 function isPrivatePublicPath(pathname) {
   return PRIVATE_PUBLIC_PATHS.some(privatePath =>
@@ -54,6 +58,52 @@ function privateMemorialMediaGuard() {
       for (const privatePath of PRIVATE_PUBLIC_PATHS) {
         rmSync(resolve(repoRoot, 'dist', privatePath.replace(/^\//, '')), { recursive: true, force: true });
       }
+    },
+  };
+}
+
+function privateHallwayVideoDevServer() {
+  return {
+    name: 'private-hallway-video-dev-server',
+    configureServer(server) {
+      server.middlewares.use('/__private_mum_video/hallway-garden-source.mov', (req, res, next) => {
+        if (!PRIVATE_HALLWAY_VIDEO_SOURCE || !existsSync(PRIVATE_HALLWAY_VIDEO_SOURCE)) {
+          next();
+          return;
+        }
+
+        const stat = statSync(PRIVATE_HALLWAY_VIDEO_SOURCE);
+        const range = req.headers.range;
+        if (range) {
+          const [, startRaw, endRaw] = /bytes=(\d*)-(\d*)/.exec(range) || [];
+          const start = startRaw ? Number(startRaw) : 0;
+          const end = endRaw ? Number(endRaw) : stat.size - 1;
+          if (Number.isNaN(start) || Number.isNaN(end) || start > end || end >= stat.size) {
+            res.statusCode = 416;
+            res.setHeader('Content-Range', `bytes */${stat.size}`);
+            res.end();
+            return;
+          }
+
+          res.statusCode = 206;
+          res.setHeader('Content-Range', `bytes ${start}-${end}/${stat.size}`);
+          res.setHeader('Accept-Ranges', 'bytes');
+          res.setHeader('Content-Length', String(end - start + 1));
+          res.setHeader('Content-Type', 'video/quicktime');
+          res.setHeader('Cache-Control', 'no-store, private');
+          res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+          createReadStream(PRIVATE_HALLWAY_VIDEO_SOURCE, { start, end }).pipe(res);
+          return;
+        }
+
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'video/quicktime');
+        res.setHeader('Content-Length', String(stat.size));
+        res.setHeader('Accept-Ranges', 'bytes');
+        res.setHeader('Cache-Control', 'no-store, private');
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        createReadStream(PRIVATE_HALLWAY_VIDEO_SOURCE).pipe(res);
+      });
     },
   };
 }
@@ -115,6 +165,7 @@ export default defineConfig({
     }
   },
   plugins: [
+    privateHallwayVideoDevServer(),
     privateMemorialMediaGuard(),
     base44({
       // Support for legacy code that imports the base44 SDK with @/integrations, @/entities, etc.

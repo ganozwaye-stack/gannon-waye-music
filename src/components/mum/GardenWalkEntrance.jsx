@@ -122,6 +122,65 @@ function MomentCard({ moment, index, onOpenMemory }) {
   );
 }
 
+export function GardenRooms({ onOpenMemory, onFinish }) {
+  return (
+    <div className="relative">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(245,208,110,0.14),transparent_34%),linear-gradient(180deg,#020502,rgba(7,16,7,0.84)_28%,#020502)]" />
+      <div className="relative mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="font-body text-[9px] uppercase tracking-[0.42em] text-[#d4af37]/62">The garden rooms</p>
+          <h2 className="mt-4 font-display text-4xl leading-tight text-[#fff7df] md:text-5xl">
+            Where the memories settle.
+          </h2>
+          <p className="mx-auto mt-5 max-w-2xl font-body text-sm leading-7 text-[#fff7df]/58">
+            Each stop keeps Sonia visible: the artwork, coffee runs, younger years, family, love, and favourite details.
+          </p>
+        </div>
+
+        <div className="mt-12 space-y-8">
+          {GARDEN_MOMENTS.map((moment, index) => (
+            <MomentCard
+              key={moment.id}
+              moment={moment}
+              index={index}
+              onOpenMemory={onOpenMemory}
+            />
+          ))}
+        </div>
+
+        <div className="mt-10 grid gap-5 md:grid-cols-[1.1fr_0.9fr] md:items-stretch">
+          <div className="relative min-h-[380px] overflow-hidden rounded-[1.8rem] border border-[#d4af37]/14 bg-[#071007] shadow-[0_28px_95px_rgba(0,0,0,0.36)]">
+            <img src={GARDEN_IMAGES.youngSonia} alt="Young Sonia in a family archive photograph." className="absolute inset-0 h-full w-full object-cover object-[50%_34%]" loading="lazy" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,5,2,0.02),rgba(2,5,2,0.58))]" />
+            <div className="absolute bottom-5 left-5 right-5 max-w-xl">
+              <p className="font-body text-[9px] uppercase tracking-[0.34em] text-[#f5d06e]/70">Younger years</p>
+              <h3 className="mt-3 font-display text-3xl text-[#fff7df]">The tribute has a place for who she was before everyone called her Mum.</h3>
+            </div>
+          </div>
+          <div className="relative min-h-[380px] overflow-hidden rounded-[1.8rem] border border-[#d4af37]/14 bg-[#071007] shadow-[0_28px_95px_rgba(0,0,0,0.36)]">
+            <img src={GARDEN_IMAGES.sparkSonia} alt="Sonia looking back in a family archive photograph." className="absolute inset-0 h-full w-full object-cover object-[50%_34%]" loading="lazy" />
+            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,5,2,0.05),rgba(2,5,2,0.66))]" />
+            <div className="absolute bottom-5 left-5 right-5">
+              <p className="font-body text-[9px] uppercase tracking-[0.34em] text-[#f5d06e]/70">That spark</p>
+              <h3 className="mt-3 font-display text-3xl text-[#fff7df]">Older photos stay real, close, and unblurred.</h3>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-12 flex justify-center">
+          <button
+            type="button"
+            onClick={onFinish}
+            className="inline-flex items-center gap-2 rounded-full border border-[#d4af37]/28 bg-[#f5d06e]/10 px-7 py-4 font-body text-[11px] font-bold uppercase tracking-[0.24em] text-[#f5d06e] transition hover:-translate-y-0.5 hover:bg-[#f5d06e]/16"
+          >
+            Enter memory lane <ArrowRight className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function GardenWalkEntrance({ onOpenMemory, onFinish }) {
   return (
     <section id="garden-walk" className="relative overflow-hidden bg-[#020502] text-[#fff7df]">
@@ -181,60 +240,7 @@ export default function GardenWalkEntrance({ onOpenMemory, onFinish }) {
         </div>
       </div>
 
-      <div className="relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(245,208,110,0.14),transparent_34%),linear-gradient(180deg,#020502,rgba(7,16,7,0.84)_28%,#020502)]" />
-        <div className="relative mx-auto max-w-7xl px-5 py-16 md:px-8 md:py-24">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="font-body text-[9px] uppercase tracking-[0.42em] text-[#d4af37]/62">The garden rooms</p>
-            <h2 className="mt-4 font-display text-4xl leading-tight text-[#fff7df] md:text-5xl">
-              Where the memories settle.
-            </h2>
-            <p className="mx-auto mt-5 max-w-2xl font-body text-sm leading-7 text-[#fff7df]/58">
-              Each stop keeps Sonia visible: the artwork, coffee runs, younger years, family, love, and favourite details.
-            </p>
-          </div>
-
-          <div className="mt-12 space-y-8">
-            {GARDEN_MOMENTS.map((moment, index) => (
-              <MomentCard
-                key={moment.id}
-                moment={moment}
-                index={index}
-                onOpenMemory={onOpenMemory}
-              />
-            ))}
-          </div>
-
-          <div className="mt-10 grid gap-5 md:grid-cols-[1.1fr_0.9fr] md:items-stretch">
-            <div className="relative min-h-[380px] overflow-hidden rounded-[1.8rem] border border-[#d4af37]/14 bg-[#071007] shadow-[0_28px_95px_rgba(0,0,0,0.36)]">
-              <img src={GARDEN_IMAGES.youngSonia} alt="Young Sonia in a family archive photograph." className="absolute inset-0 h-full w-full object-cover object-[50%_34%]" loading="lazy" />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,5,2,0.02),rgba(2,5,2,0.58))]" />
-              <div className="absolute bottom-5 left-5 right-5 max-w-xl">
-                <p className="font-body text-[9px] uppercase tracking-[0.34em] text-[#f5d06e]/70">Younger years</p>
-                <h3 className="mt-3 font-display text-3xl text-[#fff7df]">The tribute has a place for who she was before everyone called her Mum.</h3>
-              </div>
-            </div>
-            <div className="relative min-h-[380px] overflow-hidden rounded-[1.8rem] border border-[#d4af37]/14 bg-[#071007] shadow-[0_28px_95px_rgba(0,0,0,0.36)]">
-              <img src={GARDEN_IMAGES.sparkSonia} alt="Sonia looking back in a family archive photograph." className="absolute inset-0 h-full w-full object-cover object-[50%_34%]" loading="lazy" />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,5,2,0.05),rgba(2,5,2,0.66))]" />
-              <div className="absolute bottom-5 left-5 right-5">
-                <p className="font-body text-[9px] uppercase tracking-[0.34em] text-[#f5d06e]/70">That spark</p>
-                <h3 className="mt-3 font-display text-3xl text-[#fff7df]">Older photos stay real, close, and unblurred.</h3>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-12 flex justify-center">
-            <button
-              type="button"
-              onClick={onFinish}
-              className="inline-flex items-center gap-2 rounded-full border border-[#d4af37]/28 bg-[#f5d06e]/10 px-7 py-4 font-body text-[11px] font-bold uppercase tracking-[0.24em] text-[#f5d06e] transition hover:-translate-y-0.5 hover:bg-[#f5d06e]/16"
-            >
-              Enter memory lane <ArrowRight className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      </div>
+      <GardenRooms onOpenMemory={onOpenMemory} onFinish={onFinish} />
     </section>
   );
 }
