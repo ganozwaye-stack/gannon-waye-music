@@ -85,8 +85,8 @@
         </article>
         <article class="card metric">
           <p class="eyebrow">Last Pushed</p>
-          <strong>80ac729</strong>
-          <span>GitHub checks are green on this pushed commit. Local typecheck hardening is in progress and not pushed yet.</span>
+          <strong>7f067bb</strong>
+          <span>Launch typing/status hardening is pushed. GitHub Actions are green on this commit.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Clean Core</p>
@@ -108,7 +108,7 @@
             <li>PR staging branch is active.</li>
             <li>Homepage/public routes passed launch-critical checks.</li>
             <li>Final-run document and PR checkpoint reflect current evidence.</li>
-            <li>Local typecheck patching is underway before the next push.</li>
+            <li>Local typecheck hardening was pushed to PR #31 as 7f067bb.</li>
           </ul>
         </article>
         <article class="card lane">
@@ -145,8 +145,8 @@
           <h3>GitHub Audit</h3>
           <ul>
             <li>PR #31 is draft/open/mergeable.</li>
-            <li>GitHub checks passed on pushed head 80ac729.</li>
-            <li>Local typecheck fixes are being prepared for a later push.</li>
+            <li>GitHub checks passed on pushed head 7f067bb.</li>
+            <li>8 of 8 Actions checks are green, including CodeQL and secret scanning.</li>
             <li>Private Mum media remains unstaged.</li>
           </ul>
         </article>
@@ -186,10 +186,10 @@
 - dist output: no private Mum audio or flagged raw memorial media
 - Safety grep: no Sonia voice-note/audio paths remain
 
-Still failing, blocked, or approval-gated:
+Still failing, blocked, running, or approval-gated:
 - npm run typecheck: local WIP reduced from 394 to 128 errors; still broad legacy JS/admin typing debt
 - npm run lint: passed after local type-hardening edits
-- GitHub checks for the newest launch branch commit: all passed
+- GitHub checks for 7f067bb: 8 of 8 passed as of 2026-07-30 00:04 AEST
 - Base44 to Emergent is not parity-proven; keep Base44 live
 - GitHub reports Dependabot warnings on the default branch
 - Production deploy/preview/DNS/Stripe/supplier/AI Sonia actions require approval</div>
@@ -205,8 +205,8 @@ Still failing, blocked, or approval-gated:
             <li>3. Rerun typecheck and record the remaining count; if still broad legacy debt, isolate what matters for launch.</li>
             <li>4. Rerun npm lint, npm build, npm audit, and the launch-critical Playwright route batches.</li>
             <li>5. Remove generated local logs, stage only safe tracked changes, and keep private Mum media unstaged.</li>
-            <li>6. Commit and push the safe fix set to PR #31.</li>
-            <li>7. Watch GitHub checks, fix failures, and repeat the audit loop until green or clearly blocked.</li>
+            <li>6. Commit and push the safe fix set to PR #31. Done: 7f067bb.</li>
+            <li>7. Watch GitHub checks, fix failures, and repeat the audit loop until green or clearly blocked. In progress.</li>
             <li>8. Update this board, the final-run doc, and the PR checkpoint with evidence.</li>
             <li>9. Ask for explicit approval before any hosted preview, production deploy, DNS, Stripe, supplier, marketplace, email, Base44 live, password/2FA, or AI Sonia action.</li>
           </ul>
@@ -227,7 +227,7 @@ Still failing, blocked, or approval-gated:
       </section>
 
       <footer>
-        Last updated: 2026-07-29 23:59 AEST. This is a local preview board only.
+        Last updated: 2026-07-30 00:04 AEST. This is a local preview board only.
       </footer>
     </main>
   </body>
