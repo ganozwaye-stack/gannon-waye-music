@@ -47,6 +47,7 @@ Mum's Garden hallway/3D portal status: the experiment has been hardened for stag
 - Added the current launch approval request at `docs/launch-approval-request-2026-07-30.md`.
 - Added the local preview audit at `docs/local-preview-audit-2026-07-30.md`.
 - Added the final product completion audit at `docs/final-product-completion-audit-2026-07-30.md`.
+- Added the current-head audit snapshot at `docs/current-head-audit-2026-07-30-0351.md`.
 - Removed internal `Base44 Store Products` wording from the public store and added regression coverage.
 
 ## Audit Evidence
@@ -107,6 +108,10 @@ Passed:
   - `npm run build`: passed with expected local Base44 proxy warning.
   - Private hallway URL returned `404` when no env source was set.
   - Desktop/mobile screenshot pixel diversity passed.
+- Current-head audit snapshot:
+  - `docs/current-head-audit-2026-07-30-0351.md`.
+  - Local split Playwright total: `96 passed`.
+  - Lint, typecheck, build, and npm audit passed.
 
 Failed / Not Clean:
 

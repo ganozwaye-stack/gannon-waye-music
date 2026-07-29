@@ -10,7 +10,7 @@ Base44 remains live until every required replacement lane below is proven on a n
 - Current staging branch: `launch/gannon-waye-suite-2026-07-29`
 - Current PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 - Current PR head and CI status: tracked in PR #31 checkpoint comments
-- Latest verified launch-code checkpoint before the documentation update: `1017ce79282a493c41e2f5d1bd2553fbd838feba`
+- Latest current-head local audit snapshot: `docs/current-head-audit-2026-07-30-0351.md`
 - Base44 live position: keep live as fallback/stability source
 
 ## What Is Proven On The Staging Branch
