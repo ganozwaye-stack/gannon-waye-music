@@ -10,7 +10,8 @@ Purpose: move toward Emergent without losing the working Gannon Waye Music site,
 - GitHub tracker: `https://github.com/ganozwaye-stack/gannon-waye-music/issues/27`.
 - Current launch staging branch: `launch/gannon-waye-suite-2026-07-29`.
 - Current launch staging PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`.
-- Current launch staging head: `1017ce79282a493c41e2f5d1bd2553fbd838feba`.
+- Current launch staging head and CI status are tracked in PR #31 checkpoint comments.
+- Latest verified launch-code checkpoint before the documentation update: `1017ce79282a493c41e2f5d1bd2553fbd838feba`.
 - Detailed parity checklist: `docs/base44-emergent-parity-checklist-2026-07-30.md`.
 - Detailed dropshipping procedure: `docs/micro-brand-dropshipping-procedure-2026-07-30.md`.
 - Previous clean migration branch `upgrade/base44-emergent-migration` remains useful for history, but PR #31 is the current audited launch-control branch.

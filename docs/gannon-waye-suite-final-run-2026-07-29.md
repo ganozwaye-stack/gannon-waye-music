@@ -10,7 +10,7 @@ Status time: 2026-07-30 01:21 AEST
 
 ## Current State
 
-The latest pushed staging candidate is PR #31 at `1017ce79282a493c41e2f5d1bd2553fbd838feba` (`1017ce7`), with all 8 GitHub checks green. It is not approved for production deployment. The 9pm target has passed, but the staging branch now has a green current checkpoint and the remaining work is approval-gated migration/commerce proof rather than a failing local build. No DNS, production deploy, live Stripe, supplier order, marketplace publish, customer email, password, 2FA, Base44 live-state change, or AI Sonia publication has been performed.
+The latest pushed staging candidate is PR #31. Exact current head and CI status are tracked in PR #31 checkpoint comments so this document does not become stale every time evidence docs are committed. Latest verified launch-code checkpoint before the documentation update: `1017ce79282a493c41e2f5d1bd2553fbd838feba` (`1017ce7`), with all 8 GitHub checks green. It is not approved for production deployment. The 9pm target has passed, but the staging branch now has a green current checkpoint and the remaining work is approval-gated migration/commerce proof rather than a failing local build. No DNS, production deploy, live Stripe, supplier order, marketplace publish, customer email, password, 2FA, Base44 live-state change, or AI Sonia publication has been performed.
 
 ## Done
 

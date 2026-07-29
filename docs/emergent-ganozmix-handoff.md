@@ -10,7 +10,7 @@ Purpose: give Emergent a clean, bounded build brief for GanozMix Direct without 
 - Migration tracker: `https://github.com/ganozwaye-stack/gannon-waye-music/issues/27`.
 - Current migration priority order: `docs/base44-to-emergent-priority-list.md`.
 - Current launch staging PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`.
-- Current launch staging head: `1017ce79282a493c41e2f5d1bd2553fbd838feba`.
+- Current launch staging head and CI status are tracked in PR #31 checkpoint comments.
 - Current parity checklist: `docs/base44-emergent-parity-checklist-2026-07-30.md`.
 - Current dropshipping procedure: `docs/micro-brand-dropshipping-procedure-2026-07-30.md`.
 - Base44 source app: `GanozMix Direct`, app id `69eb857abaebfe9e3df48083`.
