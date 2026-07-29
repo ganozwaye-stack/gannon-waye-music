@@ -36,7 +36,6 @@ if (isLocal || token === 'mock-admin-token') {
   };
 
   // 2. Mock functions.invoke
-  const originalInvoke = base44.functions.invoke;
   base44.functions.invoke = async (functionName, payload) => {
     console.log(`[Mock SDK] Invoke function: ${functionName}`, payload);
     if (functionName === 'validatePromoCode') {
@@ -52,11 +51,7 @@ if (isLocal || token === 'mock-admin-token') {
     if (functionName === 'createCheckoutSession') {
       return { data: { url: 'https://checkout.stripe.com/mock-session' } };
     }
-    try {
-      return await originalInvoke.call(base44.functions, functionName, payload);
-    } catch (e) {
-      return { data: {} };
-    }
+    return { data: {} };
   };
 
   // 3. Mock entities
@@ -335,48 +330,37 @@ if (isLocal || token === 'mock-admin-token') {
     GanozMixErrorLog: mockGanozMixErrors
   };
 
-  const createDummyHandler = (entityName) => {
-    return {
-      get(target, prop) {
-        if (typeof target[prop] === 'function') {
-          return async (...args) => {
-            console.log(`[Mock SDK] ${entityName}.${prop}`, args);
-            const data = entityMockData[entityName] || [];
-            if (prop === 'list' || prop === 'filter') {
-              return data;
-            }
-            if (prop === 'create') {
-              const newObj = { id: `mock-${Date.now()}`, ...args[0] };
-              if (Array.isArray(data)) data.push(newObj);
-              return newObj;
-            }
-            if (prop === 'update') {
-              const id = args[0];
-              const updates = args[1];
-              const existing = Array.isArray(data) ? data.find(item => item.id === id) : null;
-              if (existing) {
-                Object.assign(existing, updates);
-                return existing;
-              }
-              return { id, ...updates };
-            }
-            if (prop === 'delete') {
-              return { success: true };
-            }
-            return null;
-          };
-        }
-        return target[prop];
+  const createLocalEntity = (entityName) => ({
+    list: async () => entityMockData[entityName] || [],
+    filter: async () => entityMockData[entityName] || [],
+    get: async (id) => (entityMockData[entityName] || []).find(item => item.id === id) || null,
+    create: async (payload) => {
+      const data = entityMockData[entityName] || [];
+      const newObj = { id: `mock-${Date.now()}`, ...payload };
+      if (Array.isArray(data)) data.push(newObj);
+      return newObj;
+    },
+    update: async (id, updates) => {
+      const data = entityMockData[entityName] || [];
+      const existing = Array.isArray(data) ? data.find(item => item.id === id) : null;
+      if (existing) {
+        Object.assign(existing, updates);
+        return existing;
       }
-    };
-  };
+      return { id, ...updates };
+    },
+    delete: async () => ({ success: true }),
+    subscribe: () => () => {},
+  });
 
-  base44.entities = new Proxy(base44.entities || {}, {
+  base44.entities = new Proxy({}, {
     get(target, entityName) {
-      if (!target[entityName]) {
-        target[entityName] = {};
+      if (typeof entityName === 'symbol') return target[entityName];
+      const key = String(entityName);
+      if (!target[key]) {
+        target[key] = createLocalEntity(key);
       }
-      return new Proxy(target[entityName], createDummyHandler(entityName));
+      return target[key];
     }
   });
 } else {

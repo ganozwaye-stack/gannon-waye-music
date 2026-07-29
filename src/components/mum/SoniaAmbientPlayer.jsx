@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import SingleCoverPlaque from './SingleCoverPlaque';
-import { WITHOUT_YOU_HERE_FULL_AUDIO_URL } from '@/config/audioAssets';
+import { WITHOUT_YOU_HERE_PREVIEW } from '@/constants/musicAssets';
 
 const TRACKS = [
   {
@@ -25,6 +25,7 @@ const TRACKS = [
 
 const WITHOUT_YOU_HERE_CLIP_START_SECONDS = 3 * 60 + 46;
 const WITHOUT_YOU_HERE_CLIP_END_SECONDS = 4 * 60 + 35;
+const WITHOUT_YOU_HERE_PREVIEW_DURATION_SECONDS = WITHOUT_YOU_HERE_CLIP_END_SECONDS - WITHOUT_YOU_HERE_CLIP_START_SECONDS;
 
 function fmt(s) {
   if (!s || isNaN(s)) return '0:00';
@@ -194,20 +195,13 @@ function TrackPlayer({ track, isAmbient }) {
 export function WithoutYouHereClipPlayer() {
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
-  const [current, setCurrent] = useState(WITHOUT_YOU_HERE_CLIP_START_SECONDS);
+  const [current, setCurrent] = useState(0);
   const [muted, setMuted] = useState(false);
-  const clipDuration = WITHOUT_YOU_HERE_CLIP_END_SECONDS - WITHOUT_YOU_HERE_CLIP_START_SECONDS;
+  const clipDuration = WITHOUT_YOU_HERE_PREVIEW_DURATION_SECONDS;
   const progress = Math.max(
     0,
-    Math.min(100, ((current - WITHOUT_YOU_HERE_CLIP_START_SECONDS) / clipDuration) * 100)
+    Math.min(100, (current / clipDuration) * 100)
   );
-
-  const cueClipStart = (audio) => {
-    if (audio.duration > WITHOUT_YOU_HERE_CLIP_START_SECONDS) {
-      audio.currentTime = WITHOUT_YOU_HERE_CLIP_START_SECONDS;
-      setCurrent(WITHOUT_YOU_HERE_CLIP_START_SECONDS);
-    }
-  };
 
   const toggle = () => {
     const audio = audioRef.current;
@@ -219,11 +213,8 @@ export function WithoutYouHereClipPlayer() {
       return;
     }
 
-    if (
-      audio.currentTime < WITHOUT_YOU_HERE_CLIP_START_SECONDS ||
-      audio.currentTime >= WITHOUT_YOU_HERE_CLIP_END_SECONDS
-    ) {
-      audio.currentTime = WITHOUT_YOU_HERE_CLIP_START_SECONDS;
+    if (audio.currentTime >= clipDuration) {
+      audio.currentTime = 0;
     }
 
     audio.play().then(() => setPlaying(true)).catch(() => setPlaying(false));
@@ -234,7 +225,7 @@ export function WithoutYouHereClipPlayer() {
     if (!audio) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-    audio.currentTime = WITHOUT_YOU_HERE_CLIP_START_SECONDS + pct * clipDuration;
+    audio.currentTime = pct * clipDuration;
     setCurrent(audio.currentTime);
   };
 
@@ -249,33 +240,30 @@ export function WithoutYouHereClipPlayer() {
     const audio = audioRef.current;
     if (!audio) return;
 
-    const handleLoadedMetadata = () => cueClipStart(audio);
     const handleTimeUpdate = () => {
       setCurrent(audio.currentTime);
-      if (audio.currentTime >= WITHOUT_YOU_HERE_CLIP_END_SECONDS) {
+      if (audio.currentTime >= clipDuration) {
         audio.pause();
-        audio.currentTime = WITHOUT_YOU_HERE_CLIP_START_SECONDS;
-        setCurrent(WITHOUT_YOU_HERE_CLIP_START_SECONDS);
+        audio.currentTime = 0;
+        setCurrent(0);
         setPlaying(false);
       }
     };
     const handleEnded = () => {
-      audio.currentTime = WITHOUT_YOU_HERE_CLIP_START_SECONDS;
-      setCurrent(WITHOUT_YOU_HERE_CLIP_START_SECONDS);
+      audio.currentTime = 0;
+      setCurrent(0);
       setPlaying(false);
     };
 
     audio.volume = 0.85;
-    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
     audio.addEventListener('timeupdate', handleTimeUpdate);
     audio.addEventListener('ended', handleEnded);
 
     return () => {
-      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
       audio.removeEventListener('timeupdate', handleTimeUpdate);
       audio.removeEventListener('ended', handleEnded);
     };
-  }, []);
+  }, [clipDuration]);
 
   return (
     <div
@@ -326,7 +314,7 @@ export function WithoutYouHereClipPlayer() {
             />
           </button>
           <div className="mt-2 flex justify-between font-body text-[9px]" style={{ color: 'rgba(212,175,55,0.32)' }}>
-            <span>{fmt(current)}</span>
+            <span>{fmt(WITHOUT_YOU_HERE_CLIP_START_SECONDS + current)}</span>
             <span>{fmt(WITHOUT_YOU_HERE_CLIP_END_SECONDS)}</span>
           </div>
         </div>
@@ -346,8 +334,12 @@ export function WithoutYouHereClipPlayer() {
 
       <audio
         ref={audioRef}
-        src={`${WITHOUT_YOU_HERE_FULL_AUDIO_URL}#t=${WITHOUT_YOU_HERE_CLIP_START_SECONDS},${WITHOUT_YOU_HERE_CLIP_END_SECONDS}`}
+        src={WITHOUT_YOU_HERE_PREVIEW}
         preload="metadata"
+        data-song-title="Without You Here"
+        data-song-artist="Gannon Waye"
+        data-song-feedback-source="sonia-garden-without-you-here-preview"
+        data-song-feedback-exempt="true"
       />
     </div>
   );

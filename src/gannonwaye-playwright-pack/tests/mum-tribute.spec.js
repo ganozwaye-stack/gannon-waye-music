@@ -33,10 +33,11 @@ test.describe("Mum's Garden launch pages", () => {
     await expect(audio).toHaveAttribute('data-song-artist', 'Gannon Waye');
   });
 
-  test('garden page starts with welcome and the long horizontal player', async ({ page }) => {
+  test('garden page starts with immersive walk and sticky player', async ({ page }) => {
     await gotoRoute(page, `/mum/garden?access=${ACCESS}`);
-    await expect(page.getByText("Welcome to Sonia's Garden")).toBeVisible();
-    await expect(page.getByText(/A soft walk through the world she left behind/i)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Walk into Mum's real garden/i })).toBeVisible();
+    await expect(page.getByText(/Scroll forward from the tall trees/i)).toBeVisible();
+    await expect(page.getByText(/From sky to backyard/i)).toBeVisible();
     await expect(page.getByText(/Without You Here/i).first()).toBeVisible();
     await expect(page.locator('audio[data-song-title="Without You Here"]').first()).toHaveAttribute('data-song-artist', 'Gannon Waye');
   });

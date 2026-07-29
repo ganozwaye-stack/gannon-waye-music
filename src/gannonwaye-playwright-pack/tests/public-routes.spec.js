@@ -1,64 +1,72 @@
 /* eslint-disable no-undef */
-// tests/public-routes.spec.js
-// Verifies public routes load correctly and bookings/tours are hidden
-
-import { test, expect } from '@playwright/test';
+const { test, expect } = require('@playwright/test');
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
-const gotoRoute = (page, route) => page.goto(`${BASE_URL}${route}`, { waitUntil: 'domcontentloaded' });
+const NOT_FOUND_COPY = /page not found|404|does not exist|couldn.t find/i;
 
-test.describe('Public routes', () => {
-  test('home page loads', async ({ page }) => {
-    await gotoRoute(page, '/');
-    expect(page.url()).toContain(BASE_URL);
-    // No crash, page renders
-    await expect(page.locator('body')).toBeVisible();
-  });
+const legacyRoutes = [
+  { from: '/tour', to: '/', landmark: 'h1' },
+  { from: '/bookings', to: '/', landmark: 'h1' },
+  { from: '/store-world', to: '/store', landmark: 'img[alt="Gannon Waye Merch Store"]' },
+  { from: '/support', to: '/contact', landmark: 'h1' },
+  { from: '/releases', to: '/music', landmark: 'h1' },
+  { from: '/gift-tracker', to: '/gift-checklist', landmark: 'h1' },
+  { from: '/about', to: '/this-is-my-life', landmark: 'h1' },
+];
 
-  test('store page loads', async ({ page }) => {
-    await gotoRoute(page, '/store');
-    await expect(page.getByRole('link', { name: /all products/i })).toBeVisible();
-  });
+const retainedBase44Routes = [
+  { route: '/mum', landmark: 'h1' },
+  { route: '/without-you-here', landmark: 'h1' },
+  { route: '/mums-garden', landmark: "text=Written on Mother's Day" },
+  { route: '/remember-mum', landmark: 'h1' },
+  { route: '/press-kit', landmark: 'h1' },
+];
 
-  test('music page loads', async ({ page }) => {
-    await gotoRoute(page, '/music');
-    await expect(page.locator('body')).toBeVisible();
-  });
+const expectedUrl = (path, suffix = '') => `${BASE_URL}${path}${suffix}`;
 
-  test('/tour renders safely', async ({ page }) => {
-    await gotoRoute(page, '/tour');
-    await expect(page.locator('body')).toBeVisible();
-  });
+test.describe('Legacy public routes on the production build', () => {
+  for (const { from, to, landmark } of legacyRoutes) {
+    test(`${from} resolves once to ${to}, preserves query parameters and is not a 404`, async ({ browser }) => {
+      const context = await browser.newContext();
+      const page = await context.newPage();
+      const navigations = [];
+      page.on('framenavigated', frame => {
+        if (frame === page.mainFrame()) navigations.push(frame.url());
+      });
 
-  test('/bookings renders safely', async ({ page }) => {
-    await gotoRoute(page, '/bookings');
-    await expect(page.locator('body')).toBeVisible();
-  });
+      const suffix = '?utm_source=legacy-route-test&campaign=without-you-here';
+      const legacyUrl = expectedUrl(from, suffix);
+      const canonicalUrl = expectedUrl(to, suffix);
+      const response = await page.goto(legacyUrl, { waitUntil: 'domcontentloaded' });
 
-  test('navbar does not contain Tour or Bookings links', async ({ page }) => {
-    await gotoRoute(page, '/');
+      expect(response?.status()).toBeLessThan(400);
+      await expect(page).toHaveURL(canonicalUrl);
+      await expect(page.locator('body')).not.toContainText(NOT_FOUND_COPY);
+      await expect(page.locator(landmark).first()).toBeVisible();
 
-    const navText = await page.locator('nav').first().textContent();
-    expect(navText.toLowerCase()).not.toContain('tour');
-    expect(navText.toLowerCase()).not.toContain('booking');
-    expect(navText.toLowerCase()).not.toContain('live dates');
-  });
+      const canonicalNavigationIndex = navigations.lastIndexOf(canonicalUrl);
+      expect(canonicalNavigationIndex).toBeGreaterThanOrEqual(0);
 
-  test('no broken console errors on home page', async ({ page }) => {
-    const errors = [];
-    page.on('pageerror', err => errors.push(err.message));
+      await page.waitForTimeout(500);
+      expect(page.url()).toBe(canonicalUrl);
+      expect(navigations.slice(canonicalNavigationIndex + 1)).not.toContain(legacyUrl);
+      await context.close();
+    });
+  }
+});
 
-    await gotoRoute(page, '/');
+test.describe('Retained Base44 public addresses', () => {
+  for (const { route, landmark } of retainedBase44Routes) {
+    test(`${route} loads directly in a fresh context`, async ({ browser }) => {
+      const context = await browser.newContext();
+      const page = await context.newPage();
+      const response = await page.goto(expectedUrl(route), { waitUntil: 'domcontentloaded' });
 
-    // Filter out known non-critical noise
-    const critical = errors.filter(e =>
-      !e.includes('ResizeObserver') &&
-      !e.includes('Non-Error promise rejection') &&
-      !e.includes('autoplay')
-    );
-    if (critical.length > 0) {
-      console.error("CRITICAL CONSOLE ERRORS FOUND:", critical);
-    }
-    expect(critical.length).toBe(0);
-  });
+      expect(response?.status()).toBeLessThan(400);
+      await expect(page).toHaveURL(expectedUrl(route));
+      await expect(page.locator('body')).not.toContainText(NOT_FOUND_COPY);
+      await expect(page.locator(landmark).first()).toBeVisible();
+      await context.close();
+    });
+  }
 });

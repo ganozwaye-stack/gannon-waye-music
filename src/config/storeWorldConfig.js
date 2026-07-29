@@ -2,7 +2,12 @@
 // Keep this scene intact: it is the central gold-story store artwork.
 export const BOUTIQUE_HERO_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png';
 
-const imageList = (...urls) => Array.from(new Set(urls.flat().filter(Boolean)));
+const BASE44_APP_ID = '69eb7905ca6eb4180010f794';
+const BASE44_FILE_API_PREFIX = `https://base44.app/api/apps/${BASE44_APP_ID}/files/mp/public/${BASE44_APP_ID}/`;
+const BASE44_MEDIA_PREFIX = `https://media.base44.com/images/public/${BASE44_APP_ID}/`;
+
+const toPublicMediaUrl = (url = '') => url.replace(BASE44_FILE_API_PREFIX, BASE44_MEDIA_PREFIX);
+const imageList = (...urls) => Array.from(new Set(urls.flat().filter(Boolean).map(toPublicMediaUrl)));
 
 const sizePriceMap = {
   'A4 - $19': 19,
@@ -302,6 +307,8 @@ export const STORE_PRODUCTS = [
   },
 ].map(product => ({
   ...product,
+  image_url: product.image_url ? toPublicMediaUrl(product.image_url) : product.image_url,
+  images_array: product.images_array ? imageList(product.images_array) : product.images_array,
   images: product.images || imageList(product.image_url, product.images_array),
 }));
 
@@ -311,14 +318,14 @@ export const STORE_ADDONS = [
     name: 'Add Respect Is Earned Coffee Mug - $9.90',
     price: '$9.90',
     priceValue: 9.9,
-    image: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png',
+    image: toPublicMediaUrl('https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png'),
   },
   {
     id: 'poster-addon',
     name: 'Add Respect Is Earned Wall Poster - $39',
     price: '$39',
     priceValue: 39,
-    image: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/a54656262_5e2e49fe-b4c2-448f-9390-35847282f185.png',
+    image: toPublicMediaUrl('https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/a54656262_5e2e49fe-b4c2-448f-9390-35847282f185.png'),
   },
 ];
 

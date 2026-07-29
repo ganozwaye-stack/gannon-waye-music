@@ -24,7 +24,7 @@ module.exports = defineConfig({
     }
   },
   webServer: {
-    command: 'npm run dev',
+    command: 'npm run dev -- --host localhost --port 5173',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
     cwd: '../../',

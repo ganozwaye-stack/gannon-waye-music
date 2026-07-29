@@ -197,10 +197,21 @@ function ImageSwiper({ images, name, aspectRatio = '16 / 10' }) {
 }
 
 function FeaturedCard({ product, isHero, onOpenModal }) {
+  const openProduct = () => onOpenModal(product.id);
+  const handleKeyDown = (event) => {
+    if (event.target !== event.currentTarget) return;
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openProduct();
+    }
+  };
+
   return (
-    <button
-      type="button"
-      onClick={() => onOpenModal(product.id)}
+    <article
+      role="button"
+      tabIndex={0}
+      onClick={openProduct}
+      onKeyDown={handleKeyDown}
       style={{
         display: 'grid',
         gridTemplateRows: 'auto 1fr',
@@ -229,7 +240,7 @@ function FeaturedCard({ product, isHero, onOpenModal }) {
           <span style={{ color: 'rgba(212,175,55,0.55)', fontSize: '10px', letterSpacing: '0.1em' }}>VIEW</span>
         </div>
       </div>
-    </button>
+    </article>
   );
 }
 

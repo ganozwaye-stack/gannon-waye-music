@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
+import { isApprovedSpotifyUrl } from '@/lib/spotifyUrl';
 
 const SongFeedbackContext = createContext({
   requestSongFeedback: async () => true,
@@ -32,15 +33,6 @@ const slug = (value = 'gannon-waye-music') =>
     .replace(/^-|-$/g, '') || 'gannon-waye-music';
 
 const getSessionKey = (songTitle) => `gwm-song-feedback-submitted:${slug(songTitle)}`;
-
-const isSpotifyHref = (href = '') => {
-  try {
-    const url = new URL(href, window.location.origin);
-    return url.hostname === 'spotify.com' || url.hostname.endsWith('.spotify.com');
-  } catch {
-    return false;
-  }
-};
 
 const getTriggerContext = (element) => {
   const trigger = element?.closest?.('[data-song-feedback-trigger="true"], a, button, [role="button"], audio, video');
@@ -61,7 +53,7 @@ const getTriggerContext = (element) => {
   ].filter(Boolean).join(' ').toLowerCase();
 
   const isExplicit = trigger.dataset?.songFeedbackTrigger === 'true';
-  const isSpotifyLink = isSpotifyHref(href);
+  const isSpotifyLink = isApprovedSpotifyUrl(href);
   const looksLikeListenAction = /\b(play|stream|listen|spotify|preview)\b/.test(label) || isSpotifyLink;
   const looksLikeAdminTool = /\bplaywright\b/.test(label);
 

@@ -6,17 +6,20 @@ import { test, expect } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
+const gotoPublicRoute = async (page, route) => {
+  await page.goto(`${BASE_URL}${route}`, { waitUntil: 'domcontentloaded' });
+  await expect(page.locator('body')).toBeVisible();
+};
+
 test.describe('Link Integrity — Public routes', () => {
   test('home page has no href="#" or javascript:void links', async ({ page }) => {
-    await page.goto(`${BASE_URL}/`);
-    await page.waitForLoadState('networkidle');
+    await gotoPublicRoute(page, '/');
     const badLinks = await page.locator('a[href="#"], a[href="javascript:void(0)"]').count();
     expect(badLinks).toBe(0);
   });
 
   test('Instagram links point to @gann0nwaye', async ({ page }) => {
-    await page.goto(`${BASE_URL}/`);
-    await page.waitForLoadState('networkidle');
+    await gotoPublicRoute(page, '/');
     const links = await page.locator('a[href*="instagram.com"]').all();
     for (const link of links) {
       const href = await link.getAttribute('href');
@@ -26,8 +29,7 @@ test.describe('Link Integrity — Public routes', () => {
   });
 
   test('TikTok links point to @gann0nwaye', async ({ page }) => {
-    await page.goto(`${BASE_URL}/`);
-    await page.waitForLoadState('networkidle');
+    await gotoPublicRoute(page, '/');
     const links = await page.locator('a[href*="tiktok.com/@"]').all();
     for (const link of links) {
       const href = await link.getAttribute('href');
@@ -38,8 +40,7 @@ test.describe('Link Integrity — Public routes', () => {
   });
 
   test('contact page social links are correct', async ({ page }) => {
-    await page.goto(`${BASE_URL}/contact`);
-    await page.waitForLoadState('networkidle');
+    await gotoPublicRoute(page, '/contact');
     const bodyText = await page.locator('body').textContent();
     expect(bodyText).toContain('@gann0nwaye');
     expect(bodyText).toContain('@gannonwayeofficial');
@@ -48,8 +49,7 @@ test.describe('Link Integrity — Public routes', () => {
   });
 
   test('footer Instagram link correct', async ({ page }) => {
-    await page.goto(`${BASE_URL}/`);
-    await page.waitForLoadState('networkidle');
+    await gotoPublicRoute(page, '/');
     const footerText = await page.locator('footer').textContent();
     expect(footerText).toContain('@gann0nwaye');
     expect(footerText).toContain('@gannonwayeofficial');
@@ -58,8 +58,7 @@ test.describe('Link Integrity — Public routes', () => {
   test('no public page redirects to admin dashboard', async ({ page }) => {
     const publicRoutes = ['/', '/music', '/store', '/community', '/contact', '/lyrics', '/faq'];
     for (const route of publicRoutes) {
-      await page.goto(`${BASE_URL}${route}`);
-      await page.waitForLoadState('networkidle');
+      await gotoPublicRoute(page, route);
       expect(page.url()).not.toContain('/admin');
     }
   });

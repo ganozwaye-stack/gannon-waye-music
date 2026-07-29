@@ -19,6 +19,22 @@ export default defineConfig({
           return false;
         }
       },
+      '^/api/apps/.*/analytics/track/batch': {
+        target: 'http://localhost:5173',
+        bypass: (req, res) => {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ success: true, tracked: false, local_preview: true }));
+          return false;
+        }
+      },
+      '^/api/apps/.*/entities/User/me': {
+        target: 'http://localhost:5173',
+        bypass: (req, res) => {
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify(null));
+          return false;
+        }
+      },
       '^/api/v2/apps/.*?/functions/recoverStripeOrders': {
         target: 'http://localhost:5173',
         bypass: (req, res) => {
