@@ -85,8 +85,8 @@
         </article>
         <article class="card metric">
           <p class="eyebrow">Code Checkpoint</p>
-          <strong>9870c2d</strong>
-          <span>PR #31 head matches the local branch and is draft/open/mergeable.</span>
+          <strong>PR #31</strong>
+          <span>Exact current SHA and check state are tracked in the latest PR checkpoint comment so this page does not self-stale.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Clean Core</p>
@@ -145,8 +145,8 @@
           <h3>GitHub Audit</h3>
           <ul>
             <li>PR #31 is draft/open/mergeable.</li>
-            <li>Current head is 9870c2dc334994881e888599ea65eb16ff3bfbb5.</li>
-            <li>GitHub Checks API confirms CodeQL, lint/build, Playwright, secret scan, security/coaching, and store/cart are green.</li>
+            <li>Latest exact head and check result are recorded in the newest PR #31 checkpoint comment.</li>
+            <li>GitHub Checks API confirmed CodeQL, lint/build, Playwright, secret scan, security/coaching, and store/cart green on the latest evidence push.</li>
             <li>Private Mum media remains unstaged.</li>
           </ul>
         </article>
@@ -199,7 +199,7 @@
           <div class="log">Current verified checkpoint:
 - Branch: launch/gannon-waye-suite-2026-07-29
 - PR: https://github.com/ganozwaye-stack/gannon-waye-music/pull/31
-- Head: 9870c2dc334994881e888599ea65eb16ff3bfbb5
+- Exact head: see the latest PR #31 checkpoint comment
 - GitHub PR state: draft/open/mergeable
 
 GitHub checks verified by Checks API: 8 completed successfully:
@@ -226,7 +226,7 @@ Local passed evidence:
   - checkout: 16 passed
   - shipping: 8 passed
 - Broad combined Playwright command exceeded the tool window, so the same scope was split into smaller lanes with no failing test found
-- Important scope note: the fresh 94-pass split audit ran against this local workspace, which currently includes uncommitted Mum's Garden hallway/3D portal WIP. PR #31 exact head remains verified by GitHub's 8 green checks.
+- Important scope note: the fresh 94-pass split audit ran against this local workspace, which currently includes uncommitted Mum's Garden hallway/3D portal WIP. PR #31 exact head/check state is verified separately in the latest PR checkpoint comment.
 - Focused launch smoke Playwright: 72 passed, 1 flaky passed on retry
 - Commerce Playwright: 53 passed, 1 skipped
 - Launch-critical Playwright: 119 passed, 1 skipped
@@ -276,7 +276,7 @@ Still blocked, watchlisted, or approval-gated:
           <h2>Detailed Execution Plan</h2>
           <ul>
             <li>1. Keep this control-room page open so you can observe the run. Done.</li>
-            <li>2. Verify the current local branch, PR, SHA, and GitHub check status. Done: PR #31 at 9870c2d with 8 of 8 checks green.</li>
+            <li>2. Verify the current local branch, PR, SHA, and GitHub check status. Done; exact head/check result is recorded in the latest PR checkpoint comment.</li>
             <li>3. Protect local private/review assets by keeping Mum media, local audio, screenshots, and test artifacts unstaged unless you approve them. Ongoing.</li>
             <li>4. Run the next requirement-scoped local audit across website, store, Mum's Garden, cart, checkout, security, public routes, and master/private-media exposure. Done: 94 passed in split lanes.</li>
             <li>5. If anything fails, patch only the smallest launch-relevant surface, rerun the affected test, then rerun the wider batch. No failure found in the split run.</li>
@@ -303,7 +303,7 @@ Still blocked, watchlisted, or approval-gated:
       </section>
 
       <footer>
-        Last updated: 2026-07-30 02:43 AEST. This is a local preview board only.
+        Last updated: 2026-07-30 02:52 AEST. This is a local preview board only.
       </footer>
     </main>
   </body>

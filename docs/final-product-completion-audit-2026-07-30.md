@@ -10,7 +10,7 @@ Branch: `launch/gannon-waye-suite-2026-07-29`
 
 PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 
-Head: `9870c2dc334994881e888599ea65eb16ff3bfbb5`
+Exact PR head: tracked in the latest PR #31 checkpoint comment so this committed document does not self-stale.
 
 ## Execution Mode
 
@@ -18,7 +18,7 @@ This is a safe staging control-room run. Local audits, documentation, PR evidenc
 
 No personal files were deleted. No DNS, production deployment, live Stripe action, marketplace publish, supplier order, customer email, Base44 live-state change, password, 2FA, private memorial upload, or AI Sonia voice/avatar publication was performed.
 
-Local WIP notice: the workspace currently contains a Mum's Garden hallway/3D portal experiment and private hallway dev-server guardrails that are not yet committed or pushed to PR #31. The fresh local split audit below ran against this local workspace. PR #31 exact head remains verified separately by GitHub's green checks at `9870c2d`.
+Local WIP notice: the workspace currently contains a Mum's Garden hallway/3D portal experiment and private hallway dev-server guardrails that are not yet committed or pushed to PR #31. The fresh local split audit below ran against this local workspace. PR #31 exact head/check state is verified separately in the latest PR checkpoint comment.
 
 ## Current Helpers
 
@@ -42,7 +42,7 @@ No background subagent is currently running.
 | Merch store | `/store` remains the neon retail frontage; `/store/all` is product grid; public copy no longer exposes internal Base44 wording. | Store/Mum visual lane `23 passed`; cart `10 passed`; cart details `5 passed`; checkout `16 passed`; shipping `8 passed`. | Live Stripe proof, marketplace publishing, supplier orders, and customer emails require explicit approval. |
 | Micro-brand dropshipping procedure | Procedure is documented and approval-only; GanozMix remains separated from Gannon Waye Music merch. | Procedure doc exists at `docs/micro-brand-dropshipping-procedure-2026-07-30.md`; checkout/shipping guardrails passed locally. | Supplier selection, marketplace OAuth, live listings, payments, fulfilment, and returns proof require approval. |
 | Base44 to Emergent migration audit | Not parity-proven. Base44 stays live. Code still has Base44 SDK/functions/entities/agents and local mock flows. | Parity checklist and pricing snapshot docs exist; staging boundary is documented. | Do not switch live system until auth, data, products, cart, checkout, orders, functions, agents, redirects, and analytics parity passes. |
-| GitHub/local audit loop | Current PR head is green. Local split audit is fresh, but it includes uncommitted hallway/3D WIP in this workspace. | GitHub Checks API: 8 completed successfully at `9870c2d`. Local fresh split audit: `94 passed`. Lint, typecheck, build, and npm audit passed after board update. | Commit/push only the safe evidence/control-room docs, recheck GitHub, and review the hallway/3D WIP separately before it is staged. |
+| GitHub/local audit loop | Current PR head is green per the latest PR checkpoint comment. Local split audit is fresh, but it includes uncommitted hallway/3D WIP in this workspace. | GitHub Checks API: 8 completed successfully on the latest evidence push. Local fresh split audit: `94 passed`. Lint, typecheck, build, and npm audit passed after board update. | Commit/push only the safe evidence/control-room docs, recheck GitHub, and review the hallway/3D WIP separately before it is staged. |
 
 ## Fresh Local Audit Evidence
 

@@ -6,13 +6,13 @@ Local staging branch: `launch/gannon-waye-suite-2026-07-29`
 
 GitHub PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 
-Status time: 2026-07-30 02:43 AEST
+Status time: 2026-07-30 02:52 AEST
 
 ## Current State
 
-The latest pushed staging candidate is PR #31 at `9870c2dc334994881e888599ea65eb16ff3bfbb5` (`9870c2d`), with all 8 GitHub checks verified green through the GitHub Checks API. It is not approved for production deployment. The 9pm target has passed, but the staging branch now has a green current checkpoint and the remaining work is approval-gated migration/commerce proof rather than a failing local build. No DNS, production deploy, live Stripe, supplier order, marketplace publish, customer email, password, 2FA, Base44 live-state change, or AI Sonia publication has been performed.
+The latest pushed staging candidate is PR #31. Exact current head and GitHub check state are tracked in the latest PR checkpoint comment so this committed document does not self-stale every time evidence docs are updated. It is not approved for production deployment. The 9pm target has passed, but the staging branch now has a green current checkpoint and the remaining work is approval-gated migration/commerce proof rather than a failing local build. No DNS, production deploy, live Stripe, supplier order, marketplace publish, customer email, password, 2FA, Base44 live-state change, or AI Sonia publication has been performed.
 
-Local WIP notice: this workspace currently contains a Mum's Garden hallway/3D portal experiment and private hallway dev-server guardrails that are not yet committed or pushed to PR #31. The fresh local split audit below ran against this local workspace. PR #31 exact head remains verified separately by GitHub's green checks at `9870c2d`.
+Local WIP notice: this workspace currently contains a Mum's Garden hallway/3D portal experiment and private hallway dev-server guardrails that are not yet committed or pushed to PR #31. The fresh local split audit below ran against this local workspace. PR #31 exact head/check state is verified separately in the latest PR checkpoint comment.
 
 ## Done
 
@@ -70,7 +70,7 @@ Passed:
   - No remaining app/public references to the removed Sonia voice-note player, voicemail file names, or private Mum audio paths.
 - Direct typecheck:
   - `tsc -p ./jsconfig.json --pretty false`: exit 0.
-- GitHub checks for current commit `9870c2d`:
+- GitHub checks for the latest evidence push, with exact SHA recorded in the PR checkpoint comment:
   - Build & Playwright Tests: success.
   - CodeQL: success.
   - CodeQL Security Scan: success.
@@ -250,7 +250,7 @@ Current findings:
 - The code still depends on `@base44/sdk`, Base44 functions, Base44 entities, and Base44 agents.
 - Local preview uses mocks for auth, products, orders, checkout, GanozMix candidates, and approval-only flows.
 - Base44 live production must stay in place until replacement parity is proven.
-- PR #31 is the current staging PR at `9870c2d`. GitHub checks are green.
+- PR #31 is the current staging PR. Exact SHA and check state are recorded in the latest PR checkpoint comment.
 - Ampere sidecar finding: staging boundary is acceptable, but migration parity remains blocked until Base44 SDK/functions/entities/agents and mock commerce/auth are replaced or isolated.
 
 Recommended staging path:
