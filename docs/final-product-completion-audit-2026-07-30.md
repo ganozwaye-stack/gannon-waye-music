@@ -1,6 +1,6 @@
 # Final Product Completion Audit - 2026-07-30
 
-Status time: 2026-07-30 05:58 AEST
+Status time: 2026-07-30 06:06 AEST
 
 Control room: `http://127.0.0.1:5173/control-room.html`
 
@@ -10,7 +10,7 @@ Branch: `launch/gannon-waye-suite-2026-07-29`
 
 PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 
-Previous pushed PR head before this local safety patch: `7abc97a7e42ec9dc2bf2d68fe8085185c6433668`.
+Exact current PR head and check status: recorded in the PR #31 body and newest checkpoint comment.
 
 Last launch-code checkpoint before evidence-only refresh: `5fa00031931cb6fc1261f4c1a9b75255945c0224`.
 
@@ -41,12 +41,12 @@ Mum's Garden hallway/3D portal status: the experiment has been hardened for stag
 
 | Lane | Current State | Evidence Passed | Remaining Gate |
 | --- | --- | --- | --- |
-| Main website and launch preview | Staging branch is active and PR #31 was draft/open/mergeable at the previous pushed head. Public routes and homepage are covered by local and GitHub checks. | Previous pushed head `7abc97a7e42ec9dc2bf2d68fe8085185c6433668` had 4 of 4 GitHub workflow runs green. Current local safety patch: build/lint/typecheck passed; public routes/security/coaching serial lane `25 passed`. | Hosted preview and production deployment require explicit approval; GitHub checks must rerun after this safety patch is pushed. |
+| Main website and launch preview | Staging branch is active and PR #31 is draft/open/mergeable. Public routes and homepage are covered by local and GitHub checks. | Latest pushed PR checkpoint has 4 of 4 GitHub workflow runs green. Current safety patch: build/lint/typecheck passed; public routes/security/coaching serial lane `25 passed`. | Hosted preview and production deployment require explicit approval. |
 | Mum's Garden private gate and memorial | Private/gated experience is Sonia-first; old `/mums-garden` redirects to `/mum`; single artwork is preserved in the top section; hallway/3D entrance is hardened for staging; private media remains local. Active hallway frame now uses Sonia-present `mum_bar.png` instead of the no-Sonia children image. | Mum/store visual lane `23 passed`; sidecar guardrail lane `33 passed`; final source/dist guardrail rerun `13 passed`; no private Mum audio/video in build output; private Mum voice-note audio removed from Git tracking and ignored. | Final visual approval and any private memorial media upload require explicit approval. AI Sonia remains unpublished. |
 | Merch store | `/store` remains the neon retail frontage; `/store/all` is product grid; public copy no longer exposes internal Base44 wording. The checkout size-line test is deterministic. Backend checkout now rejects international physical orders before Stripe, Stripe shipping countries are AU-only, and procurement is approval-proposal only. | Store/load visual lane `18 passed`; cart/details/customer serial lane `21 passed`; checkout serial lane `16 passed`; shipping lane `8 passed`; promo code lane `9 passed`; payment success/cancel lane `10 passed`; commerce guardrail tests passed. | Live Stripe proof, marketplace publishing, supplier orders, and customer emails require explicit approval. |
 | Micro-brand dropshipping procedure | Procedure is documented and approval-only; GanozMix remains separated from Gannon Waye Music merch. | Procedure doc exists at `docs/micro-brand-dropshipping-procedure-2026-07-30.md`; checkout/shipping guardrails passed locally. | Supplier selection, marketplace OAuth, live listings, payments, fulfilment, and returns proof require approval. |
 | Base44 to Emergent migration audit | Not parity-proven. Base44 stays live. Current scan confirms Base44 SDK/functions/entities/agents, checkout/Stripe function dependencies, local mocks, and GanozMix marketplace locks remain in code. | Parity checklist now includes fresh file/line evidence; staging boundary is documented. | Do not switch live system until auth, data, products, cart, checkout, orders, functions, agents, redirects, and analytics parity passes. |
-| GitHub/local audit loop | Previous pushed PR head is green. Current safety patch is locally validated and ready for PR #31 push. | GitHub workflow runs: 4 of 4 success on previous pushed head `7abc97a7e42ec9dc2bf2d68fe8085185c6433668`; last launch-code checkpoint was `5fa00031931cb6fc1261f4c1a9b75255945c0224`. Current local patch: `git diff --check`, lint, typecheck, build, focused guardrails, checkout, cart/details/customer, public/security/coaching, payment, and promo passed. | Push current patch, wait for GitHub checks, then keep PR #31 green until a non-production preview is explicitly approved. |
+| GitHub/local audit loop | Latest pushed PR checkpoint is green. | GitHub workflow runs: 4 of 4 success on the latest pushed PR checkpoint; exact SHA is in the PR body and newest checkpoint comment. Last launch-code checkpoint before evidence-only refresh was `5fa00031931cb6fc1261f4c1a9b75255945c0224`. Current patch: `git diff --check`, lint, typecheck, build, focused guardrails, checkout, cart/details/customer, public/security/coaching, payment, and promo passed. | Keep PR #31 green until a non-production preview is explicitly approved. |
 
 ## Fresh Local Audit Evidence
 
@@ -64,7 +64,7 @@ Fresh split-audit total: `94 passed`.
 
 ## Sidecar Safety Patch Evidence
 
-- Maxwell verified PR #31 was open/draft/mergeable, with previous pushed head `7abc97a7e42ec9dc2bf2d68fe8085185c6433668` and 4 of 4 GitHub workflows green.
+- Maxwell verified PR #31 was open/draft/mergeable, with 4 of 4 GitHub workflows green on the latest pushed checkpoint.
 - Avicenna found one active no-Sonia hallway image and tracked private Mum voice files. The hallway now uses tracked Sonia-present `public/images/mum/mum_bar.png`; private Mum voice-note audio has been removed from Git tracking and added to `.gitignore` while remaining on disk.
 - Mill found a backend/direct-call commerce gap. `base44/functions/createCheckoutSession/entry.ts` now rejects international physical checkout before Stripe and restricts Stripe shipping countries to `AU`; the local Base44 mock mirrors the block.
 - `src/pages/admin/ProcurementCommand.jsx` now creates approval proposals only; inventory batch creation is guarded behind an approved PO state.

@@ -85,13 +85,13 @@
         </article>
         <article class="card metric">
           <p class="eyebrow">Code Checkpoint</p>
-          <strong>Safety Patch</strong>
-          <span>Previous pushed PR head was 7abc97a. Current local safety patch is validated; exact pushed SHA will be recorded in the next PR checkpoint.</span>
+          <strong>PR Green</strong>
+          <span>Latest pushed PR checkpoint is green. The exact current SHA is recorded in the PR #31 body and newest checkpoint comment.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Clean Core</p>
           <strong class="green">Clean</strong>
-          <span>Previous pushed PR head had 4 of 4 GitHub workflows green; current safety patch has local lint, build, typecheck, and focused Playwright green.</span>
+          <span>GitHub workflows are 4 of 4 successful on the latest pushed PR checkpoint; local lint, build, typecheck, and focused Playwright are green.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Live Changes</p>
@@ -141,12 +141,12 @@
           </ul>
         </article>
         <article class="card lane">
-          <span class="state amber">Green PR / Local WIP</span>
+          <span class="state green">Green PR</span>
           <h3>GitHub Audit</h3>
           <ul>
             <li>PR #31 is draft/open/mergeable.</li>
-            <li>Previous pushed PR head was 7abc97a7e42ec9dc2bf2d68fe8085185c6433668; current local safety patch is ready to push.</li>
-            <li>GitHub Checks API confirmed CodeQL, lint/build, Playwright, secret scan, security/coaching, and store/cart green on the latest evidence push.</li>
+            <li>Latest exact PR head is recorded in the PR body and newest checkpoint comment.</li>
+            <li>GitHub Checks API confirmed Build, Playwright, Store Tests, and All Tests &amp; Compliance Audits green on the latest pushed checkpoint.</li>
             <li>Private Mum media remains unstaged.</li>
           </ul>
         </article>
@@ -201,11 +201,11 @@
           <div class="log">Current verified checkpoint:
 - Branch: launch/gannon-waye-suite-2026-07-29
 - PR: https://github.com/ganozwaye-stack/gannon-waye-music/pull/31
-- Previous pushed PR head: 7abc97a7e42ec9dc2bf2d68fe8085185c6433668
+- Exact current PR head: recorded in PR #31 body and newest checkpoint comment
 - Last launch-code checkpoint before evidence refresh: 5fa00031931cb6fc1261f4c1a9b75255945c0224
 - GitHub PR state: draft/open/mergeable
 
-GitHub workflow runs verified on the current head: 4 completed successfully:
+GitHub workflow runs verified on the latest pushed PR checkpoint: 4 completed successfully:
 - Build
 - Playwright
 - Playwright Store Tests
@@ -316,7 +316,7 @@ Still blocked, watchlisted, or approval-gated:
           <h2>Detailed Execution Plan</h2>
           <ul>
             <li>1. Keep this control-room page open so you can observe the run. Done.</li>
-            <li>2. Verify the current local branch, PR, SHA, and GitHub check status. Done; previous pushed PR head 7abc97a had 4 of 4 GitHub workflows successful, and the current safety patch is locally validated.</li>
+            <li>2. Verify the current local branch, PR, SHA, and GitHub check status. Done; PR #31 is green on the latest pushed checkpoint, with the exact SHA recorded in the PR body and checkpoint comment.</li>
             <li>3. Protect local private/review assets by keeping Mum media, local audio, screenshots, and test artifacts unstaged unless you approve them. Ongoing.</li>
             <li>4. Run the next requirement-scoped local audit across website, store, Mum's Garden, cart, checkout, security, public routes, and master/private-media exposure. Done: 94 passed in split lanes.</li>
             <li>5. If anything fails, patch only the smallest launch-relevant surface, rerun the affected test, then rerun the wider batch. No failure found in the split run.</li>
@@ -348,7 +348,7 @@ Still blocked, watchlisted, or approval-gated:
       </section>
 
       <footer>
-        Last updated: 2026-07-30 05:58 AEST. This is a local preview board only.
+        Last updated: 2026-07-30 06:06 AEST. This is a local preview board only.
       </footer>
     </main>
   </body>
