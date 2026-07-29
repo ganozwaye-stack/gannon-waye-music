@@ -6,22 +6,36 @@ import { Badge } from '@/components/ui/badge';
 import { Instagram, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
+function getSafeImageUrl(value) {
+  const trimmed = value.trim();
+  if (!trimmed) return '';
+
+  try {
+    const url = new URL(trimmed);
+    if (!['http:', 'https:'].includes(url.protocol)) return '';
+    return url.toString();
+  } catch {
+    return '';
+  }
+}
+
 export default function InstagramSync() {
   const { toast } = useToast();
   const [imageUrl, setImageUrl] = useState('');
   const [caption, setCaption] = useState('');
   const [loading, setLoading] = useState(false);
   const [lastPost, setLastPost] = useState(null);
+  const safeImageUrl = getSafeImageUrl(imageUrl);
 
   const handlePost = async () => {
-    if (!imageUrl.trim() || !caption.trim()) {
+    if (!safeImageUrl || !caption.trim()) {
       toast({ title: 'Image URL and caption are required', variant: 'destructive' });
       return;
     }
     setLoading(true);
     try {
       const res = await base44.functions.invoke('postToInstagram', {
-        image_url: imageUrl.trim(),
+        image_url: safeImageUrl,
         caption: caption.trim(),
       });
       setLastPost(res.data);
@@ -77,9 +91,10 @@ export default function InstagramSync() {
             </p>
           </div>
 
-          {imageUrl.trim() && (
-            <div className="rounded-xl overflow-hidden border border-border/40 max-w-xs">
-              <img src={imageUrl.trim()} alt="Preview" className="w-full aspect-square object-cover" />
+          {safeImageUrl && (
+            <div className="rounded-xl border border-border/40 max-w-xs p-3 bg-secondary/30">
+              <p className="font-body text-[10px] tracking-wider uppercase text-primary mb-1">URL accepted</p>
+              <p className="font-body text-xs text-muted-foreground break-all">{safeImageUrl}</p>
             </div>
           )}
 
@@ -102,7 +117,7 @@ export default function InstagramSync() {
 
           <Button
             onClick={handlePost}
-            disabled={loading || !imageUrl.trim() || !caption.trim()}
+            disabled={loading || !safeImageUrl || !caption.trim()}
             className="rounded-full gap-2 font-body text-xs tracking-wider uppercase gradient-gold-button border-0"
           >
             {loading ? (
