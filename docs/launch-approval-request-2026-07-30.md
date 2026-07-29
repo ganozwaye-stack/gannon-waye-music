@@ -17,12 +17,12 @@ Current local control board: `http://127.0.0.1:5173/control-room.html`
 
 ## What Has Passed
 
-- GitHub checks on the current PR head: 8 of 8 passed.
+- GitHub workflow runs on the current PR head passed: 4 of 4 (`Build`, `Playwright`, `Playwright Store Tests`, `All Tests & Compliance Audits`).
 - Local direct typecheck passed.
 - `npm run lint` passed.
 - `npm run build` passed with the expected local Base44 proxy warning.
 - `npm audit --audit-level=moderate` found 0 local vulnerabilities.
-- Local focused and launch-critical Playwright batches passed as recorded in `docs/gannon-waye-suite-final-run-2026-07-29.md`.
+- Local focused, commerce, and launch-critical Playwright batches passed as recorded in `docs/gannon-waye-suite-final-run-2026-07-29.md`.
 
 ## What Is Not Approved Yet
 

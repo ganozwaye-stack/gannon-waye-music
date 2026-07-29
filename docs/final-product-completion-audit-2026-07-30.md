@@ -1,6 +1,6 @@
 # Final Product Completion Audit - 2026-07-30
 
-Status time: 2026-07-30 04:02 AEST
+Status time: 2026-07-30 05:00 AEST
 
 Control room: `http://127.0.0.1:5173/control-room.html`
 
@@ -37,12 +37,12 @@ No background subagent is currently running.
 
 | Lane | Current State | Evidence Passed | Remaining Gate |
 | --- | --- | --- | --- |
-| Main website and launch preview | Staging branch is active and PR #31 is draft/open/mergeable. Public routes and homepage are covered by local and GitHub checks. | GitHub 8 of 8 checks green on the latest pushed head recorded in PR #31 checkpoint comments; public routes/security/coaching split audit `25 passed`; build/lint/typecheck/audit passed. | Hosted preview and production deployment require explicit approval. |
+| Main website and launch preview | Staging branch is active and PR #31 is draft/open/mergeable. Public routes and homepage are covered by local and GitHub checks. | GitHub 4 of 4 workflow runs green on head `5fa00031931cb6fc1261f4c1a9b75255945c0224`; public routes/security/coaching split audit `25 passed`; build/lint/typecheck/audit passed. | Hosted preview and production deployment require explicit approval. |
 | Mum's Garden private gate and memorial | Private/gated experience is Sonia-first; old `/mums-garden` redirects to `/mum`; single artwork is preserved in the top section; hallway/3D entrance is hardened for staging; private media remains local. | Mum/store visual lane `23 passed`; hallway/3D affected audit: Mum tests `5 passed`, master/private-media exposure `9 passed`, visual screenshot pixel check passed; no private Mum audio/video in build output. | Final visual approval and any private memorial media upload require explicit approval. AI Sonia remains unpublished. |
-| Merch store | `/store` remains the neon retail frontage; `/store/all` is product grid; public copy no longer exposes internal Base44 wording. | Store/Mum visual lane `23 passed`; cart `10 passed`; cart details `5 passed`; checkout `16 passed`; shipping `8 passed`. | Live Stripe proof, marketplace publishing, supplier orders, and customer emails require explicit approval. |
+| Merch store | `/store` remains the neon retail frontage; `/store/all` is product grid; public copy no longer exposes internal Base44 wording. The checkout size-line test is now deterministic. | Store/load visual lane `18 passed`; cart/details/customer/shipping `29 passed`; checkout `16 passed`; promo/payment-success `24 passed`, `1 skipped`. | Live Stripe proof, marketplace publishing, supplier orders, and customer emails require explicit approval. |
 | Micro-brand dropshipping procedure | Procedure is documented and approval-only; GanozMix remains separated from Gannon Waye Music merch. | Procedure doc exists at `docs/micro-brand-dropshipping-procedure-2026-07-30.md`; checkout/shipping guardrails passed locally. | Supplier selection, marketplace OAuth, live listings, payments, fulfilment, and returns proof require approval. |
 | Base44 to Emergent migration audit | Not parity-proven. Base44 stays live. Current scan confirms Base44 SDK/functions/entities/agents, checkout/Stripe function dependencies, local mocks, and GanozMix marketplace locks remain in code. | Parity checklist now includes fresh file/line evidence; staging boundary is documented. | Do not switch live system until auth, data, products, cart, checkout, orders, functions, agents, redirects, and analytics parity passes. |
-| GitHub/local audit loop | Current PR head is green per the latest PR checkpoint comment. Hallway/3D work is pushed and hardened for staging without private media. | GitHub Checks API: 8 completed successfully on the latest evidence push. Local fresh split audit: `94 passed`; current-head audit also records a `96 passed` split. Hallway/3D affected audit passed. Lint, typecheck, build, and npm audit passed. | Validate this documentation/control-board evidence update, commit/push only tracked safe files, then recheck GitHub if pushed. |
+| GitHub/local audit loop | Current PR head is green per the latest PR checkpoint comment. Hallway/3D work is pushed and hardened for staging without private media. | GitHub workflow runs: 4 of 4 success on `5fa00031931cb6fc1261f4c1a9b75255945c0224`. Local fresh split audit: `94 passed`; current-head audit also records a `96 passed` split. Hallway/3D affected audit passed. Lint, typecheck, build, and npm audit passed. | Keep PR #31 green until a non-production preview is explicitly approved. |
 
 ## Fresh Local Audit Evidence
 
@@ -94,4 +94,4 @@ Production approval should remain separate from preview approval.
 
 ## Exact Next Action
 
-Validate this Base44/Emergent evidence update and refreshed control-room board, commit/push only safe tracked docs and board files to PR #31 without staging private media, then recheck GitHub Checks API on the new head. If any check fails, fix only the failing lane, rerun locally, push again, and recheck.
+Hold PR #31 as the green staging candidate and wait for explicit approval before creating a hosted non-production preview. Continue safe local/GitHub audits only; do not stage private media.

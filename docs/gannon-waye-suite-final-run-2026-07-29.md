@@ -6,7 +6,7 @@ Local staging branch: `launch/gannon-waye-suite-2026-07-29`
 
 GitHub PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`
 
-Status time: 2026-07-30 03:22 AEST
+Status time: 2026-07-30 05:00 AEST
 
 ## Current State
 
@@ -26,6 +26,7 @@ Mum's Garden hallway/3D portal status: the experiment has been hardened for stag
   - `/store/all` is the product grid.
   - Winter bundle current price is `$119`.
 - Repaired checkout, shipping, promo exclusion, route proof, print fulfilment, cart details, and admin edit audit tests.
+- Stabilized the checkout size-line test so different hoodie sizes are seeded before cart hydration and no longer report as flaky.
 - Added the local visible control-room board at `/control-room.html`.
 - Removed the public Sonia voicemail/voice-note section from `SoniaAmbientPlayer`.
 - Verified no private Mum audio file paths remain in app or public source.
@@ -117,8 +118,7 @@ Failed / Not Clean:
 
 - No current local typecheck/lint/build/npm-audit/GitHub-check failure is known for the latest safe staging head.
 - Some admin legacy JS screens use explicit `// @ts-nocheck` exemptions to avoid risky launch-pressure business-logic rewrites.
-- One checkout Playwright scenario previously showed local flake and passed on retry: `different sizes create separate cart lines`.
-- The current worktree still contains local-only board changes plus untracked private/review media and test artifacts. These are intentionally not published unless approved.
+- The current worktree still contains untracked private/review media and test artifacts. These are intentionally not published unless approved.
 - Private/review Mum media and generated screenshots/test artifacts remain unstaged unless explicitly approved.
 
 ## Approval Gates

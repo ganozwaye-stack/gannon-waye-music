@@ -11,14 +11,14 @@ Purpose: move toward Emergent without losing the working Gannon Waye Music site,
 - Current launch staging branch: `launch/gannon-waye-suite-2026-07-29`.
 - Current launch staging PR: `https://github.com/ganozwaye-stack/gannon-waye-music/pull/31`.
 - Current launch staging head and CI status are tracked in PR #31 checkpoint comments.
-- Latest verified launch-code checkpoint before the documentation update: `1017ce79282a493c41e2f5d1bd2553fbd838feba`.
+- Latest verified launch-code checkpoint: `5fa00031931cb6fc1261f4c1a9b75255945c0224`.
 - Detailed parity checklist: `docs/base44-emergent-parity-checklist-2026-07-30.md`.
 - Detailed dropshipping procedure: `docs/micro-brand-dropshipping-procedure-2026-07-30.md`.
 - Current pricing snapshot: `docs/platform-pricing-snapshot-2026-07-30.md`.
 - Previous clean migration branch `upgrade/base44-emergent-migration` remains useful for history, but PR #31 is the current audited launch-control branch.
 - Historical route-integration branch `upgrade/gwm-command-centre-v2` remains open, but is not the clean Base44-to-Emergent merge path because it conflicts broadly with current `main`.
 - Base44 project config exists at `base44/config.jsonc`.
-- Build, lint, direct typecheck, local npm audit, focused Playwright checks, and 8 of 8 GitHub checks passed on the current launch staging head.
+- Build, lint, direct typecheck, local npm audit, focused/commerce Playwright checks, and 4 of 4 GitHub workflow runs passed on the current launch staging head.
 - Base44 remains the live/stability source until an Emergent replacement has feature parity and approval.
 - Emergent must stay separate from Gannon Waye Music checkout, Stripe, supporter identity, and order logic unless a later migration is explicitly approved.
 

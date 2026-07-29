@@ -91,7 +91,7 @@
         <article class="card metric">
           <p class="eyebrow">Clean Core</p>
           <strong class="green">Clean</strong>
-          <span>GitHub Checks API shows 8 of 8 completed successfully; local lint, build, audit, and focused Playwright are green.</span>
+          <span>GitHub workflow runs show 4 of 4 completed successfully on the current PR head; local lint, build, audit, and focused Playwright are green.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Live Changes</p>
@@ -158,7 +158,7 @@
           <ul>
             <li>Mode: safe staging control-room run. I am auditing, documenting, and updating PR #31, not publishing live changes.</li>
             <li>Onscreen board: this local page auto-refreshes every 20 seconds so you can watch checkpoints appear.</li>
-            <li>Active step now: bounded Base44-to-Emergent evidence scan, then update the audit docs only if current evidence is missing or stale.</li>
+            <li>Active step now: holding the green staging PR, keeping evidence current, and waiting for explicit non-production preview approval.</li>
             <li>Allowed now: local repo checks, local browser preview checks, GitHub PR/check inspection, docs/control-board updates, safe commits to the staging PR.</li>
             <li>Held for your approval: hosted preview, production deploy, DNS, Stripe, marketplace, supplier orders, customer emails, Base44 live changes, passwords, 2FA, private memorial uploads, and AI Sonia publication.</li>
             <li>Personal files policy: no deleting personal files; private Mum media and review screenshots stay local and unstaged unless you explicitly approve otherwise.</li>
@@ -200,18 +200,14 @@
           <div class="log">Current verified checkpoint:
 - Branch: launch/gannon-waye-suite-2026-07-29
 - PR: https://github.com/ganozwaye-stack/gannon-waye-music/pull/31
-- Exact head: see the latest PR #31 checkpoint comment
+- Exact head: 5fa00031931cb6fc1261f4c1a9b75255945c0224
 - GitHub PR state: draft/open/mergeable
 
-GitHub checks verified by Checks API: 8 completed successfully:
-- Build & Playwright Tests
-- CodeQL
-- CodeQL Security Scan
-- Lint and build
-- Public routes and store smoke tests
-- Secret Scanning & Credentials Check
-- Security & Coaching Lock Tests
-- Store & Cart Tests
+GitHub workflow runs verified on the current head: 4 completed successfully:
+- Build
+- Playwright
+- Playwright Store Tests
+- All Tests & Compliance Audits
 
 Local passed evidence:
 - direct tsc: exit 0
@@ -238,10 +234,19 @@ Local passed evidence:
   - screenshot pixel diversity check: desktop 777 sampled colors, mobile 829 sampled colors
 - Current-head audit snapshot:
   - docs/current-head-audit-2026-07-30-0351.md
-  - GitHub checks: 8 of 8 green before local audit
+  - Prior GitHub check set was green before local audit; current head now has 4 of 4 workflow runs green
   - local Playwright split audit: 96 passed
   - lint, typecheck, build, and npm audit passed
-- Focused launch smoke Playwright: 72 passed, 1 flaky passed on retry
+- Focused launch smoke Playwright: previous 72 passed record retained; current focused launch-surface smoke loop passed 57 tests cleanly
+- Checkout size-line flake removed:
+  - root cause was test seeding localStorage after cart hydration
+  - commit 5fa0003 seeds before page load with the real hoodie id and size list
+  - targeted size-line test: 1 passed
+  - full checkout spec: 16 passed
+- Fresh commerce lane after checkout test stabilization:
+  - cart/details/customer/shipping: 29 passed
+  - checkout: 16 passed
+  - promo/payment-success: 24 passed, 1 skipped
 - Commerce Playwright: 53 passed, 1 skipped
 - Launch-critical Playwright: 119 passed, 1 skipped
 - Memorial/audio safety Playwright: 16 passed
@@ -256,7 +261,7 @@ Local passed evidence:
 
 Still blocked, watchlisted, or approval-gated:
 - Admin legacy screens use explicit // @ts-nocheck exemptions to avoid risky business-logic edits under launch pressure
-- One checkout Playwright test was flaky but passed on retry: different sizes create separate cart lines
+- Checkout size-line test is no longer listed as flaky after the deterministic test fix in 5fa0003
 - GitHub checks: current exact SHA/status tracked in PR #31 checkpoint comments
 - Mum's Garden Sonia-first update:
   - generic no-Sonia garden-reference images are not used in the launch component
@@ -304,9 +309,10 @@ Still blocked, watchlisted, or approval-gated:
             <li>6. Record the completion matrix in docs and keep this board aligned with it. Done: docs/final-product-completion-audit-2026-07-30.md.</li>
             <li>7. Commit and push only safe tracked hallway/3D code, guardrail tests, docs, and control-board updates to PR #31; keep private media out. Done.</li>
             <li>8. Recheck GitHub after every push and repeat fix/audit until green or clearly approval-blocked. Done for the hallway/3D promotion head; exact SHA is in the latest PR checkpoint comment.</li>
-            <li>9. Run bounded Base44/Emergent evidence scans for current code dependencies, mock flows, checkout/order gaps, and GanozMix marketplace gates. Active now.</li>
-            <li>10. Present the exact approval options, with non-production preview separated from production/DNS/Stripe/marketplace actions. Current next approval is non-production preview only.</li>
-            <li>11. Stop at approval gates until you explicitly approve the next live or private-media action. Holding.</li>
+            <li>9. Run bounded Base44/Emergent evidence scans for current code dependencies, mock flows, checkout/order gaps, and GanozMix marketplace gates. Done.</li>
+            <li>10. Stabilize the checkout size-line audit flake and re-run the commerce lane. Done: checkout 16 passed, commerce slices green.</li>
+            <li>11. Present the exact approval options, with non-production preview separated from production/DNS/Stripe/marketplace actions. Current next approval is non-production preview only.</li>
+            <li>12. Stop at approval gates until you explicitly approve the next live or private-media action. Holding.</li>
           </ul>
         </article>
 
@@ -325,7 +331,7 @@ Still blocked, watchlisted, or approval-gated:
       </section>
 
       <footer>
-        Last updated: 2026-07-30 04:02 AEST. This is a local preview board only.
+        Last updated: 2026-07-30 05:00 AEST. This is a local preview board only.
       </footer>
     </main>
   </body>
