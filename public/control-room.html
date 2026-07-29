@@ -84,7 +84,7 @@
         <article class="card metric">
           <p class="eyebrow">Last Pushed</p>
           <strong>Current PR head</strong>
-          <span>Privacy/checkout guardrails are pushed. GitHub checks are running on the newest launch branch commit.</span>
+          <span>Privacy/checkout guardrails are pushed. GitHub checks are green on the newest launch branch commit.</span>
         </article>
         <article class="card metric">
           <p class="eyebrow">Clean Core</p>
@@ -105,7 +105,7 @@
           <ul>
             <li>PR staging branch is active.</li>
             <li>Homepage/public routes passed launch-critical checks.</li>
-            <li>Final-run document now reflects current evidence.</li>
+            <li>Final-run document and PR checkpoint reflect current evidence.</li>
           </ul>
         </article>
         <article class="card lane">
@@ -119,7 +119,7 @@
           </ul>
         </article>
         <article class="card lane">
-          <span class="state blue">Auditing</span>
+          <span class="state green">Guarded</span>
           <h3>Merch Store</h3>
           <ul>
             <li>Neon store frontage remains at /store.</li>
@@ -138,13 +138,13 @@
           </ul>
         </article>
         <article class="card lane">
-          <span class="state blue">Running</span>
+          <span class="state green">Green</span>
           <h3>GitHub Audit</h3>
           <ul>
             <li>PR #31 is draft/open/mergeable.</li>
             <li>Latest pushed head is the newest launch branch commit.</li>
             <li>Local guardrails passed affected audits.</li>
-            <li>GitHub checks are currently running on the new head.</li>
+            <li>GitHub checks passed on the newest launch branch commit.</li>
           </ul>
         </article>
       </section>
@@ -156,10 +156,9 @@
             <li>Keep the local staging branch healthy: lint, build, npm audit, and route checks.</li>
             <li>Finish split Playwright audit batches instead of one unreliable timeout-heavy run.</li>
             <li>Fix only launch-relevant issues; mark stale tests as stale only when current behavior is correct.</li>
-            <li>Watch the privacy and checkout guardrail commit on PR #31.</li>
-            <li>Fix any new CI/security/audit issue and rerun the affected tests.</li>
-            <li>Update final-run documentation with exact current status and caveats.</li>
-            <li>Update the GitHub PR checkpoint comment with passed/failed/blocked evidence after CI settles.</li>
+            <li>Keep PR #31 as the staging source of truth.</li>
+            <li>Fix any future CI/security/audit issue and rerun the affected tests.</li>
+            <li>Keep final-run documentation and GitHub checkpoint comments current.</li>
             <li>Ask you before any hosted preview, final deployment, DNS, Stripe, marketplace, supplier, email, password, 2FA, or AI Sonia action.</li>
             <li>Keep untracked personal Mum's Garden media and screenshots unstaged unless you approve.</li>
           </ul>
@@ -183,10 +182,11 @@
 - dist output: no private Mum audio or flagged raw memorial media
 - Safety grep: no Sonia voice-note/audio paths remain
 
-Still failing or pending:
+Still failing, blocked, or approval-gated:
 - npm run typecheck remains broad legacy JS/admin typing debt, not clean
-- GitHub checks for 6c3f61e: all passed
-- GitHub checks for the newest launch branch commit: running
+- GitHub checks for the newest launch branch commit: all passed
+- Base44 to Emergent is not parity-proven; keep Base44 live
+- GitHub reports Dependabot warnings on the default branch
 - Production deploy/preview/DNS/Stripe/supplier/AI Sonia actions require approval</div>
         </article>
       </section>
@@ -197,9 +197,9 @@ Still failing or pending:
           <ul>
             <li>1. Keep the control-room page open so you can watch the run.</li>
             <li>2. Commit and push the local guardrail fixes. Done.</li>
-            <li>3. Watch GitHub checks again on the new head. Running now.</li>
-            <li>4. Refresh the final-run documentation and GitHub PR checkpoint with current evidence.</li>
-            <li>5. Ask you for explicit approval before any hosted preview, production deploy, DNS, Stripe, supplier, marketplace, email, or AI Sonia action.</li>
+            <li>3. Watch GitHub checks again on the new head. Done: all green.</li>
+            <li>4. Refresh the final-run documentation and GitHub PR checkpoint with current evidence. Done.</li>
+            <li>5. Ask you for explicit approval before any hosted preview, production deploy, DNS, Stripe, supplier, marketplace, email, or AI Sonia action. Still required.</li>
           </ul>
         </article>
 
