@@ -40,6 +40,7 @@ The latest pushed staging candidate is PR #31. Exact current head and CI status 
 - Updated Mum's Garden entrance so the launch component is Sonia-first, uses Sonia-present/family/single-artwork assets, does not use generic no-Sonia garden-reference images, and keeps the single artwork cover as a top-section feature.
 - Added the micro-brand dropshipping approval-only procedure at `docs/micro-brand-dropshipping-procedure-2026-07-30.md`.
 - Added the Base44-to-Emergent parity checklist at `docs/base44-emergent-parity-checklist-2026-07-30.md`.
+- Added the current platform pricing decision snapshot at `docs/platform-pricing-snapshot-2026-07-30.md`.
 
 ## Audit Evidence
 
@@ -216,6 +217,8 @@ This procedure remains approval-only until supplier, marketplace, payments, fulf
 ## Base44 To Emergent Staging Path
 
 Detailed parity checklist: `docs/base44-emergent-parity-checklist-2026-07-30.md`.
+
+Pricing snapshot: `docs/platform-pricing-snapshot-2026-07-30.md`.
 
 Migration is not parity-proven yet.
 

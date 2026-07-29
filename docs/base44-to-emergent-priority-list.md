@@ -14,6 +14,7 @@ Purpose: move toward Emergent without losing the working Gannon Waye Music site,
 - Latest verified launch-code checkpoint before the documentation update: `1017ce79282a493c41e2f5d1bd2553fbd838feba`.
 - Detailed parity checklist: `docs/base44-emergent-parity-checklist-2026-07-30.md`.
 - Detailed dropshipping procedure: `docs/micro-brand-dropshipping-procedure-2026-07-30.md`.
+- Current pricing snapshot: `docs/platform-pricing-snapshot-2026-07-30.md`.
 - Previous clean migration branch `upgrade/base44-emergent-migration` remains useful for history, but PR #31 is the current audited launch-control branch.
 - Historical route-integration branch `upgrade/gwm-command-centre-v2` remains open, but is not the clean Base44-to-Emergent merge path because it conflicts broadly with current `main`.
 - Base44 project config exists at `base44/config.jsonc`.
