@@ -58,7 +58,7 @@ export function InfoTooltip({ text }) {
 }
 
 // ─── KPI Card ──────────────────────────────────────────────────────────────
-export function KpiCard({ icon: Icon, label, value, sublabel, path, tooltip, level }) {
+export function KpiCard({ icon: Icon, label, value, sublabel = '', path = '', tooltip = '', level = '' }) {
   const content = (
     <div className="group flex items-center gap-4 border border-border/50 rounded-xl px-5 py-4 hover:border-primary/40 transition-all bg-card/40 hover:bg-card/60">
       <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
@@ -80,7 +80,7 @@ export function KpiCard({ icon: Icon, label, value, sublabel, path, tooltip, lev
 }
 
 // ─── Section Card ───────────────────────────────────────────────────────────
-export function SectionCard({ title, actionLabel, actionPath, children, count }) {
+export function SectionCard({ title, actionLabel = '', actionPath = '', children = null, count = null }) {
   return (
     <div className="border border-border/40 rounded-xl bg-card/30 overflow-hidden">
       <div className="flex items-center justify-between px-5 py-3.5 border-b border-border/30">
@@ -110,7 +110,7 @@ export function LoadingState({ label = 'Loading…' }) {
 }
 
 // ─── Empty State ───────────────────────────────────────────────────────────
-export function EmptyState({ message = 'Nothing here yet.', icon: Icon }) {
+export function EmptyState({ message = 'Nothing here yet.', icon: Icon = null }) {
   return (
     <div className="px-4 py-6 text-center">
       {Icon ? <Icon className="w-5 h-5 text-muted-foreground/40 mx-auto mb-2" /> : null}
@@ -130,14 +130,15 @@ export function ErrorState({ message = 'Unable to load this data.' }) {
 }
 
 // ─── Row Item (clickable) ──────────────────────────────────────────────────
-export function RowItem({ title, subtitle, status, statusLevel, path, action }) {
+export function RowItem({ title, subtitle = '', status = '', statusLevel = 'grey', level = '', path = '', action = '' }) {
+  const displayLevel = statusLevel || level || 'grey';
   const content = (
     <div className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-secondary/30 transition-colors group">
       <div className="flex-1 min-w-0">
         <p className="text-sm text-foreground/80 truncate">{title}</p>
         {subtitle && <p className="text-[10px] text-muted-foreground/50 truncate">{subtitle}</p>}
       </div>
-      {status && <StatusBadge label={status} level={statusLevel} />}
+      {status && <StatusBadge label={status} level={displayLevel} />}
       {action && (
         <span className="text-[10px] text-primary border border-primary/30 rounded px-2 py-0.5 group-hover:bg-primary/10 transition-colors">{action}</span>
       )}

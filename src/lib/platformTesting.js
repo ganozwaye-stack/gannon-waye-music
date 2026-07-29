@@ -295,7 +295,7 @@ const testEmailIntegration = async () => {
   
   try {
     // Check if Gmail connector is authorized
-    const { gmail } = await base44.asServiceRole.connectors.getConnection('gmail');
+    await base44.asServiceRole.connectors.getConnection('gmail');
     
     test.result = TEST_RESULTS.PASS;
     test.details = {
@@ -353,7 +353,7 @@ const testSheetsSync = async () => {
   
   try {
     // Check if Google Sheets connector is authorized
-    const { googlesheets } = await base44.asServiceRole.connectors.getConnection('googlesheets');
+    await base44.asServiceRole.connectors.getConnection('googlesheets');
     
     test.result = TEST_RESULTS.PASS;
     test.details = {

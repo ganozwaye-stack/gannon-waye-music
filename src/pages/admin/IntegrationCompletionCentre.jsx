@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { AlertTriangle, ArrowLeft, CheckCircle2, ClipboardList, ExternalLink, Lock, PlayCircle, RefreshCw, Shield, Wrench, Zap } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
-const PLATFORMS = [
+const PLATFORMS = /** @type {any[]} */ ([
   ['Stripe', 'payments', 'Revenue Critical', 'Revenue Command Agent', 'Connected', 'Payment processing, checkout sessions, refunds, subscriptions.', 'Can spend money or change payment state. Approval required for refunds/settings.', ['STRIPE_SECRET_KEY', 'STRIPE_PUBLISHABLE_KEY']],
   ['Stripe Webhooks', 'payments', 'Revenue Critical', 'Revenue Command Agent', 'Needs Credential', 'Confirms payments, refunds, disputes, subscriptions, and order status.', 'Requires STRIPE_WEBHOOK_SECRET from Stripe. Endpoint must not use admin auth.', ['STRIPE_WEBHOOK_SECRET']],
   ['Order Reports', 'payments', 'Revenue Critical', 'Revenue Command Agent', 'Ready To Test', 'Exports and reconciles order records for fulfilment and reporting.', 'Safe to test with existing orders.', []],
@@ -47,13 +47,16 @@ const PLATFORMS = [
   ['Facetune', 'creative', 'Manual Only', 'Creative Studio Agent', 'Manual Only', 'Merchandise portrait touching and cover artwork adjustments.', 'Manual application only; no public automation API available.', []],
   ['Adobe Photoshop', 'creative', 'Manual Action Required', 'Creative Studio Agent', 'Needs Credential', 'Generative fill, asset layering, background removal, and print-ready formats.', 'Requires Adobe Creative Cloud developer credentials or manual export workflows.', ['ADOBE_CC_CLIENT_ID', 'ADOBE_CC_CLIENT_SECRET']],
   ['DaVinci Resolve', 'creative', 'Manual Only', 'Creative Studio Agent', 'Manual Only', 'High-end color grading and final cut rendering for cinematic YouTube content.', 'Local editing workflow. Project assets stored and synced through Google Drive agent.', []],
-].map(([name, category, impact, agent, status, unlocks, risk, credentials]) => ({
+].map((row) => {
+  const [name, category, impact, agent, status, unlocks, risk, credentials] = /** @type {any[]} */ (row);
+  return {
   name, category, impact, agent, status, unlocks, risk, credentials,
   canSpendMoney: /Stripe|Runway|OpusClip|ElevenLabs|Cloudflare|Ads|OpenAI|ManyChat|Adobe/.test(name),
   canPublishPublicly: /TikTok|Instagram|Facebook|YouTube|Canva|Discord|ManyChat/.test(name),
   requiresApproval: /Stripe|Cloudflare|TikTok|Instagram|Facebook|OpusClip|Runway|ElevenLabs|OpenAI|ManyChat|Discord|Adobe/.test(name),
   requiresOAuth: /Google|Gmail|Instagram|Facebook|YouTube|TikTok|Canva|Slack|Discord|Adobe/.test(name),
   manualOnly: status === 'Manual Only',
+  };
 }));
 
 const TABS = [
@@ -90,7 +93,7 @@ export default function IntegrationCompletionCentre() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [params, setParams] = useSearchParams();
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(/** @type {any} */ (null));
   const activeTab = params.get('tab') || 'High Priority';
 
   const { data: saved = [], refetch } = useQuery({
@@ -223,15 +226,18 @@ export default function IntegrationCompletionCentre() {
           ['Needs Credentials', counts['Needs Credential'], 'text-yellow-400', Lock],
           ['Ready To Test', counts['Ready To Test'], 'text-blue-400', Wrench],
           ['Connected', counts.Connected, 'text-green-400', CheckCircle2],
-        ].map(([label, value, color, Icon]) => (
-          <Card key={label} className="cursor-pointer hover:border-primary/40" onClick={() => setParams({ tab: label === 'Needs Credentials' ? 'Needs Credential' : label })}>
-            <CardContent className="p-4">
-              <Icon className={`w-5 h-5 ${color}`} />
-              <p className={`text-2xl font-bold mt-2 ${color}`}>{value}</p>
-              <p className="text-xs text-muted-foreground">{label}</p>
-            </CardContent>
-          </Card>
-        ))}
+        ].map((row) => {
+          const [label, value, color, Icon] = /** @type {any[]} */ (row);
+          return (
+            <Card key={label} className="cursor-pointer hover:border-primary/40" onClick={() => setParams({ tab: label === 'Needs Credentials' ? 'Needs Credential' : label })}>
+              <CardContent className="p-4">
+                <Icon className={`w-5 h-5 ${color}`} />
+                <p className={`text-2xl font-bold mt-2 ${color}`}>{value}</p>
+                <p className="text-xs text-muted-foreground">{label}</p>
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
       <div className="flex flex-wrap gap-2">

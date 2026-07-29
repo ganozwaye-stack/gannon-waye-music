@@ -15,7 +15,7 @@ const CAPS = [
 
 export default function SetupAIKeysFlow({ onComplete, onBlocked }) {
   const [phase, setPhase] = useState('caps');
-  const [caps, setCaps] = useState({});
+  const [caps, setCaps] = useState(/** @type {Record<string, string>} */ ({}));
   const [hardStop, setHardStop] = useState(true);
   const [requireApproval, setRequireApproval] = useState(true);
   const [openaiSaved, setOpenaiSaved] = useState(false);

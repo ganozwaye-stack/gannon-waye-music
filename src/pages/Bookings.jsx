@@ -42,7 +42,7 @@ export default function Bookings() {
   const { toast } = useToast();
   const [step, setStep] = useState(1);
   const [uploading, setUploading] = useState(false);
-  const [form, setForm] = useState({
+  const [form, setForm] = useState(/** @type {any} */ ({
     full_name: '',
     company_venue: '',
     email: '',
@@ -58,7 +58,7 @@ export default function Bookings() {
     social_links: [],
     referral_source: '',
     attachment_urls: [],
-  });
+  }));
 
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
@@ -66,7 +66,7 @@ export default function Bookings() {
 
     setUploading(true);
     try {
-      const result = await base44.integrations.Core.UploadFile({ file });
+      const result = /** @type {any} */ (await base44.integrations.Core.UploadFile({ file }));
       setForm({ ...form, attachment_urls: [...form.attachment_urls, result.file_url] });
       toast({ title: 'File uploaded successfully' });
     } catch (error) {
@@ -85,10 +85,10 @@ export default function Bookings() {
     }
   };
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState(/** @type {Record<string, string>} */ ({}));
 
   const validate = () => {
-    const e = {};
+    const e = /** @type {Record<string, string>} */ ({});
     if (!form.full_name.trim()) e.full_name = 'Full name is required';
     if (!form.email.trim()) e.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email address';
@@ -416,13 +416,14 @@ export default function Bookings() {
                     onKeyDown={e => {
                       if (e.key === 'Enter') {
                         e.preventDefault();
-                        addSocialLink(e.target.value);
-                        e.target.value = '';
+                        const input = /** @type {HTMLInputElement} */ (e.currentTarget);
+                        addSocialLink(input.value);
+                        input.value = '';
                       }
                     }}
                   />
                   <Button type="button" variant="outline" size="sm" onClick={() => {
-                    const input = document.querySelector('input[placeholder="https://instagram.com/yourprofile"]');
+                    const input = /** @type {HTMLInputElement | null} */ (document.querySelector('input[placeholder="https://instagram.com/yourprofile"]'));
                     if (input?.value) {
                       addSocialLink(input.value);
                       input.value = '';

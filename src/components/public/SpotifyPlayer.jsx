@@ -32,7 +32,7 @@ export default function SpotifyPlayer({ spotifyLink, fallbackUrl, height = 352, 
         width="100%"
         height={height}
         frameBorder="0"
-        allowFullScreen=""
+        allowFullScreen
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       />

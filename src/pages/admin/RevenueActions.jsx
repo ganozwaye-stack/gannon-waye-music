@@ -30,7 +30,7 @@ const STATUS_COLORS = {
 function ProposalDetailModal({ proposal, onClose, onAction }) {
   const [note, setNote] = useState('');
   const [editMode, setEditMode] = useState(false);
-  const [edits, setEdits] = useState({});
+  const [edits, setEdits] = useState(/** @type {Record<string, any>} */ ({}));
   const [acting, setActing] = useState(false);
 
   const handleAction = async (action) => {
@@ -219,7 +219,7 @@ function ProposalDetailModal({ proposal, onClose, onAction }) {
   );
 }
 
-function Section({ label, content, mono }) {
+function Section({ label, content, mono = false }) {
   return (
     <div>
       <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">{label}</p>
@@ -228,7 +228,7 @@ function Section({ label, content, mono }) {
   );
 }
 
-function PriceCard({ label, value, highlight }) {
+function PriceCard({ label, value, highlight = false }) {
   return (
     <div className={`rounded-lg p-3 ${highlight ? 'bg-primary/10 border border-primary/30' : 'bg-secondary/30'}`}>
       <p className="text-xs text-muted-foreground mb-0.5">{label}</p>
@@ -240,7 +240,7 @@ function PriceCard({ label, value, highlight }) {
 export default function RevenueActions() {
   const navigate = useNavigate();
   const qc = useQueryClient();
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState(/** @type {any} */ (null));
   const [scanning, setScanning] = useState(false);
   const [tab, setTab] = useState('pending');
 
@@ -383,7 +383,7 @@ export default function RevenueActions() {
   );
 }
 
-function ProposalCard({ proposal: p, onClick, urgent }) {
+function ProposalCard({ proposal: p, onClick, urgent = false }) {
   return (
     <button onClick={onClick} className={`w-full text-left border rounded-xl p-4 hover:border-primary/40 hover:bg-secondary/20 transition-all group ${urgent ? 'border-yellow-500/30 bg-yellow-500/3' : 'border-border'}`}>
       <div className="flex items-start justify-between gap-3">
@@ -440,7 +440,7 @@ function BundleCard({ bundle: b }) {
   );
 }
 
-function StatCard({ label, value, color, bg, urgent }) {
+function StatCard({ label, value, color, bg, urgent = false }) {
   return (
     <Card className={urgent && value > 0 ? 'border-yellow-500/30' : ''}>
       <CardContent className="p-4 flex items-center gap-3">

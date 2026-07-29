@@ -19,8 +19,8 @@ export default function MerchFinancials() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [editForm, setEditForm] = useState({});
+  const [selectedProduct, setSelectedProduct] = useState(/** @type {any} */ (null));
+  const [editForm, setEditForm] = useState(/** @type {Record<string, any>} */ ({}));
   const [bulkEditMode, setBulkEditMode] = useState(false);
 
   const { data: products } = useQuery({

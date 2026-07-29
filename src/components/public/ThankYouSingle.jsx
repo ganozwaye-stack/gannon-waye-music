@@ -26,7 +26,7 @@ export default function ThankYouSingle() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', how_found: '' });
   const [signupDone, setSignupDone] = useState(false);
   const [signupLoading, setSignupLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({ name: false, email: false, phone: false, how_found: false });
 
   const set = (field, val) => {
     setForm(f => ({ ...f, [field]: val }));
@@ -38,7 +38,7 @@ export default function ThankYouSingle() {
     const errs = {};
     if (!form.name.trim()) errs.name = true;
     if (!form.email.trim() || !form.email.includes('@')) errs.email = true;
-    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    if (Object.keys(errs).length > 0) { setErrors(current => ({ ...current, ...errs })); return; }
     setSignupStep(2);
   };
 
@@ -47,7 +47,7 @@ export default function ThankYouSingle() {
     const errs = {};
     if (!form.phone.trim()) errs.phone = true;
     if (!form.how_found) errs.how_found = true;
-    if (Object.keys(errs).length > 0) { setErrors(errs); return; }
+    if (Object.keys(errs).length > 0) { setErrors(current => ({ ...current, ...errs })); return; }
     setSignupLoading(true);
     try {
       await base44.entities.EmailSubscriber.create({ name: form.name, email: form.email, phone: form.phone, how_found: form.how_found });
@@ -124,7 +124,7 @@ export default function ThankYouSingle() {
                   width="100%"
                   height="352"
                   frameBorder="0"
-                  allowFullScreen=""
+                  allowFullScreen
                   allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                   loading="lazy"
                 />

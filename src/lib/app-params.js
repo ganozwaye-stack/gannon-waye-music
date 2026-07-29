@@ -1,8 +1,13 @@
 const isNode = typeof window === 'undefined';
 const windowObj = isNode ? { localStorage: new Map() } : window;
 const storage = windowObj.localStorage;
+const storageApi = /** @type {any} */ (storage);
 const DEFAULT_BASE44_APP_ID = '69eb7905ca6eb4180010f794';
 const DEFAULT_APP_BASE_URL = 'https://gannonwaye.com';
+
+const getStorageValue = (key) => (typeof storageApi.getItem === 'function' ? storageApi.getItem(key) : storageApi.get(key));
+const setStorageValue = (key, value) => (typeof storageApi.setItem === 'function' ? storageApi.setItem(key, value) : storageApi.set(key, value));
+const removeStorageValue = (key) => (typeof storageApi.removeItem === 'function' ? storageApi.removeItem(key) : storageApi.delete(key));
 
 const toSnakeCase = (str) => {
 	return str.replace(/([A-Z])/g, '_$1').toLowerCase();
@@ -22,14 +27,14 @@ const getAppParamValue = (paramName, { defaultValue = undefined, removeFromUrl =
 		window.history.replaceState({}, document.title, newUrl);
 	}
 	if (searchParam) {
-		storage.setItem(storageKey, searchParam);
+		setStorageValue(storageKey, searchParam);
 		return searchParam;
 	}
 	if (defaultValue) {
-		storage.setItem(storageKey, defaultValue);
+		setStorageValue(storageKey, defaultValue);
 		return defaultValue;
 	}
-	const storedValue = storage.getItem(storageKey);
+	const storedValue = getStorageValue(storageKey);
 	if (storedValue) {
 		return storedValue;
 	}
@@ -38,8 +43,8 @@ const getAppParamValue = (paramName, { defaultValue = undefined, removeFromUrl =
 
 const getAppParams = () => {
 	if (getAppParamValue("clear_access_token") === 'true') {
-		storage.removeItem('base44_access_token');
-		storage.removeItem('token');
+		removeStorageValue('base44_access_token');
+		removeStorageValue('token');
 	}
 	return {
 		appId: getAppParamValue("app_id", { defaultValue: import.meta.env.VITE_BASE44_APP_ID || DEFAULT_BASE44_APP_ID }),

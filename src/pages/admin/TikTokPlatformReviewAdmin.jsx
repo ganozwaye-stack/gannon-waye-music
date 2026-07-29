@@ -14,7 +14,7 @@ const EXPECTED_REDIRECT = 'https://gannonwaye.com/tiktok-callback';
 const EXPECTED_SCOPES = 'user.info.basic,video.upload';
 const EXPECTED_ENDPOINT = 'https://www.tiktok.com/v2/auth/authorize/';
 
-function DiagRow({ label, value, ok, warn, mono = true }) {
+function DiagRow({ label, value, ok, warn = '', mono = true }) {
   const color = ok === true ? 'text-green-400' : ok === false ? 'text-red-400' : 'text-amber-400';
   const dot = ok === true ? 'bg-green-400' : ok === false ? 'bg-red-400' : 'bg-amber-400';
   return (
@@ -44,12 +44,12 @@ const PORTAL_CHECKS = [
 ];
 
 export default function TikTokPlatformReviewAdmin() {
-  const [diag, setDiag] = useState(null);
-  const [status, setStatus] = useState(null);
-  const [authUrl, setAuthUrl] = useState(null);
+  const [diag, setDiag] = useState(/** @type {any} */ (null));
+  const [status, setStatus] = useState(/** @type {any} */ (null));
+  const [authUrl, setAuthUrl] = useState(/** @type {any} */ (null));
   const [loading, setLoading] = useState(false);
   const [connecting, setConnecting] = useState(false);
-  const [checks, setChecks] = useState({});
+  const [checks, setChecks] = useState(/** @type {Record<string, boolean>} */ ({}));
   const [appMode, setAppMode] = useState('');
   const [lastError, setLastError] = useState({ error_type: '', logid: '' });
   const [copied, setCopied] = useState(false);
@@ -62,12 +62,15 @@ export default function TikTokPlatformReviewAdmin() {
         base44.functions.invoke('tiktokOAuth', { action: 'get_status' }),
         base44.functions.invoke('tiktokOAuth', { action: 'get_auth_url' }),
       ]);
-      setDiag(diagRes.data);
-      setStatus(statusRes.data);
+      const diagnostics = /** @type {any} */ (diagRes.data);
+      const connectionStatus = /** @type {any} */ (statusRes.data);
+      const authResponse = /** @type {any} */ (urlRes.data);
+      setDiag(diagnostics);
+      setStatus(connectionStatus);
       // Parse auth_url to extract live client_key from OAuth URL
-      if (urlRes.data?.url) {
+      if (authResponse?.url) {
         try {
-          const p = Object.fromEntries(new URL(urlRes.data.url).searchParams);
+          const p = Object.fromEntries(new URL(authResponse.url).searchParams.entries());
           setAuthUrl(p);
         } catch (_) {}
       }

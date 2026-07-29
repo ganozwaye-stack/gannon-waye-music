@@ -34,14 +34,14 @@ export default function StoreWorldHotspot({ product, onOpenModal }) {
         e.currentTarget.style.borderColor = 'rgba(212,175,55,0.85)';
         e.currentTarget.style.background = 'rgba(212,175,55,0.08)';
         e.currentTarget.style.boxShadow = '0 0 28px rgba(212,175,55,0.35)';
-        const label = e.currentTarget.querySelector('.hotspot-label');
+        const label = /** @type {HTMLElement | null} */ (e.currentTarget.querySelector('.hotspot-label'));
         if (label) label.style.opacity = '1';
       }}
       onMouseLeave={(e) => {
         e.currentTarget.style.borderColor = 'transparent';
         e.currentTarget.style.background = 'transparent';
         e.currentTarget.style.boxShadow = 'none';
-        const label = e.currentTarget.querySelector('.hotspot-label');
+        const label = /** @type {HTMLElement | null} */ (e.currentTarget.querySelector('.hotspot-label'));
         if (label) label.style.opacity = '0';
       }}
     >

@@ -224,7 +224,7 @@ export default function ExecutiveFinancialSummary({ orders, products, contributi
   );
 }
 
-function KpiCard({ icon: Icon, label, value, subtext, positive }) {
+function KpiCard({ icon: Icon, label, value, subtext, positive = null }) {
   const valueColor = positive === true ? 'text-green-400' : positive === false ? 'text-red-400' : 'text-foreground';
   return (
     <div className="bg-background/40 rounded-xl p-4 border border-border/20">

@@ -196,7 +196,7 @@ function PostDetailModal({ post, onClose, onApprove, onReject }) {
   );
 }
 
-function Field({ label, value, large }) {
+function Field({ label, value, large = false }) {
   return (
     <div className="bg-secondary/30 border border-border/30 rounded-xl p-4">
       <div className="flex items-center justify-between mb-2">
@@ -214,9 +214,9 @@ export default function ReleaseSprint() {
   const [generating, setGenerating] = useState(false);
   const [generatingDay, setGeneratingDay] = useState(null);
   const [expandedDay, setExpandedDay] = useState(1);
-  const [selectedPost, setSelectedPost] = useState(null);
-  const [lastGenResult, setLastGenResult] = useState(null);
-  const [genError, setGenError] = useState(null);
+  const [selectedPost, setSelectedPost] = useState(/** @type {any} */ (null));
+  const [lastGenResult, setLastGenResult] = useState(/** @type {any} */ (null));
+  const [genError, setGenError] = useState(/** @type {any} */ (null));
   const [showDiag, setShowDiag] = useState(false);
   const [seeding, setSeeding] = useState(false);
   const [sessionInfo, setSessionInfo] = useState({ checked: false, authenticated: false, isAdmin: false, email: '' });
@@ -228,7 +228,7 @@ export default function ReleaseSprint() {
       .catch(() => setSessionInfo({ checked: true, authenticated: false, isAdmin: false, email: '' }));
   }, []);
 
-  const daysLeft = Math.max(0, Math.ceil((RELEASE_DATE - new Date()) / (1000 * 60 * 60 * 24)));
+  const daysLeft = Math.max(0, Math.ceil((RELEASE_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ['sprint-posts'],

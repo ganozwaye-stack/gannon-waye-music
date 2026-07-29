@@ -34,10 +34,10 @@ const STATUS_COLORS = {
 
 export default function LyricsArchive() {
   const queryClient = useQueryClient();
-  const [editing, setEditing] = useState(null);
+  const [editing, setEditing] = useState(/** @type {any} */ (null));
   const [activeTab, setActiveTab] = useState('all');
   const [search, setSearch] = useState('');
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState(/** @type {Record<string, any>} */ ({}));
 
   const { data: lyrics = [] } = useQuery({
     queryKey: ['lyrics'],

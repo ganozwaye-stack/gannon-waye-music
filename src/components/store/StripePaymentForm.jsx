@@ -188,7 +188,7 @@ export default function StripePaymentForm({ amount, customerEmail, customerName,
     );
   }
 
-  const appearance = {
+  const appearance = /** @type {const} */ ({
     theme: 'night',
     variables: {
       colorPrimary: '#c9a84c',
@@ -198,11 +198,11 @@ export default function StripePaymentForm({ amount, customerEmail, customerName,
       fontFamily: 'Inter, sans-serif',
       borderRadius: '8px',
     },
-  };
+  });
 
   return (
     <Elements stripe={stripeInstance} options={{ clientSecret, appearance }}>
-      <PaymentForm total={amount} mode={mode} onSuccess={onSuccess} onError={onError} promoCode={promoCode} />
+      <PaymentForm total={amount} mode={mode} onSuccess={onSuccess} onError={onError} />
     </Elements>
   );
 }

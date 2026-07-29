@@ -27,9 +27,16 @@ if (isLocal || token === 'mock-admin-token') {
     if (currentToken === 'mock-admin-token') {
       return {
         id: 'mock-admin-id',
+        created_date: '2026-01-01T00:00:00.000Z',
+        updated_date: '2026-01-01T00:00:00.000Z',
         email: 'admin@gannonwaye.com',
-        role: 'admin',
         full_name: 'Gannon Admin',
+        disabled: false,
+        is_verified: true,
+        app_id: appId,
+        is_service: false,
+        _app_role: 'admin',
+        role: 'admin',
       };
     }
     return null;

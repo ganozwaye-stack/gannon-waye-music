@@ -9,7 +9,7 @@ export default function EpisodeNotifyModal({ episode, onClose }) {
   const [form, setForm] = useState({ name: '', email: '' });
   const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({ name: false, email: false });
 
   const handleSubmit = async (e) => {
     e.preventDefault();

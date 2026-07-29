@@ -48,7 +48,8 @@ function CopyBtn({ text, label = 'Copy' }) {
 }
 
 function ResultSection({ data, platform }) {
-  const [expanded, setExpanded] = useState({});
+  const output = /** @type {Record<string, string>} */ (data || {});
+  const [expanded, setExpanded] = useState(/** @type {Record<string, boolean>} */ ({}));
   const toggle = k => setExpanded(e => ({ ...e, [k]: !e[k] }));
 
   const fields = [
@@ -66,18 +67,18 @@ function ResultSection({ data, platform }) {
   return (
     <div className="space-y-2">
       {/* Metricool export — top of results */}
-      {data.metricool_export && (
+      {output.metricool_export && (
         <div className="bg-primary/5 border border-primary/30 rounded-xl p-4">
           <div className="flex items-center justify-between mb-2">
             <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary font-semibold">📋 Metricool Ready Export</p>
-            <CopyBtn text={data.metricool_export} label="Copy for Metricool" />
+            <CopyBtn text={output.metricool_export} label="Copy for Metricool" />
           </div>
-          <pre className="font-body text-sm text-foreground/85 whitespace-pre-wrap leading-relaxed">{data.metricool_export}</pre>
+          <pre className="font-body text-sm text-foreground/85 whitespace-pre-wrap leading-relaxed">{output.metricool_export}</pre>
         </div>
       )}
 
       {fields.map(f => {
-        const val = data[f.key];
+        const val = output[f.key];
         if (!val) return null;
         const long = val.length > 200;
         const isExpanded = expanded[f.key];
@@ -126,7 +127,7 @@ export default function SocialPostFactory() {
     const isReleaseDay = parseInt(sprintDay) === 11;
 
     const RELEASE_DATE = new Date('2026-06-05');
-    const daysLeft = Math.max(0, Math.ceil((RELEASE_DATE - new Date()) / (1000 * 60 * 60 * 24)));
+    const daysLeft = Math.max(0, Math.ceil((RELEASE_DATE.getTime() - Date.now()) / (1000 * 60 * 60 * 24)));
 
     const readyAssets = assets.filter(a => !a.sprint_day || a.sprint_day === parseInt(sprintDay));
     const assetContext = readyAssets.length > 0
@@ -161,7 +162,7 @@ Return JSON:
 }`;
 
     try {
-      const res = await base44.integrations.Core.InvokeLLM({
+      const res = /** @type {any} */ (await base44.integrations.Core.InvokeLLM({
         prompt,
         response_json_schema: {
           type: 'object',
@@ -173,7 +174,7 @@ Return JSON:
             metricool_export: { type: 'string' }, content_notes: { type: 'string' }
           }
         }
-      });
+      }));
 
       setResult(res);
 

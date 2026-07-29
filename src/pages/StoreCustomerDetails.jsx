@@ -20,7 +20,14 @@ const COUNTRIES = [
 
 const AU_STATES = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'];
 
-function Field({ label, required, error, children }) {
+const EMPTY_CUSTOMER_DETAILS = {
+  full_name: '', email: '', mobile: '',
+  street_address: '', suburb: '', state: '', postcode: '', country: 'Australia',
+  dob: '', business_name: '', abn: '',
+  order_only: true, subscribe_community: false,
+};
+
+function Field({ label, required = false, error = null, children }) {
   return (
     <div>
       <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">
@@ -40,18 +47,13 @@ export default function StoreCustomerDetails() {
   const [form, setForm] = useState(() => {
     try {
       const saved = localStorage.getItem(DETAILS_KEY);
-      if (saved) return JSON.parse(saved);
+      if (saved) return { ...EMPTY_CUSTOMER_DETAILS, ...JSON.parse(saved) };
     } catch {}
-    return {
-      full_name: '', email: '', mobile: '',
-      street_address: '', suburb: '', state: '', postcode: '', country: 'Australia',
-      dob: '', business_name: '', abn: '',
-      order_only: true, subscribe_community: false,
-    };
+    return EMPTY_CUSTOMER_DETAILS;
   });
 
-  const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({});
+  const [errors, setErrors] = useState(/** @type {Record<string, string>} */ ({}));
+  const [touched, setTouched] = useState(/** @type {Record<string, boolean>} */ ({}));
 
   const [hasHydrated, setHasHydrated] = useState(false);
   useEffect(() => {
@@ -72,7 +74,7 @@ export default function StoreCustomerDetails() {
   };
 
   const validate = () => {
-    const e = {};
+    const e = /** @type {Record<string, string>} */ ({});
     if (!form.full_name.trim()) e.full_name = 'Full name is required';
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Valid email is required';
     if (!form.mobile.trim() || !/^[\d\s\+\-\(\)]{7,16}$/.test(form.mobile.replace(/\s/g, ''))) e.mobile = 'Valid mobile number is required';

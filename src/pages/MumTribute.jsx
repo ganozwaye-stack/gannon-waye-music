@@ -1188,7 +1188,7 @@ function MemoryLaneJourneyCard({ photo, index, onOpen, side = 'left', compact = 
   );
 }
 
-function MemoryLaneCenterMoment({ eyebrow, title, body, quote, image }) {
+function MemoryLaneCenterMoment({ eyebrow, title, body, quote = '', image }) {
   return (
     <motion.div
       className="relative overflow-hidden rounded-[1.7rem] border border-[#d4af37]/14 bg-[#071007]/62 p-5 shadow-[0_24px_78px_rgba(0,0,0,0.35)] backdrop-blur-md"
@@ -1754,7 +1754,7 @@ function MemoryGuestbook() {
 
     try {
       if (form.file && base44?.integrations?.Core?.UploadFile) {
-        const uploaded = await base44.integrations.Core.UploadFile({ file: form.file });
+        const uploaded = /** @type {any} */ (await base44.integrations.Core.UploadFile({ file: form.file }));
         fileUrl = uploaded?.file_url || uploaded?.url || uploaded?.data?.file_url || '';
       }
     } catch (error) {
@@ -2243,7 +2243,7 @@ export default function MumTribute({ mode = 'foyer' }) {
             </p>
           </SectionHeading>
           <YoungerYearsTribute onOpen={(photo) => openDrawer('photo', photo)} />
-          <CapturedSlideshow onOpen={(photo) => openDrawer('photo', photo)} />
+          <CapturedSlideshow />
           <PhotoGarden
             onOpen={(photo) => openDrawer('photo', photo)}
             onOpenLyrics={() => openDrawer('lyric', LYRIC_MOMENTS[0])}

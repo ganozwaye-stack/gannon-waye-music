@@ -30,7 +30,7 @@ function StatusBadge({ status }) {
   );
 }
 
-function RouteRow({ label, path, status, note, external }) {
+function RouteRow({ label, path = '', status, note = '', external = false }) {
   return (
     <div className="flex items-center justify-between gap-3 py-2 border-b border-border/20 last:border-0">
       <div className="flex-1 min-w-0">
@@ -284,7 +284,7 @@ export default function MasterBlueprint() {
 
   const pendingPosts = sprintPosts.filter(p => p.status === 'pending_approval').length;
   const approvedPosts = sprintPosts.filter(p => ['approved', 'scheduled', 'posted'].includes(p.status)).length;
-  const daysToRelease = Math.max(0, Math.ceil((new Date('2026-06-05T00:00:00+10:00') - new Date()) / 86400000));
+  const daysToRelease = Math.max(0, Math.ceil((new Date('2026-06-05T00:00:00+10:00').getTime() - Date.now()) / 86400000));
 
   return (
     <div className="space-y-6 pb-16">

@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 
 // Tile component
-function DashTile({ to, label, value, sub, icon: Icon, color = 'gold', urgent = false, onClick }) {
+function DashTile({ to, label, value, sub, icon: Icon, color = 'gold', urgent = false, onClick = null }) {
   const colorMap = {
     gold: { bg: 'rgba(212,175,55,0.08)', border: 'rgba(212,175,55,0.25)', val: '#D4AF37', icon: 'rgba(212,175,55,0.7)' },
     red: { bg: 'rgba(239,68,68,0.08)', border: 'rgba(239,68,68,0.3)', val: '#f87171', icon: 'rgba(239,68,68,0.7)' },
@@ -24,8 +24,8 @@ function DashTile({ to, label, value, sub, icon: Icon, color = 'gold', urgent = 
     muted: { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.08)', val: '#9ca3af', icon: 'rgba(156,163,175,0.6)' },
   };
   const c = colorMap[color] || colorMap.gold;
-  const Wrapper = to ? Link : 'div';
-  const wrapperProps = to ? { to } : onClick ? { onClick, role: 'button', style: { cursor: 'pointer' } } : {};
+  const Wrapper = /** @type {any} */ (to ? Link : 'div');
+  const wrapperProps = /** @type {any} */ (to ? { to } : onClick ? { onClick, role: 'button', style: { cursor: 'pointer' } } : {});
 
   return (
     <Wrapper
@@ -47,7 +47,7 @@ function DashTile({ to, label, value, sub, icon: Icon, color = 'gold', urgent = 
 }
 
 // Priority task row
-function PriorityRow({ num, label, to, urgent, done }) {
+function PriorityRow({ num, label, to, urgent = false, done = false }) {
   return (
     <Link to={to} className="flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-white/5 transition-all group">
       <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${done ? 'bg-green-500/20 text-green-400' : urgent ? 'bg-red-500/20 text-red-400' : 'bg-primary/20 text-primary'}`}>
@@ -90,7 +90,7 @@ export default function Dashboard() {
   useEffect(() => {
     const target = new Date('2026-06-05T00:00:00+10:00');
     const update = () => {
-      const diff = target - new Date();
+      const diff = target.getTime() - Date.now();
       if (diff <= 0) { setTimeLeft('Released!'); return; }
       const d = Math.floor(diff / 86400000);
       const h = Math.floor((diff % 86400000) / 3600000);

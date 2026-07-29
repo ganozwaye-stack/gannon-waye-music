@@ -54,14 +54,14 @@ export default function StoreFulfilment() {
       <SectionCard title="Products" count={products.length} actionLabel="Merch management" actionPath="/admin/merch">
         {pLoading ? <LoadingState /> : products.length === 0 ? <EmptyState message="No products." /> : products.slice(0, 15).map(p => {
           const completeness = calcProductCostCompleteness(p);
-          const profit = calcTrueProfit(p);
+          const profit = /** @type {any} */ (calcTrueProfit(p));
           return (
             <div key={p.id} className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-secondary/30">
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-foreground/80 truncate">{p.name}</p>
                 <p className="text-[10px] text-muted-foreground/50">{p.category} · ${(p.sale_price || 0).toFixed(2)}</p>
               </div>
-              {completeness.isComplete ? (
+              {profit.canCalculate ? (
                 <div className="text-right">
                   <p className="text-xs text-green-400">${profit.profit.toFixed(2)}</p>
                   <p className="text-[9px] text-muted-foreground/50">{profit.margin}% margin</p>
@@ -125,7 +125,7 @@ export default function StoreFulfilment() {
   );
 }
 
-function StatBox({ label, value, icon: Icon, level }) {
+function StatBox({ label, value, icon: Icon, level = '' }) {
   const colorClass = level === 'orange' ? 'text-orange-400' : level === 'red' ? 'text-red-400' : level === 'green' ? 'text-green-400' : 'text-foreground';
   return (
     <div className="border border-border/40 rounded-xl px-4 py-3 bg-card/30 flex items-center gap-3">

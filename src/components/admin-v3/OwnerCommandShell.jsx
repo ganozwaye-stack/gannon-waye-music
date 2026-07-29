@@ -26,7 +26,7 @@ const TAB_WORKSPACE_MAP = {
   systems: 'Systems and Approvals',
 };
 
-function GlobalSearch({ onNavigate }) {
+function GlobalSearch() {
   const [query, setQuery] = useState('');
   const [open, setOpen] = useState(false);
   const inputRef = useRef(null);

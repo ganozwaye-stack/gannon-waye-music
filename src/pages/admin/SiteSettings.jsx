@@ -13,8 +13,8 @@ import { Upload, Save, Trash2 } from 'lucide-react';
 export default function SiteSettings() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [form, setForm] = useState({});
-  const [uploading, setUploading] = useState({});
+  const [form, setForm] = useState(/** @type {Record<string, any>} */ ({}));
+  const [uploading, setUploading] = useState(/** @type {Record<string, boolean>} */ ({}));
 
   const { data: settings } = useQuery({
     queryKey: ['siteSettings'], queryFn: () => base44.entities.SiteSettings.list(), initialData: [],
@@ -36,10 +36,10 @@ export default function SiteSettings() {
   });
 
   const handleUpload = async (field, e) => {
-    const file = e.target.files[0];
+    const file = e.currentTarget.files?.[0];
     if (!file) return;
     setUploading({ ...uploading, [field]: true });
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    const { file_url } = /** @type {any} */ (await base44.integrations.Core.UploadFile({ file }));
     setForm({ ...form, [field]: file_url });
     setUploading({ ...uploading, [field]: false });
   };

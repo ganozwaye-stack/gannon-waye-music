@@ -17,7 +17,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { isApprovedSpotifyUrl } from '@/lib/spotifyUrl';
 
 const SongFeedbackContext = createContext({
-  requestSongFeedback: async () => true,
+  requestSongFeedback: async (_playContext = {}) => true,
 });
 
 const REQUIRED_COPY = {

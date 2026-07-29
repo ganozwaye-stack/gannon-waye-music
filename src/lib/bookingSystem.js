@@ -214,7 +214,7 @@ export const getBookingAnalytics = async () => {
     
     // Get recent enquiries
     analytics.recent_enquiries = enquiries
-      .sort((a, b) => new Date(b.created_date) - new Date(a.created_date))
+      .sort((a, b) => new Date(b.created_date).getTime() - new Date(a.created_date).getTime())
       .slice(0, 10);
     
     return { success: true, analytics };

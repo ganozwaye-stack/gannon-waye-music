@@ -227,13 +227,15 @@ function createLeafMassTexture() {
   ];
 
   clusters.forEach(([x, y, rx, ry, color], index) => {
-    const gradient = ctx.createRadialGradient(x - rx * 0.28, y - ry * 0.35, 16, x, y, Math.max(rx, ry));
+    const [cx, cy, radiusX, radiusY] = [x, y, rx, ry].map(Number);
+    const fillColor = String(color);
+    const gradient = ctx.createRadialGradient(cx - radiusX * 0.28, cy - radiusY * 0.35, 16, cx, cy, Math.max(radiusX, radiusY));
     gradient.addColorStop(0, index % 2 ? 'rgba(177, 203, 153, 0.78)' : 'rgba(124, 166, 113, 0.76)');
-    gradient.addColorStop(0.48, color.replace(')', ', 0.72)').replace('rgb', 'rgba'));
+    gradient.addColorStop(0.48, fillColor.replace(')', ', 0.72)').replace('rgb', 'rgba'));
     gradient.addColorStop(1, 'rgba(10, 24, 12, 0)');
     ctx.fillStyle = gradient;
     ctx.beginPath();
-    ctx.ellipse(x, y, rx, ry, Math.sin(index) * 0.18, 0, Math.PI * 2);
+    ctx.ellipse(cx, cy, radiusX, radiusY, Math.sin(index) * 0.18, 0, Math.PI * 2);
     ctx.fill();
   });
 
@@ -782,7 +784,6 @@ function buildGardenScene({ scene, memoryMeshesRef, onReady }) {
     { x: -5.75, z: -34.2, height: 6.9, radius: 0.22, lean: 0.02, kind: 'fern-gully' },
   ].forEach((tree) => addTallGardenTree(scene, {
     ...tree,
-    barkMaterial: materials.bark,
     leafTexture: leafMassTexture,
   }));
 

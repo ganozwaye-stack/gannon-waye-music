@@ -139,7 +139,7 @@ export const calculateCustomerLTV = (orders, customer) => {
   
   const firstOrderDate = orders.length > 0 ? new Date(orders[orders.length - 1].created_date) : new Date();
   const lastOrderDate = orders.length > 0 ? new Date(orders[0].created_date) : new Date();
-  const customerAgeDays = Math.max(1, Math.floor((lastOrderDate - firstOrderDate) / (1000 * 60 * 60 * 24)));
+  const customerAgeDays = Math.max(1, Math.floor((lastOrderDate.getTime() - firstOrderDate.getTime()) / (1000 * 60 * 60 * 24)));
   
   const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
   const purchaseFrequency = customerAgeDays > 0 ? (totalOrders / customerAgeDays) * 365 : 0;

@@ -8,7 +8,7 @@ import { AlertTriangle, Lock, ExternalLink } from 'lucide-react';
  * Pass `isBlocked={true}` when the token secret is absent.
  * Optionally wrap children who should only render when unblocked.
  */
-export default function MetricoolBlocker({ isBlocked, children }) {
+export default function MetricoolBlocker({ isBlocked, children = null }) {
   if (!isBlocked) return children || null;
 
   return (
