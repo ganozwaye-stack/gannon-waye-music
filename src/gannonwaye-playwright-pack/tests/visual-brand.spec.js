@@ -19,9 +19,8 @@ const BANNED_CLASSES = [
 test.describe('Visual Brand Audit — Gold Token Compliance', () => {
   for (const route of PUBLIC_ROUTES) {
     test(`no raw yellow/amber classes on ${route}`, async ({ page }) => {
-      await page.goto(`${BASE_URL}${route}`);
-      // Wait for page to settle
-      await page.waitForTimeout(1000);
+      await page.goto(`${BASE_URL}${route}`, { waitUntil: 'domcontentloaded' });
+      await page.locator('body').waitFor({ state: 'visible' });
 
       const violations = await page.evaluate((bannedClasses) => {
         const allElements = document.querySelectorAll('[class]');
@@ -45,7 +44,8 @@ test.describe('Visual Brand Audit — Gold Token Compliance', () => {
   }
 
   test('no raw yellow inline styles on homepage', async ({ page }) => {
-    await page.goto(`${BASE_URL}/`);
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'domcontentloaded' });
+    await page.locator('body').waitFor({ state: 'visible' });
     const yellowInline = await page.evaluate(() => {
       const all = document.querySelectorAll('[style]');
       const hits = [];
@@ -61,7 +61,8 @@ test.describe('Visual Brand Audit — Gold Token Compliance', () => {
   });
 
   test('store active nav uses gold token not raw yellow', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await page.goto(`${BASE_URL}/store`, { waitUntil: 'domcontentloaded' });
+    await page.locator('body').waitFor({ state: 'visible' });
     const activeNavYellow = await page.evaluate(() => {
       const navLinks = document.querySelectorAll('nav a');
       const hits = [];
@@ -77,7 +78,8 @@ test.describe('Visual Brand Audit — Gold Token Compliance', () => {
   });
 
   test('no public booking/tour/live links in navbar', async ({ page }) => {
-    await page.goto(`${BASE_URL}/`);
+    await page.goto(`${BASE_URL}/`, { waitUntil: 'domcontentloaded' });
+    await page.locator('body').waitFor({ state: 'visible' });
     const navLinks = await page.locator('nav a').allInnerTexts();
     const forbidden = navLinks.filter(t =>
       /\blive\b|\bbookings?\b|\btours?\b|\bshows?\b|\bevents?\b/i.test(t)
@@ -86,7 +88,8 @@ test.describe('Visual Brand Audit — Gold Token Compliance', () => {
   });
 
   test('Spotify artist link is correct on contact page', async ({ page }) => {
-    await page.goto(`${BASE_URL}/contact`);
+    await page.goto(`${BASE_URL}/contact`, { waitUntil: 'domcontentloaded' });
+    await page.locator('body').waitFor({ state: 'visible' });
     const spotifyLinks = await page.locator('a[href*="spotify.com"]').all();
     for (const link of spotifyLinks) {
       const href = await link.getAttribute('href');
