@@ -17,6 +17,8 @@ const APPROVED_PREVIEW_NAME = 'without-you-here-preview-3m46-4m35.mp3';
 const APPROVED_PREVIEW_URL = `/audio/releases/${APPROVED_PREVIEW_NAME}`;
 const RAW_HALLWAY_NAME = 'hallway-garden-source.mov';
 const FORMER_MASTER_SHA256 = 'fef71c077747b070cd72610dc692e21f03484e263590e47861d1f821093d0ae4';
+const PREVIEW_TOKEN = process.env.MUM_GARDEN_PLAYWRIGHT_PREVIEW_TOKEN || 'local-mum-garden-preview-token-for-playwright-2026-07-31';
+const withPreviewToken = route => `${route}?preview_token=${encodeURIComponent(PREVIEW_TOKEN)}`;
 
 function walkFiles(root, ignored = new Set()) {
   if (!existsSync(root)) return [];
@@ -126,9 +128,9 @@ test.describe('Without You Here master exposure regression', () => {
 
   test('every exposed Without You Here player uses only the approved preview', async ({ page }) => {
     for (const route of [
-      '/mum?access=soniagarden2026',
-      '/mum/garden?access=soniagarden2026',
-      '/without-you-here?access=soniagarden2026',
+      withPreviewToken('/mum'),
+      withPreviewToken('/mum/garden'),
+      '/without-you-here',
     ]) {
       await page.goto(route, { waitUntil: 'domcontentloaded' });
       const sources = await page.locator('audio[data-song-title="Without You Here"]').evaluateAll(nodes =>

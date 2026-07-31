@@ -13,8 +13,8 @@ Control board: `http://127.0.0.1:5173/control-room.html`
 - `/`
 - `/store`
 - `/store/all`
-- `/mum?access=soniagarden2026`
-- `/mum/garden?access=soniagarden2026`
+- `/mum?preview_token=<revocable-preview-token>`
+- `/mum/garden?preview_token=<revocable-preview-token>`
 
 ## Screenshot Evidence
 

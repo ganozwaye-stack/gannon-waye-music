@@ -3,7 +3,7 @@
 const { test, expect } = require('@playwright/test');
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
-const ACCESS = 'soniagarden2026';
+const PREVIEW_TOKEN = process.env.MUM_GARDEN_PLAYWRIGHT_PREVIEW_TOKEN || 'local-mum-garden-preview-token-for-playwright-2026-07-31';
 
 test('song feedback prompt does not block the Without You Here preview from playing', async ({ page }) => {
   await page.addInitScript(() => {
@@ -21,7 +21,7 @@ test('song feedback prompt does not block the Without You Here preview from play
     };
   });
 
-  await page.goto(`${BASE_URL}/mum?access=${ACCESS}`, { waitUntil: 'domcontentloaded' });
+  await page.goto(`${BASE_URL}/mum?preview_token=${encodeURIComponent(PREVIEW_TOKEN)}`, { waitUntil: 'domcontentloaded' });
   await expect(page.getByText(/In loving memory of/i).first()).toBeVisible();
 
   await page.evaluate(() => {

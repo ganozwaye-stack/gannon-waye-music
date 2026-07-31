@@ -4,7 +4,7 @@ const { test, expect } = require('@playwright/test');
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
-const PUBLIC_ROUTES = ['/', '/store', '/music', '/community', '/contact', '/mum?access=soniagarden2026'];
+const PUBLIC_ROUTES = ['/', '/store', '/music', '/community', '/contact', '/mum'];
 const SECRET_PATTERNS = [
   /sk_live_[A-Za-z0-9]{20,}/,
   /sk_test_[A-Za-z0-9]{20,}/,

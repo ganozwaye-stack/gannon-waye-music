@@ -20,6 +20,16 @@ const isLocal = typeof window !== 'undefined' && (
   window.location.hostname === '127.0.0.1'
 );
 
+const LOCAL_MUM_GARDEN_PREVIEW_TOKEN_SHA256 = '9d661a579b3c7abb0d62c59411792cf7f164ede81a9053c6f91d18dd794a87ed';
+
+async function sha256Hex(value) {
+  const bytes = new globalThis.TextEncoder().encode(value);
+  const digest = await globalThis.crypto.subtle.digest('SHA-256', bytes);
+  return Array.from(new Uint8Array(digest))
+    .map(byte => byte.toString(16).padStart(2, '0'))
+    .join('');
+}
+
 if (isLocal || token === 'mock-admin-token') {
   // 1. Mock Auth
   base44.auth.me = async () => {
@@ -54,6 +64,25 @@ if (isLocal || token === 'mock-admin-token') {
         return { data: { valid: true, code: 'F30MOM26A', discount_percent: 30 } };
       }
       return { data: { valid: false, reason: 'Invalid code' } };
+    }
+    if (functionName === 'validateMumGardenPreviewToken') {
+      const previewToken = String(payload?.token || '').trim();
+      if (!previewToken) {
+        return { data: { valid: false, reason: 'missing_token' } };
+      }
+      try {
+        const digest = await sha256Hex(previewToken);
+        const valid = digest === LOCAL_MUM_GARDEN_PREVIEW_TOKEN_SHA256;
+        return {
+          data: {
+            valid,
+            token_id: valid ? 'local-playwright-preview' : null,
+            reason: valid ? null : 'invalid_token',
+          },
+        };
+      } catch (_) {
+        return { data: { valid: false, reason: 'local_validation_unavailable' } };
+      }
     }
     if (functionName === 'createCheckoutSession') {
       const metadata = payload?.metadata || {};

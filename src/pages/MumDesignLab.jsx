@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Eye, Music2, Play, Sparkles } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
 import { WITHOUT_YOU_HERE_COVER } from '@/constants/musicAssets';
 
-const ACCESS_CODE = 'soniagarden2026';
+const MUM_GARDEN_ACCESS_KEY = 'mum-garden-preview-access-v2';
+const MUM_GARDEN_ACCESS_TOKEN_ID_KEY = 'mum-garden-preview-token-id-v1';
+const MUM_GARDEN_PREVIEW_QUERY_KEYS = ['preview_token', 'previewToken', 'garden_preview_token', 'gardenToken'];
 const SKY_ANGEL_HERO = '/images/mum/sonia_sky_angel_hero.png';
 const SONIA_ENTRY_PHOTO = '/images/mum/memory-lane/ML058_FS116.jpg';
 const SONIA_LOVE_PHOTO = '/images/mum/memory-lane/ML061_FS120.jpg';
@@ -69,25 +72,48 @@ const concepts = [
   },
 ];
 
-function hasAccess() {
-  if (typeof window === 'undefined') return false;
+function getMumGardenPreviewTokenFromUrl() {
+  if (typeof window === 'undefined') return '';
   const params = new URLSearchParams(window.location.search);
-  if (params.get('access') === ACCESS_CODE) {
-    window.sessionStorage.setItem('sonia-design-lab-access', 'true');
-    return true;
+  for (const key of MUM_GARDEN_PREVIEW_QUERY_KEYS) {
+    const token = params.get(key)?.trim();
+    if (token) return token;
   }
-  return window.sessionStorage.getItem('sonia-design-lab-access') === 'true';
+  return '';
 }
 
-function PrivatePreviewNotice() {
+function removeMumGardenPreviewTokenFromUrl() {
+  if (typeof window === 'undefined') return;
+  const url = new URL(window.location.href);
+  let changed = false;
+  for (const key of MUM_GARDEN_PREVIEW_QUERY_KEYS) {
+    if (url.searchParams.has(key)) {
+      url.searchParams.delete(key);
+      changed = true;
+    }
+  }
+  if (changed) {
+    window.history.replaceState(window.history.state, document.title, `${url.pathname}${url.search}${url.hash}`);
+  }
+}
+
+function unwrapBase44Data(response) {
+  return response?.data || response || {};
+}
+
+function PrivatePreviewNotice({ validationStatus, validationError }) {
   return (
     <main className="min-h-screen bg-[#030604] px-5 py-32 text-[#fff7df]">
       <div className="mx-auto max-w-2xl rounded-[2rem] border border-[#d4af37]/20 bg-[#071007]/80 p-8 text-center shadow-[0_28px_90px_rgba(0,0,0,0.42)]">
         <p className="font-body text-[10px] uppercase tracking-[0.42em] text-[#f5d06e]/62">Private design lab</p>
         <h1 className="mt-4 font-display text-5xl">Sonia's Garden drafts</h1>
         <p className="mt-5 font-body text-sm leading-7 text-[#fff7df]/62">
-          Add the preview access code to the URL so the draft concepts stay out of the public memorial flow.
+          Use a validated preview link so the draft concepts stay out of the public memorial flow.
         </p>
+        {validationStatus === 'validating' && (
+          <p className="mt-4 font-body text-xs uppercase tracking-[0.24em] text-[#f5d06e]/66">Checking preview token</p>
+        )}
+        {validationError && <p className="mt-4 font-body text-xs text-amber-300">{validationError}</p>}
       </div>
     </main>
   );
@@ -250,13 +276,67 @@ function ConceptBoard({ concept, index }) {
 }
 
 export default function MumDesignLab() {
-  const allowed = hasAccess();
+  const [allowed, setAllowed] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    window.sessionStorage.removeItem('sonia-design-lab-access');
+    return window.sessionStorage.getItem(MUM_GARDEN_ACCESS_KEY) === 'validated';
+  });
+  const [validationStatus, setValidationStatus] = useState('idle');
+  const [validationError, setValidationError] = useState('');
+
+  const validatePreviewToken = useCallback(async (rawToken) => {
+    const previewToken = String(rawToken || '').trim();
+    if (!previewToken) return false;
+
+    setValidationStatus('validating');
+    setValidationError('');
+
+    try {
+      const response = await base44.functions.invoke('validateMumGardenPreviewToken', {
+        token: previewToken,
+        route: typeof window !== 'undefined' ? window.location.pathname : 'mum-design-lab',
+      });
+      const data = unwrapBase44Data(response);
+
+      if (data.valid === true) {
+        if (typeof window !== 'undefined') {
+          window.sessionStorage.setItem(MUM_GARDEN_ACCESS_KEY, 'validated');
+          if (data.token_id) {
+            window.sessionStorage.setItem(MUM_GARDEN_ACCESS_TOKEN_ID_KEY, String(data.token_id));
+          } else {
+            window.sessionStorage.removeItem(MUM_GARDEN_ACCESS_TOKEN_ID_KEY);
+          }
+          removeMumGardenPreviewTokenFromUrl();
+        }
+        setAllowed(true);
+        setValidationStatus('validated');
+        return true;
+      }
+    } catch (_) {
+      setValidationError('The preview token could not be checked right now.');
+      setValidationStatus('idle');
+      return false;
+    }
+
+    if (typeof window !== 'undefined') {
+      window.sessionStorage.removeItem(MUM_GARDEN_ACCESS_KEY);
+      window.sessionStorage.removeItem(MUM_GARDEN_ACCESS_TOKEN_ID_KEY);
+    }
+    setAllowed(false);
+    setValidationStatus('idle');
+    setValidationError('That preview token could not be validated.');
+    return false;
+  }, []);
 
   useEffect(() => {
     document.title = "Sonia's Garden Design Lab | Gannon Waye";
-  }, []);
+    if (allowed || typeof window === 'undefined') return;
+    const previewToken = getMumGardenPreviewTokenFromUrl();
+    if (!previewToken) return;
+    validatePreviewToken(previewToken);
+  }, [allowed, validatePreviewToken]);
 
-  if (!allowed) return <PrivatePreviewNotice />;
+  if (!allowed) return <PrivatePreviewNotice validationStatus={validationStatus} validationError={validationError} />;
 
   return (
     <main className="min-h-screen bg-[#030604] text-[#fff7df]">
@@ -299,7 +379,7 @@ export default function MumDesignLab() {
             Build five alternative Sonia's Garden memorial concepts using the current Gannon Waye gold/black cinematic brand, the sky foyer, a continuous garden journey, side memory-lane photos, meaningful centre moments, the Without You Here artwork/player, and strict public rules: no grave images, no funeral-room imagery, no blurred filler, and no images without Sonia unless they are approved object memories.
           </p>
           <a
-            href="/mum/garden?access=soniagarden2026"
+            href="/mum/garden"
             className="mt-7 inline-flex items-center gap-3 rounded-full bg-[linear-gradient(135deg,#caa647,#f8dc82)] px-6 py-3 font-body text-[10px] font-bold uppercase tracking-[0.26em] text-[#061006] shadow-[0_18px_50px_rgba(212,175,55,0.28)]"
           >
             Back to live garden

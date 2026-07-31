@@ -44,7 +44,7 @@ const GARDEN_GALLERY = MUM_GARDEN_PHOTO;
 const GARDEN_MUSIC = SONIA_GARDEN_PHOTO;
 const GARDEN_WISDOM = SONIA_LOVE_PHOTO;
 const AVE_MARIA_GANNON = 'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/6e65f5e12_AveMariaGannonSinging.mp3';
-const MEMORY_UPLOAD_PATH = '/remember-mum?invite=family';
+const MEMORY_UPLOAD_PATH = '/remember-mum';
 
 const REAL_PHOTOS = [
   {
@@ -261,8 +261,38 @@ function sortMemoryLanePhotos(photos) {
 
 const GUESTBOOK_STORAGE_KEY = 'sonia-memory-guestbook-submissions-v1';
 const FAMILY_UPLOAD_STORAGE_KEY = 'sonia-family-upload-submissions-v1';
-const MUM_GARDEN_ACCESS_KEY = 'mum-garden-unlocked-v1';
-const MUM_GARDEN_PASSCODE = 'soniagarden2026';
+const MUM_GARDEN_ACCESS_KEY = 'mum-garden-preview-access-v2';
+const MUM_GARDEN_ACCESS_TOKEN_ID_KEY = 'mum-garden-preview-token-id-v1';
+const MUM_GARDEN_PREVIEW_QUERY_KEYS = ['preview_token', 'previewToken', 'garden_preview_token', 'gardenToken'];
+
+function getMumGardenPreviewTokenFromUrl() {
+  if (typeof window === 'undefined') return '';
+  const params = new URLSearchParams(window.location.search);
+  for (const key of MUM_GARDEN_PREVIEW_QUERY_KEYS) {
+    const token = params.get(key)?.trim();
+    if (token) return token;
+  }
+  return '';
+}
+
+function removeMumGardenPreviewTokenFromUrl() {
+  if (typeof window === 'undefined') return;
+  const url = new URL(window.location.href);
+  let changed = false;
+  for (const key of MUM_GARDEN_PREVIEW_QUERY_KEYS) {
+    if (url.searchParams.has(key)) {
+      url.searchParams.delete(key);
+      changed = true;
+    }
+  }
+  if (changed) {
+    window.history.replaceState(window.history.state, document.title, `${url.pathname}${url.search}${url.hash}`);
+  }
+}
+
+function unwrapBase44Data(response) {
+  return response?.data || response || {};
+}
 
 const LYRIC_MOMENTS = [
   {
@@ -1574,19 +1604,14 @@ function FamilyContributionAccess() {
   );
 }
 
-function MumPrivateGate({ onUnlock }) {
-  const [code, setCode] = useState('');
-  const [error, setError] = useState('');
+function MumPrivateGate({ onValidatePreviewToken, validationStatus, validationError }) {
+  const [previewToken, setPreviewToken] = useState('');
   const contributionPath = MEMORY_UPLOAD_PATH;
+  const isValidating = validationStatus === 'validating';
 
-  const submit = (event) => {
+  const submit = async (event) => {
     event.preventDefault();
-    if (code.trim().toLowerCase() === MUM_GARDEN_PASSCODE) {
-      setError('');
-      onUnlock();
-      return;
-    }
-    setError('That code did not unlock the private preview.');
+    await onValidatePreviewToken(previewToken);
   };
 
   return (
@@ -1682,27 +1707,32 @@ function MumPrivateGate({ onUnlock }) {
             </div>
 
             <form onSubmit={submit} className="mt-7 space-y-3">
-              <label htmlFor="mum-garden-preview-code" className="flex items-center gap-2 font-body text-[9px] font-bold uppercase tracking-[0.24em] text-[#d4af37]/54">
+              <label htmlFor="mum-garden-preview-token" className="flex items-center gap-2 font-body text-[9px] font-bold uppercase tracking-[0.24em] text-[#d4af37]/54">
                 <LockKeyhole className="h-3.5 w-3.5" />
                 Private preview
               </label>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <input
-                  id="mum-garden-preview-code"
-                  value={code}
-                  onChange={(event) => setCode(event.target.value)}
-                  placeholder="Preview code"
+                  id="mum-garden-preview-token"
+                  value={previewToken}
+                  onChange={(event) => setPreviewToken(event.target.value)}
+                  placeholder="Preview token"
+                  autoComplete="one-time-code"
                   className="min-h-[48px] min-w-0 flex-1 border border-[#d4af37]/20 bg-black/34 px-4 font-body text-sm text-[#fff7df] outline-none placeholder:text-[#fff7df]/34 focus:border-[#f5d06e]/60"
                 />
                 <button
                   type="submit"
-                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-[#f5d06e] px-5 py-3 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#071007] transition hover:-translate-y-0.5"
+                  disabled={isValidating || previewToken.trim().length === 0}
+                  className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-full bg-[#f5d06e] px-5 py-3 font-body text-[10px] font-bold uppercase tracking-[0.2em] text-[#071007] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-55 disabled:hover:translate-y-0"
                 >
-                  Unlock
+                  {isValidating ? 'Checking' : 'Unlock'}
                   <ArrowRight className="h-4 w-4" />
                 </button>
               </div>
-              {error && <p className="font-body text-xs text-amber-300">{error}</p>}
+              <p className="font-body text-xs leading-5 text-[#fff7df]/46">
+                Preview links are checked before this private page opens. Old shared codes no longer unlock it.
+              </p>
+              {validationError && <p className="font-body text-xs text-amber-300">{validationError}</p>}
             </form>
 
             <a
@@ -2111,18 +2141,67 @@ export default function MumTribute({ mode = 'foyer' }) {
   const [unlocked, setUnlocked] = useState(() => {
     if (typeof window === 'undefined') return false;
     const isAdminRoute = window.location.pathname.startsWith('/admin/');
-    const storedUnlock = window.sessionStorage.getItem(MUM_GARDEN_ACCESS_KEY) === 'true';
-    const params = new URLSearchParams(window.location.search);
-    const accessCode = (params.get('access') || params.get('invite') || params.get('token') || params.get('code') || params.get('passcode') || '').toLowerCase();
-    const validCodes = ['soniagarden2026'];
-    const isUnlocked = isAdminRoute || storedUnlock || validCodes.includes(accessCode);
-    if (isUnlocked && typeof window !== 'undefined') {
-      window.sessionStorage.setItem(MUM_GARDEN_ACCESS_KEY, 'true');
-    }
-    return isUnlocked;
+    const storedUnlock = window.sessionStorage.getItem(MUM_GARDEN_ACCESS_KEY) === 'validated';
+    return isAdminRoute || storedUnlock;
   });
+  const [validationStatus, setValidationStatus] = useState('idle');
+  const [validationError, setValidationError] = useState('');
 
   const openDrawer = (type, data = {}) => setDrawer({ type, data });
+
+  const validatePreviewToken = useCallback(async (rawToken) => {
+    const previewToken = String(rawToken || '').trim();
+    if (!previewToken) {
+      setValidationStatus('idle');
+      setValidationError('Enter a preview token before opening the private garden.');
+      return false;
+    }
+
+    setValidationStatus('validating');
+    setValidationError('');
+
+    try {
+      const response = await base44.functions.invoke('validateMumGardenPreviewToken', {
+        token: previewToken,
+        route: typeof window !== 'undefined' ? window.location.pathname : 'mum-garden',
+      });
+      const data = unwrapBase44Data(response);
+
+      if (data.valid === true) {
+        if (typeof window !== 'undefined') {
+          window.sessionStorage.setItem(MUM_GARDEN_ACCESS_KEY, 'validated');
+          if (data.token_id) {
+            window.sessionStorage.setItem(MUM_GARDEN_ACCESS_TOKEN_ID_KEY, String(data.token_id));
+          } else {
+            window.sessionStorage.removeItem(MUM_GARDEN_ACCESS_TOKEN_ID_KEY);
+          }
+          removeMumGardenPreviewTokenFromUrl();
+        }
+        setUnlocked(true);
+        setValidationStatus('validated');
+        setValidationError('');
+        return true;
+      }
+    } catch (_) {
+      if (typeof window !== 'undefined') {
+        window.sessionStorage.removeItem(MUM_GARDEN_ACCESS_KEY);
+        window.sessionStorage.removeItem(MUM_GARDEN_ACCESS_TOKEN_ID_KEY);
+      }
+      setUnlocked(false);
+      setValidationStatus('idle');
+      setValidationError('The preview token could not be checked right now.');
+      return false;
+    }
+
+    if (typeof window !== 'undefined') {
+      window.sessionStorage.removeItem(MUM_GARDEN_ACCESS_KEY);
+      window.sessionStorage.removeItem(MUM_GARDEN_ACCESS_TOKEN_ID_KEY);
+    }
+    setUnlocked(false);
+    setValidationStatus('idle');
+    setValidationError('That preview token could not be validated.');
+    return false;
+  }, []);
 
   useEffect(() => {
     if (typeof document === 'undefined' || typeof window === 'undefined') return;
@@ -2151,12 +2230,20 @@ export default function MumTribute({ mode = 'foyer' }) {
   }, [isGardenMode]);
 
   useEffect(() => {
-    if (!unlocked || typeof window === 'undefined') return;
-    window.sessionStorage.setItem(MUM_GARDEN_ACCESS_KEY, 'true');
-  }, [unlocked]);
+    if (unlocked || typeof window === 'undefined') return;
+    const previewToken = getMumGardenPreviewTokenFromUrl();
+    if (!previewToken) return;
+    validatePreviewToken(previewToken);
+  }, [unlocked, validatePreviewToken]);
 
   if (!unlocked) {
-    return <MumPrivateGate onUnlock={() => setUnlocked(true)} />;
+    return (
+      <MumPrivateGate
+        onValidatePreviewToken={validatePreviewToken}
+        validationStatus={validationStatus}
+        validationError={validationError}
+      />
+    );
   }
 
   if (!isGardenMode) {

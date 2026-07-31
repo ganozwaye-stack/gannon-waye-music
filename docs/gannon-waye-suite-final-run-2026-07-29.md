@@ -37,7 +37,7 @@ Mum's Garden hallway/3D portal status: the experiment has been hardened for stag
 - Removed Mum's Garden/private memorial URLs from the sitemap and global social preview metadata.
 - Added noindex/nofollow/noarchive posture for Mum's Garden/private memorial routes.
 - Redirected old `/mums-garden` public route into the `/mum` private gate.
-- Tightened the Mum's Garden URL access shortcuts to the explicit `soniagarden2026` code only.
+- Replaced Mum's Garden URL access shortcuts with a revocable server-validated preview token.
 - Blocked international physical checkout until shipping is quoted.
 - Removed old synthetic quick-view add-ons from checkout and blocked saved synthetic add-on cart items from payment.
 - Updated Mum's Garden entrance so the launch component is Sonia-first, uses Sonia-present/family/single-artwork assets, does not use generic no-Sonia garden-reference images, and keeps the single artwork cover as a top-section feature.
@@ -167,9 +167,9 @@ Key routes verified locally:
 - `/order-success`
 - `/checkout-cancel`
 - `/store/checkout-cancel`
-- `/mum?access=soniagarden2026`
-- `/mum/garden?access=soniagarden2026`
-- `/without-you-here?access=soniagarden2026`
+- `/mum?preview_token=<revocable-preview-token>`
+- `/mum/garden?preview_token=<revocable-preview-token>`
+- `/without-you-here`
 - `/mums-garden` redirects to `/mum`
 - `/remember-mum`
 - `/press-kit`

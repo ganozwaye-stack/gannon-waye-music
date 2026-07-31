@@ -81,7 +81,7 @@ export default function SoniaHeyGenReadiness() {
 
           <div className="flex flex-wrap gap-3 pt-1">
             <a
-              href="/remember-mum?invite=family"
+              href="/remember-mum"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-[#f5d06e] px-5 py-3 font-body text-[10px] font-bold uppercase tracking-[0.22em] text-[#071007] transition hover:-translate-y-0.5"
             >
               <UploadCloud className="h-4 w-4" />
