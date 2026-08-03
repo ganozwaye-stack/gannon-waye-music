@@ -4,7 +4,15 @@ import { ArrowRight, Hand, MoveHorizontal, MousePointer2 } from 'lucide-react';
 import GardenImmersionBackground from './GardenImmersionBackground';
 
 const GARDEN_PHOTO = '/images/mum/mum_garden.jpg';
+const BACKYARD_ANCHOR_PHOTO = '/images/mum/garden-reference/mum-backyard-fence-bench-orange-vine.png';
+const GARDEN_SOURCE_VIDEOS = [
+  { src: '/videos/mum/garden/IMG_3359.MOV', poster: '/images/mum/garden-reference/IMG_3359-poster.jpeg', label: 'Garden source video one' },
+  { src: '/videos/mum/garden/IMG_3360.MOV', poster: '/images/mum/garden-reference/IMG_3360-poster.jpeg', label: 'Garden source video two' },
+  { src: '/videos/mum/garden/IMG_3362.MOV', poster: '/images/mum/garden-reference/IMG_3362-poster.jpeg', label: 'Garden source video three' },
+];
+
 const GARDEN_TEXTURES = {
+  backyardAnchor: BACKYARD_ANCHOR_PHOTO,
   upperCanopy: '/images/mum/garden-textures/real-upper-canopy.png',
   leftMonstera: '/images/mum/garden-textures/real-monstera-left-cutout.png',
   rightMonstera: '/images/mum/garden-textures/real-monstera-right-cutout.png',
@@ -66,7 +74,7 @@ const MEMORY_PHOTOS = [
 const JOURNEY_STOPS = [
   { label: 'Canopy', note: 'Descending from the sky into tall trees.' },
   { label: 'Garden path', note: 'Concrete path, table, dense backyard plants.' },
-  { label: 'Memories', note: 'Exact photos hanging inside the garden.' },
+  { label: 'Memories', note: 'Exact photos and three original source videos held inside the garden.' },
   { label: 'Archway', note: "Onya & Gay's Archway between the driveways." },
   { label: 'Stone', note: 'The memorial stone becomes part of the path.' },
 ];
@@ -573,6 +581,47 @@ function addSpiderPlant(scene, { x, z, side = 1, scale = 1 }) {
   return group;
 }
 
+function addBench(scene, materials) {
+  const bench = new THREE.Group();
+  bench.position.set(2.95, 0, -6.35);
+  bench.rotation.y = -0.58;
+  bench.name = "right side backyard bench from Sonia's garden reference";
+
+  const timber = new THREE.MeshStandardMaterial({ color: 0x5b4d3e, roughness: 0.9 });
+  const shadow = new THREE.MeshStandardMaterial({ color: 0x2c251d, roughness: 0.96 });
+
+  for (let i = 0; i < 4; i += 1) {
+    const seatSlat = new THREE.Mesh(new THREE.BoxGeometry(1.72, 0.07, 0.16), timber);
+    seatSlat.position.set(0, 0.55, -0.25 + i * 0.16);
+    bench.add(seatSlat);
+
+    const backSlat = new THREE.Mesh(new THREE.BoxGeometry(1.82, 0.08, 0.16), timber);
+    backSlat.position.set(0, 0.86 + i * 0.16, 0.35);
+    backSlat.rotation.x = -0.18;
+    bench.add(backSlat);
+  }
+
+  [-0.72, 0.72].forEach((x) => {
+    const frontLeg = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.56, 0.1), shadow);
+    frontLeg.position.set(x, 0.27, -0.38);
+    bench.add(frontLeg);
+
+    const backLeg = new THREE.Mesh(new THREE.BoxGeometry(0.1, 0.9, 0.11), shadow);
+    backLeg.position.set(x, 0.44, 0.34);
+    backLeg.rotation.x = -0.22;
+    bench.add(backLeg);
+  });
+
+  const benchGlow = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 1.25), materials.warmGlow.clone());
+  benchGlow.position.set(0.1, 0.74, 0.05);
+  benchGlow.rotation.x = -0.18;
+  benchGlow.material.opacity = 0.055;
+  bench.add(benchGlow);
+
+  scene.add(bench);
+  return bench;
+}
+
 function addOrangeFloweringVine(scene, flowerTexture, { x, z, side = 1, length = 10, height = 2.2 }) {
   const group = new THREE.Group();
   group.position.set(x, 0, z);
@@ -622,6 +671,7 @@ function addOrangeFloweringVine(scene, flowerTexture, { x, z, side = 1, length =
 }
 
 function addRealGardenLayers(scene, textureLoader) {
+  const backyardAnchor = loadRealTexture(textureLoader, GARDEN_TEXTURES.backyardAnchor);
   const upperCanopy = loadRealTexture(textureLoader, GARDEN_TEXTURES.upperCanopy);
   const leftMonstera = loadRealTexture(textureLoader, GARDEN_TEXTURES.leftMonstera);
   const rightMonstera = loadRealTexture(textureLoader, GARDEN_TEXTURES.rightMonstera);
@@ -634,6 +684,26 @@ function addRealGardenLayers(scene, textureLoader) {
   const fernGullyTrunkDark = loadRealTexture(textureLoader, GARDEN_TEXTURES.fernGullyTrunkDark);
   const mumPlantWall = loadRealTexture(textureLoader, GARDEN_TEXTURES.mumPlantWall);
   const mumDarkCorner = loadRealTexture(textureLoader, GARDEN_TEXTURES.mumDarkCorner);
+
+  addRealPhotoPlane(scene, backyardAnchor, {
+    width: 15.8,
+    height: 8.9,
+    position: [0, 3.42, 6.4],
+    opacity: 0.42,
+    motion: 0.003,
+    alphaTest: 0,
+    name: 'approved real backyard anchor with fence, orange vine, tall trees and right bench',
+  });
+
+  addRealPhotoPlane(scene, backyardAnchor, {
+    width: 16.2,
+    height: 9.1,
+    position: [0, 3.26, -39.8],
+    opacity: 0.18,
+    motion: 0.002,
+    alphaTest: 0,
+    name: 'distant return of the approved backyard anchor',
+  });
 
   addRealPhotoPlane(scene, suburbanTreeline, {
     width: 16,
@@ -917,6 +987,8 @@ function buildGardenScene({ scene, memoryMeshesRef, onReady }) {
   mug.position.set(0.18, 1.0, 0.12);
   table.add(mug);
   scene.add(table);
+
+  addBench(scene, materials);
 
   const arch = new THREE.Group();
   arch.position.set(0, 0, -31);
@@ -1360,6 +1432,13 @@ export default function GardenWalkEntrance({ onOpenMemory, onFinish }) {
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="absolute inset-0 z-0 bg-[#061006]" />
         <img
+          src={BACKYARD_ANCHOR_PHOTO}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 z-0 h-full w-full object-cover object-center opacity-45"
+          style={{ filter: 'brightness(0.72) contrast(1.08) saturate(1.08)' }}
+        />
+        <img
           src={GARDEN_TEXTURES.upperCanopy}
           alt=""
           aria-hidden="true"
@@ -1376,6 +1455,7 @@ export default function GardenWalkEntrance({ onOpenMemory, onFinish }) {
         <div className="absolute inset-0 z-[1] bg-[radial-gradient(circle_at_76%_42%,transparent,rgba(2,5,2,0.34)_38%,rgba(2,5,2,0.70)_78%),linear-gradient(180deg,rgba(2,5,2,0.16),rgba(2,5,2,0.06)_38%,rgba(2,5,2,0.50))]" />
         <div ref={mountRef} className="absolute inset-0 z-[2]" />
         <GardenImmersionBackground reducedMotion={reducedMotion} />
+        <GardenSourceVideoMemories activeStop={activeStop} reducedMotion={reducedMotion} />
 
         {!ready && (
           <div className="absolute inset-0 z-30 flex items-center justify-center bg-[#020502]">
@@ -1440,5 +1520,41 @@ export default function GardenWalkEntrance({ onOpenMemory, onFinish }) {
         </div>
       </div>
     </section>
+  );
+}
+
+function GardenSourceVideoMemories({ activeStop, reducedMotion }) {
+  const isVisible = activeStop >= 1 && activeStop <= 3;
+
+  return (
+    <div
+      className={`pointer-events-none absolute right-4 top-[18%] z-20 hidden w-[min(18vw,220px)] flex-col gap-3 transition duration-1000 md:flex ${
+        isVisible ? 'translate-x-0 opacity-70' : 'translate-x-5 opacity-0'
+      }`}
+      aria-label="Original garden source videos"
+    >
+      {GARDEN_SOURCE_VIDEOS.map((video, index) => (
+        <div
+          key={video.src}
+          className="overflow-hidden border border-[#d4af37]/20 bg-[#020502]/42 shadow-[0_18px_44px_rgba(0,0,0,0.32)] backdrop-blur-sm"
+          style={{
+            transform: `translateY(${index * 10}px) rotate(${index % 2 === 0 ? -1.8 : 1.4}deg)`,
+          }}
+        >
+          <video
+            muted
+            loop
+            playsInline
+            autoPlay={!reducedMotion}
+            preload="metadata"
+            poster={video.poster}
+            aria-label={video.label}
+            className="aspect-[9/16] w-full object-cover opacity-90"
+          >
+            <source src={video.src} />
+          </video>
+        </div>
+      ))}
+    </div>
   );
 }
