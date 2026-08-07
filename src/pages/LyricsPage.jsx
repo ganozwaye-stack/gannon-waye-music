@@ -20,7 +20,12 @@ export default function LyricsPage() {
   });
 
   return (
-    <div className="min-h-screen py-24 px-4 md:px-8">
+    <>
+    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden>
+      <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png" alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/75 to-background" />
+    </div>
+    <div className="min-h-screen py-24 px-4 md:px-8 relative">
       <div className="max-w-3xl mx-auto">
 
         <motion.div
@@ -114,5 +119,6 @@ export default function LyricsPage() {
 
       </div>
     </div>
+    </>
   );
 }

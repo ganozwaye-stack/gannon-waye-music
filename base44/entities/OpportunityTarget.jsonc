@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "name": "OpportunityTarget",
+  "properties": {
+    "target_type": {
+      "type": "string",
+      "enum": [
+        "grant",
+        "producer",
+        "artist",
+        "label",
+        "venue",
+        "brand",
+        "playlist",
+        "media",
+        "web_vendor"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "Target person, organisation, venue, brand, or program."
+    },
+    "website": {
+      "type": "string",
+      "format": "uri"
+    },
+    "contact_channel": {
+      "type": "string",
+      "description": "Public contact form, email, platform handle, or application portal."
+    },
+    "fit_reason": {
+      "type": "string",
+      "description": "Why this is a credible fit for Gannon Waye Music."
+    },
+    "estimated_value_aud": {
+      "type": "number"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "research",
+        "shortlisted",
+        "draft_ready",
+        "needs_gannon_approval",
+        "approved_to_contact",
+        "contacted",
+        "won",
+        "not_fit"
+      ],
+      "default": "research"
+    },
+    "source_notes": {
+      "type": "string",
+      "description": "Source notes and verification details."
+    }
+  },
+  "required": [
+    "target_type",
+    "name",
+    "fit_reason"
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "type": "object",
+  "name": "CalendarEvent",
+  "properties": {
+    "google_event_id": {
+      "type": "string",
+      "description": "Google Calendar event ID for deduplication"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "start_time": {
+      "type": "string",
+      "description": "Event start time ISO 8601",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "location": {
+      "type": "string"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "gig",
+        "release",
+        "meeting",
+        "rehearsal",
+        "other"
+      ],
+      "default": "other"
+    },
+    "is_public": {
+      "type": "boolean",
+      "description": "If true, shown on the public schedule page",
+      "default": false
+    },
+    "google_html_link": {
+      "type": "string",
+      "description": "Link to the event in Google Calendar"
+    },
+    "sync_token": {
+      "type": "string",
+      "description": "Last sync token used for incremental sync"
+    }
+  },
+  "required": [
+    "google_event_id",
+    "title",
+    "start_time"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "$or": [
+        {
+          "data.is_public": true
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

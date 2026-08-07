@@ -37,7 +37,8 @@ const TIERS = [
   },
   {
     name: 'Full Production',
-    price: 750,
+    price: 2000,
+    suffix: '+ GST',
     turnaround: '2–3 weeks',
     features: [
       'Mixing + mastering + production polish',
@@ -100,8 +101,8 @@ export default function MixingServices() {
                 </div>
                 <h3 className="font-display text-xl text-foreground mb-1">{tier.name}</h3>
                 <div className="flex items-baseline gap-1 mb-1">
-                  <span className="font-display text-3xl text-primary">${tier.price}</span>
-                  <span className="font-body text-xs text-muted-foreground">AUD</span>
+                  <span className="font-display text-3xl text-primary">${tier.price.toLocaleString()}</span>
+                  <span className="font-body text-xs text-muted-foreground">{tier.suffix || 'AUD'}</span>
                 </div>
                 <p className="font-body text-xs text-muted-foreground mb-6">Turnaround: {tier.turnaround}</p>
                 <ul className="space-y-3 mb-8 flex-1">

@@ -24,9 +24,10 @@ import ThankYouCampaignSection from '@/components/public/ThankYouCampaignSection
 import ThankYouStorySection from '@/components/public/ThankYouStorySection';
 import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
+import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 
 const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f232cb919_image.png',
 ];
 
 export default function Home() {
@@ -327,6 +328,9 @@ export default function Home() {
           <ThankYouProjectCTA context="Every contribution fuels independent music, supports healing, and builds a community where stories matter. 10% of all support goes to 1800RESPECT. Join the Thank You Project today." />
         </div>
       </section>
+
+      {/* Email Signup — collect fan emails for release updates */}
+      <HomeEmailSignup />
 
       {/* Safe Space Banner */}
       <SafeSpaceBanner />

@@ -1,0 +1,63 @@
+{
+  "type": "object",
+  "name": "WebsiteWorkItem",
+  "properties": {
+    "area": {
+      "type": "string",
+      "enum": [
+        "homepage",
+        "store",
+        "checkout",
+        "music",
+        "sonia_garden",
+        "admin",
+        "seo",
+        "performance",
+        "accessibility",
+        "content",
+        "routing"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "normal",
+        "low"
+      ],
+      "default": "normal"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "open",
+        "in_progress",
+        "ready_for_review",
+        "approved",
+        "done",
+        "blocked"
+      ],
+      "default": "open"
+    },
+    "clickable_path": {
+      "type": "string",
+      "description": "Route, file, or URL where the issue or task lives."
+    },
+    "acceptance_check": {
+      "type": "string",
+      "description": "How Gannon or Codex confirms it is done."
+    }
+  },
+  "required": [
+    "area",
+    "title",
+    "description"
+  ]
+}

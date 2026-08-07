@@ -1,0 +1,113 @@
+{
+  "type": "object",
+  "name": "ActionItem",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Music",
+        "Website",
+        "Mum Tribute",
+        "Store",
+        "Legal",
+        "Personal",
+        "Family",
+        "Admin",
+        "Marketing",
+        "Finance"
+      ],
+      "default": "Website"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "todo",
+        "doing",
+        "waiting",
+        "done"
+      ],
+      "default": "todo"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "suggested_by": {
+      "type": "string",
+      "default": "Gannon"
+    },
+    "linked_route": {
+      "type": "string"
+    },
+    "linked_entity": {
+      "type": "string"
+    },
+    "linked_id": {
+      "type": "string"
+    },
+    "financial_risk": {
+      "type": "boolean",
+      "default": false
+    },
+    "legal_risk": {
+      "type": "boolean",
+      "default": false
+    },
+    "brand_risk": {
+      "type": "boolean",
+      "default": false
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "default": false
+    },
+    "source": {
+      "type": "string",
+      "default": "Scheduler"
+    }
+  },
+  "required": [
+    "title",
+    "category",
+    "priority",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

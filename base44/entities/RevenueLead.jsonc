@@ -1,0 +1,93 @@
+{
+  "type": "object",
+  "name": "RevenueLead",
+  "properties": {
+    "lead_type": {
+      "type": "string",
+      "description": "The money or growth lane this lead belongs to.",
+      "enum": [
+        "booking",
+        "grant",
+        "producer_collab",
+        "label_outreach",
+        "music_promo",
+        "web_build",
+        "merch_interest",
+        "fan_support",
+        "sponsor"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "description": "Person or organisation name."
+    },
+    "email": {
+      "type": "string",
+      "description": "Contact email.",
+      "format": "email"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Optional phone number."
+    },
+    "message": {
+      "type": "string",
+      "description": "What the person wants or what the agent found."
+    },
+    "requested_outcome": {
+      "type": "string",
+      "description": "Specific result wanted, such as booking, grant, collaboration, label intro, or website fix."
+    },
+    "source": {
+      "type": "string",
+      "description": "Where this lead came from."
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "today",
+        "high",
+        "normal",
+        "later"
+      ],
+      "default": "today"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "triaged",
+        "draft_ready",
+        "needs_gannon_approval",
+        "approved_to_contact",
+        "contacted",
+        "won",
+        "blocked",
+        "closed"
+      ],
+      "default": "new"
+    },
+    "consent_to_contact": {
+      "type": "boolean",
+      "default": true
+    },
+    "assigned_agent": {
+      "type": "string",
+      "description": "Agent responsible for next action."
+    },
+    "next_action": {
+      "type": "string",
+      "description": "Concrete next action."
+    },
+    "notes": {
+      "type": "string",
+      "description": "Working notes."
+    }
+  },
+  "required": [
+    "lead_type",
+    "name",
+    "email",
+    "message"
+  ]
+}

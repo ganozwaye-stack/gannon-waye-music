@@ -1,0 +1,75 @@
+{
+  "type": "object",
+  "name": "AgentAction",
+  "properties": {
+    "agent_name": {
+      "type": "string",
+      "description": "Agent proposing the action."
+    },
+    "lane": {
+      "type": "string",
+      "enum": [
+        "grant",
+        "producer_collab",
+        "label_outreach",
+        "music_promo",
+        "web_build",
+        "merch",
+        "booking",
+        "operations"
+      ]
+    },
+    "title": {
+      "type": "string",
+      "description": "Short action title."
+    },
+    "target_name": {
+      "type": "string",
+      "description": "Grant body, producer, collaborator, label, platform, buyer, or website section."
+    },
+    "draft_message": {
+      "type": "string",
+      "description": "Draft email, DM, grant response, pitch, or website instruction."
+    },
+    "evidence": {
+      "type": "string",
+      "description": "Sources, notes, and reasoning supporting the action."
+    },
+    "estimated_value_aud": {
+      "type": "number",
+      "description": "Estimated direct or strategic value in AUD."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "needs_gannon_approval",
+        "approved",
+        "sent",
+        "done",
+        "rejected",
+        "blocked"
+      ],
+      "default": "draft"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "low"
+    },
+    "approval_required": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "agent_name",
+    "lane",
+    "title",
+    "status"
+  ]
+}

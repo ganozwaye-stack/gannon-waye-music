@@ -1,0 +1,205 @@
+{
+  "name": "SocialLead",
+  "type": "object",
+  "properties": {
+    "lead_type": {
+      "type": "string",
+      "enum": [
+        "booking",
+        "press",
+        "collaboration",
+        "partnership",
+        "fan_relationship",
+        "moderation",
+        "other"
+      ],
+      "default": "other",
+      "description": "Business or engagement lane for this social enquiry."
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "instagram",
+        "tiktok",
+        "facebook",
+        "youtube",
+        "threads",
+        "other"
+      ],
+      "default": "instagram"
+    },
+    "handle": {
+      "type": "string",
+      "description": "Social account handle, such as @booking_agent_aus."
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Public profile name if supplied by the platform."
+    },
+    "profile_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Profile URL when available."
+    },
+    "message_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Permalink to the source comment, DM, or post when available."
+    },
+    "source_comment_id": {
+      "type": "string",
+      "description": "Platform comment or message ID."
+    },
+    "source_post_id": {
+      "type": "string",
+      "description": "Platform post/media ID."
+    },
+    "original_message": {
+      "type": "string",
+      "maxLength": 4000,
+      "description": "Exact inbound text from the person."
+    },
+    "classification": {
+      "type": "string",
+      "description": "AI triage classification."
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high",
+        "critical"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "verified",
+        "response_drafted",
+        "contacted",
+        "converted_to_booking",
+        "not_legitimate",
+        "closed"
+      ],
+      "default": "new"
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": [
+        "unverified",
+        "verified_in_platform",
+        "likely_demo",
+        "spam",
+        "fake",
+        "not_legitimate"
+      ],
+      "default": "unverified"
+    },
+    "contact_collection_status": {
+      "type": "string",
+      "enum": [
+        "not_requested",
+        "requested",
+        "supplied",
+        "unavailable"
+      ],
+      "default": "not_requested"
+    },
+    "contact_name": {
+      "type": "string",
+      "description": "Real contact name if supplied by the person."
+    },
+    "company_venue": {
+      "type": "string",
+      "description": "Company, agency, venue, brand, or publication if supplied."
+    },
+    "contact_email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email supplied by the person."
+    },
+    "contact_phone": {
+      "type": "string",
+      "description": "Phone number supplied by the person."
+    },
+    "consent_to_contact": {
+      "type": "boolean",
+      "default": false,
+      "description": "True only when the person clearly supplied contact details for follow-up."
+    },
+    "suggested_response": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Human-approved reply draft. Never auto-send."
+    },
+    "next_action": {
+      "type": "string",
+      "description": "Next human action to take."
+    },
+    "risk_alert_id": {
+      "type": "string",
+      "description": "Linked RiskAlert record ID."
+    },
+    "booking_enquiry_id": {
+      "type": "string",
+      "description": "Linked BookingEnquiry record ID if contact details were supplied."
+    },
+    "dedupe_key": {
+      "type": "string",
+      "description": "Stable key used to avoid duplicate leads from repeated imports."
+    },
+    "first_seen_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_seen_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "triage_count": {
+      "type": "integer",
+      "default": 1
+    },
+    "source_agent": {
+      "type": "string",
+      "default": "SocialCommentMonitor"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "lead_type",
+    "platform",
+    "handle",
+    "original_message"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -71,21 +71,8 @@ export default function Music() {
     initialData: [],
   });
 
-  // Album — featured at top, most prominent
-  const albumRelease = releases.find(r => r.type === 'album' && r.is_published);
-
   const published = [
-    // Album — shown first, prominently featured
-    ...(albumRelease ? [albumRelease] : [{
-      id: 'album-coming-soon',
-      title: 'Gannon Waye — The Album',
-      type: 'Album',
-      status: 'coming_soon',
-      is_published: true,
-      is_featured_new: true,
-      description: 'The debut album. Releasing next year. Coming soon.',
-    }]),
-    // 'Without You Here' — featured new single, shown first
+    // 'Without You Here' — featured new single
     ...(releases.some(r => r.title === 'Without You Here' && r.is_published) ? [] : [{
       id: 'without-you-here-coming-soon',
       title: 'Without You Here',
@@ -98,11 +85,16 @@ export default function Music() {
       credits: 'Written & Performed by Gannon Waye · Produced by Will Henderson · Mother\'s Day 2026',
       artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
     }]),
-    ...releases.filter(r => r.is_published),
+    ...releases.filter(r => r.is_published && (r.title === 'Thank You' || r.title === 'Without You Here')),
   ];
 
   return (
-    <div className="min-h-screen py-20 px-4 md:px-6">
+    <>
+    <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden>
+      <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png" alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/75 to-background" />
+    </div>
+    <div className="min-h-screen py-20 px-4 md:px-6 relative">
       <div className="max-w-5xl mx-auto">
         {/* Music hero with gold shards + optional banner */}
         <div className="relative text-center mb-16 py-4">
@@ -160,15 +152,6 @@ export default function Music() {
         ) : (
           <div className="space-y-12">
             <LyricsHighlights />
-            {/* Album — featured at top with gift-wrap styling */}
-            {published.filter(r => r.type === 'album' || r.type === 'Album').length > 0 && (
-              <div className="mb-8">
-                {published.filter(r => r.type === 'album' || r.type === 'Album').map(release => (
-                  <GiftWrapRelease key={release.id} release={release} isAlbum={true} />
-                ))}
-              </div>
-            )}
-
             {/* Released singles — standard card format */}
             {published.filter(r => r.type !== 'album' && r.type !== 'Album' && r.status !== 'idea').map((release, i) => (
               <motion.div
@@ -328,14 +311,7 @@ export default function Music() {
                 </motion.div>
                 ))}
 
-                {/* Coming soon singles — gift-wrapped */}
-                {published.filter(r => r.type !== 'album' && r.type !== 'Album' && (r.status === 'idea' || r.status === 'coming_soon')).length > 0 && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {published.filter(r => r.type !== 'album' && r.type !== 'Album' && (r.status === 'idea' || r.status === 'coming_soon')).map(release => (
-                 <GiftWrapRelease key={release.id} release={release} isAlbum={false} />
-                ))}
-                </div>
-                )}
+
                 </div>
                 )}
 
@@ -360,5 +336,6 @@ export default function Music() {
       </div>
       {lyricsRelease && <LyricsModal release={lyricsRelease} onClose={() => setLyricsRelease(null)} />}
     </div>
+    </>
   );
 }

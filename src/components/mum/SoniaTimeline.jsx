@@ -48,7 +48,7 @@ const TIMELINE = [
     icon: '☕',
   },
   {
-    year: '2024',
+    year: '2022',
     title: 'Final Chapter',
     story: 'The hardest chapter. But she faced it the way she lived — with quiet strength and deep love.',
     icon: '🌿',
