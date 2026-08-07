@@ -397,6 +397,7 @@ const AuthenticatedApp = () => {
         <Route path="/release/:id" element={<ReleaseDetail />} />
         <Route path="/store/product/:slug" element={<StoreProductDetail />} />
         <Route path="/releases" element={<ReleasesRedirect />} />
+        <Route path="/tour" element={<Tour />} />
         <Route path="/about" element={<About />} />
         <Route path="/support" element={<Navigate to="/contact" replace />} />
         <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />

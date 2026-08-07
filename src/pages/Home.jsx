@@ -6,22 +6,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
-import ThankYouSingle from '@/components/public/ThankYouSingle';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
-
-import ThankYouHeroBanner from '@/components/public/ThankYouHeroBanner';
-import VideoPreviewSection from '@/components/public/VideoPreviewSection';
-import MerchTeaserSection from '@/components/public/MerchTeaserSection';
 import StoreWorldTeaser from '@/components/public/StoreWorldTeaser';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
-import HeroQuoteRotator from '@/components/public/HeroQuoteRotator';
-import FanMediaUpload from '@/components/public/FanMediaUpload';
-import TikTokWelcomeBanner from '@/components/public/TikTokWelcomeBanner';
-import SupporterLeaderboard from '@/components/public/SupporterLeaderboard';
-import FanHighlightCommunity from '@/components/public/FanHighlightCommunity';
-import FeaturedVideoSection from '@/components/public/FeaturedVideoSection';
-import ThankYouCampaignSection from '@/components/public/ThankYouCampaignSection';
-import ThankYouStorySection from '@/components/public/ThankYouStorySection';
 import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
@@ -64,7 +51,6 @@ export default function Home() {
   return (
     <div className="min-h-screen relative">
       <FirstVisitOnboarding />
-      <TikTokWelcomeBanner />
 
       {/* Fixed background — visible behind ALL sections */}
       <div className="fixed inset-0 -z-10 overflow-hidden">
@@ -100,39 +86,7 @@ export default function Home() {
           <GoldenEmbers />
         </div>
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
-            <motion.img
-              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/172f64a6b_0fac46594_generated_image-Edited.png" alt="Gannon Waye" className="max-w-full h-auto mx-auto" style={{ maxHeight: '120px' }} />
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.6 }}
-              className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-8 mt-6">Singer, Songwriter, Storyteller</motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 20, filter: 'blur(6px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ duration: 0.7, delay: 0.9 }}
-              className="font-display text-2xl md:text-3xl text-foreground italic leading-snug mt-2 mb-2">
-              "For them, it was about appearance.<br className="hidden sm:block" /> For me, I was breaking inside."
-            </motion.h2>
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.2 }}
-              className="font-body text-sm md:text-base text-foreground/60 mt-3 max-w-xl mx-auto leading-relaxed px-2">
-              This is more than music. This is choosing yourself.
-            </motion.p>
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.5 }}
-              className="mt-6">
-              <HeroQuoteRotator />
-            </motion.div>
-
-          {/* Without You Here — cinematic title */}
+            {/* Without You Here — cinematic title */}
           <motion.div
             initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
@@ -307,30 +261,8 @@ export default function Home() {
 
 
 
-      {/* Merch Teaser */}
-      <MerchTeaserSection />
-
       {/* Boutique Store World CTA */}
       <StoreWorldTeaser />
-
-      {/* Fan Highlight Wall + Join Community (Merged) */}
-      <FanHighlightCommunity />
-
-
-
-      {/* Featured Video */}
-      <FeaturedVideoSection />
-
-      {/* Social Videos Preview */}
-      <VideoPreviewSection />
-
-
-
-      {/* Fan Media Upload */}
-      <FanMediaUpload />
-
-      {/* Supporter Leaderboard */}
-      <SupporterLeaderboard />
 
       {/* Thank You Project CTA — donations, community, socials */}
       <section className="py-16 px-4 md:px-6">
