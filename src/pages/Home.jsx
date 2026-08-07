@@ -25,6 +25,7 @@ import ThankYouStorySection from '@/components/public/ThankYouStorySection';
 import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
+import GoldenEmbers from '@/components/three/GoldenEmbers';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f232cb919_image.png',
@@ -82,6 +83,9 @@ export default function Home() {
       <section className="relative min-h-[100svh] flex items-center justify-center">
         <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/20 to-background/90 z-10" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.04),transparent_60%)] z-10" />
+        <div className="absolute inset-0 z-[15] pointer-events-none">
+          <GoldenEmbers />
+        </div>
         <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
             <motion.img
               initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
