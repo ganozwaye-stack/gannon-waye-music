@@ -109,28 +109,26 @@ export default function Music() {
           >
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Discography</p>
             <h1 className="font-display text-4xl md:text-6xl text-foreground">Music</h1>
-            {THANK_YOU_BANNER_URL && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.97 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="mt-8 max-w-3xl mx-auto relative overflow-hidden"
-              >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="mt-8 max-w-3xl mx-auto relative overflow-hidden rounded-2xl border border-primary/20"
+            >
+              <div className="aspect-[16/7] relative">
                 <img
-                  src={THANK_YOU_BANNER_URL}
-                  alt="Thank You — Gannon Waye · 05 June 2026"
-                  className="w-full object-cover rounded-2xl"
-                  style={{ maxHeight: 280 }}
+                  src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png"
+                  alt="Without You Here — Gannon Waye · Coming Soon"
+                  className="w-full h-full object-cover"
                 />
-                {/* Fade all four edges into the background */}
-                <div className="absolute inset-0 rounded-2xl" style={{
-                  background: 'linear-gradient(to bottom, hsl(220,15%,6%) 0%, transparent 18%, transparent 72%, hsl(220,15%,6%) 100%)'
-                }} />
-                <div className="absolute inset-0 rounded-2xl" style={{
-                  background: 'linear-gradient(to right, hsl(220,15%,6%) 0%, transparent 15%, transparent 85%, hsl(220,15%,6%) 100%)'
-                }} />
-              </motion.div>
-            )}
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-background/20" />
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-center">
+                  <p className="font-body text-[10px] tracking-[0.4em] uppercase text-primary/80 mb-2">The New Single · A Film For Mum</p>
+                  <h2 className="font-display text-3xl md:text-4xl gradient-gold-glow italic">Without You Here</h2>
+                  <p className="font-body text-xs text-foreground/60 mt-2 italic">Coming Soon · Date to be announced very soon</p>
+                </div>
+              </div>
+            </motion.div>
             <MagneticButton className="inline-block">
             <Link to="/lyrics" className="inline-block mt-5">
               <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10">

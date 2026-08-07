@@ -82,10 +82,20 @@ export default function Home() {
         </AnimatePresence>
       </div>
 
-      {/* Hero */}
-      <section className="relative min-h-[100svh] flex items-center justify-center">
-        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-background/20 to-background/90 z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.04),transparent_60%)] z-10" />
+      {/* Hero — Without You Here cinematic centerpiece */}
+      <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
+        <motion.img
+          src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png"
+          alt="Without You Here — Gannon Waye"
+          initial={{ scale: 1.18, opacity: 0 }}
+          animate={{ scale: 1.05, opacity: 0.6 }}
+          transition={{ scale: { duration: 20, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse' }, opacity: { duration: 2 } }}
+          className="absolute inset-0 w-full h-full object-cover object-[center_30%] z-0"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/55 to-background/95 z-10" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.05),transparent_60%)] z-10" />
+        <div className="absolute top-0 left-0 right-0 h-[7vh] bg-background z-20 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 right-0 h-[8vh] bg-gradient-to-t from-background via-background/80 to-transparent z-20 pointer-events-none" />
         <div className="absolute inset-0 z-[15] pointer-events-none">
           <GoldenEmbers />
         </div>
@@ -122,27 +132,21 @@ export default function Home() {
               <HeroQuoteRotator />
             </motion.div>
 
-          {/* "Thank You" + "Without You Here" teaser strip in the hero */}
+          {/* Without You Here — cinematic title */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35 }}
-            className="mt-10 inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-5 bg-card/40 backdrop-blur-sm border border-primary/20 rounded-2xl px-6 py-4 mx-auto"
+            initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
+            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="mt-10"
           >
-            <div className="flex items-center gap-2">
+            <p className="font-body text-[10px] tracking-[0.4em] uppercase text-primary/70 mb-3">The New Single · A Film For Mum</p>
+            <h1 className="font-display text-5xl md:text-7xl gradient-gold-glow italic leading-[1.05]">Without You Here</h1>
+            <p className="font-body text-sm md:text-base text-foreground/70 mt-4 max-w-xl mx-auto italic leading-relaxed">
+              A raw, acoustic letter to Sonia — written in the early hours of Mother's Day, four years after she left.
+            </p>
+            <div className="inline-flex items-center gap-2 mt-5 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow">Featured Single</p>
-            </div>
-            <p className="font-display text-lg text-foreground italic">"Without You Here"</p>
-            <div className="w-px h-4 bg-border/60 hidden sm:block" />
-            <div className="flex flex-col items-center gap-1">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Coming Soon</p>
-              <Link to="/music" className="font-display text-base text-primary italic hover:underline">Listen →</Link>
-            </div>
-            <div className="w-px h-4 bg-border/60 hidden sm:block" />
-            <div className="flex flex-col items-center gap-1">
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Out Now</p>
-              <Link to="/music" className="font-display text-base text-foreground/80 italic hover:underline">"Thank You" →</Link>
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary">Coming Soon · Date To Be Announced</p>
             </div>
           </motion.div>
 
@@ -153,16 +157,16 @@ export default function Home() {
             className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
           >
             <MagneticButton className="w-full sm:w-auto">
-              <Link to="/music" className="w-full sm:w-auto">
+              <Link to="/presave" className="w-full sm:w-auto">
                 <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
-                  <Play className="w-4 h-4" /> Stream Now
+                  <Play className="w-4 h-4" /> Pre-save
                 </Button>
               </Link>
             </MagneticButton>
             <MagneticButton className="w-full sm:w-auto">
-              <Link to="/this-is-my-life" className="w-full sm:w-auto">
+              <Link to="/remember-mum" className="w-full sm:w-auto">
                 <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
-                  My Story <ArrowRight className="w-4 h-4" />
+                  Her Story <ArrowRight className="w-4 h-4" />
                 </Button>
               </Link>
             </MagneticButton>
@@ -179,14 +183,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Thank You Single — moved up */}
-      <ThankYouSingle />
 
-      {/* Thank You Campaign Visual — LIVE, awaiting Gannon approval in /admin/website-evolution */}
-      {site.show_thank_you_campaign_section !== false && <ThankYouCampaignSection />}
 
-      {/* Thankyou Song Story — LIVE, awaiting Gannon review */}
-      <ThankYouStorySection />
+
+
+
 
       {/* About Section — magazine 3-column */}
       <section className="py-16 md:py-24 px-4 md:px-6 relative">
@@ -315,8 +316,7 @@ export default function Home() {
       {/* Fan Highlight Wall + Join Community (Merged) */}
       <FanHighlightCommunity />
 
-      {/* Thank You Hero Banner */}
-      <ThankYouHeroBanner />
+
 
       {/* Featured Video */}
       <FeaturedVideoSection />
