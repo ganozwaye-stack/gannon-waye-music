@@ -28,6 +28,7 @@ import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import GoldenEmbers from '@/components/three/GoldenEmbers';
 import MagneticButton from '@/components/public/MagneticButton';
 import FloatingImage from '@/components/public/FloatingImage';
+import TiltCard from '@/components/public/TiltCard';
 
 const HERO_IMAGES = [
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4c4319141_image.png',
@@ -384,6 +385,7 @@ export default function Home() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
               {/* Without You Here — Coming Soon card */}
+              <TiltCard max={6} className="rounded-2xl">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -411,9 +413,10 @@ export default function Home() {
                   <p className="font-body text-xs text-primary/60 mt-3 italic">Date to be announced very soon</p>
                 </div>
               </motion.div>
+              </TiltCard>
               {releases.filter((r) => r.is_published).slice(0, 2).map((release) => (
+                <TiltCard key={release.id} max={6} className="rounded-2xl">
                 <motion.div
-                  key={release.id}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -442,6 +445,7 @@ export default function Home() {
                     )}
                   </div>
                 </motion.div>
+                </TiltCard>
               ))}
             </div>
             <div className="text-center mt-10">

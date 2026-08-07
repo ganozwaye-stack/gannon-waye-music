@@ -18,6 +18,8 @@ import TourTracker from '@/components/public/TourTracker';
 import FanPlaylists from '@/components/public/FanPlaylists';
 import LyricsHighlights from '@/components/public/LyricsHighlights';
 import FloatingImage from '@/components/public/FloatingImage';
+import TiltCard from '@/components/public/TiltCard';
+import MagneticButton from '@/components/public/MagneticButton';
 
 // Clean gold glow banner — blends into dark background on Music page
 const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
@@ -129,21 +131,27 @@ export default function Music() {
                 }} />
               </motion.div>
             )}
+            <MagneticButton className="inline-block">
             <Link to="/lyrics" className="inline-block mt-5">
               <Button variant="outline" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10">
                 Read Lyrics →
               </Button>
             </Link>
+            </MagneticButton>
+            <MagneticButton className="inline-block">
             <Link to="/lyric-library" className="inline-block ml-2">
               <Button variant="ghost" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase text-muted-foreground hover:text-primary">
                 Lyric Library →
               </Button>
             </Link>
+            </MagneticButton>
+            <MagneticButton className="inline-block">
             <Link to="/discover" className="inline-block ml-2">
               <Button variant="ghost" size="sm" className="rounded-full font-body text-xs tracking-wider uppercase text-muted-foreground hover:text-primary">
                 Discover Music →
               </Button>
             </Link>
+            </MagneticButton>
           </motion.div>
         </div>
 
@@ -155,8 +163,8 @@ export default function Music() {
             <LyricsHighlights />
             {/* Released singles — standard card format */}
             {published.filter(r => r.type !== 'album' && r.type !== 'Album' && r.status !== 'idea').map((release, i) => (
+              <TiltCard key={release.id} max={5} className="rounded-2xl">
               <motion.div
-                key={release.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
@@ -310,6 +318,7 @@ export default function Music() {
                      )}
                 </div>
                 </motion.div>
+              </TiltCard>
                 ))}
 
 

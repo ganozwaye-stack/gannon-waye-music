@@ -1,0 +1,71 @@
+{
+  "type": "object",
+  "name": "ContactSubmission",
+  "properties": {
+    "full_name": {
+      "type": "string",
+      "description": "Name supplied by the person contacting Gannon."
+    },
+    "email": {
+      "type": "string",
+      "description": "Reply email supplied by the person.",
+      "format": "email"
+    },
+    "subject": {
+      "type": "string",
+      "description": "Optional subject or inferred contact lane."
+    },
+    "message": {
+      "type": "string",
+      "description": "Message supplied through the public contact form.",
+      "maxLength": 4000
+    },
+    "source": {
+      "type": "string",
+      "description": "Where this enquiry was captured.",
+      "default": "contact_page"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "read",
+        "replied",
+        "archived"
+      ],
+      "default": "new"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Private admin notes.",
+      "maxLength": 2000
+    }
+  },
+  "required": [
+    "full_name",
+    "email",
+    "message"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
