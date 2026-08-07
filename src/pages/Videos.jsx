@@ -7,6 +7,8 @@ import { ArrowRight, Heart, Music as MusicIcon, ShoppingBag, BookOpen } from 'lu
 import { Button } from '@/components/ui/button';
 import SocialVideoEmbed from '@/components/public/SocialVideoEmbed';
 import BePartOfThisCTA from '@/components/public/BePartOfThisCTA';
+import TiltCard from '@/components/public/TiltCard';
+import MagneticButton from '@/components/public/MagneticButton';
 import GoldShards from '@/components/public/GoldShards';
 
 // Reveal audio track (WAV) — plays on the Videos page featured card
@@ -100,13 +102,12 @@ export default function Videos() {
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
             {filtered.map((video, i) => (
+              <TiltCard key={video.id} max={6} className="rounded-2xl break-inside-avoid">
               <motion.div
-                key={video.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                className="break-inside-avoid"
               >
                 <SocialVideoEmbed video={video} />
                 {video.title && (
@@ -118,13 +119,16 @@ export default function Videos() {
                       See Full Story <ArrowRight className="w-3 h-3" />
                     </Button>
                   </Link>
-                  <Link to="/back-this" className="flex-1">
-                    <Button size="sm" className="w-full rounded-full font-body text-xs tracking-wider uppercase gradient-gold-button border-0">
-                      <Heart className="w-3 h-3" /> Be Part Of This
-                    </Button>
-                  </Link>
+                  <MagneticButton strength={0.15} className="flex-1">
+                    <Link to="/back-this" className="flex-1">
+                      <Button size="sm" className="w-full rounded-full font-body text-xs tracking-wider uppercase gradient-gold-button border-0">
+                        <Heart className="w-3 h-3" /> Be Part Of This
+                      </Button>
+                    </Link>
+                  </MagneticButton>
                 </div>
               </motion.div>
+              </TiltCard>
             ))}
           </div>
         )}

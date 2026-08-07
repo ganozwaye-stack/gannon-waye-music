@@ -10,27 +10,34 @@ import LyricsModal from '@/components/public/LyricsModal';
 import SpotifyPlayer from '@/components/public/SpotifyPlayer';
 import FanReviewSection from '@/components/public/FanReviewSection';
 import FanCommentSection from '@/components/public/FanCommentSection';
-import {
-  applyThankYouLyrics,
-  THANK_YOU_LYRICS,
-  THANK_YOU_TITLE,
-  THANK_YOU_WRITTEN_CREDIT,
-} from '@/lib/thankYouLyrics';
+const WYH_ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png';
 
-const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
+const WYH_HERO_COPY = "Written in the early hours of Mother's Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did.";
 
-const FALLBACK_SINGLE = {
-  id: 'thank-you-fallback',
-  title: THANK_YOU_TITLE,
+const WYH_BEHIND_STORY = `Sonia Katisa Waye (5 February 1961 – 27 April 2022) was the heart of Gannon's family — the central pillar who held everyone together. Her Adelaide backyard was a sanctuary: monstera and elephant ears, spider plants and orange flowering vines, the concrete table, Onya & Gay's Archway connecting neighbouring driveways. Every morning she was there in her burgundy robe, coffee mug in hand, tending the garden she planted with care.
+
+Twenty days after a stage-four diagnosis, Sonia took her last breath holding Gannon's hand. The sudden silence in the home was deafening. Four years later, in the early hours of Mother's Day 2026, Gannon sat on the loungeroom floor and wrote "Without You Here" — an acoustic letter to the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did.
+
+The line at its centre carries the entire weight of the song: "your last breath took mine away, there's not much more I have to say."
+
+"Mum didn't just plant flowers; she planted safety. When she left, the garden stayed, and every lyric I write is just me talking to her."
+
+"Without You Here" follows Gannon's debut single "Thank You" and leads the path toward his forthcoming 15-track debut album I'm Still Here, produced with Victorian producer Will Henderson (Willing Music). In Sonia's honour, Gannon has pledged 10% of all music support to 1800RESPECT — Australia's national domestic, family, and sexual violence counselling service — turning private survival into a public sanctuary for anyone carrying love for someone no longer here.`;
+
+const WYH_CREDITS = "Written & Performed by Gannon Waye · Produced by Will Henderson (Willing Music) · Mother's Day 2026 · 10% of all support pledged to 1800RESPECT";
+
+const WYH_FALLBACK = {
+  id: 'without-you-here',
+  title: 'Without You Here',
   type: 'single',
-  status: 'released',
-  release_date: '2026-06-05',
-  artwork_url: THANK_YOU_COVER,
-  description: 'Thank You is the debut single from Gannon Waye.',
-  current_single_hero_copy: 'Thank You, the debut single from Gannon Waye. Out now.',
-  current_single_behind_story: 'Thank You is a song about clarity, self respect and choosing a new way forward.',
-  credits: THANK_YOU_WRITTEN_CREDIT,
-  lyrics: THANK_YOU_LYRICS,
+  status: 'coming_soon',
+  release_date: null,
+  artwork_url: WYH_ARTWORK,
+  description: 'A raw, acoustic letter to Sonia — written in the early hours of Mother\'s Day, four years after she left.',
+  current_single_hero_copy: WYH_HERO_COPY,
+  current_single_behind_story: WYH_BEHIND_STORY,
+  credits: WYH_CREDITS,
+  lyrics: null,
   youtube_video_id: null,
   youtube_link: null,
   spotify_link: null,
@@ -84,10 +91,13 @@ export default function CurrentSingle() {
 
   const { data: releases = [] } = useQuery({
     queryKey: ['current-single'],
-    queryFn: () => base44.entities.Release.filter({ is_current_single: true }, '-release_date', 1),
+    queryFn: () => base44.entities.Release.list('-release_date', 30),
   });
 
-  const single = applyThankYouLyrics(releases[0] || FALLBACK_SINGLE);
+  const dbSingle =
+    releases.find((r) => r.title === 'Without You Here') ||
+    releases.find((r) => r.is_current_single);
+  const single = dbSingle || WYH_FALLBACK;
   const isReleased = single.status === 'released';
   const releaseDateText = single.release_date
     ? new Date(single.release_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })
@@ -127,12 +137,19 @@ export default function CurrentSingle() {
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7 }}>
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Current Single</p>
             <h1 className="font-display text-5xl md:text-7xl text-foreground leading-none mb-4">{single.title}</h1>
-            {releaseDateText && (
+            {releaseDateText ? (
               <motion.p
                 className="font-body text-sm text-muted-foreground mb-6"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
               >
                 {isReleased ? 'Out now' : `Out ${releaseDateText}`}
+              </motion.p>
+            ) : (
+              <motion.p
+                className="font-body text-sm text-primary italic mb-6"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
+              >
+                Coming Soon · Date to be announced very soon
               </motion.p>
             )}
             {single.current_single_hero_copy && (
@@ -157,9 +174,14 @@ export default function CurrentSingle() {
                 </a>
               )}
               {!isReleased && (
-                <Link to="/back-this">
-                  <Button className="rounded-full gap-2 font-body text-xs tracking-wider uppercase gradient-gold-button border-0">Back This Release</Button>
-                </Link>
+                <>
+                  <Link to="/presave">
+                    <Button className="rounded-full gap-2 font-body text-xs tracking-wider uppercase gradient-gold-button border-0">Pre-save</Button>
+                  </Link>
+                  <Link to="/back-this">
+                    <Button variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10">Back This Release</Button>
+                  </Link>
+                </>
               )}
               <Link to="/store">
                 <Button variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-border/40 hover:border-primary/30">
@@ -189,13 +211,10 @@ export default function CurrentSingle() {
           </motion.div>
         </div>
 
-        {isReleased && (single.spotify_link || single.title === THANK_YOU_TITLE || single.id === 'thank-you-fallback') && (
+        {isReleased && single.spotify_link && (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }} className="mb-14">
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Listen on Spotify</p>
-            <SpotifyPlayer
-              spotifyLink={single.spotify_link}
-              fallbackUrl="https://open.spotify.com/album/36qMYfzzJrq2j039l9Ex66"
-            />
+            <SpotifyPlayer spotifyLink={single.spotify_link} />
           </motion.div>
         )}
 

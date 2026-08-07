@@ -6,6 +6,8 @@ import { Music2, ChevronDown, Lock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import GannonSignature from '@/components/global/GannonSignature';
+import TiltCard from '@/components/public/TiltCard';
+import MagneticButton from '@/components/public/MagneticButton';
 
 export default function LyricsPage() {
   const [openId, setOpenId] = useState(null);
@@ -50,17 +52,19 @@ export default function LyricsPage() {
             <p className="font-body text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
               The full lyrics archive is being carefully prepared. Each song's words will appear here once they're finalised and approved for publishing.
             </p>
-            <Link to="/music" className="mt-6 inline-block">
-              <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase">
-                Go to Music
-              </Button>
-            </Link>
+            <MagneticButton className="inline-block">
+              <Link to="/music" className="mt-6 inline-block">
+                <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase">
+                  Go to Music
+                </Button>
+              </Link>
+            </MagneticButton>
           </div>
         ) : (
           <div className="space-y-4">
             {lyrics.map((lyric, i) => (
+              <TiltCard key={lyric.id} max={5} className="rounded-2xl">
               <motion.div
-                key={lyric.id}
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.08 }}
@@ -105,16 +109,19 @@ export default function LyricsPage() {
                   )}
                 </AnimatePresence>
               </motion.div>
+              </TiltCard>
             ))}
           </div>
         )}
 
         <div className="mt-12 text-center">
-          <Link to="/back-this">
-            <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10">
-              Support the Music 🤍
-            </Button>
-          </Link>
+          <MagneticButton className="inline-block">
+            <Link to="/back-this">
+              <Button variant="outline" className="rounded-full font-body text-sm tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10">
+                Support the Music 🤍
+              </Button>
+            </Link>
+          </MagneticButton>
         </div>
 
       </div>

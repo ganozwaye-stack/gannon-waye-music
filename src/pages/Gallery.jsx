@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { X, ChevronLeft, ChevronRight, Image as ImageIcon } from 'lucide-react';
+import TiltCard from '@/components/public/TiltCard';
 
 const CATEGORIES = [
   { key: 'all', label: 'All' },
@@ -79,10 +80,10 @@ export default function Gallery() {
         ) : (
           <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
             {filtered.map((img, idx) => (
+              <TiltCard key={img.id} max={6} className="rounded-xl break-inside-avoid">
               <button
-                key={img.id}
                 onClick={() => openLightbox(idx)}
-                className="block w-full break-inside-avoid group relative overflow-hidden rounded-xl border border-border/20 hover:border-primary/40 transition-all"
+                className="block w-full group relative overflow-hidden rounded-xl border border-border/20 hover:border-primary/40 transition-all"
               >
                 <img
                   src={img.image_url}
@@ -98,6 +99,7 @@ export default function Gallery() {
                   </div>
                 </div>
               </button>
+              </TiltCard>
             ))}
           </div>
         )}

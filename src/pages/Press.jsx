@@ -4,6 +4,7 @@ import { ExternalLink, Mail, Music, Radio, Mic, Headphones, Clapperboard, Image 
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
+import TiltCard from '@/components/public/TiltCard';
 
 const APPROVED_EMAIL = 'gannonwayemusic@gmail.com';
 
@@ -132,10 +133,12 @@ export default function Press() {
         <h2 className="font-display text-xl text-foreground mb-4">Official Links</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {SOCIAL_LINKS.map(link => (
-            <a key={link.label} href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg hover:bg-secondary/50 transition-colors">
-              <span className="font-body text-sm text-foreground">{link.label}</span>
-              <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
-            </a>
+            <TiltCard key={link.label} max={6} className="rounded-lg">
+              <a href={link.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 bg-secondary/30 rounded-lg hover:bg-secondary/50 transition-colors">
+                <span className="font-body text-sm text-foreground">{link.label}</span>
+                <ExternalLink className="w-3.5 h-3.5 text-muted-foreground" />
+              </a>
+            </TiltCard>
           ))}
         </div>
       </motion.section>
