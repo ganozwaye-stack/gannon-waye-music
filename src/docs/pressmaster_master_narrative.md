@@ -155,18 +155,125 @@ Media Contact:
 
 ---
 
-## 🎬 "THIS IS ME" — 6-ACT VIDEO SERIES BLUEPRINT
+## 🎬 "THIS IS ME" — 6-ACT VIDEO SERIES BLUEPRINT (VERBATIM)
 
-A video series filmed on the lounge / floor with a handwritten songbook — raw, unpolished, direct to camera.
+A chronological synthesis of Gannon Waye's life, structured into 6 Cinematic Acts for the video series, book, and artist story release.
 
-| Act | Focus | Hook / Opening Line |
-|-----|-------|---------------------|
-| **Act 1 — The Notebook** | Where songs start: the floor, the pen, the feeling that won't leave. | "I don't write songs to be heard. I write because if I don't, the feeling stays." |
-| **Act 2 — The Different Kid** | Childhood isolation, bullying, music as the private sanctuary. | "I learned early that being misunderstood doesn't mean you're wrong." |
-| **Act 3 — Searching** | The gay scene, faith, the masks that couldn't heal the wounds. | "I wore a mask of happiness for years. It never once healed me." |
-| **Act 4 — Thank You** | The relationship, the account loss, choosing self-respect over repetition. | "Recently my ex had my accounts disabled. I am starting from nothing. And that is finally okay." |
-| **Act 5 — Without You Here** | Sonia. Twenty days. Mother's Day, 12:30am. The song that carries her name. | "Your last breath took mine away. There's not much more I have to say." |
-| **Act 6 — I'm Still Here** | The album. The pledge. The statement said to himself first. | "I'm still here. And if you're watching this, so are you." |
+```
+ACT I: The Early Years & Complex Foundations
+  (Growing up in Adelaide, family dynamics, school bullies)
+    ↓
+ACT II: The Wilderness & The Gay Scene
+  (Searching for belonging, identity, masks, nightlife highs & lows)
+    ↓
+ACT III: Faith, Church & Spiritual Tension
+  (Seeking grace vs traditional judgment, internal conflicts)
+    ↓
+ACT IV: Trauma, Betrayal & The Crucible
+  (Breakups, abuse, account compromises, losing voice & control)
+    ↓
+ACT V: Sonia (Mum) — The Anchor & The Great Loss
+  (Burgundy robe, coffee in garden, 27 April 2022, "Without You Here")
+    ↓
+ACT VI: Rebirth & Unfiltered Truth — "This Is Me"
+  (Breaking cycles, 1800RESPECT, independent music, gannonwaye.com)
+```
+
+### ACT I — The Early Years & Complex Foundations
+**Setting:** Suburban Adelaide, Australia.
+
+**The Boy Behind the Piano:** Growing up with music as a silent sanctuary. While outside noise was unpredictable, keys and melodies offered control, safety, and expression.
+
+**Family Architecture:**
+- **Pa:** The quiet, protective patriarch whose presence brought calm and steady wisdom.
+- **Dad:** A complex father figure; moments of tension, high expectations, and distance that shaped Gannon's search for self-worth.
+- **Siblings:** Carla, Jarrad, Crystal, and Gannon — four siblings navigating their own paths, held together by the central pillar of their mother.
+
+**School Bullies & Early Rejection:**
+- Feeling fundamentally different from a young age.
+- The isolation of schoolyard bullying, where words were used as weapons.
+- Learning to build internal armors early in life.
+
+**Voiceover / Script Line:** *"When you're a kid who feels everything too deeply, the world tells you to be quiet. But music gave me a voice before I knew how to stand up for myself."*
+
+### ACT II — The Wilderness & The Gay Scene
+**Setting:** Adelaide & Melbourne Nightlife.
+
+**The Pursuit of Belonging:** Escaping early isolation by stepping into the vibrant gay scene.
+
+**Highs & Lows:**
+- *The Highs:* Bright lights, glamour, gold rings, acceptance, fast energy, and the exhilaration of being seen.
+- *The Lows:* Surface-level connections, superficial expectations, chemical highs masking deep emotional voids, and feeling lonely in a room full of hundreds of people.
+
+**The Mask:** Learning to perform happiness while carrying unhealed childhood wounds.
+
+**Voiceover / Script Line:** *"I thought I was looking for a party, but I was just looking for a home. I wore the gold, I smiled for the crowd, but at 3 AM, the quiet was louder than the music."*
+
+### ACT III — Faith, Church & The Spiritual Tension
+**Setting:** Traditional Church & Spiritual Search.
+
+**Seeking Higher Purpose:** Turning to faith and church for structure, redemption, and spiritual grounding.
+
+**The Paradox of Grace vs Judgment:**
+- Experiencing the beauty of worship, community, and moral clarity.
+- Hitting the harsh wall of religious judgment: being told that his identity, his love, and his truth were conditional or flawed.
+- The Breakaway: Realizing that true spirituality is not about pleasing an institution, but about authentic love, grace, and personal integrity.
+
+**Voiceover / Script Line:** *"They told me grace had conditions. But my mother taught me love was unconditional. That's the day I stopped asking for permission to exist."*
+
+### ACT IV — Trauma, Betrayal & The Crucible
+**Setting:** Relationship Breakdowns & Social Disruption.
+
+**Abuse, Neglect & Abandonment:**
+- Toxic relationship dynamics where boundaries were crossed, self-worth was eroded, and trust was exploited.
+- Experiencing the deep pain of emotional abandonment — being left to clean up broken pieces alone.
+
+**The Ex & Social Sabotage:**
+- Having established Instagram and Facebook accounts disabled and compromised by an ex-partner.
+- Being forced to watch years of public connection wiped away overnight, facing ad account blocks, and having to restart from zero.
+
+**Choosing Self-Respect:**
+- The breaking point captured in the single "Thank You": refusing to repeat toxic cycles. Choosing dignity over quiet compliance.
+
+**Voiceover / Script Line:** *"When someone takes your accounts, your platform, or your peace, they think they've erased you. But they only erased the noise. They couldn't touch the music in my head."*
+
+### ACT V — Sonia (Mum) — The Anchor & The Great Loss
+**Setting:** Mum's Backyard Garden (5 Feb 1961 – 27 Apr 2022).
+
+**The Sanctuary:**
+- Sonia Katisa Waye — the heart of the family.
+- Her everyday rituals: burgundy robe, morning coffee mug in hand, tending to her monstera, elephant ears, spider plants, and orange flowering vines.
+- The concrete table, Onya & Gay's Archway connecting neighboring driveways, and her unconditional warmth.
+
+**27 April 2022:**
+- The devastating day Mum passed away. The sudden silence in the home.
+- The physical and emotional weight of losing your primary protector.
+
+**"Without You Here":**
+- Written in the early hours of Mother's Day at the piano.
+- *"Your last breath took mine away. There's not much more I have to say."*
+- Committing 10% of all music support to 1800RESPECT in her honor.
+
+**Voiceover / Script Line:** *"Mum didn't just plant flowers; she planted safety. When she left, the garden stayed, and every lyric I write is just me talking to her."*
+
+### ACT VI — Rebirth & Unfiltered Truth — "This Is Me"
+**Setting:** gannonwaye.com & The Living Present.
+
+**Starting Fresh from the Floor:**
+- No fancy studio needed. Notebook on the floor, pen in hand, coffee mug nearby.
+- Raw singer-songwriter honesty. No fake avatars, no AI replacements — 100% real family photos and lived truth.
+
+**Independent Autonomy:**
+- Building gannonwaye.com as an independent sanctuary owned by Gannon, immune to social media wipes or platform blocks.
+- Victorian music grant recognition, community leadership, domestic violence support, and empowering others who have faced trauma.
+
+**Voiceover / Script Line:** *"This is not a comeback. This is a continuation. I lost my accounts, I lost my mum, but I never lost my story. I am Gannon Waye — singer, songwriter, son — and this is me."*
+
+### 📽️ Filming Checklist for "This Is Me" Video Series
+- **Scene 1 (The Songbook):** Film a 30-second clip sitting on your living room floor with your handwritten notebook and pen. Look up and speak Act I line.
+- **Scene 2 (The Photos):** Hold up real original photos of Sonia, Pa, and early family moments.
+- **Scene 3 (The Raw Song):** Sing 2 lines of Without You Here acoustic/a cappella.
+- **Scene 4 (The Direct Statement):** Speak Act VI closing statement directly to camera.
 
 ---
 
