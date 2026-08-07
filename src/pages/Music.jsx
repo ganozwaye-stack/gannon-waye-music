@@ -17,6 +17,7 @@ import MusicRecommendations from '@/components/public/MusicRecommendations';
 import TourTracker from '@/components/public/TourTracker';
 import FanPlaylists from '@/components/public/FanPlaylists';
 import LyricsHighlights from '@/components/public/LyricsHighlights';
+import FloatingImage from '@/components/public/FloatingImage';
 
 // Clean gold glow banner — blends into dark background on Music page
 const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
@@ -91,7 +92,7 @@ export default function Music() {
   return (
     <>
     <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none" aria-hidden>
-      <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c053c0cf4_generated_image.png" alt="" className="absolute inset-0 w-full h-full object-cover opacity-20" />
+      <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4c4319141_image.png" alt="" className="absolute inset-0 w-full h-full object-cover opacity-25" />
       <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/75 to-background" />
     </div>
     <div className="min-h-screen py-20 px-4 md:px-6 relative">
@@ -314,6 +315,37 @@ export default function Music() {
 
                 </div>
                 )}
+
+        {/* What's Next? — upcoming releases */}
+        {published.filter(r => r.status !== 'released').length > 0 && (
+          <div className="mt-16">
+            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow text-center mb-2">What's Next?</p>
+            <h3 className="font-display text-2xl md:text-3xl text-foreground text-center mb-8">On the way</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {published.filter(r => r.status !== 'released').map((r, i) => (
+                <FloatingImage key={r.id} amplitude={5} duration={5} delay={i * 0.4}>
+                  <div className="relative group">
+                    <div className="aspect-square rounded-2xl overflow-hidden border border-primary/30 relative" style={{ boxShadow: '0 0 40px rgba(212,175,55,0.08)' }}>
+                      {r.artwork_url ? (
+                        <img src={r.artwork_url} alt={r.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ) : (
+                        <div className="w-full h-full bg-secondary/40 flex items-center justify-center">
+                          <span className="font-display text-6xl gradient-gold-glow">?</span>
+                        </div>
+                      )}
+                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-background/70 backdrop-blur-sm border border-primary/30">
+                        <p className="font-body text-[9px] tracking-[0.2em] uppercase text-primary">Coming Soon</p>
+                      </div>
+                    </div>
+                    <h4 className="font-display text-lg text-foreground mt-3 italic">{r.title}</h4>
+                    {r.release_date && <p className="font-body text-xs text-muted-foreground">{new Date(r.release_date).toLocaleDateString('en-AU', { month: 'long', year: 'numeric' })}</p>}
+                    {!r.release_date && <p className="font-body text-xs text-primary/60 italic">Date to be announced</p>}
+                  </div>
+                </FloatingImage>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="flex justify-center mt-10 mb-4">
           <ShareButtons url="https://gannonwaye.com/music" text="Gannon Waye — debut single 'Thank You' out now." />

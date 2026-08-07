@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SiteSearch from '@/components/public/SiteSearch';
+import MagneticButton from '@/components/public/MagneticButton';
 
 
 const BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5de42a778_60a7df62-cfa1-4cba-9280-c5ac4dfcbfa5.png';
@@ -70,25 +71,26 @@ export default function Navbar() {
             const isHighlighted = link.highlight || link.path === '/store';
             const isBoutique = link.boutique;
             return (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`font-body text-[11px] tracking-widest uppercase transition-all duration-200 hover:scale-105 ${
-                  isBoutique
-                    ? active
-                      ? 'px-3 py-1 rounded-full gradient-gold-text border border-primary/80 bg-primary/10'
-                      : 'px-3 py-1 rounded-full gradient-gold-text border border-primary/40 hover:border-primary/70 hover:bg-primary/10'
-                    : isHighlighted
+              <MagneticButton key={link.path} strength={0.2} className="inline-block">
+                <Link
+                  to={link.path}
+                  className={`font-body text-[11px] tracking-widest uppercase transition-all duration-200 hover:scale-105 ${
+                    isBoutique
                       ? active
-                        ? 'px-4 py-1.5 rounded-full bg-primary text-primary-foreground'
-                        : 'px-4 py-1.5 rounded-full border border-primary/60 hover:bg-primary/10 gradient-gold-text'
-                      : active
-                        ? 'gradient-gold-text'
-                        : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                {link.label}
-              </Link>
+                        ? 'px-3 py-1 rounded-full gradient-gold-text border border-primary/80 bg-primary/10'
+                        : 'px-3 py-1 rounded-full gradient-gold-text border border-primary/40 hover:border-primary/70 hover:bg-primary/10'
+                      : isHighlighted
+                        ? active
+                          ? 'px-4 py-1.5 rounded-full bg-primary text-primary-foreground'
+                          : 'px-4 py-1.5 rounded-full border border-primary/60 hover:bg-primary/10 gradient-gold-text'
+                        : active
+                          ? 'gradient-gold-text'
+                          : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </MagneticButton>
             );
           })}
 

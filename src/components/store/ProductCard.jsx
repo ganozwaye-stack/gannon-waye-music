@@ -4,6 +4,8 @@ import { ShoppingBag, Star, Gift, AlertCircle } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
+import FloatingImage from '@/components/public/FloatingImage';
+import MagneticButton from '@/components/public/MagneticButton';
 
 const CATEGORY_LABELS = {
   apparel: 'Apparel',
@@ -70,54 +72,56 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
       )}
 
       {/* Image — gift-wrapped until store opens, then real image with optional flip */}
-      <div className="relative aspect-square bg-secondary/40 overflow-hidden perspective">
-        {!merchRevealed ? (
-          <>
-            <img
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png"
-              alt="Coming soon"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-2">
-              <Gift className="w-8 h-8 text-primary" />
-              <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text">Revealed May 10</p>
-            </div>
-          </>
-        ) : (
-          <div className="w-full h-full relative">
-            {product.image_url && (
-              <motion.img
-                key="front"
-                src={product.image_url}
-                alt={product.name}
-                initial={{ opacity: 1, rotateY: 0 }}
-                animate={{ opacity: showBack ? 0 : 1, rotateY: showBack ? -90 : 0 }}
-                transition={{ duration: 1.2, ease: 'easeInOut' }}
-                className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${soldOut ? 'opacity-60 grayscale' : ''}`}
-                style={{ backfaceVisibility: 'hidden' }}
+      <FloatingImage className="w-full" amplitude={4} duration={5} delay={(index || 0) * 0.4}>
+        <div className="relative aspect-square bg-secondary/40 overflow-hidden perspective">
+          {!merchRevealed ? (
+            <>
+              <img
+                src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/bd4d2cad9_generated_image.png"
+                alt="Coming soon"
+                className="w-full h-full object-cover"
               />
-            )}
-            {product.back_image_url && (
-              <motion.img
-                key="back"
-                src={product.back_image_url}
-                alt={`${product.name} back`}
-                initial={{ opacity: 0, rotateY: 90 }}
-                animate={{ opacity: showBack ? 1 : 0, rotateY: showBack ? 0 : 90 }}
-                transition={{ duration: 1.2, ease: 'easeInOut' }}
-                className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${soldOut ? 'opacity-60 grayscale' : ''}`}
-                style={{ backfaceVisibility: 'hidden' }}
-              />
-            )}
-            {!product.image_url && !product.back_image_url && (
-              <div className="w-full h-full flex items-center justify-center bg-secondary/40">
-                <ShoppingBag className="w-12 h-12 text-muted-foreground/20" />
+              <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-2">
+                <Gift className="w-8 h-8 text-primary" />
+                <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text">Revealed May 10</p>
               </div>
-            )}
-          </div>
-        )}
-        <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card/60 to-transparent pointer-events-none" />
-      </div>
+            </>
+          ) : (
+            <div className="w-full h-full relative">
+              {product.image_url && (
+                <motion.img
+                  key="front"
+                  src={product.image_url}
+                  alt={product.name}
+                  initial={{ opacity: 1, rotateY: 0 }}
+                  animate={{ opacity: showBack ? 0 : 1, rotateY: showBack ? -90 : 0 }}
+                  transition={{ duration: 1.2, ease: 'easeInOut' }}
+                  className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${soldOut ? 'opacity-60 grayscale' : ''}`}
+                  style={{ backfaceVisibility: 'hidden' }}
+                />
+              )}
+              {product.back_image_url && (
+                <motion.img
+                  key="back"
+                  src={product.back_image_url}
+                  alt={`${product.name} back`}
+                  initial={{ opacity: 0, rotateY: 90 }}
+                  animate={{ opacity: showBack ? 1 : 0, rotateY: showBack ? 0 : 90 }}
+                  transition={{ duration: 1.2, ease: 'easeInOut' }}
+                  className={`absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ${soldOut ? 'opacity-60 grayscale' : ''}`}
+                  style={{ backfaceVisibility: 'hidden' }}
+                />
+              )}
+              {!product.image_url && !product.back_image_url && (
+                <div className="w-full h-full flex items-center justify-center bg-secondary/40">
+                  <ShoppingBag className="w-12 h-12 text-muted-foreground/20" />
+                </div>
+              )}
+            </div>
+          )}
+          <div className="absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card/60 to-transparent pointer-events-none" />
+        </div>
+      </FloatingImage>
 
       {/* Content */}
       <div className="flex flex-col flex-1 p-6 gap-4">
@@ -166,14 +170,16 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
         <div className="border-t border-border/30 pt-4 space-y-2">
           {!merchRevealed ? (
             // Before reveal — register interest only
-            <Button
-              onClick={() => onInterest(product)}
-              className={`w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 ${
-                isDeluxe ? 'gradient-gold-button' : 'bg-secondary/80 text-foreground hover:bg-secondary'
-              }`}
-            >
-              <ShoppingBag className="w-4 h-4" /> Register My Interest
-            </Button>
+            <MagneticButton strength={0.25} className="w-full">
+              <Button
+                onClick={() => onInterest(product)}
+                className={`w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 ${
+                  isDeluxe ? 'gradient-gold-button' : 'bg-secondary/80 text-foreground hover:bg-secondary'
+                }`}
+              >
+                <ShoppingBag className="w-4 h-4" /> Register My Interest
+              </Button>
+            </MagneticButton>
           ) : soldOut ? (
             // After reveal, sold out — show sold out + interest button
             <>
@@ -197,12 +203,14 @@ export default function ProductCard({ product, index, onPreorder, onInterest }) 
                   Pre-order · Ships before June 9 via tracked post
                 </p>
               )}
-              <Button
-                onClick={() => onPreorder(product)}
-                className="w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 gradient-gold-button"
-              >
-                <ShoppingBag className="w-4 h-4" /> {product.category === 'cd' ? 'Pre-order Now' : 'Add to Cart'}
-              </Button>
+              <MagneticButton strength={0.25} className="w-full">
+                <Button
+                  onClick={() => onPreorder(product)}
+                  className="w-full rounded-full font-body text-sm tracking-wider uppercase border-0 py-5 gradient-gold-button"
+                >
+                  <ShoppingBag className="w-4 h-4" /> {product.category === 'cd' ? 'Pre-order Now' : 'Add to Cart'}
+                </Button>
+              </MagneticButton>
             </>
           )}
         </div>

@@ -42,19 +42,50 @@ Deno.serve(async (req) => {
       pageData = await nextRes.json();
     }
 
-    // Log changed events to AgentTaskLog
+    // Map Google events → CalendarEvent records (dedup by google_event_id)
+    const detectType = (summary = '') => {
+      const s = (summary || '').toLowerCase();
+      if (s.includes('release') || s.includes('single') || s.includes('album')) return 'release';
+      if (s.includes('gig') || s.includes('show') || s.includes('live') || s.includes('concert') || s.includes('tour') || s.includes('performance')) return 'gig';
+      if (s.includes('rehearsal')) return 'rehearsal';
+      if (s.includes('meeting') || s.includes('call')) return 'meeting';
+      return 'other';
+    };
+
     for (const event of allItems) {
-      if (event.status === 'cancelled') continue;
-      await base44.asServiceRole.entities.AgentTaskLog.create({
-        agent_name: 'CalendarAgent',
-        task_title: `Calendar event: ${event.summary || 'Untitled'}`,
-        task_description: `Start: ${event.start?.dateTime || event.start?.date || '—'} | Status: ${event.status}`,
-        outcome: 'Logged from Google Calendar webhook',
-        was_automatic: true,
-        required_approval: false,
-        risk_check_result: 'pass',
-        tags: ['calendar', 'event'],
-      });
+      const googleId = event.id;
+      if (!googleId) continue;
+
+      // Cancelled events → remove from schedule
+      if (event.status === 'cancelled') {
+        const gone = await base44.asServiceRole.entities.CalendarEvent.filter({ google_event_id: googleId });
+        for (const rec of gone) {
+          await base44.asServiceRole.entities.CalendarEvent.delete(rec.id);
+        }
+        continue;
+      }
+
+      const eventType = detectType(event.summary);
+      const isPublic = eventType === 'gig' || eventType === 'release';
+
+      const payload = {
+        google_event_id: googleId,
+        title: event.summary || 'Untitled',
+        description: event.description || '',
+        start_time: event.start?.dateTime || event.start?.date,
+        end_time: event.end?.dateTime || event.end?.date,
+        location: event.location || '',
+        event_type: eventType,
+        is_public: isPublic,
+        google_html_link: event.htmlLink || '',
+      };
+
+      const existing = await base44.asServiceRole.entities.CalendarEvent.filter({ google_event_id: googleId });
+      if (existing.length > 0) {
+        await base44.asServiceRole.entities.CalendarEvent.update(existing[0].id, payload);
+      } else {
+        await base44.asServiceRole.entities.CalendarEvent.create(payload);
+      }
     }
 
     // Save new sync token

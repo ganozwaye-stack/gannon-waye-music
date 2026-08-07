@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Send, X } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import FanWallPost from '@/components/public/FanWallPost';
 
 function SubmitForm({ onClose, onSuccess }) {
   const { toast } = useToast();
@@ -97,26 +98,7 @@ export default function FanWall() {
         {posts.length > 0 ? (
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
             {posts.map((post, i) => (
-              <motion.div
-                key={post.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.05 }}
-                className="break-inside-avoid bg-card/60 border border-border/30 rounded-2xl p-5 hover:border-primary/20 transition-all"
-              >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-8 h-8 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center">
-                    <span className="font-display text-xs text-primary">{post.author_name?.[0]?.toUpperCase() || '?'}</span>
-                  </div>
-                  <p className="font-body text-sm font-medium text-foreground">{post.author_name || 'Anonymous'}</p>
-                </div>
-                <p className="font-body text-sm text-foreground/70 leading-relaxed">{post.content}</p>
-                <div className="flex items-center gap-1 mt-3 text-primary/50">
-                  <Heart className="w-3 h-3 fill-primary/30" />
-                  <span className="font-body text-[10px]">Shared with love</span>
-                </div>
-              </motion.div>
+              <FanWallPost key={post.id} post={post} index={i} />
             ))}
           </div>
         ) : (

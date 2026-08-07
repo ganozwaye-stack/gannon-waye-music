@@ -26,9 +26,11 @@ import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import GoldenEmbers from '@/components/three/GoldenEmbers';
+import MagneticButton from '@/components/public/MagneticButton';
+import FloatingImage from '@/components/public/FloatingImage';
 
 const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f232cb919_image.png',
+  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4c4319141_image.png',
 ];
 
 export default function Home() {
@@ -128,21 +130,18 @@ export default function Home() {
           >
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow">Debut Single</p>
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow">Featured Single</p>
             </div>
-            <p className="font-display text-lg text-foreground italic">"Thank You"</p>
+            <p className="font-display text-lg text-foreground italic">"Without You Here"</p>
+            <div className="w-px h-4 bg-border/60 hidden sm:block" />
+            <div className="flex flex-col items-center gap-1">
+              <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Coming Soon</p>
+              <Link to="/music" className="font-display text-base text-primary italic hover:underline">Listen →</Link>
+            </div>
             <div className="w-px h-4 bg-border/60 hidden sm:block" />
             <div className="flex flex-col items-center gap-1">
               <p className="font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground">Out Now</p>
-              <Link to="/music" className="font-display text-base text-primary italic hover:underline">Stream Now →</Link>
-            </div>
-            <div className="w-px h-4 bg-border/60 hidden sm:block" />
-            <div className="flex flex-col items-center gap-1">
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary/60 animate-pulse" />
-                <p className="font-body text-[10px] tracking-[0.2em] uppercase gradient-gold-text">Next Single</p>
-              </div>
-              <Link to="/mum" className="font-display text-base text-foreground/80 italic hover:underline">"Without You Here" — Date TBA Very Soon →</Link>
+              <Link to="/music" className="font-display text-base text-foreground/80 italic hover:underline">"Thank You" →</Link>
             </div>
           </motion.div>
 
@@ -152,21 +151,27 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
           >
-            <Link to="/music" className="w-full sm:w-auto">
-              <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
-                <Play className="w-4 h-4" /> Stream Now
-              </Button>
-            </Link>
-            <Link to="/this-is-my-life" className="w-full sm:w-auto">
-              <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
-                My Story <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-            <Link to="/back-this" className="w-full sm:w-auto">
-              <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10">
-                Be Part Of This 🤍
-              </Button>
-            </Link>
+            <MagneticButton className="w-full sm:w-auto">
+              <Link to="/music" className="w-full sm:w-auto">
+                <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
+                  <Play className="w-4 h-4" /> Stream Now
+                </Button>
+              </Link>
+            </MagneticButton>
+            <MagneticButton className="w-full sm:w-auto">
+              <Link to="/this-is-my-life" className="w-full sm:w-auto">
+                <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
+                  My Story <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </MagneticButton>
+            <MagneticButton className="w-full sm:w-auto">
+              <Link to="/back-this" className="w-full sm:w-auto">
+                <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10">
+                  Be Part Of This 🤍
+                </Button>
+              </Link>
+            </MagneticButton>
           </motion.div>
           
 
@@ -386,11 +391,13 @@ export default function Home() {
                 className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-primary/20 hover:border-primary/40 transition-all"
               >
                 <div className="aspect-square bg-secondary/30 overflow-hidden relative">
-                  <img
-                    src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png"
-                    alt="Without You Here — Gannon Waye single cover"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+                  <FloatingImage className="w-full h-full" amplitude={5} duration={5}>
+                    <img
+                      src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png"
+                      alt="Without You Here — Gannon Waye single cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </FloatingImage>
                   <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
                   <div className="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/70 backdrop-blur-sm border border-primary/30">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
