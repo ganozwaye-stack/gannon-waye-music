@@ -65,6 +65,14 @@ const STATUS_LABELS = {
   coming_soon: 'Coming Soon',
 };
 
+// Upcoming roadmap — placeholder album art so fans see what's coming
+const UPCOMING_ROADMAP = [
+  { title: "I'm Still Here", type: 'Album', note: 'Debut Album · 15 songs · 2027' },
+  { title: 'Set Free', type: 'Single', note: 'Breaking spiritual & personal captivity' },
+  { title: 'Will You Even Listen', type: 'Single', note: 'Speaking truth to deaf ears' },
+  { title: 'One Day', type: 'Single', note: 'Hope and the forward look' },
+];
+
 export default function Music() {
   const [lyricsRelease, setLyricsRelease] = useState(null);
 
@@ -323,36 +331,53 @@ export default function Music() {
                 </div>
                 )}
 
-        {/* What's Next? — upcoming releases */}
-        {published.filter(r => r.status !== 'released').length > 0 && (
-          <div className="mt-16">
-            <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow text-center mb-2">What's Next?</p>
-            <h3 className="font-display text-2xl md:text-3xl text-foreground text-center mb-8">On the way</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {published.filter(r => r.status !== 'released').map((r, i) => (
-                <FloatingImage key={r.id} amplitude={5} duration={5} delay={i * 0.4}>
-                  <div className="relative group">
-                    <div className="aspect-square rounded-2xl overflow-hidden border border-primary/30 relative" style={{ boxShadow: '0 0 40px rgba(212,175,55,0.08)' }}>
-                      {r.artwork_url ? (
-                        <img src={r.artwork_url} alt={r.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full bg-secondary/40 flex items-center justify-center">
-                          <span className="font-display text-6xl gradient-gold-glow">?</span>
-                        </div>
-                      )}
-                      <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-background/70 backdrop-blur-sm border border-primary/30">
-                        <p className="font-body text-[9px] tracking-[0.2em] uppercase text-primary">Coming Soon</p>
+        {/* What's Next? — upcoming releases with placeholder album art */}
+        <div className="mt-16">
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow text-center mb-2">What's Next?</p>
+          <h3 className="font-display text-2xl md:text-3xl text-foreground text-center mb-2">On the way</h3>
+          <p className="font-body text-sm text-muted-foreground text-center mb-8 max-w-xl mx-auto">A first look at the music coming next — leading toward the debut album <em>I'm Still Here</em>.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {published.filter(r => r.status !== 'released').map((r, i) => (
+              <FloatingImage key={r.id} amplitude={4} duration={5} delay={i * 0.3}>
+                <TiltCard max={5} className="rounded-2xl">
+                  <div className="aspect-square rounded-2xl overflow-hidden border border-primary/30 relative" style={{ boxShadow: '0 0 40px rgba(212,175,55,0.08)' }}>
+                    {r.artwork_url ? (
+                      <img src={r.artwork_url} alt={r.title} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full bg-secondary/40 flex items-center justify-center">
+                        <span className="font-display text-6xl gradient-gold-glow">?</span>
                       </div>
+                    )}
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-background/70 backdrop-blur-sm border border-primary/30">
+                      <p className="font-body text-[9px] tracking-[0.2em] uppercase text-primary">Coming Soon</p>
                     </div>
-                    <h4 className="font-display text-lg text-foreground mt-3 italic">{r.title}</h4>
-                    {r.release_date && <p className="font-body text-xs text-muted-foreground">{new Date(r.release_date).toLocaleDateString('en-AU', { month: 'long', year: 'numeric' })}</p>}
-                    {!r.release_date && <p className="font-body text-xs text-primary/60 italic">Date to be announced</p>}
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-background/90 to-transparent">
+                      <h4 className="font-display text-lg text-foreground italic">{r.title}</h4>
+                      <p className="font-body text-xs text-primary/60 italic">Date to be announced</p>
+                    </div>
                   </div>
-                </FloatingImage>
-              ))}
-            </div>
+                </TiltCard>
+              </FloatingImage>
+            ))}
+            {UPCOMING_ROADMAP.map((item, i) => (
+              <FloatingImage key={item.title} amplitude={4} duration={5} delay={(i + 1) * 0.3}>
+                <TiltCard max={5} className="rounded-2xl">
+                  <div className="aspect-square rounded-2xl overflow-hidden border border-primary/30 relative flex items-center justify-center text-center p-6"
+                    style={{ background: 'radial-gradient(ellipse at 50% 40%, rgba(245,208,110,0.18), rgba(20,18,12,0.6))', boxShadow: '0 0 40px rgba(212,175,55,0.08)' }}>
+                    <div>
+                      <p className="font-body text-[9px] tracking-[0.3em] uppercase text-primary/70 mb-3">{item.type}</p>
+                      <h4 className="font-display text-2xl gradient-gold-glow italic leading-tight">{item.title}</h4>
+                      <p className="font-body text-[10px] text-muted-foreground mt-3 italic">{item.note}</p>
+                    </div>
+                    <div className="absolute top-3 left-3 px-3 py-1 rounded-full bg-background/70 backdrop-blur-sm border border-primary/30">
+                      <p className="font-body text-[9px] tracking-[0.2em] uppercase text-primary">Coming</p>
+                    </div>
+                  </div>
+                </TiltCard>
+              </FloatingImage>
+            ))}
           </div>
-        )}
+        </div>
 
         <div className="flex justify-center mt-10 mb-4">
           <ShareButtons url="https://gannonwaye.com/music" text="Gannon Waye — debut single 'Thank You' out now." />

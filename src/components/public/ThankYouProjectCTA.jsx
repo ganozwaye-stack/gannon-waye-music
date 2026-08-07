@@ -80,7 +80,7 @@ export default function ThankYouProjectCTA({ variant = 'banner', context = '' })
               <p className="font-body text-[10px] text-muted-foreground mt-0.5">Merch</p>
             </div>
           </Link>
-          <a href="https://www.instagram.com/gannonwaye" target="_blank" rel="noopener noreferrer" className="block">
+          <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer" className="block">
             <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center hover:border-primary/30 transition-all">
               <Share2 className="w-5 h-5 text-primary/60 mx-auto mb-2" />
               <p className="font-body text-xs font-semibold text-foreground">Follow</p>

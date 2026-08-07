@@ -18,8 +18,8 @@ const SOCIAL_LINKS = [
   { label: 'Spotify', url: 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz' },
   { label: 'Apple Music', url: 'https://music.apple.com/au/artist/gannon-waye' },
   { label: 'YouTube', url: 'https://www.youtube.com/@ganozwaye' },
-  { label: 'Instagram', url: 'https://www.instagram.com/ganozwaye' },
-  { label: 'TikTok', url: 'https://www.tiktok.com/@ganozwaye' },
+  { label: 'Instagram', url: 'https://www.instagram.com/gann0nwaye' },
+  { label: 'TikTok', url: 'https://www.tiktok.com/@gann0nwaye' },
 ];
 
 export default function Press() {

@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
   <h1 style="color:#f5d06e;font-size:28px;text-align:center;margin:0 0 8px 0;">Hey ${firstName} 🤍</h1>
   <p style="color:#c9b99a;font-size:16px;line-height:1.7;text-align:center;">Welcome. I'm so glad you're here.</p>
 
-  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">My debut single <strong style="color:#f5d06e;">"Thank You"</strong> is out now. Thank you for being part of this from the beginning — it means more than I can say.</p>
+  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">My next single <strong style="color:#f5d06e;">"Without You Here"</strong> — a film for Mum — is coming soon, and my debut <strong style="color:#f5d06e;">"Thank You"</strong> is out now. You'll be the first to hear every release update right here.</p>
 
   <div style="border:1px solid #2a2f3e;border-radius:12px;padding:20px;margin:24px 0;background:#1a1f2e;">
     <p style="color:#999;font-size:12px;margin:0 0 12px 0;text-transform:uppercase;letter-spacing:0.1em;">Find me on socials</p>
