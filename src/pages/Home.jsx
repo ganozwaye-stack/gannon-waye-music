@@ -59,7 +59,7 @@ export default function Home() {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ opacity: { duration: 1.8 }, scale: { duration: 14, ease: 'easeOut' } }}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center right' }}
+          style={{ objectPosition: 'center' }}
         />
 
         {/* Mum: ethereal, watching over from the sky glow */}
