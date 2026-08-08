@@ -198,9 +198,9 @@ export default function ThisIsMyLife() {
       <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0">
           <img
-            src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/74a4ae1c3_0.jpg"
+            src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f5c21dab8_d1726a55-8788-4809-8fe0-1f6814d0da37.png"
             alt="Gannon Waye"
-            className="w-full h-full object-cover object-[center_20%] opacity-40"
+            className="w-full h-full object-cover object-center opacity-60"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-background/40 to-background" />
         </div>
