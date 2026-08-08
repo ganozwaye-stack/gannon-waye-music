@@ -7,8 +7,8 @@ import { Music, Heart, Mic, Headphones, Quote, BookOpen } from 'lucide-react';
 // The gold-particle image is the hero wallpaper for this page
 const HERO_BG = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f5c21dab8_d1726a55-8788-4809-8fe0-1f6814d0da37.png';
 
-// Confirmed Gannon portrait (navy/gold background)
-const PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4328e5732_d4f52ac1-4ed3-4e88-a956-cb47868836e3.png';
+// Primary Gannon headshot, gold halo on navy
+const PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a02a9ab6c_image_edited.png';
 
 const TIMELINE = [
   { year: 'Adelaide', text: 'Born in Adelaide and raised in an environment where music became an early refuge. Long before he understood what he was feeling, he was already reaching for sound to make sense of it.' },
