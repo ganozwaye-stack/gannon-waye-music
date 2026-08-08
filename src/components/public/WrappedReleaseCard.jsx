@@ -6,6 +6,8 @@ import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import TiltCard from '@/components/public/TiltCard';
 import SpotifyPlayer from '@/components/public/SpotifyPlayer';
+import PlayButton3D from '@/components/public/PlayButton3D';
+import { usePlayerStore } from '@/lib/playerStore';
 
 const STATUS_LABELS = {
   idea: 'In the works',
@@ -34,6 +36,7 @@ function descriptionFor(release) {
 export default function WrappedReleaseCard({ release, index = 0, onOpenLyrics }) {
   const isComingSoon = release.status === 'coming_soon';
   const isReleased = release.status === 'released';
+  const playTrack = usePlayerStore((s) => s.playTrack);
 
   return (
     <TiltCard max={4} className="rounded-2xl">
@@ -59,7 +62,13 @@ export default function WrappedReleaseCard({ release, index = 0, onOpenLyrics })
             {/* Artwork */}
             <div className="aspect-square md:aspect-auto md:h-full bg-secondary/40 overflow-hidden relative">
               {release.artwork_url ? (
-                <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <motion.img
+                  src={release.artwork_url}
+                  alt={release.title}
+                  className="w-full h-full object-cover"
+                  animate={{ scale: [1, 1.06, 1], y: [0, -6, 0] }}
+                  transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut' }}
+                />
               ) : (
                 <div className="w-full h-full flex items-center justify-center">
                   <Play className="w-16 h-16 text-muted-foreground/20" />
@@ -84,14 +93,14 @@ export default function WrappedReleaseCard({ release, index = 0, onOpenLyrics })
                     New Single
                   </Badge>
                 )}
-                <Badge variant="outline" className="font-body text-[10px] tracking-widest uppercase border-primary/30 text-primary">
+                <Badge variant="outline" className="font-body text-[10px] tracking-widest uppercase border-primary/50 text-primary bg-transparent">
                   {release.type}
                 </Badge>
                 <Badge className={`font-body text-[10px] tracking-widest uppercase flex items-center gap-1.5 ${
-                  isReleased ? 'bg-primary/20 text-primary' :
-                  isComingSoon ? 'bg-primary/20 text-primary border border-primary/30' :
-                  release.status === 'recording' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
-                  'bg-secondary text-muted-foreground'
+                  isReleased ? 'bg-primary/15 text-primary border border-primary/40' :
+                  isComingSoon ? 'bg-primary/15 text-primary border border-primary/40' :
+                  release.status === 'recording' ? 'bg-red-500/15 text-red-400 border border-red-500/40' :
+                  'bg-secondary text-foreground/70 border border-border/40'
                 }`}>
                   {(release.status === 'recording' || isComingSoon) && (
                     <span className="relative flex h-1.5 w-1.5">
@@ -125,12 +134,12 @@ export default function WrappedReleaseCard({ release, index = 0, onOpenLyrics })
 
               {/* Lyrics and Current Single */}
               <div className="flex flex-wrap gap-2 mt-4 mb-2">
-                <Button size="sm" variant="outline" className="rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10 cursor-pointer" onClick={onOpenLyrics}>
+                <Button size="sm" className="rounded-full gap-1.5 font-body text-xs tracking-wider uppercase gradient-gold-button border-0 cursor-pointer" onClick={onOpenLyrics}>
                   <BookOpen className="w-3 h-3" /> Lyrics
                 </Button>
                 {release.is_current_single && (
                   <Link to="/current-single">
-                    <Button size="sm" variant="outline" className="rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-primary/20 text-primary hover:bg-primary/10">
+                    <Button size="sm" variant="outline" className="rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-primary/50 text-primary hover:bg-primary/10">
                       <Star className="w-3 h-3" /> Current Single Page
                     </Button>
                   </Link>
@@ -140,22 +149,25 @@ export default function WrappedReleaseCard({ release, index = 0, onOpenLyrics })
               {/* Streaming links */}
               <div className="flex flex-wrap gap-3 mt-6">
                 {isComingSoon ? (
-                  <div className="text-xs font-body text-primary leading-relaxed max-w-sm italic">Coming Soon · Date to be announced very soon</div>
+                  <div className="flex items-center gap-3">
+                    <PlayButton3D size={48} onClick={() => playTrack(release.spotify_link, { title: release.title, artwork: release.artwork_url })} />
+                    <span className="font-body text-xs gradient-gold-text uppercase tracking-wider">Listen Here</span>
+                  </div>
                 ) : isReleased && release.spotify_link ? (
                   <a href={release.spotify_link} target="_blank" rel="noopener noreferrer">
-                    <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">🎧 Spotify <ExternalLink className="w-3 h-3" /></Button>
+                    <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">Spotify <ExternalLink className="w-3 h-3" /></Button>
                   </a>
                 ) : (
                   <div className="text-xs font-body text-muted-foreground leading-relaxed max-w-sm">Out Now · Listen on Spotify, Apple Music, and YouTube</div>
                 )}
                 {isReleased && release.apple_music_link && (
                   <a href={release.apple_music_link} target="_blank" rel="noopener noreferrer">
-                    <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">🍎 Apple Music <ExternalLink className="w-3 h-3" /></Button>
+                    <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">Apple Music <ExternalLink className="w-3 h-3" /></Button>
                   </a>
                 )}
                 {isReleased && release.youtube_link && (
                   <a href={release.youtube_link} target="_blank" rel="noopener noreferrer">
-                    <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">▶️ YouTube <ExternalLink className="w-3 h-3" /></Button>
+                    <Button size="sm" className="rounded-full gap-2 font-body text-xs gradient-gold-button border-0">YouTube <ExternalLink className="w-3 h-3" /></Button>
                   </a>
                 )}
               </div>
@@ -163,17 +175,17 @@ export default function WrappedReleaseCard({ release, index = 0, onOpenLyrics })
               {/* Action bar */}
               <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border/30">
                 <Link to="/store" className="flex-1 min-w-[130px]">
-                  <Button size="sm" variant="outline" className="w-full rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-border/40 hover:border-primary/40">
+                  <Button size="sm" variant="outline" className="w-full rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-primary/40 text-primary hover:bg-primary/10">
                     <ShoppingBag className="w-3 h-3" /> Claim Your Copy
                   </Button>
                 </Link>
                 <Link to="/back-this" className="flex-1 min-w-[130px]">
-                  <Button size="sm" variant="outline" className="w-full rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-border/40 hover:border-primary/40">
+                  <Button size="sm" variant="outline" className="w-full rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-primary/40 text-primary hover:bg-primary/10">
                     <Heart className="w-3 h-3" /> Stand With Me
                   </Button>
                 </Link>
                 <Link to="/lyrics" className="flex-1 min-w-[130px]">
-                  <Button size="sm" variant="outline" className="w-full rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-border/40 hover:border-primary/40">
+                  <Button size="sm" variant="outline" className="w-full rounded-full gap-1.5 font-body text-xs tracking-wider uppercase border-primary/40 text-primary hover:bg-primary/10">
                     <FileText className="w-3 h-3" /> Read the Lyrics
                   </Button>
                 </Link>
