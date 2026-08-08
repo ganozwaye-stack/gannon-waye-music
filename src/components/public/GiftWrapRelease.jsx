@@ -94,7 +94,7 @@ export default function GiftWrapRelease({ release, isAlbum = false }) {
               className={`font-body uppercase tracking-[0.3em] ${isAlbum ? 'text-xs' : 'text-[10px]'}`}
               style={{ color: 'rgba(245,208,110,0.6)' }}
             >
-              {isAlbum ? 'Album — Releasing Next Year' : 'Coming Soon · Currently Underway'}
+              {isAlbum ? 'Album, Releasing Next Year' : 'Coming Soon · Currently Underway'}
             </span>
           </div>
 
