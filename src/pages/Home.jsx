@@ -15,7 +15,6 @@ import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import GoldenEmbers from '@/components/three/GoldenEmbers';
 import MagneticButton from '@/components/public/MagneticButton';
 import TiltCard from '@/components/public/TiltCard';
-import HeroSongPlayer from '@/components/public/HeroSongPlayer';
 import { usePlayerStore } from '@/lib/playerStore';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
@@ -115,14 +114,16 @@ export default function Home() {
               The New Single · A Film For Mum
             </motion.p>
 
-            {/* Cover artwork and revolving hook lyrics */}
+            {/* Cover artwork */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.6 }}
               className="mb-6"
             >
-              <HeroSongPlayer artwork={WYH_ARTWORK} to={wyhLink} />
+              <Link to={wyhLink} className="block rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-colors aspect-square max-w-[280px]">
+                <img src={WYH_ARTWORK} alt="Without You Here, Gannon Waye" className="w-full h-full object-cover" />
+              </Link>
             </motion.div>
 
             <motion.p
@@ -138,7 +139,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.6, delay: 1.3 }}
-              className="font-body text-sm gradient-gold-text max-w-sm leading-relaxed italic mb-3"
+              className="font-body text-sm text-foreground/70 max-w-sm leading-relaxed italic mb-3"
             >
               A raw, acoustic letter to Sonia, written in the early hours of Mother's Day, four years after she left.
             </motion.p>
@@ -198,7 +199,7 @@ export default function Home() {
             className="max-w-md w-full md:pl-4"
           >
             <p className="font-body text-[10px] tracking-[0.45em] uppercase gradient-gold-text mb-4">Welcome</p>
-            <p className="font-body text-base md:text-lg gradient-gold-text leading-relaxed">
+            <p className="font-body text-base md:text-lg text-foreground/70 leading-relaxed">
               I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT.
             </p>
           </motion.div>
@@ -363,7 +364,7 @@ export default function Home() {
                   }}>
                   <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Album, Releasing Next Year</p>
                   <h3 className="font-body text-3xl md:text-4xl gradient-gold-text mb-2">{releases.find(r => r.type === 'album').title}</h3>
-                  <p className="font-body text-sm gradient-gold-text">{releases.find(r => r.type === 'album').description}</p>
+                  <p className="font-body text-sm text-muted-foreground">{releases.find(r => r.type === 'album').description}</p>
                   <div className="flex items-center justify-center gap-2 mt-4">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -402,9 +403,9 @@ export default function Home() {
                   <div className="p-6">
                     <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">{release.type}</p>
                     <h3 className="font-body text-2xl gradient-gold-text mt-1">{release.title}</h3>
-                    <p className="font-body text-sm gradient-gold-text mt-2 line-clamp-2">{release.title === 'Thankyou' ? 'Thankyou was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. Thankyou is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
+                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thankyou' ? 'Thankyou was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. Thankyou is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
                     {release.release_date && (
-                      <p className="font-body text-xs gradient-gold-text mt-3">
+                      <p className="font-body text-xs text-muted-foreground mt-3">
                         {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}
                         {new Date(release.release_date).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' })}
                       </p>
