@@ -45,6 +45,7 @@ export default function Home() {
   const { artworkRevealed } = useSiteReveal();
   const wyhRelease = releases.find((r) => r.title === 'Without You Here');
   const wyhSpotify = wyhRelease?.spotify_link || 'https://open.spotify.com/track/6lX5V0j0bQiLOzldueTmnz';
+  const wyhLink = wyhRelease?.id ? `/release/${wyhRelease.id}` : '/music';
   const playTrack = usePlayerStore((s) => s.playTrack);
 
   return (
@@ -109,7 +110,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.4 }}
-              className="font-body text-[10px] tracking-[0.45em] uppercase text-primary/70 mb-5"
+              className="font-body text-[10px] tracking-[0.45em] uppercase gradient-gold-text mb-5"
             >
               The New Single · A Film For Mum
             </motion.p>
@@ -121,11 +122,11 @@ export default function Home() {
               transition={{ duration: 1.6, delay: 0.6 }}
               className="mb-6"
             >
-              <HeroSongPlayer artwork={WYH_ARTWORK} spotifyLink={wyhSpotify} />
+              <HeroSongPlayer artwork={WYH_ARTWORK} to={wyhLink} />
             </motion.div>
 
             <motion.p
-              className="font-body text-[11px] tracking-[0.22em] uppercase text-foreground/50 mb-2"
+              className="font-body text-[11px] tracking-[0.22em] uppercase gradient-gold-text mb-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.6, delay: 1.1 }}
@@ -137,7 +138,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.6, delay: 1.3 }}
-              className="font-body text-sm text-foreground/65 max-w-sm leading-relaxed italic mb-3"
+              className="font-body text-sm gradient-gold-text max-w-sm leading-relaxed italic mb-3"
             >
               A raw, acoustic letter to Sonia, written in the early hours of Mother's Day, four years after she left.
             </motion.p>
@@ -148,7 +149,7 @@ export default function Home() {
               transition={{ duration: 1.4, delay: 1.4 }}
               className="mb-7"
             >
-              <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase text-primary/80 hover:text-primary transition-colors">
+              <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase gradient-gold-text hover:opacity-80 transition-opacity">
                 Read Mum's story <ArrowRight className="w-3 h-3" />
               </Link>
             </motion.div>
@@ -185,7 +186,7 @@ export default function Home() {
               className="mt-7 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary">Out Now · Listen Everywhere</p>
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now · Listen Everywhere</p>
             </motion.div>
           </div>
 
@@ -196,8 +197,8 @@ export default function Home() {
             transition={{ duration: 1.6, delay: 0.8 }}
             className="max-w-md w-full md:pl-4"
           >
-            <p className="font-body text-[10px] tracking-[0.45em] uppercase text-primary/70 mb-4">Welcome</p>
-            <p className="font-body text-base md:text-lg text-foreground/80 leading-relaxed">
+            <p className="font-body text-[10px] tracking-[0.45em] uppercase gradient-gold-text mb-4">Welcome</p>
+            <p className="font-body text-base md:text-lg gradient-gold-text leading-relaxed">
               I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT.
             </p>
           </motion.div>
@@ -215,7 +216,7 @@ export default function Home() {
             className="text-center mb-10"
           >
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">About</p>
-            <h2 className="font-display text-3xl md:text-5xl text-foreground">The Story</h2>
+            <h2 className="font-body text-3xl md:text-5xl gradient-gold-text">The Story</h2>
           </motion.div>
 
           {/* 3-column magazine layout, hidden on mobile */}
@@ -348,7 +349,7 @@ export default function Home() {
               className="text-center mb-12"
             >
               <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Latest</p>
-              <h2 className="font-display text-3xl md:text-5xl text-foreground">Music</h2>
+              <h2 className="font-body text-3xl md:text-5xl gradient-gold-text">Music</h2>
             </motion.div>
 
             {/* Album, featured at top center */}
@@ -361,14 +362,14 @@ export default function Home() {
                     boxShadow: '0 0 50px rgba(212,175,55,0.12)',
                   }}>
                   <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Album, Releasing Next Year</p>
-                  <h3 className="font-display text-3xl md:text-4xl text-foreground mb-2">{releases.find(r => r.type === 'album').title}</h3>
-                  <p className="font-body text-sm text-muted-foreground">{releases.find(r => r.type === 'album').description}</p>
+                  <h3 className="font-body text-3xl md:text-4xl gradient-gold-text mb-2">{releases.find(r => r.type === 'album').title}</h3>
+                  <p className="font-body text-sm gradient-gold-text">{releases.find(r => r.type === 'album').description}</p>
                   <div className="flex items-center justify-center gap-2 mt-4">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                     </span>
-                    <span className="font-body text-xs text-primary/70 uppercase tracking-wider">In Production</span>
+                    <span className="font-body text-xs gradient-gold-text uppercase tracking-wider">In Production</span>
                   </div>
                 </div>
               </div>
@@ -378,11 +379,12 @@ export default function Home() {
               {/* Without You Here now shows from the published releases list below, no longer a Coming Soon card */}
               {releases.filter((r) => r.is_published).slice(0, 2).map((release) => (
                 <TiltCard key={release.id} max={6} className="rounded-2xl">
+                <Link to={`/release/${release.id}`}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 hover:border-primary/30 transition-all"
+                  className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 hover:border-primary/30 transition-all h-full"
                 >
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
                     {release.artwork_url ? (
@@ -399,16 +401,17 @@ export default function Home() {
                   </div>
                   <div className="p-6">
                     <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">{release.type}</p>
-                    <h3 className="font-display text-2xl text-foreground mt-1">{release.title}</h3>
-                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
+                    <h3 className="font-body text-2xl gradient-gold-text mt-1">{release.title}</h3>
+                    <p className="font-body text-sm gradient-gold-text mt-2 line-clamp-2">{release.title === 'Thank You' ? '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
                     {release.release_date && (
-                      <p className="font-body text-xs text-muted-foreground mt-3">
+                      <p className="font-body text-xs gradient-gold-text mt-3">
                         {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}
                         {new Date(release.release_date).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' })}
                       </p>
                     )}
                   </div>
                 </motion.div>
+                </Link>
                 </TiltCard>
               ))}
             </div>
