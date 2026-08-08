@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
@@ -17,9 +17,19 @@ import MagneticButton from '@/components/public/MagneticButton';
 import FloatingImage from '@/components/public/FloatingImage';
 import TiltCard from '@/components/public/TiltCard';
 
-const HERO_IMAGES = [
-  'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4c4319141_image.png',
-];
+// The "looking up at night sky" hero image — used as full-screen backdrop
+const HERO_BG = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/60dd88bc0_AFC9D47E-319F-4313-8E1B-6CEC53862C81.png';
+// Transparent "Without You Here" script logo (gold outline)
+const WYH_LOGO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/92373d01d_without-you-here-stencil-gold-outline-only-transparent-tight-2026-08-03.png';
+
+// Real cover art per song — only used when the release is published/released in the DB
+const COVER_ART = {
+  'Without You Here': 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b584427a7_1108807_cover_6a220151b02c1.jpeg',
+  'Thank You': 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/64d0b8f1d_Picture6.png',
+  'Will You Even Listen': 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5bedb1f79_Picture4.png',
+  'Set Free': 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a1ca14a6f_Picture3.png',
+  'Because of You': 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6704bd76f_Picture2.png',
+};
 
 export default function Home() {
   const { data: settings } = useQuery({
@@ -35,105 +45,121 @@ export default function Home() {
   });
 
   const site = settings[0] || {};
-  const upcomingRelease = releases.find((r) => r.status !== 'released' && r.release_date);
   const { artworkRevealed } = useSiteReveal();
-
-
-  const [currentImg, setCurrentImg] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImg((i) => (i + 1) % HERO_IMAGES.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className="min-h-screen relative">
       <FirstVisitOnboarding />
 
-      {/* Fixed background — visible behind ALL sections */}
-      <div className="fixed inset-0 -z-10 overflow-hidden">
-        <AnimatePresence>
-          <motion.img
-            key={currentImg}
-            src={HERO_IMAGES[currentImg]}
-            alt="Gannon Waye"
-            initial={{ opacity: 0, scale: 1.15 }}
-            animate={{ opacity: 0.55, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ opacity: { duration: 1.5 }, scale: { duration: 8, ease: 'easeOut' } }}
-            className="absolute inset-0 w-full h-full object-cover object-[center_50%]"
-          />
-        </AnimatePresence>
-      </div>
+      {/* ══ HERO — Full-screen cinematic, left-aligned, no centering ══ */}
+      <section className="relative min-h-[100svh] overflow-hidden">
 
-      {/* Hero — Without You Here cinematic centerpiece */}
-      <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
+        {/* Background: "looking up at night sky" photo, fills full screen, anchored right so Gannon stays visible */}
         <motion.img
-          src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png"
-          alt="Without You Here — Gannon Waye"
-          initial={{ scale: 1.18, opacity: 0 }}
-          animate={{ scale: 1.05, opacity: 0.6 }}
-          transition={{ scale: { duration: 20, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse' }, opacity: { duration: 2 } }}
-          className="absolute inset-0 w-full h-full object-cover object-[center_30%] z-0"
+          src={HERO_BG}
+          alt="Gannon Waye"
+          initial={{ scale: 1.06, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ opacity: { duration: 1.8 }, scale: { duration: 14, ease: 'easeOut' } }}
+          className="absolute inset-0 w-full h-full object-cover object-[center_top]"
+          style={{ objectPosition: '65% top' }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/55 to-background/95 z-10" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.05),transparent_60%)] z-10" />
-        <div className="absolute top-0 left-0 right-0 h-[7vh] bg-background z-20 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 right-0 h-[8vh] bg-gradient-to-t from-background via-background/80 to-transparent z-20 pointer-events-none" />
-        <div className="absolute inset-0 z-[15] pointer-events-none">
+
+        {/* Dark scrim — heavier on the left so text reads cleanly, lighter on the right to reveal the photo */}
+        <div className="absolute inset-0" style={{ background: 'linear-gradient(100deg, rgba(8,8,14,0.82) 0%, rgba(8,8,14,0.55) 45%, rgba(8,8,14,0.18) 100%)' }} />
+        {/* Bottom fade into page */}
+        <div className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
+        {/* Top fade */}
+        <div className="absolute top-0 left-0 right-0 h-28 pointer-events-none" style={{ background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)' }} />
+
+        {/* Golden embers */}
+        <div className="absolute inset-0 z-[5] pointer-events-none">
           <GoldenEmbers />
         </div>
-        <div className="relative z-20 text-center px-6 max-w-4xl mx-auto">
-            {/* Without You Here — cinematic title */}
-          <motion.div
-            initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="mt-10"
-          >
-            <p className="font-body text-[10px] tracking-[0.4em] uppercase text-primary/70 mb-3">The New Single · A Film For Mum</p>
-            <h1 className="font-display text-5xl md:text-7xl gradient-gold-glow italic leading-[1.05]">Without You Here</h1>
-            <p className="font-body text-sm md:text-base text-foreground/70 mt-4 max-w-xl mx-auto italic leading-relaxed">
+
+        {/* ── LEFT-ALIGNED content block ── */}
+        <div className="relative z-10 min-h-[100svh] flex items-end md:items-center pb-24 md:pb-0 px-6 md:px-16 lg:px-24">
+          <div className="max-w-xl w-full">
+
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, delay: 0.3 }}
+              className="font-body text-[10px] tracking-[0.45em] uppercase text-primary/70 mb-6"
+            >
+              The New Single · A Film For Mum
+            </motion.p>
+
+            {/* "Without You Here" transparent script logo */}
+            <motion.img
+              src={WYH_LOGO}
+              alt="Without You Here"
+              initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 1.2, delay: 0.5 }}
+              className="w-full max-w-xs md:max-w-sm mb-6"
+              style={{ filter: 'drop-shadow(0 0 24px rgba(212,175,55,0.45))' }}
+            />
+
+            <motion.p
+              className="font-body text-[11px] tracking-[0.22em] uppercase text-foreground/50 mb-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.9 }}
+            >
+              Gannon Waye
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 1.1 }}
+              className="font-body text-sm text-foreground/60 max-w-sm leading-relaxed italic mb-7"
+            >
               A raw, acoustic letter to Sonia — written in the early hours of Mother's Day, four years after she left.
-            </p>
-            <div className="inline-flex items-center gap-2 mt-5 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30">
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.3 }}
+              className="flex flex-wrap gap-3"
+            >
+              <MagneticButton>
+                <Link to="/presave">
+                  <Button className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
+                    <Play className="w-3.5 h-3.5" /> Pre-save
+                  </Button>
+                </Link>
+              </MagneticButton>
+              <MagneticButton>
+                <Link to="/remember-mum">
+                  <Button variant="outline" className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
+                    Her Story <ArrowRight className="w-3.5 h-3.5" />
+                  </Button>
+                </Link>
+              </MagneticButton>
+              <MagneticButton>
+                <Link to="/back-this">
+                  <Button variant="outline" className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10">
+                    Be Part Of This 🤍
+                  </Button>
+                </Link>
+              </MagneticButton>
+            </motion.div>
+
+            {/* Coming soon badge */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
+              className="mt-7 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25"
+            >
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary">Coming Soon · Date To Be Announced</p>
-            </div>
-          </motion.div>
+            </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-8 flex flex-col sm:flex-row gap-3 justify-center px-4"
-          >
-            <MagneticButton className="w-full sm:w-auto">
-              <Link to="/presave" className="w-full sm:w-auto">
-                <Button className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
-                  <Play className="w-4 h-4" /> Pre-save
-                </Button>
-              </Link>
-            </MagneticButton>
-            <MagneticButton className="w-full sm:w-auto">
-              <Link to="/remember-mum" className="w-full sm:w-auto">
-                <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
-                  Her Story <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
-            </MagneticButton>
-            <MagneticButton className="w-full sm:w-auto">
-              <Link to="/back-this" className="w-full sm:w-auto">
-                <Button variant="outline" className="gap-2 w-full sm:w-auto px-8 py-5 text-sm tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10">
-                  Be Part Of This 🤍
-                </Button>
-              </Link>
-            </MagneticButton>
-          </motion.div>
-          
-
+          </div>
         </div>
       </section>
 
@@ -355,10 +381,13 @@ export default function Home() {
                   className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 hover:border-primary/30 transition-all"
                 >
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
-                    {release.title === 'Thank You' ? (
-                      <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg" alt="Thank You — Gannon Waye single cover" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                    ) : release.artwork_url ? (
-                      <img src={release.artwork_url} alt={release.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    {/* Use real cover art from uploaded assets, fall back to artwork_url from DB */}
+                    {(COVER_ART[release.title] || release.artwork_url) ? (
+                      <img
+                        src={COVER_ART[release.title] || release.artwork_url}
+                        alt={`${release.title} — Gannon Waye`}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <Play className="w-12 h-12 text-muted-foreground/30" />
