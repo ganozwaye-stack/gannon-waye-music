@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { STORE_PRODUCTS, BOUTIQUE_HERO_IMAGE } from '@/config/storeWorldConfig';
-import StoreWorldHotspot from '@/components/store/StoreWorldHotspot';
+import { STORE_PRODUCTS } from '@/config/storeWorldConfig';
+import StoreBoutiqueStage from '@/components/store/StoreBoutiqueStage';
 import ProductQuickViewModal from '@/components/store/ProductQuickViewModal';
 import MerchGallery from '@/components/store/MerchGallery';
 import EditorialProductGrid from '@/components/store/EditorialProductGrid';
@@ -18,7 +18,6 @@ const PRODUCT_EMOJI = {
 export default function StoreWorld() {
   const navigate = useNavigate();
   const [activeModal, setActiveModal] = useState(null);
-  const [imgFailed, setImgFailed] = useState(false);
 
   return (
     <div style={{ background: '#0a0a0a', minHeight: '100vh', color: '#fff', fontFamily: "'Inter', sans-serif" }}>
@@ -101,36 +100,7 @@ export default function StoreWorld() {
           </Link>
         </div>
 
-        <div style={{
-          position: 'relative', width: '100%', borderRadius: '16px', overflow: 'hidden',
-          border: '1px solid rgba(212,175,55,0.18)',
-          boxShadow: `0 0 80px rgba(212,175,55,0.08), 0 40px 80px rgba(0,0,0,0.7)`
-        }}>
-          {imgFailed ? (
-            <div style={{ width: '100%', minHeight: '500px', background: '#111', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <p style={{ color: '#444' }}>Store scene unavailable</p>
-            </div>
-          ) : (
-            <img
-              src={BOUTIQUE_HERO_IMAGE}
-              alt="Gannon Waye Merch Store"
-              onError={() => setImgFailed(true)}
-              style={{ width: '100%', height: 'auto', display: 'block', minHeight: '400px', objectFit: 'cover', objectPosition: 'center bottom' }}
-            />
-          )}
-
-          {/* Hotspot overlay */}
-          {!imgFailed &&
-          <div style={{ position: 'absolute', inset: 0, zIndex: 10 }}>
-            {STORE_PRODUCTS.map((product) =>
-              <StoreWorldHotspot key={product.id} product={product} onOpenModal={setActiveModal} />
-            )}
-          </div>
-          }
-
-          {/* Bottom scrim */}
-          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '80px', background: 'linear-gradient(transparent, rgba(10,10,10,0.95))', zIndex: 9, pointerEvents: 'none' }} />
-        </div>
+        <StoreBoutiqueStage onOpenModal={setActiveModal} />
 
         <p style={{ textAlign: 'center', color: 'rgba(212,175,55,0.4)', fontSize: '11px', letterSpacing: '0.18em', textTransform: 'uppercase', margin: '16px 0 44px' }}>
           Hover or tap zones to explore · Click to quick-view & shop
