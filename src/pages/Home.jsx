@@ -196,7 +196,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.8 }}
-            className="max-w-md w-full md:pl-4 pb-8">
+            className="max-w-md w-full md:pl-4 pb-24 pl-1">
             
             <p className="font-body tracking-[0.45em] uppercase gradient-gold-text text-base my-4 px-6">WELCOME</p>
             <p className="font-body text-base md:text-lg text-foreground/70 leading-relaxed">
