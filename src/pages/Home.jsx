@@ -217,7 +217,7 @@ export default function Home() {
             className="text-center mb-10">
             
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">About</p>
-            <h2 className="font-body text-3xl md:text-5xl gradient-gold-text">The Story</h2>
+            <h2 className="font-body text-3xl md:text-5xl gradient-gold-text text-[#9c712b]">The Story</h2>
           </motion.div>
 
           {/* 3-column magazine layout, hidden on mobile */}
