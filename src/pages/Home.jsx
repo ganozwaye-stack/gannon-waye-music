@@ -137,10 +137,21 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.6, delay: 1.3 }}
-              className="font-body text-sm text-foreground/65 max-w-sm leading-relaxed italic mb-7"
+              className="font-body text-sm text-foreground/65 max-w-sm leading-relaxed italic mb-3"
             >
               A raw, acoustic letter to Sonia, written in the early hours of Mother's Day, four years after she left.
             </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 1.4 }}
+              className="mb-7"
+            >
+              <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase text-primary/80 hover:text-primary transition-colors">
+                Read Mum's story <ArrowRight className="w-3 h-3" />
+              </Link>
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}
@@ -156,13 +167,6 @@ export default function Home() {
                 >
                   <Play className="w-3.5 h-3.5" /> Listen Here
                 </Button>
-              </MagneticButton>
-              <MagneticButton>
-                <Link to="/remember-mum">
-                  <Button variant="outline" className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
-                    Her Story <ArrowRight className="w-3.5 h-3.5" />
-                  </Button>
-                </Link>
               </MagneticButton>
               <MagneticButton>
                 <Link to="/back-this">
