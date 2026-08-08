@@ -31,13 +31,13 @@ export default function Home() {
   const { data: settings } = useQuery({
     queryKey: ['siteSettings'],
     queryFn: () => base44.entities.SiteSettings.list(),
-    initialData: [],
+    initialData: []
   });
 
   const { data: releases } = useQuery({
     queryKey: ['releases'],
     queryFn: () => base44.entities.Release.list('-release_date'),
-    initialData: [],
+    initialData: []
   });
 
   const site = settings[0] || {};
@@ -61,8 +61,8 @@ export default function Home() {
           animate={{ scale: 1, opacity: 1 }}
           transition={{ opacity: { duration: 2.4 }, scale: { duration: 22, ease: 'easeOut' } }}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center' }}
-        />
+          style={{ objectPosition: 'center' }} />
+        
 
         {/* Mum: ethereal, watching over from the sky glow */}
         <img
@@ -75,9 +75,9 @@ export default function Home() {
             right: '6%',
             maskImage: 'radial-gradient(circle, black 52%, transparent 74%)',
             WebkitMaskImage: 'radial-gradient(circle, black 52%, transparent 74%)',
-            filter: 'drop-shadow(0 0 28px rgba(212,175,55,0.35))',
-          }}
-        />
+            filter: 'drop-shadow(0 0 28px rgba(212,175,55,0.35))'
+          }} />
+        
 
         {/* "Without You Here" stencil, stretched out as a background design staple on the right */}
         <motion.img
@@ -88,8 +88,8 @@ export default function Home() {
           animate={{ opacity: 0.22, x: 0 }}
           transition={{ duration: 1.8, delay: 0.5 }}
           className="absolute z-[2] pointer-events-none select-none w-[60%] max-w-[42rem]"
-          style={{ right: '-3%', top: '50%', transform: 'translateY(-50%)', filter: 'drop-shadow(0 0 30px rgba(212,175,55,0.4))' }}
-        />
+          style={{ right: '-3%', top: '50%', transform: 'translateY(-50%)', filter: 'drop-shadow(0 0 30px rgba(212,175,55,0.4))' }} />
+        
 
         {/* Dark scrim, readable on both sides */}
         <div className="absolute inset-0 z-[3]" style={{ background: 'linear-gradient(90deg, rgba(8,8,14,0.88) 0%, rgba(8,8,14,0.5) 45%, rgba(8,8,14,0.85) 100%)' }} />
@@ -109,8 +109,8 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.4 }}
-              className="font-body text-[10px] tracking-[0.45em] uppercase gradient-gold-text mb-5"
-            >
+              className="font-body text-[10px] tracking-[0.45em] uppercase gradient-gold-text mb-5">
+              
               The New Single · A Film For Mum
             </motion.p>
 
@@ -119,8 +119,8 @@ export default function Home() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.6 }}
-              className="mb-6"
-            >
+              className="mb-6">
+              
               <Link to={wyhLink} className="block rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-colors aspect-square max-w-[280px]">
                 <img src={WYH_ARTWORK} alt="Without You Here, Gannon Waye" className="w-full h-full object-cover" />
               </Link>
@@ -130,8 +130,8 @@ export default function Home() {
               className="font-body text-[11px] tracking-[0.22em] uppercase gradient-gold-text mb-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1.6, delay: 1.1 }}
-            >
+              transition={{ duration: 1.6, delay: 1.1 }}>
+              
               Gannon Waye
             </motion.p>
 
@@ -139,8 +139,8 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.6, delay: 1.3 }}
-              className="font-body text-sm text-foreground/70 max-w-sm leading-relaxed italic mb-3"
-            >
+              className="font-body text-sm text-foreground/70 max-w-sm leading-relaxed italic mb-3">
+              
               A raw, acoustic letter to Sonia, written in the early hours of Mother's Day, four years after she left.
             </motion.p>
 
@@ -148,8 +148,8 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 1.4 }}
-              className="mb-7"
-            >
+              className="mb-7">
+              
               <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase gradient-gold-text hover:opacity-80 transition-opacity">
                 Read Mum's story <ArrowRight className="w-3 h-3" />
               </Link>
@@ -159,14 +159,14 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 1.6 }}
-              className="flex flex-wrap gap-3"
-            >
+              className="flex flex-wrap gap-3">
+              
               <MagneticButton>
                 <Button
                   type="button"
                   onClick={() => playTrack(wyhSpotify, { title: 'Without You Here', artwork: WYH_ARTWORK })}
-                  className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0"
-                >
+                  className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
+                  
                   <Play className="w-3.5 h-3.5" /> Listen Here
                 </Button>
               </MagneticButton>
@@ -184,8 +184,8 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 1.9 }}
-              className="mt-7 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25"
-            >
+              className="mt-7 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25">
+              
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now · Listen Everywhere</p>
             </motion.div>
@@ -196,9 +196,9 @@ export default function Home() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.8 }}
-            className="max-w-md w-full md:pl-4"
-          >
-            <p className="font-body text-[10px] tracking-[0.45em] uppercase gradient-gold-text mb-4">Welcome</p>
+            className="max-w-md w-full md:pl-4">
+            
+            <p className="font-body tracking-[0.45em] uppercase gradient-gold-text mb-4 text-base">WELCOME</p>
             <p className="font-body text-base md:text-lg text-foreground/70 leading-relaxed">
               I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT.
             </p>
@@ -214,8 +214,8 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-10"
-          >
+            className="text-center mb-10">
+            
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">About</p>
             <h2 className="font-body text-3xl md:text-5xl gradient-gold-text">The Story</h2>
           </motion.div>
@@ -228,8 +228,8 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="font-body text-foreground/70 leading-relaxed text-sm text-left space-y-4 pt-8"
-            >
+              className="font-body text-foreground/70 leading-relaxed text-sm text-left space-y-4 pt-8">
+              
               <p>I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
               <p>I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.</p>
               <p className="italic text-sm">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong. It often means you're seeing something others aren't ready for yet.</p>
@@ -241,8 +241,8 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="w-52 flex flex-col items-center gap-1"
-            >
+              className="w-52 flex flex-col items-center gap-1">
+              
               <div className="w-0.5 h-6 bg-gradient-to-b from-primary to-primary/30" />
               <div className="font-display text-base gradient-gold-glow leading-7 italic text-center space-y-0">
                 <p>I didn't truly love myself</p>
@@ -267,8 +267,8 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-body text-foreground/70 leading-relaxed text-sm text-right space-y-4 pt-8"
-            >
+              className="font-body text-foreground/70 leading-relaxed text-sm text-right space-y-4 pt-8">
+              
               <p>My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say.</p>
               <p>I began singing at a young age, runner up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.</p>
               <p>That work is now becoming an album, a collection for anyone who needs a message of hope or just an anthem that reminds them they're not alone.</p>
@@ -315,8 +315,8 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-12 flex justify-center"
-          >
+            className="mt-12 flex justify-center">
+            
             <SocialLinks settings={site} className="justify-center" />
           </motion.div>
         </div>
@@ -339,32 +339,32 @@ export default function Home() {
       <SafeSpaceBanner />
 
       {/* Latest Releases Preview */}
-      {releases.length > 0 && (
-        <section className="py-16 md:py-24 px-4 md:px-6">
+      {releases.length > 0 &&
+      <section className="py-16 md:py-24 px-4 md:px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12">
+            
               <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Latest</p>
               <h2 className="font-body text-3xl md:text-5xl gradient-gold-text">Music</h2>
             </motion.div>
 
             {/* Album, featured at top center */}
-            {releases.find(r => r.type === 'album' && r.is_published) && (
-              <div className="mb-8 max-w-2xl mx-auto">
+            {releases.find((r) => r.type === 'album' && r.is_published) &&
+          <div className="mb-8 max-w-2xl mx-auto">
                 <div className="relative overflow-hidden rounded-2xl p-8 md:p-10 text-center"
-                  style={{
-                    background: 'linear-gradient(135deg, rgba(212,175,55,0.12) 0%, rgba(245,208,110,0.06) 50%, rgba(212,175,55,0.12) 100%)',
-                    border: '2px solid rgba(245,208,110,0.35)',
-                    boxShadow: '0 0 50px rgba(212,175,55,0.12)',
-                  }}>
+            style={{
+              background: 'linear-gradient(135deg, rgba(212,175,55,0.12) 0%, rgba(245,208,110,0.06) 50%, rgba(212,175,55,0.12) 100%)',
+              border: '2px solid rgba(245,208,110,0.35)',
+              boxShadow: '0 0 50px rgba(212,175,55,0.12)'
+            }}>
                   <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Album, Releasing Next Year</p>
-                  <h3 className="font-body text-3xl md:text-4xl gradient-gold-text mb-2">{releases.find(r => r.type === 'album').title}</h3>
-                  <p className="font-body text-sm text-muted-foreground">{releases.find(r => r.type === 'album').description}</p>
+                  <h3 className="font-body text-3xl md:text-4xl gradient-gold-text mb-2">{releases.find((r) => r.type === 'album').title}</h3>
+                  <p className="font-body text-sm text-muted-foreground">{releases.find((r) => r.type === 'album').description}</p>
                   <div className="flex items-center justify-center gap-2 mt-4">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
@@ -374,47 +374,47 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            )}
+          }
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
               {/* Without You Here now shows from the published releases list below, no longer a Coming Soon card */}
-              {releases.filter((r) => r.is_published).slice(0, 2).map((release) => (
-                <TiltCard key={release.id} max={6} className="rounded-2xl">
+              {releases.filter((r) => r.is_published).slice(0, 2).map((release) =>
+            <TiltCard key={release.id} max={6} className="rounded-2xl">
                 <Link to={`/release/${release.id}`}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 hover:border-primary/30 transition-all h-full"
-                >
+                  className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 hover:border-primary/30 transition-all h-full">
+                  
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
-                    {release.artwork_url ? (
-                      <img
-                        src={release.artwork_url}
-                        alt={`${release.title}, Gannon Waye`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
+                    {release.artwork_url ?
+                    <img
+                      src={release.artwork_url}
+                      alt={`${release.title}, Gannon Waye`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" /> :
+
+
+                    <div className="w-full h-full flex items-center justify-center">
                         <Play className="w-12 h-12 text-muted-foreground/30" />
                       </div>
-                    )}
+                    }
                   </div>
                   <div className="p-6">
                     <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">{release.type}</p>
                     <h3 className="font-body text-2xl gradient-gold-text mt-1">{release.title}</h3>
                     <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thankyou' ? 'Thankyou was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. Thankyou is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
-                    {release.release_date && (
-                      <p className="font-body text-xs text-muted-foreground mt-3">
+                    {release.release_date &&
+                    <p className="font-body text-xs text-muted-foreground mt-3">
                         {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}
                         {new Date(release.release_date).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' })}
                       </p>
-                    )}
+                    }
                   </div>
                 </motion.div>
                 </Link>
                 </TiltCard>
-              ))}
+            )}
             </div>
             <div className="text-center mt-10">
               <Link to="/music">
@@ -425,7 +425,7 @@ export default function Home() {
             </div>
           </div>
         </section>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 }
