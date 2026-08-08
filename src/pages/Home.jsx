@@ -16,6 +16,7 @@ import GoldenEmbers from '@/components/three/GoldenEmbers';
 import MagneticButton from '@/components/public/MagneticButton';
 import TiltCard from '@/components/public/TiltCard';
 import HeroSongPlayer from '@/components/public/HeroSongPlayer';
+import { usePlayerStore } from '@/lib/playerStore';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
 // Hero imagery supplied by Gannon, August 2026. Do not reassign these.
@@ -44,13 +45,14 @@ export default function Home() {
   const { artworkRevealed } = useSiteReveal();
   const wyhRelease = releases.find((r) => r.title === 'Without You Here');
   const wyhSpotify = wyhRelease?.spotify_link || 'https://open.spotify.com/track/6lX5V0j0bQiLOzldueTmnz';
+  const playTrack = usePlayerStore((s) => s.playTrack);
 
   return (
     <div className="min-h-screen relative">
       <FirstVisitOnboarding />
 
-      {/* HERO: full screen, two columns. Left: title and CTAs. Right: cover player and revolving lyrics. */}
-      <section className="relative min-h-[100svh] overflow-hidden">
+      {/* HERO: centered welcome, with cover art and the "Without You Here" stencil as a background design staple. */}
+      <section className="relative min-h-[100svh] overflow-hidden flex items-center justify-center">
         {/* Background: Gannon looking up into the golden sky */}
         <motion.img
           src={HERO_IMAGE}
@@ -77,8 +79,20 @@ export default function Home() {
           }}
         />
 
-        {/* Dark scrim, heavier on the left so text reads cleanly */}
-        <div className="absolute inset-0 z-[3]" style={{ background: 'linear-gradient(95deg, rgba(8,8,14,0.9) 0%, rgba(8,8,14,0.62) 42%, rgba(8,8,14,0.28) 72%, rgba(8,8,14,0.5) 100%)' }} />
+        {/* "Without You Here" stencil, stretched out as a background design staple on the right */}
+        <motion.img
+          src={WYH_STENCIL}
+          alt=""
+          aria-hidden
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 0.22, x: 0 }}
+          transition={{ duration: 1.8, delay: 0.5 }}
+          className="absolute z-[2] pointer-events-none select-none w-[60%] max-w-[42rem]"
+          style={{ right: '-3%', top: '50%', transform: 'translateY(-50%)', filter: 'drop-shadow(0 0 30px rgba(212,175,55,0.4))' }}
+        />
+
+        {/* Dark vignette so centered text reads cleanly */}
+        <div className="absolute inset-0 z-[3]" style={{ background: 'radial-gradient(ellipse at center, rgba(8,8,14,0.6) 0%, rgba(8,8,14,0.78) 100%)' }} />
         <div className="absolute bottom-0 left-0 right-0 h-48 z-[3] pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
         <div className="absolute top-0 left-0 right-0 h-28 z-[3] pointer-events-none" style={{ background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)' }} />
 
@@ -87,103 +101,91 @@ export default function Home() {
           <GoldenEmbers />
         </div>
 
-        {/* Two-column content */}
-        <div className="relative z-10 min-h-[100svh] grid md:grid-cols-2 gap-8 items-center px-6 md:px-16 lg:px-24 py-28 md:py-20">
-          {/* LEFT: title and CTAs */}
-          <div className="max-w-xl w-full">
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, delay: 0.4 }}
-              className="font-body text-[10px] tracking-[0.45em] uppercase text-primary/70 mb-5"
-            >
-              The New Single · A Film For Mum
-            </motion.p>
-
-            {/* Cover artwork and revolving hook lyrics */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, delay: 0.6 }}
-              className="mb-6"
-            >
-              <HeroSongPlayer artwork={WYH_ARTWORK} spotifyLink={wyhSpotify} />
-            </motion.div>
-
-            <motion.p
-              className="font-body text-[11px] tracking-[0.22em] uppercase text-foreground/50 mb-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.6, delay: 1.1 }}
-            >
-              Gannon Waye
-            </motion.p>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.6, delay: 1.3 }}
-              className="font-body text-sm text-foreground/65 max-w-sm leading-relaxed italic mb-7"
-            >
-              A raw, acoustic letter to Sonia, written in the early hours of Mother's Day, four years after she left.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.6 }}
-              className="flex flex-wrap gap-3"
-            >
-              <MagneticButton>
-                <a href={wyhSpotify} target="_blank" rel="noopener noreferrer">
-                  <Button className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
-                    <Play className="w-3.5 h-3.5" /> Listen Here
-                  </Button>
-                </a>
-              </MagneticButton>
-              <MagneticButton>
-                <Link to="/remember-mum">
-                  <Button variant="outline" className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
-                    Her Story <ArrowRight className="w-3.5 h-3.5" />
-                  </Button>
-                </Link>
-              </MagneticButton>
-              <MagneticButton>
-                <Link to="/back-this">
-                  <Button variant="outline" className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10">
-                    Be Part Of This 🤍
-                  </Button>
-                </Link>
-              </MagneticButton>
-            </motion.div>
-
-            {/* Out now badge */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.9 }}
-              className="mt-7 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary">Out Now · Listen Everywhere</p>
-            </motion.div>
-          </div>
-
-          {/* RIGHT: "Without You Here" stencil, stretched out as a design staple */}
+        {/* Centered content */}
+        <div className="relative z-10 w-full max-w-3xl mx-auto px-6 py-28 md:py-24 flex flex-col items-center text-center">
+          {/* Cover artwork and revolving hook lyrics */}
           <motion.div
-            initial={{ opacity: 0, y: 30, rotateX: 22 }}
-            animate={{ opacity: 1, y: 0, rotateX: 0 }}
-            transition={{ duration: 1.8, delay: 0.5 }}
-            className="[perspective:1200px] flex items-center justify-center md:justify-end"
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.6, delay: 0.5 }}
+            className="mb-6"
           >
-            <motion.img
-              src={WYH_STENCIL}
-              alt="Without You Here"
-              animate={{ y: [0, -12, 0] }}
-              transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-              className="w-full max-w-[34rem] md:max-w-[40rem]"
-              style={{ filter: 'drop-shadow(0 0 30px rgba(212,175,55,0.5)) drop-shadow(0 18px 26px rgba(0,0,0,0.6))' }}
-            />
+            <HeroSongPlayer artwork={WYH_ARTWORK} spotifyLink={wyhSpotify} />
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.6, delay: 0.7 }}
+            className="font-body text-[10px] tracking-[0.45em] uppercase text-primary/70 mb-4"
+          >
+            The New Single · A Film For Mum
+          </motion.p>
+
+          {/* Welcome / mission write-up */}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.6, delay: 0.9 }}
+            className="max-w-2xl"
+          >
+            <h1 className="font-display text-2xl md:text-4xl gradient-gold-glow mb-4 leading-tight">
+              Welcome, I'm Gannon Waye
+            </h1>
+            <p className="font-body text-sm md:text-base text-foreground/80 leading-relaxed">
+              I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT.
+            </p>
+          </motion.div>
+
+          <motion.p
+            className="font-body text-[11px] tracking-[0.22em] uppercase text-foreground/50 mt-5 mb-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.6, delay: 1.2 }}
+          >
+            Gannon Waye
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.4, delay: 1.4 }}
+            className="flex flex-wrap justify-center gap-3"
+          >
+            <MagneticButton>
+              <Button
+                type="button"
+                onClick={() => playTrack(wyhSpotify, { title: 'Without You Here', artwork: WYH_ARTWORK })}
+                className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0"
+              >
+                <Play className="w-3.5 h-3.5" /> Listen Here
+              </Button>
+            </MagneticButton>
+            <MagneticButton>
+              <Link to="/remember-mum">
+                <Button variant="outline" className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full border-foreground/20 hover:bg-foreground/5">
+                  Her Story <ArrowRight className="w-3.5 h-3.5" />
+                </Button>
+              </Link>
+            </MagneticButton>
+            <MagneticButton>
+              <Link to="/back-this">
+                <Button variant="outline" className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10">
+                  Be Part Of This 🤍
+                </Button>
+              </Link>
+            </MagneticButton>
+          </motion.div>
+
+          {/* Out now badge */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.4, delay: 1.7 }}
+            className="mt-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+            <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary">Out Now · Listen Everywhere</p>
           </motion.div>
         </div>
       </section>
