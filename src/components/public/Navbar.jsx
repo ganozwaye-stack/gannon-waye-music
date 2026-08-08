@@ -60,9 +60,7 @@ export default function Navbar() {
           <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-primary/60 flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
             <span className="font-display text-sm gradient-gold-text font-semibold tracking-wider">GW</span>
           </div>
-          
-
-          
+          <span className="hidden lg:inline font-body text-lg uppercase font-bold tracking-[0.22em] text-foreground/65 leading-none">Gannon Waye</span>
         </Link>
 
         {/* Desktop */}
