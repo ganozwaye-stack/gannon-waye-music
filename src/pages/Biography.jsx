@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Music, Heart, Mic, Headphones, Quote } from 'lucide-react';
 
-const PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dc8919b4b_IMG_5624.png';
+// Gannon, not mum. Do not reassign.
+const PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cb360d5ee_image.png';
 
 const TIMELINE = [
   { year: 'Early Years', text: 'Grew up surrounded by music, finding solace in melody and meaning in lyrics from an early age.' },
@@ -14,7 +15,7 @@ const TIMELINE = [
 ];
 
 const VALUES = [
-  { icon: Heart, title: 'Authenticity', desc: 'Every song is written from lived experience. No pretence, no posturing — just truth.' },
+  { icon: Heart, title: 'Authenticity', desc: 'Every song is written from lived experience. No pretence, no posturing, just truth.' },
   { icon: Music, title: 'Craft', desc: 'Obsessive about melody, lyric, and production. Every detail matters, every note serves the song.' },
   { icon: Mic, title: 'Independence', desc: 'Self-released, self-managed, self-determined. The freedom to make exactly the music he wants to make.' },
   { icon: Headphones, title: 'Connection', desc: 'Music as a bridge between souls. If one person hears their own story in a song, it\'s done its job.' },
@@ -41,17 +42,17 @@ export default function Biography() {
             }} />
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col justify-center">
-            <h2 className="font-display text-3xl text-foreground mb-1">Gannon Waye</h2>
-            <p className="font-body text-sm text-primary tracking-widest uppercase mb-6">Independent Artist · Songwriter</p>
+            <h2 className="font-display text-3xl gradient-gold-text mb-1">Gannon Waye</h2>
+            <p className="font-body text-sm gradient-gold-text tracking-widest uppercase mb-6">Independent Artist · Songwriter</p>
             <div className="space-y-4 font-body text-sm text-foreground/70 leading-relaxed">
               <p>
-                Gannon Waye is an independent Australian artist whose music lives at the intersection of honesty and melody. His songs aren't written to chase trends — they're written because they have to be. Each one is a chapter of a life being lived in real time.
+                Gannon Waye is an independent Australian artist whose music lives at the intersection of honesty and melody. His songs aren't written to chase trends, they're written because they have to be. Each one is a chapter of a life being lived in real time.
               </p>
               <p>
-                His debut single <em className="text-foreground/90">"Thank You"</em> marked a turning point: the moment of choosing self-respect over repetition. It's the sound of a cycle being broken. His follow-up, <em className="text-foreground/90">"Without You Here"</em>, written in the early hours of Mother's Day, is a raw, acoustic letter to his late mother, Sonia — a tribute to the voice he still reaches for and the love that never left.
+                His debut single <em className="text-foreground/90">Thankyou</em> marked a turning point: the moment of choosing self-respect over repetition. It's the sound of a cycle being broken. His follow-up, <em className="text-foreground/90">"Without You Here"</em>, written in the early hours of Mother's Day, is a raw, acoustic letter to his late mother, Sonia, a tribute to the voice he still reaches for and the love that never left.
               </p>
               <p>
-                Every lyric is intentional. Every note serves the story. For Gannon, music isn't a performance — it's a conversation with anyone who's ever felt the same way and didn't have the words to say it.
+                Every lyric is intentional. Every note serves the story. For Gannon, music isn't a performance, it's a conversation with anyone who's ever felt the same way and didn't have the words to say it.
               </p>
             </div>
           </motion.div>
@@ -63,7 +64,7 @@ export default function Biography() {
           <p className="font-display italic text-xl text-foreground/80 leading-relaxed">
             "I don't write songs to be heard. I write songs because if I don't, the feeling stays. And some feelings are too heavy to carry alone."
           </p>
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary/50 mt-6">— Gannon Waye</p>
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text mt-6">Gannon Waye</p>
         </div>
 
         {/* Journey timeline */}
