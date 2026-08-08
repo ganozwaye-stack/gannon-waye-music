@@ -22,14 +22,8 @@ const HERO_BG = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794
 // Transparent "Without You Here" script logo (gold outline)
 const WYH_LOGO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/92373d01d_without-you-here-stencil-gold-outline-only-transparent-tight-2026-08-03.png';
 
-// Real cover art per song — only used when the release is published/released in the DB
-const COVER_ART = {
-  'Without You Here': 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b584427a7_1108807_cover_6a220151b02c1.jpeg',
-  'Thank You': 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/64d0b8f1d_Picture6.png',
-  'Will You Even Listen': 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5bedb1f79_Picture4.png',
-  'Set Free': 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a1ca14a6f_Picture3.png',
-  'Because of You': 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6704bd76f_Picture2.png',
-};
+// Cover art comes from each release's artwork_url in the database — single source of truth.
+// Do NOT hardcode per-song cover overrides here (that caused mis-assigned artwork in the past).
 
 export default function Home() {
   const { data: settings } = useQuery({
@@ -381,10 +375,9 @@ export default function Home() {
                   className="group relative overflow-hidden rounded-2xl bg-card/60 backdrop-blur-sm border border-border/40 hover:border-primary/30 transition-all"
                 >
                   <div className="aspect-square bg-secondary/50 overflow-hidden">
-                    {/* Use real cover art from uploaded assets, fall back to artwork_url from DB */}
-                    {(COVER_ART[release.title] || release.artwork_url) ? (
+                    {release.artwork_url ? (
                       <img
-                        src={COVER_ART[release.title] || release.artwork_url}
+                        src={release.artwork_url}
                         alt={`${release.title} — Gannon Waye`}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
