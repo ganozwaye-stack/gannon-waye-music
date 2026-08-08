@@ -57,7 +57,7 @@ export default function Home() {
           alt="Gannon Waye, Without You Here"
           initial={{ scale: 1.06, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ opacity: { duration: 1.8 }, scale: { duration: 14, ease: 'easeOut' } }}
+          transition={{ opacity: { duration: 2.4 }, scale: { duration: 22, ease: 'easeOut' } }}
           className="absolute inset-0 w-full h-full object-cover"
           style={{ objectPosition: 'center' }}
         />
@@ -94,34 +94,27 @@ export default function Home() {
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.3 }}
+              transition={{ duration: 1.6, delay: 0.4 }}
               className="font-body text-[10px] tracking-[0.45em] uppercase text-primary/70 mb-5"
             >
               The New Single · A Film For Mum
             </motion.p>
 
-            {/* "Without You Here" stencil, lifting off the screen */}
+            {/* Cover artwork and revolving hook lyrics */}
             <motion.div
-              initial={{ opacity: 0, y: 24, rotateX: 22 }}
-              animate={{ opacity: 1, y: 0, rotateX: 0 }}
-              transition={{ duration: 1.1, delay: 0.5 }}
-              className="[perspective:900px] mb-5"
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.6, delay: 0.6 }}
+              className="mb-6"
             >
-              <motion.img
-                src={WYH_STENCIL}
-                alt="Without You Here"
-                animate={{ y: [0, -9, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-                className="w-full max-w-[15rem] md:max-w-[19rem]"
-                style={{ filter: 'drop-shadow(0 0 22px rgba(212,175,55,0.5)) drop-shadow(0 14px 20px rgba(0,0,0,0.6))' }}
-              />
+              <HeroSongPlayer artwork={WYH_ARTWORK} spotifyLink={wyhSpotify} />
             </motion.div>
 
             <motion.p
               className="font-body text-[11px] tracking-[0.22em] uppercase text-foreground/50 mb-2"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 0.9 }}
+              transition={{ duration: 1.6, delay: 1.1 }}
             >
               Gannon Waye
             </motion.p>
@@ -129,7 +122,7 @@ export default function Home() {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1.1 }}
+              transition={{ duration: 1.6, delay: 1.3 }}
               className="font-body text-sm text-foreground/65 max-w-sm leading-relaxed italic mb-7"
             >
               A raw, acoustic letter to Sonia, written in the early hours of Mother's Day, four years after she left.
@@ -138,7 +131,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.3 }}
+              transition={{ duration: 1.4, delay: 1.6 }}
               className="flex flex-wrap gap-3"
             >
               <MagneticButton>
@@ -168,7 +161,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 1.6 }}
+              transition={{ duration: 1.4, delay: 1.9 }}
               className="mt-7 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25"
             >
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
@@ -176,14 +169,21 @@ export default function Home() {
             </motion.div>
           </div>
 
-          {/* RIGHT: cover player and revolving hook lyrics */}
+          {/* RIGHT: "Without You Here" stencil, stretched out as a design staple */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="flex justify-center md:justify-end"
+            initial={{ opacity: 0, y: 30, rotateX: 22 }}
+            animate={{ opacity: 1, y: 0, rotateX: 0 }}
+            transition={{ duration: 1.8, delay: 0.5 }}
+            className="[perspective:1200px] flex items-center justify-center md:justify-end"
           >
-            <HeroSongPlayer artwork={WYH_ARTWORK} spotifyLink={wyhSpotify} />
+            <motion.img
+              src={WYH_STENCIL}
+              alt="Without You Here"
+              animate={{ y: [0, -12, 0] }}
+              transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+              className="w-full max-w-[34rem] md:max-w-[40rem]"
+              style={{ filter: 'drop-shadow(0 0 30px rgba(212,175,55,0.5)) drop-shadow(0 18px 26px rgba(0,0,0,0.6))' }}
+            />
           </motion.div>
         </div>
       </section>

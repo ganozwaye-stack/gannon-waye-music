@@ -7,6 +7,7 @@ const HOOK_LINES = [
   "I don't wanna live this life without you here",
   "You were the voice that made my troubles disappear",
   "Your last breath took mine away",
+  "There's not much more I have to say",
   "Even while leaving, you were still loving me",
   "Boy, you're not finished yet",
 ];
@@ -16,7 +17,7 @@ export default function HeroSongPlayer({ artwork, spotifyLink }) {
   const [idx, setIdx] = useState(0);
   const next = useCallback(() => setIdx((i) => (i + 1) % HOOK_LINES.length), []);
   useEffect(() => {
-    const t = setInterval(next, 4200);
+    const t = setInterval(next, 6000);
     return () => clearInterval(t);
   }, [next]);
 
@@ -51,7 +52,7 @@ export default function HeroSongPlayer({ artwork, spotifyLink }) {
             initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             exit={{ opacity: 0, y: -10, filter: 'blur(6px)' }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 1 }}
             className="font-display italic text-lg gradient-gold-glow leading-snug"
           >
             &ldquo;{HOOK_LINES[idx]}&rdquo;
