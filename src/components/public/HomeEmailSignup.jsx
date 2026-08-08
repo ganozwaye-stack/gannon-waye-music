@@ -4,7 +4,7 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { CheckCircle2, Mail, Loader2, ChevronDown } from 'lucide-react';
+import { CheckCircle2, Mail, Gift, Loader2, ChevronDown } from 'lucide-react';
 
 const HOW_FOUND_OPTIONS = [
   { value: 'google', label: 'Google' },
@@ -129,7 +129,7 @@ export default function HomeEmailSignup() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <Mail className="w-8 h-8 text-primary mx-auto mb-4" />
+          <Mail className="w-8 h-8 text-primary mx-auto mb-4" style={{ filter: 'drop-shadow(0 0 12px rgba(212,175,55,0.55))' }} />
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">Stay Connected</p>
           <h2 className="font-display text-3xl md:text-4xl text-foreground mb-3">Join the Inner Circle</h2>
           <p className="font-body text-sm text-muted-foreground mb-3 leading-relaxed">
@@ -137,10 +137,11 @@ export default function HomeEmailSignup() {
           </p>
           <motion.button
             onClick={() => setShowGiftInfo(!showGiftInfo)}
-            className="inline-flex items-center gap-2 text-primary font-body text-xs tracking-widest uppercase hover:underline mb-6"
+            className="inline-flex items-center gap-2 font-body text-xs tracking-widest uppercase hover:underline mb-6"
           >
-            🎁 Sign up today & get a gift from me
-            <ChevronDown className={`w-3 h-3 transition-transform ${showGiftInfo ? 'rotate-180' : ''}`} />
+            <Gift className="w-3.5 h-3.5 text-primary" style={{ filter: 'drop-shadow(0 0 8px rgba(212,175,55,0.5))' }} />
+            <span className="gradient-gold-glow">Sign up today & get a gift from me</span>
+            <ChevronDown className={`w-3 h-3 text-primary transition-transform ${showGiftInfo ? 'rotate-180' : ''}`} />
           </motion.button>
           <AnimatePresence>
             {showGiftInfo && (
