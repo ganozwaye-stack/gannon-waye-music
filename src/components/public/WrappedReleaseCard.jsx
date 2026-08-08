@@ -21,12 +21,12 @@ const STATUS_LABELS = {
   coming_soon: 'Coming Soon',
 };
 
-const THANK_YOU_DESC = '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. There was a growing awareness that what he was experiencing was not new. It felt familiar in a way that traced back much further, to patterns already fought hard to outgrow. This song is not about the pain. It is about the line being drawn. It is the moment of choosing self-respect over repetition. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.';
+const THANK_YOU_DESC = 'Thankyou was written at a turning point, when staying any longer would have meant abandoning himself all over again. There was a growing awareness that what he was experiencing was not new. It felt familiar in a way that traced back much further, to patterns already fought hard to outgrow. This song is not about the pain. It is about the line being drawn. It is the moment of choosing self-respect over repetition. Thankyou is what it sounds like when you break a cycle and refuse to return to it.';
 
 const WYH_DESC = '"Without You Here" was written in the loungeroom, in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia, the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did. This is the most honest Gannon has ever been in his music.';
 
 function descriptionFor(release) {
-  if (release.title === 'Thank You') return THANK_YOU_DESC;
+  if (release.title === 'Thankyou') return THANK_YOU_DESC;
   if (release.title === 'Without You Here') return WYH_DESC;
   return release.description;
 }
@@ -194,7 +194,7 @@ export default function WrappedReleaseCard({ release, index = 0, onOpenLyrics })
               {/* Spotify embed */}
               {!isComingSoon && isReleased && (release.spotify_link || release.title === 'Thank You') && (
                 <div className="mt-6">
-                  <SpotifyPlayer spotifyLink={release.spotify_link} fallbackUrl={release.title === 'Thank You' ? 'https://open.spotify.com/album/36qMYfzzJrq2j039l9Ex66' : null} height={152} />
+                  <SpotifyPlayer spotifyLink={release.spotify_link} fallbackUrl={release.title === 'Thankyou' ? 'https://open.spotify.com/album/36qMYfzzJrq2j039l9Ex66' : null} height={152} />
                 </div>
               )}
             </div>

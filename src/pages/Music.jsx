@@ -31,17 +31,17 @@ function ThankYouFallbackCard() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] gap-0 bg-card border border-border/40 rounded-2xl overflow-hidden">
       <div className="aspect-square md:aspect-auto md:h-full bg-secondary/50 overflow-hidden">
-        <img src={THANK_YOU_COVER} alt="Thank You, Gannon Waye" className="w-full h-full object-cover" />
+        <img src={THANK_YOU_COVER} alt="Thankyou, Gannon Waye" className="w-full h-full object-cover" />
       </div>
       <div className="p-5 md:p-8 flex flex-col justify-center">
         <div className="flex items-center gap-3 mb-2">
           <span className="font-body text-[10px] tracking-widest uppercase border border-primary/30 text-primary px-2 py-0.5 rounded-full">Single</span>
           <span className="font-body text-[10px] tracking-widest uppercase bg-primary/20 text-primary px-2 py-0.5 rounded-full">Out Now</span>
         </div>
-        <h2 className="font-display text-3xl md:text-4xl text-foreground">Thank You</h2>
+        <h2 className="font-display text-3xl md:text-4xl text-foreground">Thankyou</h2>
         <p className="font-body text-sm text-muted-foreground mt-2">5 June 2026</p>
         <p className="font-body text-foreground/60 mt-4 leading-relaxed">
-          "Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.
+          Thankyou was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. Thankyou is what it sounds like when you break a cycle and refuse to return to it.
         </p>
         <div className="mt-6 text-xs font-body text-muted-foreground leading-relaxed max-w-sm">
           Out Now · Listen on Spotify, Apple Music, and YouTube
@@ -84,7 +84,7 @@ export default function Music() {
       credits: 'Written & Performed by Gannon Waye · Produced by Will Henderson · Mother\'s Day 2026',
       artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
     }]),
-    ...releases.filter(r => r.is_published && (r.title === 'Thank You' || r.title === 'Without You Here')),
+    ...releases.filter(r => r.is_published && (r.title === 'Thankyou' || r.title === 'Without You Here')),
   ];
   const wyh = published.find(r => r.title === 'Without You Here') || releases.find(r => r.title === 'Without You Here');
 
@@ -229,7 +229,7 @@ export default function Music() {
         </div>
 
         <div className="flex justify-center mt-10 mb-4">
-          <ShareButtons url="https://gannonwaye.com/music" text="Gannon Waye, debut single 'Thank You' out now." />
+          <ShareButtons url="https://gannonwaye.com/music" text="Gannon Waye, debut single 'Thankyou' out now." />
         </div>
         <BePartOfThisCTA context="If this music means something to you, you can help make more of it happen." />
         <div className="mt-12">

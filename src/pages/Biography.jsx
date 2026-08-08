@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import PageHero from '@/components/public/PageHero';
 import { Button } from '@/components/ui/button';
 import { Music, Heart, Mic, Headphones, Quote } from 'lucide-react';
 
@@ -23,13 +24,9 @@ const VALUES = [
 
 export default function Biography() {
   return (
-    <div className="min-h-screen py-24 px-4 md:px-8">
-      <div className="max-w-4xl mx-auto">
-        {/* Hero */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
-          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">The Artist</p>
-          <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Biography</h1>
-        </motion.div>
+    <div className="min-h-screen pb-20">
+      <PageHero eyebrow="The Artist" title="Biography" />
+      <div className="max-w-4xl mx-auto px-4 md:px-8 pt-12">
 
         {/* Portrait + intro */}
         <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-8 mb-16 items-start">

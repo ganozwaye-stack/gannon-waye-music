@@ -6,6 +6,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import TiltCard from '@/components/public/TiltCard';
+import PageHero from '@/components/public/PageHero';
 
 const APPROVED_EMAIL = 'gannonwayemusic@gmail.com';
 
@@ -40,22 +41,22 @@ const PRESS_WRITEUPS = {
     playlist: `Acoustic pop, emotional pop, singer-songwriter, grief and healing, Mother's Day, independent Australian artists, late-night listening.`,
     reel: `"Comment BREATH and I will send you the song": a hook around the signature lyric line, behind-the-scenes studio footage, Mother's Day tribute reels, and raw vocal and acoustic performance clips.`,
   },
-  'Thank You': {
+  'Thankyou': {
     tagline: `The debut single. A self-respect anthem about survival, rebuilding, and walking away from what breaks you.`,
-    whyItMatters: `"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. It is not about the pain. It is about the line being drawn. It is the moment of choosing self-respect over repetition, the sound of breaking a cycle and refusing to return to it. As a debut, it introduced Gannon Waye's voice and story to the world on his own terms: raw, honest, and unflinching.
+    whyItMatters: `"Thankyou" was written at a turning point, when staying any longer would have meant abandoning himself all over again. It is not about the pain. It is about the line being drawn. It is the moment of choosing self-respect over repetition, the sound of breaking a cycle and refusing to return to it. As a debut, it introduced Gannon Waye's voice and story to the world on his own terms: raw, honest, and unflinching.
 
-This is the song that started everything. Every release since carries the same DNA, lived experience, hard-won self-worth, and the decision to stay. "Thank You" is not a breakup song. It is a beginning.`,
+This is the song that started everything. Every release since carries the same DNA, lived experience, hard-won self-worth, and the decision to stay. "Thankyou" is not a breakup song. It is a beginning.`,
     quote: ``,
     audienceFit: `Listeners drawn to empowerment anthems and redemption arcs. Fans of Dean Lewis, Benson Boone, and Lewis Capaldi. Audiences navigating toxic relationships, self-worth rebuilds, and the courage to walk away.`,
     interviewTopics: [
-      `The real story behind "Thank You", the moment the line was drawn`,
+      `The real story behind "Thankyou", the moment the line was drawn`,
       `Breaking cycles, choosing self-respect over repetition`,
       `Turning survival into a debut single`,
       `Self-worth, boundaries, and learning to stay`,
       `Launching as an independent artist with a message, not a marketing campaign`,
       `Why every release since starts from lived experience`,
     ],
-    radioIntro: `"This next one is a debut that hits like a confession. Melbourne's Gannon Waye wrote "Thank You" the moment he finally chose himself. It is the sound of a cycle being broken. This is "Thank You."`,
+    radioIntro: `"This next one is a debut that hits like a confession. Melbourne's Gannon Waye wrote "Thankyou" the moment he finally chose himself. It is the sound of a cycle being broken. This is "Thankyou."`,
     playlist: `Empowerment pop, singer-songwriter, emotional pop, late-night listening, independent Australian artists, self-worth and healing.`,
     reel: `"Comment THANKYOU for the full story": the line being drawn, before-and-after clips, raw acoustic performance, and the one-quote hook that stops the scroll.`,
   },
@@ -235,13 +236,9 @@ export default function Press() {
   };
 
   return (
-    <div className="min-h-screen pt-24 pb-16 px-4 md:px-6 max-w-5xl mx-auto">
-      {/* Header */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mb-12">
-        <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">Press &amp; Pitch</p>
-        <h1 className="font-display text-4xl md:text-5xl gradient-gold-text mb-3">Gannon Waye</h1>
-        <p className="font-body text-sm text-muted-foreground max-w-xl mx-auto">Independent artist · Singer-songwriter · Melbourne, Australia</p>
-      </motion.div>
+    <div className="min-h-screen pb-16">
+      <PageHero eyebrow="Press & Pitch" title="Gannon Waye" subtitle="Independent artist · Singer-songwriter · Melbourne, Australia" />
+      <div className="max-w-5xl mx-auto px-4 md:px-6 pt-12">
 
       {/* Who I Am */}
       <motion.section initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-6 bg-card/50 border border-border/40 rounded-2xl p-6 md:p-8">
@@ -363,6 +360,7 @@ export default function Press() {
           </form>
         )}
       </motion.section>
+      </div>
     </div>
   );
 }
