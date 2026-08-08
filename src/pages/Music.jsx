@@ -21,7 +21,7 @@ import FloatingImage from '@/components/public/FloatingImage';
 import TiltCard from '@/components/public/TiltCard';
 import MagneticButton from '@/components/public/MagneticButton';
 
-// Clean gold glow banner — blends into dark background on Music page
+// Clean gold glow banner, blends into dark background on the Music page
 const THANK_YOU_BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/f63708f24_b3199b8b-5027-40bd-9c7e-d244defa613b.png';
 
 const THANK_YOU_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg';
@@ -92,7 +92,7 @@ export default function Music() {
       is_published: true,
       is_current_single: true,
       is_featured_new: true,
-      description: 'Written in the loungeroom, in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did. This is the most honest Gannon has ever been in his music.',
+      description: 'Written in the loungeroom, in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia, the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did. This is the most honest Gannon has ever been in his music.',
       credits: 'Written & Performed by Gannon Waye · Produced by Will Henderson · Mother\'s Day 2026',
       artwork_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png',
     }]),
@@ -233,7 +233,7 @@ export default function Music() {
                       {release.title === 'Thank You'
                         ? '"Thank You" was written at a turning point, when staying any longer would have meant abandoning himself all over again. There was a growing awareness that what he was experiencing was not new. It felt familiar in a way that traced back much further, to patterns already fought hard to outgrow. This song is not about the pain. It is about the line being drawn. It is the moment of choosing self-respect over repetition. "Thank You" is what it sounds like when you break a cycle and refuse to return to it.'
                         : release.title === 'Without You Here'
-                        ? '"Without You Here" was written in the loungeroom, in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did. This is the most honest Gannon has ever been in his music.'
+                        ? '"Without You Here" was written in the loungeroom, in the early hours of Mother\'s Day, four years after losing his mum. A raw, acoustic letter to Sonia, the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did. This is the most honest Gannon has ever been in his music.'
                         : release.description}
                     </p>
                   )}
@@ -384,7 +384,7 @@ export default function Music() {
         </div>
         <BePartOfThisCTA context="If this music means something to you, you can help make more of it happen." />
         <div className="mt-12">
-          <ThankYouProjectCTA context="Support the Thank You Project — help fund more music, build the community, and keep independent art alive. 10% of all support goes to 1800RESPECT." />
+          <ThankYouProjectCTA context="Support the Thank You Project: help fund more music, build the community, and keep independent art alive. 10% of all support goes to 1800RESPECT." />
         </div>
       </div>
 

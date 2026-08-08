@@ -12,17 +12,17 @@ import FanReviewSection from '@/components/public/FanReviewSection';
 import FanCommentSection from '@/components/public/FanCommentSection';
 const WYH_ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e8df43132_ChatGPTImageJun23202603_50_22PM.png';
 
-const WYH_HERO_COPY = "Written in the early hours of Mother's Day, four years after losing his mum. A raw, acoustic letter to Sonia — the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did.";
+const WYH_HERO_COPY = "Written in the early hours of Mother's Day, four years after losing his mum. A raw, acoustic letter to Sonia, the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did.";
 
 const WYH_BEHIND_STORY = `Sonia Katisa Waye (5 February 1961 – 27 April 2022) was the heart of Gannon's family — the central pillar who held everyone together. Her Adelaide backyard was a sanctuary: monstera and elephant ears, spider plants and orange flowering vines, the concrete table, Onya & Gay's Archway connecting neighbouring driveways. Every morning she was there in her burgundy robe, coffee mug in hand, tending the garden she planted with care.
 
-Twenty days after a stage-four diagnosis, Sonia took her last breath holding Gannon's hand. The sudden silence in the home was deafening. Four years later, in the early hours of Mother's Day 2026, Gannon sat on the loungeroom floor and wrote "Without You Here" — an acoustic letter to the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did.
+Twenty days after a stage-four diagnosis, Sonia took her last breath holding Gannon's hand. The sudden silence in the home was deafening. Four years later, in the early hours of Mother's Day 2026, Gannon sat on the loungeroom floor and wrote "Without You Here", an acoustic letter to the voice he still reaches for, the wisdom he still misses, and the love that never left him, even after she did.
 
 The line at its centre carries the entire weight of the song: "your last breath took mine away, there's not much more I have to say."
 
 "Mum didn't just plant flowers; she planted safety. When she left, the garden stayed, and every lyric I write is just me talking to her."
 
-"Without You Here" follows Gannon's debut single "Thank You" and leads the path toward his forthcoming 15-track debut album I'm Still Here, produced with Victorian producer Will Henderson (Willing Music). In Sonia's honour, Gannon has pledged 10% of all music support to 1800RESPECT — Australia's national domestic, family, and sexual violence counselling service — turning private survival into a public sanctuary for anyone carrying love for someone no longer here.`;
+"Without You Here" follows Gannon's debut single "Thank You" and leads the path toward his forthcoming 15-track debut album I'm Still Here, produced with Victorian producer Will Henderson (Willing Music). In Sonia's honour, Gannon has pledged 10% of all music support to 1800RESPECT, Australia's national domestic, family, and sexual violence counselling service, turning private survival into a public sanctuary for anyone carrying love for someone no longer here.`;
 
 const WYH_CREDITS = "Written & Performed by Gannon Waye · Produced by Will Henderson (Willing Music) · Mother's Day 2026 · 10% of all support pledged to 1800RESPECT";
 
@@ -33,7 +33,7 @@ const WYH_FALLBACK = {
   status: 'coming_soon',
   release_date: null,
   artwork_url: WYH_ARTWORK,
-  description: 'A raw, acoustic letter to Sonia — written in the early hours of Mother\'s Day, four years after she left.',
+  description: 'A raw, acoustic letter to Sonia, written in the early hours of Mother\'s Day, four years after she left.',
   current_single_hero_copy: WYH_HERO_COPY,
   current_single_behind_story: WYH_BEHIND_STORY,
   credits: WYH_CREDITS,
