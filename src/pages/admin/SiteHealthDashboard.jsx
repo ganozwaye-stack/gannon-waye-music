@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import { motion } from 'framer-motion';
-import { Play, AlertCircle, CheckCircle2, AlertTriangle, RefreshCw } from 'lucide-react';
+import { Play, AlertCircle, CheckCircle2, AlertTriangle, RefreshCw, Sparkles, Search, Link2, Image as ImageIcon, Gauge, Loader2 } from 'lucide-react';
 import { runPlatformHealthCheck, TEST_RESULTS } from '@/lib/platformTesting';
 import { base44 } from '@/api/base44Client';
 
@@ -87,6 +87,8 @@ export default function SiteHealthDashboard() {
   const { toast } = useToast();
   const [results, setResults] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [aiLoading, setAiLoading] = useState(null);
+  const [aiResult, setAiResult] = useState(null);
 
   const handleTestClick = (test) => {
     const name = test.name.toLowerCase();
@@ -129,6 +131,51 @@ export default function SiteHealthDashboard() {
       toast({ title: 'Test run failed', variant: 'destructive' });
     }
     setLoading(false);
+  };
+
+  // AI-driven health actions. SEO uses a web-capable model, the rest use the default model.
+  const runAI = async (action) => {
+    setAiLoading(action);
+    setAiResult(null);
+    try {
+      let res;
+      if (action === 'performance') {
+        let payload = results;
+        if (!payload) {
+          const backendHealth = await base44.functions.invoke('runSiteHealthCheck', {});
+          payload = normalizeBackendHealth(backendHealth);
+          setResults(payload);
+        }
+        const perfData = JSON.stringify({ score: payload.healthScore, status: payload.status, failed: payload.failed, warnings: payload.warnings, tests: payload.tests.map(t => ({ name: t.name, suite: t.suite, result: t.result, details: t.details?.status || t.details?.summary })) });
+        res = await base44.integrations.Core.InvokeLLM({
+          prompt: 'You are a senior site reliability engineer for gannonwaye.com, an Australian singer-songwriter website. Analyse these health check results and give 3 to 5 prioritised, plain-English fixes. Be concise and specific.\n\nResults:\n' + perfData,
+          response_json_schema: { type: 'object', properties: { summary: { type: 'string' }, fixes: { type: 'array', items: { type: 'string' } } } },
+        });
+        setAiResult({ title: 'AI Performance Analysis', summary: res.summary, fixes: res.fixes });
+      } else if (action === 'seo') {
+        res = await base44.integrations.Core.InvokeLLM({
+          prompt: 'Analyse the website gannonwaye.com (Australian singer-songwriter Gannon Waye; debut single "Thank You"; current single "Without You Here"; themes of grief, healing, and a 1800RESPECT charity pledge). Suggest 6 concrete SEO improvements covering meta tags, schema markup, content, internal linking, and Core Web Vitals. Be specific and actionable.',
+          add_context_from_internet: true,
+          model: 'gemini_3_flash',
+          response_json_schema: { type: 'object', properties: { summary: { type: 'string' }, fixes: { type: 'array', items: { type: 'string' } } } },
+        });
+        setAiResult({ title: 'AI SEO Improvements', summary: res.summary, fixes: res.fixes });
+      } else if (action === 'links') {
+        navigate('/admin/link-integrity-audit');
+        setAiLoading(null);
+        return;
+      } else if (action === 'images') {
+        res = await base44.integrations.Core.InvokeLLM({
+          prompt: 'Recommend a practical image optimisation strategy for a cinematic music artist website with large hero photos, release cover art, and a memorial section. Cover formats (WebP/AVIF), responsive srcsets, lazy loading, compression targets, and LCP handling. Return concise bullet points.',
+          response_json_schema: { type: 'object', properties: { summary: { type: 'string' }, fixes: { type: 'array', items: { type: 'string' } } } },
+        });
+        setAiResult({ title: 'AI Image Optimisation', summary: res.summary, fixes: res.fixes });
+      }
+    } catch (e) {
+      toast({ title: 'AI action failed', variant: 'destructive' });
+      setAiResult({ title: 'AI action failed', summary: e?.message || String(e), fixes: [] });
+    }
+    setAiLoading(null);
   };
 
   const getStatusIcon = (status) => {
@@ -176,6 +223,45 @@ export default function SiteHealthDashboard() {
             </>
           )}
         </Button>
+      </div>
+
+      {/* AI Actions */}
+      <div className="bg-card border border-primary/30 rounded-2xl p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <Sparkles className="w-4 h-4 text-primary" />
+          <h2 className="font-display text-sm uppercase tracking-wider text-primary">AI Actions</h2>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <Button onClick={() => runAI('performance')} disabled={!!aiLoading} variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10 justify-start">
+            {aiLoading === 'performance' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Gauge className="w-3.5 h-3.5" />} Analyse Performance
+          </Button>
+          <Button onClick={() => runAI('seo')} disabled={!!aiLoading} variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10 justify-start">
+            {aiLoading === 'seo' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Search className="w-3.5 h-3.5" />} Generate SEO
+          </Button>
+          <Button onClick={() => runAI('links')} disabled={!!aiLoading} variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10 justify-start">
+            <Link2 className="w-3.5 h-3.5" /> Check Broken Links
+          </Button>
+          <Button onClick={() => runAI('images')} disabled={!!aiLoading} variant="outline" className="rounded-full gap-2 font-body text-xs tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10 justify-start">
+            {aiLoading === 'images' ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <ImageIcon className="w-3.5 h-3.5" />} Optimise Images
+          </Button>
+        </div>
+
+        {aiResult && (
+          <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="mt-4 rounded-xl border border-border/40 bg-secondary/30 p-4">
+            <p className="font-display text-sm text-foreground mb-2">{aiResult.title}</p>
+            {aiResult.summary && <p className="font-body text-sm text-foreground/70 mb-3 leading-relaxed">{aiResult.summary}</p>}
+            {aiResult.fixes && aiResult.fixes.length > 0 && (
+              <ul className="space-y-1.5">
+                {aiResult.fixes.map((f, i) => (
+                  <li key={i} className="flex items-start gap-2 font-body text-sm text-foreground/70">
+                    <span className="text-primary mt-0.5">•</span>
+                    <span>{f}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </motion.div>
+        )}
       </div>
 
       {results && (
