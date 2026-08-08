@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import GannonSignature from '@/components/global/GannonSignature';
 import TiltCard from '@/components/public/TiltCard';
 import MagneticButton from '@/components/public/MagneticButton';
+import SaveLyricButton from '@/components/public/SaveLyricButton';
 
 export default function LyricsPage() {
   const [openId, setOpenId] = useState(null);
@@ -96,6 +97,9 @@ export default function LyricsPage() {
                         <pre className="font-display text-foreground/80 leading-loose text-base whitespace-pre-wrap italic bg-secondary/20 rounded-xl p-6">
                           {lyric.lyrics_text}
                         </pre>
+                        <div className="mt-6">
+                          <SaveLyricButton lyric={lyric} />
+                        </div>
                         {lyric.copyright_year && (
                           <p className="font-body text-xs text-muted-foreground mt-6 pt-4 border-t border-border/30">
                             Copyright © Gannon Waye {lyric.copyright_year}

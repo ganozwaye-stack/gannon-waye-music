@@ -33,6 +33,7 @@ import StoreCartPage from '@/pages/StoreCartPage.jsx';
 import StoreCustomerDetails from '@/pages/StoreCustomerDetails.jsx';
 import EmailPreferences from '@/pages/EmailPreferences';
 import FanProfile from '@/pages/FanProfile';
+import FanDashboard from '@/pages/FanDashboard';
 import OrderHistory from '@/pages/OrderHistory';
 import BackThis from '@/pages/BackThis';
 import Community from '@/pages/Community';
@@ -417,6 +418,7 @@ const AuthenticatedApp = () => {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/press-kit" element={<PressKit />} />
         <Route path="/fan-leaderboard" element={<FanLeaderboard />} />
+        <Route path="/fan-profile" element={<FanDashboard />} />
       </Route>
 
       {/* Embed timer (no layout) */}

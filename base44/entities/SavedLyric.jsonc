@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "name": "SavedLyric",
+  "properties": {
+    "lyric_id": {
+      "type": "string",
+      "description": "Reference to the Lyric record the fan saved"
+    },
+    "lyric_title": {
+      "type": "string",
+      "description": "Denormalized lyric title for quick display"
+    },
+    "release_title": {
+      "type": "string",
+      "description": "Optional release title this lyric belongs to"
+    }
+  },
+  "required": [
+    "lyric_id"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "data.created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "data.created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "data.created_by_id": "{{user.id}}"
+    }
+  }
+}

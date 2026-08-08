@@ -32,6 +32,7 @@ const MORE_LINKS = [
   { label: 'Fan Reminders', path: '/fan-reminders' },
   { label: 'FAQ', path: '/faq' },
   { label: 'Orders', path: '/orders' },
+  { label: 'My Profile', path: '/fan-profile' },
   { label: 'Systems Manager', path: '/systems-manager' },
 ];
 
