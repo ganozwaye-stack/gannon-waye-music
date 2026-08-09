@@ -114,7 +114,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.2 }}
-            className="text-center font-body text-4xl md:text-6xl tracking-[0.18em] uppercase gradient-gold-text mb-8 md:mb-10">
+            className="text-center font-body font-black text-5xl md:text-7xl tracking-[0.14em] uppercase gradient-gold-text mb-8 md:mb-10">
             Gannon Waye
           </motion.h1>
 
@@ -394,7 +394,7 @@ export default function Home() {
               </div>
           }
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 max-w-xl mx-auto">
               {/* Without You Here now shows from the published releases list below, no longer a Coming Soon card */}
               {releases.filter((r) => r.is_published).slice(0, 2).map((release) =>
             <TiltCard key={release.id} max={6} className="rounded-2xl">
