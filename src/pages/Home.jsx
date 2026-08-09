@@ -123,7 +123,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.2 }}
-            className="text-center font-body font-black text-5xl md:text-7xl tracking-[0.14em] uppercase gradient-gold-text mb-8 md:mb-10">
+            className="text-center font-body text-4xl md:text-6xl tracking-[0.18em] uppercase gradient-gold-text mb-8 md:mb-10">
             Gannon Waye
           </motion.h1>
 
