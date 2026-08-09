@@ -108,18 +108,19 @@ export default function Home() {
         </motion.div>
 
         {/* Two-column content: artwork + single info on the left, welcome write-up on the right */}
-        <motion.div style={{ y: yContent, opacity: opacityHero }} className="relative z-10 min-h-[92svh] grid md:grid-cols-2 gap-8 items-start px-6 md:px-16 lg:px-24 pt-20 md:pt-20 pb-12">
-          {/* LEFT: single info and CTAs */}
-          <div className="max-w-xl w-full text-center">
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, delay: 0.2 }}
-              className="font-body text-base tracking-[0.22em] uppercase gradient-gold-text mb-3">
-              
-              Gannon Waye
-            </motion.p>
+        <motion.div style={{ y: yContent, opacity: opacityHero }} className="relative z-10 min-h-[92svh] flex flex-col px-6 md:px-16 lg:px-24 pt-10 md:pt-14 pb-12">
+          {/* Top-center wordmark */}
+          <motion.h1
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.6, delay: 0.2 }}
+            className="text-center font-body text-4xl md:text-6xl tracking-[0.18em] uppercase gradient-gold-text mb-8 md:mb-10">
+            Gannon Waye
+          </motion.h1>
 
+          <div className="grid md:grid-cols-2 gap-8 items-start flex-1">
+          {/* LEFT: single info and CTAs */}
+          <div className="max-w-xl w-full text-center mx-auto">
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -214,6 +215,7 @@ export default function Home() {
               <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now · Listen Everywhere</p>
             </motion.div>
           </motion.div>
+          </div>
         </motion.div>
 
         {/* Scroll indicator */}
