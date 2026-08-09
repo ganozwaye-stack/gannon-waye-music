@@ -14,7 +14,7 @@ const MISSION =
 const BIO =
   "Gannon Waye is a singer-songwriter born and raised in Adelaide and based in Melbourne for over thirteen years. He writes from lived experience about grief, healing, and the quiet courage it takes to love yourself. His sound is contemporary and acoustic-led, voice and guitar first, with an album in production for release next year. His new single, Without You Here, is a raw letter to his late mother Sonia, released alongside a short film for Mum.";
 
-// Dedicated digital press kit section for grant assessors and press.
+// Dedicated digital press kit section for press.
 // Mission statement, professional biography, and high-quality headshots,
 // all styled in the antique-gold brand kit.
 export default function PressKitHomeSection() {
@@ -39,7 +39,7 @@ export default function PressKitHomeSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
           className="text-center mb-10">
-          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">For Press & Grant Assessors</p>
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">For Press</p>
           <h2 className="font-body text-3xl md:text-5xl gradient-gold-text">Digital Press Kit</h2>
         </motion.div>
 
@@ -78,8 +78,8 @@ export default function PressKitHomeSection() {
               <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text mb-4">Headshots</p>
               <div className={`grid ${cols} gap-3`}>
                 {shots.map((s, i) => (
-                  <div key={i} className="aspect-[3/4] rounded-xl overflow-hidden border border-primary/20">
-                    <img src={s.image_url} alt={s.title || 'Gannon Waye'} className="w-full h-full object-cover" />
+                  <div key={i} className="aspect-[3/4] rounded-xl overflow-hidden border border-primary/20 bg-secondary/40">
+                    <img src={s.image_url} alt={s.title || 'Gannon Waye'} className="w-full h-full object-contain" />
                   </div>
                 ))}
               </div>

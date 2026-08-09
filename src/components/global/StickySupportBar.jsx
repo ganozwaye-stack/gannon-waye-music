@@ -5,11 +5,13 @@ import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
 import { usePlayerStore } from '@/lib/playerStore';
 
-// The bar's green button is the master controller: it plays/stops the current track.
-// Any play button on the site feeds this bar via the player store, so music is seamless
-// across pages (the bar persists outside Routes) and never redirects to Spotify.
+// Floating bottom-right music unit. The green button is the master controller:
+// it plays/stops the current track. Any play button on the site feeds this unit
+// via the player store, so music is seamless across pages (it persists outside
+// Routes) and never redirects to Spotify. The "Support Now" CTA sits beneath it.
 const WYH_TRACK_URL = 'https://open.spotify.com/track/6lX5V0j0bQiLOzldueTmnz';
 const MEMORIAL_PATHS = ['/mum', '/without-you-here'];
+const HEART_IMG = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/adcdec40c_GWheartlacewrap.png';
 
 export default function StickySupportBar() {
   const location = useLocation();
@@ -34,75 +36,71 @@ export default function StickySupportBar() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5 }}
-      className="fixed bottom-3 left-1/2 -translate-x-1/2 w-[calc(100%-1rem)] max-w-6xl rounded-2xl bg-card/80 backdrop-blur-sm border border-border/40 px-4 py-2.5 z-50 shadow-[0_-2px_24px_rgba(0,0,0,0.3)]"
+      className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2 w-[min(92vw,320px)]"
     >
-      <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
+      {/* Player card */}
+      <div className="w-full rounded-2xl bg-card/85 backdrop-blur-md border border-border/50 px-3 py-2.5 shadow-[0_-2px_24px_rgba(0,0,0,0.35)]">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={toggle}
+            aria-label={active ? `Stop ${title}` : 'Play Without You Here'}
+            className="flex items-center gap-2 flex-shrink-0"
+          >
+            <span className="w-8 h-8 rounded-full bg-[#1DB954] flex items-center justify-center">
+              {active ? <Square className="w-3.5 h-3.5 text-black" /> : <Play className="w-3.5 h-3.5 text-black" />}
+            </span>
+          </button>
 
-        {/* LEFT: master play controller */}
-        <button
-          type="button"
-          onClick={toggle}
-          aria-label={active ? `Stop ${title}` : 'Play Without You Here'}
-          className="flex items-center gap-2 flex-shrink-0"
-        >
-          <span className="w-8 h-8 rounded-full bg-[#1DB954] flex items-center justify-center">
-            {active ? <Square className="w-3.5 h-3.5 text-black" /> : <Play className="w-3.5 h-3.5 text-black" />}
-          </span>
-          <span className="font-body text-[9px] tracking-widest uppercase text-muted-foreground hidden sm:block select-none">
-            {active ? `Now Playing · ${title}` : 'Without You Here · Spotify'}
-          </span>
-        </button>
-
-        {/* CENTRE: charity message, or the embedded Spotify player when a track is active */}
-        <div className="flex items-center gap-2 flex-1 justify-center min-w-0">
-          <AnimatePresence mode="wait">
-            {active && track ? (
-              <motion.div
-                key="player"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="w-full max-w-xs"
-              >
-                <iframe
-                  title="Spotify player"
-                  src={`${track}?theme=0`}
-                  width="100%"
-                  height="64"
-                  frameBorder="0"
-                  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-                  loading="lazy"
-                  className="rounded-lg"
-                />
-              </motion.div>
-            ) : (
-              <motion.div
-                key="charity"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="flex items-center gap-2 justify-center"
-              >
-                <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/adcdec40c_GWheartlacewrap.png" alt="GW Heart" className="w-6 h-6 object-contain flex-shrink-0" />
-                <div>
-                  <p className="font-body text-xs text-foreground font-medium leading-tight">Support the "Thank You" Project</p>
-                  <p className="font-body text-[10px] text-muted-foreground">10% of all support → 1800RESPECT</p>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <div className="flex-1 min-w-0">
+            <AnimatePresence mode="wait">
+              {active && track ? (
+                <motion.div
+                  key="player"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="w-full"
+                >
+                  <iframe
+                    title="Spotify player"
+                    src={`${track}?theme=0`}
+                    width="100%"
+                    height="56"
+                    frameBorder="0"
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
+                    className="rounded-lg"
+                  />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="idle"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="flex items-center gap-2"
+                >
+                  <img src={HEART_IMG} alt="GW Heart" className="w-5 h-5 object-contain flex-shrink-0" />
+                  <div className="min-w-0">
+                    <p className="font-body text-[10px] tracking-widest uppercase text-muted-foreground truncate select-none">
+                      Without You Here · Spotify
+                    </p>
+                    <p className="font-body text-[10px] text-muted-foreground truncate">10% of all support → 1800RESPECT</p>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-
-        {/* RIGHT: CTA */}
-        <div className="flex gap-2 flex-shrink-0">
-          <Link to="/back-this">
-            <Button size="sm" className="rounded-full gradient-gold-button border-0 font-body text-xs tracking-wider uppercase px-4 h-8">
-              Support Now
-            </Button>
-          </Link>
-        </div>
-
       </div>
+
+      {/* Support CTA, beneath the player */}
+      <Link to="/back-this" className="w-full">
+        <Button size="sm" className="w-full rounded-full gradient-gold-button border-0 font-body text-xs tracking-wider uppercase">
+          Support Now
+        </Button>
+      </Link>
     </motion.div>
   );
 }

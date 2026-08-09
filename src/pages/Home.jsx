@@ -345,25 +345,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Digital Press Kit for grant assessors & press */}
-      <PressKitHomeSection />
-
-      {/* Boutique Store World CTA */}
-      <StoreWorldTeaser />
-
-      {/* Thank You Project CTA: donations, community, socials */}
-      <section className="py-10 px-4 md:px-6">
-        <div className="max-w-4xl mx-auto">
-          <ThankYouProjectCTA context="Every contribution fuels independent music, supports healing, and builds a community where stories matter. 10% of all support goes to 1800RESPECT. Join the Thank You Project today." />
-        </div>
-      </section>
-
-      {/* Email Signup, collect fan emails for release updates */}
-      <HomeEmailSignup />
-
-      {/* Safe Space Banner */}
-      <SafeSpaceBanner />
-
+      {/* Music: latest releases, moved up to follow the Story */}
       {/* Latest Releases Preview */}
       {releases.length > 0 &&
       <section className="py-10 md:py-14 px-4 md:px-6">
@@ -452,6 +434,25 @@ export default function Home() {
           </div>
         </section>
       }
+
+      {/* Digital Press Kit */}
+      <PressKitHomeSection />
+
+      {/* Boutique Store World CTA */}
+      <StoreWorldTeaser />
+
+      {/* Thank You Project CTA: donations, community, socials */}
+      <section className="py-10 px-4 md:px-6">
+        <div className="max-w-4xl mx-auto">
+          <ThankYouProjectCTA context="Every contribution fuels independent music, supports healing, and builds a community where stories matter. 10% of all support goes to 1800RESPECT. Join the Thank You Project today." />
+        </div>
+      </section>
+
+      {/* Email Signup, collect fan emails for release updates */}
+      <HomeEmailSignup />
+
+      {/* Safe Space Banner */}
+      <SafeSpaceBanner />
     </div>);
 
 }
