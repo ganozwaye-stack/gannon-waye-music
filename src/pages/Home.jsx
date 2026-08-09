@@ -122,7 +122,7 @@ export default function Home() {
               transition={{ duration: 1.6, delay: 0.6 }}
               className="mb-6">
               
-              <Link to={wyhLink} className="block rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-colors aspect-square max-w-[280px]">
+              <Link to={wyhLink} className="block rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-colors aspect-square max-w-[200px]">
                 <img src={WYH_ARTWORK} alt="Without You Here, Gannon Waye" className="w-full h-full object-cover" />
               </Link>
             </motion.div>
