@@ -39,6 +39,50 @@ const FREQUENCIES = [
   { value: 'monthly',     label: 'Monthly' },
 ];
 
+// Wax-seal stamp eyebrow. Circular, dark interior, metallic gold rim and
+// embossed arched "BACK THIS" lettering. Matches the approved mockup exactly.
+function BackThisSeal({ size = 104 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 120 120"
+      className="block"
+      style={{ filter: 'drop-shadow(0 4px 10px rgba(0,0,0,0.45))' }}
+      aria-label="Back This seal"
+      role="img"
+    >
+      <defs>
+        <linearGradient id="backThisSealGold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stopColor="#a9842c" />
+          <stop offset="38%" stopColor="#d4af37" />
+          <stop offset="50%" stopColor="#f0e6c8" />
+          <stop offset="62%" stopColor="#d4af37" />
+          <stop offset="100%" stopColor="#a9842c" />
+        </linearGradient>
+        <radialGradient id="backThisSealFace" cx="50%" cy="42%" r="68%">
+          <stop offset="0%" stopColor="#2b2621" />
+          <stop offset="100%" stopColor="#16130f" />
+        </radialGradient>
+        <path id="backThisSealArc" d="M 22 60 A 38 38 0 0 1 98 60" fill="none" />
+      </defs>
+      <circle cx="60" cy="60" r="58" fill="url(#backThisSealFace)" stroke="url(#backThisSealGold)" strokeWidth="3.5" />
+      <circle cx="60" cy="60" r="50" fill="none" stroke="url(#backThisSealGold)" strokeWidth="1" opacity="0.55" />
+      <circle cx="60" cy="60" r="47" fill="none" stroke="url(#backThisSealGold)" strokeWidth="0.5" opacity="0.25" />
+      <text
+        fill="url(#backThisSealGold)"
+        fontSize="11.5"
+        fontWeight="600"
+        letterSpacing="3.5"
+        fontFamily="Poppins, sans-serif"
+        style={{ textTransform: 'uppercase' }}
+      >
+        <textPath href="#backThisSealArc" startOffset="50%" textAnchor="middle">BACK THIS</textPath>
+      </text>
+    </svg>
+  );
+}
+
 export default function BackThis() {
   const { toast } = useToast();
   const location = useLocation();
@@ -218,18 +262,15 @@ export default function BackThis() {
   const frequencyNote = frequency === 'once' ? '' : frequency === 'fortnightly' ? ' every 2 weeks' : ' per month';
 
   return (
-    <div className="min-h-screen py-20 px-4 md:px-6">
-      <div className="max-w-2xl mx-auto">
-
-        {/* Discreet DV support link */}
-        <div className="text-right mb-2">
-          <Link to="/support/domestic-violence" className="font-body text-[10px] text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors">
-            Support Resources
-          </Link>
-        </div>
-
-        {/* DONE */}
-        {step === 'done' && (
+    <div className="min-h-screen pb-20">
+      {/* DONE */}
+      {step === 'done' && (
+        <div className="max-w-2xl mx-auto px-4 md:px-6 pt-24">
+          <div className="text-right mb-2">
+            <Link to="/support/domestic-violence" className="font-body text-[10px] text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors">
+              Support Resources
+            </Link>
+          </div>
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-16 space-y-6">
             <Heart className="w-16 h-16 text-primary mx-auto" />
             <h2 className="font-display text-4xl text-foreground">Thank you.</h2>
@@ -322,309 +363,373 @@ export default function BackThis() {
               </Link>
             </div>
           </motion.div>
-        )}
+        </div>
+      )}
 
-        {/* HEADER */}
-        {step !== 'done' && (
-          <>
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-              <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Back This</p>
-              <h1 className="font-display text-4xl md:text-5xl text-foreground mb-6">Support the<br />"Thank You" Project</h1>
-              <p className="font-body text-foreground/60 leading-relaxed max-w-lg mx-auto">
-                This isn't just a song. This is a story. This is healing. This is choosing yourself.
-              </p>
-              <p className="font-body text-foreground/50 text-sm mt-4 max-w-md mx-auto leading-relaxed">
-                If something in this journey has resonated with you — if you've felt seen, even for a moment — this is your way to be part of it.
-              </p>
-              
-              {/* Heart image */}
-              <div className="flex justify-center mt-6 mb-2">
-                <img
-                  src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/adcdec40c_GWheartlacewrap.png"
-                  alt="GW Heart"
-                  className="w-28 h-28 object-contain"
-                />
-              </div>
-
-              {/* 1800RESPECT Note in Header - LEGAL COMPLIANT */}
-              <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mt-4 max-w-lg mx-auto text-left">
-                 <p className="font-body text-xs text-foreground/70 leading-relaxed mb-2">
-                   <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children — including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
-                 </p>
-                 <p className="font-body text-[10px] text-primary/70 font-medium">
-                   ⚠️ Not tax-deductible. Support contribution only. See terms for details.
-                 </p>
-              </div>
-            </motion.div>
-
-            {/* What your support does */}
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}
-              className="bg-card border border-border/40 rounded-2xl p-6 mb-8 space-y-2">
-              <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow mb-3">What your support does</p>
-              {['Helps fund future releases', 'Supports independent music creation', 'Builds a safe space for others going through similar experiences', 'Keeps this movement growing'].map(item => (
-                <div key={item} className="flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
-                  <p className="font-body text-sm text-foreground/70">{item}</p>
+      {step !== 'done' && (
+        <>
+          {/* HERO — two columns, homepage-style, left-aligned narrative */}
+          <section className="max-w-6xl mx-auto px-4 md:px-6 pt-24 pb-14">
+            {/* Top row: larger GW home logo (left) + discreet support link (right) */}
+            <div className="flex items-center justify-between mb-10">
+              <Link
+                to="/"
+                aria-label="Gannon Waye · Home"
+                className="flex items-center gap-2.5 hover:opacity-90 transition-all duration-200">
+                <div
+                  className="w-14 h-14 rounded-full border border-primary/60 flex items-center justify-center flex-shrink-0"
+                  style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
+                  <span className="font-display text-base gradient-gold-text font-semibold tracking-wider">GW</span>
                 </div>
-              ))}
-            </motion.div>
-          </>
-        )}
-
-        {/* STEP 1 — CHOOSE AMOUNT + FREQUENCY */}
-        {step === 'choose' && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            {/* Frequency */}
-            <div className="mb-6">
-              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">How often?</p>
-              <div className="grid grid-cols-3 gap-3">
-                {FREQUENCIES.map(f => (
-                  <button
-                    key={f.value}
-                    onClick={() => setFrequency(f.value)}
-                    className={`py-2.5 rounded-xl border font-body text-sm transition-all ${
-                      frequency === f.value
-                        ? 'border-primary bg-primary/10 text-primary'
-                        : 'border-border/50 text-muted-foreground hover:border-primary/30'
-                    }`}
-                  >
-                    {f.label}
-                  </button>
-                ))}
-              </div>
+              </Link>
+              <Link to="/support/domestic-violence" className="font-body text-[10px] text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors">
+                Support Resources
+              </Link>
             </div>
 
-            {/* Tier cards */}
-            <div className="mb-4">
-              <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Choose an amount</p>
-              <div className="space-y-3">
-                {TIERS.map(tier => {
-                  const p = calcTotal(tier.amount);
-                  return (
+            <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-start">
+              {/* LEFT — wax seal eyebrow + title + expanded narrative */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-xl">
+                <div className="mb-6">
+                  <BackThisSeal size={104} />
+                </div>
+                <h1 className="font-display text-4xl md:text-5xl text-foreground mb-5 leading-tight">
+                  Support the<br />"Thank You" Project
+                </h1>
+                <p className="font-body text-foreground/70 leading-relaxed mb-3">
+                  This isn't just a song. This is a story. This is healing. This is choosing yourself.
+                </p>
+                <p className="font-body text-foreground/60 text-sm leading-relaxed mb-8">
+                  If something in this journey has resonated with you, if you've felt seen even for a moment, this is your way to be part of it.
+                </p>
+
+                <div className="space-y-6 border-l border-primary/30 pl-5">
+                  <div>
+                    <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">What supporting this means</p>
+                    <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                      Your support isn't a transaction. It's a vote of belief in honest, independent art. It says that stories told from lived experience matter, and that one person choosing to be vulnerable can give others permission to do the same.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">What your support allows</p>
+                    <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                      It lets me finish the album, record properly, and release music that holds nothing back. It covers production, mixing, mastering, and the slow, unglamorous work of turning real life into songs that last.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">How it helps the wider community</p>
+                    <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                      10% of every contribution goes to 1800RESPECT, funding inclusive support for women, men, and children fleeing violence, including specialised LGBTQIA+ care. So your support doesn't just reach me, it reaches people in their hardest moments.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">My commitments to you</p>
+                    <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                      I commit to staying independent, to writing truthfully, to never exploiting this story for clicks, and to keeping you close to the journey as each release comes to life.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">Where this is going</p>
+                    <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                      The debut album. Live shows. A growing community of people who feel less alone. Long term, I want to build a platform where lived experience is treated as art, and where supporting one artist helps many people heal.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* RIGHT — details brought up from below */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="space-y-6">
+                {/* What your support does */}
+                <div className="bg-card border border-border/40 rounded-2xl p-6 space-y-2">
+                  <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow mb-3">What your support does</p>
+                  {['Helps fund future releases', 'Supports independent music creation', 'Builds a safe space for others going through similar experiences', 'Keeps this movement growing'].map(item => (
+                    <div key={item} className="flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
+                      <p className="font-body text-sm text-foreground/70">{item}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Heart image */}
+                <div className="flex justify-center">
+                  <img
+                    src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/adcdec40c_GWheartlacewrap.png"
+                    alt="GW Heart"
+                    className="w-28 h-28 object-contain"
+                  />
+                </div>
+
+                {/* 1800RESPECT Note - LEGAL COMPLIANT */}
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-left">
+                  <p className="font-body text-xs text-foreground/70 leading-relaxed mb-2">
+                    <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children, including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
+                  </p>
+                  <p className="font-body text-[10px] text-primary/70 font-medium">
+                    ⚠️ Not tax-deductible. Support contribution only. See terms for details.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+          </section>
+
+          {/* Steps — narrow centered column */}
+          <div className="max-w-2xl mx-auto px-4 md:px-6">
+            {/* STEP 1 — CHOOSE AMOUNT + FREQUENCY */}
+            {step === 'choose' && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                {/* Frequency */}
+                <div className="mb-6">
+                  <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">How often?</p>
+                  <div className="grid grid-cols-3 gap-3">
+                    {FREQUENCIES.map(f => (
+                      <button
+                        key={f.value}
+                        onClick={() => setFrequency(f.value)}
+                        className={`py-2.5 rounded-xl border font-body text-sm transition-all ${
+                          frequency === f.value
+                            ? 'border-primary bg-primary/10 text-primary'
+                            : 'border-border/50 text-muted-foreground hover:border-primary/30'
+                        }`}
+                      >
+                        {f.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Tier cards */}
+                <div className="mb-4">
+                  <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Choose an amount</p>
+                  <div className="space-y-3">
+                    {TIERS.map(tier => {
+                      const p = calcTotal(tier.amount);
+                      return (
+                        <button
+                          key={tier.amount}
+                          onClick={() => setSelectedTier(tier.amount)}
+                          className={`w-full text-left p-5 rounded-2xl border transition-all ${
+                            selectedTier === tier.amount
+                              ? 'border-primary bg-primary/10'
+                              : 'border-border/40 bg-card hover:border-primary/30'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="font-display text-xl text-foreground">${tier.amount} AUD{frequencyNote}</p>
+                              <p className="font-body text-xs gradient-gold-glow mt-0.5">{tier.label}</p>
+                              <p className="font-body text-xs text-muted-foreground mt-1">{tier.desc}</p>
+                            </div>
+                            <div className={`w-5 h-5 rounded-full border-2 flex-shrink-0 ml-4 ${selectedTier === tier.amount ? 'border-primary bg-primary' : 'border-border/50'}`} />
+                          </div>
+                          <p className="font-body text-[11px] text-muted-foreground/60 mt-2">Total charged: ${p.total.toFixed(2)} (incl. GST + service fee)</p>
+                        </button>
+                      );
+                    })}
+
+                    {/* Custom amount */}
                     <button
-                      key={tier.amount}
-                      onClick={() => setSelectedTier(tier.amount)}
+                      onClick={() => setSelectedTier('custom')}
                       className={`w-full text-left p-5 rounded-2xl border transition-all ${
-                        selectedTier === tier.amount
+                        selectedTier === 'custom'
                           ? 'border-primary bg-primary/10'
                           : 'border-border/40 bg-card hover:border-primary/30'
                       }`}
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-between mb-3">
                         <div>
-                          <p className="font-display text-xl text-foreground">${tier.amount} AUD{frequencyNote}</p>
-                          <p className="font-body text-xs gradient-gold-glow mt-0.5">{tier.label}</p>
-                          <p className="font-body text-xs text-muted-foreground mt-1">{tier.desc}</p>
+                          <p className="font-display text-xl text-foreground">Custom amount</p>
+                          <p className="font-body text-xs text-muted-foreground mt-0.5">Choose your own contribution (min $5)</p>
                         </div>
-                        <div className={`w-5 h-5 rounded-full border-2 flex-shrink-0 ml-4 ${selectedTier === tier.amount ? 'border-primary bg-primary' : 'border-border/50'}`} />
+                        <div className={`w-5 h-5 rounded-full border-2 flex-shrink-0 ml-4 ${selectedTier === 'custom' ? 'border-primary bg-primary' : 'border-border/50'}`} />
                       </div>
-                      <p className="font-body text-[11px] text-muted-foreground/60 mt-2">Total charged: ${p.total.toFixed(2)} (incl. GST + service fee)</p>
-                    </button>
-                  );
-                })}
-
-                {/* Custom amount */}
-                <button
-                  onClick={() => setSelectedTier('custom')}
-                  className={`w-full text-left p-5 rounded-2xl border transition-all ${
-                    selectedTier === 'custom'
-                      ? 'border-primary bg-primary/10'
-                      : 'border-border/40 bg-card hover:border-primary/30'
-                  }`}
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <div>
-                      <p className="font-display text-xl text-foreground">Custom amount</p>
-                      <p className="font-body text-xs text-muted-foreground mt-0.5">Choose your own contribution (min $5)</p>
-                    </div>
-                    <div className={`w-5 h-5 rounded-full border-2 flex-shrink-0 ml-4 ${selectedTier === 'custom' ? 'border-primary bg-primary' : 'border-border/50'}`} />
-                  </div>
-                  {selectedTier === 'custom' && (
-                    <div onClick={e => e.stopPropagation()}>
-                      <div className="flex items-center gap-2">
-                        <span className="font-body text-muted-foreground">$</span>
-                        <Input
-                          type="number"
-                          min="5"
-                          step="1"
-                          placeholder="Enter amount"
-                          value={customAmount}
-                          onChange={e => { setCustomAmount(e.target.value); setCustomError(''); }}
-                          className="bg-secondary/50 border-border/40 w-36"
-                          autoFocus
-                        />
-                        <span className="font-body text-xs text-muted-foreground">AUD</span>
-                      </div>
-                      {customError && <p className="font-body text-xs text-destructive mt-1">{customError}</p>}
-                      {parseFloat(customAmount) >= 5 && (
-                        <p className="font-body text-[11px] text-muted-foreground/60 mt-2">
-                          Total charged: ${calcTotal(parseFloat(customAmount)).total.toFixed(2)} (incl. GST + service fee)
-                        </p>
+                      {selectedTier === 'custom' && (
+                        <div onClick={e => e.stopPropagation()}>
+                          <div className="flex items-center gap-2">
+                            <span className="font-body text-muted-foreground">$</span>
+                            <Input
+                              type="number"
+                              min="5"
+                              step="1"
+                              placeholder="Enter amount"
+                              value={customAmount}
+                              onChange={e => { setCustomAmount(e.target.value); setCustomError(''); }}
+                              className="bg-secondary/50 border-border/40 w-36"
+                              autoFocus
+                            />
+                            <span className="font-body text-xs text-muted-foreground">AUD</span>
+                          </div>
+                          {customError && <p className="font-body text-xs text-destructive mt-1">{customError}</p>}
+                          {parseFloat(customAmount) >= 5 && (
+                            <p className="font-body text-[11px] text-muted-foreground/60 mt-2">
+                              Total charged: ${calcTotal(parseFloat(customAmount)).total.toFixed(2)} (incl. GST + service fee)
+                            </p>
+                          )}
+                        </div>
                       )}
-                    </div>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Fee note */}
-            <div className="flex items-start gap-2 mb-6 bg-secondary/30 rounded-xl p-3">
-              <Info className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
-              <p className="font-body text-xs text-muted-foreground leading-relaxed">
-                All amounts shown in AUD. A 10% GST and 5% service & processing fee applies to all contributions. The fee breakdown is shown on each option above.
-              </p>
-            </div>
-
-            {/* Non-refundable disclaimer */}
-            <div className="bg-secondary/30 border border-border/30 rounded-xl p-4 mb-6 text-left">
-              <p className="font-body text-xs text-amber-500 font-semibold uppercase tracking-wider mb-1">⚠️ Contribution Disclaimer</p>
-              <p className="font-body text-xs text-muted-foreground leading-relaxed">
-                All contributions are 100% voluntary, direct-support payments and are strictly non-refundable. Physical rewards for the $50 and $100 tiers will be shipped upon release. The $200 tier video session will be scheduled via email.
-              </p>
-            </div>
-
-            <Button onClick={handleChooseNext} className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
-              <Heart className="w-4 h-4 mr-2" /> Continue
-            </Button>
-          </motion.div>
-        )}
-
-        {/* STEP 2 — DETAILS */}
-        {step === 'details' && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <button onClick={() => setStep('choose')} className="flex items-center gap-1.5 font-body text-xs text-muted-foreground hover:text-foreground mb-6">
-              <ArrowLeft className="w-3 h-3" /> Back
-            </button>
-
-            <div className="bg-secondary/30 rounded-2xl p-4 mb-6 flex justify-between items-center">
-              <div>
-                <p className="font-body text-sm text-foreground font-medium">
-                  ${baseAmount} AUD{frequency !== 'once' ? ` ${frequency}` : ''}
-                </p>
-                <p className="font-body text-xs text-muted-foreground">
-                  {selectedTier === 'custom' ? 'Custom contribution' : TIERS.find(t => t.amount === selectedTier)?.label}
-                </p>
-              </div>
-              <p className="font-display text-xl gradient-gold-glow">${pricing.total.toFixed(2)} total</p>
-            </div>
-
-            <form onSubmit={handleDetailsNext} className="space-y-4">
-              <div>
-                <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Your Name (optional)</Label>
-                <Input placeholder="Gannon's biggest fan" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="bg-secondary/50 border-border/40" />
-              </div>
-              <div>
-                <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Email *</Label>
-                <Input type="email" placeholder="you@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="bg-secondary/50 border-border/40" required />
-              </div>
-              <div>
-                <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Leave a message (optional)</Label>
-                <Input placeholder="This song helped me through..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} className="bg-secondary/50 border-border/40" />
-              </div>
-
-              {needsShipping && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  className="space-y-4 border-t border-border/30 pt-4"
-                >
-                  <p className="font-body text-xs tracking-wider uppercase gradient-gold-glow mb-2">📦 Shipping Information (Physical Rewards)</p>
-                  <div>
-                    <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Address Line 1 *</Label>
-                    <Input placeholder="123 Music Lane" value={shipping.address1} onChange={e => setShipping(s => ({ ...s, address1: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                    </button>
                   </div>
-                  <div>
-                    <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Address Line 2 (Optional)</Label>
-                    <Input placeholder="Apartment, suite, unit, etc." value={shipping.address2} onChange={s => setShipping(s => ({ ...s, address2: s.target.value }))} className="bg-secondary/50 border-border/40" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">City/Suburb *</Label>
-                      <Input placeholder="Melbourne" value={shipping.city} onChange={e => setShipping(s => ({ ...s, city: e.target.value }))} className="bg-secondary/50 border-border/40" required />
-                    </div>
-                    <div>
-                      <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">State/Territory *</Label>
-                      <Input placeholder="VIC" value={shipping.state} onChange={e => setShipping(s => ({ ...s, state: e.target.value }))} className="bg-secondary/50 border-border/40" required />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Postcode/Zip *</Label>
-                      <Input placeholder="3000" value={shipping.postcode} onChange={e => setShipping(s => ({ ...s, postcode: e.target.value }))} className="bg-secondary/50 border-border/40" required />
-                    </div>
-                    <div>
-                      <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Country *</Label>
-                      <Input placeholder="Australia" value={shipping.country} onChange={e => setShipping(s => ({ ...s, country: e.target.value }))} className="bg-secondary/50 border-border/40" required />
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
-              <div className="bg-secondary/30 rounded-xl p-4 space-y-1.5 text-sm font-body">
-                <div className="flex justify-between text-foreground/60"><span>Base amount</span><span>${baseAmount.toFixed(2)}</span></div>
-                <div className="flex justify-between text-foreground/60"><span>GST (10%)</span><span>${pricing.gst.toFixed(2)}</span></div>
-                <div className="flex justify-between text-foreground/60"><span>Service & processing (5%)</span><span>${pricing.fee.toFixed(2)}</span></div>
-                <div className="flex justify-between font-semibold text-foreground border-t border-border/40 pt-2">
-                  <span>Total charged</span><span className="gradient-gold-glow">${pricing.total.toFixed(2)} AUD</span>
                 </div>
-              </div>
 
-              <Button type="submit" className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
-                Continue to Payment
-              </Button>
-            </form>
-          </motion.div>
-        )}
+                {/* Fee note */}
+                <div className="flex items-start gap-2 mb-6 bg-secondary/30 rounded-xl p-3">
+                  <Info className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
+                  <p className="font-body text-xs text-muted-foreground leading-relaxed">
+                    All amounts shown in AUD. A 10% GST and 5% service & processing fee applies to all contributions. The fee breakdown is shown on each option above.
+                  </p>
+                </div>
 
-        {/* STEP 3 — PAYMENT */}
-        {step === 'payment' && (
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-            <button onClick={() => setStep('details')} className="flex items-center gap-1.5 font-body text-xs text-muted-foreground hover:text-foreground mb-6">
-              <ArrowLeft className="w-3 h-3" /> Back
-            </button>
+                {/* Non-refundable disclaimer */}
+                <div className="bg-secondary/30 border border-border/30 rounded-xl p-4 mb-6 text-left">
+                  <p className="font-body text-xs text-amber-500 font-semibold uppercase tracking-wider mb-1">⚠️ Contribution Disclaimer</p>
+                  <p className="font-body text-xs text-muted-foreground leading-relaxed">
+                    All contributions are 100% voluntary, direct-support payments and are strictly non-refundable. Physical rewards for the $50 and $100 tiers will be shipped upon release. The $200 tier video session will be scheduled via email.
+                  </p>
+                </div>
 
-            <div className="bg-secondary/30 rounded-2xl p-4 mb-6 flex justify-between items-center">
-              <p className="font-body text-sm text-foreground">
-                {selectedTier === 'custom' ? 'Custom' : ALL_TIERS.find(t => t.amount === selectedTier)?.label}
-                {frequency !== 'once' ? ` · ${frequency}` : ''}
-              </p>
-              <p className="font-display text-xl gradient-gold-glow">${pricing.total.toFixed(2)} AUD</p>
-            </div>
-
-            {frequency !== 'once' && (
-              <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 mb-4 text-center">
-                <p className="font-body text-xs text-primary/80">
-                  This will charge ${pricing.total.toFixed(2)} AUD today, then automatically {frequency === 'fortnightly' ? 'every 2 weeks' : 'every month'}. Cancel anytime by emailing hello@gannonwaye.com
-                </p>
-              </div>
+                <Button onClick={handleChooseNext} className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
+                  <Heart className="w-4 h-4 mr-2" /> Continue
+                </Button>
+              </motion.div>
             )}
 
-            {/* Apple/Google Pay Visual Cues */}
-            <div className="bg-secondary/40 border border-border/30 rounded-xl p-4 mb-4 flex items-center justify-between">
-              <div className="flex flex-col text-left">
-                <span className="font-body text-xs text-foreground font-semibold">Accepted Payment Methods</span>
-                <span className="font-body text-[10px] text-muted-foreground">Credit/Debit Card, Apple Pay, Google Pay</span>
-              </div>
-              <div className="flex gap-2">
-                <span className="font-body text-[10px] bg-secondary border border-border/50 rounded px-1.5 py-0.5 font-bold uppercase text-foreground">Apple Pay</span>
-                <span className="font-body text-[10px] bg-secondary border border-border/50 rounded px-1.5 py-0.5 font-bold uppercase text-foreground">G Pay</span>
-              </div>
-            </div>
+            {/* STEP 2 — DETAILS */}
+            {step === 'details' && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <button onClick={() => setStep('choose')} className="flex items-center gap-1.5 font-body text-xs text-muted-foreground hover:text-foreground mb-6">
+                  <ArrowLeft className="w-3 h-3" /> Back
+                </button>
 
-            <StripePaymentForm
-              amount={pricing.total}
-              customerEmail={form.email}
-              customerName={form.name || 'Supporter'}
-              productName={`Support — ${selectedTier === 'custom' ? `$${baseAmount} custom` : ALL_TIERS.find(t => t.amount === selectedTier)?.label}`}
-              metadata={{ frequency, base_amount: String(baseAmount), type: 'support_contribution' }}
-              onSuccess={handlePaymentSuccess}
-              onError={handlePaymentError}
-            />
+                <div className="bg-secondary/30 rounded-2xl p-4 mb-6 flex justify-between items-center">
+                  <div>
+                    <p className="font-body text-sm text-foreground font-medium">
+                      ${baseAmount} AUD{frequency !== 'once' ? ` ${frequency}` : ''}
+                    </p>
+                    <p className="font-body text-xs text-muted-foreground">
+                      {selectedTier === 'custom' ? 'Custom contribution' : TIERS.find(t => t.amount === selectedTier)?.label}
+                    </p>
+                  </div>
+                  <p className="font-display text-xl gradient-gold-glow">${pricing.total.toFixed(2)} total</p>
+                </div>
 
-            <p className="font-body text-xs text-muted-foreground text-center mt-3">🔒 Payments secured by Stripe</p>
-          </motion.div>
-        )}
-      </div>
+                <form onSubmit={handleDetailsNext} className="space-y-4">
+                  <div>
+                    <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Your Name (optional)</Label>
+                    <Input placeholder="Gannon's biggest fan" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="bg-secondary/50 border-border/40" />
+                  </div>
+                  <div>
+                    <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Email *</Label>
+                    <Input type="email" placeholder="you@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                  </div>
+                  <div>
+                    <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Leave a message (optional)</Label>
+                    <Input placeholder="This song helped me through..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} className="bg-secondary/50 border-border/40" />
+                  </div>
+
+                  {needsShipping && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      className="space-y-4 border-t border-border/30 pt-4"
+                    >
+                      <p className="font-body text-xs tracking-wider uppercase gradient-gold-glow mb-2">📦 Shipping Information (Physical Rewards)</p>
+                      <div>
+                        <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Address Line 1 *</Label>
+                        <Input placeholder="123 Music Lane" value={shipping.address1} onChange={e => setShipping(s => ({ ...s, address1: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                      </div>
+                      <div>
+                        <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Address Line 2 (Optional)</Label>
+                        <Input placeholder="Apartment, suite, unit, etc." value={shipping.address2} onChange={s => setShipping(s => ({ ...s, address2: s.target.value }))} className="bg-secondary/50 border-border/40" />
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">City/Suburb *</Label>
+                          <Input placeholder="Melbourne" value={shipping.city} onChange={e => setShipping(s => ({ ...s, city: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                        </div>
+                        <div>
+                          <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">State/Territory *</Label>
+                          <Input placeholder="VIC" value={shipping.state} onChange={e => setShipping(s => ({ ...s, state: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Postcode/Zip *</Label>
+                          <Input placeholder="3000" value={shipping.postcode} onChange={e => setShipping(s => ({ ...s, postcode: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                        </div>
+                        <div>
+                          <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Country *</Label>
+                          <Input placeholder="Australia" value={shipping.country} onChange={e => setShipping(s => ({ ...s, country: e.target.value }))} className="bg-secondary/50 border-border/40" required />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  <div className="bg-secondary/30 rounded-xl p-4 space-y-1.5 text-sm font-body">
+                    <div className="flex justify-between text-foreground/60"><span>Base amount</span><span>${baseAmount.toFixed(2)}</span></div>
+                    <div className="flex justify-between text-foreground/60"><span>GST (10%)</span><span>${pricing.gst.toFixed(2)}</span></div>
+                    <div className="flex justify-between text-foreground/60"><span>Service & processing (5%)</span><span>${pricing.fee.toFixed(2)}</span></div>
+                    <div className="flex justify-between font-semibold text-foreground border-t border-border/40 pt-2">
+                      <span>Total charged</span><span className="gradient-gold-glow">${pricing.total.toFixed(2)} AUD</span>
+                    </div>
+                  </div>
+
+                  <Button type="submit" className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
+                    Continue to Payment
+                  </Button>
+                </form>
+              </motion.div>
+            )}
+
+            {/* STEP 3 — PAYMENT */}
+            {step === 'payment' && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <button onClick={() => setStep('details')} className="flex items-center gap-1.5 font-body text-xs text-muted-foreground hover:text-foreground mb-6">
+                  <ArrowLeft className="w-3 h-3" /> Back
+                </button>
+
+                <div className="bg-secondary/30 rounded-2xl p-4 mb-6 flex justify-between items-center">
+                  <p className="font-body text-sm text-foreground">
+                    {selectedTier === 'custom' ? 'Custom' : ALL_TIERS.find(t => t.amount === selectedTier)?.label}
+                    {frequency !== 'once' ? ` · ${frequency}` : ''}
+                  </p>
+                  <p className="font-display text-xl gradient-gold-glow">${pricing.total.toFixed(2)} AUD</p>
+                </div>
+
+                {frequency !== 'once' && (
+                  <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 mb-4 text-center">
+                    <p className="font-body text-xs text-primary/80">
+                      This will charge ${pricing.total.toFixed(2)} AUD today, then automatically {frequency === 'fortnightly' ? 'every 2 weeks' : 'every month'}. Cancel anytime by emailing hello@gannonwaye.com
+                    </p>
+                  </div>
+                )}
+
+                {/* Apple/Google Pay Visual Cues */}
+                <div className="bg-secondary/40 border border-border/30 rounded-xl p-4 mb-4 flex items-center justify-between">
+                  <div className="flex flex-col text-left">
+                    <span className="font-body text-xs text-foreground font-semibold">Accepted Payment Methods</span>
+                    <span className="font-body text-[10px] text-muted-foreground">Credit/Debit Card, Apple Pay, Google Pay</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <span className="font-body text-[10px] bg-secondary border border-border/50 rounded px-1.5 py-0.5 font-bold uppercase text-foreground">Apple Pay</span>
+                    <span className="font-body text-[10px] bg-secondary border border-border/50 rounded px-1.5 py-0.5 font-bold uppercase text-foreground">G Pay</span>
+                  </div>
+                </div>
+
+                <StripePaymentForm
+                  amount={pricing.total}
+                  customerEmail={form.email}
+                  customerName={form.name || 'Supporter'}
+                  productName={`Support — ${selectedTier === 'custom' ? `$${baseAmount} custom` : ALL_TIERS.find(t => t.amount === selectedTier)?.label}`}
+                  metadata={{ frequency, base_amount: String(baseAmount), type: 'support_contribution' }}
+                  onSuccess={handlePaymentSuccess}
+                  onError={handlePaymentError}
+                />
+
+                <p className="font-body text-xs text-muted-foreground text-center mt-3">🔒 Payments secured by Stripe</p>
+              </motion.div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
