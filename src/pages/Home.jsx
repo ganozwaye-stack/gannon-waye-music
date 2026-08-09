@@ -162,32 +162,12 @@ export default function Home() {
               </Link>
             </motion.div>
 
-            {/* CTAs moved beneath the welcome paragraph on the right column */}
-          </div>
-
-          {/* RIGHT: welcome / mission write-up */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.6, delay: 0.8 }}
-            className="max-w-md w-full md:pl-4 pb-20">
-            
-            <HeroWelcomeBanner release={wyhRelease} releaseLink={wyhLink} />
-            <motion.p
-              initial={{ opacity: 0, letterSpacing: '0.8em' }}
-              animate={{ opacity: 1, letterSpacing: '0.45em' }}
-              transition={{ duration: 1.4, delay: 0.4 }}
-              className="font-body uppercase gradient-gold-text text-base my-4 px-6">WELCOME</motion.p>
-            <p className="font-body text-xs text-foreground/70 leading-relaxed">I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT. Every song is recorded honestly, voice and guitar first, so the feeling stays intact. Whether you're carrying loss, rebuilding after hard years, or learning to like yourself again, you're in the right place, and you're not alone here.
-
-            </p>
-
-            {/* CTAs centred beneath the welcome paragraph */}
+            {/* CTAs: Listen Here, Back The Thankyou Project, Out Now in a row beneath the CD */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 1.6 }}
-              className="flex flex-wrap items-center justify-center gap-2.5 mt-6">
+              className="flex flex-wrap items-center justify-center gap-2.5 mt-2">
               <MagneticButton>
                 <Button
                   type="button"
@@ -203,17 +183,39 @@ export default function Home() {
                   </Button>
                 </Link>
               </MagneticButton>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.4, delay: 1.9 }}
+                className="flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-full bg-primary/10 border border-primary/25 whitespace-nowrap w-fit">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now</p>
+              </motion.div>
             </motion.div>
 
-            {/* Out now badge, lowered and centred beneath the CTAs */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.9 }}
-              className="flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-full bg-primary/10 border border-primary/25 whitespace-nowrap mx-auto mt-4 w-fit">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now · Listen Everywhere</p>
-            </motion.div>
+            {/* Audio player, bottom of the left column */}
+            <div className="mt-6 w-full max-w-md mx-auto">
+              <HeroWelcomeBanner release={wyhRelease} releaseLink={wyhLink} />
+            </div>
+          </div>
+
+          {/* RIGHT: welcome / mission write-up */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.6, delay: 0.8 }}
+            className="max-w-md w-full md:pl-4 pb-20">
+            
+            <motion.p
+              initial={{ opacity: 0, letterSpacing: '0.8em' }}
+              animate={{ opacity: 1, letterSpacing: '0.45em' }}
+              transition={{ duration: 1.4, delay: 0.4 }}
+              className="font-body uppercase gradient-gold-text text-base my-4 px-6">WELCOME</motion.p>
+            <p className="font-body text-xs text-foreground/70 leading-relaxed">I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT. Every song is recorded honestly, voice and guitar first, so the feeling stays intact. Whether you're carrying loss, rebuilding after hard years, or learning to like yourself again, you're in the right place, and you're not alone here.
+
+            </p>
+
+
           </motion.div>
           </div>
         </motion.div>
