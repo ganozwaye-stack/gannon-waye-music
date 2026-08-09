@@ -32,12 +32,14 @@ export default function StickySupportBar() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5 }}
-      className="fixed bottom-4 left-4 z-50 flex flex-col items-start gap-2 w-[min(92vw,320px)]"
-    >
+    <>
+      {/* Player, bottom-left, on its own */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        className="fixed bottom-4 left-4 z-50 w-[min(86vw,300px)]"
+      >
       {/* Player card */}
       <div className="w-full rounded-2xl bg-card/85 backdrop-blur-md border border-border/50 px-3 py-2.5 shadow-[0_-2px_24px_rgba(0,0,0,0.35)]">
         <div className="flex items-center gap-2">
@@ -95,12 +97,21 @@ export default function StickySupportBar() {
         </div>
       </div>
 
-      {/* Support CTA, beneath the player */}
-      <Link to="/back-this" className="w-full">
-        <Button size="sm" className="w-full rounded-full gradient-gold-button border-0 font-body text-xs tracking-wider uppercase">
-          Support Now
-        </Button>
-      </Link>
-    </motion.div>
+      </motion.div>
+
+      {/* Support Now, bottom-right, on its own */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+        className="fixed bottom-4 right-4 z-50"
+      >
+        <Link to="/back-this">
+          <Button size="sm" className="rounded-full gradient-gold-button border-0 font-body text-xs tracking-wider uppercase whitespace-nowrap px-5">
+            Support Now
+          </Button>
+        </Link>
+      </motion.div>
+    </>
   );
 }
