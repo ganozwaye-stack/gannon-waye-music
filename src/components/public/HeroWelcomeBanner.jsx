@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, ExternalLink } from 'lucide-react';
+import { trackEvent } from '@/lib/analytics';
 
 // Sits above the Welcome write-up in the Home hero.
 // A single branded panel: gold hairline, a header row, a rotating info marquee,
@@ -48,7 +49,7 @@ export default function HeroWelcomeBanner({ release, releaseLink }) {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
-              <span className="font-body text-[9px] tracking-[0.3em] uppercase gradient-gold-text">Without You Here</span>
+              <span className="font-body text-base tracking-[0.15em] uppercase gradient-gold-text">Without You Here</span>
             </div>
             <span className="font-body text-[9px] tracking-[0.25em] uppercase text-muted-foreground">Out Now</span>
           </div>
@@ -80,6 +81,7 @@ export default function HeroWelcomeBanner({ release, releaseLink }) {
                 href={p.href}
                 target={p.href.startsWith('http') ? '_blank' : undefined}
                 rel={p.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                onClick={() => trackEvent('stream_click', { platform: p.label.toLowerCase(), source: 'hero_banner' })}
                 className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-background/50 border border-primary/30 hover:border-primary/60 hover:bg-primary/10 transition-all group whitespace-nowrap">
                 <Play className="w-3 h-3 text-primary" />
                 <span className="font-body text-[10px] tracking-[0.16em] uppercase text-foreground/85 group-hover:text-foreground">

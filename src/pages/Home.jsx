@@ -16,6 +16,9 @@ import GoldenEmbers from '@/components/three/GoldenEmbers';
 import MagneticButton from '@/components/public/MagneticButton';
 import TiltCard from '@/components/public/TiltCard';
 import HeroWelcomeBanner from '@/components/public/HeroWelcomeBanner';
+import MarqueeBar from '@/components/public/MarqueeBar';
+import PressKitHomeSection from '@/components/public/PressKitHomeSection';
+import { trackEvent } from '@/lib/analytics';
 import { usePlayerStore } from '@/lib/playerStore';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
@@ -24,6 +27,7 @@ const HERO_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f
 const WYH_ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9c05e7539_image.png';
 const MUM_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0edc48d83_image.png';
 const WYH_STENCIL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b82279641_without-you-here-stencil-outline-only-transparent-tight-2026-08-03.png';
+const HERO_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6eb4180010f794/8e23b3544_Ambient_Hero_Loop.mp4';
 
 // Cover art comes from each release's artwork_url in the database, the single source of truth.
 // Do not hardcode per-song cover overrides here (that caused mis-assigned artwork in the past).
@@ -54,15 +58,16 @@ export default function Home() {
 
       {/* HERO: two columns. Left: artwork + single info. Right: welcome write-up, with the stencil as a backdrop. */}
       <section className="relative min-h-[100svh] overflow-hidden">
-        {/* Background: Gannon looking up into the golden sky */}
-        <motion.img
-          src={HERO_IMAGE}
-          alt="Gannon Waye, Without You Here"
-          initial={{ scale: 1.06, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ opacity: { duration: 2.4 }, scale: { duration: 22, ease: 'easeOut' } }}
+        {/* Background: ambient cinematic gold-embers loop */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center' }} />
+          style={{ objectPosition: 'center' }}>
+          <source src={HERO_VIDEO} type="video/mp4" />
+        </video>
         
 
         {/* Mum: ethereal, watching over from the sky glow */}
@@ -103,14 +108,23 @@ export default function Home() {
         </div>
 
         {/* Two-column content: artwork + single info on the left, welcome write-up on the right */}
-        <div className="relative z-10 min-h-[100svh] grid md:grid-cols-2 gap-8 items-center px-6 md:px-16 lg:px-24 py-28 md:py-20">
+        <div className="relative z-10 min-h-[100svh] grid md:grid-cols-2 gap-8 items-center px-6 md:px-16 lg:px-24 py-24 md:py-16">
           {/* LEFT: single info and CTAs */}
-          <div className="max-w-xl w-full">
+          <div className="max-w-xl w-full text-center">
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.6, delay: 0.2 }}
+              className="font-body text-base tracking-[0.22em] uppercase gradient-gold-text mb-3">
+              
+              Gannon Waye
+            </motion.p>
+
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.4 }}
-              className="font-body text-sm tracking-[0.45em] uppercase gradient-gold-text mb-5">
+              className="font-body text-base tracking-[0.45em] uppercase gradient-gold-text mb-4">
               
               The New Single
             </motion.p>
@@ -120,9 +134,9 @@ export default function Home() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.6 }}
-              className="mb-6">
+              className="mb-4">
               
-              <Link to={wyhLink} className="block mx-auto rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-colors aspect-square max-w-[200px]">
+              <Link to={wyhLink} className="block mx-auto rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-colors aspect-square max-w-[160px]">
                 <img src={WYH_ARTWORK} alt="Without You Here, Gannon Waye" className="w-full h-full object-cover" />
               </Link>
             </motion.div>
@@ -131,7 +145,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.6, delay: 1.3 }}
-              className="font-body text-sm text-foreground/70 max-w-sm leading-relaxed italic mb-3">
+              className="font-body text-sm text-foreground/70 max-w-sm mx-auto leading-relaxed italic mb-3 text-center">
               
               A raw, acoustic letter to Sonia, written in the early hours of Mother's Day, four years after she left.
             </motion.p>
@@ -140,7 +154,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 1.4 }}
-              className="mb-7">
+              className="mb-5 text-center">
               
               <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase gradient-gold-text hover:opacity-80 transition-opacity">
                 Read Mum's story <ArrowRight className="w-3 h-3" />
@@ -151,12 +165,12 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 1.6 }}
-              className="flex flex-wrap md:flex-nowrap md:items-center gap-2.5">
+              className="flex flex-wrap md:flex-nowrap md:items-center justify-center gap-2.5">
               
               <MagneticButton>
                 <Button
                   type="button"
-                  onClick={() => playTrack(wyhSpotify, { title: 'Without You Here', artwork: WYH_ARTWORK })}
+                  onClick={() => { trackEvent('stream_click', { platform: 'spotify', source: 'hero_listen_here' }); playTrack(wyhSpotify, { title: 'Without You Here', artwork: WYH_ARTWORK }); }}
                   className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
                   
                   <Play className="w-3 h-3" /> Listen Here
@@ -188,16 +202,33 @@ export default function Home() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.8 }}
-            className="max-w-md w-full md:pl-4 pb-24">
+            className="max-w-md w-full md:pl-4 pb-20">
             
             <HeroWelcomeBanner release={wyhRelease} releaseLink={wyhLink} />
-            <p className="font-body tracking-[0.45em] uppercase gradient-gold-text text-base my-4 px-6">WELCOME</p>
-            <p className="font-body text-sm text-foreground/70 leading-relaxed">I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT. Every song is recorded honestly, voice and guitar first, so the feeling stays intact. Whether you're carrying loss, rebuilding after hard years, or learning to like yourself again, you're in the right place, and you're not alone here.
+            <motion.p
+              initial={{ opacity: 0, letterSpacing: '0.8em' }}
+              animate={{ opacity: 1, letterSpacing: '0.45em' }}
+              transition={{ duration: 1.4, delay: 0.4 }}
+              className="font-body uppercase gradient-gold-text text-base my-4 px-6">WELCOME</motion.p>
+            <p className="font-body text-xs text-foreground/70 leading-relaxed">I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT. Every song is recorded honestly, voice and guitar first, so the feeling stays intact. Whether you're carrying loss, rebuilding after hard years, or learning to like yourself again, you're in the right place, and you're not alone here.
 
             </p>
           </motion.div>
         </div>
+
+        {/* Scroll indicator */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 2 }}
+          className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none">
+          <span className="font-body text-[9px] tracking-[0.35em] uppercase text-muted-foreground">Scroll</span>
+          <span className="block w-px h-10 bg-gradient-to-b from-primary/70 to-transparent" />
+        </motion.div>
       </section>
+
+      {/* Rotating marquee bar */}
+      <MarqueeBar />
 
       {/* About Section: magazine 3-column */}
       <section className="py-10 md:py-14 px-4 md:px-6 relative">
@@ -314,6 +345,9 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* Digital Press Kit for grant assessors & press */}
+      <PressKitHomeSection />
 
       {/* Boutique Store World CTA */}
       <StoreWorldTeaser />
