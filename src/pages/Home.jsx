@@ -15,6 +15,7 @@ import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import GoldenEmbers from '@/components/three/GoldenEmbers';
 import MagneticButton from '@/components/public/MagneticButton';
 import TiltCard from '@/components/public/TiltCard';
+import HeroWelcomeBanner from '@/components/public/HeroWelcomeBanner';
 import { usePlayerStore } from '@/lib/playerStore';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
@@ -198,6 +199,7 @@ export default function Home() {
             transition={{ duration: 1.6, delay: 0.8 }}
             className="max-w-md w-full md:pl-4 pb-24">
             
+            <HeroWelcomeBanner release={wyhRelease} releaseLink={wyhLink} />
             <p className="font-body tracking-[0.45em] uppercase gradient-gold-text text-base my-4 px-6">WELCOME</p>
             <p className="font-body text-base md:text-lg text-foreground/70 leading-relaxed">
               I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT.
