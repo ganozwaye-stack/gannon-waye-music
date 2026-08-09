@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
@@ -52,21 +52,22 @@ export default function Home() {
   const wyhLink = wyhRelease?.id ? `/release/${wyhRelease.id}` : '/music';
   const playTrack = usePlayerStore((s) => s.playTrack);
 
+  // 3D immersive parallax: layers drift at different rates as the hero scrolls away.
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const yContent = useTransform(scrollYProgress, [0, 1], [0, -140]);
+  const yStencil = useTransform(scrollYProgress, [0, 1], [0, -70]);
+  const scaleEmbers = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
+  const opacityHero = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
+
   return (
     <div className="min-h-screen relative">
       <FirstVisitOnboarding />
 
       {/* HERO: two columns. Left: artwork + single info. Right: welcome write-up, with the stencil as a backdrop. */}
-      <section className="relative min-h-[100svh] overflow-hidden">
-        {/* Background: Gannon looking up into the golden sky */}
-        <motion.img
-          src={HERO_IMAGE}
-          alt="Gannon Waye, Without You Here"
-          initial={{ scale: 1.06, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ opacity: { duration: 2.4 }, scale: { duration: 22, ease: 'easeOut' } }}
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center' }} />
+      <section ref={heroRef} className="relative min-h-[100svh] overflow-hidden" style={{ perspective: '1200px' }}>
+        {/* Ambient base glow (face photo removed; fire embers carry the hero) */}
+        <div className="absolute inset-0 z-0" style={{ background: 'radial-gradient(120% 80% at 50% 18%, rgba(212,175,55,0.10), rgba(8,8,14,0) 60%)' }} />
         
 
         {/* Mum: ethereal, watching over from the sky glow */}
@@ -93,21 +94,21 @@ export default function Home() {
           animate={{ opacity: 0.3, x: 0 }}
           transition={{ duration: 1.8, delay: 0.5 }}
           className="absolute z-[2] pointer-events-none select-none w-[95%] max-w-[62rem]"
-          style={{ right: '-4%', top: '2%', filter: 'drop-shadow(0 0 34px rgba(212,175,55,0.45))' }} />
+          style={{ right: '-4%', top: '2%', filter: 'drop-shadow(0 0 34px rgba(212,175,55,0.45))', y: yStencil }} />
         
 
-        {/* Dark scrim, readable on both sides */}
-        <div className="absolute inset-0 z-[3]" style={{ background: 'linear-gradient(90deg, rgba(8,8,14,0.88) 0%, rgba(8,8,14,0.5) 45%, rgba(8,8,14,0.85) 100%)' }} />
-        <div className="absolute bottom-0 left-0 right-0 h-48 z-[3] pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
+        {/* Subtle vignette for depth, plus page-blend fades top & bottom */}
+        <div className="absolute inset-0 z-[3] pointer-events-none" style={{ background: 'radial-gradient(130% 90% at 50% 40%, rgba(8,8,14,0) 40%, rgba(8,8,14,0.65) 100%)' }} />
+        <div className="absolute bottom-0 left-0 right-0 h-40 z-[3] pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
         <div className="absolute top-0 left-0 right-0 h-16 z-[3] pointer-events-none" style={{ background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)' }} />
 
-        {/* Golden embers */}
-        <div className="absolute inset-0 z-[4] pointer-events-none">
+        {/* Golden embers, the fire of the hero */}
+        <motion.div className="absolute inset-0 z-[4] pointer-events-none" style={{ scale: scaleEmbers }}>
           <GoldenEmbers />
-        </div>
+        </motion.div>
 
         {/* Two-column content: artwork + single info on the left, welcome write-up on the right */}
-        <div className="relative z-10 min-h-[92svh] grid md:grid-cols-2 gap-8 items-start px-6 md:px-16 lg:px-24 pt-20 md:pt-20 pb-12">
+        <motion.div style={{ y: yContent, opacity: opacityHero }} className="relative z-10 min-h-[92svh] grid md:grid-cols-2 gap-8 items-start px-6 md:px-16 lg:px-24 pt-20 md:pt-20 pb-12">
           {/* LEFT: single info and CTAs */}
           <div className="max-w-xl w-full text-center">
             <motion.p
@@ -160,40 +161,7 @@ export default function Home() {
               </Link>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.6 }}
-              className="flex flex-wrap md:flex-nowrap md:items-center justify-center gap-2.5">
-              
-              <MagneticButton>
-                <Button
-                  type="button"
-                  onClick={() => { trackEvent('stream_click', { platform: 'spotify', source: 'hero_listen_here' }); playTrack(wyhSpotify, { title: 'Without You Here', artwork: WYH_ARTWORK }); }}
-                  className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
-                  
-                  <Play className="w-3 h-3" /> Listen Here
-                </Button>
-              </MagneticButton>
-              <MagneticButton>
-                <Link to="/back-this">
-                  <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
-                    Be Part Of This 🤍
-                  </Button>
-                </Link>
-              </MagneticButton>
-
-              {/* Out now badge, inline next to Be Part Of This */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1.4, delay: 1.9 }}
-                className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-primary/10 border border-primary/25 whitespace-nowrap">
-                
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now · Listen Everywhere</p>
-              </motion.div>
-            </motion.div>
+            {/* CTAs moved beneath the welcome paragraph on the right column */}
           </div>
 
           {/* RIGHT: welcome / mission write-up */}
@@ -212,8 +180,41 @@ export default function Home() {
             <p className="font-body text-xs text-foreground/70 leading-relaxed">I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT. Every song is recorded honestly, voice and guitar first, so the feeling stays intact. Whether you're carrying loss, rebuilding after hard years, or learning to like yourself again, you're in the right place, and you're not alone here.
 
             </p>
+
+            {/* CTAs centred beneath the welcome paragraph */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 1.6 }}
+              className="flex flex-wrap items-center justify-center gap-2.5 mt-6">
+              <MagneticButton>
+                <Button
+                  type="button"
+                  onClick={() => { trackEvent('stream_click', { platform: 'spotify', source: 'hero_listen_here' }); playTrack(wyhSpotify, { title: 'Without You Here', artwork: WYH_ARTWORK }); }}
+                  className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
+                  <Play className="w-3 h-3" /> Listen Here
+                </Button>
+              </MagneticButton>
+              <MagneticButton>
+                <Link to="/back-this">
+                  <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
+                    Back The Thankyou Project 🤍
+                  </Button>
+                </Link>
+              </MagneticButton>
+            </motion.div>
+
+            {/* Out now badge, lowered and centred beneath the CTAs */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 1.9 }}
+              className="flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-full bg-primary/10 border border-primary/25 whitespace-nowrap mx-auto mt-4 w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now · Listen Everywhere</p>
+            </motion.div>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Scroll indicator */}
         <motion.div
