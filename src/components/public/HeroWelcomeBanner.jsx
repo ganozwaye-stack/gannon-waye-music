@@ -72,15 +72,15 @@ export default function HeroWelcomeBanner({ release, releaseLink }) {
           <div className="my-3 h-px bg-border/50" />
 
           {/* Stream everywhere pills */}
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-body text-[9px] tracking-[0.3em] uppercase text-muted-foreground mr-1">Stream now</span>
+          <div className="flex items-center gap-1.5 flex-nowrap overflow-hidden">
+            <span className="font-body text-[9px] tracking-[0.3em] uppercase text-muted-foreground mr-0.5 whitespace-nowrap">Stream now</span>
             {pills.map((p) => (
               <a
                 key={p.label}
                 href={p.href}
                 target={p.href.startsWith('http') ? '_blank' : undefined}
                 rel={p.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/50 border border-primary/30 hover:border-primary/60 hover:bg-primary/10 transition-all group">
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-background/50 border border-primary/30 hover:border-primary/60 hover:bg-primary/10 transition-all group whitespace-nowrap">
                 <Play className="w-3 h-3 text-primary" />
                 <span className="font-body text-[10px] tracking-[0.16em] uppercase text-foreground/85 group-hover:text-foreground">
                   {p.label}

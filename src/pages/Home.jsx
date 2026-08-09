@@ -110,9 +110,9 @@ export default function Home() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.4 }}
-              className="font-body text-[10px] tracking-[0.45em] uppercase gradient-gold-text mb-5">
+              className="font-body text-sm tracking-[0.45em] uppercase gradient-gold-text mb-5">
               
-              The New Single · A Film For Mum
+              The New Single
             </motion.p>
 
             {/* Cover artwork */}
@@ -122,7 +122,7 @@ export default function Home() {
               transition={{ duration: 1.6, delay: 0.6 }}
               className="mb-6">
               
-              <Link to={wyhLink} className="block rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-colors aspect-square max-w-[200px]">
+              <Link to={wyhLink} className="block mx-auto rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-colors aspect-square max-w-[200px]">
                 <img src={WYH_ARTWORK} alt="Without You Here, Gannon Waye" className="w-full h-full object-cover" />
               </Link>
             </motion.div>
@@ -151,20 +151,20 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 1.6 }}
-              className="flex flex-wrap items-center gap-3">
+              className="flex flex-wrap md:flex-nowrap md:items-center gap-2.5">
               
               <MagneticButton>
                 <Button
                   type="button"
                   onClick={() => playTrack(wyhSpotify, { title: 'Without You Here', artwork: WYH_ARTWORK })}
-                  className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full gradient-gold-button border-0">
+                  className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
                   
-                  <Play className="w-3.5 h-3.5" /> Listen Here
+                  <Play className="w-3 h-3" /> Listen Here
                 </Button>
               </MagneticButton>
               <MagneticButton>
                 <Link to="/back-this">
-                  <Button variant="outline" className="gap-2 px-7 py-4 text-sm tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10">
+                  <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
                     Be Part Of This 🤍
                   </Button>
                 </Link>
@@ -175,7 +175,7 @@ export default function Home() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1.4, delay: 1.9 }}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-primary/10 border border-primary/25">
+                className="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-primary/10 border border-primary/25 whitespace-nowrap">
                 
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now · Listen Everywhere</p>
@@ -192,7 +192,7 @@ export default function Home() {
             
             <HeroWelcomeBanner release={wyhRelease} releaseLink={wyhLink} />
             <p className="font-body tracking-[0.45em] uppercase gradient-gold-text text-base my-4 px-6">WELCOME</p>
-            <p className="font-body text-base md:text-lg text-foreground/70 leading-relaxed">I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT.
+            <p className="font-body text-sm text-foreground/70 leading-relaxed">I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT. Every song is recorded honestly, voice and guitar first, so the feeling stays intact. Whether you're carrying loss, rebuilding after hard years, or learning to like yourself again, you're in the right place, and you're not alone here.
 
             </p>
           </motion.div>
