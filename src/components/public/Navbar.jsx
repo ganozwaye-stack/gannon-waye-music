@@ -23,6 +23,7 @@ const NAV_LINKS = [
 const MORE_LINKS = [
 { label: 'My Story', path: '/this-is-my-life' },
 { label: 'Biography', path: '/biography' },
+{ label: 'Coaching', path: '/coaching' },
 { label: 'Videos', path: '/videos' },
 { label: 'Lyric Library', path: '/lyric-library' },
 { label: 'Discover Music', path: '/discover' },
