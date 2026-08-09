@@ -18,6 +18,7 @@ import TiltCard from '@/components/public/TiltCard';
 import HeroWelcomeBanner from '@/components/public/HeroWelcomeBanner';
 import MarqueeBar from '@/components/public/MarqueeBar';
 import PressKitHomeSection from '@/components/public/PressKitHomeSection';
+import CoachingComingSoonSection from '@/components/public/CoachingComingSoonSection';
 import { trackEvent } from '@/lib/analytics';
 import { usePlayerStore } from '@/lib/playerStore';
 
@@ -228,6 +229,9 @@ export default function Home() {
 
       {/* Rotating marquee bar */}
       <MarqueeBar />
+
+      {/* Coaching coming soon + register interest */}
+      <CoachingComingSoonSection />
 
       {/* About Section: magazine 3-column */}
       <section className="py-10 md:py-14 px-4 md:px-6 relative">
