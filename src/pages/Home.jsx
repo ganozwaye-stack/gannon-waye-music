@@ -100,7 +100,7 @@ export default function Home() {
         {/* Dark scrim, readable on both sides */}
         <div className="absolute inset-0 z-[3]" style={{ background: 'linear-gradient(90deg, rgba(8,8,14,0.88) 0%, rgba(8,8,14,0.5) 45%, rgba(8,8,14,0.85) 100%)' }} />
         <div className="absolute bottom-0 left-0 right-0 h-48 z-[3] pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
-        <div className="absolute top-0 left-0 right-0 h-28 z-[3] pointer-events-none" style={{ background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)' }} />
+        <div className="absolute top-0 left-0 right-0 h-16 z-[3] pointer-events-none" style={{ background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)' }} />
 
         {/* Golden embers */}
         <div className="absolute inset-0 z-[4] pointer-events-none">
@@ -108,7 +108,7 @@ export default function Home() {
         </div>
 
         {/* Two-column content: artwork + single info on the left, welcome write-up on the right */}
-        <div className="relative z-10 min-h-[100svh] grid md:grid-cols-2 gap-8 items-start px-6 md:px-16 lg:px-24 pt-28 md:pt-24 pb-16">
+        <div className="relative z-10 min-h-[92svh] grid md:grid-cols-2 gap-8 items-start px-6 md:px-16 lg:px-24 pt-20 md:pt-20 pb-12">
           {/* LEFT: single info and CTAs */}
           <div className="max-w-xl w-full text-center">
             <motion.p
