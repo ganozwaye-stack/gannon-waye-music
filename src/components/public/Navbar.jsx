@@ -50,7 +50,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/40">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-b border-border/60 shadow-[0_2px_24px_rgba(0,0,0,0.4)]">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <Link
           to="/"
@@ -84,7 +84,7 @@ export default function Navbar() {
                   'px-4 py-1.5 rounded-full border border-primary/60 hover:bg-primary/10 gradient-gold-text' :
                   active ?
                   'gradient-gold-text' :
-                  'text-muted-foreground hover:text-foreground'}`
+                  'text-foreground/80 hover:text-foreground font-medium'}`
                   }>
                   
                   {link.label}
@@ -97,7 +97,7 @@ export default function Navbar() {
           <div ref={moreRef} className="relative">
             <button
               onClick={() => setMoreOpen((p) => !p)}
-              className={`flex items-center gap-1 font-body text-[11px] tracking-widest uppercase transition-all duration-200 hover:scale-105 ${moreOpen ? 'gradient-gold-text' : 'text-muted-foreground hover:text-foreground'}`}>
+              className={`flex items-center gap-1 font-body text-[11px] tracking-widest uppercase transition-all duration-200 hover:scale-105 ${moreOpen ? 'gradient-gold-text' : 'text-foreground/80 hover:text-foreground font-medium'}`}>
               
               More <ChevronDown className={`w-3 h-3 transition-transform ${moreOpen ? 'rotate-180' : ''}`} />
             </button>
@@ -116,7 +116,7 @@ export default function Navbar() {
                   to={link.path}
                   onClick={() => setMoreOpen(false)}
                   className={`block px-4 py-2.5 font-body text-[11px] tracking-widest uppercase transition-colors hover:bg-primary/8 ${
-                  location.pathname === link.path ? 'gradient-gold-text' : 'text-muted-foreground hover:text-foreground'}`
+                  location.pathname === link.path ? 'gradient-gold-text' : 'text-foreground/80 hover:text-foreground font-medium'}`
                   }>
                   
                       {link.label}
@@ -153,7 +153,7 @@ export default function Navbar() {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-xl">
+          className="md:hidden border-t border-border/60 bg-background/97 backdrop-blur-xl">
           
             <div className="px-6 py-4 flex flex-col gap-1">
               {NAV_LINKS.map((link) =>
@@ -162,7 +162,7 @@ export default function Navbar() {
               to={link.path}
               onClick={() => setOpen(false)}
               className={`font-body text-sm tracking-widest uppercase py-2.5 border-b border-border/20 ${
-              location.pathname === link.path ? 'text-primary' : 'text-muted-foreground'}`
+              location.pathname === link.path ? 'text-primary' : 'text-foreground/80 font-medium'}`
               }>
               
                   {link.label}
@@ -175,7 +175,7 @@ export default function Navbar() {
               to={link.path}
               onClick={() => setOpen(false)}
               className={`font-body text-xs tracking-widest uppercase py-2 border-b border-border/10 ${
-              location.pathname === link.path ? 'text-primary' : 'text-muted-foreground/60 hover:text-muted-foreground'}`
+              location.pathname === link.path ? 'text-primary' : 'text-foreground/65 hover:text-foreground font-medium'}`
               }>
               
                   {link.label}
