@@ -402,7 +402,14 @@ const AuthenticatedApp = () => {
         <Route path="/about" element={<About />} />
         <Route path="/support" element={<Navigate to="/contact" replace />} />
         <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />
-        {/* Coaching routes moved to admin — hidden from public */}
+        {/* Coaching — public page */}
+        <Route path="/coaching" element={<Coaching />} />
+        <Route path="/coaching/self-worth-reset" element={<CoachingSelfWorthReset />} />
+        <Route path="/coaching/boundaries" element={<CoachingBoundaries />} />
+        <Route path="/coaching/creative-confidence" element={<CoachingCreativeConfidence />} />
+        <Route path="/coaching/workbooks" element={<CoachingWorkbooks />} />
+        <Route path="/coaching/intake" element={<CoachingIntakePage />} />
+        <Route path="/coaching/client-resources" element={<CoachingClientResources />} />
 
         {/* Systems Manager — sell this platform to others */}
         <Route path="/systems-manager" element={<SystemsManagerOffer />} />

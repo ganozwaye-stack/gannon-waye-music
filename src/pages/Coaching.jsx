@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CoachingHero from '@/components/coaching/CoachingHero';
+import CoachingComingSoonSection from '@/components/public/CoachingComingSoonSection';
 import CoachingOfferCard from '@/components/coaching/CoachingOfferCard';
 import CoachingSignatureLine from '@/components/coaching/CoachingSignatureLine';
 import CoachingDisclaimer from '@/components/coaching/CoachingDisclaimer';
@@ -47,6 +48,7 @@ const WHY_ITEMS = [
 export default function Coaching() {
   return (
     <div className="min-h-screen">
+      <CoachingComingSoonSection />
       <CoachingHero
         badge="Gannon Waye Coaching"
         hook="Are you ready to stop begging for basic respect and start rebuilding the life you were made for?"
