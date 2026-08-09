@@ -70,18 +70,27 @@ export default function Home() {
         <div className="absolute inset-0 z-0" style={{ background: 'radial-gradient(120% 80% at 50% 18%, rgba(212,175,55,0.10), rgba(8,8,14,0) 60%)' }} />
         
 
-        {/* Mum: ethereal, watching over from the sky glow */}
-        <img
-          src={MUM_IMAGE}
-          alt=""
+        {/* Ambient fire / campfire hero loop, restored */}
+        <video
+          src={HERO_VIDEO}
+          autoPlay
+          loop
+          muted
+          playsInline
           aria-hidden
-          className="absolute z-[2] w-[40%] max-w-[420px] aspect-square object-cover rounded-full opacity-40 mix-blend-screen pointer-events-none"
+          className="absolute inset-0 z-[1] w-full h-full object-cover opacity-25 pointer-events-none" />
+
+        {/* Gannon, profile looking up (Without You Here cover), circular so the artwork's background falls away */}
+        <img
+          src={WYH_ARTWORK}
+          alt="Gannon Waye, Without You Here"
+          className="absolute z-[2] w-[42%] max-w-[440px] aspect-square object-cover rounded-full pointer-events-none"
           style={{
-            top: '5%',
-            right: '6%',
-            maskImage: 'radial-gradient(circle, black 52%, transparent 74%)',
-            WebkitMaskImage: 'radial-gradient(circle, black 52%, transparent 74%)',
-            filter: 'drop-shadow(0 0 28px rgba(212,175,55,0.35))'
+            top: '4%',
+            right: '5%',
+            maskImage: 'radial-gradient(circle, black 60%, transparent 78%)',
+            WebkitMaskImage: 'radial-gradient(circle, black 60%, transparent 78%)',
+            filter: 'drop-shadow(0 0 34px rgba(212,175,55,0.4))'
           }} />
         
 

@@ -12,23 +12,22 @@ const BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f
 
 const NAV_LINKS = [
 { label: 'Home', path: '/' },
+{ label: 'Biography', path: '/biography' },
 { label: 'Music', path: '/music' },
-{ label: 'Lyrics', path: '/lyrics' },
-{ label: 'Store', path: '/store' },
+{ label: 'Supporters', path: '/back-this' },
+{ label: "Mum's Garden", path: '/mums-garden' },
+{ label: 'Coaching', path: '/coaching', soon: true },
 { label: 'Press', path: '/press' },
-{ label: 'Subscribe', path: '/back-this' },
 { label: 'Contact', path: '/contact' }];
 
 
 const MORE_LINKS = [
+{ label: 'Store', path: '/store' },
 { label: 'My Story', path: '/this-is-my-life' },
-{ label: 'Biography', path: '/biography' },
-{ label: 'Coaching', path: '/coaching' },
 { label: 'Videos', path: '/videos' },
 { label: 'Lyric Library', path: '/lyric-library' },
 { label: 'Discover Music', path: '/discover' },
 { label: 'Community', path: '/community' },
-{ label: 'Mum Tribute', path: '/remember-mum' },
 { label: 'Live & Tour', path: '/tour' },
 { label: 'Mixing Services', path: '/mixing-services' },
 { label: 'Gift Cards', path: '/gift-cards' },
@@ -69,7 +68,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-5 absolute left-1/2 -translate-x-1/2">
+        <div className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
           {NAV_LINKS.map((link) => {
             const active = location.pathname === link.path;
             const isHighlighted = link.highlight || link.path === '/store';
@@ -92,7 +91,7 @@ export default function Navbar() {
                   'text-foreground/80 hover:text-foreground font-medium'}`
                   }>
                   
-                  {link.label}
+                  {link.label}{link.soon && <span className="ml-1.5 text-[8px] tracking-[0.2em] uppercase text-primary/80 align-middle">Soon</span>}
                 </Link>
               </MagneticButton>);
 
