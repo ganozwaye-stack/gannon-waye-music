@@ -5,7 +5,6 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import MobileBottomTabs from './MobileBottomTabs';
 import SocialProofTicker from './SocialProofTicker';
-import CartButton from '@/components/store/CartButton';
 
 export default function PublicLayout() {
   const { pathname } = useLocation();
@@ -13,7 +12,6 @@ export default function PublicLayout() {
   return (
     <div className="min-h-screen flex flex-col pb-14">
       <Navbar />
-      <CartButton />
       <main className="flex-1 pt-16">
         <AnimatePresence mode="wait">
           <Outlet key={pathname} />

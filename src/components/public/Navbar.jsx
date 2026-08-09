@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import { Menu, X, Search, ChevronDown, ShoppingCart } from 'lucide-react';
+import { useCartStore } from '@/lib/cartStore';
+import CartDrawer from '@/components/store/CartDrawer';
 import { motion, AnimatePresence } from 'framer-motion';
 import SiteSearch from '@/components/public/SiteSearch';
 import MagneticButton from '@/components/public/MagneticButton';
@@ -42,6 +44,9 @@ export default function Navbar() {
   const [moreOpen, setMoreOpen] = useState(false);
   const moreRef = useRef(null);
   const location = useLocation();
+  const [cartOpen, setCartOpen] = useState(false);
+  const cartItems = useCartStore(state => Array.isArray(state.items) ? state.items : []);
+  const cartCount = cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
 
   useEffect(() => {
     const handler = (e) => {if (moreRef.current && !moreRef.current.contains(e.target)) setMoreOpen(false);};
@@ -51,7 +56,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1rem)] max-w-6xl rounded-2xl bg-background/75 backdrop-blur-xl border border-border/60 shadow-[0_2px_24px_rgba(0,0,0,0.4)]">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between relative">
         <Link
           to="/"
           aria-label="Gannon Waye · Home"
@@ -60,11 +65,10 @@ export default function Navbar() {
           <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-primary/60 flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
             <span className="font-display text-sm gradient-gold-text font-semibold tracking-wider">GW</span>
           </div>
-          <span className="hidden lg:inline font-body text-xl uppercase font-bold tracking-[0.24em] gradient-gold-glow leading-none drop-shadow-[0_2px_6px_rgba(0,0,0,0.55)]">Gannon Waye</span>
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-5">
+        <div className="hidden md:flex items-center gap-5 absolute left-1/2 -translate-x-1/2">
           {NAV_LINKS.map((link) => {
             const active = location.pathname === link.path;
             const isHighlighted = link.highlight || link.path === '/store';
@@ -136,6 +140,17 @@ export default function Navbar() {
             
             <Search className="w-4 h-4" />
           </button>
+          <button
+            data-testid="cart-button"
+            type="button"
+            onClick={() => setCartOpen(true)}
+            aria-label="Open cart"
+            className="relative flex items-center justify-center w-9 h-9 rounded-full border border-border/40 hover:border-primary/40 text-muted-foreground hover:text-primary transition-all">
+            <ShoppingCart className="w-4 h-4" />
+            {cartCount > 0 && (
+              <span data-testid="cart-count" className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-body flex items-center justify-center">{cartCount}</span>
+            )}
+          </button>
           <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
             {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -185,6 +200,7 @@ export default function Navbar() {
           </motion.div>
         }
       </AnimatePresence>
+      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
     </nav>);
 
 }
