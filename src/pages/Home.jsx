@@ -23,7 +23,7 @@ import { usePlayerStore } from '@/lib/playerStore';
 const HERO_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cb360d5ee_image.png';
 const WYH_ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9c05e7539_image.png';
 const MUM_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0edc48d83_image.png';
-const WYH_STENCIL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/43bac050a_image.png';
+const WYH_STENCIL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b82279641_without-you-here-stencil-outline-only-transparent-tight-2026-08-03.png';
 
 // Cover art comes from each release's artwork_url in the database, the single source of truth.
 // Do not hardcode per-song cover overrides here (that caused mis-assigned artwork in the past).
@@ -86,10 +86,10 @@ export default function Home() {
           alt=""
           aria-hidden
           initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 0.22, x: 0 }}
+          animate={{ opacity: 0.3, x: 0 }}
           transition={{ duration: 1.8, delay: 0.5 }}
-          className="absolute z-[2] pointer-events-none select-none w-[60%] max-w-[42rem]"
-          style={{ right: '-3%', top: '50%', transform: 'translateY(-50%)', filter: 'drop-shadow(0 0 30px rgba(212,175,55,0.4))' }} />
+          className="absolute z-[2] pointer-events-none select-none w-[95%] max-w-[62rem]"
+          style={{ right: '-4%', top: '2%', filter: 'drop-shadow(0 0 34px rgba(212,175,55,0.45))' }} />
         
 
         {/* Dark scrim, readable on both sides */}
@@ -128,15 +128,6 @@ export default function Home() {
             </motion.div>
 
             <motion.p
-              className="font-body text-[11px] tracking-[0.22em] uppercase gradient-gold-text mb-2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.6, delay: 1.1 }}>
-              
-              Gannon Waye
-            </motion.p>
-
-            <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.6, delay: 1.3 }}
@@ -160,7 +151,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 1.6 }}
-              className="flex flex-wrap gap-3">
+              className="flex flex-wrap items-center gap-3">
               
               <MagneticButton>
                 <Button
@@ -178,17 +169,17 @@ export default function Home() {
                   </Button>
                 </Link>
               </MagneticButton>
-            </motion.div>
 
-            {/* Out now badge */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.9 }}
-              className="mt-7 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/25">
-              
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now · Listen Everywhere</p>
+              {/* Out now badge, inline next to Be Part Of This */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.4, delay: 1.9 }}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-primary/10 border border-primary/25">
+                
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now · Listen Everywhere</p>
+              </motion.div>
             </motion.div>
           </div>
 
@@ -209,7 +200,7 @@ export default function Home() {
       </section>
 
       {/* About Section: magazine 3-column */}
-      <section className="py-16 md:py-24 px-4 md:px-6 relative">
+      <section className="py-10 md:py-14 px-4 md:px-6 relative">
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -328,7 +319,7 @@ export default function Home() {
       <StoreWorldTeaser />
 
       {/* Thank You Project CTA: donations, community, socials */}
-      <section className="py-16 px-4 md:px-6">
+      <section className="py-10 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
           <ThankYouProjectCTA context="Every contribution fuels independent music, supports healing, and builds a community where stories matter. 10% of all support goes to 1800RESPECT. Join the Thank You Project today." />
         </div>
@@ -342,7 +333,7 @@ export default function Home() {
 
       {/* Latest Releases Preview */}
       {releases.length > 0 &&
-      <section className="py-16 md:py-24 px-4 md:px-6">
+      <section className="py-10 md:py-14 px-4 md:px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
             initial={{ opacity: 0, y: 20 }}
