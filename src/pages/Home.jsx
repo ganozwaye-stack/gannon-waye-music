@@ -107,7 +107,7 @@ export default function Home() {
         </div>
 
         {/* Two-column content: artwork + single info on the left, welcome write-up on the right */}
-        <div className="relative z-10 min-h-[100svh] grid md:grid-cols-2 gap-8 items-center px-6 md:px-16 lg:px-24 py-24 md:py-16">
+        <div className="relative z-10 min-h-[100svh] grid md:grid-cols-2 gap-8 items-start px-6 md:px-16 lg:px-24 pt-28 md:pt-24 pb-16">
           {/* LEFT: single info and CTAs */}
           <div className="max-w-xl w-full text-center">
             <motion.p

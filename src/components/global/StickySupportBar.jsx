@@ -34,7 +34,7 @@ export default function StickySupportBar() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5 }}
-      className="fixed bottom-0 left-0 right-0 bg-card/95 backdrop-blur-sm border-t border-border/40 px-4 py-2.5 z-50"
+      className="fixed bottom-3 left-1/2 -translate-x-1/2 w-[calc(100%-1rem)] max-w-6xl rounded-2xl bg-card/80 backdrop-blur-sm border border-border/40 px-4 py-2.5 z-50 shadow-[0_-2px_24px_rgba(0,0,0,0.3)]"
     >
       <div className="max-w-6xl mx-auto flex items-center justify-between gap-3">
 
