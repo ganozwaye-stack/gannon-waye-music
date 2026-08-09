@@ -193,10 +193,6 @@ export default function Home() {
               </motion.div>
             </motion.div>
 
-            {/* Audio player, bottom of the left column */}
-            <div className="mt-6 w-full max-w-md mx-auto">
-              <HeroWelcomeBanner release={wyhRelease} releaseLink={wyhLink} />
-            </div>
           </div>
 
           {/* RIGHT: welcome / mission write-up */}
@@ -206,12 +202,21 @@ export default function Home() {
             transition={{ duration: 1.6, delay: 0.8 }}
             className="max-w-md w-full md:pl-4 pb-20">
             
+            {/* Streaming player, top of the right column, below WAYE */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.4, delay: 0.6 }}
+              className="mb-8">
+              <HeroWelcomeBanner release={wyhRelease} releaseLink={wyhLink} />
+            </motion.div>
+
             <motion.p
               initial={{ opacity: 0, letterSpacing: '0.8em' }}
               animate={{ opacity: 1, letterSpacing: '0.45em' }}
               transition={{ duration: 1.4, delay: 0.4 }}
               className="font-body uppercase gradient-gold-text text-base my-4 px-6">WELCOME</motion.p>
-            <p className="font-body text-xs text-foreground/70 leading-relaxed">I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT. Every song is recorded honestly, voice and guitar first, so the feeling stays intact. Whether you're carrying loss, rebuilding after hard years, or learning to like yourself again, you're in the right place, and you're not alone here.
+            <p className="font-body text-sm text-foreground/70 leading-relaxed">I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT. Every song is recorded honestly, voice and guitar first, so the feeling stays intact. Whether you're carrying loss, rebuilding after hard years, or learning to like yourself again, you're in the right place, and you're not alone here.
 
             </p>
 
