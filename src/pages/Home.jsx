@@ -58,16 +58,15 @@ export default function Home() {
 
       {/* HERO: two columns. Left: artwork + single info. Right: welcome write-up, with the stencil as a backdrop. */}
       <section className="relative min-h-[100svh] overflow-hidden">
-        {/* Background: ambient cinematic gold-embers loop */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
+        {/* Background: Gannon looking up into the golden sky */}
+        <motion.img
+          src={HERO_IMAGE}
+          alt="Gannon Waye, Without You Here"
+          initial={{ scale: 1.06, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ opacity: { duration: 2.4 }, scale: { duration: 22, ease: 'easeOut' } }}
           className="absolute inset-0 w-full h-full object-cover"
-          style={{ objectPosition: 'center' }}>
-          <source src={HERO_VIDEO} type="video/mp4" />
-        </video>
+          style={{ objectPosition: 'center' }} />
         
 
         {/* Mum: ethereal, watching over from the sky glow */}
