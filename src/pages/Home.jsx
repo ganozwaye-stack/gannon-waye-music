@@ -130,6 +130,8 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8 items-start flex-1">
           {/* LEFT: single info and CTAs */}
           <div className="max-w-xl w-full text-center mx-auto">
+          <div className="rounded-2xl border border-border/25 px-5 py-4 backdrop-blur-[2px]"
+               style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.5) 0%, rgba(8,8,14,0.32) 60%, rgba(8,8,14,0.18) 100%)', boxShadow: '0 8px 28px rgba(0,0,0,0.28)' }}>
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -155,7 +157,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.6, delay: 1.3 }}
-              className="font-body text-sm text-foreground/70 max-w-sm mx-auto leading-relaxed italic mb-3 text-center">
+              className="font-body text-sm text-foreground/85 max-w-sm mx-auto leading-relaxed italic mb-3 text-center" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>
               
               A raw, acoustic letter to Sonia, written in the early hours of Mother's Day, four years after she left.
             </motion.p>
@@ -170,6 +172,7 @@ export default function Home() {
                 Read Mum's story <ArrowRight className="w-3 h-3" />
               </Link>
             </motion.div>
+          </div>
 
             {/* CTAs: Listen Here, Back The Thankyou Project, Out Now in a row beneath the CD */}
             <motion.div
