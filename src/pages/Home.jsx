@@ -80,18 +80,7 @@ export default function Home() {
           aria-hidden
           className="absolute inset-0 z-[1] w-full h-full object-cover opacity-25 pointer-events-none" />
 
-        {/* Gannon, profile looking up (Without You Here cover), circular so the artwork's background falls away */}
-        <img
-          src={WYH_ARTWORK}
-          alt="Gannon Waye, Without You Here"
-          className="absolute z-[2] w-[42%] max-w-[440px] aspect-square object-cover rounded-full pointer-events-none"
-          style={{
-            top: '4%',
-            right: '5%',
-            maskImage: 'radial-gradient(circle, black 60%, transparent 78%)',
-            WebkitMaskImage: 'radial-gradient(circle, black 60%, transparent 78%)',
-            filter: 'drop-shadow(0 0 34px rgba(212,175,55,0.4))'
-          }} />
+        {/* Without You Here artwork now lives as a circular medallion in the left single box */}
         
 
         {/* "Without You Here" stencil, stretched out as a background design staple on the right */}
@@ -148,7 +137,8 @@ export default function Home() {
               transition={{ duration: 1.6, delay: 0.6 }}
               className="mb-4">
               
-              <Link to={wyhLink} className="block mx-auto rounded-2xl overflow-hidden border border-primary/20 hover:border-primary/40 transition-colors aspect-square max-w-[160px]">
+              <Link to={wyhLink} className="block mx-auto rounded-full overflow-hidden border-2 border-primary/40 hover:border-primary/70 transition-colors aspect-square max-w-[140px]"
+                style={{ boxShadow: '0 0 24px rgba(212,175,55,0.35), 0 6px 18px rgba(0,0,0,0.45)' }}>
                 <img src={WYH_ARTWORK} alt="Without You Here, Gannon Waye" className="w-full h-full object-cover" />
               </Link>
             </motion.div>
