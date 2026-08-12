@@ -224,7 +224,7 @@ export default function Home() {
             </motion.div>
 
             <div className="relative rounded-2xl border border-border/30 px-5 py-4 backdrop-blur-[2px]"
-                 style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.82) 0%, rgba(8,8,14,0.6) 55%, rgba(8,8,14,0.38) 100%)', boxShadow: '0 8px 32px rgba(0,0,0,0.38)' }}>
+                 style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.5) 0%, rgba(8,8,14,0.32) 60%, rgba(8,8,14,0.18) 100%)', boxShadow: '0 8px 28px rgba(0,0,0,0.28)' }}>
             <motion.p
               initial={{ opacity: 0, letterSpacing: '0.8em' }}
               animate={{ opacity: 1, letterSpacing: '0.45em' }}
