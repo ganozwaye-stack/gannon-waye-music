@@ -220,14 +220,17 @@ export default function Home() {
               <HeroWelcomeBanner release={wyhRelease} releaseLink={wyhLink} />
             </motion.div>
 
+            <div className="relative rounded-2xl border border-border/30 px-5 py-4 backdrop-blur-[2px]"
+                 style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.82) 0%, rgba(8,8,14,0.6) 55%, rgba(8,8,14,0.38) 100%)', boxShadow: '0 8px 32px rgba(0,0,0,0.38)' }}>
             <motion.p
               initial={{ opacity: 0, letterSpacing: '0.8em' }}
               animate={{ opacity: 1, letterSpacing: '0.45em' }}
               transition={{ duration: 1.4, delay: 0.4 }}
-              className="font-body uppercase gradient-gold-text text-base my-4 px-6">WELCOME</motion.p>
-            <p className="font-body text-sm text-foreground/70 leading-relaxed">I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT. Every song is recorded honestly, voice and guitar first, so the feeling stays intact. Whether you're carrying loss, rebuilding after hard years, or learning to like yourself again, you're in the right place, and you're not alone here.
+              className="font-body uppercase gradient-gold-text text-base my-2 px-1">WELCOME</motion.p>
+            <p className="font-body text-sm text-foreground/85 leading-relaxed" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>I'm a singer-songwriter from Adelaide, now based in Melbourne. I write from lived experience about grief, healing, and the quiet courage it takes to love yourself. My mission is to make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. This is independent, heart-first art, powered by community, with 10% of all support going to 1800RESPECT. Every song is recorded honestly, voice and guitar first, so the feeling stays intact. Whether you're carrying loss, rebuilding after hard years, or learning to like yourself again, you're in the right place, and you're not alone here.
 
             </p>
+            </div>
 
 
           </motion.div>
