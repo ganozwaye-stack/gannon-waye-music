@@ -80,17 +80,16 @@ export default function Home() {
           aria-hidden
           className="absolute inset-0 z-[1] w-full h-full object-cover opacity-25 pointer-events-none" />
 
-        {/* Gannon, profile looking up (Without You Here cover), circular so the artwork's background falls away */}
+        {/* Gannon, profile looking up (Without You Here cover), 9:16 crop focused on the face */}
         <img
           src={WYH_ARTWORK}
           alt="Gannon Waye, Without You Here"
-          className="absolute z-[2] w-[42%] max-w-[440px] aspect-square object-cover rounded-full pointer-events-none"
+          className="absolute z-[2] w-[26%] max-w-[240px] aspect-[9/16] object-cover rounded-2xl pointer-events-none border border-primary/20"
           style={{
-            top: '4%',
+            top: '8%',
             right: '5%',
-            maskImage: 'radial-gradient(circle, black 60%, transparent 78%)',
-            WebkitMaskImage: 'radial-gradient(circle, black 60%, transparent 78%)',
-            filter: 'drop-shadow(0 0 34px rgba(212,175,55,0.4))'
+            objectPosition: '72% 22%',
+            filter: 'drop-shadow(0 0 30px rgba(212,175,55,0.35))'
           }} />
         
 
@@ -216,8 +215,10 @@ export default function Home() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.4, delay: 0.6 }}
-              className="mb-8">
-              <HeroWelcomeBanner release={wyhRelease} releaseLink={wyhLink} />
+              className="mb-4">
+              <div style={{ zoom: 0.5 }}>
+                <HeroWelcomeBanner release={wyhRelease} releaseLink={wyhLink} />
+              </div>
             </motion.div>
 
             <motion.p
