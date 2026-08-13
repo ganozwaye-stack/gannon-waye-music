@@ -1,16 +1,16 @@
 import { motion } from 'framer-motion';
 import FiligreeDivider from '@/components/mums-garden/FiligreeDivider';
 
-// The garden is still closed. One image: her, in the clouds, wings out. Nothing else.
-const SKY_HERO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/63b5b7b1e_image.png';
+// The garden is still closed. One image: the path through her garden at golden hour. Nothing else.
+const GARDEN_HERO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/348532fd6_generated_image.png';
 
 export default function MumsGarden() {
   return (
     <div className="relative min-h-screen w-full overflow-hidden" style={{ background: '#0a0a0f' }}>
       {/* The sky. Her, in the clouds, wings out. The only image. */}
       <img
-        src={SKY_HERO}
-        alt="Sonia, in the clouds, wings out"
+        src={GARDEN_HERO}
+        alt="Sonia's Garden"
         aria-hidden
         className="absolute inset-0 w-full h-full object-cover"
       />
