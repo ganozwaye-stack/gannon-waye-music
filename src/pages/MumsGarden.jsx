@@ -100,7 +100,7 @@ export default function MumsGarden() {
           to his late mother. Produced by Will Henderson.
         </p>
         <p className="font-body text-xs tracking-[0.3em] uppercase mt-6" style={{ color: 'rgba(245,224,160,0.4)' }}>
-          Available July 23, 2026
+          Available July 31, 2026
         </p>
         <FiligreeDivider />
       </Interlude>
