@@ -104,17 +104,15 @@ export default function Home() {
           src={HERO_PORTRAIT}
           alt="Gannon Waye, Without You Here"
           aria-hidden
-          className="absolute z-[2] pointer-events-none select-none h-[96%] aspect-[9/16] object-contain"
+          className="absolute z-[2] pointer-events-none select-none inset-0 w-full h-full object-cover"
           style={{
-            right: 0,
-            top: '2%',
-            opacity: 0.55,
+            opacity: 0.5,
             objectPosition: 'right center',
-            maskImage: 'linear-gradient(to right, transparent 0%, black 14%, black 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 14%, black 100%)',
+            maskImage: 'linear-gradient(to right, transparent 0%, black 26%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 26%, black 100%)',
             filter: 'drop-shadow(0 0 40px rgba(212,175,55,0.22))'
           }}
-          animate={{ x: [0, -6, 4, 0], y: [0, -10, 6, 0], scale: [1, 1.02, 1, 1] }}
+          animate={{ x: [0, -8, 6, 0], y: [0, -8, 6, 0], scale: [1, 1.02, 1, 1] }}
           transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut' }} />
 
         {/* Without You Here artwork now lives as a circular medallion in the left single box */}
