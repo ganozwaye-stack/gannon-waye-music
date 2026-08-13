@@ -91,7 +91,7 @@ export default function Navbar() {
                   'text-foreground/80 hover:text-foreground font-medium'}`
                   }>
                   
-                  {link.label}{link.soon && <span className="ml-1.5 text-[8px] tracking-[0.2em] uppercase text-primary/80 align-middle">Soon</span>}
+                  {link.label}{link.soon && <span className="ml-1.5 text-[8px] tracking-[0.2em] uppercase text-primary/80 align-middle">Opening Soon</span>}
                 </Link>
               </MagneticButton>);
 

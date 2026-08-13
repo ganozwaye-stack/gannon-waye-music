@@ -28,6 +28,7 @@ const WYH_ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb4180010
 const MUM_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0edc48d83_image.png';
 const WYH_STENCIL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b82279641_without-you-here-stencil-outline-only-transparent-tight-2026-08-03.png';
 const HERO_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6eb4180010f794/8e23b3544_Ambient_Hero_Loop.mp4';
+const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d59f85227_image.png';
 
 // Cover art comes from each release's artwork_url in the database, the single source of truth.
 // Do not hardcode per-song cover overrides here (that caused mis-assigned artwork in the past).
@@ -79,6 +80,20 @@ export default function Home() {
           playsInline
           aria-hidden
           className="absolute inset-0 z-[1] w-full h-full object-cover opacity-25 pointer-events-none" />
+
+        {/* Gannon, side profile looking up. Circular, ~50% opacity, seated on the left, fading into the dark hero. */}
+        <img
+          src={HERO_PORTRAIT}
+          alt="Gannon Waye, Without You Here"
+          className="absolute z-[2] pointer-events-none select-none w-[44%] max-w-[500px] aspect-square object-cover rounded-full"
+          style={{
+            left: '1.5%',
+            top: '18%',
+            opacity: 0.5,
+            maskImage: 'radial-gradient(circle, black 58%, transparent 78%)',
+            WebkitMaskImage: 'radial-gradient(circle, black 58%, transparent 78%)',
+            filter: 'drop-shadow(0 0 40px rgba(212,175,55,0.28))'
+          }} />
 
         {/* Without You Here artwork now lives as a circular medallion in the left single box */}
         
