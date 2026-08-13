@@ -28,7 +28,7 @@ const WYH_ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb4180010
 const MUM_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0edc48d83_image.png';
 const WYH_STENCIL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b82279641_without-you-here-stencil-outline-only-transparent-tight-2026-08-03.png';
 const HERO_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6eb4180010f794/8e23b3544_Ambient_Hero_Loop.mp4';
-const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cff70bf1d_image.png';
+const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
 const WYH_ANGEL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3df8d7b0d_image.png';
 
 // Cover art comes from each release's artwork_url in the database, the single source of truth.
@@ -104,16 +104,17 @@ export default function Home() {
           src={HERO_PORTRAIT}
           alt="Gannon Waye, Without You Here"
           aria-hidden
-          className="absolute z-[2] pointer-events-none select-none w-[42%] max-w-[480px] aspect-[4/5] object-cover"
+          className="absolute z-[2] pointer-events-none select-none h-[96%] aspect-[9/16] object-contain"
           style={{
-            right: '-3%',
-            top: '10%',
-            opacity: 0.5,
-            maskImage: 'radial-gradient(ellipse at 62% 42%, black 54%, transparent 80%)',
-            WebkitMaskImage: 'radial-gradient(ellipse at 62% 42%, black 54%, transparent 80%)',
+            right: 0,
+            top: '2%',
+            opacity: 0.55,
+            objectPosition: 'right center',
+            maskImage: 'linear-gradient(to right, transparent 0%, black 14%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 14%, black 100%)',
             filter: 'drop-shadow(0 0 40px rgba(212,175,55,0.22))'
           }}
-          animate={{ x: [0, 14, -10, 0], y: [0, -12, 8, 0], scale: [1, 1.03, 0.99, 1] }}
+          animate={{ x: [0, -6, 4, 0], y: [0, -10, 6, 0], scale: [1, 1.02, 1, 1] }}
           transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut' }} />
 
         {/* Without You Here artwork now lives as a circular medallion in the left single box */}
