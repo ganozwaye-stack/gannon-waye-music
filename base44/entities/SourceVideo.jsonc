@@ -1,0 +1,74 @@
+{
+  "name": "SourceVideo",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Name for this source video"
+    },
+    "video_url": {
+      "type": "string",
+      "description": "Uploaded source video file URL (use UploadFile to get a URL)"
+    },
+    "duration_seconds": {
+      "type": "number",
+      "description": "Length of the source video in seconds"
+    },
+    "opus_project_id": {
+      "type": "string",
+      "description": "Opus Clip project id once the video has been submitted for clipping"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "uploaded",
+        "submitted",
+        "processing",
+        "processed",
+        "failed"
+      ],
+      "default": "uploaded"
+    },
+    "topic_keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Curation hints passed to Opus Clip"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "title",
+    "video_url"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
