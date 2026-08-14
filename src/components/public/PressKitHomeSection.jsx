@@ -84,7 +84,7 @@ export default function PressKitHomeSection() {
               <div className={`grid ${cols} gap-3`}>
                 {shots.map((s, i) => (
                   <div key={i} className="aspect-[3/4] rounded-xl overflow-hidden border border-primary/20 bg-secondary/40">
-                    <img src={s.image_url} alt={s.title || 'Gannon Waye'} className="w-full h-full object-contain" />
+                    <img src={s.image_url} alt={s.title || 'Gannon Waye'} className="w-full h-full object-cover object-top" />
                   </div>
                 ))}
               </div>
