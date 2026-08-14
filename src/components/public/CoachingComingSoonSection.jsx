@@ -9,9 +9,9 @@ import { trackEvent } from '@/lib/analytics';
 const QUOTE = 'Respect is earned. Not a game you make me play.';
 
 const PARAS = [
-  'My coaching work is being built from the same journey that sits underneath the music: learning self-respect, rebuilding confidence, finding language for what happened, and choosing a future that is not controlled by old pain.',
-  'I have had to learn how to stand up for myself, understand my patterns, protect my energy, and keep creating even when life made that difficult. That lived experience, combined with the work I have done around mindset, boundaries, communication, creativity, and personal direction, is what I want to turn into practical support for others.',
-  'This will not be therapy or crisis support. It will be coaching for people who need a clear voice beside them: someone who can help them sort the noise, name the next step, build useful tools, and feel encouraged while they take their life seriously again.'
+  'Gannon Waye is a singer-songwriter from Adelaide, now based in Melbourne, who writes from lived experience about grief, healing, and the quiet courage it takes to love yourself. His coaching work grows from the same soil as the music: a life rebuilt after loss, and a decision to turn pain into something useful for others.',
+  'After losing his mother Sonia, and after years learning self-respect, boundaries, and how to keep creating through hard seasons, Gannon began building practical support for people on their own rebuilding journey. This is for anyone carrying the weight of an old chapter, in it, healing, or somewhere in between, who wants a clear, honest voice beside them.',
+  'This will not be therapy or crisis support. It will be coaching rooted in strength and hope: direction, tools, and encouragement for people ready to take their life seriously again. The same mission that drives the music, to help anyone who hears it feel less alone, is the foundation this work is built on.'
 ];
 
 const PILLARS = [
@@ -71,7 +71,7 @@ export default function CoachingComingSoonSection() {
 
           {/* Top strip: label + info icon */}
           <div className="flex items-center justify-between px-6 md:px-10 pt-5">
-            <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Coaching — Coming Soon</p>
+            <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Coaching — Opening Soon</p>
             <span className="flex items-center justify-center w-8 h-8 rounded-full border border-primary/40 text-primary/70" title="Info pack coming">
               <FileText className="w-4 h-4" />
             </span>
@@ -90,9 +90,9 @@ export default function CoachingComingSoonSection() {
           {/* Two-column: why heading + body */}
           <div className="grid md:grid-cols-2 gap-0">
             <div className="p-6 md:p-10">
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text mb-3">Why this is coming</p>
+              <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text mb-3">Why this is opening</p>
               <h3 className="font-display text-xl md:text-3xl text-foreground italic leading-tight">
-                Direction, tools, and encouragement for people rebuilding themselves.
+                Built from the same life the music comes from.
               </h3>
             </div>
             <div className="p-6 md:p-10 border-t md:border-t-0 md:border-l border-border/30 space-y-3">

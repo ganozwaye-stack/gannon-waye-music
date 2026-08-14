@@ -44,11 +44,16 @@ export default function PressKitHomeSection() {
         </motion.div>
 
         <div
-          className="rounded-2xl overflow-hidden border border-primary/30 backdrop-blur-md"
-          style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(8,8,14,0.5), rgba(212,175,55,0.08))' }}>
-          <div className="h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.7), transparent)' }} />
+          className="relative rounded-2xl overflow-hidden border border-primary/30"
+          style={{
+            background:
+              'radial-gradient(circle at 18% 20%, rgba(212,175,55,0.18), transparent 32%), radial-gradient(circle at 84% 80%, rgba(212,175,55,0.13), transparent 30%), radial-gradient(circle at 50% 52%, rgba(212,175,55,0.06), transparent 46%), linear-gradient(135deg, #0c0c12 0%, #0a0a0f 50%, #0c0c12 100%)'
+          }}>
+          {/* Full-bleed wallpaper veil for text legibility */}
+          <div className="absolute inset-0 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(8,8,14,0.28) 0%, rgba(8,8,14,0.04) 42%, rgba(8,8,14,0.28) 100%)' }} />
+          <div className="relative z-10 h-px w-full" style={{ background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.7), transparent)' }} />
 
-          <div className="grid md:grid-cols-2 gap-0">
+          <div className="relative z-10 grid md:grid-cols-2 gap-0">
             {/* Left: mission + bio */}
             <div className="p-8 md:p-10">
               <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text mb-3">Mission</p>
