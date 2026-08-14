@@ -75,6 +75,7 @@ const NAV_SECTIONS = [
       { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Zap },
       { label: 'Launch and Content Hub', path: '/admin/launch-content', icon: Megaphone },
       { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },
+      { label: 'Reel Factory', path: '/admin/reel-factory', icon: Film },
       { label: 'Social Monitor', path: '/admin/social-monitor', icon: Activity },
     ]
   },

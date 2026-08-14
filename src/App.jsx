@@ -336,6 +336,7 @@ import ContentStudio from '@/pages/admin/ContentStudio';
 import ManyChatDrafts from '@/pages/admin/ManyChatDrafts';
 import InstagramSync from '@/pages/admin/InstagramSync';
 import CommunicationsHub from '@/pages/admin/CommunicationsHub';
+import ReelFactory from '@/pages/admin/ReelFactory';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -683,6 +684,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/manychat-drafts" element={<ManyChatDrafts />} />
         <Route path="/admin/instagram-sync" element={<InstagramSync />} />
         <Route path="/admin/communications-hub" element={<CommunicationsHub />} />
+        <Route path="/admin/reel-factory" element={<ReelFactory />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
