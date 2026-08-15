@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
-import { Plus, Pencil, Trash2, Upload, Music } from 'lucide-react';
+import { Plus, Pencil, Trash2, Upload, Music, Crown } from 'lucide-react';
 
 const STATUSES = ['idea', 'writing', 'pre_production', 'recording', 'mixing', 'mastering', 'ready', 'released'];
 const TYPES = ['single', 'ep', 'album'];
@@ -19,7 +19,7 @@ const TYPES = ['single', 'ep', 'album'];
 const emptyRelease = {
   title: '', type: 'single', status: 'idea', release_date: '', artwork_url: '', description: '',
   lyrics: '', credits: '', distributor: '', distributor_link: '', spotify_link: '',
-  apple_music_link: '', youtube_link: '', price: '', is_published: false,
+  apple_music_link: '', youtube_link: '', price: '', is_published: false, is_current_single: false,
 };
 
 export default function Releases() {
@@ -36,6 +36,10 @@ export default function Releases() {
   const saveMutation = useMutation({
     mutationFn: async (data) => {
       const payload = { ...data, price: data.price ? Number(data.price) : undefined };
+      // If this release is being made the current single, clear the flag on every other release first.
+      if (data.is_current_single) {
+        await base44.entities.Release.updateMany({ is_current_single: true }, { $set: { is_current_single: false } });
+      }
       if (editing === 'new') return base44.entities.Release.create(payload);
       return base44.entities.Release.update(editing, payload);
     },
@@ -43,6 +47,18 @@ export default function Releases() {
       queryClient.invalidateQueries({ queryKey: ['releases'] });
       setEditing(null);
       toast({ title: 'Release saved' });
+    },
+  });
+
+  // One-click: promote any release to the current single (takes over the Home hero).
+  const promoteMutation = useMutation({
+    mutationFn: async (id) => {
+      await base44.entities.Release.updateMany({ is_current_single: true }, { $set: { is_current_single: false } });
+      return base44.entities.Release.update(id, { is_current_single: true, is_published: true });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['releases'] });
+      toast({ title: 'Promoted to current single — now live on Home' });
     },
   });
 
@@ -96,6 +112,7 @@ export default function Releases() {
                     {release.status?.replace(/_/g, ' ')}
                   </Badge>
                   {release.is_published && <Badge className="bg-chart-2/20 text-chart-2 text-[10px]">Published</Badge>}
+                  {release.is_current_single && <Badge className="bg-primary/20 text-primary text-[10px]">★ Current Single</Badge>}
                 </div>
                 <div className="flex items-center gap-4 mt-1">
                   {release.release_date && <p className="font-body text-xs text-muted-foreground">{new Date(release.release_date).toLocaleDateString('en-AU')}</p>}
@@ -103,6 +120,7 @@ export default function Releases() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <Button size="icon" variant="ghost" title="Set as current single (Home hero)" onClick={() => promoteMutation.mutate(release.id)}><Crown className={`w-4 h-4 ${release.is_current_single ? 'text-primary' : 'text-muted-foreground'}`} /></Button>
                 <Button size="icon" variant="ghost" onClick={() => openEdit(release)}><Pencil className="w-4 h-4" /></Button>
                 <Button size="icon" variant="ghost" onClick={() => deleteMutation.mutate(release.id)}><Trash2 className="w-4 h-4 text-destructive" /></Button>
               </div>
@@ -150,6 +168,10 @@ export default function Releases() {
             <div className="flex items-center gap-3 pt-6">
               <Switch checked={form.is_published} onCheckedChange={v => setForm({ ...form, is_published: v })} />
               <Label className="font-body text-sm">Published (visible on site)</Label>
+            </div>
+            <div className="flex items-center gap-3 pt-6">
+              <Switch checked={!!form.is_current_single} onCheckedChange={v => setForm({ ...form, is_current_single: v })} />
+              <Label className="font-body text-sm">Current Single (takes over the Home hero)</Label>
             </div>
             <div className="md:col-span-2">
               <Label className="font-body text-xs tracking-wider uppercase">Artwork</Label>
