@@ -9,9 +9,9 @@ import { trackEvent } from '@/lib/analytics';
 const QUOTE = 'Respect is earned. Not a game you make me play.';
 
 const PARAS = [
-  'Gannon Waye is a singer-songwriter from Adelaide, now based in Melbourne, who writes from lived experience about grief, healing, and the quiet courage it takes to love yourself. His coaching work grows from the same soil as the music: a life rebuilt after loss, and a decision to turn pain into something useful for others.',
-  'After losing his mother Sonia, and after years learning self-respect, boundaries, and how to keep creating through hard seasons, Gannon began building practical support for people on their own rebuilding journey. This is for anyone carrying the weight of an old chapter, in it, healing, or somewhere in between, who wants a clear, honest voice beside them.',
-  'This will not be therapy or crisis support. It will be coaching rooted in strength and hope: direction, tools, and encouragement for people ready to take their life seriously again. The same mission that drives the music, to help anyone who hears it feel less alone, is the foundation this work is built on.'
+  'Gannon Waye is a singer-songwriter from Adelaide, now based in Melbourne, who writes from lived experience about grief, healing, and the quiet courage it takes to love yourself. Coaching is the next chapter of that same work: practical, grounded support for people who are ready to stop surviving and start rebuilding.',
+  'After losing his mother Sonia, and after years of learning self-respect, boundaries, and how to keep creating through hard seasons, Gannon built this for anyone carrying the weight of an old chapter. Strength does not mean you never broke. It means you decided to keep going, and to turn what hurt into something useful for someone else.',
+  'This is coaching, not therapy or crisis support. It is rooted in hope: clear direction, real tools, and encouragement for people ready to take their life seriously again. The same mission behind the music, to help anyone who hears it feel less alone, is the foundation this work stands on.'
 ];
 
 const PILLARS = [

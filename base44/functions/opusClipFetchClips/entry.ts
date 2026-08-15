@@ -61,7 +61,7 @@ export default async function(req) {
         captionData = llm || {};
       } catch (_) {}
 
-      await base44.asServiceRole.entities.ReelClip.create({
+      const reel = await base44.asServiceRole.entities.ReelClip.create({
         source_video_id: sourceVideoId || '',
         source_video_title: sourceTitle,
         clip_video_url: clipUrl,
@@ -77,6 +77,22 @@ export default async function(req) {
         post_status: 'not_posted'
       });
       created++;
+      // Send every generated reel to the admin dashboard for personal review before it can touch social media.
+      try {
+        await base44.asServiceRole.entities.AdminNotification.create({
+          notification_type: 'approval',
+          severity: (Number(score) || 0) >= 70 ? 'high' : 'info',
+          title: `New reel ready for review${sourceTitle ? ': ' + sourceTitle : ''}`,
+          summary: captionData.hook
+            ? captionData.hook
+            : `Virality ${Number(score) || 0}/100 — awaiting your approval before posting.`,
+          source: 'Opus Clip',
+          requires_action: true,
+          linked_entity: 'ReelClip',
+          linked_id: reel.id,
+          linked_route: '/admin/reel-factory'
+        });
+      } catch (_) {}
     }
 
     if (sourceVideoId) {
