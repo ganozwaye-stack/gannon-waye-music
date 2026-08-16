@@ -52,6 +52,10 @@
     "source_notes": {
       "type": "string",
       "description": "Source notes and verification details."
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000
     }
   },
   "required": [
