@@ -1,0 +1,4 @@
+{
+  "name": "publishSingleWorkflow",
+  "entry": "entry.ts"
+}
