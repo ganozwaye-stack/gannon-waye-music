@@ -93,6 +93,7 @@ const NAV_SECTIONS = [
   {
     title: 'Store and Orders',
     items: [
+      { label: 'Merch Approval Gate', path: '/admin/merch-approval', icon: CheckCircle2 },
       { label: 'Merch Management', path: '/admin/merch', icon: Package },
       { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },

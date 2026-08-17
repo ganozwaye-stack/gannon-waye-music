@@ -336,6 +336,7 @@ import ManyChatDrafts from '@/pages/admin/ManyChatDrafts';
 import InstagramSync from '@/pages/admin/InstagramSync';
 import CommunicationsHub from '@/pages/admin/CommunicationsHub';
 import ReelFactory from '@/pages/admin/ReelFactory';
+import MerchApprovalGate from '@/pages/admin/MerchApprovalGate';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -684,6 +685,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/instagram-sync" element={<InstagramSync />} />
         <Route path="/admin/communications-hub" element={<CommunicationsHub />} />
         <Route path="/admin/reel-factory" element={<ReelFactory />} />
+        <Route path="/admin/merch-approval" element={<MerchApprovalGate />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />
