@@ -12,6 +12,8 @@ import StripePaymentForm from '@/components/store/StripePaymentForm';
 import { emitEvent, EVENT_TYPES } from '@/lib/eventAutomation';
 import { calculateCheckoutTotal } from '@/lib/checkoutCalculations';
 
+const BACK_THIS_LOGO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/1bb3c542d_image.png';
+
 // Use centralized calculation
 const calcTotal = (base) => {
   const calc = calculateCheckoutTotal(base, true);
@@ -368,17 +370,12 @@ export default function BackThis() {
 
       {step !== 'done' && (
         <>
-          {/* HERO — two columns, homepage-style, left-aligned narrative */}
+          {/* HERO — logo statement (left) + narrative (right, visible on viewing) */}
           <section className="max-w-6xl mx-auto px-4 md:px-6 pt-24 pb-14">
-            {/* Top row: larger GW home logo (left) + discreet support link (right) */}
+            {/* Top row: home link (left) + discreet support link (right) */}
             <div className="flex items-center justify-between mb-10">
-              <Link
-                to="/"
-                aria-label="Gannon Waye · Home"
-                className="flex items-center gap-2.5 hover:opacity-90 transition-all duration-200">
-                <div
-                  className="w-14 h-14 rounded-full border border-primary/60 flex items-center justify-center flex-shrink-0"
-                  style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
+              <Link to="/" aria-label="Gannon Waye · Home" className="flex items-center gap-2.5 hover:opacity-90 transition-all duration-200">
+                <div className="w-14 h-14 rounded-full border border-primary/60 flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
                   <span className="font-display text-base gradient-gold-text font-semibold tracking-wider">GW</span>
                 </div>
               </Link>
@@ -388,79 +385,79 @@ export default function BackThis() {
             </div>
 
             <div className="grid md:grid-cols-2 gap-10 md:gap-16 items-start">
-              {/* LEFT — wax seal eyebrow + title + expanded narrative */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-xl">
-                <div className="mb-6">
-                  <BackThisSeal size={104} />
-                </div>
+              {/* LEFT — combined logo statement + title + intro */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center md:items-start text-center md:text-left">
+                <img
+                  src={BACK_THIS_LOGO}
+                  alt="Back This — Gannon Waye"
+                  className="w-60 h-60 md:w-72 md:h-72 object-contain mb-6"
+                  style={{ filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.5))' }}
+                />
                 <h1 className="font-display text-4xl md:text-5xl text-foreground mb-5 leading-tight">
                   Support the<br />"Thank You" Project
                 </h1>
                 <p className="font-body text-foreground/70 leading-relaxed mb-3">
                   This isn't just a song. This is a story. This is healing. This is choosing yourself.
                 </p>
-                <p className="font-body text-foreground/60 text-sm leading-relaxed mb-8">
+                <p className="font-body text-foreground/60 text-sm leading-relaxed">
                   If something in this journey has resonated with you, if you've felt seen even for a moment, this is your way to be part of it.
                 </p>
-
-                <div className="space-y-6 border-l border-primary/30 pl-5">
-                  <div>
-                    <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">What supporting this means</p>
-                    <p className="font-body text-sm text-foreground/70 leading-relaxed">
-                      Your support isn't a transaction. It's a vote of belief in honest, independent art. It says that stories told from lived experience matter, and that one person choosing to be vulnerable can give others permission to do the same.
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">What your support allows</p>
-                    <p className="font-body text-sm text-foreground/70 leading-relaxed">
-                      It lets me finish the album, record properly, and release music that holds nothing back. It covers production, mixing, mastering, and the slow, unglamorous work of turning real life into songs that last.
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">How it helps the wider community</p>
-                    <p className="font-body text-sm text-foreground/70 leading-relaxed">
-                      10% of every contribution goes to 1800RESPECT, funding inclusive support for women, men, and children fleeing violence, including specialised LGBTQIA+ care. So your support doesn't just reach me, it reaches people in their hardest moments.
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">My commitments to you</p>
-                    <p className="font-body text-sm text-foreground/70 leading-relaxed">
-                      I commit to staying independent, to writing truthfully, to never exploiting this story for clicks, and to keeping you close to the journey as each release comes to life.
-                    </p>
-                  </div>
-                  <div>
-                    <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">Where this is going</p>
-                    <p className="font-body text-sm text-foreground/70 leading-relaxed">
-                      The debut album. Live shows. A growing community of people who feel less alone. Long term, I want to build a platform where lived experience is treated as art, and where supporting one artist helps many people heal.
-                    </p>
-                  </div>
-                </div>
               </motion.div>
 
-              {/* RIGHT — details brought up from below */}
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="space-y-6">
-                {/* What your support does */}
-                <div className="bg-card border border-border/40 rounded-2xl p-6 space-y-2">
-                  <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow mb-3">What your support does</p>
-                  {['Helps fund future releases', 'Supports independent music creation', 'Builds a safe space for others going through similar experiences', 'Keeps this movement growing'].map(item => (
-                    <div key={item} className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
-                      <p className="font-body text-sm text-foreground/70">{item}</p>
-                    </div>
-                  ))}
+              {/* RIGHT — narrative blocks (visible on viewing) */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="space-y-6 border-l border-primary/30 pl-5">
+                <div>
+                  <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">What supporting this means</p>
+                  <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                    Your support isn't a transaction. It's a vote of belief in honest, independent art. It says that stories told from lived experience matter, and that one person choosing to be vulnerable can give others permission to do the same.
+                  </p>
                 </div>
-
-                {/* Heart image */}
-                <div className="flex justify-center">
-                  <img
-                    src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/adcdec40c_GWheartlacewrap.png"
-                    alt="GW Heart"
-                    className="w-28 h-28 object-contain"
-                  />
+                <div>
+                  <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">What your support allows</p>
+                  <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                    It lets me finish the album, record properly, and release music that holds nothing back. It covers production, mixing, mastering, and the slow, unglamorous work of turning real life into songs that last.
+                  </p>
                 </div>
+                <div>
+                  <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">How it helps the wider community</p>
+                  <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                    10% of every contribution goes to 1800RESPECT, funding inclusive support for women, men, and children fleeing violence, including specialised LGBTQIA+ care. So your support doesn't just reach me, it reaches people in their hardest moments.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">My commitments to you</p>
+                  <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                    I commit to staying independent, to writing truthfully, to never exploiting this story for clicks, and to keeping you close to the journey as each release comes to life.
+                  </p>
+                </div>
+                <div>
+                  <p className="font-body text-[11px] tracking-[0.25em] uppercase gradient-gold-glow mb-2">Where this is going</p>
+                  <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                    The debut album. Live shows. A growing community of people who feel less alone. Long term, I want to build a platform where lived experience is treated as art, and where supporting one artist helps many people heal.
+                  </p>
+                </div>
+              </motion.div>
+            </div>
 
-                {/* 1800RESPECT Note - LEGAL COMPLIANT */}
-                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-left">
+            {/* BOTTOM — what your support does + heart + 10% promise (moved down from right column) */}
+            <div className="grid md:grid-cols-3 gap-6 mt-14">
+              <div className="bg-card border border-border/40 rounded-2xl p-6 space-y-2 md:col-span-2">
+                <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow mb-3">What your support does</p>
+                {['Helps fund future releases', 'Supports independent music creation', 'Builds a safe space for others going through similar experiences', 'Keeps this movement growing'].map(item => (
+                  <div key={item} className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
+                    <p className="font-body text-sm text-foreground/70">{item}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex flex-col items-center justify-center gap-4">
+                <img
+                  src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/adcdec40c_GWheartlacewrap.png"
+                  alt="GW Heart"
+                  className="w-28 h-28 object-contain"
+                />
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-left w-full">
                   <p className="font-body text-xs text-foreground/70 leading-relaxed mb-2">
                     <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children, including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
                   </p>
@@ -468,7 +465,7 @@ export default function BackThis() {
                     ⚠️ Not tax-deductible. Support contribution only. See terms for details.
                   </p>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </section>
 
