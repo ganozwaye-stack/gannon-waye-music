@@ -1,0 +1,83 @@
+{
+  "type": "object",
+  "name": "DeegoApprovalBudget",
+  "properties": {
+    "budget_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "daily_max_items": {
+      "type": "integer",
+      "default": 7
+    },
+    "critical_reserved_slots": {
+      "type": "integer",
+      "default": 2
+    },
+    "money_decision_slots": {
+      "type": "integer",
+      "default": 2
+    },
+    "content_slots": {
+      "type": "integer",
+      "default": 2
+    },
+    "admin_slots": {
+      "type": "integer",
+      "default": 1
+    },
+    "items_sent_today": {
+      "type": "integer",
+      "default": 0
+    },
+    "overflow_policy": {
+      "type": "string",
+      "enum": [
+        "hold_until_tomorrow",
+        "critical_only",
+        "batch_summary",
+        "manual_override"
+      ],
+      "default": "batch_summary"
+    },
+    "queue_health": {
+      "type": "string",
+      "enum": [
+        "clear",
+        "busy",
+        "overloaded",
+        "blocked"
+      ],
+      "default": "clear"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "budget_date"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

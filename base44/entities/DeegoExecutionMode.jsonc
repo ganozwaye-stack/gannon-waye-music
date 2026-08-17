@@ -1,0 +1,111 @@
+{
+  "type": "object",
+  "name": "DeegoExecutionMode",
+  "properties": {
+    "mode_key": {
+      "type": "string",
+      "enum": [
+        "execution",
+        "goal",
+        "daily_money_radar",
+        "interview_content",
+        "design_hub",
+        "gannons_mix_direct",
+        "sound_vault",
+        "music_growth",
+        "sonico",
+        "handoff_review"
+      ]
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "intent": {
+      "type": "string",
+      "maxLength": 1200
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "automation_level": {
+      "type": "string",
+      "enum": [
+        "manual_only",
+        "draft_only",
+        "auto_research",
+        "auto_prepare",
+        "approval_required"
+      ],
+      "default": "auto_prepare"
+    },
+    "requires_gannon_approval": {
+      "type": "boolean",
+      "default": true
+    },
+    "approval_reason": {
+      "type": "string"
+    },
+    "daily_limit": {
+      "type": "integer",
+      "default": 3
+    },
+    "allowed_outputs": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "blocked_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "owning_agent": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "ready",
+        "active",
+        "paused",
+        "blocked"
+      ],
+      "default": "ready"
+    },
+    "last_reviewed": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "mode_key",
+    "display_name",
+    "intent"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

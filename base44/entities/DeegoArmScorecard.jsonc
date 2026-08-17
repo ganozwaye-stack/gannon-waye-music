@@ -1,0 +1,104 @@
+{
+  "type": "object",
+  "name": "DeegoArmScorecard",
+  "properties": {
+    "business_arm": {
+      "type": "string",
+      "enum": [
+        "gannonwayemusic",
+        "sonico",
+        "sound_vault",
+        "gannons_mix_direct",
+        "coaching",
+        "partnerships",
+        "systems"
+      ]
+    },
+    "period_start": {
+      "type": "string",
+      "format": "date"
+    },
+    "period_end": {
+      "type": "string",
+      "format": "date"
+    },
+    "revenue": {
+      "type": "number",
+      "default": 0
+    },
+    "gross_profit": {
+      "type": "number",
+      "default": 0
+    },
+    "net_profit": {
+      "type": "number",
+      "default": 0
+    },
+    "hours_spent": {
+      "type": "number",
+      "default": 0
+    },
+    "return_per_hour": {
+      "type": "number",
+      "default": 0
+    },
+    "content_count": {
+      "type": "integer",
+      "default": 0
+    },
+    "leads_created": {
+      "type": "integer",
+      "default": 0
+    },
+    "sales_created": {
+      "type": "integer",
+      "default": 0
+    },
+    "best_action": {
+      "type": "string"
+    },
+    "stop_doing": {
+      "type": "string"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "medium"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000
+    }
+  },
+  "required": [
+    "business_arm",
+    "period_start",
+    "period_end"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

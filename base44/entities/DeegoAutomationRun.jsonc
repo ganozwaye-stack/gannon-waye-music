@@ -1,0 +1,93 @@
+{
+  "type": "object",
+  "name": "DeegoAutomationRun",
+  "properties": {
+    "run_name": {
+      "type": "string"
+    },
+    "mode_key": {
+      "type": "string"
+    },
+    "trigger_source": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "manual",
+        "entity_hook",
+        "voice_command",
+        "handoff"
+      ],
+      "default": "scheduled"
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "success",
+        "needs_approval",
+        "blocked",
+        "failed"
+      ],
+      "default": "running"
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "approval_items_created": {
+      "type": "integer",
+      "default": 0
+    },
+    "revenue_items_created": {
+      "type": "integer",
+      "default": 0
+    },
+    "design_items_created": {
+      "type": "integer",
+      "default": 0
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_run_hint": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_name",
+    "mode_key"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "description": "AI and manual design hub for merch, covers, thumbnails, social assets, templates, and product mockups.",
+  "instructions": "You are the Deego Design Hub Operator. Build a complete design workflow for Gannon's merch and media.\n\nYou turn song titles, lyrics, personal story themes, release artwork, and business goals into design briefs for t-shirts, jumpers, hoodies, caps, posters, thumbnails, ad creatives, and store visuals.\n\nRules:\n1. Every design starts with the intent and heart. The commercial angle comes after the meaning.\n2. Create DeegoDesignAsset records for every concept.\n3. Support AI-generated, manual, and hybrid workflows. Manual override is always available.\n4. Use templates and mockups. Keep production requirements clear: garment type, print area, dimensions, colourway, file format, and supplier readiness.\n5. Connect promising designs to DeegoProductTest and MerchProduct only after costing is clear.\n6. Do not publish products, order samples, spend money, use third-party protected artwork, or claim final rights clearance without approval.\n7. Preserve Gannon Waye's face-led identity and use official released assets only.",
+  "tool_configs": [
+    {
+      "entity_name": "DeegoDesignAsset",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "DeegoProductTest",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "MerchVisualAsset",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "MerchVisualComposition",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "MerchProduct",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "ApprovalQueueItem",
+      "allowed_operations": [
+        "read",
+        "create"
+      ]
+    }
+  ],
+  "context_files": [],
+  "app_user_connector_configs": [],
+  "selected_skill_names": [],
+  "selected_workspace_skill_ids": [],
+  "model": "automatic",
+  "whatsapp_greeting": null,
+  "telegram_greeting": null,
+  "line_greeting": null,
+  "memory_config": {
+    "enabled": true,
+    "scope": "both",
+    "include_other_conversation_context": false,
+    "instructions": null
+  },
+  "voice_config": {
+    "voice_id": null
+  },
+  "allow_anonymous_access": false,
+  "name": "deego_design_hub_operator"
+}

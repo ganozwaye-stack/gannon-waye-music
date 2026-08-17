@@ -1,0 +1,121 @@
+{
+  "type": "object",
+  "name": "DeegoCommandPacket",
+  "properties": {
+    "command_text": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "voice",
+        "chat",
+        "calendar",
+        "email",
+        "dashboard",
+        "scheduled_loop",
+        "handoff"
+      ],
+      "default": "chat"
+    },
+    "requested_mode": {
+      "type": "string"
+    },
+    "business_arm": {
+      "type": "string",
+      "enum": [
+        "gannonwayemusic",
+        "sonico",
+        "sound_vault",
+        "gannons_mix_direct",
+        "coaching",
+        "partnerships",
+        "systems",
+        "all"
+      ],
+      "default": "all"
+    },
+    "routed_agent": {
+      "type": "string"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "critical",
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "medium"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "routed",
+        "running",
+        "queued_for_approval",
+        "blocked",
+        "complete",
+        "cancelled"
+      ],
+      "default": "new"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "none",
+        "low",
+        "medium",
+        "high"
+      ],
+      "default": "low"
+    },
+    "approval_required": {
+      "type": "boolean",
+      "default": true
+    },
+    "approval_reason": {
+      "type": "string"
+    },
+    "next_action": {
+      "type": "string"
+    },
+    "evidence_links": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "result_summary": {
+      "type": "string",
+      "maxLength": 2000
+    }
+  },
+  "required": [
+    "command_text"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "type": "object",
+  "name": "DeegoContentInterview",
+  "properties": {
+    "interview_title": {
+      "type": "string"
+    },
+    "topic": {
+      "type": "string"
+    },
+    "intent_and_heart": {
+      "type": "string",
+      "maxLength": 1200
+    },
+    "content_pillar": {
+      "type": "string",
+      "enum": [
+        "awareness",
+        "music_story",
+        "survival",
+        "self_love",
+        "coaching_interest",
+        "merch_story",
+        "business_build",
+        "hope"
+      ],
+      "default": "awareness"
+    },
+    "question_set": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "raw_transcript": {
+      "type": "string",
+      "format": "richtext"
+    },
+    "approved_quotes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sensitive_material_flag": {
+      "type": "boolean",
+      "default": true
+    },
+    "dignity_gate_status": {
+      "type": "string",
+      "enum": [
+        "not_checked",
+        "pass",
+        "needs_review",
+        "blocked"
+      ],
+      "default": "not_checked"
+    },
+    "cta": {
+      "type": "string"
+    },
+    "seo_keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "derived_assets": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "needs_review",
+        "approved",
+        "blocked",
+        "published"
+      ],
+      "default": "draft"
+    }
+  },
+  "required": [
+    "interview_title",
+    "intent_and_heart"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "description": "GanozMix Direct Agent — Implements e-commerce automation including product discovery, supplier mapping, margin calculations, and shipping compliance checks.",
+  "description": "GanozMix Direct Agent \u2014 Implements e-commerce automation including product discovery, supplier mapping, margin calculations, and shipping compliance checks.",
   "instructions": "You are the GanozMix Direct Agent. Your primary role is to run the dropshipping and sourcing backend pipelines as defined in GanozMixDirectBlueprint.md. You must:\n1. Fetch winning product templates from suppliers (AliExpress / CJ Dropshipping) that meet margin targets.\n2. Auto-calculate retail prices using the Margin Calculator Formula.\n3. Monitor supplier inventory and shipping rates.\n4. Never place fulfillment orders, make supplier payments, or publish catalog listings directly.\n5. Queue all product drafts in the GanozMix Bridge Approval Queue for Gannon's manual confirmation.\n\nCRITICAL SAFETY RULE: You are an operations assistant. You have zero spending authority. All supplier fulfillment purchases and publishing tasks must remain manual or approved via token.",
   "tool_configs": [
     {
@@ -25,5 +25,23 @@
       ]
     }
   ],
+  "context_files": [],
+  "app_user_connector_configs": [],
+  "selected_skill_names": [],
+  "selected_workspace_skill_ids": [],
+  "model": "automatic",
+  "whatsapp_greeting": null,
+  "telegram_greeting": null,
+  "line_greeting": null,
+  "memory_config": {
+    "enabled": true,
+    "scope": "both",
+    "include_other_conversation_context": false,
+    "instructions": null
+  },
+  "voice_config": {
+    "voice_id": null
+  },
+  "allow_anonymous_access": false,
   "name": "ganozmix_direct"
 }

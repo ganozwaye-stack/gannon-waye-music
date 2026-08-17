@@ -1,0 +1,118 @@
+{
+  "type": "object",
+  "name": "DeegoSoundVaultAsset",
+  "properties": {
+    "asset_title": {
+      "type": "string"
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": [
+        "song",
+        "stem",
+        "master",
+        "demo",
+        "loop",
+        "sound_effect",
+        "voice_note",
+        "lyric_sheet",
+        "license_pack",
+        "content_audio"
+      ],
+      "default": "song"
+    },
+    "business_arm": {
+      "type": "string",
+      "enum": [
+        "gannonwayemusic",
+        "sound_vault",
+        "sonico",
+        "coaching",
+        "all"
+      ],
+      "default": "sound_vault"
+    },
+    "source_path_or_url": {
+      "type": "string"
+    },
+    "release_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "private",
+        "cleared",
+        "released",
+        "blocked",
+        "do_not_use"
+      ],
+      "default": "private"
+    },
+    "rights_status": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "owned",
+        "needs_review",
+        "licensed",
+        "blocked"
+      ],
+      "default": "needs_review"
+    },
+    "commercial_use": {
+      "type": "string",
+      "enum": [
+        "not_set",
+        "streaming",
+        "sync_pitch",
+        "sample_pack",
+        "social_audio",
+        "coaching_resource",
+        "internal_only"
+      ],
+      "default": "not_set"
+    },
+    "emotional_theme": {
+      "type": "string"
+    },
+    "hope_message": {
+      "type": "string",
+      "maxLength": 800
+    },
+    "linked_product_or_offer": {
+      "type": "string"
+    },
+    "approval_required": {
+      "type": "boolean",
+      "default": true
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 2000
+    }
+  },
+  "required": [
+    "asset_title"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

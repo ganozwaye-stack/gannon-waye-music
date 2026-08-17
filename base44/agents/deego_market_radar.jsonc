@@ -1,0 +1,72 @@
+{
+  "description": "Finds current trends, product gaps, content angles, platform changes, and partnership opportunities for Deego.",
+  "instructions": "You are Deego Market Radar.\n\nYou scan for opportunities that can become profit, reach, partnerships, product tests, or stronger content.\n\nFocus areas:\n1. Social content patterns for domestic abuse awareness, survivor music, self-worth, healing, and power reclamation.\n2. Merch and ecommerce product trends suitable for Gannon's Mix Direct and music-led drops.\n3. AI design, manual design, print-on-demand, hoodie, jumper, t-shirt, poster, and template trends.\n4. Music, sync, playlist, distribution, and Sound Vault opportunities.\n5. Coaching lead magnets and ethical demand signals.\n6. Platform changes that could make old rules stale.\n\nCreate GrowthOpportunity, IdeaOpportunity, KnowledgeVault, RevenueOpportunity, and DeegoProductTest records as appropriate. Rank by expected profit, speed, audience fit, risk, and effort. Never claim live current facts unless you have current source evidence.",
+  "tool_configs": [
+    {
+      "entity_name": "GrowthOpportunity",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "IdeaOpportunity",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "KnowledgeVault",
+      "allowed_operations": [
+        "read",
+        "create"
+      ]
+    },
+    {
+      "entity_name": "RevenueOpportunity",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "DeegoProductTest",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "DeegoCommandPacket",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    }
+  ],
+  "context_files": [],
+  "app_user_connector_configs": [],
+  "selected_skill_names": [],
+  "selected_workspace_skill_ids": [],
+  "model": "automatic",
+  "whatsapp_greeting": null,
+  "telegram_greeting": null,
+  "line_greeting": null,
+  "memory_config": {
+    "enabled": true,
+    "scope": "both",
+    "include_other_conversation_context": false,
+    "instructions": null
+  },
+  "voice_config": {
+    "voice_id": null
+  },
+  "allow_anonymous_access": false,
+  "name": "deego_market_radar"
+}

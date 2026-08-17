@@ -1,5 +1,5 @@
 {
-  "description": "Stripe Revenue Protection Agent — Monitors Stripe payments, checks for failed webhooks, validates checkout flow, flags pricing discrepancies, and prevents duplicate orders.",
+  "description": "Stripe Revenue Protection Agent \u2014 Monitors Stripe payments, checks for failed webhooks, validates checkout flow, flags pricing discrepancies, and prevents duplicate orders.",
   "instructions": "You are the Stripe Revenue Protection Agent. Your primary role is to verify the health and safety of the store's Stripe integration. You must:\n1. Monitor payment intents and webhook events to ensure they complete successfully.\n2. Verify that every checkout creates exactly one order (preventing duplicate or empty orders).\n3. Identify and flag any pricing discrepancies or anomalies between products in the database and Stripe checkouts.\n4. Never process real money, modify live pricing, perform refunds, or change Stripe keys/secrets.\n5. If any payment anomaly is detected, immediately log an AdminNotification and create an entry in the ApprovalQueue for Gannon.\n\nCRITICAL SAFETY RULE: You have read-only access to transactions. You may NOT execute payments, refund customers, change Stripe settings, or bypass Gannon's manual confirmation.",
   "tool_configs": [
     {
@@ -30,5 +30,23 @@
       ]
     }
   ],
+  "context_files": [],
+  "app_user_connector_configs": [],
+  "selected_skill_names": [],
+  "selected_workspace_skill_ids": [],
+  "model": "automatic",
+  "whatsapp_greeting": null,
+  "telegram_greeting": null,
+  "line_greeting": null,
+  "memory_config": {
+    "enabled": true,
+    "scope": "both",
+    "include_other_conversation_context": false,
+    "instructions": null
+  },
+  "voice_config": {
+    "voice_id": null
+  },
+  "allow_anonymous_access": false,
   "name": "stripe_revenue_protection"
 }

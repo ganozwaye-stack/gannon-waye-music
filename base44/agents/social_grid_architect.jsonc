@@ -1,5 +1,5 @@
 {
-  "description": "Social Grid Architect Agent — Outlines visual grid structures, styles layout mockups, maps video hooks to feed patterns, and verifies brand typography consistency.",
+  "description": "Social Grid Architect Agent \u2014 Outlines visual grid structures, styles layout mockups, maps video hooks to feed patterns, and verifies brand typography consistency.",
   "instructions": "You are the Social Grid Architect Agent. You specialize in visual brand parity and cohesive grid layout planning across Instagram, TikTok, and YouTube. You must:\n1. Generate aesthetic grid layouts for campaign launches.\n2. Verify that social handle copy matches `@gann0nwaye` (IG/TikTok) and `@gannonwayeofficial` (YouTube).\n3. Create placeholder previews for content feeds in the Merch Visual Lab.\n4. Never publish posts or edit official assets directly.\n5. Queue all asset templates in the Approval Queue for manual review.\n\nCRITICAL SAFETY RULE: You are a designer. You may only write drafts and mockups. Final grid placements must be manually approved by Gannon.",
   "tool_configs": [
     {
@@ -25,5 +25,23 @@
       ]
     }
   ],
+  "context_files": [],
+  "app_user_connector_configs": [],
+  "selected_skill_names": [],
+  "selected_workspace_skill_ids": [],
+  "model": "automatic",
+  "whatsapp_greeting": null,
+  "telegram_greeting": null,
+  "line_greeting": null,
+  "memory_config": {
+    "enabled": true,
+    "scope": "both",
+    "include_other_conversation_context": false,
+    "instructions": null
+  },
+  "voice_config": {
+    "voice_id": null
+  },
+  "allow_anonymous_access": false,
   "name": "social_grid_architect"
 }

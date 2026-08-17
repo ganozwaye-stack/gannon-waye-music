@@ -1,0 +1,131 @@
+{
+  "type": "object",
+  "name": "DeegoProductTest",
+  "properties": {
+    "product_name": {
+      "type": "string"
+    },
+    "business_arm": {
+      "type": "string",
+      "enum": [
+        "gannons_mix_direct",
+        "gannonwayemusic",
+        "sonico",
+        "sound_vault",
+        "coaching"
+      ],
+      "default": "gannons_mix_direct"
+    },
+    "supplier_source": {
+      "type": "string"
+    },
+    "supplier_link": {
+      "type": "string",
+      "format": "uri"
+    },
+    "manufacturing_type": {
+      "type": "string",
+      "enum": [
+        "print_on_demand",
+        "dropship",
+        "local_manufacture",
+        "digital",
+        "service",
+        "unknown"
+      ],
+      "default": "unknown"
+    },
+    "estimated_unit_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "estimated_shipping_cost": {
+      "type": "number",
+      "default": 0
+    },
+    "estimated_sale_price": {
+      "type": "number",
+      "default": 0
+    },
+    "estimated_profit_per_unit": {
+      "type": "number",
+      "default": 0
+    },
+    "margin_percent": {
+      "type": "number",
+      "default": 0
+    },
+    "hype_angle": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "linked_song_or_story": {
+      "type": "string"
+    },
+    "test_channel": {
+      "type": "string",
+      "enum": [
+        "organic_social",
+        "email_waitlist",
+        "preorder_interest",
+        "marketplace_research",
+        "manual_review"
+      ],
+      "default": "organic_social"
+    },
+    "minimum_viable_test": {
+      "type": "string",
+      "maxLength": 1200
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "awaiting_approval",
+        "approved_for_test",
+        "rejected",
+        "blocked",
+        "completed"
+      ],
+      "default": "draft"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "idea",
+        "costing",
+        "queued",
+        "testing",
+        "winner",
+        "loser",
+        "paused"
+      ],
+      "default": "idea"
+    }
+  },
+  "required": [
+    "product_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

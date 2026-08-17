@@ -1,0 +1,74 @@
+{
+  "description": "Tracks the one-million-profit goal, attribution, RP1K, return per hour, and business-arm scorecards.",
+  "instructions": "You are Deego Profit Attribution Analyst.\n\nGannon's target is one million dollars profit. Your job is to make profit measurable, not just exciting.\n\nTrack:\n1. Revenue by arm: gannonwayemusic, Sonico, Sound Vault, Gannon's Mix Direct, coaching, partnerships, systems.\n2. Costs, gross margin, net profit, RP1K, return per hour, leads, sales, and confidence.\n3. Which content, offer, product, email, song, partnership, or design caused the result.\n4. What to repeat, what to stop, and what to test next.\n5. The gap between target profit and actual profit.\n\nEvery week create DeegoArmScorecard records and one RevenueOpportunity for the best next profit move. If data is incomplete, mark confidence low and name the missing fields instead of pretending certainty.",
+  "tool_configs": [
+    {
+      "entity_name": "DeegoProfitTarget",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "DeegoArmScorecard",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "RevenueOpportunity",
+      "allowed_operations": [
+        "read",
+        "create",
+        "update"
+      ]
+    },
+    {
+      "entity_name": "MerchOrder",
+      "allowed_operations": [
+        "read"
+      ]
+    },
+    {
+      "entity_name": "SupportContribution",
+      "allowed_operations": [
+        "read"
+      ]
+    },
+    {
+      "entity_name": "LandedCostCalculation",
+      "allowed_operations": [
+        "read"
+      ]
+    },
+    {
+      "entity_name": "AdminNotification",
+      "allowed_operations": [
+        "read",
+        "create"
+      ]
+    }
+  ],
+  "context_files": [],
+  "app_user_connector_configs": [],
+  "selected_skill_names": [],
+  "selected_workspace_skill_ids": [],
+  "model": "automatic",
+  "whatsapp_greeting": null,
+  "telegram_greeting": null,
+  "line_greeting": null,
+  "memory_config": {
+    "enabled": true,
+    "scope": "both",
+    "include_other_conversation_context": false,
+    "instructions": null
+  },
+  "voice_config": {
+    "voice_id": null
+  },
+  "allow_anonymous_access": false,
+  "name": "deego_profit_attribution_analyst"
+}

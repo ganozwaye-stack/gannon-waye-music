@@ -1,0 +1,112 @@
+{
+  "type": "object",
+  "name": "DeegoDesignAsset",
+  "properties": {
+    "asset_name": {
+      "type": "string"
+    },
+    "asset_type": {
+      "type": "string",
+      "enum": [
+        "tshirt",
+        "jumper",
+        "hoodie",
+        "cap",
+        "poster",
+        "cover",
+        "thumbnail",
+        "social_tile",
+        "ad_creative",
+        "template",
+        "other"
+      ],
+      "default": "template"
+    },
+    "creation_mode": {
+      "type": "string",
+      "enum": [
+        "ai_generated",
+        "manual_design",
+        "hybrid",
+        "template_only"
+      ],
+      "default": "hybrid"
+    },
+    "linked_song_title": {
+      "type": "string"
+    },
+    "linked_lyric": {
+      "type": "string",
+      "maxLength": 500
+    },
+    "story_source": {
+      "type": "string"
+    },
+    "template_size": {
+      "type": "string"
+    },
+    "mockup_required": {
+      "type": "boolean",
+      "default": true
+    },
+    "manual_override_notes": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "file_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "canva_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "needs_review",
+        "approved",
+        "rejected",
+        "archived"
+      ],
+      "default": "draft"
+    },
+    "commercial_readiness": {
+      "type": "string",
+      "enum": [
+        "idea",
+        "mockup_ready",
+        "supplier_ready",
+        "store_ready",
+        "live"
+      ],
+      "default": "idea"
+    }
+  },
+  "required": [
+    "asset_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

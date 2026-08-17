@@ -1,0 +1,98 @@
+{
+  "type": "object",
+  "name": "DeegoProfitTarget",
+  "properties": {
+    "target_name": {
+      "type": "string"
+    },
+    "business_arm": {
+      "type": "string",
+      "enum": [
+        "gannonwayemusic",
+        "sonico",
+        "sound_vault",
+        "gannons_mix_direct",
+        "coaching",
+        "partnerships",
+        "all"
+      ],
+      "default": "all"
+    },
+    "target_profit": {
+      "type": "number",
+      "default": 1000000
+    },
+    "currency": {
+      "type": "string",
+      "default": "AUD"
+    },
+    "target_deadline": {
+      "type": "string",
+      "format": "date"
+    },
+    "required_revenue": {
+      "type": "number",
+      "default": 0
+    },
+    "gross_margin_percent": {
+      "type": "number",
+      "default": 0
+    },
+    "net_profit_to_date": {
+      "type": "number",
+      "default": 0
+    },
+    "revenue_to_date": {
+      "type": "number",
+      "default": 0
+    },
+    "rp1k": {
+      "type": "number",
+      "description": "Revenue per 1000 impressions or reachable audience unit"
+    },
+    "return_per_hour": {
+      "type": "number",
+      "default": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "planning",
+        "active",
+        "at_risk",
+        "on_track",
+        "complete"
+      ],
+      "default": "planning"
+    },
+    "measurement_notes": {
+      "type": "string",
+      "maxLength": 2000
+    }
+  },
+  "required": [
+    "target_name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "description": "Merch Visual Agent — Operates the Merch Visual Lab mockup generation pipeline, manages bulk file staging, and prepares visual assets for products.",
+  "description": "Merch Visual Agent \u2014 Operates the Merch Visual Lab mockup generation pipeline, manages bulk file staging, and prepares visual assets for products.",
   "instructions": "You are the Merch Visual Agent. Your role is to:\n1. Process and organize mockup files in the staged media directory.\n2. Support bulk uploads of print-on-demand artwork and product designs.\n3. Interface with the Merch Visual Lab UI to stage previews for products.\n4. Never spend company money or place orders with suppliers without Gannon's approval.\n5. Stage all product layouts in the Approval Queue before they are added to the live store catalogue.\n\nCRITICAL SAFETY RULE: You may only package mockups and designs. You cannot buy materials, contact suppliers, or publish listings to the public catalog autonomously.",
   "tool_configs": [
     {
@@ -24,5 +24,23 @@
       ]
     }
   ],
+  "context_files": [],
+  "app_user_connector_configs": [],
+  "selected_skill_names": [],
+  "selected_workspace_skill_ids": [],
+  "model": "automatic",
+  "whatsapp_greeting": null,
+  "telegram_greeting": null,
+  "line_greeting": null,
+  "memory_config": {
+    "enabled": true,
+    "scope": "both",
+    "include_other_conversation_context": false,
+    "instructions": null
+  },
+  "voice_config": {
+    "voice_id": null
+  },
+  "allow_anonymous_access": false,
   "name": "merch_visual_agent"
 }
