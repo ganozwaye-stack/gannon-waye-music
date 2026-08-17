@@ -14,7 +14,8 @@ const WORKBOOKS = [
     hook: 'Stop apologising for existing. Start building from your actual worth.',
     for: 'People who question whether they are allowed to have needs, feelings, or opinions.',
     inside: ['Where your self worth narrative came from', 'The "enough" lie audit', 'Daily self respect practice', 'One decision to make differently this week'],
-    is_free: true,
+    is_free: false,
+    price: 'Coming Soon',
     emoji: '🌱',
   },
   {
@@ -42,7 +43,8 @@ const WORKBOOKS = [
     hook: 'Thank you for teaching me who I am not anymore.',
     for: 'People ready to turn pain into power — and find meaning in what the hard chapter taught them.',
     inside: ['The "what it cost me" honest inventory', 'What I learned that I could not have learned any other way', 'Writing your Thankyou letter (you do not have to send it)', 'What I am choosing instead'],
-    is_free: true,
+    is_free: false,
+    price: 'Coming Soon',
     emoji: '💌',
   },
   {

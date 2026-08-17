@@ -149,7 +149,7 @@ export default function PressKit() {
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {pressPhotos.map(photo => (
                   <div key={photo.id} className="group relative rounded-lg overflow-hidden border border-border/40 bg-secondary/20">
-                    <img src={photo.image_url} alt={photo.title} className="w-full aspect-square object-cover" />
+                    <img src={photo.image_url} alt={photo.title} className="w-full aspect-square object-cover object-[right_top]" />
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-3">
                       <p className="font-body text-xs text-white font-medium mb-1 truncate">{photo.title}</p>
                       {photo.photographer_credit && <p className="font-body text-[10px] text-white/60 mb-2">© {photo.photographer_credit}</p>}
