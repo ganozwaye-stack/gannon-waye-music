@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
-import { Plus, Pencil, Trash2, Upload, Music, Crown } from 'lucide-react';
+import { Plus, Pencil, Trash2, Upload, Music, Crown, Rocket } from 'lucide-react';
 
 const STATUSES = ['idea', 'writing', 'pre_production', 'recording', 'mixing', 'mastering', 'ready', 'released'];
 const TYPES = ['single', 'ep', 'album'];
@@ -60,6 +60,23 @@ export default function Releases() {
       queryClient.invalidateQueries({ queryKey: ['releases'] });
       toast({ title: 'Promoted to current single — now live on Home' });
     },
+  });
+
+  // One-click standardized publish: hero + song page + merch drop + bundle + VIP + Too Lost task.
+  const publishSingleMutation = useMutation({
+    mutationFn: (id) => base44.functions.invoke('publishSingleWorkflow', { release_id: id }),
+    onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: ['releases'] });
+      queryClient.invalidateQueries({ queryKey: ['merch'] });
+      const d = res?.data || {};
+      toast({
+        title: 'Single published',
+        description: `Live on Home hero. ${d.merch_proposals?.length || 0} merch drafts + VIP ${d.vip_code || ''}. ${
+          d.distribution === 'manual_task' ? 'Too Lost: manual task logged.' : 'Too Lost: token detected.'
+        }`
+      });
+    },
+    onError: (e) => toast({ title: 'Publish failed', description: e?.message || 'Unknown error', variant: 'destructive' }),
   });
 
   const deleteMutation = useMutation({
@@ -120,6 +137,7 @@ export default function Releases() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
+                <Button size="icon" variant="ghost" title="Publish single (hero + merch drop + Too Lost task)" disabled={publishSingleMutation.isPending} onClick={() => publishSingleMutation.mutate(release.id)}><Rocket className={`w-4 h-4 ${release.is_current_single ? 'text-primary' : 'text-muted-foreground'}`} /></Button>
                 <Button size="icon" variant="ghost" title="Set as current single (Home hero)" onClick={() => promoteMutation.mutate(release.id)}><Crown className={`w-4 h-4 ${release.is_current_single ? 'text-primary' : 'text-muted-foreground'}`} /></Button>
                 <Button size="icon" variant="ghost" onClick={() => openEdit(release)}><Pencil className="w-4 h-4" /></Button>
                 <Button size="icon" variant="ghost" onClick={() => deleteMutation.mutate(release.id)}><Trash2 className="w-4 h-4 text-destructive" /></Button>

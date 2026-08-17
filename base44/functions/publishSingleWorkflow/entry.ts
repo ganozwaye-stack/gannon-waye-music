@@ -1,5 +1,4 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
-import { secrets, waitUntil } from 'base44:runtime';
 import { computeMargin } from '../../shared/marginMath.ts';
 
 // Standardized "Publish Single" workflow.
@@ -123,24 +122,19 @@ export default async function(req) {
       is_active: true
     });
 
-    // 6. Too Lost distribution task
-    const tooLostToken = secrets.get('TOO_LOST_API_TOKEN');
-    const distroStatus = tooLostToken ? 'token_present_push_pending' : 'manual_task';
+    // 6. Too Lost distribution task (manual until Codex wires the API push — see docs/CODEX_HANDOFF_TOOLOST_ICLOUD.md)
+    const distroStatus = 'manual_task';
     await sr.entities.AdminNotification.create({
       notification_type: 'approval',
       severity: 'high',
       title: `Too Lost distribution — ${release.title}`,
-      summary: tooLostToken
-        ? `Single "${release.title}" published. Too Lost token detected, automate the push next.`
-        : `Single "${release.title}" published. No Too Lost API token set, submit manually via the distributor portal.`,
+      summary: `Single "${release.title}" published. Submit to Too Lost via the distributor portal (API push not yet wired).`,
       source: 'publishSingleWorkflow',
       requires_action: true,
       linked_entity: 'Release',
       linked_id: releaseId,
       linked_route: `/release/${releaseId}`
     });
-
-    // 7. Best-effort: nothing else to wait on here (fan emails fire via existing automation).
 
     return Response.json({
       ok: true,
