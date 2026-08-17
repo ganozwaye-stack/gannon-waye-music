@@ -12,7 +12,7 @@ export default function PublicLayout() {
   return (
     <div className="min-h-screen flex flex-col pb-14">
       <Navbar />
-      <main className="flex-1 pt-16">
+      <main className="flex-1 pt-16 overflow-x-hidden">
         <AnimatePresence mode="wait">
           <Outlet key={pathname} />
         </AnimatePresence>

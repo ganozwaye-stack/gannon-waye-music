@@ -1,0 +1,4 @@
+{
+  "name": "postReleaseToSocial",
+  "entry": "entry.ts"
+}

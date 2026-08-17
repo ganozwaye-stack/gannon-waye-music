@@ -87,9 +87,9 @@ export default function FanDashboard() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-          <StatCard icon={<Package className="w-5 h-5" />} label="Orders" value={orders.length} />
-          <StatCard icon={<Heart className="w-5 h-5" />} label="Saved Lyrics" value={savedLyrics.length} />
-          <StatCard icon={<MessageCircle className="w-5 h-5" />} label="Wall Posts" value={myPosts.length} />
+          <StatCard to="/orders" icon={<Package className="w-5 h-5" />} label="Orders" value={orders.length} />
+          <StatCard to="/lyrics" icon={<Heart className="w-5 h-5" />} label="Saved Lyrics" value={savedLyrics.length} />
+          <StatCard to="/community" icon={<MessageCircle className="w-5 h-5" />} label="Wall Posts" value={myPosts.length} />
         </div>
 
         {/* Orders */}
@@ -167,15 +167,15 @@ export default function FanDashboard() {
   );
 }
 
-function StatCard({ icon, label, value }) {
+function StatCard({ icon, label, value, to }) {
   return (
-    <div className="bg-card border border-border/40 rounded-2xl p-5 flex items-center gap-3">
+    <Link to={to} className="bg-card border border-border/40 rounded-2xl p-5 flex items-center gap-3 hover:border-primary/40 hover:bg-primary/5 transition-colors">
       <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary">{icon}</div>
       <div>
         <p className="font-body text-[10px] tracking-widest uppercase text-muted-foreground">{label}</p>
         <p className="font-display text-2xl text-foreground">{value}</p>
       </div>
-    </div>
+    </Link>
   );
 }
 

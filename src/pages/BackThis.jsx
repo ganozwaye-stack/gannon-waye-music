@@ -379,13 +379,8 @@ export default function BackThis() {
               <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.07), transparent 45%)' }} />
             </div>
 
-            <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-6 pt-20 pb-20">
-              <div className="flex items-center justify-between mb-14">
-                <Link to="/" aria-label="Gannon Waye · Home" className="flex items-center gap-2.5 hover:opacity-90 transition-all duration-200">
-                  <div className="w-14 h-14 rounded-full border border-primary/60 flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
-                    <span className="font-display text-base gradient-gold-text font-semibold tracking-wider">GW</span>
-                  </div>
-                </Link>
+            <div className="relative z-10 max-w-6xl mx-auto px-4 md:px-6 pt-6 md:pt-10 pb-20">
+              <div className="flex justify-end mb-6">
                 <Link to="/support/domestic-violence" className="font-body text-[10px] text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors">
                   Support Resources
                 </Link>
@@ -438,39 +433,13 @@ export default function BackThis() {
             </div>
           </section>
 
-          {/* BOTTOM — what your support does + heart + 10% promise */}
-          <section className="max-w-6xl mx-auto px-4 md:px-6 pb-14">
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-card border border-border/40 rounded-2xl p-6 space-y-2 md:col-span-2">
-                <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow mb-3">What your support does</p>
-                {['Helps fund future releases', 'Supports independent music creation', 'Builds a safe space for others going through similar experiences', 'Keeps this movement growing'].map(item => (
-                  <div key={item} className="flex items-center gap-2">
-                    <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
-                    <p className="font-body text-sm text-foreground/70">{item}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="flex flex-col items-center justify-center gap-4">
-                <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/adcdec40c_GWheartlacewrap.png" alt="GW Heart" className="w-28 h-28 object-contain" />
-                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-left w-full">
-                  <p className="font-body text-xs text-foreground/70 leading-relaxed mb-2">
-                    <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children, including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
-                  </p>
-                  <p className="font-body text-[10px] text-primary/70 font-medium">
-                    ⚠️ Not tax-deductible. Support contribution only. See terms for details.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Steps — narrow centered column */}
-          <div className="max-w-2xl mx-auto px-4 md:px-6">
+          {/* Steps — full width, cohesive with page */}
+          <div className="max-w-6xl mx-auto px-4 md:px-6">
             {/* STEP 1 — CHOOSE AMOUNT + FREQUENCY */}
             {step === 'choose' && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                {/* Frequency */}
-                <div className="mb-6">
+                {/* Frequency — centered */}
+                <div className="max-w-md mx-auto mb-10 text-center">
                   <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">How often?</p>
                   <div className="grid grid-cols-3 gap-3">
                     {FREQUENCIES.map(f => (
@@ -489,17 +458,17 @@ export default function BackThis() {
                   </div>
                 </div>
 
-                {/* Tier cards */}
-                <div className="mb-4">
-                  <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Choose an amount</p>
-                  <div className="space-y-3">
+                {/* Tier cards — full width, two columns ($5 / $10 side by side) */}
+                <div className="mb-6">
+                  <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-4 text-center">Choose an amount</p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-stretch">
                     {TIERS.map(tier => {
                       const p = calcTotal(tier.amount);
                       return (
                         <button
                           key={tier.amount}
                           onClick={() => setSelectedTier(tier.amount)}
-                          className={`w-full text-left p-5 rounded-2xl border transition-all ${
+                          className={`w-full text-left p-5 rounded-2xl border transition-all flex flex-col ${
                             selectedTier === tier.amount
                               ? 'border-primary bg-primary/10'
                               : 'border-border/40 bg-card hover:border-primary/30'
@@ -509,19 +478,19 @@ export default function BackThis() {
                             <div>
                               <p className="font-display text-xl text-foreground">${tier.amount} AUD{frequencyNote}</p>
                               <p className="font-body text-xs gradient-gold-glow mt-0.5">{tier.label}</p>
-                              <p className="font-body text-xs text-muted-foreground mt-1">{tier.desc}</p>
                             </div>
                             <div className={`w-5 h-5 rounded-full border-2 flex-shrink-0 ml-4 ${selectedTier === tier.amount ? 'border-primary bg-primary' : 'border-border/50'}`} />
                           </div>
-                          <p className="font-body text-[11px] text-muted-foreground/60 mt-2">Total charged: ${p.total.toFixed(2)} (incl. GST + service fee)</p>
+                          <p className="font-body text-xs text-muted-foreground mt-2">{tier.desc}</p>
+                          <p className="font-body text-[11px] text-muted-foreground/60 mt-auto pt-3">Total charged: ${p.total.toFixed(2)} (incl. GST + service fee)</p>
                         </button>
                       );
                     })}
 
-                    {/* Custom amount */}
+                    {/* Custom amount — spans full width */}
                     <button
                       onClick={() => setSelectedTier('custom')}
-                      className={`w-full text-left p-5 rounded-2xl border transition-all ${
+                      className={`w-full text-left p-5 rounded-2xl border transition-all md:col-span-2 ${
                         selectedTier === 'custom'
                           ? 'border-primary bg-primary/10'
                           : 'border-border/40 bg-card hover:border-primary/30'
@@ -562,8 +531,11 @@ export default function BackThis() {
                   </div>
                 </div>
 
+                {/* Action area — centered */}
+                <div className="max-w-xl mx-auto">
+
                 {/* Fee note */}
-                <div className="flex items-start gap-2 mb-6 bg-secondary/30 rounded-xl p-3">
+                <div className="flex items-start gap-2 mb-4 bg-secondary/30 rounded-xl p-3">
                   <Info className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-0.5" />
                   <p className="font-body text-xs text-muted-foreground leading-relaxed">
                     All amounts shown in AUD. A 10% GST and 5% service & processing fee applies to all contributions. The fee breakdown is shown on each option above.
@@ -581,6 +553,7 @@ export default function BackThis() {
                 <Button onClick={handleChooseNext} className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-5">
                   <Heart className="w-4 h-4 mr-2" /> Continue
                 </Button>
+                </div>
               </motion.div>
             )}
 
@@ -720,6 +693,32 @@ export default function BackThis() {
               </motion.div>
             )}
           </div>
+
+          {/* BOTTOM — what your support does + heart + 10% promise */}
+          <section className="max-w-6xl mx-auto px-4 md:px-6 pb-20">
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-card border border-border/40 rounded-2xl p-6 space-y-2 md:col-span-2">
+                <p className="font-body text-xs tracking-widest uppercase gradient-gold-glow mb-3">What your support does</p>
+                {['Helps fund future releases', 'Supports independent music creation', 'Builds a safe space for others going through similar experiences', 'Keeps this movement growing'].map(item => (
+                  <div key={item} className="flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-primary flex-shrink-0" />
+                    <p className="font-body text-sm text-foreground/70">{item}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex flex-col items-center justify-center gap-4">
+                <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/adcdec40c_GWheartlacewrap.png" alt="GW Heart" className="w-28 h-28 object-contain" />
+                <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-left w-full">
+                  <p className="font-body text-xs text-foreground/70 leading-relaxed mb-2">
+                    <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children, including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
+                  </p>
+                  <p className="font-body text-[10px] text-primary/70 font-medium">
+                    ⚠️ Not tax-deductible. Support contribution only. See terms for details.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
         </>
       )}
     </div>
