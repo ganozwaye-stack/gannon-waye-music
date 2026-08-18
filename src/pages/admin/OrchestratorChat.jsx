@@ -10,6 +10,7 @@ import ReactMarkdown from 'react-markdown';
 
 const AGENTS = [
   { name: 'orchestrator', label: 'Master Orchestrator', icon: Zap, color: 'text-violet-400', bg: 'bg-violet-500/10', desc: 'Routes tasks · Knows your brand & goals · Enforces Do-Not-Spend rule' },
+  { name: 'deego_master_ai', label: 'Deego', icon: Brain, color: 'text-emerald-400', bg: 'bg-emerald-500/10', desc: 'Execution modes · Money radar · Content, design and Sound Vault' },
   { name: 'literature_researcher', label: 'Literature Researcher', icon: BookOpen, color: 'text-cyan-400', bg: 'bg-cyan-500/10', desc: 'PhD-level research · Peer-reviewed literature · Finds gaps & themes' },
   { name: 'academic_writing_coach', label: 'Academic Writing Coach', icon: Brain, color: 'text-pink-400', bg: 'bg-pink-500/10', desc: 'HD-level writing coach · Argument structure · APA 7th · Your voice' },
 ];
@@ -20,7 +21,7 @@ export default function OrchestratorChat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
-  const [selectedAgent, setSelectedAgent] = useState('orchestrator');
+  const [selectedAgent, setSelectedAgent] = useState('deego_master_ai');
   const bottomRef = useRef(null);
   const activeConvRef = useRef(null);
 
@@ -86,6 +87,7 @@ export default function OrchestratorChat() {
 
   const PROMPTS = {
     orchestrator: ['What should I focus on today?', 'Draft a social post about Thank You', 'Check for financial risks', 'What agents are inactive and why?'],
+    deego_master_ai: ['Start /execution mode for my top money move', 'Run daily_money_radar', 'Interview me for awareness content', "Build a Gannon's Mix Direct product test pack"],
     literature_researcher: ['I need peer-reviewed research on [your topic]', 'What are the key themes in [field]?', 'Identify gaps in the literature on [topic]', 'How do these studies link together?'],
     academic_writing_coach: ['Help me structure my literature review', 'How do I write a strong topic sentence?', 'Review my paragraph for depth', 'Help me link these articles together in my writing'],
   };
