@@ -181,7 +181,7 @@ export default function AdminLayout() {
   }));
 
   return (
-    <div className="min-h-screen flex">
+    <div className="h-screen flex overflow-hidden">
       {/* Desktop Sidebar */}
       <aside className="w-60 bg-card border-r border-border/40 flex flex-col fixed inset-y-0 left-0 z-40 hidden lg:flex overflow-y-auto">
         <div className="p-5 border-b border-border/40 flex-shrink-0">
@@ -280,8 +280,8 @@ export default function AdminLayout() {
       </div>
 
       {/* Main content */}
-      <main className="flex-1 lg:ml-60 pt-16 lg:pt-0 overflow-y-auto">
-        <div className="min-h-screen p-5 lg:p-7">
+      <main className="flex-1 lg:ml-60 pt-16 lg:pt-0 overflow-y-auto h-full">
+        <div className="min-h-full p-5 lg:p-7">
           {/* Top bar */}
           <div className="mb-5 flex items-center justify-between flex-wrap gap-3">
             <div className="flex items-center gap-2 text-xs">
