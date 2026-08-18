@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Sparkles, Bot } from 'lucide-react';
+import { Sparkles, Bot, MessageSquare } from 'lucide-react';
 
 import DeegoTodoList from '@/components/admin/dashboard/DeegoTodoList';
 import DeegoRecommendations from '@/components/admin/dashboard/DeegoRecommendations';
@@ -49,6 +50,13 @@ export default function DailyDashboard() {
               {blocked.length} blocked
             </span>
           </div>
+          <Link
+            to="/admin/orchestrator-chat"
+            className="inline-flex items-center gap-2 mt-4 rounded-lg bg-primary px-4 py-2 font-body text-xs font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+          >
+            <MessageSquare className="w-4 h-4" />
+            Talk to Deego
+          </Link>
         </div>
       </div>
 
