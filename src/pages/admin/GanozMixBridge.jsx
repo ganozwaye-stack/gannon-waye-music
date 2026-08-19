@@ -28,6 +28,7 @@ const MONEY_ACTIONS = [
 
 export default function GanozMixBridge() {
   const [iframeKey, setIframeKey] = useState(0);
+  const [showLiveView, setShowLiveView] = useState(false);
   const [allowed, setAllowed] = useState(false);
   const [checking, setChecking] = useState(true);
 
@@ -38,26 +39,26 @@ export default function GanozMixBridge() {
     }).catch(() => setChecking(false));
   }, []);
 
-  if (checking) return <div className="flex items-center justify-center py-24 text-muted-foreground text-sm">Checking access...</div>;
+  if (checking) return <div className="flex items-center justify-center rounded-xl border border-zinc-800 bg-[#050607] py-24 text-zinc-400 text-sm">Checking access...</div>;
 
   if (!allowed) return (
-    <div className="flex flex-col items-center justify-center py-32 gap-4 text-center">
-      <Lock className="w-10 h-10 text-muted-foreground" />
-      <h2 className="font-display text-xl text-foreground">Access Restricted</h2>
-      <p className="text-muted-foreground text-sm max-w-sm">This section is only available to the site owner.</p>
+    <div className="flex flex-col items-center justify-center rounded-xl border border-zinc-800 bg-[#050607] py-32 gap-4 text-center">
+      <Lock className="w-10 h-10 text-zinc-500" />
+      <h2 className="font-display text-xl text-zinc-100">Access Restricted</h2>
+      <p className="text-zinc-400 text-sm max-w-sm">This page is owner-only. If you see this while signed in, the active Base44 session is not recognised as the owner account or the session has expired.</p>
     </div>
   );
 
   return (
-    <div className="space-y-6">
+    <div className="min-h-screen space-y-6 rounded-xl border border-zinc-800 bg-[#050607] p-4 text-zinc-100 shadow-inner shadow-black/30 md:p-6">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-2xl font-display font-bold gradient-gold-text">GanozMix Direct</h1>
-          <p className="text-muted-foreground text-sm mt-1">Your dropship money machine — AI ecommerce operating system</p>
+          <p className="text-zinc-400 text-sm mt-1">Dark command bridge for sourced, scored and approval-controlled ecommerce work</p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge className="bg-green-500/10 text-green-400 border-green-500/20">eBay Connected</Badge>
+          <Badge className="bg-emerald-500/10 text-emerald-300 border-emerald-500/20">Owner Controls</Badge>
           <Button
             onClick={() => window.open('https://ganozmixdirect.base44.app', '_blank')}
             className="gradient-gold-button gap-2"
@@ -68,9 +69,9 @@ export default function GanozMixBridge() {
         </div>
       </div>
 
-      {/* Money Actions — primary CTAs */}
+      {/* Money Actions - primary CTAs */}
       <div>
-        <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3">💸 Make Money Now</p>
+        <p className="text-xs uppercase tracking-widest text-zinc-500 mb-3">Make Money Now</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
           {MONEY_ACTIONS.map(action => (
             <a
@@ -78,18 +79,42 @@ export default function GanozMixBridge() {
               href={action.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col gap-1 p-4 rounded-xl border border-border/40 bg-card hover:border-primary/40 hover:bg-secondary/30 transition-all group cursor-pointer"
+              className="flex flex-col gap-1 rounded-lg border border-zinc-800 bg-zinc-950/90 p-4 transition-all hover:border-amber-400/40 hover:bg-zinc-900 group cursor-pointer"
             >
-              <span className="font-semibold text-sm text-foreground group-hover:text-primary transition-colors">{action.label}</span>
-              <span className="text-xs text-muted-foreground">{action.desc}</span>
+              <span className="font-semibold text-sm text-zinc-100 group-hover:text-amber-300 transition-colors">{action.label}</span>
+              <span className="text-xs text-zinc-500">{action.desc}</span>
             </a>
           ))}
         </div>
       </div>
 
+      <div className="rounded-lg border border-zinc-800 bg-zinc-950/80 p-4">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-zinc-500">Sourcing Rules</p>
+            <h2 className="mt-1 text-base font-semibold text-zinc-100">No fake winners</h2>
+          </div>
+          <Badge className="border-cyan-500/20 bg-cyan-500/10 text-cyan-300">Evidence first</Badge>
+        </div>
+        <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+          <div className="rounded-lg border border-zinc-800 bg-black/30 p-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Demand</p>
+            <p className="mt-1 text-xs text-zinc-500">Google Trends, TikTok Creative Center, eBay sold data and marketplace category signals.</p>
+          </div>
+          <div className="rounded-lg border border-zinc-800 bg-black/30 p-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Supply</p>
+            <p className="mt-1 text-xs text-zinc-500">Supplier reliability, shipping time, landed cost, return risk, restricted-product risk and review evidence.</p>
+          </div>
+          <div className="rounded-lg border border-zinc-800 bg-black/30 p-3">
+            <p className="text-xs font-semibold uppercase tracking-wider text-zinc-400">Profit</p>
+            <p className="mt-1 text-xs text-zinc-500">Sale price, fees, freight, ad allowance, projected profit per unit and approval status before listing.</p>
+          </div>
+        </div>
+      </div>
+
       {/* Quick Nav Links */}
       <div>
-        <p className="text-xs uppercase tracking-widest text-muted-foreground mb-3">⚡ Quick Navigation</p>
+        <p className="text-xs uppercase tracking-widest text-zinc-500 mb-3">Quick Navigation</p>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {QUICK_LINKS.map(link => {
             const Icon = link.icon;
@@ -99,10 +124,10 @@ export default function GanozMixBridge() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-border/40 bg-card hover:border-primary/30 hover:bg-secondary/30 transition-all"
+                className="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950/90 px-3 py-2.5 transition-all hover:border-amber-400/30 hover:bg-zinc-900"
               >
                 <Icon className={`w-4 h-4 ${link.color}`} />
-                <span className="text-xs font-medium text-foreground">{link.label}</span>
+                <span className="text-xs font-medium text-zinc-100">{link.label}</span>
               </a>
             );
           })}
@@ -110,24 +135,42 @@ export default function GanozMixBridge() {
       </div>
 
       {/* Live Embedded App */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">📺 Live View</p>
-          <Button variant="outline" size="sm" onClick={() => setIframeKey(k => k + 1)} className="gap-1 text-xs">
-            <RefreshCw className="w-3 h-3" /> Refresh
-          </Button>
+      <div className="rounded-lg border border-zinc-800 bg-zinc-950/80 p-4">
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-zinc-500">Live View</p>
+            <p className="mt-1 text-xs text-zinc-500">The linked app controls its own theme, so the bright iframe is hidden until needed.</p>
+          </div>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" onClick={() => setShowLiveView(v => !v)} className="gap-1 text-xs border-zinc-700 bg-zinc-900 text-zinc-100 hover:bg-zinc-800">
+              {showLiveView ? 'Hide' : 'Show'} Live App
+            </Button>
+            {showLiveView && (
+              <Button variant="outline" size="sm" onClick={() => setIframeKey(k => k + 1)} className="gap-1 text-xs border-zinc-700 bg-zinc-900 text-zinc-100 hover:bg-zinc-800">
+                <RefreshCw className="w-3 h-3" /> Refresh
+              </Button>
+            )}
+          </div>
         </div>
-        <div className="rounded-xl border border-border/40 overflow-hidden bg-card" style={{ height: '700px' }}>
-          <iframe
-            key={iframeKey}
-            src="https://ganozmixdirect.base44.app"
-            className="w-full h-full"
-            title="GanozMix Direct"
-            allow="fullscreen"
-          />
-        </div>
-        <p className="text-xs text-muted-foreground mt-2 text-center">
-          Viewing ganozmixdirect.base44.app — <a href="https://ganozmixdirect.base44.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">open in new tab ↗</a>
+        {showLiveView ? (
+          <div className="overflow-hidden rounded-lg border border-zinc-800 bg-black" style={{ height: '700px' }}>
+            <iframe
+              key={iframeKey}
+              src="https://ganozmixdirect.base44.app"
+              className="h-full w-full bg-black"
+              title="GanozMix Direct"
+              allow="fullscreen"
+            />
+          </div>
+        ) : (
+          <div className="flex min-h-48 flex-col items-center justify-center rounded-lg border border-dashed border-zinc-800 bg-black/30 p-6 text-center">
+            <Package className="h-8 w-8 text-zinc-500" />
+            <p className="mt-3 text-sm font-semibold text-zinc-100">Live app preview paused</p>
+            <p className="mt-1 max-w-md text-xs text-zinc-500">Use the dark command cards above for daily work. Open the live external app only when you need its native tools.</p>
+          </div>
+        )}
+        <p className="text-xs text-zinc-500 mt-2 text-center">
+          Linked app: <a href="https://ganozmixdirect.base44.app" target="_blank" rel="noopener noreferrer" className="text-amber-300 hover:underline">ganozmixdirect.base44.app</a>
         </p>
       </div>
     </div>
