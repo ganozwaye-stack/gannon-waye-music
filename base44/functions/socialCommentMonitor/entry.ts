@@ -11,20 +11,36 @@ Deno.serve(async (req) => {
 
     const { comments = [], platform = 'instagram', simulate = false } = body;
 
-    // If simulating (for dashboard demo), generate sample comments
-    let commentsToProcess = comments;
-    if (simulate || comments.length === 0) {
-      commentsToProcess = [
-        { id: 'sim1', author: '@fan_account', text: "This song literally saved my life thank you so much ❤️", likes: 234 },
-        { id: 'sim2', author: '@music_blog_au', text: "Would you be interested in a feature piece? DM us!", likes: 45 },
-        { id: 'sim3', author: '@hater123', text: "This is terrible lol nobody cares", likes: 2 },
-        { id: 'sim4', author: '@collaborative_artist', text: "Love this energy! Would love to collab sometime 🎵", likes: 89 },
-        { id: 'sim5', author: '@general_fan', text: "Obsessed with this omg 🔥🔥🔥", likes: 156 },
-        { id: 'sim6', author: '@booking_agent_aus', text: "Hi, we'd like to discuss a booking opportunity", likes: 12 },
-        { id: 'sim7', author: '@brand_deals', text: "We love your aesthetic, interested in partnership?", likes: 8 },
-        { id: 'sim8', author: '@fan2', text: "When is the album coming?? 👀", likes: 67 },
-      ];
+    const demoAuthors = new Set([
+      '@fan_account',
+      '@music_blog_au',
+      '@hater123',
+      '@collaborative_artist',
+      '@general_fan',
+      '@booking_agent_aus',
+      '@brand_deals',
+      '@fan2',
+    ]);
+    const looksLikeBundledDemo = comments.length > 0 && comments.every((comment) => {
+      const id = String(comment?.id || '').toLowerCase();
+      const author = String(comment?.author || comment?.handle || comment?.username || '').toLowerCase();
+      return /^sim\d+$/.test(id) || /^demo\d+$/.test(id) || demoAuthors.has(author);
+    });
+
+    if (simulate || comments.length === 0 || looksLikeBundledDemo) {
+      return Response.json({
+        success: true,
+        skipped: true,
+        demo_only: true,
+        reason: 'Demo or empty social-monitor input was blocked. No KnowledgeVault, RiskAlert, AdminNotification, SocialLead, BookingEnquiry, or AgentTaskLog records were created.',
+        total: 0,
+        escalated: 0,
+        auto_responses: 0,
+        triage: [],
+      });
     }
+
+    const commentsToProcess = comments;
 
     // AI triage each comment
     const triagePrompt = `You are a social media manager for Gannon Waye, an Australian LGBTQIA+ pop artist.
