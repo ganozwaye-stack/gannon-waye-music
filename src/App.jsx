@@ -263,6 +263,7 @@ import InstagramStoryStudio from '@/pages/admin/InstagramStoryStudio';
 import TrainingCentre from '@/pages/admin/TrainingCentre';
 import AnnouncementStudio from '@/pages/admin/AnnouncementStudio';
 import UpcomingMusic from '@/pages/UpcomingMusic';
+import CarryTheMessage from '@/pages/CarryTheMessage';
 import RememberMum from '@/pages/RememberMum';
 import SiteUpgradeAudit from '@/pages/admin/SiteUpgradeAudit';
 import Base44ExitPlan from '@/pages/admin/Base44ExitPlan';
@@ -392,6 +393,7 @@ const AuthenticatedApp = () => {
         <Route path="/merch-feedback" element={<MerchFeedback />} />
         <Route path="/founding-supporter" element={<FoundingSupporterPage />} />
         <Route path="/upcoming-music" element={<UpcomingMusic />} />
+        <Route path="/carry-the-message" element={<CarryTheMessage />} />
         <Route path="/remember-mum" element={<RememberMum />} />
         <Route path="/mums-garden" element={<MumsGarden />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />

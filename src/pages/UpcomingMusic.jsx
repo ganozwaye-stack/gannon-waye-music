@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Music2, Lock, Play, Pause, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
+import ReleaseCountdownTimer from '@/components/public/ReleaseCountdownTimer';
 
 // Garden-themed upcoming music preview page
 export default function UpcomingMusic() {
@@ -37,6 +38,11 @@ export default function UpcomingMusic() {
       r.status && !['released'].includes(r.status) && r.title
     ),
   ];
+
+  // Nearest upcoming release with a confirmed date — powers the visual countdown hero
+  const nextDated = upcoming
+    .filter(r => r.release_date && new Date(r.release_date).getTime() > Date.now())
+    .sort((a, b) => new Date(a.release_date) - new Date(b.release_date))[0];
 
   const togglePlay = (release) => {
     if (!release.preview_clip_url) return;
@@ -104,6 +110,17 @@ export default function UpcomingMusic() {
               <div className="w-16 h-px" style={{ background: 'linear-gradient(to left, transparent, rgba(212,175,55,0.3))' }} />
             </div>
           </motion.div>
+
+          {nextDated && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="mb-10"
+            >
+              <ReleaseCountdownTimer release={nextDated} />
+            </motion.div>
+          )}
 
           {upcoming.length === 0 ? (
             <motion.div
