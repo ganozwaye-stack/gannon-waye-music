@@ -12,6 +12,7 @@ import { Switch } from '@/components/ui/switch';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
 import { Plus, Pencil, Trash2, Upload, Music, Crown, Rocket } from 'lucide-react';
+import ReleaseCountdownSection from '@/components/admin/dashboard/ReleaseCountdownSection';
 
 const STATUSES = ['idea', 'writing', 'pre_production', 'recording', 'mixing', 'mastering', 'ready', 'released'];
 const TYPES = ['single', 'ep', 'album'];
@@ -109,6 +110,8 @@ export default function Releases() {
           <Plus className="w-4 h-4" /> New Release
         </Button>
       </div>
+
+      <ReleaseCountdownSection />
 
       <div className="space-y-4">
         {releases.map(release => (

@@ -238,49 +238,65 @@ export default function AdminLayout() {
         </div>
       </aside>
 
-      {/* Mobile header */}
-      <div className="lg:hidden fixed top-0 left-0 right-0 bg-card border-b border-border/40 z-40 px-4 py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <span className="font-display text-sm gradient-gold-text">GW Admin</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <NotificationBell />
-            <button onClick={() => setShowCommand(true)} className="p-2 hover:bg-secondary/50 rounded-lg">
-              <Command className="w-4 h-4 text-primary" />
+      {/* Mobile top bar */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 bg-card border-b border-border/40 z-40 h-14 flex items-center justify-between px-4">
+        <span className="font-display text-sm gradient-gold-text">GW Admin</span>
+        <div className="flex items-center gap-1">
+          <NotificationBell />
+          <button onClick={() => setShowCommand(true)} className="p-2 hover:bg-secondary/50 rounded-lg" aria-label="Commands">
+            <Command className="w-4 h-4 text-primary" />
+          </button>
+          <Link to="/" className="font-body text-xs text-primary px-2">Site</Link>
+          <button onClick={() => setMobileMenuOpen(true)} className="p-2 hover:bg-secondary/50 rounded-lg" aria-label="Open menu">
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile full-screen menu — top-anchored, never cut off */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 bg-background flex flex-col">
+          <div className="h-14 flex items-center justify-between px-4 border-b border-border/40 bg-card">
+            <span className="font-display text-sm gradient-gold-text">GW Admin · Menu</span>
+            <button onClick={() => setMobileMenuOpen(false)} className="p-2 hover:bg-secondary/50 rounded-lg" aria-label="Close menu">
+              <X className="w-5 h-5" />
             </button>
-            <Link to="/" className="font-body text-xs text-primary">Site</Link>
-            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 hover:bg-secondary/50 rounded-lg">
-              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </div>
+          <nav className="flex-1 overflow-y-auto p-4 space-y-5 overscroll-contain">
+            {filteredSections.map(section => (
+              <div key={section.title}>
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground px-2 mb-1.5">{section.title}</p>
+                <div className="space-y-0.5">
+                  {section.items.map(item => {
+                    const active = location.pathname === item.path;
+                    return (
+                      <Link
+                        key={item.path + item.label}
+                        to={item.path}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg font-body text-sm ${active ? 'bg-primary/10 text-primary' : 'text-foreground/80 hover:bg-secondary/40'}`}
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </nav>
+          <div className="border-t border-border/40 p-4 flex items-center gap-4">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 font-body text-xs text-muted-foreground hover:text-foreground">
+              <Globe className="w-4 h-4" /> View Site
+            </Link>
+            <button onClick={() => base44.auth.logout()} className="flex items-center gap-2 font-body text-xs text-muted-foreground hover:text-foreground">
+              <LogOut className="w-4 h-4" /> Sign Out
             </button>
           </div>
         </div>
-        {mobileMenuOpen && (
-          <div className="mt-3 pb-2 max-h-[70vh] overflow-y-auto">
-            {filteredSections.map(section => (
-              <div key={section.title} className="mb-3">
-                <p className="text-[10px] uppercase tracking-widest text-muted-foreground px-2 mb-1">{section.title}</p>
-                {section.items.map(item => {
-                  const active = location.pathname === item.path;
-                  return (
-                    <Link
-                      key={item.path + item.label}
-                      to={item.path}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={`block px-3 py-2 rounded-lg font-body text-xs mb-0.5 ${active ? 'bg-primary/10 text-primary' : 'text-muted-foreground'}`}
-                    >
-                      {item.label}
-                    </Link>
-                  );
-                })}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      )}
 
       {/* Main content */}
-      <main className="flex-1 lg:ml-60 pt-16 lg:pt-0 overflow-y-auto h-full">
+      <main className="flex-1 lg:ml-60 pt-16 lg:pt-0 overflow-y-auto overscroll-y-contain h-full">
         <div className="min-h-full p-5 lg:p-7">
           {/* Top bar */}
           <div className="mb-5 flex items-center justify-between flex-wrap gap-3">

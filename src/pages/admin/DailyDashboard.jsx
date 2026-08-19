@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Sparkles, Bot, MessageSquare } from 'lucide-react';
+import { Sparkles, MessageSquare } from 'lucide-react';
 
 import DeegoTodoList from '@/components/admin/dashboard/DeegoTodoList';
 import DeegoRecommendations from '@/components/admin/dashboard/DeegoRecommendations';
@@ -31,13 +31,10 @@ export default function DailyDashboard() {
   ];
 
   return (
-    <div className="max-w-[1400px] mx-auto space-y-6 pb-10">
+    <div className="max-w-[1400px] mx-auto space-y-8 pb-10">
       {/* ── Mission Console Header ── */}
-      <header className="relative overflow-hidden rounded-2xl border border-border/40 bg-gradient-to-br from-card via-card to-secondary/20 p-6">
-        <div className="absolute -right-10 -top-10 opacity-[0.07] pointer-events-none">
-          <Bot className="w-44 h-44 text-primary" />
-        </div>
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+      <header className="rounded-2xl border border-border/30 bg-card p-7">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div className="min-w-0">
             <p className="font-body text-[11px] tracking-[0.32em] uppercase gradient-gold-glow mb-2">{today}</p>
             <h1 className="font-display text-3xl md:text-4xl text-foreground flex items-center gap-3">
