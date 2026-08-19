@@ -66,15 +66,30 @@ export default function DeegoRecommendations() {
       ) : (
         <div className="space-y-3">
           {actions.map((a) => (
-            <div key={a.id} className="rounded-xl bg-secondary/20 border border-border/30 p-4">
-              <div className="flex items-start justify-between gap-3 mb-2">
+            <div key={a.id} className="rounded-xl bg-secondary/30 border border-border/40 p-4">
+              <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="font-body text-sm text-foreground font-medium">{a.title}</p>
+                  <p className="font-body text-sm text-foreground font-semibold">{a.title}</p>
                   <p className="font-body text-[11px] text-muted-foreground mt-0.5">
                     {LANE_LABEL[a.lane] || a.lane}{a.target_name ? ` · ${a.target_name}` : ''}
                   </p>
                 </div>
-                <div className="flex items-center gap-2 flex-shrink-0">
+                <Button
+                  size="sm"
+                  onClick={() => approve(a)}
+                  disabled={actMut.isPending}
+                  className="gradient-gold-button border-0 shrink-0"
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5" /> Approve
+                </Button>
+              </div>
+
+              {a.draft_message && (
+                <p className="font-body text-xs text-foreground/55 leading-relaxed line-clamp-3 mt-3">{a.draft_message}</p>
+              )}
+
+              <div className="flex items-center justify-between mt-3">
+                <div className="flex items-center gap-3">
                   {a.estimated_value_aud > 0 && (
                     <span className="flex items-center gap-1 font-body text-[11px] text-primary">
                       <DollarSign className="w-3 h-3" />${a.estimated_value_aud.toLocaleString()}
@@ -86,15 +101,13 @@ export default function DeegoRecommendations() {
                     </span>
                   )}
                 </div>
-              </div>
-              {a.draft_message && (
-                <p className="font-body text-xs text-foreground/60 leading-relaxed line-clamp-3 mb-3">{a.draft_message}</p>
-              )}
-              <div className="flex gap-2">
-                <Button size="sm" onClick={() => approve(a)} disabled={actMut.isPending} className="gradient-gold-button border-0">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Approve
-                </Button>
-                <Button size="sm" variant="outline" onClick={() => defer(a)} disabled={actMut.isPending}>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => defer(a)}
+                  disabled={actMut.isPending}
+                  className="text-muted-foreground hover:text-foreground h-7 px-2"
+                >
                   <Clock className="w-3.5 h-3.5" /> Defer
                 </Button>
               </div>
