@@ -31,66 +31,68 @@ export default function DailyDashboard() {
   ];
 
   return (
-    <div className="max-w-[1400px] mx-auto space-y-8 pb-10">
-      {/* ── Mission Console Header ── */}
-      <header className="rounded-2xl border border-border/30 bg-card p-7">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+    <div className="max-w-[1400px] mx-auto space-y-4 pb-10">
+      {/* ── Header bar ── */}
+      <header className="rounded-2xl border border-border/30 bg-card p-6">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
-            <p className="font-body text-[11px] tracking-[0.32em] uppercase gradient-gold-glow mb-2">{today}</p>
+            <p className="font-body text-[11px] tracking-[0.32em] uppercase text-muted-foreground mb-2">{today}</p>
             <h1 className="font-display text-3xl md:text-4xl text-foreground flex items-center gap-3">
               <Sparkles className="w-7 h-7 text-primary" /> Deego's Desk
             </h1>
             <p className="font-body text-sm text-foreground/70 mt-2 max-w-xl">
               {greeting}, Gannon. Deego's pulled together today's priorities, what's waiting on your call, and where the music pipeline is sitting.
             </p>
+          </div>
+          <div className="flex flex-col items-start gap-3 lg:items-end">
             <Link
               to="/admin/orchestrator-chat"
-              className="inline-flex items-center gap-2 mt-4 rounded-lg gradient-gold-button px-4 py-2 font-body text-xs font-semibold tracking-wide uppercase transition-transform hover:-translate-y-0.5"
+              className="inline-flex items-center gap-2 rounded-lg gradient-gold-button px-4 py-2 font-body text-xs font-semibold tracking-wide uppercase transition-transform hover:-translate-y-0.5"
             >
               <MessageSquare className="w-4 h-4" /> Talk to Deego
             </Link>
-          </div>
-          <div className="flex flex-wrap gap-2 lg:justify-end">
-            {counters.map((c) => (
-              <span key={c.label} className={`font-body text-[11px] px-3 py-1.5 rounded-full border ${c.cls}`}>
-                {c.value} {c.label}
-              </span>
-            ))}
+            <div className="flex flex-wrap gap-2 lg:justify-end">
+              {counters.map((c) => (
+                <span key={c.label} className={`font-body text-[11px] px-3 py-1.5 rounded-full border ${c.cls}`}>
+                  {c.value} {c.label}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </header>
 
-      {/* ── Main: priorities + recommendations (left) · release pipeline rail (right) ── */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 items-start">
-        {/* Left column — daily priorities + Deego's recommendations */}
-        <div className="xl:col-span-2 space-y-6">
+      {/* ── Bento mosaic — asymmetric tiles ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+        {/* Row 1 */}
+        <div className="lg:col-span-5">
           <DeegoTodoList />
+        </div>
+        <div className="lg:col-span-4">
           <DeegoRecommendations />
         </div>
-
-        {/* Right rail — Release Pipeline */}
-        <div className="space-y-6">
-          <div className="flex items-center gap-2 px-1 -mb-2">
-            <Sparkles className="w-4 h-4 text-primary" />
-            <h2 className="font-display text-lg text-foreground">Release Pipeline</h2>
-          </div>
-          <ReleasePipelineList />
+        <div className="lg:col-span-3 space-y-4">
           <ApprovalCards />
-          <DeegoProspects />
           <BlockedItems />
-          <DeegoProgressRing
-            recs={recs.length}
-            approvals={approvals.length}
-            blocked={blocked.length}
-          />
+        </div>
+
+        {/* Row 2 */}
+        <div className="lg:col-span-4">
+          <DeegoProspects />
+        </div>
+        <div className="lg:col-span-3">
+          <DeegoProgressRing recs={recs.length} approvals={approvals.length} blocked={blocked.length} />
+        </div>
+        <div className="lg:col-span-5">
+          <DailyNotes />
         </div>
       </div>
 
-      {/* ── Full-width utilities ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-        <FunctionLauncher />
-        <DailyNotes />
-      </div>
+      {/* ── Release pipeline — wide ── */}
+      <ReleasePipelineList />
+
+      {/* ── Function launcher — full width (kept) ── */}
+      <FunctionLauncher />
 
       {/* ── Footer ── */}
       <footer className="text-center pt-2">
