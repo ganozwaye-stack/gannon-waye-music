@@ -31,6 +31,63 @@ const STATUS_COLORS = {
   archived: 'bg-secondary/50 text-muted-foreground/50',
 };
 
+function isBrowserPreviewUrl(value = '') {
+  return /^(https?:|data:|blob:)/i.test(String(value));
+}
+
+function assetBasename(value = '') {
+  const clean = String(value || '').replace(/\\/g, '/');
+  return clean.split('/').filter(Boolean).pop() || 'No file linked';
+}
+
+function AssetPreview({ asset, typeConf }) {
+  const [failed, setFailed] = useState(false);
+  const Icon = typeConf.icon;
+  const previewSrc = asset.thumbnail_url || asset.preview_url || asset.file_url || '';
+  const canPreview = isBrowserPreviewUrl(previewSrc) && !failed;
+  const isVideo = ['video', 'b_roll'].includes(asset.asset_type);
+  const isImage = ['image', 'thumbnail', 'story_template'].includes(asset.asset_type);
+  const label = assetBasename(asset.file_url || asset.name);
+
+  return (
+    <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-border/50 bg-black/40">
+      {canPreview && isVideo ? (
+        <video
+          src={previewSrc}
+          className="h-full w-full object-cover"
+          muted
+          playsInline
+          preload="metadata"
+          controls
+          onError={() => setFailed(true)}
+        />
+      ) : canPreview && isImage ? (
+        <img
+          src={previewSrc}
+          alt={asset.name || label}
+          className="h-full w-full object-cover"
+          loading="lazy"
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        <div className="flex h-full flex-col items-center justify-center gap-2 p-3 text-center">
+          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-secondary/80">
+            <Icon className={`h-6 w-6 ${typeConf.color}`} />
+          </div>
+          <p className="max-w-full truncate font-body text-xs font-semibold text-foreground">{label}</p>
+          <p className="font-body text-[10px] uppercase tracking-wider text-muted-foreground">
+            {asset.file_url && !isBrowserPreviewUrl(asset.file_url) ? 'Local file' : 'Preview needed'}
+          </p>
+        </div>
+      )}
+      <div className="absolute left-2 top-2 flex items-center gap-1 rounded-md bg-background/85 px-2 py-1 backdrop-blur-sm">
+        <Icon className={`h-3 w-3 ${typeConf.color}`} />
+        <span className="font-body text-[10px] uppercase tracking-wider text-foreground">{typeConf.label}</span>
+      </div>
+    </div>
+  );
+}
+
 // CSV import parser — accepts: file_path, filename, folder, extension, size, asset_type, suggested_use, sensitive
 function parseCsvManifest(text) {
   const lines = text.trim().split('\n');
@@ -57,6 +114,7 @@ function AssetCard({ asset, onUpdate, onDelete }) {
 
   return (
     <div className={`border rounded-xl p-4 hover:border-primary/40 transition-all bg-card/60 space-y-3 ${isSensitive ? 'border-red-500/40 bg-red-500/5' : 'border-border/50'}`}>
+      <AssetPreview asset={asset} typeConf={typeConf} />
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
           <div className="w-9 h-9 rounded-lg bg-secondary/60 flex items-center justify-center shrink-0">
@@ -291,7 +349,7 @@ export default function SocialAssetLibrary() {
 
   const { data: assets = [], isLoading } = useQuery({
     queryKey: ['social-assets'],
-    queryFn: () => base44.entities.SocialAsset.filter({ campaign: 'thank_you_june5_sprint' }, '-created_date', 200),
+    queryFn: () => base44.entities.SocialAsset.list('-created_date', 300),
     refetchInterval: 30000,
   });
 
@@ -319,7 +377,7 @@ export default function SocialAssetLibrary() {
       <div>
         <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">Release Sprint</p>
         <h1 className="font-display text-3xl font-bold gradient-gold-text">Social Asset Library</h1>
-        <p className="font-body text-sm text-muted-foreground mt-1">Upload, tag, and manage all footage, thumbnails, and templates for the June 5 sprint</p>
+        <p className="font-body text-sm text-muted-foreground mt-1">Upload, tag, preview, and manage footage, thumbnails, templates, and campaign assets</p>
       </div>
 
       {/* Stats */}
