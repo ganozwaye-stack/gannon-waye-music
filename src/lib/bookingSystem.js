@@ -82,15 +82,8 @@ export const createBookingEnquiry = async (data) => {
       },
     });
     
-    // Send confirmation email to enquirer
-    await base44.integrations.Core.SendEmail({
-      to: data.email,
-      subject: 'Booking Enquiry Received — Gannon Waye',
-      body: buildConfirmationEmail(data, enquiry.id),
-    });
-    
-    // Notify admin
-    await base44.functions.invoke('notifyAdminBookingEnquiry', { enquiry });
+    // Park confirmation/admin follow-up internally. Booking capture is real; outbound messages require approval.
+    await base44.functions.invoke('notifyAdminBookingEnquiry', { enquiry, source: 'public_booking_form' });
     
     // Update analytics
     await base44.analytics.track({
@@ -152,13 +145,34 @@ export const updateBookingStatus = async (enquiryId, newStatus, notes = '') => {
       },
     });
     
-    // Send status update email if status changed to confirmed/declined
+    // Queue customer-facing status messages for approval instead of auto-sending.
     if (['confirmed', 'declined'].includes(newStatus)) {
-      await base44.integrations.Core.SendEmail({
-        to: oldEnquiry.email,
-        subject: `Booking Enquiry Update — ${newStatus === 'confirmed' ? 'Confirmed' : 'Update'}`,
-        body: buildStatusUpdateEmail(oldEnquiry, newStatus, notes),
+      const proposedEmail = buildStatusUpdateEmail(oldEnquiry, newStatus, notes);
+      await base44.entities.AdminNotification.create({
+        notification_type: 'approval',
+        severity: 'warning',
+        title: `Booking ${newStatus} needs message approval`,
+        summary: `${oldEnquiry.full_name || 'Booking enquiry'} moved to ${newStatus}. Review the proposed customer message before anything is sent.`,
+        source: 'bookingSystem.updateBookingStatus',
+        requires_action: true,
+        linked_entity: 'BookingEnquiry',
+        linked_id: enquiryId,
+        linked_route: '/admin/coaching-leads',
+        delivered_email: false,
+        delivered_slack: false,
       });
+      await base44.entities.ApprovalQueue.create({
+        agent_name: 'Booking Revenue Agent',
+        action_title: `Approve booking ${newStatus} message - ${oldEnquiry.full_name || enquiryId}`,
+        action_description: `Approve or edit the customer-facing booking status message before sending to ${oldEnquiry.email}.`,
+        risk_type: ['reputation', 'commitment'],
+        risk_level: 'medium',
+        status: 'pending',
+        payload: { enquiry_id: enquiryId, recipient: oldEnquiry.email, target_status: newStatus },
+        proposed_output: proposedEmail,
+        auto_eligible: false,
+        tags: ['booking', 'outbound_message', 'approval_required'],
+      }).catch(err => console.warn('Could not queue booking approval item:', err?.message || err));
     }
     
     return { success: true };
