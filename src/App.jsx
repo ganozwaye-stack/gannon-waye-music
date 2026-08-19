@@ -475,6 +475,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/merch-financials" element={<MerchFinancials />} />
         <Route path="/admin/image-editor" element={<ImageEditor />} />
         <Route path="/admin/site-health" element={<SiteHealthDashboard />} />
+        <Route path="/admin/system-health" element={<Navigate to="/admin/site-health" replace />} />
         <Route path="/admin/gift-progress" element={<GiftProgressAdmin />} />
         <Route path="/admin/release-countdown" element={<ReleaseCountdown />} />
         <Route path="/admin/birthdays" element={<BirthdayDiscounts />} />
