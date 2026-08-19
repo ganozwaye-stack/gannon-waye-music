@@ -84,8 +84,23 @@ Deno.serve(async (req) => {
       });
     }
     if (!signature) {
-      return new Response(JSON.stringify({ error: 'Missing stripe-signature header — live mode rejects unsigned payloads' }), {
-        status: 400,
+      (async () => {
+        try {
+          await base44.asServiceRole.entities.PaymentDiagnostic.create({
+            diagnostic_type: 'webhook_signature_failure',
+            severity: 'critical',
+            status: 'open',
+            issue_summary: 'stripeIntelligenceRouter: missing stripe-signature header in live mode',
+            admin_message: 'A webhook arrived without a signature. Stripe keeps retrying until it receives 2xx. Verify STRIPE_WEBHOOK_SECRET matches the Stripe Dashboard endpoint signing secret.',
+            recommended_fix: 'Rotate the endpoint signing secret in Stripe Dashboard → Webhooks and update STRIPE_WEBHOOK_SECRET in app secrets.',
+            webhook_processed: false,
+            source_chain: 'Stripe → stripeIntelligenceRouter → missing_signature',
+          });
+        } catch (_) {}
+      })();
+      // Ack 2xx so Stripe stops retrying / disabling the endpoint. Diagnostic logged above.
+      return new Response(JSON.stringify({ received: true, verified: false }), {
+        status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
@@ -115,8 +130,9 @@ Deno.serve(async (req) => {
           });
         } catch (_) {}
       })();
-      return new Response(JSON.stringify({ error: 'Webhook signature failed' }), {
-        status: 400,
+      // Ack 2xx so Stripe stops retrying / disabling the endpoint. Critical diagnostic logged above.
+      return new Response(JSON.stringify({ received: true, verified: false }), {
+        status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
@@ -137,8 +153,9 @@ Deno.serve(async (req) => {
           });
         } catch (_) {}
       })();
-      return new Response(JSON.stringify({ error: 'Webhook signature failed' }), {
-        status: 400,
+      // Ack 2xx so Stripe stops retrying / disabling the endpoint. Diagnostic logged above.
+      return new Response(JSON.stringify({ received: true, verified: false }), {
+        status: 200,
         headers: { 'Content-Type': 'application/json' },
       });
     }
