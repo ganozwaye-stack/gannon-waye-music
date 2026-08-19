@@ -22,8 +22,8 @@ const EXTENSIONS = new Set((process.env.ICLOUD_EXTENSIONS || '.jpg,.jpeg,.png,.w
   .map(v => v.trim().toLowerCase())
   .filter(Boolean));
 
-if (!INGEST_KEY) {
-  fail('ICLOUD_INGEST_KEY is required. Put it in your local environment or .env runner wrapper.');
+if (!INGEST_KEY && !DRY_RUN) {
+  fail('ICLOUD_INGEST_KEY is required for live uploads. Dry-run mode can run without it.');
 }
 
 main().catch(err => fail(err.stack || err.message || String(err)));
@@ -42,18 +42,21 @@ async function main() {
   let uploaded = 0;
   let skipped = 0;
   let failed = 0;
+  let attempted = 0;
 
   for (const item of files) {
-    if (uploaded >= MAX_FILES) break;
-    const sha256 = hashFile(item.file);
-    const key = `${sha256}:${item.stat.size}`;
-    if (state.uploaded[key]) {
+    if (attempted >= MAX_FILES) break;
+    attempted++;
+
+    if (DRY_RUN) {
+      console.log(`[dry-run] would inspect ${item.file}`);
       skipped++;
       continue;
     }
 
-    if (DRY_RUN) {
-      console.log(`[dry-run] would upload ${item.file}`);
+    const sha256 = hashFile(item.file);
+    const key = `${sha256}:${item.stat.size}`;
+    if (state.uploaded[key]) {
       skipped++;
       continue;
     }
@@ -74,7 +77,7 @@ async function main() {
     }
   }
 
-  console.log(JSON.stringify({ watch_dir: WATCH_DIR, considered: files.length, uploaded, skipped, failed }, null, 2));
+  console.log(JSON.stringify({ watch_dir: WATCH_DIR, candidates_found: files.length, attempted, uploaded, skipped, failed, dry_run: DRY_RUN }, null, 2));
   if (failed > 0) process.exitCode = 2;
 }
 
