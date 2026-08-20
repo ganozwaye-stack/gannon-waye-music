@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Shirt, Coffee, MessageSquare, ShieldCheck, ArrowRight } from 'lucide-react';
+import CampaignBentoGallery from '@/components/campaign/CampaignBentoGallery';
 
 const HOODIE_PUBLIC =
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e3b61bc7d_hoodie-public-solidarity-supermarket-4x5.png';
@@ -144,6 +145,9 @@ export default function CarryTheMessage() {
           alt="Gannon Waye mug beside an open cream notebook and pen on a dark timber table, with warm steam rising. The mug carries the Respect Is Earned campaign artwork."
         />
       </section>
+
+      {/* Campaign gallery — bento mosaic */}
+      <CampaignBentoGallery />
 
       {/* No Backstory Required */}
       <section className="max-w-3xl mx-auto px-5 sm:px-8 py-16 md:py-20 border-t border-border/20">

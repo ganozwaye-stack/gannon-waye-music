@@ -62,28 +62,33 @@ export default function DailyDashboard() {
         </div>
       </header>
 
-      {/* ── Bento mosaic — asymmetric tiles ── */}
+      {/* ── Bento mosaic — Priorities & Approvals front and center ── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
-        {/* Row 1 */}
-        <div className="lg:col-span-5">
+        {/* Front & center: Today's priorities */}
+        <div className="lg:col-span-7">
           <DeegoTodoList />
         </div>
-        <div className="lg:col-span-4">
-          <DeegoRecommendations />
-        </div>
-        <div className="lg:col-span-3 space-y-4">
+        {/* Front & center: Pending approvals */}
+        <div className="lg:col-span-5">
           <ApprovalCards />
-          <BlockedItems />
         </div>
 
-        {/* Row 2 */}
-        <div className="lg:col-span-4">
-          <DeegoProspects />
+        {/* Row 2 — recommendations, attention load, blockers */}
+        <div className="lg:col-span-5">
+          <DeegoRecommendations />
         </div>
         <div className="lg:col-span-3">
           <DeegoProgressRing recs={recs.length} approvals={approvals.length} blocked={blocked.length} />
         </div>
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-4">
+          <BlockedItems />
+        </div>
+
+        {/* Row 3 — prospects & daily notes */}
+        <div className="lg:col-span-4">
+          <DeegoProspects />
+        </div>
+        <div className="lg:col-span-8">
           <DailyNotes />
         </div>
       </div>
