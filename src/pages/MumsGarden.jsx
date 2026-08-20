@@ -27,21 +27,56 @@ export default function MumsGarden() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.6, delay: 0.3 }}
-          className="font-body text-[10px] tracking-[0.5em] uppercase mb-6"
+          className="font-body text-[10px] tracking-[0.5em] uppercase mb-5 flex items-center gap-2.5"
           style={{ color: 'rgba(245,224,160,0.5)' }}
         >
-          A Tribute · For Mum
+          <span aria-hidden>❀</span> A Tribute · For Mum <span aria-hidden>❀</span>
         </motion.p>
 
-        <motion.h1
+        {/* Floral bloom */}
+        <motion.svg
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.4, delay: 0.4 }}
+          viewBox="0 0 64 64" className="w-14 h-14 mb-3" fill="none" aria-hidden
+        >
+          <g stroke="rgba(212,175,55,0.75)" strokeWidth="1.1" fill="rgba(212,175,55,0.10)">
+            <ellipse cx="32" cy="13" rx="6.5" ry="10" />
+            <ellipse cx="32" cy="51" rx="6.5" ry="10" />
+            <ellipse cx="13" cy="32" rx="10" ry="6.5" />
+            <ellipse cx="51" cy="32" rx="10" ry="6.5" />
+            <ellipse cx="20.5" cy="20.5" rx="9" ry="9" transform="rotate(45 20.5 20.5)" />
+            <ellipse cx="43.5" cy="43.5" rx="9" ry="9" transform="rotate(45 43.5 43.5)" />
+          </g>
+          <circle cx="32" cy="32" r="3.5" fill="rgba(212,175,55,0.7)" />
+        </motion.svg>
+
+        {/* Creative garden title with flanking floral flourishes */}
+        <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.8, delay: 0.5 }}
-          className="font-display gradient-gold-text"
-          style={{ fontSize: 'clamp(2.5rem, 7vw, 4.5rem)', textShadow: '0 0 30px rgba(212,175,55,0.3)' }}
+          className="flex items-center justify-center gap-4 md:gap-6"
         >
-          Sonia's Garden
-        </motion.h1>
+          <svg viewBox="0 0 110 40" className="hidden sm:block w-24 h-9" fill="none" aria-hidden>
+            <path d="M2 20 C 24 14, 36 26, 56 20 C 76 14, 88 26, 108 20" stroke="rgba(212,175,55,0.55)" strokeWidth="1.1" />
+            <ellipse cx="42" cy="14" rx="3" ry="6" fill="rgba(212,175,55,0.18)" stroke="rgba(212,175,55,0.5)" strokeWidth="0.8" />
+            <ellipse cx="70" cy="26" rx="3" ry="6" fill="rgba(212,175,55,0.18)" stroke="rgba(212,175,55,0.5)" strokeWidth="0.8" />
+            <circle cx="56" cy="20" r="2.4" fill="rgba(212,175,55,0.6)" />
+          </svg>
+          <h1
+            className="gradient-gold-text"
+            style={{ fontFamily: "'Dancing Script', cursive", fontSize: 'clamp(3rem, 8vw, 5.5rem)', textShadow: '0 0 30px rgba(212,175,55,0.3)', lineHeight: 1 }}
+          >
+            Sonia&rsquo;s Garden
+          </h1>
+          <svg viewBox="0 0 110 40" className="hidden sm:block w-24 h-9 -scale-x-100" fill="none" aria-hidden>
+            <path d="M2 20 C 24 14, 36 26, 56 20 C 76 14, 88 26, 108 20" stroke="rgba(212,175,55,0.55)" strokeWidth="1.1" />
+            <ellipse cx="42" cy="14" rx="3" ry="6" fill="rgba(212,175,55,0.18)" stroke="rgba(212,175,55,0.5)" strokeWidth="0.8" />
+            <ellipse cx="70" cy="26" rx="3" ry="6" fill="rgba(212,175,55,0.18)" stroke="rgba(212,175,55,0.5)" strokeWidth="0.8" />
+            <circle cx="56" cy="20" r="2.4" fill="rgba(212,175,55,0.6)" />
+          </svg>
+        </motion.div>
 
         <motion.p
           initial={{ opacity: 0 }}

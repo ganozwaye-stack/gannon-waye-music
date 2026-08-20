@@ -68,7 +68,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
+        <div className="hidden md:flex items-center gap-2.5 flex-nowrap whitespace-nowrap absolute left-1/2 -translate-x-1/2">
           {NAV_LINKS.map((link) => {
             const active = location.pathname === link.path;
             const isHighlighted = link.highlight || link.path === '/store';
@@ -77,7 +77,7 @@ export default function Navbar() {
               <MagneticButton key={link.path} strength={0.2} className="inline-block">
                 <Link
                   to={link.path}
-                  className={`font-body text-[11px] tracking-widest uppercase transition-all duration-200 hover:scale-105 ${
+                  className={`font-body text-[11px] tracking-widest uppercase whitespace-nowrap transition-all duration-200 hover:scale-105 ${
                   isBoutique ?
                   active ?
                   'px-3 py-1 rounded-full gradient-gold-text border border-primary/80 bg-primary/10' :
@@ -91,7 +91,14 @@ export default function Navbar() {
                   'text-foreground/80 hover:text-foreground font-medium'}`
                   }>
                   
-                  {link.label}{link.soon && <span className="ml-1.5 text-[8px] tracking-[0.2em] uppercase text-primary/80 align-middle">Opening Soon</span>}
+                  {link.soon ? (
+                    <span className="flex flex-col items-center leading-none">
+                      <span>{link.label}</span>
+                      <span className="text-[7px] tracking-[0.25em] uppercase text-primary/70 mt-0.5">(Coming Soon)</span>
+                    </span>
+                  ) : (
+                    <span>{link.label}</span>
+                  )}
                 </Link>
               </MagneticButton>);
 
