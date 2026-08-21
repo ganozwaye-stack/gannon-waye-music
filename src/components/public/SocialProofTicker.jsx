@@ -17,12 +17,11 @@ export default function SocialProofTicker() {
   const subCount = subscribers.length;
 
   const messages = [
-    { icon: '🎵', text: '"Thank You" — the new single is streaming now' },
+    { icon: '🎵', text: 'Music approved for public sharing appears on the Music page' },
     { icon: '✨', text: subCount > 0 ? `${subCount}+ fans in the inner circle` : 'Join the inner circle — be part of something real' },
-    { icon: '🌍', text: 'Listeners across 12 countries and counting' },
     { icon: '🖤', text: '10% of all proceeds support 1800RESPECT' },
-    { icon: '🎶', text: 'Lyric archive — coming soon' },
-    { icon: '🔥', text: 'Limited edition merch — while it lasts' },
+    { icon: '🎶', text: 'Follow the story through music, community, and creative updates' },
+    { icon: '🛍️', text: 'Visit the Store for official merch and supporter items' },
   ];
 
   useEffect(() => {
