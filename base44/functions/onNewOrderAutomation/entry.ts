@@ -111,7 +111,7 @@ Deno.serve(async (req) => {
     <p style="color:#999;font-size:12px;margin:0 0 4px;">Shipping to:</p>
     <p style="margin:0;">${data.shipping_address}</p>
   </div>
-  <p style="color:#c9b99a;font-size:14px;line-height:1.7;text-align:center;">Payment won't be charged until <strong style="color:#f5d06e;">1 June 2026</strong>. We'll send shipping details when your order is on its way.</p>
+  <p style="color:#c9b99a;font-size:14px;line-height:1.7;text-align:center;">Your confirmation records the current payment and order status. We'll send shipping details when your order is on its way.</p>
   <p style="text-align:center;color:#666;font-size:12px;margin-top:32px;">Questions? Reply to this email or visit <a href="https://gannonwaye.com" style="color:#f5d06e;">gannonwaye.com</a></p>
   <p style="text-align:center;color:#555;font-size:11px;margin-top:16px;">
     You're receiving this because you placed an order at gannonwaye.com.<br/>
