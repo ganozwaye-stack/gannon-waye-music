@@ -3,19 +3,57 @@ import pluginJs from "@eslint/js";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginUnusedImports from "eslint-plugin-unused-imports";
+import tseslint from "typescript-eslint";
+
+const unusedRules = {
+  "no-unused-vars": "off",
+  "unused-imports/no-unused-imports": "error",
+  "unused-imports/no-unused-vars": [
+    "warn",
+    {
+      vars: "all",
+      varsIgnorePattern: "^_",
+      args: "after-used",
+      argsIgnorePattern: "^_",
+    },
+  ],
+};
+
+const javascriptRules = {
+  ...pluginJs.configs.recommended.rules,
+  ...unusedRules,
+  "no-empty": ["error", { allowEmptyCatch: true }],
+};
+
+const reactRules = {
+  ...pluginReact.configs.flat.recommended.rules,
+  ...pluginReactHooks.configs["recommended-latest"].rules,
+  ...javascriptRules,
+  "react/jsx-uses-react": "off",
+  "react/prop-types": "off",
+  "react/react-in-jsx-scope": "off",
+  "react/no-unescaped-entities": "off",
+  "react/no-unknown-property": [
+    "error",
+    { ignore: ["cmdk-input-wrapper", "toast-close"] },
+  ],
+};
 
 export default [
   {
-    files: [
-      "src/components/**/*.{js,mjs,cjs,jsx}",
-      "src/pages/**/*.{js,mjs,cjs,jsx}",
-      "src/Layout.jsx",
+    ignores: ["node_modules/**", "dist/**"],
+  },
+  {
+    files: ["src/**/*.{js,mjs,cjs,jsx}"],
+    ignores: [
+      "src/gannonwaye-playwright-pack/**",
+      "src/vite-plugins/**",
     ],
-    ignores: ["src/lib/**/*", "src/components/ui/**/*"],
-    ...pluginJs.configs.recommended,
-    ...pluginReact.configs.flat.recommended,
     languageOptions: {
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        process: "readonly",
+      },
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: "module",
@@ -34,12 +72,67 @@ export default [
       "react-hooks": pluginReactHooks,
       "unused-imports": pluginUnusedImports,
     },
+    rules: reactRules,
+  },
+  {
+    files: [
+      "*.{js,mjs,cjs}",
+      "tools/**/*.{js,mjs,cjs}",
+      "scripts/**/*.{js,mjs,cjs}",
+      "src/vite-plugins/**/*.{js,mjs,cjs}",
+      "src/gannonwaye-playwright-pack/**/*.{js,mjs,cjs}",
+    ],
+    languageOptions: {
+      globals: globals.node,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: "module",
+      },
+    },
+    plugins: {
+      "unused-imports": pluginUnusedImports,
+    },
+    rules: javascriptRules,
+  },
+  {
+    files: ["public/**/*.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: globals.browser,
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: "module",
+      },
+    },
+    plugins: {
+      "unused-imports": pluginUnusedImports,
+    },
+    rules: javascriptRules,
+  },
+  {
+    files: ["base44/functions/**/*.ts"],
+    languageOptions: {
+      parser: tseslint.parser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        Deno: "readonly",
+        EdgeRuntime: "readonly",
+      },
+      parserOptions: {
+        ecmaVersion: 2022,
+        sourceType: "module",
+      },
+    },
+    plugins: {
+      "@typescript-eslint": tseslint.plugin,
+    },
     rules: {
+      ...pluginJs.configs.recommended.rules,
+      ...tseslint.configs.recommended[1].rules,
+      ...tseslint.configs.recommended[2].rules,
+      "no-undef": "off",
       "no-unused-vars": "off",
-      "react/jsx-uses-vars": "error",
-      "react/jsx-uses-react": "error",
-      "unused-imports/no-unused-imports": "error",
-      "unused-imports/no-unused-vars": [
+      "@typescript-eslint/no-unused-vars": [
         "warn",
         {
           vars: "all",
@@ -48,13 +141,6 @@ export default [
           argsIgnorePattern: "^_",
         },
       ],
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off",
-      "react/no-unknown-property": [
-        "error",
-        { ignore: ["cmdk-input-wrapper", "toast-close"] },
-      ],
-      "react-hooks/rules-of-hooks": "error",
     },
   },
 ];
