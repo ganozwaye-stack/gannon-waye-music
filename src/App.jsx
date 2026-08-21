@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { posthog } from '@/lib/posthog';
 import ScrollToTop from '@/components/global/ScrollToTop';
+import { FEATURE_FLAGS } from '@/lib/platformConfig';
 
 // Initialize event-driven automation system
 initializeEventSystem();
@@ -406,14 +407,18 @@ const AuthenticatedApp = () => {
         <Route path="/about" element={<About />} />
         <Route path="/support" element={<Navigate to="/contact" replace />} />
         <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />
-        {/* Coaching — public page */}
-        <Route path="/coaching" element={<Coaching />} />
-        <Route path="/coaching/self-worth-reset" element={<CoachingSelfWorthReset />} />
-        <Route path="/coaching/boundaries" element={<CoachingBoundaries />} />
-        <Route path="/coaching/creative-confidence" element={<CoachingCreativeConfidence />} />
-        <Route path="/coaching/workbooks" element={<CoachingWorkbooks />} />
-        <Route path="/coaching/intake" element={<CoachingIntakePage />} />
-        <Route path="/coaching/client-resources" element={<CoachingClientResources />} />
+        {/* Coaching stays private until the single launch flag is explicitly enabled. */}
+        {FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED && (
+          <>
+            <Route path="/coaching" element={<Coaching />} />
+            <Route path="/coaching/self-worth-reset" element={<CoachingSelfWorthReset />} />
+            <Route path="/coaching/boundaries" element={<CoachingBoundaries />} />
+            <Route path="/coaching/creative-confidence" element={<CoachingCreativeConfidence />} />
+            <Route path="/coaching/workbooks" element={<CoachingWorkbooks />} />
+            <Route path="/coaching/intake" element={<CoachingIntakePage />} />
+            <Route path="/coaching/client-resources" element={<CoachingClientResources />} />
+          </>
+        )}
 
         {/* Systems Manager — sell this platform to others */}
         <Route path="/systems-manager" element={<SystemsManagerOffer />} />
