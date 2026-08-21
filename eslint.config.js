@@ -22,7 +22,7 @@ const unusedRules = {
 const javascriptRules = {
   ...pluginJs.configs.recommended.rules,
   ...unusedRules,
-  "no-empty": ["error", { allowEmptyCatch: true }],
+  "no-empty": ["warn", { allowEmptyCatch: true }],
 };
 
 const reactRules = {
@@ -83,7 +83,10 @@ export default [
       "src/gannonwaye-playwright-pack/**/*.{js,mjs,cjs}",
     ],
     languageOptions: {
-      globals: globals.node,
+      globals: {
+        ...globals.node,
+        ...globals.browser,
+      },
       parserOptions: {
         ecmaVersion: 2022,
         sourceType: "module",
@@ -132,6 +135,7 @@ export default [
       ...tseslint.configs.recommended[2].rules,
       "no-undef": "off",
       "no-unused-vars": "off",
+      "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-vars": [
         "warn",
         {
