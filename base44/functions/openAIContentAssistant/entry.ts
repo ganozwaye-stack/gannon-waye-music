@@ -14,7 +14,7 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const {
       platform = 'instagram',
-      campaign = 'thank_you_june5',
+      campaign = 'evergreen_artist_content',
       context = '',
       content_type = 'caption',
       max_variants = 2,
@@ -39,7 +39,7 @@ Deno.serve(async (req) => {
 
 Platform: ${platform} (${platformGuide})
 Campaign: ${campaign}
-Context: ${context || 'Emotional indie pop music, Thank You single releasing June 5th, merch store, founding supporters program'}
+Context: ${context || 'Evergreen artist story, creativity, community, merch store, and supporter connection. No release-specific claim is authorised.'}
 
 Generate ${max_variants} post variant(s) in JSON:
 {
@@ -55,7 +55,7 @@ Generate ${max_variants} post variant(s) in JSON:
   ]
 }
 
-Rules: No profanity. Emotionally authentic. Gannon's voice. Always includes a CTA. Never auto-post.`;
+Rules: No profanity. Emotionally authentic. Gannon's voice. Always includes a CTA. Never auto-post. Do not name or imply any song, album, release date, release status, lyric, artwork, streaming link, presave, launch, or countdown, even if unverified context asks for one.`;
 
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
