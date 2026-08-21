@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import GannonSignature from '@/components/global/GannonSignature';
-import { PUBLIC_RELEASE_FILTER } from '@/lib/publicRelease';
+import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 export default function LyricLibrary() {
   const [openId, setOpenId] = useState(null);
@@ -35,7 +35,9 @@ export default function LyricLibrary() {
   });
 
   const lyrics = useMemo(() => {
-    const approvedReleaseIds = new Set(publicReleases.map((release) => release.id));
+    const approvedReleaseIds = new Set(
+      publicReleases.filter(isPublicRelease).map((release) => release.id),
+    );
     return lyricCandidates.filter((lyric) =>
       Boolean(lyric.release_id && approvedReleaseIds.has(lyric.release_id))
     );
