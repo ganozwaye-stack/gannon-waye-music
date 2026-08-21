@@ -4,6 +4,7 @@ import { Search, X, Music, ShoppingBag, Users, BookOpen, FileText, Heart } from 
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 const STATIC_PAGES = [
   { label: 'My Story', path: '/this-is-my-life', icon: BookOpen, description: 'About Gannon — ten-episode life series' },
@@ -18,11 +19,12 @@ export default function SiteSearch({ onClose }) {
   const [query, setQuery] = useState('');
   const inputRef = useRef(null);
 
-  const { data: releases = [] } = useQuery({
-    queryKey: ['releases'],
-    queryFn: () => base44.entities.Release.list('-release_date'),
+  const { data: releaseCandidates = [] } = useQuery({
+    queryKey: ['site-search-public-releases'],
+    queryFn: () => base44.entities.Release.filter(PUBLIC_RELEASE_FILTER, '-release_date', 100),
     initialData: [],
   });
+  const releases = releaseCandidates.filter(isPublicRelease);
 
   const { data: products = [] } = useQuery({
     queryKey: ['merchProducts'],
@@ -46,8 +48,8 @@ export default function SiteSearch({ onClose }) {
     p.label.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)
   );
 
-  const matchedReleases = releases.filter(r =>
-    r.is_published && (r.title?.toLowerCase().includes(q) || r.description?.toLowerCase().includes(q))
+  const matchedReleases = releases.filter((release) =>
+    release.title?.toLowerCase().includes(q) || release.description?.toLowerCase().includes(q)
   );
 
   const matchedProducts = products.filter(p =>
@@ -100,7 +102,7 @@ export default function SiteSearch({ onClose }) {
               <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/60 px-1 mb-3">Music</p>
               <div className="space-y-2">
                 {matchedReleases.map(r => (
-                  <ResultItem key={r.id} icon={Music} label={r.title} description={r.description || r.type} path="/music" onClose={onClose} />
+                  <ResultItem key={r.id} icon={Music} label={r.title} description={r.description || r.type} path={`/release/${r.id}`} onClose={onClose} />
                 ))}
               </div>
             </div>
