@@ -1,21 +1,33 @@
 import { create } from 'zustand';
 
-// Convert a Spotify web URL to its embed URL for in-page playback (no redirect).
-const toEmbed = (url) => (url ? url.replace('open.spotify.com/', 'open.spotify.com/embed/') : '');
+const toEmbed = (url) => (
+  typeof url === 'string' && url.trim()
+    ? url.trim().replace('open.spotify.com/', 'open.spotify.com/embed/')
+    : ''
+);
 
-// Site-wide persistent player. The bottom support bar hosts the Spotify embed,
-// so audio keeps playing across page navigation because the bar lives outside Routes.
+// The shared player never invents a track. Public callers must pass an approved
+// Release URL, and stopping clears all stale metadata.
 export const usePlayerStore = create((set) => ({
-  track: null,          // Spotify embed URL currently loaded
-  title: 'Without You Here',
+  track: null,
+  title: '',
   artwork: '',
-  active: false,        // whether the bar player is open
-  playTrack: (rawUrl, meta = {}) =>
+  active: false,
+  playTrack: (rawUrl, meta = {}) => {
+    const track = toEmbed(rawUrl);
+    if (!track) return;
+
     set({
-      track: toEmbed(rawUrl),
-      title: meta.title || 'Without You Here',
+      track,
+      title: meta.title || '',
       artwork: meta.artwork || '',
       active: true,
-    }),
-  stop: () => set({ active: false }),
+    });
+  },
+  stop: () => set({
+    track: null,
+    title: '',
+    artwork: '',
+    active: false,
+  }),
 }));
