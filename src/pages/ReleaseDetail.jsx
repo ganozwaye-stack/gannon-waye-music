@@ -1,118 +1,146 @@
-import { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
+import { Link, useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ArrowLeft, ExternalLink, Calendar } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Music2, Play } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
+import { usePlayerStore } from '@/lib/playerStore';
+import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 export default function ReleaseDetail() {
   const { id } = useParams();
-  const [release, setRelease] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { data: matches = [], isLoading } = useQuery({
+    queryKey: ['public-release-detail', id],
+    queryFn: () => base44.entities.Release.filter({
+      id,
+      ...PUBLIC_RELEASE_FILTER,
+    }, '', 1),
+    enabled: Boolean(id),
+    initialData: [],
+  });
+  const release = matches.find(isPublicRelease) || null;
+  const playTrack = usePlayerStore((state) => state.playTrack);
 
-  useEffect(() => {
-    base44.entities.Release.get(id)
-      .then(setRelease)
-      .catch(() => setRelease(null))
-      .finally(() => setLoading(false));
-  }, [id]);
-
-  if (loading) {
+  if (isLoading) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+      <div className="min-h-screen py-24 px-4 text-center">
+        <p className="font-body text-sm text-muted-foreground">Loading release...</p>
       </div>
     );
   }
 
   if (!release) {
     return (
-      <div className="min-h-[60vh] flex items-center justify-center px-4">
-        <div className="text-center">
-          <p className="font-body text-muted-foreground mb-4">Release not found.</p>
-          <Link to="/music"><Button variant="outline">Back to Music</Button></Link>
+      <div className="min-h-screen py-24 px-4 flex items-center justify-center">
+        <div className="max-w-xl text-center rounded-3xl border border-primary/20 bg-card/50 p-10">
+          <Music2 className="w-10 h-10 text-primary/60 mx-auto mb-4" />
+          <h1 className="font-display text-4xl text-foreground mb-3">Release not available</h1>
+          <p className="font-body text-sm text-muted-foreground">
+            This release is private, unavailable, or has not been explicitly approved for public sharing.
+          </p>
+          <Link to="/music" className="inline-block mt-7">
+            <Button className="rounded-full gradient-gold-button border-0">
+              <ArrowLeft className="w-4 h-4 mr-2" /> Back to Music
+            </Button>
+          </Link>
         </div>
       </div>
     );
   }
 
-  const platforms = [
-    { name: 'Spotify', url: release.spotify_link },
-    { name: 'Apple Music', url: release.apple_music_link },
-    { name: 'YouTube', url: release.youtube_link },
-    ...(release.other_links || []).map(l => ({ name: l.platform, url: l.url })),
-  ].filter(p => p.url);
+  const links = [
+    ['Spotify', release.spotify_link],
+    ['Apple Music', release.apple_music_link],
+    ['YouTube', release.youtube_link],
+  ].filter(([, href]) => href);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 md:py-20">
-      <Link to="/music" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-8 transition-colors">
-        <ArrowLeft className="w-4 h-4" /> Back to Music
-      </Link>
+    <div className="min-h-screen py-24 px-4 md:px-8">
+      <motion.main
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="max-w-5xl mx-auto"
+      >
+        <Link
+          to="/music"
+          className="inline-flex items-center gap-2 font-body text-xs tracking-wider uppercase text-muted-foreground hover:text-primary mb-8"
+        >
+          <ArrowLeft className="w-4 h-4" /> Music
+        </Link>
 
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12">
-        {release.artwork_url && (
-          <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
-            <img src={release.artwork_url} alt={release.title} className="w-full rounded-2xl shadow-2xl" />
-          </motion.div>
-        )}
-
-        <div>
-          <div className="flex items-center gap-3 mb-3 flex-wrap">
-            <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium uppercase tracking-wider">{release.type || 'Single'}</span>
-            {release.release_date && (
-              <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                <Calendar className="w-3 h-3" /> {new Date(release.release_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'long', year: 'numeric' })}
-              </span>
+        <div className="grid md:grid-cols-[minmax(0,420px)_1fr] gap-9 items-start">
+          <div className="aspect-square rounded-3xl overflow-hidden border border-border/40 bg-card/55">
+            {release.artwork_url ? (
+              <img
+                src={release.artwork_url}
+                alt={`${release.title}, Gannon Waye`}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <Music2 className="w-16 h-16 text-muted-foreground/30" />
+              </div>
             )}
           </div>
 
-          <h1 className="font-display text-4xl md:text-5xl text-foreground mb-4">{release.title}</h1>
+          <div className="pt-2">
+            <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-3">
+              Owner-approved public {release.type || 'release'}
+            </p>
+            <h1 className="font-display text-5xl md:text-7xl text-foreground">{release.title}</h1>
+            {release.version_label && (
+              <p className="font-body text-sm tracking-[0.2em] uppercase text-muted-foreground mt-2">
+                {release.version_label}
+              </p>
+            )}
+            {release.release_date && (
+              <p className="font-body text-xs text-muted-foreground mt-4">
+                Released {new Date(release.release_date).toLocaleDateString('en-AU', {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </p>
+            )}
+            {release.description && (
+              <p className="font-body text-base text-foreground/70 leading-relaxed mt-7">
+                {release.description}
+              </p>
+            )}
 
-          {release.description && <p className="font-body text-sm text-muted-foreground mb-6">{release.description}</p>}
-
-          {platforms.length > 0 && (
-            <div className="space-y-2 mb-6">
-              {platforms.map(p => (
-                <a key={p.name} href={p.url} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="w-full justify-between">
-                    Listen on {p.name} <ExternalLink className="w-4 h-4" />
+            <div className="flex flex-wrap gap-3 mt-8">
+              {release.spotify_link && (
+                <Button
+                  type="button"
+                  onClick={() => playTrack(release.spotify_link, {
+                    title: release.title || '',
+                    artwork: release.artwork_url || '',
+                  })}
+                  className="gap-2 rounded-full gradient-gold-button border-0"
+                >
+                  <Play className="w-4 h-4" /> Play
+                </Button>
+              )}
+              {links.map(([label, href]) => (
+                <a key={label} href={href} target="_blank" rel="noopener noreferrer">
+                  <Button variant="outline" className="gap-2 rounded-full border-primary/35 text-primary">
+                    {label} <ExternalLink className="w-3.5 h-3.5" />
                   </Button>
                 </a>
               ))}
             </div>
-          )}
 
-          {release.credits && (
-            <div className="border-t border-border/30 pt-4">
-              <p className="font-body text-xs text-muted-foreground uppercase tracking-wider mb-2">Credits</p>
-              <p className="font-body text-sm text-foreground/80 whitespace-pre-line">{release.credits}</p>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {release.youtube_video_id && (
-        <div className="mt-12">
-          <h2 className="font-display text-2xl text-foreground mb-4">Music Video</h2>
-          <div className="aspect-video rounded-2xl overflow-hidden">
-            <iframe width="100%" height="100%" src={`https://www.youtube.com/embed/${release.youtube_video_id}`} title={release.title} frameBorder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
+            {release.credits && (
+              <div className="mt-10 pt-7 border-t border-border/40">
+                <h2 className="font-body text-xs tracking-[0.25em] uppercase text-primary mb-3">Credits</h2>
+                <p className="font-body text-sm text-muted-foreground whitespace-pre-wrap">
+                  {release.credits}
+                </p>
+              </div>
+            )}
           </div>
         </div>
-      )}
-
-      {release.current_single_behind_story && (
-        <div className="mt-12 max-w-2xl">
-          <h2 className="font-display text-2xl text-foreground mb-4">Behind the Song</h2>
-          <p className="font-body text-sm text-foreground/70 leading-relaxed whitespace-pre-line">{release.current_single_behind_story}</p>
-        </div>
-      )}
-
-      {release.lyrics && (
-        <div className="mt-12 max-w-2xl">
-          <h2 className="font-display text-2xl text-foreground mb-4">Lyrics</h2>
-          <p className="font-body text-sm text-foreground/70 leading-relaxed whitespace-pre-line">{release.lyrics}</p>
-        </div>
-      )}
+      </motion.main>
     </div>
   );
 }
