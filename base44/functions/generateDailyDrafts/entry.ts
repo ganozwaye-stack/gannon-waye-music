@@ -1,4 +1,22 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+
+const OWNER_EMAILS = new Set([
+  'ganozwaye@gmail.com',
+  'gannonwayemusic@gmail.com',
+]);
+
+function hasPublicReleaseApproval(release: Record<string, unknown>): boolean {
+  const approver = typeof release.public_release_approved_by === 'string'
+    ? release.public_release_approved_by.toLowerCase()
+    : '';
+  return release.is_published === true
+    && release.publishing_safe === true
+    && release.status === 'released'
+    && release.public_release_approval_status === 'approved'
+    && OWNER_EMAILS.has(approver)
+    && typeof release.public_release_approved_at === 'string'
+    && release.public_release_approved_at.length > 0;
+}
 
 // Generates 2-3 daily social post drafts via AI
 // All drafts go to ApprovalQueue — NOTHING is auto-posted
@@ -18,14 +36,19 @@ Deno.serve(async (req) => {
 
     const {
       date = new Date().toISOString().slice(0, 10),
-      campaign = 'thank_you_june5_sprint',
+      campaign = 'evergreen_daily',
       post_count = 3,
     } = body;
 
     // Fetch context
     const [products, releases, recentPosts, existingPosts] = await Promise.all([
       base44.asServiceRole.entities.MerchProduct.filter({ is_active: true }, 'created_date', 10),
-      base44.asServiceRole.entities.Release.filter({ is_published: true }, '-created_date', 5),
+      base44.asServiceRole.entities.Release.filter({
+        is_published: true,
+        publishing_safe: true,
+        status: 'released',
+        public_release_approval_status: 'approved',
+      }, '-created_date', 5),
       base44.asServiceRole.entities.ContentCalendarPost.filter({ campaign }, '-created_date', 10),
       base44.asServiceRole.entities.ContentCalendarPost.filter({ scheduled_date: date }, 'created_date', 20),
     ]);
@@ -39,14 +62,15 @@ Deno.serve(async (req) => {
     }
 
     const productNames = products.map(p => p.name).join(', ');
-    const releaseTitles = releases.map(r => r.title).join(', ');
+    const safeReleases = releases.filter(hasPublicReleaseApproval);
+    const releaseTitles = safeReleases.map(r => r.title).filter(Boolean).join(', ');
     const recentHooks = recentPosts.slice(0, 3).map(p => p.hook).filter(Boolean).join(' | ');
 
     const todayDate = new Date(date);
     const dayOfWeek = todayDate.toLocaleDateString('en-AU', { weekday: 'long' });
 
     const POST_TYPES = [
-      { type: 'emotional_story', platform: 'instagram_reels', content_type: 'fan_engagement', label: 'Emotional Story / Thank You' },
+      { type: 'emotional_story', platform: 'instagram_reels', content_type: 'fan_engagement', label: 'Emotional Story / Community' },
       { type: 'release_progress', platform: 'tiktok', content_type: 'behind_scenes', label: 'Music Progress / Behind Scenes' },
       { type: 'community_fan', platform: 'instagram_stories', content_type: 'community_cta', label: 'Community / Fan Connection' },
       { type: 'merch_support', platform: 'instagram_feed', content_type: 'merch_cta', label: 'Merch / Support CTA' },
@@ -59,7 +83,7 @@ Deno.serve(async (req) => {
     for (const postType of selectedTypes) {
       const prompt = `You are the Brand Voice Agent for Gannon Waye — an Australian indie artist from Country Victoria with Brazilian roots.
 Style: emotional, cinematic, direct, human, real. NOT generic, NOT cringe, NOT corporate.
-The "Thank You" single is the emotional centrepiece. Supporters mean everything.
+Supporters and honest storytelling are the emotional centrepiece. Do not invent or imply any song title, release date, release status, lyric, streaming link, or presave claim.
 
 Create a social post draft for ${dayOfWeek} ${date}.
 
@@ -68,7 +92,8 @@ Platform: ${postType.platform}
 Campaign: ${postType.campaign || campaign}
 Recent hooks used (avoid repeating): ${recentHooks || 'none yet'}
 Products available: ${productNames || 'merch items'}
-Recent releases: ${releaseTitles || 'Thank You single'}
+Owner-approved public releases: ${releaseTitles || 'none'}
+If this list is "none", keep the draft evergreen and make no song or release claim.
 
 Output a JSON object with exactly these fields:
 {
