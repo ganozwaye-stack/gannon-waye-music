@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Shield, ArrowRight } from 'lucide-react';
 
 const CATEGORY_ICONS = {
@@ -20,10 +20,13 @@ const CATEGORY_ICONS = {
 };
 
 export default function ApprovalCards() {
+  const navigate = useNavigate();
   const { data: items = [] } = useQuery({
     queryKey: ['approvalQueueItems'],
     queryFn: () => base44.entities.ApprovalQueueItem.filter({ status: 'needs_approval' }, 'sort_order'),
   });
+
+  const go = (item) => navigate(item.related_page || '/admin/approval-queue');
 
   return (
     <div className="bg-card border border-amber-500/20 rounded-2xl p-5">
@@ -38,7 +41,12 @@ export default function ApprovalCards() {
       ) : (
         <div className="space-y-2.5">
           {items.map((item) => (
-            <div key={item.id} className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-3.5">
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => go(item)}
+              className="w-full text-left rounded-xl border border-amber-500/20 bg-amber-500/5 p-3.5 hover:border-amber-400/50 hover:bg-amber-500/10 transition-colors cursor-pointer group"
+            >
               <div className="flex items-start gap-2.5">
                 <span className="text-base shrink-0">{CATEGORY_ICONS[item.category] || '📌'}</span>
                 <div className="flex-1 min-w-0">
@@ -50,13 +58,9 @@ export default function ApprovalCards() {
                     <p className="font-body text-xs text-amber-400/80 mt-2">→ {item.next_action}</p>
                   )}
                 </div>
-                {item.related_page && (
-                  <Link to={item.related_page} className="shrink-0 mt-1">
-                    <ArrowRight className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400" />
-                  </Link>
-                )}
+                <ArrowRight className="w-3.5 h-3.5 text-amber-400/50 group-hover:text-amber-400 shrink-0 mt-1 transition-colors" />
               </div>
-            </div>
+            </button>
           ))}
         </div>
       )}

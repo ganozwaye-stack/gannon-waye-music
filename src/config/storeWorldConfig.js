@@ -1,5 +1,14 @@
-// Hero image for the immersive Gannon Waye Merch Store
+// ─────────────────────────────────────────────────────────────────────────
+// SYSTEM RULE — LOCKED STOREFRONT IMAGE
+// BOUTIQUE_HERO_IMAGE is the fixed neon "GANNON WAYE" retail-store render.
+// It must NEVER be overridden, swapped, or pasted over by any agent, admin
+// action, or automation. The ONLY permitted change is to the stock shown
+// INSIDE the image (the STORE_PRODUCTS hotspots below) — i.e. upgrading the
+// products on display to new stock. Do not edit this URL. Do not layer any
+// other hero/backdrop image over the StoreBoutiqueStage.
+// ─────────────────────────────────────────────────────────────────────────
 export const BOUTIQUE_HERO_IMAGE = "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png";
+export const BOUTIQUE_HERO_LOCKED = true;
 
 export const STORE_PRODUCTS = [
   {

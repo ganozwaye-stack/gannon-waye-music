@@ -24,10 +24,12 @@ export default function DailyDashboard() {
   const { data: recs = [] } = useQuery({ queryKey: ['deego-recommendations'], queryFn: () => base44.entities.AgentAction.filter({ status: 'needs_gannon_approval' }, '-created_date', 20), staleTime: 30_000 });
 
   const counters = [
-    { label: 'recommendations', value: recs.length, cls: 'text-primary border-primary/25 bg-primary/10' },
-    { label: 'approvals', value: approvals.length, cls: 'text-amber-400 border-amber-500/25 bg-amber-500/10' },
-    { label: 'blocked', value: blocked.length, cls: 'text-red-400 border-red-500/25 bg-red-500/10' },
+    { label: 'recommendations', value: recs.length, cls: 'text-primary border-primary/25 bg-primary/10', target: 'deego-recommendations' },
+    { label: 'approvals', value: approvals.length, cls: 'text-amber-400 border-amber-500/25 bg-amber-500/10', target: 'deego-approvals' },
+    { label: 'blocked', value: blocked.length, cls: 'text-red-400 border-red-500/25 bg-red-500/10', target: 'deego-blocked' },
   ];
+
+  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
   return (
     <div className="max-w-[1400px] mx-auto space-y-4 pb-10">
@@ -52,9 +54,14 @@ export default function DailyDashboard() {
             </Link>
             <div className="flex flex-wrap gap-2 lg:justify-end">
               {counters.map((c) => (
-                <span key={c.label} className={`font-body text-[11px] px-3 py-1.5 rounded-full border ${c.cls}`}>
+                <button
+                  key={c.label}
+                  type="button"
+                  onClick={() => scrollTo(c.target)}
+                  className={`font-body text-[11px] px-3 py-1.5 rounded-full border ${c.cls} cursor-pointer hover:scale-105 transition-transform`}
+                >
                   {c.value} {c.label}
-                </span>
+                </button>
               ))}
             </div>
           </div>
@@ -66,7 +73,7 @@ export default function DailyDashboard() {
         <div className="lg:col-span-8">
           <DeegoTodoList />
         </div>
-        <div className="lg:col-span-4">
+        <div id="deego-approvals" className="lg:col-span-4">
           <ApprovalCards />
         </div>
       </div>
@@ -74,13 +81,13 @@ export default function DailyDashboard() {
       {/* ── Also today — supporting grid (subdued) ── */}
       <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 pt-2 pb-1">Also today</p>
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start opacity-95">
-        <div className="lg:col-span-5">
+        <div id="deego-recommendations" className="lg:col-span-5">
           <DeegoRecommendations />
         </div>
         <div className="lg:col-span-3">
           <DeegoProgressRing recs={recs.length} approvals={approvals.length} blocked={blocked.length} />
         </div>
-        <div className="lg:col-span-4">
+        <div id="deego-blocked" className="lg:col-span-4">
           <BlockedItems />
         </div>
         <div className="lg:col-span-4">

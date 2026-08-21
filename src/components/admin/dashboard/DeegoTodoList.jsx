@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { Plus, Check, Trash2, Loader2, ListTodo } from 'lucide-react';
+import { Plus, Check, Trash2, Loader2, ListTodo, ChevronDown, ArrowUpRight, Calendar } from 'lucide-react';
 
 const PRIORITY_STYLE = {
   critical: 'bg-red-500/15 text-red-400 border-red-500/30',
@@ -15,9 +16,11 @@ const PRIORITY_STYLE = {
 
 export default function DeegoTodoList() {
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [title, setTitle] = useState('');
   const [priority, setPriority] = useState('medium');
+  const [expandedId, setExpandedId] = useState(null);
 
   const { data: tasks = [], isLoading } = useQuery({
     queryKey: ['deego-todo'],
@@ -50,6 +53,14 @@ export default function DeegoTodoList() {
 
   const open = tasks.filter((t) => t.status !== 'complete');
   const done = tasks.filter((t) => t.status === 'complete');
+
+  const handleRowClick = (t) => {
+    if (t.related_page) {
+      navigate(t.related_page);
+      return;
+    }
+    setExpandedId(expandedId === t.id ? null : t.id);
+  };
 
   return (
     <div className="bg-card border border-border/40 rounded-2xl p-5">
@@ -91,32 +102,67 @@ export default function DeegoTodoList() {
         <div className="space-y-1.5">
           {[...open, ...done].map((t) => {
             const isDone = t.status === 'complete';
+            const isOpen = expandedId === t.id;
+            const hasDetail = t.description || t.next_action || t.due_date || t.related_page;
             return (
-              <div key={t.id} className="flex items-center gap-2.5 rounded-lg bg-secondary/20 px-3 py-2 group">
-                <button
-                  type="button"
-                  onClick={() => toggleMut.mutate({ id: t.id, status: isDone ? 'not_started' : 'complete' })}
-                  className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
-                    isDone ? 'border-primary bg-primary text-primary-foreground' : 'border-border/50 hover:border-primary'
-                  }`}
-                >
-                  {isDone && <Check className="w-3 h-3" />}
-                </button>
-                <span className={`flex-1 font-body text-sm ${isDone ? 'line-through text-muted-foreground/50' : 'text-foreground/80'}`}>
-                  {t.title}
-                </span>
-                {!isDone && (
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full border ${PRIORITY_STYLE[t.priority] || PRIORITY_STYLE.medium}`}>
-                    {t.priority}
-                  </span>
+              <div key={t.id} className="rounded-lg bg-secondary/20 overflow-hidden">
+                <div className="flex items-center gap-2.5 px-3 py-2 group">
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); toggleMut.mutate({ id: t.id, status: isDone ? 'not_started' : 'complete' }); }}
+                    className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center transition-colors ${
+                      isDone ? 'border-primary bg-primary text-primary-foreground' : 'border-border/50 hover:border-primary'
+                    }`}
+                    aria-label={isDone ? 'Mark as not started' : 'Mark complete'}
+                  >
+                    {isDone && <Check className="w-3 h-3" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleRowClick(t)}
+                    className="flex-1 text-left flex items-center gap-2 min-w-0 cursor-pointer"
+                  >
+                    <span className={`flex-1 font-body text-sm truncate ${isDone ? 'line-through text-muted-foreground/50' : 'text-foreground/80'}`}>
+                      {t.title}
+                    </span>
+                    {!isDone && (
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full border ${PRIORITY_STYLE[t.priority] || PRIORITY_STYLE.medium}`}>
+                        {t.priority}
+                      </span>
+                    )}
+                    {hasDetail && (
+                      <ChevronDown className={`w-3.5 h-3.5 text-muted-foreground transition-transform shrink-0 ${isOpen ? 'rotate-180' : ''}`} />
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={(e) => { e.stopPropagation(); deleteMut.mutate(t.id); }}
+                    className="text-muted-foreground hover:text-destructive transition-colors shrink-0"
+                    aria-label="Delete task"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+                {isOpen && hasDetail && (
+                  <div className="px-3 pb-3 pt-1 space-y-2 border-t border-border/20">
+                    {t.description && <p className="font-body text-xs text-muted-foreground leading-relaxed">{t.description}</p>}
+                    {t.next_action && <p className="font-body text-xs text-primary/80">→ {t.next_action}</p>}
+                    {t.due_date && (
+                      <p className="font-body text-xs text-muted-foreground flex items-center gap-1">
+                        <Calendar className="w-3 h-3" /> Due {new Date(t.due_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </p>
+                    )}
+                    {t.related_page && (
+                      <button
+                        type="button"
+                        onClick={() => navigate(t.related_page)}
+                        className="inline-flex items-center gap-1 font-body text-xs text-primary hover:underline"
+                      >
+                        Open related <ArrowUpRight className="w-3 h-3" />
+                      </button>
+                    )}
+                  </div>
                 )}
-                <button
-                  type="button"
-                  onClick={() => deleteMut.mutate(t.id)}
-                  className="opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
               </div>
             );
           })}
