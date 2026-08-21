@@ -6,7 +6,20 @@
       "type": "string"
     },
     "bio": {
-      "type": "string"
+      "type": "string",
+      "description": "Private internal biography copy. Public release claims must come only from fully approved Release records.",
+      "rls": {
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        "write": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
     },
     "hero_image_url": {
       "type": "string"
@@ -40,8 +53,8 @@
     },
     "show_thank_you_campaign_section": {
       "type": "boolean",
-      "default": true,
-      "description": "Controls visibility of the Thank You campaign artwork section on the homepage."
+      "default": false,
+      "description": "Legacy campaign-section preference; never authorises a public Release."
     },
     "live_stream_enabled": {
       "type": "boolean",
