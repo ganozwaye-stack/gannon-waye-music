@@ -10,7 +10,27 @@
     },
     "release_title": {
       "type": "string",
-      "description": "Which release/single this lyric belongs to"
+      "description": "Legacy display label. It never grants public visibility."
+    },
+    "release_id": {
+      "type": "string",
+      "description": "Exact Release record this lyric belongs to. Required for public visibility.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
     },
     "lyrics_text": {
       "type": "string",
@@ -27,7 +47,24 @@
     },
     "is_published": {
       "type": "boolean",
-      "default": false
+      "default": false,
+      "description": "Lyric-specific visibility switch. Insufficient without the linked Release approval.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
     },
     "sort_order": {
       "type": "number",
@@ -94,7 +131,44 @@
     },
     "publishing_safe": {
       "type": "boolean",
-      "default": false
+      "default": false,
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "release_publication_approved": {
+      "type": "boolean",
+      "default": false,
+      "description": "Denormalized fail-closed gate set only when Gannon publishes the exact linked Release.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
     }
   },
   "required": [
@@ -110,7 +184,32 @@
     "read": {
       "$or": [
         {
-          "data.is_published": true
+          "$and": [
+            {
+              "data.is_published": true
+            },
+            {
+              "data.publishing_safe": true
+            },
+            {
+              "data.release_publication_approved": true
+            },
+            {
+              "data.publishing_status": "published"
+            },
+            {
+              "data.approval_status": "approved"
+            },
+            {
+              "data.version_status": "approved"
+            },
+            {
+              "data.needs_review": false
+            },
+            {
+              "data.contains_unresolved_wording": false
+            }
+          ]
         },
         {
           "user_condition": {
@@ -120,14 +219,32 @@
       ]
     },
     "update": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$or": [
+        {
+          "user_condition": {
+            "email": "ganozwaye@gmail.com"
+          }
+        },
+        {
+          "user_condition": {
+            "email": "gannonwayemusic@gmail.com"
+          }
+        }
+      ]
     },
     "delete": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$or": [
+        {
+          "user_condition": {
+            "email": "ganozwaye@gmail.com"
+          }
+        },
+        {
+          "user_condition": {
+            "email": "gannonwayemusic@gmail.com"
+          }
+        }
+      ]
     }
   }
 }
