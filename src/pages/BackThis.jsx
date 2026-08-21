@@ -358,7 +358,7 @@ export default function BackThis() {
               <div className="flex justify-center gap-3">
                 <ShareButtons
                   url="https://gannonwaye.com/back-this"
-                  text="I just backed Gannon Waye's debut single 'Thank You' — you can too."
+                  text="I just backed Gannon Waye's independent music project — you can too."
                 />
               </div>
               <Link to="/impact" className="inline-flex items-center gap-2 mt-4 text-primary font-body text-xs hover:underline">
