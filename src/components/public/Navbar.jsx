@@ -6,6 +6,7 @@ import CartDrawer from '@/components/store/CartDrawer';
 import { motion, AnimatePresence } from 'framer-motion';
 import SiteSearch from '@/components/public/SiteSearch';
 import MagneticButton from '@/components/public/MagneticButton';
+import { FEATURE_FLAGS } from '@/lib/platformConfig';
 
 
 const BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5de42a778_60a7df62-cfa1-4cba-9280-c5ac4dfcbfa5.png';
@@ -16,7 +17,7 @@ const NAV_LINKS = [
 { label: 'Music', path: '/music' },
 { label: 'Supporters', path: '/back-this' },
 { label: "Mum's Garden", path: '/mums-garden' },
-{ label: 'Coaching', path: '/coaching', soon: true },
+...(FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED ? [{ label: 'Coaching', path: '/coaching', soon: true }] : []),
 { label: 'Press', path: '/press' },
 { label: 'Contact', path: '/contact' }];
 
