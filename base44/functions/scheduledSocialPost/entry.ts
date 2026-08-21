@@ -1,8 +1,7 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-// Scheduled social post automation — runs daily, drafts content for approval
-// All posts require ApprovalQueue approval before going live (safety rule)
-Deno.serve(async (req) => {
+// Generates evergreen social drafts for review. It never schedules or publishes.
+Deno.serve(async (req: Request) => {
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
@@ -10,51 +9,67 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'Admin only' }, { status: 403 });
     }
 
-    // Generate today's social post draft using LLM
-    const today = new Date().toLocaleDateString('en-AU', { weekday: 'long', month: 'long', day: 'numeric' });
-    const daysUntilRelease = Math.max(0, Math.ceil((new Date('2026-06-05') - new Date()) / (1000 * 60 * 60 * 24)));
+    const today = new Date().toLocaleDateString('en-AU', {
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
+    });
 
     const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are the social media voice for Gannon Waye — Australian singer-songwriter. 
-Today is ${today}. The debut single "Thank You" releases June 5, 2026 (${daysUntilRelease} days away).
+      prompt: `You are the social media voice for Gannon Waye, an Australian singer-songwriter.
+Today is ${today}.
 
-Generate 3 social media post drafts for TODAY. Each should be emotionally resonant, authentic, and platform-appropriate.
+Generate three evergreen social media drafts for today:
+1. TikTok caption under 150 characters.
+2. Instagram caption of two or three sentences.
+3. Motivational post under 280 characters.
 
-Post 1 (TikTok caption — under 150 chars, use 3-5 relevant hashtags like #GannonWaye #ThankYouSingle #IndieMusic #NewMusic #Singer):
-Post 2 (Instagram caption — 2-3 sentences, emotional, with hashtags):
-Post 3 (Short motivational quote tweet — under 280 chars, no hashtags):
-
-All posts should hint at the upcoming release, personal vulnerability, self-love themes, or music journey. 
-Do NOT use phrases like "Listen Now" — use "Pre-Save Now" or "Coming June 5".
-Gannon's social handles: Instagram and TikTok are @gann0nwaye, YouTube is @gannonwayeofficial.`,
+Use authentic themes such as creativity, community, self-worth, music-making, or personal reflection.
+Do not name or imply any song, album, release date, release status, lyric, artwork, streaming link, presave, launch, or countdown.
+Do not say music is out now or coming soon.
+These are drafts only and require separate owner approval before any scheduling or publication.`,
       response_json_schema: {
-        type: "object",
+        type: 'object',
         properties: {
-          tiktok: { type: "string" },
-          instagram: { type: "string" },
-          twitter: { type: "string" },
-          best_posting_time: { type: "string" },
-          theme_of_day: { type: "string" }
-        }
-      }
+          tiktok: { type: 'string' },
+          instagram: { type: 'string' },
+          twitter: { type: 'string' },
+          best_posting_time: { type: 'string' },
+          theme_of_day: { type: 'string' },
+        },
+      },
     });
 
-    // Save to ApprovalQueue — nothing posts without admin approval
+    const proposedOutput = [
+      `Theme: ${result.theme_of_day || 'Evergreen artist story'}`,
+      `TikTok: ${result.tiktok || ''}`,
+      `Instagram: ${result.instagram || ''}`,
+      `Twitter/X: ${result.twitter || ''}`,
+      `Suggested time: ${result.best_posting_time || 'Owner to decide'}`,
+    ].join('\n\n');
+
     const approval = await base44.asServiceRole.entities.ApprovalQueue.create({
       agent_name: 'Social Post Agent',
-      action_title: `Daily Social Posts — ${today}`,
-      action_type: 'social_post',
-      proposed_action: `Theme: ${result.theme_of_day || 'Music journey'}\n\nTikTok: ${result.tiktok}\n\nInstagram: ${result.instagram}\n\nTwitter/X: ${result.twitter}\n\nBest posting time: ${result.best_posting_time || 'Between 7–9pm AEST'}`,
+      action_title: `Evergreen social drafts - ${today}`,
+      action_description: 'Three evergreen social drafts are ready for review. They contain no release-specific claims.',
+      description: 'Draft only. No social connector is accessed and nothing is scheduled or published.',
+      risk_type: ['publishing', 'brand', 'reputation'],
+      risk_level: 'medium',
       status: 'pending',
-      risk_level: 'low',
+      proposed_output: proposedOutput,
+      payload: {
+        operation: 'draft_only',
+        generated_for: today,
+      },
+      auto_eligible: false,
+      tags: ['social', 'evergreen', 'draft-only'],
     });
 
-    // Notify admin
     await base44.asServiceRole.entities.AdminNotification.create({
       notification_type: 'approval',
       severity: 'info',
-      title: `📱 Daily Social Posts Ready for Approval`,
-      summary: `${result.theme_of_day || 'Music/release content'} — ${daysUntilRelease} days until release. Review and approve in Approval Queue.`,
+      title: 'Daily evergreen social drafts ready',
+      summary: 'Review the generic artist and community drafts in Approval Queue.',
       source: 'scheduledSocialPost',
       requires_action: true,
       linked_entity: 'ApprovalQueue',
@@ -63,13 +78,14 @@ Gannon's social handles: Instagram and TikTok are @gann0nwaye, YouTube is @ganno
       is_read: false,
     });
 
-    return Response.json({ 
-      success: true, 
+    return Response.json({
+      success: true,
+      drafted: true,
+      published: false,
       approval_id: approval.id,
-      posts: result,
-      days_until_release: daysUntilRelease
     });
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return Response.json({ error: message }, { status: 500 });
   }
 });
