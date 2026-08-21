@@ -1,15 +1,13 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// One clean, continuously scrolling marquee bar. Cycles the mission, the new
-// single, and key announcements. Content is duplicated for a seamless loop.
-// Gold-tinted background, antique-white text, on brand.
+// One clean, continuously scrolling marquee bar with evergreen public facts.
 const ITEMS = [
   'Independent, heart-first music from Gannon Waye',
-  'The new single, Without You Here, is out now everywhere',
+  'Music approved for public sharing appears on the Music page',
   '10% of all support goes to 1800RESPECT',
-  'An album in production, releasing next year',
-  'A film and a letter, written for Mum'
+  'New music is shared only when it is ready',
+  'Join the community and follow the story',
 ];
 
 const Separator = () => (
