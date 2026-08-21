@@ -125,12 +125,9 @@ export default function NotificationBell() {
         title="Notifications"
         aria-label="Open notifications"
       >
-        <motion.div
-          animate={unreadCount > 0 ? { rotate: [0, -15, 15, -10, 10, 0] } : {}}
-          transition={{ duration: 0.5, repeat: unreadCount > 0 ? Infinity : 0, repeatDelay: 8 }}
-        >
+        <div>
           <Bell className={`w-4 h-4 transition-colors ${open || unreadCount > 0 ? 'text-primary' : 'text-muted-foreground'}`} style={unreadCount > 0 ? { filter: 'drop-shadow(0 0 6px rgba(212,175,55,0.6))' } : {}} />
-        </motion.div>
+        </div>
         <AnimatePresence>
           {unreadCount > 0 && (
             <motion.span
