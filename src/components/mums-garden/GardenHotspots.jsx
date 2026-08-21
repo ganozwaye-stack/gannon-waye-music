@@ -29,8 +29,8 @@ export default function GardenHotspots({ scene, hotspots = [] }) {
               <motion.span
                 className="absolute rounded-full"
                 style={{ width: 36, height: 36, background: 'rgba(212,175,55,0.16)', border: '1px solid rgba(212,175,55,0.4)' }}
-                animate={{ scale: [1, 1.6, 1], opacity: [0.5, 0, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}
+                animate={{ scale: [1, 1.45, 1], opacity: [0.4, 0, 0.4] }}
+                transition={{ duration: 4.5, repeat: Infinity, delay: i * 0.5, ease: 'easeInOut' }}
               />
               <motion.span
                 className="relative block rounded-full"
@@ -48,10 +48,10 @@ export default function GardenHotspots({ scene, hotspots = [] }) {
           <motion.div
             key={active}
             className="relative mx-auto max-w-sm px-6 pb-4 pt-10"
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 16 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
           >
             <MemoryFrame src={activeSpot.src} caption={activeSpot.caption} />
             <p

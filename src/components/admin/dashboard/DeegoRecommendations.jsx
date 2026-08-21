@@ -2,7 +2,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { Sparkles, CheckCircle2, Clock, Loader2, DollarSign } from 'lucide-react';
+import { Sparkles, CheckCircle2, Clock, Loader2, DollarSign, ArrowUpRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const LANE_LABEL = {
   grant: 'Grant',
@@ -15,6 +16,17 @@ const LANE_LABEL = {
   operations: 'Operations',
 };
 
+const LANE_ROUTES = {
+  grant: '/admin/research-hub',
+  producer_collab: '/admin/producer-directory',
+  label_outreach: '/admin/distributors',
+  music_promo: '/admin/release-promo-command',
+  web_build: '/admin/website-ops',
+  merch: '/admin/merch',
+  booking: '/admin/communications-hub',
+  operations: '/admin/operation-registry',
+};
+
 const RISK_STYLE = {
   low: 'text-green-400',
   medium: 'text-amber-400',
@@ -23,6 +35,7 @@ const RISK_STYLE = {
 
 export default function DeegoRecommendations() {
   const qc = useQueryClient();
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   const { data: actions = [], isLoading } = useQuery({
@@ -68,7 +81,15 @@ export default function DeegoRecommendations() {
             <div key={a.id} className="rounded-xl bg-secondary/30 border border-border/40 p-4">
               <div className="flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="font-body text-sm text-foreground font-semibold">{a.title}</p>
+                  <button
+                    type="button"
+                    onClick={() => navigate(LANE_ROUTES[a.lane] || '/admin/agent-task-log')}
+                    className="text-left group/title"
+                  >
+                    <p className="font-body text-sm text-foreground font-semibold group-hover/title:text-primary transition-colors inline-flex items-center gap-1">
+                      {a.title} <ArrowUpRight className="w-3 h-3 opacity-0 group-hover/title:opacity-100 transition-opacity" />
+                    </p>
+                  </button>
                   <p className="font-body text-[11px] text-muted-foreground mt-0.5">
                     {LANE_LABEL[a.lane] || a.lane}{a.target_name ? ` · ${a.target_name}` : ''}
                   </p>

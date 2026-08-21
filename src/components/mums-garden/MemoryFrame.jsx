@@ -6,14 +6,14 @@ export default function MemoryFrame({ src, caption, delay = 0 }) {
   return (
     <motion.figure
       className="group relative"
-      initial={{ opacity: 0, y: 48, rotateX: 10 }}
+      initial={{ opacity: 0, y: 28, rotateX: 6 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 1, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 1.4, delay, ease: [0.22, 1, 0.36, 1] }}
       style={{ perspective: 1200 }}
     >
       <div
-        className="relative overflow-hidden transition-transform duration-700 group-hover:-translate-y-1.5"
+        className="relative overflow-hidden transition-transform duration-[900ms] group-hover:-translate-y-1"
         style={{
           transformStyle: 'preserve-3d',
           background: 'linear-gradient(145deg, rgba(20,16,10,0.92), rgba(8,8,12,0.96))',
@@ -41,7 +41,7 @@ export default function MemoryFrame({ src, caption, delay = 0 }) {
             src={src}
             alt={caption || ''}
             loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-[1400ms] group-hover:scale-105"
+            className="h-full w-full object-cover transition-transform duration-[1600ms] group-hover:scale-[1.03]"
             style={{ filter: 'saturate(0.88) brightness(0.94)' }}
           />
           <div
