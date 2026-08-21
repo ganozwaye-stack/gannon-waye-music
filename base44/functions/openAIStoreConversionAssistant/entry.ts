@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
 
     const goalMap = {
       store_visits: 'drive traffic to gannonwaye.com/store',
-      pre_saves: 'drive pre-saves for Thank You releasing June 5',
+      pre_saves: 'describe a presave-review process without naming a release or inventing a link',
       email_signups: 'grow email subscriber list',
       founding_supporters: 'convert fans to Founding Supporters at /founding-supporter',
     };
@@ -27,7 +27,7 @@ Deno.serve(async (req) => {
     const prompt = `You are a music e-commerce conversion expert for indie artist Gannon Waye.
 
 Goal: ${goalMap[goal] || goal}
-Context: ${context || 'Gannon Waye music store. Products: CDs, merch, apparel. Thank You single June 5.'}
+Context: ${context || 'Gannon Waye store with CDs, merch, and apparel. No release-specific claim is authorised in this request.'}
 
 Return JSON with conversion optimisation suggestions:
 {
@@ -39,7 +39,7 @@ Return JSON with conversion optimisation suggestions:
   "campaign_idea": "one complete campaign idea with platform, hook, CTA, timing"
 }
 
-Rules: No fake urgency. No spam tactics. Authentic Gannon Waye voice. Community-first approach.`;
+Rules: No fake urgency. No spam tactics. Authentic Gannon Waye voice. Community-first approach. Do not name or imply any song, release date, release status, streaming link, presave link, launch, or countdown.`;
 
     const res = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
