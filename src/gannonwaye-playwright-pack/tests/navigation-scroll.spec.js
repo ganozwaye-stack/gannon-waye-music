@@ -1,8 +1,7 @@
- 
- 
 // tests/navigation-scroll.spec.js
 // Verifies that navigating to a new page always resets scroll position to top.
 
+/* eslint-disable no-undef */
 import { test, expect } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';

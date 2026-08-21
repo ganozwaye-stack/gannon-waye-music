@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const { test, expect } = require('@playwright/test');
 
 const LIVE = process.env.LIVE === '1';

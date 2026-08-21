@@ -1,7 +1,7 @@
- 
 // tests/link-integrity.spec.js
 // Verifies correct link intent routing across dashboard cards and owner action items
 
+/* eslint-disable no-undef */
 import { test, expect } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';

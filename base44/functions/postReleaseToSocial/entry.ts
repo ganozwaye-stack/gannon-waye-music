@@ -1,73 +1,97 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-// Auto-post new release artwork + store link to social media
-// when a Release is marked published in the dashboard.
-// Triggered by an entity automation on Release update.
-// Posts the cover artwork to the connected Instagram Business account
-// with a caption linking the release page and store. The function guards
-// so it only fires the first time is_published flips to true.
+const OWNER_EMAILS = new Set([
+  'ganozwaye@gmail.com',
+  'gannonwayemusic@gmail.com',
+]);
 
-Deno.serve(async (req) => {
+type ReleaseRecord = {
+  id?: string;
+  title?: string;
+  version_label?: string;
+  status?: string;
+  is_published?: boolean;
+  publishing_safe?: boolean;
+  public_release_approval_status?: string;
+  public_release_approved_by?: string;
+  public_release_approved_at?: string;
+  artwork_url?: string;
+};
+
+function isApprovedPublicRelease(release: ReleaseRecord | undefined): release is ReleaseRecord {
+  return Boolean(
+    release?.id
+      && release.is_published === true
+      && release.publishing_safe === true
+      && release.status === 'released'
+      && release.public_release_approval_status === 'approved'
+      && release.public_release_approved_by
+      && OWNER_EMAILS.has(release.public_release_approved_by.toLowerCase())
+      && release.public_release_approved_at,
+  );
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : 'Unknown error';
+}
+
+Deno.serve(async (req: Request) => {
   try {
     const base44 = createClientFromRequest(req);
+    const body = await req.json() as {
+      data?: ReleaseRecord;
+      old_data?: ReleaseRecord;
+    };
 
-    const body = await req.json();
-    const release = body.data;
-    const oldData = body.old_data;
-
-    // Only fire when is_published flips to true
-    if (!release?.is_published || oldData?.is_published === true) {
-      return Response.json({ skipped: true, reason: 'Not a new publish event' });
-    }
-    if (!release?.artwork_url) {
-      return Response.json({ skipped: true, reason: 'No artwork_url — nothing to post' });
+    if (body.old_data?.is_published === true || body.data?.is_published !== true) {
+      return Response.json({ skipped: true, reason: 'Not a new publication transition' });
     }
 
-    const title = release.title || 'New release';
-    const storeLink = 'https://gannonwaye.com/music';
-    const releaseLink = release.id ? `https://gannonwaye.com/release/${release.id}` : storeLink;
-    const streaming = [
-      release.spotify_link ? `Spotify: ${release.spotify_link}` : '',
-      release.apple_music_link ? `Apple Music: ${release.apple_music_link}` : '',
-      release.youtube_link ? `YouTube: ${release.youtube_link}` : '',
-    ].filter(Boolean).join('\n');
+    const releaseId = body.data.id;
+    if (!releaseId) {
+      return Response.json({ skipped: true, reason: 'Missing release id' });
+    }
 
-    const descSnippet = release.description
-      ? release.description.slice(0, 300) + (release.description.length > 300 ? '…' : '') + '\n\n'
-      : '';
+    const matches = await base44.asServiceRole.entities.Release.filter({ id: releaseId }, '', 1) as ReleaseRecord[];
+    const release = matches[0];
 
-    const caption = `🎶 NEW RELEASE — "${title}" is out now.\n\n${descSnippet}Listen: ${releaseLink}\nShop the store & support: ${storeLink}\n${streaming ? '\n' + streaming : ''}\n\n#gannonwaye #newrelease #newmusic #independentmusic`;
+    if (!isApprovedPublicRelease(release)) {
+      return Response.json({
+        skipped: true,
+        reason: 'Release is not fully owner-approved for public publication',
+      });
+    }
 
-    // --- Instagram (connected Business account) ---
-    const { accessToken } = await base44.asServiceRole.connectors.getConnection('instagram');
-    if (!accessToken) return Response.json({ error: 'Instagram not connected' }, { status: 400 });
-
-    const meRes = await fetch(`https://graph.instagram.com/me?fields=id,username&access_token=${accessToken}`);
-    const meData = await meRes.json();
-    if (!meData.id) return Response.json({ error: 'Failed to get Instagram user ID', details: meData }, { status: 500 });
-    const igUserId = meData.id;
-
-    // Step 1: create media container
-    const createRes = await fetch(`https://graph.instagram.com/${igUserId}/media`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ image_url: release.artwork_url, caption, access_token: accessToken }),
+    const title = release.title?.trim() || 'Approved release';
+    const version = release.version_label?.trim() || 'unspecified version';
+    const approval = await base44.asServiceRole.entities.ApprovalQueue.create({
+      agent_name: 'ReleaseSocialDraft',
+      action_title: `Review social announcement draft for "${title}"`,
+      action_description: 'A fully owner-approved public Release changed to published. Review the proposed social announcement before any post is scheduled or published.',
+      description: 'Draft only. This automation does not access Instagram or any social connector and cannot publish.',
+      risk_type: ['publishing', 'brand', 'reputation'],
+      risk_level: 'high',
+      status: 'pending',
+      payload: {
+        release_id: release.id,
+        release_title: title,
+        version_label: version,
+        artwork_url: release.artwork_url || null,
+        channel: 'social',
+        operation: 'draft_only',
+      },
+      proposed_output: `Prepare, but do not publish, a social announcement for "${title}" (${version}). Use only canonical fields from Release ${release.id} and require a separate send/publish approval.`,
+      auto_eligible: false,
+      tags: ['release', 'social', 'draft-only', `release:${release.id}`],
     });
-    const createData = await createRes.json();
-    if (!createData.id) return Response.json({ error: 'Failed to create Instagram media container', details: createData }, { status: 500 });
-    const creationId = createData.id;
 
-    // Step 2: publish
-    const publishRes = await fetch(`https://graph.instagram.com/${igUserId}/media_publish`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ creation_id: creationId, access_token: accessToken }),
+    return Response.json({
+      drafted: true,
+      published: false,
+      approval_id: approval.id,
+      release_id: release.id,
     });
-    const publishData = await publishRes.json();
-    if (!publishData.id) return Response.json({ error: 'Failed to publish Instagram media', details: publishData }, { status: 500 });
-
-    return Response.json({ ok: true, title, media_id: publishData.id, posted: 'instagram' });
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    return Response.json({ error: errorMessage(error) }, { status: 500 });
   }
 });

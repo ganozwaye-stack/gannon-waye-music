@@ -1,7 +1,7 @@
- 
 // tests/public-routes.spec.js
 // Verifies public routes load correctly and bookings/tours are hidden
 
+/* eslint-disable no-undef */
 import { test, expect } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';

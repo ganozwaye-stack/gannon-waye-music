@@ -1,5 +1,5 @@
- 
 // @ts-check
+/* eslint-disable no-undef */
 const { defineConfig, devices } = require('@playwright/test');
 
 const isLive = process.env.LIVE === '1';
