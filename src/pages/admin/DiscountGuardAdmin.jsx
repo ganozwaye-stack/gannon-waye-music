@@ -41,7 +41,7 @@ const TEST_CASES = [
   { label: 'Mixed merch + vinyl', items: [{ name: 'T-Shirt', category: 'apparel', price: 40, quantity: 1 }, { name: 'Vinyl', category: 'vinyl', price: 35, quantity: 1 }], expectDiscount: true },
   { label: 'Merch + support contribution', items: [{ name: 'Hoodie', category: 'apparel', price: 60, quantity: 1 }, { name: 'Support', category: 'support', price: 20, quantity: 1 }], expectDiscount: true },
   { label: 'Merch-only bundle', items: [{ name: 'Merch Bundle', category: 'bundle', price: 80, quantity: 1 }], expectDiscount: true },
-  { label: 'Bundle with music', items: [{ name: 'Music + Merch Bundle', category: 'bundle', price: 100, quantity: 1, name: 'cd + hoodie bundle' }], expectDiscount: false },
+  { label: 'Bundle with music', items: [{ name: 'cd + hoodie bundle', category: 'bundle', price: 100, quantity: 1 }], expectDiscount: false },
   { label: 'Empty cart', items: [], expectDiscount: false },
 ];
 
