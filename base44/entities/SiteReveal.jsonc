@@ -5,20 +5,20 @@
     "artwork_revealed": {
       "type": "boolean",
       "default": false,
-      "description": "Whether the Thank You single artwork has been revealed"
+      "description": "Legacy private artwork reveal toggle; never authorises a public Release."
     },
     "merch_revealed": {
       "type": "boolean",
       "default": false,
-      "description": "Whether the merch store is open for pre-orders"
+      "description": "Private merch visibility toggle."
     },
     "release_date_text": {
       "type": "string",
-      "description": "Human-readable release date shown on site e.g. June 10, 2026"
+      "description": "Legacy private date text; non-authoritative."
     },
     "release_date_iso": {
       "type": "string",
-      "description": "ISO date for countdown e.g. 2026-06-10T02:00:00Z"
+      "description": "Legacy private date value; non-authoritative."
     },
     "description": {
       "type": "string",
@@ -32,7 +32,11 @@
         "role": "admin"
       }
     },
-    "read": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
     "update": {
       "user_condition": {
         "role": "admin"
