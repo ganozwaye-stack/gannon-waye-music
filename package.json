@@ -6,9 +6,13 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "lint": "eslint . --quiet",
+    "lint": "node tools/quality-gate.mjs lint",
+    "lint:report": "eslint .",
     "lint:fix": "eslint . --fix",
-    "typecheck": "tsc -p ./jsconfig.json",
+    "typecheck": "node tools/quality-gate.mjs typecheck",
+    "typecheck:report": "tsc -p ./jsconfig.json --pretty false",
+    "quality": "node tools/quality-gate.mjs all",
+    "quality:baseline:update": "node tools/quality-gate.mjs baseline",
     "preview": "vite preview"
   },
   "dependencies": {
