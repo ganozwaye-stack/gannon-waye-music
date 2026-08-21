@@ -11,7 +11,7 @@ const MISSION =
   "To make music that helps anyone who hears it feel less alone, and to honour the people who shaped us. Independent, heart-first art, with 10% of all support going to 1800RESPECT.";
 
 const BIO =
-  "Gannon Waye is a singer-songwriter born and raised in Adelaide and based in Melbourne for over thirteen years. He writes from lived experience about grief, healing, and the quiet courage it takes to love yourself. His sound is contemporary and acoustic-led, voice and guitar first, with an album in production for release next year. His new single, Without You Here, is a raw letter to his late mother Sonia, released alongside a short film for Mum.";
+  "Gannon Waye is a singer-songwriter born and raised in Adelaide and based in Melbourne. He writes from lived experience about grief, healing, self-worth, and the quiet courage it takes to choose yourself. His work is independent, heart-first, and grounded in honest storytelling.";
 
 // Dedicated digital press kit section for press.
 // Mission statement, professional biography, and high-quality headshots,
