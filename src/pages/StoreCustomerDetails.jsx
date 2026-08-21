@@ -75,7 +75,7 @@ export default function StoreCustomerDetails() {
     const e = {};
     if (!form.full_name.trim()) e.full_name = 'Full name is required';
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Valid email is required';
-    if (!form.mobile.trim() || !/^[\d\s\+\-\(\)]{7,16}$/.test(form.mobile.replace(/\s/g, ''))) e.mobile = 'Valid mobile number is required';
+    if (!form.mobile.trim() || !/^[\d\s+()-]{7,16}$/.test(form.mobile.replace(/\s/g, ''))) e.mobile = 'Valid mobile number is required';
     if (!form.street_address.trim()) e.street_address = 'Street address is required';
     if (form.street_address.toLowerCase().includes('po box')) e.street_address = 'PO Box not accepted — please use a street address';
     if (!form.suburb.trim()) e.suburb = 'Suburb / city is required';
