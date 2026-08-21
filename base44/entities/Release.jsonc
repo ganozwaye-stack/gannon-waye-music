@@ -110,6 +110,19 @@
       "type": "number",
       "description": "Digital purchase price"
     },
+    "duration": {
+      "type": "string",
+      "description": "Track duration in mm:ss format"
+    },
+    "language": {
+      "type": "string",
+      "default": "English",
+      "description": "Primary language of this release"
+    },
+    "version_label": {
+      "type": "string",
+      "description": "Version label such as Original, Radio Edit, or Brazilian Portuguese"
+    },
     "is_published": {
       "type": "boolean",
       "default": false
