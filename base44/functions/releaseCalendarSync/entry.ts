@@ -1,5 +1,23 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
+const OWNER_EMAILS = new Set([
+  'ganozwaye@gmail.com',
+  'gannonwayemusic@gmail.com',
+]);
+
+function hasPublicReleaseApproval(release: Record<string, unknown>): boolean {
+  const approver = typeof release.public_release_approved_by === 'string'
+    ? release.public_release_approved_by.toLowerCase()
+    : '';
+  return release.is_published === true
+    && release.publishing_safe === true
+    && release.status === 'released'
+    && release.public_release_approval_status === 'approved'
+    && OWNER_EMAILS.has(approver)
+    && typeof release.public_release_approved_at === 'string'
+    && release.public_release_approved_at.length > 0;
+}
+
 // Sync Release entities to Google Calendar
 // Runs weekly to keep calendar in sync with release database
 Deno.serve(async (req) => {
@@ -18,8 +36,14 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Fetch all releases
-    const releases = await base44.asServiceRole.entities.Release.list('-created_date', 100);
+    // Only exact owner-approved public Releases may leave Base44.
+    const candidates = await base44.asServiceRole.entities.Release.filter({
+      is_published: true,
+      publishing_safe: true,
+      status: 'released',
+      public_release_approval_status: 'approved',
+    }, '-created_date', 100);
+    const releases = candidates.filter(hasPublicReleaseApproval);
     const calendarId = 'primary';
 
     for (const release of releases) {
