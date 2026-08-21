@@ -15,6 +15,7 @@ const NAV_LINKS = [
 { label: 'Home', path: '/' },
 { label: 'Biography', path: '/biography' },
 { label: 'Music', path: '/music' },
+{ label: 'Store', path: '/store' },
 { label: 'Supporters', path: '/back-this' },
 { label: "Mum's Garden", path: '/mums-garden' },
 ...(FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED ? [{ label: 'Coaching', path: '/coaching', soon: true }] : []),
@@ -23,7 +24,6 @@ const NAV_LINKS = [
 
 
 const MORE_LINKS = [
-{ label: 'Store', path: '/store' },
 { label: 'My Story', path: '/this-is-my-life' },
 { label: 'Videos', path: '/videos' },
 { label: 'Lyric Library', path: '/lyric-library' },
