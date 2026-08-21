@@ -25,7 +25,7 @@
     "is_featured": {
       "type": "boolean",
       "default": false,
-      "description": "Show on home page preview"
+      "description": "Private admin feature preference; public rendering requires a separate owner-approved release linkage."
     },
     "sort_order": {
       "type": "number",
@@ -34,7 +34,7 @@
     "description": {
       "type": "string",
       "maxLength": 1000,
-      "description": "Optional description or context for the video"
+      "description": "Optional private description or context for the video"
     }
   },
   "required": [
@@ -47,7 +47,11 @@
         "role": "admin"
       }
     },
-    "read": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
     "update": {
       "user_condition": {
         "role": "admin"
