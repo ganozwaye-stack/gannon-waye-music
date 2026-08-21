@@ -53,7 +53,7 @@ Deno.serve(async (req) => {
 
     // Research using LLM with web search
     const research = await base44.asServiceRole.integrations.Core.InvokeLLM({
-      prompt: `You are a dedicated research agent for Gannon Waye, an Australian LGBTQIA+ affirming pop artist releasing debut single "Thank You".
+      prompt: `You are a dedicated research agent for Gannon Waye, an Australian LGBTQIA+ affirming independent artist.
 
 Research this topic thoroughly: ${finalTopic}
 
@@ -65,7 +65,7 @@ Provide:
 5. RECOMMENDED ACTIONS: Top 3 immediate actions for Gannon's team
 
 Be specific with numbers, platform names, artist examples, and dollar amounts where relevant.
-Focus on what would actually help an independent Australian artist with Gannon's profile.`,
+Focus on what would actually help an independent Australian artist with Gannon's profile. This is internal research: do not assert any song title, release date, release status, lyric, streaming link, presave, launch, or countdown as a fact.`, 
       add_context_from_internet: true,
       model: 'gemini_3_flash',
     });
