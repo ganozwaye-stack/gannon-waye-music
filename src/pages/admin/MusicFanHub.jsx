@@ -11,8 +11,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { 
-  Users, Music, BookOpen, Mail, Send, Award, Heart, MessageSquare, 
-  Trash2, RefreshCw, Plus, Calendar, Film, HelpCircle, Loader2
+  Users, Music, BookOpen, Mail, Send, Award, Heart, 
+  Trash2, RefreshCw, Film, Loader2
 } from 'lucide-react';
 
 const STORY_THEMES = [

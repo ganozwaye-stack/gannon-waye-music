@@ -1,7 +1,7 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { ShoppingBag, Package, Truck, DollarSign, AlertTriangle, Star } from 'lucide-react';
+import { ShoppingBag, Package, Truck } from 'lucide-react';
 import { SectionCard, RowItem, LoadingState, EmptyState, StatusBadge } from '@/components/admin-v3/shared/SharedComponents';
 import { calcProductCostCompleteness, calcTrueProfit, calcOrdersAwaitingFulfilment, calcDuplicateExcluded } from '@/lib/adminV3Metrics';
 

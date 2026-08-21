@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Music2, Lock, Play, Pause, ChevronDown } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Music2, Lock, Play, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import ReleaseCountdownTimer from '@/components/public/ReleaseCountdownTimer';

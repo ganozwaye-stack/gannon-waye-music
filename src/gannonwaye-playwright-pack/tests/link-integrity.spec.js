@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+ 
 // tests/link-integrity.spec.js
 // Verifies correct link intent routing across dashboard cards and owner action items
 

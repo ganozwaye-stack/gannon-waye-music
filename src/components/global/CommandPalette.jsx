@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, Plus, DollarSign, Package, Users, Heart, Gift, Tag, Mail, TrendingUp, FileText, ExternalLink, Command, ShoppingBag, Briefcase, Camera, Activity, BarChart3, RefreshCw, Download, Megaphone, Palette, Music, Brain, Lock, Zap, BookOpen, Terminal, Shield, Film, Star, Globe } from 'lucide-react';
+import { Search, Plus, DollarSign, Package, Users, TrendingUp, ExternalLink, Command, ShoppingBag, Briefcase, Camera, Activity, Megaphone, Palette, Music, Brain, Lock, Zap, BookOpen, Terminal, Shield, Film, Star, Globe } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { base44 } from '@/api/base44Client';

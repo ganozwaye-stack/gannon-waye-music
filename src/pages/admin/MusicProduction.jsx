@@ -1,9 +1,8 @@
 import { useState, useMemo } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Plus, Edit2, Trash2, Save, X, Music, Sliders, Link2, Clock } from 'lucide-react';
+import { Plus, Edit2, Trash2, Save, X, Music, Sliders, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 
 const STATUS_LABELS = {
   idea: 'Idea', demo: 'Demo', arranging: 'Arranging', recording: 'Recording',

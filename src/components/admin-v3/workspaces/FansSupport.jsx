@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Mail, Heart, Users, MessageSquare, Star } from 'lucide-react';
-import { SectionCard, RowItem, LoadingState, EmptyState, StatusBadge } from '@/components/admin-v3/shared/SharedComponents';
+import { Mail } from 'lucide-react';
+import { SectionCard, RowItem, LoadingState, EmptyState } from '@/components/admin-v3/shared/SharedComponents';
 import { categorizeFanMessage } from '@/lib/adminV3Metrics';
 
 const INBOX_CATEGORIES = [

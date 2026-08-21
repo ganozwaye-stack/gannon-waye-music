@@ -5,14 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import { 
-  Lock, Calendar, Briefcase, RefreshCw, Send, AlertTriangle, 
-  CheckCircle, ShieldCheck, DollarSign, ListTodo, Plus, Trash2, Edit2
+  Lock, Briefcase, RefreshCw, Send, AlertTriangle, 
+  CheckCircle, DollarSign, ListTodo, Plus, Trash2
 } from 'lucide-react';
 
 const PINNED_TASKS_DEFAULT = [

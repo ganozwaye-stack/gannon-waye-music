@@ -3,9 +3,8 @@ import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  BookOpen, Play, PenTool, Image, Plus, Edit2, Trash2, Eye, EyeOff,
-  ChevronDown, ChevronUp, Video, FileText, Dumbbell, Layers, Sparkles,
-  CheckCircle, Clock, Tag, ArrowUp, ArrowDown
+  BookOpen, Image, Plus, Edit2, Trash2, Eye, EyeOff,
+  ChevronDown, ChevronUp, Video, Dumbbell, Layers, Sparkles, Clock, Tag, ArrowUp, ArrowDown
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';

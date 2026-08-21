@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Music, Loader2, Copy, Save, Sparkles, BookOpen, Image, ShieldAlert, Palette, FileImage, Cpu } from 'lucide-react';
+import { Music, Loader2, Copy, Save, Sparkles, ShieldAlert, Palette, Cpu } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { toast } from 'sonner';
 

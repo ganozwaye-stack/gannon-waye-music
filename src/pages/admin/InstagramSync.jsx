@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Instagram, Send, CheckCircle2, AlertCircle, Image as ImageIcon } from 'lucide-react';
+import { Instagram, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 export default function InstagramSync() {

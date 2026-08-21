@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Zap, ArrowRight, CheckCircle2, ExternalLink } from 'lucide-react';
+import { Zap, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import AdminEditButton from '@/components/store/AdminEditButton';

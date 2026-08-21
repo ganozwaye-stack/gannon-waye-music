@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft, FileText, Lock, Plus } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
 const RESOURCES = [
   { title: 'Week 1: Clarity Framework', type: 'Workbook', status: 'Draft', program: '4-Week Rebuild' },

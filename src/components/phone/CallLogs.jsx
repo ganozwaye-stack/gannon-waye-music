@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { Plus, Save, PhoneIncoming, PhoneOutgoing, PhoneMissed } from 'lucide-react';
+import { Plus, Save, PhoneIncoming, PhoneOutgoing } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const OUTCOMES = ['no_answer','left_voicemail','spoke','callback_scheduled','converted','not_interested'];

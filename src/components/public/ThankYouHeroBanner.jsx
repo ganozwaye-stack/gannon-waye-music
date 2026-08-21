@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import CountdownTimer from './CountdownTimer';
 import { useSiteReveal } from '@/hooks/useSiteReveal';
 
 

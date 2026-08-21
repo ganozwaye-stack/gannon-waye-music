@@ -3,7 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { ShoppingBag, Heart, Sparkles, ShoppingCart, Plus, ZoomIn } from 'lucide-react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
 import { useCartStore } from '@/lib/cartStore';

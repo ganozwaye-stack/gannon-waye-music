@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import { ArrowLeft, TrendingUp, Lock, ChevronRight } from 'lucide-react';
+import { ArrowLeft, Lock } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
 const FUNNEL_STAGES = [
   { stage: 'Awareness', desc: 'Music fans discover coaching via Instagram, TikTok, or website', tools: ['Instagram Story CTAs', 'Bio link', 'Website coaching page'], status: 'Not live', prospects: 0 },

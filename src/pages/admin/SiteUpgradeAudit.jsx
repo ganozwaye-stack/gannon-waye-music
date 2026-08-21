@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, ChevronDown, Sparkles, Zap, Package, Lock, Star, Globe, ShoppingBag, Music, Layers } from 'lucide-react';
+import { ExternalLink, ChevronDown, Zap, Package, Lock, Star, ShoppingBag, Layers } from 'lucide-react';
 
 const SECTIONS = [
   {

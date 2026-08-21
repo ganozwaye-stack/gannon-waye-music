@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-  Layers, FileText, BookOpen, Users, Send, CheckCircle,
+  Layers, BookOpen, Send, CheckCircle,
   Zap, Heart, Music, Star, Shield, Sunrise, Flame, Eye, ArrowRight
 } from 'lucide-react';
 

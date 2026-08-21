@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { AlertTriangle, CheckCircle2, Clock, ExternalLink, RefreshCw, Inbox } from 'lucide-react';
+import { AlertTriangle, CheckCircle2, ExternalLink, RefreshCw } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 // ── All human-required actions in one place ──────────────────────────────────

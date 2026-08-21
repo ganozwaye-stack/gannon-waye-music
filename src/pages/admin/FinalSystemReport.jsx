@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { CheckCircle2, XCircle, AlertTriangle, Circle, ExternalLink, RefreshCw, Shield, Globe, Lock, Zap, Activity } from 'lucide-react';
+import { CheckCircle2, XCircle, AlertTriangle, Circle, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const REPORT_DATE = '2026-06-17';
