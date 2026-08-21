@@ -195,9 +195,7 @@ async function collectTypecheck() {
   const hardFailures = [...structural];
   const alwaysHardCodes = new Set([2307, 2688]);
 
-  for (const diagnostic of uniqueTsDiagnostics(
-    program.getSemanticDiagnostics(),
-  )) {
+  for (const diagnostic of program.getSemanticDiagnostics()) {
     const entry = tsEntry(diagnostic);
     if (
       alwaysHardCodes.has(diagnostic.code) ||
