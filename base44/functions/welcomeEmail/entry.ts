@@ -19,7 +19,7 @@ Thank you so much for joining — it genuinely means the world to me.
 
 This is more than a music page. It's a community built for people who've felt unseen, unheard, or like they don't quite fit. You belong here.
 
-My debut single "Thank You" is out now — thank you for being part of this. Check out the site, join the community wall, and stream it today!
+Thank you for being part of this. Check out the site, join the community wall, and visit the Music page for songs Gannon has explicitly approved for public sharing.
 
 ---
 
