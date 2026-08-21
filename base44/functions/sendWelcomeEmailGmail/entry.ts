@@ -45,7 +45,7 @@ Deno.serve(async (req) => {
         I write songs about the real, messy parts of being human — grief that transforms you, growth that comes from breaking open, and the quiet power of finally becoming yourself.
       </p>
       <p style="font-size:15px;line-height:1.8;color:#d4c9a8;margin-top:16px;">
-        My debut single <strong style="color:#f5d06e;">"Thank You"</strong> is out now. Check out the site, join the community wall, and stream it today!
+        Check out the site, join the community wall, and visit the Music page for songs Gannon has explicitly approved for public sharing.
       </p>
     </div>
     <div style="background:#0e1a0e;border:1px solid #2a3e2a;border-radius:12px;padding:24px;margin-bottom:28px;">
