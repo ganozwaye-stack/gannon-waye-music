@@ -162,7 +162,7 @@ test.describe('Cart', () => {
     if (await addBtn.isVisible({ timeout: 5000 }).catch(() => false)) {
       await addBtn.click();
       await page.locator('[data-testid="store-sticky-checkout-button"]').click();
-      await expect(page).toHaveURL(/store\/checkout/, { timeout: 5000 });
+      await expect(page).toHaveURL(new RegExp('store/checkout'), { timeout: 5000 });
     }
   });
 });`;
