@@ -100,6 +100,7 @@ export const FEATURE_FLAGS = {
   ENABLE_CUSTOMER_PORTAL: false, // Post-launch
   ENABLE_ROLE_BASED_ACCESS: false, // Post-launch
   ENABLE_E2E_TESTING: false, // Post-launch
+  ENABLE_COACHING: false, // Hidden until the coaching section is ready to launch
 };
 
 // Audit Configuration
