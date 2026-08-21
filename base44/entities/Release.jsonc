@@ -82,7 +82,23 @@
     "is_current_single": {
       "type": "boolean",
       "default": false,
-      "description": "If true, shown on the current single feature page"
+      "description": "If true, shown on the current single feature page",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
     },
     "current_single_hero_copy": {
       "type": "string",
@@ -125,7 +141,132 @@
     },
     "is_published": {
       "type": "boolean",
-      "default": false
+      "default": false,
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "publishing_safe": {
+      "type": "boolean",
+      "default": false,
+      "description": "Owner-controlled prerequisite for any public Release visibility.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "public_release_approval_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "revoked"
+      ],
+      "default": "pending",
+      "description": "Exact owner approval state. Approval and public publication are separate actions.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "public_release_approved_by": {
+      "type": "string",
+      "description": "Exact owner email that approved this title and version.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "public_release_approved_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp of exact owner approval.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "public_release_approval_note": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Private audit note for approval or revocation.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
     }
   },
   "required": [
@@ -140,7 +281,20 @@
     "read": {
       "$or": [
         {
-          "data.is_published": true
+          "$and": [
+            {
+              "data.is_published": true
+            },
+            {
+              "data.publishing_safe": true
+            },
+            {
+              "data.status": "released"
+            },
+            {
+              "data.public_release_approval_status": "approved"
+            }
+          ]
         },
         {
           "user_condition": {
@@ -150,14 +304,32 @@
       ]
     },
     "update": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$or": [
+        {
+          "user_condition": {
+            "email": "ganozwaye@gmail.com"
+          }
+        },
+        {
+          "user_condition": {
+            "email": "gannonwayemusic@gmail.com"
+          }
+        }
+      ]
     },
     "delete": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$or": [
+        {
+          "user_condition": {
+            "email": "ganozwaye@gmail.com"
+          }
+        },
+        {
+          "user_condition": {
+            "email": "gannonwayemusic@gmail.com"
+          }
+        }
+      ]
     }
   }
 }
