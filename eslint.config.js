@@ -135,6 +135,7 @@ export default [
       ...tseslint.configs.recommended[2].rules,
       "no-undef": "off",
       "no-unused-vars": "off",
+      "no-empty": ["warn", { allowEmptyCatch: true }],
       "@typescript-eslint/no-explicit-any": "warn",
       "@typescript-eslint/no-unused-vars": [
         "warn",
