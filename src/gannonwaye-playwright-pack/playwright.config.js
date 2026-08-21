@@ -2,6 +2,8 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
 
+const isLive = process.env.LIVE === '1';
+
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -22,7 +24,7 @@ module.exports = defineConfig({
       ]
     }
   },
-  webServer: {
+  webServer: isLive ? undefined : {
     command: 'npm run dev',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
