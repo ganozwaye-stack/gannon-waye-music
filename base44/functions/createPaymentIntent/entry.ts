@@ -150,7 +150,6 @@ Deno.serve(async (req) => {
           customer_name: customerName || '',
           product_name: productName || '',
           charge_amount_cents: String(finalAmountCents),
-          charge_date: '2026-06-05',
           ...(metadata || {}),
         },
       });
