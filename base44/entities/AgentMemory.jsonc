@@ -63,7 +63,7 @@
     "is_permanent": {
       "type": "boolean",
       "default": true,
-      "description": "If true, never auto-delete this memory"
+      "description": "Permanent policy evidence. Only an exact owner account may create, update, or delete records."
     }
   },
   "required": [
@@ -73,9 +73,18 @@
   ],
   "rls": {
     "create": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$or": [
+        {
+          "user_condition": {
+            "email": "ganozwaye@gmail.com"
+          }
+        },
+        {
+          "user_condition": {
+            "email": "gannonwayemusic@gmail.com"
+          }
+        }
+      ]
     },
     "read": {
       "user_condition": {
@@ -83,14 +92,32 @@
       }
     },
     "update": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$or": [
+        {
+          "user_condition": {
+            "email": "ganozwaye@gmail.com"
+          }
+        },
+        {
+          "user_condition": {
+            "email": "gannonwayemusic@gmail.com"
+          }
+        }
+      ]
     },
     "delete": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$or": [
+        {
+          "user_condition": {
+            "email": "ganozwaye@gmail.com"
+          }
+        },
+        {
+          "user_condition": {
+            "email": "gannonwayemusic@gmail.com"
+          }
+        }
+      ]
     }
   }
 }
