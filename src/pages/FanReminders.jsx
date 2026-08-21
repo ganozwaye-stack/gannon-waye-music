@@ -150,7 +150,7 @@ export default function FanReminders() {
             <Textarea
               value={form.customMessage}
               onChange={e => setForm({ ...form, customMessage: e.target.value })}
-              placeholder="e.g. Remind me when the Without You Here music video drops"
+              placeholder="e.g. Remind me when an owner-approved music video is announced"
               maxLength={500}
               rows={3}
             />
