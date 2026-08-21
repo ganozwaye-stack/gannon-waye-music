@@ -22,7 +22,7 @@ function Tile({ src, label, span, delay }) {
         src={src}
         alt={label}
         loading="lazy"
-        className="w-full h-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.04]"
+        className="w-full h-full object-cover transition-transform [transition-duration:900ms] ease-out group-hover:scale-[1.04]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
       <figcaption className="absolute bottom-0 left-0 p-4 md:p-5">
