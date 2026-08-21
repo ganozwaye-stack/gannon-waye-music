@@ -1,56 +1,82 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-// Generate presave links for upcoming releases across platforms
-// Creates shareable links for fans to presave music
-Deno.serve(async (req) => {
+const OWNER_EMAILS = new Set([
+  'ganozwaye@gmail.com',
+  'gannonwayemusic@gmail.com',
+]);
+
+type AuthUser = {
+  email?: string;
+};
+
+type ReleaseRecord = {
+  id?: string;
+  title?: string;
+  version_label?: string;
+};
+
+function isOwner(user: AuthUser | null | undefined): boolean {
+  return Boolean(user?.email && OWNER_EMAILS.has(user.email.toLowerCase()));
+}
+
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : 'Unknown error';
+}
+
+Deno.serve(async (req: Request) => {
   try {
     const base44 = createClientFromRequest(req);
-    const body = await req.json();
+    const user = await base44.auth.me() as AuthUser | null;
 
-    const { release_id } = body;
-    if (!release_id) {
+    if (!isOwner(user)) {
+      return Response.json({ error: 'Forbidden: exact owner account required' }, { status: 403 });
+    }
+
+    const body = await req.json() as { release_id?: string };
+    const releaseId = body.release_id?.trim();
+    if (!releaseId) {
       return Response.json({ error: 'release_id required' }, { status: 400 });
     }
 
-    const release = await base44.asServiceRole.entities.Release.filter({ id: release_id }, '', 1);
-    if (!release || release.length === 0) {
+    const matches = await base44.asServiceRole.entities.Release.filter({ id: releaseId }, '', 1) as ReleaseRecord[];
+    const release = matches[0];
+
+    if (!release?.id) {
       return Response.json({ error: 'Release not found' }, { status: 404 });
     }
 
-    const rel = release[0];
-    const presaveLinks = {
-      spotify: `https://distrokid.com/spotify/presave?artist=${encodeURIComponent(rel.artist || 'Gannon Waye')}&release=${encodeURIComponent(rel.title || 'Untitled')}`,
-      appleMusic: `https://distrokid.com/apple/presave?artist=${encodeURIComponent(rel.artist || 'Gannon Waye')}&release=${encodeURIComponent(rel.title || 'Untitled')}`,
-      deezer: `https://distrokid.com/deezer/presave?artist=${encodeURIComponent(rel.artist || 'Gannon Waye')}&release=${encodeURIComponent(rel.title || 'Untitled')}`,
-      amazonMusic: `https://distrokid.com/amazon/presave?artist=${encodeURIComponent(rel.artist || 'Gannon Waye')}&release=${encodeURIComponent(rel.title || 'Untitled')}`,
-      youtubeMusic: `https://distrokid.com/youtube/presave?artist=${encodeURIComponent(rel.artist || 'Gannon Waye')}&release=${encodeURIComponent(rel.title || 'Untitled')}`,
-    };
-
-    // Store presave link record
-    await base44.asServiceRole.entities.KnowledgeVault.create({
-      title: `Presave Links: ${rel.title}`,
-      category: 'evidence',
-      content: JSON.stringify(presaveLinks, null, 2),
-      summary: `Presave links for "${rel.title}" release — all platforms`,
-      source: `PresaveLinks:${release_id}`,
-      tags: ['presave', `release:${release_id}`, 'distribution'],
-      access_level: 'admin_only',
+    const title = release.title?.trim() || 'Unlabelled release';
+    const version = release.version_label?.trim() || 'unspecified version';
+    const approval = await base44.asServiceRole.entities.ApprovalQueue.create({
+      agent_name: 'PresaveDisclosureReview',
+      action_title: `Verify real presave link for "${title}"`,
+      action_description: 'Review the exact distributor-provided presave URL and decide whether this release may be disclosed publicly. No link is generated or published automatically.',
+      description: 'This function does not fabricate platform links, publish release information, write KnowledgeVault evidence, or schedule promotion.',
+      risk_type: ['publishing', 'brand', 'reputation'],
+      risk_level: 'high',
+      status: 'pending',
+      payload: {
+        release_id: release.id,
+        release_title: title,
+        version_label: version,
+        operation: 'presave_disclosure_review',
+        required_evidence: 'Exact distributor-provided URL',
+        requested_by: user?.email,
+      },
+      proposed_output: `Supply and verify the real distributor presave URL for "${title}" (${version}). Then obtain separate explicit owner approval before any public disclosure.`,
+      auto_eligible: false,
+      tags: ['release', 'presave', 'review-only', `release:${release.id}`],
     });
 
-    // Log to agent
-    await base44.asServiceRole.entities.AgentTaskLog.create({
-      agent_name: 'PresaveLinkGenerator',
-      task_title: `Generated presave links for "${rel.title}"`,
-      task_description: 'Presave links created for all 5 major platforms',
-      outcome: 'Links stored and ready for sharing',
-      was_automatic: true,
-      required_approval: false,
-      risk_check_result: 'pass',
-      tags: ['presave', 'release', 'distribution'],
+    return Response.json({
+      success: true,
+      review_created: true,
+      links: {},
+      published: false,
+      approval_id: approval.id,
+      release_id: release.id,
     });
-
-    return Response.json({ success: true, links: presaveLinks });
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    return Response.json({ error: errorMessage(error) }, { status: 500 });
   }
 });
