@@ -70,10 +70,10 @@ function BroadcasterGuide() {
               <div className="flex flex-col md:flex-row md:items-center justify-between bg-background border border-border/40 rounded-lg p-3 gap-2">
                 <div>
                   <span className="text-muted-foreground uppercase tracking-widest text-[10px]">Restream Stream Key</span>
-                  <p className="font-mono text-foreground mt-0.5 font-medium select-all">[ Your Restream Stream Key — set in Restream dashboard ]</p>
+                  <p className="font-mono text-foreground mt-0.5 font-medium">Set the stream key directly in your broadcaster. Never store it in site source.</p>
                 </div>
-                <Button size="sm" variant="outline" onClick={() => copyToClipboard('re_5692015_fb87d32c0211ff9d452b8', 'key')} className="self-start md:self-auto text-[10px] h-8 rounded-lg">
-                  {copiedKey === 'key' ? 'Copied! ✓' : 'Copy Key'}
+                <Button size="sm" variant="outline" disabled className="self-start md:self-auto text-[10px] h-8 rounded-lg">
+                  Key Not Stored
                 </Button>
               </div>
             </div>
@@ -154,19 +154,9 @@ function OfflineScreen({ settings }) {
             </Button>
           </a>
         </div>
-        <div className="max-w-md mx-auto w-full mt-8">
-          <iframe
-            data-testid="embed-iframe"
-            style={{ borderRadius: '12px' }}
-            src="https://open.spotify.com/embed/album/36qMYfzzJrq2j039l9Ex66?utm_source=generator"
-            width="100%"
-            height="352"
-            frameBorder="0"
-            allowFullScreen=""
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          />
-        </div>
+        <p className="font-body text-xs text-muted-foreground/70 mt-8">
+          Owner-approved releases and official listening links appear on the Music page.
+        </p>
       </motion.div>
       <div className="w-full max-w-4xl px-4 mt-8">
         <BroadcasterGuide />
