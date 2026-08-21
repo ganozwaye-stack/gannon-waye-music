@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
 
   <p style="color:#c9b99a;font-size:15px;line-height:1.8;">I'm genuinely glad you're here. This isn't just a mailing list — it's a community of people who believe in something honest, something real, something that matters.</p>
 
-  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">My debut single <strong style="color:#f5d06e;">"Thank You"</strong> is out now. Thank you for being part of this. Check out the site, join the community wall, and know that showing up here means the world to me. Truly.</p>
+  <p style="color:#c9b99a;font-size:15px;line-height:1.8;">Thank you for being part of this. Check out the site, join the community wall, and watch the Music page for any songs Gannon has explicitly approved for public sharing.</p>
 
   <div style="background:#1a1f2e;border:1px solid #2a2f3e;border-radius:12px;padding:24px;margin:28px 0;">
     <p style="color:#f5d06e;font-size:13px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 16px;">Find me on socials</p>
