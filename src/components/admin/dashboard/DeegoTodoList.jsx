@@ -14,6 +14,29 @@ const PRIORITY_STYLE = {
   low: 'bg-secondary text-muted-foreground border-border/40',
 };
 
+// Route a to-do to the admin screen where the task is actually performed.
+const TODO_ROUTES = [
+  { match: /ganozmix/i, path: '/admin/ganozmix' },
+  { match: /icloud/i, path: '/admin/quick-upload' },
+  { match: /lyric/i, path: '/admin/lyrics-archive' },
+  { match: /deego/i, path: '/admin/orchestrator-chat' },
+  { match: /stats|projection|profit|metric|revenue/i, path: '/admin/financials' },
+  { match: /approval/i, path: '/admin/approval-queue' },
+  { match: /sku|sourcing|procurement|supplier/i, path: '/admin/procurement-command' },
+  { match: /function|deployment|deploy/i, path: '/admin/operation-registry' },
+  { match: /release/i, path: '/admin/releases' },
+  { match: /merch|product/i, path: '/admin/merch' },
+  { match: /social|content/i, path: '/admin/content-dashboard' },
+  { match: /store|shop/i, path: '/admin/merch' },
+];
+
+function routeForTask(t) {
+  if (t.related_page) return t.related_page;
+  const text = `${t.title || ''} ${t.category || ''}`.toLowerCase();
+  const hit = TODO_ROUTES.find((r) => r.match.test(text));
+  return hit ? hit.path : null;
+}
+
 export default function DeegoTodoList() {
   const qc = useQueryClient();
   const navigate = useNavigate();
@@ -55,8 +78,9 @@ export default function DeegoTodoList() {
   const done = tasks.filter((t) => t.status === 'complete');
 
   const handleRowClick = (t) => {
-    if (t.related_page) {
-      navigate(t.related_page);
+    const path = routeForTask(t);
+    if (path) {
+      navigate(path);
       return;
     }
     setExpandedId(expandedId === t.id ? null : t.id);

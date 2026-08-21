@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Sparkles, MessageSquare } from 'lucide-react';
@@ -17,6 +17,7 @@ export default function DailyDashboard() {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
   const today = new Date().toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric', month: 'long' }).toUpperCase();
+  const navigate = useNavigate();
 
   // Live attention counts for Deego's headline
   const { data: approvals = [] } = useQuery({ queryKey: ['approvalQueueItems'], queryFn: () => base44.entities.ApprovalQueueItem.filter({ status: 'needs_approval' }), staleTime: 30_000 });
@@ -24,12 +25,10 @@ export default function DailyDashboard() {
   const { data: recs = [] } = useQuery({ queryKey: ['deego-recommendations'], queryFn: () => base44.entities.AgentAction.filter({ status: 'needs_gannon_approval' }, '-created_date', 20), staleTime: 30_000 });
 
   const counters = [
-    { label: 'recommendations', value: recs.length, cls: 'text-primary border-primary/25 bg-primary/10', target: 'deego-recommendations' },
-    { label: 'approvals', value: approvals.length, cls: 'text-amber-400 border-amber-500/25 bg-amber-500/10', target: 'deego-approvals' },
-    { label: 'blocked', value: blocked.length, cls: 'text-red-400 border-red-500/25 bg-red-500/10', target: 'deego-blocked' },
+    { label: 'recommendations', value: recs.length, cls: 'text-primary border-primary/25 bg-primary/10', path: '/admin/revenue-actions' },
+    { label: 'approvals', value: approvals.length, cls: 'text-amber-400 border-amber-500/25 bg-amber-500/10', path: '/admin/approval-queue' },
+    { label: 'blocked', value: blocked.length, cls: 'text-red-400 border-red-500/25 bg-red-500/10', path: '/admin/human-action-required' },
   ];
-
-  const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
   return (
     <div className="max-w-[1400px] mx-auto space-y-4 pb-10">
@@ -57,7 +56,7 @@ export default function DailyDashboard() {
                 <button
                   key={c.label}
                   type="button"
-                  onClick={() => scrollTo(c.target)}
+                  onClick={() => navigate(c.path)}
                   className={`font-body text-[11px] px-3 py-1.5 rounded-full border ${c.cls} cursor-pointer hover:scale-105 transition-transform`}
                 >
                   {c.value} {c.label}

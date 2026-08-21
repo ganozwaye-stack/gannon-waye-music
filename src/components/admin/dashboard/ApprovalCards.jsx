@@ -26,7 +26,7 @@ export default function ApprovalCards() {
     queryFn: () => base44.entities.ApprovalQueueItem.filter({ status: 'needs_approval' }, 'sort_order'),
   });
 
-  const go = (item) => navigate(item.related_page || '/admin/approval-queue');
+  const go = () => navigate('/admin/approval-queue');
 
   return (
     <div className="bg-card border border-amber-500/20 rounded-2xl p-5">
