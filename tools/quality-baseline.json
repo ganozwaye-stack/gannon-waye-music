@@ -1,8 +1,8 @@
 {
   "version": 1,
   "policy": "no-new-issues-vs-baseline",
-  "generatedAt": "2026-08-21T04:00:22.834Z",
-  "sourceCommit": "ac5aaecb0c32522c32c34f0976cbd7982132763f",
+  "generatedAt": "2026-08-21T04:03:30.122Z",
+  "sourceCommit": "b04e8a6669023926b405beb551cf3fb6b2eb4ba6",
   "startingAudit": {
     "scopedLint": {
       "total": 472,
@@ -22,7 +22,7 @@
   "hashes": {
     "eslint.config.js": "76c989f9f4266eda7c73e8f942ca0cbb8449947d530a7646f5638c403813adda",
     "jsconfig.json": "03f30928e0dad7fd5d42e45bbba0241be98706d9e8b6571eafeffdfa3008a9a3",
-    "package-lock.json": "94412b7fc8ba4b2205ab31dafa86cdfe2f6ff43ea4765c9f89145aa265de0da2"
+    "package-lock.json": "f4d3b901a9a5e22bc17238b67db1536472ff187aab4b73c55fa4d286aa537e2f"
   },
   "summaries": {
     "eslint": {
