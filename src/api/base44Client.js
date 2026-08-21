@@ -74,7 +74,7 @@ if (isLocal || token === 'mock-admin-token') {
       category: 'cd',
       stock_quantity: 50,
       image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6fbecc91f_THANKYOUOfficialSingleCover.bmp',
-      description: 'Official debut single in a slim clear plastic jewel case.',
+      description: 'Collectable CD in a slim clear plastic jewel case.',
       is_active: true
     },
     {
@@ -106,7 +106,7 @@ if (isLocal || token === 'mock-admin-token') {
       stock_quantity: 50,
       sizes_available: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
       image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
-      description: 'Official debut single artwork on a premium oversized tee.',
+      description: 'Premium oversized tee featuring original Gannon Waye artwork.',
       is_active: true
     },
     {
@@ -126,7 +126,7 @@ if (isLocal || token === 'mock-admin-token') {
       category: 'accessories',
       stock_quantity: 0,
       image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
-      description: "Large folding tote bag featuring the official 'Thank You' single cover artwork.",
+      description: "Large folding tote bag featuring original Gannon Waye artwork.",
       is_active: true
     }
   ];
