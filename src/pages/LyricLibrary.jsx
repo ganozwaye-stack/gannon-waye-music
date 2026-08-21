@@ -7,16 +7,39 @@ import { Badge } from '@/components/ui/badge';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import GannonSignature from '@/components/global/GannonSignature';
+import { PUBLIC_RELEASE_FILTER } from '@/lib/publicRelease';
 
 export default function LyricLibrary() {
   const [openId, setOpenId] = useState(null);
   const [filterRelease, setFilterRelease] = useState('all');
 
-  const { data: lyrics = [] } = useQuery({
-    queryKey: ['lyricLibrary'],
-    queryFn: () => base44.entities.Lyric.filter({ is_published: true, publishing_safe: true }, 'sort_order', 100),
+  const { data: lyricCandidates = [] } = useQuery({
+    queryKey: ['lyricLibraryCandidates'],
+    queryFn: () => base44.entities.Lyric.filter({
+      is_published: true,
+      publishing_safe: true,
+      release_publication_approved: true,
+      publishing_status: 'published',
+      approval_status: 'approved',
+      version_status: 'approved',
+      needs_review: false,
+      contains_unresolved_wording: false,
+    }, 'sort_order', 100),
     initialData: [],
   });
+
+  const { data: publicReleases = [] } = useQuery({
+    queryKey: ['lyricLibraryPublicReleases'],
+    queryFn: () => base44.entities.Release.filter(PUBLIC_RELEASE_FILTER, '-release_date', 100),
+    initialData: [],
+  });
+
+  const lyrics = useMemo(() => {
+    const approvedReleaseIds = new Set(publicReleases.map((release) => release.id));
+    return lyricCandidates.filter((lyric) =>
+      Boolean(lyric.release_id && approvedReleaseIds.has(lyric.release_id))
+    );
+  }, [lyricCandidates, publicReleases]);
 
   const releases = useMemo(() => {
     const titles = [...new Set(lyrics.map(l => l.release_title).filter(Boolean))];
