@@ -87,26 +87,29 @@ export default function Home() {
           className="absolute inset-0 z-[1] w-full h-full object-cover opacity-25 pointer-events-none" />
 
         {/* Mum, the angel in the Without You Here artwork. Faint, far left, behind everything — her presence at the fire. Slow, almost-imperceptible drift. */}
-        <motion.img
-          src={WYH_ANGEL}
-          alt=""
-          aria-hidden
-          className="absolute z-[2] pointer-events-none select-none w-[40%] max-w-[440px] aspect-square object-cover rounded-full"
-          style={{
-            left: '-4%',
-            top: '24%',
-            opacity: 0.4,
-            maskImage: 'radial-gradient(circle, black 52%, transparent 76%)',
-            WebkitMaskImage: 'radial-gradient(circle, black 52%, transparent 76%)',
-            filter: 'drop-shadow(0 0 50px rgba(212,175,55,0.18))'
-          }}
-          animate={{ x: [0, -10, 8, 0], y: [0, 8, -6, 0], scale: [1, 1.02, 1.01, 1] }}
-          transition={{ duration: 34, repeat: Infinity, ease: 'easeInOut' }} />
+        {currentSingle?.title === 'Without You Here' && (
+          <motion.img
+            src={WYH_ANGEL}
+            alt=""
+            aria-hidden
+            className="absolute z-[2] pointer-events-none select-none w-[40%] max-w-[440px] aspect-square object-cover rounded-full"
+            style={{
+              left: '-4%',
+              top: '24%',
+              opacity: 0.4,
+              maskImage: 'radial-gradient(circle, black 52%, transparent 76%)',
+              WebkitMaskImage: 'radial-gradient(circle, black 52%, transparent 76%)',
+              filter: 'drop-shadow(0 0 50px rgba(212,175,55,0.18))',
+            }}
+            animate={{ x: [0, -10, 8, 0], y: [0, 8, -6, 0], scale: [1, 1.02, 1.01, 1] }}
+            transition={{ duration: 34, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        )}
 
         {/* Gannon, side profile looking up. Right-aligned to the edge, behind everything, standing at the fire. Slow cinematic drift — barely moving, but moving. */}
         <motion.img
           src={HERO_PORTRAIT}
-          alt="Gannon Waye, Without You Here"
+          alt="Gannon Waye"
           aria-hidden
           className="absolute z-[2] pointer-events-none select-none inset-0 w-full h-full object-cover"
           style={{
@@ -123,15 +126,18 @@ export default function Home() {
         
 
         {/* "Without You Here" stencil, stretched out as a background design staple on the right */}
-        <motion.img
-          src={WYH_STENCIL}
-          alt=""
-          aria-hidden
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 0.3, x: 0 }}
-          transition={{ duration: 1.8, delay: 0.5 }}
-          className="absolute z-[2] pointer-events-none select-none w-[95%] max-w-[62rem]"
-          style={{ right: '-4%', top: '2%', filter: 'drop-shadow(0 0 34px rgba(212,175,55,0.45))', y: yStencil }} />
+        {currentSingle?.title === 'Without You Here' && (
+          <motion.img
+            src={WYH_STENCIL}
+            alt=""
+            aria-hidden
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 0.3, x: 0 }}
+            transition={{ duration: 1.8, delay: 0.5 }}
+            className="absolute z-[2] pointer-events-none select-none w-[95%] max-w-[62rem]"
+            style={{ right: '-4%', top: '2%', filter: 'drop-shadow(0 0 34px rgba(212,175,55,0.45))', y: yStencil }}
+          />
+        )}
         
 
         {/* Subtle vignette for depth, plus page-blend fades top & bottom */}
@@ -166,7 +172,7 @@ export default function Home() {
               transition={{ duration: 1.6, delay: 0.4 }}
               className="font-body text-base tracking-[0.45em] uppercase gradient-gold-text mb-4">
               
-              The New Single
+              {currentSingle ? 'Owner-Approved Release' : 'Music'}
             </motion.p>
 
             {/* Cover artwork */}
@@ -211,14 +217,24 @@ export default function Home() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 1.6 }}
               className="flex flex-wrap items-center justify-center gap-2.5 mt-2">
-              <MagneticButton>
-                <Button
-                  type="button"
-                  onClick={() => { trackEvent('stream_click', { platform: 'spotify', source: 'hero_listen_here' }); playTrack(currentSpotify, { title: currentTitle, artwork: currentArt }); }}
-                  className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
-                  <Play className="w-3 h-3" /> Listen Here
-                </Button>
-              </MagneticButton>
+              {currentSpotify && (
+                <MagneticButton>
+                  <Button
+                    type="button"
+                    onClick={() => {
+                      trackEvent('stream_click', {
+                        platform: 'spotify',
+                        source: 'hero_listen_here',
+                        release_id: currentSingle?.id,
+                      });
+                      playTrack(currentSpotify, { title: currentTitle, artwork: currentArt });
+                    }}
+                    className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap"
+                  >
+                    <Play className="w-3 h-3" /> Listen Here
+                  </Button>
+                </MagneticButton>
+              )}
               <MagneticButton>
                 <Link to="/back-this">
                   <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
@@ -226,14 +242,17 @@ export default function Home() {
                   </Button>
                 </Link>
               </MagneticButton>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1.4, delay: 1.9 }}
-                className="flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-full bg-primary/10 border border-primary/25 whitespace-nowrap w-fit">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Out Now</p>
-              </motion.div>
+              {currentSingle && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1.4, delay: 1.9 }}
+                  className="flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-full bg-primary/10 border border-primary/25 whitespace-nowrap w-fit"
+                >
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+                  <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Public Release</p>
+                </motion.div>
+              )}
             </motion.div>
 
           </div>
