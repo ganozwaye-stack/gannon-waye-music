@@ -74,7 +74,7 @@ const FALLBACK_PRODUCTS = [
     category: 'cd',
     stock_quantity: 0,
     image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6dde7d697_2.jpg',
-    description: 'Official debut single in a slim clear plastic jewel case.',
+    description: 'Collectable CD in a slim clear plastic jewel case.',
   },
   {
     id: '69eed3e64e2da78ae4418a9d',
@@ -107,7 +107,7 @@ const FALLBACK_PRODUCTS = [
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4b7f96472_IMG_1725.JPG',
     ],
-    description: 'Official debut single artwork on a premium oversized tee.',
+    description: 'Premium oversized tee featuring original Gannon Waye artwork.',
   },
   {
     id: '69fbd261b760426cede1b7a3',
@@ -135,7 +135,7 @@ const FALLBACK_PRODUCTS = [
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
       'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/39dab5737_RespectisEarnedToteBagBack.png',
     ],
-    description: "Large folding tote bag featuring the official 'Thank You' single cover artwork.",
+    description: "Large folding tote bag featuring original Gannon Waye artwork.",
   },
 ];
 
@@ -508,7 +508,7 @@ export default function Store() {
         </motion.div>
 
         <p className="text-center font-body text-xs text-muted-foreground/40 mt-10 tracking-wide">
-          Thank You, official release date 05 June 2026.
+          Independent music, merchandise, and community support.
         </p>
       </div>
 
