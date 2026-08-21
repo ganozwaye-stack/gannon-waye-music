@@ -4,9 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Lock, AlertTriangle, BookOpen, Users, Calendar, FileText, Heart, Music, Star, ChevronRight, Shield, Eye, EyeOff } from 'lucide-react';
+import { FEATURE_FLAGS } from '@/lib/platformConfig';
 
 // GLOBAL LOCK — Coaching is NEVER public until Gannon explicitly enables this
-const COACHING_PUBLIC_LAUNCH_ENABLED = false;
+const { COACHING_PUBLIC_LAUNCH_ENABLED } = FEATURE_FLAGS;
 
 const PROGRAMS = [
   { name: 'Clarity Reset Session', type: 'Single Session', price: null, status: 'Draft', desc: '1:1 session to cut through noise and get clear on the next move.' },
