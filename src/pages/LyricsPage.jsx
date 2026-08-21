@@ -7,36 +7,44 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import GannonSignature from '@/components/global/GannonSignature';
 import SaveLyricButton from '@/components/public/SaveLyricButton';
+import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 export default function LyricsPage() {
   const [openId, setOpenId] = useState(null);
 
-  // SAFETY: Only fetch lyrics that are BOTH is_published: true AND publishing_safe: true.
-  // RLS also enforces is_published on the server side, so unpublished lyrics are never returned.
-  const { data: lyrics = [] } = useQuery({
-    queryKey: ['publishedSafeLyrics'],
-    queryFn: () => base44.entities.Lyric.filter({ is_published: true, publishing_safe: true }, 'sort_order'),
+  const { data: lyricCandidates = [] } = useQuery({
+    queryKey: ['lyrics-page-approved-candidates'],
+    queryFn: () => base44.entities.Lyric.filter({
+      is_published: true,
+      publishing_safe: true,
+      release_publication_approved: true,
+      publishing_status: 'published',
+      approval_status: 'approved',
+      version_status: 'approved',
+      needs_review: false,
+      contains_unresolved_wording: false,
+    }, 'sort_order', 100),
     initialData: [],
   });
 
-  // Published releases — used to attach per-track listening links (matched by release title)
-  const { data: releases = [] } = useQuery({
-    queryKey: ['publishedReleasesForLyrics'],
-    queryFn: () => base44.entities.Release.filter({ is_published: true }, '-release_date', 50),
+  const { data: releaseCandidates = [] } = useQuery({
+    queryKey: ['lyrics-page-public-releases'],
+    queryFn: () => base44.entities.Release.filter(PUBLIC_RELEASE_FILTER, '-release_date', 100),
     initialData: [],
   });
 
-  const releaseByTitle = {};
-  releases.forEach((r) => {
-    if (r.title) releaseByTitle[r.title.trim().toLowerCase()] = r;
-  });
+  const releases = releaseCandidates.filter(isPublicRelease);
+  const releaseById = Object.fromEntries(releases.map((release) => [release.id, release]));
+  const lyrics = lyricCandidates.filter((lyric) => (
+    lyric.release_id && releaseById[lyric.release_id]
+  ));
 
   const listenLinks = (lyric) => {
-    const r = lyric.release_title ? releaseByTitle[lyric.release_title.trim().toLowerCase()] : null;
+    const release = lyric.release_id ? releaseById[lyric.release_id] : null;
     const links = [];
-    if (r?.spotify_link) links.push({ label: 'Spotify', url: r.spotify_link });
-    if (r?.apple_music_link) links.push({ label: 'Apple Music', url: r.apple_music_link });
-    if (r?.youtube_link) links.push({ label: 'YouTube', url: r.youtube_link });
+    if (release?.spotify_link) links.push({ label: 'Spotify', url: release.spotify_link });
+    if (release?.apple_music_link) links.push({ label: 'Apple Music', url: release.apple_music_link });
+    if (release?.youtube_link) links.push({ label: 'YouTube', url: release.youtube_link });
     return links;
   };
 
