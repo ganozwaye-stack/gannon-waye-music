@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
 
 Thank you for signing up. You've shown me who you are, and that means everything.
 
-As a token of my appreciation, I'm sending you something special before the May 10 release.
+As a token of my appreciation, I'm offering something special after a manual review.
 
 **How to claim your gift:**
 
@@ -34,7 +34,7 @@ See you on the other side,
 Gannon
 
 ---
-P.S. The single is out now. Stream it today!`;
+P.S. Music approved for public sharing is always listed on the Music page.`;
 
     await base44.integrations.Core.SendEmail({
       to: email,
