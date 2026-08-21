@@ -1,229 +1,170 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Loader2, Music, RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
+import { Music2, Sparkles } from 'lucide-react';
+import { base44 } from '@/api/base44Client';
+import { Button } from '@/components/ui/button';
+import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 const MOODS = [
-  { id: 'reflective', label: 'Reflective & Introspective', emoji: '🌙' },
-  { id: 'uplifting', label: 'Uplifting & Hopeful', emoji: '☀️' },
-  { id: 'raw', label: 'Raw & Honest', emoji: '💔' },
-  { id: 'energetic', label: 'Energetic & Driven', emoji: '⚡' },
-  { id: 'melancholic', label: 'Melancholic & Tender', emoji: '🌧️' },
-  { id: 'empowering', label: 'Empowering & Bold', emoji: '🔥' },
-];
-
-const SITUATIONS = [
-  'Going through a breakup',
-  'Missing someone who passed',
-  'Feeling stuck and needing change',
-  'Celebrating a personal win',
-  'Late night drive, windows down',
-  'Needing courage to make a hard choice',
-  'Processing complicated feelings',
-  'Wanting to feel understood',
+  'Reflective',
+  'Hopeful',
+  'Quiet',
+  'Resilient',
+  'Heartbroken',
+  'Rebuilding',
 ];
 
 export default function MusicRecommender() {
   const [mood, setMood] = useState('');
-  const [situation, setSituation] = useState('');
-  const [loading, setLoading] = useState(false);
   const [recommendation, setRecommendation] = useState(null);
   const [error, setError] = useState('');
+  const [isWorking, setIsWorking] = useState(false);
 
-  const { data: releases = [] } = useQuery({
-    queryKey: ['releases'],
-    queryFn: () => base44.entities.Release.filter({ is_published: true }, '-release_date'),
+  const { data: candidates = [] } = useQuery({
+    queryKey: ['recommender-public-releases'],
+    queryFn: () => base44.entities.Release.filter(PUBLIC_RELEASE_FILTER, '-release_date', 100),
     initialData: [],
   });
 
-  const handleRecommend = async () => {
-    if (!mood && !situation) {
-      setError('Pick a mood or describe your situation to get a recommendation.');
-      return;
-    }
+  const releases = useMemo(
+    () => candidates.filter(isPublicRelease),
+    [candidates],
+  );
+
+  const recommend = async () => {
+    if (!mood || releases.length === 0) return;
+
+    setIsWorking(true);
     setError('');
-    setLoading(true);
     setRecommendation(null);
 
     try {
-      const catalogText = releases.length > 0
-        ? releases.map(r => `- "${r.title}": ${r.description || 'A song by Gannon Waye.'}`).join('\n')
-        : '- "Thank You": A song about breaking a cycle and choosing self-respect.\n- "Without You Here": A raw, acoustic letter to a late mother.';
+      const catalogue = releases.map((release) => ({
+        id: release.id,
+        title: release.title,
+        version_label: release.version_label || '',
+        description: release.description || '',
+      }));
 
-      const prompt = `You are a music recommendation engine for independent artist Gannon Waye. 
+      const result = await base44.integrations.Core.InvokeLLM({
+        prompt: `Choose one item from this exact owner-approved public Gannon Waye catalogue for a listener feeling "${mood}".
 
-Here is Gannon's song catalog:
-${catalogText}
+Catalogue:
+${JSON.stringify(catalogue)}
 
-The listener selected mood: "${mood || 'not specified'}"
-The listener's situation: "${situation || 'not specified'}"
+Return only a JSON object with:
+- "title": one title copied exactly from the catalogue
+- "reason": a short explanation based only on the supplied description
 
-Based on the mood and situation, recommend the SINGLE best Gannon Waye song for them right now. Explain why in 2-3 sentences that feel personal and warm, as if a close friend is recommending it. Reference the specific mood or situation in your explanation.
-
-Respond as JSON:
-{
-  "song_title": "the exact song title from the catalog",
-  "why": "2-3 sentence personal explanation",
-  "lyric_snippet": "a short representative line or theme from the song (you can infer from the description if needed)"
-}`;
-
-      const res = await base44.integrations.Core.InvokeLLM({
-        prompt,
+Do not invent or infer a title, lyric, release date, story, artwork, link, status, or platform claim.`,
         response_json_schema: {
           type: 'object',
           properties: {
-            song_title: { type: 'string' },
-            why: { type: 'string' },
-            lyric_snippet: { type: 'string' },
+            title: { type: 'string' },
+            reason: { type: 'string' },
           },
+          required: ['title', 'reason'],
         },
       });
 
-      setRecommendation(res);
-    } catch (e) {
-      setError('Something went wrong generating your recommendation. Please try again.');
+      const exactRelease = releases.find((release) => release.title === result?.title);
+      if (!exactRelease) {
+        setError('No verified catalogue match was returned. Please try another mood.');
+        return;
+      }
+
+      setRecommendation({
+        release: exactRelease,
+        reason: result.reason || exactRelease.description || 'Selected from the approved public catalogue.',
+      });
+    } catch {
+      setError('The recommender is unavailable right now.');
     } finally {
-      setLoading(false);
+      setIsWorking(false);
     }
   };
 
-  const recommendedRelease = recommendation
-    ? releases.find(r => r.title.toLowerCase() === recommendation.song_title?.toLowerCase())
-    : null;
-
   return (
     <div className="min-h-screen py-24 px-4 md:px-8">
-      <div className="max-w-2xl mx-auto">
-        {/* Hero */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
-          <div className="w-16 h-16 rounded-full bg-secondary/50 flex items-center justify-center border border-primary/20 text-primary/60 mx-auto mb-6">
-            <Sparkles className="w-7 h-7" />
-          </div>
-          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Find Your Song</p>
-          <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Music Recommender</h1>
-          <p className="font-body text-sm text-muted-foreground max-w-md mx-auto leading-relaxed">
-            Tell me how you're feeling right now, and I'll recommend the perfect Gannon Waye song for this moment.
+      <div className="max-w-3xl mx-auto">
+        <motion.header
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center mb-12"
+        >
+          <Sparkles className="w-9 h-9 text-primary mx-auto mb-5" />
+          <h1 className="font-display text-5xl md:text-7xl text-foreground mb-5">
+            Music Recommender
+          </h1>
+          <p className="font-body text-sm text-muted-foreground max-w-lg mx-auto">
+            Choose a mood and receive a suggestion only from Gannon's owner-approved public catalogue.
           </p>
-        </motion.div>
+        </motion.header>
 
-        {/* Input form */}
-        <div className="bg-card border border-border/40 rounded-2xl p-6 md:p-8 mb-8 space-y-6">
-          <div>
-            <label className="font-body text-xs tracking-widest uppercase text-primary/60 mb-3 block">How are you feeling?</label>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {MOODS.map(m => (
-                <button
-                  key={m.id}
-                  onClick={() => setMood(mood === m.id ? '' : m.id)}
-                  className="font-body text-xs px-3 py-3 rounded-xl transition-all text-left"
-                  style={{
-                    background: mood === m.id ? 'hsl(var(--primary) / 0.12)' : 'hsl(var(--secondary) / 0.3)',
-                    border: `1px solid hsl(var(--primary) / ${mood === m.id ? 0.4 : 0.15})`,
-                  }}
-                >
-                  <span className="text-base mr-1.5">{m.emoji}</span>
-                  <span className={mood === m.id ? 'text-primary' : 'text-muted-foreground'}>{m.label}</span>
-                </button>
-              ))}
+        <section className="rounded-3xl border border-primary/20 bg-card/55 p-7 md:p-10">
+          {releases.length === 0 ? (
+            <div className="text-center py-8">
+              <Music2 className="w-10 h-10 text-primary/60 mx-auto mb-4" />
+              <h2 className="font-display text-3xl text-foreground mb-3">No public catalogue yet</h2>
+              <p className="font-body text-sm text-muted-foreground">
+                The recommender stays off until at least one exact Release is approved for public sharing.
+              </p>
+              <Link to="/music" className="inline-block mt-6">
+                <Button variant="outline" className="rounded-full border-primary/35 text-primary">
+                  Visit Music
+                </Button>
+              </Link>
             </div>
-          </div>
-
-          <div>
-            <label className="font-body text-xs tracking-widest uppercase text-primary/60 mb-3 block">What's going on right now?</label>
-            <div className="flex flex-wrap gap-2">
-              {SITUATIONS.map(s => (
-                <button
-                  key={s}
-                  onClick={() => setSituation(situation === s ? '' : s)}
-                  className="font-body text-xs px-4 py-2 rounded-full transition-all"
-                  style={{
-                    background: situation === s ? 'hsl(var(--primary) / 0.12)' : 'transparent',
-                    border: `1px solid hsl(var(--primary) / ${situation === s ? 0.4 : 0.2})`,
-                    color: situation === s ? 'hsl(var(--primary))' : 'hsl(var(--muted-foreground))',
-                  }}
-                >
-                  {s}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {error && <p className="font-body text-sm text-red-400 text-center">{error}</p>}
-
-          <Button
-            onClick={handleRecommend}
-            disabled={loading}
-            className="w-full rounded-full font-body text-sm tracking-wider uppercase gradient-gold-button border-0 gap-2"
-          >
-            {loading ? (
-              <><Loader2 className="w-4 h-4 animate-spin" />Finding your song…</>
-            ) : recommendation ? (
-              <><RefreshCw className="w-4 h-4" />Try Again</>
-            ) : (
-              <><Sparkles className="w-4 h-4" />Recommend a Song</>
-            )}
-          </Button>
-        </div>
-
-        {/* Result */}
-        <AnimatePresence mode="wait">
-          {recommendation && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="bg-card border border-primary/30 rounded-2xl p-8 text-center"
-            >
-              <p className="font-body text-xs tracking-[0.3em] uppercase text-primary/50 mb-4">Your Song</p>
-              <h2 className="font-display text-3xl text-foreground mb-2">{recommendation.song_title}</h2>
-              <p className="font-body italic text-primary/60 text-sm mb-6">"{recommendation.lyric_snippet}"</p>
-              <div className="bg-secondary/30 rounded-xl p-5 mb-6 text-left">
-                <p className="font-body text-sm text-foreground/75 leading-relaxed">{recommendation.why}</p>
-              </div>
-
-              {recommendedRelease && (
-                <div className="flex flex-wrap justify-center gap-2">
-                  {recommendedRelease.spotify_link && (
-                    <a href={recommendedRelease.spotify_link} target="_blank" rel="noopener noreferrer">
-                      <Button size="sm" className="rounded-full font-body text-xs gradient-gold-button border-0 gap-1.5">
-                        🎧 Listen on Spotify
-                      </Button>
-                    </a>
-                  )}
-                  <Link to="/music">
-                    <Button size="sm" variant="outline" className="rounded-full font-body text-xs border-primary/30 text-primary hover:bg-primary/10 gap-1.5">
-                      <Music className="w-3 h-3" />All Songs
-                    </Button>
-                  </Link>
-                  <Link to="/lyric-library">
-                    <Button size="sm" variant="outline" className="rounded-full font-body text-xs border-primary/30 text-primary hover:bg-primary/10">
-                      Read Lyrics
-                    </Button>
-                  </Link>
-                </div>
-              )}
-              {!recommendedRelease && (
-                <Link to="/music">
-                  <Button size="sm" className="rounded-full font-body text-xs gradient-gold-button border-0 gap-1.5">
-                    <Music className="w-3 h-3" />Listen on Music Page
-                  </Button>
-                </Link>
-              )}
-            </motion.div>
+          ) : (
+            <>
+              <label htmlFor="mood" className="font-body text-xs tracking-[0.2em] uppercase text-primary">
+                How are you feeling?
+              </label>
+              <select
+                id="mood"
+                value={mood}
+                onChange={(event) => setMood(event.target.value)}
+                className="mt-3 w-full rounded-xl border border-border/50 bg-background px-4 py-3 font-body text-sm text-foreground"
+              >
+                <option value="">Choose a mood</option>
+                {MOODS.map((item) => <option key={item} value={item}>{item}</option>)}
+              </select>
+              <Button
+                type="button"
+                onClick={recommend}
+                disabled={!mood || isWorking}
+                className="mt-5 w-full rounded-full gradient-gold-button border-0"
+              >
+                {isWorking ? 'Finding a verified match...' : 'Recommend Music'}
+              </Button>
+            </>
           )}
-        </AnimatePresence>
 
-        {/* Footer CTA */}
-        {!recommendation && !loading && (
-          <div className="text-center mt-8">
-            <p className="font-body text-xs text-muted-foreground/50">
-              Powered by AI · Recommendations based on your mood and situation
-            </p>
-          </div>
-        )}
+          {error && (
+            <p className="font-body text-sm text-red-300 text-center mt-5">{error}</p>
+          )}
+
+          {recommendation && (
+            <div className="mt-8 rounded-2xl border border-border/40 bg-background/35 p-6">
+              <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary">
+                Verified recommendation
+              </p>
+              <h2 className="font-display text-3xl text-foreground mt-2">
+                {recommendation.release.title}
+              </h2>
+              <p className="font-body text-sm text-muted-foreground leading-relaxed mt-3">
+                {recommendation.reason}
+              </p>
+              <Link to={`/release/${recommendation.release.id}`} className="inline-block mt-5">
+                <Button variant="outline" className="rounded-full border-primary/35 text-primary">
+                  View Release
+                </Button>
+              </Link>
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );
