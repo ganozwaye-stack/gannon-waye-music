@@ -7,11 +7,11 @@ import { Button } from '@/components/ui/button';
 const FAQS = [
   {
     q: 'Who is Gannon Waye?',
-    a: 'Gannon Waye is an Australian singer-songwriter based in Melbourne, originally from Adelaide. He writes deeply personal music about grief, healing, self-discovery, and the quiet transformation that comes from lived experience. His debut single "Thank You" is the beginning of a larger body of work.',
+    a: 'Gannon Waye is an Australian singer-songwriter based in Melbourne, originally from Adelaide. He writes deeply personal music about grief, healing, self-discovery, and transformation. Music approved for public sharing is listed on the Music page.',
   },
   {
-    q: 'Where can I listen to the debut single "Thank You"?',
-    a: 'The debut single "Thank You" was released on June 5, 2026. You can stream it now on Spotify, Apple Music, YouTube, and all other major music platforms.',
+    q: "Where can I listen to Gannon Waye's music?",
+    a: 'Visit the Music page. Only releases approved for public sharing appear there, with their official listening links.',
   },
   {
     q: 'How do I stay updated on new music and events?',
