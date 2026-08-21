@@ -2,7 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "gsap/ScrollTrigger": ["./node_modules/gsap/types/scroll-trigger.d.ts"]
     },
     "allowJs": true,
     "checkJs": true,
