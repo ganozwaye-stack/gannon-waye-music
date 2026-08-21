@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
 import StoreWorldTeaser from '@/components/public/StoreWorldTeaser';
-import { useSiteReveal } from '@/hooks/useSiteReveal';
 import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
@@ -20,12 +19,11 @@ import MarqueeBar from '@/components/public/MarqueeBar';
 import PressKitHomeSection from '@/components/public/PressKitHomeSection';
 import { trackEvent } from '@/lib/analytics';
 import { usePlayerStore } from '@/lib/playerStore';
+import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
 // Hero imagery supplied by Gannon, August 2026. Do not reassign these.
 const HERO_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cb360d5ee_image.png';
-const WYH_ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/9c05e7539_image.png';
-const MUM_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0edc48d83_image.png';
 const WYH_STENCIL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b82279641_without-you-here-stencil-outline-only-transparent-tight-2026-08-03.png';
 const HERO_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6eb4180010f794/8e23b3544_Ambient_Hero_Loop.mp4';
 const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
@@ -41,23 +39,24 @@ export default function Home() {
     initialData: []
   });
 
-  const { data: releases } = useQuery({
-    queryKey: ['releases'],
-    queryFn: () => base44.entities.Release.list('-release_date'),
-    initialData: []
+  const { data: releaseCandidates = [] } = useQuery({
+    queryKey: ['home-public-releases'],
+    queryFn: () => base44.entities.Release.filter(PUBLIC_RELEASE_FILTER, '-release_date', 50),
+    initialData: [],
   });
 
   const site = settings[0] || {};
-  const { artworkRevealed } = useSiteReveal();
-  // The "current single" is whichever Release has is_current_single = true.
-  // Set it with one click in Admin → Releases (crown button). No hardcoding.
-  const currentSingle = releases.find((r) => r.is_current_single) || releases.find((r) => r.title === 'Without You Here') || releases.find((r) => r.is_published) || releases[0];
-  const currentArt = currentSingle?.artwork_url || WYH_ARTWORK;
-  const currentSpotify = currentSingle?.spotify_link || 'https://open.spotify.com/track/6lX5V0j0bQiLOzldueTmnz';
+  const releases = releaseCandidates.filter(isPublicRelease);
+  const currentSingle = releases.find((release) => release.is_current_single === true) || releases[0] || null;
+  const currentArt = currentSingle?.artwork_url || HERO_IMAGE;
+  const currentSpotify = currentSingle?.spotify_link || '';
   const currentLink = currentSingle?.id ? `/release/${currentSingle.id}` : '/music';
-  const currentTitle = currentSingle?.title || 'Without You Here';
-  const currentHeroCopy = currentSingle?.current_single_hero_copy || currentSingle?.description || "A raw, acoustic letter to Sonia, written in the early hours of Mother's Day, four years after she left.";
-  const playTrack = usePlayerStore((s) => s.playTrack);
+  const currentTitle = currentSingle?.title || 'Gannon Waye Music';
+  const currentHeroCopy = currentSingle?.current_single_hero_copy
+    || currentSingle?.description
+    || 'Music is shared here only after exact owner approval.';
+  const approvedAlbum = releases.find((release) => release.type === 'album') || null;
+  const playTrack = usePlayerStore((state) => state.playTrack);
 
   // 3D immersive parallax: layers drift at different rates as the hero scrolls away.
   const heroRef = useRef(null);
@@ -351,7 +350,7 @@ export default function Home() {
               
               <p>My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say.</p>
               <p>I began singing at a young age, runner up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.</p>
-              <p>That work is now becoming an album, a collection for anyone who needs a message of hope or just an anthem that reminds them they're not alone.</p>
+              <p>That work shapes the music and stories I continue to create for anyone who needs hope or a reminder that they are not alone.</p>
             </motion.div>
           </div>
 
@@ -386,7 +385,7 @@ export default function Home() {
               I began singing at a young age, runner up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.
             </p>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
-              That work is now becoming an album, a collection for anyone who needs a message of hope or just an anthem that reminds them they're not alone.
+              That work shapes the music and stories I continue to create for anyone who needs hope or a reminder that they are not alone.
             </p>
           </div>
 
@@ -419,7 +418,7 @@ export default function Home() {
             </motion.div>
 
             {/* Album, featured at top center */}
-            {releases.find((r) => r.type === 'album' && r.is_published) &&
+            {approvedAlbum &&
           <div className="mb-8 max-w-2xl mx-auto">
                 <div className="relative overflow-hidden rounded-2xl p-8 md:p-10 text-center"
             style={{
@@ -427,15 +426,15 @@ export default function Home() {
               border: '2px solid rgba(245,208,110,0.35)',
               boxShadow: '0 0 50px rgba(212,175,55,0.12)'
             }}>
-                  <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Album, Releasing Next Year</p>
-                  <h3 className="font-body text-3xl md:text-4xl gradient-gold-text mb-2">{releases.find((r) => r.type === 'album').title}</h3>
-                  <p className="font-body text-sm text-muted-foreground">{releases.find((r) => r.type === 'album').description}</p>
+                  <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Owner-Approved Album</p>
+                  <h3 className="font-body text-3xl md:text-4xl gradient-gold-text mb-2">{approvedAlbum.title}</h3>
+                  <p className="font-body text-sm text-muted-foreground">{approvedAlbum.description}</p>
                   <div className="flex items-center justify-center gap-2 mt-4">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
                     </span>
-                    <span className="font-body text-xs gradient-gold-text uppercase tracking-wider">In Production</span>
+                    <span className="font-body text-xs gradient-gold-text uppercase tracking-wider">Public Release</span>
                   </div>
                 </div>
               </div>
@@ -443,7 +442,7 @@ export default function Home() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 max-w-xl mx-auto">
               {/* Without You Here now shows from the published releases list below, no longer a Coming Soon card */}
-              {releases.filter((r) => r.is_published).slice(0, 2).map((release) =>
+              {releases.slice(0, 2).map((release) =>
             <TiltCard key={release.id} max={6} className="rounded-2xl">
                 <Link to={`/release/${release.id}`}>
                 <motion.div
@@ -468,11 +467,10 @@ export default function Home() {
                   <div className="p-6">
                     <p className="font-body text-xs tracking-widest uppercase gradient-gold-text">{release.type}</p>
                     <h3 className="font-body text-2xl gradient-gold-text mt-1">{release.title}</h3>
-                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.title === 'Thankyou' ? 'Thankyou was written at a turning point, when staying any longer would have meant abandoning himself all over again. This song is not about the pain. It is about the line being drawn. Thankyou is what it sounds like when you break a cycle and refuse to return to it.' : release.description}</p>
+                    <p className="font-body text-sm text-muted-foreground mt-2 line-clamp-2">{release.description}</p>
                     {release.release_date &&
                     <p className="font-body text-xs text-muted-foreground mt-3">
-                        {new Date(release.release_date) > new Date() ? 'Coming ' : 'Released '}
-                        {new Date(release.release_date).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' })}
+                        Released {new Date(release.release_date).toLocaleDateString('en-AU', { month: 'long', day: 'numeric', year: 'numeric' })}
                       </p>
                     }
                   </div>
