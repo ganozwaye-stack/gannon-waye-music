@@ -6,7 +6,7 @@ Deno.serve(async (req) => {
 
     // Generate trending hooks, viral ideas, and content strategies
     const trendReport = await base44.asServiceRole.integrations.Core.InvokeLLM({
-      prompt: `You are an elite music marketing strategist and viral content creator working for Gannon Waye — an Australian LGBTQIA+ affirming pop artist releasing "Thank You".
+      prompt: `You are an elite music marketing strategist and viral content creator working for Gannon Waye, an Australian LGBTQIA+ affirming independent artist.
 
 Generate a DAILY TREND REPORT with:
 
@@ -33,13 +33,13 @@ One specific revenue opportunity Gannon should pursue this week:
 ## 📈 TRENDING SOUNDS/TOPICS TO RIDE
 3 trending audio clips, hashtags, or cultural moments to capitalize on:
 - What's trending
-- How to tie it to "Thank You" or Gannon's brand
+- How it can support Gannon's evergreen brand without naming or implying any song, release date, release status, lyric, streaming link, presave, launch, or countdown
 - Window of opportunity (how long this trend lasts)
 
 ## 🎪 TOMORROW'S BIG IDEA
 One bold creative campaign concept for the next 30 days
 
-Make everything specific, bold, and designed to generate income and fan growth.`,
+Make everything specific, bold, and designed to generate income and fan growth. Keep all outputs as internal suggestions requiring review; never present unverified release information as fact.`,
       add_context_from_internet: true,
       model: 'gemini_3_flash',
     });
@@ -69,9 +69,9 @@ Make everything specific, bold, and designed to generate income and fan growth.`
       action_description: 'The Trend Engine has identified a revenue opportunity for today. Review and decide whether to action it.',
       proposed_output: trendReport?.substring(0, 500) || 'See Knowledge Vault for full report',
       risk_type: ['publishing'],
-      risk_level: 'low',
+      risk_level: 'medium',
       status: 'pending',
-      auto_eligible: true,
+      auto_eligible: false,
       tags: ['daily', 'trends', 'opportunity'],
     });
 
