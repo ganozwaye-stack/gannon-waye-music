@@ -65,7 +65,7 @@ export default function GiftChecklistPage() {
         >
           <p className="font-body text-sm text-foreground/70">
             <strong>Need help?</strong> Reply to the signup email or DM @gann0nwaye on Instagram or TikTok.
-            This gift is my way of saying thank you for believing in this before the 5 June 2026 release. 🤍
+            This gift is my way of saying thank you for believing in the independent work and community. 🤍
           </p>
         </motion.div>
       </div>
