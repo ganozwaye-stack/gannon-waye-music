@@ -13,7 +13,7 @@ Deno.serve(async (req) => {
     const entityId = event?.entity_id || 'Unknown';
     
     // Determine the type of submission
-    let subject = 'New Memory Submission — Remember Mum';
+    const subject = 'New Memory Submission — Remember Mum';
     let submitterName = 'Someone';
     let preview = '';
     let memoryType = 'memory';

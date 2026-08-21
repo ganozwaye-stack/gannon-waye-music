@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Compass, Wrench, Heart, FileText, ArrowRight, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';

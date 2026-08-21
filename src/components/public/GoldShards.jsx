@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 
 // Lightweight CSS-only gold shard atmosphere — no canvas, no heavy deps
 // Respects prefers-reduced-motion, pointer-events: none, z-index behind content

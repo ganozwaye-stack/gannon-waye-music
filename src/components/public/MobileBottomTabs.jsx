@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Music, ShoppingBag, FileText, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';

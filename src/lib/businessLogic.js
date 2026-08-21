@@ -4,7 +4,7 @@
  * Single source of truth - NO DUPLICATION
  */
 
-import { FINANCIAL_CONFIG, CUSTOMER_TIERS, ENGAGEMENT_CONFIG } from './platformConfig';
+import { FINANCIAL_CONFIG, CUSTOMER_TIERS } from './platformConfig';
 
 /**
  * Calculate product profitability

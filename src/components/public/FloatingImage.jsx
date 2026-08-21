@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 
 // Gently floats its children up and down — gives the site a "living world" feel.

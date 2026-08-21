@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, ChevronLeft, ArrowRight } from 'lucide-react';
 import { LEGACY_ROUTES, getRouteStats } from '@/lib/adminV3Routes';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Star, ArrowRight, CheckCircle2, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';

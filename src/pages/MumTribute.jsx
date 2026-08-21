@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Heart } from 'lucide-react';
 import { CandleGarden } from '@/components/mum/EnhancedCandle';

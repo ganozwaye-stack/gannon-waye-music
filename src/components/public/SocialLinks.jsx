@@ -1,4 +1,3 @@
-import React from 'react';
 
 const SOCIAL_ICONS = {
   instagram_url: { label: 'Instagram', icon: '📷' },

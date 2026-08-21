@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Play, ExternalLink, BookOpen, Star, ShoppingBag, Heart, FileText, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';

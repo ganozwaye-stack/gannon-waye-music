@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Heart, Users, Music, ShoppingBag, Share2, Sparkles } from 'lucide-react';

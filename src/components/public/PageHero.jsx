@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 
 // Shared hero banner, the Gannon sky image, adapted to every public page

@@ -1,4 +1,3 @@
-import React from 'react';
 
 /**
  * Parses a Spotify URL to extract the embed type and ID.

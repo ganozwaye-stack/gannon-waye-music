@@ -1,4 +1,3 @@
-import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ProductAssetsTab from '@/components/merch-visual-lab/ProductAssetsTab';
 import BgRemovalGuideTab from '@/components/merch-visual-lab/BgRemovalGuideTab';

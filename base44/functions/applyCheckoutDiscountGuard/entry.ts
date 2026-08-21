@@ -105,7 +105,7 @@ Deno.serve(async (req) => {
     // Resolve product categories if needed
     const resolvedItems = [];
     for (const item of cart_items) {
-      let resolvedItem = { ...item };
+      const resolvedItem = { ...item };
       if (!item.category && (item.product_id || item.id)) {
         try {
           const productId = item.product_id || item.id;

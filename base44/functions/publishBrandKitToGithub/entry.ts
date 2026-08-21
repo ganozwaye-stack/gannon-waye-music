@@ -244,7 +244,7 @@ Gannon's work explores self-worth, boundaries, grief, and the courage to choose 
     ];
 
     let pushedCount = 0;
-    let errors = [];
+    const errors = [];
 
     for (const file of files) {
       // Check if file already exists

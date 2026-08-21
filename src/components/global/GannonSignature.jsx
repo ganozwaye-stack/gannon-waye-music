@@ -1,4 +1,3 @@
-import React from 'react';
 // Static signature image — used in lyrics, about page, etc.
 // For animated version use components/signature/AnimatedGWSignature
 

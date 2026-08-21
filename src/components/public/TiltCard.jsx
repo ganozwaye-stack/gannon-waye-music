@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 // 3D hover-tilt wrapper — perspective on the outer, rotate toward the cursor on the inner,

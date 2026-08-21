@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const HERO_ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/74273a2aa_image.png';

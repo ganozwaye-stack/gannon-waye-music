@@ -1,4 +1,3 @@
-import React from 'react';
 
 // Pre-defined layer positions for "organised mess" look
 const LAYER_CONFIGS = [

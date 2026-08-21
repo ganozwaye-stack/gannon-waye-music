@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 // Wraps any element and pulls it toward the cursor on hover (magnetic effect).

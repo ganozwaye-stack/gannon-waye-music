@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { BookOpen, Users, FileText, Heart, DollarSign, Zap, ArrowRight, Music, Scroll } from 'lucide-react';

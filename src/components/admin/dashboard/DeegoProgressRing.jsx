@@ -1,4 +1,3 @@
-import React from 'react';
 import { Activity } from 'lucide-react';
 
 // Visual load gauge derived from live attention counts — no fabricated metrics.

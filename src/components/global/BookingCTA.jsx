@@ -3,7 +3,6 @@
  * Adds "Book Gannon" buttons across the site
  */
 
-import React from 'react';
 import { Heart, Music, Calendar } from 'lucide-react';
 
 export default function BookingCTA({ variant = 'default', className = '' }) {

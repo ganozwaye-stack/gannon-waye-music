@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Clock, Disc3 } from 'lucide-react';
 
 function getRemaining(target) {

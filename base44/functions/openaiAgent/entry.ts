@@ -286,7 +286,7 @@ Include clear calls-to-action where appropriate.`
       const { report_type, date_range } = body;
 
       // Fetch relevant data based on report type
-      let data = {};
+      const data = {};
       if (report_type.includes('sales') || report_type.includes('revenue')) {
         data.orders = await base44.asServiceRole.entities.MerchOrder.filter({}, '-created_date', 200);
       }

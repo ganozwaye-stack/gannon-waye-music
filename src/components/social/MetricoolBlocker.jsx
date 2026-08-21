@@ -1,4 +1,3 @@
-import React from 'react';
 import { AlertTriangle, Lock, ExternalLink } from 'lucide-react';
 
 /**

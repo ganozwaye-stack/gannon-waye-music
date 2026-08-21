@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function ProductImageRotator({ images, alt, aspectClass = 'aspect-square' }) {
   const [current, setCurrent] = useState(0);

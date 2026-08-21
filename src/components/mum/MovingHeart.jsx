@@ -1,4 +1,3 @@
-import React from 'react';
 
 export default function MovingHeart({ label = "Forever in my heart", size = "md", showLabel = false }) {
   const sizeMap = { sm: '1.8rem', md: '2.8rem', lg: '3.5rem' };

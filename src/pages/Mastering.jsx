@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { base44 } from '@/api/base44Client';
 import { motion } from 'framer-motion';
 import {

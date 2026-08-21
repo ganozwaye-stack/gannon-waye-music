@@ -1,4 +1,3 @@
-import React from 'react';
 
 /**
  * HeartOfGold — refined gold memorial emblem with SVG heart, swallow, MUM text.

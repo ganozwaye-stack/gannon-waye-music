@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 
 // The letter flows INTO the page — no box, no card. Ink on air.

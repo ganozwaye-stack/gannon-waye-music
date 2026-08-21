@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { Play, ExternalLink, Volume2, VolumeX } from 'lucide-react';
 
 const isMp4 = (url) => url && (url.endsWith('.mp4') || url.includes('.mp4?'));

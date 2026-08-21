@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
 import { Search, Users, ShoppingBag, DollarSign, Heart, Package, Tag, Mail, Gift, Briefcase, Camera, Activity } from 'lucide-react';

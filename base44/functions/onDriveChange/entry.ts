@@ -17,7 +17,7 @@ Deno.serve(async (req) => {
 
     // Load stored page token from entity
     const existing = await base44.asServiceRole.entities.DriveSync.list();
-    let syncRecord = existing.length > 0 ? existing[0] : null;
+    const syncRecord = existing.length > 0 ? existing[0] : null;
 
     if (!syncRecord) {
       // First run — get a start page token

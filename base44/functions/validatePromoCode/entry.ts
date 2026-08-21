@@ -35,7 +35,7 @@ Deno.serve(async (req) => {
     const trimmedCode = code.trim();
 
     // First try exact match
-    let codes = await base44.asServiceRole.entities.PromoCode.filter({
+    const codes = await base44.asServiceRole.entities.PromoCode.filter({
       code: trimmedCode,
       is_active: true,
     });
@@ -110,7 +110,7 @@ Deno.serve(async (req) => {
       // Step 1: Resolve categories for any items missing one
       const resolvedItems = [];
       for (const item of cart_items) {
-        let resolved = { ...item };
+        const resolved = { ...item };
         if (!resolved.category && (resolved.product_id || resolved.id)) {
           try {
             const pid = resolved.product_id || resolved.id;

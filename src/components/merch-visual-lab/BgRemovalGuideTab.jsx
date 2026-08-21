@@ -1,4 +1,3 @@
-import React from 'react';
 
 const TOOLS = [
   { name: 'Adobe Photoshop', desc: 'Remove Background tool or Select Subject + Refine Edge. Best quality.', url: 'https://photoshop.adobe.com', tier: 'Professional' },

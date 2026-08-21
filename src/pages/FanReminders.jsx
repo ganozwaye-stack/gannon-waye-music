@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Bell, Loader2, Check, Calendar, Music, ShoppingBag, MapPin, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';

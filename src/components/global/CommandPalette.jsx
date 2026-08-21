@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Plus, DollarSign, Package, Users, TrendingUp, ExternalLink, Command, ShoppingBag, Briefcase, Camera, Activity, Megaphone, Palette, Music, Brain, Lock, Zap, BookOpen, Terminal, Shield, Film, Star, Globe } from 'lucide-react';
