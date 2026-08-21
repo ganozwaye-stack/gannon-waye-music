@@ -1,92 +1,95 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-// Encode email body to base64url for Gmail API
-function encodeEmail(to, subject, body) {
-  const email = [
-    `To: ${to}`,
-    `Subject: ${subject}`,
-    `MIME-Version: 1.0`,
-    `Content-Type: text/html; charset=UTF-8`,
-    ``,
-    body,
-  ].join('\r\n');
+const OWNER_EMAILS = new Set([
+  'ganozwaye@gmail.com',
+  'gannonwayemusic@gmail.com',
+]);
 
-  return btoa(unescape(encodeURIComponent(email)))
-    .replace(/\+/g, '-')
-    .replace(/\//g, '_')
-    .replace(/=+$/, '');
+type ReleaseRecord = {
+  id?: string;
+  title?: string;
+  version_label?: string;
+  status?: string;
+  is_published?: boolean;
+  publishing_safe?: boolean;
+  public_release_approval_status?: string;
+  public_release_approved_by?: string;
+  public_release_approved_at?: string;
+};
+
+function isApprovedPublicRelease(release: ReleaseRecord | undefined): release is ReleaseRecord {
+  return Boolean(
+    release?.id
+      && release.is_published === true
+      && release.publishing_safe === true
+      && release.status === 'released'
+      && release.public_release_approval_status === 'approved'
+      && release.public_release_approved_by
+      && OWNER_EMAILS.has(release.public_release_approved_by.toLowerCase())
+      && release.public_release_approved_at,
+  );
 }
 
-function buildEmailBody(release) {
-  const streamingLinks = [
-    release.spotify_link ? `<a href="${release.spotify_link}" style="color:#c9a84c;text-decoration:none;margin-right:12px;">🎧 Spotify</a>` : '',
-    release.apple_music_link ? `<a href="${release.apple_music_link}" style="color:#c9a84c;text-decoration:none;margin-right:12px;">🍎 Apple Music</a>` : '',
-    release.youtube_link ? `<a href="${release.youtube_link}" style="color:#c9a84c;text-decoration:none;">▶️ YouTube</a>` : '',
-  ].filter(Boolean).join('');
-
-  return `
-    <div style="background:#0d0f14;color:#ede8dc;font-family:Georgia,serif;max-width:600px;margin:0 auto;padding:40px 32px;">
-      <p style="font-size:11px;letter-spacing:0.25em;text-transform:uppercase;color:#c9a84c;margin:0 0 8px;">New Release</p>
-      <h1 style="font-size:36px;margin:0 0 8px;color:#ede8dc;">${release.title}</h1>
-      <p style="font-size:12px;letter-spacing:0.15em;text-transform:uppercase;color:#c9a84c;margin:0 0 24px;">${release.type}</p>
-
-      ${release.description ? `<p style="font-size:15px;line-height:1.7;color:#b0a88e;margin:0 0 28px;">${release.description}</p>` : ''}
-
-      ${streamingLinks ? `<div style="margin:0 0 32px;">${streamingLinks}</div>` : ''}
-
-      <div style="border-top:1px solid #2a2e3a;padding-top:24px;margin-top:24px;">
-        <a href="https://gannonwaye.com/music" style="color:#c9a84c;font-size:12px;letter-spacing:0.15em;text-transform:uppercase;text-decoration:none;">View all music →</a>
-      </div>
-
-      <p style="font-size:11px;color:#555c6b;margin-top:32px;line-height:1.6;">
-        You're receiving this because you subscribed to updates from Gannon Waye.<br/>
-        <a href="https://gannonwaye.com/email-preferences" style="color:#555c6b;">Manage your preferences</a>
-      </p>
-    </div>
-  `;
+function errorMessage(error: unknown): string {
+  return error instanceof Error ? error.message : 'Unknown error';
 }
 
-Deno.serve(async (req) => {
-  const base44 = createClientFromRequest(req);
+Deno.serve(async (req: Request) => {
+  try {
+    const base44 = createClientFromRequest(req);
+    const body = await req.json() as {
+      data?: ReleaseRecord;
+      old_data?: ReleaseRecord;
+    };
 
-  const body = await req.json();
-  const release = body.data;
+    if (body.old_data?.is_published === true || body.data?.is_published !== true) {
+      return Response.json({ skipped: true, reason: 'Not a new publication transition' });
+    }
 
-  // Only act when is_published flips to true
-  if (!release?.is_published || body.old_data?.is_published === true) {
-    return Response.json({ skipped: true, reason: 'Not a new publish event' });
-  }
+    const releaseId = body.data.id;
+    if (!releaseId) {
+      return Response.json({ skipped: true, reason: 'Missing release id' });
+    }
 
-  const { accessToken } = await base44.asServiceRole.connectors.getConnection('gmail');
-  const authHeader = { Authorization: `Bearer ${accessToken}` };
+    const matches = await base44.asServiceRole.entities.Release.filter({ id: releaseId }, '', 1) as ReleaseRecord[];
+    const release = matches[0];
 
-  const subscribers = await base44.asServiceRole.entities.EmailSubscriber.list();
+    if (!isApprovedPublicRelease(release)) {
+      return Response.json({
+        skipped: true,
+        reason: 'Release is not fully owner-approved for public publication',
+      });
+    }
 
-  if (!subscribers.length) {
-    return Response.json({ sent: 0, message: 'No subscribers found' });
-  }
-
-  const subject = `🎵 New from Gannon Waye: "${release.title}" is out now`;
-  const htmlBody = buildEmailBody(release);
-
-  let sent = 0;
-  let failed = 0;
-
-  for (const subscriber of subscribers) {
-    const raw = encodeEmail(subscriber.email, subject, htmlBody);
-    const res = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
-      method: 'POST',
-      headers: { ...authHeader, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ raw }),
+    const title = release.title?.trim() || 'Approved release';
+    const version = release.version_label?.trim() || 'unspecified version';
+    const approval = await base44.asServiceRole.entities.ApprovalQueue.create({
+      agent_name: 'ReleaseNotificationDraft',
+      action_title: `Review subscriber email draft for "${title}"`,
+      action_description: 'A fully owner-approved public Release changed to published. Review the proposed announcement before any subscriber email is sent.',
+      description: 'Draft only. This automation does not access the Gmail connector, enumerate subscriber addresses, or send any message.',
+      risk_type: ['publishing', 'brand', 'reputation'],
+      risk_level: 'high',
+      status: 'pending',
+      payload: {
+        release_id: release.id,
+        release_title: title,
+        version_label: version,
+        channel: 'email',
+        operation: 'draft_only',
+      },
+      proposed_output: `Prepare, but do not send, a subscriber announcement for "${title}" (${version}). Use only canonical fields from Release ${release.id}.`,
+      auto_eligible: false,
+      tags: ['release', 'email', 'draft-only', `release:${release.id}`],
     });
 
-    if (res.ok) {
-      sent++;
-    } else {
-      failed++;
-      console.error(`Failed to send to ${subscriber.email}:`, await res.text());
-    }
+    return Response.json({
+      drafted: true,
+      sent: 0,
+      approval_id: approval.id,
+      release_id: release.id,
+    });
+  } catch (error: unknown) {
+    return Response.json({ error: errorMessage(error) }, { status: 500 });
   }
-
-  return Response.json({ sent, failed, total: subscribers.length });
 });

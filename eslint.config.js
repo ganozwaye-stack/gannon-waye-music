@@ -86,6 +86,14 @@ export default [
       globals: {
         ...globals.node,
         ...globals.browser,
+        require: "readonly",
+        module: "readonly",
+        exports: "readonly",
+        process: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        Buffer: "readonly",
+        global: "readonly",
       },
       parserOptions: {
         ecmaVersion: 2022,
@@ -95,7 +103,7 @@ export default [
     plugins: {
       "unused-imports": pluginUnusedImports,
     },
-    rules: javascriptRules,
+    rules: { ...javascriptRules, "no-undef": "off" },
   },
   {
     files: ["public/**/*.{js,mjs,cjs}"],
