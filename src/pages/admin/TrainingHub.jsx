@@ -205,7 +205,7 @@ export default function TrainingHub() {
             <div className="flex-1 min-w-0">
               <p className={`text-sm font-semibold ${alert.urgent ? 'text-red-300' : 'text-yellow-300'}`}>{alert.label}</p>
               <p className="text-xs text-muted-foreground mt-0.5">{alert.desc}</p>
-              <a href={alert.link.startsWith('/') ? undefined : alert.link} href={alert.link} target={alert.link.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
+              <a href={alert.link} target={alert.link.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
                 <Button size="sm" variant="outline" className="mt-2 text-xs gap-1">
                   <ExternalLink className="w-3 h-3" />Take Action
                 </Button>
