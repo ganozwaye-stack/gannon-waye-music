@@ -6,6 +6,7 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/lib/playerStore';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
+import { APPLE_MUSIC_ARTIST_URL } from '@/config/artistLinks';
 
 export default function ReleaseDetail() {
   const { id } = useParams();
@@ -50,7 +51,7 @@ export default function ReleaseDetail() {
 
   const links = [
     ['Spotify', release.spotify_link],
-    ['Apple Music', release.apple_music_link],
+    ['Listen Now', release.apple_music_link || APPLE_MUSIC_ARTIST_URL],
     ['YouTube', release.youtube_link],
   ].filter(([, href]) => href);
 

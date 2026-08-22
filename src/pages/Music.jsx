@@ -6,6 +6,7 @@ import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/lib/playerStore';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
+import { APPLE_MUSIC_ARTIST_URL } from '@/config/artistLinks';
 
 export default function Music() {
   const { data: candidates = [], isLoading } = useQuery({
@@ -116,7 +117,7 @@ export default function Music() {
                     )}
                     {[
                       ['Spotify', featured.spotify_link],
-                      ['Apple Music', featured.apple_music_link],
+                      ['Listen Now', featured.apple_music_link || APPLE_MUSIC_ARTIST_URL],
                       ['YouTube', featured.youtube_link],
                     ].filter(([, href]) => href).map(([label, href]) => (
                       <a key={label} href={href} target="_blank" rel="noopener noreferrer">
