@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useRef } from 'react';
 import CinematicScene from '@/components/mums-garden/CinematicScene';
 import FiligreeDivider from '@/components/mums-garden/FiligreeDivider';
 import GardenHotspots from '@/components/mums-garden/GardenHotspots';
@@ -17,6 +18,9 @@ const HOTSPOTS = [
 ];
 
 export default function MumsGarden() {
+  const gardenRef = useRef(null);
+  const enterGarden = () => gardenRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
   return (
     <div className="relative w-full" style={{ background: '#0a0a0f' }}>
       {/* ── Cinematic hero ── */}
@@ -81,12 +85,29 @@ export default function MumsGarden() {
             <p className="font-body text-sm tracking-[0.4em]" style={{ color: 'rgba(245,224,160,0.4)' }}>
               1961 – 2022
             </p>
+
+            <motion.button
+              type="button"
+              onClick={enterGarden}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.2, delay: 1.6 }}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="group mt-10 inline-flex items-center gap-2.5 rounded-full px-8 py-3 gradient-gold-button"
+              aria-label="Enter the garden"
+            >
+              <span className="font-body text-xs uppercase tracking-[0.35em]">Enter Here</span>
+              <svg viewBox="0 0 24 24" className="h-3.5 w-3.5 transition-transform group-hover:translate-y-0.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M12 5v14" /><path d="m19 12-7 7-7-7" />
+              </svg>
+            </motion.button>
           </motion.div>
         </div>
       </CinematicScene>
 
       {/* ── Garden walkthrough · memory hotspots ── */}
-      <section className="relative px-6 py-20">
+      <section ref={gardenRef} className="relative px-6 py-20 scroll-mt-4">
         <div className="mb-10 text-center">
           <p className="mb-3 font-body text-[10px] uppercase tracking-[0.5em]" style={{ color: 'rgba(245,224,160,0.45)' }}>
             Walk gently through her garden

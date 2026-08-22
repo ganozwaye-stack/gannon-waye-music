@@ -12,7 +12,7 @@ export default function CinematicScene({ image, children, minH = '100vh', zoom =
   return (
     <section ref={ref} className="relative overflow-hidden flex items-center justify-center" style={{ minHeight: minH, background: '#0a1120' }}>
       <motion.div className="absolute inset-0 flex items-center justify-center" style={{ scale: zoom ? scale : 1, y }}>
-        <img src={image} alt="" className="max-w-full max-h-full object-contain" style={{ width: '100%', height: '100%' }} />
+        <img src={image} alt="" className="w-full h-full object-cover" style={{ width: '100%', height: '100%' }} />
       </motion.div>
       {vignette && (
         <div className="absolute inset-0 pointer-events-none" style={{
