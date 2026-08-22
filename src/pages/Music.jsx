@@ -85,9 +85,6 @@ export default function Music() {
                 </Link>
 
                 <div>
-                  <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-3">
-                    Owner-approved public release
-                  </p>
                   <h2 className="font-display text-4xl md:text-6xl text-foreground mb-2">
                     {featured.title}
                   </h2>

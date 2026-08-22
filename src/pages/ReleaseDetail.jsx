@@ -86,7 +86,7 @@ export default function ReleaseDetail() {
 
           <div className="pt-2">
             <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-3">
-              Owner-approved public {release.type || 'release'}
+              {release.type || 'release'}
             </p>
             <h1 className="font-display text-5xl md:text-7xl text-foreground">{release.title}</h1>
             {release.version_label && (
