@@ -5,6 +5,7 @@ import StoreBoutiqueStage from '@/components/store/StoreBoutiqueStage';
 import ProductQuickViewModal from '@/components/store/ProductQuickViewModal';
 import MerchGallery from '@/components/store/MerchGallery';
 import EditorialProductGrid from '@/components/store/EditorialProductGrid';
+import LockedStorefrontHero from '@/components/store/LockedStorefrontHero';
 import { ShoppingCart, Grid, Music } from 'lucide-react';
 
 const ACCENT = '#D4AF37';
@@ -23,7 +24,7 @@ export default function StoreWorld() {
     <div style={{ background: '#0a0a0a', minHeight: '100vh', color: '#fff', fontFamily: "'Inter', sans-serif" }}>
 
       {/* ── HERO HEADER ── */}
-      
+      <LockedStorefrontHero />
 
 
 
