@@ -18,7 +18,7 @@ const BRAND_COLORS = [
 
 const TYPOGRAPHY = [
   { name: 'Playfair Display', role: 'Display / Headings', cssValue: "'Playfair Display', serif", sample: 'Gannon Waye' },
-  { name: 'Inter', role: 'Body / UI', cssValue: "'Inter', sans-serif", sample: 'The language of choosing yourself.' },
+  { name: 'Poppins', role: 'Body / UI', cssValue: "'Poppins', sans-serif", sample: 'The language of choosing yourself.' },
 ];
 
 const VOICE_GUIDELINES = [
@@ -137,7 +137,7 @@ export default function BrandKit() {
           </div>
           <div className="mt-4 p-3 bg-secondary/10 rounded-lg">
             <p className="font-body text-[10px] text-muted-foreground">Google Fonts import:</p>
-            <code className="font-body text-[9px] text-primary/70 block mt-1 break-all">@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700&family=Inter:wght@300;400;500;600;700&display=swap');</code>
+            <code className="font-body text-[9px] text-primary/70 block mt-1 break-all">@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700&family=Poppins:wght@300;400;500;600;700&display=swap');</code>
           </div>
         </section>
 
