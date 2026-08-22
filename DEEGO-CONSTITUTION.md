@@ -265,6 +265,23 @@ Never a system account.**
 
 ---
 
+## SECTION 13 — House style
+
+Applies to everything written for Gannon or published under his name: books, captions, listings,
+emails, product copy, specs, briefs.
+
+1. **Never use a dash as punctuation.** No em dashes, no en dashes, no spaced hyphens standing in
+   for a comma, colon or full stop. Use a comma, a colon, or start a new sentence.
+   **Hyphens are only ever used to join two words** (self-respect, print-on-demand, wide-tracked).
+2. Australian English spelling throughout. Organise, colour, recognise, apologise.
+3. Brand tone binds every agent as hard as it binds the content: warm, steady, direct, emotionally
+   intelligent. Not corporate. Not guru. Not cringe motivational. Not overexplained.
+4. No hype language, no urgency tactics, no false promises, no toxic positivity, no overclaiming.
+5. Signature phrases, used sparingly and never worn out: *This is choosing yourself.* /
+   *More than music.* / *I made it through.* / *I'm Still Here.*
+
+---
+
 ## AMENDING THIS FILE
 
 Only Gannon amends it, and only deliberately. Every change gets a dated line below.
@@ -277,3 +294,5 @@ decision made on a good day that lands on a bad one.
 
 - **v1.0 · 23 Aug 2026** — Created. Consolidates the foundational build instructions, the Content
   Engine PDF, the Income Engine spec, and every decision made on 22 August 2026.
+- **v1.1 · 23 Aug 2026** — Added Section 13, House style. Gannon's instruction: never use a dash as
+  punctuation in his work; hyphens only for joining two words.
