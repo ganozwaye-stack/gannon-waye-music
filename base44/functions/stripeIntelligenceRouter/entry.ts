@@ -84,23 +84,44 @@ Deno.serve(async (req) => {
       });
     }
     if (!signature) {
+      // A request with NO stripe-signature header at all did not come from Stripe.
+      // Stripe signs every webhook without exception. So this is some other caller:
+      // a monitor, a scheduled job, a browser, or a probe.
+      //
+      // Previously this created a CRITICAL PaymentDiagnostic on EVERY such request with
+      // no deduplication, which manufactured hundreds of false criticals per day and
+      // buried any real payment fault. Now it logs at most one per hour.
       (async () => {
         try {
+          const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+          const recent = await base44.asServiceRole.entities.PaymentDiagnostic.filter({
+            diagnostic_type: 'webhook_signature_failure',
+            status: 'open',
+          }).catch(() => []);
+          const alreadyLogged = (recent || []).some((d) =>
+            (d.source_chain || '').includes('missing_signature') &&
+            (d.created_date || '') > oneHourAgo
+          );
+          if (alreadyLogged) return;
+
           await base44.asServiceRole.entities.PaymentDiagnostic.create({
             diagnostic_type: 'webhook_signature_failure',
-            severity: 'critical',
+            severity: 'warning',
             status: 'open',
-            issue_summary: 'stripeIntelligenceRouter: missing stripe-signature header in live mode',
-            admin_message: 'A webhook arrived without a signature. Stripe keeps retrying until it receives 2xx. Verify STRIPE_WEBHOOK_SECRET matches the Stripe Dashboard endpoint signing secret.',
-            recommended_fix: 'Rotate the endpoint signing secret in Stripe Dashboard → Webhooks and update STRIPE_WEBHOOK_SECRET in app secrets.',
+            issue_summary: 'stripeIntelligenceRouter: request arrived with no stripe-signature header',
+            admin_message: 'A request reached this endpoint with no Stripe signature. Stripe always signs, so this caller is NOT Stripe. Most likely a scheduled job, uptime monitor or manual probe hitting the webhook URL. Find and stop the caller. This message is rate limited to one per hour.',
+            recommended_fix: 'Check Base44 dashboard scheduled automations and any external uptime monitor pointed at this function URL. This is not a Stripe configuration problem and rotating the signing secret will not fix it.',
             webhook_processed: false,
-            source_chain: 'Stripe → stripeIntelligenceRouter → missing_signature',
+            source_chain: 'unknown_caller → stripeIntelligenceRouter → missing_signature',
           });
         } catch (_) {}
       })();
-      // Ack 2xx so Stripe stops retrying / disabling the endpoint. Diagnostic logged above.
-      return new Response(JSON.stringify({ received: true, verified: false }), {
-        status: 200,
+      // 400, not 200. This is not Stripe, so there is nothing to acknowledge, and a
+      // clear rejection tells the mystery caller it is doing something wrong.
+      return new Response(JSON.stringify({
+        error: 'Missing stripe-signature header. This endpoint only accepts signed Stripe webhooks.',
+      }), {
+        status: 400,
         headers: { 'Content-Type': 'application/json' },
       });
     }
