@@ -51,3 +51,35 @@ Welcome to the Gannon Waye Music repository. This project uses AI agents (includ
 
 ## 5. Contact & Support
 If any issue or test failure arises that you cannot resolve autonomously, stop work immediately and notify Gannon via a GitHub issue or the chat interface. Do not force override failing tests.
+
+---
+
+## 8. Cross-Agent Handoff Protocol
+
+Multiple agents work on this repo and they cannot talk to each other directly. Claude (via Cowork/MCP) and Codex (via repo access) coordinate through one file. Gannon should not have to carry messages between them.
+
+**Every agent, at the start of a session:**
+
+1. Read `docs/HANDOFF.md` before doing anything else. It carries open findings, evidence, and who owns what.
+2. Treat items marked `OPEN` as live work. Do not re-investigate items marked `CLOSED` — read the evidence line instead.
+
+**Every agent, at the end of a session:**
+
+3. Append your entry under `## Log`, newest first, using this shape:
+
+   ```
+   ### YYYY-MM-DD · <agent name>
+   Did:      <what actually changed, with file paths or record ids>
+   Found:    <new findings, with evidence — ids, URLs, counts>
+   Left:     <what you did not finish and why>
+   For:      <which agent or Gannon owns the next step>
+   ```
+
+4. Move any item you resolved from `OPEN` to `CLOSED`, and write the evidence that closes it. "Configured" is not evidence. A delivered event id, a passing test, a record id — those are evidence.
+
+**Rules for the handoff file:**
+
+* Never delete another agent's entry. Append only.
+* Never mark something CLOSED on intent. Only on proof.
+* If two agents disagree about a fact, both positions stay in the file until it is settled against a primary source.
+* Durable rules and policies do not live here — they go in the `AgentMemory` entity, which is the long-term store. `HANDOFF.md` is for work in flight.
