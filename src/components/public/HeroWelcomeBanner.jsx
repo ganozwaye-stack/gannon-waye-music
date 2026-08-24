@@ -60,7 +60,7 @@ export default function HeroWelcomeBanner({ release, releaseLink }) {
               </span>
             </div>
             <span className="font-body text-[9px] tracking-[0.25em] uppercase text-muted-foreground whitespace-nowrap">
-              {safeRelease ? 'Owner approved' : 'Official artist site'}
+              {safeRelease ? 'Current release' : 'Official artist site'}
             </span>
           </div>
 

@@ -34,7 +34,7 @@ export default function Videos() {
           <Video className="w-11 h-11 text-primary/60 mx-auto mb-5" />
           <h2 className="font-display text-3xl text-foreground mb-3">Official video library</h2>
           <p className="font-body text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
-            Release-specific videos will appear here only after they are linked to an exact owner-approved public Release. Follow the official channels for verified artist updates.
+            Release-specific videos will appear here only after they are linked to an exact public Release. Follow the official channels for verified artist updates.
           </p>
           <div className="flex flex-wrap justify-center gap-3 mt-8">
             {SOCIAL_LINKS.map(([label, href]) => (

@@ -155,7 +155,7 @@ function OfflineScreen({ settings }) {
           </a>
         </div>
         <p className="font-body text-xs text-muted-foreground/70 mt-8">
-          Owner-approved releases and official listening links appear on the Music page.
+          Current releases and official listening links appear on the Music page.
         </p>
       </motion.div>
       <div className="w-full max-w-4xl px-4 mt-8">

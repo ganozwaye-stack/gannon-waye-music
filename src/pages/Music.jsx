@@ -51,7 +51,7 @@ export default function Music() {
             <Music2 className="w-10 h-10 text-primary/60 mx-auto mb-5" />
             <h2 className="font-display text-3xl text-foreground mb-3">Music shared when ready</h2>
             <p className="font-body text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
-              There are no owner-approved public releases listed right now. Join the community for verified updates.
+              There are no public releases listed right now. Join the community for verified updates.
             </p>
             <Link to="/community" className="inline-block mt-7">
               <Button className="rounded-full gradient-gold-button border-0 px-7">

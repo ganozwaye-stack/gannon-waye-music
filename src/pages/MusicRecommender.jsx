@@ -49,7 +49,7 @@ export default function MusicRecommender() {
       }));
 
       const result = await base44.integrations.Core.InvokeLLM({
-        prompt: `Choose one item from this exact owner-approved public Gannon Waye catalogue for a listener feeling "${mood}".
+        prompt: `Choose one item from this exact current public Gannon Waye catalogue for a listener feeling "${mood}".
 
 Catalogue:
 ${JSON.stringify(catalogue)}
@@ -99,7 +99,7 @@ Do not invent or infer a title, lyric, release date, story, artwork, link, statu
             Music Recommender
           </h1>
           <p className="font-body text-sm text-muted-foreground max-w-lg mx-auto">
-            Choose a mood and receive a suggestion only from Gannon's owner-approved public catalogue.
+            Choose a mood and receive a suggestion only from Gannon's current public catalogue.
           </p>
         </motion.header>
 

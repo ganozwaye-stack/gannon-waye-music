@@ -119,7 +119,7 @@ export default function StickySupportBar() {
                           {playableRelease.title} · Spotify
                         </p>
                         <p className="font-body text-[10px] text-muted-foreground truncate">
-                          Owner-approved public release
+                          Current release
                         </p>
                       </div>
                     </motion.div>

@@ -15,7 +15,7 @@ export default function PreSave() {
         </p>
         <h1 className="font-display text-5xl md:text-6xl text-foreground mb-5">Pre-save</h1>
         <p className="font-body text-sm text-muted-foreground leading-relaxed">
-          There is no owner-approved public presave link right now. Links will appear only after the exact distributor URL and announcement are verified.
+          There is no public presave link right now. Links will appear only after the exact distributor URL and announcement are verified.
         </p>
         <Link to="/music" className="inline-block mt-8">
           <Button className="rounded-full gradient-gold-button border-0 px-7">

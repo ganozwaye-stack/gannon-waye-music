@@ -54,7 +54,7 @@ export default function Home() {
   const currentTitle = currentSingle?.title || 'Gannon Waye Music';
   const currentHeroCopy = currentSingle?.current_single_hero_copy
     || currentSingle?.description
-    || 'Music is shared here only after exact owner approval.';
+    || 'Music is shared here only when it is ready.';
   const approvedAlbum = releases.find((release) => release.type === 'album') || null;
   const playTrack = usePlayerStore((state) => state.playTrack);
 
@@ -172,7 +172,7 @@ export default function Home() {
               transition={{ duration: 1.6, delay: 0.4 }}
               className="font-body text-base tracking-[0.45em] uppercase gradient-gold-text mb-4">
               
-              {currentSingle ? 'Owner-Approved Release' : 'Music'}
+              {currentSingle ? 'Current Release' : 'Music'}
             </motion.p>
 
             {/* Cover artwork */}
@@ -445,7 +445,7 @@ export default function Home() {
               border: '2px solid rgba(245,208,110,0.35)',
               boxShadow: '0 0 50px rgba(212,175,55,0.12)'
             }}>
-                  <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Owner-Approved Album</p>
+                  <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Current Album</p>
                   <h3 className="font-body text-3xl md:text-4xl gradient-gold-text mb-2">{approvedAlbum.title}</h3>
                   <p className="font-body text-sm text-muted-foreground">{approvedAlbum.description}</p>
                   <div className="flex items-center justify-center gap-2 mt-4">

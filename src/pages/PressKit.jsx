@@ -42,7 +42,7 @@ export default function PressKit() {
           </p>
           <h1 className="font-display text-5xl md:text-7xl text-foreground mb-5">Press Kit</h1>
           <p className="font-body text-sm text-muted-foreground max-w-xl mx-auto">
-            Verified biography, official images, contact details, and owner-approved public music.
+            Verified biography, official images, contact details, and current public music.
           </p>
         </motion.header>
 
