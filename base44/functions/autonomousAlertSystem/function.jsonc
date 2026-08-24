@@ -4,10 +4,10 @@
   "automations": [
     {
       "type": "scheduled",
-      "description": "Evaluates system health every hour and sends Slack alerts for critical issues.",
+      "description": "Operational audit every hour from 9am through 3pm Melbourne time and every two hours outside that window. Saves a Deego report and ranked action notification.",
       "ends_type": "never",
-      "is_active": false,
-      "name": "Hourly System Alert Check",
+      "is_active": true,
+      "name": "Deego Operational Audit Check Up",
       "repeat_interval": 1,
       "repeat_unit": "hours",
       "schedule_mode": "recurring",
