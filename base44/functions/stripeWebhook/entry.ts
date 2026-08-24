@@ -130,6 +130,51 @@ Deno.serve(async (req) => {
     }
   }
 
+  // Non-order events are durably acknowledged without waiting on notifications.
+  // This keeps Stripe delivery healthy while the order path remains strict.
+  if (event.type !== 'checkout.session.completed') {
+    const receivedAt = new Date().toISOString();
+    try {
+      const existingEventLogs = await base44.asServiceRole.entities.StripeEventLog.filter({
+        stripe_event_id: event.id,
+      });
+      if (!existingEventLogs || existingEventLogs.length === 0) {
+        const stripeObject = event.data?.object || {};
+        await base44.asServiceRole.entities.StripeEventLog.create({
+          stripe_event_id: event.id,
+          event_type: event.type,
+          category: 'automation',
+          priority: event.type === 'payment_intent.payment_failed' ? 'high' : 'low',
+          processing_status: 'processed',
+          duplicate_detected: false,
+          stripe_object_id: stripeObject.id || '',
+          checkout_session_id: stripeObject.object === 'checkout.session' ? stripeObject.id : '',
+          payment_intent_id: stripeObject.object === 'payment_intent' ? stripeObject.id : '',
+          received_at: receivedAt,
+          processed_at: receivedAt,
+          safe_summary: `Stripe event ${event.type} acknowledged by the primary webhook`,
+          source_chain: 'Stripe → stripeWebhook → durable_acknowledgement',
+        });
+      }
+    } catch (ackError) {
+      await base44.asServiceRole.entities.PaymentDiagnostic.create({
+        diagnostic_type: 'webhook_failure',
+        severity: 'high',
+        status: 'open',
+        issue_summary: `stripeWebhook could not persist ${event.id}: ${ackError.message}`,
+        webhook_processed: false,
+        source_chain: 'Stripe → stripeWebhook → durable_acknowledgement_failed',
+      }).catch(() => {});
+      return Response.json({ error: 'Webhook acknowledgement persistence failed' }, { status: 500 });
+    }
+
+    return Response.json({
+      received: true,
+      stripe_event_id: event.id,
+      event_type: event.type,
+    });
+  }
+
   // Critical payment processing must finish before Stripe receives a 2xx.
   // An early response lets a serverless runtime terminate the order write.
   try {
