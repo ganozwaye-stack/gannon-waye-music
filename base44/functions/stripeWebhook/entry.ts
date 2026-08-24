@@ -68,9 +68,9 @@ Deno.serve(async (req) => {
       return Response.json(
         {
           error: 'Missing stripe-signature header — live mode rejects unsigned payloads',
-          webhook_version: '2026-08-25-durable-v2',
+          webhook_version: '2026-08-25-durable-v3',
         },
-        { status: 400, headers: { 'x-webhook-version': '2026-08-25-durable-v2' } },
+        { status: 400, headers: { 'x-webhook-version': '2026-08-25-durable-v3' } },
       );
     }
     try {
@@ -130,49 +130,24 @@ Deno.serve(async (req) => {
     }
   }
 
-  // Non-order events are durably acknowledged without waiting on notifications.
-  // This keeps Stripe delivery healthy while the order path remains strict.
+  // Non-order events only need a verified, prompt acknowledgement.
+  // Do not place Base44 API calls before the 2xx: a slow entity query here makes
+  // Stripe mark an otherwise valid delivery as failed. Paid checkout capture
+  // remains strict and synchronous below.
   if (event.type !== 'checkout.session.completed') {
-    const receivedAt = new Date().toISOString();
-    try {
-      const existingEventLogs = await base44.asServiceRole.entities.StripeEventLog.filter({
+    return Response.json(
+      {
+        received: true,
         stripe_event_id: event.id,
-      });
-      if (!existingEventLogs || existingEventLogs.length === 0) {
-        const stripeObject = event.data?.object || {};
-        await base44.asServiceRole.entities.StripeEventLog.create({
-          stripe_event_id: event.id,
-          event_type: event.type,
-          category: 'automation',
-          priority: event.type === 'payment_intent.payment_failed' ? 'high' : 'low',
-          processing_status: 'processed',
-          duplicate_detected: false,
-          stripe_object_id: stripeObject.id || '',
-          checkout_session_id: stripeObject.object === 'checkout.session' ? stripeObject.id : '',
-          payment_intent_id: stripeObject.object === 'payment_intent' ? stripeObject.id : '',
-          received_at: receivedAt,
-          processed_at: receivedAt,
-          safe_summary: `Stripe event ${event.type} acknowledged by the primary webhook`,
-          source_chain: 'Stripe → stripeWebhook → durable_acknowledgement',
-        });
-      }
-    } catch (ackError) {
-      await base44.asServiceRole.entities.PaymentDiagnostic.create({
-        diagnostic_type: 'webhook_failure',
-        severity: 'high',
-        status: 'open',
-        issue_summary: `stripeWebhook could not persist ${event.id}: ${ackError.message}`,
-        webhook_processed: false,
-        source_chain: 'Stripe → stripeWebhook → durable_acknowledgement_failed',
-      }).catch(() => {});
-      return Response.json({ error: 'Webhook acknowledgement persistence failed' }, { status: 500 });
-    }
-
-    return Response.json({
-      received: true,
-      stripe_event_id: event.id,
-      event_type: event.type,
-    });
+        event_type: event.type,
+      },
+      {
+        headers: {
+          'x-webhook-version': '2026-08-25-durable-v3',
+          'x-webhook-stage': 'signature_verified_non_order',
+        },
+      },
+    );
   }
 
   // Critical payment processing must finish before Stripe receives a 2xx.
