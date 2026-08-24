@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 const PRIMARY_WEBHOOK_ENDPOINT = 'https://api.base44.app/api/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook';
-const SECONDARY_WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
+const SECONDARY_WEBHOOK_ENDPOINT = 'DISABLED — retire the legacy /api/v2 stripeIntelligenceRouter endpoint';
 
 const statusBadge = (s) => {
   if (s === 'processed') return 'bg-green-500/20 text-green-300';
@@ -157,7 +157,7 @@ export default function WebhookHealthNew() {
             </div>
           </div>
           <div>
-            <p className="text-xs text-muted-foreground mb-1">Secondary — Intelligence Only (Optional)</p>
+            <p className="text-xs text-muted-foreground mb-1">Secondary — Retire (dead /api/v2 route)</p>
             <div className="flex items-center gap-2">
               <p className="font-mono text-xs bg-secondary/40 rounded p-2 flex-1 break-all border border-border/40">{SECONDARY_WEBHOOK_ENDPOINT}</p>
               <Button variant="ghost" size="sm" onClick={() => copyUrl(SECONDARY_WEBHOOK_ENDPOINT)}>
