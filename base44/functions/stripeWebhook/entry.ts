@@ -12,8 +12,8 @@
  * unsigned payloads are rejected. In test mode without a secret, unsigned
  * payloads are accepted for local development only.
  *
- * STRIPE REQUIREMENT: Must return HTTP 200–299 within timeout.
- * This handler returns 200 immediately; all processing is fire-and-forget.
+ * STRIPE REQUIREMENT: Persist the paid order and canonical Stripe event before
+ * acknowledging the webhook. Failures return a non-2xx response so Stripe retries.
  */
 
 import Stripe from 'npm:stripe@14.21.0';
@@ -124,11 +124,8 @@ Deno.serve(async (req) => {
     }
   }
 
-  // ✅ Return 200 IMMEDIATELY — all heavy processing below is fire-and-forget
-  const response200 = Response.json({ received: true });
-
-  // Fire-and-forget: all order fulfillment runs async, never blocks the 200
-  (async () => {
+  // Critical payment processing must finish before Stripe receives a 2xx.
+  // An early response lets a serverless runtime terminate the order write.
   try {
 
     // =============================================
@@ -171,28 +168,71 @@ Deno.serve(async (req) => {
       const shippingCharged = parseFloat(meta.shipping_amount_aud || '0');
       const supportContribution = parseFloat(meta.add_support || '0');
 
-      // === IDEMPOTENCY CHECK — skip if order already exists for this session ===
+      // === IDEMPOTENCY CHECK — a paid Stripe session can create only one active order ===
+      const idempotenceKey = `stripe_checkout_session:${session.id}`;
       try {
-        const existingOrders = await base44.asServiceRole.entities.MerchOrder.filter({ stripe_session_id: session.id });
-        const activeExisting = (existingOrders || []).filter(o => o.status !== 'duplicate' && o.financial_status !== 'duplicate_void');
+        const [existingOrders, existingIdempotence] = await Promise.all([
+          base44.asServiceRole.entities.MerchOrder.filter({ stripe_session_id: session.id }),
+          base44.asServiceRole.entities.IdempotenceLog.filter({ idempotence_key: idempotenceKey }),
+        ]);
+        const activeExisting = (existingOrders || []).filter(
+          o => o.status !== 'duplicate' && o.financial_status !== 'duplicate_void'
+        );
         if (activeExisting.length > 0) {
-          await base44.asServiceRole.entities.StripeEventLog.create({
+          const existingOrderId = activeExisting[0].id;
+          const existingEventLogs = await base44.asServiceRole.entities.StripeEventLog.filter({
             stripe_event_id: event.id,
-            event_type: event.type,
-            category: 'revenue',
-            priority: 'low',
-            processing_status: 'duplicate',
-            duplicate_detected: true,
-            stripe_object_id: session.id,
-            checkout_session_id: session.id,
-            safe_summary: `Duplicate skipped — active MerchOrder ${activeExisting[0].id} already exists for session ${session.id}`,
-            received_at: new Date().toISOString(),
-            processed_at: new Date().toISOString(),
-            source_chain: 'stripeWebhook → idempotency_check → duplicate_skipped',
-          }).catch(() => {});
-          return; // already processed — exit async block
+          }).catch(() => []);
+
+          if (!existingEventLogs || existingEventLogs.length === 0) {
+            await base44.asServiceRole.entities.StripeEventLog.create({
+              stripe_event_id: event.id,
+              event_type: event.type,
+              category: 'revenue',
+              priority: 'low',
+              processing_status: 'duplicate',
+              duplicate_detected: true,
+              stripe_object_id: session.id,
+              checkout_session_id: session.id,
+              payment_intent_id: session.payment_intent || '',
+              order_id: existingOrderId,
+              amount: totalPaid,
+              currency: session.currency || 'aud',
+              safe_summary: `Duplicate delivery skipped — active MerchOrder ${existingOrderId} already exists for session ${session.id}`,
+              records_updated: `MerchOrder:${existingOrderId} unchanged`,
+              received_at: new Date().toISOString(),
+              processed_at: new Date().toISOString(),
+              source_chain: 'Stripe → stripeWebhook → idempotency_check → duplicate_skipped',
+            });
+          }
+
+          if (!existingIdempotence || existingIdempotence.length === 0) {
+            await base44.asServiceRole.entities.IdempotenceLog.create({
+              idempotence_key: idempotenceKey,
+              created_at: new Date().toISOString(),
+              description: `Stripe checkout session ${session.id} already mapped to MerchOrder ${existingOrderId}`,
+              result: {
+                status: 'processed',
+                stripe_event_id: event.id,
+                stripe_session_id: session.id,
+                order_id: existingOrderId,
+              },
+            });
+          }
+
+          return Response.json({ received: true, duplicate: true, order_id: existingOrderId });
         }
-      } catch (_) {}
+      } catch (idempotencyError) {
+        await base44.asServiceRole.entities.PaymentDiagnostic.create({
+          diagnostic_type: 'webhook_failure',
+          severity: 'critical',
+          status: 'open',
+          issue_summary: `stripeWebhook idempotency check failed for ${session.id}: ${idempotencyError.message}`,
+          webhook_processed: false,
+          source_chain: 'Stripe → stripeWebhook → idempotency_check_failed',
+        }).catch(() => {});
+        return Response.json({ error: 'Webhook idempotency check failed' }, { status: 500 });
+      }
 
       // === CREATE MERCH ORDER ===
       let orderId = null;
@@ -249,6 +289,68 @@ Deno.serve(async (req) => {
             risk_type: 'financial',
           });
         } catch (_) {}
+        return Response.json({ error: 'Paid order creation failed' }, { status: 500 });
+      }
+
+      if (!orderId) {
+        return Response.json({ error: 'Paid order creation returned no order ID' }, { status: 500 });
+      }
+
+      // Persist the canonical evt_ record and session gate before non-critical work.
+      const processedAt = new Date().toISOString();
+      try {
+        const existingEventLogs = await base44.asServiceRole.entities.StripeEventLog.filter({
+          stripe_event_id: event.id,
+        });
+        if (!existingEventLogs || existingEventLogs.length === 0) {
+          await base44.asServiceRole.entities.StripeEventLog.create({
+            stripe_event_id: event.id,
+            event_type: event.type,
+            category: 'revenue',
+            priority: 'high',
+            processing_status: 'processed',
+            duplicate_detected: false,
+            stripe_object_id: session.id,
+            checkout_session_id: session.id,
+            payment_intent_id: session.payment_intent || '',
+            customer_id: customerEmail,
+            order_id: orderId,
+            amount: totalPaid,
+            currency: session.currency || 'aud',
+            safe_summary: `Paid checkout captured automatically — MerchOrder ${orderId} created for session ${session.id}`,
+            records_created: `MerchOrder:${orderId}`,
+            received_at: processedAt,
+            processed_at: processedAt,
+            source_chain: 'Stripe → stripeWebhook → checkout.session.completed → MerchOrder',
+          });
+        }
+
+        const existingIdempotence = await base44.asServiceRole.entities.IdempotenceLog.filter({
+          idempotence_key: idempotenceKey,
+        });
+        if (!existingIdempotence || existingIdempotence.length === 0) {
+          await base44.asServiceRole.entities.IdempotenceLog.create({
+            idempotence_key: idempotenceKey,
+            created_at: processedAt,
+            description: `Stripe checkout session ${session.id} mapped to MerchOrder ${orderId}`,
+            result: {
+              status: 'processed',
+              stripe_event_id: event.id,
+              stripe_session_id: session.id,
+              order_id: orderId,
+            },
+          });
+        }
+      } catch (persistenceError) {
+        await base44.asServiceRole.entities.PaymentDiagnostic.create({
+          diagnostic_type: 'webhook_failure',
+          severity: 'critical',
+          status: 'open',
+          issue_summary: `stripeWebhook persistence failed after order ${orderId}: ${persistenceError.message}`,
+          webhook_processed: false,
+          source_chain: 'Stripe → stripeWebhook → canonical_event_persistence_failed',
+        }).catch(() => {});
+        return Response.json({ error: 'Webhook persistence failed' }, { status: 500 });
       }
 
       // === INVENTORY DECREMENT + PROFIT CALCULATION per item ===
@@ -447,17 +549,16 @@ Deno.serve(async (req) => {
     }
 
   } catch (error) {
-    // Log unexpected errors but don't crash — 200 already sent
-    base44.asServiceRole.entities.PaymentDiagnostic.create({
+    await base44.asServiceRole.entities.PaymentDiagnostic.create({
       diagnostic_type: 'webhook_failure',
       severity: 'high',
       status: 'open',
-      issue_summary: `stripeWebhook async processing error: ${error.message}`,
+      issue_summary: `stripeWebhook processing error: ${error.message}`,
       webhook_processed: false,
-      source_chain: 'Stripe → stripeWebhook → async_processing_error',
+      source_chain: 'Stripe → stripeWebhook → processing_error',
     }).catch(() => {});
+    return Response.json({ error: 'Webhook processing failed' }, { status: 500 });
   }
-  })();
 
-  return response200;
+  return Response.json({ received: true });
 });
