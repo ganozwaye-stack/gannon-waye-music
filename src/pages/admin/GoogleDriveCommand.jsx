@@ -43,20 +43,24 @@ export default function GoogleDriveCommand() {
     setLoading(true);
     setError(null);
     const payload = {};
-    if (opts.query) payload.query = `name contains '${opts.query}' and trashed=false`;
+    if (opts.query) payload.query = opts.query;
     else payload.folderId = opts.folderId || currentFolder.id;
     if (opts.pageToken) payload.pageToken = opts.pageToken;
 
-    const res = await base44.functions.invoke('listDriveFiles', payload);
-    const data = res.data;
-    if (data.error) {
-      setError(data.error);
-      setFiles([]);
-    } else {
+    try {
+      const res = await base44.functions.invoke('listDriveFiles', payload);
+      const data = res?.data || {};
+      if (data.error) throw new Error(data.error);
       setFiles(opts.append ? prev => [...prev, ...(data.files || [])] : (data.files || []));
       setNextPageToken(data.nextPageToken || null);
+    } catch (requestError) {
+      const detail = requestError?.response?.data?.error || requestError?.message || 'Google Drive request failed';
+      setError(detail);
+      setFiles([]);
+      setNextPageToken(null);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }, [currentFolder.id]);
 
   useEffect(() => {
