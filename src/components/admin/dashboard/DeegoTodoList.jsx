@@ -14,6 +14,30 @@ const PRIORITY_STYLE = {
   low: 'bg-secondary text-muted-foreground border-border/40',
 };
 
+const PRIORITY_ORDER = { critical: 0, high: 1, medium: 2, low: 3 };
+const STATUS_ORDER = {
+  in_progress: 0,
+  needs_approval: 1,
+  blocked: 2,
+  scheduled: 3,
+  not_started: 4,
+  deferred: 5,
+};
+
+function taskOrder(a, b) {
+  const priorityDifference = (PRIORITY_ORDER[a.priority] ?? 9) - (PRIORITY_ORDER[b.priority] ?? 9);
+  if (priorityDifference !== 0) return priorityDifference;
+
+  const statusDifference = (STATUS_ORDER[a.status] ?? 9) - (STATUS_ORDER[b.status] ?? 9);
+  if (statusDifference !== 0) return statusDifference;
+
+  const aDue = a.due_date ? new Date(`${a.due_date}T00:00:00`).getTime() : Number.MAX_SAFE_INTEGER;
+  const bDue = b.due_date ? new Date(`${b.due_date}T00:00:00`).getTime() : Number.MAX_SAFE_INTEGER;
+  if (aDue !== bDue) return aDue - bDue;
+
+  return Number(a.sort_order || 0) - Number(b.sort_order || 0);
+}
+
 // Route a to-do to the admin screen where the task is actually performed.
 const TODO_ROUTES = [
   { match: /ganozmix/i, path: '/admin/ganozmix' },
@@ -74,8 +98,10 @@ export default function DeegoTodoList() {
     setTitle('');
   };
 
-  const open = tasks.filter((t) => t.status !== 'complete');
-  const done = tasks.filter((t) => t.status === 'complete');
+  const open = tasks.filter((t) => t.status !== 'complete').sort(taskOrder);
+  const done = tasks
+    .filter((t) => t.status === 'complete')
+    .sort((a, b) => new Date(b.updated_date || 0).getTime() - new Date(a.updated_date || 0).getTime());
 
   const handleRowClick = (t) => {
     const path = routeForTask(t);
