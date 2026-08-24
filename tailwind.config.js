@@ -8,6 +8,7 @@ module.exports = {
   			display: ['var(--font-display)'],
   			body: ['var(--font-body)'],
   			poppins: ['Poppins', 'sans-serif'],
+  			cormorant: ['Cormorant Garamond', 'serif'],
   		},
   		borderRadius: {
   			lg: 'var(--radius)',
