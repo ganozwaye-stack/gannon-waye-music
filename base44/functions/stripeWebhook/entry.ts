@@ -68,9 +68,9 @@ Deno.serve(async (req) => {
       return Response.json(
         {
           error: 'Missing stripe-signature header — live mode rejects unsigned payloads',
-          webhook_version: '2026-08-25-durable-v1',
+          webhook_version: '2026-08-25-durable-v2',
         },
-        { status: 400, headers: { 'x-webhook-version': '2026-08-25-durable-v1' } },
+        { status: 400, headers: { 'x-webhook-version': '2026-08-25-durable-v2' } },
       );
     }
     try {
