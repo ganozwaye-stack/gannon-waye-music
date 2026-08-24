@@ -1,18 +1,20 @@
 import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
 import GardenScene from './GardenScene';
+import MemoryFrame from '../MemoryFrame';
 
 const GROVE_BG = 'radial-gradient(ellipse 100% 80% at 50% 40%, hsl(150 33% 10%) 0%, hsl(156 45% 4%) 70%, hsl(156 50% 2%) 100%)';
 
 const MEMORIES = [
-  { label: 'Coffee in the Garden', note: 'Awaiting approved photograph' },
-  { label: "Sonia's Gold Rings", note: 'Awaiting approved photograph' },
-  { label: 'A Quiet Morning', note: 'Awaiting approved photograph' },
+  { caption: 'Coffee in the Garden' },
+  { caption: "Sonia's Gold Rings" },
+  { caption: 'A Quiet Morning' },
 ];
 
 /**
  * Scene 3 — Memories Among Trees
- * Darker, emotional. Photographs suspended among the trees, glowing softly.
+ * Mum's photographs in interactive 3D gold frames, suspended in the grove.
+ * Frames are ready for real images — placeholders label what's missing.
  */
 export default function MemoriesAmongTrees({ onContinue }) {
   return (
@@ -38,28 +40,17 @@ export default function MemoriesAmongTrees({ onContinue }) {
           Memories among the trees
         </motion.h2>
         <p className="text-center font-body text-[11px] uppercase tracking-[0.35em] text-[hsl(var(--garden-cream))]/35 mb-14">
-          Touch a frame to pause &middot; the garden waits
+          Move close to a frame &middot; the garden waits
         </p>
 
         <div className="grid gap-10 md:grid-cols-3">
           {MEMORIES.map((m, i) => (
-            <motion.figure
-              key={m.label}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.6, delay: i * 0.25 }}
-              className="group rounded-sm border border-[hsl(var(--garden-gold))]/20 bg-black/25 p-3 backdrop-blur-sm"
-            >
-              <div className="aspect-[3/4] w-full rounded-sm border border-dashed border-[hsl(var(--garden-gold))]/25 flex items-center justify-center overflow-hidden">
-                <span className="px-4 text-center font-body text-[10px] uppercase tracking-[0.28em] text-[hsl(var(--garden-cream))]/35">
-                  {m.note}
-                </span>
-              </div>
-              <figcaption className="mt-4 text-center font-cormorant italic text-lg text-[hsl(var(--garden-cream))]/70">
-                {m.label}
-              </figcaption>
-            </motion.figure>
+            <MemoryFrame
+              key={m.caption}
+              caption={m.caption}
+              placeholder="Awaiting approved photograph"
+              delay={i * 0.25}
+            />
           ))}
         </div>
 

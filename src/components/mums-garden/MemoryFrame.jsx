@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 // A 3D-styled gold frame that holds a single memory image.
 // Subtle entrance tilt + hover lift give it depth without being flashy.
-export default function MemoryFrame({ src, caption, delay = 0 }) {
+export default function MemoryFrame({ src, caption, delay = 0, placeholder }) {
   return (
     <motion.figure
       className="group relative"
@@ -37,17 +37,27 @@ export default function MemoryFrame({ src, caption, delay = 0 }) {
           />
         ))}
         <div className="relative aspect-[4/5] overflow-hidden" style={{ background: 'rgba(245,224,160,0.03)' }}>
-          <img
-            src={src}
-            alt={caption || ''}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-[1600ms] group-hover:scale-[1.03]"
-            style={{ filter: 'saturate(0.88) brightness(0.94)' }}
-          />
-          <div
-            className="pointer-events-none absolute inset-0 transition-opacity duration-700 group-hover:opacity-0"
-            style={{ background: 'linear-gradient(to bottom, transparent 45%, rgba(8,8,12,0.55) 100%)' }}
-          />
+          {src ? (
+            <>
+              <img
+                src={src}
+                alt={caption || ''}
+                loading="lazy"
+                className="h-full w-full object-cover transition-transform duration-[1600ms] group-hover:scale-[1.03]"
+                style={{ filter: 'saturate(0.88) brightness(0.94)' }}
+              />
+              <div
+                className="pointer-events-none absolute inset-0 transition-opacity duration-700 group-hover:opacity-0"
+                style={{ background: 'linear-gradient(to bottom, transparent 45%, rgba(8,8,12,0.55) 100%)' }}
+              />
+            </>
+          ) : (
+            <div className="flex h-full w-full items-center justify-center px-4 text-center">
+              <span className="font-body text-[10px] uppercase tracking-[0.3em]" style={{ color: 'rgba(255,255,255,0.32)' }}>
+                {placeholder || 'Awaiting approved photograph'}
+              </span>
+            </div>
+          )}
         </div>
         {caption && (
           <figcaption className="mt-3 text-center">
