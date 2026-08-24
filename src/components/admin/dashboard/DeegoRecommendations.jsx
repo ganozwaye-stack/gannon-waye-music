@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { Sparkles, CheckCircle2, Clock, Loader2, DollarSign, ArrowUpRight } from 'lucide-react';
+import { Sparkles, CheckCircle2, Clock, Loader2, DollarSign, ArrowUpRight, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const LANE_LABEL = {
@@ -56,6 +56,10 @@ export default function DeegoRecommendations() {
   const defer = (a) => {
     actMut.mutate({ id: a.id, status: 'draft' });
     toast({ title: 'Deferred back to draft' });
+  };
+  const decline = (a) => {
+    actMut.mutate({ id: a.id, status: 'rejected' });
+    toast({ title: 'Declined' });
   };
 
   return (
@@ -129,6 +133,15 @@ export default function DeegoRecommendations() {
                   className="text-muted-foreground hover:text-foreground h-7 px-2"
                 >
                   <Clock className="w-3.5 h-3.5" /> Defer
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => decline(a)}
+                  disabled={actMut.isPending}
+                  className="text-red-400/70 hover:text-red-400 h-7 px-2"
+                >
+                  <X className="w-3.5 h-3.5" /> Decline
                 </Button>
               </div>
             </div>

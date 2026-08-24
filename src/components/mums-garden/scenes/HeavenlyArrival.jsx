@@ -3,105 +3,96 @@ import { Link } from 'react-router-dom';
 import { Headphones, ArrowDown } from 'lucide-react';
 import GardenScene from './GardenScene';
 
-const SKY_BG = 'radial-gradient(ellipse 120% 90% at 50% 18%, hsl(46 40% 22%) 0%, hsl(156 35% 6%) 45%, hsl(156 40% 3%) 100%)';
+const SKY_BG = 'radial-gradient(ellipse 140% 110% at 50% 28%, hsl(46 35% 16%) 0%, hsl(150 30% 7%) 42%, hsl(156 45% 3%) 100%)';
 
 /**
  * Scene 1 — Heavenly Arrival
- * Full-screen sky & treetop view. Visitor chooses to Enter the Garden or
- * listen to "Without You Here". Audio never autoplays.
+ * Full-screen world image, perfectly centered Enter, calming.
+ * Audio never autoplays.
  */
 export default function HeavenlyArrival({ onEnter }) {
   return (
     <GardenScene id="arrival" background={SKY_BG} minHeight="100vh">
-      {/* soft moving light beams */}
+      {/* soft heavenly glow */}
       <motion.div
         aria-hidden
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
-        transition={{ duration: 4, repeat: Infinity, repeatType: 'reverse' }}
+        animate={{ opacity: 0.4 }}
+        transition={{ duration: 4 }}
         className="absolute inset-0 pointer-events-none"
-        style={{ background: 'linear-gradient(105deg, transparent 30%, hsl(46 63% 72% / 0.12) 42%, transparent 58%)' }}
+        style={{ background: 'radial-gradient(ellipse 70% 60% at 50% 22%, hsl(47 100% 93% / 0.10), transparent 70%)' }}
       />
-      {/* cloud drift */}
+      {/* slow drifting cloud */}
       <motion.div
         aria-hidden
-        initial={{ x: '-12%' }}
-        animate={{ x: '12%' }}
-        transition={{ duration: 26, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
-        className="absolute inset-x-0 top-[8%] h-1/3 pointer-events-none"
-        style={{ background: 'radial-gradient(ellipse 60% 100% at 50% 50%, hsl(47 100% 93% / 0.14), transparent 70%)' }}
+        initial={{ x: '-10%' }}
+        animate={{ x: '10%' }}
+        transition={{ duration: 30, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+        className="absolute inset-x-0 top-[10%] h-1/3 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 55% 100% at 50% 50%, hsl(200 14% 72% / 0.06), transparent 70%)' }}
       />
 
-      <div className="relative z-10 px-6 text-center max-w-2xl">
+      {/* perfectly centered entry */}
+      <div className="relative z-10 flex w-full flex-col items-center justify-center px-6 text-center" style={{ minHeight: '100vh' }}>
         <motion.p
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.6, delay: 0.3 }}
-          className="mb-6 font-body text-[10px] uppercase tracking-[0.5em] text-[hsl(var(--garden-cream))]/45"
+          transition={{ duration: 2, delay: 0.4 }}
+          className="mb-5 font-body text-[10px] uppercase tracking-[0.5em] text-[hsl(var(--garden-cream))]/45"
         >
           A Garden for Sonia
         </motion.p>
-
         <motion.h1
-          initial={{ opacity: 0, y: 18 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 2, delay: 0.5 }}
-          className="font-cormorant text-[clamp(3.5rem,9vw,7rem)] leading-none text-[hsl(var(--garden-cream))]"
-          style={{ textShadow: '0 0 40px hsl(46 63% 52% / 0.25)' }}
+          transition={{ duration: 2.2, delay: 0.6 }}
+          className="font-cormorant text-[clamp(3rem,8vw,6.5rem)] leading-none text-[hsl(var(--garden-cream))]"
+          style={{ textShadow: '0 0 40px hsl(46 63% 52% / 0.2)' }}
         >
           Sonia&rsquo;s Garden
         </motion.h1>
-
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.8, delay: 1.1 }}
-          className="mt-5 font-cormorant italic text-xl md:text-2xl text-[hsl(var(--garden-cream))]/60"
+          transition={{ duration: 2, delay: 1.1 }}
+          className="mt-4 font-cormorant italic text-xl text-[hsl(var(--garden-cream))]/55"
         >
-          In loving memory of Sonia Katisa Waye &middot; 1961 &ndash; 2022
+          In loving memory of Sonia Katisa Waye
         </motion.p>
 
-        {/* Awaiting approved sky portrait — no invented faces */}
+        {/* the Enter — centered focal action */}
+        <motion.button
+          type="button"
+          onClick={onEnter}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 2, delay: 1.6 }}
+          className="group mt-12 inline-flex items-center gap-3 rounded-full px-10 py-4 gradient-gold-button"
+        >
+          <span className="font-body text-xs uppercase tracking-[0.4em]">Enter the Garden</span>
+          <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
+        </motion.button>
+
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 1.8, delay: 1.4 }}
-          className="mx-auto mt-10 max-w-[260px] rounded-sm border border-[hsl(var(--garden-gold))]/20 bg-black/20 p-4"
+          transition={{ duration: 2, delay: 2 }}
+          className="mt-6"
         >
-          <div className="aspect-[4/3] w-full rounded-sm border border-dashed border-[hsl(var(--garden-gold))]/25 flex items-center justify-center">
-            <span className="px-4 text-center font-body text-[10px] uppercase tracking-[0.3em] text-[hsl(var(--garden-cream))]/35">
-              Awaiting approved sky photograph
-            </span>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.6, delay: 1.8 }}
-          className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
-        >
-          <button
-            type="button"
-            onClick={onEnter}
-            className="group inline-flex items-center gap-3 rounded-full px-8 py-3.5 gradient-gold-button"
-          >
-            <span className="font-body text-xs uppercase tracking-[0.35em]">Enter the Garden</span>
-            <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
-          </button>
           <Link
             to="/music"
-            className="inline-flex items-center gap-2.5 rounded-full border border-[hsl(var(--garden-gold))]/40 px-7 py-3.5 text-[hsl(var(--garden-cream))] hover:border-[hsl(var(--garden-gold))] transition-colors"
+            className="inline-flex items-center gap-2 text-[hsl(var(--garden-cream))]/60 hover:text-[hsl(var(--garden-gold))] transition-colors"
           >
-            <Headphones className="w-4 h-4 text-[hsl(var(--garden-gold))]" />
-            <span className="font-body text-xs uppercase tracking-[0.35em]">Listen to Without You Here</span>
+            <Headphones className="w-4 h-4" />
+            <span className="font-body text-[11px] uppercase tracking-[0.35em]">Listen to Without You Here</span>
           </Link>
         </motion.div>
-
-        <p className="mt-10 font-body text-[10px] tracking-[0.3em] uppercase text-[hsl(var(--garden-cream))]/30">
-          Sound begins only when you choose
-        </p>
       </div>
+
+      {/* subtle, non-distracting asset note */}
+      <span className="absolute bottom-5 left-1/2 -translate-x-1/2 font-body text-[9px] uppercase tracking-[0.3em] text-[hsl(var(--garden-cream))]/25">
+        Full-screen world image &mdash; awaiting approved asset
+      </span>
     </GardenScene>
   );
 }

@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { useNavigate } from 'react-router-dom';
-import { Shield, ArrowRight, Check, Clock } from 'lucide-react';
+import { Shield, ArrowRight, Check, Clock, X } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 
 const CATEGORY_ICONS = {
@@ -50,6 +50,10 @@ export default function ApprovalCards() {
     mutationFn: async ({ id, status }) => base44.entities.ApprovalQueueItem.update(id, { status }),
     onSuccess: () => qc.invalidateQueries(['approvalQueueItems']),
   });
+  const delMut = useMutation({
+    mutationFn: async (id) => base44.entities.ApprovalQueueItem.delete(id),
+    onSuccess: () => qc.invalidateQueries(['approvalQueueItems']),
+  });
 
   const approve = (item) => {
     statusMut.mutate({ id: item.id, status: 'complete' });
@@ -58,6 +62,10 @@ export default function ApprovalCards() {
   const defer = (item) => {
     statusMut.mutate({ id: item.id, status: 'deferred' });
     toast({ title: 'Deferred', description: item.title });
+  };
+  const decline = (item) => {
+    delMut.mutate(item.id);
+    toast({ title: 'Declined & removed', description: item.title });
   };
 
   const go = (item) => navigate(CATEGORY_ROUTES[item.category] || '/admin/approval-queue');
@@ -105,6 +113,14 @@ export default function ApprovalCards() {
                   className="inline-flex items-center gap-1 font-body text-[10px] tracking-wider uppercase px-3 py-1 rounded-full border border-border/50 text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors disabled:opacity-50"
                 >
                   <Clock className="w-3 h-3" /> Defer
+                </button>
+                <button
+                  type="button"
+                  onClick={() => decline(item)}
+                  disabled={delMut.isPending}
+                  className="inline-flex items-center gap-1 font-body text-[10px] tracking-wider uppercase px-3 py-1 rounded-full border border-red-500/40 text-red-400/80 hover:text-red-400 hover:border-red-500/70 transition-colors disabled:opacity-50"
+                >
+                  <X className="w-3 h-3" /> Decline
                 </button>
               </div>
             </div>

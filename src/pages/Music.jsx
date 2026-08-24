@@ -138,14 +138,16 @@ export default function Music() {
 
             <section>
               <h2 className="font-display text-3xl text-foreground mb-6">Public releases</h2>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {releases.map((release) => (
+              <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-8">
+                {releases.map((release) => {
+                  const listenHref = release.apple_music_link || APPLE_MUSIC_ARTIST_URL;
+                  return (
                   <motion.article
                     key={release.id}
                     initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="rounded-2xl overflow-hidden border border-border/40 bg-card/55"
+                    className="rounded-3xl overflow-hidden border border-border/40 bg-card/55 flex flex-col"
                   >
                     <Link to={`/release/${release.id}`}>
                       <div className="aspect-square bg-secondary/40 overflow-hidden">
@@ -157,29 +159,45 @@ export default function Music() {
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            <Music2 className="w-12 h-12 text-muted-foreground/30" />
+                            <Music2 className="w-16 h-16 text-muted-foreground/30" />
                           </div>
                         )}
                       </div>
-                      <div className="p-5">
+                    </Link>
+                    <div className="p-6 flex-1 flex flex-col">
+                      <Link to={`/release/${release.id}`} className="block">
                         <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary">
                           {release.type || 'release'}
                         </p>
-                        <h3 className="font-display text-2xl text-foreground mt-1">{release.title}</h3>
+                        <h3 className="font-display text-3xl text-foreground mt-1">{release.title}</h3>
                         {release.version_label && (
                           <p className="font-body text-xs text-muted-foreground mt-1">
                             {release.version_label}
                           </p>
                         )}
                         {release.description && (
-                          <p className="font-body text-sm text-muted-foreground mt-3 line-clamp-3">
+                          <p className="font-body text-sm text-muted-foreground mt-3 line-clamp-2">
                             {release.description}
                           </p>
                         )}
+                      </Link>
+                      <div className="flex flex-wrap items-center gap-2.5 mt-5">
+                        <a href={listenHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full gradient-gold-button border-0 px-6 py-2.5">
+                          <Play className="w-4 h-4" /> Listen
+                        </a>
+                        {release.spotify_link && (
+                          <a href={release.spotify_link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-primary/35 text-primary px-5 py-2.5 hover:bg-primary/10 transition-colors">
+                            <ExternalLink className="w-3.5 h-3.5" /> Spotify
+                          </a>
+                        )}
+                        <Link to={`/release/${release.id}`}>
+                          <Button variant="ghost" className="rounded-full">Details</Button>
+                        </Link>
                       </div>
-                    </Link>
+                    </div>
                   </motion.article>
-                ))}
+                  );
+                })}
               </div>
             </section>
           </>
