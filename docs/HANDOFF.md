@@ -109,9 +109,9 @@ Known-good supplier research already done: Printful is the pick for AU (local fu
 
 ### O-9 · Data hygiene · owner: Gannon, then Codex propagates
 
-* **Merchandise URL — CONFIRMED WRONG, escalate.** Gannon confirmed on 24 Aug that he owns **gannonwaye.com** (with a Y) and only that. Printed hoodies and the Respect Is Earned mug read **`WWW.GANNONWAVE.COM`** (with a V) — a domain he does not own. Every unit sold to date directs customers to a domain outside his control, and he cannot see or govern what sits there. This is on the only product line that has ever sold. Actions, in order: (1) correct every print file and product mockup to `gannonwaye.com`; (2) audit all site copy, product data, email templates and social bios for the `gannonwave` spelling and correct it; (3) put to Gannon whether to register `gannonwave.com` defensively — it is a few dollars a year, it makes every hoodie already in the wild resolve correctly via a redirect, and it stops a near-miss of his artist name being used by someone else. Do not register anything without his approval. **Canonical spelling from now on: `gannonwaye.com`.**
-* **Song title.** "Set Free" appears three ways: *I've Been Set Free* (lyric doc, 20 Mar 2026), *SET FREE* (cover art), *Set Freee* (Lyric record `6a3aa17c5f2267d730b5a824`). DSPs match on exact title. Gannon picks one, Codex propagates.
-* **Cover art.** 15 of 17 Release records point `artwork_url` at `gannonwaye.com/images/home/gannon-waye-home-hero.png` — the homepage image, not cover art. Only *Without You Here* and *Thankyou* have real artwork attached. Set Free artwork exists and Gannon has it; it is not on the record.
+* **Merchandise URL — RETRACTED, no defect. Do not act on the earlier note.** An earlier entry in this file claimed the printed hoodie and mug read `GANNONWAVE.COM` and escalated it as a live defect. **That was wrong.** Claude misread the letterform in a product photo — in gold letterspaced caps at that size a `Y` and a `V` are easy to confuse. Gannon confirmed on 24 Aug and supplied the master URL asset, which reads **`WWW.GANNONWAYE.COM`**. The merchandise has always been correct. No print file needs changing, no domain needs registering, and no codebase audit is required — a scan already confirmed the `gannonwave` spelling appears nowhere in `src/` or `public/`. Canonical spelling is `gannonwaye.com`, which is what the merch already says.
+* **Song title — RESOLVED.** Gannon confirmed 24 Aug: the title is **`Set Free`**. Not *I've Been Set Free* (that is the lyric doc's working header) and not *Set Freee* (a typo in Lyric record `6a3aa17c5f2267d730b5a824`). Correct the Lyric record and confirm the Release record and all distribution metadata read exactly `Set Free`. Cover art already reads SET FREE and is correct.
+* **Cover art.** Set Free's finished cover art exists and Gannon holds it — it is not attached to the Release record. Same for the brand asset set (GW circle mark, GW heart mark, gold signature, URL bar). 15 of 17 Release records point `artwork_url` at `gannonwaye.com/images/home/gannon-waye-home-hero.png` — the homepage image, not cover art. Only *Without You Here* and *Thankyou* have real artwork attached. Set Free artwork exists and Gannon has it; it is not on the record.
 * **Shipping rule.** `shippingOptimisationAudit` raises a daily high-severity issue that `"📍 Local Pickup — Cd"` undercharges by $7. The rule is named *Local Pickup*, where $0 is correct, and there are five pickup rules with the same shape. **Verify the auditor before applying the fix**, or the site starts charging postage on collection.
 
 ---
@@ -129,6 +129,13 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 ---
 
 ## Log
+
+### 2026-08-24 · Claude (Cowork) · correction
+
+Did:      Retracted the merchandise-URL defect in O-9. It was my error, not a real fault.
+Found:    I misread `GANNONWAYE` as `GANNONWAVE` in a product photo and escalated it in this file as a confirmed defect on the best-selling product. Gannon supplied the master URL asset: it reads WWW.GANNONWAYE.COM. The merch was correct the whole time. Also confirmed: the song title is `Set Free`.
+Left:     Nothing outstanding from this thread.
+For:      Any agent that read the earlier note — ignore it. Do not change print files and do not register a domain.
 
 ### 2026-08-24 · Claude (Cowork)
 
