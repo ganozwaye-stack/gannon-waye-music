@@ -69,6 +69,10 @@
       "allowed_operations": [
         "read"
       ]
+    },
+    {
+      "function_name": "listDriveFiles",
+      "description": "Read-only Google Drive file listing and search. Use only after checking that Drive is verified with file-read scope; report authorization_required on a scope error and never claim success without returned file evidence."
     }
   ],
   "context_files": [],
