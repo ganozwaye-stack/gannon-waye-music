@@ -9,6 +9,9 @@ Deno.serve(async (req) => {
     }
 
     const { accessToken } = await base44.asServiceRole.connectors.getConnection('googledrive');
+    if (!accessToken) {
+      return Response.json({ error: 'Google Drive is not authorized. Reconnect it with Drive file access.' }, { status: 401 });
+    }
 
     const body = await req.json().catch(() => ({}));
     const folderId = body.folderId || 'root';
@@ -18,7 +21,8 @@ Deno.serve(async (req) => {
     let url = `https://www.googleapis.com/drive/v3/files?fields=files(id,name,mimeType,size,modifiedTime,webViewLink,thumbnailLink,parents),nextPageToken&orderBy=modifiedTime+desc&pageSize=50`;
 
     if (query) {
-      url += `&q=${encodeURIComponent(query)}`;
+      const safeQuery = String(query).trim().replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+      url += `&q=${encodeURIComponent(`name contains '${safeQuery}' and trashed=false`)}`;
     } else if (folderId !== 'root') {
       url += `&q=${encodeURIComponent(`'${folderId}' in parents and trashed=false`)}`;
     } else {
