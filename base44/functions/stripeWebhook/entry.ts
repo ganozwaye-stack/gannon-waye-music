@@ -136,6 +136,18 @@ Deno.serve(async (req) => {
       const session = event.data.object;
       const meta = session.metadata || {};
 
+      if (session.payment_status !== 'paid') {
+        await base44.asServiceRole.entities.PaymentDiagnostic.create({
+          diagnostic_type: 'webhook_failure',
+          severity: 'high',
+          status: 'open',
+          issue_summary: `checkout.session.completed was not paid for ${session.id}; order creation skipped`,
+          webhook_processed: false,
+          source_chain: 'Stripe → stripeWebhook → checkout_not_paid',
+        }).catch(() => {});
+        return Response.json({ received: true, processed: false, reason: 'checkout_not_paid' });
+      }
+
       // Email from Stripe (authoritative) or metadata
       const customerEmail =
         session.customer_details?.email ||
@@ -160,6 +172,18 @@ Deno.serve(async (req) => {
           size: meta.size || '',
           category: meta.product_category || '',
         }];
+      }
+
+      if (!Array.isArray(cartItems) || cartItems.length === 0) {
+        await base44.asServiceRole.entities.PaymentDiagnostic.create({
+          diagnostic_type: 'webhook_failure',
+          severity: 'critical',
+          status: 'open',
+          issue_summary: `Paid checkout ${session.id} has no valid cart metadata; refusing to create an empty order`,
+          webhook_processed: false,
+          source_chain: 'Stripe → stripeWebhook → invalid_cart_metadata',
+        }).catch(() => {});
+        return Response.json({ error: 'Paid checkout has no valid cart metadata' }, { status: 500 });
       }
 
       const totalPaid = (session.amount_total || 0) / 100;
@@ -353,6 +377,15 @@ Deno.serve(async (req) => {
         return Response.json({ error: 'Webhook persistence failed' }, { status: 500 });
       }
 
+      // MerchOrder entity automations own inventory, receipts, Sheets and alerts.
+      // ACK now so those downstream integrations can never block Stripe capture.
+      return Response.json({
+        received: true,
+        order_id: orderId,
+        stripe_event_id: event.id,
+      });
+
+      // Legacy downstream path retained temporarily for audit; unreachable for checkout events.
       // === INVENTORY DECREMENT + PROFIT CALCULATION per item ===
       for (const item of cartItems) {
         if (!item.product_id) continue;
