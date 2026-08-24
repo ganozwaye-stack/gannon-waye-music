@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 
 const PRIMARY_WEBHOOK_ENDPOINT = 'https://api.base44.app/api/apps/69eb7905ca6eb4180010f794/functions/stripeWebhook';
-const SECONDARY_WEBHOOK_ENDPOINT = 'https://api.base44.app/api/v2/apps/69eb7905ca6eb4180010f794/functions/stripeIntelligenceRouter';
+const SECONDARY_WEBHOOK_ENDPOINT = 'DISABLED — retire the legacy /api/v2 stripeIntelligenceRouter endpoint';
 
 const RECOMMENDED_EVENTS = [
   'checkout.session.completed', 'checkout.session.expired',
@@ -297,7 +297,7 @@ export default function StripeCommandCentreNew() {
                   <p className="font-mono text-xs bg-green-500/10 rounded p-2 flex-1 break-all border border-green-500/20">{PRIMARY_WEBHOOK_ENDPOINT}</p>
                   <Button variant="ghost" size="sm" onClick={() => copyUrl(PRIMARY_WEBHOOK_ENDPOINT)}>{copiedUrl === PRIMARY_WEBHOOK_ENDPOINT ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}</Button>
                 </div>
-                <p className="text-xs text-muted-foreground mb-1 mt-3">Optional secondary intelligence endpoint (logs, disputes, refunds diagnostics — no order creation):</p>
+                <p className="text-xs text-muted-foreground mb-1 mt-3">Legacy secondary endpoint: retire it; do not register it separately:</p>
                 <div className="flex items-center gap-2">
                   <p className="font-mono text-xs bg-secondary/40 rounded p-2 flex-1 break-all border border-border/40">{SECONDARY_WEBHOOK_ENDPOINT}</p>
                   <Button variant="ghost" size="sm" onClick={() => copyUrl(SECONDARY_WEBHOOK_ENDPOINT)}>{copiedUrl === SECONDARY_WEBHOOK_ENDPOINT ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <Copy className="w-3 h-3" />}</Button>
