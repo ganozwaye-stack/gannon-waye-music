@@ -65,7 +65,10 @@ Deno.serve(async (req) => {
       return Response.json({ error: 'STRIPE_WEBHOOK_SECRET not configured — live mode requires signed webhooks' }, { status: 500 });
     }
     if (!signature) {
-      return Response.json({ error: 'Missing stripe-signature header — live mode rejects unsigned payloads' }, { status: 400 });
+      return Response.json(
+        { error: 'Missing stripe-signature header — live mode rejects unsigned payloads' },
+        { status: 400, headers: { 'x-webhook-version': '2026-08-25-durable-v1' } },
+      );
     }
     try {
       event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
