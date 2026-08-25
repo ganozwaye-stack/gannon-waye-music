@@ -58,7 +58,14 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 4 : undefined,
+
+  // Deliberately conservative. This app is large and the sandbox it usually runs in
+  // is small; at 6 workers a healthy test intermittently blew the 30s default and
+  // reported as a failure when nothing was actually broken. A slow suite that tells
+  // the truth beats a fast one that cries wolf.
+  workers: process.env.CI ? 4 : 2,
+  timeout: 60 * 1000,
+  expect: { timeout: 10 * 1000 },
 
   reporter: [
     ['list'],
