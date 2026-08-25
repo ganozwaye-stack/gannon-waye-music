@@ -4,6 +4,26 @@ Welcome to the Gannon Waye Music repository. This project uses AI agents (includ
 
 ---
 
+## 0. STOP — READ THE VAULT FIRST
+
+**Before anything else in this file, read [`docs/VAULT.md`](docs/VAULT.md).**
+
+It is the single entry point shared by every agent working on this business — Codex,
+Claude, Deego, the Base44 fleet, and any external assistant. It tells you what exists,
+what order to read it in, what has been retracted, and how to write back what you learn.
+
+The constitution it points to is also served publicly at
+**https://gannonwaye.com/agent-rules.txt** (source: `public/agent-rules.txt`) so that
+assistants with no repository access can still be bound by the same rules.
+
+Two facts that are got wrong more often than any others, repeated here so they are
+unmissable:
+
+- **One real customer order exists.** The two $0.99 Stripe sessions are owner tests.
+- **The domain is `gannonwaye.com`, with a Y.** Do not "correct" it from a photograph.
+
+---
+
 ## 1. Git Workflow & Approval Rules
 
 * **Single Source of Truth:** GitHub is the single source of truth.
