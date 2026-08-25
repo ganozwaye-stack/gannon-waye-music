@@ -6,7 +6,7 @@ const { test, expect } = require('@playwright/test');
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 async function addItemToCart(page) {
-  await page.goto(`${BASE_URL}/store`);
+  await page.goto(`${BASE_URL}/store/all`);
   await page.waitForSelector('[data-testid="product-card"]');
   
   // Select size M first if it exists, to avoid size selection validation toasts

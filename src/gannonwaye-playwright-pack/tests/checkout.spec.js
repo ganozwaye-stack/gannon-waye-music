@@ -18,7 +18,7 @@ const DETAILS = {
 
 async function fillDetailsAndNavigate(page) {
   // Set localStorage details so checkout page loads correctly
-  await page.goto(`${BASE_URL}/store`);
+  await page.goto(`${BASE_URL}/store/all`);
   await page.evaluate((d) => {
     localStorage.setItem('gannon_checkout_details_v1', JSON.stringify({
       ...d,
@@ -103,7 +103,7 @@ test.describe('Order Review / Checkout Page', () => {
   });
 
   test('different sizes create separate cart lines', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await page.goto(`${BASE_URL}/store/all`);
     await page.evaluate((d) => {
       localStorage.setItem('gannon_checkout_details_v1', JSON.stringify({
         ...d, dob: '', business_name: '', abn: '',
@@ -120,7 +120,7 @@ test.describe('Order Review / Checkout Page', () => {
     await hoodieCard.locator('[data-testid="add-to-cart-btn"]').click({ force: true });
 
     // Now add size L — navigate back to store
-    await page.goto(`${BASE_URL}/store`);
+    await page.goto(`${BASE_URL}/store/all`);
     const hoodieCard2 = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
     await expect(hoodieCard2).toBeVisible();
 
@@ -181,7 +181,7 @@ test.describe('Order Review / Checkout Page', () => {
   });
 
   test('empty cart shows return to store button', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    await page.goto(`${BASE_URL}/store/all`);
     await page.evaluate(() => {
       const key = 'gannon_store_cart_v2';
       localStorage.setItem(key, JSON.stringify({ state: { items: [], __version: 3 }, version: 0 }));
