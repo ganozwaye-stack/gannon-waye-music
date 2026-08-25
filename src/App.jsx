@@ -382,6 +382,13 @@ const AuthenticatedApp = () => {
         <Route path="/carry-the-message" element={<CarryTheMessage />} />
         <Route path="/remember-mum" element={<RememberMum />} />
         <Route path="/mums-garden" element={<MumsGarden />} />
+        {/* /mum was a 404. It is the most guessable URL for the memorial page and
+            the one the test suite has always used, so anyone following an old link
+            or typing the obvious thing hit a dead 404 on the page that matters most
+            on this site. Redirected, not left to the catch-all. */}
+        <Route path="/mum" element={<Navigate to="/mums-garden" replace />} />
+        <Route path="/mums" element={<Navigate to="/mums-garden" replace />} />
+        <Route path="/sonias-garden" element={<Navigate to="/mums-garden" replace />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/presave" element={<PreSave />} />
