@@ -1,0 +1,46 @@
+{
+  "name": "Agent Intelligence Loop  -  Every 4 Hours",
+  "description": "Continuously researches 16+ domains (ecommerce, creator economy, AI SaaS, social, luxury, music) every 4 hours. Saves findings to KnowledgeVault and extracts opportunities to IdeaOpportunity. No spending or publishing  -  research only.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "interval",
+      "cron_expression": null,
+      "one_time_date": null,
+      "timezone": "UTC",
+      "interval_value": 4,
+      "interval_unit": "hours",
+      "interval_anchor": "2026-08-17T11:20:46.975000",
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "agent_intelligence_loop_every_4_hours",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "agentIntelligenceLoop",
+            "args": {
+              "mode": "intelligence_with_deego_heartbeat"
+            }
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "agentIntelligenceLoop"
+  }
+}

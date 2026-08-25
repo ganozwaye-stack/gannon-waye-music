@@ -1,0 +1,38 @@
+{
+  "name": "Google Calendar \u2192 Schedule Sync",
+  "description": "Real-time webhook from Google Calendar \u2014 upserts gigs and release dates into CalendarEvent so the public schedule page stays current automatically.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "connector",
+      "events": [
+        "events"
+      ],
+      "integration_type": "googlecalendar",
+      "resource_id": null
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "google_calendar_schedule_sync",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "onCalendarEvent",
+            "args": {}
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "onCalendarEvent"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "name": "Low Stock Inventory Alert",
+  "description": "",
+  "trigger": {
+    "condition": "${ ((.trigger.data.stock_quantity <= 5) and (.trigger.data.is_active == true)) }",
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "update"
+      ],
+      "entity_name": "MerchProduct"
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "low_stock_inventory_alert",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "notifyAdminLowStock",
+            "args": {}
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "notifyAdminLowStock"
+  }
+}

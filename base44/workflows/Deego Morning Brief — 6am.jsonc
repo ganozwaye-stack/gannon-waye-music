@@ -1,0 +1,44 @@
+{
+  "name": "Deego Morning Brief \u2014 6am",
+  "description": "Each morning at 6am Deego writes the executive brief (top priority, best money move, biggest risk, content idea, what needs approval) and posts it to Slack + Knowledge Vault so it's waiting when Gannon wakes.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 20 * * *",
+      "one_time_date": null,
+      "timezone": "UTC",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "deego_morning_brief_6am",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "executiveMorningBrief",
+            "args": {}
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "executiveMorningBrief"
+  }
+}

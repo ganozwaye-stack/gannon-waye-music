@@ -1,0 +1,38 @@
+{
+  "name": "Merch Order \u2192 Google Sheets Ledger",
+  "description": "Every new merch order is appended as a row to the Google Sheets Orders ledger, with order details, items, status, tracking number, and fulfillment/supplier shipping status.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "create",
+        "update"
+      ],
+      "entity_name": "MerchOrder"
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "merch_order_google_sheets_ledger",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "syncOrderToSheets",
+            "args": {}
+          },
+          "then": "end"
+        }
+      }
+    ]
+  },
+  "x-base44-migrated-from-automation": {
+    "legacy_payload_function": "syncOrderToSheets"
+  }
+}
