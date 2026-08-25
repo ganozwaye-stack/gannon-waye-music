@@ -388,7 +388,15 @@ const AuthenticatedApp = () => {
         <Route path="/release/:id" element={<ReleaseDetail />} />
         <Route path="/store/product/:slug" element={<StoreProductDetail />} />
         <Route path="/releases" element={<ReleasesRedirect />} />
-        <Route path="/tour" element={<Tour />} />
+        {/* Gannon is not touring and does not take bookings. Both routes used to be
+            dead ends: /tour rendered a tour page for an artist with no dates, and
+            /bookings had no route at all so it fell through to the 404. Anyone
+            arriving from an old link or a search result hit a wall. Both now send
+            them to the homepage. Covered by public-routes.spec.js. */}
+        <Route path="/tour" element={<Navigate to="/" replace />} />
+        <Route path="/tours" element={<Navigate to="/" replace />} />
+        <Route path="/bookings" element={<Navigate to="/" replace />} />
+        <Route path="/booking" element={<Navigate to="/" replace />} />
         <Route path="/about" element={<About />} />
         <Route path="/support" element={<Navigate to="/contact" replace />} />
         <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />
