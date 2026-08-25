@@ -123,11 +123,23 @@
 
   body {
     @apply bg-background text-foreground;
-    overscroll-behavior: none;
+    /* overscroll-behavior: none was here and is deliberately gone.
+       On iOS it suppresses rubber-banding, and combined with a root-level
+       scroll container it can leave the page feeling stuck on touch. */
+    overscroll-behavior-y: auto;
     padding-bottom: env(safe-area-inset-bottom);
+    /* belt and braces: guarantee touch scrolling on older iOS WebKit */
+    -webkit-overflow-scrolling: touch;
   }
 
+  /* padding-top was on <html>. Root-element padding fights viewport height
+     maths on iOS and pushes content past the fold. Safe-area inset belongs
+     on the body, not on the root. */
   html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
     padding-top: env(safe-area-inset-top);
   }
 
@@ -148,7 +160,17 @@
      creating a scroll container, so sticky keeps working. */
   body {
     max-width: 100%;
-    overflow-x: clip;
+    /* hidden is the fallback for older iOS Safari, which shipped `clip`
+       only in v16. On body (never html) `hidden` still scrolls vertically. */
+    overflow-x: hidden;
+  }
+
+  /* Where `clip` is supported, prefer it — it stops horizontal overflow
+     WITHOUT creating a scroll container, so position:sticky keeps working. */
+  @supports (overflow-x: clip) {
+    body {
+      overflow-x: clip;
+    }
   }
 
   img, video, canvas, svg, iframe {
