@@ -502,8 +502,7 @@ export default function Store() {
         {/* Support CTA */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           className="mt-16 bg-card border border-primary/20 rounded-2xl p-5 text-center"
         >
           <p className="font-body text-sm text-foreground/70 mb-1">Not your style? You can still support this.</p>

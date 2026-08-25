@@ -33,8 +33,7 @@ export default function MerchShowcase() {
               {/* Category Header */}
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
+                animate={{ opacity: 1, x: 0 }}
                 className="mb-10"
               >
                 <h3 className="font-display text-3xl text-foreground capitalize mb-2">{category}</h3>
@@ -47,8 +46,7 @@ export default function MerchShowcase() {
                   <motion.div
                     key={product.id}
                     initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05 }}
                     onHoverStart={() => setHoveredId(product.id)}
                     onHoverEnd={() => setHoveredId(null)}

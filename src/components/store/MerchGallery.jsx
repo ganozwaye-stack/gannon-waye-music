@@ -20,8 +20,7 @@ export default function MerchGallery() {
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           className="text-center mb-12"
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.7)' }}>The Collection</p>
@@ -37,8 +36,7 @@ export default function MerchGallery() {
             <motion.div
               key={product.id}
               initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08 }}
               onClick={() => setActiveModal(product.id)}
               className="group relative cursor-pointer overflow-hidden rounded-2xl"

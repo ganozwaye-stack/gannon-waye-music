@@ -36,8 +36,7 @@ export default function WinterBundleHero({ onViewCart }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
+      animate={{ opacity: 1, y: 0 }}
       data-testid="winter-bundle-hero"
       className="relative overflow-hidden rounded-2xl border border-primary/30 bg-gradient-to-br from-slate-900 via-card to-slate-900 mb-12"
     >

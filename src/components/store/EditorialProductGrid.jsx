@@ -37,8 +37,7 @@ export default function EditorialProductGrid({ products, onOpenModal }) {
               type="button"
               onClick={handleClick}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: (i % 3) * 0.08 }}
               whileHover={{ y: -4 }}
               className="group block text-left p-0 cursor-pointer overflow-hidden rounded-xl border transition-colors"
