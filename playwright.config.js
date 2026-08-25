@@ -70,9 +70,11 @@ export default defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    launchOptions: {
-      args: [`--host-rules=${BLOCK_THIRD_PARTY}`],
-    },
+    // NOTE: --host-rules is a CHROMIUM-ONLY flag. It must NOT live here, because
+    // `use` applies to every project and WebKit refuses to launch on an unknown
+    // argument ('Cannot parse arguments: Unknown option --host-rules'). It is set
+    // per-project below instead. Blocking third parties in WebKit is done with
+    // route interception, which works in every engine.
   },
 
   // Against the live site there is nothing to start. Locally, start Vite from the repo
@@ -89,12 +91,30 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: { args: [`--host-rules=${BLOCK_THIRD_PARTY}`] },
+      },
     },
     {
-      // The scroll bug was mobile-only. Mobile is no longer optional coverage.
+      // Real Safari engine. This is the one that catches iOS-only faults such as
+      // `overflow: clip` being unsupported before Safari 16. No --host-rules here.
       name: 'mobile-safari',
       use: { ...devices['iPhone 13'] },
+    },
+    {
+      // Chromium with mobile emulation. Runs anywhere, including CI boxes without
+      // WebKit system libraries, so mobile layout is never left untested.
+      name: 'mobile-chrome',
+      use: {
+        ...devices['Pixel 5'],
+        launchOptions: { args: [`--host-rules=${BLOCK_THIRD_PARTY}`] },
+      },
+    },
+    {
+      // iPad. Between phone and desktop is where responsive layouts break quietly.
+      name: 'tablet',
+      use: { ...devices['iPad (gen 7) landscape'] },
     },
   ],
 });
