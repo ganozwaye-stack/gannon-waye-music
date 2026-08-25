@@ -97,14 +97,7 @@ export default defineConfig({
       },
     },
     {
-      // Real Safari engine. This is the one that catches iOS-only faults such as
-      // `overflow: clip` being unsupported before Safari 16. No --host-rules here.
-      name: 'mobile-safari',
-      use: { ...devices['iPhone 13'] },
-    },
-    {
-      // Chromium with mobile emulation. Runs anywhere, including CI boxes without
-      // WebKit system libraries, so mobile layout is never left untested.
+      // Chromium with phone emulation. Runs anywhere chromium runs.
       name: 'mobile-chrome',
       use: {
         ...devices['Pixel 5'],
@@ -112,9 +105,33 @@ export default defineConfig({
       },
     },
     {
-      // iPad. Between phone and desktop is where responsive layouts break quietly.
-      name: 'tablet',
-      use: { ...devices['iPad (gen 7) landscape'] },
+      // iPad viewport, forced onto Chromium. The stock 'iPad (gen 7)' descriptor
+      // defaults to WebKit; we override browserName so the tablet breakpoint is
+      // still covered on machines where WebKit will not install. Between phone and
+      // desktop is exactly where responsive layouts break quietly.
+      name: 'tablet-chrome',
+      use: {
+        ...devices['iPad (gen 7) landscape'],
+        browserName: 'chromium',
+        launchOptions: { args: [`--host-rules=${BLOCK_THIRD_PARTY}`] },
+      },
+    },
+    {
+      // Real Safari engine — the only project that catches iOS-only faults such as
+      // `overflow: clip` being unsupported before Safari 16. No --host-rules here;
+      // WebKit refuses to launch on unknown arguments.
+      //
+      // WebKit needs system libraries (libgstreamer, libgtk-4) that many sandboxes
+      // lack, and browser binaries do NOT persist in the Base44 sandbox — the whole
+      // ms-playwright cache gets wiped between sessions. So this project is kept
+      // LAST and treated as supplementary: the three chromium projects above are
+      // the gate that must always pass, and this one is the deeper check to run on
+      // a machine that can hold an install.
+      //
+      //   npx playwright install webkit && npx playwright install-deps webkit
+      //   npm run test:e2e -- --project=mobile-safari
+      name: 'mobile-safari',
+      use: { ...devices['iPhone 13'] },
     },
   ],
 });
