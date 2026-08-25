@@ -1,39 +1,35 @@
 // @ts-check
 /* eslint-disable no-undef */
-const { defineConfig, devices } = require('@playwright/test');
-
-const isLive = process.env.LIVE === '1';
 
 /**
- * @see https://playwright.dev/docs/test-configuration
+ * DEPRECATED — this config is intentionally inert.
+ *
+ * The real config is `/playwright.config.js` at the repository root.
+ *
+ * Two configs plus two package.json files meant Playwright resolved differently
+ * depending on which directory you happened to be standing in. That is what caused
+ * "conflicting Playwright installs". One config, one install, one place to run it.
+ *
+ * Run from the repo root:
+ *   npm install
+ *   npm run test:e2e:install     # one time, fetches the matching browser binary
+ *   npm run test:e2e             # local dev server
+ *   npm run test:e2e:live        # against https://gannonwaye.com
  */
-module.exports = defineConfig({
-  testDir: './tests',
-  fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 4 : undefined,
-  reporter: 'html',
-  use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:5173',
-    trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
-    launchOptions: {
-      args: [
-        '--host-rules=MAP tracker.metricool.com ~NOTFOUND, MAP *.posthog.com ~NOTFOUND, MAP *.youtube.com ~NOTFOUND, MAP *.youtube-nocookie.com ~NOTFOUND, MAP *.doubleclick.net ~NOTFOUND, MAP *.spotify.com ~NOTFOUND, MAP *.google-analytics.com ~NOTFOUND, MAP *.googletagmanager.com ~NOTFOUND'
-      ]
-    }
-  },
-  webServer: isLive ? undefined : {
-    command: 'npm run dev',
-    url: 'http://localhost:5173',
-    reuseExistingServer: !process.env.CI,
-    cwd: '../../',
-  },
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-  ],
-});
+
+throw new Error(
+  [
+    '',
+    'This Playwright config is deprecated and must not be used.',
+    '',
+    'Run the suite from the REPOSITORY ROOT instead:',
+    '',
+    '    npm install',
+    '    npm run test:e2e:install     # one time',
+    '    npm run test:e2e',
+    '',
+    'The root config is /playwright.config.js. Running from inside this folder,',
+    'or with a bare `npx playwright test`, is what caused the conflicting installs.',
+    '',
+  ].join('\n')
+);
