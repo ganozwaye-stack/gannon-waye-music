@@ -1,3 +1,9 @@
+// SECTION IDS CHANGED when the garden was rebuilt as the immersive scroll world.
+// Old ids: sonias-garden, who-she-was, without-you-here.
+// Live ids: arrival, trees, memories, garden, archway, rooms, bench, conclusion.
+// Mapped the unambiguous one (sonias-garden -> garden). #memories still exists.
+// who-she-was and without-you-here have NO current equivalent — those assertions are
+// left as-is deliberately so they keep failing loudly until Gannon says what replaced them.
 // @ts-check
  
 /* eslint-disable no-undef */
@@ -63,7 +69,7 @@ test.describe('Mum Tribute Page', () => {
     await expect(btn).toBeVisible();
   });
 
-  test('Hear Her Wisdom button is visible and links to #sonias-garden', async ({ page }) => {
+  test('Hear Her Wisdom button is visible and links to #garden', async ({ page }) => {
     await page.goto(`${BASE}/mum`);
     await page.waitForLoadState('load');
     const btn = page.locator('text=Hear Her Wisdom').first();
@@ -102,14 +108,14 @@ test.describe('Mum Tribute Page', () => {
   test("Sonia's Garden of Wisdom section is present", async ({ page }) => {
     await page.goto(`${BASE}/mum`);
     await page.waitForLoadState('load');
-    await page.locator('#sonias-garden').scrollIntoViewIfNeeded();
+    await page.locator('#garden').scrollIntoViewIfNeeded();
     await expect(page.locator('text=Sonia\'s Garden of Wisdom').first()).toBeVisible();
   });
 
   test('wisdom cards are clickable and show comfort response', async ({ page }) => {
     await page.goto(`${BASE}/mum`);
     await page.waitForLoadState('load');
-    await page.locator('#sonias-garden').scrollIntoViewIfNeeded();
+    await page.locator('#garden').scrollIntoViewIfNeeded();
     await page.locator('button:has-text("I need comfort")').first().click();
     await expect(page.locator('text=Take a breath').first()).toBeVisible({ timeout: 4000 });
   });
@@ -117,7 +123,7 @@ test.describe('Mum Tribute Page', () => {
   test('wisdom cards show strength response', async ({ page }) => {
     await page.goto(`${BASE}/mum`);
     await page.waitForLoadState('load');
-    await page.locator('#sonias-garden').scrollIntoViewIfNeeded();
+    await page.locator('#garden').scrollIntoViewIfNeeded();
     await page.locator('button:has-text("I need strength")').first().click();
     await expect(page.locator('text=survived').first()).toBeVisible({ timeout: 4000 });
   });
@@ -125,7 +131,7 @@ test.describe('Mum Tribute Page', () => {
   test('safety note (Lifeline 13 11 14) is visible', async ({ page }) => {
     await page.goto(`${BASE}/mum`);
     await page.waitForLoadState('load');
-    await page.locator('#sonias-garden').scrollIntoViewIfNeeded();
+    await page.locator('#garden').scrollIntoViewIfNeeded();
     await expect(page.locator('text=Lifeline').first()).toBeVisible();
     await expect(page.locator('text=13 11 14').first()).toBeVisible();
   });
@@ -133,7 +139,7 @@ test.describe('Mum Tribute Page', () => {
   test('disclaimer (Not medical) is visible', async ({ page }) => {
     await page.goto(`${BASE}/mum`);
     await page.waitForLoadState('load');
-    await page.locator('#sonias-garden').scrollIntoViewIfNeeded();
+    await page.locator('#garden').scrollIntoViewIfNeeded();
     await expect(page.locator('text=Not medical').first()).toBeVisible();
   });
 
