@@ -16,7 +16,8 @@ test.describe('Public routes', () => {
   });
 
   test('store page loads', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store`);
+    // /store is the boutique landing scene; the product grid lives at /store/all
+    await page.goto(`${BASE_URL}/store/all`);
     await page.waitForLoadState('load');
     await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
   });
