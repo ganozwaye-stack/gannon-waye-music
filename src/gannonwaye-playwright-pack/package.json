@@ -1,9 +1,8 @@
 {
   "name": "gannonwaye-playwright-pack",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "commonjs",
-  "dependencies": {
-    "@playwright/test": "^1.60.0"
-  }
+  "description": "Test specs only. This package DELIBERATELY declares no dependencies. @playwright/test is a devDependency of the ROOT package.json, pinned to an exact version. Declaring it here as well is what produced two resolvable Playwright installs at two versions, with browser binaries matching neither. Do not add dependencies to this file. Run the suite from the repo root with `npm run test:e2e`.",
+  "dependencies": {}
 }
