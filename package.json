@@ -18,7 +18,10 @@
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:live": "LIVE=1 BASE_URL=https://gannonwaye.com playwright test",
     "test:e2e:report": "playwright show-report",
-    "test:e2e:install": "playwright install chromium"
+    "test:e2e:install": "playwright install chromium",
+    "test:e2e:setup": "playwright install chromium && playwright install-deps chromium",
+    "pretest:e2e": "npm run test:e2e:setup",
+    "test:e2e:webkit": "playwright install webkit && playwright install-deps webkit && playwright test --project=mobile-safari"
   },
   "dependencies": {
     "@base44/sdk": "^0.8.43",
