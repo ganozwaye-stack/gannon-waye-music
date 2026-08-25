@@ -5,6 +5,29 @@ Seeded 24 Aug 2026 by Claude (Cowork session).
 
 ---
 
+## RETRACTION — 25 Aug 2026 — phantom CD stock and fabricated prices
+
+**The CD singles do not exist.** Earlier work — the eBay listing copy in the tonight
+brief, and the "already has CD stock" note in the demand-test discussion — treated a
+slim-case CD single and a signed deluxe CD as real inventory. Gannon has confirmed they
+were display items only. There is no stock.
+
+**Do not list, price, describe, or reference CD product in any channel.** Listing stock
+that cannot be shipped is the exact conduct the ACCC penalised Mosaic Brands for — and it
+was warned against in the same document that then listed it. Strike both CD listings.
+
+**All merchandise prices asserted before 25 Aug are retracted.** See the correction block
+in `docs/DEMAND-TEST.md`. No price is valid until base cost is read from the connected
+POD account, AU production route. The maroon dressing gown is killed as a product — no
+print-on-demand path, so it means inventory and sizing risk, which is the wrong shape
+for a business with one sale.
+
+**Confirmed real sales history: one order.** Thea Elsworth, $90.48, 29 May, hoodie + mug.
+The two $0.99 sessions are owner tests, excluded from revenue, profit and inventory. Any
+agent reporting more than one real order is reading test data as sales.
+
+---
+
 ## OPEN
 
 ### O-1 · Stripe webhook has never delivered a purchase event · owner: Codex · CRITICAL
