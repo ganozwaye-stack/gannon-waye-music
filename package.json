@@ -13,7 +13,12 @@
     "typecheck:report": "tsc -p ./jsconfig.json --pretty false",
     "quality": "node tools/quality-gate.mjs all",
     "quality:baseline:update": "node tools/quality-gate.mjs baseline",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:live": "LIVE=1 BASE_URL=https://gannonwaye.com playwright test",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:install": "playwright install chromium"
   },
   "dependencies": {
     "@base44/sdk": "^0.8.43",
@@ -103,6 +108,7 @@
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.2",
     "typescript-eslint": "^8.67.0",
-    "vite": "^6.1.0"
+    "vite": "^6.1.0",
+    "@playwright/test": "1.60.0"
   }
 }
