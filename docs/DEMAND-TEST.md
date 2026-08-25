@@ -84,15 +84,42 @@ Click it, we take an email, we show:
 **That click is a purchase intent with a price attached.** It is the closest thing to
 sales data we can generate without stock, and it costs nothing to be wrong.
 
-**Candidates to put behind fake doors:**
+**CORRECTION, 25 Aug 2026 — the prices in the original version of this table were wrong
+and have been removed. Read this before using anything below.**
 
-| Product | Price shown | Why it's a candidate |
+The earlier table priced a memorial candle at $45 and a dressing gown at $120. Those
+numbers were market-rate for established Australian boutique brands (Ivy & Wood $44.95;
+the nearest memorial comparable, Aroma Pot, $39.90 for a 50-hour candle) — but they were
+applied to a business with **one real customer order in its history**. That is the same
+error as citing a comparable as "our data", which evidence rule 2 forbids. A price is a
+claim about who you are. We have not earned the boutique claim yet.
+
+**No agent may put a price on a fake door until base cost is pulled from the actual
+POD account.** Price = verified base cost + verified shipping + platform fee + margin.
+Not a number that felt right.
+
+**Product filter — a candidate must pass all three, or it is not a candidate:**
+
+1. **Made one at a time, no money upfront.** If it needs a minimum order or a
+   storage box in his house, it is out until there is revenue to risk.
+2. **Produced in Australia.** Gelato produces locally in AU; Printify routes AU mugs
+   to Prima Printing. Anything shipping from the US loses the margin to freight and
+   loses the customer to a three-week delivery.
+3. **The line works with no context.** A stranger who has never heard the song still
+   wants it.
+
+**Killed outright:** the maroon dressing gown. Not on price — on profile. There is no
+print-on-demand path for a robe, so it means inventory, sizing, and returns. Worst
+possible product shape for a business with one sale. Revisit only after apparel sells.
+
+**Candidates, prices deliberately blank until base costs are read:**
+
+| Product | Price | Status |
 |---|---|---|
-| Sonia's candle, maroon vessel | $45 | Strongest idea in the project, needs a supplier before we commit |
-| Maroon dressing gown | $120 | High cost to be wrong. Must be tested first. |
-| Carrying Your Love With Me tee | $59 | Works for anyone's loss, not just his |
-| Memorial memory-card set | $18 | Low margin, may still be the thing people want |
-| Set Free hoodie | $98 | Song is unreleased — gate blocks production, not interest |
+| Sonia's candle | TBD | Blocked — needs a real AU supplier quote. POD candle options exist but must be costed. |
+| Carrying Your Love With Me tee | TBD | Cleared to cost. POD, AU production, line works with no context. |
+| Memorial memory-card set | TBD | Cleared to cost. Cheap, and it is the piece people keep. |
+| Set Free hoodie | TBD | Fake door only. Song unreleased — gate blocks production, not interest. |
 
 That last row is the important one. The publication gate stops us *selling* an
 unreleased song. It does not stop us finding out whether anyone wants it. A fake door
@@ -177,6 +204,8 @@ Each of these is a fake door, not an opinion. Build the door, count the clicks.
 
 ## Build order
 
+0. **Pull real base costs** from the connected POD account for every candidate product,
+   AU production route only. No price goes on any page before this. Determinate job.
 1. `VisitorSignal` entity (schema above)
 2. Subscribe-flow question — one screen, skippable, priced options + one open field
 3. Fake-door product pages for the five candidates, with `[Tell me when this exists]`
