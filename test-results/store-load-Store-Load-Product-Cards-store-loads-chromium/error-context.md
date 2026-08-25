@@ -6,22 +6,22 @@
 
 # Test info
 
-- Name: store-load.spec.js >> Store Load & Product Cards >> product images are visible
-- Location: src/gannonwaye-playwright-pack/tests/store-load.spec.js:18:3
+- Name: store-load.spec.js >> Store Load & Product Cards >> /store loads
+- Location: src/gannonwaye-playwright-pack/tests/store-load.spec.js:8:3
 
 # Error details
 
 ```
 Error: expect(locator).toBeVisible() failed
 
-Locator: locator('[data-testid="product-image"]').first()
+Locator: locator('[data-testid="store-page"]')
 Expected: visible
-Timeout: 5000ms
+Timeout: 10000ms
 Error: element(s) not found
 
 Call log:
-  - Expect "toBeVisible" with timeout 5000ms
-  - waiting for locator('[data-testid="product-image"]').first()
+  - Expect "toBeVisible" with timeout 10000ms
+  - waiting for locator('[data-testid="store-page"]')
 
 ```
 
@@ -289,7 +289,7 @@ Call log:
   - img "GW Heart"
   - paragraph: © 2026 Gannon Waye. All rights reserved.
 - img
-- paragraph: 🎵Music approved for public sharing appears on the Music page
+- paragraph: ✨Join the inner circle — be part of something real
 - button "Dismiss":
   - img
 ```
@@ -306,7 +306,8 @@ Call log:
   7  | test.describe('Store Load & Product Cards', () => {
   8  |   test('/store loads', async ({ page }) => {
   9  |     await page.goto(`${BASE_URL}/store`);
-  10 |     await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
+> 10 |     await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
+     |                                                              ^ Error: expect(locator).toBeVisible() failed
   11 |   });
   12 | 
   13 |   test('products are visible', async ({ page }) => {
@@ -316,8 +317,7 @@ Call log:
   17 | 
   18 |   test('product images are visible', async ({ page }) => {
   19 |     await page.goto(`${BASE_URL}/store`);
-> 20 |     await expect(page.locator('[data-testid="product-image"]').first()).toBeVisible({ timeout: 5000 });
-     |                                                                         ^ Error: expect(locator).toBeVisible() failed
+  20 |     await expect(page.locator('[data-testid="product-image"]').first()).toBeVisible({ timeout: 5000 });
   21 |   });
   22 | 
   23 |   test('product titles are visible', async ({ page }) => {
