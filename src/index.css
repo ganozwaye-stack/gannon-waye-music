@@ -140,9 +140,15 @@
   }
 
   /* ── Mobile overflow safety net ── */
-  html, body {
+  /* body ONLY, never html: overflow on <html> stops the browser propagating
+     the body's overflow to the viewport, which kills document scrolling,
+     breaks every position:sticky on the site, and makes framer-motion's
+     useScroll() read zero (all the garden parallax dies with it).
+     `clip` instead of `hidden`: it prevents horizontal overflow WITHOUT
+     creating a scroll container, so sticky keeps working. */
+  body {
     max-width: 100%;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   img, video, canvas, svg, iframe {
