@@ -247,10 +247,18 @@ function ProductCard({ product, onCheckout, onViewCart }) {
 
   return (
     <>
+      {/* animate, NOT whileInView.
+          whileInView starts the card at opacity 0 and only reveals it when an
+          IntersectionObserver fires. If anything stops the page scrolling — as the
+          root-level overflow rule did — the observer never fires and EVERY PRODUCT
+          CARD STAYS INVISIBLE. A customer sees an empty shop. Verified against live:
+          five store-load tests failed on `product-card` not being visible.
+          A decorative fade is never worth risking the whole catalogue. Mount-time
+          animation keeps the same look with no dependency on scroll. */}
       <motion.div
         initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
         data-testid="product-card"
         className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
       >
