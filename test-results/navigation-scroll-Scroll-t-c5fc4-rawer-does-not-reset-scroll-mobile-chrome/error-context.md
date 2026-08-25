@@ -1,0 +1,456 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: navigation-scroll.spec.js >> Scroll-to-top on route change >> opening cart drawer does not reset scroll
+- Location: src/gannonwaye-playwright-pack/tests/navigation-scroll.spec.js:71:7
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - navigation [ref=e4]:
+    - generic [ref=e5]:
+      - link "Gannon Waye · Home" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e8]: GW
+      - generic [ref=e9]:
+        - button [ref=e10] [cursor=pointer]:
+          - img [ref=e11]
+        - button "Open cart" [active] [ref=e14] [cursor=pointer]:
+          - img [ref=e15]
+        - button [ref=e19] [cursor=pointer]:
+          - img [ref=e20]
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - heading "Your Cart" [level=2] [ref=e26]
+        - button "✕" [ref=e27] [cursor=pointer]
+      - generic [ref=e28]:
+        - img [ref=e29]
+        - paragraph [ref=e33]: Your cart is empty
+        - button "Continue Shopping" [ref=e34] [cursor=pointer]
+  - main [ref=e35]:
+    - generic [ref=e36]:
+      - generic [ref=e37]:
+        - img "Gannon Waye Boutique — official merch store" [ref=e38]
+        - generic [ref=e40]:
+          - paragraph [ref=e41]: Boutique · Step Inside
+          - heading "Gannon Waye" [level=1] [ref=e42]
+          - paragraph [ref=e43]: Official Merch Store
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - link "All Products" [ref=e46] [cursor=pointer]:
+            - /url: /store/all
+            - img [ref=e47]
+            - text: All Products
+          - link "Listen" [ref=e49] [cursor=pointer]:
+            - /url: /music
+            - img [ref=e50]
+            - text: Listen
+          - link "Cart" [ref=e54] [cursor=pointer]:
+            - /url: /store/cart
+            - img [ref=e55]
+            - text: Cart
+        - generic [ref=e59]:
+          - img [ref=e60]
+          - generic [ref=e63]:
+            - paragraph [ref=e64]: Gannon Waye
+            - paragraph [ref=e65]: Boutique · Step Inside
+          - generic [ref=e68]:
+            - button "Respect Is Earned Hoodie Hoodie Respect Is Earned Hoodie $98" [ref=e69] [cursor=pointer]:
+              - generic [ref=e70]:
+                - img "Respect Is Earned Hoodie" [ref=e71]
+                - generic: Hoodie
+              - generic [ref=e72]:
+                - generic [ref=e73]: Respect Is Earned Hoodie
+                - generic [ref=e74]: $98
+            - button "Respect Is Earned Hoodie — Back Coming Soon Hoodie Back View Coming Soon" [ref=e75] [cursor=pointer]:
+              - generic [ref=e76]:
+                - img "Respect Is Earned Hoodie — Back" [ref=e77]
+                - generic: Coming Soon
+              - generic [ref=e78]:
+                - generic [ref=e79]: Hoodie Back View
+                - generic [ref=e80]: Coming Soon
+            - button "Winter Writing & Comfort Bundle Featured Bundle Winter Bundle $119" [ref=e81] [cursor=pointer]:
+              - generic [ref=e82]:
+                - img "Winter Writing & Comfort Bundle" [ref=e83]
+                - generic: Featured Bundle
+              - generic [ref=e84]:
+                - generic [ref=e85]: Winter Bundle
+                - generic [ref=e86]: $119
+            - button "Thankyou Journal, Pen & Thermos Flask Bundle Bundle Journal Bundle $59" [ref=e87] [cursor=pointer]:
+              - generic [ref=e88]:
+                - img "Thankyou Journal, Pen & Thermos Flask Bundle" [ref=e89]
+                - generic: Bundle
+              - generic [ref=e90]:
+                - generic [ref=e91]: Journal Bundle
+                - generic [ref=e92]: $59
+            - button "Thankyou \"Respect Is Earned\" Coffee Mug Mug Coffee Mug $9.90" [ref=e93] [cursor=pointer]:
+              - generic [ref=e94]:
+                - img "Thankyou \"Respect Is Earned\" Coffee Mug" [ref=e95]
+                - generic: Mug
+              - generic [ref=e96]:
+                - generic [ref=e97]: Coffee Mug
+                - generic [ref=e98]: $9.90
+            - button "Thankyou \"Respect Is Earned\" Wall Poster Poster Wall Poster From $19" [ref=e99] [cursor=pointer]:
+              - generic [ref=e100]:
+                - img "Thankyou \"Respect Is Earned\" Wall Poster" [ref=e101]
+                - generic: Poster
+              - generic [ref=e102]:
+                - generic [ref=e103]: Wall Poster
+                - generic [ref=e104]: From $19
+            - button "Thankyou CD Sold Out Thankyou CD Sold Out" [ref=e105] [cursor=pointer]:
+              - generic [ref=e106]:
+                - img "Thankyou CD" [ref=e107]
+                - generic: Sold Out
+              - generic [ref=e108]:
+                - generic [ref=e109]: Thankyou CD
+                - generic [ref=e110]: Sold Out
+            - button "Thankyou Tote Bag Sold Out Tote Bag $15" [ref=e111] [cursor=pointer]:
+              - generic [ref=e112]:
+                - img "Thankyou Tote Bag" [ref=e113]
+                - generic: Sold Out
+              - generic [ref=e114]:
+                - generic [ref=e115]: Tote Bag
+                - generic [ref=e116]: $15
+            - button "Mum's Garden Private Mum's Garden Tribute" [ref=e117] [cursor=pointer]:
+              - generic [ref=e118]:
+                - img "Mum's Garden" [ref=e119]
+                - generic: Private
+              - generic [ref=e120]:
+                - generic [ref=e121]: Mum's Garden
+                - generic [ref=e122]: Tribute
+        - paragraph [ref=e123]: Hover or tap zones to explore · Click to quick-view & shop
+        - generic [ref=e124]:
+          - generic [ref=e125]:
+            - paragraph [ref=e126]: Most Popular
+            - heading "Featured Gear" [level=2] [ref=e127]
+          - generic [ref=e128]:
+            - button "Respect Is Earned Hoodie ‹ › ★ Best Seller Respect Is Earned Hoodie Dark grey oversized hoodie featuring the Thankyou artwork on the front with Gannon Waye si… $98 SHOP NOW →" [ref=e129] [cursor=pointer]:
+              - generic [ref=e130]:
+                - generic [ref=e131]:
+                  - img "Respect Is Earned Hoodie" [ref=e132]
+                  - button "‹" [ref=e133]
+                  - button "›" [ref=e134]
+                  - generic [ref=e135]:
+                    - button [ref=e136]
+                    - button [ref=e137]
+                    - button [ref=e138]
+                    - button [ref=e139]
+                    - button [ref=e140]
+                - generic: ★ Best Seller
+              - generic [ref=e141]:
+                - generic [ref=e142]: Respect Is Earned Hoodie
+                - paragraph [ref=e143]: Dark grey oversized hoodie featuring the Thankyou artwork on the front with Gannon Waye si…
+                - generic [ref=e144]:
+                  - generic [ref=e145]: $98
+                  - generic [ref=e146]: SHOP NOW →
+            - button "Winter Writing & Comfort Bundle ‹ › Featured Bundle Winter Bundle $119 SHOP NOW →" [ref=e147] [cursor=pointer]:
+              - generic [ref=e148]:
+                - generic [ref=e149]:
+                  - img "Winter Writing & Comfort Bundle" [ref=e150]
+                  - button "‹" [ref=e151]
+                  - button "›" [ref=e152]
+                  - generic [ref=e153]:
+                    - button [ref=e154]
+                    - button [ref=e155]
+                    - button [ref=e156]
+                    - button [ref=e157]
+                    - button [ref=e158]
+                    - button [ref=e159]
+                - generic: Featured Bundle
+              - generic [ref=e160]:
+                - generic [ref=e161]: Winter Bundle
+                - generic [ref=e162]:
+                  - generic [ref=e163]: $119
+                  - generic [ref=e164]: SHOP NOW →
+            - button "Thankyou Journal, Pen & Thermos Flask Bundle ‹ › Bundle Journal Bundle $59 SHOP NOW →" [ref=e165] [cursor=pointer]:
+              - generic [ref=e166]:
+                - generic [ref=e167]:
+                  - img "Thankyou Journal, Pen & Thermos Flask Bundle" [ref=e168]
+                  - button "‹" [ref=e169]
+                  - button "›" [ref=e170]
+                  - generic [ref=e171]:
+                    - button [ref=e172]
+                    - button [ref=e173]
+                    - button [ref=e174]
+                    - button [ref=e175]
+                - generic: Bundle
+              - generic [ref=e176]:
+                - generic [ref=e177]: Journal Bundle
+                - generic [ref=e178]:
+                  - generic [ref=e179]: $59
+                  - generic [ref=e180]: SHOP NOW →
+        - heading "Gannon Waye Merch Store — Full Collection" [level=2] [ref=e181]
+        - generic [ref=e183]:
+          - button "Respect Is Earned Hoodie Hoodie Respect Is Earned Hoodie $98 View →" [ref=e184] [cursor=pointer]:
+            - generic [ref=e185]:
+              - img "Respect Is Earned Hoodie" [ref=e186]
+              - generic [ref=e188]: Hoodie
+              - generic [ref=e189]:
+                - paragraph [ref=e190]: Respect Is Earned Hoodie
+                - generic [ref=e191]:
+                  - generic [ref=e192]: $98
+                  - generic [ref=e193]: View →
+          - button "Respect Is Earned Hoodie — Back Coming Soon Hoodie Back View Coming Soon View →" [ref=e194] [cursor=pointer]:
+            - generic [ref=e195]:
+              - img "Respect Is Earned Hoodie — Back" [ref=e196]
+              - generic [ref=e198]: Coming Soon
+              - generic [ref=e199]:
+                - paragraph [ref=e200]: Hoodie Back View
+                - generic [ref=e201]:
+                  - generic [ref=e202]: Coming Soon
+                  - generic [ref=e203]: View →
+          - button "Winter Writing & Comfort Bundle Featured Bundle Winter Bundle $119 View →" [ref=e204] [cursor=pointer]:
+            - generic [ref=e205]:
+              - img "Winter Writing & Comfort Bundle" [ref=e206]
+              - generic [ref=e208]: Featured Bundle
+              - generic [ref=e209]:
+                - paragraph [ref=e210]: Winter Bundle
+                - generic [ref=e211]:
+                  - generic [ref=e212]: $119
+                  - generic [ref=e213]: View →
+          - button "Thankyou Journal, Pen & Thermos Flask Bundle Bundle Journal Bundle $59 View →" [ref=e214] [cursor=pointer]:
+            - generic [ref=e215]:
+              - img "Thankyou Journal, Pen & Thermos Flask Bundle" [ref=e216]
+              - generic [ref=e218]: Bundle
+              - generic [ref=e219]:
+                - paragraph [ref=e220]: Journal Bundle
+                - generic [ref=e221]:
+                  - generic [ref=e222]: $59
+                  - generic [ref=e223]: View →
+          - button "Thankyou \"Respect Is Earned\" Coffee Mug Mug Coffee Mug $9.90 View →" [ref=e224] [cursor=pointer]:
+            - generic [ref=e225]:
+              - img "Thankyou \"Respect Is Earned\" Coffee Mug" [ref=e226]
+              - generic [ref=e228]: Mug
+              - generic [ref=e229]:
+                - paragraph [ref=e230]: Coffee Mug
+                - generic [ref=e231]:
+                  - generic [ref=e232]: $9.90
+                  - generic [ref=e233]: View →
+          - button "Thankyou \"Respect Is Earned\" Wall Poster Poster Wall Poster From $19 View →" [ref=e234] [cursor=pointer]:
+            - generic [ref=e235]:
+              - img "Thankyou \"Respect Is Earned\" Wall Poster" [ref=e236]
+              - generic [ref=e238]: Poster
+              - generic [ref=e239]:
+                - paragraph [ref=e240]: Wall Poster
+                - generic [ref=e241]:
+                  - generic [ref=e242]: From $19
+                  - generic [ref=e243]: View →
+          - button "Thankyou CD Sold Out Thankyou CD Sold Out Waitlist →" [ref=e244] [cursor=pointer]:
+            - generic [ref=e245]:
+              - img "Thankyou CD" [ref=e246]
+              - generic [ref=e248]: Sold Out
+              - generic [ref=e249]:
+                - paragraph [ref=e250]: Thankyou CD
+                - generic [ref=e251]:
+                  - generic [ref=e252]: Sold Out
+                  - generic [ref=e253]: Waitlist →
+          - button "Thankyou Tote Bag Sold Out Tote Bag $15 Waitlist →" [ref=e254] [cursor=pointer]:
+            - generic [ref=e255]:
+              - img "Thankyou Tote Bag" [ref=e256]
+              - generic [ref=e258]: Sold Out
+              - generic [ref=e259]:
+                - paragraph [ref=e260]: Tote Bag
+                - generic [ref=e261]:
+                  - generic [ref=e262]: $15
+                  - generic [ref=e263]: Waitlist →
+          - button "Mum's Garden Private Mum's Garden Tribute Visit →" [ref=e264] [cursor=pointer]:
+            - generic [ref=e265]:
+              - img "Mum's Garden" [ref=e266]
+              - generic [ref=e268]: Private
+              - generic [ref=e269]:
+                - paragraph [ref=e270]: Mum's Garden
+                - generic [ref=e271]:
+                  - generic [ref=e272]: Tribute
+                  - generic [ref=e273]: Visit →
+        - generic [ref=e275]:
+          - generic [ref=e276]:
+            - paragraph [ref=e277]: The Collection
+            - heading "Merch Gallery" [level=2] [ref=e278]
+            - paragraph [ref=e279]: Every piece carries a meaning. Hover to explore the details.
+          - generic [ref=e280]:
+            - generic [ref=e281] [cursor=pointer]:
+              - img "Respect Is Earned Hoodie" [ref=e283]
+              - generic [ref=e285]: Hoodie
+              - generic [ref=e287]:
+                - heading "Respect Is Earned Hoodie" [level=3] [ref=e288]
+                - paragraph: Dark grey oversized hoodie featuring the Thankyou artwork on the front with Gannon Waye signature de…
+                - generic [ref=e289]:
+                  - generic [ref=e290]: $98
+                  - generic [ref=e291]: View →
+            - generic [ref=e292] [cursor=pointer]:
+              - img "Respect Is Earned Hoodie — Back" [ref=e294]
+              - generic [ref=e296]: Coming Soon
+              - generic [ref=e298]:
+                - heading "Hoodie Back View" [level=3] [ref=e299]
+                - paragraph: Without You Here — Memorial Merchandise. Coming soon.…
+                - generic [ref=e300]:
+                  - generic [ref=e301]: Coming Soon
+                  - generic [ref=e302]: View →
+            - generic [ref=e303] [cursor=pointer]:
+              - img "Winter Writing & Comfort Bundle" [ref=e305]
+              - generic [ref=e307]: Featured Bundle
+              - generic [ref=e309]:
+                - heading "Winter Bundle" [level=3] [ref=e310]
+                - paragraph: The hero bundle of the Thankyou Merch Store. Includes the oversized Respect Is Earned hoodie plus th…
+                - generic [ref=e311]:
+                  - generic [ref=e312]: $119
+                  - generic [ref=e313]: View →
+            - generic [ref=e314] [cursor=pointer]:
+              - img "Thankyou Journal, Pen & Thermos Flask Bundle" [ref=e316]
+              - generic [ref=e318]: Bundle
+              - generic [ref=e320]:
+                - heading "Journal Bundle" [level=3] [ref=e321]
+                - paragraph: A premium Thankyou writing set featuring the Respect Is Earned journal, matching pen and thermos fla…
+                - generic [ref=e322]:
+                  - generic [ref=e323]: $59
+                  - generic [ref=e324]: View →
+            - generic [ref=e325] [cursor=pointer]:
+              - img "Thankyou \"Respect Is Earned\" Coffee Mug" [ref=e327]
+              - generic [ref=e329]: Mug
+              - generic [ref=e331]:
+                - heading "Coffee Mug" [level=3] [ref=e332]
+                - paragraph: Ceramic Thankyou coffee mug featuring the Respect Is Earned lyric artwork. A simple daily reminder f…
+                - generic [ref=e333]:
+                  - generic [ref=e334]: $9.90
+                  - generic [ref=e335]: View →
+            - generic [ref=e336] [cursor=pointer]:
+              - img "Thankyou \"Respect Is Earned\" Wall Poster" [ref=e338]
+              - generic [ref=e340]: Poster
+              - generic [ref=e342]:
+                - heading "Wall Poster" [level=3] [ref=e343]
+                - paragraph: Premium Thankyou lyric wall poster. Multiple sizes available — A4 $19 · A3 $29 · A2 $39 · A1 $59.…
+                - generic [ref=e344]:
+                  - generic [ref=e345]: From $19
+                  - generic [ref=e346]: View →
+        - button "View Full Product Grid & Checkout →" [ref=e348] [cursor=pointer]
+  - contentinfo [ref=e349]:
+    - generic [ref=e350]:
+      - generic [ref=e351]:
+        - generic [ref=e352]:
+          - generic [ref=e354]: GW
+          - paragraph [ref=e355]: Australian singer-songwriter crafting honest stories through melody and verse.
+        - generic [ref=e356]:
+          - heading "Navigate" [level=4] [ref=e357]
+          - generic [ref=e358]:
+            - link "Home" [ref=e359] [cursor=pointer]:
+              - /url: /
+            - link "Music" [ref=e360] [cursor=pointer]:
+              - /url: /music
+            - link "Lyrics" [ref=e361] [cursor=pointer]:
+              - /url: /lyrics
+            - link "Store" [ref=e362] [cursor=pointer]:
+              - /url: /store
+            - link "Press" [ref=e363] [cursor=pointer]:
+              - /url: /press
+            - link "Subscribe 🤍" [ref=e364] [cursor=pointer]:
+              - /url: /back-this
+            - link "Community" [ref=e365] [cursor=pointer]:
+              - /url: /community
+            - link "Biography" [ref=e366] [cursor=pointer]:
+              - /url: /biography
+            - link "Lyric Library" [ref=e367] [cursor=pointer]:
+              - /url: /lyric-library
+            - link "Mixing Services" [ref=e368] [cursor=pointer]:
+              - /url: /mixing-services
+            - link "Gift Cards" [ref=e369] [cursor=pointer]:
+              - /url: /gift-cards
+            - link "Mum Tribute" [ref=e370] [cursor=pointer]:
+              - /url: /remember-mum
+            - link "Systems Manager" [ref=e371] [cursor=pointer]:
+              - /url: /systems-manager
+            - link "Contact" [ref=e372] [cursor=pointer]:
+              - /url: /contact
+        - generic [ref=e373]:
+          - heading "Contact" [level=4] [ref=e374]
+          - paragraph [ref=e375]: For press, management & enquiries
+          - link "gannonwayemusic@gmail.com" [ref=e376] [cursor=pointer]:
+            - /url: mailto:gannonwayemusic@gmail.com
+          - heading "Legal" [level=4] [ref=e377]
+          - generic [ref=e378]:
+            - link "Privacy Policy" [ref=e379] [cursor=pointer]:
+              - /url: /privacy-policy
+            - link "Terms of Service" [ref=e380] [cursor=pointer]:
+              - /url: /terms-of-service
+            - link "Contact Gannon" [ref=e381] [cursor=pointer]:
+              - /url: /contact
+          - heading "Social" [level=4] [ref=e382]
+          - generic [ref=e383]:
+            - link "Instagram @gann0nwaye" [ref=e384] [cursor=pointer]:
+              - /url: https://www.instagram.com/gann0nwaye
+            - link "TikTok @gann0nwaye" [ref=e385] [cursor=pointer]:
+              - /url: https://www.tiktok.com/@gann0nwaye
+            - link "YouTube @gannonwayeofficial" [ref=e386] [cursor=pointer]:
+              - /url: https://www.youtube.com/@gannonwayeofficial
+      - generic [ref=e387]:
+        - paragraph [ref=e388]: Stay in the loop
+        - heading "New music & community updates" [level=3] [ref=e389]
+        - generic [ref=e390]:
+          - textbox "Your name *" [ref=e391]
+          - textbox "your@email.com *" [ref=e392]
+          - textbox "Phone incl. country code e.g. +61 400 000 000 *" [ref=e393]
+          - textbox "Birthday (optional — we'll send you something special)" [ref=e394]
+          - paragraph [ref=e395]: Birthday optional — we'll send you something special 🎂
+          - combobox [ref=e396]:
+            - option "How did you find me? *" [selected]
+            - option "Google"
+            - option "Instagram"
+            - option "Facebook"
+            - option "TikTok"
+            - option "X (Twitter)"
+            - option "Friend / Word of Mouth"
+            - option "I know Gannon"
+            - option "Other"
+          - button "Subscribe" [ref=e397] [cursor=pointer]
+      - paragraph [ref=e399]: "* Support contributions are direct-support gifts to Gannon Waye as an independent artist to fund album production, merchandise sampling, and system operations; they are not tax-deductible."
+      - generic [ref=e400]:
+        - generic [ref=e401]:
+          - img "GW Heart" [ref=e402]
+          - link "Support the project 🤍" [ref=e403] [cursor=pointer]:
+            - /url: /back-this
+          - img "GW Heart" [ref=e404]
+        - paragraph [ref=e405]: © 2026 Gannon Waye. All rights reserved.
+  - navigation [ref=e406]:
+    - generic [ref=e407]:
+      - link "Home" [ref=e408] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e409]:
+          - img [ref=e410]
+          - generic [ref=e413]: Home
+      - link "Music" [ref=e414] [cursor=pointer]:
+        - /url: /music
+        - generic [ref=e415]:
+          - img [ref=e416]
+          - generic [ref=e420]: Music
+      - link "Store" [ref=e421] [cursor=pointer]:
+        - /url: /store
+        - generic [ref=e423]:
+          - img [ref=e424]
+          - generic [ref=e427]: Store
+      - link "Lyrics" [ref=e428] [cursor=pointer]:
+        - /url: /lyrics
+        - generic [ref=e429]:
+          - img [ref=e430]
+          - generic [ref=e433]: Lyrics
+      - link "Contact" [ref=e434] [cursor=pointer]:
+        - /url: /contact
+        - generic [ref=e435]:
+          - img [ref=e436]
+          - generic [ref=e439]: Contact
+  - generic [ref=e440]:
+    - img [ref=e441]
+    - paragraph [ref=e443]: ✨Join the inner circle — be part of something real
+    - button "Dismiss" [ref=e444] [cursor=pointer]:
+      - img [ref=e445]
+```
