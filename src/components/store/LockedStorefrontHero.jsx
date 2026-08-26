@@ -69,31 +69,31 @@ export default function LockedStorefrontHero() {
           
           Boutique · Step Inside
         </p>
-        <h1
-          style={{
-            fontFamily: "'Playfair Display', serif",
-            fontStyle: 'italic',
-            fontSize: 'clamp(42px,7vw,86px)',
-            letterSpacing: '0.04em',
-            margin: 0,
-            color: '#D4AF37',
-            textShadow: '0 0 26px rgba(212,175,55,0.6), 0 0 60px rgba(212,175,55,0.3)'
-          }} className="hidden">
-          
-          Gannon Waye
-        </h1>
-        <p
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: '11px',
-            letterSpacing: '0.3em',
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.55)',
-            marginTop: '18px'
-          }} className="hidden">
-          
-          Official Merch Store
-        </p>
+        
+
+
+
+
+
+
+
+
+
+
+
+        
+        
+
+
+
+
+
+
+
+
+
+
+        
       </div>
     </section>);
 

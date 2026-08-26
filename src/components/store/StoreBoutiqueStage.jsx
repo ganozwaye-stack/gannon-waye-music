@@ -62,31 +62,31 @@ export default function StoreBoutiqueStage({ onOpenModal }) {
 
       {/* Neon storefront sign — preserved */}
       <div style={{ position: 'relative', textAlign: 'center', paddingTop: 'clamp(26px,4vw,44px)', paddingBottom: '4px' }}>
-        <p
-          style={{
-            fontFamily: "'Playfair Display', serif",
-            fontStyle: 'italic',
-            fontSize: 'clamp(22px,3.4vw,34px)',
-            letterSpacing: '0.06em',
-            margin: 0,
-            color: ACCENT,
-            textShadow: '0 0 18px rgba(212,175,55,0.65), 0 0 38px rgba(212,175,55,0.35)'
-          }} className="hidden">
-          
-          Gannon Waye
-        </p>
-        <p
-          style={{
-            fontFamily: "'Inter', sans-serif",
-            fontSize: '9px',
-            letterSpacing: '0.42em',
-            textTransform: 'uppercase',
-            color: 'rgba(212,175,55,0.55)',
-            marginTop: '6px'
-          }} className="hidden">
-          
-          Boutique · Step Inside
-        </p>
+        
+
+
+
+
+
+
+
+
+
+
+
+        
+        
+
+
+
+
+
+
+
+
+
+
+        
       </div>
 
       {/* Angled diagonal merch display */}
