@@ -112,7 +112,7 @@ export default function StoreWorld() {
 
         {/* ── PRODUCT CARD GRID ── */}
         <h2 style={{ textAlign: 'center', fontSize: '10px', letterSpacing: '0.28em', color: '#444', textTransform: 'uppercase', fontWeight: 600, marginBottom: '20px' }}>
-          Gannon Waye Merch Store — Full Collection
+          Thanking You Kindly — Full Collection
         </h2>
 
         <EditorialProductGrid products={STORE_PRODUCTS} onOpenModal={setActiveModal} />
@@ -285,7 +285,7 @@ function FeaturedGear({ onOpenModal }) {
         <p style={{ fontSize: '9px', letterSpacing: '0.32em', color: 'rgba(212,175,55,0.5)', textTransform: 'uppercase', fontWeight: 700, marginBottom: '6px' }}>Most Popular</p>
         <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#f0e8d8', letterSpacing: '0.04em', margin: 0 }}>Featured Gear</h2>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))', gap: '16px' }}>
         {featured.map((product, i) => (
           <FeaturedCard key={product.id} product={product} isHero={i === 0} onOpenModal={onOpenModal} />
         ))}

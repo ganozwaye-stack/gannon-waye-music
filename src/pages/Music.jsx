@@ -137,7 +137,7 @@ export default function Music() {
             )}
 
             <section>
-              <h2 className="font-display text-3xl text-foreground mb-6">Public releases</h2>
+              <h2 className="font-display text-3xl text-foreground mb-6">Latest releases</h2>
               <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-8">
                 {releases.map((release) => {
                   const listenHref = release.apple_music_link || APPLE_MUSIC_ARTIST_URL;
