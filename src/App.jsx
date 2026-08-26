@@ -371,6 +371,13 @@ const AuthenticatedApp = () => {
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/lyrics" element={<LyricsPage />} />
+        {/* /without-you-here was a 404. It is the song written for Sonia, and the
+            title comes from Gannon's own eulogy at her funeral. It routes to the
+            lyric page, where the Lyric record (slug: without-you-here) carries the
+            full story in its `inspiration` field — drafted from the verified funeral
+            transcript and held behind the publication gate until Gannon clears it. */}
+        <Route path="/without-you-here" element={<Navigate to="/lyrics?song=without-you-here" replace />} />
+        <Route path="/withoutyouhere" element={<Navigate to="/lyrics?song=without-you-here" replace />} />
         <Route path="/press" element={<Press />} />
         <Route path="/this-is-my-life" element={<ThisIsMyLife />} />
         <Route path="/faq" element={<FAQSection />} />
