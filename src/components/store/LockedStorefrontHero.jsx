@@ -23,7 +23,7 @@ export default function LockedStorefrontHero() {
       {/* Fixed storefront image — full-bleed, never moved */}
       <img
         src={BOUTIQUE_HERO_IMAGE}
-        alt="Thanking You Kindly boutique store"
+        alt="Gannon Waye Boutique — official merch store"
         style={{
           position: 'absolute',
           inset: 0,
@@ -80,7 +80,7 @@ export default function LockedStorefrontHero() {
             textShadow: '0 0 26px rgba(212,175,55,0.6), 0 0 60px rgba(212,175,55,0.3)',
           }}
         >
-          Thanking You Kindly
+          Gannon Waye
         </h1>
         <p
           style={{
@@ -92,7 +92,7 @@ export default function LockedStorefrontHero() {
             marginTop: '18px',
           }}
         >
-          Carry the Message
+          Official Merch Store
         </p>
       </div>
     </section>

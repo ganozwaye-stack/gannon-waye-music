@@ -157,16 +157,9 @@ export default function Home() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.6, delay: 0.2 }}
-            className="text-center font-body text-4xl md:text-6xl tracking-[0.18em] uppercase gradient-gold-text mb-3 md:mb-4">
-            Thanking You Kindly
+            className="text-center font-body text-4xl md:text-6xl tracking-[0.18em] uppercase gradient-gold-text mb-8 md:mb-10">
+            Gannon Waye
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.6, delay: 0.35 }}
-            className="text-center font-body text-xs md:text-sm tracking-[0.4em] uppercase gradient-gold-glow mb-8 md:mb-10">
-            Carry the Message
-          </motion.p>
 
           <div className="grid md:grid-cols-2 gap-8 items-start flex-1">
           {/* LEFT: single info and CTAs */}
@@ -179,7 +172,7 @@ export default function Home() {
               transition={{ duration: 1.6, delay: 0.4 }}
               className="font-body text-base tracking-[0.45em] uppercase gradient-gold-text mb-4">
               
-              {currentSingle ? 'New Release' : 'Music'}
+              {currentSingle ? 'Current Release' : 'Music'}
             </motion.p>
 
             {/* Cover artwork */}
@@ -257,7 +250,7 @@ export default function Home() {
                   className="flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-full bg-primary/10 border border-primary/25 whitespace-nowrap w-fit"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                  <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">New Single · Out Now</p>
+                  <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Public Release</p>
                 </motion.div>
               )}
             </motion.div>

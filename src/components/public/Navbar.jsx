@@ -28,6 +28,8 @@ const MORE_LINKS = [
 { label: 'Videos', path: '/videos' },
 { label: 'Lyric Library', path: '/lyric-library' },
 { label: 'Discover Music', path: '/discover' },
+{ label: 'Community', path: '/community' },
+{ label: 'Live & Tour', path: '/tour' },
 { label: 'Mixing Services', path: '/mixing-services' },
 { label: 'Gift Cards', path: '/gift-cards' },
 { label: 'Fan Reminders', path: '/fan-reminders' },
@@ -58,13 +60,12 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between relative">
         <Link
           to="/"
-          aria-label="Thanking You Kindly · Home"
+          aria-label="Gannon Waye · Home"
           className="flex items-center gap-2.5 hover:opacity-90 transition-all duration-200">
-
+          
           <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-primary/60 flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
-            <span className="font-display text-sm gradient-gold-text font-semibold tracking-wider">TYK</span>
+            <span className="font-display text-sm gradient-gold-text font-semibold tracking-wider">GW</span>
           </div>
-          <span className="hidden md:block font-body text-[11px] tracking-[0.18em] uppercase gradient-gold-text font-semibold leading-none">Thanking You Kindly</span>
         </Link>
 
         {/* Desktop */}

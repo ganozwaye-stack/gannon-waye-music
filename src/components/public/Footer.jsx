@@ -14,9 +14,9 @@ export default function Footer() {
     queryFn: () => base44.entities.BusinessProfileSettings.list('-updated_date', 1),
   });
   const contactEmail = bizSettings[0]?.public_support_email || 'gannonwayemusic@gmail.com';
-  const instagramUrl = bizSettings[0]?.instagram_url || 'https://www.instagram.com/gannonwaye';
-  const tiktokUrl = bizSettings[0]?.tiktok_url || 'https://www.tiktok.com/@gannonwaye';
-  const youtubeUrl = bizSettings[0]?.youtube_url || 'https://www.youtube.com/@gannonwaye';
+  const instagramUrl = bizSettings[0]?.instagram_url || 'https://www.instagram.com/gann0nwaye';
+  const tiktokUrl = bizSettings[0]?.tiktok_url || 'https://www.tiktok.com/@gann0nwaye';
+  const youtubeUrl = bizSettings[0]?.youtube_url || 'https://www.youtube.com/@gannonwayeofficial';
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,10 +47,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <div className="w-12 h-12 rounded-full border border-primary/60 flex items-center justify-center mb-3" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
-              <span className="font-display text-base gradient-gold-text font-semibold tracking-wider">TYK</span>
+              <span className="font-display text-base gradient-gold-text font-semibold tracking-wider">GW</span>
             </div>
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
-              Thanking You Kindly is inspired by Sonia Waye's warmth, humour, generosity, and the business dream she carried. Rebuilt by Gannon Waye as a care-led product and gifting brand in her honour.
+              Australian singer-songwriter crafting honest stories through melody and verse.
             </p>
           </div>
           <div>
@@ -84,9 +84,9 @@ export default function Footer() {
             </div>
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mt-4 mb-3">Social</h4>
             <div className="flex flex-col gap-2">
-              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Instagram @gannonwaye</a>
-              <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">TikTok @gannonwaye</a>
-              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">YouTube @gannonwaye</a>
+              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Instagram @gann0nwaye</a>
+              <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">TikTok @gann0nwaye</a>
+              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">YouTube @gannonwayeofficial</a>
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default function Footer() {
           <h3 className="font-display text-xl text-foreground mb-4">New music &amp; community updates</h3>
           {submitted ? (
             <div className="space-y-2">
-              <p className="font-body text-base text-primary">You're in. Thank you for joining Thanking You Kindly. 🤍</p>
+              <p className="font-body text-base text-primary">You're in. Thank you for joining Gannon Waye Music. 🤍</p>
               <p className="font-body text-sm text-muted-foreground">Check your email for a welcome message from Gannon.</p>
             </div>
           ) : (
@@ -185,7 +185,7 @@ export default function Footer() {
             />
           </div>
           <p className="font-body text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Thanking You Kindly. All rights reserved.
+            © {new Date().getFullYear()} Gannon Waye. All rights reserved.
           </p>
         </div>
       </div>
