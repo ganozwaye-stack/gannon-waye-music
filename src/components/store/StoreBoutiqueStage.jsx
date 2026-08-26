@@ -6,7 +6,7 @@ const ACCENT = '#D4AF37';
 const PRODUCT_EMOJI = {
   'front-hoodie': '🖤', 'back-hoodie': '🖤', 'winter-writing-comfort-bundle': '❄️',
   'journal-pen-thermos-bundle': '📓', 'mug': '☕', 'wall-poster': '🖼️',
-  'cd': '💿', 'tote-bag': '👜', 'mums-garden': '🌸',
+  'cd': '💿', 'tote-bag': '👜', 'mums-garden': '🌸'
 };
 
 // Angled, 3D-perspective merch display — every product tilted toward the viewer
@@ -34,9 +34,9 @@ export default function StoreBoutiqueStage({ onOpenModal }) {
         overflow: 'hidden',
         border: '1px solid rgba(212,175,55,0.18)',
         boxShadow: '0 0 80px rgba(212,175,55,0.08), 0 40px 80px rgba(0,0,0,0.7)',
-        background: '#0a0a0a',
-      }}
-    >
+        background: '#0a0a0a'
+      }}>
+      
       {/* Preserved boutique storefront backdrop (neon name + interior), dimmed so merch reads */}
       <img
         src={BOUTIQUE_HERO_IMAGE}
@@ -44,21 +44,21 @@ export default function StoreBoutiqueStage({ onOpenModal }) {
         aria-hidden
         style={{
           position: 'absolute', inset: 0, width: '100%', height: '100%',
-          objectFit: 'cover', objectPosition: 'center', opacity: 0.28,
-        }}
-      />
+          objectFit: 'cover', objectPosition: 'center', opacity: 0.28
+        }} />
+      
       <div
         style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(to bottom, rgba(8,8,14,0.45), rgba(8,8,14,0.72) 60%, rgba(8,8,14,0.94))',
-        }}
-      />
+          background: 'linear-gradient(to bottom, rgba(8,8,14,0.45), rgba(8,8,14,0.72) 60%, rgba(8,8,14,0.94))'
+        }} />
+      
       <div
         style={{
           position: 'absolute', inset: 0,
-          background: 'radial-gradient(ellipse at 50% 38%, rgba(212,175,55,0.14), transparent 62%)',
-        }}
-      />
+          background: 'radial-gradient(ellipse at 50% 38%, rgba(212,175,55,0.14), transparent 62%)'
+        }} />
+      
 
       {/* Neon storefront sign — preserved */}
       <div style={{ position: 'relative', textAlign: 'center', paddingTop: 'clamp(26px,4vw,44px)', paddingBottom: '4px' }}>
@@ -70,9 +70,9 @@ export default function StoreBoutiqueStage({ onOpenModal }) {
             letterSpacing: '0.06em',
             margin: 0,
             color: ACCENT,
-            textShadow: '0 0 18px rgba(212,175,55,0.65), 0 0 38px rgba(212,175,55,0.35)',
-          }}
-        >
+            textShadow: '0 0 18px rgba(212,175,55,0.65), 0 0 38px rgba(212,175,55,0.35)'
+          }} className="hidden">
+          
           Gannon Waye
         </p>
         <p
@@ -82,9 +82,9 @@ export default function StoreBoutiqueStage({ onOpenModal }) {
             letterSpacing: '0.42em',
             textTransform: 'uppercase',
             color: 'rgba(212,175,55,0.55)',
-            marginTop: '6px',
-          }}
-        >
+            marginTop: '6px'
+          }} className="hidden">
+          
           Boutique · Step Inside
         </p>
       </div>
@@ -98,12 +98,12 @@ export default function StoreBoutiqueStage({ onOpenModal }) {
               flexWrap: 'wrap',
               justifyContent: 'center',
               gap: 'clamp(12px,1.8vw,24px)',
-              transformStyle: 'preserve-3d',
-            }}
-          >
+              transformStyle: 'preserve-3d'
+            }}>
+            
             {display.map((p, i) => {
               const tilt = i % 2 === 0 ? -11 : 11;
-              const lift = ((i % 4) - 1.5) * 14; // diagonal vertical stagger
+              const lift = (i % 4 - 1.5) * 14; // diagonal vertical stagger
               const isHover = hovered === p.id;
               const isSoldOut = p.status === 'sold_out';
               const isMemorial = p.status === 'memorial';
@@ -130,40 +130,40 @@ export default function StoreBoutiqueStage({ onOpenModal }) {
                     boxShadow: isHover ? '0 14px 36px rgba(212,175,55,0.18)' : 'none',
                     borderRadius: '12px',
                     overflow: 'hidden',
-                    background: 'rgba(255,255,255,0.03)',
-                  }}
-                >
+                    background: 'rgba(255,255,255,0.03)'
+                  }}>
+                  
                   <div style={{ position: 'relative', width: '100%', aspectRatio: '1 / 1', background: '#111', overflow: 'hidden' }}>
-                    {img ? (
-                      <img
-                        src={img}
-                        alt={p.name}
-                        onError={() => setImgErr((e) => ({ ...e, [p.id]: true }))}
-                        style={{
-                          width: '100%', height: '100%', objectFit: 'cover',
-                          transition: 'transform 0.4s ease',
-                          transform: isHover ? 'scale(1.08)' : 'scale(1)',
-                        }}
-                      />
-                    ) : (
-                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.4rem' }}>
+                    {img ?
+                    <img
+                      src={img}
+                      alt={p.name}
+                      onError={() => setImgErr((e) => ({ ...e, [p.id]: true }))}
+                      style={{
+                        width: '100%', height: '100%', objectFit: 'cover',
+                        transition: 'transform 0.4s ease',
+                        transform: isHover ? 'scale(1.08)' : 'scale(1)'
+                      }} /> :
+
+
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.4rem' }}>
                         {emoji}
                       </div>
-                    )}
-                    {p.badge && (
-                      <span
-                        style={{
-                          position: 'absolute', top: '8px', right: '8px',
-                          fontSize: '8px', fontWeight: 800, letterSpacing: '0.07em',
-                          padding: '2px 6px', borderRadius: '3px', textTransform: 'uppercase',
-                          zIndex: 5, pointerEvents: 'none',
-                          background: isSoldOut ? 'rgba(239,68,68,0.92)' : isComing ? 'rgba(255,255,255,0.85)' : isMemorial ? 'rgba(255,210,160,0.18)' : 'rgba(212,175,55,0.92)',
-                          color: isSoldOut ? '#fff' : isComing ? '#111' : isMemorial ? '#ffd6a5' : '#111',
-                        }}
-                      >
+                    }
+                    {p.badge &&
+                    <span
+                      style={{
+                        position: 'absolute', top: '8px', right: '8px',
+                        fontSize: '8px', fontWeight: 800, letterSpacing: '0.07em',
+                        padding: '2px 6px', borderRadius: '3px', textTransform: 'uppercase',
+                        zIndex: 5, pointerEvents: 'none',
+                        background: isSoldOut ? 'rgba(239,68,68,0.92)' : isComing ? 'rgba(255,255,255,0.85)' : isMemorial ? 'rgba(255,210,160,0.18)' : 'rgba(212,175,55,0.92)',
+                        color: isSoldOut ? '#fff' : isComing ? '#111' : isMemorial ? '#ffd6a5' : '#111'
+                      }}>
+                      
                         {p.badge}
                       </span>
-                    )}
+                    }
                     <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 0 -40px 50px -20px rgba(0,0,0,0.7)', pointerEvents: 'none' }} />
                   </div>
                   <div style={{ padding: '10px 12px 12px', textAlign: 'left' }}>
@@ -174,12 +174,12 @@ export default function StoreBoutiqueStage({ onOpenModal }) {
                       {p.price}
                     </div>
                   </div>
-                </button>
-              );
+                </button>);
+
             })}
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 }
