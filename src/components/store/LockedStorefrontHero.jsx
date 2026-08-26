@@ -17,9 +17,9 @@ export default function LockedStorefrontHero() {
         minHeight: '480px',
         maxHeight: '780px',
         overflow: 'hidden',
-        background: '#0a0a0a',
-      }}
-    >
+        background: '#0a0a0a'
+      }}>
+      
       {/* Fixed storefront image — full-bleed, never moved */}
       <img
         src={BOUTIQUE_HERO_IMAGE}
@@ -30,9 +30,9 @@ export default function LockedStorefrontHero() {
           width: '100%',
           height: '100%',
           objectFit: 'cover',
-          objectPosition: 'center',
-        }}
-      />
+          objectPosition: 'center'
+        }} />
+      
 
       {/* Legibility veil so the headline reads over the neon render */}
       <div
@@ -40,9 +40,9 @@ export default function LockedStorefrontHero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(8,8,14,0.28) 0%, rgba(8,8,14,0.08) 38%, rgba(8,8,14,0.52) 78%, rgba(8,8,14,0.92) 100%)',
-        }}
-      />
+          'linear-gradient(to bottom, rgba(8,8,14,0.28) 0%, rgba(8,8,14,0.08) 38%, rgba(8,8,14,0.52) 78%, rgba(8,8,14,0.92) 100%)'
+        }} />
+      
 
       {/* Centered boutique titleplate */}
       <div
@@ -54,9 +54,9 @@ export default function LockedStorefrontHero() {
           alignItems: 'center',
           justifyContent: 'center',
           textAlign: 'center',
-          padding: '0 16px',
-        }}
-      >
+          padding: '0 16px'
+        }}>
+        
         <p
           style={{
             fontFamily: "'Inter', sans-serif",
@@ -64,9 +64,9 @@ export default function LockedStorefrontHero() {
             letterSpacing: '0.42em',
             textTransform: 'uppercase',
             color: 'rgba(212,175,55,0.7)',
-            marginBottom: '14px',
-          }}
-        >
+            marginBottom: '14px'
+          }}>
+          
           Boutique · Step Inside
         </p>
         <h1
@@ -77,9 +77,9 @@ export default function LockedStorefrontHero() {
             letterSpacing: '0.04em',
             margin: 0,
             color: '#D4AF37',
-            textShadow: '0 0 26px rgba(212,175,55,0.6), 0 0 60px rgba(212,175,55,0.3)',
-          }}
-        >
+            textShadow: '0 0 26px rgba(212,175,55,0.6), 0 0 60px rgba(212,175,55,0.3)'
+          }} className="hidden">
+          
           Gannon Waye
         </h1>
         <p
@@ -89,12 +89,12 @@ export default function LockedStorefrontHero() {
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
             color: 'rgba(255,255,255,0.55)',
-            marginTop: '18px',
-          }}
-        >
+            marginTop: '18px'
+          }} className="hidden">
+          
           Official Merch Store
         </p>
       </div>
-    </section>
-  );
+    </section>);
+
 }
