@@ -155,7 +155,7 @@ Deno.serve(async (req) => {
       try {
         const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: item.product_id });
         if (products && products.length > 0) product = products[0];
-      } catch (_) { /* slug-based ID — use client-provided data */ }
+      } catch (_) { /* invalid product ID is rejected by the publication gate below */ }
 
       const quantity = Number(item.quantity || 1);
       const publicationIssues = [];
