@@ -157,10 +157,33 @@ Deno.serve(async (req) => {
         if (products && products.length > 0) product = products[0];
       } catch (_) { /* slug-based ID — use client-provided data */ }
 
-      const verifiedPrice = product?.sale_price ?? product?.price ?? item.price ?? 0;
-      const category = (product?.category || item.category || '').toLowerCase().trim();
-      const quantity = item.quantity || 1;
-      const productName = item.product_name || product?.name || 'Gannon Waye Store';
+      const quantity = Number(item.quantity || 1);
+      const publicationIssues = [];
+      if (!product) publicationIssues.push('Product record not found.');
+      if (product && (!product.is_active || product.publication_status !== 'live')) publicationIssues.push('Product is not approved for public sale.');
+      if (product && (!product.approved_by || !product.approved_at)) publicationIssues.push('Human product approval is missing.');
+      if (product && (!product.cost_verified_at || !product.stock_verified_at)) publicationIssues.push('Cost or stock verification is missing.');
+      if (product && (!product.supplier_url || !/^https?:\/\//i.test(product.supplier_url))) publicationIssues.push('Direct supplier or print provider evidence is missing.');
+      if (product && (!Number.isFinite(product.sale_price) || product.sale_price <= 0)) publicationIssues.push('Verified retail price is missing.');
+      if (product && (!Number.isFinite(product.cost_price) || product.cost_price <= 0)) publicationIssues.push('Verified unit cost is missing.');
+      if (product && (!Number.isFinite(product.delivery_cost) || product.delivery_cost < 0)) publicationIssues.push('Verified delivery cost is missing.');
+      if (product && (!Number.isInteger(quantity) || quantity <= 0 || quantity > product.stock_quantity)) publicationIssues.push('Requested quantity is invalid or exceeds verified stock.');
+      if (product) {
+        const fee = Number(product.sale_price || 0) * Number(product.merchant_fee_percent || 0) / 100;
+        if (Number(product.sale_price || 0) <= Number(product.cost_price || 0) + Number(product.delivery_cost || 0) + fee) publicationIssues.push('Retail price does not cover landed cost and merchant fee.');
+      }
+      if (publicationIssues.length > 0) {
+        return Response.json({
+          error: 'Checkout blocked because a cart item is not publication ready.',
+          product_id: item.product_id,
+          issues: publicationIssues,
+          external_actions_performed: false,
+        }, { status: 400 });
+      }
+
+      const verifiedPrice = product.sale_price;
+      const category = (product.category || '').toLowerCase().trim();
+      const productName = product.name;
 
       // === DISCOUNT GUARD ===
       const eligible = isOwnerOverride ? true : isCategoryEligibleForDiscount(category);
