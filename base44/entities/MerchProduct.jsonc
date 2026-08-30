@@ -58,9 +58,41 @@
       "type": "number",
       "default": 0
     },
+    "publication_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "verified",
+        "approved",
+        "live",
+        "retired"
+      ],
+      "default": "draft",
+      "description": "Public lifecycle. Only live records may render on gannonwaye.com"
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "Base44 human user ID that approved this exact product"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cost_verified_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stock_verified_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "supplier_url": {
+      "type": "string",
+      "description": "Direct supplier or print provider product URL"
+    },
     "is_active": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "profit_margin_percent": {
       "type": "number",
@@ -84,7 +116,14 @@
     "read": {
       "$or": [
         {
-          "data.is_active": true
+          "$and": [
+            {
+              "data.is_active": true
+            },
+            {
+              "data.publication_status": "live"
+            }
+          ]
         },
         {
           "user_condition": {
