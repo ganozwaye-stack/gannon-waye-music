@@ -53,9 +53,9 @@ export default function LockedStorefrontHero() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           textAlign: 'center',
-          padding: '0 16px',
+          padding: 'clamp(40px, 9vh, 96px) 16px 0',
         }}
       >
         <p
