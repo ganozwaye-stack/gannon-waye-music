@@ -13,6 +13,29 @@ export default function ProtectedRoute({ fallback = <DefaultFallback />, unauthe
   const { isAuthenticated, isLoadingAuth, authChecked, authError, checkUserAuth } = useAuth();
 
   useEffect(() => {
+    const existing = document.querySelector('meta[name="robots"]');
+    const meta = existing || document.createElement('meta');
+    const previous = existing?.getAttribute('content') || null;
+
+    if (!existing) {
+      meta.setAttribute('name', 'robots');
+      document.head.appendChild(meta);
+    }
+
+    meta.setAttribute('content', 'noindex, nofollow, noarchive');
+
+    return () => {
+      if (!existing) {
+        meta.remove();
+      } else if (previous) {
+        meta.setAttribute('content', previous);
+      } else {
+        meta.removeAttribute('content');
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     if (!authChecked && !isLoadingAuth) {
       checkUserAuth();
     }
