@@ -6,12 +6,12 @@ import GannonSignature from '@/components/global/GannonSignature';
 import ShareButtons from '@/components/public/ShareButtons';
 
 const STORY_PARAGRAPHS = [
-  "I was born in Adelaide and now call Melbourne home.",
-  "For a long time, I learned to stay in places that never held me. To adjust, to stay quiet, to make sense of things that never made sense.",
-  "Over time, I realised I was not broken. I had just been taught the wrong things about love, worth, and belonging.",
-  "Everything shifted when I stopped abandoning myself.",
-  "Everything I create now comes from that moment.",
-  "This is not just music. This is choosing yourself.",
+  "I was born and raised in Adelaide and now call Melbourne home.",
+  "We lived in low socioeconomic conditions and formal music lessons were never possible. I asked, cried and begged, but they did not come. I sang anyway, leading school choirs, singing in church and eventually serving as a worship minister.",
+  "Home was shaped by an abusive father, family violence and a mother who struggled to regulate overwhelming emotions. Music became the place I could escape to and the language I used for things I could not safely say.",
+  "I later performed as a drag artist, opened Feast Festival in 2012, twice reached the grand final of Adelaide's Search for a Star and reached the Top 100 of Australian Idol. Every stage was something I fought to find.",
+  "As an adult I survived abusive relationships, coercive control, addiction and PTSD. Losing Mum, my best friend and greatest believer, knocked me down again.",
+  "I'm Still Here is what happened next. It is not a search for fame as the purpose. It is music for the person who needs a voice or a song for what they cannot yet say.",
 ];
 
 export default function AboutGannon() {
@@ -43,7 +43,7 @@ export default function AboutGannon() {
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">The Story Behind the Music</p>
           <h1 className="font-display text-5xl md:text-7xl text-foreground mb-6 leading-tight">About</h1>
           <p className="font-body text-base md:text-lg text-foreground/70 leading-relaxed max-w-md">
-            I was born in Adelaide and now call Melbourne home. Everything I create comes from lived experience — the moments that changed me and the ones that nearly broke me.
+            I was born in Adelaide and now call Melbourne home. Everything I create comes from struggle, determination and the decision to keep standing after the moments that nearly broke me.
           </p>
         </motion.div>
       </section>
@@ -75,7 +75,7 @@ export default function AboutGannon() {
           className="mt-10"
         >
           <p className="font-body text-foreground/75 leading-relaxed text-base md:text-lg">
-            There has been a lot of loss in my world. Losing my Mum not too long ago, who was my best friend and my biggest fan. Also people I love that took their own life and others with diagnosis no one saw coming — these experiences did not just hurt, they reshaped me.
+            Losing Mum, Sonia, only twenty days after her diagnosis changed the centre of my world. She was my best friend and biggest believer. The grief did not arrive alone. It landed after childhood family violence, abusive adult relationships, addiction and PTSD. I have been knocked down more than once, but I am still here, building music and coaching work around one purpose: helping someone else believe their story can continue too.
           </p>
         </motion.div>
 
