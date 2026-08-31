@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 const FALLBACK_HEADSHOT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cb360d5ee_image.png';
-const BIO = 'Gannon Waye is an Australian singer-songwriter born in Adelaide and based in Melbourne. His independent, heart-first work explores grief, healing, self-worth, and the quiet courage it takes to choose yourself.';
+const BIO = 'Gannon Waye is an independent Australian singer songwriter born in Adelaide and based in Melbourne. Raised in low socioeconomic conditions, formal music lessons were out of reach, but he built his voice through school choirs, church, worship ministry, drag performance and community stages. After family violence, abusive relationships, addiction, PTSD and the loss of his mum Sonia, he returned to music with I\'m Still Here, a fifteen song project about being knocked down and choosing to rise.';
 
 export default function PressKit() {
   const { data: releaseCandidates = [] } = useQuery({
@@ -51,7 +51,7 @@ export default function PressKit() {
             <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-4">Biography</p>
             <p className="font-body text-base text-foreground/75 leading-relaxed">{BIO}</p>
             <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">
-              Gannon's mission is to create honest music that helps people feel less alone. Ten percent of all support goes to 1800RESPECT.
+              Gannon's purpose is not fame for its own sake. It is to reach people who need a voice or a song for what they cannot yet say. Ten percent of support contributions goes to 1800RESPECT.
             </p>
             <div className="flex flex-wrap gap-3 mt-7">
               <Link to="/contact">
