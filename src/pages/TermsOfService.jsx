@@ -87,7 +87,7 @@ export default function TermsOfService() {
           <section>
             <h2 className="font-display text-xl text-foreground mb-3">11. Contact</h2>
             <p>Questions about these terms? Email <a href="mailto:hello@gannonwaye.com" className="text-primary hover:underline">hello@gannonwaye.com</a>.</p>
-            <p className="mt-2 text-xs text-muted-foreground">Gannon Waye | Melbourne, Victoria, Australia | ABN: [To be advised]</p>
+            <p className="mt-2 text-xs text-muted-foreground">Gannon Waye Music | Melbourne, Victoria, Australia | ABN: 22 931 809 349</p>
           </section>
         </div>
       </div>
