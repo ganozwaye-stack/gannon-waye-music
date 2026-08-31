@@ -248,11 +248,11 @@ export default function ThisIsMyLife() {
 
           <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-10 items-start">
             <div className="space-y-4 font-body text-foreground/75 leading-relaxed text-base">
-              <p>I was born in Adelaide and now call Melbourne home, a city I've lived in for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.</p>
-              <p>I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing — sometimes more than they even realise about themselves. That perspective finds its way into everything I write.</p>
-              <p>There has been a lot of loss in my world. Losing my Mum not too long ago, who was my best friend and my biggest fan. Also people I love that took their own life and others with diagnoses no one saw coming. These experiences did not just hurt, they reshaped me.</p>
-              <p className="italic">I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong. It often means you're seeing something others aren't ready for yet.</p>
-              <p>Everything I create now comes from that moment of choosing myself. This is not just music. This is choosing yourself.</p>
+              <p>I was born and raised in Adelaide and now call Melbourne home. We lived in low socioeconomic conditions and formal music lessons were never possible. I asked, cried and begged, but I sang anyway, leading school choirs, singing in church and eventually serving as a worship minister.</p>
+              <p>Music became my escape from a childhood shaped by an abusive father, family violence and a mother who struggled to regulate overwhelming emotions. I later performed as a drag artist, opened Feast Festival in 2012, twice reached the grand final of Adelaide's Search for a Star and reached the Top 100 of Australian Idol.</p>
+              <p>As an adult I survived abusive relationships, coercive control, addiction and PTSD. Then I lost Mum, Sonia, my best friend and greatest believer, only twenty days after her diagnosis. Life knocked me down again.</p>
+              <p className="italic">I'm Still Here is the answer I kept giving life. Not perfectly fixed, not untouched by what happened, but still standing, still creating and still finding purpose in what I survived.</p>
+              <p>The music and the coaching work growing beside it share one purpose: helping someone else feel less alone and believe that being knocked down does not have to end their story.</p>
             </div>
 
             <div className="flex flex-col items-center gap-6 md:w-52">
