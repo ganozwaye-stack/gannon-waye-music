@@ -306,17 +306,17 @@ export default function StoreCheckout() {
         <div className="flex items-center gap-2 mb-8">
           <div className="flex items-center gap-2 opacity-60">
             <div className="w-7 h-7 rounded-full bg-primary/40 text-primary-foreground flex items-center justify-center font-body text-xs">✓</div>
-            <span className="font-body text-xs text-muted-foreground">Your Details</span>
+            <span className="font-body text-xs text-muted-foreground hidden sm:inline">Your Details</span>
           </div>
           <div className="flex-1 h-px bg-primary/30 mx-2" />
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-body text-xs font-bold">2</div>
-            <span className="font-body text-xs text-primary">Review Order</span>
+            <span className="font-body text-xs text-primary hidden sm:inline">Review Order</span>
           </div>
           <div className="flex-1 h-px bg-border/40 mx-2" />
           <div className="flex items-center gap-2 opacity-40">
             <div className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center font-body text-xs">3</div>
-            <span className="font-body text-xs text-muted-foreground">Payment</span>
+            <span className="font-body text-xs text-muted-foreground hidden sm:inline">Payment</span>
           </div>
         </div>
 

@@ -10,6 +10,7 @@ import { useCartStore } from '@/lib/cartStore';
 import ProductDetailModal from '@/components/store/ProductDetailModal';
 import CartDrawer from '@/components/store/CartDrawer';
 import AdminEditButton from '@/components/store/AdminEditButton';
+import NeonBrandTitle from '@/components/store/NeonBrandTitle';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -359,7 +360,7 @@ export default function Store() {
   const merchProducts = sortedProducts.filter(p => p.category !== 'cd' && p.category !== 'vinyl');
 
   return (
-    <div data-testid="store-page" className="min-h-screen py-24 px-4 md:px-8">
+    <div data-testid="store-page" className={`min-h-screen py-24 px-4 md:px-8 ${hasItems ? 'pb-36' : ''}`}>
       <div className="max-w-6xl mx-auto">
         
         {/* Cart button handled globally by CartButton component in Navbar — no duplicate needed */}
@@ -370,8 +371,9 @@ export default function Store() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-6"
         >
-          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Official</p>
-          <h1 className="font-display text-4xl md:text-6xl text-foreground mb-5">Merch</h1>
+          <div className="mb-6">
+            <NeonBrandTitle />
+          </div>
           {products.length > 0 ? (
             <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-xl px-5 py-3 mb-3">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
@@ -455,7 +457,7 @@ export default function Store() {
       {hasItems && (
         <div
           data-testid="store-sticky-checkout"
-          className="fixed bottom-0 left-0 right-0 z-40 bg-card/95 backdrop-blur-md border-t border-primary/30 px-4 py-3 flex items-center justify-between gap-4 shadow-2xl"
+          className="fixed bottom-0 left-0 right-0 z-40 bg-card/95 backdrop-blur-md border-t border-primary/30 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] flex items-center justify-between gap-4 shadow-2xl"
         >
           <div className="flex items-center gap-3">
             <ShoppingCart className="w-5 h-5 text-primary shrink-0" />
