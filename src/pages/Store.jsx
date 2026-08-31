@@ -462,7 +462,7 @@ export default function Store() {
           <div className="flex items-center gap-3">
             <ShoppingCart className="w-5 h-5 text-primary shrink-0" />
             <div>
-              <p className="font-body text-sm text-foreground font-semibold">
+              <p className="font-body text-xs sm:text-sm text-foreground font-semibold">
                 {getItemCount} item{getItemCount !== 1 ? 's' : ''} in cart
               </p>
             </div>
@@ -470,7 +470,7 @@ export default function Store() {
           <button
             data-testid="store-sticky-checkout-button"
             onClick={() => navigate('/store/cart-details')}
-            className="gradient-gold-button rounded-full px-6 py-2 font-body text-sm tracking-wider uppercase shrink-0"
+            className="gradient-gold-button rounded-full px-5 sm:px-6 py-2 font-body text-xs sm:text-sm tracking-wider uppercase shrink-0"
           >
             Checkout
           </button>

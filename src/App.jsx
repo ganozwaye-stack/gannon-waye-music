@@ -285,6 +285,7 @@ import SystemsManagerOffer from '@/pages/SystemsManagerOffer';
 import StoreWorld from '@/pages/StoreWorld';
 import PrintFulfilment from '@/pages/admin/PrintFulfilment';
 import MumsGarden from '@/pages/MumsGarden';
+import SoniasGarden from '@/pages/SoniasGarden';
 import Memorial from '@/pages/Memorial';
 import StoreProductDetail from '@/pages/StoreProductDetail';
 import PriorityCommander from '@/pages/admin/PriorityCommander';
@@ -389,6 +390,7 @@ const AuthenticatedApp = () => {
         <Route path="/carry-the-message" element={<CarryTheMessage />} />
         <Route path="/remember-mum" element={<RememberMum />} />
         <Route path="/mums-garden" element={<MumsGarden />} />
+        <Route path="/sonias-garden" element={<SoniasGarden />} />
         {/* /mum was a 404. It is the most guessable URL for the memorial page and
             the one the test suite has always used, so anyone following an old link
             or typing the obvious thing hit a dead 404 on the page that matters most

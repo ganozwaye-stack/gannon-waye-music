@@ -139,6 +139,37 @@
       "type": "string",
       "description": "Version label such as Original, Radio Edit, or Brazilian Portuguese"
     },
+    "genre": {
+      "type": "string",
+      "enum": [
+        "singer_songwriter",
+        "folk",
+        "soul",
+        "pop",
+        "rnb",
+        "hip_hop",
+        "spoken_word",
+        "cinematic",
+        "rock",
+        "other"
+      ],
+      "description": "Primary genre/style for fan browsing. Owner-tagged; untagged releases remain visible under All."
+    },
+    "mood": {
+      "type": "string",
+      "enum": [
+        "reflective",
+        "tender",
+        "raw",
+        "uplifting",
+        "melancholic",
+        "hopeful",
+        "anthemic",
+        "intimate",
+        "other"
+      ],
+      "description": "Emotional mood for fan browsing. Owner-tagged; untagged releases remain visible under All."
+    },
     "is_published": {
       "type": "boolean",
       "default": false,
