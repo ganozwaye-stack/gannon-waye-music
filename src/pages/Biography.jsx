@@ -9,22 +9,23 @@ const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb41800
 const PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a02a9ab6c_image_edited.png';
 
 const CHAPTERS = [
-  { year: 'Adelaide', title: 'Where the voice began', text: 'Born and raised in Adelaide, the youngest spirit in a house where music became the first language he understood. He sang before he had words for what he felt, reaching for sound to make sense of a world that didn\'t always make sense of him.' },
-  { year: 'The Stage', title: 'A voice recognised early', text: 'Runner-up in Adelaide Search for a Star. Top 100 in the early days of Australian Idol. Long before the trophies meant anything, the world was already telling him his voice mattered. He just hadn\'t learned to believe it yet.' },
-  { year: '21', title: 'Coming out, and the silence after', text: 'He came out as gay at 21 and lost an entire faith community almost overnight. No conversations, no closure, just silence where the church he loved used to be. It was the first grief he had to survive, and the first time he learned that being himself would cost him something.' },
-  { year: '2013', title: 'Melbourne', text: 'He packed a life into a car and drove to Melbourne. Thirteen years and counting, the city that let him become himself, away from the eyes that only knew the boy he used to be.' },
-  { year: 'Twenty Days', title: 'Losing Mum', text: 'His mum Sonia, his best friend and biggest fan, was diagnosed and gone in twenty days. Grief became the undercurrent of everything that came after, and the foundation of the most honest music he would ever write. She is the voice he still reaches for.' },
-  { year: 'The Fall', title: 'Addiction and the bottom', text: 'There were years he did not think he would see the other side of. Addiction, PTSD, and the slow narrowing of a life. He survived things he once believed would finish him, and carries the proof that the bottom is not the end of the story.' },
-  { year: '33', title: 'The shift', text: 'At 33, something shifted. For the first time in his life, he did not want to be anyone else. The fear of abandonment that had run him for a decade lost its grip, and the work of becoming himself, for real, could finally begin.' },
-  { year: 'Rebuilding', title: 'Six years of choosing himself', text: 'Therapy. Emotional intelligence. Learning to sit with discomfort instead of running from it. Six years of choosing himself, again and again, even when it was the harder path. The recovery is not a footnote. It is the whole foundation.' },
-  { year: 'Now', title: 'The album', text: 'Based in Melbourne, writing and recording an album that refuses to be anything other than real. Thankyou. Without You Here. Every song is a chapter of a true life. Every lyric is a truth he earned the hard way.' },
+  { year: 'Adelaide', title: 'No lessons, still singing', text: 'Gannon was raised in low socioeconomic conditions where formal music lessons were out of reach. No amount of asking, tears or begging changed that, so he built a voice wherever music was available, leading school choirs and learning by doing.' },
+  { year: 'The Stage', title: 'Determination found a microphone', text: 'He twice reached the grand final of Adelaide\'s Search for a Star, reached the Top 100 of Australian Idol and later auditioned for The Voice. The opportunities were never handed to him. He kept finding them.' },
+  { year: 'Faith', title: 'Choirs, church and ministry', text: 'He sang in church, became a worship minister and in 2007 travelled to the United States as a lead singer in Christian music ministry in New Orleans and Dallas. Music gave him belonging before he had language for everything he was carrying.' },
+  { year: 'Performance', title: 'Becoming visible', text: 'He performed as a drag artist, opened Feast Festival in 2012, worked in short films and television commercials and received supported acting and dance training. Each stage made room for another part of him to exist.' },
+  { year: 'Home', title: 'Music as escape', text: 'His childhood was shaped by an abusive father, family violence and a mother who struggled to regulate overwhelming emotions. Music became both an escape and a language for what could not safely be said.' },
+  { year: '2013', title: 'Melbourne', text: 'He packed a life into a car and drove to Melbourne, building an adult life and creative identity away from the roles and expectations that had once kept him small.' },
+  { year: 'Twenty Days', title: 'Losing Mum', text: 'His mum Sonia, his best friend and biggest fan, was diagnosed and gone in twenty days. Grief knocked him down again and became the foundation of the most honest music he would ever write.' },
+  { year: 'Survival', title: 'Abuse, addiction and PTSD', text: 'Adult relationships repeated patterns of abuse and coercive control. Addiction and PTSD narrowed his world, but they did not end the story. He survived what once felt unsurvivable and began the work of rebuilding.' },
+  { year: '33', title: 'The shift', text: 'At 33, he stopped wishing to be someone else. The fear of abandonment began to loosen, and the work of choosing himself, even when it was the harder path, could finally begin.' },
+  { year: 'Now', title: 'I\'m Still Here', text: 'Now based in Melbourne, he is building a fifteen song album from everything that tried to silence him. The aim is not fame for its own sake. It is to reach the person who needs a voice or a song for what they cannot yet say.' },
 ];
 
 const MOMENTS = [
-  { icon: Star, title: 'Adelaide Search for a Star', text: 'Runner-up. The first time a room full of strangers told him his voice mattered.' },
-  { icon: Star, title: 'Australian Idol, Top 100', text: 'A national stage, early proof that a kid from Adelaide belonged on it.' },
-  { icon: Sunrise, title: 'The year he turned 33', text: 'The morning he stopped wishing to be someone else. The day the fear stopped running his life.' },
-  { icon: Heart, title: 'Without You Here', text: 'Written at 4am on Mother\'s Day, four years after Mum left. The moment his grief became a light for everyone else carrying loss.' },
+  { icon: Star, title: 'Search for a Star and Australian Idol', text: 'Twice a grand finalist in Adelaide, then Top 100 in Australian Idol. Proof that limited access did not limit the voice.' },
+  { icon: Music, title: 'School choirs and worship ministry', text: 'He learned through participation, leading school choirs, singing in church and eventually serving as a worship minister.' },
+  { icon: Mic, title: 'Feast Festival, 2012', text: 'Opening the festival as a drag performer marked another step in turning difference into creative strength.' },
+  { icon: Heart, title: 'Without You Here', text: 'Written in the early hours of Mother\'s Day after losing Mum. Grief became a song for anyone still reaching for a voice that is gone.' },
 ];
 
 const VALUES = [
@@ -108,13 +109,13 @@ export default function Biography() {
             <p className="font-body text-sm gradient-gold-text tracking-widest uppercase mb-6">Independent Artist · Songwriter</p>
             <div className="space-y-4 font-body text-sm text-foreground/70 leading-relaxed">
               <p>
-                Gannon Waye is an independent Australian artist whose music lives at the intersection of honesty and melody. Born in Adelaide and now based in Melbourne, he has spent over a decade navigating a life shaped by grief, identity, faith, recovery, and the quiet courage it takes to start again.
+                Gannon Waye is an independent Australian singer songwriter whose contemporary pop work turns lived experience into connection. Born in Adelaide and now based in Melbourne, he was raised in low socioeconomic conditions where formal music lessons were never possible. He built his craft by leading school choirs, singing in church, serving as a worship minister and taking every stage that would let him learn.
               </p>
               <p>
-                His debut single <em className="text-foreground/90">Thankyou</em> was written at a turning point: the moment of choosing self-respect over repetition. His follow-up, <em className="text-foreground/90">Without You Here</em>, written in the early hours of Mother's Day, is a raw acoustic letter to his late mother Sonia, the voice he still reaches for, the love that never left even after she did.
+                His public catalogue begins with <em className="text-foreground/90">Thankyou</em>, produced by Spike Leo and mastered by Nicholas Di Lorenzo at Panorama, followed by <em className="text-foreground/90">Without You Here</em>, produced by Will Henderson. The songs open the world of <em className="text-foreground/90">I'm Still Here</em>, a fifteen song project shaped by family violence, abusive relationships, addiction, PTSD, grief and the decision to keep standing.
               </p>
               <p>
-                His songs aren't written to chase trends. They're written because they have to be. Each one is a chapter of a real life, lived in real time.
+                The purpose is not fame for its own sake. It is to reach people searching for a voice or a song that can say what they cannot yet say, and to remind them that being knocked down does not have to be the end of the story.
               </p>
             </div>
           </motion.div>
@@ -173,19 +174,19 @@ export default function Biography() {
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2">In His Own Words</p>
           <p>
-            I think deeply, feel deeply, and notice what others often miss. I am obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.
+            Music was the opportunity my family could not afford and the escape I could create for myself. I asked for lessons, cried for them and begged for them, but they never came. I sang anyway. School choirs, church, worship ministry, drag performance and every available stage became the education I built for myself.
           </p>
           <p>
-            There has been a lot of loss in my world. Losing my Mum, who was my best friend and my biggest fan, only twenty days after her diagnosis. People I loved who took their own lives. Others with diagnoses no one saw coming. These experiences did not just hurt. They reshaped me entirely.
+            Home was shaped by an abusive father, family violence and a mother who struggled with emotional regulation. As an adult I repeated some of those patterns in abusive relationships, then faced addiction, PTSD and the loss of Mum, my best friend and greatest believer. Life has knocked me down more than once.
           </p>
           <p>
-            I have been misunderstood and mislabelled more times than I can count. I came out as gay at 21 and lost an entire faith community almost overnight, no conversations, no closure, just silence. I have been through addiction and recovery. I have survived things I once believed would finish me.
+            The work now is about what happens after the fall. My music, and the coaching work growing beside it, come from the same determination to turn hard earned lessons into connection, direction and hope for someone else.
           </p>
           <p>
-            But I am still here. And everything I create now comes from that. From the choice to stop abandoning myself. From six years of learning what I should have been taught at the very beginning.
+            I am still here. The album carries that sentence through every chapter, not as a claim that everything is fixed, but as proof that the story continued.
           </p>
           <p className="text-foreground/80 italic">
-            This is not just music. This is what choosing yourself actually sounds like.
+            I am not chasing fame as the purpose. I am trying to reach the person who needs a song to speak before they can.
           </p>
         </motion.div>
 
