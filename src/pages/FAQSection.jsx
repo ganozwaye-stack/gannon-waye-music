@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 const FAQS = [
   {
     q: 'Who is Gannon Waye?',
-    a: 'Gannon Waye is an Australian singer-songwriter based in Melbourne, originally from Adelaide. He writes deeply personal music about grief, healing, self-discovery, and transformation. Music approved for public sharing is listed on the Music page.',
+    a: 'Gannon Waye is an Adelaide-born, Melbourne-based independent singer songwriter. Raised without access to formal music lessons, he built his voice through school choirs, church, worship ministry, drag performance and community stages. His music turns grief, family violence, abusive relationships, addiction, PTSD and rebuilding into contemporary pop for people who need to feel less alone. Music approved for public sharing is listed on the Music page.',
   },
   {
     q: "Where can I listen to Gannon Waye's music?",
