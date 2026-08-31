@@ -376,7 +376,7 @@ export default function Home() {
           {/* Mobile fallback, stacked, full story */}
           <div className="md:hidden space-y-6">
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
-              I'm a singer-songwriter born and raised in Adelaide, now calling Melbourne home for over 13 years. Music has always been more than sound to me. It's the language I use to understand people, emotion, and the parts of life that don't always have words.
+              I was born and raised in Adelaide and now call Melbourne home. We did not have the money for formal music lessons, no matter how often I asked, cried or begged, but that never weakened the drive. I learned by taking every chance available: leading school choirs, singing in church and eventually serving as a worship minister.
             </p>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
               I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.
@@ -398,13 +398,13 @@ export default function Home() {
               <p>anyone else.</p>
             </div>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
-              My journey hasn't been simple. I've experienced loss, grief, and environments that challenged my sense of self. But those experiences shaped me and gave me something real to say.
+              My journey has not been simple. Childhood was shaped by family violence, an abusive father and a mother who struggled to regulate overwhelming emotion. In adulthood I survived abusive relationships, coercive control, addiction, PTSD and the loss of Mum. Each time life knocked me down, music gave me a way to stand again.
             </p>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
-              I began singing at a young age, runner up in Adelaide Search for a Star, Top 100 in the early days of Australian Idol, and a few others. But this isn't about trophies. The past decade has been about something far more personal: developing my own voice and writing from lived experience.
+              The stages kept coming: I twice reached the grand final of Adelaide's Search for a Star, reached the Top 100 of Australian Idol, performed as a drag artist and opened Feast Festival in 2012. But the purpose is not trophies or fame. It is finding the voice I was denied and using it to reach someone else.
             </p>
             <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
-              That work shapes the music and stories I continue to create for anyone who needs hope or a reminder that they are not alone.
+              I'm Still Here brings that purpose together. It is for the person searching for a song that can say what they cannot yet say, and for anyone who needs proof that being knocked down is not the end of the story.
             </p>
           </div>
 
