@@ -9,9 +9,9 @@ import { trackEvent } from '@/lib/analytics';
 const QUOTE = 'Respect is earned. Not a game you make me play.';
 
 const PARAS = [
-  'Gannon Waye is a singer-songwriter from Adelaide, now based in Melbourne, who writes from lived experience about grief, healing, and the quiet courage it takes to love yourself. Coaching is the next chapter of that same work: practical, grounded support for people who are ready to stop surviving and start rebuilding.',
-  'After losing his mother Sonia, and after years of learning self-respect, boundaries, and how to keep creating through hard seasons, Gannon built this for anyone carrying the weight of an old chapter. Strength does not mean you never broke. It means you decided to keep going, and to turn what hurt into something useful for someone else.',
-  'This is coaching, not therapy or crisis support. It is rooted in hope: clear direction, real tools, and encouragement for people ready to take their life seriously again. The same mission behind the music, to help anyone who hears it feel less alone, is the foundation this work stands on.'
+  'Gannon Waye is an Adelaide-born, Melbourne-based singer songwriter who grew up without access to formal music lessons and built his voice through school choirs, church, worship ministry, drag performance and every stage he could find. Coaching is growing from the same determination: practical, grounded support for people ready to stop surviving and start rebuilding.',
+  'After childhood family violence, abusive adult relationships, addiction, PTSD and losing his mum Sonia, Gannon learned that resilience is not never falling. It is finding a reason to stand again, then turning hard earned learning into something useful for someone else. That purpose is already present in the music and now extends into his business and coaching work.',
+  'This is coaching, not therapy or crisis support. It offers direction, real tools and encouragement while respecting the limits of coaching. The mission is the same as the album: to help people feel less alone, recognise their own strength and believe that being knocked down does not have to end the story.'
 ];
 
 const PILLARS = [
