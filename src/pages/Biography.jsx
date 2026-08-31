@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Music, Heart, Mic, Headphones, Quote, BookOpen, Star, Sunrise } from 'lucide-react';
+import { Music, Heart, Mic, Headphones, Quote, BookOpen, Star } from 'lucide-react';
 
 // Gannon, side profile, looking up into the light through the clouds. The hero.
 const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
