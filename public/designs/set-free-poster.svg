@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="3600" height="4800" viewBox="0 0 3600 4800" role="img" aria-labelledby="title desc">
+<title id="title">Set Free poster print file</title>
+<desc id="desc">Two colour Set Free poster design for Gannon Waye</desc>
+<rect width="3600" height="4800" fill="#0F1116"/>
+<g fill="none" stroke="#F5D06E" stroke-width="150">
+  <path d="M820 2200 A1000 1000 0 0 1 2600 1525"/>
+  <path d="M2760 1750 A1000 1000 0 0 1 2600 3220"/>
+  <path d="M2340 3415 A1000 1000 0 0 1 820 2450"/>
+</g>
+<text x="1800" y="3750" text-anchor="middle" fill="#F5D06E" font-family="Playfair Display,Georgia,serif" font-size="430" font-weight="600" letter-spacing="34">SET FREE</text>
+<text x="1800" y="4140" text-anchor="middle" fill="#F5D06E" font-family="Poppins,Arial,sans-serif" font-size="155" font-weight="400" letter-spacing="42">GANNON WAYE</text>
+</svg>
