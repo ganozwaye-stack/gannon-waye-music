@@ -71,6 +71,7 @@ function FilterRow({ label, value, options, labels, onChange }) {
 export default function Music() {
   const [activeGenre, setActiveGenre] = useState('all');
   const [activeMood, setActiveMood] = useState('all');
+  const [lyricsFor, setLyricsFor] = useState(null);
 
   const { data: candidates = [], isLoading } = useQuery({
     queryKey: ['music-public-releases'],
@@ -238,6 +239,16 @@ export default function Music() {
                         </Button>
                       </a>
                     ))}
+                    {featured.lyrics && (
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        className="rounded-full"
+                        onClick={() => setLyricsFor(featured)}
+                      >
+                        Lyrics
+                      </Button>
+                    )}
                     <Link to={`/release/${featured.id}`}>
                       <Button variant="ghost" className="rounded-full">
                         Release details
@@ -333,6 +344,11 @@ export default function Music() {
                               <ExternalLink className="w-3.5 h-3.5" /> Spotify
                             </a>
                           )}
+                          {release.lyrics && (
+                            <Button type="button" variant="ghost" className="rounded-full" onClick={() => setLyricsFor(release)}>
+                              Lyrics
+                            </Button>
+                          )}
                           <Link to={`/release/${release.id}`}>
                             <Button variant="ghost" className="rounded-full">Details</Button>
                           </Link>
@@ -347,6 +363,45 @@ export default function Music() {
           </>
         )}
       </div>
+
+      {/* Full lyrics viewer */}
+      {lyricsFor && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          onClick={() => setLyricsFor(null)}
+        >
+          <div
+            className="max-w-2xl w-full max-h-[85vh] overflow-y-auto rounded-3xl border border-primary/30 bg-card p-8"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-4 mb-6">
+              <div>
+                <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-1">Lyrics</p>
+                <h2 className="font-display text-3xl md:text-4xl text-foreground">{lyricsFor.title}</h2>
+                {lyricsFor.version_label && (
+                  <p className="font-body text-xs text-muted-foreground mt-1">{lyricsFor.version_label}</p>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => setLyricsFor(null)}
+                className="text-muted-foreground hover:text-foreground text-2xl leading-none"
+                aria-label="Close lyrics"
+              >
+                ×
+              </button>
+            </div>
+            <p className="font-display text-lg md:text-xl text-foreground/90 whitespace-pre-wrap leading-relaxed">
+              {lyricsFor.lyrics}
+            </p>
+            {lyricsFor.credits && (
+              <p className="font-body text-xs text-muted-foreground mt-8 pt-4 border-t border-border/30">
+                {lyricsFor.credits}
+              </p>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,0 +1,34 @@
+{
+  "name": "Newsletter Signup \u2192 Google Sheets",
+  "description": "Every new newsletter subscriber is appended as a row to the Google Sheets Subscribers tab, with name, email, phone, date of birth and how they found the page. Upserts by email.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "create"
+      ],
+      "entity_name": "EmailSubscriber"
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "newsletter_signup_google_sheets",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_function": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "syncSubscriberToSheets",
+            "args": {}
+          },
+          "then": "end"
+        }
+      }
+    ]
+  }
+}

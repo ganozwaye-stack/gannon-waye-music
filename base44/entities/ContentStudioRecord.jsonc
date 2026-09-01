@@ -22,6 +22,10 @@
       ],
       "default": "reel_idea"
     },
+    "title": {
+      "type": "string",
+      "description": "Post title shown on the Content Studio card"
+    },
     "song": {
       "type": "string",
       "description": "Song title this content relates to"
@@ -50,6 +54,20 @@
       "maxLength": 2200,
       "description": "First comment to post after the reel"
     },
+    "hashtags": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Hashtags for the post (space or comma separated)"
+    },
+    "visual_direction": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Visual direction: lighting, shot type, text overlay style"
+    },
+    "capcut_template": {
+      "type": "string",
+      "description": "CapCut template name or link to use"
+    },
     "cta": {
       "type": "string",
       "description": "Call to action text"
@@ -65,6 +83,15 @@
     "asset_required": {
       "type": "string",
       "description": "What visual/video asset is needed"
+    },
+    "media_url": {
+      "type": "string",
+      "description": "Attached video file URL (used for thumbnail preview and publishing)"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Scheduled publish date and time. Cards are sorted by this field."
     },
     "description": {
       "type": "string",
@@ -115,7 +142,7 @@
         "x_twitter",
         "all"
       ],
-      "default": "all"
+      "default": "instagram"
     },
     "sort_order": {
       "type": "number",
