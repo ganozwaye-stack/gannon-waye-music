@@ -153,6 +153,16 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-09-01 · Codex · Set Free release and merchandise staging
+
+Did:      Verified the private Drive source folder Set Free 2026 GW. Corrected Lyric record 6a3aa17c5f2267d730b5a824 to the canonical title Set Free, refreshed its text from Drive file 1YiTQeuQTIdXKJDZmpB7XLl0RogeGhY9A, linked it to Release 6a538a537c7842081551d561, and kept every publication gate closed. Linked 11 other existing Lyric records to exact Release records. Added three one or two colour printable Set Free SVG drafts and DeegoDesignAsset records 6a96fa3d63802e058e7b7133 through 6a96fa3d63802e058e7b7135. Expanded DeegoDesignAsset with placement, image, colour count and song gate fields. Build passed.
+
+Found:    Drive folder 17uBBq7MaMHpR-ghjt7O9o7Eh4cs8DcSc contains private MP3 Set Free 1.7 (2), official artwork and lyrics, but no mastered WAV. Set Free remains scheduled for 18 September 2026, private, pending approval and sensitive lyric review. Four lyric records remain unlinked because no exact Release exists or the title conflicts: You’re My Mum, All I Ever Wanted, One Day and Run Away. eBay Australia permits third party fulfilment only from pre purchased stock. TikTok Shop local Seller Center is not available to Australian sellers as of 1 September 2026.
+
+Left:     No product, listing, lyric or release was published. No price changed. The three existing eBay listing drafts still contain retracted legacy prices and incomplete integer cent cost and floor evidence. The eBay token remains expired. Set Free needs a lossless distributor master, final mix and mastering credit confirmation, exact owner lyric approval, exact merchandise approval, and verified Australian print costs.
+
+For:      Gannon for exact Set Free lyric and release approval, lossless master confirmation, design selection, supplier cost evidence and eBay reconnect. Next agent must keep generic product opportunities in research and must not route CJ order after sale fulfilment to eBay.
+
 ### 2026-08-24 · Claude (Cowork) · correction
 
 Did:      Retracted the merchandise-URL defect in O-9. It was my error, not a real fault.
