@@ -16,7 +16,6 @@ const NAV_LINKS = [
 { label: 'Biography', path: '/biography' },
 { label: 'Music', path: '/music' },
 { label: 'Store', path: '/store' },
-{ label: 'Supporters', path: '/back-this' },
 { label: "Mum's Garden", path: '/mums-garden' },
 ...(FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED ? [{ label: 'Coaching', path: '/coaching', soon: true }] : []),
 { label: 'Press', path: '/press' },
@@ -29,14 +28,10 @@ const MORE_LINKS = [
 { label: 'Lyric Library', path: '/lyric-library' },
 { label: 'Discover Music', path: '/discover' },
 { label: 'Community', path: '/community' },
-{ label: 'Live & Tour', path: '/tour' },
-{ label: 'Mixing Services', path: '/mixing-services' },
-{ label: 'Gift Cards', path: '/gift-cards' },
 { label: 'Fan Reminders', path: '/fan-reminders' },
 { label: 'FAQ', path: '/faq' },
 { label: 'Orders', path: '/orders' },
-{ label: 'My Profile', path: '/fan-profile' },
-{ label: 'Systems Manager', path: '/systems-manager' }];
+{ label: 'My Profile', path: '/fan-profile' }];
 
 
 export default function Navbar() {
