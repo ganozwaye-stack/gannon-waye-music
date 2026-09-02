@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 const ITEMS = [
   'Independent, heart-first music from Gannon Waye',
   'Music approved for public sharing appears on the Music page',
-  '10% of all support goes to 1800RESPECT',
+  'The Store shows only current owner-approved stock',
   'New music is shared only when it is ready',
   'Join the community and follow the story',
 ];
