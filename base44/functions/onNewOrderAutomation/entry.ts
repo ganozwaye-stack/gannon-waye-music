@@ -1,178 +1,297 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
 
-function buildMimeMessage({ to, subject, htmlBody }) {
-  const boundary = `boundary_${Date.now()}`;
-  const raw = [
-    `From: Gannon Waye <me>`,
-    `Reply-To: hello@gannonwaye.com`,
-    `To: ${to}`,
-    `Subject: ${subject}`,
-    `MIME-Version: 1.0`,
-    `Content-Type: multipart/alternative; boundary="${boundary}"`,
-    ``,
-    `--${boundary}`,
-    `Content-Type: text/html; charset=UTF-8`,
-    ``,
-    htmlBody,
-    `--${boundary}--`
-  ].join('\r\n');
-  return btoa(unescape(encodeURIComponent(raw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+function numberOr(value, fallback = 0) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+function aggregateItems(items) {
+  const byProduct = new Map();
+  for (const item of Array.isArray(items) ? items : []) {
+    const productId = String(item?.product_id || '').trim();
+    const quantity = numberOr(item?.quantity, 0);
+    const size = String(item?.size || '').trim();
+    if (!productId || !Number.isInteger(quantity) || quantity <= 0) {
+      throw new Error('Order contains an invalid product or quantity.');
+    }
+    const productGroup = byProduct.get(productId) || {
+      product_id: productId,
+      total_quantity: 0,
+      variants: {},
+      lines: [],
+    };
+    productGroup.total_quantity += quantity;
+    if (size) productGroup.variants[size] = numberOr(productGroup.variants[size]) + quantity;
+    productGroup.lines.push({ ...item, quantity, size });
+    byProduct.set(productId, productGroup);
+  }
+  return [...byProduct.values()];
+}
+
+async function createHealthIssue(base44, title, description, orderId) {
+  try {
+    await base44.asServiceRole.entities.SystemHealthIssue.create({
+      system_area: 'payments',
+      issue_title: title,
+      severity: 'critical',
+      detected_by: 'onNewOrderAutomation',
+      recommended_fix: `Review MerchOrder ${orderId}, compare Stripe payment evidence with current stock, and run only the idempotent recovery action. Do not charge the customer again.`,
+      description: String(description || '').slice(0, 1000),
+      status: 'open',
+      requires_approval: false,
+      risk_type: 'financial',
+      last_checked: new Date().toISOString(),
+    });
+  } catch {
+    // Preserve the original order-processing result.
+  }
 }
 
 Deno.serve(async (req) => {
+  const base44 = createClientFromRequest(req);
+  let orderId = '';
+  let inventoryLog = null;
+
   try {
-    const base44 = createClientFromRequest(req);
     const body = await req.json();
-    const data = body.data;
+    orderId = String(body?.orderId || body?.data?.id || '').trim();
+    if (!orderId) return Response.json({ error: 'Order ID is required.' }, { status: 400 });
 
-    if (!data) return Response.json({ skipped: true });
+    const order = await base44.asServiceRole.entities.MerchOrder.get(orderId);
+    if (!order) return Response.json({ error: 'Order not found.' }, { status: 404 });
 
-    // IDEMPOTENCE: Check if already processed
-    const idempotenceKey = `order_${data.id}`;
-    const existing = await base44.asServiceRole.entities.IdempotenceLog.filter({
-      idempotence_key: idempotenceKey,
-    });
-    
-    if (existing.length > 0) {
-      return Response.json({ skipped: true, reason: 'Already processed', cached: existing[0].result });
+    if (order.status === 'duplicate' || order.financial_status === 'duplicate_void') {
+      return Response.json({ success: true, skipped: true, reason: 'Duplicate order is never processed.' });
     }
 
-    // PRE-FETCH & REFRESH TOKENS before long operation
-    const gmailConn = await base44.asServiceRole.connectors.getConnection('gmail');
-    const sheetsConn = await base44.asServiceRole.connectors.getConnection('googlesheets');
-    
-    const { accessToken } = gmailConn;
-    const { accessToken: sheetAccessToken } = sheetsConn;
-    const sheetId = Deno.env.get('GOOGLE_SHEET_ID');
+    if (order.excluded_from_inventory || order.excluded_from_revenue || order.payment_status !== 'paid') {
+      await base44.asServiceRole.entities.MerchOrder.update(orderId, {
+        receipt_status: order.excluded_from_revenue ? 'not_required' : order.receipt_status || 'not_attempted',
+        admin_note: [order.admin_note, 'Order automation skipped because the record is excluded or is not a paid external order.'].filter(Boolean).join(' | '),
+      });
+      return Response.json({ success: true, skipped: true, reason: 'Excluded or unpaid order.' });
+    }
 
-    // Always notify the primary owner email
-    const adminEmail = 'gannonwayemusic@gmail.com';
+    const inventoryKey = `inventory_order:${orderId}`;
+    const existingLogs = await base44.asServiceRole.entities.IdempotenceLog.filter({
+      idempotence_key: inventoryKey,
+    });
+    inventoryLog = Array.isArray(existingLogs) ? existingLogs[0] : null;
 
-    const items = (data.items || []);
-    const itemsHtml = items.map(i =>
-      `<tr><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;">${i.product_name}</td><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;">${i.size || '—'}</td><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;">x${i.quantity || 1}</td><td style="padding:8px 12px;border-bottom:1px solid #2a2f3e;color:#f5d06e;">$${Number(i.price).toFixed(2)}</td></tr>`
-    ).join('');
+    if (order.inventory_adjusted || inventoryLog?.result?.status === 'completed') {
+      if (!order.inventory_adjusted && inventoryLog?.result?.status === 'completed') {
+        await createHealthIssue(
+          base44,
+          `Inventory state mismatch for paid order ${orderId}`,
+          'The idempotence log says inventory completed, but the order is not marked inventory_adjusted. Manual reconciliation is required before any retry.',
+          orderId,
+        );
+      }
+    } else {
+      if (inventoryLog?.result?.status === 'processing') {
+        await createHealthIssue(
+          base44,
+          `Inventory processing was interrupted for paid order ${orderId}`,
+          'A previous run created the inventory lock but did not record completion. The system stopped rather than risking a second stock decrement.',
+          orderId,
+        );
+        await base44.asServiceRole.entities.MerchOrder.update(orderId, {
+          status: 'needs_admin_review',
+          financial_status: 'inventory_reconciliation_required',
+        });
+        return Response.json({
+          success: false,
+          needs_review: true,
+          reason: 'Existing inventory lock is incomplete. No second decrement was attempted.',
+        }, { status: 409 });
+      }
 
-    // 1) Decrement stock for each item ordered
-    for (const item of items) {
-      if (!item.product_id) continue;
-      const products = await base44.asServiceRole.entities.MerchProduct.list();
-      const product = products.find(p => p.id === item.product_id);
-      if (product && product.stock_quantity > 0) {
-        const newQty = Math.max(0, product.stock_quantity - (item.quantity || 1));
-        await base44.asServiceRole.entities.MerchProduct.update(item.product_id, { stock_quantity: newQty });
+      if (!inventoryLog) {
+        inventoryLog = await base44.asServiceRole.entities.IdempotenceLog.create({
+          idempotence_key: inventoryKey,
+          created_at: new Date().toISOString(),
+          description: `Inventory adjustment lock for paid order ${orderId}`,
+          result: { status: 'processing', order_id: orderId },
+        });
+      }
+
+      const groupedItems = aggregateItems(order.items);
+      if (groupedItems.length === 0) throw new Error('Paid order has no inventory lines.');
+
+      const adjustmentDetails = [];
+      let productCostTotal = 0;
+      let packagingCostTotal = 0;
+      let highestFeePercent = 0;
+
+      for (const group of groupedItems) {
+        const product = await base44.asServiceRole.entities.MerchProduct.get(group.product_id);
+        if (!product) throw new Error(`Product ${group.product_id} was not found.`);
+
+        const currentTotal = numberOr(product.stock_quantity);
+        const nextTotal = currentTotal - group.total_quantity;
+        if (nextTotal < 0) throw new Error(`Insufficient total stock for ${product.name}.`);
+
+        const currentVariants = { ...(product.stock_by_variant || {}) };
+        const nextVariants = { ...currentVariants };
+        const hasVariantInventory = Object.keys(currentVariants).length > 0 || (product.sizes_available || []).length > 0;
+
+        if (hasVariantInventory) {
+          for (const [size, quantity] of Object.entries(group.variants)) {
+            const currentVariant = numberOr(currentVariants[size], -1);
+            if (currentVariant < 0 || currentVariant - quantity < 0) {
+              throw new Error(`Insufficient verified stock for ${product.name}, size ${size}.`);
+            }
+            nextVariants[size] = currentVariant - quantity;
+          }
+          const linesWithoutSize = group.lines.filter(line => !line.size);
+          if (linesWithoutSize.length > 0) throw new Error(`A size is missing for ${product.name}.`);
+        }
+
+        await base44.asServiceRole.entities.MerchProduct.update(product.id, {
+          stock_quantity: nextTotal,
+          ...(hasVariantInventory ? { stock_by_variant: nextVariants } : {}),
+        });
+
+        for (const line of group.lines) {
+          const unitCost = numberOr(line.recorded_unit_cost, numberOr(product.cost_price));
+          const packagingCost = numberOr(line.recorded_packaging_cost, numberOr(product.packaging_cost));
+          productCostTotal += unitCost * line.quantity;
+          packagingCostTotal += packagingCost * line.quantity;
+          highestFeePercent = Math.max(highestFeePercent, numberOr(product.merchant_fee_percent, 3.5));
+        }
+
+        adjustmentDetails.push({
+          product_id: product.id,
+          product_name: product.name,
+          quantity: group.total_quantity,
+          variants: group.variants,
+          stock_before: currentTotal,
+          stock_after: nextTotal,
+          variant_stock_before: hasVariantInventory ? currentVariants : null,
+          variant_stock_after: hasVariantInventory ? nextVariants : null,
+        });
+      }
+
+      const estimatedPaymentFee = numberOr(order.total_amount) * (highestFeePercent || 3.5) / 100;
+      const estimatedNetProfit = numberOr(order.subtotal_amount) - productCostTotal - packagingCostTotal - estimatedPaymentFee;
+      const processedAt = new Date().toISOString();
+
+      await base44.asServiceRole.entities.MerchOrder.update(orderId, {
+        inventory_adjusted: true,
+        inventory_adjusted_at: processedAt,
+        inventory_adjustment_details: adjustmentDetails,
+        product_cost_total: Number(productCostTotal.toFixed(2)),
+        packaging_cost_total: Number(packagingCostTotal.toFixed(2)),
+        estimated_delivery_cost: Number(numberOr(order.shipping_amount).toFixed(2)),
+        estimated_payment_fee: Number(estimatedPaymentFee.toFixed(2)),
+        estimated_net_order_profit: Number(estimatedNetProfit.toFixed(2)),
+        profit_status: 'estimated',
+        profit_calculated_at: processedAt,
+        financial_status: order.status === 'needs_admin_review' ? order.financial_status : 'captured_inventory_adjusted',
+      });
+
+      await base44.asServiceRole.entities.IdempotenceLog.update(inventoryLog.id, {
+        result: {
+          status: 'completed',
+          order_id: orderId,
+          completed_at: processedAt,
+          adjustment_details: adjustmentDetails,
+        },
+      });
+    }
+
+    const refreshedOrder = await base44.asServiceRole.entities.MerchOrder.get(orderId);
+
+    if (!refreshedOrder.admin_notification_sent) {
+      try {
+        await base44.asServiceRole.entities.AdminNotification.create({
+          notification_type: 'order',
+          severity: refreshedOrder.status === 'needs_admin_review' ? 'high' : 'info',
+          title: `Paid merchandise order from ${refreshedOrder.customer_name}`,
+          summary: `${(refreshedOrder.items || []).map(item => `${item.product_name}${item.size ? `, ${item.size}` : ''} x${item.quantity}`).join('; ')}. Total $${numberOr(refreshedOrder.total_amount).toFixed(2)} AUD.`,
+          source: 'onNewOrderAutomation',
+          requires_action: true,
+          linked_entity: 'MerchOrder',
+          linked_id: orderId,
+          linked_route: '/admin/orders',
+          is_read: false,
+          delivered_slack: false,
+          delivered_email: false,
+        });
+        await base44.asServiceRole.entities.MerchOrder.update(orderId, {
+          admin_notification_sent: true,
+          admin_notification_status: 'created',
+        });
+      } catch (error) {
+        await base44.asServiceRole.entities.MerchOrder.update(orderId, {
+          admin_notification_status: 'failed',
+        }).catch(() => {});
       }
     }
 
-    // 2) Admin alert email
-    const adminHtml = `<!DOCTYPE html><html><body style="background:#0e1117;color:#f0ead6;font-family:sans-serif;padding:32px;margin:0;">
-<div style="max-width:520px;margin:0 auto;">
-  <h2 style="color:#f5d06e;margin-bottom:4px;">🛍️ New Merch Order!</h2>
-  <p style="color:#999;font-size:13px;margin-top:0;">${new Date().toLocaleDateString('en-AU', { dateStyle: 'full' })}</p>
-  <div style="background:#1a1f2e;border:1px solid #2a2f3e;border-radius:12px;padding:20px;margin:20px 0;">
-    <p style="margin:4px 0;"><strong>Customer:</strong> ${data.customer_name}</p>
-    <p style="margin:4px 0;"><strong>Email:</strong> ${data.customer_email}</p>
-    <p style="margin:4px 0;"><strong>Address:</strong> ${data.shipping_address}</p>
-    ${data.notes ? `<p style="margin:4px 0;color:#999;font-size:12px;"><strong>Notes:</strong> ${data.notes}</p>` : ''}
-  </div>
-  <table style="width:100%;border-collapse:collapse;background:#1a1f2e;border-radius:8px;overflow:hidden;">
-    <thead><tr style="background:#252a3a;">
-      <th style="padding:10px 12px;text-align:left;color:#f5d06e;font-size:12px;">Product</th>
-      <th style="padding:10px 12px;text-align:left;color:#f5d06e;font-size:12px;">Size</th>
-      <th style="padding:10px 12px;text-align:left;color:#f5d06e;font-size:12px;">Qty</th>
-      <th style="padding:10px 12px;text-align:left;color:#f5d06e;font-size:12px;">Price</th>
-    </tr></thead>
-    <tbody>${itemsHtml}</tbody>
-  </table>
-  <p style="font-size:22px;color:#f5d06e;margin:20px 0;"><strong>Total: $${(data.total_amount || 0).toFixed(2)} AUD</strong></p>
-  <a href="https://gannonwaye.com/admin/orders" style="display:inline-block;background:#f5d06e;color:#0e1117;padding:12px 28px;border-radius:50px;text-decoration:none;font-weight:700;font-size:14px;">View in Admin →</a>
-</div></body></html>`;
+    const orderBeforeReceipt = await base44.asServiceRole.entities.MerchOrder.get(orderId);
+    let receiptResult = { skipped: orderBeforeReceipt.receipt_sent === true };
+    if (!orderBeforeReceipt.receipt_sent) {
+      try {
+        receiptResult = await base44.asServiceRole.functions.invoke('sendOrderReceipt', { orderId });
+      } catch (error) {
+        await base44.asServiceRole.entities.MerchOrder.update(orderId, {
+          receipt_status: 'failed',
+        }).catch(() => {});
+        await base44.asServiceRole.entities.PaymentDiagnostic.create({
+          diagnostic_type: 'receipt_failure',
+          severity: 'warning',
+          status: 'open',
+          order_id: orderId,
+          stripe_event_id: orderBeforeReceipt.stripe_event_id || '',
+          issue_summary: `Receipt delivery needs attention for paid order ${orderId}`,
+          customer_safe_message: 'Your payment was received. Your order remains recorded even if the email receipt is delayed.',
+          admin_message: String(error?.message || error).slice(0, 1000),
+          recommended_fix: 'Verify the connected order email account, then resend the receipt once. Do not change or repeat the payment.',
+          source_chain: 'MerchOrder -> onNewOrderAutomation -> sendOrderReceipt failed',
+        }).catch(() => {});
+        receiptResult = { success: false, error: String(error?.message || error) };
+      }
+    }
 
-    await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ raw: buildMimeMessage({ to: adminEmail, subject: `🛍️ New Order — ${data.customer_name} ($${(data.total_amount || 0).toFixed(2)})`, htmlBody: adminHtml }) })
+    return Response.json({
+      success: true,
+      order_id: orderId,
+      inventory_adjusted: true,
+      admin_notification: 'created_or_already_present',
+      receipt: receiptResult,
     });
+  } catch (error) {
+    if (orderId) {
+      await base44.asServiceRole.entities.MerchOrder.update(orderId, {
+        status: 'needs_admin_review',
+        financial_status: 'order_processing_failed',
+        admin_note: `Order processing failed: ${String(error?.message || error).slice(0, 1000)}`,
+      }).catch(() => {});
 
-    // 3) Customer confirmation email with unsubscribe link
-    const unsubUrl = `https://gannonwaye.com/email-preferences`;
-    const customerHtml = `<!DOCTYPE html><html><body style="background:#0e1117;color:#f0ead6;font-family:Georgia,serif;margin:0;padding:0;">
-<div style="max-width:600px;margin:0 auto;padding:40px 24px;">
-  <div style="text-align:center;margin-bottom:28px;">
-    <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/172f64a6b_0fac46594_generated_image-Edited.png" alt="Gannon Waye" style="height:50px;width:auto;" />
-  </div>
-  <h1 style="color:#f5d06e;font-size:26px;text-align:center;">Preorder Confirmed! 🎉</h1>
-  <p style="text-align:center;color:#c9b99a;font-size:15px;">Thanks ${data.customer_name}, your preorder is locked in.</p>
-  <div style="background:#1a1f2e;border:1px solid #2a2f3e;border-radius:12px;padding:24px;margin:24px 0;">
-    <table style="width:100%;border-collapse:collapse;">${itemsHtml}</table>
-    <p style="color:#f5d06e;font-size:18px;margin-top:16px;margin-bottom:0;"><strong>Total: $${(data.total_amount || 0).toFixed(2)} AUD</strong></p>
-  </div>
-  <div style="background:#1a1f2e;border:1px solid #2a2f3e;border-radius:12px;padding:20px;margin:16px 0;">
-    <p style="color:#999;font-size:12px;margin:0 0 4px;">Shipping to:</p>
-    <p style="margin:0;">${data.shipping_address}</p>
-  </div>
-  <p style="color:#c9b99a;font-size:14px;line-height:1.7;text-align:center;">Your confirmation records the current payment and order status. We'll send shipping details when your order is on its way.</p>
-  <p style="text-align:center;color:#666;font-size:12px;margin-top:32px;">Questions? Reply to this email or visit <a href="https://gannonwaye.com" style="color:#f5d06e;">gannonwaye.com</a></p>
-  <p style="text-align:center;color:#555;font-size:11px;margin-top:16px;">
-    You're receiving this because you placed an order at gannonwaye.com.<br/>
-    <a href="${unsubUrl}" style="color:#888;">Manage email preferences</a>
-  </p>
-</div></body></html>`;
+      if (inventoryLog?.id) {
+        await base44.asServiceRole.entities.IdempotenceLog.update(inventoryLog.id, {
+          result: {
+            status: 'failed',
+            order_id: orderId,
+            failed_at: new Date().toISOString(),
+            error: String(error?.message || error).slice(0, 1000),
+          },
+        }).catch(() => {});
+      }
 
-    await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ raw: buildMimeMessage({ to: data.customer_email, subject: `Your Gannon Waye preorder is confirmed ✨`, htmlBody: customerHtml }) })
-    });
-
-    // 4) Sync to Google Sheet — fix URL (use slash not colon before append)
-    const checkRes = await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1!A1`,
-      { headers: { Authorization: `Bearer ${sheetAccessToken}` } }
-    );
-    const checkData = await checkRes.json();
-    if (!checkData.values || checkData.values.length === 0) {
-      await fetch(
-        `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1!A1:H1?valueInputOption=RAW`,
-        {
-          method: 'PUT',
-          headers: { Authorization: `Bearer ${sheetAccessToken}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ values: [['Date', 'Customer Name', 'Email', 'Address', 'Items', 'Total (AUD)', 'Status', 'Order ID']] })
-        }
+      await createHealthIssue(
+        base44,
+        `Paid order processing failed for ${orderId}`,
+        String(error?.message || error),
+        orderId,
       );
     }
 
-    const itemsText = items.map(i => `${i.product_name}${i.size ? ` (${i.size})` : ''} x${i.quantity || 1}`).join('; ');
-    await fetch(
-      `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Sheet1!A1:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`,
-      {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${sheetAccessToken}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ values: [[new Date().toLocaleDateString('en-AU'), data.customer_name, data.customer_email, data.shipping_address, itemsText, `$${(data.total_amount || 0).toFixed(2)}`, data.status, data.id]] })
-      }
-    );
-
-    // RECORD IDEMPOTENCE for retry safety
-    await base44.asServiceRole.entities.IdempotenceLog.create({
-      idempotence_key: idempotenceKey,
-      result: { success: true, timestamp: new Date().toISOString() },
-    });
-
-    // Central notification
-    await base44.asServiceRole.functions.invoke('notifyAdmin', {
-      notification_type: 'order',
-      title: `New order from ${data.customer_name} — $${(data.total_amount || 0).toFixed(2)}`,
-      summary: items.map(i => `${i.product_name}${i.size ? ` (${i.size})` : ''} x${i.quantity || 1}`).join(', '),
-      severity: 'info',
-      linked_route: '/admin/orders',
-      linked_entity: 'MerchOrder',
-      linked_id: data.id,
-      requires_action: false,
-      source: 'MerchOrder',
-    });
-
-    return Response.json({ success: true });
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    return Response.json({
+      success: false,
+      order_id: orderId || null,
+      error: String(error?.message || error),
+    }, { status: 500 });
   }
 });
