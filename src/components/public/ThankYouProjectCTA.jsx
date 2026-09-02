@@ -1,25 +1,24 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Heart, Users, Music, ShoppingBag, Share2, Sparkles } from 'lucide-react';
+import { Music, ShoppingBag, Share2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// Thank You Project support CTA — drives donations, subscriptions, and community growth
 export default function ThankYouProjectCTA({ variant = 'banner', context = '' }) {
+  const message = context || 'Listen to the music, explore the current merchandise, and share the story with someone who may need it.';
+
   if (variant === 'compact') {
     return (
       <div className="bg-primary/5 border border-primary/20 rounded-xl p-5 text-center">
-        <p className="font-body text-xs text-foreground/70 mb-3">
-          {context || 'Support the Thank You Project — help fund more music and healing.'}
-        </p>
+        <p className="font-body text-xs text-foreground/70 mb-3">{message}</p>
         <div className="flex flex-wrap gap-2 justify-center">
-          <Link to="/back-this">
+          <Link to="/store">
             <Button size="sm" className="rounded-full gradient-gold-button border-0 font-body text-xs tracking-wider uppercase gap-1.5">
-              <Heart className="w-3 h-3" /> Donate
+              <ShoppingBag className="w-3 h-3" /> Visit Store
             </Button>
           </Link>
-          <Link to="/community">
+          <Link to="/music">
             <Button size="sm" variant="outline" className="rounded-full font-body text-xs tracking-wider uppercase gap-1.5 border-primary/30 text-primary">
-              <Users className="w-3 h-3" /> Join Community
+              <Music className="w-3 h-3" /> Listen
             </Button>
           </Link>
         </div>
@@ -38,7 +37,6 @@ export default function ThankYouProjectCTA({ variant = 'banner', context = '' })
         border: '1px solid rgba(212,175,55,0.2)',
       }}
     >
-      {/* Ambient glow */}
       <div className="absolute inset-0 pointer-events-none" style={{
         background: 'radial-gradient(ellipse at 50% 0%, rgba(245,208,110,0.08) 0%, transparent 60%)',
       }} />
@@ -49,49 +47,37 @@ export default function ThankYouProjectCTA({ variant = 'banner', context = '' })
           <p className="font-body text-xs tracking-[0.3em] uppercase text-primary/60">The Thank You Project</p>
         </div>
 
-        <h2 className="font-display text-3xl md:text-4xl text-foreground mb-4">
-          Be Part of the Story
-        </h2>
+        <h2 className="font-display text-3xl md:text-4xl text-foreground mb-4">Be Part of the Story</h2>
+        <p className="font-body text-sm md:text-base text-foreground/70 leading-relaxed mb-8">{message}</p>
 
-        <p className="font-body text-sm md:text-base text-foreground/70 leading-relaxed mb-8">
-          {context || 'Every contribution fuels independent music, supports healing, and builds a community where stories matter. 10% of all support goes to 1800RESPECT.'}
-        </p>
-
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-          <Link to="/back-this" className="block">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
+          <Link to="/music" className="block">
             <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center hover:border-primary/30 transition-all">
-              <Heart className="w-5 h-5 text-primary/60 mx-auto mb-2" />
-              <p className="font-body text-xs font-semibold text-foreground">Donate</p>
-              <p className="font-body text-[10px] text-muted-foreground mt-0.5">From $5</p>
-            </div>
-          </Link>
-          <Link to="/community" className="block">
-            <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center hover:border-primary/30 transition-all">
-              <Users className="w-5 h-5 text-primary/60 mx-auto mb-2" />
-              <p className="font-body text-xs font-semibold text-foreground">Join</p>
-              <p className="font-body text-[10px] text-muted-foreground mt-0.5">Free</p>
+              <Music className="w-5 h-5 text-primary/60 mx-auto mb-2" />
+              <p className="font-body text-xs font-semibold text-foreground">Listen</p>
+              <p className="font-body text-[10px] text-muted-foreground mt-0.5">Official music</p>
             </div>
           </Link>
           <Link to="/store" className="block">
             <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center hover:border-primary/30 transition-all">
               <ShoppingBag className="w-5 h-5 text-primary/60 mx-auto mb-2" />
               <p className="font-body text-xs font-semibold text-foreground">Shop</p>
-              <p className="font-body text-[10px] text-muted-foreground mt-0.5">Merch</p>
+              <p className="font-body text-[10px] text-muted-foreground mt-0.5">Current merchandise</p>
             </div>
           </Link>
           <a href="https://www.instagram.com/gann0nwaye" target="_blank" rel="noopener noreferrer" className="block">
             <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center hover:border-primary/30 transition-all">
               <Share2 className="w-5 h-5 text-primary/60 mx-auto mb-2" />
               <p className="font-body text-xs font-semibold text-foreground">Follow</p>
-              <p className="font-body text-[10px] text-muted-foreground mt-0.5">Socials</p>
+              <p className="font-body text-[10px] text-muted-foreground mt-0.5">Creative updates</p>
             </div>
           </a>
         </div>
 
         <div className="flex flex-wrap gap-3 justify-center">
-          <Link to="/back-this">
+          <Link to="/store">
             <Button className="rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase gap-2 px-8">
-              <Heart className="w-4 h-4" /> Support the Project
+              <ShoppingBag className="w-4 h-4" /> Visit the Store
             </Button>
           </Link>
           <Link to="/music">
