@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: store-visuals.spec.js >> Store Visuals — Public safety checks >> homepage loads without console errors
-- Location: src/gannonwaye-playwright-pack/tests/store-visuals.spec.js:36:7
+- Name: store-product-truth.spec.js >> Stage one product truth >> hoodie shows the approved $98 price
+- Location: src/gannonwaye-playwright-pack/tests/store-product-truth.spec.js:18:7
 
 # Error details
 

@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: store-visuals.spec.js >> Store Visuals — Public safety checks >> homepage loads without console errors
-- Location: src/gannonwaye-playwright-pack/tests/store-visuals.spec.js:36:7
+- Name: store-product-truth.spec.js >> Stage one product truth >> both visual layers use the same two database identifiers
+- Location: src/gannonwaye-playwright-pack/tests/store-product-truth.spec.js:33:7
 
 # Error details
 

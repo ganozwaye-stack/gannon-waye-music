@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: store-visuals.spec.js >> Store Visuals — Public safety checks >> homepage loads without console errors
-- Location: src/gannonwaye-playwright-pack/tests/store-visuals.spec.js:36:7
+- Name: store-visuals.spec.js >> Store Visuals — Public safety checks >> checkout route exists
+- Location: src/gannonwaye-playwright-pack/tests/store-visuals.spec.js:30:7
 
 # Error details
 
