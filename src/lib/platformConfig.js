@@ -5,10 +5,10 @@
 
 // Financial Constants
 export const FINANCIAL_CONFIG = {
-  GST_RATE: 0.10, // 10% Australian GST
-  MERCHANT_FEE_RATE: 0.05, // 5% service & processing
-  DEFAULT_MERCHANT_FEE_PERCENT: 3.5, // Stripe/PayPal default
-  CHARITY_DONATION_RATE: 0.10, // 10% to 1800RESPECT
+  GST_RATE: 0, // The business is not currently registered for GST
+  MERCHANT_FEE_RATE: 0, // Payment processing is treated as an internal business cost, not a customer surcharge
+  DEFAULT_MERCHANT_FEE_PERCENT: 3.5, // Internal estimate only until the actual Stripe fee is recorded
+  CHARITY_DONATION_RATE: 0, // Public giving claims are paused until an approved audited policy exists
 };
 
 // Inventory Configuration
@@ -55,9 +55,9 @@ export const EMAIL_CONFIG = {
 
 // Shipping Configuration
 export const SHIPPING_CONFIG = {
-  DOMESTIC_BASE: 12.95,
-  INTERNATIONAL_BASE: 29.95,
-  FREE_SHIPPING_THRESHOLD: 150,
+  DOMESTIC_BASE: 12.50,
+  INTERNATIONAL_BASE: null,
+  FREE_SHIPPING_THRESHOLD: null,
 };
 
 // Campaign Configuration
@@ -87,9 +87,9 @@ export const LEGAL_CONFIG = {
   PRIVACY_POLICY_URL: '/privacy-policy',
   TERMS_OF_SERVICE_URL: '/terms-of-service',
   // IMPORTANT: Do NOT claim tax deductibility unless verified through DGR structure
-  DONATION_DISCLAIMER: '10% of all support received is donated to 1800RESPECT. This is not a tax-deductible donation.',
-  GST_REGISTERED: true,
-  ABN: null, // Add when registered
+  DONATION_DISCLAIMER: 'Purchases and support payments are not represented as charitable donations. Any future giving program requires a separately approved and auditable policy.',
+  GST_REGISTERED: false,
+  ABN: '22 931 809 349',
 };
 
 // Feature Flags
@@ -100,6 +100,9 @@ export const FEATURE_FLAGS = {
   ENABLE_CUSTOMER_PORTAL: false, // Post-launch
   ENABLE_ROLE_BASED_ACCESS: false, // Post-launch
   ENABLE_E2E_TESTING: false, // Post-launch
+  SUPPORT_CONTRIBUTIONS_ENABLED: false,
+  SYSTEMS_MANAGER_PUBLIC_ENABLED: false,
+  AUDIO_SERVICES_PUBLIC_ENABLED: false,
   COACHING_PUBLIC_LAUNCH_ENABLED: false, // Private until legal review and final approval
 };
 
