@@ -1,80 +1,54 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
 
-test.describe('Merch store — product pricing', () => {
+test.describe('Merch store product safeguards', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/store');
-    await page.waitForLoadState('networkidle');
+    await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
   });
 
-  test('Journal bundle shows $59', async ({ page }) => {
-    const cards = page.locator('[data-testid="product-card"]');
-    let found = false;
-    const count = await cards.count();
-    for (let i = 0; i < count; i++) {
-      const card = cards.nth(i);
-      const title = await card.locator('[data-testid="product-title"]').textContent();
-      if (title && title.toLowerCase().includes('journal')) {
-        const price = await card.locator('[data-testid="product-price"]').textContent();
-        expect(price).toContain('59');
-        found = true;
-      }
-    }
-    expect(found).toBe(true);
+  test('journal bundle is $59 and available', async ({ page }) => {
+    const bundle = page.locator('[data-testid="product-card"]').filter({ hasText: 'Journal Pen and Thermos' }).first();
+    await expect(bundle).toBeVisible();
+    await expect(bundle.locator('[data-testid="product-price"]')).toContainText('$59');
+    await expect(bundle.locator('[data-testid="add-to-cart-btn"]')).toBeVisible();
   });
 
-  test('Winter bundle shows $129', async ({ page }) => {
-    const winterSection = page.locator('[data-testid="winter-bundle-hero"]');
-    await expect(winterSection).toBeVisible();
-    await expect(winterSection).toContainText('129');
+  test('hoodie is $98 with only S, M, L and XL', async ({ page }) => {
+    const hoodie = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
+    await expect(hoodie.locator('[data-testid="product-price"]')).toContainText('$98');
+    const sizeButtons = hoodie.getByRole('button').filter({ hasText: /^(S|M|L|XL) \(\d+\)$/ });
+    await expect(sizeButtons).toHaveCount(4);
+    await expect(hoodie.getByRole('button', { name: /XS|2XL|3XL|XXL/ })).toHaveCount(0);
   });
 
-  test('Winter bundle shows no-discount badge', async ({ page }) => {
-    const winterSection = page.locator('[data-testid="winter-bundle-hero"]');
-    await expect(winterSection).toContainText(/no further discounts/i);
+  test('winter bundle, mug and posters are not offered for sale', async ({ page }) => {
+    const body = await page.locator('body').innerText();
+    expect(body).not.toContain('Winter Writing & Comfort Bundle');
+    expect(body).not.toContain('Coffee Mug');
+    expect(body).not.toContain('Wall Poster');
   });
 
-  test('Winter bundle add to cart button is visible', async ({ page }) => {
-    const btn = page.locator('[data-testid="winter-bundle-add-to-cart"]');
-    await expect(btn).toBeVisible();
-  });
-
-  test('Poster product does not show hoodie image exclusively', async ({ page }) => {
-    const cards = page.locator('[data-testid="product-card"]');
-    const count = await cards.count();
-    for (let i = 0; i < count; i++) {
-      const card = cards.nth(i);
-      const title = await card.locator('[data-testid="product-title"]').textContent();
-      if (title && title.toLowerCase().includes('poster')) {
-        const img = card.locator('img').first();
-        const src = await img.getAttribute('src');
-        // Hoodie image should not be the poster image
-        expect(src).not.toContain('RespectisEarnedThankyouDarkGreyHoodieFront');
-      }
-    }
-  });
-});
-
-test.describe('Winter bundle — promo code rejection', () => {
-  test('winter bundle item in cart rejects promo codes', async ({ page }) => {
-    await page.goto('/store');
-    await page.waitForLoadState('networkidle');
-    const addBtn = page.locator('[data-testid="winter-bundle-add-to-cart"]');
-    if (await addBtn.isVisible()) {
-      await addBtn.click();
-      await page.goto('/store/cart-details');
-      await page.waitForLoadState('networkidle');
-      // Try applying a promo code
-      const promoInput = page.locator('input[placeholder*="promo"], input[placeholder*="code"]').first();
-      if (await promoInput.count() > 0) {
-        await promoInput.fill('TEST10');
-        const applyBtn = page.locator('button:has-text("Apply")').first();
-        if (await applyBtn.count() > 0) {
-          await applyBtn.click();
-          // Should show rejection or no discount applied to bundle
-          await expect(page.locator('body')).toContainText(/no further|excluded|not eligible|bundle/i);
-        }
-      }
-    }
+  test('stage one checkout does not expose promo controls', async ({ page }) => {
+    const bundle = page.locator('[data-testid="product-card"]').filter({ hasText: 'Journal Pen and Thermos' }).first();
+    await bundle.locator('[data-testid="add-to-cart-btn"]').click();
+    await page.evaluate(() => {
+      localStorage.setItem('gannon_checkout_details_v1', JSON.stringify({
+        full_name: 'Merch Test',
+        email: 'merch-test@example.com',
+        mobile: '+61 400 000 000',
+        street_address: '123 Test Street',
+        suburb: 'Melbourne',
+        state: 'VIC',
+        postcode: '3000',
+        country: 'Australia',
+        order_support_consent: true,
+        marketing_opt_in: false,
+      }));
+    });
+    await page.goto('/store/checkout');
+    await expect(page.locator('[data-testid="checkout-pay-button"]')).toBeEnabled();
+    await expect(page.locator('[data-testid="promo-code-input"]')).toHaveCount(0);
+    await expect(page.locator('body')).not.toContainText('Apply promo');
   });
 });
