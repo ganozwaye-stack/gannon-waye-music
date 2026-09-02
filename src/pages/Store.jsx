@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Sparkles, ShoppingCart, Plus, ZoomIn } from 'lucide-react';
+import { ShoppingBag, Sparkles, ShoppingCart, Plus, ZoomIn, Heart } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
@@ -355,9 +355,11 @@ export default function Store() {
   const merchProducts = sortedProducts.filter(p => p.category !== 'cd' && p.category !== 'vinyl');
 
   return (
-    <div data-testid="store-page" className={`min-h-screen py-24 px-4 md:px-8 ${hasItems ? 'pb-36' : ''}`}>
-      <div className="max-w-6xl mx-auto">
-        
+    <div data-testid="store-page" className={`min-h-screen pb-24 ${hasItems ? 'pb-36' : ''}`}>
+      {/* Locked boutique hero — the fixed neon storefront render. System rule: never swapped or pasted over. */}
+      <LockedStorefrontHero />
+      <div className="max-w-6xl mx-auto px-4 md:px-8 pt-12">
+
         {/* Cart button handled globally by CartButton component in Navbar — no duplicate needed */}
 
         {/* Page header */}
