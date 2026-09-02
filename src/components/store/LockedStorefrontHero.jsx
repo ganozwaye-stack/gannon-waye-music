@@ -1,16 +1,12 @@
-import { BOUTIQUE_HERO_IMAGE } from '@/config/storeWorldConfig';
+import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
 import NeonBrandTitle from '@/components/store/NeonBrandTitle';
 
-// ─────────────────────────────────────────────────────────────────────────
-// SYSTEM RULE — LOCKED STOREFRONT HERO  (NON-NEGOTIABLE)
-// This neon "GANNON WAYE" retail-store render is the fixed, full-bleed hero
-// of the store. It must NEVER be overridden, swapped, moved, or pasted over
-// by any agent, admin action, or automation. The ONLY permitted change is to
-// the stock shown INSIDE the boutique stage below. Do not edit this URL.
-// ─────────────────────────────────────────────────────────────────────────
 export default function LockedStorefrontHero() {
   return (
     <section
+      data-testid="locked-storefront-world"
+      data-storefront-lock-id={STOREFRONT_ART_LOCK.lockId}
+      aria-label="Permanent Gannon Waye boutique world"
       style={{
         position: 'relative',
         width: '100%',
@@ -21,10 +17,13 @@ export default function LockedStorefrontHero() {
         background: '#0a0a0a',
       }}
     >
-      {/* Fixed storefront image — full-bleed, never moved */}
       <img
-        src={BOUTIQUE_HERO_IMAGE}
-        alt="Gannon Waye Boutique — official merch store"
+        data-testid="locked-storefront-world-image"
+        data-storefront-lock-id={STOREFRONT_ART_LOCK.lockId}
+        data-storefront-image-sha256={STOREFRONT_ART_LOCK.imageSha256}
+        src={STOREFRONT_ART_LOCK.imageUrl}
+        alt="Gannon Waye Boutique, official merchandise store"
+        draggable="false"
         style={{
           position: 'absolute',
           inset: 0,
@@ -32,20 +31,20 @@ export default function LockedStorefrontHero() {
           height: '100%',
           objectFit: 'cover',
           objectPosition: 'center',
+          userSelect: 'none',
+          pointerEvents: 'none',
         }}
       />
 
-      {/* Legibility veil so the headline reads over the neon render */}
       <div
+        aria-hidden="true"
         style={{
           position: 'absolute',
           inset: 0,
-          background:
-            'linear-gradient(to bottom, rgba(8,8,14,0.28) 0%, rgba(8,8,14,0.08) 38%, rgba(8,8,14,0.52) 78%, rgba(8,8,14,0.92) 100%)',
+          background: 'linear-gradient(to bottom, rgba(8,8,14,0.28) 0%, rgba(8,8,14,0.08) 38%, rgba(8,8,14,0.52) 78%, rgba(8,8,14,0.92) 100%)',
         }}
       />
 
-      {/* Centered boutique titleplate */}
       <div
         style={{
           position: 'absolute',
@@ -60,17 +59,16 @@ export default function LockedStorefrontHero() {
       >
         <p
           style={{
-            fontFamily: "'Inter', sans-serif",
+            fontFamily: "'Poppins', sans-serif",
             fontSize: '10px',
             letterSpacing: '0.42em',
             textTransform: 'uppercase',
-            color: 'rgba(212,175,55,0.7)',
+            color: 'rgba(212,175,55,0.72)',
             marginBottom: '14px',
           }}
         >
           Boutique · Step Inside
         </p>
-
         <NeonBrandTitle />
       </div>
     </section>
