@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { calculateShippingQuote } from '../base44/shared/shippingQuote.ts';
+import { calculateShippingQuote } from '../base44/shared/shippingQuote.js';
 
 const root = process.cwd();
 
