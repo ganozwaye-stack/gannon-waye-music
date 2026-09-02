@@ -34,7 +34,6 @@ import StoreCartPage from '@/pages/StoreCartPage.jsx';
 import EmailPreferences from '@/pages/EmailPreferences';
 import FanDashboard from '@/pages/FanDashboard';
 import OrderHistory from '@/pages/OrderHistory';
-import BackThis from '@/pages/BackThis';
 import Videos from '@/pages/Videos';
 import ContactGannon from '@/pages/ContactGannon.jsx';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
@@ -259,8 +258,6 @@ import CinematicWebsites from '@/pages/systems/CinematicWebsites';
 import CaseStudyGannonWaye from '@/pages/systems/CaseStudyGannonWaye';
 import CaseStudyGanozMix from '@/pages/systems/CaseStudyGanozMix';
 import LyricLibrary from '@/pages/LyricLibrary';
-import GiftCards from '@/pages/GiftCards';
-import MixingServices from '@/pages/MixingServices';
 import Biography from '@/pages/Biography';
 import MusicRecommender from '@/pages/MusicRecommender';
 import FanReminders from '@/pages/FanReminders';
@@ -280,7 +277,6 @@ import AutomationAgentsHub from '@/pages/admin/AutomationAgentsHub';
 import SystemsQaHub from '@/pages/admin/SystemsQaHub';
 import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
 import MissionControl from '@/pages/admin/MissionControl';
-import SystemsManagerOffer from '@/pages/SystemsManagerOffer';
 import PrintFulfilment from '@/pages/admin/PrintFulfilment';
 import MumsGarden from '@/pages/MumsGarden';
 import SoniasGarden from '@/pages/SoniasGarden';
@@ -363,7 +359,7 @@ const AuthenticatedApp = () => {
         <Route path="/videos" element={<Videos />} />
         <Route path="/email-preferences" element={<EmailPreferences />} />
         <Route path="/orders" element={<OrderHistory />} />
-        <Route path="/back-this" element={<BackThis />} />
+        <Route path="/back-this" element={<Navigate to="/store" replace />} />
         <Route path="/summary" element={<Summary />} />
         <Route path="/contact" element={<ContactGannon />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
@@ -427,13 +423,13 @@ const AuthenticatedApp = () => {
         )}
 
         {/* Systems Manager — sell this platform to others */}
-        <Route path="/systems-manager" element={<SystemsManagerOffer />} />
+        <Route path="/systems-manager" element={<Navigate to="/contact" replace />} />
         <Route path="/systems/cinematic-websites" element={<CinematicWebsites />} />
         <Route path="/systems/case-studies/gannon-waye-music-os" element={<CaseStudyGannonWaye />} />
         <Route path="/systems/case-studies/ganozmix-direct" element={<CaseStudyGanozMix />} />
         <Route path="/lyric-library" element={<LyricLibrary />} />
-        <Route path="/gift-cards" element={<GiftCards />} />
-        <Route path="/mixing-services" element={<MixingServices />} />
+        <Route path="/gift-cards" element={<Navigate to="/store" replace />} />
+        <Route path="/mixing-services" element={<Navigate to="/contact" replace />} />
         <Route path="/biography" element={<Biography />} />
         <Route path="/discover" element={<MusicRecommender />} />
         <Route path="/fan-reminders" element={<FanReminders />} />
