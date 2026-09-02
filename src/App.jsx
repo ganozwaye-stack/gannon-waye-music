@@ -282,12 +282,10 @@ import SystemsQaHub from '@/pages/admin/SystemsQaHub';
 import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
 import MissionControl from '@/pages/admin/MissionControl';
 import SystemsManagerOffer from '@/pages/SystemsManagerOffer';
-import StoreWorld from '@/pages/StoreWorld';
 import PrintFulfilment from '@/pages/admin/PrintFulfilment';
 import MumsGarden from '@/pages/MumsGarden';
 import SoniasGarden from '@/pages/SoniasGarden';
 import Memorial from '@/pages/Memorial';
-import StoreProductDetail from '@/pages/StoreProductDetail';
 import PriorityCommander from '@/pages/admin/PriorityCommander';
 import ClickAudit from '@/pages/admin/ClickAudit';
 import ReleasesRedirect from '@/pages/Releases';
@@ -360,7 +358,7 @@ const AuthenticatedApp = () => {
         <Route path="/store/all" element={<Navigate to="/store" replace />} />
         <Route path="/store-world" element={<Navigate to="/store" replace />} />
         <Route path="/store/cart" element={<StoreCartPage />} />
-        <Route path="/store/customer-details" element={<StoreCustomerDetails />} />
+        <Route path="/store/customer-details" element={<Navigate to="/store/cart-details" replace />} />
         <Route path="/store/cart-details" element={<StoreCartDetails />} />
         <Route path="/store/checkout" element={<StoreCheckout />} />
         <Route path="/videos" element={<Videos />} />
