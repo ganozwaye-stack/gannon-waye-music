@@ -27,16 +27,21 @@
     },
     "cost_price": {
       "type": "number",
-      "description": "Base cost from supplier"
+      "description": "Recorded product acquisition cost per unit. The verification status is held separately."
     },
     "delivery_cost": {
       "type": "number",
-      "description": "Cost per unit to deliver"
+      "description": "Recorded expected delivery cost per unit for internal margin estimates. Customer shipping is calculated separately at checkout."
+    },
+    "packaging_cost": {
+      "type": "number",
+      "default": 0,
+      "description": "Recorded packaging cost per unit where known."
     },
     "merchant_fee_percent": {
       "type": "number",
       "default": 3.5,
-      "description": "Payment processor fee %"
+      "description": "Payment processor fee percentage used for internal estimates."
     },
     "image_url": {
       "type": "string"
@@ -58,6 +63,71 @@
       "type": "number",
       "default": 0
     },
+    "stock_by_variant": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      },
+      "description": "Owned stock by size or other variant. Variant stock is authoritative when present."
+    },
+    "inventory_source": {
+      "type": "string",
+      "enum": [
+        "owned_stock",
+        "print_on_demand",
+        "dropship",
+        "digital",
+        "other"
+      ],
+      "default": "owned_stock"
+    },
+    "stock_verified_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stock_verification_note": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "cost_verified_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "cost_verification_status": {
+      "type": "string",
+      "enum": [
+        "unverified",
+        "owner_approved_recorded_cost",
+        "invoice_verified"
+      ],
+      "default": "unverified"
+    },
+    "cost_verification_note": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "supplier_url": {
+      "type": "string",
+      "description": "Required only for supplier-driven or print-on-demand inventory."
+    },
+    "shipping_policy": {
+      "type": "string",
+      "enum": [
+        "customer_pays",
+        "included",
+        "local_pickup_only",
+        "quote_required"
+      ],
+      "default": "customer_pays"
+    },
+    "exclude_from_discounts": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_stage_one_sale": {
+      "type": "boolean",
+      "default": false
+    },
     "publication_status": {
       "type": "string",
       "enum": [
@@ -78,29 +148,17 @@
       "type": "string",
       "format": "date-time"
     },
-    "cost_verified_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "stock_verified_at": {
-      "type": "string",
-      "format": "date-time"
-    },
-    "supplier_url": {
-      "type": "string",
-      "description": "Direct supplier or print provider product URL"
-    },
     "is_active": {
       "type": "boolean",
       "default": false
     },
     "profit_margin_percent": {
       "type": "number",
-      "description": "Calculated: (sale_price - cost_price - delivery_cost - fees) / sale_price * 100"
+      "description": "Legacy estimate only. Actual order profit must be calculated from completed order costs."
     },
     "total_profit_per_unit": {
       "type": "number",
-      "description": "Calculated: sale_price - cost_price - delivery_cost - merchant_fee"
+      "description": "Legacy estimate only. Actual order profit must be calculated from completed order costs."
     }
   },
   "required": [
