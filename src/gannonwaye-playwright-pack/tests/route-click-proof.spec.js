@@ -3,8 +3,8 @@
 import { test, expect } from '@playwright/test';
 
 const PUBLIC_ROUTES = [
-  { path: '/store', label: 'Store World' },
-  { path: '/store/all', label: 'Store All Products' },
+  { path: '/store', label: 'Verified Boutique Store' },
+  { path: '/store/all', label: 'Legacy Store Redirect' },
   { path: '/music', label: 'Music' },
   { path: '/lyrics', label: 'Lyrics' },
   { path: '/checkout-success', label: 'Checkout Success' },
@@ -43,7 +43,7 @@ test.describe('Admin Routes Load (require admin auth)', () => {
   }
 });
 
-test.describe('Store Product Detail Routes', () => {
+test.describe('Legacy product URLs fail closed to the verified store', () => {
   const PRODUCT_SLUGS = [
     'winter-writing-comfort-bundle',
     'thankyou-journal-pen-thermos-bundle',
@@ -53,25 +53,26 @@ test.describe('Store Product Detail Routes', () => {
   ];
 
   for (const slug of PRODUCT_SLUGS) {
-    test(`/store/product/${slug} loads`, async ({ page }) => {
+    test(`/store/product/${slug} returns to /store`, async ({ page }) => {
       await page.goto(`/store/product/${slug}`);
-      await expect(page.locator('body')).not.toContainText('Page Not Found');
+      await expect(page).toHaveURL('/store');
+      await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
     });
   }
 });
 
 test.describe('Store card links resolve correctly', () => {
-  test('Store world page loads with product cards', async ({ page }) => {
+  test('Store world and verified product cards share the canonical route', async ({ page }) => {
     await page.goto('/store');
-    // Should show product grid or store world scene
-    await expect(page.locator('body')).not.toContainText('Page Not Found');
+    await expect(page.locator('[data-testid="locked-storefront-world"]')).toBeVisible();
+    await expect(page.locator('[data-testid="product-card"]')).toHaveCount(2);
   });
 
-  test('Store All products shows product grid', async ({ page }) => {
+  test('Store All redirects to the canonical verified store', async ({ page }) => {
     await page.goto('/store/all');
+    await expect(page).toHaveURL('/store');
     await expect(page.locator('[data-testid="store-page"]')).toBeVisible({ timeout: 10000 });
-    const cards = await page.locator('[data-testid="product-card"]').count();
-    expect(cards).toBeGreaterThan(0);
+    await expect(page.locator('[data-testid="product-card"]')).toHaveCount(2);
   });
 });
 
