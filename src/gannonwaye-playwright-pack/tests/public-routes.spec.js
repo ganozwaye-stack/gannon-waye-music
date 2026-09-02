@@ -15,11 +15,12 @@ test.describe('Public routes', () => {
     await expect(page.locator('body')).toBeVisible();
   });
 
-  test('store page loads', async ({ page }) => {
-    // /store is the boutique landing scene; the product grid lives at /store/all
-    await page.goto(`${BASE_URL}/store/all`);
+  test('canonical store loads the locked world and verified products', async ({ page }) => {
+    await page.goto(`${BASE_URL}/store`);
     await page.waitForLoadState('load');
     await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
+    await expect(page.locator('[data-testid="locked-storefront-world"]')).toBeVisible();
+    await expect(page.locator('[data-testid="product-card"]')).toHaveCount(2);
   });
 
   test('music page loads', async ({ page }) => {
