@@ -61,14 +61,10 @@ export default function Footer() {
               <Link to="/lyrics" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Lyrics</Link>
               <Link to="/store" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Store</Link>
               <Link to="/press" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Press</Link>
-              <Link to="/back-this" className="font-body text-sm text-primary hover:text-primary/80 transition-colors">Subscribe 🤍</Link>
               <Link to="/community" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Community</Link>
               <Link to="/biography" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Biography</Link>
               <Link to="/lyric-library" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Lyric Library</Link>
-              <Link to="/mixing-services" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Mixing Services</Link>
-              <Link to="/gift-cards" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Gift Cards</Link>
               <Link to="/remember-mum" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Mum Tribute</Link>
-              <Link to="/systems-manager" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Systems Manager</Link>
               <Link to="/contact" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Contact</Link>
             </div>
           </div>
@@ -97,7 +93,7 @@ export default function Footer() {
           {submitted ? (
             <div className="space-y-2">
               <p className="font-body text-base text-primary">You're in. Thank you for joining Gannon Waye Music. 🤍</p>
-              <p className="font-body text-sm text-muted-foreground">Check your email for a welcome message from Gannon.</p>
+              <p className="font-body text-sm text-muted-foreground">Your details have been added to the update list.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="max-w-sm mx-auto space-y-3">
@@ -157,33 +153,10 @@ export default function Footer() {
           )}
         </div>
 
-        {/* Legal Disclaimers */}
-        <div className="mt-6 text-[10px] text-muted-foreground/60 max-w-2xl mx-auto space-y-1.5 leading-normal">
-          <p>
-            * Support contributions are direct-support gifts to Gannon Waye as an independent artist to fund album production, merchandise sampling, and system operations; they are not tax-deductible.
+        <div className="mt-6 pt-4 border-t border-border/40 flex flex-col items-center gap-2 text-center">
+          <p className="font-body text-[10px] text-muted-foreground/60">
+            Gannon Waye Music · ABN 22 931 809 349 · No GST is charged.
           </p>
-
-        </div>
-
-        <div className="mt-4 pt-4 border-t border-border/40 flex flex-col items-center gap-3 text-center">
-          <div className="flex items-center gap-3">
-            <img
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/094c64c87_image.png"
-              alt="GW Heart"
-              className="w-10 h-10 object-contain"
-            />
-            <Link
-              to="/back-this"
-              className="font-body text-sm text-primary hover:text-primary/80 transition-colors"
-            >
-              Support the project 🤍
-            </Link>
-            <img
-              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/094c64c87_image.png"
-              alt="GW Heart"
-              className="w-10 h-10 object-contain"
-            />
-          </div>
           <p className="font-body text-xs text-muted-foreground">
             © {new Date().getFullYear()} Gannon Waye. All rights reserved.
           </p>
