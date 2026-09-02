@@ -356,9 +356,9 @@ const AuthenticatedApp = () => {
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/music" element={<Music />} />
-        <Route path="/store" element={<StoreWorld />} />
-        <Route path="/store/all" element={<Store />} />
-        <Route path="/store-world" element={<StoreWorld />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/store/all" element={<Navigate to="/store" replace />} />
+        <Route path="/store-world" element={<Navigate to="/store" replace />} />
         <Route path="/store/cart" element={<StoreCartPage />} />
         <Route path="/store/customer-details" element={<StoreCustomerDetails />} />
         <Route path="/store/cart-details" element={<StoreCartDetails />} />
@@ -402,7 +402,7 @@ const AuthenticatedApp = () => {
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/presave" element={<PreSave />} />
         <Route path="/release/:id" element={<ReleaseDetail />} />
-        <Route path="/store/product/:slug" element={<StoreProductDetail />} />
+        <Route path="/store/product/:slug" element={<Navigate to="/store" replace />} />
         <Route path="/releases" element={<ReleasesRedirect />} />
         {/* Gannon is not touring and does not take bookings. Both routes used to be
             dead ends: /tour rendered a tour page for an artist with no dates, and
