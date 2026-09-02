@@ -11,6 +11,7 @@ import ProductDetailModal from '@/components/store/ProductDetailModal';
 import CartDrawer from '@/components/store/CartDrawer';
 import AdminEditButton from '@/components/store/AdminEditButton';
 import NeonBrandTitle from '@/components/store/NeonBrandTitle';
+import LockedStorefrontHero from '@/components/store/LockedStorefrontHero';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
