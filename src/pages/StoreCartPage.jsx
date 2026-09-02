@@ -5,6 +5,13 @@ import { ArrowLeft, ShoppingBag, Trash2, Plus, Minus } from 'lucide-react';
 import { useCartStore } from '@/lib/cartStore';
 import { Button } from '@/components/ui/button';
 
+function availableQuantity(item) {
+  if (item?.size && item?.product?.stock_by_variant && Number.isFinite(Number(item.product.stock_by_variant[item.size]))) {
+    return Math.max(0, Math.trunc(Number(item.product.stock_by_variant[item.size])));
+  }
+  return Math.max(0, Math.trunc(Number(item?.product?.stock_quantity || 0)));
+}
+
 export default function StoreCartPage() {
   const navigate = useNavigate();
   const items = useCartStore(state => Array.isArray(state.items) ? state.items : []);
@@ -94,7 +101,8 @@ export default function StoreCartPage() {
                     <span className="font-body text-sm w-6 text-center">{item.quantity}</span>
                     <button
                       onClick={() => updateQuantity(item.product_id, item.quantity + 1, item.size)}
-                      className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center text-muted-foreground hover:border-primary/40 transition-colors"
+                      disabled={item.quantity >= availableQuantity(item)}
+                      className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center text-muted-foreground hover:border-primary/40 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                     >
                       <Plus className="w-3 h-3" />
                     </button>
@@ -116,7 +124,7 @@ export default function StoreCartPage() {
               <span>Subtotal</span>
               <span className="gradient-gold-glow font-medium">${subtotal.toFixed(2)} AUD</span>
             </div>
-            <p className="font-body text-xs text-muted-foreground mt-1">Shipping calculated at checkout</p>
+            <p className="font-body text-xs text-muted-foreground mt-1">Delivery is calculated before payment from the approved live shipping rule</p>
           </div>
 
           <Button
