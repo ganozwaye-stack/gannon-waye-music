@@ -1,623 +1,355 @@
 /**
- * stripeWebhook — PRIMARY Stripe webhook endpoint (order fulfillment).
+ * Primary Stripe webhook for paid merchandise orders.
  *
- * This is the REQUIRED order fulfillment webhook. It handles:
- *   - checkout.session.completed → MerchOrder creation (primary path)
- *   - Inventory decrement + profit calculation
- *   - Order receipt email
- *   - Admin notification
- *   - Promo usage recording
- *
- * SECURITY: In live mode (sk_live_), STRIPE_WEBHOOK_SECRET is required and
- * unsigned payloads are rejected. In test mode without a secret, unsigned
- * payloads are accepted for local development only.
- *
- * STRIPE REQUIREMENT: Persist the paid order and canonical Stripe event before
- * acknowledging the webhook. Failures return a non-2xx response so Stripe retries.
+ * Core guarantees:
+ * 1. Live events require a valid Stripe signature.
+ * 2. A checkout session can create only one active order.
+ * 3. The paid order and canonical Stripe event are stored before a 2xx response.
+ * 4. GST is recorded as zero while the business is not GST registered.
+ * 5. Inventory and customer communication are delegated to an idempotent order processor.
  */
 
 import Stripe from 'npm:stripe@14.21.0';
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
 
-const ALWAYS_INELIGIBLE_CATEGORIES = [
-  'cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping',
-  'processing', 'fees', 'music', 'limited_edition_music', 'digital_music',
-];
+function parseJsonArray(value) {
+  try {
+    const parsed = typeof value === 'string' ? JSON.parse(value) : value;
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
 
-function isCategoryEligibleForDiscount(category) {
-  if (!category) return true;
-  const cat = category.toLowerCase().trim();
-  return !ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c));
+function formatAddress(session, metadata) {
+  const address = session?.customer_details?.address;
+  if (address) {
+    return [
+      address.line1,
+      address.line2,
+      address.city,
+      address.state,
+      address.postal_code,
+      address.country,
+    ].filter(Boolean).join(', ');
+  }
+  return String(metadata?.shipping_address || '').trim();
+}
+
+function numberOr(value, fallback = 0) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : fallback;
+}
+
+async function createDiagnostic(base44, issueSummary, extra = {}) {
+  try {
+    const existing = await base44.asServiceRole.entities.PaymentDiagnostic.filter({
+      issue_summary: issueSummary,
+      status: 'open',
+    });
+    if (Array.isArray(existing) && existing.length > 0) return existing[0];
+    return await base44.asServiceRole.entities.PaymentDiagnostic.create({
+      diagnostic_type: 'webhook_failure',
+      severity: 'critical',
+      status: 'open',
+      issue_summary: issueSummary,
+      ...extra,
+    });
+  } catch {
+    return null;
+  }
+}
+
+async function persistStripeEvent(base44, event, session, orderId, duplicate) {
+  const existing = await base44.asServiceRole.entities.StripeEventLog.filter({
+    stripe_event_id: event.id,
+  });
+  if (Array.isArray(existing) && existing.length > 0) return existing[0];
+
+  const totalPaid = numberOr(session.amount_total) / 100;
+  return base44.asServiceRole.entities.StripeEventLog.create({
+    stripe_event_id: event.id,
+    event_type: event.type,
+    category: 'revenue',
+    priority: duplicate ? 'low' : 'high',
+    processing_status: duplicate ? 'duplicate' : 'processed',
+    duplicate_detected: duplicate,
+    stripe_object_id: session.id,
+    checkout_session_id: session.id,
+    payment_intent_id: typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id || '',
+    customer_id: typeof session.customer === 'string' ? session.customer : session.customer?.id || '',
+    order_id: orderId,
+    amount: totalPaid,
+    currency: session.currency || 'aud',
+    safe_summary: duplicate
+      ? `Duplicate Stripe delivery skipped. Existing order ${orderId} remains authoritative.`
+      : `Paid checkout captured automatically. Order ${orderId} created for session ${session.id}.`,
+    records_created: duplicate ? '' : `MerchOrder:${orderId}`,
+    records_updated: duplicate ? `MerchOrder:${orderId} unchanged` : '',
+    received_at: new Date().toISOString(),
+    processed_at: new Date().toISOString(),
+    source_chain: duplicate
+      ? 'Stripe -> stripeWebhook -> idempotency check -> duplicate skipped'
+      : 'Stripe -> stripeWebhook -> checkout.session.completed -> MerchOrder',
+  });
+}
+
+async function persistIdempotence(base44, sessionId, eventId, orderId) {
+  const key = `stripe_checkout_session:${sessionId}`;
+  const existing = await base44.asServiceRole.entities.IdempotenceLog.filter({ idempotence_key: key });
+  if (Array.isArray(existing) && existing.length > 0) return existing[0];
+  return base44.asServiceRole.entities.IdempotenceLog.create({
+    idempotence_key: key,
+    created_at: new Date().toISOString(),
+    description: `Stripe checkout session ${sessionId} mapped to MerchOrder ${orderId}`,
+    result: {
+      status: 'processed',
+      stripe_event_id: eventId,
+      stripe_session_id: sessionId,
+      order_id: orderId,
+    },
+  });
+}
+
+async function requestOrderProcessing(base44, orderId, eventId) {
+  try {
+    const response = await base44.asServiceRole.functions.invoke('onNewOrderAutomation', {
+      orderId,
+      stripeEventId: eventId,
+      source: 'stripeWebhook',
+    });
+    return { success: true, response };
+  } catch (error) {
+    await createDiagnostic(base44, `Paid order ${orderId} needs post-payment processing`, {
+      diagnostic_type: 'order_creation_failure',
+      severity: 'critical',
+      order_id: orderId,
+      stripe_event_id: eventId,
+      admin_message: `The paid order was stored, but stock or receipt processing did not complete: ${String(error?.message || error).slice(0, 500)}`,
+      recommended_fix: 'Open the paid order, run the idempotent order processor, and confirm stock adjusted exactly once before fulfilment.',
+      source_chain: 'Stripe -> stripeWebhook -> MerchOrder -> onNewOrderAutomation failed',
+    });
+    return { success: false, error: String(error?.message || error) };
+  }
 }
 
 Deno.serve(async (req) => {
-  // CRITICAL: Create base44 client BEFORE reading the body stream.
-  // Deno's Request body can only be read once. createClientFromRequest reads
-  // headers only, but must be called before req.text() consumes the body.
   const base44 = createClientFromRequest(req);
-
-  const secretKey = (Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
-  const webhookSecret = (Deno.env.get('STRIPE_WEBHOOK_SECRET') || '').trim();
+  const secretKey = String(Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
+  const webhookSecret = String(Deno.env.get('STRIPE_WEBHOOK_SECRET') || '').trim();
   const isLiveMode = secretKey.startsWith('sk_live_');
 
-  // Validate Stripe secret key
-  if (!secretKey || !secretKey.startsWith('sk_')) {
-    return Response.json({ error: 'Stripe not configured' }, { status: 500 });
+  if (!secretKey.startsWith('sk_')) {
+    return Response.json({ error: 'Stripe is not configured.' }, { status: 500 });
   }
 
-  // Read raw body AFTER SDK client creation
-  let body;
+  let rawBody;
   try {
-    body = await req.text();
-  } catch (e) {
-    return Response.json({ error: 'Failed to read body' }, { status: 400 });
+    rawBody = await req.text();
+  } catch {
+    return Response.json({ error: 'Unable to read webhook body.' }, { status: 400 });
   }
 
-  const signature = req.headers.get('stripe-signature');
   const stripe = new Stripe(secretKey);
-
+  const signature = req.headers.get('stripe-signature');
   let event;
 
-  // ── Signature verification ────────────────────────────────────────────
-  // Live mode: STRIPE_WEBHOOK_SECRET is REQUIRED. Reject unsigned payloads.
-  if (isLiveMode) {
-    if (!webhookSecret) {
-      return Response.json({ error: 'STRIPE_WEBHOOK_SECRET not configured — live mode requires signed webhooks' }, { status: 500 });
-    }
-    if (!signature) {
-      return Response.json(
-        {
-          error: 'Missing stripe-signature header — live mode rejects unsigned payloads',
-          webhook_version: '2026-08-25-durable-v3',
-        },
-        { status: 400, headers: { 'x-webhook-version': '2026-08-25-durable-v3' } },
-      );
-    }
-    try {
-      event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
-    } catch (err) {
-      // Log signature failure — fire and forget, do not block the 400
-      (async () => {
-        try {
-          await base44.asServiceRole.entities.PaymentDiagnostic.create({
-            diagnostic_type: 'webhook_signature_failure',
-            severity: 'critical',
-            status: 'open',
-            issue_summary: `stripeWebhook signature failed: ${err.message}`,
-            admin_message: 'Webhook arrived with invalid signature. Check STRIPE_WEBHOOK_SECRET matches Stripe Dashboard → Webhooks → Signing secret.',
-            recommended_fix: 'Open Stripe Dashboard → Developers → Webhooks → stripeWebhook endpoint → Reveal signing secret → update STRIPE_WEBHOOK_SECRET in Base44 Secrets.',
-            webhook_processed: false,
-            source_chain: 'Stripe → stripeWebhook → signature_failed',
-          });
-          await base44.asServiceRole.functions.invoke('notifyAdmin', {
-            notification_type: 'payment_warning',
-            severity: 'critical',
-            title: '🚨 Stripe Webhook Signature Failed',
-            summary: `stripeWebhook verification failed: ${err.message}. Check your signing secrets.`,
-            requires_action: true,
-            linked_route: '/admin/webhook-health',
-            source: 'stripeWebhook',
-          });
-        } catch (_) {}
-      })();
-      return Response.json({ error: 'Webhook signature failed' }, { status: 400 });
-    }
-  } else if (webhookSecret && signature) {
-    // Test mode with secret configured — verify signature
-    try {
-      event = await stripe.webhooks.constructEventAsync(body, signature, webhookSecret);
-    } catch (err) {
-      (async () => {
-        try {
-          await base44.asServiceRole.entities.PaymentDiagnostic.create({
-            diagnostic_type: 'webhook_signature_failure',
-            severity: 'critical',
-            status: 'open',
-            issue_summary: `stripeWebhook signature failed (test mode): ${err.message}`,
-            webhook_processed: false,
-            source_chain: 'Stripe → stripeWebhook → signature_failed',
-          });
-        } catch (_) {}
-      })();
-      return Response.json({ error: 'Webhook signature failed' }, { status: 400 });
-    }
-  } else {
-    // Dev/fallback: no secret or no signature — accept raw JSON (dev only)
-    try {
-      event = JSON.parse(body);
-    } catch {
-      return Response.json({ error: 'Invalid JSON payload' }, { status: 400 });
-    }
-  }
-
-  // Non-order events only need a verified, prompt acknowledgement.
-  // Do not place Base44 API calls before the 2xx: a slow entity query here makes
-  // Stripe mark an otherwise valid delivery as failed. Paid checkout capture
-  // remains strict and synchronous below.
-  if (event.type !== 'checkout.session.completed') {
-    return Response.json(
-      {
-        received: true,
-        stripe_event_id: event.id,
-        event_type: event.type,
-      },
-      {
-        headers: {
-          'x-webhook-version': '2026-08-25-durable-v3',
-          'x-webhook-stage': 'signature_verified_non_order',
-        },
-      },
-    );
-  }
-
-  // Critical payment processing must finish before Stripe receives a 2xx.
-  // An early response lets a serverless runtime terminate the order write.
   try {
-
-    // =============================================
-    // CHECKOUT SESSION COMPLETED — full order chain
-    // (PRIMARY order creation path)
-    // =============================================
-    if (event.type === 'checkout.session.completed') {
-      const session = event.data.object;
-      const meta = session.metadata || {};
-
-      if (session.payment_status !== 'paid') {
-        await base44.asServiceRole.entities.PaymentDiagnostic.create({
-          diagnostic_type: 'webhook_failure',
-          severity: 'high',
-          status: 'open',
-          issue_summary: `checkout.session.completed was not paid for ${session.id}; order creation skipped`,
-          webhook_processed: false,
-          source_chain: 'Stripe → stripeWebhook → checkout_not_paid',
-        }).catch(() => {});
-        return Response.json({ received: true, processed: false, reason: 'checkout_not_paid' });
+    if (isLiveMode) {
+      if (!webhookSecret) {
+        return Response.json({ error: 'Live webhook signing secret is not configured.' }, { status: 500 });
       }
-
-      // Email from Stripe (authoritative) or metadata
-      const customerEmail =
-        session.customer_details?.email ||
-        session.customer_email ||
-        meta.customer_email ||
-        '';
-      const emailMissing = !customerEmail;
-
-      // Parse cart items from metadata
-      let cartItems = [];
-      try {
-        if (meta.items) cartItems = JSON.parse(meta.items);
-      } catch (_) {}
-
-      // Fallback to legacy single-item format
-      if (cartItems.length === 0 && meta.product_id) {
-        cartItems = [{
-          product_id: meta.product_id,
-          product_name: meta.product_name || '',
-          price: parseFloat(meta.sale_price || '0'),
-          quantity: parseInt(meta.quantity || '1', 10),
-          size: meta.size || '',
-          category: meta.product_category || '',
-        }];
+      if (!signature) {
+        return Response.json({ error: 'Missing Stripe signature.' }, { status: 400 });
       }
-
-      if (!Array.isArray(cartItems) || cartItems.length === 0) {
-        await base44.asServiceRole.entities.PaymentDiagnostic.create({
-          diagnostic_type: 'webhook_failure',
-          severity: 'critical',
-          status: 'open',
-          issue_summary: `Paid checkout ${session.id} has no valid cart metadata; refusing to create an empty order`,
-          webhook_processed: false,
-          source_chain: 'Stripe → stripeWebhook → invalid_cart_metadata',
-        }).catch(() => {});
-        return Response.json({ error: 'Paid checkout has no valid cart metadata' }, { status: 500 });
-      }
-
-      const totalPaid = (session.amount_total || 0) / 100;
-      const promoCode = meta.promo_code || '';
-      const discountAmount = parseFloat(meta.discount_amount || '0');
-      const shippingCharged = parseFloat(meta.shipping_amount_aud || '0');
-      const supportContribution = parseFloat(meta.add_support || '0');
-
-      // === IDEMPOTENCY CHECK — a paid Stripe session can create only one active order ===
-      const idempotenceKey = `stripe_checkout_session:${session.id}`;
-      try {
-        const [existingOrders, existingIdempotence] = await Promise.all([
-          base44.asServiceRole.entities.MerchOrder.filter({ stripe_session_id: session.id }),
-          base44.asServiceRole.entities.IdempotenceLog.filter({ idempotence_key: idempotenceKey }),
-        ]);
-        const activeExisting = (existingOrders || []).filter(
-          o => o.status !== 'duplicate' && o.financial_status !== 'duplicate_void'
-        );
-        if (activeExisting.length > 0) {
-          const existingOrderId = activeExisting[0].id;
-          const existingEventLogs = await base44.asServiceRole.entities.StripeEventLog.filter({
-            stripe_event_id: event.id,
-          }).catch(() => []);
-
-          if (!existingEventLogs || existingEventLogs.length === 0) {
-            await base44.asServiceRole.entities.StripeEventLog.create({
-              stripe_event_id: event.id,
-              event_type: event.type,
-              category: 'revenue',
-              priority: 'low',
-              processing_status: 'duplicate',
-              duplicate_detected: true,
-              stripe_object_id: session.id,
-              checkout_session_id: session.id,
-              payment_intent_id: session.payment_intent || '',
-              order_id: existingOrderId,
-              amount: totalPaid,
-              currency: session.currency || 'aud',
-              safe_summary: `Duplicate delivery skipped — active MerchOrder ${existingOrderId} already exists for session ${session.id}`,
-              records_updated: `MerchOrder:${existingOrderId} unchanged`,
-              received_at: new Date().toISOString(),
-              processed_at: new Date().toISOString(),
-              source_chain: 'Stripe → stripeWebhook → idempotency_check → duplicate_skipped',
-            });
-          }
-
-          if (!existingIdempotence || existingIdempotence.length === 0) {
-            await base44.asServiceRole.entities.IdempotenceLog.create({
-              idempotence_key: idempotenceKey,
-              created_at: new Date().toISOString(),
-              description: `Stripe checkout session ${session.id} already mapped to MerchOrder ${existingOrderId}`,
-              result: {
-                status: 'processed',
-                stripe_event_id: event.id,
-                stripe_session_id: session.id,
-                order_id: existingOrderId,
-              },
-            });
-          }
-
-          return Response.json({ received: true, duplicate: true, order_id: existingOrderId });
-        }
-      } catch (idempotencyError) {
-        await base44.asServiceRole.entities.PaymentDiagnostic.create({
-          diagnostic_type: 'webhook_failure',
-          severity: 'critical',
-          status: 'open',
-          issue_summary: `stripeWebhook idempotency check failed for ${session.id}: ${idempotencyError.message}`,
-          webhook_processed: false,
-          source_chain: 'Stripe → stripeWebhook → idempotency_check_failed',
-        }).catch(() => {});
-        return Response.json({ error: 'Webhook idempotency check failed' }, { status: 500 });
-      }
-
-      // === CREATE MERCH ORDER ===
-      let orderId = null;
-      try {
-        const order = await base44.asServiceRole.entities.MerchOrder.create({
-          customer_name: meta.customer_name || session.customer_details?.name || '',
-          customer_email: customerEmail,
-          shipping_address: meta.shipping_address || '',
-          items: cartItems.map(item => ({
-            product_id: item.product_id || '',
-            product_name: item.product_name || '',
-            size: item.size || '',
-            quantity: item.quantity || 1,
-            price: item.price || 0,
-            category: item.category || '',
-          })),
-          total_amount: totalPaid,
-          promo_code: promoCode || null,
-          discount_amount: discountAmount,
-          shipping_amount: shippingCharged,
-          support_contribution: supportContribution,
-          stripe_session_id: session.id,
-          stripe_payment_intent: session.payment_intent || '',
-          status: emailMissing ? 'needs_admin_review' : 'confirmed',
-          payment_status: 'paid',
-          notes: [
-            `Stripe Session: ${session.id}`,
-            promoCode ? `Promo: ${promoCode} — $${discountAmount.toFixed(2)} off` : null,
-            shippingCharged > 0 ? `Shipping charged: $${shippingCharged.toFixed(2)} AUD` : null,
-            supportContribution > 0 ? `Support contribution: $${supportContribution.toFixed(2)} AUD` : null,
-            emailMissing ? 'WARNING: Customer email missing — needs admin review' : null,
-            `source_chain: stripeWebhook:checkout.session.completed`,
-          ].filter(Boolean).join(' | '),
-        });
-        orderId = order?.id || null;
-      } catch (orderErr) {
-        try {
-          await base44.asServiceRole.functions.invoke('notifyAdmin', {
-            notification_type: 'payment_warning',
-            severity: 'high',
-            title: 'Order creation failed after payment',
-            summary: `Payment succeeded (${session.id}) but order record failed: ${orderErr.message}`,
-            requires_action: true,
-            linked_route: '/admin/payment-diagnostics',
-            source: 'stripeWebhook',
-          });
-          await base44.asServiceRole.entities.SystemHealthIssue.create({
-            system_area: 'payments',
-            issue_title: `Order creation failed for session ${session.id}`,
-            severity: 'critical',
-            detected_by: 'stripeWebhook',
-            recommended_fix: `Manually create MerchOrder for session ${session.id}. Customer: ${customerEmail}`,
-            status: 'open',
-            risk_type: 'financial',
-          });
-        } catch (_) {}
-        return Response.json({ error: 'Paid order creation failed' }, { status: 500 });
-      }
-
-      if (!orderId) {
-        return Response.json({ error: 'Paid order creation returned no order ID' }, { status: 500 });
-      }
-
-      // Persist the canonical evt_ record and session gate before non-critical work.
-      const processedAt = new Date().toISOString();
-      try {
-        const existingEventLogs = await base44.asServiceRole.entities.StripeEventLog.filter({
-          stripe_event_id: event.id,
-        });
-        if (!existingEventLogs || existingEventLogs.length === 0) {
-          await base44.asServiceRole.entities.StripeEventLog.create({
-            stripe_event_id: event.id,
-            event_type: event.type,
-            category: 'revenue',
-            priority: 'high',
-            processing_status: 'processed',
-            duplicate_detected: false,
-            stripe_object_id: session.id,
-            checkout_session_id: session.id,
-            payment_intent_id: session.payment_intent || '',
-            customer_id: customerEmail,
-            order_id: orderId,
-            amount: totalPaid,
-            currency: session.currency || 'aud',
-            safe_summary: `Paid checkout captured automatically — MerchOrder ${orderId} created for session ${session.id}`,
-            records_created: `MerchOrder:${orderId}`,
-            received_at: processedAt,
-            processed_at: processedAt,
-            source_chain: 'Stripe → stripeWebhook → checkout.session.completed → MerchOrder',
-          });
-        }
-
-        const existingIdempotence = await base44.asServiceRole.entities.IdempotenceLog.filter({
-          idempotence_key: idempotenceKey,
-        });
-        if (!existingIdempotence || existingIdempotence.length === 0) {
-          await base44.asServiceRole.entities.IdempotenceLog.create({
-            idempotence_key: idempotenceKey,
-            created_at: processedAt,
-            description: `Stripe checkout session ${session.id} mapped to MerchOrder ${orderId}`,
-            result: {
-              status: 'processed',
-              stripe_event_id: event.id,
-              stripe_session_id: session.id,
-              order_id: orderId,
-            },
-          });
-        }
-      } catch (persistenceError) {
-        await base44.asServiceRole.entities.PaymentDiagnostic.create({
-          diagnostic_type: 'webhook_failure',
-          severity: 'critical',
-          status: 'open',
-          issue_summary: `stripeWebhook persistence failed after order ${orderId}: ${persistenceError.message}`,
-          webhook_processed: false,
-          source_chain: 'Stripe → stripeWebhook → canonical_event_persistence_failed',
-        }).catch(() => {});
-        return Response.json({ error: 'Webhook persistence failed' }, { status: 500 });
-      }
-
-      // MerchOrder entity automations own inventory, receipts, Sheets and alerts.
-      // ACK now so those downstream integrations can never block Stripe capture.
-      return Response.json({
-        received: true,
-        order_id: orderId,
-        stripe_event_id: event.id,
-      });
-
-      // Legacy downstream path retained temporarily for audit; unreachable for checkout events.
-      // === INVENTORY DECREMENT + PROFIT CALCULATION per item ===
-      for (const item of cartItems) {
-        if (!item.product_id) continue;
-        const quantity = item.quantity || 1;
-        const itemRevenue = (item.price || 0) * quantity;
-
-        try {
-          const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: item.product_id });
-          if (products && products.length > 0) {
-            const product = products[0];
-            const currentStock = product.stock_quantity || 0;
-            const newStock = Math.max(0, currentStock - quantity);
-
-            await base44.asServiceRole.entities.MerchProduct.update(item.product_id, {
-              stock_quantity: newStock,
-            });
-
-            if (newStock === 0) {
-              await base44.asServiceRole.functions.invoke('notifyAdmin', {
-                notification_type: 'system',
-                severity: 'high',
-                title: `SOLD OUT: ${product.name}`,
-                summary: `${product.name} is now out of stock after order ${session.id}`,
-                requires_action: true,
-                linked_route: '/admin/merch',
-                source: 'stripeWebhook',
-              });
-            } else if (newStock <= 5) {
-              await base44.asServiceRole.functions.invoke('notifyAdmin', {
-                notification_type: 'system',
-                severity: 'warning',
-                title: `Low stock: ${product.name} (${newStock} left)`,
-                summary: `Only ${newStock} units remaining after order ${session.id}`,
-                requires_action: false,
-                linked_route: '/admin/merch',
-                source: 'stripeWebhook',
-              });
-            }
-
-            // === PROFIT CALCULATION ===
-            const costPrice = product.cost_price || 0;
-            const deliveryCost = product.delivery_cost || 0;
-            const merchantFeePercent = product.merchant_fee_percent || 3.5;
-
-            const itemCost = costPrice * quantity;
-            const itemDeliveryCost = deliveryCost * quantity;
-            const merchantFee = (itemRevenue * merchantFeePercent) / 100;
-
-            let itemDiscount = 0;
-            if (discountAmount > 0 && isCategoryEligibleForDiscount(item.category || product.category || '')) {
-              const eligibleCartTotal = cartItems
-                .filter(ci => isCategoryEligibleForDiscount(ci.category || ''))
-                .reduce((sum, ci) => sum + (ci.price || 0) * (ci.quantity || 1), 0);
-              if (eligibleCartTotal > 0) {
-                itemDiscount = (itemRevenue / eligibleCartTotal) * discountAmount;
-              }
-            }
-
-            const itemShippingContrib = cartItems.length > 1 && shippingCharged > 0
-              ? shippingCharged * (quantity / cartItems.reduce((s, ci) => s + (ci.quantity || 1), 0))
-              : shippingCharged;
-
-            const grossProfit = (itemRevenue - itemDiscount) - itemCost - itemDeliveryCost - merchantFee;
-            const profitMargin = itemRevenue > 0 ? (grossProfit / itemRevenue) * 100 : 0;
-
-            await base44.asServiceRole.entities.StripeEventLog.create({
-              stripe_event_id: `${event.id}_item_${item.product_id}`,
-              event_type: 'checkout.item.fulfilled',
-              category: 'revenue',
-              priority: 'high',
-              processing_status: 'processed',
-              stripe_object_id: session.id,
-              checkout_session_id: session.id,
-              payment_intent_id: session.payment_intent || '',
-              customer_id: customerEmail,
-              order_id: orderId || '',
-              amount: itemRevenue,
-              currency: 'aud',
-              safe_summary: `${product.name} × ${quantity} | Revenue: $${itemRevenue.toFixed(2)} | Gross profit: $${grossProfit.toFixed(2)} | Margin: ${profitMargin.toFixed(1)}%`,
-              records_created: `MerchOrder:${orderId}`,
-              records_updated: `MerchProduct:${item.product_id} stock ${currentStock}→${newStock}`,
-              received_at: new Date().toISOString(),
-              processed_at: new Date().toISOString(),
-              source_chain: 'stripeWebhook → inventory_decrement → profit_calc',
-            });
-          }
-        } catch (itemErr) {
-          try {
-            await base44.asServiceRole.entities.SystemHealthIssue.create({
-              system_area: 'payments',
-              issue_title: `Inventory/profit processing failed for ${item.product_name || item.product_id}`,
-              severity: 'warning',
-              detected_by: 'stripeWebhook',
-              recommended_fix: `Manually decrement stock for ${item.product_id} (qty: ${quantity}). Order: ${session.id}. Error: ${itemErr.message}`,
-              status: 'open',
-              risk_type: 'financial',
-            });
-          } catch (_) {}
-        }
-      }
-
-      // === EMAIL MISSING — flag for admin ===
-      if (emailMissing) {
-        try {
-          await base44.asServiceRole.functions.invoke('notifyAdmin', {
-            notification_type: 'payment_warning',
-            severity: 'warning',
-            title: 'Order missing customer email',
-            summary: `Session ${session.id} completed but no customer email captured. Order marked needs_admin_review.`,
-            requires_action: true,
-            linked_route: '/admin/orders',
-            source: 'stripeWebhook',
-          });
-        } catch (_) {}
-      }
-
-      // === ADMIN NOTIFICATION — new order ===
-      try {
-        const itemsSummary = cartItems.map(i => `${i.product_name} ×${i.quantity}`).join(', ');
-        await base44.asServiceRole.functions.invoke('notifyAdmin', {
-          notification_type: 'order',
-          severity: 'info',
-          title: `New order — $${totalPaid.toFixed(2)} AUD`,
-          summary: `${meta.customer_name || 'Customer'} — ${itemsSummary}${promoCode ? ` | Promo: ${promoCode}` : ''}${discountAmount > 0 ? ` (-$${discountAmount.toFixed(2)})` : ''}`,
-          requires_action: true,
-          linked_route: '/admin/orders',
-          source: 'stripeWebhook',
-        });
-      } catch (_) {}
-
-      // === RECORD PROMO USAGE ===
-      if (promoCode && discountAmount > 0) {
-        try {
-          await base44.asServiceRole.functions.invoke('recordPromoUsage', {
-            code: promoCode,
-            email: customerEmail,
-            order_id: orderId || session.id,
-          });
-        } catch (_) {}
-      }
-
-      // === SEND ORDER RECEIPT ===
-      if (customerEmail) {
-        try {
-          await base44.asServiceRole.functions.invoke('sendOrderReceipt', {
-            order_id: orderId || '',
-            session_id: session.id,
-            customer_email: customerEmail,
-            customer_name: meta.customer_name || '',
-            items: cartItems,
-            total_amount: totalPaid,
-            promo_code: promoCode,
-            discount_amount: discountAmount,
-            shipping_amount: shippingCharged,
-          });
-        } catch (_) {}
-      }
+      event = await stripe.webhooks.constructEventAsync(rawBody, signature, webhookSecret);
+    } else if (webhookSecret && signature) {
+      event = await stripe.webhooks.constructEventAsync(rawBody, signature, webhookSecret);
+    } else {
+      event = JSON.parse(rawBody);
     }
-
-    // =============================================
-    // SESSION EXPIRED
-    // =============================================
-    if (event.type === 'checkout.session.expired') {
-      const session = event.data.object;
-      try {
-        await base44.asServiceRole.functions.invoke('notifyAdmin', {
-          notification_type: 'payment_warning',
-          severity: 'warning',
-          title: 'Checkout session expired',
-          summary: `Customer did not complete checkout. Session: ${session.id}`,
-          requires_action: false,
-          linked_route: '/admin/payment-diagnostics',
-          source: 'stripeWebhook',
-        });
-      } catch (_) {}
-    }
-
-    // =============================================
-    // PAYMENT FAILED
-    // =============================================
-    if (event.type === 'payment_intent.payment_failed') {
-      const pi = event.data.object;
-      try {
-        await base44.asServiceRole.functions.invoke('notifyAdmin', {
-          notification_type: 'payment_warning',
-          severity: 'warning',
-          title: 'Payment failed',
-          summary: `PaymentIntent ${pi.id} failed: ${pi.last_payment_error?.message || 'Unknown error'}`,
-          requires_action: false,
-          linked_route: '/admin/payment-diagnostics',
-          source: 'stripeWebhook',
-        });
-      } catch (_) {}
-    }
-
   } catch (error) {
-    await base44.asServiceRole.entities.PaymentDiagnostic.create({
+    await createDiagnostic(base44, `stripeWebhook signature or payload verification failed: ${String(error?.message || error).slice(0, 240)}`, {
+      diagnostic_type: 'webhook_signature_failure',
+      severity: 'critical',
+      admin_message: 'The webhook was rejected before any order or payment record was created.',
+      recommended_fix: 'Verify the Stripe endpoint signing secret and endpoint URL. Do not rotate credentials without owner approval.',
+      source_chain: 'Stripe -> stripeWebhook -> verification failed',
+    });
+    return Response.json({ error: 'Webhook verification failed.' }, { status: 400 });
+  }
+
+  if (event.type !== 'checkout.session.completed') {
+    return Response.json({
+      received: true,
+      stripe_event_id: event.id,
+      event_type: event.type,
+      order_action: 'not_applicable',
+    });
+  }
+
+  const session = event.data?.object;
+  if (!session?.id) {
+    return Response.json({ error: 'Checkout session is missing.' }, { status: 400 });
+  }
+
+  if (session.payment_status !== 'paid') {
+    await createDiagnostic(base44, `Checkout session ${session.id} completed without paid status`, {
       diagnostic_type: 'webhook_failure',
       severity: 'high',
-      status: 'open',
-      issue_summary: `stripeWebhook processing error: ${error.message}`,
-      webhook_processed: false,
-      source_chain: 'Stripe → stripeWebhook → processing_error',
-    }).catch(() => {});
-    return Response.json({ error: 'Webhook processing failed' }, { status: 500 });
+      checkout_session_id: session.id,
+      stripe_event_id: event.id,
+      admin_message: 'No paid order was created because Stripe did not mark the checkout as paid.',
+      recommended_fix: 'Review the checkout session in Stripe before taking any fulfilment action.',
+      source_chain: 'Stripe -> stripeWebhook -> checkout not paid',
+    });
+    return Response.json({ received: true, processed: false, reason: 'checkout_not_paid' });
   }
 
-  return Response.json({ received: true });
+  const metadata = session.metadata || {};
+  const items = parseJsonArray(metadata.items);
+  const customerEmail = String(
+    session.customer_details?.email || session.customer_email || metadata.customer_email || ''
+  ).trim().toLowerCase();
+  const customerName = String(metadata.customer_name || session.customer_details?.name || '').trim();
+
+  if (items.length === 0 || !customerEmail || !customerName) {
+    await createDiagnostic(base44, `Paid checkout ${session.id} has incomplete order metadata`, {
+      diagnostic_type: 'payment_without_order',
+      severity: 'critical',
+      checkout_session_id: session.id,
+      payment_intent_id: typeof session.payment_intent === 'string' ? session.payment_intent : '',
+      stripe_event_id: event.id,
+      amount: numberOr(session.amount_total) / 100,
+      admin_message: 'Payment succeeded but the checkout cannot yet be converted into a complete order record.',
+      recommended_fix: 'Review the Stripe checkout session and create the order from the verified line items. Do not charge the customer again.',
+      source_chain: 'Stripe -> stripeWebhook -> incomplete paid metadata',
+    });
+    return Response.json({ error: 'Paid checkout has incomplete order metadata.' }, { status: 500 });
+  }
+
+  const existingOrders = await base44.asServiceRole.entities.MerchOrder.filter({
+    stripe_session_id: session.id,
+  });
+  const existingOrder = (existingOrders || []).find(order =>
+    order.status !== 'duplicate' && order.financial_status !== 'duplicate_void'
+  );
+
+  if (existingOrder) {
+    try {
+      await persistStripeEvent(base44, event, session, existingOrder.id, true);
+      await persistIdempotence(base44, session.id, event.id, existingOrder.id);
+    } catch (error) {
+      return Response.json({ error: `Duplicate event persistence failed: ${error.message}` }, { status: 500 });
+    }
+
+    const postProcessing = existingOrder.inventory_adjusted
+      ? { success: true, skipped: true }
+      : await requestOrderProcessing(base44, existingOrder.id, event.id);
+
+    return Response.json({
+      received: true,
+      duplicate: true,
+      order_id: existingOrder.id,
+      post_processing: postProcessing.success ? 'complete_or_queued' : 'needs_attention',
+    });
+  }
+
+  const subtotal = numberOr(metadata.subtotal_amount_aud, items.reduce((sum, item) =>
+    sum + numberOr(item.price) * numberOr(item.quantity, 1), 0
+  ));
+  const shipping = numberOr(metadata.shipping_amount_aud);
+  const paidTotal = numberOr(session.amount_total) / 100;
+  const expectedTotal = subtotal + shipping;
+  const totalMismatch = Math.abs(paidTotal - expectedTotal) > 0.01;
+
+  let order;
+  try {
+    order = await base44.asServiceRole.entities.MerchOrder.create({
+      customer_name: customerName,
+      customer_email: customerEmail,
+      shipping_address: formatAddress(session, metadata),
+      items: items.map(item => ({
+        product_id: String(item.product_id || ''),
+        product_name: String(item.product_name || ''),
+        size: String(item.size || ''),
+        quantity: numberOr(item.quantity, 1),
+        price: numberOr(item.price),
+        category: String(item.category || ''),
+        recorded_unit_cost: numberOr(item.recorded_unit_cost),
+        recorded_packaging_cost: numberOr(item.recorded_packaging_cost),
+      })),
+      total_amount: paidTotal,
+      subtotal_amount: subtotal,
+      shipping_amount: shipping,
+      discount_amount: 0,
+      support_contribution: 0,
+      gst_amount: 0,
+      abn: '22931809349',
+      shipping_rule_id: String(metadata.shipping_rule_id || ''),
+      shipping_rule_name: String(metadata.shipping_rule_name || ''),
+      checkout_policy: String(metadata.checkout_policy || 'stage_one_owned_stock_v1'),
+      order_source: 'stripe_webhook',
+      stripe_event_id: event.id,
+      stripe_session_id: session.id,
+      stripe_payment_intent: typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id || '',
+      payment_status: 'paid',
+      status: totalMismatch ? 'needs_admin_review' : 'confirmed',
+      financial_status: totalMismatch ? 'captured_total_mismatch_review' : 'captured',
+      fulfillment_status: 'unfulfilled',
+      inventory_adjusted: false,
+      profit_status: 'pending_costs',
+      receipt_sent: false,
+      receipt_status: 'not_attempted',
+      admin_notification_sent: false,
+      admin_notification_status: 'not_attempted',
+      ledger_sync_status: 'not_attempted',
+      excluded_from_1800respect_donation: true,
+      notes: [
+        `Stripe event: ${event.id}`,
+        `Stripe session: ${session.id}`,
+        `Checkout policy: ${metadata.checkout_policy || 'stage_one_owned_stock_v1'}`,
+        totalMismatch ? `WARNING: paid total ${paidTotal.toFixed(2)} differs from metadata total ${expectedTotal.toFixed(2)}` : null,
+      ].filter(Boolean).join(' | '),
+    });
+  } catch (error) {
+    await createDiagnostic(base44, `Paid order creation failed for session ${session.id}`, {
+      diagnostic_type: 'payment_without_order',
+      severity: 'critical',
+      checkout_session_id: session.id,
+      payment_intent_id: typeof session.payment_intent === 'string' ? session.payment_intent : '',
+      stripe_event_id: event.id,
+      amount: paidTotal,
+      admin_message: `Stripe recorded a paid checkout, but MerchOrder creation failed: ${String(error?.message || error).slice(0, 500)}`,
+      recommended_fix: 'Create the order from this Stripe session and do not charge the customer again.',
+      source_chain: 'Stripe -> stripeWebhook -> MerchOrder create failed',
+    });
+    return Response.json({ error: 'Paid order creation failed.' }, { status: 500 });
+  }
+
+  try {
+    await persistStripeEvent(base44, event, session, order.id, false);
+    await persistIdempotence(base44, session.id, event.id, order.id);
+  } catch (error) {
+    await createDiagnostic(base44, `Canonical event persistence failed after order ${order.id}`, {
+      diagnostic_type: 'webhook_failure',
+      severity: 'critical',
+      order_id: order.id,
+      stripe_event_id: event.id,
+      checkout_session_id: session.id,
+      admin_message: 'The order exists, but the canonical Stripe event or idempotence record did not persist.',
+      recommended_fix: 'Retry the Stripe event after checking that the existing order remains the only active order for the session.',
+      source_chain: 'Stripe -> stripeWebhook -> canonical persistence failed',
+    });
+    return Response.json({ error: 'Canonical event persistence failed.' }, { status: 500 });
+  }
+
+  const postProcessing = await requestOrderProcessing(base44, order.id, event.id);
+
+  return Response.json({
+    received: true,
+    order_id: order.id,
+    stripe_event_id: event.id,
+    post_processing: postProcessing.success ? 'complete_or_queued' : 'needs_attention',
+  });
 });
