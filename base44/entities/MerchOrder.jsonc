@@ -32,8 +32,13 @@
             "type": "number"
           },
           "category": {
-            "type": "string",
-            "description": "Product category for revenue/charity exclusions (apparel, accessories, vinyl, cd, poster, bundle, other)"
+            "type": "string"
+          },
+          "recorded_unit_cost": {
+            "type": "number"
+          },
+          "recorded_packaging_cost": {
+            "type": "number"
           }
         }
       }
@@ -42,8 +47,7 @@
       "type": "number"
     },
     "subtotal_amount": {
-      "type": "number",
-      "description": "Sum of item prices \u00d7 quantities before shipping/discount"
+      "type": "number"
     },
     "shipping_amount": {
       "type": "number",
@@ -55,19 +59,35 @@
     },
     "support_contribution": {
       "type": "number",
-      "default": 0,
-      "description": "Optional fan support contribution included in total"
+      "default": 0
     },
-    "promo_code": {
+    "gst_amount": {
+      "type": "number",
+      "default": 0
+    },
+    "abn": {
+      "type": "string"
+    },
+    "shipping_rule_id": {
+      "type": "string"
+    },
+    "shipping_rule_name": {
+      "type": "string"
+    },
+    "checkout_policy": {
+      "type": "string"
+    },
+    "order_source": {
+      "type": "string"
+    },
+    "stripe_event_id": {
       "type": "string"
     },
     "stripe_session_id": {
-      "type": "string",
-      "description": "Stripe Checkout Session ID \u2014 primary key for reconciling paid sessions"
+      "type": "string"
     },
     "stripe_payment_intent": {
-      "type": "string",
-      "description": "Stripe Payment Intent ID captured from webhook"
+      "type": "string"
     },
     "payment_status": {
       "type": "string",
@@ -95,27 +115,100 @@
       "default": "pending"
     },
     "financial_status": {
-      "type": "string",
-      "description": "Free-text reconciliation label (e.g. captured, refunded, disputed, under_review)"
+      "type": "string"
     },
     "fulfillment_status": {
-      "type": "string",
-      "description": "Free-text fulfillment label (e.g. unfulfilled, in_progress, shipped, delivered)"
+      "type": "string"
     },
     "tracking_number": {
       "type": "string"
+    },
+    "inventory_adjusted": {
+      "type": "boolean",
+      "default": false
+    },
+    "inventory_adjusted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "inventory_adjustment_details": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "product_cost_total": {
+      "type": "number"
+    },
+    "packaging_cost_total": {
+      "type": "number"
+    },
+    "estimated_delivery_cost": {
+      "type": "number"
+    },
+    "actual_delivery_cost": {
+      "type": "number"
+    },
+    "payment_fee_amount": {
+      "type": "number"
+    },
+    "estimated_net_order_profit": {
+      "type": "number"
+    },
+    "net_order_profit": {
+      "type": "number"
+    },
+    "profit_status": {
+      "type": "string",
+      "enum": [
+        "pending_costs",
+        "estimated",
+        "final"
+      ],
+      "default": "pending_costs"
+    },
+    "profit_calculated_at": {
+      "type": "string",
+      "format": "date-time"
     },
     "receipt_sent": {
       "type": "boolean",
       "default": false
     },
+    "receipt_status": {
+      "type": "string",
+      "enum": [
+        "not_attempted",
+        "sent",
+        "failed",
+        "not_required"
+      ],
+      "default": "not_attempted"
+    },
     "admin_notification_sent": {
       "type": "boolean",
       "default": false
     },
-    "duplicate_of_order_id": {
+    "admin_notification_status": {
       "type": "string",
-      "description": "If this order is a duplicate, the ID of the original MerchOrder"
+      "enum": [
+        "not_attempted",
+        "created",
+        "failed"
+      ],
+      "default": "not_attempted"
+    },
+    "ledger_sync_status": {
+      "type": "string",
+      "enum": [
+        "not_attempted",
+        "synced",
+        "failed"
+      ],
+      "default": "not_attempted"
+    },
+    "duplicate_of_order_id": {
+      "type": "string"
     },
     "excluded_from_revenue": {
       "type": "boolean",
@@ -131,7 +224,7 @@
     },
     "excluded_from_1800respect_donation": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "admin_note": {
       "type": "string"
