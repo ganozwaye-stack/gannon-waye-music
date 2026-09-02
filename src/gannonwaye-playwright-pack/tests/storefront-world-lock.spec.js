@@ -56,8 +56,10 @@ test.describe('Permanent boutique world and verified store', () => {
     await page.goto('/store');
 
     await page.locator(`[data-testid="world-product-card"][data-product-id="${JOURNAL_BUNDLE_ID}"]`).click();
-    await expect(page.getByRole('heading', { name: 'Thank You Journal Pen and Thermos Flask Bundle' })).toBeVisible();
-    await expect(page.getByText('$59 AUD', { exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Add to Cart/ })).toBeVisible();
+    const modal = page.locator('[data-testid="product-detail-modal"]');
+    await expect(modal).toBeVisible();
+    await expect(modal.getByRole('heading', { name: 'Thank You Journal Pen and Thermos Flask Bundle' })).toBeVisible();
+    await expect(modal.getByText('$59 AUD', { exact: true })).toBeVisible();
+    await expect(modal.getByRole('button', { name: /Add to Cart/ })).toBeVisible();
   });
 });
