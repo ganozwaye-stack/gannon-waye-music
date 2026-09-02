@@ -8,7 +8,7 @@ import { base44 } from '@/api/base44Client';
 const FALLBACK_HEADSHOT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cb360d5ee_image.png';
 
 const MISSION =
-  "To reach people who need a voice or a song for what they cannot yet say. Independent, heart-first art, with 10% of support contributions going to 1800RESPECT.";
+  "To reach people who need a voice or a song for what they cannot yet say through independent, emotionally honest music and storytelling.";
 
 const BIO =
   "Gannon Waye is an Adelaide-born, Melbourne-based independent singer songwriter. Raised without access to formal music lessons, he built his voice through school choirs, church, worship ministry, drag performance and community stages. His contemporary pop work transforms grief, family violence, abusive relationships, addiction, PTSD and rebuilding into honest music for people who need to feel less alone.";
