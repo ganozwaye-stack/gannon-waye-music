@@ -3,6 +3,13 @@ import { ShoppingCart, Minus, Plus, Trash2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
+function availableQuantity(item) {
+  if (item?.size && item?.product?.stock_by_variant && Number.isFinite(Number(item.product.stock_by_variant[item.size]))) {
+    return Math.max(0, Math.trunc(Number(item.product.stock_by_variant[item.size])));
+  }
+  return Math.max(0, Math.trunc(Number(item?.product?.stock_quantity || 0)));
+}
+
 export default function CartDrawer({ isOpen, onClose }) {
   const navigate = useNavigate();
   const rawStore = useCartStore();
@@ -93,7 +100,8 @@ export default function CartDrawer({ isOpen, onClose }) {
                           </span>
                           <button
                             onClick={() => updateQuantity(item.product_id, item.quantity + 1, item.size)}
-                            className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center hover:border-primary/50 transition-colors"
+                            disabled={item.quantity >= availableQuantity(item)}
+                            className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center hover:border-primary/50 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                           >
                             <Plus className="w-3 h-3" />
                           </button>
@@ -117,7 +125,7 @@ export default function CartDrawer({ isOpen, onClose }) {
                   <span className="font-display text-lg text-foreground">${subtotal.toFixed(2)} AUD</span>
                 </div>
                 <p className="font-body text-xs text-muted-foreground/60 mb-4">
-                  Shipping and discounts calculated at checkout
+                  Delivery is calculated before payment from the approved live shipping rule
                 </p>
               </div>
               
