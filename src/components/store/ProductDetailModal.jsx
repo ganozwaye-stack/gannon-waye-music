@@ -57,6 +57,10 @@ export default function ProductDetailModal({ product, allImages, onClose }) {
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4 pointer-events-none">
         <div
+          role="dialog"
+          aria-modal="true"
+          aria-label={product.name}
+          data-testid="product-detail-modal"
           className="relative bg-card border border-border/40 rounded-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto pointer-events-auto"
           onClick={e => e.stopPropagation()}
         >
