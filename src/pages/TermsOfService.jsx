@@ -12,7 +12,7 @@ export default function TermsOfService() {
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Legal</p>
           <h1 className="font-display text-4xl md:text-5xl text-foreground mb-4">Terms of Service</h1>
-          <p className="font-body text-sm text-muted-foreground">Last updated: May 7, 2026</p>
+          <p className="font-body text-sm text-muted-foreground">Last updated: 3 September 2026</p>
         </motion.div>
 
         <div className="space-y-8 font-body text-foreground/75 leading-relaxed text-sm">
@@ -34,19 +34,12 @@ export default function TermsOfService() {
 
           <section>
             <h2 className="font-display text-xl text-foreground mb-3">3. Merchandise & Orders</h2>
-            <p>All merchandise purchases are subject to availability. Preorders are charged at the time of order confirmation. Shipping estimates are provided in good faith but may vary. We reserve the right to cancel or refund orders if fulfilment is not possible.</p>
+            <p>Current merchandise purchases are subject to verified stock availability. Product prices are shown in Australian dollars and delivery is shown separately before payment. Current checkout is available for Australian delivery only. Gannon Waye Music is not currently registered for GST, so GST is not charged. If fulfilment becomes impossible after payment, the customer will be contacted and the remedies required by Australian Consumer Law will remain available.</p>
           </section>
 
           <section>
             <h2 className="font-display text-xl text-foreground mb-3">3A. Support Contributions</h2>
-            <p className="mb-2">Support contributions made through this website are voluntary payments to support independent music creation. By making a support contribution, you acknowledge:</p>
-            <ul className="list-disc pl-5 space-y-1">
-              <li>Support contributions are not represented as tax-deductible donations unless deductible gift recipient status is confirmed in writing</li>
-              <li>You may receive a receipt for your personal records, not as tax advice or a tax-deductibility statement</li>
-              <li>10% of all support contributions received each month will be donated to 1800RESPECT</li>
-              <li>Support contributions are non-refundable unless required by Australian Consumer Law</li>
-              <li>Recurring contributions (fortnightly/monthly) will continue until you cancel by emailing hello@gannonwaye.com</li>
-            </ul>
+            <p>The website is not currently accepting standalone or recurring support contributions. Purchases are ordinary commercial transactions and are not represented as charitable donations. Any future support or giving program will require separate published terms, an approved payment flow, and an auditable policy before it is made available.</p>
           </section>
 
           <section>
@@ -86,7 +79,7 @@ export default function TermsOfService() {
 
           <section>
             <h2 className="font-display text-xl text-foreground mb-3">11. Contact</h2>
-            <p>Questions about these terms? Email <a href="mailto:hello@gannonwaye.com" className="text-primary hover:underline">hello@gannonwaye.com</a>.</p>
+            <p>Questions about these terms? Email <a href="mailto:gannonwayemusic@gmail.com" className="text-primary hover:underline">gannonwayemusic@gmail.com</a>.</p>
             <p className="mt-2 text-xs text-muted-foreground">Gannon Waye Music | Melbourne, Victoria, Australia | ABN: 22 931 809 349</p>
           </section>
         </div>
