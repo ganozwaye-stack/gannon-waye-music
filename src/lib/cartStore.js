@@ -38,6 +38,14 @@ try {
   // ignore — SSR or private browsing
 }
 
+function availableQuantity(product, size = null) {
+  if (!product || typeof product !== 'object') return 0;
+  if (size && product.stock_by_variant && Number.isFinite(Number(product.stock_by_variant[size]))) {
+    return Math.max(0, Math.trunc(Number(product.stock_by_variant[size])));
+  }
+  return Math.max(0, Math.trunc(Number(product.stock_quantity || 0)));
+}
+
 function safeItems(raw) {
   if (!Array.isArray(raw)) return [];
   return raw.filter(
@@ -63,18 +71,25 @@ export const useCartStore = create(
           const existingIndex = state.items.findIndex(
             item => item.product_id === product.id && item.size === size
           );
+          const maximum = availableQuantity(product, size);
+          if (maximum <= 0) return { items: state.items };
+
           if (existingIndex >= 0) {
             const newItems = [...state.items];
+            const requested = Number(newItems[existingIndex].quantity || 0) + Number(quantity || 0);
             newItems[existingIndex] = {
               ...newItems[existingIndex],
-              quantity: newItems[existingIndex].quantity + quantity,
+              product,
+              quantity: Math.min(maximum, Math.max(1, Math.trunc(requested))),
             };
             return { items: newItems };
           }
+
+          const initialQuantity = Math.min(maximum, Math.max(1, Math.trunc(Number(quantity || 1))));
           return {
             items: [
               ...state.items,
-              { product_id: product.id, product, quantity, size, added_at: Date.now() },
+              { product_id: product.id, product, quantity: initialQuantity, size, added_at: Date.now() },
             ],
           };
         });
@@ -98,11 +113,15 @@ export const useCartStore = create(
           return;
         }
         set((state) => ({
-          items: state.items.map(item =>
-            item.product_id === productId && item.size === size
-              ? { ...item, quantity }
-              : item
-          ),
+          items: state.items.map(item => {
+            if (item.product_id !== productId || item.size !== size) return item;
+            const maximum = availableQuantity(item.product, size);
+            if (maximum <= 0) return item;
+            return {
+              ...item,
+              quantity: Math.min(maximum, Math.max(1, Math.trunc(Number(quantity || 1)))),
+            };
+          }),
         }));
       },
 
