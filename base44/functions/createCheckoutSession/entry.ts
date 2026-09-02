@@ -1,30 +1,16 @@
 import Stripe from 'npm:stripe@14.21.0';
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
+import {
+  calculateShippingQuote,
+  fromCents,
+  toCents,
+} from '../../shared/shippingQuote.ts';
 
 const ALLOWED_ORIGINS = new Set([
   'https://gannonwaye.com',
   'https://www.gannonwaye.com',
   'https://gannonwaye.base44.app',
 ]);
-
-function mapProductType(category) {
-  const value = String(category || '').toLowerCase().trim();
-  if (value === 'bundle') return 'bundle';
-  if (value === 'vinyl') return 'vinyl';
-  if (value === 'cd') return 'cd';
-  if (['apparel', 'accessories', 'poster'].includes(value)) return 'merch';
-  return 'other';
-}
-
-async function getShippingRule(base44, productType) {
-  const rules = await base44.asServiceRole.entities.ShippingRateRule.filter({
-    region: 'australia',
-    product_type: productType,
-    is_active: true,
-    status: 'live',
-  });
-  return Array.isArray(rules) && rules.length > 0 ? rules[0] : null;
-}
 
 async function ensureSingleOpenDiagnostic(base44, issueSummary, extra = {}) {
   try {
@@ -163,7 +149,6 @@ Deno.serve(async (req) => {
     }
 
     const verifiedItems = [];
-    const shippingRules = new Map();
 
     for (const requested of requestedItems) {
       const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: requested.product_id });
@@ -206,18 +191,6 @@ Deno.serve(async (req) => {
         }, { status: 400 });
       }
 
-      const productType = mapProductType(product.category);
-      if (!shippingRules.has(productType)) {
-        const rule = await getShippingRule(base44, productType);
-        if (!rule) {
-          return Response.json({
-            error: `No approved Australian delivery rule is available for ${productType}.`,
-            external_actions_performed: false,
-          }, { status: 400 });
-        }
-        shippingRules.set(productType, rule);
-      }
-
       verifiedItems.push({
         product_id: product.id,
         product_name: product.name,
@@ -231,15 +204,33 @@ Deno.serve(async (req) => {
       });
     }
 
-    const governingRule = [...shippingRules.values()].sort((a, b) => Number(b.base_rate || 0) - Number(a.base_rate || 0))[0];
-    const totalQuantity = verifiedItems.reduce((sum, item) => sum + item.quantity, 0);
-    const shippingAmount = Number(governingRule.base_rate || 0) + Math.max(0, totalQuantity - 1) * Number(governingRule.additional_item_rate || 0);
-    const displayedShippingAmount = Number(metadata.displayed_shipping_amount);
+    const subtotalAmountCents = verifiedItems.reduce(
+      (sum, item) => sum + toCents(item.price) * item.quantity,
+      0,
+    );
+    const shippingQuote = await calculateShippingQuote({
+      base44,
+      destination: 'australia',
+      items: verifiedItems.map(item => ({ category: item.category, quantity: item.quantity })),
+      cartSubtotalCents: subtotalAmountCents,
+      freeShippingOverride: false,
+    });
 
-    if (!Number.isFinite(displayedShippingAmount) || Math.abs(displayedShippingAmount - shippingAmount) > 0.01) {
+    if (!shippingQuote.ok) {
+      return Response.json({
+        error: shippingQuote.error || 'No approved Australian delivery rule is available.',
+        external_actions_performed: false,
+      }, { status: 400 });
+    }
+
+    const shippingAmountCents = shippingQuote.shippingCostCents;
+    const shippingAmount = fromCents(shippingAmountCents);
+    const displayedShippingAmountCents = toCents(metadata.displayed_shipping_amount);
+
+    if (displayedShippingAmountCents !== shippingAmountCents) {
       return Response.json({
         error: 'Delivery changed while the order was being prepared. Please return to the review page and try again.',
-        expected_shipping_amount: Number(shippingAmount.toFixed(2)),
+        expected_shipping_amount: shippingAmount,
         external_actions_performed: false,
       }, { status: 409 });
     }
@@ -251,25 +242,28 @@ Deno.serve(async (req) => {
           name: item.product_name,
           description: item.size ? `Size: ${item.size}` : undefined,
         },
-        unit_amount: Math.round(item.price * 100),
+        unit_amount: toCents(item.price),
       },
       quantity: item.quantity,
     }));
 
-    lineItems.push({
-      price_data: {
-        currency: 'aud',
-        product_data: {
-          name: 'Australian delivery',
-          description: 'Current stage one combined package delivery charge',
+    if (shippingAmountCents > 0) {
+      lineItems.push({
+        price_data: {
+          currency: 'aud',
+          product_data: {
+            name: 'Australian delivery',
+            description: 'Combined package delivery calculated from the approved live shipping rule',
+          },
+          unit_amount: shippingAmountCents,
         },
-        unit_amount: Math.round(shippingAmount * 100),
-      },
-      quantity: 1,
-    });
+        quantity: 1,
+      });
+    }
 
-    const subtotalAmount = verifiedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    const totalAmount = subtotalAmount + shippingAmount;
+    const totalAmountCents = subtotalAmountCents + shippingAmountCents;
+    const subtotalAmount = fromCents(subtotalAmountCents);
+    const totalAmount = fromCents(totalAmountCents);
     const stripe = new Stripe(secretKey);
     const origin = safeOrigin(req);
     const shippingAddress = String(metadata.shipping_address || '').trim();
@@ -295,8 +289,9 @@ Deno.serve(async (req) => {
         discount_amount_aud: '0.00',
         support_contribution_aud: '0.00',
         total_amount_aud: totalAmount.toFixed(2),
-        shipping_rule_id: governingRule.id || '',
-        shipping_rule_name: String(governingRule.name || '').slice(0, 120),
+        shipping_rule_id: shippingQuote.selectedRuleId || '',
+        shipping_rule_name: String(shippingQuote.selectedRuleName || '').slice(0, 120),
+        shipping_rule_method: shippingQuote.method || '',
         checkout_policy: 'stage_one_owned_stock_v1',
         gst_amount_aud: '0.00',
         abn: '22931809349',
@@ -317,8 +312,8 @@ Deno.serve(async (req) => {
       url: session.url,
       sessionId: session.id,
       subtotal_amount: Number(subtotalAmount.toFixed(2)),
-      shipping_amount: Number(shippingAmount.toFixed(2)),
-      total_amount: Number(totalAmount.toFixed(2)),
+      shipping_amount: shippingAmount,
+      total_amount: totalAmount,
       currency: 'aud',
       gst_amount: 0,
     });
