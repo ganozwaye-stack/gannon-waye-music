@@ -9,13 +9,11 @@
       "type": "string"
     },
     "phone": {
-      "type": "string",
-      "description": "Phone number including country code"
+      "type": "string"
     },
     "date_of_birth": {
       "type": "string",
-      "format": "date",
-      "description": "Date of birth for birthday discounts"
+      "format": "date"
     },
     "how_found": {
       "type": "string",
@@ -28,20 +26,36 @@
         "friend_word_of_mouth",
         "i_know_gannon",
         "other"
-      ],
-      "description": "How the subscriber found the page"
+      ]
+    },
+    "consent_updates": {
+      "type": "boolean",
+      "default": false
+    },
+    "consent_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source": {
+      "type": "string"
+    },
+    "unsubscribed": {
+      "type": "boolean",
+      "default": false
+    },
+    "unsubscribed_at": {
+      "type": "string",
+      "format": "date-time"
     },
     "description": {
       "type": "string",
-      "maxLength": 1000,
-      "description": "Optional notes or context about this subscriber"
+      "maxLength": 1000
     }
   },
   "required": [
     "email",
     "name",
-    "phone",
-    "how_found"
+    "consent_updates"
   ],
   "rls": {
     "create": {},
