@@ -1,6 +1,6 @@
 # DEEGO CONSTITUTION
 
-**v1.0 · 23 August 2026 · Gannon Waye**
+**v1.2 · 3 September 2026 · Gannon Waye**
 
 This file is the canonical rule set for Deego and every agent, human or otherwise, working on
 Gannon Waye Music, Thanking You Kindly, or any connected system.
@@ -282,6 +282,22 @@ emails, product copy, specs, briefs.
 
 ---
 
+## SECTION 14 — Permanent storefront world
+
+The Gannon Waye boutique world is a permanent owner-locked visual asset.
+
+1. Its lock identifier is `gannon-waye-boutique-world-v1`.
+2. Its canonical implementation is `src/config/storefrontArtLock.js`.
+3. It remains visibly present on the public `/store` route.
+4. No agent, automation, redesign, migration, theme change, optimisation, experiment or product workflow may replace, move, crop, hide, regenerate, reinterpret or remove it.
+5. The artwork is presentation only. It never becomes the source of product names, prices, sizes, stock, availability or checkout identifiers.
+6. All sellable product data comes only from verified live `MerchProduct` records that pass the owner approval and stage-one sale gates.
+7. The build must fail when `npm run test:storefront-lock` detects that the artwork, lock fingerprint, route placement or database-only product rule has changed.
+8. A broad instruction such as improve the store, redesign the site, simplify the app or optimise conversion does not authorise a change to this artwork.
+9. Only a new explicit written instruction from Gannon that names the lock identifier and the exact intended change may amend this section.
+
+---
+
 ## AMENDING THIS FILE
 
 Only Gannon amends it, and only deliberately. Every change gets a dated line below.
@@ -296,3 +312,4 @@ decision made on a good day that lands on a bad one.
   Engine PDF, the Income Engine spec, and every decision made on 22 August 2026.
 - **v1.1 · 23 Aug 2026** — Added Section 13, House style. Gannon's instruction: never use a dash as
   punctuation in his work; hyphens only for joining two words.
+- **v1.2 · 3 Sep 2026** — Added Section 14 after Gannon's direct instruction that the boutique world artwork must remain permanently in the shop and no agent may move it. The artwork is locked separately from the database-driven product catalogue.
