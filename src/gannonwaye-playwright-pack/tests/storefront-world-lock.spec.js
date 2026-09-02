@@ -1,7 +1,8 @@
 import { test, expect } from '@playwright/test';
+import { STOREFRONT_ART_LOCK } from '../../config/storefrontArtLock.js';
 
-const LOCKED_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png';
-const LOCKED_SHA256 = '9667a3698d14ec59d8b744d44a54692db5b24aefa09ed90e9344edd17eb83f98';
+const LOCKED_IMAGE = STOREFRONT_ART_LOCK.imageUrl;
+const LOCKED_SHA256 = STOREFRONT_ART_LOCK.imageSha256;
 const HOODIE_ID = '69f11d1fc43e13c61fe6b9d7';
 const JOURNAL_BUNDLE_ID = '69fbd261b760426cede1b7a3';
 
