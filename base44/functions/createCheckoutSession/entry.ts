@@ -1,336 +1,342 @@
 import Stripe from 'npm:stripe@14.21.0';
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
 
-const AU_SHIPPING_FLAT = 12.95;
-const FREE_SHIPPING_THRESHOLD = 150;
-const ADDITIONAL_SHIPPING_PER_ITEM = 2.00;
+const ALLOWED_ORIGINS = new Set([
+  'https://gannonwaye.com',
+  'https://www.gannonwaye.com',
+  'https://gannonwaye.base44.app',
+]);
 
-// Categories that can NEVER be discounted (except owner override)
-const ALWAYS_INELIGIBLE_CATEGORIES = [
-  'cd', 'vinyl', 'song', 'digital', 'support', 'donation', 'shipping',
-  'processing', 'fees', 'music', 'limited_edition_music', 'digital_music',
-  'bundle', 'bundles',
-];
-
-// Categories that don't require shipping
-const NO_SHIPPING_CATEGORIES = ['digital', 'support', 'donation', 'song', 'music', 'digital_music'];
-
-function isInternational(address) {
-  if (!address) return false;
-  const lower = address.toLowerCase();
-  return ['usa', 'united states', 'uk', 'united kingdom', 'canada', 'new zealand', 'nz', 'europe', 'india', 'singapore'].some(k => lower.includes(k));
+function mapProductType(category) {
+  const value = String(category || '').toLowerCase().trim();
+  if (value === 'bundle') return 'bundle';
+  if (value === 'vinyl') return 'vinyl';
+  if (value === 'cd') return 'cd';
+  if (['apparel', 'accessories', 'poster'].includes(value)) return 'merch';
+  return 'other';
 }
 
-function isCategoryEligibleForDiscount(category) {
-  if (!category) return true;
-  const cat = category.toLowerCase().trim();
-  return !ALWAYS_INELIGIBLE_CATEGORIES.some(c => cat.includes(c));
+async function getShippingRule(base44, productType) {
+  const rules = await base44.asServiceRole.entities.ShippingRateRule.filter({
+    region: 'australia',
+    product_type: productType,
+    is_active: true,
+    status: 'live',
+  });
+  return Array.isArray(rules) && rules.length > 0 ? rules[0] : null;
 }
 
-function needsShipping(category) {
-  if (!category) return true;
-  const cat = category.toLowerCase().trim();
-  return !NO_SHIPPING_CATEGORIES.some(c => cat.includes(c));
-}
-
-// ── Deduped PaymentDiagnostic — prevents spamming duplicates ──────────────
-async function ensureSingleOpenDiagnostic(base44, issueSummary, extra) {
+async function ensureSingleOpenDiagnostic(base44, issueSummary, extra = {}) {
   try {
     const existing = await base44.asServiceRole.entities.PaymentDiagnostic.filter({
       issue_summary: issueSummary,
       status: 'open',
     });
-    if (existing && existing.length > 0) return existing[0];
+    if (Array.isArray(existing) && existing.length > 0) return existing[0];
     return await base44.asServiceRole.entities.PaymentDiagnostic.create({
-      diagnostic_type: 'missing_stripe_config',
-      severity: 'critical',
+      diagnostic_type: 'session_creation_failure',
+      severity: 'high',
       status: 'open',
       issue_summary: issueSummary,
       ...extra,
     });
-  } catch (_) { /* best-effort — do not block checkout */ }
+  } catch {
+    return null;
+  }
+}
+
+function safeOrigin(req) {
+  const origin = req.headers.get('origin') || '';
+  return ALLOWED_ORIGINS.has(origin) ? origin : 'https://gannonwaye.com';
+}
+
+function parseCartItems(raw) {
+  if (!raw) return [];
+  try {
+    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+function aggregateRequestedItems(items) {
+  const aggregated = new Map();
+  for (const item of items) {
+    const productId = String(item?.product_id || '').trim();
+    const size = String(item?.size || '').trim();
+    const quantity = Number(item?.quantity || 0);
+    if (!productId || !Number.isInteger(quantity) || quantity <= 0) {
+      throw new Error('Cart contains an invalid product or quantity.');
+    }
+    const key = `${productId}::${size}`;
+    const current = aggregated.get(key) || { product_id: productId, size, quantity: 0 };
+    current.quantity += quantity;
+    aggregated.set(key, current);
+  }
+  return [...aggregated.values()];
 }
 
 Deno.serve(async (req) => {
+  let base44;
   try {
-    const base44 = createClientFromRequest(req);
-    const secretKey = (Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
-    const publishableKey = (Deno.env.get('STRIPE_PUBLISHABLE_KEY') || '').trim();
+    base44 = createClientFromRequest(req);
+    const secretKey = String(Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
+    const publishableKey = String(Deno.env.get('STRIPE_PUBLISHABLE_KEY') || '').trim();
 
-    // ── Validate secret key format ───────────────────────────────────────
-    if (!secretKey || !secretKey.startsWith('sk_')) {
-      const issueSummary = 'STRIPE_SECRET_KEY is missing or invalid (must start with sk_) in createCheckoutSession';
+    if (!secretKey.startsWith('sk_') || !publishableKey.startsWith('pk_')) {
+      const issueSummary = 'Stripe API keys are missing or invalid in createCheckoutSession';
       await ensureSingleOpenDiagnostic(base44, issueSummary, {
-        admin_message: 'Checkout is unavailable — STRIPE_SECRET_KEY is missing or does not start with sk_.',
-        recommended_fix: 'Go to Stripe Dashboard → Developers → API Keys → Reveal secret key → add sk_live_... to Base44 Secrets.',
-        webhook_processed: false,
-        source_chain: 'createCheckoutSession → secret_key_validation_failed',
+        diagnostic_type: 'missing_stripe_config',
+        severity: 'critical',
+        admin_message: 'Checkout was stopped before a Stripe session was created.',
+        recommended_fix: 'Verify the production Stripe secret and publishable keys in Base44 secrets. Do not rotate credentials without owner approval.',
+        source_chain: 'createCheckoutSession -> key_validation_failed',
       });
       return Response.json({
-        error: 'Checkout temporarily unavailable',
-        friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
-        code: 'STRIPE_CONFIG_ERROR',
+        error: 'Checkout is temporarily unavailable.',
+        friendly_message: 'Checkout is temporarily unavailable while payment settings are verified. You have not been charged.',
+        external_actions_performed: false,
       }, { status: 503 });
     }
 
-    // ── Validate publishable key format ──────────────────────────────────
-    if (!publishableKey || !publishableKey.startsWith('pk_')) {
-      const issueSummary = 'STRIPE_PUBLISHABLE_KEY is missing or invalid (must start with pk_) in createCheckoutSession';
+    const secretIsLive = secretKey.startsWith('sk_live_');
+    const publishableIsLive = publishableKey.startsWith('pk_live_');
+    const secretIsTest = secretKey.startsWith('sk_test_');
+    const publishableIsTest = publishableKey.startsWith('pk_test_');
+    if ((secretIsLive && !publishableIsLive) || (secretIsTest && !publishableIsTest)) {
+      const issueSummary = 'Stripe key mode mismatch in createCheckoutSession';
       await ensureSingleOpenDiagnostic(base44, issueSummary, {
-        admin_message: 'Checkout is unavailable — STRIPE_PUBLISHABLE_KEY is missing or does not start with pk_.',
-        recommended_fix: 'Go to Stripe Dashboard → Developers → API Keys → Copy publishable key → add pk_live_... to Base44 Secrets.',
-        webhook_processed: false,
-        source_chain: 'createCheckoutSession → publishable_key_validation_failed',
+        diagnostic_type: 'missing_stripe_config',
+        severity: 'critical',
+        admin_message: 'Checkout was stopped because the Stripe secret and publishable keys use different modes.',
+        recommended_fix: 'Verify that both configured keys are either test keys or live keys. Do not change credentials without owner approval.',
+        source_chain: 'createCheckoutSession -> key_mode_mismatch',
       });
       return Response.json({
-        error: 'Checkout temporarily unavailable',
-        friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
-        code: 'STRIPE_CONFIG_ERROR',
+        error: 'Checkout is temporarily unavailable.',
+        friendly_message: 'Checkout is temporarily unavailable while payment settings are verified. You have not been charged.',
+        external_actions_performed: false,
       }, { status: 503 });
     }
 
-    // ── Mode-match: sk_live_ with pk_live_ OR sk_test_ with pk_test_ ─────
-    const isSecretLive = secretKey.startsWith('sk_live_');
-    const isPublishableLive = publishableKey.startsWith('pk_live_');
-    const isSecretTest = secretKey.startsWith('sk_test_');
-    const isPublishableTest = publishableKey.startsWith('pk_test_');
-
-    if ((isSecretLive && !isPublishableLive) || (isSecretTest && !isPublishableTest)) {
-      const issueSummary = 'STRIPE key mode mismatch: secret is ' + (isSecretLive ? 'live' : 'test') + ' but publishable is ' + (isPublishableLive ? 'live' : 'test');
-      await ensureSingleOpenDiagnostic(base44, issueSummary, {
-        admin_message: 'Checkout is unavailable — STRIPE_SECRET_KEY is ' + (isSecretLive ? 'live' : 'test') + ' mode but STRIPE_PUBLISHABLE_KEY is ' + (isPublishableLive ? 'live' : 'test') + ' mode. Both must match.',
-        recommended_fix: 'Update both keys to the same mode in Base44 Secrets. Use sk_live_ + pk_live_ for production.',
-        webhook_processed: false,
-        source_chain: 'createCheckoutSession → key_mode_mismatch',
-      });
-      return Response.json({
-        error: 'Checkout temporarily unavailable',
-        friendly_message: 'Checkout is temporarily unavailable while payment settings are being verified. You have not been charged. Please try again shortly.',
-        code: 'STRIPE_MODE_MISMATCH',
-      }, { status: 503 });
-    }
-
-    const stripe = new Stripe(secretKey);
     const body = await req.json();
-    const { customerEmail, customerName, metadata } = body;
+    const customerEmail = String(body?.customerEmail || '').trim().toLowerCase();
+    const customerName = String(body?.customerName || '').trim();
+    const metadata = body?.metadata || {};
 
-    // Parse cart items
-    let cartItems = [];
-    if (metadata?.items) {
-      try { cartItems = JSON.parse(metadata.items); } catch (_) { cartItems = []; }
+    if (!customerName || !customerEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
+      return Response.json({
+        error: 'A valid customer name and email are required.',
+        external_actions_performed: false,
+      }, { status: 400 });
     }
 
-    // Fallback to single-item format
-    if (cartItems.length === 0 && metadata?.product_id) {
-      try {
-        const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: metadata.product_id });
-        if (products && products.length > 0) {
-          const product = products[0];
-          cartItems = [{
-            product_id: product.id,
-            product_name: product.name,
-            price: product.sale_price ?? product.price ?? 0,
-            quantity: parseInt(metadata.quantity || '1', 10),
-            size: metadata.size,
-            category: product.category || ''
-          }];
-        }
-      } catch (_) { /* invalid ID format */ }
+    if (metadata.shipping_country !== 'Australia') {
+      return Response.json({
+        error: 'Current checkout is available within Australia only.',
+        external_actions_performed: false,
+      }, { status: 400 });
     }
 
-    const shippingAddress = metadata?.shipping_address || '';
-    const rawDiscountPercent = parseFloat(metadata?.promo_discount_percent || '0');
-    const promoCode = metadata?.promo_code || '';
-    const isOwnerOverride = metadata?.promo_override === 'true';
-    const promoFreeShipping = metadata?.promo_free_shipping === 'true';
-    const supportAmount = parseFloat(metadata?.add_support || '0');
+    const prohibitedClientFields = [
+      metadata.promo_code,
+      metadata.promo_discount_percent,
+      metadata.promo_override,
+      metadata.promo_free_shipping,
+      metadata.add_support,
+    ].filter(value => value !== undefined && value !== null && String(value) !== '' && String(value) !== '0' && String(value) !== 'false');
 
-    // Build line items — PER-UNIT pricing (not total × quantity)
-    const lineItems = [];
-    let discountGuardInfo = null;
-    let internationalShipping = false;
+    if (prohibitedClientFields.length > 0) {
+      return Response.json({
+        error: 'Discounts, free shipping and support add-ons are paused during the stage one checkout.',
+        external_actions_performed: false,
+      }, { status: 400 });
+    }
 
-    for (const item of cartItems) {
-      let product = null;
-      try {
-        const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: item.product_id });
-        if (products && products.length > 0) product = products[0];
-      } catch (_) { /* invalid product ID is rejected by the publication gate below */ }
+    const requestedItems = aggregateRequestedItems(parseCartItems(metadata.items));
+    if (requestedItems.length === 0 || requestedItems.length > 10) {
+      return Response.json({
+        error: 'Cart is empty or exceeds the current checkout limit.',
+        external_actions_performed: false,
+      }, { status: 400 });
+    }
 
-      const quantity = Number(item.quantity || 1);
-      const publicationIssues = [];
-      if (!product) publicationIssues.push('Product record not found.');
-      if (product && (!product.is_active || product.publication_status !== 'live')) publicationIssues.push('Product is not approved for public sale.');
-      if (product && (!product.approved_by || !product.approved_at)) publicationIssues.push('Human product approval is missing.');
-      if (product && (!product.cost_verified_at || !product.stock_verified_at)) publicationIssues.push('Cost or stock verification is missing.');
-      if (product && (!product.supplier_url || !/^https?:\/\//i.test(product.supplier_url))) publicationIssues.push('Direct supplier or print provider evidence is missing.');
-      if (product && (!Number.isFinite(product.sale_price) || product.sale_price <= 0)) publicationIssues.push('Verified retail price is missing.');
-      if (product && (!Number.isFinite(product.cost_price) || product.cost_price <= 0)) publicationIssues.push('Verified unit cost is missing.');
-      if (product && (!Number.isFinite(product.delivery_cost) || product.delivery_cost < 0)) publicationIssues.push('Verified delivery cost is missing.');
-      if (product && (!Number.isInteger(quantity) || quantity <= 0 || quantity > product.stock_quantity)) publicationIssues.push('Requested quantity is invalid or exceeds verified stock.');
-      if (product) {
-        const fee = Number(product.sale_price || 0) * Number(product.merchant_fee_percent || 0) / 100;
-        if (Number(product.sale_price || 0) <= Number(product.cost_price || 0) + Number(product.delivery_cost || 0) + fee) publicationIssues.push('Retail price does not cover landed cost and merchant fee.');
+    const verifiedItems = [];
+    const shippingRules = new Map();
+
+    for (const requested of requestedItems) {
+      const products = await base44.asServiceRole.entities.MerchProduct.filter({ id: requested.product_id });
+      const product = Array.isArray(products) ? products[0] : null;
+      const issues = [];
+
+      if (!product) issues.push('Product record not found.');
+      if (product && (!product.is_active || product.publication_status !== 'live' || product.is_stage_one_sale !== true)) {
+        issues.push('Product is not approved for the current sale.');
       }
-      if (publicationIssues.length > 0) {
+      if (product && (!product.approved_by || !product.approved_at)) issues.push('Human product approval is missing.');
+      if (product && product.inventory_source !== 'owned_stock') issues.push('Only verified owned stock is permitted during stage one.');
+      if (product && (!product.stock_verified_at || !product.stock_verification_note)) issues.push('Owned stock verification is missing.');
+      if (product && !['owner_approved_recorded_cost', 'invoice_verified'].includes(product.cost_verification_status)) {
+        issues.push('Recorded product cost has not been approved for use.');
+      }
+      if (product && !product.cost_verification_note) issues.push('Cost verification note is missing.');
+      if (product && product.shipping_policy !== 'customer_pays') issues.push('Customer-paid delivery policy is not approved.');
+      if (product && (!Number.isFinite(product.sale_price) || Number(product.sale_price) <= 0)) issues.push('Retail price is missing.');
+      if (product && (!Number.isFinite(product.cost_price) || Number(product.cost_price) < 0)) issues.push('Recorded product cost is missing.');
+      if (product && (!product.image_url || !Array.isArray(product.images_array) || product.images_array.length === 0)) issues.push('Approved product images are missing.');
+
+      if (product) {
+        const sizes = Array.isArray(product.sizes_available) ? product.sizes_available : [];
+        if (sizes.length > 0) {
+          if (!requested.size || !sizes.includes(requested.size)) issues.push('A valid size is required.');
+          const variantStock = Number(product.stock_by_variant?.[requested.size]);
+          if (!Number.isFinite(variantStock) || requested.quantity > variantStock) issues.push('Requested size quantity exceeds verified stock.');
+        } else if (requested.quantity > Number(product.stock_quantity || 0)) {
+          issues.push('Requested quantity exceeds verified stock.');
+        }
+      }
+
+      if (issues.length > 0) {
         return Response.json({
-          error: 'Checkout blocked because a cart item is not publication ready.',
-          product_id: item.product_id,
-          issues: publicationIssues,
+          error: 'Checkout blocked because a cart item is not ready.',
+          product_id: requested.product_id,
+          issues,
           external_actions_performed: false,
         }, { status: 400 });
       }
 
-      const verifiedPrice = product.sale_price;
-      const category = (product.category || '').toLowerCase().trim();
-      const productName = product.name;
-
-      // === DISCOUNT GUARD ===
-      const eligible = isOwnerOverride ? true : isCategoryEligibleForDiscount(category);
-
-      if (rawDiscountPercent > 0 && !eligible && !discountGuardInfo) {
-        discountGuardInfo = {
-          attempted_discount: rawDiscountPercent,
-          blocked: true,
-          reason: 'Category "' + category + '" is ineligible for discounts',
-          category,
-        };
-      }
-
-      // Per-unit discount calculation (in cents, matches frontend exactly)
-      const discountedPerUnit = eligible && rawDiscountPercent > 0
-        ? verifiedPrice * (1 - rawDiscountPercent / 100)
-        : verifiedPrice;
-      const unitAmountCents = Math.max(50, Math.round(discountedPerUnit * 100));
-
-      // Build description
-      let description = item.size ? 'Size: ' + item.size : undefined;
-      if (rawDiscountPercent > 0 && !eligible) {
-        description = (description ? description + ' | ' : '') + 'Discount blocked';
-      }
-
-      lineItems.push({
-        price_data: {
-          currency: 'aud',
-          product_data: { name: productName, description },
-          unit_amount: unitAmountCents,
-          tax_behavior: 'inclusive',
-        },
-        quantity: quantity,
-      });
-    }
-
-    // Add support contribution as separate line item
-    if (supportAmount > 0) {
-      lineItems.push({
-        price_data: {
-          currency: 'aud',
-          product_data: { name: 'Support Contribution 🤍' },
-          unit_amount: Math.round(supportAmount * 100),
-          tax_behavior: 'inclusive',
-        },
-        quantity: 1,
-      });
-    }
-
-    // Calculate shipping — uses UNDISCOUNTED merch total for threshold (matches frontend)
-    let shippingAmountCents = 0;
-    const hasPhysicalItems = cartItems.some(item => needsShipping(item.category || ''));
-
-    if (hasPhysicalItems) {
-      if (promoFreeShipping) {
-        shippingAmountCents = 0;
-      } else {
-        internationalShipping = isInternational(shippingAddress);
-        if (!internationalShipping) {
-          const undiscountedMerchCents = cartItems.reduce((s, item) => {
-            const price = item.price ?? 0;
-            return s + Math.round(price * 100) * (item.quantity || 1);
-          }, 0);
-
-          if (undiscountedMerchCents / 100 >= FREE_SHIPPING_THRESHOLD) {
-            shippingAmountCents = 0;
-          } else {
-            const totalQty = cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
-            const combinedShipping = totalQty <= 1
-              ? AU_SHIPPING_FLAT
-              : AU_SHIPPING_FLAT + (totalQty - 1) * ADDITIONAL_SHIPPING_PER_ITEM;
-            shippingAmountCents = Math.round(combinedShipping * 100);
-          }
+      const productType = mapProductType(product.category);
+      if (!shippingRules.has(productType)) {
+        const rule = await getShippingRule(base44, productType);
+        if (!rule) {
+          return Response.json({
+            error: `No approved Australian delivery rule is available for ${productType}.`,
+            external_actions_performed: false,
+          }, { status: 400 });
         }
+        shippingRules.set(productType, rule);
       }
-    }
 
-    // Add shipping as separate line item (NEVER discountable)
-    if (shippingAmountCents > 0) {
-      lineItems.push({
-        price_data: {
-          currency: 'aud',
-          product_data: {
-            name: 'Shipping (Combined Package)',
-            description: 'All items shipped together',
-          },
-          unit_amount: shippingAmountCents,
-          tax_behavior: 'inclusive',
-        },
-        quantity: 1,
+      verifiedItems.push({
+        product_id: product.id,
+        product_name: product.name,
+        price: Number(product.sale_price),
+        quantity: requested.quantity,
+        size: requested.size,
+        category: product.category,
+        inventory_source: product.inventory_source,
+        recorded_unit_cost: Number(product.cost_price),
+        recorded_packaging_cost: Number(product.packaging_cost || 0),
       });
     }
 
-    const totalAmountCents = lineItems.reduce((sum, li) => sum + li.price_data.unit_amount * li.quantity, 0);
+    const governingRule = [...shippingRules.values()].sort((a, b) => Number(b.base_rate || 0) - Number(a.base_rate || 0))[0];
+    const totalQuantity = verifiedItems.reduce((sum, item) => sum + item.quantity, 0);
+    const shippingAmount = Number(governingRule.base_rate || 0) + Math.max(0, totalQuantity - 1) * Number(governingRule.additional_item_rate || 0);
+    const displayedShippingAmount = Number(metadata.displayed_shipping_amount);
 
-    if (totalAmountCents <= 0) {
-      return Response.json({ error: 'Invalid order amount' }, { status: 400 });
+    if (!Number.isFinite(displayedShippingAmount) || Math.abs(displayedShippingAmount - shippingAmount) > 0.01) {
+      return Response.json({
+        error: 'Delivery changed while the order was being prepared. Please return to the review page and try again.',
+        expected_shipping_amount: Number(shippingAmount.toFixed(2)),
+        external_actions_performed: false,
+      }, { status: 409 });
     }
 
-    const origin = req.headers.get('origin') || 'https://gannonwaye.com';
+    const lineItems = verifiedItems.map(item => ({
+      price_data: {
+        currency: 'aud',
+        product_data: {
+          name: item.product_name,
+          description: item.size ? `Size: ${item.size}` : undefined,
+        },
+        unit_amount: Math.round(item.price * 100),
+      },
+      quantity: item.quantity,
+    }));
 
-    const orderHasPhysical = cartItems.length > 0
-      ? cartItems.some(item => needsShipping(item.category || ''))
-      : true;
+    lineItems.push({
+      price_data: {
+        currency: 'aud',
+        product_data: {
+          name: 'Australian delivery',
+          description: 'Current stage one combined package delivery charge',
+        },
+        unit_amount: Math.round(shippingAmount * 100),
+      },
+      quantity: 1,
+    });
+
+    const subtotalAmount = verifiedItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const totalAmount = subtotalAmount + shippingAmount;
+    const stripe = new Stripe(secretKey);
+    const origin = safeOrigin(req);
+    const shippingAddress = String(metadata.shipping_address || '').trim();
 
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
-      ...(customerEmail ? { customer_email: customerEmail } : {}),
+      customer_email: customerEmail,
       customer_creation: 'always',
       billing_address_collection: 'required',
-      ...(orderHasPhysical ? {
-        shipping_address_collection: {
-          allowed_countries: ['AU', 'NZ', 'US', 'GB', 'CA', 'SG', 'IN'],
-        },
-      } : {}),
+      shipping_address_collection: { allowed_countries: ['AU'] },
       automatic_tax: { enabled: false },
       line_items: lineItems,
-      success_url: origin + '/checkout-success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: origin + '/store?checkout=cancelled',
+      success_url: `${origin}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/store/checkout?checkout=cancelled`,
       metadata: {
-        customer_name: customerName || '',
-        items: metadata?.items || '',
-        promo_code: promoCode || '',
-        discount_percent: String(rawDiscountPercent),
+        customer_name: customerName,
+        customer_email: customerEmail,
+        items: JSON.stringify(verifiedItems),
         shipping_address: shippingAddress,
-        add_support: metadata?.add_support || '0',
-        discount_guard_version: '3.0',
-        discount_guard_blocked: discountGuardInfo?.blocked ? 'true' : 'false',
-        shipping_amount_aud: String((shippingAmountCents / 100).toFixed(2)),
-        shipping_combined: 'true',
-        shipping_method: internationalShipping ? 'international_quote' : (shippingAmountCents === 0 ? 'free' : 'combined_package'),
-        total_amount_aud: String((totalAmountCents / 100).toFixed(2)),
+        shipping_country: 'Australia',
+        shipping_amount_aud: shippingAmount.toFixed(2),
+        subtotal_amount_aud: subtotalAmount.toFixed(2),
+        discount_amount_aud: '0.00',
+        support_contribution_aud: '0.00',
+        total_amount_aud: totalAmount.toFixed(2),
+        shipping_rule_id: governingRule.id || '',
+        shipping_rule_name: String(governingRule.name || '').slice(0, 120),
+        checkout_policy: 'stage_one_owned_stock_v1',
+        gst_amount_aud: '0.00',
+        abn: '22931809349',
       },
       payment_intent_data: {
-        description: 'Gannon Waye Store Order',
+        description: 'Gannon Waye Music merchandise order',
         receipt_email: customerEmail,
         metadata: {
-          customer_name: customerName || '',
-          discount_guard_version: '3.0',
-          shipping_amount_aud: String((shippingAmountCents / 100).toFixed(2)),
-          shipping_combined: 'true',
+          checkout_policy: 'stage_one_owned_stock_v1',
+          shipping_amount_aud: shippingAmount.toFixed(2),
+          gst_amount_aud: '0.00',
+          abn: '22931809349',
         },
       },
     });
 
-    return Response.json({ url: session.url, sessionId: session.id });
+    return Response.json({
+      url: session.url,
+      sessionId: session.id,
+      subtotal_amount: Number(subtotalAmount.toFixed(2)),
+      shipping_amount: Number(shippingAmount.toFixed(2)),
+      total_amount: Number(totalAmount.toFixed(2)),
+      currency: 'aud',
+      gst_amount: 0,
+    });
   } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+    if (base44) {
+      await ensureSingleOpenDiagnostic(base44, `Checkout session creation failed: ${String(error?.message || error).slice(0, 300)}`, {
+        diagnostic_type: 'session_creation_failure',
+        severity: 'high',
+        admin_message: 'No successful checkout response was returned. Confirm the Stripe session list before assuming a customer was charged.',
+        recommended_fix: 'Review the function trace and resolve the exact error. Do not retry a customer charge manually without checking Stripe first.',
+        source_chain: 'createCheckoutSession -> unhandled_error',
+      });
+    }
+    return Response.json({
+      error: 'Checkout could not be prepared.',
+      friendly_message: 'Checkout could not be prepared. You have not been charged. Please try again or contact support.',
+      external_actions_performed: false,
+      details: String(error?.message || error),
+    }, { status: 500 });
   }
 });
