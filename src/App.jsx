@@ -239,7 +239,6 @@ import MerchVisualLab from '@/pages/admin/MerchVisualLab';
 import BusinessProfileSettingsPage from '@/pages/admin/BusinessProfileSettings';
 import CampaignImageApproval from '@/pages/admin/CampaignImageApproval';
 import MasterBlueprint from '@/pages/admin/MasterBlueprint';
-import Live from '@/pages/Live';
 import LivestreamCommand from '@/pages/admin/LivestreamCommand';
 import QuickUpload from '@/pages/admin/QuickUpload';
 import LinkIntegrityAudit from '@/pages/admin/LinkIntegrityAudit';
@@ -444,7 +443,7 @@ const AuthenticatedApp = () => {
       <Route path="/tiktok-platform-review" element={<TikTokPlatformReview />} />
       <Route path="/tiktok-callback" element={<TikTokCallback />} />
       <Route path="/gift-checklist" element={<GiftChecklistPage />} />
-      <Route path="/live" element={<Live />} />
+      <Route path="/live" element={<Navigate to="/" replace />} />
 
       {/* Admin routes */}
       <Route element={<AdminLayout />}>
