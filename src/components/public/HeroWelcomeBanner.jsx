@@ -12,13 +12,13 @@ export default function HeroWelcomeBanner({ release, releaseLink }) {
   const messages = safeRelease
     ? [
         safeRelease.description || 'Music shared after exact owner approval',
-        '10% of all support goes to 1800RESPECT',
+        'Verified merchandise is available through the official Store',
         'Official links come from the approved Release record',
       ]
     : [
         'Independent, heart-first music from Gannon Waye',
         'Music appears here only after exact owner approval',
-        '10% of all support goes to 1800RESPECT',
+        'Verified merchandise is available through the official Store',
       ];
 
   useEffect(() => {
