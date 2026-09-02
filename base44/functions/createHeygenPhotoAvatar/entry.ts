@@ -12,10 +12,22 @@ Deno.serve(async (req) => {
     if (user.role !== 'admin') return Response.json({ error: 'Forbidden — admin only' }, { status: 403 });
 
     const body = await req.json();
-    const { image_url, name, gender, voice_id, purpose } = body;
+    const { image_url, name, gender, voice_id, purpose, source_asset_authorised, identity_verified, source_asset_owner, owner_approval_id } = body;
 
     if (!image_url) {
       return Response.json({ error: 'image_url is required' }, { status: 400 });
+    }
+    if (source_asset_authorised !== true || identity_verified !== true || !source_asset_owner || !owner_approval_id) {
+      return Response.json({
+        error: 'Avatar creation requires authorised source media, verified identity, named source owner and an exact owner approval record.',
+        external_actions_performed: false,
+      }, { status: 403 });
+    }
+    if (Deno.env.get('HEYGEN_AVATAR_CREATION_ENABLED') !== 'true') {
+      return Response.json({
+        error: 'HeyGen avatar creation is paused to prevent unapproved identity substitution and paid-credit use.',
+        external_actions_performed: false,
+      }, { status: 403 });
     }
 
     const heygenApiKey = Deno.env.get('HEYGEN_API_KEY');
@@ -63,7 +75,10 @@ Deno.serve(async (req) => {
         heygen_avatar_id: photoAvatarId,
         heygen_voice_id: voice_id || '',
         agent_generated_by: 'brand_kit',
-        notes: `Purpose: ${purpose || 'general'} | Image: ${image_url}`,
+        source_asset_authorised: true,
+        identity_verified: true,
+        source_asset_owner,
+        notes: `Purpose: ${purpose || 'general'} | Image: ${image_url} | Owner approval: ${owner_approval_id}`,
       });
     }
 
