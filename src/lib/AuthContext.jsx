@@ -28,7 +28,8 @@ export const AuthProvider = ({ children }) => {
   const checkAppState = async () => {
     const isLocal = typeof window !== 'undefined' && (
       window.location.hostname === 'localhost' || 
-      window.location.hostname === '127.0.0.1'
+      window.location.hostname === '127.0.0.1' ||
+      import.meta.env.VITE_FORCE_LOCAL_MODE === 'true'
     );
       
     if (isLocal) {

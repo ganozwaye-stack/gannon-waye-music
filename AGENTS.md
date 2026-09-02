@@ -74,6 +74,25 @@ If any issue or test failure arises that you cannot resolve autonomously, stop w
 
 ---
 
+## 7. Base44 Dev Environment
+
+The app runs in Docker Compose via `docker-compose.base44.yml` for the Base44 preview.
+
+**Quick start:** `docker compose -f docker-compose.base44.yml up -d`
+
+**Key facts:**
+- Vite + React frontend using `@base44/vite-plugin`. No separate backend service — the app talks to the Base44 cloud backend via the vite plugin's API proxy.
+- `VITE_FORCE_LOCAL_MODE=true` is set in compose so the app uses its built-in mock data (products, orders, auth) instead of requiring a live Base44 backend. This mirrors the app's existing `localhost` local-dev mode (see `src/api/base44Client.js` and `src/lib/AuthContext.jsx`).
+- `VITE_BASE44_APP_ID=6a1d91c28109c1a7274f350a` is the app ID (also hardcoded in the vite proxy bypass for public-settings).
+- Vite dev server binds `0.0.0.0:5173` with `allowedHosts: true` (set in `vite.config.js`) so the preview proxy hostname can reach it.
+- Port mapping: host `3000` → container `5173`.
+- No external secrets required to boot — PostHog key is hardcoded, Stripe calls are bypassed by the vite proxy, and mock data covers entity/function calls.
+- `node_modules` is a named Docker volume (persists across container recreations; `npm install` runs on each start but is fast after first install).
+
+**To verify:** `curl -sf http://localhost:3000/` should return the HTML with title "Gannon Waye Music".
+
+---
+
 ## 8. Cross-Agent Handoff Protocol
 
 Multiple agents work on this repo and they cannot talk to each other directly. Claude (via Cowork/MCP) and Codex (via repo access) coordinate through one file. Gannon should not have to carry messages between them.

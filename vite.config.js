@@ -6,6 +6,8 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   logLevel: 'error', // Suppress warnings, only show errors
   server: {
+    host: true,
+    allowedHosts: true,
     proxy: {
       '^/api/apps/public/prod/public-settings/by-id/': {
         target: 'http://localhost:5173',
