@@ -1,39 +1,34 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
 import { Sparkles, X } from 'lucide-react';
+
+const MESSAGES = [
+  { icon: '🎵', text: 'Approved music and official listening links appear on the Music page' },
+  { icon: '🖤', text: 'Independent, emotionally honest music from Gannon Waye' },
+  { icon: '🛍️', text: 'The Store shows only current owner-approved stock' },
+  { icon: '🎶', text: 'Follow the story through music and creative updates' },
+];
 
 export default function SocialProofTicker() {
   const [dismissed, setDismissed] = useState(false);
   const [index, setIndex] = useState(0);
 
-  const { data: subscribers = [] } = useQuery({
-    queryKey: ['ticker-subs'],
-    queryFn: () => base44.entities.EmailSubscriber.list('-created_date', 50),
-    staleTime: 300000,
-  });
-
-  const subCount = subscribers.length;
-
-  const messages = [
-    { icon: '🎵', text: 'Music approved for public sharing appears on the Music page' },
-    { icon: '✨', text: subCount > 0 ? `${subCount}+ fans in the inner circle` : 'Join the inner circle — be part of something real' },
-    { icon: '🖤', text: '10% of all proceeds support 1800RESPECT' },
-    { icon: '🎶', text: 'Follow the story through music, community, and creative updates' },
-    { icon: '🛍️', text: 'Visit the Store for official merch and supporter items' },
-  ];
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem('ticker-dismissed') === '1') setDismissed(true);
+    } catch {}
+  }, []);
 
   useEffect(() => {
-    if (dismissed) return;
+    if (dismissed) return undefined;
     const interval = setInterval(() => {
-      setIndex(i => (i + 1) % messages.length);
+      setIndex(current => (current + 1) % MESSAGES.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [messages.length, dismissed]);
+  }, [dismissed]);
 
   const handleDismiss = () => {
-    try { sessionStorage.setItem('ticker-dismissed', '1'); } catch (e) {}
+    try { sessionStorage.setItem('ticker-dismissed', '1'); } catch {}
     setDismissed(true);
   };
 
@@ -53,14 +48,10 @@ export default function SocialProofTicker() {
         >
           <Sparkles className="w-3.5 h-3.5 text-primary shrink-0 animate-pulse" />
           <p className="font-body text-xs text-foreground/80 flex-1 truncate">
-            <span className="mr-1.5">{messages[index].icon}</span>
-            {messages[index].text}
+            <span className="mr-1.5">{MESSAGES[index].icon}</span>
+            {MESSAGES[index].text}
           </p>
-          <button
-            onClick={handleDismiss}
-            className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
-            aria-label="Dismiss"
-          >
+          <button onClick={handleDismiss} className="text-muted-foreground hover:text-foreground transition-colors shrink-0" aria-label="Dismiss">
             <X className="w-3 h-3" />
           </button>
         </motion.div>
