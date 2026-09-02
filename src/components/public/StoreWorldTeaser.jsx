@@ -72,8 +72,8 @@ export default function StoreWorldTeaser() {
           maxWidth: '440px',
           margin: '0 auto 32px',
         }}>
-          Shop Official Merch — the <em>Respect Is Earned</em> collection,<br />
-          bundles, wall posters and music collectables.
+          Shop the current owner-approved <em>Respect Is Earned</em> hoodie<br />
+          and the Thankyou journal, pen and thermos flask bundle.
         </p>
 
         {/* Decorative divider */}
@@ -90,7 +90,7 @@ export default function StoreWorldTeaser() {
         <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
           <button
             type="button"
-            onClick={() => navigate('/store-world')}
+            onClick={() => navigate('/store')}
             style={{
               padding: '13px 30px',
               background: `linear-gradient(135deg, #B8860B, ${ACCENT}, #FFF8DC, ${ACCENT}, #B8860B)`,
@@ -130,18 +130,15 @@ export default function StoreWorldTeaser() {
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(212,175,55,0.08)'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.7)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(212,175,55,0.35)'; }}
           >
-            Shop All Merch →
+            View Current Stock →
           </button>
         </div>
 
         {/* Small product teaser pills */}
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '28px' }}>
           {[
-            'Winter Bundle — $129',
-            'Journal Bundle — $59',
-            'Hoodie — $89',
-            'Mug — $9.90',
-            'Posters from $19',
+            'Respect Is Earned Hoodie — $98',
+            'Journal, Pen and Thermos Bundle — $59',
           ].map(label => (
             <button
               key={label}
