@@ -31,7 +31,6 @@ import Store from '@/pages/Store';
 import StoreCheckout from '@/pages/StoreCheckout';
 import StoreCartDetails from '@/pages/StoreCartDetails';
 import StoreCartPage from '@/pages/StoreCartPage.jsx';
-import StoreCustomerDetails from '@/pages/StoreCustomerDetails.jsx';
 import EmailPreferences from '@/pages/EmailPreferences';
 import FanDashboard from '@/pages/FanDashboard';
 import OrderHistory from '@/pages/OrderHistory';
