@@ -12,7 +12,7 @@ export default defineConfig({
         bypass: (req, res) => {
           res.writeHead(200, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({
-            id: '6a1d91c28109c1a7274f350a',
+            id: '69eb7905ca6eb4180010f794',
             name: 'Gannon Waye Music',
             settings: {}
           }));
