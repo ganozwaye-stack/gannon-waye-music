@@ -1,185 +1,199 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { STORE_PRODUCTS, BOUTIQUE_HERO_IMAGE } from '@/config/storeWorldConfig';
+import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
 
 const ACCENT = '#D4AF37';
-const PRODUCT_EMOJI = {
-  'front-hoodie': '🖤', 'back-hoodie': '🖤', 'winter-writing-comfort-bundle': '❄️',
-  'journal-pen-thermos-bundle': '📓', 'mug': '☕', 'wall-poster': '🖼️',
-  'cd': '💿', 'tote-bag': '👜', 'mums-garden': '🌸'
-};
 
-// Angled, 3D-perspective merch display — every product tilted toward the viewer
-// and staggered diagonally so nothing is hidden behind a flat shelf line.
-export default function StoreBoutiqueStage({ onOpenModal }) {
-  const navigate = useNavigate();
+function productImages(product) {
+  if (Array.isArray(product?.images_array) && product.images_array.length > 0) {
+    return product.images_array.filter(Boolean);
+  }
+  return product?.image_url ? [product.image_url] : [];
+}
+
+export default function StoreBoutiqueStage({ products = [], onOpenProduct }) {
   const [hovered, setHovered] = useState(null);
-  const [imgErr, setImgErr] = useState({});
-  const display = STORE_PRODUCTS.filter((p) => p.images && p.images.length);
+  const [imageErrors, setImageErrors] = useState({});
 
-  const handleClick = (p) => {
-    if (p.status === 'memorial' && p.link) {
-      navigate(p.link);
-      return;
-    }
-    onOpenModal(p.id);
-  };
+  const display = Array.isArray(products)
+    ? products.filter(product =>
+        product &&
+        product.is_active === true &&
+        product.publication_status === 'live' &&
+        product.is_stage_one_sale === true
+      )
+    : [];
 
   return (
-    <div
+    <section
+      data-testid="locked-storefront-stage"
+      data-storefront-lock-id={STOREFRONT_ART_LOCK.lockId}
+      aria-label="Gannon Waye boutique world"
       style={{
         position: 'relative',
         width: '100%',
+        minHeight: '430px',
         borderRadius: '16px',
         overflow: 'hidden',
-        border: '1px solid rgba(212,175,55,0.18)',
+        border: '1px solid rgba(212,175,55,0.22)',
         boxShadow: '0 0 80px rgba(212,175,55,0.08), 0 40px 80px rgba(0,0,0,0.7)',
-        background: '#0a0a0a'
-      }}>
-      
-      {/* Preserved boutique storefront backdrop (neon name + interior), dimmed so merch reads */}
+        background: '#0a0a0a',
+      }}
+    >
       <img
-        src={BOUTIQUE_HERO_IMAGE}
-        alt=""
-        aria-hidden
+        data-testid="locked-storefront-stage-image"
+        data-storefront-lock-id={STOREFRONT_ART_LOCK.lockId}
+        data-storefront-image-sha256={STOREFRONT_ART_LOCK.imageSha256}
+        src={STOREFRONT_ART_LOCK.imageUrl}
+        alt="Gannon Waye boutique interior"
         style={{
-          position: 'absolute', inset: 0, width: '100%', height: '100%',
-          objectFit: 'cover', objectPosition: 'center', opacity: 0.28
-        }} />
-      
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          objectPosition: 'center',
+          opacity: 0.46,
+          pointerEvents: 'none',
+          userSelect: 'none',
+        }}
+      />
+
       <div
+        aria-hidden="true"
         style={{
-          position: 'absolute', inset: 0,
-          background: 'linear-gradient(to bottom, rgba(8,8,14,0.45), rgba(8,8,14,0.72) 60%, rgba(8,8,14,0.94))'
-        }} />
-      
+          position: 'absolute',
+          inset: 0,
+          background: 'linear-gradient(to bottom, rgba(8,8,14,0.34), rgba(8,8,14,0.64) 58%, rgba(8,8,14,0.94))',
+          pointerEvents: 'none',
+        }}
+      />
       <div
+        aria-hidden="true"
         style={{
-          position: 'absolute', inset: 0,
-          background: 'radial-gradient(ellipse at 50% 38%, rgba(212,175,55,0.14), transparent 62%)'
-        }} />
-      
+          position: 'absolute',
+          inset: 0,
+          background: 'radial-gradient(ellipse at 50% 38%, rgba(212,175,55,0.18), transparent 62%)',
+          pointerEvents: 'none',
+        }}
+      />
 
-      {/* Neon storefront sign — preserved */}
-      <div style={{ position: 'relative', textAlign: 'center', paddingTop: 'clamp(26px,4vw,44px)', paddingBottom: '4px' }}>
-        
-
-
-
-
-
-
-
-
-
-
-
-        
-        
-
-
-
-
-
-
-
-
-
-
-        
+      <div style={{ position: 'relative', textAlign: 'center', padding: '34px 18px 8px' }}>
+        <p style={{ color: 'rgba(212,175,55,0.72)', fontSize: '10px', letterSpacing: '0.34em', textTransform: 'uppercase', margin: 0 }}>
+          Step inside the boutique
+        </p>
+        <h2 style={{ color: '#f0e8d8', fontSize: 'clamp(22px, 4vw, 38px)', margin: '10px 0 0', fontWeight: 700 }}>
+          The owner approved collection
+        </h2>
+        <p style={{ color: 'rgba(255,255,255,0.56)', fontSize: '12px', margin: '8px auto 0', maxWidth: '620px', lineHeight: 1.6 }}>
+          The boutique world is permanent. Prices, stock and purchasing come only from verified live records.
+        </p>
       </div>
 
-      {/* Angled diagonal merch display */}
-      <div style={{ position: 'relative', padding: 'clamp(18px,3vw,32px) clamp(12px,3vw,28px) clamp(28px,4vw,52px)' }}>
-        <div style={{ perspective: '1500px' }}>
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'center',
-              gap: 'clamp(12px,1.8vw,24px)',
-              transformStyle: 'preserve-3d'
-            }}>
-            
-            {display.map((p, i) => {
-              const tilt = i % 2 === 0 ? -11 : 11;
-              const lift = (i % 4 - 1.5) * 14; // diagonal vertical stagger
-              const isHover = hovered === p.id;
-              const isSoldOut = p.status === 'sold_out';
-              const isMemorial = p.status === 'memorial';
-              const isComing = p.status === 'coming_soon';
-              const emoji = PRODUCT_EMOJI[p.id] || '🛍️';
-              const img = imgErr[p.id] || !p.images[0] ? null : p.images[0];
+      <div style={{ position: 'relative', padding: '24px clamp(12px,3vw,30px) 58px' }}>
+        {display.length > 0 ? (
+          <div style={{ perspective: '1500px' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 'clamp(18px,3vw,34px)',
+                transformStyle: 'preserve-3d',
+              }}
+            >
+              {display.map((product, index) => {
+                const images = productImages(product);
+                const image = imageErrors[product.id] ? null : images[0];
+                const tilt = index % 2 === 0 ? -9 : 9;
+                const lift = index % 2 === 0 ? -8 : 8;
+                const isHovered = hovered === product.id;
+                const price = Number(product.sale_price || 0);
+                const stock = Number(product.stock_quantity || 0);
 
-              return (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => handleClick(p)}
-                  onMouseEnter={() => setHovered(p.id)}
-                  onMouseLeave={() => setHovered(null)}
-                  style={{
-                    width: 'clamp(118px,15vw,180px)',
-                    padding: 0,
-                    cursor: 'pointer',
-                    border: 'none',
-                    transform: `rotateY(${tilt}deg) translateY(${lift}px) ${isHover ? 'translateZ(40px) scale(1.06)' : ''}`,
-                    transformStyle: 'preserve-3d',
-                    transition: 'transform 0.32s ease, box-shadow 0.32s ease',
-                    outline: `1px solid ${isHover ? 'rgba(212,175,55,0.7)' : 'rgba(212,175,55,0.18)'}`,
-                    boxShadow: isHover ? '0 14px 36px rgba(212,175,55,0.18)' : 'none',
-                    borderRadius: '12px',
-                    overflow: 'hidden',
-                    background: 'rgba(255,255,255,0.03)'
-                  }}>
-                  
-                  <div style={{ position: 'relative', width: '100%', aspectRatio: '1 / 1', background: '#111', overflow: 'hidden' }}>
-                    {img ?
-                    <img
-                      src={img}
-                      alt={p.name}
-                      onError={() => setImgErr((e) => ({ ...e, [p.id]: true }))}
-                      style={{
-                        width: '100%', height: '100%', objectFit: 'cover',
-                        transition: 'transform 0.4s ease',
-                        transform: isHover ? 'scale(1.08)' : 'scale(1)'
-                      }} /> :
-
-
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.4rem' }}>
-                        {emoji}
-                      </div>
-                    }
-                    {p.badge &&
-                    <span
-                      style={{
-                        position: 'absolute', top: '8px', right: '8px',
-                        fontSize: '8px', fontWeight: 800, letterSpacing: '0.07em',
-                        padding: '2px 6px', borderRadius: '3px', textTransform: 'uppercase',
-                        zIndex: 5, pointerEvents: 'none',
-                        background: isSoldOut ? 'rgba(239,68,68,0.92)' : isComing ? 'rgba(255,255,255,0.85)' : isMemorial ? 'rgba(255,210,160,0.18)' : 'rgba(212,175,55,0.92)',
-                        color: isSoldOut ? '#fff' : isComing ? '#111' : isMemorial ? '#ffd6a5' : '#111'
-                      }}>
-                      
-                        {p.badge}
+                return (
+                  <button
+                    key={product.id}
+                    type="button"
+                    data-testid="world-product-card"
+                    data-product-id={product.id}
+                    onClick={() => onOpenProduct?.(product)}
+                    onMouseEnter={() => setHovered(product.id)}
+                    onMouseLeave={() => setHovered(null)}
+                    style={{
+                      width: 'clamp(170px, 24vw, 250px)',
+                      padding: 0,
+                      cursor: stock > 0 ? 'pointer' : 'default',
+                      border: 'none',
+                      transform: `rotateY(${tilt}deg) translateY(${lift}px) ${isHovered ? 'translateZ(42px) scale(1.045)' : ''}`,
+                      transformStyle: 'preserve-3d',
+                      transition: 'transform 0.32s ease, box-shadow 0.32s ease, outline-color 0.32s ease',
+                      outline: `1px solid ${isHovered ? 'rgba(212,175,55,0.78)' : 'rgba(212,175,55,0.26)'}`,
+                      boxShadow: isHovered ? '0 18px 42px rgba(212,175,55,0.22)' : '0 12px 30px rgba(0,0,0,0.36)',
+                      borderRadius: '14px',
+                      overflow: 'hidden',
+                      background: 'rgba(10,10,10,0.88)',
+                    }}
+                  >
+                    <div style={{ position: 'relative', width: '100%', aspectRatio: '1 / 1', background: '#111', overflow: 'hidden' }}>
+                      {image ? (
+                        <img
+                          src={image}
+                          alt={product.name}
+                          onError={() => setImageErrors(current => ({ ...current, [product.id]: true }))}
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            transition: 'transform 0.4s ease',
+                            transform: isHovered ? 'scale(1.07)' : 'scale(1)',
+                          }}
+                        />
+                      ) : (
+                        <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'rgba(212,175,55,0.8)', fontSize: '2.6rem' }}>
+                          ✦
+                        </div>
+                      )}
+                      <span
+                        style={{
+                          position: 'absolute',
+                          top: '10px',
+                          right: '10px',
+                          fontSize: '8px',
+                          fontWeight: 800,
+                          letterSpacing: '0.08em',
+                          padding: '3px 7px',
+                          borderRadius: '999px',
+                          textTransform: 'uppercase',
+                          background: stock > 0 ? 'rgba(212,175,55,0.94)' : 'rgba(239,68,68,0.92)',
+                          color: stock > 0 ? '#111' : '#fff',
+                        }}
+                      >
+                        {stock > 0 ? 'Available' : 'Sold out'}
                       </span>
-                    }
-                    <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 0 -40px 50px -20px rgba(0,0,0,0.7)', pointerEvents: 'none' }} />
-                  </div>
-                  <div style={{ padding: '10px 12px 12px', textAlign: 'left' }}>
-                    <div style={{ color: '#f0e8d8', fontSize: '11px', fontWeight: 700, lineHeight: 1.3, marginBottom: '4px' }}>
-                      {p.shortName || p.name}
+                      <div style={{ position: 'absolute', inset: 0, boxShadow: 'inset 0 -55px 62px -28px rgba(0,0,0,0.8)', pointerEvents: 'none' }} />
                     </div>
-                    <div style={{ color: isSoldOut ? '#e05555' : isMemorial ? '#ffd6a5' : ACCENT, fontSize: '12px', fontWeight: 800 }}>
-                      {p.price}
-                    </div>
-                  </div>
-                </button>);
 
-            })}
+                    <div style={{ padding: '14px 15px 16px', textAlign: 'left' }}>
+                      <div style={{ color: '#f0e8d8', fontSize: '13px', fontWeight: 700, lineHeight: 1.35, marginBottom: '5px' }}>
+                        {product.name}
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', gap: '8px', alignItems: 'baseline' }}>
+                        <span style={{ color: ACCENT, fontSize: '15px', fontWeight: 800 }}>${price.toFixed(2)} AUD</span>
+                        <span style={{ color: 'rgba(255,255,255,0.42)', fontSize: '10px' }}>{stock} in stock</span>
+                      </div>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        ) : (
+          <div style={{ position: 'relative', textAlign: 'center', padding: '56px 20px 70px', color: 'rgba(255,255,255,0.58)' }}>
+            The boutique is being prepared. No product will appear until it is owner approved and verified for sale.
+          </div>
+        )}
       </div>
-    </div>);
-
+    </section>
+  );
 }
