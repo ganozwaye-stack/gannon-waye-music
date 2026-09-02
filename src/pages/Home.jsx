@@ -236,9 +236,9 @@ export default function Home() {
                 </MagneticButton>
               )}
               <MagneticButton>
-                <Link to="/back-this">
+                <Link to="/store">
                   <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
-                    Back The Thankyou Project 🤍
+                    Visit the Store
                   </Button>
                 </Link>
               </MagneticButton>
@@ -280,7 +280,7 @@ export default function Home() {
               animate={{ opacity: 1, letterSpacing: '0.45em' }}
               transition={{ duration: 1.4, delay: 0.4 }}
               className="font-body uppercase gradient-gold-text text-base my-2 px-1">WELCOME</motion.p>
-            <p className="font-body text-sm text-foreground/85 leading-relaxed" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>I'm an Adelaide-born singer-songwriter now based in Melbourne. I grew up without access to formal music lessons, so I found my voice through school choirs, church, worship ministry, drag performance and every stage that would have me. After family violence, abusive relationships, addiction, PTSD and losing Mum, I returned to music with a purpose. I'm Still Here is not a search for fame. It is for anyone who needs a song to say what they cannot yet say. This is independent, heart-first art, with 10% of support contributions going to 1800RESPECT. You are not alone here.
+            <p className="font-body text-sm text-foreground/85 leading-relaxed" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>I'm an Adelaide-born singer-songwriter now based in Melbourne. I grew up without access to formal music lessons, so I found my voice through school choirs, church, worship ministry, drag performance and every stage that would have me. After family violence, abusive relationships, addiction, PTSD and losing Mum, I returned to music with a purpose. I'm Still Here is not a search for fame. It is for anyone who needs a song to say what they cannot yet say. This is independent, heart-first art. You are not alone here.
 
             </p>
             </div>
@@ -518,7 +518,7 @@ export default function Home() {
       {/* Thank You Project CTA: donations, community, socials */}
       <section className="py-10 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
-          <ThankYouProjectCTA context="Every contribution fuels independent music, supports healing, and builds a community where stories matter. 10% of all support goes to 1800RESPECT. Join the Thank You Project today." />
+          <ThankYouProjectCTA context="Listen to the music, explore the current merchandise, and share the story with someone who may need it." />
         </div>
       </section>
 
