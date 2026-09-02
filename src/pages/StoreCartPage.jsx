@@ -121,7 +121,7 @@ export default function StoreCartPage() {
 
           <Button
             data-testid="proceed-to-details"
-            onClick={() => navigate('/store/customer-details')}
+            onClick={() => navigate('/store/cart-details')}
             className="w-full rounded-full gradient-gold-button border-0 font-body text-sm tracking-wider uppercase py-6"
           >
             Continue to Your Details →
