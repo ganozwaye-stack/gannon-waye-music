@@ -149,6 +149,9 @@
     "actual_delivery_cost": {
       "type": "number"
     },
+    "estimated_payment_fee": {
+      "type": "number"
+    },
     "payment_fee_amount": {
       "type": "number"
     },
