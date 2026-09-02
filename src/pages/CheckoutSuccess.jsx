@@ -2,28 +2,35 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, ShoppingBag, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useCartStore } from '@/lib/cartStore';
 
 export default function CheckoutSuccess() {
   const [sessionId, setSessionId] = useState(null);
+  const clearCart = useCartStore(state => state.clearCart);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    setSessionId(params.get('session_id'));
-  }, []);
+    const paidSessionId = params.get('session_id');
+    setSessionId(paidSessionId);
+    if (paidSessionId) {
+      clearCart();
+      try { localStorage.removeItem('gannon_checkout_details_v1'); } catch {}
+    }
+  }, [clearCart]);
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6" data-testid="checkout-success-page">
       <div className="max-w-md w-full text-center space-y-6">
         <CheckCircle2 className="w-16 h-16 text-primary mx-auto" />
         <h1 className="font-display text-3xl text-foreground">Payment Received</h1>
-        <p className="font-body text-base text-muted-foreground">Thank you for supporting the Thank You project.</p>
+        <p className="font-body text-base text-muted-foreground">Thank you. Your payment has returned successfully from Stripe.</p>
 
         <div className="bg-primary/5 border border-primary/20 rounded-xl p-5 text-left space-y-3">
           <p className="font-body text-sm text-foreground/80 leading-relaxed">
-            ✅ Your payment or pre-order has been received. A confirmation email will be sent to the email used at checkout.
+            Your payment has been received and the order is being recorded against the Stripe reference below.
           </p>
           <p className="font-body text-sm text-foreground/70 leading-relaxed">
-            If you do not receive an email within a few minutes, please contact us through the website.
+            A transactional receipt should be sent to the email used at checkout. If it is delayed, your Stripe reference still identifies the payment and you will not be charged again by requesting support.
           </p>
           {sessionId && (
             <p className="font-body text-xs text-muted-foreground mt-2">
