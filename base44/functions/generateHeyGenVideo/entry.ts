@@ -1,5 +1,9 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.38';
 
+const BLOCKED_AVATAR_IDS = new Set([
+  '7b3b3dc66a394187bd3d4ec01a740239',
+]);
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
@@ -7,11 +11,30 @@ Deno.serve(async (req) => {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await req.json();
-    const { script, title, avatar_id, voice_id, resolution, aspect_ratio, engine, related_release, related_content_item_id, agent_generated_by, callback_id } = body;
+    const { script, title, avatar_id, voice_id, resolution, aspect_ratio, engine, related_release, related_content_item_id, agent_generated_by, callback_id, source_asset_authorised, identity_verified, owner_approval_id } = body;
 
     if (!script) return Response.json({ error: 'script is required' }, { status: 400 });
-    if (!avatar_id) return Response.json({ error: 'avatar_id is required — pass a HeyGen Digital Twin look ID' }, { status: 400 });
-    if (!voice_id) return Response.json({ error: 'voice_id is required — pass a HeyGen voice ID' }, { status: 400 });
+    if (!avatar_id) return Response.json({ error: 'avatar_id is required - pass an approved HeyGen avatar ID' }, { status: 400 });
+    if (!voice_id) return Response.json({ error: 'voice_id is required - pass an approved HeyGen voice ID' }, { status: 400 });
+    if (BLOCKED_AVATAR_IDS.has(avatar_id)) {
+      return Response.json({
+        error: 'This avatar is permanently blocked because its source image did not depict Gannon Waye.',
+        blocked_avatar_id: avatar_id,
+        external_actions_performed: false,
+      }, { status: 403 });
+    }
+    if (source_asset_authorised !== true || identity_verified !== true || !owner_approval_id) {
+      return Response.json({
+        error: 'HeyGen generation requires verified identity, authorised source media and an exact owner approval record.',
+        external_actions_performed: false,
+      }, { status: 403 });
+    }
+    if (Deno.env.get('HEYGEN_PRODUCTION_ENABLED') !== 'true') {
+      return Response.json({
+        error: 'HeyGen production is paused to prevent unapproved paid-credit use.',
+        external_actions_performed: false,
+      }, { status: 403 });
+    }
 
     const apiKey = Deno.env.get('HEYGEN_API_KEY');
     if (!apiKey) return Response.json({ error: 'HEYGEN_API_KEY secret is not set' }, { status: 500 });
@@ -40,6 +63,10 @@ Deno.serve(async (req) => {
       callback_id: finalCallbackId,
       platform_target: 'instagram',
       approval_status: 'needs_review',
+      source_asset_authorised: true,
+      identity_verified: true,
+      source_asset_owner: 'Owner-approved source asset',
+      notes: `Owner approval: ${owner_approval_id}`,
       sort_order: 0,
     });
 
