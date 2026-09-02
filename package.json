@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "prebuild": "node tools/verify-storefront-art-lock.mjs",
+    "prebuild": "node tools/verify-storefront-art-lock.mjs && node tools/verify-stage-one-store.mjs",
     "build": "vite build",
     "test:storefront-lock": "node tools/verify-storefront-art-lock.mjs",
+    "test:stage-one-store": "node tools/verify-stage-one-store.mjs",
     "lint": "node tools/quality-gate.mjs lint",
     "lint:report": "eslint .",
     "lint:fix": "eslint . --fix",
