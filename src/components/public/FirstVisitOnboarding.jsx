@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Music, Users, Calendar, X, ArrowRight } from 'lucide-react';
+import { Music, ShoppingBag, Mail, X, ArrowRight } from 'lucide-react';
 
 const STORAGE_KEY = 'gw-first-visit-seen';
 
@@ -15,18 +15,18 @@ const PATHS = [
     accent: 'from-amber-500/20 to-transparent',
   },
   {
-    icon: Users,
-    title: 'Join the Inner Circle',
-    desc: 'Be part of a community that chooses authenticity over appearance.',
-    cta: 'Step In',
-    route: '/back-this',
+    icon: ShoppingBag,
+    title: 'Explore the Store',
+    desc: 'See the current owner-approved merchandise and verified stock.',
+    cta: 'View Current Stock',
+    route: '/store',
     accent: 'from-rose-500/20 to-transparent',
   },
   {
-    icon: Calendar,
-    title: 'Book Gannon',
-    desc: 'Secure your session — performances, collaborations, and creative partnerships.',
-    cta: 'Reserve Your Session',
+    icon: Mail,
+    title: 'Contact Gannon',
+    desc: 'Send a genuine music, media, collaboration, or business enquiry.',
+    cta: 'Get in Touch',
     route: '/contact',
     accent: 'from-cyan-500/20 to-transparent',
   },
