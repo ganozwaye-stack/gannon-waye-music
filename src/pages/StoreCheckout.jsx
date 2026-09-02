@@ -175,7 +175,7 @@ export default function StoreCheckout() {
       <div className="min-h-screen py-24 px-4">
         <div className="max-w-xl mx-auto text-center" data-testid="checkout-page">
           <p className="font-body text-lg text-muted-foreground mb-6">Your cart is empty.</p>
-          <Button onClick={() => navigate('/store')} variant="outline" className="rounded-full">Return to Store</Button>
+          <Button data-testid="empty-cart-return-store" onClick={() => navigate('/store')} variant="outline" className="rounded-full">Return to Store</Button>
         </div>
       </div>
     );
@@ -222,7 +222,7 @@ export default function StoreCheckout() {
 
         <div className="grid md:grid-cols-[1fr_380px] gap-8 items-start">
           <div className="space-y-6">
-            <div className="bg-card/40 border border-border/30 rounded-2xl p-5">
+            <div data-testid="checkout-customer-summary" className="bg-card/40 border border-border/30 rounded-2xl p-5">
               <div className="flex items-center justify-between mb-3">
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Contact Details</p>
                 <button onClick={() => navigate('/store/cart-details')} className="flex items-center gap-1 font-body text-xs text-primary hover:underline">
@@ -234,7 +234,7 @@ export default function StoreCheckout() {
               <p className="font-body text-xs text-muted-foreground">{details.mobile}</p>
             </div>
 
-            <div className="bg-card/40 border border-border/30 rounded-2xl p-5">
+            <div data-testid="checkout-delivery-summary" className="bg-card/40 border border-border/30 rounded-2xl p-5">
               <div className="flex items-center justify-between mb-3">
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Delivery Address</p>
                 <button onClick={() => navigate('/store/cart-details')} className="flex items-center gap-1 font-body text-xs text-primary hover:underline">
@@ -244,7 +244,7 @@ export default function StoreCheckout() {
               <p className="font-body text-sm text-foreground">{deliveryAddress}</p>
             </div>
 
-            <div className="bg-card/40 border border-border/30 rounded-2xl p-5">
+            <div data-testid="checkout-items" className="bg-card/40 border border-border/30 rounded-2xl p-5">
               <div className="flex items-center justify-between mb-4">
                 <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Order Items</p>
                 <button onClick={() => navigate('/store')} className="flex items-center gap-1 font-body text-xs text-primary hover:underline">
@@ -259,6 +259,7 @@ export default function StoreCheckout() {
                   return (
                     <motion.div
                       key={`${item.product_id}-${item.size || 'no-size'}-${index}`}
+                      data-testid="cart-line"
                       layout
                       className="flex gap-4 p-4 bg-secondary/30 rounded-xl border border-border/20"
                     >
@@ -309,11 +310,12 @@ export default function StoreCheckout() {
 
                         <div className="flex items-center justify-between mt-3">
                           <div className="flex items-center gap-2">
-                            <button type="button" onClick={() => updateQuantity(item.product_id, item.quantity - 1, item.size)} className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center hover:border-primary/50 transition-colors">
+                            <button data-testid="cart-line-decrease" type="button" onClick={() => updateQuantity(item.product_id, item.quantity - 1, item.size)} className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center hover:border-primary/50 transition-colors">
                               <Minus className="w-3 h-3" />
                             </button>
                             <span className="font-body text-sm text-foreground w-6 text-center">{item.quantity}</span>
                             <button
+                              data-testid="cart-line-increase"
                               type="button"
                               disabled={item.quantity >= available}
                               onClick={() => updateQuantity(item.product_id, item.quantity + 1, item.size)}
@@ -322,7 +324,7 @@ export default function StoreCheckout() {
                               <Plus className="w-3 h-3" />
                             </button>
                           </div>
-                          <button type="button" onClick={() => removeItem(item.product_id, item.size)} className="text-muted-foreground/50 hover:text-destructive transition-colors">
+                          <button data-testid="cart-line-remove" type="button" onClick={() => removeItem(item.product_id, item.size)} className="text-muted-foreground/50 hover:text-destructive transition-colors">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -336,13 +338,13 @@ export default function StoreCheckout() {
 
           <div className="space-y-5 md:sticky md:top-24">
             <div className="bg-card/40 border border-border/30 rounded-2xl p-5 space-y-2">
-              <div className="flex justify-between font-body text-sm text-foreground/70">
+              <div data-testid="checkout-subtotal" className="flex justify-between font-body text-sm text-foreground/70">
                 <span>Products</span><span>${subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between font-body text-sm text-foreground/70">
+              <div data-testid="checkout-shipping" className="flex justify-between font-body text-sm text-foreground/70">
                 <span>Delivery</span><span>{shipping.label}</span>
               </div>
-              <div className="flex justify-between font-display text-lg text-foreground border-t border-border/40 pt-3">
+              <div data-testid="checkout-total" className="flex justify-between font-display text-lg text-foreground border-t border-border/40 pt-3">
                 <span>Total</span><span className="gradient-gold-glow">${total.toFixed(2)} AUD</span>
               </div>
               <p className="font-body text-[11px] text-muted-foreground pt-2">
