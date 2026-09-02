@@ -188,6 +188,9 @@
       ],
       "default": "not_attempted"
     },
+    "receipt_message_id": {
+      "type": "string"
+    },
     "admin_notification_sent": {
       "type": "boolean",
       "default": false
