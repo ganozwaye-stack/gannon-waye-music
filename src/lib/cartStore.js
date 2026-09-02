@@ -3,7 +3,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 
 const CART_STORAGE_KEY = 'gannon_store_cart_v2';
 // Version 4 clears carts created before the verified publication gate.
-const EXPECTED_VERSION = 4;
+const EXPECTED_VERSION = 5;
 
 // Wipe ALL known legacy cart keys that may contain serialized functions
 // This prevents uu(a=>a.getItemCount()) and uu(a=>a.hasItems()) crashes on rehydration
