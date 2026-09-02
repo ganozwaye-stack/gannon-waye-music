@@ -1,0 +1,63 @@
+import { test, expect } from '@playwright/test';
+
+const LOCKED_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png';
+const LOCKED_SHA256 = '9667a3698d14ec59d8b744d44a54692db5b24aefa09ed90e9344edd17eb83f98';
+const HOODIE_ID = '69f11d1fc43e13c61fe6b9d7';
+const JOURNAL_BUNDLE_ID = '69fbd261b760426cede1b7a3';
+
+test.describe('Permanent boutique world and verified store', () => {
+  test('the owner locked boutique world remains on the public store', async ({ page }) => {
+    await page.goto('/store');
+
+    const world = page.locator('[data-testid="locked-storefront-world"]');
+    await expect(world).toBeVisible();
+    await expect(world).toHaveAttribute('data-storefront-lock-id', 'gannon-waye-boutique-world-v1');
+
+    const image = page.locator('[data-testid="locked-storefront-world-image"]');
+    await expect(image).toBeVisible();
+    await expect(image).toHaveAttribute('src', LOCKED_IMAGE);
+    await expect(image).toHaveAttribute('data-storefront-image-sha256', LOCKED_SHA256);
+
+    await expect(page.locator('[data-testid="locked-storefront-stage"]')).toBeVisible();
+    await expect(page.locator('[data-testid="locked-storefront-stage-image"]')).toHaveAttribute('src', LOCKED_IMAGE);
+  });
+
+  test('only the two approved stage one products appear as sellable items', async ({ page }) => {
+    await page.goto('/store');
+
+    const worldCards = page.locator('[data-testid="world-product-card"]');
+    await expect(worldCards).toHaveCount(2);
+
+    const ids = await worldCards.evaluateAll(cards => cards.map(card => card.getAttribute('data-product-id')).sort());
+    expect(ids).toEqual([HOODIE_ID, JOURNAL_BUNDLE_ID].sort());
+
+    const productCards = page.locator('[data-testid="product-card"]');
+    await expect(productCards).toHaveCount(2);
+
+    const bodyText = await page.locator('body').innerText();
+    expect(bodyText).not.toContain('Winter Writing & Comfort Bundle');
+    expect(bodyText).not.toContain('Respect Is Earned Coffee Mug');
+    expect(bodyText).not.toContain('Assorted Wall Poster');
+  });
+
+  test('hoodie sizes and quantities come from the verified live record', async ({ page }) => {
+    await page.goto('/store');
+
+    const hoodie = page.locator('[data-testid="product-card"]').filter({ hasText: 'Respect Is Earned' }).first();
+    await expect(hoodie).toBeVisible();
+    await expect(hoodie.getByRole('button', { name: 'S (3)', exact: true })).toBeVisible();
+    await expect(hoodie.getByRole('button', { name: 'M (4)', exact: true })).toBeVisible();
+    await expect(hoodie.getByRole('button', { name: 'L (5)', exact: true })).toBeVisible();
+    await expect(hoodie.getByRole('button', { name: 'XL (2)', exact: true })).toBeVisible();
+    await expect(hoodie.getByRole('button', { name: /2XL|3XL/ })).toHaveCount(0);
+  });
+
+  test('world product selection opens the database driven product modal', async ({ page }) => {
+    await page.goto('/store');
+
+    await page.locator(`[data-testid="world-product-card"][data-product-id="${JOURNAL_BUNDLE_ID}"]`).click();
+    await expect(page.getByRole('heading', { name: 'Thank You Journal Pen and Thermos Flask Bundle' })).toBeVisible();
+    await expect(page.getByText('$59 AUD', { exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Add to Cart/ })).toBeVisible();
+  });
+});
