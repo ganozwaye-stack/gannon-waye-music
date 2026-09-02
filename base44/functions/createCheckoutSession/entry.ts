@@ -4,7 +4,7 @@ import {
   calculateShippingQuote,
   fromCents,
   toCents,
-} from '../../shared/shippingQuote.ts';
+} from '../../shared/shippingQuote.js';
 
 const ALLOWED_ORIGINS = new Set([
   'https://gannonwaye.com',
