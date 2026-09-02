@@ -3,20 +3,21 @@ import { X, ChevronLeft, ChevronRight, ShoppingCart, Plus, ZoomIn } from 'lucide
 import { useCartStore } from '@/lib/cartStore';
 import { useToast } from '@/components/ui/use-toast';
 
-const INELIGIBLE_FOR_DISCOUNT = ['cd', 'vinyl', 'song', 'digital', 'music'];
+const INELIGIBLE_FOR_DISCOUNT = ['cd', 'vinyl', 'song', 'digital', 'music', 'bundle'];
 
-function isEligibleForDiscount(category) {
+function isEligibleForDiscount(product) {
+  if (product?.exclude_from_discounts === true) return false;
+  const category = product?.category;
   if (!category) return true;
   const cat = category.toLowerCase();
   return !INELIGIBLE_FOR_DISCOUNT.some(c => cat.includes(c));
 }
 
 function getShippingNote(category) {
-  if (!category) return 'Ships Australia-wide. Combined packaging when ordering multiple items.';
+  if (!category) return 'Delivery within Australia is calculated before payment from the current approved shipping rule.';
   const cat = category.toLowerCase();
-  if (cat === 'cd' || cat === 'vinyl') return 'Physical item, shipped securely. Combined packaging when ordering multiple items.';
-  if (cat === 'digital' || cat === 'music') return 'Digital, no shipping required.';
-  return 'Ships Australia-wide in combined packaging when ordering multiple items. Free shipping on orders ≥ $150.';
+  if (cat === 'digital' || cat === 'music') return 'Digital item. No delivery charge applies.';
+  return 'Delivery within Australia is calculated before payment from the current approved shipping rule.';
 }
 
 export default function ProductDetailModal({ product, allImages, onClose }) {
@@ -31,7 +32,7 @@ export default function ProductDetailModal({ product, allImages, onClose }) {
   const hasSize = product.sizes_available?.length > 0;
   const price = product.sale_price ?? product.price ?? 0;
   const inStock = product.stock_quantity > 0;
-  const eligible = isEligibleForDiscount(product.category);
+  const eligible = isEligibleForDiscount(product);
 
   const prev = () => setCurrentImg(i => (i === 0 ? images.length - 1 : i - 1));
   const next = () => setCurrentImg(i => (i === images.length - 1 ? 0 : i + 1));
@@ -145,18 +146,23 @@ export default function ProductDetailModal({ product, allImages, onClose }) {
                 <div>
                   <p className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-2">Select Size</p>
                   <div className="flex flex-wrap gap-2">
-                    {product.sizes_available.map(s => (
-                      <button
-                        key={s}
-                        type="button"
-                        onClick={() => { setSelectedSize(s); setShowSizeError(false); }}
-                        className={`px-3 py-1.5 rounded-lg border font-body text-sm transition-all ${
-                          selectedSize === s ? 'border-primary bg-primary/10 text-primary' : 'border-border/50 text-muted-foreground hover:border-primary/30'
-                        }`}
-                      >
-                        {s}
-                      </button>
-                    ))}
+                    {product.sizes_available.map(s => {
+                      const sizeStock = Number(product.stock_by_variant?.[s]);
+                      const unavailable = Number.isFinite(sizeStock) && sizeStock <= 0;
+                      return (
+                        <button
+                          key={s}
+                          type="button"
+                          disabled={unavailable}
+                          onClick={() => { setSelectedSize(s); setShowSizeError(false); }}
+                          className={`px-3 py-1.5 rounded-lg border font-body text-sm transition-all disabled:opacity-30 disabled:cursor-not-allowed ${
+                            selectedSize === s ? 'border-primary bg-primary/10 text-primary' : 'border-border/50 text-muted-foreground hover:border-primary/30'
+                          }`}
+                        >
+                          {s}{Number.isFinite(sizeStock) ? ` (${sizeStock})` : ''}
+                        </button>
+                      );
+                    })}
                   </div>
                   {showSizeError && <p className="text-xs text-destructive mt-1">Please select a size</p>}
                 </div>
