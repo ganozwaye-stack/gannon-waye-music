@@ -10,8 +10,8 @@ import { useCartStore } from '@/lib/cartStore';
 import ProductDetailModal from '@/components/store/ProductDetailModal';
 import CartDrawer from '@/components/store/CartDrawer';
 import AdminEditButton from '@/components/store/AdminEditButton';
-import NeonBrandTitle from '@/components/store/NeonBrandTitle';
 import LockedStorefrontHero from '@/components/store/LockedStorefrontHero';
+import StoreBoutiqueStage from '@/components/store/StoreBoutiqueStage';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -326,6 +326,7 @@ function ProductCard({ product, onCheckout, onViewCart }) {
 export default function Store() {
   const navigate = useNavigate();
   const [cartOpen, setCartOpen] = useState(false);
+  const [worldProduct, setWorldProduct] = useState(null);
   // Guard as array — corrupted localStorage can return undefined/object and crash with uu(...) is not a function
   const cartItems = useCartStore(state => Array.isArray(state.items) ? state.items : []);
   const getItemCount = cartItems.reduce((sum, item) => sum + (item.quantity || 0), 0);
@@ -353,11 +354,20 @@ export default function Store() {
 
   const cdProducts = sortedProducts.filter(p => p.category === 'cd' || p.category === 'vinyl');
   const merchProducts = sortedProducts.filter(p => p.category !== 'cd' && p.category !== 'vinyl');
+  const worldProductImages = worldProduct
+    ? (Array.isArray(worldProduct.images_array) && worldProduct.images_array.length > 0
+        ? worldProduct.images_array.filter(Boolean)
+        : worldProduct.image_url ? [worldProduct.image_url] : [])
+    : [];
 
   return (
     <div data-testid="store-page" className={`min-h-screen pb-24 ${hasItems ? 'pb-36' : ''}`}>
-      {/* Locked boutique hero — the fixed neon storefront render. System rule: never swapped or pasted over. */}
       <LockedStorefrontHero />
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8">
+        <StoreBoutiqueStage products={sortedProducts} onOpenProduct={setWorldProduct} />
+      </div>
+
       <div className="max-w-6xl mx-auto px-4 md:px-8 pt-12">
 
         {/* Cart button handled globally by CartButton component in Navbar — no duplicate needed */}
@@ -368,9 +378,8 @@ export default function Store() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-6"
         >
-          <div className="mb-6">
-            <NeonBrandTitle />
-          </div>
+          <p className="font-body text-[10px] tracking-[0.32em] uppercase text-primary/70 mb-3">Available now</p>
+          <h1 className="font-display text-3xl md:text-4xl text-foreground mb-5">Shop the collection</h1>
           {products.length > 0 ? (
             <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-xl px-5 py-3 mb-3">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
@@ -438,6 +447,14 @@ export default function Store() {
           Independent music, merchandise, and community support.
         </p>
       </div>
+
+      {worldProduct && (
+        <ProductDetailModal
+          product={worldProduct}
+          allImages={worldProductImages}
+          onClose={() => setWorldProduct(null)}
+        />
+      )}
 
       {/* Sticky checkout bar — appears when cart has items */}
       {hasItems && (
