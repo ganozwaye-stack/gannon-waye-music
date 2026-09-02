@@ -51,7 +51,7 @@ export default function PressKit() {
             <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-4">Biography</p>
             <p className="font-body text-base text-foreground/75 leading-relaxed">{BIO}</p>
             <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">
-              Gannon's purpose is not fame for its own sake. It is to reach people who need a voice or a song for what they cannot yet say. Ten percent of support contributions goes to 1800RESPECT.
+              Gannon's purpose is not fame for its own sake. It is to reach people who need a voice or a song for what they cannot yet say through independent, emotionally honest music and storytelling.
             </p>
             <div className="flex flex-wrap gap-3 mt-7">
               <Link to="/contact">
