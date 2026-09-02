@@ -45,6 +45,7 @@ unmissable:
 * **DO NOT Delete User Data:** Never run scripts or modify models that truncate, delete, or wipe user accounts, orders, fan activity, or memorial tribute data.
 * **DO NOT Bypass Approval Queues:** Bypassing moderation or publishing content without approval is strictly forbidden.
 * **DO NOT Run Unofficial Packages:** Avoid unofficial, unverified Codex or agent packages/apps to prevent credential theft.
+* **PERMANENT STOREFRONT WORLD LOCK:** The boutique world identified by `gannon-waye-boutique-world-v1` is an owner-locked permanent asset. No agent, automation, redesign, migration, theme change or product workflow may replace, move, crop, hide, regenerate or remove it from `/store`. Public prices, sizes, stock and checkout identifiers must come only from verified live `MerchProduct` records. Run `npm run test:storefront-lock` before every build. Only a new explicit written instruction from Gannon that names this lock may amend it.
 
 ---
 
