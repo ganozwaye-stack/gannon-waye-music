@@ -3,7 +3,7 @@ import {
   calculateShippingQuote,
   fromCents,
   toCents,
-} from '../../shared/shippingQuote.ts';
+} from '../../shared/shippingQuote.js';
 
 function normaliseItems(rawItems) {
   return (Array.isArray(rawItems) ? rawItems : []).map(item => ({
