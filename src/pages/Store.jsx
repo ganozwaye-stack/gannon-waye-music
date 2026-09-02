@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ShoppingBag, Heart, Sparkles, ShoppingCart, Plus, ZoomIn } from 'lucide-react';
+import { ShoppingBag, Sparkles, ShoppingCart, Plus, ZoomIn } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
@@ -25,17 +25,11 @@ const STORE_OPEN = true;
 
 // Per-product config: sub-label only (no buy mode while store closed)
 const PRODUCT_CONFIG = {
-  '69f11d1fc43e13c61fe6b9d6': { sub: 'Sold out · Thank you for the love 🤍' },
-  '69eed3e64e2da78ae4418a9d': { sub: 'Sold out · Limited hand-signed edition' },
-  '69f11d1fc43e13c61fe6b9d7': { sub: '⚡ Get in fast, stock running out. New shipment on its way. $98' },
-  '69eed3e64e2da78ae4418a99': { sub: 'Sold out · Oversized premium tee · $49' },
-  '69fbd261b760426cede1b7a3': { sub: '❄️ Also available in the Winter Writing & Comfort Bundle, $129 with hoodie, pen & thermo. Journal features "Respect Is Earned, Not A Game You Make Me Play" lyric.' },
-  '69eed3e64e2da78ae4418a9a': { sub: 'Sold out due to popular demand. These will not be restocked. 🤍' },
+  '69f11d1fc43e13c61fe6b9d7': { sub: 'Owner-counted stock in S, M, L and XL. Delivery is calculated before payment.' },
+  '69fbd261b760426cede1b7a3': { sub: 'Journal, pen and thermos flask set. Delivery is calculated before payment.' },
 };
 
 // Multi-image galleries per product id (auto-rotates in card)
-const MUG_ID = '6a16abb0198d4c5d294edc11';
-// Use explicit string keys — computed key [MUG_ID] can cause runtime errors in some build paths
 const PRODUCT_GALLERIES = {
   '6a16abb0198d4c5d294edc11': [
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png',
@@ -257,7 +251,7 @@ function ProductCard({ product, onCheckout, onViewCart }) {
                         : 'border-border/50 text-muted-foreground hover:border-primary/30'
                     }`}
                   >
-                    {s}
+                    {s}{Number.isFinite(product.stock_by_variant?.[s]) ? ` (${product.stock_by_variant[s]})` : ''}
                   </button>
                 ))}
               </div>
@@ -338,7 +332,7 @@ export default function Store() {
 
   const { data: dbProducts } = useQuery({
     queryKey: ['storeProducts'],
-    queryFn: () => base44.entities.MerchProduct.filter({ is_active: true, publication_status: 'live' }, '-created_date'),
+    queryFn: () => base44.entities.MerchProduct.filter({ is_active: true, publication_status: 'live', is_stage_one_sale: true }, '-created_date'),
     staleTime: 60_000,
   });
   // Fail closed. Never replace missing data with invented products, stock or prices.
@@ -378,7 +372,7 @@ export default function Store() {
             <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-xl px-5 py-3 mb-3">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
               <p className="font-body text-xs text-green-300">
-                Verified merchandise is available for Australia wide delivery.
+                Current owner-approved stock is available for delivery within Australia.
               </p>
             </div>
           ) : (
@@ -389,6 +383,9 @@ export default function Store() {
               </p>
             </div>
           )}
+          <p className="font-body text-[11px] text-muted-foreground mt-2">
+            Prices are in AUD. Delivery is shown before payment. Gannon Waye Music ABN 22 931 809 349. No GST is charged.
+          </p>
           {hasItems && (
           <div className="mt-4 inline-flex items-center gap-2 bg-primary/10 border border-primary/30 rounded-xl px-4 py-2">
           <ShoppingCart className="w-4 h-4 text-primary" />
@@ -433,20 +430,6 @@ export default function Store() {
           </>
         )}
 
-        {/* Support CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mt-16 bg-card border border-primary/20 rounded-2xl p-5 text-center"
-        >
-          <p className="font-body text-sm text-foreground/70 mb-1">Not your style? You can still support this.</p>
-          <button
-            onClick={() => navigate('/back-this')}
-            className="mt-3 gradient-gold-button rounded-full px-8 py-2.5 font-body text-sm tracking-wider uppercase inline-flex items-center gap-2"
-          >
-            <Heart className="w-4 h-4" /> Support Now
-          </button>
-        </motion.div>
 
         <p className="text-center font-body text-xs text-muted-foreground/40 mt-10 tracking-wide">
           Independent music, merchandise, and community support.
