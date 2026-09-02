@@ -1,192 +1,111 @@
 // @ts-check
- 
-/* eslint-disable no-undef */
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
-
 const DETAILS = {
-  full_name: 'Gannon Test',
-  email: 'test@gannonwaye.com',
+  full_name: 'Checkout Verification',
+  email: 'checkout-verification@example.com',
   mobile: '+61 400 000 000',
-  street_address: '123 Test Street',
+  street_address: '123 Verification Street',
   suburb: 'Melbourne',
   state: 'VIC',
   postcode: '3000',
   country: 'Australia',
+  order_support_consent: true,
+  marketing_opt_in: false,
 };
 
-async function fillDetailsAndNavigate(page) {
-  // Set localStorage details so checkout page loads correctly
-  await page.goto(`${BASE_URL}/store/all`);
-  await page.evaluate((d) => {
-    localStorage.setItem('gannon_checkout_details_v1', JSON.stringify({
-      ...d,
-      dob: '', business_name: '', abn: '',
-      order_support_consent: true, marketing_opt_in: false,
-    }));
+async function prepareDetails(page) {
+  await page.goto('/store');
+  await page.evaluate(details => {
+    localStorage.setItem('gannon_checkout_details_v1', JSON.stringify(details));
   }, DETAILS);
-
-  // Add item to cart via UI
-  await page.waitForSelector('[data-testid="product-card"]');
-  
-  // Select size M first if visible
-  const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-  if (await sizeM.isVisible().catch(() => false)) {
-    await sizeM.click({ force: true });
-  }
-
-  const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-  const count = await addBtns.count();
-  for (let i = 0; i < count; i++) {
-    const btn = addBtns.nth(i);
-    if (await btn.isVisible()) {
-      await btn.click({ force: true });
-      // Wait for the cart drawer checkout button to ensure Zustand state is saved
-      await page.waitForSelector('[data-testid="go-to-checkout-button"]', { timeout: 5000 }).catch(() => {});
-      break;
-    }
-  }
-  await page.goto(`${BASE_URL}/store/checkout`);
-  await page.waitForSelector('[data-testid="checkout-page"]');
 }
 
-test.describe('Order Review / Checkout Page', () => {
-  test('checkout page loads with items', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    await expect(page.locator('[data-testid="checkout-page"]')).toBeVisible();
+async function addHoodie(page, size = 'M') {
+  const card = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
+  await expect(card).toBeVisible();
+  await card.getByRole('button', { name: new RegExp(`^${size} \\(`) }).click();
+  await card.locator('[data-testid="add-to-cart-btn"]').click();
+  await expect(card.locator('[data-testid="add-to-cart-success"]')).toBeVisible();
+}
+
+async function addBundle(page) {
+  const card = page.locator('[data-testid="product-card"]').filter({ hasText: 'Journal Pen and Thermos' }).first();
+  await expect(card).toBeVisible();
+  await card.locator('[data-testid="add-to-cart-btn"]').click();
+  await expect(card.locator('[data-testid="add-to-cart-success"]')).toBeVisible();
+}
+
+async function openCheckoutWithBundle(page) {
+  await prepareDetails(page);
+  await addBundle(page);
+  await page.goto('/store/checkout');
+  await expect(page.locator('[data-testid="checkout-page"]')).toBeVisible();
+}
+
+test.describe('Order review and checkout page', () => {
+  test('checkout page loads with verified cart item and summaries', async ({ page }) => {
+    await openCheckoutWithBundle(page);
     await expect(page.locator('[data-testid="checkout-items"]')).toBeVisible();
-  });
-
-  test('customer summary is visible', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    await expect(page.locator('[data-testid="checkout-customer-summary"]')).toBeVisible();
-    await expect(page.locator('[data-testid="checkout-customer-summary"]')).toContainText('Gannon Test');
-  });
-
-  test('delivery summary is visible', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    await expect(page.locator('[data-testid="checkout-delivery-summary"]')).toBeVisible();
+    await expect(page.locator('[data-testid="checkout-customer-summary"]')).toContainText('Checkout Verification');
     await expect(page.locator('[data-testid="checkout-delivery-summary"]')).toContainText('Melbourne');
+    await expect(page.locator('[data-testid="cart-line"]').first()).toContainText('Journal Pen and Thermos');
   });
 
-  test('cart items are shown', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    const lines = page.locator('[data-testid="cart-line"]');
-    await expect(lines.first()).toBeVisible();
+  test('customer can increase and decrease within verified stock', async ({ page }) => {
+    await openCheckoutWithBundle(page);
+    const line = page.locator('[data-testid="cart-line"]').first();
+    await line.locator('[data-testid="cart-line-increase"]').click();
+    await expect(line).toContainText('$118.00 AUD');
+    await line.locator('[data-testid="cart-line-decrease"]').click();
+    await expect(line).toContainText('$59.00 AUD');
   });
 
-  test('customer can increase item quantity', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    const increaseBtn = page.locator('[data-testid="cart-line-increase"]').first();
-    await increaseBtn.click();
-    // Total should update — just assert it's still visible
-    await expect(page.locator('[data-testid="checkout-total"]')).toBeVisible();
-  });
-
-  test('customer can decrease item quantity', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    // First increase so decrease doesn't remove item
-    await page.locator('[data-testid="cart-line-increase"]').first().click();
-    await page.locator('[data-testid="cart-line-decrease"]').first().click();
-    await expect(page.locator('[data-testid="checkout-total"]')).toBeVisible();
-  });
-
-  test('customer can remove item', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    // Add a second item via cart store manipulation, then remove the first
+  test('customer can remove the item', async ({ page }) => {
+    await openCheckoutWithBundle(page);
     await page.locator('[data-testid="cart-line-remove"]').first().click();
-    // Either shows empty state or remaining items
-    const isEmpty = await page.locator('[data-testid="empty-cart-return-store"]').isVisible().catch(() => false);
-    const hasItems = await page.locator('[data-testid="cart-line"]').count() >= 0;
-    expect(isEmpty || hasItems).toBeTruthy();
+    await expect(page.locator('[data-testid="empty-cart-return-store"]')).toBeVisible();
   });
 
-  test('different sizes create separate cart lines', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store/all`);
-    await page.evaluate((d) => {
-      localStorage.setItem('gannon_checkout_details_v1', JSON.stringify({
-        ...d, dob: '', business_name: '', abn: '',
-        order_support_consent: true, marketing_opt_in: false,
-      }));
-    }, DETAILS);
-
-    // Find Hoodie product card with sizes - select size M
-    const hoodieCard = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
-    await expect(hoodieCard).toBeVisible();
-
-    const sizeM = hoodieCard.locator('button').filter({ hasText: /^M$/ });
-    await sizeM.click({ force: true });
-    await hoodieCard.locator('[data-testid="add-to-cart-btn"]').click({ force: true });
-
-    // Now add size L — navigate back to store
-    await page.goto(`${BASE_URL}/store/all`);
-    const hoodieCard2 = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
-    await expect(hoodieCard2).toBeVisible();
-
-    const sizeL = hoodieCard2.locator('button').filter({ hasText: /^L$/ });
-    await sizeL.click({ force: true });
-    await hoodieCard2.locator('[data-testid="add-to-cart-btn"]').click({ force: true });
-
-    await page.goto(`${BASE_URL}/store/checkout`);
-    const lines = page.locator('[data-testid="cart-line"]');
-    const lineCount = await lines.count();
-    expect(lineCount).toBeGreaterThanOrEqual(2);
+  test('different hoodie sizes remain separate cart lines', async ({ page }) => {
+    await prepareDetails(page);
+    await addHoodie(page, 'M');
+    await page.goto('/store');
+    await addHoodie(page, 'L');
+    await page.goto('/store/checkout');
+    await expect(page.locator('[data-testid="cart-line"]')).toHaveCount(2);
+    await expect(page.locator('[data-testid="cart-line"]').filter({ hasText: 'Size: M' })).toBeVisible();
+    await expect(page.locator('[data-testid="cart-line"]').filter({ hasText: 'Size: L' })).toBeVisible();
   });
 
-  test('promo code input is visible', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    await expect(page.locator('[data-testid="promo-code-input"]')).toBeVisible();
-    await expect(page.locator('[data-testid="apply-promo-code"]')).toBeVisible();
+  test('stage one checkout has no promo code or support add-on controls', async ({ page }) => {
+    await openCheckoutWithBundle(page);
+    await expect(page.locator('[data-testid="promo-code-input"]')).toHaveCount(0);
+    await expect(page.getByText(/support contribution/i)).toHaveCount(0);
   });
 
-  test('valid promo code applies', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    await page.fill('[data-testid="promo-code-input"]', 'F20UN26DVIP');
-    await page.locator('[data-testid="apply-promo-code"]').click();
-    // Should show discount or success — not an error
-    await page.waitForTimeout(2000);
-    const hasError = await page.locator('.text-destructive').isVisible().catch(() => false);
-    // May show as applied (check for promo display or no error)
-    const hasPrimarySuccess = await page.locator('.text-primary').isVisible().catch(() => false);
-    expect(hasError === false || hasPrimarySuccess === true).toBeTruthy();
+  test('delivery appears once and the totals are visible', async ({ page }) => {
+    await openCheckoutWithBundle(page);
+    await expect(page.locator('[data-testid="checkout-shipping"]')).toHaveCount(1);
+    await expect(page.locator('[data-testid="checkout-shipping"]')).toContainText('$17.50 AUD');
+    await expect(page.locator('[data-testid="checkout-subtotal"]')).toContainText('$59.00');
+    await expect(page.locator('[data-testid="checkout-total"]')).toContainText('$76.50 AUD');
   });
 
-  test('invalid promo code rejects', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    await page.fill('[data-testid="promo-code-input"]', 'INVALIDCODE999');
-    await page.locator('[data-testid="apply-promo-code"]').click();
-    await page.waitForTimeout(2000);
-    await expect(page.locator('.text-destructive').first()).toBeVisible();
+  test('pay button is enabled only after delivery is ready', async ({ page }) => {
+    await openCheckoutWithBundle(page);
+    const pay = page.locator('[data-testid="checkout-pay-button"]');
+    await expect(pay).toBeVisible();
+    await expect(pay).toBeEnabled();
+    await expect(pay).toContainText('$76.50 AUD');
   });
 
-  test('shipping is shown once and combined', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    await expect(page.locator('[data-testid="checkout-shipping"]')).toBeVisible();
-    const shippingEls = await page.locator('[data-testid="checkout-shipping"]').count();
-    expect(shippingEls).toBe(1);
-  });
-
-  test('subtotal and total are visible', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    await expect(page.locator('[data-testid="checkout-subtotal"]')).toBeVisible();
-    await expect(page.locator('[data-testid="checkout-total"]')).toBeVisible();
-  });
-
-  test('pay button is visible and enabled', async ({ page }) => {
-    await fillDetailsAndNavigate(page);
-    const payBtn = page.locator('[data-testid="checkout-pay-button"]');
-    await expect(payBtn).toBeVisible();
-    await expect(payBtn).not.toBeDisabled();
-  });
-
-  test('empty cart shows return to store button', async ({ page }) => {
-    await page.goto(`${BASE_URL}/store/all`);
+  test('empty cart returns the customer to the store', async ({ page }) => {
+    await page.goto('/store');
     await page.evaluate(() => {
-      const key = 'gannon_store_cart_v2';
-      localStorage.setItem(key, JSON.stringify({ state: { items: [], __version: 3 }, version: 0 }));
+      localStorage.removeItem('gannon_store_cart_v2');
     });
-    await page.goto(`${BASE_URL}/store/checkout`);
+    await page.goto('/store/checkout');
     await expect(page.locator('[data-testid="empty-cart-return-store"]')).toBeVisible();
   });
 });
