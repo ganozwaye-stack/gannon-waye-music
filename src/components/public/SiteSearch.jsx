@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Search, X, Music, ShoppingBag, Users, BookOpen, FileText, Heart } from 'lucide-react';
+import { Search, X, Music, ShoppingBag, Users, BookOpen, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -8,8 +8,7 @@ import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 const STATIC_PAGES = [
   { label: 'My Story', path: '/this-is-my-life', icon: BookOpen, description: 'About Gannon — ten-episode life series' },
-  { label: 'Community', path: '/community', icon: Users, description: 'Fan messages and connection' },
-  { label: 'Back This Project', path: '/back-this', icon: Heart, description: 'Support the music directly' },
+  { label: 'Community', path: '/community', icon: Users, description: 'Supporter messages and connection' },
   { label: 'Lyrics', path: '/lyrics', icon: FileText, description: 'Read every word' },
   { label: 'Videos', path: '/videos', icon: Music, description: 'Instagram & TikTok content' },
   { label: 'FAQ', path: '/faq', icon: FileText, description: 'Common questions answered' },
@@ -28,7 +27,7 @@ export default function SiteSearch({ onClose }) {
 
   const { data: products = [] } = useQuery({
     queryKey: ['merchProducts'],
-    queryFn: () => base44.entities.MerchProduct.filter({ is_active: true }),
+    queryFn: () => base44.entities.MerchProduct.filter({ is_active: true, publication_status: 'live', is_stage_one_sale: true }),
     initialData: [],
   });
 
@@ -113,7 +112,7 @@ export default function SiteSearch({ onClose }) {
               <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/60 px-1 mb-3">Merch</p>
               <div className="space-y-2">
                 {matchedProducts.map(p => (
-                  <ResultItem key={p.id} icon={ShoppingBag} label={p.name} description={`$${p.price?.toFixed(2)}`} path="/store" onClose={onClose} />
+                  <ResultItem key={p.id} icon={ShoppingBag} label={p.name} description={`$${Number(p.sale_price || 0).toFixed(2)} AUD`} path="/store" onClose={onClose} />
                 ))}
               </div>
             </div>
