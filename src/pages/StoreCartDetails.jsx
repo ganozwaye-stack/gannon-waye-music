@@ -9,10 +9,7 @@ import { useCartStore } from '@/lib/cartStore';
 
 const DETAILS_KEY = 'gannon_checkout_details_v1';
 
-const COUNTRIES = [
-  'Australia', 'New Zealand', 'United States', 'United Kingdom', 'Canada',
-  'Ireland', 'Singapore', 'Other',
-];
+const COUNTRIES = ['Australia'];
 
 const AU_STATES = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'];
 
@@ -41,7 +38,6 @@ export default function StoreCartDetails() {
     return {
       full_name: '', email: '', mobile: '',
       street_address: '', suburb: '', state: '', postcode: '', country: 'Australia',
-      dob: '', business_name: '', abn: '',
       order_support_consent: true, marketing_opt_in: false,
     };
   });
@@ -80,20 +76,17 @@ export default function StoreCartDetails() {
     if (!form.suburb.trim()) e.suburb = 'Suburb / city is required';
     if (!form.state.trim()) e.state = 'State is required';
     if (!form.postcode.trim()) e.postcode = 'Postcode is required';
-    if (!form.country.trim()) e.country = 'Country is required';
-    if (form.abn && !/^\d{9,11}$/.test(form.abn.replace(/\s/g, ''))) e.abn = 'ABN must be 11 digits';
+    if (form.country !== 'Australia') e.country = 'Stage one delivery is available within Australia only.';
     return e;
   };
 
   const handleContinue = () => {
     const e = validate();
     setErrors(e);
-    setTouched({ full_name: true, email: true, mobile: true, street_address: true, suburb: true, state: true, postcode: true, country: true, abn: !!form.abn });
+    setTouched({ full_name: true, email: true, mobile: true, street_address: true, suburb: true, state: true, postcode: true, country: true });
     if (Object.keys(e).length > 0) return;
     navigate('/store/checkout');
   };
-
-  const isAustralia = form.country === 'Australia';
 
   return (
     <div className="min-h-screen py-24 px-4 md:px-6" data-testid="cart-details-page">
@@ -168,6 +161,7 @@ export default function StoreCartDetails() {
           {/* Delivery */}
           <div className="bg-card/40 border border-border/30 rounded-2xl p-5 space-y-4">
             <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Delivery Address</p>
+            <p className="font-body text-xs text-muted-foreground">Current checkout is for Australian delivery only.</p>
 
             <Field label="Street Address" required error={touched.street_address && errors.street_address}>
               <Input
@@ -200,26 +194,16 @@ export default function StoreCartDetails() {
               </Field>
             </div>
 
-            <Field label="State / Region" required error={touched.state && errors.state}>
-              {isAustralia ? (
-                <select
-                  data-testid="input-state"
-                  value={form.state}
-                  onChange={e => set('state', e.target.value)}
-                  className="w-full bg-secondary/50 border border-border/40 rounded-md px-3 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
-                >
-                  <option value="">Select state</option>
-                  {AU_STATES.map(s => <option key={s} value={s}>{s}</option>)}
-                </select>
-              ) : (
-                <Input
-                  data-testid="input-state"
-                  placeholder="State / Region / Province"
-                  value={form.state}
-                  onChange={e => set('state', e.target.value)}
-                  className="bg-secondary/50 border-border/40 focus:border-primary/40"
-                />
-              )}
+            <Field label="State" required error={touched.state && errors.state}>
+              <select
+                data-testid="input-state"
+                value={form.state}
+                onChange={e => set('state', e.target.value)}
+                className="w-full bg-secondary/50 border border-border/40 rounded-md px-3 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
+              >
+                <option value="">Select state</option>
+                {AU_STATES.map(s => <option key={s} value={s}>{s}</option>)}
+              </select>
             </Field>
 
             <Field label="Country" required error={touched.country && errors.country}>
@@ -231,41 +215,6 @@ export default function StoreCartDetails() {
               >
                 {COUNTRIES.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-            </Field>
-          </div>
-
-          {/* Optional */}
-          <div className="bg-card/40 border border-border/30 rounded-2xl p-5 space-y-4">
-            <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Optional Information</p>
-
-            <Field label="Date of Birth" error={null}>
-              <Input
-                data-testid="input-dob"
-                type="date"
-                value={form.dob}
-                onChange={e => set('dob', e.target.value)}
-                className="bg-secondary/50 border-border/40 focus:border-primary/40"
-              />
-            </Field>
-
-            <Field label="Business Name" error={null}>
-              <Input
-                data-testid="input-business-name"
-                placeholder="My Business Pty Ltd"
-                value={form.business_name}
-                onChange={e => set('business_name', e.target.value)}
-                className="bg-secondary/50 border-border/40 focus:border-primary/40"
-              />
-            </Field>
-
-            <Field label="ABN" error={touched.abn && errors.abn}>
-              <Input
-                data-testid="input-abn"
-                placeholder="12 345 678 901"
-                value={form.abn}
-                onChange={e => set('abn', e.target.value)}
-                className="bg-secondary/50 border-border/40 focus:border-primary/40"
-              />
             </Field>
           </div>
 
