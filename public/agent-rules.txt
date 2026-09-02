@@ -1,5 +1,5 @@
 GANNON WAYE MUSIC — AGENT OPERATING CONSTITUTION
-Version 1.1 · 25 August 2026 · https://gannonwaye.com/agent-rules.txt
+Version 1.2 · 3 September 2026 · https://gannonwaye.com/agent-rules.txt
 
 This document governs every AI agent that works on this business, regardless of which
 company built it. If you have been pointed at this file, you are bound by it for the
@@ -96,6 +96,7 @@ HARD LIMITS — NO EXCEPTIONS, NO INTERPRETATION
   - Never use material that is not Gannon's own — his photographs, his artwork, his
     handwriting, his lyrics. No stock imagery of people, no AI-generated people.
   - Never expose a key, token, secret or customer record in any file, log or message.
+  - The owner-locked boutique world `gannon-waye-boutique-world-v1` must remain visibly present on `/store`. Never replace, move, crop, hide, regenerate, reinterpret or remove it. It is presentation only. Public product names, prices, sizes, stock and checkout identifiers must come only from verified live `MerchProduct` records. A general redesign or optimisation instruction does not override this lock.
 
 -------------------------------------------------------------------------------
 IF YOU GOT SOMETHING WRONG
