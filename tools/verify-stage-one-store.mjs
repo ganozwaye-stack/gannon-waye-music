@@ -13,16 +13,21 @@ function requireText(content, needle, message) {
 }
 
 const store = read('src/pages/Store.jsx');
+const liveProducts = read('src/lib/liveStoreProducts.js');
 const details = read('src/pages/StoreCartDetails.jsx');
 const checkout = read('src/pages/StoreCheckout.jsx');
 const backend = read('base44/functions/createCheckoutSession/entry.ts');
 const receipt = read('base44/functions/sendOrderReceipt/entry.ts');
 const localClient = read('src/api/base44Client.js');
 
-requireText(store, "MerchProduct.filter({ is_active: true, publication_status: 'live', is_stage_one_sale: true }", 'The public store no longer fails closed to the two owner-approved stage one products.');
+requireText(store, 'fetchLiveStoreProducts', 'The public store no longer uses the shared verified product source.');
+requireText(liveProducts, "publication_status: 'live'", 'The shared product source no longer requires live publication status.');
+requireText(liveProducts, 'is_stage_one_sale: true', 'The shared product source no longer fails closed to the owner-approved stage one products.');
 requireText(details, "const COUNTRIES = ['Australia'];", 'Stage one customer details are no longer restricted to Australian delivery.');
 requireText(checkout, "shipping_country: 'Australia'", 'The checkout no longer sends the stage one Australian delivery gate.');
 requireText(checkout, "displayed_shipping_amount", 'The checkout no longer sends the displayed delivery amount for server comparison.');
+requireText(checkout, "displayed_subtotal_amount", 'The checkout no longer sends the displayed subtotal for server comparison.');
+requireText(backend, "displayed_subtotal_amount", 'The checkout backend no longer validates the displayed subtotal against live prices.');
 requireText(backend, "inventory_source !== 'owned_stock'", 'The checkout no longer enforces verified owned stock for stage one.');
 requireText(backend, "calculateShippingQuote", 'Stripe checkout is not using the shared live shipping calculation.');
 requireText(backend, "shipping_address_collection: { allowed_countries: ['AU'] }", 'Stripe is no longer restricted to Australian stage one delivery.');
