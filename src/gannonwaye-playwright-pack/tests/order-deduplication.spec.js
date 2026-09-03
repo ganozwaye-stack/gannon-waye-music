@@ -17,7 +17,6 @@ import { test, expect } from '@playwright/test';
 const BASE_URL = (typeof process !== 'undefined' && process.env?.BASE_URL) || 'http://localhost:5173';
 const THEA_SESSION_ID = 'cs_live_b1NME9LVRZv1N2g7jG3tDc4LRJVDrvleilDQ9AtKxY0kOH7s72bob5PYQW';
 const THEA_EMAIL = 'dorotheae@icloud.com';
-const THEA_AMOUNT = 90.48;
 
 test.describe('Order Deduplication — Thea Elsworth', () => {
 
@@ -42,7 +41,6 @@ test.describe('Order Deduplication — Thea Elsworth', () => {
     await page.waitForLoadState('load');
 
     // Default filter should be "Active Orders" — duplicates hidden
-    const duplicateBadges = page.locator('text=DUPLICATE VOID');
     // Should either not exist or only appear in the warning banner, not in the order list
     const listDuplicates = page.locator('.space-y-3 >> text=DUPLICATE VOID');
     await expect(listDuplicates).toHaveCount(0);
