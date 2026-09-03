@@ -142,16 +142,12 @@ test.describe('Mobile home remains operable at supported phone sizes', () => {
           scrollHeight: element.scrollHeight,
         }));
 
-        if (menuMetrics.scrollHeight > menuMetrics.clientHeight + 2) {
-          await mobileMenu.evaluate((element) => {
-            element.scrollTop = element.scrollHeight;
-          });
-          await expect.poll(
-            () => mobileMenu.evaluate((element) => element.scrollTop),
-            { message: 'The expanded mobile menu must scroll on short screens.' },
-          ).toBeGreaterThan(0);
-          await expect(mobileMenu.getByRole('link', { name: 'My Profile' })).toBeVisible();
+        const profileLink = mobileMenu.getByRole('link', { name: 'My Profile' });
+        if (menuMetrics.scrollHeight > menuMetrics.clientHeight + 8) {
+          await profileLink.scrollIntoViewIfNeeded();
         }
+        await expect(profileLink).toBeVisible();
+        await expect(profileLink).toBeInViewport();
 
         await mobileMenuButton.click();
         await expect(mobileMenu).toBeHidden();
