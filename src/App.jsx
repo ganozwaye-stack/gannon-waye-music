@@ -406,7 +406,11 @@ const AuthenticatedApp = () => {
         <Route path="/mum" element={<Navigate to="/mums-garden" replace />} />
         <Route path="/mums" element={<Navigate to="/mums-garden" replace />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
+        <Route path="/store/checkout-success" element={<Navigate to="/checkout-success" replace />} />
+        <Route path="/payment-success" element={<Navigate to="/checkout-success" replace />} />
+        <Route path="/order-success" element={<Navigate to="/checkout-success" replace />} />
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
+        <Route path="/store/checkout-cancel" element={<Navigate to="/checkout-cancel" replace />} />
         <Route path="/presave" element={<PreSave />} />
         <Route path="/release/:id" element={<ReleaseDetail />} />
         <Route path="/store/product/:slug" element={<Navigate to="/store" replace />} />
