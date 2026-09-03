@@ -169,13 +169,13 @@ function EpisodeCard({ episode, index, onNotify }) {
                   <p className="font-body text-sm text-foreground/70 leading-relaxed mt-4 border-t border-border/30 pt-4">
                     {episode.excerpt}
                   </p>
-                  <Link to="/back-this" className="inline-flex items-center gap-1.5 mt-4 font-body text-xs text-primary hover:underline">
-                    Support this project <ArrowRight className="w-3 h-3" />
+                  <Link to="/store" className="inline-flex items-center gap-1.5 mt-4 font-body text-xs text-primary hover:underline">
+                    Shop the message <ArrowRight className="w-3 h-3" />
                   </Link>
                   <div className="mt-3 flex gap-3">
-                    <Link to="/back-this">
+                    <Link to="/store">
                       <button className="font-body text-xs tracking-wider uppercase text-muted-foreground hover:text-primary transition-colors">
-                        Support this project 🤍
+                        Shop the message 🤍
                       </button>
                     </Link>
                   </div>
@@ -224,9 +224,9 @@ export default function ThisIsMyLife() {
                 Hear the Music
               </Button>
             </Link>
-            <Link to="/back-this">
+            <Link to="/store">
               <Button variant="outline" className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10">
-                <Heart className="w-4 h-4 mr-2" /> Support This
+                <Heart className="w-4 h-4 mr-2" /> Visit the Store
               </Button>
             </Link>
           </div>
@@ -279,9 +279,9 @@ export default function ThisIsMyLife() {
                 Hear the Music <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
-            <Link to="/back-this">
+            <Link to="/store">
               <Button variant="outline" className="rounded-full px-7 py-4 font-body text-sm tracking-wider uppercase border-primary/30 text-primary hover:bg-primary/10 w-full sm:w-auto">
-                <Heart className="w-4 h-4 mr-2" /> Support the Project 🤍
+                <Heart className="w-4 h-4 mr-2" /> Shop the Message
               </Button>
             </Link>
           </motion.div>
@@ -343,17 +343,17 @@ export default function ThisIsMyLife() {
             &ldquo;After everything&hellip; I&apos;m still here.&rdquo;
           </p>
           <p className="font-body text-sm text-muted-foreground mb-8 leading-relaxed">
-            New episodes release as the story unfolds. Sign up to be notified when the next chapter drops.
+            New episodes release as the story unfolds. Follow on Instagram or use the Contact page for current updates.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link to="/email-preferences">
+            <Link to="/contact">
               <Button className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase gradient-gold-button border-0">
-                Notify Me of New Episodes
+                Contact for Updates
               </Button>
             </Link>
-            <Link to="/back-this">
+            <Link to="/store">
               <Button variant="outline" className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase border-foreground/20">
-                Be Part of This
+                Visit the Store
               </Button>
             </Link>
           </div>
