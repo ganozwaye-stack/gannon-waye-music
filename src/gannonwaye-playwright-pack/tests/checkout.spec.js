@@ -12,20 +12,19 @@ const DETAILS = {
   postcode: '3000',
   country: 'Australia',
   order_support_consent: true,
-  marketing_opt_in: false,
 };
 
 async function prepareDetails(page) {
   await page.goto('/store');
   await page.evaluate(details => {
-    localStorage.setItem('gannon_checkout_details_v1', JSON.stringify(details));
+    sessionStorage.setItem('gannon_checkout_details_v1', JSON.stringify({ ...details, _saved_at: Date.now() }));
   }, DETAILS);
 }
 
 async function addHoodie(page, size = 'M') {
   const card = page.locator('[data-testid="product-card"]').filter({ hasText: 'Hoodie' }).first();
   await expect(card).toBeVisible();
-  await card.getByRole('button', { name: new RegExp(`^${size} \\(`) }).click();
+  await card.getByRole('button', { name: new RegExp(`^Select size ${size}\\b`) }).click();
   await card.locator('[data-testid="add-to-cart-btn"]').click();
   await expect(card.locator('[data-testid="add-to-cart-success"]')).toBeVisible();
 }
