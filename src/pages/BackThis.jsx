@@ -281,23 +281,20 @@ export default function BackThis() {
               {form.name ? `${form.name}, you're` : "You're"} part of this now. Your support means more than you know. 🤍
             </p>
             
-            {/* 1800RESPECT Commitment - LEGAL SAFE */}
+            {/* Support context — no unverified charitable claim */}
             <div className="bg-primary/5 border border-primary/20 rounded-2xl p-6 mt-8 max-w-lg mx-auto text-left">
-              <p className="font-body text-xs tracking-widest uppercase text-primary mb-3">10% Giving Commitment</p>
+              <p className="font-body text-xs tracking-widest uppercase text-primary mb-3">Where Your Support Goes</p>
               <p className="font-body text-sm text-foreground/80 leading-relaxed mb-3">
-                Every month, I donate 10% of all support received to <strong>1800RESPECT</strong> — Australia's national sexual assault, domestic and family violence counselling service.
+                Your contribution directly supports Gannon Waye's independent music creation, releases, and related artist activities.
               </p>
               <p className="font-body text-sm text-foreground/70 leading-relaxed mb-3">
-                As a man in a same-sex relationship, I know how isolating violence can feel when you don't see yourself reflected in the stories being told. 1800RESPECT provides inclusive, confidential support for everyone — women, men, and children fleeing violence, including specialised LGBTQIA+ support that understands the unique challenges of leaving abusive situations when you're already marginalised.
-              </p>
-              <p className="font-body text-sm text-foreground/70 leading-relaxed">
-                Your support doesn't just fund my music — it helps fund safety, healing, and hope for others walking similar paths. Thank you for being part of this ripple effect. 🤍
+                No portion of this contribution is represented as a charitable donation unless a separate verified campaign expressly says so.
               </p>
               <p className="font-body text-[11px] text-primary/70 mt-3 font-medium">
-                ⚠️ This is a voluntary support contribution, not a tax-deductible donation. DGR tax deductibility is not confirmed. Please seek independent advice if required.
+                This is a voluntary support contribution and is not represented as tax-deductible. Please seek independent advice if required.
               </p>
               <p className="font-body text-xs text-muted-foreground mt-2">
-                <a href="https://www.1800respect.org.au" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Learn more about 1800RESPECT →</a>
+                If you need domestic and family violence support, visit <a href="https://www.1800respect.org.au" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">1800RESPECT →</a>
               </p>
             </div>
             {frequency !== 'once' && (
@@ -346,7 +343,7 @@ export default function BackThis() {
                 Download Contribution Receipt 📄
               </Button>
               <p className="font-body text-[10px] text-muted-foreground">
-                A receipt is provided for your records. 10% of contributions support 1800RESPECT. Not tax-deductible unless DGR status is confirmed.
+                A receipt is provided for your records. This contribution is not represented as tax-deductible.
               </p>
             </div>
             
@@ -694,7 +691,7 @@ export default function BackThis() {
             )}
           </div>
 
-          {/* BOTTOM — what your support does + heart + 10% promise */}
+          {/* BOTTOM — what your support does + independent support context */}
           <section className="max-w-6xl mx-auto px-4 md:px-6 pb-20">
             <div className="grid md:grid-cols-3 gap-6">
               <div className="bg-card border border-border/40 rounded-2xl p-6 space-y-2 md:col-span-2">
@@ -710,10 +707,10 @@ export default function BackThis() {
                 <img src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/adcdec40c_GWheartlacewrap.png" alt="GW Heart" className="w-28 h-28 object-contain" />
                 <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-left w-full">
                   <p className="font-body text-xs text-foreground/70 leading-relaxed mb-2">
-                    <strong>10% Giving Promise:</strong> Every month, I donate 10% of all support received to 1800RESPECT, supporting inclusive domestic violence services for women, men, and children, including specialised LGBTQIA+ support for those in same-sex relationships fleeing violence. Your contribution creates ripples of change. 🤍
+                    <strong>Independent support:</strong> Contributions support Gannon Waye's music and related artist activities. No charitable transfer is represented unless a separate verified campaign expressly says so.
                   </p>
                   <p className="font-body text-[10px] text-primary/70 font-medium">
-                    ⚠️ Not tax-deductible. Support contribution only. See terms for details.
+                    Support contribution only. Not represented as tax-deductible. See terms for details.
                   </p>
                 </div>
               </div>
