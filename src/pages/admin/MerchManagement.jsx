@@ -40,13 +40,11 @@ export default function MerchManagement() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(emptyProduct);
   const [sizeInput, setSizeInput] = useState('');
-  const [uploading, setUploading] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
   const [bulkAction, setBulkAction] = useState(null);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const { data: products, isLoading } = useQuery({
+  const { data: products } = useQuery({
     queryKey: ['merchProducts'],
     queryFn: () => base44.entities.MerchProduct.list('-created_date'),
     initialData: [],
@@ -100,19 +98,6 @@ export default function MerchManagement() {
     },
   });
 
-  const bulkUpdateMutation = useMutation({
-    mutationFn: async ({ ids, updates }) => {
-      const promises = ids.map(id => base44.entities.MerchProduct.update(id, updates));
-      await Promise.all(promises);
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['merchProducts'] });
-      setBulkAction(null);
-      setSelectedProducts([]);
-      toast({ title: 'Bulk update complete', description: `${selectedProducts.length} products updated` });
-    },
-  });
-
   const handleImagesChange = (newImages) => {
     setForm({ 
       ...form, 
@@ -133,7 +118,6 @@ export default function MerchManagement() {
   const openEdit = (product) => {
     setEditing(product ? product.id : 'new');
     setForm(product ? { ...emptyProduct, ...product } : emptyProduct);
-    setCurrentImageIndex(0);
   };
 
   const toggleSelect = (id) => {
