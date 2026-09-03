@@ -4,11 +4,18 @@
  */
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useQuery } from '@tanstack/react-query';
+import { fetchLiveStoreProducts, formatAudPrice } from '@/lib/liveStoreProducts';
 
 const ACCENT = '#D4AF37';
 
 export default function StoreWorldTeaser() {
   const navigate = useNavigate();
+  const { data: products = [] } = useQuery({
+    queryKey: ['merchProducts'],
+    queryFn: () => fetchLiveStoreProducts(),
+    initialData: [],
+  });
 
   return (
     <section
@@ -136,12 +143,9 @@ export default function StoreWorldTeaser() {
 
         {/* Small product teaser pills */}
         <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap', marginTop: '28px' }}>
-          {[
-            'Respect Is Earned Hoodie — $98',
-            'Journal, Pen and Thermos Bundle — $59',
-          ].map(label => (
+          {products.map(product => (
             <button
-              key={label}
+              key={product.id}
               type="button"
               onClick={() => navigate('/store')}
               style={{
@@ -158,7 +162,7 @@ export default function StoreWorldTeaser() {
               onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(212,175,55,0.4)'; e.currentTarget.style.color = ACCENT; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(212,175,55,0.15)'; e.currentTarget.style.color = 'rgba(212,175,55,0.5)'; }}
             >
-              {label}
+              {product.name} · {formatAudPrice(product.sale_price)}
             </button>
           ))}
         </div>
