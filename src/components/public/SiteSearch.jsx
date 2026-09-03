@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Search, X, Music, ShoppingBag, Users, BookOpen, FileText } from 'lucide-react';
+import { Search, X, Music, ShoppingBag, Mail, BookOpen, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 const STATIC_PAGES = [
-  { label: 'My Story', path: '/this-is-my-life', icon: BookOpen, description: 'About Gannon — ten-episode life series' },
-  { label: 'Community', path: '/community', icon: Users, description: 'Supporter messages and connection' },
+  { label: 'My Story', path: '/this-is-my-life', icon: BookOpen, description: 'About Gannon: ten-episode life series' },
+  { label: 'Contact', path: '/contact', icon: Mail, description: 'Music, media, collaboration, or business enquiries' },
   { label: 'Lyrics', path: '/lyrics', icon: FileText, description: 'Read every word' },
   { label: 'Videos', path: '/videos', icon: Music, description: 'Instagram & TikTok content' },
   { label: 'FAQ', path: '/faq', icon: FileText, description: 'Common questions answered' },
@@ -63,6 +63,9 @@ export default function SiteSearch({ onClose }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-xl flex flex-col"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Search the Gannon Waye site"
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div className="max-w-2xl w-full mx-auto px-4 pt-20 pb-10">
@@ -73,10 +76,12 @@ export default function SiteSearch({ onClose }) {
             ref={inputRef}
             value={query}
             onChange={e => setQuery(e.target.value)}
+            name="site-search"
+            aria-label="Search music, merchandise, and stories"
             placeholder="Search music, merch, stories..."
             className="flex-1 bg-transparent font-body text-base text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
-          <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors">
+          <button type="button" onClick={onClose} aria-label="Close search" className="text-muted-foreground hover:text-foreground transition-colors">
             <X className="w-5 h-5" />
           </button>
         </div>
