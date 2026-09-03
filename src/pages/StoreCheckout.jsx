@@ -22,7 +22,7 @@ function itemAvailability(item) {
 export default function StoreCheckout() {
   const navigate = useNavigate();
   const rawItems = useCartStore(state => state.items);
-  const items = Array.isArray(rawItems) ? rawItems : [];
+  const items = useMemo(() => (Array.isArray(rawItems) ? rawItems : []), [rawItems]);
   const { updateQuantity, removeItem } = useCartStore();
 
   const [hasHydrated, setHasHydrated] = useState(false);
