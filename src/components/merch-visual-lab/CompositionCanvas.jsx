@@ -70,9 +70,9 @@ export default function CompositionCanvas({ layout, bgStyle, assets, textOverlay
           </div>
         )}
 
-        {/* Donation note */}
+        {/* Campaign note */}
         <div className="absolute top-3 right-3 z-10">
-          <span className="text-[8px] bg-black/50 text-primary/70 px-2 py-1 rounded-full">10% donated to 1800RESPECT</span>
+          <span className="text-[8px] bg-black/50 text-primary/70 px-2 py-1 rounded-full">Support independent music</span>
         </div>
 
         {assets.length === 0 && (
