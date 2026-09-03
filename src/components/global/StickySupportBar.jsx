@@ -67,7 +67,7 @@ export default function StickySupportBar() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
-          className="fixed bottom-4 left-4 right-4 z-50 sm:left-4 sm:right-auto sm:w-[min(86vw,300px)]"
+          className="fixed bottom-[calc(4.5rem+env(safe-area-inset-bottom))] left-4 right-4 z-50 sm:bottom-4 sm:left-4 sm:right-auto sm:w-[min(86vw,300px)]"
         >
           <div className="w-full rounded-2xl bg-card/85 backdrop-blur-md border border-border/50 px-3 py-2.5 shadow-[0_-2px_24px_rgba(0,0,0,0.35)]">
             <div className="flex items-center gap-2">
@@ -135,7 +135,7 @@ export default function StickySupportBar() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.6 }}
-        className="fixed bottom-[96px] right-4 z-50 sm:bottom-4"
+        className="fixed bottom-[calc(8.75rem+env(safe-area-inset-bottom))] right-4 z-50 sm:bottom-4"
       >
         <Link to="/back-this">
           <Button
