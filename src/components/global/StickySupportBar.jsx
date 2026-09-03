@@ -20,6 +20,12 @@ export default function StickySupportBar() {
   const location = useLocation();
   const isMemorialPage = MEMORIAL_PATHS.includes(location.pathname);
   const isStorePage = location.pathname.startsWith('/store');
+  const isPrivateOrUtilityPage = (
+    location.pathname.startsWith('/admin') ||
+    location.pathname.startsWith('/oauth') ||
+    location.pathname === '/login' ||
+    location.pathname === '/auth'
+  );
 
   const { data: candidates = [] } = useQuery({
     queryKey: ['sticky-player-public-releases'],
@@ -45,7 +51,7 @@ export default function StickySupportBar() {
   const stop = usePlayerStore((state) => state.stop);
   const activeApproved = Boolean(active && track && approvedTracks.has(track));
 
-  if (isMemorialPage || isStorePage) return null;
+  if (isMemorialPage || isStorePage || isPrivateOrUtilityPage) return null;
 
   const toggle = () => {
     if (activeApproved) {
