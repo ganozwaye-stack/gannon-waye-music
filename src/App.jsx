@@ -252,9 +252,6 @@ import RememberMum from '@/pages/RememberMum';
 import SiteUpgradeAudit from '@/pages/admin/SiteUpgradeAudit';
 import Base44ExitPlan from '@/pages/admin/Base44ExitPlan';
 import LegalDrafts from '@/pages/admin/LegalDrafts';
-import CinematicWebsites from '@/pages/systems/CinematicWebsites';
-import CaseStudyGannonWaye from '@/pages/systems/CaseStudyGannonWaye';
-import CaseStudyGanozMix from '@/pages/systems/CaseStudyGanozMix';
 import LyricLibrary from '@/pages/LyricLibrary';
 import Biography from '@/pages/Biography';
 import MusicRecommender from '@/pages/MusicRecommender';
@@ -446,11 +443,11 @@ const AuthenticatedApp = () => {
           <Route path="/coaching/*" element={<Navigate to="/contact" replace />} />
         )}
 
-        {/* Systems Manager — sell this platform to others */}
+        {/* Systems services and case studies stay private until pricing and proof are approved. */}
         <Route path="/systems-manager" element={<Navigate to="/contact" replace />} />
-        <Route path="/systems/cinematic-websites" element={<CinematicWebsites />} />
-        <Route path="/systems/case-studies/gannon-waye-music-os" element={<CaseStudyGannonWaye />} />
-        <Route path="/systems/case-studies/ganozmix-direct" element={<CaseStudyGanozMix />} />
+        <Route path="/systems/cinematic-websites" element={<Navigate to="/contact" replace />} />
+        <Route path="/systems/case-studies/gannon-waye-music-os" element={<Navigate to="/contact" replace />} />
+        <Route path="/systems/case-studies/ganozmix-direct" element={<Navigate to="/contact" replace />} />
         <Route path="/systems/*" element={<Navigate to="/contact" replace />} />
         <Route path="/lyric-library" element={<LyricLibrary />} />
         <Route path="/gift-cards" element={<Navigate to="/store" replace />} />
