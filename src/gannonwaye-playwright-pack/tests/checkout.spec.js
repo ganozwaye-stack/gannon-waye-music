@@ -1,4 +1,4 @@
-/* eslint-disable no-undef -- vendored Playwright pack: CommonJS globals (require/process) are valid in Node test context */
+ 
 // @ts-check
 const { test, expect } = require('@playwright/test');
 

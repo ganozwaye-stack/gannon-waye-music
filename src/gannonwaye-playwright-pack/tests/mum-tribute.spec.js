@@ -6,7 +6,7 @@
 // left as-is deliberately so they keep failing loudly until Gannon says what replaced them.
 // @ts-check
  
-/* eslint-disable no-undef */
+ 
 const { test, expect } = require('@playwright/test');
 
 const BASE = 'http://localhost:5173';

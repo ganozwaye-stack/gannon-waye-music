@@ -1,5 +1,5 @@
 // @ts-check
-/* eslint-disable no-undef */
+ 
 
 /**
  * DEPRECATED — this config is intentionally inert.
