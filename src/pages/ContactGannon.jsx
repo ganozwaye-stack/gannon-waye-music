@@ -10,30 +10,6 @@ import { base44 } from '@/api/base44Client';
 
 const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz';
 
-const SOCIAL_LINKS = [
-  {
-    label: 'Instagram',
-    handle: '@gann0nwaye',
-    url: 'https://www.instagram.com/gann0nwaye',
-    icon: Instagram,
-    desc: 'Behind the scenes, music moments & more',
-  },
-  {
-    label: 'TikTok',
-    handle: '@gann0nwaye',
-    url: 'https://www.tiktok.com/@gann0nwaye',
-    icon: Music,
-    desc: 'Short-form stories, music & community',
-  },
-  {
-    label: 'Spotify',
-    handle: 'Gannon Waye',
-    url: SPOTIFY_ARTIST_URL,
-    icon: Music,
-    desc: 'Stream & follow on Spotify',
-  },
-];
-
 export default function ContactGannon() {
   const { toast } = useToast();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
