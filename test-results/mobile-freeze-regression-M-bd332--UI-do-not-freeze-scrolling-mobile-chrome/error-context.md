@@ -29,11 +29,10 @@ Call log:
       - element is not visible
     - retrying click action
       - waiting 100ms
-    148 × waiting for element to be visible, enabled and stable
+    147 × waiting for element to be visible, enabled and stable
         - element is not visible
       - retrying click action
         - waiting 500ms
-    - waiting for element to be visible, enabled and stable
 
 ```
 
@@ -56,46 +55,46 @@ Call log:
             - img [ref=e16]
           - button "Open navigation menu" [ref=e20] [cursor=pointer]:
             - img [ref=e21]
-      - dialog "Search the Gannon Waye site" [ref=e22]:
-        - generic [ref=e23]:
-          - generic [ref=e24]:
-            - img [ref=e25]
-            - textbox "Search music, merchandise, and stories" [active] [ref=e28]:
-              - /placeholder: Search music, merch, stories...
-            - button "Close search":
-              - img
-          - generic [ref=e32]:
-            - paragraph [ref=e33]: Quick Links
-            - 'link "My Story About Gannon: ten-episode life series" [ref=e34] [cursor=pointer]':
-              - /url: /this-is-my-life
-              - img [ref=e36]
-              - generic [ref=e38]:
-                - paragraph [ref=e39]: My Story
-                - paragraph [ref=e40]: "About Gannon: ten-episode life series"
-            - link "Contact Music, media, collaboration, or business enquiries" [ref=e41] [cursor=pointer]:
-              - /url: /contact
-              - img [ref=e43]
-              - generic [ref=e46]:
-                - paragraph [ref=e47]: Contact
-                - paragraph [ref=e48]: Music, media, collaboration, or business enquiries
-            - link "Lyrics Read every word" [ref=e49] [cursor=pointer]:
-              - /url: /lyrics
-              - img [ref=e51]
-              - generic [ref=e54]:
-                - paragraph [ref=e55]: Lyrics
-                - paragraph [ref=e56]: Read every word
-            - link "Videos Instagram & TikTok content" [ref=e57] [cursor=pointer]:
-              - /url: /videos
-              - img [ref=e59]
-              - generic [ref=e63]:
-                - paragraph [ref=e64]: Videos
-                - paragraph [ref=e65]: Instagram & TikTok content
-            - link "FAQ Common questions answered" [ref=e66] [cursor=pointer]:
-              - /url: /faq
-              - img [ref=e68]
-              - generic [ref=e71]:
-                - paragraph [ref=e72]: FAQ
-                - paragraph [ref=e73]: Common questions answered
+    - dialog "Search the Gannon Waye site" [ref=e22]:
+      - generic [ref=e23]:
+        - generic [ref=e24]:
+          - img [ref=e25]
+          - textbox "Search music, merchandise, and stories" [active] [ref=e28]:
+            - /placeholder: Search music, merch, stories...
+          - button "Close search":
+            - img
+        - generic [ref=e32]:
+          - paragraph [ref=e33]: Quick Links
+          - 'link "My Story About Gannon: ten-episode life series" [ref=e34] [cursor=pointer]':
+            - /url: /this-is-my-life
+            - img [ref=e36]
+            - generic [ref=e38]:
+              - paragraph [ref=e39]: My Story
+              - paragraph [ref=e40]: "About Gannon: ten-episode life series"
+          - link "Contact Music, media, collaboration, or business enquiries" [ref=e41] [cursor=pointer]:
+            - /url: /contact
+            - img [ref=e43]
+            - generic [ref=e46]:
+              - paragraph [ref=e47]: Contact
+              - paragraph [ref=e48]: Music, media, collaboration, or business enquiries
+          - link "Lyrics Read every word" [ref=e49] [cursor=pointer]:
+            - /url: /lyrics
+            - img [ref=e51]
+            - generic [ref=e54]:
+              - paragraph [ref=e55]: Lyrics
+              - paragraph [ref=e56]: Read every word
+          - link "Videos Instagram & TikTok content" [ref=e57] [cursor=pointer]:
+            - /url: /videos
+            - img [ref=e59]
+            - generic [ref=e63]:
+              - paragraph [ref=e64]: Videos
+              - paragraph [ref=e65]: Instagram & TikTok content
+          - link "FAQ Common questions answered" [ref=e66] [cursor=pointer]:
+            - /url: /faq
+            - img [ref=e68]
+            - generic [ref=e71]:
+              - paragraph [ref=e72]: FAQ
+              - paragraph [ref=e73]: Common questions answered
     - main [ref=e74]:
       - generic [ref=e75]:
         - generic [ref=e76]:
