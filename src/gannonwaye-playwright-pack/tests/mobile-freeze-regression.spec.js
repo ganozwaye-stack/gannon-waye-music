@@ -76,7 +76,7 @@ test.describe('Mobile home remains operable at supported phone sizes', () => {
       await page.addInitScript((key) => {
         try {
           window.localStorage.removeItem(key);
-        } catch (error) {
+        } catch {
           // Storage can be unavailable in hardened browsers. The component handles this too.
         }
       }, FIRST_VISIT_KEY);
