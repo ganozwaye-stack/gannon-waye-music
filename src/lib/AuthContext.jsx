@@ -37,6 +37,9 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     checkAppState();
+    // Auth/public-settings bootstrap is intentionally mount-only; rerunning it
+    // when the callback identity changes would duplicate network requests.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const checkAppState = async () => {
