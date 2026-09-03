@@ -39,7 +39,18 @@ Deno.serve(async (req) => {
   try {
     const stripe = new Stripe(secretKey);
     const session = await stripe.checkout.sessions.retrieve(sessionId);
+    const belongsToThisStore = (
+      session.mode === 'payment' &&
+      String(session.currency || '').toLowerCase() === 'aud' &&
+      session.metadata?.checkout_policy === 'stage_one_owned_stock_v1' &&
+      session.metadata?.abn === '22931809349' &&
+      Number(session.amount_total || 0) > 0
+    );
     const paid = session.status === 'complete' && session.payment_status === 'paid';
+
+    if (!belongsToThisStore) {
+      return json({ verified: false, status: 'not_verified' }, 404);
+    }
 
     if (!paid) {
       return json({
