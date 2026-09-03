@@ -317,12 +317,26 @@ import CommunicationsHub from '@/pages/admin/CommunicationsHub';
 import ReelFactory from '@/pages/admin/ReelFactory';
 import MerchApprovalGate from '@/pages/admin/MerchApprovalGate';
 
+const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders', '/mum', '/without-you-here'];
+
+const routeRequiresAuth = (pathname) => AUTH_REQUIRED_PATH_PREFIXES.some(prefix => (
+  pathname === prefix || pathname.startsWith(`${prefix}/`)
+));
+
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const location = useLocation();
+  const requiresAuth = routeRequiresAuth(location.pathname);
 
-  if (isLoadingPublicSettings || isLoadingAuth) {
+  useEffect(() => {
+    if (requiresAuth && authError?.type === 'auth_required') {
+      navigateToLogin();
+    }
+  }, [requiresAuth, authError, navigateToLogin]);
+
+  if (requiresAuth && (isLoadingPublicSettings || isLoadingAuth)) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center bg-background">
+      <div className="fixed inset-0 flex items-center justify-center bg-background" role="status" aria-live="polite">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto"></div>
           <p className="font-body text-xs text-muted-foreground mt-4 tracking-widest uppercase">Loading</p>
@@ -331,13 +345,12 @@ const AuthenticatedApp = () => {
     );
   }
 
-  if (authError) {
-    if (authError.type === 'user_not_registered') {
-      return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
-      navigateToLogin();
-      return null;
-    }
+  if (requiresAuth && authError?.type === 'user_not_registered') {
+    return <UserNotRegisteredError />;
+  }
+
+  if (requiresAuth && authError?.type === 'auth_required') {
+    return null;
   }
 
   return (
@@ -362,6 +375,7 @@ const AuthenticatedApp = () => {
         <Route path="/summary" element={<Summary />} />
         <Route path="/contact" element={<ContactGannon />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/privacy" element={<Navigate to="/privacy-policy" replace />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
         <Route path="/lyrics" element={<LyricsPage />} />
         {/* /without-you-here was a 404. It is the song written for Sonia, and the
@@ -408,8 +422,12 @@ const AuthenticatedApp = () => {
         <Route path="/about" element={<About />} />
         <Route path="/support" element={<Navigate to="/contact" replace />} />
         <Route path="/support/domestic-violence" element={<DomesticViolenceSupport />} />
+        <Route path="/community" element={<Navigate to="/contact" replace />} />
+        <Route path="/supporters" element={<Navigate to="/store" replace />} />
+        <Route path="/impact" element={<Navigate to="/support/domestic-violence" replace />} />
+        <Route path="/portrait-gallery" element={<Navigate to="/gallery" replace />} />
         {/* Coaching stays private until the single launch flag is explicitly enabled. */}
-        {FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED && (
+        {FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED ? (
           <>
             <Route path="/coaching" element={<Coaching />} />
             <Route path="/coaching/self-worth-reset" element={<CoachingSelfWorthReset />} />
@@ -419,6 +437,8 @@ const AuthenticatedApp = () => {
             <Route path="/coaching/intake" element={<CoachingIntakePage />} />
             <Route path="/coaching/client-resources" element={<CoachingClientResources />} />
           </>
+        ) : (
+          <Route path="/coaching/*" element={<Navigate to="/contact" replace />} />
         )}
 
         {/* Systems Manager — sell this platform to others */}
@@ -426,6 +446,7 @@ const AuthenticatedApp = () => {
         <Route path="/systems/cinematic-websites" element={<CinematicWebsites />} />
         <Route path="/systems/case-studies/gannon-waye-music-os" element={<CaseStudyGannonWaye />} />
         <Route path="/systems/case-studies/ganozmix-direct" element={<CaseStudyGanozMix />} />
+        <Route path="/systems/*" element={<Navigate to="/contact" replace />} />
         <Route path="/lyric-library" element={<LyricLibrary />} />
         <Route path="/gift-cards" element={<Navigate to="/store" replace />} />
         <Route path="/mixing-services" element={<Navigate to="/contact" replace />} />
