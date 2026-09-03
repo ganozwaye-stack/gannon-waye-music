@@ -19,7 +19,7 @@ const FAQS = [
   },
   {
     q: 'How do I order merch?',
-    a: "Head to the Store page to browse currently available merchandise. The price and availability shown there are the current offer; no unverified discount or scarcity claim is made here.",
+    a: "Head to the Store page to browse currently available merchandise. Any active promotion will be shown there with its terms.",
   },
   {
     q: 'What is the "Back This" page?',
