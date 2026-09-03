@@ -82,13 +82,18 @@ export default function ContactGannon() {
       return;
     }
     setLoading(true);
-    await base44.integrations.Core.SendEmail({
-      to: contactEmail,
-      subject: `Contact Form: Message from ${form.name}`,
-      body: `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`,
-    });
-    setSubmitted(true);
-    setLoading(false);
+    try {
+      await base44.integrations.Core.SendEmail({
+        to: contactEmail,
+        subject: `Contact Form: Message from ${form.name}`,
+        body: `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`,
+      });
+      setSubmitted(true);
+    } catch {
+      toast({ title: 'Message could not be sent', description: 'Please try again or use the direct email link.', variant: 'destructive' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -188,8 +193,12 @@ export default function ContactGannon() {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
-                    <label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Name</label>
+                    <label htmlFor="contact-name" className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Name</label>
                     <Input
+                      id="contact-name"
+                      name="name"
+                      required
+                      autoComplete="name"
                       placeholder="Your name"
                       value={form.name}
                       onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
@@ -197,8 +206,12 @@ export default function ContactGannon() {
                     />
                   </div>
                   <div>
-                    <label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Email</label>
+                    <label htmlFor="contact-email" className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Email</label>
                     <Input
+                      id="contact-email"
+                      name="email"
+                      required
+                      autoComplete="email"
                       type="email"
                       placeholder="you@example.com"
                       value={form.email}
@@ -207,8 +220,11 @@ export default function ContactGannon() {
                     />
                   </div>
                   <div>
-                    <label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Message</label>
+                    <label htmlFor="contact-message" className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Message</label>
                     <VoiceTextarea
+                      id="contact-message"
+                      name="message"
+                      required
                       placeholder="What's on your mind..."
                       value={form.message}
                       onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
