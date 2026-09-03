@@ -19,7 +19,7 @@ Head to gannonwaye.com right now to see the cover for the very first time. I'm g
 
 📅 RELEASE DATE: JUNE 5, 2026
 
-Mark it. Save it. Tell someone you care about. "Thank You" arrives on June 5, 2026. Pre-orders are open now at the store — and the first 20 orders get 15% off with code LAUNCH15.
+Mark it. Save it. Tell someone you care about. "Thank You" arrives on June 5, 2026. Visit the store for current availability and any active promotion terms.
 
 ---
 
