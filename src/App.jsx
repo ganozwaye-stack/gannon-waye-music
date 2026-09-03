@@ -457,6 +457,15 @@ const AuthenticatedApp = () => {
         <Route path="/press-kit" element={<PressKit />} />
         <Route path="/fan-leaderboard" element={<FanLeaderboard />} />
         <Route path="/fan-profile" element={<FanDashboard />} />
+        {/* Legacy and intentionally unpublished public links resolve to a safe current journey. */}
+        <Route path="/fan-activity" element={<Navigate to="/contact" replace />} />
+        <Route path="/supporter-activity" element={<Navigate to="/contact" replace />} />
+        <Route path="/member-tiers" element={<Navigate to="/contact" replace />} />
+        <Route path="/mastering" element={<Navigate to="/contact" replace />} />
+        <Route path="/coaching-programs" element={<Navigate to="/contact" replace />} />
+        <Route path="/mindset-coaching" element={<Navigate to="/contact" replace />} />
+        <Route path="/life-coaching" element={<Navigate to="/contact" replace />} />
+        <Route path="/book-coaching" element={<Navigate to="/contact" replace />} />
       </Route>
 
       {/* Embed timer (no layout) */}
@@ -469,6 +478,40 @@ const AuthenticatedApp = () => {
       {/* Admin routes */}
       <Route element={<AdminLayout />}>
         <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+
+        {/* Stable aliases for legacy dashboard cards and renamed tools. */}
+        <Route path="/admin/fan-management" element={<Navigate to="/admin/fans" replace />} />
+        <Route path="/admin/community" element={<Navigate to="/admin/fans" replace />} />
+        <Route path="/admin/blueprint" element={<Navigate to="/admin/master-blueprint" replace />} />
+        <Route path="/admin/bookings" element={<Navigate to="/admin/appointment-scheduler" replace />} />
+        <Route path="/admin/coaching-sessions" element={<Navigate to="/admin/appointment-scheduler" replace />} />
+        <Route path="/admin/purchase-orders" element={<Navigate to="/admin/procurement-command" replace />} />
+        <Route path="/admin/supplier-products" element={<Navigate to="/admin/procurement-command" replace />} />
+        <Route path="/admin/inventory-batches" element={<Navigate to="/admin/stock-flow-dashboard" replace />} />
+        <Route path="/admin/release-sprint" element={<Navigate to="/admin/release-promo-command" replace />} />
+        <Route path="/admin/thankyou-6-day-campaign" element={<Navigate to="/admin/release-promo-command" replace />} />
+        <Route path="/admin/ai-tool-budget-control" element={<Navigate to="/admin/ai-cost-control" replace />} />
+        <Route path="/admin/route-registry" element={<Navigate to="/admin/operation-registry" replace />} />
+        <Route path="/admin/component-registry" element={<Navigate to="/admin/operation-registry" replace />} />
+        <Route path="/admin/function-registry" element={<Navigate to="/admin/operation-registry" replace />} />
+        <Route path="/admin/entity-registry" element={<Navigate to="/admin/operation-registry" replace />} />
+        <Route path="/admin/security-secret-registry" element={<Navigate to="/admin/security-centre" replace />} />
+        <Route path="/admin/services/cinematic-websites" element={<Navigate to="/systems/cinematic-websites" replace />} />
+        <Route path="/admin/publishing-deal-readiness" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/music-supervisor-pitching" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/apple-playlist-pitching" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/catalogue-growth-command" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/ad-agency-writing-command" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/session-opportunity-command" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/licensing-request-centre" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/catalogue-readiness" element={<Navigate to="/admin/sync-licensing-command" replace />} />
+        <Route path="/admin/artist-management-command" element={<Navigate to="/admin/artist-business-setup" replace />} />
+        <Route path="/admin/income-stream-planner" element={<Navigate to="/admin/artist-business-setup" replace />} />
+        <Route path="/admin/social-platform-security" element={<Navigate to="/admin/artist-business-setup" replace />} />
+        <Route path="/admin/june-4-recording-plan" element={<Navigate to="/admin/artist-business-setup" replace />} />
+        <Route path="/admin/negotiation-rights-tracker" element={<Navigate to="/admin/artist-business-setup" replace />} />
+        <Route path="/admin/creative-tools-stack" element={<Navigate to="/admin/artist-business-setup" replace />} />
+
         <Route path="/admin/dashboard" element={<DailyDashboard />} />
         <Route path="/admin/dashboard-v2" element={<DailyDashboardV2 />} />
         <Route path="/admin/owner-command-v3" element={<OwnerCommandV3 />} />
