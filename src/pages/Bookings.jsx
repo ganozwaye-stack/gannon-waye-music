@@ -69,7 +69,7 @@ export default function Bookings() {
       const result = await base44.integrations.Core.UploadFile({ file });
       setForm({ ...form, attachment_urls: [...form.attachment_urls, result.file_url] });
       toast({ title: 'File uploaded successfully' });
-    } catch (error) {
+    } catch {
       toast({ title: 'Upload failed', variant: 'destructive' });
     }
     setUploading(false);
