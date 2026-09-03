@@ -9,7 +9,7 @@ export default function PublicLayout() {
   const { pathname } = useLocation();
 
   return (
-    <div className="min-h-screen flex flex-col pb-14">
+    <div className="min-h-screen flex flex-col pb-44 md:pb-0">
       <Navbar />
       <main className="flex-1 pt-16 overflow-x-hidden">
         <AnimatePresence mode="wait">
