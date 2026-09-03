@@ -16,10 +16,12 @@ import ReleaseCountdownSection from '@/components/admin/dashboard/ReleaseCountdo
 
 const STATUSES = ['idea', 'writing', 'pre_production', 'recording', 'mixing', 'mastering', 'ready', 'released'];
 const TYPES = ['single', 'ep', 'album'];
+const GENRES = ['singer_songwriter', 'folk', 'soul', 'pop', 'rnb', 'hip_hop', 'spoken_word', 'cinematic', 'rock', 'other'];
+const MOODS = ['reflective', 'tender', 'raw', 'uplifting', 'melancholic', 'hopeful', 'anthemic', 'intimate', 'other'];
 
 const emptyRelease = {
   title: '', type: 'single', status: 'idea', release_date: '', artwork_url: '', description: '',
-  lyrics: '', credits: '', distributor: '', distributor_link: '', spotify_link: '',
+  lyrics: '', credits: '', genre: '', mood: '', distributor: '', distributor_link: '', spotify_link: '',
   apple_music_link: '', youtube_link: '', price: '', is_published: false, is_current_single: false,
 };
 
@@ -185,6 +187,20 @@ export default function Releases() {
             <div>
               <Label className="font-body text-xs tracking-wider uppercase">Price ($)</Label>
               <Input type="number" step="0.01" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
+            </div>
+            <div>
+              <Label className="font-body text-xs tracking-wider uppercase">Genre</Label>
+              <Select value={form.genre || 'other'} onValueChange={v => setForm({ ...form, genre: v })}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>{GENRES.map(g => <SelectItem key={g} value={g}>{g.replace(/_/g, ' ')}</SelectItem>)}</SelectContent>
+              </Select>
+            </div>
+            <div>
+              <Label className="font-body text-xs tracking-wider uppercase">Mood</Label>
+              <Select value={form.mood || 'other'} onValueChange={v => setForm({ ...form, mood: v })}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>{MOODS.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent>
+              </Select>
             </div>
             <div className="flex items-center gap-3 pt-6">
               <Switch checked={form.is_published} onCheckedChange={v => setForm({ ...form, is_published: v })} />
