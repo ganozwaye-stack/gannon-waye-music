@@ -18,6 +18,9 @@ function requireText(content, needle, message) {
 const lock = read('src/config/storefrontArtLock.js');
 const app = read('src/App.jsx');
 const store = read('src/pages/Store.jsx');
+const liveProducts = read('src/lib/liveStoreProducts.js');
+const siteSearch = read('src/components/public/SiteSearch.jsx');
+const storeTeaser = read('src/components/public/StoreWorldTeaser.jsx');
 const hero = read('src/components/store/LockedStorefrontHero.jsx');
 const stage = read('src/components/store/StoreBoutiqueStage.jsx');
 
@@ -26,7 +29,12 @@ requireText(lock, expectedSha256, 'Storefront artwork checksum changed or disapp
 requireText(app, '<Route path="/store" element={<Store />} />', 'The public /store route no longer points to the locked database driven store.');
 requireText(store, '<LockedStorefrontHero />', 'The locked boutique world hero was removed from the public store.');
 requireText(store, '<StoreBoutiqueStage products={sortedProducts}', 'The locked boutique world stage was removed or disconnected from live products.');
-requireText(store, "MerchProduct.filter({ is_active: true, publication_status: 'live', is_stage_one_sale: true }", 'The public store no longer fails closed to owner approved stage one products.');
+requireText(store, 'fetchLiveStoreProducts', 'The public store no longer loads products through the shared live product source.');
+requireText(liveProducts, "publication_status: 'live'", 'The shared product source no longer requires live publication status.');
+requireText(liveProducts, 'is_stage_one_sale: true', 'The shared product source no longer fails closed to stage one products.');
+requireText(liveProducts, 'MerchProduct.filter(LIVE_STORE_PRODUCT_FILTER', 'The shared product source is disconnected from MerchProduct.');
+requireText(siteSearch, 'fetchLiveStoreProducts', 'Site search is not using the verified live product source.');
+requireText(storeTeaser, 'fetchLiveStoreProducts', 'The homepage store teaser is not using the verified live product source.');
 requireText(hero, "from '@/config/storefrontArtLock'", 'The storefront hero is no longer bound to the permanent lock file.');
 requireText(stage, "from '@/config/storefrontArtLock'", 'The storefront stage is no longer bound to the permanent lock file.');
 
