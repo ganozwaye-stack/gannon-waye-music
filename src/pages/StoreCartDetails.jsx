@@ -8,15 +8,38 @@ import { Button } from '@/components/ui/button';
 import { useCartStore } from '@/lib/cartStore';
 
 const DETAILS_KEY = 'gannon_checkout_details_v1';
+const DETAILS_MAX_AGE_MS = 2 * 60 * 60 * 1000;
+const EMPTY_DETAILS = {
+  full_name: '', email: '', mobile: '',
+  street_address: '', suburb: '', state: '', postcode: '', country: 'Australia',
+  order_support_consent: true, marketing_opt_in: false,
+};
+
+function readStoredDetails() {
+  try {
+    const saved = sessionStorage.getItem(DETAILS_KEY);
+    if (!saved) return EMPTY_DETAILS;
+    const parsed = JSON.parse(saved);
+    const savedAt = Number(parsed?._saved_at || 0);
+    if (!savedAt || Date.now() - savedAt > DETAILS_MAX_AGE_MS) {
+      sessionStorage.removeItem(DETAILS_KEY);
+      return EMPTY_DETAILS;
+    }
+    const { _saved_at, ...details } = parsed;
+    return { ...EMPTY_DETAILS, ...details };
+  } catch {
+    return EMPTY_DETAILS;
+  }
+}
 
 const COUNTRIES = ['Australia'];
 
 const AU_STATES = ['ACT', 'NSW', 'NT', 'QLD', 'SA', 'TAS', 'VIC', 'WA'];
 
-function Field({ label, required, error, children }) {
+function Field({ label, htmlFor, required, error, children }) {
   return (
     <div>
-      <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">
+      <Label htmlFor={htmlFor} className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">
         {label}{required && <span className="text-destructive ml-1">*</span>}
       </Label>
       {children}
@@ -30,17 +53,7 @@ export default function StoreCartDetails() {
   const items = useCartStore(state => Array.isArray(state.items) ? state.items : []);
   const itemCount = items.reduce((s, i) => s + i.quantity, 0);
 
-  const [form, setForm] = useState(() => {
-    try {
-      const saved = localStorage.getItem(DETAILS_KEY);
-      if (saved) return JSON.parse(saved);
-    } catch {}
-    return {
-      full_name: '', email: '', mobile: '',
-      street_address: '', suburb: '', state: '', postcode: '', country: 'Australia',
-      order_support_consent: true, marketing_opt_in: false,
-    };
-  });
+  const [form, setForm] = useState(readStoredDetails);
 
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
@@ -54,10 +67,10 @@ export default function StoreCartDetails() {
     if (items.length === 0) navigate('/store');
   }, [hasHydrated, items.length, navigate]);
 
-  // Persist form to localStorage as user types
+  // Retain checkout details only for this browser tab and expire them after two hours.
   useEffect(() => {
     try {
-      localStorage.setItem(DETAILS_KEY, JSON.stringify(form));
+      sessionStorage.setItem(DETAILS_KEY, JSON.stringify({ ...form, _saved_at: Date.now() }));
     } catch {}
   }, [form]);
 
@@ -126,8 +139,11 @@ export default function StoreCartDetails() {
           <div className="bg-card/40 border border-border/30 rounded-2xl p-5 space-y-4">
             <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Contact Information</p>
 
-            <Field label="Full Name" required error={touched.full_name && errors.full_name}>
+            <Field label="Full Name" htmlFor="checkout-full-name" required error={touched.full_name && errors.full_name}>
               <Input
+                id="checkout-full-name"
+                name="full_name"
+                autoComplete="name"
                 data-testid="input-full-name"
                 placeholder="Jane Smith"
                 value={form.full_name}
@@ -136,8 +152,11 @@ export default function StoreCartDetails() {
               />
             </Field>
 
-            <Field label="Email Address" required error={touched.email && errors.email}>
+            <Field label="Email Address" htmlFor="checkout-email" required error={touched.email && errors.email}>
               <Input
+                id="checkout-email"
+                name="email"
+                autoComplete="email"
                 data-testid="input-email"
                 type="email"
                 placeholder="you@example.com"
@@ -147,8 +166,13 @@ export default function StoreCartDetails() {
               />
             </Field>
 
-            <Field label="Mobile Number" required error={touched.mobile && errors.mobile}>
+            <Field label="Mobile Number" htmlFor="checkout-mobile" required error={touched.mobile && errors.mobile}>
               <Input
+                id="checkout-mobile"
+                name="mobile"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel"
                 data-testid="input-mobile"
                 placeholder="+61 400 000 000"
                 value={form.mobile}
@@ -163,8 +187,11 @@ export default function StoreCartDetails() {
             <p className="font-body text-xs tracking-widest uppercase text-muted-foreground">Delivery Address</p>
             <p className="font-body text-xs text-muted-foreground">Current checkout is for Australian delivery only.</p>
 
-            <Field label="Street Address" required error={touched.street_address && errors.street_address}>
+            <Field label="Street Address" htmlFor="checkout-street-address" required error={touched.street_address && errors.street_address}>
               <Input
+                id="checkout-street-address"
+                name="street_address"
+                autoComplete="street-address"
                 data-testid="input-street-address"
                 placeholder="123 Example Street"
                 value={form.street_address}
@@ -174,8 +201,11 @@ export default function StoreCartDetails() {
             </Field>
 
             <div className="grid grid-cols-2 gap-4">
-              <Field label="Suburb / City" required error={touched.suburb && errors.suburb}>
+              <Field label="Suburb / City" htmlFor="checkout-suburb" required error={touched.suburb && errors.suburb}>
                 <Input
+                  id="checkout-suburb"
+                  name="suburb"
+                  autoComplete="address-level2"
                   data-testid="input-suburb"
                   placeholder="Melbourne"
                   value={form.suburb}
@@ -183,8 +213,12 @@ export default function StoreCartDetails() {
                   className="bg-secondary/50 border-border/40 focus:border-primary/40"
                 />
               </Field>
-              <Field label="Postcode" required error={touched.postcode && errors.postcode}>
+              <Field label="Postcode" htmlFor="checkout-postcode" required error={touched.postcode && errors.postcode}>
                 <Input
+                  id="checkout-postcode"
+                  name="postcode"
+                  inputMode="numeric"
+                  autoComplete="postal-code"
                   data-testid="input-postcode"
                   placeholder="3000"
                   value={form.postcode}
@@ -194,8 +228,11 @@ export default function StoreCartDetails() {
               </Field>
             </div>
 
-            <Field label="State" required error={touched.state && errors.state}>
+            <Field label="State" htmlFor="checkout-state" required error={touched.state && errors.state}>
               <select
+                id="checkout-state"
+                name="state"
+                autoComplete="address-level1"
                 data-testid="input-state"
                 value={form.state}
                 onChange={e => set('state', e.target.value)}
@@ -206,8 +243,11 @@ export default function StoreCartDetails() {
               </select>
             </Field>
 
-            <Field label="Country" required error={touched.country && errors.country}>
+            <Field label="Country" htmlFor="checkout-country" required error={touched.country && errors.country}>
               <select
+                id="checkout-country"
+                name="country"
+                autoComplete="country-name"
                 data-testid="input-country"
                 value={form.country}
                 onChange={e => { set('country', e.target.value); set('state', ''); }}
@@ -222,6 +262,7 @@ export default function StoreCartDetails() {
           <div className="bg-card/40 border border-border/30 rounded-2xl p-5 space-y-4">
             <label className="flex items-start gap-3 cursor-pointer">
               <input
+                name="order_support_consent"
                 type="checkbox"
                 checked={form.order_support_consent}
                 onChange={e => set('order_support_consent', e.target.checked)}
@@ -234,6 +275,7 @@ export default function StoreCartDetails() {
 
             <label className="flex items-start gap-3 cursor-pointer">
               <input
+                name="marketing_opt_in"
                 data-testid="checkbox-marketing-opt-in"
                 type="checkbox"
                 checked={form.marketing_opt_in}
