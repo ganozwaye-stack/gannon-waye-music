@@ -5,6 +5,16 @@ import { createAxiosClient } from '@base44/sdk/dist/utils/axios-client';
 
 const AuthContext = createContext();
 
+const PUBLIC_SETTINGS_TIMEOUT_MS = 12_000;
+
+const withTimeout = (promise, timeoutMs, message) => {
+  let timeoutId;
+  const timeoutPromise = new Promise((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error(message)), timeoutMs);
+  });
+  return Promise.race([promise, timeoutPromise]).finally(() => clearTimeout(timeoutId));
+};
+
 const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders', '/mum', '/without-you-here'];
 
 const pathMatchesPrefix = (pathname, prefix) => (
@@ -74,7 +84,11 @@ export const AuthProvider = ({ children }) => {
       });
       
       try {
-        const publicSettings = await appClient.get(`/prod/public-settings/by-id/${appParams.appId}`);
+        const publicSettings = await withTimeout(
+          appClient.get(`/prod/public-settings/by-id/${appParams.appId}`),
+          PUBLIC_SETTINGS_TIMEOUT_MS,
+          'Public settings request timed out',
+        );
         setAppPublicSettings(publicSettings);
         
         // Public pages should not make a noisy /User/me request unless the current
