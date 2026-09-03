@@ -63,16 +63,16 @@ export default function SiteSearch({ onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-xl flex flex-col"
+      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-xl flex flex-col overflow-y-auto overscroll-contain"
       role="dialog"
       aria-modal="true"
       aria-label="Search the Gannon Waye site"
       onClick={e => { if (e.target === e.currentTarget) onClose(); }}
     >
-      <div className="max-w-2xl w-full mx-auto px-4 pt-20 pb-10">
+      <div className="max-w-2xl w-full mx-auto px-3 sm:px-4 pt-[max(1rem,env(safe-area-inset-top))] sm:pt-20 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pb-10">
         {/* Search input */}
-        <div className="relative flex items-center gap-3 bg-card border border-primary/30 rounded-2xl px-5 py-4 mb-8">
-          <Search className="w-5 h-5 text-primary flex-shrink-0" />
+        <div className="relative flex items-center gap-2 sm:gap-3 bg-card border border-primary/30 rounded-2xl px-3 sm:px-5 py-3 sm:py-4 mb-4 sm:mb-8">
+          <Search className="w-5 h-5 text-primary flex-shrink-0" aria-hidden="true" />
           <input
             ref={inputRef}
             value={query}
@@ -80,15 +80,20 @@ export default function SiteSearch({ onClose }) {
             name="site-search"
             aria-label="Search music, merchandise, and stories"
             placeholder="Search music, merch, stories..."
-            className="flex-1 bg-transparent font-body text-base text-foreground placeholder:text-muted-foreground focus:outline-none"
+            className="flex-1 min-w-0 bg-transparent font-body text-base text-foreground placeholder:text-muted-foreground focus:outline-none"
           />
-          <button type="button" onClick={onClose} aria-label="Close search" className="text-muted-foreground hover:text-foreground transition-colors">
-            <X className="w-5 h-5" />
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close search"
+            className="flex h-10 w-10 -mr-2 flex-shrink-0 items-center justify-center rounded-full text-muted-foreground hover:bg-secondary/60 hover:text-foreground transition-colors"
+          >
+            <X className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 
         {/* Results */}
-        <div className="space-y-6 overflow-y-auto max-h-[60vh]">
+        <div className="space-y-6 overflow-y-auto max-h-[calc(100dvh-7rem)] sm:max-h-[60vh] pb-4">
           {q === '' && (
             <div className="space-y-2">
               <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/60 px-1 mb-3">Quick Links</p>
