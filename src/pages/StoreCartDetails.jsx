@@ -55,8 +55,8 @@ export default function StoreCartDetails() {
 
   const [form, setForm] = useState(readStoredDetails);
 
-  const [errors, setErrors] = useState({});
-  const [touched, setTouched] = useState({});
+  const [errors, setErrors] = useState(/** @type {Record<string, string>} */ ({}));
+  const [touched, setTouched] = useState(/** @type {Record<string, boolean>} */ ({}));
 
   const [hasHydrated, setHasHydrated] = useState(false);
   useEffect(() => {
@@ -80,7 +80,7 @@ export default function StoreCartDetails() {
   };
 
   const validate = () => {
-    const e = {};
+    const e = /** @type {Record<string, string>} */ ({});
     if (!form.full_name.trim()) e.full_name = 'Full name is required';
     if (!form.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Valid email is required';
     if (!form.mobile.trim() || !/^[\d\s+()-]{7,16}$/.test(form.mobile.replace(/\s/g, ''))) e.mobile = 'Valid mobile number is required';
