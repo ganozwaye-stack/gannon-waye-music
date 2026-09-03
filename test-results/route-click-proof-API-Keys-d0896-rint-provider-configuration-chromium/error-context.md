@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: route-click-proof.spec.js >> Admin Routes Load (require admin auth) >> Base44 Exit Plan — /admin/base44-exit-plan
-- Location: src/gannonwaye-playwright-pack/tests/route-click-proof.spec.js:37:9
+- Name: route-click-proof.spec.js >> API Keys Not Exposed In Frontend >> Signed-out visitors cannot inspect print-provider configuration
+- Location: src/gannonwaye-playwright-pack/tests/route-click-proof.spec.js:93:7
 
 # Error details
 
