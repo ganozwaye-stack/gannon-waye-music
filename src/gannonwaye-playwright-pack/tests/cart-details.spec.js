@@ -7,26 +7,25 @@ const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
 async function addItemToCart(page) {
   await page.goto(`${BASE_URL}/store/all`);
-  await page.waitForSelector('[data-testid="product-card"]');
-  
-  // Select size M first if it exists, to avoid size selection validation toasts
-  const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-  if (await sizeM.isVisible().catch(() => false)) {
-    await sizeM.click({ force: true });
+  const cards = page.locator('[data-testid="product-card"]');
+  await expect(cards.first()).toBeVisible();
+
+  for (let i = 0; i < await cards.count(); i += 1) {
+    const card = cards.nth(i);
+    const addButton = card.locator('[data-testid="add-to-cart-btn"]');
+    if (!await addButton.isVisible().catch(() => false)) continue;
+
+    const sizeOption = card.locator('[data-testid="size-option"]').first();
+    if (await sizeOption.isVisible().catch(() => false)) {
+      await sizeOption.click();
+    }
+
+    await addButton.click();
+    await expect(card.locator('[data-testid="go-to-checkout-button"]')).toBeVisible();
+    return;
   }
 
-  // Click first visible add to cart button
-  const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-  const count = await addBtns.count();
-  for (let i = 0; i < count; i++) {
-    const btn = addBtns.nth(i);
-    if (await btn.isVisible()) {
-      await btn.click({ force: true });
-      // Wait for the cart drawer checkout button to ensure Zustand state is saved
-      await page.waitForSelector('[data-testid="go-to-checkout-button"]', { timeout: 5000 }).catch(() => {});
-      break;
-    }
-  }
+  throw new Error('No purchasable product was available for the cart-details regression test.');
 }
 
 test.describe('Cart Details Page', () => {
@@ -43,12 +42,8 @@ test.describe('Cart Details Page', () => {
   });
 
   test('required fields block continuation when empty', async ({ page }) => {
+    await addItemToCart(page);
     await page.goto(`${BASE_URL}/store/cart-details`);
-    // If redirected to /store (empty cart), that's acceptable — add item first
-    if (page.url().includes('/store') && !page.url().includes('cart-details')) {
-      await addItemToCart(page);
-      await page.goto(`${BASE_URL}/store/cart-details`);
-    }
     const continueBtn = page.locator('[data-testid="continue-to-review-button"]');
     await continueBtn.click();
     // At least one validation error should appear
@@ -98,12 +93,10 @@ test.describe('Cart Details Page', () => {
     await expect(page).toHaveURL(/checkout/);
   });
 
-  test('marketing opt-in checkbox exists and is optional', async ({ page }) => {
+  test('checkout does not offer an unconnected marketing opt-in', async ({ page }) => {
+    await addItemToCart(page);
     await page.goto(`${BASE_URL}/store/cart-details`);
-    const cb = page.locator('[data-testid="checkbox-marketing-opt-in"]');
-    // May redirect to /store if empty cart — just check it exists on the form page
-    if (await cb.isVisible().catch(() => false)) {
-      await expect(cb).not.toBeChecked();
-    }
+    await expect(page.locator('[data-testid="checkbox-marketing-opt-in"]')).toHaveCount(0);
+    await expect(page.getByText('This checkout does not subscribe you to marketing.')).toBeVisible();
   });
 });
