@@ -231,28 +231,24 @@ export default function Home() {
                     }}
                     className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap"
                   >
-                    <Play className="w-3 h-3" /> Listen Here
+                    <Play className="w-3 h-3" /> Listen
                   </Button>
                 </MagneticButton>
               )}
               <MagneticButton>
                 <Link to="/store">
                   <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
-                    Visit the Store
+                    Wear the Message
                   </Button>
                 </Link>
               </MagneticButton>
-              {currentSingle && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 1.4, delay: 1.9 }}
-                  className="flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-full bg-primary/10 border border-primary/25 whitespace-nowrap w-fit"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                  <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Public Release</p>
-                </motion.div>
-              )}
+              <MagneticButton>
+                <Link to="/contact">
+                  <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
+                    Work with Me
+                  </Button>
+                </Link>
+              </MagneticButton>
             </motion.div>
 
           </div>
