@@ -34,6 +34,15 @@ const buttonVariants = cva(
   }
 )
 
+/**
+ * @typedef {React.ButtonHTMLAttributes<HTMLButtonElement> & {
+ *   variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' | null,
+ *   size?: 'default' | 'sm' | 'lg' | 'icon' | null,
+ *   asChild?: boolean
+ * }} ButtonProps
+ */
+
+/** @type {React.ForwardRefExoticComponent<ButtonProps & React.RefAttributes<HTMLButtonElement>>} */
 const Button = React.forwardRef(({ className, variant, size, asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : "button"
   return (
