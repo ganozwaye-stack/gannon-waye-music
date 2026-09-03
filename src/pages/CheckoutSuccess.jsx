@@ -19,15 +19,17 @@ export default function CheckoutSuccess() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const sessionId = String(params.get('session_id') || '').trim();
-    setReference(sessionId ? `Ending ${sessionId.slice(-8)}` : '');
 
     if (!SESSION_ID_PATTERN.test(sessionId)) {
+      setReference('');
       setVerification({
         status: 'not_verified',
         message: 'This page does not contain a valid Stripe checkout reference. No payment is being claimed as received.',
       });
       return undefined;
     }
+
+    setReference(`Ending ${sessionId.slice(-8)}`);
 
     let cancelled = false;
     const timeout = new Promise((_, reject) =>
