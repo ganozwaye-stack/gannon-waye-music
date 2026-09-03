@@ -44,7 +44,7 @@ const FREQUENCIES = [
 
 // Wax-seal stamp eyebrow. Circular, dark interior, metallic gold rim and
 // embossed arched "BACK THIS" lettering. Matches the approved mockup exactly.
-function BackThisSeal({ size = 104 }) {
+function _BackThisSeal({ size = 104 }) {
   return (
     <svg
       width={size}
@@ -330,7 +330,7 @@ export default function BackThis() {
                         });
                       }
                     }
-                  } catch (err) {
+                  } catch {
                     toast({ 
                       title: 'Could not generate receipt', 
                       description: 'Email hello@gannonwaye.com', 
@@ -600,7 +600,7 @@ export default function BackThis() {
                       </div>
                       <div>
                         <Label className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-1.5 block">Address Line 2 (Optional)</Label>
-                        <Input placeholder="Apartment, suite, unit, etc." value={shipping.address2} onChange={s => setShipping(s => ({ ...s, address2: s.target.value }))} className="bg-secondary/50 border-border/40" />
+                        <Input placeholder="Apartment, suite, unit, etc." value={shipping.address2} onChange={e => setShipping(s => ({ ...s, address2: e.target.value }))} className="bg-secondary/50 border-border/40" />
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
