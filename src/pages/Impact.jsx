@@ -1,23 +1,14 @@
-import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Heart, Users, DollarSign, Calendar, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { Heart, Users, DollarSign, CheckCircle2, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function ImpactPage() {
-  const [currentMonth, setCurrentMonth] = useState('');
-
   const { data: contributions } = useQuery({
     queryKey: ['supportContributions'],
     queryFn: () => base44.entities.SupportContribution.list('-created_date', 100),
-    initialData: [],
-  });
-
-  const { data: charityTrackers } = useQuery({
-    queryKey: ['charityTrackers'],
-    queryFn: () => base44.entities.CharityDonationTracker.list('-month'),
     initialData: [],
   });
 
@@ -25,8 +16,6 @@ export default function ImpactPage() {
   const stats = {
     totalSupporters: new Set(contributions.map(c => c.supporter_email)).size,
     totalRaised: contributions.reduce((sum, c) => sum + c.amount, 0),
-    totalDonated: charityTrackers.reduce((sum, t) => sum + (t.donation_amount_paid || 0), 0),
-    pendingDonation: charityTrackers.filter(t => t.status === 'pending').reduce((sum, t) => sum + t.donation_amount_owed, 0),
   };
 
   const monthlyBreakdown = contributions.reduce((acc, c) => {
@@ -52,11 +41,11 @@ export default function ImpactPage() {
           <Heart className="w-16 h-16 text-primary mx-auto mb-4" />
           <h1 className="font-display text-4xl md:text-5xl text-foreground mb-4">Community Impact</h1>
           <p className="font-body text-foreground/60 leading-relaxed max-w-2xl mx-auto">
-            Together, we're creating ripples of change. Your support funds independent music AND provides life-saving support to survivors of domestic violence.
+            Your support helps fund independent music. Separate, verified support resources remain available for anyone affected by domestic or family violence.
           </p>
         </motion.div>
 
-        {/* 1800RESPECT Commitment Banner */}
+        {/* Independent support and external crisis resources */}
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -70,12 +59,12 @@ export default function ImpactPage() {
               </div>
             </div>
             <div className="flex-1">
-              <h2 className="font-display text-2xl text-foreground mb-3">10% Giving Commitment to 1800RESPECT</h2>
+              <h2 className="font-display text-2xl text-foreground mb-3">Independent Music and Support Resources</h2>
               <p className="font-body text-sm text-foreground/80 leading-relaxed mb-3">
-                Every month, 10% of all support received is donated to <strong>1800RESPECT</strong> — Australia's national sexual assault, domestic and family violence counselling service.
+                Contributions support Gannon Waye's independent music creation, releases, and related artist activities.
               </p>
               <p className="font-body text-sm text-foreground/70 leading-relaxed mb-4">
-                As a man in a same-sex relationship, I understand how isolating violence can feel when you don't see yourself in typical narratives. 1800RESPECT provides inclusive, confidential support for everyone — women, men, and children fleeing violence — with specialised LGBTQIA+ support that understands the unique challenges of leaving abusive situations.
+                No portion is represented as a charitable donation unless a separate verified campaign expressly says so. If you need domestic and family violence support, 1800RESPECT is an independent national service.
               </p>
               <div className="flex flex-wrap gap-3">
                 <a href="https://www.1800respect.org.au" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 rounded-full gradient-gold-button font-body text-xs">
@@ -93,9 +82,7 @@ export default function ImpactPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {[
             { label: 'Total Supporters', value: stats.totalSupporters, icon: Users, color: 'text-primary' },
-            { label: 'Total Raised', value: `$${stats.totalRaised.toFixed(2)}`, icon: DollarSign, color: 'text-primary' },
-            { label: 'Donated to Charity', value: `$${stats.totalDonated.toFixed(2)}`, icon: Heart, color: 'text-primary' },
-            { label: 'Pending Donation', value: `$${stats.pendingDonation.toFixed(2)}`, icon: Calendar, color: 'text-primary/60' },
+            { label: 'Recorded Support', value: `$${stats.totalRaised.toFixed(2)}`, icon: DollarSign, color: 'text-primary' },
           ].map((stat, i) => {
             const Icon = stat.icon;
             return (
@@ -127,9 +114,9 @@ export default function ImpactPage() {
           <h3 className="font-display text-2xl text-foreground mb-6">How Your Support Creates Impact</h3>
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { step: '1', title: 'You Support', desc: 'Your contribution supports independent music creation and related artistic activities.' },
-              { step: '2', title: '10% Allocated', desc: '10% of all support received is automatically allocated to 1800RESPECT.' },
-              { step: '3', title: 'Monthly Donation', desc: 'At the end of each month, the allocated amount is donated to 1800RESPECT.' },
+              { step: '1', title: 'You Choose', desc: 'Choose whether independent music is something you want to support.' },
+              { step: '2', title: 'Music Is Funded', desc: 'Recorded contributions support releases and related artist activities.' },
+              { step: '3', title: 'Resources Stay Visible', desc: 'Independent crisis-support resources remain available without implying a charitable transfer.' },
             ].map(item => (
               <div key={item.step} className="relative">
                 <div className="w-10 h-10 rounded-full bg-primary/10 border-2 border-primary flex items-center justify-center mb-3">
@@ -152,7 +139,6 @@ export default function ImpactPage() {
           <h3 className="font-display text-2xl text-foreground mb-6">Monthly Impact Breakdown</h3>
           <div className="space-y-4">
             {Object.entries(monthlyBreakdown).map(([month, data], i) => {
-              const donation = data.amount * 0.10;
               return (
                 <motion.div
                   key={month}
@@ -167,7 +153,7 @@ export default function ImpactPage() {
                   </div>
                   <div className="text-right">
                     <p className="font-display text-lg text-primary">${data.amount.toFixed(2)}</p>
-                    <p className="font-body text-xs text-primary/60">${donation.toFixed(2)} → 1800RESPECT</p>
+                    <p className="font-body text-xs text-primary/60">Recorded support</p>
                   </div>
                 </motion.div>
               );
@@ -189,7 +175,7 @@ export default function ImpactPage() {
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
             <CheckCircle2 className="w-4 h-4 text-primary" />
-            <p className="font-body text-xs text-primary/80">All donations tracked transparently. Contribution receipts provided.</p>
+            <p className="font-body text-xs text-primary/80">Recorded contributions are shown without representing any charitable transfer.</p>
           </div>
         </motion.div>
       </div>
