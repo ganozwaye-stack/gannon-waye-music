@@ -12,7 +12,7 @@ const DETAILS_MAX_AGE_MS = 2 * 60 * 60 * 1000;
 const EMPTY_DETAILS = {
   full_name: '', email: '', mobile: '',
   street_address: '', suburb: '', state: '', postcode: '', country: 'Australia',
-  order_support_consent: true, marketing_opt_in: false,
+  order_support_consent: true,
 };
 
 function readStoredDetails() {
@@ -269,23 +269,10 @@ export default function StoreCartDetails() {
                 className="mt-0.5 accent-primary"
               />
               <p className="font-body text-xs text-foreground/80 leading-relaxed">
-                <strong>By purchasing, I agree to receive order updates and customer support communication relating to my purchase.</strong> Your details will be used to process and fulfil your order, and to provide delivery and purchase support. You can unsubscribe from marketing at any time.
+                <strong>By purchasing, I agree to receive order updates and customer support communication relating to my purchase.</strong> Your details will be used only to process and fulfil your order, and to provide delivery and purchase support. This checkout does not subscribe you to marketing.
               </p>
             </label>
 
-            <label className="flex items-start gap-3 cursor-pointer">
-              <input
-                name="marketing_opt_in"
-                data-testid="checkbox-marketing-opt-in"
-                type="checkbox"
-                checked={form.marketing_opt_in}
-                onChange={e => set('marketing_opt_in', e.target.checked)}
-                className="mt-0.5 accent-primary"
-              />
-              <p className="font-body text-xs text-foreground/60 leading-relaxed">
-                Yes, I would also like to receive music, merch and supporter updates from Gannon Waye. (Optional)
-              </p>
-            </label>
           </div>
 
           <Button
