@@ -23,6 +23,19 @@ const routePatterns = [...appSource.matchAll(/<Route\s+path=["']([^"']+)["']/g)]
   .map((match) => normalize(match[1]))
   .filter((route) => route !== '*');
 
+const seenRoutes = new Set();
+const duplicateRoutes = [...new Set(routePatterns.filter((route) => {
+  if (seenRoutes.has(route)) return true;
+  seenRoutes.add(route);
+  return false;
+}))];
+
+if (duplicateRoutes.length > 0) {
+  console.error('Duplicate route declarations found:');
+  for (const route of duplicateRoutes.sort()) console.error(`- ${route}`);
+  process.exit(1);
+}
+
 const matchesRoute = (target) => routePatterns.some((pattern) => {
   if (pattern === target) return true;
   if (pattern.endsWith('/*')) {
