@@ -47,7 +47,6 @@ import FAQSection from '@/pages/FAQSection';
 import Summary from '@/pages/Summary';
 import CurrentSingle from '@/pages/CurrentSingle';
 import MerchFeedback from '@/pages/MerchFeedback';
-import Tour from '@/pages/Tour';
 import FoundingSupporterPage from '@/pages/FoundingSupporter';
 import MumTribute from '@/pages/MumTribute';
 import MerchReelPage from '@/components/mum/MerchReelPage';
