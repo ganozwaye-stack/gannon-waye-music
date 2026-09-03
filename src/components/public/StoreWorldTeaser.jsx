@@ -79,7 +79,7 @@ export default function StoreWorldTeaser() {
           maxWidth: '440px',
           margin: '0 auto 32px',
         }}>
-          Shop the current owner-approved <em>Respect Is Earned</em> hoodie<br />
+          Shop the available <em>Respect Is Earned</em> hoodie<br />
           and the Thankyou journal, pen and thermos flask bundle.
         </p>
 
