@@ -415,21 +415,21 @@ export default function MumTribute() {
         </div>
       </div>
 
-      {/* Thank You Project support CTA */}
+      {/* Thank You Project store CTA */}
       <div className="py-12 px-6" style={{ background: 'rgba(2,5,2,0.8)' }}>
         <div className="max-w-lg mx-auto text-center">
-          <p className="font-body text-[9px] tracking-[0.5em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.35)' }}>Support the Thank You Project</p>
+          <p className="font-body text-[9px] tracking-[0.5em] uppercase mb-3" style={{ color: 'rgba(212,175,55,0.35)' }}>Carry the Thank You Message</p>
           <p className="font-body text-sm mb-5" style={{ color: 'rgba(245,235,200,0.45)' }}>
-            "Without You Here" is dedicated to Sonia. 10% of all support goes to 1800RESPECT, helping others affected by loss and violence.
+            "Without You Here" is dedicated to Sonia. The collection carries its message while supporting Gannon Waye's independent music.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
-            <a href="/back-this" className="rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 font-semibold transition-all hover:scale-105"
+            <a href="/store" className="rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 font-semibold transition-all hover:scale-105"
               style={{ background: 'linear-gradient(135deg,#c9a84c,#f5d06e)', color: '#060c06', boxShadow: '0 0 24px rgba(212,175,55,0.30)' }}>
-              ♥ Support the Project
+              Visit the Store
             </a>
-            <a href="/community" className="rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 transition-all hover:bg-white/5"
+            <a href="/contact" className="rounded-full font-body text-xs tracking-widest uppercase px-8 py-3 transition-all hover:bg-white/5"
               style={{ border: '1px solid rgba(212,175,55,0.28)', color: 'rgba(212,175,55,0.72)' }}>
-              Join the Community
+              Contact Gannon
             </a>
           </div>
         </div>
