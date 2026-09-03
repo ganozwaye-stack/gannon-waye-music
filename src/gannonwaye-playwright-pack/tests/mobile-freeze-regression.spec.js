@@ -127,11 +127,12 @@ test.describe('Mobile home remains operable at supported phone sizes', () => {
       await cartDrawer.locator('button').first().click();
       await expect(cartDrawer).toBeHidden();
 
-      const mobileMenuButton = page.getByRole('button', { name: 'Open navigation menu' });
+      const mobileMenuButton = page.locator('button[aria-controls="mobile-navigation-menu"]');
       const mobileMenu = page.locator('#mobile-navigation-menu');
 
       if (viewport.width < 768) {
         await expect(mobileMenuButton).toBeVisible();
+        await expect(mobileMenuButton).toHaveAttribute('aria-expanded', 'false');
         await mobileMenuButton.click();
         await expect(mobileMenu).toBeVisible();
         await expect(mobileMenuButton).toHaveAttribute('aria-expanded', 'true');
@@ -152,7 +153,7 @@ test.describe('Mobile home remains operable at supported phone sizes', () => {
           await expect(mobileMenu.getByRole('link', { name: 'My Profile' })).toBeVisible();
         }
 
-        await page.getByRole('button', { name: 'Close navigation menu' }).click();
+        await mobileMenuButton.click();
         await expect(mobileMenu).toBeHidden();
         await expect(mobileMenuButton).toHaveAttribute('aria-expanded', 'false');
       } else {
