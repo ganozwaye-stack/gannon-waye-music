@@ -12,6 +12,7 @@ import CartDrawer from '@/components/store/CartDrawer';
 import AdminEditButton from '@/components/store/AdminEditButton';
 import LockedStorefrontHero from '@/components/store/LockedStorefrontHero';
 import StoreBoutiqueStage from '@/components/store/StoreBoutiqueStage';
+import { fetchLiveStoreProducts } from '@/lib/liveStoreProducts';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -334,7 +335,7 @@ export default function Store() {
 
   const { data: dbProducts } = useQuery({
     queryKey: ['storeProducts'],
-    queryFn: () => base44.entities.MerchProduct.filter({ is_active: true, publication_status: 'live', is_stage_one_sale: true }, '-created_date'),
+    queryFn: () => fetchLiveStoreProducts('-created_date'),
     staleTime: 60_000,
   });
   // Fail closed. Never replace missing data with invented products, stock or prices.
