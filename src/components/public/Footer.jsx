@@ -1,14 +1,8 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 
 export default function Footer() {
-  const [form, setForm] = useState({ name: '', email: '', consent_updates: false });
-  const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
   const { data: bizSettings = [] } = useQuery({
     queryKey: ['BusinessProfileSettings'],
     queryFn: () => base44.entities.BusinessProfileSettings.list('-updated_date', 1),
@@ -19,49 +13,16 @@ export default function Footer() {
   const tiktokUrl = bizSettings[0]?.tiktok_url || 'https://www.tiktok.com/@gann0nwaye';
   const youtubeUrl = bizSettings[0]?.youtube_url || 'https://www.youtube.com/@gannonwayeofficial';
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setError('');
-
-    if (!form.name.trim()) {
-      setError('Please enter your name.');
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim())) {
-      setError('Please enter a valid email address.');
-      return;
-    }
-    if (!form.consent_updates) {
-      setError('Please confirm that you would like to receive updates.');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      await base44.entities.EmailSubscriber.create({
-        name: form.name.trim(),
-        email: form.email.trim().toLowerCase(),
-        consent_updates: true,
-        consent_at: new Date().toISOString(),
-        source: 'public_footer',
-        unsubscribed: false,
-      });
-      setSubmitted(true);
-    } catch {
-      setError('The signup could not be saved. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <footer className="border-t border-border/40 bg-background">
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <div className="w-12 h-12 rounded-full border border-primary/60 flex items-center justify-center mb-3" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
-              <span className="font-display text-base gradient-gold-text font-semibold tracking-wider">GW</span>
-            </div>
+            <img
+              src="https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png"
+              alt="Gannon Waye"
+              className="w-12 h-12 rounded-full border border-primary/60 object-cover object-top mb-3"
+            />
             <p className="font-body text-sm text-muted-foreground leading-relaxed">
               Australian singer songwriter sharing emotionally honest music, stories, and current merchandise.
             </p>
@@ -105,50 +66,13 @@ export default function Footer() {
           <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Stay connected</p>
           <h3 className="font-display text-xl text-foreground mb-4">Music and merchandise updates</h3>
 
-          {submitted ? (
-            <div className="space-y-2">
-              <p className="font-body text-base text-primary">You're on the list. Thank you. 🤍</p>
-              <p className="font-body text-sm text-muted-foreground">Your details have been recorded for future updates.</p>
-            </div>
-          ) : (
-            <form onSubmit={handleSubmit} className="max-w-sm mx-auto space-y-3">
-              <input
-                type="text"
-                placeholder="Your name"
-                value={form.name}
-                onChange={event => setForm(current => ({ ...current, name: event.target.value }))}
-                className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
-                autoComplete="name"
-              />
-              <input
-                type="email"
-                placeholder="Your email address"
-                value={form.email}
-                onChange={event => setForm(current => ({ ...current, email: event.target.value }))}
-                className="w-full bg-secondary/50 border border-border/40 rounded-lg px-4 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40"
-                autoComplete="email"
-              />
-              <label className="flex items-start gap-3 rounded-lg border border-border/30 bg-card/30 p-3 text-left cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={form.consent_updates}
-                  onChange={event => setForm(current => ({ ...current, consent_updates: event.target.checked }))}
-                  className="mt-0.5 accent-yellow-500"
-                />
-                <span className="font-body text-xs text-foreground/65 leading-relaxed">
-                  I would like to receive music and merchandise updates. I can unsubscribe at any time.
-                </span>
-              </label>
-              {error && <p className="font-body text-xs text-destructive">{error}</p>}
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full px-6 py-2 rounded-lg bg-primary text-primary-foreground font-body text-sm tracking-wider hover:bg-primary/90 transition-colors disabled:opacity-50"
-              >
-                {loading ? 'Saving...' : 'Join the Update List'}
-              </button>
-            </form>
-          )}
+          <p className="font-body text-sm text-muted-foreground mb-4">One clear signup form, with explicit consent, is available on the home page.</p>
+          <Link
+            to="/#updates"
+            className="inline-flex items-center justify-center rounded-full border border-primary/50 px-6 py-2.5 font-body text-sm tracking-wider uppercase gradient-gold-text hover:bg-primary/10 transition-colors"
+          >
+            Join the Update List
+          </Link>
         </div>
 
         <div className="mt-6 pt-4 border-t border-border/40 flex flex-col items-center gap-2 text-center">
