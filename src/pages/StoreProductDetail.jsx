@@ -151,7 +151,7 @@ export default function StoreProductDetail() {
     if (!waitlistEmail.trim()) return;
     try {
       await base44.entities.MerchInterest.create({ product_id: product.id, product_name: product.name, email: waitlistEmail, consent_merch: true });
-    } catch (_) {}
+    } catch {}
     setWaitlistDone(true);
     toast({ title: "You're on the waitlist! We'll notify you. 🤍" });
   };
