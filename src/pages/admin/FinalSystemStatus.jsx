@@ -49,10 +49,10 @@ const SECTIONS = [
     icon: ShoppingBag,
     iconColor: 'text-green-400',
     items: [
-      { label: 'Stripe keys confirmed live/live', status: 'Complete', detail: 'sk_live_* and pk_live_* confirmed present' },
+      { label: 'Stripe live configuration verified', status: 'Needs verification', detail: 'Confirm key mode, store binding and webhook configuration during the approved live checkout test; do not display or record secret values.' },
       { label: 'Webhook secret rotated first', status: 'Blocked by secret rotation', detail: 'Must rotate webhook secret before running live test' },
       { label: 'Shipping rules exist', status: 'Complete', detail: 'calculateShippingRate function deployed and logic present' },
-      { label: 'Promo codes behave correctly', status: 'Complete', detail: 'LAUNCH15 and THANKYOU10 tested internally — FAMILY100 inactive' },
+      { label: 'Promo codes behave correctly', status: 'Needs verification', detail: 'Do not advertise a code until its active dates, limits and checkout result are verified.' },
       { label: 'Full checkout flow live-tested', status: 'Blocked by secret rotation', detail: 'Do after webhook secret rotation — use real card at gannonwaye.com/store' },
       { label: 'Order created in database', status: 'Blocked by secret rotation', detail: 'Verify in Admin → Orders after test purchase' },
       { label: 'Receipt / notification fires', status: 'Blocked by secret rotation', detail: 'Check ganozwaye@gmail.com for receipt and admin alert after test purchase' },
