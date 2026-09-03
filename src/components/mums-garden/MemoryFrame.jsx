@@ -13,7 +13,7 @@ export default function MemoryFrame({ src, caption, delay = 0, placeholder }) {
       style={{ perspective: 1200 }}
     >
       <div
-        className="relative overflow-hidden transition-transform duration-[900ms] group-hover:-translate-y-1"
+        className="relative overflow-hidden transition-transform [transition-duration:900ms] group-hover:-translate-y-1"
         style={{
           transformStyle: 'preserve-3d',
           background: 'linear-gradient(145deg, rgba(20,16,10,0.92), rgba(8,8,12,0.96))',
@@ -43,7 +43,7 @@ export default function MemoryFrame({ src, caption, delay = 0, placeholder }) {
                 src={src}
                 alt={caption || ''}
                 loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-[1600ms] group-hover:scale-[1.03]"
+                className="h-full w-full object-cover transition-transform [transition-duration:1600ms] group-hover:scale-[1.03]"
                 style={{ filter: 'saturate(0.88) brightness(0.94)' }}
               />
               <div
