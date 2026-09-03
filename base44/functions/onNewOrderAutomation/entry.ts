@@ -222,7 +222,7 @@ Deno.serve(async (req) => {
           admin_notification_sent: true,
           admin_notification_status: 'created',
         });
-      } catch (error) {
+      } catch {
         await base44.asServiceRole.entities.MerchOrder.update(orderId, {
           admin_notification_status: 'failed',
         }).catch(() => {});
