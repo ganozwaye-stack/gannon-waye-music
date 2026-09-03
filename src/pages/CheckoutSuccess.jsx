@@ -1,40 +1,122 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CheckCircle2, ShoppingBag, ArrowLeft } from 'lucide-react';
+import { AlertTriangle, ArrowLeft, CheckCircle2, LoaderCircle, ShoppingBag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { base44 } from '@/api/base44Client';
 import { useCartStore } from '@/lib/cartStore';
 
+const DETAILS_KEY = 'gannon_checkout_details_v1';
+const SESSION_ID_PATTERN = /^cs_(?:test|live)_[A-Za-z0-9]{16,200}$/;
+
 export default function CheckoutSuccess() {
-  const [sessionId, setSessionId] = useState(null);
+  const [reference, setReference] = useState('');
+  const [verification, setVerification] = useState({
+    status: 'verifying',
+    message: 'Confirming the payment directly with Stripe...',
+  });
   const clearCart = useCartStore(state => state.clearCart);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const paidSessionId = params.get('session_id');
-    setSessionId(paidSessionId);
-    if (paidSessionId) {
-      clearCart();
-      try { localStorage.removeItem('gannon_checkout_details_v1'); } catch {}
+    const sessionId = String(params.get('session_id') || '').trim();
+    setReference(sessionId ? `Ending ${sessionId.slice(-8)}` : '');
+
+    if (!SESSION_ID_PATTERN.test(sessionId)) {
+      setVerification({
+        status: 'not_verified',
+        message: 'This page does not contain a valid Stripe checkout reference. No payment is being claimed as received.',
+      });
+      return undefined;
     }
+
+    let cancelled = false;
+    const timeout = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Payment verification timed out.')), 15000)
+    );
+
+    Promise.race([
+      base44.functions.invoke('verifyCheckoutSession', { session_id: sessionId }),
+      timeout,
+    ]).then(response => {
+      if (cancelled) return;
+      const result = response?.data || {};
+
+      if (!result.verified) {
+        setVerification({
+          status: 'not_verified',
+          message: 'Stripe has not confirmed this payment as complete. Do not retry payment until you check the original Stripe page or contact support.',
+        });
+        return;
+      }
+
+      clearCart();
+      try {
+        sessionStorage.removeItem(DETAILS_KEY);
+      } catch {}
+
+      if (result.order_recorded) {
+        setVerification({
+          status: 'verified',
+          message: 'Stripe has confirmed your payment and your order has been recorded.',
+        });
+      } else {
+        setVerification({
+          status: 'reconciling',
+          message: 'Stripe has confirmed your payment. The order record is still being reconciled, so please do not pay again.',
+        });
+      }
+    }).catch(() => {
+      if (cancelled) return;
+      setVerification({
+        status: 'unavailable',
+        message: 'We could not verify the payment right now. Your cart has not been cleared. Please do not submit another payment until you check Stripe or contact support.',
+      });
+    });
+
+    return () => {
+      cancelled = true;
+    };
   }, [clearCart]);
+
+  const verified = verification.status === 'verified' || verification.status === 'reconciling';
+  const title = verification.status === 'verifying'
+    ? 'Verifying Payment'
+    : verified
+      ? 'Payment Confirmed'
+      : 'Payment Not Confirmed';
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-6" data-testid="checkout-success-page">
-      <div className="max-w-md w-full text-center space-y-6">
-        <CheckCircle2 className="w-16 h-16 text-primary mx-auto" />
-        <h1 className="font-display text-3xl text-foreground">Payment Received</h1>
-        <p className="font-body text-base text-muted-foreground">Thank you. Your payment has returned successfully from Stripe.</p>
+      <div className="max-w-md w-full text-center space-y-6" aria-live="polite">
+        {verification.status === 'verifying' ? (
+          <LoaderCircle className="w-16 h-16 text-primary mx-auto animate-spin" aria-hidden="true" />
+        ) : verified ? (
+          <CheckCircle2 className="w-16 h-16 text-primary mx-auto" aria-hidden="true" />
+        ) : (
+          <AlertTriangle className="w-16 h-16 text-destructive mx-auto" aria-hidden="true" />
+        )}
+
+        <h1 className="font-display text-3xl text-foreground">{title}</h1>
+        <p className="font-body text-base text-muted-foreground">{verification.message}</p>
 
         <div className="bg-primary/5 border border-primary/20 rounded-xl p-5 text-left space-y-3">
-          <p className="font-body text-sm text-foreground/80 leading-relaxed">
-            Your payment has been received and the order is being recorded against the Stripe reference below.
-          </p>
-          <p className="font-body text-sm text-foreground/70 leading-relaxed">
-            A transactional receipt should be sent to the email used at checkout. If it is delayed, your Stripe reference still identifies the payment and you will not be charged again by requesting support.
-          </p>
-          {sessionId && (
+          {verified ? (
+            <>
+              <p className="font-body text-sm text-foreground/80 leading-relaxed">
+                A transactional receipt should be sent to the email used at checkout.
+              </p>
+              <p className="font-body text-sm text-foreground/70 leading-relaxed">
+                Keep the masked reference below if you need order support.
+              </p>
+            </>
+          ) : (
+            <p className="font-body text-sm text-foreground/80 leading-relaxed">
+              A return to this page alone is not proof of payment. Confirmation is shown only after a direct server-side Stripe check.
+            </p>
+          )}
+          {reference && (
             <p className="font-body text-xs text-muted-foreground mt-2">
-              Reference: <span className="font-mono text-xs">{sessionId}</span>
+              Stripe reference: <span className="font-mono text-xs">{reference}</span>
             </p>
           )}
         </div>
