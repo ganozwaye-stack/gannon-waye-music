@@ -315,6 +315,7 @@ import InstagramSync from '@/pages/admin/InstagramSync';
 import CommunicationsHub from '@/pages/admin/CommunicationsHub';
 import ReelFactory from '@/pages/admin/ReelFactory';
 import MerchApprovalGate from '@/pages/admin/MerchApprovalGate';
+import Login from '@/pages/Login';
 
 const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders', '/mum', '/without-you-here'];
 
@@ -356,6 +357,8 @@ const AuthenticatedApp = () => {
     <>
     <StickySupportBar />
     <Routes>
+      <Route path="/login" element={<Login />} />
+
       {/* Public routes */}
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
