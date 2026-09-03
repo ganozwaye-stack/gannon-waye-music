@@ -350,7 +350,7 @@ Deno.serve(async (req) => {
   try {
     await persistStripeEvent(base44, event, session, order.id, false);
     await persistIdempotence(base44, session.id, event.id, order.id);
-  } catch (error) {
+  } catch {
     await createDiagnostic(base44, `Canonical event persistence failed after order ${order.id}`, {
       diagnostic_type: 'webhook_failure',
       severity: 'critical',
