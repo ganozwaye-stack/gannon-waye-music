@@ -12,7 +12,7 @@ import { cn } from '@/lib/utils';
  *   size       — 'sm' | 'md' (default 'md')
  */
 export default function VoiceButton({ value = '', onChange = () => {}, className = '', size = 'md' }) {
-  const { isListening, isSupported, toggle, error } = useVoiceInput({
+  const { isListening, isSupported, toggle } = useVoiceInput({
     onTranscript: (text) => {
       const separator = value && !value.endsWith(' ') ? ' ' : '';
       onChange?.(value + separator + text);
