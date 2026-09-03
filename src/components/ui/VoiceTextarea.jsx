@@ -7,7 +7,13 @@ import { cn } from '@/lib/utils';
  * Drop-in replacement for <Textarea> anywhere in the app.
  * Accepts all standard textarea props plus an optional `wrapperClassName`.
  */
-export default function VoiceTextarea({ value, onChange, className, wrapperClassName = '', ...props }) {
+export default function VoiceTextarea({
+  value = '',
+  onChange = (_event) => {},
+  className = '',
+  wrapperClassName = '',
+  ...props
+}) {
   return (
     <div className={cn('relative', wrapperClassName)}>
       <Textarea
@@ -19,7 +25,7 @@ export default function VoiceTextarea({ value, onChange, className, wrapperClass
       <div className="absolute bottom-2.5 right-2.5">
         <VoiceButton
           value={value}
-          onChange={(newVal) => onChange?.({ target: { value: newVal } })}
+          onChange={(newVal) => onChange({ target: { value: newVal } })}
           size="sm"
         />
       </div>
