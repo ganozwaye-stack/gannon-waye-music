@@ -279,7 +279,7 @@ export default function StoreProductDetail() {
           )}
 
           <p style={{ fontSize: '11px', color: '#555', marginTop: '16px' }}>
-            Ships Australia-wide · 10% of proceeds donated to 1800RESPECT
+            Ships Australia-wide · Official Gannon Waye merchandise
           </p>
         </div>
       </div>
