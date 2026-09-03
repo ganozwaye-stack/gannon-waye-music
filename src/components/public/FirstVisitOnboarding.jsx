@@ -58,12 +58,15 @@ export default function FirstVisitOnboarding() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-background/90 backdrop-blur-md"
+          className="fixed inset-0 z-[100] flex items-start md:items-center justify-center overflow-y-auto overscroll-contain touch-pan-y p-4 sm:p-6 bg-background/90 backdrop-blur-md"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="first-visit-title"
         >
           <button
             onClick={dismiss}
             className="absolute top-6 right-6 text-muted-foreground hover:text-foreground transition-colors"
-            aria-label="Close"
+            aria-label="Close welcome guide"
           >
             <X className="w-5 h-5" />
           </button>
@@ -72,11 +75,11 @@ export default function FirstVisitOnboarding() {
             initial={{ scale: 0.95, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full max-w-2xl"
+            className="w-full max-w-2xl my-auto py-14 md:py-0"
           >
             <div className="text-center mb-8">
               <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">Welcome</p>
-              <h2 className="font-display text-2xl md:text-3xl text-foreground leading-tight">
+              <h2 id="first-visit-title" className="font-display text-2xl md:text-3xl text-foreground leading-tight">
                 This is more than music.<br />This is choosing yourself.
               </h2>
               <p className="font-body text-sm text-muted-foreground mt-3">
