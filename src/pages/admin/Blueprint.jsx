@@ -158,17 +158,6 @@ function Section({ icon: Icon, title, count, color, children }) {
 // ── Main Blueprint ───────────────────────────────────────────────────────────
 
 export default function Blueprint() {
-  const { data: entities = [], refetch: refetchEntities } = useQuery({
-    queryKey: ['blueprint-entities'],
-    queryFn: () => Promise.all([
-      base44.entities.MasteringProject.list('-created_date', 1),
-      base44.entities.MerchProduct.list('-created_date', 1),
-      base44.entities.EmailSubscriber.list('-created_date', 1),
-      base44.entities.SupportContribution.list('-created_date', 1),
-    ]).then(() => true),
-    staleTime: 30000,
-  });
-
   // Live counts
   const { data: counts = {} } = useQuery({
     queryKey: ['blueprint-counts'],
