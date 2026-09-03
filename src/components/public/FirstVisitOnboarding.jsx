@@ -42,11 +42,11 @@ export default function FirstVisitOnboarding() {
         const timer = setTimeout(() => setShow(true), 2500);
         return () => clearTimeout(timer);
       }
-    } catch (e) {}
+    } catch {}
   }, []);
 
   const dismiss = () => {
-    try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+    try { localStorage.setItem(STORAGE_KEY, '1'); } catch {}
     setShow(false);
   };
 
