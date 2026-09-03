@@ -9,7 +9,7 @@ const DEFAULT_SCRIPT = [
   { time: '10–14s', visual: 'Products rotate slowly in a 3D gallery.', text: 'Not a game you make me play.' },
   { time: '14–18s', visual: 'Hoodie, mug, shirt, poster together.', text: 'Wear the message. Carry the story.' },
   { time: '18–22s', visual: 'Warm burgundy and gold glow.', text: 'For anyone rebuilding after pain, doubt, control, or silence.' },
-  { time: '22–26s', visual: 'Store / product / add-to-cart visual.', text: '10% of proceeds donated to 1800RESPECT.' },
+  { time: '22–26s', visual: 'Store / product / add-to-cart visual.', text: 'Support independent music.' },
   { time: '26–30s', visual: 'All products together.', text: 'Shop the official Thank You merch release.\ngannonwaye.com/store' },
 ];
 
