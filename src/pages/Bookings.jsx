@@ -416,13 +416,13 @@ export default function Bookings() {
                     onKeyDown={e => {
                       if (e.key === 'Enter') {
                         e.preventDefault();
-                        addSocialLink(e.target.value);
-                        e.target.value = '';
+                        addSocialLink(e.currentTarget.value);
+                        e.currentTarget.value = '';
                       }
                     }}
                   />
                   <Button type="button" variant="outline" size="sm" onClick={() => {
-                    const input = document.querySelector('input[placeholder="https://instagram.com/yourprofile"]');
+                    const input = /** @type {HTMLInputElement | null} */ (document.querySelector('input[placeholder="https://instagram.com/yourprofile"]'));
                     if (input?.value) {
                       addSocialLink(input.value);
                       input.value = '';
