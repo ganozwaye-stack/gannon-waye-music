@@ -42,10 +42,26 @@ test.describe('Payment Success & Cancel Routes', () => {
     await expect(page.locator('text=Checkout Cancelled')).toBeVisible();
   });
 
-  test('/checkout-success with session_id shows reference', async ({ page }) => {
-    await page.goto(`${BASE_URL}/checkout-success?session_id=cs_test_abc123`);
+  test('invalid session_id cannot claim payment or expose a reference', async ({ page }) => {
+    const invalidSessionId = 'cs_test_abc123';
+    await page.goto(`${BASE_URL}/checkout-success?session_id=${invalidSessionId}`);
+
     await expect(page.locator('[data-testid="checkout-success-page"]')).toBeVisible();
-    await expect(page.locator('text=cs_test_abc123')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Payment Not Confirmed' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Payment (?:Confirmed|Received)/ })).toHaveCount(0);
+    await expect(page.getByText(invalidSessionId, { exact: false })).toHaveCount(0);
+    await expect(page.getByText(/Ending [A-Za-z0-9]+/)).toHaveCount(0);
+  });
+
+  test('syntactically valid fake is masked and still cannot claim payment', async ({ page }) => {
+    const fakeSessionId = 'cs_test_A1B2C3D4E5F6G7H8';
+    await page.goto(`${BASE_URL}/checkout-success?session_id=${fakeSessionId}`);
+
+    await expect(page.locator('[data-testid="checkout-success-page"]')).toBeVisible();
+    await expect(page.getByText('Ending E5F6G7H8', { exact: true })).toBeVisible();
+    await expect(page.getByText(fakeSessionId, { exact: false })).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: /Payment (?:Confirmed|Received)/ })).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: 'Payment Not Confirmed' })).toBeVisible({ timeout: 20000 });
   });
 
   test('success page has Return to Store button', async ({ page }) => {
