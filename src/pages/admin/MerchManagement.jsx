@@ -409,7 +409,7 @@ export default function MerchManagement() {
               </div>
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase">Merchant Fee (%)</Label>
-                <Input type="number" step="0.1" value={form.merchant_fee_percent} onChange={e => setForm({ ...form, merchant_fee_percent: e.target.value })} />
+                <Input type="number" step="0.1" value={form.merchant_fee_percent} onChange={e => setForm({ ...form, merchant_fee_percent: Number(e.target.value) })} />
                 <p className="font-body text-[10px] text-muted-foreground mt-1">Payment processor fee (default 3.5%)</p>
               </div>
               
@@ -430,7 +430,7 @@ export default function MerchManagement() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase">Stock Quantity</Label>
-                <Input type="number" value={form.stock_quantity} onChange={e => setForm({ ...form, stock_quantity: e.target.value })} />
+                <Input type="number" value={form.stock_quantity} onChange={e => setForm({ ...form, stock_quantity: Number(e.target.value) })} />
               </div>
               <div>
                 <Label className="font-body text-xs tracking-wider uppercase">Sizes Available</Label>
