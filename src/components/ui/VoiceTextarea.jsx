@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
  * Drop-in replacement for <Textarea> anywhere in the app.
  * Accepts all standard textarea props plus an optional `wrapperClassName`.
  */
-export default function VoiceTextarea({ value, onChange, className, wrapperClassName, ...props }) {
+export default function VoiceTextarea({ value, onChange, className, wrapperClassName = '', ...props }) {
   return (
     <div className={cn('relative', wrapperClassName)}>
       <Textarea
