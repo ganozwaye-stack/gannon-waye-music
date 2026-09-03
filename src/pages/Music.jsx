@@ -122,13 +122,13 @@ export default function Music() {
           </p>
           <h1 className="font-display text-5xl md:text-7xl text-foreground mb-5">Music</h1>
           <p className="font-body text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            Only songs and releases explicitly approved by Gannon for public sharing appear here.
+            Explore Gannon Waye's current catalogue, the stories behind the songs, and official listening links.
           </p>
         </motion.header>
 
         {isLoading ? (
           <div className="rounded-2xl border border-border/40 bg-card/50 p-10 text-center">
-            <p className="font-body text-sm text-muted-foreground">Loading approved music...</p>
+            <p className="font-body text-sm text-muted-foreground">Loading music...</p>
           </div>
         ) : releases.length === 0 ? (
           <motion.section
@@ -139,11 +139,11 @@ export default function Music() {
             <Music2 className="w-10 h-10 text-primary/60 mx-auto mb-5" />
             <h2 className="font-display text-3xl text-foreground mb-3">Music shared when ready</h2>
             <p className="font-body text-sm text-muted-foreground max-w-lg mx-auto leading-relaxed">
-              There are no public releases listed right now. Join the community for verified updates.
+              There are no releases listed right now. Join the update list for new music and merchandise news.
             </p>
-            <Link to="/community" className="inline-block mt-7">
+            <Link to="/#updates" className="inline-block mt-7">
               <Button className="rounded-full gradient-gold-button border-0 px-7">
-                Join the Community
+                Join the Update List
               </Button>
             </Link>
           </motion.section>
