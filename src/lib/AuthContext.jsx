@@ -7,9 +7,13 @@ const AuthContext = createContext();
 
 const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders', '/mum', '/without-you-here'];
 
+const pathMatchesPrefix = (pathname, prefix) => (
+  pathname === prefix || pathname.startsWith(`${prefix}/`)
+);
+
 const shouldCheckUserForCurrentRoute = () => {
   if (typeof window === 'undefined') return !!appParams.token;
-  return AUTH_REQUIRED_PATH_PREFIXES.some(prefix => window.location.pathname.startsWith(prefix));
+  return AUTH_REQUIRED_PATH_PREFIXES.some(prefix => pathMatchesPrefix(window.location.pathname, prefix));
 };
 
 export const AuthProvider = ({ children }) => {
