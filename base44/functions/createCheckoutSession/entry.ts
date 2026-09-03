@@ -208,6 +208,15 @@ Deno.serve(async (req) => {
       (sum, item) => sum + toCents(item.price) * item.quantity,
       0,
     );
+    const displayedSubtotalAmountCents = toCents(metadata.displayed_subtotal_amount);
+
+    if (displayedSubtotalAmountCents !== subtotalAmountCents) {
+      return Response.json({
+        error: 'Product pricing changed while the order was being prepared. Please return to the store and review the current prices.',
+        external_actions_performed: false,
+      }, { status: 409 });
+    }
+
     const shippingQuote = await calculateShippingQuote({
       base44,
       destination: 'australia',
