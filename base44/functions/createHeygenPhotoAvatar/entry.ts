@@ -12,7 +12,7 @@ Deno.serve(async (req) => {
     if (user.role !== 'admin') return Response.json({ error: 'Forbidden — admin only' }, { status: 403 });
 
     const body = await req.json();
-    const { image_url, name, gender, voice_id, purpose, source_asset_authorised, identity_verified, source_asset_owner, owner_approval_id } = body;
+    const { image_url, name, voice_id, purpose, source_asset_authorised, identity_verified, source_asset_owner, owner_approval_id } = body;
 
     if (!image_url) {
       return Response.json({ error: 'image_url is required' }, { status: 400 });
