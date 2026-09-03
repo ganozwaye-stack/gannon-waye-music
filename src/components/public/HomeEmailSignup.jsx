@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { CheckCircle2, Mail } from 'lucide-react';
 
+const DOUBLE_OPT_IN_ENABLED = false;
+
 export default function HomeEmailSignup() {
   const [form, setForm] = useState({ name: '', email: '', consent_updates: false });
   const [done, setDone] = useState(false);
@@ -45,6 +47,37 @@ export default function HomeEmailSignup() {
       setLoading(false);
     }
   };
+
+  if (!DOUBLE_OPT_IN_ENABLED) {
+    return (
+      <section id="updates" className="py-16 md:py-24 px-4 md:px-6">
+        <div className="max-w-lg mx-auto text-center">
+          <Mail className="w-8 h-8 text-primary mx-auto mb-4" style={{ filter: 'drop-shadow(0 0 12px rgba(212,175,55,0.55))' }} />
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">Stay Connected</p>
+          <h2 className="font-display text-3xl md:text-4xl text-foreground mb-3">Email Updates Are Being Prepared</h2>
+          <p className="font-body text-sm text-muted-foreground mb-7 leading-relaxed">
+            Email signup is temporarily paused while confirmation and unsubscribe protections are connected. Follow Gannon on Instagram or get in touch directly in the meantime.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-3">
+            <a
+              href="https://www.instagram.com/gann0nwaye"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-full gradient-gold-button px-6 py-3 font-body text-xs tracking-wider uppercase"
+            >
+              Follow on Instagram
+            </a>
+            <a
+              href="/contact"
+              className="inline-flex items-center justify-center rounded-full border border-primary/40 px-6 py-3 font-body text-xs tracking-wider uppercase text-primary hover:bg-primary/10"
+            >
+              Contact Gannon
+            </a>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   if (done) {
     return (
