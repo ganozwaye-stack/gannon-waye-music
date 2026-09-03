@@ -165,7 +165,13 @@ test.describe('Mobile home remains operable at supported phone sizes', () => {
       await expectDocumentCanScroll(page, Math.max(420, viewport.height));
 
       await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
-      await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(100);
+      await expect.poll(
+        () => page.evaluate(() => {
+          const scroller = document.scrollingElement || document.documentElement;
+          return Math.abs((scroller.scrollHeight - window.innerHeight) - window.scrollY);
+        }),
+        { message: 'The page must reach its maximum scroll position before overlap checks.' },
+      ).toBeLessThan(3);
 
       const bottomTabs = page.locator('nav.fixed.bottom-0');
       if (viewport.width < 768) {
