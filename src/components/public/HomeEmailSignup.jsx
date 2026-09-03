@@ -48,7 +48,7 @@ export default function HomeEmailSignup() {
 
   if (done) {
     return (
-      <section className="py-16 md:py-24 px-4 md:px-6">
+      <section id="updates" className="py-16 md:py-24 px-4 md:px-6">
         <div className="max-w-lg mx-auto text-center">
           <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="space-y-4">
             <CheckCircle2 className="w-14 h-14 text-primary mx-auto" />
@@ -63,7 +63,7 @@ export default function HomeEmailSignup() {
   }
 
   return (
-    <section className="py-16 md:py-24 px-4 md:px-6">
+    <section id="updates" className="py-16 md:py-24 px-4 md:px-6">
       <div className="max-w-lg mx-auto text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -78,15 +78,24 @@ export default function HomeEmailSignup() {
             Receive occasional updates about new music, current merchandise, and Gannon's creative work.
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-left" noValidate>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3 text-left" noValidate aria-describedby={error ? "update-signup-error" : undefined}>
+            <label htmlFor="update-signup-name" className="sr-only">Full name</label>
             <Input
+              id="update-signup-name"
+              name="name"
+              required
+              aria-invalid={Boolean(error && !form.name.trim())}
               placeholder="Your full name"
               value={form.name}
               onChange={event => setForm(current => ({ ...current, name: event.target.value }))}
               className="bg-secondary/50 border-border/40 font-body text-base"
               autoComplete="name"
             />
+            <label htmlFor="update-signup-email" className="sr-only">Email address</label>
             <Input
+              id="update-signup-email"
+              name="email"
+              required
               type="email"
               placeholder="Email address"
               value={form.email}
@@ -97,6 +106,9 @@ export default function HomeEmailSignup() {
             />
             <label className="flex items-start gap-3 rounded-xl border border-border/30 bg-card/30 p-4 cursor-pointer">
               <input
+                id="update-signup-consent"
+                name="consent_updates"
+                required
                 type="checkbox"
                 checked={form.consent_updates}
                 onChange={event => setForm(current => ({ ...current, consent_updates: event.target.checked }))}
@@ -106,7 +118,7 @@ export default function HomeEmailSignup() {
                 I would like to receive music and merchandise updates from Gannon Waye. I can unsubscribe at any time.
               </span>
             </label>
-            {error && <p className="font-body text-xs text-destructive">{error}</p>}
+            {error && <p id="update-signup-error" role="alert" className="font-body text-xs text-destructive">{error}</p>}
             <Button
               type="submit"
               disabled={loading}
