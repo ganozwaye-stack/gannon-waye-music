@@ -6,22 +6,22 @@
 
 # Test info
 
-- Name: cart.spec.js >> Cart Flow >> add to cart shows confirmation
-- Location: src/gannonwaye-playwright-pack/tests/cart.spec.js:29:3
+- Name: cart.spec.js >> Cart Flow >> sticky checkout bar appears when cart has items
+- Location: src/gannonwaye-playwright-pack/tests/cart.spec.js:88:3
 
 # Error details
 
 ```
 Error: expect(locator).toBeVisible() failed
 
-Locator: locator('[data-testid="add-to-cart-success"]').first()
+Locator: locator('[data-testid="store-sticky-checkout"]')
 Expected: visible
 Timeout: 3000ms
 Error: element(s) not found
 
 Call log:
   - Expect "toBeVisible" with timeout 3000ms
-  - waiting for locator('[data-testid="add-to-cart-success"]').first()
+  - waiting for locator('[data-testid="store-sticky-checkout"]')
 
 ```
 
@@ -203,8 +203,7 @@ Call log:
   41  |       if (await btn.isVisible()) { await btn.click(); break; }
   42  |     }
   43  | 
-> 44  |     await expect(page.locator('[data-testid="add-to-cart-success"]').first()).toBeVisible({ timeout: 3000 });
-      |                                                                               ^ Error: expect(locator).toBeVisible() failed
+  44  |     await expect(page.locator('[data-testid="add-to-cart-success"]').first()).toBeVisible({ timeout: 3000 });
   45  |   });
   46  | 
   47  |   test('continue shopping button closes confirmation', async ({ page }) => {
@@ -257,7 +256,8 @@ Call log:
   94  |     for (let i = 0; i < count; i++) {
   95  |       if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
   96  |     }
-  97  |     await expect(page.locator('[data-testid="store-sticky-checkout"]')).toBeVisible({ timeout: 3000 });
+> 97  |     await expect(page.locator('[data-testid="store-sticky-checkout"]')).toBeVisible({ timeout: 3000 });
+      |                                                                         ^ Error: expect(locator).toBeVisible() failed
   98  |     await expect(page.locator('[data-testid="store-sticky-checkout-button"]')).toBeVisible();
   99  |   });
   100 | 

@@ -6,8 +6,8 @@
 
 # Test info
 
-- Name: cart-details.spec.js >> Cart Details Page >> navigates to /store/cart-details after checkout click
-- Location: src/gannonwaye-playwright-pack/tests/cart-details.spec.js:33:3
+- Name: cart.spec.js >> Cart Flow >> view cart button opens cart drawer
+- Location: src/gannonwaye-playwright-pack/tests/cart.spec.js:60:3
 
 # Error details
 
@@ -18,7 +18,7 @@ Test timeout of 60000ms exceeded.
 ```
 Error: locator.click: Test timeout of 60000ms exceeded.
 Call log:
-  - waiting for locator('[data-testid="store-sticky-checkout-button"]')
+  - waiting for locator('[data-testid="view-cart-button"]').first()
 
 ```
 
@@ -195,7 +195,7 @@ Call log:
         - paragraph [ref=e174]: © 2026 Gannon Waye. All rights reserved.
   - generic [ref=e175]:
     - img [ref=e176]
-    - paragraph [ref=e178]: 🛍️The Store shows only current owner-approved stock
+    - paragraph [ref=e178]: 🖤Independent, emotionally honest music from Gannon Waye
     - button "Dismiss" [ref=e179] [cursor=pointer]:
       - img [ref=e180]
 ```
@@ -210,107 +210,139 @@ Call log:
   5   | 
   6   | const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
   7   | 
-  8   | async function addItemToCart(page) {
-  9   |   await page.goto(`${BASE_URL}/store/all`);
-  10  |   await page.waitForSelector('[data-testid="product-card"]');
-  11  |   
-  12  |   // Select size M first if it exists, to avoid size selection validation toasts
-  13  |   const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
-  14  |   if (await sizeM.isVisible().catch(() => false)) {
-  15  |     await sizeM.click({ force: true });
-  16  |   }
-  17  | 
-  18  |   // Click first visible add to cart button
-  19  |   const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
-  20  |   const count = await addBtns.count();
-  21  |   for (let i = 0; i < count; i++) {
-  22  |     const btn = addBtns.nth(i);
-  23  |     if (await btn.isVisible()) {
-  24  |       await btn.click({ force: true });
-  25  |       // Wait for the cart drawer checkout button to ensure Zustand state is saved
-  26  |       await page.waitForSelector('[data-testid="go-to-checkout-button"]', { timeout: 5000 }).catch(() => {});
-  27  |       break;
-  28  |     }
-  29  |   }
-  30  | }
-  31  | 
-  32  | test.describe('Cart Details Page', () => {
-  33  |   test('navigates to /store/cart-details after checkout click', async ({ page }) => {
-  34  |     await addItemToCart(page);
-  35  |     const checkoutBtn = page.locator('[data-testid="go-to-checkout-button"]').first();
-  36  |     if (await checkoutBtn.isVisible().catch(() => false)) {
-  37  |       await checkoutBtn.click();
-  38  |     } else {
-> 39  |       await page.locator('[data-testid="store-sticky-checkout-button"]').click();
-      |                                                                          ^ Error: locator.click: Test timeout of 60000ms exceeded.
-  40  |     }
-  41  |     await expect(page).toHaveURL(/cart-details/);
-  42  |     await expect(page.locator('[data-testid="cart-details-page"]')).toBeVisible();
-  43  |   });
-  44  | 
-  45  |   test('required fields block continuation when empty', async ({ page }) => {
-  46  |     await page.goto(`${BASE_URL}/store/cart-details`);
-  47  |     // If redirected to /store (empty cart), that's acceptable — add item first
-  48  |     if (page.url().includes('/store') && !page.url().includes('cart-details')) {
-  49  |       await addItemToCart(page);
-  50  |       await page.goto(`${BASE_URL}/store/cart-details`);
-  51  |     }
-  52  |     const continueBtn = page.locator('[data-testid="continue-to-review-button"]');
-  53  |     await continueBtn.click();
-  54  |     // At least one validation error should appear
-  55  |     const errors = page.locator('.text-destructive');
-  56  |     await expect(errors.first()).toBeVisible();
-  57  |   });
-  58  | 
-  59  |   test('customer can fill all required fields and continue', async ({ page }) => {
-  60  |     await addItemToCart(page);
-  61  |     await page.goto(`${BASE_URL}/store/cart-details`);
-  62  | 
-  63  |     await page.fill('[data-testid="input-full-name"]', 'Jane Smith');
-  64  |     await page.fill('[data-testid="input-email"]', 'jane@example.com');
-  65  |     await page.fill('[data-testid="input-mobile"]', '+61 400 000 000');
-  66  |     await page.fill('[data-testid="input-street-address"]', '123 Test Street');
-  67  |     await page.fill('[data-testid="input-suburb"]', 'Melbourne');
-  68  |     // State — select VIC
-  69  |     const stateSelect = page.locator('[data-testid="input-state"]');
-  70  |     const tag = await stateSelect.evaluate(el => el.tagName);
-  71  |     if (tag === 'SELECT') {
-  72  |       await stateSelect.selectOption('VIC');
-  73  |     } else {
-  74  |       await stateSelect.fill('VIC');
-  75  |     }
-  76  |     await page.fill('[data-testid="input-postcode"]', '3000');
-  77  | 
-  78  |     await page.locator('[data-testid="continue-to-review-button"]').click();
-  79  |     await expect(page).toHaveURL(/checkout/);
-  80  |   });
-  81  | 
-  82  |   test('optional fields (DOB, business name, ABN) are not required', async ({ page }) => {
-  83  |     await addItemToCart(page);
-  84  |     await page.goto(`${BASE_URL}/store/cart-details`);
-  85  | 
-  86  |     // Fill required only — no DOB/business/ABN
-  87  |     await page.fill('[data-testid="input-full-name"]', 'Test User');
-  88  |     await page.fill('[data-testid="input-email"]', 'test@example.com');
-  89  |     await page.fill('[data-testid="input-mobile"]', '0400000000');
-  90  |     await page.fill('[data-testid="input-street-address"]', '456 Real Street');
-  91  |     await page.fill('[data-testid="input-suburb"]', 'Sydney');
-  92  |     const stateSelect = page.locator('[data-testid="input-state"]');
-  93  |     const tag = await stateSelect.evaluate(el => el.tagName);
-  94  |     if (tag === 'SELECT') { await stateSelect.selectOption('NSW'); } else { await stateSelect.fill('NSW'); }
-  95  |     await page.fill('[data-testid="input-postcode"]', '2000');
-  96  | 
-  97  |     await page.locator('[data-testid="continue-to-review-button"]').click();
-  98  |     await expect(page).toHaveURL(/checkout/);
+  8   | test.describe('Cart Flow', () => {
+  9   |   test('/store loads', async ({ page }) => {
+  10  |     await page.goto(`${BASE_URL}/store/all`);
+  11  |     await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
+  12  |   });
+  13  | 
+  14  |   test('products are visible', async ({ page }) => {
+  15  |     await page.goto(`${BASE_URL}/store/all`);
+  16  |     await expect(page.locator('[data-testid="product-card"]').first()).toBeVisible();
+  17  |   });
+  18  | 
+  19  |   test('product images are visible', async ({ page }) => {
+  20  |     await page.goto(`${BASE_URL}/store/all`);
+  21  |     await expect(page.locator('[data-testid="product-image"]').first()).toBeVisible();
+  22  |   });
+  23  | 
+  24  |   test('cart button is visible with data-testid', async ({ page }) => {
+  25  |     await page.goto(`${BASE_URL}/store/all`);
+  26  |     await expect(page.locator('[data-testid="cart-button"]')).toBeVisible();
+  27  |   });
+  28  | 
+  29  |   test('add to cart shows confirmation', async ({ page }) => {
+  30  |     await page.goto(`${BASE_URL}/store/all`);
+  31  |     await page.waitForSelector('[data-testid="add-to-cart-btn"]');
+  32  | 
+  33  |     // Select size if required
+  34  |     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+  35  |     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+  36  | 
+  37  |     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+  38  |     const count = await addBtns.count();
+  39  |     for (let i = 0; i < count; i++) {
+  40  |       const btn = addBtns.nth(i);
+  41  |       if (await btn.isVisible()) { await btn.click(); break; }
+  42  |     }
+  43  | 
+  44  |     await expect(page.locator('[data-testid="add-to-cart-success"]').first()).toBeVisible({ timeout: 3000 });
+  45  |   });
+  46  | 
+  47  |   test('continue shopping button closes confirmation', async ({ page }) => {
+  48  |     await page.goto(`${BASE_URL}/store/all`);
+  49  |     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+  50  |     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+  51  |     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+  52  |     const count = await addBtns.count();
+  53  |     for (let i = 0; i < count; i++) {
+  54  |       if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+  55  |     }
+  56  |     await page.locator('[data-testid="continue-shopping-button"]').first().click();
+  57  |     await expect(page.locator('[data-testid="add-to-cart-success"]')).not.toBeVisible({ timeout: 2000 });
+  58  |   });
+  59  | 
+  60  |   test('view cart button opens cart drawer', async ({ page }) => {
+  61  |     await page.goto(`${BASE_URL}/store/all`);
+  62  |     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+  63  |     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+  64  |     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+  65  |     const count = await addBtns.count();
+  66  |     for (let i = 0; i < count; i++) {
+  67  |       if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+  68  |     }
+> 69  |     await page.locator('[data-testid="view-cart-button"]').first().click();
+      |                                                                    ^ Error: locator.click: Test timeout of 60000ms exceeded.
+  70  |     await expect(page.locator('[data-testid="cart-drawer"]')).toBeVisible({ timeout: 3000 });
+  71  |   });
+  72  | 
+  73  |   test('cart checkout button routes to cart-details', async ({ page }) => {
+  74  |     await page.goto(`${BASE_URL}/store/all`);
+  75  |     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+  76  |     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+  77  |     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+  78  |     const count = await addBtns.count();
+  79  |     for (let i = 0; i < count; i++) {
+  80  |       if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+  81  |     }
+  82  |     await page.locator('[data-testid="view-cart-button"]').first().click();
+  83  |     await expect(page.locator('[data-testid="cart-drawer"]')).toBeVisible();
+  84  |     await page.locator('[data-testid="cart-checkout-button"]').click();
+  85  |     await expect(page).toHaveURL(/\/store\/cart-details/);
+  86  |   });
+  87  | 
+  88  |   test('sticky checkout bar appears when cart has items', async ({ page }) => {
+  89  |     await page.goto(`${BASE_URL}/store/all`);
+  90  |     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+  91  |     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+  92  |     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+  93  |     const count = await addBtns.count();
+  94  |     for (let i = 0; i < count; i++) {
+  95  |       if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+  96  |     }
+  97  |     await expect(page.locator('[data-testid="store-sticky-checkout"]')).toBeVisible({ timeout: 3000 });
+  98  |     await expect(page.locator('[data-testid="store-sticky-checkout-button"]')).toBeVisible();
   99  |   });
   100 | 
-  101 |   test('marketing opt-in checkbox exists and is optional', async ({ page }) => {
-  102 |     await page.goto(`${BASE_URL}/store/cart-details`);
-  103 |     const cb = page.locator('[data-testid="checkbox-marketing-opt-in"]');
-  104 |     // May redirect to /store if empty cart — just check it exists on the form page
-  105 |     if (await cb.isVisible().catch(() => false)) {
-  106 |       await expect(cb).not.toBeChecked();
-  107 |     }
-  108 |   });
-  109 | });
+  101 |   test('sticky checkout button routes to cart-details', async ({ page }) => {
+  102 |     await page.goto(`${BASE_URL}/store/all`);
+  103 |     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+  104 |     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+  105 |     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+  106 |     const count = await addBtns.count();
+  107 |     for (let i = 0; i < count; i++) {
+  108 |       if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+  109 |     }
+  110 |     await page.locator('[data-testid="store-sticky-checkout-button"]').click();
+  111 |     await expect(page).toHaveURL(/\/store\/cart-details/);
+  112 |   });
+  113 | 
+  114 |   test('go-to-checkout button from confirmation routes to cart-details', async ({ page }) => {
+  115 |     await page.goto(`${BASE_URL}/store/all`);
+  116 |     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+  117 |     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+  118 |     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+  119 |     const count = await addBtns.count();
+  120 |     for (let i = 0; i < count; i++) {
+  121 |       if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+  122 |     }
+  123 |     const checkoutBtn = page.locator('[data-testid="go-to-checkout-button"]').first();
+  124 |     await checkoutBtn.click();
+  125 |     await expect(page).toHaveURL(/\/store\/cart-details/);
+  126 |   });
+  127 | 
+  128 |   test('cart count badge shows item count', async ({ page }) => {
+  129 |     await page.goto(`${BASE_URL}/store/all`);
+  130 |     const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+  131 |     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
+  132 |     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
+  133 |     const count = await addBtns.count();
+  134 |     for (let i = 0; i < count; i++) {
+  135 |       if (await addBtns.nth(i).isVisible()) { await addBtns.nth(i).click(); break; }
+  136 |     }
+  137 |     await expect(page.locator('[data-testid="cart-count"]')).toBeVisible({ timeout: 3000 });
+  138 |     const text = await page.locator('[data-testid="cart-count"]').textContent();
+  139 |     expect(parseInt(text)).toBeGreaterThan(0);
+  140 |   });
+  141 | });
 ```
