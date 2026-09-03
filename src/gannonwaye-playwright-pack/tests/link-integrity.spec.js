@@ -94,7 +94,6 @@ test.describe('Link Integrity — Admin routing (requires login)', () => {
     // Find Spotify notification and check its link
     const spotifyLinks = page.locator('text=Add Spotify Link');
     if (await spotifyLinks.count() > 0) {
-      const parent = spotifyLinks.first().locator('xpath=ancestor::a | xpath=ancestor::button');
       // The linked_route should go to releases
       const nearestLink = page.locator('a[href*="releases"]').first();
       if (await nearestLink.count() > 0) {
