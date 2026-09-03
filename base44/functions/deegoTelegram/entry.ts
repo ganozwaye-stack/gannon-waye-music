@@ -46,11 +46,11 @@ async function tg(method: string, payload: unknown) {
 
 // The bare wake word returns ONE item. Not a list — a list is a dashboard,
 // and Gannon already has a dashboard.
-async function mostImportantThing(base44: any): Promise<string> {
+async function mostImportantThing(base44: ReturnType<typeof createClientFromRequest>): Promise<string> {
   // 1. Unresolved critical risk
   const risks = await base44.asServiceRole.entities.RiskAlert
     .filter({ status: 'open' }).catch(() => []);
-  const critical = (risks || []).find((r: any) => r.severity === 'critical');
+  const critical = (risks || []).find((r) => r.severity === 'critical');
   if (critical) {
     return isSensitive(`${critical.title} ${critical.description || ''}`)
       ? 'Something critical needs you. Opened in the hub.'
@@ -61,7 +61,7 @@ async function mostImportantThing(base44: any): Promise<string> {
   const approvals = await base44.asServiceRole.entities.ApprovalQueueItem
     .filter({ status: 'needs_approval' }).catch(() => []);
   const urgent = (approvals || [])
-    .sort((a: any, b: any) => {
+    .sort((a, b) => {
       const rank: Record<string, number> = { critical: 0, high: 1, medium: 2, low: 3 };
       return (rank[a.priority] ?? 9) - (rank[b.priority] ?? 9);
     })[0];
@@ -94,11 +94,11 @@ async function mostImportantThing(base44: any): Promise<string> {
   return 'Nothing needs you right now.';
 }
 
-async function targetStatus(base44: any): Promise<string> {
+async function targetStatus(base44: ReturnType<typeof createClientFromRequest>): Promise<string> {
   const targets = await base44.asServiceRole.entities.DeegoProfitTarget
     .filter({ status: 'active' }).catch(() => []);
   if (!targets || !targets.length) return 'No active target set.';
-  return targets.map((t: any) =>
+  return targets.map((t) =>
     `${t.target_name}\n  to date: $${(t.net_profit_to_date || 0).toLocaleString()} of $${(t.target_profit || 0).toLocaleString()}`
   ).join('\n\n');
 }
