@@ -15,27 +15,27 @@ const FAQS = [
   },
   {
     q: 'How do I stay updated on new music and events?',
-    a: 'Sign up for the newsletter on the home page or visit the Contact page to send a message. You can choose what you want to hear about: new music, merch drops, behind-the-scenes content, and more. No spam, ever.',
+    a: 'Follow @gann0nwaye on Instagram for current updates, or use the Contact page. Email registration is paused until a verified double-opt-in and unsubscribe process is connected.',
   },
   {
     q: 'How do I order merch?',
-    a: "Head to the Store page to browse and order merch. Use code LAUNCH15 for 15% off your first order (first 20 orders only).",
+    a: "Head to the Store page to browse currently available merchandise. The price and availability shown there are the current offer; no unverified discount or scarcity claim is made here.",
   },
   {
     q: 'What is the "Back This" page?',
-    a: '"Back This" is a direct support page where fans can contribute to help fund the music independently. You can give once, fortnightly, or monthly. Every contribution genuinely helps, and Gannon personally reads every message left there.',
+    a: 'Standalone and recurring support contributions are not currently accepted. You can support the music by listening, sharing, or buying an available item from the Store.',
   },
   {
     q: 'Can I share my own photos or videos on the fan wall?',
-    a: 'Yes! Scroll down on the home page to find the Fan Media section. You can upload a photo or video, give consent for it to be featured, and become part of the visual story of this chapter.',
+    a: 'Public fan-media uploads are not currently open. Use the Contact page for general enquiries; do not send private or sensitive material.',
   },
   {
     q: 'Can I leave a message for Gannon?',
-    a: 'Absolutely. You can use the Contact page to send a direct message to Gannon. All messages are read personally.',
+    a: 'Use the Contact page to send a message. Messages are reviewed, but a personal reply or response time is not guaranteed.',
   },
   {
-    q: 'How does the AI reply work on my community post?',
-    a: "When you send a message through the Contact page and include your email, Gannon's system sends a personalised reply based on the tone and meaning of your message. It's not a bot template, it's crafted to feel genuine and considered.",
+    q: 'Will I receive an automated reply?',
+    a: "The site does not promise an automated or AI-written reply. If a response is appropriate, it will be handled through Gannon's current contact workflow.",
   },
   {
     q: 'Where can I follow Gannon on social media?',
