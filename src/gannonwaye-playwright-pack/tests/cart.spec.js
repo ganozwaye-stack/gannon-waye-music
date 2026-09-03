@@ -31,7 +31,7 @@ test.describe('Cart Flow', () => {
     await page.waitForSelector('[data-testid="add-to-cart-btn"]');
 
     // Select size if required
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    const sizeM = page.locator('button').filter({ hasText: /^M(?: \(\d+\))?$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
 
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
@@ -46,7 +46,7 @@ test.describe('Cart Flow', () => {
 
   test('continue shopping button closes confirmation', async ({ page }) => {
     await page.goto(`${BASE_URL}/store/all`);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    const sizeM = page.locator('button').filter({ hasText: /^M(?: \(\d+\))?$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
     const count = await addBtns.count();
@@ -59,7 +59,7 @@ test.describe('Cart Flow', () => {
 
   test('view cart button opens cart drawer', async ({ page }) => {
     await page.goto(`${BASE_URL}/store/all`);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    const sizeM = page.locator('button').filter({ hasText: /^M(?: \(\d+\))?$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
     const count = await addBtns.count();
@@ -72,7 +72,7 @@ test.describe('Cart Flow', () => {
 
   test('cart checkout button routes to cart-details', async ({ page }) => {
     await page.goto(`${BASE_URL}/store/all`);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    const sizeM = page.locator('button').filter({ hasText: /^M(?: \(\d+\))?$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
     const count = await addBtns.count();
@@ -87,7 +87,7 @@ test.describe('Cart Flow', () => {
 
   test('sticky checkout bar appears when cart has items', async ({ page }) => {
     await page.goto(`${BASE_URL}/store/all`);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    const sizeM = page.locator('button').filter({ hasText: /^M(?: \(\d+\))?$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
     const count = await addBtns.count();
@@ -100,7 +100,7 @@ test.describe('Cart Flow', () => {
 
   test('sticky checkout button routes to cart-details', async ({ page }) => {
     await page.goto(`${BASE_URL}/store/all`);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    const sizeM = page.locator('button').filter({ hasText: /^M(?: \(\d+\))?$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
     const count = await addBtns.count();
@@ -113,7 +113,7 @@ test.describe('Cart Flow', () => {
 
   test('go-to-checkout button from confirmation routes to cart-details', async ({ page }) => {
     await page.goto(`${BASE_URL}/store/all`);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    const sizeM = page.locator('button').filter({ hasText: /^M(?: \(\d+\))?$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
     const count = await addBtns.count();
@@ -127,7 +127,7 @@ test.describe('Cart Flow', () => {
 
   test('cart count badge shows item count', async ({ page }) => {
     await page.goto(`${BASE_URL}/store/all`);
-    const sizeM = page.locator('button').filter({ hasText: /^M$/ }).first();
+    const sizeM = page.locator('button').filter({ hasText: /^M(?: \(\d+\))?$/ }).first();
     if (await sizeM.isVisible().catch(() => false)) await sizeM.click();
     const addBtns = page.locator('[data-testid="add-to-cart-btn"]');
     const count = await addBtns.count();
