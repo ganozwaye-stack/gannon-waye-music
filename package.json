@@ -7,6 +7,8 @@
     "dev": "vite",
     "prebuild": "node tools/verify-storefront-art-lock.mjs && node tools/verify-stage-one-store.mjs",
     "build": "vite build",
+    "check:canonical-app": "node tools/verify-canonical-base44-app.mjs",
+    "deploy": "npm run check:canonical-app && npm run build && npx base44 site deploy -y",
     "test:storefront-lock": "node tools/verify-storefront-art-lock.mjs",
     "test:stage-one-store": "node tools/verify-stage-one-store.mjs",
     "lint": "node tools/quality-gate.mjs lint",
