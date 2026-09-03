@@ -240,16 +240,19 @@ function ProductCard({ product, onCheckout, onViewCart }) {
             <div className="mt-3">
               <div className="flex flex-wrap gap-2 justify-center">
                 {product.sizes_available.map(s => (
-                  <button 
-                    key={s} 
-                    type="button" 
+                  <button
+                    key={s}
+                    type="button"
+                    data-testid="size-option"
+                    aria-pressed={selectedSize === s}
+                    aria-label={`Select size ${s}${Number.isFinite(product.stock_by_variant?.[s]) ? `, ${product.stock_by_variant[s]} in stock` : ''}`}
                     onClick={() => {
                       setSelectedSize(s);
                       setShowSizeError(false);
                     }}
                     className={`px-3 py-1 rounded-lg border font-body text-xs transition-all ${
-                      selectedSize === s 
-                        ? 'border-primary bg-primary/10 text-primary' 
+                      selectedSize === s
+                        ? 'border-primary bg-primary/10 text-primary'
                         : 'border-border/50 text-muted-foreground hover:border-primary/30'
                     }`}
                   >
