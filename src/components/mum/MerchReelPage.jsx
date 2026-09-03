@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
  * Cinematic 9:16 merch reel — in-browser animated version.
  * Brand palette: deep black, warm gold, soft cream, rich burgundy, subtle deep green.
  * Campaign: "Respect is earned. Not a game you make me play."
- * Charity: 10% of proceeds donated to 1800RESPECT.
+ * Campaign: supports Gannon Waye's independent music.
  */
 
 const SLIDES = [
@@ -55,9 +55,9 @@ const SLIDES = [
   {
     id: 6,
     time: [22, 26],
-    headline: '10% of proceeds\ndonated to\n1800RESPECT.',
+    headline: 'Support\nindependent\nmusic.',
     sub: null,
-    accent: 'charity',
+    accent: 'support',
   },
   {
     id: 7,
@@ -229,7 +229,7 @@ export default function MerchReelPage() {
             <p className="font-display text-lg gradient-gold-glow italic">GANNON WAYE</p>
             <p className="font-body text-xs text-foreground/50 tracking-widest uppercase">Thank You — Official Merch Release</p>
             <p className="font-body text-[10px] text-muted-foreground/40 italic mt-1">Respect is earned. Not a game you make me play.</p>
-            <p className="font-body text-[10px] text-muted-foreground/30 mt-1">10% of proceeds donated to 1800RESPECT</p>
+            <p className="font-body text-[10px] text-muted-foreground/30 mt-1">Support independent music</p>
             <Link to="/store">
               <button className="mt-4 gradient-gold-button rounded-full font-body text-xs tracking-wider uppercase px-8 py-3">
                 Shop Now
