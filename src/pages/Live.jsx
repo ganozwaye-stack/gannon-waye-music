@@ -456,7 +456,7 @@ function LiveTippingModal({ gift, onClose }) {
                 <span>💝</span> Send {gift.label.split(' ')[0]}
               </DialogTitle>
               <p className="font-body text-xs text-muted-foreground">
-                Tipping ${gift.amount} AUD directly on stream · 10% supports 1800RESPECT
+                Tipping ${gift.amount} AUD directly on stream · supports independent music
               </p>
             </DialogHeader>
 
