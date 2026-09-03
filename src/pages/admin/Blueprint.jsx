@@ -126,7 +126,7 @@ const INTEGRATIONS = [
   { name: 'Google Sheets (OAuth)', desc: 'Order sync', status: 'active' },
   { name: 'Base44 LLM (InvokeLLM)', desc: 'AI fan replies, product intelligence', status: 'active' },
   { name: 'TuneCore', desc: 'Streaming royalty sync', status: 'active' },
-  { name: '1800RESPECT', desc: '10% giving commitment', status: 'manual' },
+  { name: '1800RESPECT', desc: 'Independent crisis-support resource link', status: 'reference' },
 ];
 
 // ── Section component ────────────────────────────────────────────────────────
