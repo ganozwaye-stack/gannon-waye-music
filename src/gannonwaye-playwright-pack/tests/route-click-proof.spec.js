@@ -90,11 +90,11 @@ test.describe('API Keys Not Exposed In Frontend', () => {
     expect(html).not.toMatch(/sk-[a-zA-Z0-9]{20,}/);
   });
 
-  test('No print provider API keys exposed in /admin/print-fulfilment', async ({ page }) => {
+  test('Signed-out visitors cannot inspect print-provider configuration', async ({ page }) => {
     await page.goto('/admin/print-fulfilment');
     const html = await page.content();
-    // Should show env var names only, not actual keys
     expect(html).not.toMatch(/[a-f0-9]{32,}/); // typical API key pattern (32+ hex chars)
-    expect(html).toContain('PRINTFUL_API_KEY'); // should show placeholder
+    await expect(page.getByRole('heading', { name: 'Owner sign-in' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Continue to secure sign-in' })).toBeVisible();
   });
 });
