@@ -50,6 +50,7 @@ export default function Navbar() {
   }, []);
 
   return (
+    <>
     <nav className="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1rem)] max-w-6xl rounded-2xl bg-background/50 backdrop-blur-xl border border-primary/30 shadow-[0_2px_24px_rgba(0,0,0,0.4)]">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between relative">
         <Link
@@ -172,10 +173,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {searchOpen && <SiteSearch onClose={() => setSearchOpen(false)} />}
-      </AnimatePresence>
-
       {/* Mobile menu */}
       <AnimatePresence>
         {open &&
@@ -216,7 +213,16 @@ export default function Navbar() {
           </motion.div>
         }
       </AnimatePresence>
-      <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
-    </nav>);
+    </nav>
+
+    {/* Full-screen overlays must sit outside the transformed navbar. A fixed child
+        of a transformed element is positioned against that element, which pushed
+        close controls off-screen on narrow phones and made the UI appear frozen. */}
+    <AnimatePresence>
+      {searchOpen && <SiteSearch onClose={() => setSearchOpen(false)} />}
+    </AnimatePresence>
+    <CartDrawer isOpen={cartOpen} onClose={() => setCartOpen(false)} />
+    </>
+  );
 
 }
