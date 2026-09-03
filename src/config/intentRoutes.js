@@ -7,18 +7,18 @@
 export const INTENT_ROUTES = {
   // Service sales pages
   service_cinematic_websites: '/systems/cinematic-websites',
-  service_automated_social_workflows: '/systems/social-automation',
-  service_dropshipping_dashboards: '/systems/dropshipping-inventory',
-  service_ai_systems_manager: '/systems-manager',
-  service_ecommerce_merch_stores: '/systems/ecommerce-merch-stores',
-  service_approval_workflows: '/systems/approval-workflows',
-  service_ai_content_systems: '/systems/ai-content-systems',
-  service_artist_release_systems: '/systems/artist-release-systems',
+  service_automated_social_workflows: '/contact',
+  service_dropshipping_dashboards: '/contact',
+  service_ai_systems_manager: '/contact',
+  service_ecommerce_merch_stores: '/contact',
+  service_approval_workflows: '/contact',
+  service_ai_content_systems: '/contact',
+  service_artist_release_systems: '/contact',
 
-  // Packages
-  package_creator_launch: '/systems/packages/creator-launch-system',
-  package_ecommerce_setup: '/systems/packages/ecommerce-setup',
-  package_systems_retainer: '/systems/packages/systems-manager-retainer',
+  // Packages stay behind an enquiry path until their scope, evidence and pricing are approved.
+  package_creator_launch: '/contact',
+  package_ecommerce_setup: '/contact',
+  package_systems_retainer: '/contact',
 
   // Case studies
   case_study_gannon_waye_music_os: '/systems/case-studies/gannon-waye-music-os',
@@ -36,7 +36,7 @@ export const INTENT_ROUTES = {
   merch_admin_editor: '/admin/merch',
 
   // Booking / audit
-  systems_audit_booking: '/systems-manager#build-form',
+  systems_audit_booking: '/contact',
 
   // Admin tools
   admin_sales_pipeline: '/admin/revenue-command',
