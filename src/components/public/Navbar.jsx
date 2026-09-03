@@ -9,7 +9,7 @@ import MagneticButton from '@/components/public/MagneticButton';
 import { FEATURE_FLAGS } from '@/lib/platformConfig';
 
 
-const BANNER_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5de42a778_60a7df62-cfa1-4cba-9280-c5ac4dfcbfa5.png';
+const PORTRAIT_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
 
 const NAV_LINKS = [
 { label: 'Home', path: '/' },
@@ -27,7 +27,6 @@ const MORE_LINKS = [
 { label: 'Videos', path: '/videos' },
 { label: 'Lyric Library', path: '/lyric-library' },
 { label: 'Discover Music', path: '/discover' },
-{ label: 'Community', path: '/community' },
 { label: 'Fan Reminders', path: '/fan-reminders' },
 { label: 'FAQ', path: '/faq' },
 { label: 'Orders', path: '/orders' },
@@ -58,9 +57,8 @@ export default function Navbar() {
           aria-label="Gannon Waye · Home"
           className="flex items-center gap-2.5 hover:opacity-90 transition-all duration-200">
           
-          <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-primary/60 flex items-center justify-center flex-shrink-0" style={{ background: 'linear-gradient(135deg, rgba(201,168,76,0.15), rgba(255,224,138,0.08))' }}>
-            <span className="font-display text-sm gradient-gold-text font-semibold tracking-wider">GW</span>
-          </div>
+          <img src={PORTRAIT_URL} alt="" className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-primary/60 object-cover object-top flex-shrink-0" />
+          <span className="hidden sm:inline font-display text-sm tracking-[0.18em] uppercase gradient-gold-text">Gannon Waye</span>
         </Link>
 
         {/* Desktop */}
@@ -103,7 +101,11 @@ export default function Navbar() {
           {/* More dropdown */}
           <div ref={moreRef} className="relative">
             <button
+              type="button"
               onClick={() => setMoreOpen((p) => !p)}
+              aria-label="Open more navigation links"
+              aria-expanded={moreOpen}
+              aria-controls="desktop-more-menu"
               className={`flex items-center gap-1 font-body text-[11px] tracking-widest uppercase transition-all duration-200 hover:scale-105 ${moreOpen ? 'gradient-gold-text' : 'text-foreground/80 hover:text-foreground font-medium'}`}>
               
               More <ChevronDown className={`w-3 h-3 transition-transform ${moreOpen ? 'rotate-180' : ''}`} />
@@ -115,6 +117,7 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.15 }}
+                id="desktop-more-menu"
                 className="absolute right-0 top-full mt-3 w-44 bg-background/98 backdrop-blur-xl border border-border/50 rounded-xl shadow-2xl overflow-hidden z-50">
                 
                   {MORE_LINKS.map((link) =>
@@ -138,7 +141,9 @@ export default function Navbar() {
         {/* Search + Mobile toggle */}
         <div className="flex items-center gap-2">
           <button
+            type="button"
             onClick={() => setSearchOpen(true)}
+            aria-label="Search the site"
             className="flex items-center justify-center w-9 h-9 rounded-full border border-border/40 hover:border-primary/40 text-muted-foreground hover:text-primary transition-all">
             
             <Search className="w-4 h-4" />
@@ -154,7 +159,14 @@ export default function Navbar() {
               <span data-testid="cart-count" className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-body flex items-center justify-center">{cartCount}</span>
             )}
           </button>
-          <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
+          <button
+            type="button"
+            className="md:hidden text-foreground"
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={open}
+            aria-controls="mobile-navigation-menu"
+          >
             {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
@@ -171,7 +183,8 @@ export default function Navbar() {
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="md:hidden border-t border-border/60 bg-background/97 backdrop-blur-xl">
+          id="mobile-navigation-menu"
+          className="md:hidden border-t border-border/60 bg-background/97 backdrop-blur-xl max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain">
           
             <div className="px-6 py-4 flex flex-col gap-1">
               {NAV_LINKS.map((link) =>
