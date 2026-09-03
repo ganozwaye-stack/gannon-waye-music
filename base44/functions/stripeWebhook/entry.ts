@@ -22,7 +22,11 @@ function parseJsonArray(value) {
 }
 
 function formatAddress(session, metadata) {
-  const address = session?.customer_details?.address;
+  const address = (
+    session?.collected_information?.shipping_details?.address ||
+    session?.shipping_details?.address ||
+    session?.customer_details?.address
+  );
   if (address) {
     return [
       address.line1,
@@ -207,6 +211,22 @@ Deno.serve(async (req) => {
   }
 
   const metadata = session.metadata || {};
+  const belongsToThisStore = (
+    session.mode === 'payment' &&
+    String(session.currency || '').toLowerCase() === 'aud' &&
+    metadata.checkout_policy === 'stage_one_owned_stock_v1' &&
+    metadata.abn === '22931809349' &&
+    Number(session.amount_total || 0) > 0
+  );
+
+  if (!belongsToThisStore) {
+    return Response.json({
+      received: true,
+      processed: false,
+      reason: 'checkout_not_owned_by_this_store',
+    });
+  }
+
   const items = parseJsonArray(metadata.items);
   const customerEmail = String(
     session.customer_details?.email || session.customer_email || metadata.customer_email || ''
