@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useCartStore } from '@/lib/cartStore';
 import { base44 } from '@/api/base44Client';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft, AlertTriangle, Minus, Plus, Trash2, Pencil, Lock,
@@ -9,6 +9,7 @@ import {
 import { Button } from '@/components/ui/button';
 
 const DETAILS_KEY = 'gannon_checkout_details_v1';
+const DETAILS_MAX_AGE_MS = 2 * 60 * 60 * 1000;
 
 function itemAvailability(item) {
   const product = item?.product || {};
@@ -34,8 +35,16 @@ export default function StoreCheckout() {
 
   useEffect(() => {
     try {
-      const saved = localStorage.getItem(DETAILS_KEY);
-      if (saved) setDetails(JSON.parse(saved));
+      const saved = sessionStorage.getItem(DETAILS_KEY);
+      if (!saved) return;
+      const parsed = JSON.parse(saved);
+      const savedAt = Number(parsed?._saved_at || 0);
+      if (!savedAt || Date.now() - savedAt > DETAILS_MAX_AGE_MS) {
+        sessionStorage.removeItem(DETAILS_KEY);
+        return;
+      }
+      const { _saved_at, ...savedDetails } = parsed;
+      setDetails(savedDetails);
     } catch {
       setDetails(null);
     }
@@ -101,24 +110,6 @@ export default function StoreCheckout() {
     setRedirecting(true);
     setCheckoutError(null);
 
-    try {
-      await base44.entities.StoreCustomer.create({
-        full_name: details.full_name,
-        email: details.email,
-        mobile: details.mobile,
-        street_address: details.street_address,
-        suburb: details.suburb,
-        state: details.state,
-        postcode: details.postcode,
-        country: details.country,
-        marketing_opt_in: details.marketing_opt_in || false,
-        order_support_consent: details.order_support_consent !== false,
-        source: 'store_checkout',
-      });
-    } catch {
-      // Customer staging is helpful but must never create a duplicate charge.
-    }
-
     const timeout = new Promise((_, reject) =>
       setTimeout(() => reject(new Error('Checkout timed out. You have not been charged. Please try again.')), 15000)
     );
@@ -138,6 +129,7 @@ export default function StoreCheckout() {
             shipping_country: 'Australia',
             mobile: details.mobile,
             displayed_shipping_amount: String(shipping.amount.toFixed(2)),
+            displayed_subtotal_amount: String(subtotal.toFixed(2)),
           },
         }),
         timeout,
@@ -310,11 +302,12 @@ export default function StoreCheckout() {
 
                         <div className="flex items-center justify-between mt-3">
                           <div className="flex items-center gap-2">
-                            <button data-testid="cart-line-decrease" type="button" onClick={() => updateQuantity(item.product_id, item.quantity - 1, item.size)} className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center hover:border-primary/50 transition-colors">
+                            <button aria-label={`Decrease quantity of ${item.product?.name || 'item'}`} data-testid="cart-line-decrease" type="button" onClick={() => updateQuantity(item.product_id, item.quantity - 1, item.size)} className="w-7 h-7 rounded-full border border-border/50 flex items-center justify-center hover:border-primary/50 transition-colors">
                               <Minus className="w-3 h-3" />
                             </button>
                             <span className="font-body text-sm text-foreground w-6 text-center">{item.quantity}</span>
                             <button
+                              aria-label={`Increase quantity of ${item.product?.name || 'item'}`}
                               data-testid="cart-line-increase"
                               type="button"
                               disabled={item.quantity >= available}
@@ -324,7 +317,7 @@ export default function StoreCheckout() {
                               <Plus className="w-3 h-3" />
                             </button>
                           </div>
-                          <button data-testid="cart-line-remove" type="button" onClick={() => removeItem(item.product_id, item.size)} className="text-muted-foreground/50 hover:text-destructive transition-colors">
+                          <button aria-label={`Remove ${item.product?.name || 'item'} from cart`} data-testid="cart-line-remove" type="button" onClick={() => removeItem(item.product_id, item.size)} className="text-muted-foreground/50 hover:text-destructive transition-colors">
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
@@ -388,8 +381,10 @@ export default function StoreCheckout() {
               )}
             </Button>
 
-            <p className="text-center font-body text-xs text-muted-foreground">
-              Payments are processed securely by Stripe. Your card details are not stored by this site.
+            <p className="text-center font-body text-xs text-muted-foreground leading-relaxed">
+              Payments are processed securely by Stripe. Your card details are not stored by this site. By continuing, you agree to the{' '}
+              <Link to="/terms-of-service" className="text-primary hover:underline">Terms of Service</Link>{' '}and acknowledge the{' '}
+              <Link to="/privacy-policy" className="text-primary hover:underline">Privacy Policy</Link>.
             </p>
 
             <div className="flex gap-3">
