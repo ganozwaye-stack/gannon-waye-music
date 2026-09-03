@@ -405,7 +405,6 @@ const AuthenticatedApp = () => {
             on this site. Redirected, not left to the catch-all. */}
         <Route path="/mum" element={<Navigate to="/mums-garden" replace />} />
         <Route path="/mums" element={<Navigate to="/mums-garden" replace />} />
-        <Route path="/sonias-garden" element={<Navigate to="/mums-garden" replace />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/presave" element={<PreSave />} />
@@ -643,7 +642,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/order-profit-intelligence" element={<OrderProfitIntelligence />} />
         <Route path="/admin/offer-engine" element={<OfferEngine />} />
         <Route path="/admin/content-to-cash" element={<ContentToCash />} />
-        <Route path="/admin/business-attention-centre" element={<Notifications />} />
         <Route path="/admin/todays-money-moves" element={<TodaysMoneymoves />} />
         <Route path="/admin/website-evolution" element={<WebsiteEvolution />} />
         <Route path="/admin/business-worth-command" element={<BusinessWorthCommand />} />
@@ -665,7 +663,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/voice-input-test" element={<VoiceInputTestPage />} />
         <Route path="/admin/promo-code-audit" element={<PromoCodeAudit />} />
         <Route path="/admin/ai-cost-control" element={<AICostControl />} />
-        <Route path="/admin/operation-registry" element={<OperationRegistry />} />
         <Route path="/admin/release-promo-command" element={<ReleasePromoCommand />} />
 
         <Route path="/admin/social-asset-library" element={<SocialAssetLibrary />} />
