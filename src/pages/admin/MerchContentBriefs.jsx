@@ -83,7 +83,7 @@ Link in bio or go directly to gannonwaye.com/store
 #GannonWaye #Thankyou #RespectIsEarned #IndieArtist #MerchDrop #AustralianMusic #MerchCollection #NewMusic #SupportIndieArtists`,
 
     first_comment: `🔗 Direct link: gannonwaye.com/store
-Every purchase supports independent music and 10% goes to 1800RESPECT. 🖤`,
+Every purchase supports independent music. 🖤`,
   },
 
   {
@@ -149,7 +149,7 @@ This collection is for everyone who's earned respect, not been given it.
 
 #GannonWaye #Thankyou #WhoAreYouThankfulFor #RespectIsEarned #IndieMusic #NewMusic #AustralianArtist #MerchDrop #EmotionalMusic #SurvivorMusic`,
 
-    first_comment: `🔗 gannonwaye.com/store — every piece in this collection carries a meaning. 10% of proceeds to 1800RESPECT. 🖤`,
+    first_comment: `🔗 gannonwaye.com/store — every piece in this collection carries a meaning and supports independent music. 🖤`,
   },
 
   {
