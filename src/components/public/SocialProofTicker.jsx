@@ -35,7 +35,7 @@ export default function SocialProofTicker() {
   if (dismissed) return null;
 
   return (
-    <div className="fixed bottom-16 md:bottom-5 left-1/2 -translate-x-1/2 z-30 px-4 w-full max-w-sm pointer-events-none">
+    <div className="hidden md:block fixed bottom-5 left-1/2 -translate-x-1/2 z-30 px-4 w-full max-w-sm pointer-events-none">
       <AnimatePresence mode="wait">
         <motion.div
           key={index}
