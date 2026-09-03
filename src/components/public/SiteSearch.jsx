@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
+import { fetchLiveStoreProducts, formatAudPrice } from '@/lib/liveStoreProducts';
 
 const STATIC_PAGES = [
   { label: 'My Story', path: '/this-is-my-life', icon: BookOpen, description: 'About Gannon: ten-episode life series' },
@@ -27,7 +28,7 @@ export default function SiteSearch({ onClose }) {
 
   const { data: products = [] } = useQuery({
     queryKey: ['merchProducts'],
-    queryFn: () => base44.entities.MerchProduct.filter({ is_active: true, publication_status: 'live', is_stage_one_sale: true }),
+    queryFn: () => fetchLiveStoreProducts(),
     initialData: [],
   });
 
@@ -117,7 +118,7 @@ export default function SiteSearch({ onClose }) {
               <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/60 px-1 mb-3">Merch</p>
               <div className="space-y-2">
                 {matchedProducts.map(p => (
-                  <ResultItem key={p.id} icon={ShoppingBag} label={p.name} description={`$${Number(p.sale_price || 0).toFixed(2)} AUD`} path="/store" onClose={onClose} />
+                  <ResultItem key={p.id} icon={ShoppingBag} label={p.name} description={`${formatAudPrice(p.sale_price)} AUD`} path="/store" onClose={onClose} />
                 ))}
               </div>
             </div>
