@@ -118,7 +118,7 @@ export default function RevealNewsletter() {
       const { sent, failed } = res.data || {};
       setSent(true);
       toast({ title: `Sent to ${sent} subscriber${sent !== 1 ? 's' : ''}! 🎉${failed ? ` (${failed} failed)` : ''}` });
-    } catch (e) {
+    } catch {
       toast({ title: 'Failed to send. Check Gmail connector.', variant: 'destructive' });
     }
     setSending(false);
