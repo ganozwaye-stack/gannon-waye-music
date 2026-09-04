@@ -93,7 +93,7 @@ test.describe('API Keys Not Exposed In Frontend', () => {
   test('Signed-out visitors cannot inspect print-provider configuration', async ({ page }) => {
     await page.goto('/admin/print-fulfilment');
     const html = await page.content();
-    expect(html).not.toContain('PRINTFUL_API_KEY');
+    expect(html).not.toContain('PRINTFUL_API_TOKEN');
     expect(html).not.toContain('PRINTIFY_API_KEY');
     await expect(page.getByRole('heading', { name: 'Owner sign-in' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Continue to secure sign-in' })).toBeVisible();
