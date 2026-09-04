@@ -6,12 +6,183 @@
 import Stripe from 'npm:stripe@14.21.0';
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 
+const PRINTFUL_EXPECTED_STORE = 'Gannon Waye POD Store';
+const PRINTFUL_EXPECTED_SETUP_SCOPES = [
+  'orders/read',
+  'sync_products',
+  'file_library',
+  'webhooks',
+];
+
+async function fetchPrintfulJson(url, token) {
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: 'application/json',
+      },
+      signal: AbortSignal.timeout(15000),
+    });
+
+    const text = await response.text();
+    let body = null;
+    try {
+      body = text ? JSON.parse(text) : null;
+    } catch {
+      body = null;
+    }
+
+    return {
+      ok: response.ok,
+      status: response.status,
+      body,
+      error_type: response.ok ? null : `http_${response.status}`,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      status: 0,
+      body: null,
+      error_type: error?.name === 'TimeoutError' ? 'timeout' : 'network_error',
+    };
+  }
+}
+
+function normalizePrintfulScopes(body) {
+  const v2Scopes = Array.isArray(body?.data)
+    ? body.data.map((entry) => entry?.value)
+    : [];
+  const legacyScopes = Array.isArray(body?.result?.scopes)
+    ? body.result.scopes.map((entry) => typeof entry === 'string' ? entry : entry?.scope)
+    : [];
+
+  return [...new Set([...v2Scopes, ...legacyScopes].filter(Boolean))].sort();
+}
+
+function normalizePrintfulStores(body) {
+  const rawStores = Array.isArray(body?.data)
+    ? body.data
+    : Array.isArray(body?.result)
+      ? body.result
+      : [];
+
+  return rawStores.map((store) => ({
+    id: store?.id == null ? null : String(store.id),
+    name: store?.name || '',
+    type: store?.type || null,
+  }));
+}
+
+async function runPrintfulReadOnlyCheck() {
+  const checkedAt = new Date().toISOString();
+  const token = Deno.env.get('PRINTFUL_API_TOKEN');
+
+  if (!token) {
+    return {
+      success: false,
+      mode: 'printful_read_only',
+      checked_at: checkedAt,
+      secret_present: false,
+      safe_for_setup: false,
+      issue: 'PRINTFUL_API_TOKEN is not available to the deployed backend function.',
+      actions_performed: ['No Printful API request was made.'],
+      actions_not_performed: [
+        'No order, product, file, webhook, payment, wallet, fulfilment, shipping, publishing, or database action was performed.',
+      ],
+    };
+  }
+
+  let scopesEndpoint = 'https://api.printful.com/v2/oauth-scopes';
+  let scopesResponse = await fetchPrintfulJson(scopesEndpoint, token);
+
+  // Read-only compatibility fallback for accounts still returning the legacy OAuth resource.
+  if (!scopesResponse.ok && [404, 405].includes(scopesResponse.status)) {
+    scopesEndpoint = 'https://api.printful.com/oauth/scopes';
+    scopesResponse = await fetchPrintfulJson(scopesEndpoint, token);
+  }
+
+  const storesEndpoint = 'https://api.printful.com/v2/stores?limit=100&offset=0';
+  const storesResponse = await fetchPrintfulJson(storesEndpoint, token);
+
+  const scopes = normalizePrintfulScopes(scopesResponse.body);
+  const stores = normalizePrintfulStores(storesResponse.body);
+  const missingExpectedScopes = PRINTFUL_EXPECTED_SETUP_SCOPES.filter((scope) => !scopes.includes(scope));
+  const unexpectedScopes = scopes.filter((scope) => !PRINTFUL_EXPECTED_SETUP_SCOPES.includes(scope));
+  const forbiddenOrderWriteScopePresent = scopes.includes('orders');
+  const expectedStoreFound = stores.some((store) => store.name === PRINTFUL_EXPECTED_STORE);
+  const onlyExpectedStoreVisible = stores.length === 1 && expectedStoreFound;
+
+  const safeForSetup = Boolean(
+    scopesResponse.ok
+    && storesResponse.ok
+    && onlyExpectedStoreVisible
+    && missingExpectedScopes.length === 0
+    && unexpectedScopes.length === 0
+    && !forbiddenOrderWriteScopePresent
+  );
+
+  return {
+    success: scopesResponse.ok && storesResponse.ok,
+    mode: 'printful_read_only',
+    checked_at: checkedAt,
+    secret_present: true,
+    safe_for_setup: safeForSetup,
+    scopes_endpoint: {
+      method: 'GET',
+      path: new URL(scopesEndpoint).pathname,
+      status: scopesResponse.status,
+      error_type: scopesResponse.error_type,
+    },
+    stores_endpoint: {
+      method: 'GET',
+      path: new URL(storesEndpoint).pathname,
+      status: storesResponse.status,
+      error_type: storesResponse.error_type,
+    },
+    granted_scopes: scopes,
+    expected_scopes: PRINTFUL_EXPECTED_SETUP_SCOPES,
+    missing_expected_scopes: missingExpectedScopes,
+    unexpected_scopes: unexpectedScopes,
+    forbidden_scopes_present: forbiddenOrderWriteScopePresent ? ['orders'] : [],
+    accessible_store_count: stores.length,
+    accessible_stores: stores,
+    expected_store: PRINTFUL_EXPECTED_STORE,
+    expected_store_found: expectedStoreFound,
+    only_expected_store_visible: onlyExpectedStoreVisible,
+    actions_performed: [
+      `GET ${new URL(scopesEndpoint).pathname}`,
+      `GET ${new URL(storesEndpoint).pathname}`,
+    ],
+    actions_not_performed: [
+      'No order was read, created, changed, confirmed, cancelled, or submitted.',
+      'No product or file was read, created, changed, synced, or published.',
+      'No webhook was read, created, changed, or deleted.',
+      'No payment, wallet, billing, fulfilment, or shipping action was performed.',
+      'No database record, notification, or audit item was created by this check.',
+    ],
+    verification_limit: 'One visible store is the documented result for a store-level token. If the Printful account itself contains only one store, the store list alone cannot independently distinguish that token from an account-level token.',
+  };
+}
+
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
     if (user?.role !== 'admin') {
       return Response.json({ error: 'Forbidden: Admin access required' }, { status: 403 });
+    }
+
+    const requestBody = await req.clone().json().catch(() => ({}));
+    const requestedMode = requestBody?.mode || requestBody?.data?.mode;
+
+    // Explicit one-time diagnostic path. It performs only authenticated GET requests
+    // to Printful, creates no records, and returns before the normal health check.
+    if (requestedMode === 'printful_read_only') {
+      const result = await runPrintfulReadOnlyCheck();
+      return Response.json(result, {
+        headers: { 'Cache-Control': 'no-store' },
+      });
     }
 
     const checks = [];
