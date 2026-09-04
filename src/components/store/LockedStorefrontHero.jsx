@@ -1,5 +1,4 @@
 import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
-import NeonBrandTitle from '@/components/store/NeonBrandTitle';
 import WorldHotspot from '@/components/store/WorldHotspot';
 import { formatAudPrice } from '@/lib/liveStoreProducts';
 
@@ -24,6 +23,9 @@ export default function LockedStorefrontHero({ hoodieProduct, onOpenProduct }) {
       style={{
         position: 'relative',
         width: '100%',
+        // The menu floats over the page. Nudge the artwork down so the
+        // boutique signage at the top of the image clears it.
+        marginTop: '76px',
         height: '68vh',
         minHeight: '480px',
         maxHeight: '780px',
@@ -58,33 +60,6 @@ export default function LockedStorefrontHero({ hoodieProduct, onOpenProduct }) {
           background: 'linear-gradient(to bottom, rgba(8,8,14,0.28) 0%, rgba(8,8,14,0.08) 38%, rgba(8,8,14,0.52) 78%, rgba(8,8,14,0.92) 100%)',
         }}
       />
-
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          textAlign: 'center',
-          padding: 'clamp(40px, 9vh, 96px) 16px 0',
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "'Poppins', sans-serif",
-            fontSize: '10px',
-            letterSpacing: '0.42em',
-            textTransform: 'uppercase',
-            color: 'rgba(212,175,55,0.72)',
-            marginBottom: '14px',
-          }}
-        >
-          Boutique · Step Inside
-        </p>
-        <NeonBrandTitle />
-      </div>
 
       {hoodieInStock && HOODIE_ZONES.map((zone, index) => (
         <WorldHotspot
