@@ -1,5 +1,5 @@
 /**
- * StoreWorldTeaser — homepage section linking to /store-world
+ * StoreWorldTeaser — homepage section linking to the canonical /store route
  * Drop this component into Home.jsx wherever you want the boutique CTA.
  */
 import { useNavigate } from 'react-router-dom';
@@ -80,7 +80,7 @@ export default function StoreWorldTeaser() {
           margin: '0 auto 32px',
         }}>
           Shop the available <em>Respect Is Earned</em> hoodie<br />
-          and the Thankyou journal, pen and thermos flask bundle.
+          and the journal, matching pen and thermos gift box bundle.
         </p>
 
         {/* Decorative divider */}
