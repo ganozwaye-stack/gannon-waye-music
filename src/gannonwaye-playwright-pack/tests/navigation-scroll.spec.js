@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 // tests/navigation-scroll.spec.js
 // Verifies that navigating to a new page always resets scroll position to top.
 

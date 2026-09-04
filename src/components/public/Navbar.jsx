@@ -52,13 +52,13 @@ export default function Navbar() {
   return (
     <>
     <nav className="fixed top-3 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1rem)] max-w-6xl rounded-2xl bg-background/50 backdrop-blur-xl border border-primary/30 shadow-[0_2px_24px_rgba(0,0,0,0.4)]">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between relative">
+      <div className="max-w-6xl mx-auto px-4 py-1.5 flex items-center justify-between relative">
         <Link
           to="/"
           aria-label="Gannon Waye · Home"
           className="flex items-center gap-2.5 hover:opacity-90 transition-all duration-200">
           
-          <img src={PORTRAIT_URL} alt="" className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-primary/60 object-cover object-top flex-shrink-0" />
+          <img src={PORTRAIT_URL} alt="" className="w-8 h-8 md:w-9 md:h-9 rounded-full border border-primary/60 object-cover object-top flex-shrink-0" />
           <span className="hidden sm:inline font-display text-sm tracking-[0.18em] uppercase gradient-gold-text">Gannon Waye</span>
         </Link>
 
@@ -145,7 +145,7 @@ export default function Navbar() {
             type="button"
             onClick={() => setSearchOpen(true)}
             aria-label="Search the site"
-            className="flex items-center justify-center w-9 h-9 rounded-full border border-border/40 hover:border-primary/40 text-muted-foreground hover:text-primary transition-all">
+            className="flex items-center justify-center w-8 h-8 rounded-full border border-border/40 hover:border-primary/40 text-muted-foreground hover:text-primary transition-all">
             
             <Search className="w-4 h-4" />
           </button>
@@ -154,7 +154,7 @@ export default function Navbar() {
             type="button"
             onClick={() => setCartOpen(true)}
             aria-label="Open cart"
-            className="relative flex items-center justify-center w-9 h-9 rounded-full border border-border/40 hover:border-primary/40 text-muted-foreground hover:text-primary transition-all">
+            className="relative flex items-center justify-center w-8 h-8 rounded-full border border-border/40 hover:border-primary/40 text-muted-foreground hover:text-primary transition-all">
             <ShoppingCart className="w-4 h-4" />
             {cartCount > 0 && (
               <span data-testid="cart-count" className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-primary text-primary-foreground text-[10px] font-body flex items-center justify-center">{cartCount}</span>

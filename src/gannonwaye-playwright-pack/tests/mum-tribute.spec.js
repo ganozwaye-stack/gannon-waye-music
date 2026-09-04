@@ -1,9 +1,11 @@
+/* eslint-disable no-undef */
 // SECTION IDS CHANGED when the garden was rebuilt as the immersive scroll world.
 // Old ids: sonias-garden, who-she-was, without-you-here.
 // Live ids: arrival, trees, memories, garden, archway, rooms, bench, conclusion.
 // Mapped the unambiguous one (sonias-garden -> garden). #memories still exists.
 // who-she-was and without-you-here have NO current equivalent — those assertions are
 // left as-is deliberately so they keep failing loudly until Gannon says what replaced them.
+/* eslint-disable no-undef */
 // @ts-check
  
  
