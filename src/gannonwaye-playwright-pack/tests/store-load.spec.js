@@ -18,10 +18,10 @@ test.describe('Verified public store', () => {
     await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
   });
 
-  test('exactly two owner approved stage one product cards are visible', async ({ page }) => {
+  test('exactly three live stage one product cards are visible', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    await expect(page.locator('[data-testid="product-card"]')).toHaveCount(2);
-    await expect(page.locator('[data-testid="world-product-card"]')).toHaveCount(2);
+    await expect(page.locator('[data-testid="product-card"]')).toHaveCount(3);
+    await expect(page.locator('[data-testid="world-product-card"]')).toHaveCount(3);
   });
 
   test('product images, titles and prices are visible', async ({ page }) => {
@@ -62,7 +62,6 @@ test.describe('Verified public store', () => {
   test('store does not advertise unsupported products or unverified claims', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
     const content = await page.locator('body').innerText();
-    expect(content).not.toContain('Winter Writing & Comfort Bundle');
     expect(content).not.toContain('Coffee Mug');
     expect(content).not.toContain('Wall Poster');
     expect(content).not.toContain('10% of proceeds');

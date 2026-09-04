@@ -73,7 +73,7 @@ export default function LockedStorefrontHero({ hoodieProduct, onOpenProduct }) {
           alignItems: 'center',
           justifyContent: 'flex-start',
           textAlign: 'center',
-          padding: 'clamp(18px, 4vh, 44px) 16px 0',
+          padding: 'clamp(32px, 7vh, 72px) 16px 0',
           pointerEvents: 'none',
         }}
       >
