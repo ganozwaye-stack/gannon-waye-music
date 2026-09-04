@@ -31,22 +31,8 @@ const PRODUCT_CONFIG = {
   '69fbd261b760426cede1b7a3': { sub: 'Journal, matching pen and thermos presented as one complete gift box set. Delivery is calculated before payment.' },
 };
 
-// Multi-image galleries per product id (auto-rotates in card)
-const PRODUCT_GALLERIES = {
-  '6a16abb0198d4c5d294edc11': [
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d1e8a7822_MugFront.png',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/0261db66f_MugBack.png',
-  ],
-  '69eed3e64e2da78ae4418a9a': [
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5d1b577f1_2.jpg',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/39dab5737_RespectisEarnedToteBagBack.png',
-  ],
-  '69eed3e64e2da78ae4418a99': [
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4b7f96472_IMG_1725.JPG',
-  ],
-};
+// Product imagery comes only from the approved live MerchProduct record.
+// Never substitute hard-coded, generated, or concept imagery for current stock.
 
 // Poster size → price map (for variant pricing display)
 const POSTER_SIZE_PRICES = {
@@ -145,7 +131,7 @@ function ProductCard({ product, onCheckout, onViewCart }) {
   const cfg = PRODUCT_CONFIG[product.id];
   const badge = PRODUCT_BADGES[product.id];
   const isCd = product.category === 'cd';
-  const galleryImages = PRODUCT_GALLERIES[product.id] || (product.images_array?.length > 0 ? product.images_array : null);
+  const galleryImages = product.images_array?.length > 0 ? product.images_array.filter(Boolean) : null;
   const allImages = galleryImages || (product.image_url ? [product.image_url] : []);
   const singleImage = product.image_url;
   const hasSize = product.sizes_available?.length > 0;
