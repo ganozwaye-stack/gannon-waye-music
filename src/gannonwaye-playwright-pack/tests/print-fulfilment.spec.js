@@ -30,8 +30,8 @@ test.describe('Print Fulfilment Admin Page', () => {
   test('API env var placeholders shown, not actual keys', async ({ page }) => {
     await page.goto('/admin/print-fulfilment');
     const text = await page.textContent('body');
-    // Should show env var names, not actual key values
-    expect(text).toContain('PRINTFUL_API_KEY');
+    // Should show secret names, not actual token or key values
+    expect(text).toContain('PRINTFUL_API_TOKEN');
     expect(text).toContain('GELATO_API_KEY');
     // Should NOT contain actual API key values (starts with live_ or test_)
     expect(text).not.toMatch(/live_[a-zA-Z0-9]{20,}/);
