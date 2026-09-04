@@ -46,14 +46,14 @@ test.describe('Verified public store', () => {
 
   test('journal bundle can be added without a size', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    const bundle = page.locator('[data-testid="product-card"]').filter({ hasText: 'Journal Pen and Thermos' }).first();
+    const bundle = page.locator('[data-testid="product-card"]').filter({ hasText: /Journal.*Pen.*Thermos.*Gift Box/i }).first();
     await bundle.locator('[data-testid="add-to-cart-btn"]').click();
     await expect(bundle.locator('[data-testid="add-to-cart-success"]')).toBeVisible();
   });
 
   test('cart control is visible and counts added items', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
-    const bundle = page.locator('[data-testid="product-card"]').filter({ hasText: 'Journal Pen and Thermos' }).first();
+    const bundle = page.locator('[data-testid="product-card"]').filter({ hasText: /Journal.*Pen.*Thermos.*Gift Box/i }).first();
     await bundle.locator('[data-testid="add-to-cart-btn"]').click();
     await expect(page.locator('[data-testid="cart-button"]')).toBeVisible();
     await expect(page.locator('[data-testid="cart-count"]')).toContainText('1');
