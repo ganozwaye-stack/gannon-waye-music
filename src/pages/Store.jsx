@@ -27,7 +27,7 @@ const STORE_OPEN = true;
 
 // Per-product config: sub-label only (no buy mode while store closed)
 const PRODUCT_CONFIG = {
-  '69f11d1fc43e13c61fe6b9d7': { sub: 'Owner-counted stock in S, M, L and XL. Delivery is calculated before payment.' },
+  '69f11d1fc43e13c61fe6b9d7': { sub: 'Available in S, M, L and XL. Delivery is calculated before payment.' },
   '69fbd261b760426cede1b7a3': { sub: 'Journal, matching pen and thermos presented as one complete gift box set. Delivery is calculated before payment.' },
 };
 
@@ -371,7 +371,7 @@ export default function Store() {
             <div className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 rounded-xl px-5 py-3 mb-3">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
               <p className="font-body text-xs text-green-300">
-                Current owner-approved stock is available for delivery within Australia.
+                Everything here is in stock and ready to ship within Australia.
               </p>
             </div>
           ) : (

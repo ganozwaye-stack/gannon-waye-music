@@ -1,4 +1,5 @@
 import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
+import NeonBrandTitle from '@/components/store/NeonBrandTitle';
 import WorldHotspot from '@/components/store/WorldHotspot';
 import { formatAudPrice } from '@/lib/liveStoreProducts';
 
@@ -60,6 +61,24 @@ export default function LockedStorefrontHero({ hoodieProduct, onOpenProduct }) {
           background: 'linear-gradient(to bottom, rgba(8,8,14,0.28) 0%, rgba(8,8,14,0.08) 38%, rgba(8,8,14,0.52) 78%, rgba(8,8,14,0.92) 100%)',
         }}
       />
+
+      {/* The name above the boutique — the signage fans see first.
+          Name only; no kicker, no subtitle, and never part of the artwork file. */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-start',
+          textAlign: 'center',
+          padding: 'clamp(18px, 4vh, 44px) 16px 0',
+          pointerEvents: 'none',
+        }}
+      >
+        <NeonBrandTitle subtitle="" />
+      </div>
 
       {hoodieInStock && HOODIE_ZONES.map((zone, index) => (
         <WorldHotspot

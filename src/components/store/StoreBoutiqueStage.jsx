@@ -82,10 +82,10 @@ export default function StoreBoutiqueStage({ products = [], onOpenProduct }) {
           Step inside the boutique
         </p>
         <h2 style={{ color: '#f0e8d8', fontSize: 'clamp(22px, 4vw, 38px)', margin: '10px 0 0', fontWeight: 700 }}>
-          The owner approved collection
+          The Respect Is Earned collection
         </h2>
         <p style={{ color: 'rgba(255,255,255,0.56)', fontSize: '12px', margin: '8px auto 0', maxWidth: '620px', lineHeight: 1.6 }}>
-          The boutique world is permanent. Prices, stock and purchasing come only from verified live records.
+          Small-run pieces from Gannon Waye. Everything you see here is in stock and ships across Australia.
         </p>
       </div>
 
@@ -190,7 +190,7 @@ export default function StoreBoutiqueStage({ products = [], onOpenProduct }) {
           </div>
         ) : (
           <div style={{ position: 'relative', textAlign: 'center', padding: '56px 20px 70px', color: 'rgba(255,255,255,0.58)' }}>
-            The boutique is being prepared. No product will appear until it is owner approved and verified for sale.
+            New pieces are on their way. The boutique reopens as soon as the next drop is ready.
           </div>
         )}
       </div>
