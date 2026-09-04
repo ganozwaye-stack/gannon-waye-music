@@ -6,8 +6,7 @@
  * Layout (approved concept):
  *   Back wall: glowing GANNON WAYE sign + Merch Store subtitle
  *   Far-right: poster feature wall
- *   Left hoodie rail: front-print hoodies
- *   Right hoodie rail: back-print hoodies
+ *   Side hoodie rails: both show the one Respect Is Earned hoodie
  *   Centre pedestal: Winter Writing & Comfort Bundle hero
  *   Centre counter: journal/pen/thermos, rolled posters, register
  *   Right shelf: mug + CD/tote
@@ -177,10 +176,10 @@ export default function BoutiqueScene({ onOpenModal }) {
         ))}
       </ZoneButton>
 
-      {/* ── LEFT HOODIE RAIL (front print) ── */}
+      {/* ── LEFT HOODIE RAIL ── */}
       <ZoneButton
-        label="Front Print Hoodie — $89"
-        onClick={() => open('front-hoodie')}
+        label="Respect Is Earned Hoodie — $98"
+        onClick={() => open('respect-is-earned-hoodie')}
         style={{
           position: 'absolute', top: '24%', left: '5%', width: '18%',
           zIndex: 6, padding: '0 0 8px 0',
@@ -197,21 +196,21 @@ export default function BoutiqueScene({ onOpenModal }) {
             { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png', emoji: '🖤' },
           ].map((h, i) => (
             <div key={i} style={{ flex: 1, aspectRatio: '0.7/1', background: 'linear-gradient(180deg, #2a2a2a, #111)', borderRadius: '4px 4px 6px 6px', overflow: 'hidden', boxShadow: '1px 3px 12px rgba(0,0,0,0.7)', position: 'relative' }}>
-              <ProductImg src={h.src} emoji={h.emoji} alt="Front print hoodie" style={{ objectFit: 'contain', padding: '4px' }} />
+              <ProductImg src={h.src} emoji={h.emoji} alt="Respect Is Earned hoodie" style={{ objectFit: 'contain', padding: '4px' }} />
               {/* Hanger */}
               <div style={{ position: 'absolute', top: '-6px', left: '50%', transform: 'translateX(-50%)', width: '2px', height: '7px', background: 'rgba(212,175,55,0.5)' }} />
             </div>
           ))}
         </div>
         <div style={{ textAlign: 'center', marginTop: '6px', color: GOLD_TEXT, fontSize: '7px', letterSpacing: '0.14em', textTransform: 'uppercase' }}>
-          Front Print · $89
+          Hoodie · $98
         </div>
       </ZoneButton>
 
-      {/* ── RIGHT HOODIE RAIL (back print) ── */}
+      {/* ── RIGHT HOODIE RAIL ── */}
       <ZoneButton
-        label="Back Print Hoodie — $89"
-        onClick={() => open('back-hoodie')}
+        label="Respect Is Earned Hoodie — $98"
+        onClick={() => open('respect-is-earned-hoodie')}
         style={{
           position: 'absolute', top: '24%', right: '5%', width: '18%',
           zIndex: 6, padding: '0 0 8px 0',

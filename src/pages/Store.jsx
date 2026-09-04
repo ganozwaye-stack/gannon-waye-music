@@ -324,6 +324,8 @@ export default function Store() {
   });
   // Fail closed. Never replace missing data with invented products, stock or prices.
   const products = Array.isArray(dbProducts) ? dbProducts : [];
+  // The jumpers in the world artwork are this one live hoodie record.
+  const hoodieProduct = products.find(p => p.category === 'apparel') || null;
 
   // Sort: merch groups first, then music, sold-out last
   const GROUP_ORDER = { apparel: 0, accessories: 1, drinkware: 2, bundle: 3, poster: 4, vinyl: 5, cd: 6, other: 7 };
@@ -347,7 +349,7 @@ export default function Store() {
 
   return (
     <div data-testid="store-page" className={`min-h-screen pb-24 ${hasItems ? 'pb-36' : ''}`}>
-      <LockedStorefrontHero />
+      <LockedStorefrontHero hoodieProduct={hoodieProduct} onOpenProduct={setWorldProduct} />
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8">
         <StoreBoutiqueStage products={sortedProducts} onOpenProduct={setWorldProduct} />

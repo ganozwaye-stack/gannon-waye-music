@@ -11,7 +11,7 @@ import { ShoppingCart, Grid, Music } from 'lucide-react';
 const ACCENT = '#D4AF37';
 
 const PRODUCT_EMOJI = {
-  'front-hoodie': '🖤', 'back-hoodie': '🖤', 'winter-writing-comfort-bundle': '❄️',
+  'respect-is-earned-hoodie': '🖤', 'winter-writing-comfort-bundle': '❄️',
   'journal-pen-thermos-bundle': '📓', 'mug': '☕', 'wall-poster': '🖼️',
   'cd': '💿', 'tote-bag': '👜', 'mums-garden': '🌸'
 };
@@ -230,7 +230,7 @@ function ProductCard({ product, onOpenModal }) {
   );
 }
 
-const FEATURED_IDS = ['winter-writing-comfort-bundle', 'front-hoodie', 'journal-pen-thermos-bundle'];
+const FEATURED_IDS = ['winter-writing-comfort-bundle', 'respect-is-earned-hoodie', 'journal-pen-thermos-bundle'];
 
 function FeaturedCard({ product, isHero, onOpenModal }) {
   const emoji = PRODUCT_EMOJI[product.id] || '🛍️';

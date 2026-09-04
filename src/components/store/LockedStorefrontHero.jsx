@@ -1,7 +1,21 @@
 import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
 import NeonBrandTitle from '@/components/store/NeonBrandTitle';
+import WorldHotspot from '@/components/store/WorldHotspot';
+import { formatAudPrice } from '@/lib/liveStoreProducts';
 
-export default function LockedStorefrontHero() {
+// The jumpers hanging on both sides of the locked boutique artwork are the ONE
+// live hoodie record — a single product, never split into front/back listings.
+const HOODIE_ZONES = [
+  { left: '1%', top: '28%', width: '15%', height: '42%' },
+  { left: '84%', top: '28%', width: '15%', height: '42%' },
+];
+
+export default function LockedStorefrontHero({ hoodieProduct, onOpenProduct }) {
+  const hoodieInStock = hoodieProduct && Number(hoodieProduct.stock_quantity) > 0;
+  const hotspotLabel = hoodieInStock
+    ? `Respect Is Earned Hoodie — ${formatAudPrice(hoodieProduct.sale_price)} + delivery`
+    : '';
+
   return (
     <section
       data-testid="locked-storefront-world"
@@ -71,6 +85,16 @@ export default function LockedStorefrontHero() {
         </p>
         <NeonBrandTitle />
       </div>
+
+      {hoodieInStock && HOODIE_ZONES.map((zone, index) => (
+        <WorldHotspot
+          key={index}
+          zone={zone}
+          testId="world-hoodie-hotspot"
+          label={hotspotLabel}
+          onClick={() => onOpenProduct?.(hoodieProduct)}
+        />
+      ))}
     </section>
   );
 }
