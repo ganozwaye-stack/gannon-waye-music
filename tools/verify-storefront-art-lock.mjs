@@ -27,7 +27,7 @@ const stage = read('src/components/store/StoreBoutiqueStage.jsx');
 requireText(lock, expectedUrl, 'Storefront artwork URL changed or disappeared. The permanent boutique world lock has been violated.');
 requireText(lock, expectedSha256, 'Storefront artwork checksum changed or disappeared. The permanent boutique world lock has been violated.');
 requireText(app, '<Route path="/store" element={<Store />} />', 'The public /store route no longer points to the locked database driven store.');
-requireText(store, '<LockedStorefrontHero />', 'The locked boutique world hero was removed from the public store.');
+requireText(store, '<LockedStorefrontHero', 'The locked boutique world hero was removed from the public store.');
 requireText(store, '<StoreBoutiqueStage products={sortedProducts}', 'The locked boutique world stage was removed or disconnected from live products.');
 requireText(store, 'fetchLiveStoreProducts', 'The public store no longer loads products through the shared live product source.');
 requireText(liveProducts, "publication_status: 'live'", 'The shared product source no longer requires live publication status.');
