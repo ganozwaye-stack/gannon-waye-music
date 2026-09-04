@@ -28,7 +28,7 @@ async function addHoodie(page, size = 'M') {
 }
 
 async function addBundle(page) {
-  const card = page.locator('[data-testid="product-card"]').filter({ hasText: 'Journal Pen and Thermos' }).first();
+  const card = page.locator('[data-testid="product-card"]').filter({ hasText: /Journal.*Pen.*Thermos.*Gift Box/i }).first();
   await expect(card).toBeVisible();
   await card.locator('[data-testid="add-to-cart-btn"]').click();
   await expect(card.locator('[data-testid="add-to-cart-success"]')).toBeVisible();
