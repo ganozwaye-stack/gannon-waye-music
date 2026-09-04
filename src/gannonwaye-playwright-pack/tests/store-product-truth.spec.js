@@ -10,7 +10,7 @@ test.describe('Stage one product truth', () => {
   });
 
   test('journal bundle shows the approved $59 price', async ({ page }) => {
-    const bundle = page.locator('[data-testid="product-card"]').filter({ hasText: 'Journal Pen and Thermos' }).first();
+    const bundle = page.locator('[data-testid="product-card"]').filter({ hasText: /Journal.*Pen.*Thermos.*Gift Box/i }).first();
     await expect(bundle).toBeVisible();
     await expect(bundle.locator('[data-testid="product-price"]')).toContainText('$59');
   });
