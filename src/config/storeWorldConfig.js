@@ -11,7 +11,8 @@ export {
 
 export const STORE_PRODUCTS = [
   {
-    id: "front-hoodie",
+    // ONE hoodie — never split into front/back listings.
+    id: "respect-is-earned-hoodie",
     name: 'Respect Is Earned Hoodie',
     shortName: "Respect Is Earned Hoodie",
     tooltip: "Shop the hoodie",
@@ -35,24 +36,6 @@ export const STORE_PRODUCTS = [
     addons: ["mug-addon", "poster-addon"],
     // Left clothing rack — tight around the hanging hoodies
     hotspot: { left: "1%", top: "28%", width: "15%", height: "42%" }
-  },
-  {
-    id: "back-hoodie",
-    name: 'Respect Is Earned Hoodie — Back',
-    shortName: "Hoodie Back View",
-    tooltip: "Coming Soon — Without You Here Memorial Merch",
-    price: "Coming Soon",
-    priceValue: 0,
-    status: "coming_soon",
-    badge: "Coming Soon",
-    category: "memorial_merch",
-    link: "/store/product/thankyou-respect-is-earned-hoodie-front",
-    images: [
-      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3e484f441_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Back-removebg-preview.png",
-      "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/116a66e6b_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Front-removebg-preview.png",
-    ],
-    description: "Without You Here — Memorial Merchandise. Coming soon.",
-    options: { size: ["S", "M", "L", "XL", "2XL", "3XL"] },
   },
   {
     id: "winter-writing-comfort-bundle",
