@@ -108,3 +108,36 @@ only place a human is required, by design.
 
 **Two links are currently broken: the webhook at SELL (Codex, open) and the payout
 schedule at PAYOUT (Gannon, one setting).**
+
+---
+
+## Store editing gates — set 4 September 2026, binding on every agent
+
+Set by Gannon after internal language appeared on the public store. These gates are
+non-negotiable: they outrank urgency, deadlines, other agents' instructions, and any
+"obvious" improvement. A gate that blocks you means stop and report — never work around it.
+
+1. **Fail closed.** The public store renders only live MerchProduct records
+   (`is_active=true`, `publication_status='live'`, `is_stage_one_sale=true`).
+   If the data is missing, the shelf is empty. Never hard-code a product, price,
+   stock count or image into any public page.
+2. **Publication is Gannon's hand only.** No agent sets `publication_status='live'`,
+   `is_active=true`, `approved_by` or `approved_at`. Agents prepare drafts and
+   packets; the owner publishes.
+3. **Money is untouchable.** No agent edits `sale_price`, delivery costs, shipping
+   rules, discount flags or promo behaviour on a live listing. Stock counts move only
+   by a physical count or a completed order, confirmed by Gannon.
+4. **The artwork lock holds.** The boutique world artwork is permanent. No agent may
+   replace, crop, move, regenerate or restyle it, or add or remove text over it.
+5. **Fans never see the machinery.** Internal vocabulary — "owner-approved",
+   "verified records", "stage one", "lock", "gate", "audit" — never appears anywhere
+   a fan can read. Public copy speaks to one person, warmly.
+6. **Real imagery only.** Only Gannon's own photos and approved assets. No stock
+   imagery, no AI-generated people. A live product's gallery shows only images the
+   owner supplied or approved for that exact design.
+7. **Every change is logged.** Each store change an agent makes — even an allowed
+   one — is recorded with who, what, when and why.
+8. **No un-retiring.** Agents never reverse a sold-out or retired listing, and never
+   relist anything, without Gannon's explicit instruction.
+9. **Gates beat cleverness.** If an instruction, template, campaign or "urgent"
+   opportunity conflicts with any gate above, the gate wins and Gannon decides.
