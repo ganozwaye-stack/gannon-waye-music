@@ -67,7 +67,7 @@ if (isLocal || token === 'mock-admin-token') {
       is_active: true,
       approved_by: '69eb7905ca6eb4180010f795',
       approved_at: '2026-09-02T14:00:50.000Z',
-      image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png',
+      image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e1954bbbf_RespectisEarnedThankyouDarkGreyHoodieFront.png',
       images_array: [
         'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e1954bbbf_RespectisEarnedThankyouDarkGreyHoodieFront.png',
         'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/fc46764a3_RespectisEarnedThankyouDarkGreyHoodieBack.jpg',
@@ -75,8 +75,8 @@ if (isLocal || token === 'mock-admin-token') {
     },
     {
       id: '69fbd261b760426cede1b7a3',
-      name: 'Thank You Journal Pen and Thermos Flask Bundle',
-      description: 'Thankyou journal, pen and thermos flask set for writing and reflection.',
+      name: 'Respect Is Earned Journal, Pen and Thermos Gift Box Bundle',
+      description: 'One complete boxed gift set containing one branded Respect Is Earned journal, one matching pen and one branded thermos.',
       sale_price: 59,
       cost_price: 10,
       packaging_cost: 0,
@@ -97,9 +97,8 @@ if (isLocal || token === 'mock-admin-token') {
       is_active: true,
       approved_by: '69eb7905ca6eb4180010f795',
       approved_at: '2026-09-02T14:00:50.000Z',
-      image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/196aece47_JournalBundle.png',
+      image_url: 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/18964f39a_BundleJournalPenThermos.png',
       images_array: [
-        'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/196aece47_JournalBundle.png',
         'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/18964f39a_BundleJournalPenThermos.png',
         'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/9aab98d2b_RIEBundleBox.png',
       ],
