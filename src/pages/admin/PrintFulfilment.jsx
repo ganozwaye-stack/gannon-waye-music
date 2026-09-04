@@ -8,6 +8,7 @@ import { CheckCircle2, XCircle, AlertTriangle, Printer, Image, FileText, Zap } f
 const PROVIDERS = [
   {
     name: 'Printful',
+    connected_store_name: 'Gannon Waye POD Store',
     api_available: true,
     framed_posters: true,
     australia_fulfilment: true,
@@ -21,7 +22,7 @@ const PROVIDERS = [
     quality_rating: 9,
     cost_rating: 7,
     active: false,
-    api_env_var: 'PRINTFUL_API_KEY',
+    api_env_var: 'PRINTFUL_API_TOKEN',
     notes: 'Industry standard. Large AUS fulfilment hub in Sydney. Framed posters up to A1. White-label branding. Recommended first choice.',
   },
   {
@@ -173,7 +174,7 @@ export default function PrintFulfilment() {
           <p className="font-body text-xs text-muted-foreground mt-1">
             Live fulfilment is locked until Gannon approves a provider and confirms sample quality.
             All poster orders currently route to <strong className="text-foreground">manual_fulfilment_required</strong> state.
-            API keys are environment variables only — never exposed in frontend code.
+            Private API tokens are stored as server-side secrets only — never exposed in frontend code or chat.
           </p>
         </div>
       </div>
@@ -243,7 +244,10 @@ export default function PrintFulfilment() {
                     <Stars n={p.cost_rating} />
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground/70">{p.notes}</p>
+                {p.connected_store_name && (
+                  <p className="text-xs text-primary mt-1">Store: {p.connected_store_name}</p>
+                )}
+                <p className="text-xs text-muted-foreground/70 mt-1">{p.notes}</p>
                 <p className="text-xs text-muted-foreground mt-1">Shipping: {p.shipping_regions}</p>
               </CardContent>
             </Card>
@@ -464,8 +468,8 @@ export default function PrintFulfilment() {
             },
             {
               priority: 'medium',
-              action: 'Set API key for chosen provider once approved',
-              detail: 'API key must be added as environment variable only (e.g. PRINTFUL_API_KEY). Never enter in frontend code or chat. Add via Base44 dashboard → Secrets.',
+              action: 'Store the Printful private token once approved',
+              detail: 'The private token must be stored as the server-side secret PRINTFUL_API_TOKEN. Never enter it in frontend code, a database field, screenshots or chat. Add it only through Base44 dashboard → Secrets.',
               link: null,
             },
             {
