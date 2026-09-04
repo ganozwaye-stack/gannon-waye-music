@@ -22,7 +22,7 @@ export const STORE_PRODUCTS = [
     status: "available",
     badge: "Hoodie",
     category: "hoodies",
-    link: "/store/product/thankyou-respect-is-earned-hoodie-front",
+    link: "/store",
     images: [
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/116a66e6b_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Front-removebg-preview.png",
       "https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3e484f441_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Back-removebg-preview.png",

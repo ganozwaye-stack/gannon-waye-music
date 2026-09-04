@@ -220,12 +220,12 @@ export default function BoutiqueScene({ onOpenModal }) {
         <div style={{ height: '3px', background: `linear-gradient(90deg, rgba(180,160,100,0.25), rgba(212,175,55,0.7), rgba(180,160,100,0.25))`, borderRadius: '2px', boxShadow: '0 2px 8px rgba(212,175,55,0.3)', marginBottom: '4px' }} />
         <div style={{ display: 'flex', gap: '6px', justifyContent: 'center', padding: '0 4px' }}>
           {[
-            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png', emoji: '🖤' },
-            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png', emoji: '🖤' },
-            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4454da55f_RespectisEarnedThankyouDarkGreyHoodieFront.png', emoji: '🖤' },
+            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3e484f441_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Back-removebg-preview.png', emoji: '🖤' },
+            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3e484f441_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Back-removebg-preview.png', emoji: '🖤' },
+            { src: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3e484f441_Respect_is_Earned_Thankyou_Dark_Grey_Hoodie_Back-removebg-preview.png', emoji: '🖤' },
           ].map((h, i) => (
             <div key={i} style={{ flex: 1, aspectRatio: '0.7/1', background: 'linear-gradient(180deg, #2a2a2a, #111)', borderRadius: '4px 4px 6px 6px', overflow: 'hidden', boxShadow: '1px 3px 12px rgba(0,0,0,0.7)', position: 'relative' }}>
-              <ProductImg src={h.src} emoji={h.emoji} alt="Back print hoodie" style={{ objectFit: 'contain', padding: '4px' }} />
+              <ProductImg src={h.src} emoji={h.emoji} alt="Respect Is Earned hoodie" style={{ objectFit: 'contain', padding: '4px' }} />
               <div style={{ position: 'absolute', top: '-6px', left: '50%', transform: 'translateX(-50%)', width: '2px', height: '7px', background: 'rgba(212,175,55,0.5)' }} />
             </div>
           ))}
