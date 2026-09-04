@@ -28,7 +28,7 @@ const STORE_OPEN = true;
 // Per-product config: sub-label only (no buy mode while store closed)
 const PRODUCT_CONFIG = {
   '69f11d1fc43e13c61fe6b9d7': { sub: 'Owner-counted stock in S, M, L and XL. Delivery is calculated before payment.' },
-  '69fbd261b760426cede1b7a3': { sub: 'Journal, pen and thermos flask set. Delivery is calculated before payment.' },
+  '69fbd261b760426cede1b7a3': { sub: 'Journal, matching pen and thermos presented as one complete gift box set. Delivery is calculated before payment.' },
 };
 
 // Multi-image galleries per product id (auto-rotates in card)
@@ -41,11 +41,6 @@ const PRODUCT_GALLERIES = {
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5d1b577f1_2.jpg',
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d45dc7100_RespectisEarnedToteBagFront.png',
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/39dab5737_RespectisEarnedToteBagBack.png',
-  ],
-  '69fbd261b760426cede1b7a3': [
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6822f58e3_4.jpg',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/146ccc6c7_5.jpg',
-    'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3afc9d17f_3.jpg',
   ],
   '69eed3e64e2da78ae4418a99': [
     'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dbb657925_IMG_17251.JPG',
