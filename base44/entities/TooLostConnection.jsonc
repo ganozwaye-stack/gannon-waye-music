@@ -2,22 +2,18 @@
   "name": "TooLostConnection",
   "type": "object",
   "properties": {
-    "access_token": {
+    "token_envelope": {
       "type": "string",
-      "description": "Current Too Lost OAuth access token"
-    },
-    "refresh_token": {
-      "type": "string",
-      "description": "OAuth refresh token used to renew the access token"
+      "description": "AES-GCM encrypted server-only Too Lost access and refresh tokens"
     },
     "access_token_expires_at": {
       "type": "string",
       "format": "date-time",
-      "description": "When the access token expires (15 day lifetime)"
+      "description": "When the current access token expires"
     },
     "scope": {
       "type": "string",
-      "description": "Scopes granted on the connection"
+      "description": "Scopes granted by Too Lost"
     },
     "connected_name": {
       "type": "string",
@@ -30,28 +26,37 @@
     "last_refreshed_at": {
       "type": "string",
       "format": "date-time",
-      "description": "When the tokens were last exchanged or refreshed"
+      "description": "When the tokens were last exchanged or renewed"
+    },
+    "pending_oauth_state_hash": {
+      "type": "string",
+      "description": "Short-lived server-only hash used to validate an OAuth callback"
+    },
+    "pending_oauth_state_expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Expiry for the pending OAuth security check"
     }
   },
   "rls": {
     "create": {
       "user_condition": {
-        "role": "admin"
+        "email": "__service_role_only__@invalid.local"
       }
     },
     "read": {
       "user_condition": {
-        "role": "admin"
+        "email": "__service_role_only__@invalid.local"
       }
     },
     "update": {
       "user_condition": {
-        "role": "admin"
+        "email": "__service_role_only__@invalid.local"
       }
     },
     "delete": {
       "user_condition": {
-        "role": "admin"
+        "email": "__service_role_only__@invalid.local"
       }
     }
   }
