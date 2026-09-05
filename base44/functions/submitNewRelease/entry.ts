@@ -1,11 +1,16 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.40';
 import { secrets } from 'base44:runtime';
+import {
+  tooLostConfigFromSecrets,
+  getValidTooLostAccessToken,
+} from '../../shared/tooLostAuth.ts';
 
 // One-button new release submission — owner only.
 // Saves the full release to admin (Release + Lyric records), creates press release
 // and playlist pitch drafts, and pushes the release to Too Lost for distribution
-// scheduling. Scheduling the site feature for release day is handled by the
-// publishDueReleases function + its midnight workflow.
+// scheduling using the owner's connected Too Lost account (OAuth — no token secret).
+// Scheduling the site feature for release day is handled by publishDueReleases
+// and its midnight workflow.
 
 const OWNER_EMAILS = new Set([
   'ganozwaye@gmail.com',
@@ -105,16 +110,18 @@ export default async function(req) {
       approval_status: 'draft',
     });
 
-    // 4. Push the release to Too Lost (OAuth Bearer token from secrets).
-    let tooLost = { status: 'not_configured', detail: 'TOO_LOST_API_TOKEN secret is not set.' };
-    const token = secrets.get('TOO_LOST_API_TOKEN');
-    if (token) {
-      const base = secrets.get('TOO_LOST_API_BASE_URL') || 'https://api.toolost.com/v1';
+    // 4. Push the release to Too Lost using the connected account (auto-renewed OAuth).
+    let tooLost;
+    const config = tooLostConfigFromSecrets(secrets);
+    const apiBase = secrets.get('TOO_LOST_API_BASE_URL') || 'https://api.toolost.com/v1';
+    const auth = await getValidTooLostAccessToken(sr, config);
+
+    if (auth.token) {
       try {
-        const res = await fetch(`${base}/releases`, {
+        const res = await fetch(`${apiBase}/releases`, {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${auth.token}`,
             'Content-Type': 'application/json',
             Accept: 'application/json',
           },
@@ -122,14 +129,17 @@ export default async function(req) {
             title,
             artists: [{ name: 'Gannon Waye', role: 'primary' }],
             release_date: releaseDate,
-            tracks: [{ title, ...exact(body.version_label) && exact(body.version_label) !== 'Original' ? { version: exact(body.version_label) } : {} }],
+            tracks: [{
+              title,
+              ...(versionLabel && versionLabel !== 'Original' ? { version: versionLabel } : {}),
+            }],
           }),
         });
 
         if (res.status === 401) {
           tooLost = {
             status: 'reauthorise_required',
-            detail: 'Too Lost rejected the token (401). Access tokens expire after 15 days — refresh the TOO_LOST_API_TOKEN secret, then submit again.',
+            detail: 'Too Lost rejected the connection — click Connect Too Lost on the Distributors page, then submit again.',
           };
         } else if (res.ok) {
           const data = await res.json().catch(() => ({}));
@@ -145,6 +155,8 @@ export default async function(req) {
       } catch (fetchError) {
         tooLost = { status: 'error', detail: `Could not reach Too Lost: ${fetchError?.message || 'unknown error'}` };
       }
+    } else {
+      tooLost = { status: auth.error, detail: auth.detail };
     }
 
     // 5. Admin notification so the submission is always visible in the back office.

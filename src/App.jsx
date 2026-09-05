@@ -148,6 +148,7 @@ import MonthlyMonitoring from '@/pages/admin/MonthlyMonitoring';
 import TikTokScreenGuide from '@/pages/admin/TikTokScreenGuide';
 import TikTokPlatformReview from '@/pages/TikTokPlatformReview';
 import TikTokCallback from '@/pages/TikTokCallback.jsx';
+import TooLostCallback from '@/pages/TooLostCallback.jsx';
 import TikTokPlatformReviewAdmin from '@/pages/admin/TikTokPlatformReviewAdmin';
 import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
 import RevenueActions from '@/pages/admin/RevenueActions';
@@ -475,6 +476,7 @@ const AuthenticatedApp = () => {
       <Route path="/embed-timer" element={<EmbedTimer />} />
       <Route path="/tiktok-platform-review" element={<TikTokPlatformReview />} />
       <Route path="/tiktok-callback" element={<TikTokCallback />} />
+      <Route path="/toolost-callback" element={<TooLostCallback />} />
       <Route path="/gift-checklist" element={<GiftChecklistPage />} />
       <Route path="/live" element={<Navigate to="/" replace />} />
 

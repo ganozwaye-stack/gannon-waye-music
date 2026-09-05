@@ -1,0 +1,58 @@
+{
+  "name": "TooLostConnection",
+  "type": "object",
+  "properties": {
+    "access_token": {
+      "type": "string",
+      "description": "Current Too Lost OAuth access token"
+    },
+    "refresh_token": {
+      "type": "string",
+      "description": "OAuth refresh token used to renew the access token"
+    },
+    "access_token_expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the access token expires (15 day lifetime)"
+    },
+    "scope": {
+      "type": "string",
+      "description": "Scopes granted on the connection"
+    },
+    "connected_name": {
+      "type": "string",
+      "description": "Display name of the connected Too Lost account"
+    },
+    "connected_email": {
+      "type": "string",
+      "description": "Email of the connected Too Lost account"
+    },
+    "last_refreshed_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the tokens were last exchanged or refreshed"
+    }
+  },
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
