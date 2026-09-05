@@ -121,6 +121,7 @@ import PremiumUX from '@/pages/admin/PremiumUX';
 import BlueprintBuilder from '@/pages/admin/BlueprintBuilder';
 import ClientInstalls from '@/pages/admin/ClientInstalls';
 import Distributors from '@/pages/admin/Distributors';
+import NewReleaseStudio from '@/pages/admin/NewReleaseStudio';
 import AgentLearning from '@/pages/admin/AgentLearning';
 import MemoryGraph from '@/pages/admin/MemoryGraph';
 import SelfHealing from '@/pages/admin/SelfHealing';
@@ -584,6 +585,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/blueprint-builder" element={<BlueprintBuilder />} />
         <Route path="/admin/client-installs" element={<ClientInstalls />} />
         <Route path="/admin/distributors" element={<Distributors />} />
+        <Route path="/admin/new-release-studio" element={<NewReleaseStudio />} />
         <Route path="/admin/agent-learning" element={<AgentLearning />} />
         <Route path="/admin/memory-graph" element={<MemoryGraph />} />
         <Route path="/admin/self-healing" element={<SelfHealing />} />

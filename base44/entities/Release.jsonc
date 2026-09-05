@@ -313,6 +313,27 @@
           }
         }
       }
+    },
+    "auto_publish_on_release_date": {
+      "type": "boolean",
+      "default": false,
+      "description": "Set at New Release Studio submission: publish this release publicly at midnight on its release date, executing the owner's one-button approval. Legacy releases stay false and keep the manual publish flow.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      }
     }
   },
   "required": [

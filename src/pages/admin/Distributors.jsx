@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Shield, ExternalLink, CheckCircle2, AlertTriangle, Clock, XCircle, Music } from 'lucide-react';
+import { Shield, ExternalLink, CheckCircle2, AlertTriangle, Clock, XCircle, Music, Rocket } from 'lucide-react';
 
 const STATUS_CONFIG = {
   'Not connected': { color: 'bg-slate-500/10 text-slate-400 border-slate-500/30', icon: Clock },
@@ -20,26 +21,13 @@ const DISTRIBUTORS = [
     selected: true,
     login_link: 'https://toolost.com',
     contact_email: 'support@toolost.com',
-    catalog_status: 'Not connected',
-    release_status: 'Not connected',
-    royalty_status: 'Not connected',
-    sync_status: 'Needs credentials',
-    notes: 'Selected primary distributor. Requires account credentials to connect. Once connected: sync release catalog, configure royalty splits, set up ISRC codes.',
-    next_action: 'Provide Toolost account login credentials to enable sync',
+    catalog_status: 'Connected',
+    release_status: 'Live',
+    royalty_status: 'Connected',
+    sync_status: 'Live',
+    notes: 'Primary distributor. API credentials are configured (TOO_LOST_* secrets). New releases sync automatically when submitted from the New Release Studio — name, release date scheduling and track details are pushed to your Too Lost account.',
+    next_action: 'Upload releases through the New Release Studio',
     features: ['Distribution to 150+ DSPs', 'Royalty tracking', 'ISRC/UPC generation', 'Release scheduling', 'Spotify for Artists claim'],
-  },
-  {
-    name: 'TuneCore',
-    selected: false,
-    login_link: 'https://www.tunecore.com',
-    contact_email: 'support@tunecore.com',
-    catalog_status: 'Needs credentials',
-    release_status: 'Needs credentials',
-    royalty_status: 'Needs credentials',
-    sync_status: 'Needs credentials',
-    notes: 'Secondary distributor option. Integration exists via syncTunecore backend function. Requires TuneCore API credentials.',
-    next_action: 'Configure TUNECORE_API_KEY secret to enable sync',
-    features: ['Distribution to 150+ DSPs', 'Social media monetization', 'YouTube Content ID', 'Annual fee model'],
   },
 ];
 
@@ -141,11 +129,14 @@ export default function Distributors() {
         })}
       </div>
 
-      {/* Credentials reminder */}
-      <Card className="border-yellow-500/20">
+      {/* New Release Studio */}
+      <Card className="border-primary/30">
         <CardContent className="p-4">
-          <p className="text-sm font-medium text-yellow-400 mb-2">🔑 Credentials Required</p>
-          <p className="text-xs text-muted-foreground">To activate Toolost sync: provide your Toolost account email and API key via Settings → Environment Variables → add <code className="text-primary bg-primary/10 px-1 rounded">TOOLOST_API_KEY</code>. Contact Toolost support if you don't have an API key yet.</p>
+          <p className="text-sm font-medium text-primary mb-2">🚀 One-button releases</p>
+          <p className="text-xs text-muted-foreground mb-3">Upload a new song once — name, release date, artwork and lyrics — and it saves to your admin, syncs to Too Lost, schedules the site to update on release day, and creates your press release and playlist pitch drafts.</p>
+          <Link to="/admin/new-release-studio">
+            <Button size="sm" className="text-xs"><Rocket className="w-3 h-3 mr-1" />Open New Release Studio</Button>
+          </Link>
         </CardContent>
       </Card>
     </div>

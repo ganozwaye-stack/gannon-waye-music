@@ -1,0 +1,45 @@
+{
+  "name": "Publish Due Releases (Midnight)",
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "publish_due_releases",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "publish_due": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "publishDueReleases",
+            "args": {}
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Publish due releases",
+            "description": "Owner-approved releases due today"
+          }
+        }
+      }
+    ]
+  },
+  "description": "At midnight Sydney time, publishes owner-approved releases whose scheduled release date has arrived (submitted via the New Release Studio).",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 0 * * *",
+      "one_time_date": null,
+      "timezone": "Australia/Sydney",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  }
+}
