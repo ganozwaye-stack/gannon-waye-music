@@ -40,9 +40,16 @@ export default function Distributors() {
   const { data: connection } = useQuery({
     queryKey: ['tooLostConnection'],
     queryFn: () => base44.entities.TooLostConnection.filter({}),
-    staleTime: 60_000,
+    refetchInterval: 60_000,
+    refetchOnWindowFocus: true,
   });
-  const connected = Array.isArray(connection) && connection.length > 0;
+  const conn = Array.isArray(connection) && connection.length > 0 ? connection[0] : null;
+  // Live status from the real connection record — token valid, or expired but
+  // auto-renewable with its refresh token.
+  const tokenValid = !!conn?.access_token &&
+    conn.access_token_expires_at && new Date(conn.access_token_expires_at).getTime() > Date.now();
+  const connected = !!conn && (tokenValid || !!conn.refresh_token);
+  const needsReconnect = !!conn && !connected;
 
   const startConnect = async () => {
     setConnecting(true);
@@ -81,7 +88,9 @@ export default function Distributors() {
                 release_status: 'Live',
                 royalty_status: 'Connected',
                 sync_status: 'Live',
-                next_action: 'All set — upload releases through the New Release Studio',
+                next_action: needsReconnect
+                  ? 'Your Too Lost session expired — click Connect Too Lost below to reconnect'
+                  : 'All set — upload releases through the New Release Studio',
               }
             : rawDist;
           const syncConfig = STATUS_CONFIG[dist.sync_status] || STATUS_CONFIG['Not connected'];
