@@ -45,7 +45,7 @@ export default async function(req) {
 
     // Too Lost returns to the public callback origin, which may not share the
     // Base44 editor session. A short-lived, single-use server state authorises
-    // only this exchange. Every other action remains admin-only.
+    // only this one-time exchange. Every other action remains admin-only.
     if (action === 'exchange') {
       if (missing.length) {
         return json({ error: `Too Lost OAuth is not configured. Missing: ${missing.join(', ')}` }, 400);
