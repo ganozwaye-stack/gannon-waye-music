@@ -1,19 +1,48 @@
+import { useQuery } from '@tanstack/react-query';
+import { base44 } from '@/api/base44Client';
 import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
 import WorldHotspot from '@/components/store/WorldHotspot';
 import { formatAudPrice } from '@/lib/liveStoreProducts';
 
-// The jumpers hanging on both sides of the locked boutique artwork are the ONE
-// live hoodie record — a single product, never split into front/back listings.
-const HOODIE_ZONES = [
-  { left: '1%', top: '28%', width: '15%', height: '42%' },
-  { left: '84%', top: '28%', width: '15%', height: '42%' },
-];
+// Hotspot zones are DATA, not code — they live in the StorefrontHotspot entity
+// so Gannon can add, move or retire them himself from /admin/store-hotspots as
+// new merch comes in, without ever touching this file or the locked photo
+// underneath them. A hotspot only ever renders on top of the ONE locked
+// artwork below (src/config/storefrontArtLock.js) — every record is filtered
+// to that exact lock_id, and never resolved against any other image.
 
-export default function LockedStorefrontHero({ hoodieProduct, onOpenProduct }) {
-  const hoodieInStock = hoodieProduct && Number(hoodieProduct.stock_quantity) > 0;
-  const hotspotLabel = hoodieInStock
-    ? `Respect Is Earned Hoodie — ${formatAudPrice(hoodieProduct.sale_price)} + delivery`
-    : '';
+export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
+  const { data: hotspots } = useQuery({
+    queryKey: ['storefrontHotspots', STOREFRONT_ART_LOCK.lockId],
+    queryFn: () => base44.entities.StorefrontHotspot.filter(
+      { lock_id: STOREFRONT_ART_LOCK.lockId, active: true },
+      'sort_order'
+    ),
+    staleTime: 60_000,
+  });
+
+  // Fail closed, same as the product grid below: a hotspot with no matching
+  // live product (wrong id, unpublished, or the query hasn't landed yet)
+  // simply doesn't render. Never invent a product or a price for it.
+  const activeHotspots = Array.isArray(hotspots) ? hotspots : [];
+  const resolvedHotspots = activeHotspots
+    .map((hotspot) => {
+      const product = products.find((p) => p.id === hotspot.product_id);
+      const inStock = product && Number(product.stock_quantity) > 0;
+      if (!inStock) return null;
+      return {
+        id: hotspot.id,
+        zone: {
+          left: `${hotspot.left_pct}%`,
+          top: `${hotspot.top_pct}%`,
+          width: `${hotspot.width_pct}%`,
+          height: `${hotspot.height_pct}%`,
+        },
+        label: hotspot.label_override || `${product.name} — ${formatAudPrice(product.sale_price)} + delivery`,
+        product,
+      };
+    })
+    .filter(Boolean);
 
   return (
     <section
@@ -68,13 +97,13 @@ export default function LockedStorefrontHero({ hoodieProduct, onOpenProduct }) {
           A second, bright-white "Gannon Waye" rendered on top of that was
           redundant and fought the artwork's own signage for attention. */}
 
-      {hoodieInStock && HOODIE_ZONES.map((zone, index) => (
+      {resolvedHotspots.map((hotspot) => (
         <WorldHotspot
-          key={index}
-          zone={zone}
+          key={hotspot.id}
+          zone={hotspot.zone}
           testId="world-hoodie-hotspot"
-          label={hotspotLabel}
-          onClick={() => onOpenProduct?.(hoodieProduct)}
+          label={hotspot.label}
+          onClick={() => onOpenProduct?.(hotspot.product)}
         />
       ))}
     </section>
