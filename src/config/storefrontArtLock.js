@@ -15,7 +15,8 @@ export const STOREFRONT_ART_LOCK = Object.freeze({
   imageSha256: '9667a3698d14ec59d8b744d44a54692db5b24aefa09ed90e9344edd17eb83f98',
   publicRoute: '/store',
   productSource: 'MerchProduct where is_active=true, publication_status=live and is_stage_one_sale=true',
-  rule: 'The boutique world artwork remains permanently on the public store. Product data may change through the governed MerchProduct lifecycle, but the world artwork itself must not be replaced, moved, cropped, hidden or regenerated.',
+  rule: 'The boutique world artwork remains permanently on the public store. Product data may change through the governed MerchProduct lifecycle, but the world artwork itself must not be replaced, moved, cropped, hidden or regenerated — and no overlay, banner, text block or other element may be placed over any part of it — without the owner’s explicit, contemporaneous permission for that specific change. This applies equally to human edits, AI agents and the Base44 builder. Clickable hotspot zones (see StorefrontHotspot entity / /admin/store-hotspots) are the one sanctioned exception: they are transparent, owner-managed, and never obscure the artwork.',
+  coveringRequiresOwnerPermission: true,
 });
 
 export const BOUTIQUE_HERO_IMAGE = STOREFRONT_ART_LOCK.imageUrl;
