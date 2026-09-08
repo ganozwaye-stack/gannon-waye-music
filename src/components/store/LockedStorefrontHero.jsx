@@ -1,5 +1,4 @@
 import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
-import NeonBrandTitle from '@/components/store/NeonBrandTitle';
 import WorldHotspot from '@/components/store/WorldHotspot';
 import { formatAudPrice } from '@/lib/liveStoreProducts';
 
@@ -24,9 +23,9 @@ export default function LockedStorefrontHero({ hoodieProduct, onOpenProduct }) {
       style={{
         position: 'relative',
         width: '100%',
-        // The menu floats over the page. Nudge the artwork down so the
-        // boutique signage at the top of the image clears it.
-        marginTop: '76px',
+        // The menu floats over the page. Nudge the artwork down just enough
+        // to clear the floating pill nav (top-3 + its own height) — not more.
+        marginTop: '28px',
         height: '68vh',
         minHeight: '480px',
         maxHeight: '780px',
@@ -62,23 +61,10 @@ export default function LockedStorefrontHero({ hoodieProduct, onOpenProduct }) {
         }}
       />
 
-      {/* The name above the boutique — the signage fans see first.
-          Name only; no kicker, no subtitle, and never part of the artwork file. */}
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          textAlign: 'center',
-          padding: 'clamp(32px, 7vh, 72px) 16px 0',
-          pointerEvents: 'none',
-        }}
-      >
-        <NeonBrandTitle subtitle="" />
-      </div>
+      {/* No text name overlay here on purpose — the boutique artwork already
+          has "GANNON WAYE" as gold neon signage baked into the image itself.
+          A second, bright-white "Gannon Waye" rendered on top of that was
+          redundant and fought the artwork's own signage for attention. */}
 
       {hoodieInStock && HOODIE_ZONES.map((zone, index) => (
         <WorldHotspot
