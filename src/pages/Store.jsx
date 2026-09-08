@@ -325,8 +325,6 @@ export default function Store() {
   });
   // Fail closed. Never replace missing data with invented products, stock or prices.
   const products = Array.isArray(dbProducts) ? dbProducts : [];
-  // The jumpers in the world artwork are this one live hoodie record.
-  const hoodieProduct = products.find(p => p.category === 'apparel') || null;
   // The back wall — the newest live pieces make their debut here first.
   const newArrivals = [...products]
     .sort((a, b) => new Date(b.created_date || 0) - new Date(a.created_date || 0))
@@ -354,7 +352,7 @@ export default function Store() {
 
   return (
     <div data-testid="store-page" className={`min-h-screen pb-24 ${hasItems ? 'pb-36' : ''}`}>
-      <LockedStorefrontHero hoodieProduct={hoodieProduct} onOpenProduct={setWorldProduct} />
+      <LockedStorefrontHero products={products} onOpenProduct={setWorldProduct} />
 
       <BackWallExtension products={newArrivals} onOpenProduct={setWorldProduct} />
 
