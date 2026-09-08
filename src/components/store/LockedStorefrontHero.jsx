@@ -23,9 +23,11 @@ export default function LockedStorefrontHero({ hoodieProduct, onOpenProduct }) {
       style={{
         position: 'relative',
         width: '100%',
-        // The menu floats over the page. Nudge the artwork down just enough
-        // to clear the floating pill nav (top-3 + its own height) — not more.
-        marginTop: '28px',
+        // The menu floats over the page (fixed, top-3 + its own ~46-50px height,
+        // measured live on desktop and mobile). This clears its bottom edge with a
+        // couple of px to spare — the artwork sits right under the banner with no
+        // dead gap, and never renders underneath / behind the nav.
+        marginTop: '62px',
         height: '68vh',
         minHeight: '480px',
         maxHeight: '780px',
