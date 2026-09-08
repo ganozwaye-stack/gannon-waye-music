@@ -94,6 +94,7 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Merch Approval Gate', path: '/admin/merch-approval', icon: CheckCircle2 },
       { label: 'Merch Management', path: '/admin/merch', icon: Package },
+      { label: 'Store Hotspot Editor', path: '/admin/store-hotspots', icon: Eye },
       { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
       { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Calculator },
