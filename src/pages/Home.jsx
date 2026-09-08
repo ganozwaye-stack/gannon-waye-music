@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
 import SafeSpaceBanner from '@/components/public/SafeSpaceBanner';
 import StoreWorldTeaser from '@/components/public/StoreWorldTeaser';
+import FeaturedMerchShowcase from '@/components/public/FeaturedMerchShowcase';
+import UpcomingMerchVote from '@/components/public/UpcomingMerchVote';
 import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
@@ -227,7 +229,7 @@ export default function Home() {
                         source: 'hero_listen_here',
                         release_id: currentSingle?.id,
                       });
-                      playTrack(currentSpotify, { title: currentTitle, artwork: currentArt });
+                      playTrack(currentSpotify, { title: currentTitle, artwork: currentArt, lyrics: currentSingle?.lyrics || '' });
                     }}
                     className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap"
                   >
@@ -299,6 +301,9 @@ export default function Home() {
 
       {/* Rotating marquee bar */}
       <MarqueeBar />
+
+      {/* Featured merchandise display: the Thank You collection */}
+      <FeaturedMerchShowcase />
 
       {/* About Section: magazine 3-column */}
       <section className="py-10 md:py-14 px-4 md:px-6 relative">
@@ -510,6 +515,9 @@ export default function Home() {
 
       {/* Boutique Store World CTA */}
       <StoreWorldTeaser />
+
+      {/* Upcoming merch with private fan voting */}
+      <UpcomingMerchVote />
 
       {/* Thank You Project CTA: donations, community, socials */}
       <section className="py-10 px-4 md:px-6">

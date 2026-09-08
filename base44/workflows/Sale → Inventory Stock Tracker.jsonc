@@ -1,0 +1,41 @@
+{
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "sale_inventory_tracker",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "sync_stock": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "syncInventoryToSheets",
+            "args": {
+              "order_id": "${ .trigger.entity_id }"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Update stock tracker",
+            "description": "Google Sheets inventory"
+          }
+        }
+      }
+    ]
+  },
+  "name": "Sale \u2192 Inventory Stock Tracker",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "create",
+        "update"
+      ],
+      "entity_name": "MerchOrder"
+    }
+  },
+  "description": "Refreshes product stock levels in the Google Sheets Inventory tracker whenever an order is placed or updated"
+}

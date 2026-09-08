@@ -1,0 +1,41 @@
+{
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "fan_wall_post_backup",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "backup_post": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "syncFanWallToSheets",
+            "args": {
+              "record_type": "post",
+              "record_id": "${ .trigger.entity_id }"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Back up fan post",
+            "description": "Google Sheets FanWall tab"
+          }
+        }
+      }
+    ]
+  },
+  "name": "Fan Wall Backup \u2014 New Post",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "create"
+      ],
+      "entity_name": "FanPost"
+    }
+  },
+  "description": "Appends every new fan wall post to the Google Sheets backup the moment it is created"
+}

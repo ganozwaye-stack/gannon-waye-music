@@ -1,0 +1,36 @@
+{
+  "name": "MerchVote",
+  "type": "object",
+  "properties": {
+    "item_key": {
+      "type": "string",
+      "description": "Stable key of the upcoming merch item being voted for"
+    },
+    "item_name": {
+      "type": "string",
+      "description": "Display name of the item at the time of the vote"
+    }
+  },
+  "required": [
+    "item_key",
+    "item_name"
+  ],
+  "rls": {
+    "create": {},
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

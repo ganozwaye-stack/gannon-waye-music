@@ -334,6 +334,20 @@
           ]
         }
       }
+    },
+    "toolost_sync_status": {
+      "type": "string",
+      "enum": [
+        "not_attempted",
+        "created",
+        "pushed_on_release_date",
+        "not_connected",
+        "not_configured",
+        "reauthorise_required",
+        "error"
+      ],
+      "default": "not_attempted",
+      "description": "Whether this release and its metadata have been pushed to Too Lost for distribution. 'created' means it was synced at New Release Studio submission; 'pushed_on_release_date' means the release-day push delivered it."
     }
   },
   "required": [

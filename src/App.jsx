@@ -314,6 +314,7 @@ import InstagramSync from '@/pages/admin/InstagramSync';
 import CommunicationsHub from '@/pages/admin/CommunicationsHub';
 import ReelFactory from '@/pages/admin/ReelFactory';
 import MerchApprovalGate from '@/pages/admin/MerchApprovalGate';
+import MerchVotes from '@/pages/admin/MerchVotes';
 import Login from '@/pages/Login';
 
 const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders', '/mum', '/without-you-here'];
@@ -763,6 +764,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/communications-hub" element={<CommunicationsHub />} />
         <Route path="/admin/reel-factory" element={<ReelFactory />} />
         <Route path="/admin/merch-approval" element={<MerchApprovalGate />} />
+        <Route path="/admin/merch-votes" element={<MerchVotes />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

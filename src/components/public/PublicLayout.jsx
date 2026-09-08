@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import MobileBottomTabs from './MobileBottomTabs';
 import SocialProofTicker from './SocialProofTicker';
+import GlobalPlayerDock from './GlobalPlayerDock';
 
 export default function PublicLayout() {
   const { pathname } = useLocation();
@@ -18,6 +19,7 @@ export default function PublicLayout() {
       </main>
       <Footer />
       <MobileBottomTabs />
+      <GlobalPlayerDock />
       <SocialProofTicker />
     </div>
   );

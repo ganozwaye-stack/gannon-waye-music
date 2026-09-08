@@ -12,6 +12,7 @@ export const usePlayerStore = create((set) => ({
   track: null,
   title: '',
   artwork: '',
+  lyrics: '',
   active: false,
   playTrack: (rawUrl, meta = {}) => {
     const track = toEmbed(rawUrl);
@@ -21,6 +22,7 @@ export const usePlayerStore = create((set) => ({
       track,
       title: meta.title || '',
       artwork: meta.artwork || '',
+      lyrics: meta.lyrics || '',
       active: true,
     });
   },
@@ -28,6 +30,7 @@ export const usePlayerStore = create((set) => ({
     track: null,
     title: '',
     artwork: '',
+    lyrics: '',
     active: false,
   }),
 }));

@@ -159,6 +159,12 @@ export default async function(req) {
       tooLost = { status: auth.error, detail: auth.detail };
     }
 
+    // Record the Too Lost sync state so the release-day publisher can push
+    // anything that did not make it up at submission time.
+    await sr.entities.Release.update(release.id, {
+      toolost_sync_status: tooLost.status === 'created' ? 'created' : (tooLost.status || 'not_attempted'),
+    });
+
     // 5. Admin notification so the submission is always visible in the back office.
     await sr.entities.AdminNotification.create({
       notification_type: 'system',
