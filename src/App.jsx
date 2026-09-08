@@ -62,6 +62,7 @@ import DailyDashboardV2 from '@/pages/admin/DailyDashboardV2';
 import OwnerCommandV3 from '@/pages/admin/OwnerCommandV3';
 import Releases from '@/pages/admin/Releases';
 import MerchManagement from '@/pages/admin/MerchManagement';
+import StoreHotspotEditor from '@/pages/admin/StoreHotspotEditor';
 import Orders from '@/pages/admin/Orders';
 import Subscribers from '@/pages/admin/Subscribers';
 import FanManagement from '@/pages/admin/FanManagement';
@@ -530,6 +531,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/mission-control" element={<MissionControl />} />
         <Route path="/admin/releases" element={<Releases />} />
         <Route path="/admin/merch" element={<MerchManagement />} />
+        <Route path="/admin/store-hotspots" element={<StoreHotspotEditor />} />
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/admin/subscribers" element={<Subscribers />} />
         <Route path="/admin/fans" element={<FanManagement />} />
