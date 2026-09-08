@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
 import WorldHotspot from '@/components/store/WorldHotspot';
+import NeonBrandTitle from '@/components/store/NeonBrandTitle';
 import { formatAudPrice } from '@/lib/liveStoreProducts';
 
 // Hotspot zones are DATA, not code — they live in the StorefrontHotspot entity
@@ -92,10 +93,24 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
         }}
       />
 
-      {/* No text name overlay here on purpose — the boutique artwork already
-          has "GANNON WAYE" as gold neon signage baked into the image itself.
-          A second, bright-white "Gannon Waye" rendered on top of that was
-          redundant and fought the artwork's own signage for attention. */}
+      {/* The neon GANNON.WAYE nameplate lives at the top of the artwork —
+          owner-confirmed September 2026 (matches the approved reference
+          mockup). It floats over the locked image with pointer-events: none
+          so the hotspots underneath keep working. */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '18px',
+          left: 0,
+          right: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          pointerEvents: 'none',
+          zIndex: 2,
+        }}
+      >
+        <NeonBrandTitle title="Gannon.Waye" subtitle="Step Inside The Boutique" />
+      </div>
 
       {resolvedHotspots.map((hotspot) => (
         <WorldHotspot

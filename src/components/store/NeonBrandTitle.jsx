@@ -2,7 +2,7 @@
 // Glowing warm-white name + thin gold underline + subtitle.
 // The glow lives in src/index.css (.gw-neon-name + @keyframes gwNeonPulse)
 // so it renders identically anywhere it's dropped without duplicate <style> tags.
-export default function NeonBrandTitle({ subtitle = 'Merch Store' }) {
+export default function NeonBrandTitle({ title = 'Gannon Waye', subtitle = 'Merch Store' }) {
   return (
     <div className="flex flex-col items-center justify-center text-center">
       <h1
@@ -17,7 +17,7 @@ export default function NeonBrandTitle({ subtitle = 'Merch Store' }) {
           lineHeight: 1,
         }}
       >
-        Gannon Waye
+        {title}
       </h1>
 
       <div
