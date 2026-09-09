@@ -2,6 +2,26 @@
   "type": "object",
   "name": "ActionItem",
   "properties": {
+    "supervisor_checked_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "next_follow_up_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completion_evidence": {
+      "type": "string",
+      "description": "Source reference proving completion. A task marked done alone is not evidence."
+    },
+    "completion_verified_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completion_verified_by": {
+      "type": "string",
+      "description": "Person or agent who checked the source evidence"
+    },
     "title": {
       "type": "string"
     },
