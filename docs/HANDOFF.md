@@ -153,6 +153,19 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-09-09 · Codex · Deego supervision implementation and Base44 branch incident
+
+Did:      Added manual owner-authenticated supervision in base44/functions/agentIntelligenceLoop/entry.ts and supervisor.mjs, follow-up and evidence fields in DailyDashboardTask and ActionItem, src/components/admin/DeegoSupervisorDesk.jsx in CommunicationsHub, and seven regression tests in tests/deego/supervisor.test.mjs. Fixed CommunicationsHub useQueries for TanStack v5. Removed the paid LLM research path and disabled its legacy four-hour schedule in source. Follow-ups persist internal alerts only; they never send mail, send WhatsApp, change task completion status or make payment calls.
+
+Found:    Seven tests pass; targeted frontend ESLint, production build, route integrity and storefront lock pass. Gmail remains send-only for ganozwaye@gmail.com and Outlook is disconnected. None of the nine requested mailbox slots is verified for ingestion; two exact addresses are still needed. The SDK WhatsApp connect URL is not evidence of outbound delivery. Only DailyDashboardTask and ActionItem have adapters. The scheduled identity is not verified, so the handler rejects unauthenticated requests and the old heartbeat is not an operational supervisor.
+
+Incident: Base44 remote file writes reset the sandbox to main despite feature/deego-admin-supervisor having been created at fbef652c, then auto-synced commits through 18273909277964fcf47e0d96776ca3ecc421b461 to GitHub main. Confirmed with the GitHub branch API. Further Base44 code edits stopped; no explicit production deployment was run. Review and remediation tracked in issue #34. This entry uses GitHub branch-specific editing to avoid repeating the incident.
+
+Left:     Source review, runtime publication/verification, owner invocation, scheduler authentication, all-account ingestion, remaining task-source coverage, automatic verified incoming-refund replies, and end-to-end WhatsApp delivery. No website-wide guarantee that every pre-existing agent obeys the new no-money-out mandate has been established. Concurrent internal-alert upserts are not an atomic uniqueness guarantee. Deployment status remains unverified.
+
+For:      Gannon completes provider consent and supplies Thanking You Kindly/GanozMix email addresses. Next implementer uses a genuine GitHub branch/PR, not Base44 auto-sync writes, and must verify all external delivery with real receipts. No spending or outgoing refunds are authorized. Do not mark the overall autonomous-supervision goal complete.
+
+
 ### 2026-09-01 · Codex · Set Free release and merchandise staging
 
 Did:      Verified the private Drive source folder Set Free 2026 GW. Corrected Lyric record 6a3aa17c5f2267d730b5a824 to the canonical title Set Free, refreshed its text from Drive file 1YiTQeuQTIdXKJDZmpB7XLl0RogeGhY9A, linked it to Release 6a538a537c7842081551d561, and kept every publication gate closed. Linked 11 other existing Lyric records to exact Release records. Added three one or two colour printable Set Free SVG drafts and DeegoDesignAsset records 6a96fa3d63802e058e7b7133 through 6a96fa3d63802e058e7b7135. Expanded DeegoDesignAsset with placement, image, colour count and song gate fields. Build passed.
