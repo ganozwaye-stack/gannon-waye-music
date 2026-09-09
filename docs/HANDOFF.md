@@ -153,6 +153,17 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-09-09 · Codex · Superagent integration route verified
+
+Found:    Official Base44 Superagent documentation describes a separate product from embedded app agents: background watches run as the owner, workflows can run on schedules or connector events, and Channels provides WhatsApp setup. The website SDK getWhatsAppConnectURL points to its embedded agent and does not establish the requested Superagent connection. The permanent policy record 6aa10ec92a2cdef9775edc2c is in the website's AgentMemory; it has not been read back from the separate Superagent's memory. Sources: https://docs.base44.com/superagents/customizing-your-superagent and https://docs.base44.com/superagents/setting-up-workflows .
+
+Verified: Website Gmail still has gmail.send plus email only for ganozwaye@gmail.com; Outlook remains disconnected. Base44 list_user_apps with name Deego returned no matches; this does not prove no Superagent exists, since the tool lists apps. No callable Superagent management connector was found. Three CUA browser attempts timed out and reset before a usable session was obtained.
+
+Left:     Obtain the existing Deego Superagent URL, restore browser access, inspect owner identity, Cross-app data access for canonical app 69eb7905ca6eb4180010f794, actual mailbox identities/scopes, workflow history, Channels and API reference. Verify included-credit availability and absence of new charges before executing metered work. Do not create a replacement Superagent, infer its ID from the website app ID, or claim website memory is Superagent memory.
+
+For:      Gannon for the existing Superagent URL and outstanding provider sign-ins. Next implementer should use the native Superagent workflow path where verified, then link its real records and delivery receipts into the existing website desk.
+
+
 ### 2026-09-09 · Codex · Deego supervision implementation and Base44 branch incident
 
 Did:      Added manual owner-authenticated supervision in base44/functions/agentIntelligenceLoop/entry.ts and supervisor.mjs, follow-up and evidence fields in DailyDashboardTask and ActionItem, src/components/admin/DeegoSupervisorDesk.jsx in CommunicationsHub, and seven regression tests in tests/deego/supervisor.test.mjs. Fixed CommunicationsHub useQueries for TanStack v5. Removed the paid LLM research path and disabled its legacy four-hour schedule in source. Follow-ups persist internal alerts only; they never send mail, send WhatsApp, change task completion status or make payment calls.
