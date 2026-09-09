@@ -83,15 +83,6 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
         }}
       />
 
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background: 'linear-gradient(to bottom, rgba(8,8,14,0.28) 0%, rgba(8,8,14,0.08) 38%, rgba(8,8,14,0.52) 78%, rgba(8,8,14,0.92) 100%)',
-        }}
-      />
-
       {/* No text overlay — the v2 artwork carries the GANNON WAYE gold neon
           sign baked into the top of the image itself (owner-directed update,
           9 September 2026). Nothing may be layered over the artwork. */}

@@ -23,13 +23,11 @@ const liveProducts = read('src/lib/liveStoreProducts.js');
 const siteSearch = read('src/components/public/SiteSearch.jsx');
 const storeTeaser = read('src/components/public/StoreWorldTeaser.jsx');
 const hero = read('src/components/store/LockedStorefrontHero.jsx');
-const stage = read('src/components/store/StoreBoutiqueStage.jsx');
 
 requireText(lock, expectedUrl, 'Storefront artwork URL changed or disappeared. The permanent boutique world lock has been violated.');
 requireText(lock, expectedSha256, 'Storefront artwork checksum changed or disappeared. The permanent boutique world lock has been violated.');
 requireText(app, '<Route path="/store" element={<Store />} />', 'The public /store route no longer points to the locked database driven store.');
 requireText(store, '<LockedStorefrontHero', 'The locked boutique world hero was removed from the public store.');
-requireText(store, '<StoreBoutiqueStage products={sortedProducts}', 'The locked boutique world stage was removed or disconnected from live products.');
 requireText(store, 'fetchLiveStoreProducts', 'The public store no longer loads products through the shared live product source.');
 requireText(liveProducts, "publication_status: 'live'", 'The shared product source no longer requires live publication status.');
 requireText(liveProducts, 'is_stage_one_sale: true', 'The shared product source no longer fails closed to stage one products.');
@@ -37,11 +35,10 @@ requireText(liveProducts, 'MerchProduct.filter(LIVE_STORE_PRODUCT_FILTER', 'The 
 requireText(siteSearch, 'fetchLiveStoreProducts', 'Site search is not using the verified live product source.');
 requireText(storeTeaser, 'fetchLiveStoreProducts', 'The homepage store teaser is not using the verified live product source.');
 requireText(hero, "from '@/config/storefrontArtLock'", 'The storefront hero is no longer bound to the permanent lock file.');
-requireText(stage, "from '@/config/storefrontArtLock'", 'The storefront stage is no longer bound to the permanent lock file.');
 
-if (stage.includes('STORE_PRODUCTS') || stage.includes('storeWorldConfig')) {
-  throw new Error('The storefront world stage is using a hard coded catalogue. It must receive verified live products from MerchProduct.');
-}
+// Owner-directed update (10 September 2026): the extra "world" sections
+// (back wall + boutique stage) were removed from the public store. Scrolling
+// now goes straight from the locked hero artwork to the live merchandise grid.
 
 const sourceRoot = path.join(root, 'src');
 const allowedUrlFile = path.normalize(path.join(sourceRoot, 'config/storefrontArtLock.js'));

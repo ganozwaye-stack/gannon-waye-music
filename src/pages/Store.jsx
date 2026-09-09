@@ -11,8 +11,6 @@ import ProductDetailModal from '@/components/store/ProductDetailModal';
 import CartDrawer from '@/components/store/CartDrawer';
 import AdminEditButton from '@/components/store/AdminEditButton';
 import LockedStorefrontHero from '@/components/store/LockedStorefrontHero';
-import BackWallExtension from '@/components/store/BackWallExtension';
-import StoreBoutiqueStage from '@/components/store/StoreBoutiqueStage';
 import { fetchLiveStoreProducts } from '@/lib/liveStoreProducts';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
@@ -325,10 +323,6 @@ export default function Store() {
   });
   // Fail closed. Never replace missing data with invented products, stock or prices.
   const products = Array.isArray(dbProducts) ? dbProducts : [];
-  // The back wall — the newest live pieces make their debut here first.
-  const newArrivals = [...products]
-    .sort((a, b) => new Date(b.created_date || 0) - new Date(a.created_date || 0))
-    .slice(0, 4);
 
   // Sort: merch groups first, then music, sold-out last
   const GROUP_ORDER = { apparel: 0, accessories: 1, drinkware: 2, bundle: 3, poster: 4, vinyl: 5, cd: 6, other: 7 };
@@ -353,12 +347,6 @@ export default function Store() {
   return (
     <div data-testid="store-page" className={`min-h-screen pb-24 ${hasItems ? 'pb-36' : ''}`}>
       <LockedStorefrontHero products={products} onOpenProduct={setWorldProduct} />
-
-      <BackWallExtension products={newArrivals} onOpenProduct={setWorldProduct} />
-
-      <div className="max-w-7xl mx-auto px-4 md:px-8 pt-8">
-        <StoreBoutiqueStage products={sortedProducts} onOpenProduct={setWorldProduct} />
-      </div>
 
       <div className="max-w-6xl mx-auto px-4 md:px-8 pt-12">
 
