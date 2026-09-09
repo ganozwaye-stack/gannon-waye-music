@@ -1,3 +1,4 @@
+import DeegoSupervisorDesk from '@/components/admin/DeegoSupervisorDesk';
 import { useQueries } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
@@ -135,7 +136,7 @@ export default function CommunicationsHub() {
     retry: 1,
   }));
 
-  const queryResults = useQueries(queryConfigs);
+  const queryResults = useQueries({ queries: queryConfigs });
 
   // Build data map
   const dataMap = {};
@@ -193,6 +194,8 @@ export default function CommunicationsHub() {
         <h1 className="font-display text-3xl md:text-4xl text-foreground">Communications Command Centre</h1>
         <p className="font-body text-sm text-muted-foreground mt-2">Every conversation, every signal, every opportunity — in one place.</p>
       </div>
+
+      <DeegoSupervisorDesk />
 
       {/* Stats Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-3">
