@@ -2,8 +2,9 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
-const expectedUrl = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png';
-const expectedSha256 = '9667a3698d14ec59d8b744d44a54692db5b24aefa09ed90e9344edd17eb83f98';
+// v2 artwork — owner-directed regeneration approved in chat, 9 September 2026.
+const expectedUrl = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b271037e0_generated_image.png';
+const expectedSha256 = '074b7535670b22421be034c3c122862f5e427a746e84227fcdc3ad5285003611';
 
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), 'utf8');

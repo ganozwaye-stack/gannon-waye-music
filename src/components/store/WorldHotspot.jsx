@@ -3,8 +3,10 @@ import { useState } from 'react';
 const ACCENT = '#D4AF37';
 
 /**
- * One tappable zone pinned over a product in the locked boutique world artwork.
- * Shows a resting gold dot so touch users can find it; hover/focus reveals the label.
+ * One tappable circular zone pinned over a product in the locked boutique world
+ * artwork. The zone draws a circle around the product itself: a faint gold ring
+ * at rest so shoppers can spot it, brightening into a glowing ring with the
+ * product label on hover/focus. Touch users find the centre dot.
  */
 export default function WorldHotspot({ zone, label, onClick, testId }) {
   const [hovered, setHovered] = useState(false);
@@ -26,13 +28,15 @@ export default function WorldHotspot({ zone, label, onClick, testId }) {
         width: zone.width,
         height: zone.height,
         padding: 0,
-        border: `1px solid ${hovered ? 'rgba(212,175,55,0.85)' : 'transparent'}`,
-        background: hovered ? 'rgba(212,175,55,0.08)' : 'transparent',
-        borderRadius: '14px',
+        border: `${hovered ? '2px' : '1.5px'} solid ${hovered ? 'rgba(212,175,55,0.95)' : 'rgba(212,175,55,0.32)'}`,
+        background: hovered ? 'rgba(212,175,55,0.07)' : 'transparent',
+        borderRadius: '999px',
         cursor: 'pointer',
         zIndex: 20,
         transition: 'border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease',
-        boxShadow: hovered ? '0 0 28px rgba(212,175,55,0.35)' : 'none',
+        boxShadow: hovered
+          ? '0 0 28px rgba(212,175,55,0.4), inset 0 0 22px rgba(212,175,55,0.12)'
+          : 'none',
       }}
     >
       <span
@@ -40,8 +44,8 @@ export default function WorldHotspot({ zone, label, onClick, testId }) {
         style={{
           position: 'absolute',
           left: '50%',
-          bottom: '6%',
-          transform: 'translateX(-50%)',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
           width: '7px',
           height: '7px',
           borderRadius: '999px',
@@ -55,7 +59,7 @@ export default function WorldHotspot({ zone, label, onClick, testId }) {
         style={{
           position: 'absolute',
           left: '50%',
-          bottom: 'calc(6% + 16px)',
+          top: 'calc(50% + 34px)',
           transform: 'translateX(-50%)',
           opacity: hovered ? 1 : 0,
           whiteSpace: 'nowrap',
