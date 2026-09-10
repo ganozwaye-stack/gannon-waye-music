@@ -4,22 +4,30 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
+import LetterheadPdfButton from '@/components/admin/LetterheadPdfButton';
 
 const TERMINATION_LETTER = `Subject: Termination of Involvement with GanozMix Direct
 
 Victor,
 
-This letter confirms that, effective immediately, any involvement, access, collaboration, representation, or association you may have had with GanozMix Direct is terminated.
+This letter confirms that, effective as at [DATE OF ORIGINAL NOTICE — insert the date this termination was first issued] and effective immediately, any involvement, access, collaboration, representation, or association you may have had with GanozMix Direct is terminated.
 
-You are not authorised to access, represent, act on behalf of, make decisions for, use accounts connected to, communicate as, or otherwise hold yourself out as being involved with GanozMix Direct.
+Please note: GanozMix Direct has since rebranded and no longer exists or trades under that name. This notice is provided for clarity and record-keeping. Your involvement is acknowledged as dating from the earliest stages of the brand; however, this decision is final.
+
+You are not authorised to access, represent, act on behalf of, make decisions for, use accounts connected to, communicate as, or otherwise hold yourself out as being involved with GanozMix Direct or any of its successor brands.
 
 Any access credentials, materials, files, business information, or account permissions connected to GanozMix Direct must no longer be used. If you are in possession of any business materials or access, you are required to return, delete, or confirm removal of them as appropriate.
 
-This notice is provided for clarity and record-keeping. No further involvement with GanozMix Direct is authorised unless confirmed in writing by Gannon Waye.
+No further involvement is authorised unless confirmed in writing by Gannon Waye.
 
 Regards,
 Gannon Waye
-GanozMix Direct / Gannon Waye Music`;
+Gannon Waye Music
+
+Thanking You Kindly PTY LTD
+Mobile: 0431 546 400
+
+Thanking You Kindly PTY LTD is the e-commerce brand operating the retail system for Gannon Waye Music, including its micro-branded dropshipping operations. In its first months of operation the brand has delivered strong early sales results, and the business continues to grow from a strong foundation.`;
 
 export default function LegalDrafts() {
   const { toast } = useToast();
@@ -85,6 +93,7 @@ export default function LegalDrafts() {
           </pre>
 
           <div className="flex flex-wrap gap-3 mt-4">
+            <LetterheadPdfButton letterText={TERMINATION_LETTER} />
             <Button variant="outline" size="sm" onClick={copyLetter} className="rounded-full text-xs gap-1.5">
               {copied ? <CheckCircle2 className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied' : 'Copy Letter'}
