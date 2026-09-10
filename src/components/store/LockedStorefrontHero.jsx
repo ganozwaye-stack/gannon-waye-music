@@ -57,9 +57,12 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
         // couple of px to spare — the artwork sits right under the banner with no
         // dead gap, and never renders underneath / behind the nav.
         marginTop: '62px',
-        height: '68vh',
-        minHeight: '480px',
-        maxHeight: '780px',
+        // Owner-directed (10 September 2026): show the ENTIRE original
+        // photograph — no cover-crop. The v1 photo already contains the
+        // GANNON WAYE neon signage at the top, the full shopfront on both
+        // sides, and the CD displays at the bottom; the previous 68vh
+        // cover-crop was cutting all three off. The section hugs the image
+        // at its natural aspect ratio so nothing is ever cropped again.
         overflow: 'hidden',
         background: '#0a0a0a',
       }}
@@ -72,12 +75,10 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
         alt="Gannon Waye Boutique, official merchandise store"
         draggable="false"
         style={{
-          position: 'absolute',
-          inset: 0,
+          position: 'relative',
+          display: 'block',
           width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          objectPosition: 'center',
+          height: 'auto',
           userSelect: 'none',
           pointerEvents: 'none',
         }}

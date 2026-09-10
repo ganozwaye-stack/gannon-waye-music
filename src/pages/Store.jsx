@@ -333,7 +333,9 @@ export default function Store() {
     const aGroup = GROUP_ORDER[a.category] ?? 7;
     const bGroup = GROUP_ORDER[b.category] ?? 7;
     if (aGroup !== bGroup) return aGroup - bGroup;
-    return (a.sale_price ?? 0) - (b.sale_price ?? 0);
+    // Owner-directed (10 September 2026): newest merchandise designs first —
+    // new pieces surface at the top of their group the moment they go live.
+    return new Date(b.created_date ?? 0) - new Date(a.created_date ?? 0);
   });
 
   const cdProducts = sortedProducts.filter(p => p.category === 'cd' || p.category === 'vinyl');

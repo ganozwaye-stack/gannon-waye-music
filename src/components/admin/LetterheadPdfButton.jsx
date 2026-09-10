@@ -65,11 +65,11 @@ function drawFooter(doc) {
   doc.setDrawColor(...GOLD);
   doc.setLineWidth(0.3);
   doc.line(22, y - 6, 188, y - 6);
-  // GanozMix Direct wordmark
+  // Sonico wordmark (Gannon Waye Music sits in the header with the GW logo)
   doc.setFont('times', 'bold');
   doc.setFontSize(10);
   doc.setTextColor(...GOLD);
-  doc.text('GanozMix Direct', 70, y, { align: 'center', charSpace: 0.4 });
+  doc.text('Sonico', 78, y, { align: 'center', charSpace: 0.4 });
   // Divider dot
   doc.setTextColor(...MUTED);
   doc.setFontSize(8);
@@ -78,7 +78,7 @@ function drawFooter(doc) {
   doc.setFont('times', 'italic');
   doc.setFontSize(10);
   doc.setTextColor(...GOLD);
-  doc.text('Thanking You Kindly', 140, y, { align: 'center', charSpace: 0.4 });
+  doc.text('Thanking You Kindly', 132, y, { align: 'center', charSpace: 0.4 });
 }
 
 function renderLetter(doc, letterText, startY) {
