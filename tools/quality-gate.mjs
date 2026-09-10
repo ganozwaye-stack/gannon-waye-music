@@ -331,7 +331,57 @@ function writeBaseline(results, previous) {
   );
 }
 
+function verifyBrandColors() {
+  // Owner rule (10 September 2026), set in stone: NO yellow or amber anywhere
+  // on the site. Only the brand golds are approved: #a9842c, #d4af37, #f0e6c8.
+  const banned =
+    /\b(?:yellow|amber)-\d{3}\b|#(?:facc15|eab308|fde047|fef08a|f59e0b|fbbf24|fcd34d|fde68a|fef9c3|fef3c7|fffbeb|fefce8|ffd700|ffff00)(?![0-9a-f])/i;
+  const skip = new Set([
+    "node_modules",
+    ".git",
+    "playwright-report",
+    "dist",
+    "test-results",
+    "gannonwaye-playwright-pack",
+  ]);
+  const violations = [];
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (skip.has(entry.name)) continue;
+      const filePath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        walk(filePath);
+      } else if (/\.(jsx?|tsx?|css|html)$/.test(entry.name)) {
+        const text = fs.readFileSync(filePath, "utf8");
+        text.split(/\r?\n/).forEach((line, index) => {
+          if (banned.test(line)) violations.push(`${normalizePath(filePath)}:${index + 1}`);
+        });
+      }
+    }
+  };
+  walk(path.join(root, "src"));
+  const htmlPath = path.join(root, "index.html");
+  if (fs.existsSync(htmlPath)) {
+    if (banned.test(fs.readFileSync(htmlPath, "utf8"))) violations.push("index.html");
+  }
+  return violations;
+}
+
 async function main() {
+  const brandViolations = verifyBrandColors();
+  if (brandViolations.length > 0) {
+    console.error(
+      "Brand rule violation: yellow/amber is banned site-wide (owner rule, 10 September 2026). Approved golds only: #a9842c, #d4af37, #f0e6c8.",
+    );
+    for (const violation of brandViolations.slice(0, 20)) {
+      console.error(`  ${violation}`);
+    }
+    if (brandViolations.length > 20) {
+      console.error(`  ... ${brandViolations.length - 20} more`);
+    }
+    process.exit(1);
+  }
+
   const results = await collect(mode);
   const hardFailures = Object.values(results).flatMap(
     (result) => result.hardFailures,
