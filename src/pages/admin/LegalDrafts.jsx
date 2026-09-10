@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
+import LetterheadPdfButton from '@/components/admin/LetterheadPdfButton';
 
 const TERMINATION_LETTER = `Subject: Termination of Involvement with GanozMix Direct
 
@@ -92,6 +93,7 @@ export default function LegalDrafts() {
           </pre>
 
           <div className="flex flex-wrap gap-3 mt-4">
+            <LetterheadPdfButton letterText={TERMINATION_LETTER} />
             <Button variant="outline" size="sm" onClick={copyLetter} className="rounded-full text-xs gap-1.5">
               {copied ? <CheckCircle2 className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied' : 'Copy Letter'}
