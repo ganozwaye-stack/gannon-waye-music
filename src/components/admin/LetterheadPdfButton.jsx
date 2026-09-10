@@ -10,11 +10,14 @@ const INK = [38, 42, 51];
 const MUTED = [122, 126, 136];
 
 // The official GW circle logo (transparent PNG) from the approved brand assets.
-const LOGO_URL = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6e6f577bf_GW.png';
+export const LOGO_URL = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6e6f577bf_GW.png';
 
-async function loadLogoDataUrl() {
+// Gannon's approved signature image (the same asset used in outbound emails).
+export const SIGNATURE_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d02a2452f_2.png';
+
+export async function loadImageDataUrl(url) {
   try {
-    const res = await fetch(LOGO_URL);
+    const res = await fetch(url);
     if (!res.ok) return null;
     const blob = await res.blob();
     return await new Promise((resolve) => {
@@ -28,7 +31,7 @@ async function loadLogoDataUrl() {
   }
 }
 
-function drawHeader(doc, logoDataUrl) {
+export function drawHeader(doc, logoDataUrl) {
   let y = 14;
   if (logoDataUrl) {
     doc.addImage(logoDataUrl, 'PNG', 97.5, 12, 15, 15);
@@ -60,7 +63,7 @@ function drawHeader(doc, logoDataUrl) {
   return y + 9;
 }
 
-function drawFooter(doc) {
+export function drawFooter(doc) {
   const y = 281;
   doc.setDrawColor(...GOLD);
   doc.setLineWidth(0.3);
@@ -81,7 +84,7 @@ function drawFooter(doc) {
   doc.text('Thanking You Kindly', 140, y, { align: 'center', charSpace: 0.4 });
 }
 
-function renderLetter(doc, letterText, startY) {
+function renderLetter(doc, letterText, startY, signatureDataUrl) {
   const margin = 22;
   const width = 210 - margin * 2;
   let y = startY;
@@ -92,6 +95,21 @@ function renderLetter(doc, letterText, startY) {
 
     const isSubject = block.startsWith('Subject:');
     const isSignoff = block.startsWith('Regards,');
+
+    // Signature marker: renders Gannon's signature image between "Regards,"
+    // and his name — falls back to a hand-sign line if the image can't load.
+    if (block.trim() === '[signature]') {
+      if (signatureDataUrl) {
+        doc.addImage(signatureDataUrl, 'PNG', margin, y - 3, 36, 12);
+        y += 13;
+      } else {
+        doc.setDrawColor(...INK);
+        doc.setLineWidth(0.3);
+        doc.line(margin, y + 5, margin + 42, y + 5);
+        y += 10;
+      }
+      return;
+    }
 
     if (isSubject) {
       doc.setFont('helvetica', 'bold');
@@ -129,9 +147,12 @@ export default function LetterheadPdfButton({ letterText }) {
     setBuilding(true);
     try {
       const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-      const logo = await loadLogoDataUrl();
+      const [logo, signature] = await Promise.all([
+        loadImageDataUrl(LOGO_URL),
+        loadImageDataUrl(SIGNATURE_URL),
+      ]);
       const bodyY = drawHeader(doc, logo);
-      renderLetter(doc, letterText, bodyY);
+      renderLetter(doc, letterText, bodyY, signature);
       // Footer on the final page
       const pageCount = doc.getNumberOfPages();
       doc.setPage(pageCount);

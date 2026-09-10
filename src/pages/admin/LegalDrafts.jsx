@@ -5,14 +5,21 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
 import LetterheadPdfButton from '@/components/admin/LetterheadPdfButton';
+import BlankLetterheadButton from '@/components/admin/BlankLetterheadButton';
+
+// Involvement date: the Gmail connection holds send permission only, so Victor's
+// emails could not be searched for his start date. Per the owner's instruction,
+// the date used is on or around 6 weeks after the app's creation (24 April 2026),
+// which is 5 June 2026.
+const VICTOR_INVOLVEMENT_DATE = '5 June 2026';
 
 const TERMINATION_LETTER = `Subject: Termination of Involvement with GanozMix Direct
 
 Victor,
 
-This letter confirms that, effective as at [DATE OF ORIGINAL NOTICE — insert the date this termination was first issued] and effective immediately, any involvement, access, collaboration, representation, or association you may have had with GanozMix Direct is terminated.
+This letter is a formality to confirm the termination of your involvement, dating as from on or around ${VICTOR_INVOLVEMENT_DATE}, and effective immediately, if any misunderstanding has occurred. Any involvement, access, collaboration, representation, or association you may have had with GanozMix Direct is terminated.
 
-Please note: GanozMix Direct has since rebranded and no longer exists or trades under that name. This notice is provided for clarity and record-keeping. Your involvement is acknowledged as dating from the earliest stages of the brand; however, this decision is final.
+Please note: GanozMix Direct has since rebranded and no longer exists or trades under that name. This notice is provided for clarity and record-keeping. Your involvement is acknowledged as dating from on or around ${VICTOR_INVOLVEMENT_DATE}; however, this decision is final.
 
 You are not authorised to access, represent, act on behalf of, make decisions for, use accounts connected to, communicate as, or otherwise hold yourself out as being involved with GanozMix Direct or any of its successor brands.
 
@@ -20,7 +27,12 @@ Any access credentials, materials, files, business information, or account permi
 
 No further involvement is authorised unless confirmed in writing by Gannon Waye.
 
+We wish you every success in your endeavours; however, we will not be available for a character or employment reference at the benefit of your ability to regain employment.
+
 Regards,
+
+[signature]
+
 Gannon Waye
 Gannon Waye Music
 
@@ -35,7 +47,8 @@ export default function LegalDrafts() {
   const [logged, setLogged] = useState(false);
 
   const copyLetter = () => {
-    navigator.clipboard.writeText(TERMINATION_LETTER);
+    // Strip the [signature] marker — the signature image only applies to the PDF.
+    navigator.clipboard.writeText(TERMINATION_LETTER.replace('[signature]', ''));
     setCopied(true);
     toast({ title: 'Letter copied to clipboard', description: 'Review carefully before sending.' });
     setTimeout(() => setCopied(false), 3000);
@@ -94,6 +107,7 @@ export default function LegalDrafts() {
 
           <div className="flex flex-wrap gap-3 mt-4">
             <LetterheadPdfButton letterText={TERMINATION_LETTER} />
+            <BlankLetterheadButton />
             <Button variant="outline" size="sm" onClick={copyLetter} className="rounded-full text-xs gap-1.5">
               {copied ? <CheckCircle2 className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied' : 'Copy Letter'}
