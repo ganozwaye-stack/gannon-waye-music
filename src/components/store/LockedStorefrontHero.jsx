@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
@@ -44,6 +45,21 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
     })
     .filter(Boolean);
 
+  // Owner-directed (10 September 2026): the artwork's top edge must sit flush
+  // against the bottom border of the floating menu bar — no black strip between
+  // them. The menu is fixed with a responsive height, so its bottom edge is
+  // measured live on mount and on resize.
+  const [navBottom, setNavBottom] = useState(null);
+  useEffect(() => {
+    const nav = document.querySelector('nav');
+    const measure = () => {
+      if (nav) setNavBottom(nav.offsetTop + nav.offsetHeight);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
   return (
     <section
       data-testid="locked-storefront-world"
@@ -52,11 +68,11 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
       style={{
         position: 'relative',
         width: '100%',
-        // The menu floats over the page (fixed, top-3 + its own ~46-50px height,
-        // measured live on desktop and mobile). This clears its bottom edge with a
-        // couple of px to spare — the artwork sits right under the banner with no
-        // dead gap, and never renders underneath / behind the nav.
-        marginTop: '62px',
+        // The menu floats over the page and PublicLayout gives main a pt-16 (4rem)
+        // top pad. The live-measured nav bottom cancels that pad out exactly, so
+        // the top edge of the photo meets the menu's bottom border with zero gap
+        // (symmetrical with the screen edge), on desktop and mobile alike.
+        marginTop: `calc(${navBottom ?? 62}px - 4rem)`,
         // Owner-directed (10 September 2026): show the ENTIRE original
         // photograph — no cover-crop. The v1 photo already contains the
         // GANNON WAYE neon signage at the top, the full shopfront on both
