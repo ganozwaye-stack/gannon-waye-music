@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
 import WorldHotspot from '@/components/store/WorldHotspot';
+import CounterStockOverlay from '@/components/store/CounterStockOverlay';
 import { formatAudPrice } from '@/lib/liveStoreProducts';
 
 // Hotspot zones are DATA, not code — they live in the StorefrontHotspot entity
@@ -100,9 +101,11 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
         }}
       />
 
-      {/* No text overlay — the v2 artwork carries the GANNON WAYE gold neon
-          sign baked into the top of the image itself (owner-directed update,
-          9 September 2026). Nothing may be layered over the artwork. */}
+      {/* Owner-directed (10 September 2026): the Thank You gift box stock
+          photo sits on top of the central counter. The locked photograph
+          itself is never edited — the counter stays untouched underneath.
+          Hotspot circles still render and stay clickable above it. */}
+      <CounterStockOverlay />
 
       {resolvedHotspots.map((hotspot) => (
         <WorldHotspot
