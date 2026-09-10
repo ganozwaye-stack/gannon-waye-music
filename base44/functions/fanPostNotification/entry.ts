@@ -1,22 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
-
-function buildMimeMessage({ to, subject, htmlBody }) {
-  const boundary = `boundary_${Date.now()}`;
-  const raw = [
-    `From: Gannon Waye Site <me>`,
-    `To: ${to}`,
-    `Subject: ${subject}`,
-    `MIME-Version: 1.0`,
-    `Content-Type: multipart/alternative; boundary="${boundary}"`,
-    ``,
-    `--${boundary}`,
-    `Content-Type: text/html; charset=UTF-8`,
-    ``,
-    htmlBody,
-    `--${boundary}--`
-  ].join('\r\n');
-  return btoa(unescape(encodeURIComponent(raw))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-}
+import { buildMimeMessage } from '../../shared/gmailMime.ts';
 
 Deno.serve(async (req) => {
   const base44 = createClientFromRequest(req);

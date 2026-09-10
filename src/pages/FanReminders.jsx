@@ -49,6 +49,18 @@ export default function FanReminders() {
         is_sent: false,
       });
 
+      // Alert Gannon straight away — fire-and-forget so the fan's
+      // confirmation is never blocked if the alert is slow or unavailable.
+      base44.functions.invoke('notifyFanReminderRegistration', {
+        data: {
+          email: form.email,
+          name: form.name,
+          reminder_type: selectedType,
+          remind_at: remindAt,
+          custom_message: form.customMessage,
+        },
+      }).catch(() => {});
+
       setStatus('done');
     } catch (e) {
       setError(e.message || 'Something went wrong. Please try again.');
