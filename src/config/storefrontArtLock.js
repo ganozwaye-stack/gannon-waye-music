@@ -15,9 +15,9 @@ export const STOREFRONT_ART_LOCK = Object.freeze({
   // RETIRED — it distorted the faces printed on the products in the scene,
   // including Sonia Waye's portrait, which the owner found unacceptable and
   // disrespectful. The hero is restored to the owner's original bright
-  // photograph (v1), untouched. The checksum must be recomputed and recorded
-  // at the next audit; the sentinel below marks this restoration.
-  imageSha256: 'restored-original-v1-2026-09-10-sha-pending-recompute',
+  // photograph (v1), untouched. Checksum recomputed from the live file,
+  // 10 September 2026.
+  imageSha256: '9667a3698d14ec59d8b744d44a54692db5b24aefa09ed90e9344edd17eb83f98',
   imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png',
   publicRoute: '/store',
   productSource: 'MerchProduct where is_active=true, publication_status=live and is_stage_one_sale=true',

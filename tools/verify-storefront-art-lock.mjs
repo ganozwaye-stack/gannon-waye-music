@@ -3,9 +3,9 @@ import path from 'node:path';
 
 const root = process.cwd();
 // v4 — the original owner photograph restored (AI v3 artwork retired for
-// distorting faces, 10 September 2026). Checksum sentinel until recomputed.
+// distorting faces, 10 September 2026). Checksum computed from the live file.
 const expectedUrl = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png';
-const expectedSha256 = 'restored-original-v1-2026-09-10-sha-pending-recompute';
+const expectedSha256 = '9667a3698d14ec59d8b744d44a54692db5b24aefa09ed90e9344edd17eb83f98';
 
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), 'utf8');
