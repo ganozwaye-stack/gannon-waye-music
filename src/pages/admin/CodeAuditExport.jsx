@@ -281,7 +281,7 @@ const statusColor = {
   set: 'bg-green-500/20 text-green-300 border-green-500/30',
   needs_rotation: 'bg-red-500/20 text-red-300 border-red-500/30',
   missing: 'bg-secondary text-muted-foreground border-border',
-  not_tested: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+  not_tested: 'bg-primary/20 text-primary border-primary/30',
 };
 const statusLabel = {
   set: 'Saved Securely',
@@ -292,7 +292,7 @@ const statusLabel = {
 
 const priorityColor = {
   critical: 'bg-red-500/20 text-red-300 border-red-500/30',
-  high: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+  high: 'bg-primary/20 text-primary border-primary/30',
   legal: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
   medium: 'bg-secondary text-muted-foreground border-border',
 };

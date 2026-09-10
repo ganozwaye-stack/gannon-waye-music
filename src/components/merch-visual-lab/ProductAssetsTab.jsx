@@ -9,7 +9,7 @@ import { Upload, CheckCircle, Eye, Trash2, X } from 'lucide-react';
 
 const STATUS_COLORS = {
   uploaded: 'bg-blue-500/20 text-blue-300',
-  background_pending: 'bg-yellow-500/20 text-yellow-300',
+  background_pending: 'bg-primary/20 text-primary',
   background_removed: 'bg-cyan-500/20 text-cyan-300',
   needs_cleanup: 'bg-orange-500/20 text-orange-300',
   approved: 'bg-green-500/20 text-green-300',

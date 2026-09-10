@@ -5,8 +5,8 @@ import { Film } from 'lucide-react';
 const COLUMNS = [
   { key: 'idea', label: 'Idea', color: 'text-muted-foreground' },
   { key: 'draft', label: 'Draft', color: 'text-blue-400' },
-  { key: 'needs_asset', label: 'Needs Asset', color: 'text-amber-400' },
-  { key: 'needs_approval', label: 'Needs Approval', color: 'text-amber-400' },
+  { key: 'needs_asset', label: 'Needs Asset', color: 'text-primary' },
+  { key: 'needs_approval', label: 'Needs Approval', color: 'text-primary' },
   { key: 'ready_to_schedule', label: 'Ready', color: 'text-purple-400' },
   { key: 'scheduled', label: 'Scheduled', color: 'text-blue-400' },
   { key: 'posted', label: 'Posted', color: 'text-green-400' },

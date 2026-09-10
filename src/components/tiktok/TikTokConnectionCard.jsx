@@ -351,7 +351,7 @@ export default function TikTokConnectionCard({ onStatusChange }) {
             </p>
           )}
           {connecting && (
-            <p className="text-xs text-amber-400/80">
+            <p className="text-xs text-primary/80">
               Complete the TikTok authorization in the popup. If no popup appeared, check your browser's address bar — you may have been redirected.
             </p>
           )}
@@ -375,7 +375,7 @@ export default function TikTokConnectionCard({ onStatusChange }) {
                 <span className="text-muted-foreground">Admin session detected</span>
                 <span className={adminInfo?.hasSession ? 'text-green-400' : 'text-red-400'}>{adminInfo?.hasSession ? 'yes' : 'no'}</span>
                 <span className="text-muted-foreground">User role detected</span>
-                <span className={adminInfo?.isAdmin ? 'text-green-400' : 'text-amber-400'}>{adminInfo?.role || 'unknown'}</span>
+                <span className={adminInfo?.isAdmin ? 'text-green-400' : 'text-primary'}>{adminInfo?.role || 'unknown'}</span>
                 <span className="text-muted-foreground">OAuth function reachable</span>
                 <span className="text-blue-400">tiktokOAuth</span>
                 {diagData && (<>
@@ -386,7 +386,7 @@ export default function TikTokConnectionCard({ onStatusChange }) {
                   <span className="text-muted-foreground">Client key length</span>
                   <span className="text-foreground/70">{diagData.client_key_length} chars</span>
                   <span className="text-muted-foreground">Client key prefix (3 chars)</span>
-                  <span className="text-amber-300 font-mono">{diagData.client_key_prefix}</span>
+                  <span className="text-primary font-mono">{diagData.client_key_prefix}</span>
                   <span className="text-muted-foreground">Client secret present</span>
                   <span className={diagData.client_secret_present ? 'text-green-400' : 'text-red-400'}>{diagData.client_secret_present ? 'yes' : 'NO — missing secret'}</span>
                   <span className="text-muted-foreground">Redirect URI</span>
@@ -403,7 +403,7 @@ export default function TikTokConnectionCard({ onStatusChange }) {
                 <span className="text-muted-foreground">Last TikTok Log ID</span>
                 <span className="text-muted-foreground/70">
                   <input
-                    className="bg-transparent border-none outline-none text-amber-300 font-mono w-full placeholder:text-muted-foreground/30"
+                    className="bg-transparent border-none outline-none text-primary font-mono w-full placeholder:text-muted-foreground/30"
                     placeholder="paste TikTok log ID here"
                     value={lastLogId || ''}
                     onChange={e => setLastLogId(e.target.value)}

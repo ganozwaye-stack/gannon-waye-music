@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 const STATUS_CONFIG = {
   complete: { icon: <CheckCircle2 className="w-4 h-4 text-green-400" />, badge: 'bg-green-500/20 text-green-300 border-green-500/30', label: 'Complete' },
   blocked: { icon: <XCircle className="w-4 h-4 text-red-400" />, badge: 'bg-red-500/20 text-red-300 border-red-500/30', label: 'Blocked' },
-  partial: { icon: <AlertTriangle className="w-4 h-4 text-amber-400" />, badge: 'bg-amber-500/20 text-amber-300 border-amber-500/30', label: 'Partial' },
+  partial: { icon: <AlertTriangle className="w-4 h-4 text-primary" />, badge: 'bg-primary/20 text-primary border-primary/30', label: 'Partial' },
   pending: { icon: <Clock className="w-4 h-4 text-muted-foreground" />, badge: 'bg-muted/30 text-muted-foreground border-border', label: 'Not started' },
 };
 

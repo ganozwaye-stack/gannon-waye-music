@@ -14,14 +14,14 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 
 const RISK_COLORS = {
-  low: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30',
+  low: 'bg-primary/10 text-primary border-primary/30',
   medium: 'bg-orange-500/10 text-orange-400 border-orange-500/30',
   high: 'bg-red-500/10 text-red-400 border-red-500/30',
   critical: 'bg-red-700/20 text-red-300 border-red-500/50',
 };
 
 const STATUS_CONFIG = {
-  pending: { label: 'Pending', color: 'bg-yellow-500/10 text-yellow-400' },
+  pending: { label: 'Pending', color: 'bg-primary/10 text-primary' },
   approved: { label: 'Approved', color: 'bg-green-500/10 text-green-400' },
   rejected: { label: 'Rejected', color: 'bg-red-500/10 text-red-400' },
   edited: { label: 'Edited', color: 'bg-blue-500/10 text-blue-400' },
@@ -484,7 +484,7 @@ export default function ApprovalQueue() {
           <div>
             <h1 className="text-2xl font-display font-bold gradient-gold-text flex items-center gap-3">
               Approval Queue
-              {pendingCount > 0 && <Badge className="bg-yellow-500 text-black text-sm">{pendingCount} pending</Badge>}
+              {pendingCount > 0 && <Badge className="bg-primary text-black text-sm">{pendingCount} pending</Badge>}
             </h1>
             <p className="text-muted-foreground text-sm">Actions requiring your decision — nothing publishes without approval</p>
           </div>
@@ -561,7 +561,7 @@ function ApprovalRow({ item, onSelect }) {
       onClick={onSelect}
       className={`flex items-start gap-3 p-4 border rounded-xl cursor-pointer group transition-all
         hover:border-primary/40 hover:bg-secondary/20
-        ${item.status === 'pending' ? 'border-yellow-500/30 bg-card' : 'border-border bg-card/70'}`}
+        ${item.status === 'pending' ? 'border-primary/30 bg-card' : 'border-border bg-card/70'}`}
     >
       <div className="flex-1 min-w-0">
         {/* Badges */}
@@ -587,7 +587,7 @@ function ApprovalRow({ item, onSelect }) {
       </div>
       <div className="flex items-center gap-2 shrink-0">
         {item.status === 'pending' && (
-          <span className="w-2 h-2 rounded-full bg-yellow-400 shrink-0" />
+          <span className="w-2 h-2 rounded-full bg-primary shrink-0" />
         )}
         <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors" />
       </div>

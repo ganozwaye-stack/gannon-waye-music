@@ -10,7 +10,7 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 
 const STATUS_COLORS = {
-  new: 'bg-yellow-500/10 text-yellow-400',
+  new: 'bg-primary/10 text-primary',
   reviewed: 'bg-blue-500/10 text-blue-400',
   actioned: 'bg-green-500/10 text-green-400',
   archived: 'bg-muted text-muted-foreground',

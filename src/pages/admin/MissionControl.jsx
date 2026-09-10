@@ -77,12 +77,12 @@ export default function MissionControl() {
             </CardHeader>
             <CardContent className="space-y-3">
               {queue.length > 0 && (
-                <div className="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl flex items-center justify-between text-xs cursor-pointer hover:bg-yellow-500/20" onClick={() => window.location.href = '/admin/launch-content?tab=approval-queue'}>
+                <div className="p-3 bg-primary/10 border border-primary/30 rounded-xl flex items-center justify-between text-xs cursor-pointer hover:bg-primary/20" onClick={() => window.location.href = '/admin/launch-content?tab=approval-queue'}>
                   <div className="flex items-center gap-2">
-                    <Megaphone className="w-4 h-4 text-yellow-400 shrink-0" />
+                    <Megaphone className="w-4 h-4 text-primary shrink-0" />
                     <span>{queue.length} raw social assets awaiting brand compliance sign-off.</span>
                   </div>
-                  <ArrowUpRight className="w-4 h-4 text-yellow-400" />
+                  <ArrowUpRight className="w-4 h-4 text-primary" />
                 </div>
               )}
 

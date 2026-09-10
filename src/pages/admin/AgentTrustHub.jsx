@@ -231,7 +231,7 @@ After sharing:
 
 const statusStyle = (s) => {
   if (s === 'safe') return 'bg-green-500/20 text-green-300 border-green-500/30';
-  if (s === 'caution') return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+  if (s === 'caution') return 'bg-primary/20 text-primary border-primary/30';
   if (s === 'action_required') return 'bg-orange-500/20 text-orange-300 border-orange-500/30';
   if (s === 'warning') return 'bg-red-500/20 text-red-300 border-red-500/30';
   return 'bg-secondary text-muted-foreground';
@@ -241,7 +241,7 @@ const riskStyle = (r) => {
   if (!r || r === 'N/A') return 'text-muted-foreground';
   if (r.toLowerCase().includes('critical')) return 'text-red-400 font-semibold';
   if (r.toLowerCase().includes('high')) return 'text-orange-400';
-  if (r.toLowerCase().includes('medium')) return 'text-yellow-400';
+  if (r.toLowerCase().includes('medium')) return 'text-primary';
   return 'text-green-400';
 };
 
@@ -371,8 +371,8 @@ export default function AgentTrustHub() {
                 <div className="border-t border-border/40 pt-3">
                   <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Action Required</p>
                   <div className="flex items-start gap-2">
-                    <AlertTriangle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
-                    <p className="text-sm text-yellow-300">{selectedTool.action}</p>
+                    <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                    <p className="text-sm text-primary">{selectedTool.action}</p>
                   </div>
                 </div>
               </CardContent>
@@ -411,7 +411,7 @@ export default function AgentTrustHub() {
                       <Button variant="outline" size="sm" onClick={() => copy(SAGE_INFO.openclaw_install)}><Copy className="w-3 h-3" /></Button>
                     </div>
                   </div>
-                  <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20 text-xs text-yellow-300 space-y-1">
+                  <div className="p-3 rounded-lg bg-primary/10 border border-primary/20 text-xs text-primary space-y-1">
                     <p className="font-semibold">⚠ Warp Note</p>
                     <p>Warp does not confirm native Sage support. Use Warp's own data controls, command review, GitHub branches, and Playwright test isolation. Use Sage with Cursor/Claude/OpenClaw where available.</p>
                   </div>

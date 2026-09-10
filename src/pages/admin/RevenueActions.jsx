@@ -18,7 +18,7 @@ import { format } from 'date-fns';
 import { Link, useNavigate } from 'react-router-dom';
 
 const STATUS_COLORS = {
-  pending_approval: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  pending_approval: 'bg-primary/20 text-primary border-primary/30',
   approved: 'bg-green-500/20 text-green-400',
   rejected: 'bg-red-500/20 text-red-400',
   published: 'bg-cyan-500/20 text-cyan-400',
@@ -301,7 +301,7 @@ export default function RevenueActions() {
               <ArrowLeft className="w-4 h-4 text-muted-foreground" />
             </button>
             <h1 className="text-3xl font-display font-bold gradient-gold-text">Revenue Actions</h1>
-            {pending.length > 0 && <Badge className="bg-yellow-500/20 text-yellow-400 text-sm animate-pulse">{pending.length} awaiting approval</Badge>}
+            {pending.length > 0 && <Badge className="bg-primary/20 text-primary text-sm animate-pulse">{pending.length} awaiting approval</Badge>}
           </div>
           <p className="text-muted-foreground text-sm">Agent-prepared proposals — approve to publish, reject to block</p>
         </div>
@@ -318,7 +318,7 @@ export default function RevenueActions() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <StatCard label="Awaiting Approval" value={pending.length} color="text-yellow-400" bg="bg-yellow-500/10" urgent={pending.length > 0} />
+        <StatCard label="Awaiting Approval" value={pending.length} color="text-primary" bg="bg-primary/10" urgent={pending.length > 0} />
         <StatCard label="Live Bundles" value={activeBundles.length} color="text-green-400" bg="bg-green-500/10" />
         <StatCard label="Published" value={published.length} color="text-cyan-400" bg="bg-cyan-500/10" />
         <StatCard label="Rejected" value={rejected.length} color="text-red-400" bg="bg-red-500/10" />
@@ -326,9 +326,9 @@ export default function RevenueActions() {
 
       {/* Pending — most prominent */}
       {pending.length > 0 && (
-        <Card className="border-yellow-500/30">
+        <Card className="border-primary/30">
           <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2 text-yellow-400">
+            <CardTitle className="text-base flex items-center gap-2 text-primary">
               <Clock className="w-4 h-4" />Waiting for Your Approval ({pending.length})
             </CardTitle>
           </CardHeader>
@@ -385,7 +385,7 @@ export default function RevenueActions() {
 
 function ProposalCard({ proposal: p, onClick, urgent }) {
   return (
-    <button onClick={onClick} className={`w-full text-left border rounded-xl p-4 hover:border-primary/40 hover:bg-secondary/20 transition-all group ${urgent ? 'border-yellow-500/30 bg-yellow-500/3' : 'border-border'}`}>
+    <button onClick={onClick} className={`w-full text-left border rounded-xl p-4 hover:border-primary/40 hover:bg-secondary/20 transition-all group ${urgent ? 'border-primary/30 bg-primary/3' : 'border-border'}`}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap gap-1.5 mb-1.5">
@@ -442,7 +442,7 @@ function BundleCard({ bundle: b }) {
 
 function StatCard({ label, value, color, bg, urgent }) {
   return (
-    <Card className={urgent && value > 0 ? 'border-yellow-500/30' : ''}>
+    <Card className={urgent && value > 0 ? 'border-primary/30' : ''}>
       <CardContent className="p-4 flex items-center gap-3">
         <div className={`${bg} p-2 rounded-lg shrink-0`}><DollarSign className={`w-4 h-4 ${color}`} /></div>
         <div>

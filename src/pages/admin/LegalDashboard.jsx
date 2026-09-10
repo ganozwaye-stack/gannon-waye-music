@@ -42,7 +42,7 @@ export default function LegalDashboard() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <StatCard icon={FileText} color="text-orange-400" bg="bg-orange-500/10" label="Legal Documents" value={legalDocs.length} />
         <StatCard icon={AlertTriangle} color="text-red-400" bg="bg-red-500/10" label="Open Legal Alerts" value={alerts.length} />
-        <StatCard icon={Clock} color="text-yellow-400" bg="bg-yellow-500/10" label="Pending Approvals" value={legalApprovals.length} />
+        <StatCard icon={Clock} color="text-primary" bg="bg-primary/10" label="Pending Approvals" value={legalApprovals.length} />
         <StatCard icon={Scale} color="text-blue-400" bg="bg-blue-500/10" label="Evidence Items" value={vault.filter(v => v.category === 'evidence').length} />
       </div>
 

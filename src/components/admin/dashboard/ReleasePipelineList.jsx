@@ -19,7 +19,7 @@ const STAGE_DOT = {
   idea: 'bg-muted-foreground/40',
   writing: 'bg-sky-400',
   pre_production: 'bg-sky-400',
-  recording: 'bg-amber-400',
+  recording: 'bg-primary',
   mixing: 'bg-violet-400',
   mastering: 'bg-violet-400',
   ready: 'bg-primary',

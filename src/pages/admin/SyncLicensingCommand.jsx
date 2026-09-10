@@ -76,10 +76,10 @@ export default function SyncLicensingCommand() {
         </div>
       </div>
 
-      <Card className="border-yellow-500/20 bg-yellow-500/3">
+      <Card className="border-primary/20 bg-primary/3">
         <CardContent className="p-4 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
-          <p className="text-xs text-yellow-200/80">
+          <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+          <p className="text-xs text-primary/80">
             Agents may prepare pitch drafts and research opportunities but must NOT contact publishers, music supervisors, ad agencies, or send music/lyrics externally without Gannon's explicit approval. All pitches go through Approval Queue first.
           </p>
         </CardContent>
@@ -101,7 +101,7 @@ export default function SyncLicensingCommand() {
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-3xl font-bold text-yellow-400">0</p>
+            <p className="text-3xl font-bold text-primary">0</p>
             <p className="text-xs text-muted-foreground mt-1">Pitches Sent (pending agent approval)</p>
           </CardContent>
         </Card>
@@ -181,7 +181,7 @@ export default function SyncLicensingCommand() {
                   <div className="flex-1">
                     <p className="text-sm">{item.label}</p>
                   </div>
-                  <Badge className={`text-xs shrink-0 ${item.weight === 'Critical' ? 'bg-red-500/20 text-red-300' : item.weight === 'High' ? 'bg-yellow-500/20 text-yellow-300' : 'bg-secondary text-muted-foreground'}`}>{item.weight}</Badge>
+                  <Badge className={`text-xs shrink-0 ${item.weight === 'Critical' ? 'bg-red-500/20 text-red-300' : item.weight === 'High' ? 'bg-primary/20 text-primary' : 'bg-secondary text-muted-foreground'}`}>{item.weight}</Badge>
                 </div>
               ))}
             </CardContent>

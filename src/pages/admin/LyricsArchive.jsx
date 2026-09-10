@@ -24,7 +24,7 @@ const STATUS_LABELS = {
 };
 
 const STATUS_COLORS = {
-  draft: 'text-yellow-500',
+  draft: 'text-primary',
   ready_for_review: 'text-blue-400',
   needs_source: 'text-orange-400',
   sensitive_review: 'text-red-400',
@@ -240,7 +240,7 @@ export default function LyricsArchive() {
                     : <span className="text-[9px] uppercase tracking-widest text-muted-foreground flex items-center gap-1"><EyeOff className="w-3 h-3" /> Private</span>}
                   {lyric.contains_sensitive_content && <span className="text-[9px] uppercase tracking-widest text-red-400 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> Sensitive</span>}
                   {lyric.contains_unresolved_wording && <span className="text-[9px] uppercase tracking-widest text-orange-400 flex items-center gap-1"><AlertTriangle className="w-3 h-3" /> Unresolved</span>}
-                  {lyric.needs_review && <span className="text-[9px] uppercase tracking-widest text-yellow-500 flex items-center gap-1"><FileText className="w-3 h-3" /> Needs Review</span>}
+                  {lyric.needs_review && <span className="text-[9px] uppercase tracking-widest text-primary flex items-center gap-1"><FileText className="w-3 h-3" /> Needs Review</span>}
                 </div>
                 {lyric.release_title && <p className="font-body text-xs text-muted-foreground mt-0.5">{lyric.release_title}</p>}
                 <p className="font-body text-xs text-foreground/50 mt-2 line-clamp-2 whitespace-pre-line">{lyric.lyrics_text}</p>

@@ -348,10 +348,10 @@ export default function HumanActionRequired() {
       </div>
 
       {/* Safety banner */}
-      <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-500/40 bg-amber-500/5">
-        <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+      <div className="flex items-start gap-3 p-4 rounded-xl border border-primary/40 bg-primary/5">
+        <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
         <p className="font-body text-xs text-muted-foreground">
-          <strong className="text-amber-400">Safe Build Mode Active.</strong> No emails, payments, fulfilment, social posts, or Stripe changes will be triggered automatically. Every action on this list requires your personal approval.
+          <strong className="text-primary">Safe Build Mode Active.</strong> No emails, payments, fulfilment, social posts, or Stripe changes will be triggered automatically. Every action on this list requires your personal approval.
         </p>
       </div>
 

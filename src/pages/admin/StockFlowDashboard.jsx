@@ -37,9 +37,9 @@ export default function StockFlowDashboard() {
       </div>
 
       {prelimCount > 0 && (
-        <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 flex items-center gap-2">
-          <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
-          <p className="text-xs text-amber-300">{prelimCount} batch(es) have PRELIMINARY costs — enter shipping/fees to finalise</p>
+        <div className="bg-primary/10 border border-primary/30 rounded-xl p-3 flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4 text-primary shrink-0" />
+          <p className="text-xs text-primary">{prelimCount} batch(es) have PRELIMINARY costs — enter shipping/fees to finalise</p>
           <Link to="/admin/purchase-orders" className="ml-auto">
             <Button size="sm" variant="outline" className="text-xs">Update POs</Button>
           </Link>
@@ -52,7 +52,7 @@ export default function StockFlowDashboard() {
           { label: 'Total Ordered', value: totalOrdered, icon: Package, color: 'text-blue-400' },
           { label: 'Total Received', value: totalReceived, icon: Boxes, color: 'text-green-400' },
           { label: 'Available', value: totalAvailable, icon: TrendingUp, color: 'text-purple-400' },
-          { label: 'Total Sold', value: totalSold, icon: BarChart3, color: 'text-amber-400' },
+          { label: 'Total Sold', value: totalSold, icon: BarChart3, color: 'text-primary' },
           { label: 'Damaged/Lost', value: totalDamaged, icon: AlertTriangle, color: 'text-red-400' },
           { label: 'Active Products', value: products.filter(p => p.is_active).length, icon: Package, color: 'text-blue-400' },
           { label: 'In Transit', value: batches.filter(b => b.status === 'in_transit').length, icon: ArrowRight, color: 'text-orange-400' },
@@ -78,7 +78,7 @@ export default function StockFlowDashboard() {
                 <div className="flex items-center justify-between">
                   <p className="text-sm font-semibold">{b.product_name}</p>
                   <div className="flex items-center gap-2">
-                    {b.is_preliminary_cost && <Badge className="text-[10px] bg-amber-500/20 text-amber-300 border-amber-500/30">PRELIMINARY</Badge>}
+                    {b.is_preliminary_cost && <Badge className="text-[10px] bg-primary/20 text-primary border-primary/30">PRELIMINARY</Badge>}
                     <Badge className="text-[10px] bg-secondary border-border">{b.status}</Badge>
                   </div>
                 </div>
@@ -86,7 +86,7 @@ export default function StockFlowDashboard() {
                   <span>Ordered: <strong className="text-foreground">{b.qty_ordered}</strong></span>
                   <span>Received: <strong className="text-foreground">{b.qty_received}</strong></span>
                   <span>Available: <strong className="text-green-400">{b.qty_available}</strong></span>
-                  <span>Sold: <strong className="text-amber-400">{b.qty_sold}</strong></span>
+                  <span>Sold: <strong className="text-primary">{b.qty_sold}</strong></span>
                   <span>Reserved: <strong className="text-blue-400">{b.qty_reserved}</strong></span>
                   <span>Damaged: <strong className="text-red-400">{b.qty_damaged}</strong></span>
                   <span>$/unit: <strong className="text-primary">${(b.landed_cost_per_unit_aud || 0).toFixed(2)}</strong></span>

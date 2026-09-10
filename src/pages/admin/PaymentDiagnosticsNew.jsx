@@ -14,13 +14,13 @@ import {
 const severityColor = (s) => {
   if (s === 'critical') return 'bg-red-600/20 text-red-300 border-red-600/30';
   if (s === 'high') return 'bg-orange-500/20 text-orange-300 border-orange-500/30';
-  if (s === 'warning') return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+  if (s === 'warning') return 'bg-primary/20 text-primary border-primary/30';
   return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
 };
 
 const statusColor = (s) => {
   if (['confirmed', 'paid', 'shipped', 'resolved'].includes(s)) return 'bg-green-500/20 text-green-300';
-  if (['pending', 'investigating'].includes(s)) return 'bg-yellow-500/20 text-yellow-300';
+  if (['pending', 'investigating'].includes(s)) return 'bg-primary/20 text-primary';
   if (['failed', 'cancelled', 'open'].includes(s)) return 'bg-red-500/20 text-red-300';
   return 'bg-secondary text-muted-foreground';
 };
@@ -215,7 +215,7 @@ export default function PaymentDiagnosticsNew() {
     { label: 'Open Issues', value: openDiags.length, icon: AlertTriangle, color: criticalDiags.length > 0 ? 'text-red-400' : 'text-orange-400', tab: 'diagnostics' },
     { label: 'Disputes', value: disputes.length, icon: AlertCircle, color: 'text-red-400', tab: 'disputes' },
     { label: 'Webhook Failures', value: webhookFails.length, icon: Webhook, color: 'text-orange-400', tab: 'webhooks' },
-    { label: 'Stuck Orders', value: stuckPending.length, icon: Clock, color: 'text-yellow-400', tab: 'stuck' },
+    { label: 'Stuck Orders', value: stuckPending.length, icon: Clock, color: 'text-primary', tab: 'stuck' },
     { label: 'Payment / No Order', value: paymentWithoutOrder.length, icon: FileX, color: 'text-red-400', tab: 'reconcile' },
     { label: 'Refunds', value: refunds.length, icon: Repeat, color: 'text-blue-400', tab: 'refunds' },
     { label: 'Event Logs', value: eventLogs.length, icon: DollarSign, color: 'text-primary', tab: 'logs' },

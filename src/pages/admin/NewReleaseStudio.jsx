@@ -12,7 +12,7 @@ const labelClass = 'block font-body text-[10px] tracking-[0.2em] uppercase text-
 
 function ResultRow({ ok, warn, label, detail }) {
   const Icon = ok ? CheckCircle2 : (warn ? AlertTriangle : XCircle);
-  const color = ok ? 'text-green-400' : (warn ? 'text-yellow-400' : 'text-red-400');
+  const color = ok ? 'text-green-400' : (warn ? 'text-primary' : 'text-red-400');
   return (
     <div className="flex items-start gap-2.5 py-2">
       <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${color}`} />

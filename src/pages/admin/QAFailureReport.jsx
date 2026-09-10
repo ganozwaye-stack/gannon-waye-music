@@ -299,7 +299,7 @@ const CODEX_FIX_LIST = `# Tasks for Codex / Cursor / Claude Code
 const SEVERITY_CONFIG = {
   critical: { label: 'CRITICAL', color: 'bg-red-500/20 text-red-200 border-red-500/40' },
   high: { label: 'HIGH', color: 'bg-orange-500/20 text-orange-200 border-orange-500/40' },
-  medium: { label: 'MEDIUM', color: 'bg-yellow-500/20 text-yellow-200 border-yellow-500/40' },
+  medium: { label: 'MEDIUM', color: 'bg-primary/20 text-primary border-primary/40' },
   low: { label: 'LOW', color: 'bg-blue-500/20 text-blue-200 border-blue-500/40' },
 };
 
@@ -411,7 +411,7 @@ export default function QAFailureReport() {
         {[
           ['Internal Tests Passed', INTERNAL_TEST_RESULTS.tests_passed, 'text-green-400'],
           ['Internal Health Score', `${INTERNAL_TEST_RESULTS.health_score}%`, 'text-green-400'],
-          ['External NOT RUN', notRun, 'text-yellow-400'],
+          ['External NOT RUN', notRun, 'text-primary'],
           ['Confirmed Failures', CONFIRMED_FAILURES.length, 'text-red-400'],
           ['Critical Issues', critical, 'text-red-500'],
         ].map(([label, val, color]) => (
@@ -443,12 +443,12 @@ export default function QAFailureReport() {
           {CONFIRMED_FAILURES.map((f, i) => {
             const sev = SEVERITY_CONFIG[f.severity];
             return (
-              <Card key={i} className={`border ${f.severity === 'critical' ? 'border-red-500/40' : f.severity === 'high' ? 'border-orange-500/40' : 'border-yellow-500/40'}`}>
+              <Card key={i} className={`border ${f.severity === 'critical' ? 'border-red-500/40' : f.severity === 'high' ? 'border-orange-500/40' : 'border-primary/40'}`}>
                 <CardContent className="p-4 space-y-2">
                   <div className="flex items-start justify-between gap-3 flex-wrap">
                     <div className="flex items-center gap-2">
                       <Badge className={sev.color}>{sev.label}</Badge>
-                      {f.confirmed ? <Badge className="bg-red-500/20 text-red-300 border-red-500/30 text-xs">CONFIRMED</Badge> : <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30 text-xs">SUSPECTED</Badge>}
+                      {f.confirmed ? <Badge className="bg-red-500/20 text-red-300 border-red-500/30 text-xs">CONFIRMED</Badge> : <Badge className="bg-primary/20 text-primary border-primary/30 text-xs">SUSPECTED</Badge>}
                       <p className="font-semibold">{f.area}</p>
                     </div>
                     {f.route && (
@@ -484,14 +484,14 @@ export default function QAFailureReport() {
           {INTERNAL_TEST_RESULTS.results.map((r, i) => (
             <Card key={i}>
               <CardContent className="p-3 flex items-start gap-3">
-                {r.status === 'pass' ? <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0 mt-0.5" /> : r.status === 'fail' ? <XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" /> : <AlertTriangle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />}
+                {r.status === 'pass' ? <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0 mt-0.5" /> : r.status === 'fail' ? <XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" /> : <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />}
                 <div className="min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-semibold text-sm">{r.name}</p>
                     <Badge className={r.status === 'pass' ? STATUS_CONFIG.pass.color : STATUS_CONFIG.fail.color}>{r.status.toUpperCase()}</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground">{r.detail}</p>
-                  {r.note && <p className="text-xs text-yellow-300 mt-1">{r.note}</p>}
+                  {r.note && <p className="text-xs text-primary mt-1">{r.note}</p>}
                 </div>
               </CardContent>
             </Card>
@@ -523,7 +523,7 @@ export default function QAFailureReport() {
                       </div>
                       <Badge variant="outline" className="text-xs shrink-0">{t.category}</Badge>
                     </div>
-                    {t.blocker && <p className="text-xs text-yellow-300 mt-1">Blocker: {t.blocker}</p>}
+                    {t.blocker && <p className="text-xs text-primary mt-1">Blocker: {t.blocker}</p>}
                     {t.note && <p className="text-xs text-green-300 mt-1">{t.note}</p>}
                   </CardContent>
                 </Card>
@@ -536,9 +536,9 @@ export default function QAFailureReport() {
       {/* MANUAL STEPS */}
       {activeTab === 'steps' && (
         <div className="space-y-3">
-          <Card className="border-yellow-500/30 bg-yellow-500/5">
+          <Card className="border-primary/30 bg-primary/5">
             <CardContent className="p-4 text-sm">
-              <p className="font-semibold text-yellow-200">These are real actions only Gannon can take. Priority order.</p>
+              <p className="font-semibold text-primary">These are real actions only Gannon can take. Priority order.</p>
               <p className="text-muted-foreground mt-1">Store ADMIN_SESSION_COOKIE in a local .env file only. Never commit it. Never paste it in chat.</p>
             </CardContent>
           </Card>

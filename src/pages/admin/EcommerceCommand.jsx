@@ -15,7 +15,7 @@ const COMMAND_SCANS = [
   { id: 'best_upsells', label: 'Best Upsell Sequences', icon: Zap, color: 'text-purple-400', prompt: 'Design 3 premium upsell sequences for a music artist store. Include: trigger (what was purchased), upsell offer, upsell price, copy hook, expected conversion rate, emotional reason it works. Products available: CDs $22.95, T-shirts $49, Hoodies $89.' },
   { id: 'best_bundles', label: 'Highest Margin Bundles', icon: Package, color: 'text-cyan-400', prompt: 'Design 5 high-margin product bundles for a music artist merchandise store. For each: bundle name, included products, bundle price, individual total price, saving shown to customer, expected margin %, emotional story angle, luxury positioning.' },
   { id: 'supplier_risk', label: 'Supplier Risk Scan', icon: AlertTriangle, color: 'text-orange-400', prompt: 'What are the top 5 supplier and logistics risks for a small Australian music artist merchandise store in 2026? For each: risk type, likelihood (1-10), impact (1-10), mitigation strategy, red flags to watch for.' },
-  { id: 'competitor_gaps', label: 'Competitor Weaknesses', icon: Eye, color: 'text-yellow-400', prompt: 'What are the typical weaknesses and blind spots of independent Australian music artist online stores in 2026? Identify 5 gaps that represent opportunities to differentiate. For each: gap, why competitors fail here, how to exploit it, expected advantage.' },
+  { id: 'competitor_gaps', label: 'Competitor Weaknesses', icon: Eye, color: 'text-primary', prompt: 'What are the typical weaknesses and blind spots of independent Australian music artist online stores in 2026? Identify 5 gaps that represent opportunities to differentiate. For each: gap, why competitors fail here, how to exploit it, expected advantage.' },
 ];
 
 export default function EcommerceCommand() {
@@ -68,9 +68,9 @@ export default function EcommerceCommand() {
       </div>
 
       {/* Safety Rule */}
-      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
-        <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
-        <p className="text-yellow-300 text-xs"><strong>Safety Rule Active:</strong> No agent may order products, change prices, launch ads, or issue refunds without explicit approval.</p>
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
+        <Shield className="w-4 h-4 text-primary shrink-0" />
+        <p className="text-primary text-xs"><strong>Safety Rule Active:</strong> No agent may order products, change prices, launch ads, or issue refunds without explicit approval.</p>
       </div>
 
       {/* Live Stats */}
@@ -79,7 +79,7 @@ export default function EcommerceCommand() {
           { label: 'Active Products', value: products.length, icon: Package, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/merch' },
           { label: 'Recent Orders', value: orders.length, icon: ShoppingBag, color: 'text-green-400', bg: 'bg-green-500/10', link: '/admin/orders' },
           { label: 'New Opportunities', value: ideas.length, icon: Star, color: 'text-cyan-400', bg: 'bg-cyan-500/10', link: '/admin/ideas-engine' },
-          { label: 'Est. Recent Revenue', value: `$${totalRevenue.toFixed(0)}`, icon: DollarSign, color: 'text-amber-400', bg: 'bg-amber-500/10', link: '/admin/financials' },
+          { label: 'Est. Recent Revenue', value: `$${totalRevenue.toFixed(0)}`, icon: DollarSign, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/financials' },
         ].map(s => (
           <Link key={s.label} to={s.link}>
             <Card className="hover:border-primary/30 transition-all cursor-pointer">

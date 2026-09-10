@@ -56,7 +56,7 @@ function PostRow({ post, onStatusChange }) {
     : post.status === 'posted'
     ? 'border-green-500/20 opacity-70'
     : isVisualRequired
-    ? 'border-amber-500/40 bg-amber-500/5'
+    ? 'border-primary/40 bg-primary/5'
     : 'border-border/50';
 
   return (
@@ -70,8 +70,8 @@ function PostRow({ post, onStatusChange }) {
           <p className="font-body text-xs text-muted-foreground mt-0.5 line-clamp-2">{post.hook || post.caption?.slice(0, 100) || '—'}</p>
           {isVisualRequired && (
             <div className="flex items-center gap-1.5 mt-1.5">
-              <ImageOff className="w-3 h-3 text-amber-400 shrink-0" />
-              <span className="text-[10px] font-semibold text-amber-400 uppercase tracking-wider">Caption ready · Visual/video missing — NOT Metricool ready</span>
+              <ImageOff className="w-3 h-3 text-primary shrink-0" />
+              <span className="text-[10px] font-semibold text-primary uppercase tracking-wider">Caption ready · Visual/video missing — NOT Metricool ready</span>
             </div>
           )}
         </div>
@@ -79,7 +79,7 @@ function PostRow({ post, onStatusChange }) {
           <Badge className={`text-[9px] tracking-wider uppercase border-0 ${
             post.status === 'scheduled' ? 'bg-blue-500/10 text-blue-400'
             : post.status === 'posted' ? 'bg-green-500/10 text-green-400'
-            : isVisualRequired ? 'bg-amber-500/10 text-amber-400'
+            : isVisualRequired ? 'bg-primary/10 text-primary'
             : 'bg-green-500/10 text-green-400'
           }`}>
             {isVisualRequired ? 'visual required' : post.status}
@@ -92,11 +92,11 @@ function PostRow({ post, onStatusChange }) {
         <div className="border-t border-border/40 p-4 space-y-3">
           {/* Visual blocker */}
           {isVisualRequired && (
-            <div className="border border-amber-500/40 bg-amber-500/10 rounded-xl p-3">
+            <div className="border border-primary/40 bg-primary/10 rounded-xl p-3">
               <div className="flex items-start gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                 <div className="text-xs text-foreground/80">
-                  <p className="font-semibold text-amber-300 mb-1">Metricool scheduling blocked — visual/video required</p>
+                  <p className="font-semibold text-primary mb-1">Metricool scheduling blocked — visual/video required</p>
                   <p>This is a <strong>{pm.label}</strong> post. Video/visual platforms require an approved public media URL before scheduling.</p>
                   <p className="mt-1">Required: <code className="bg-secondary/50 px-1 rounded">public_media_url</code> + <code className="bg-secondary/50 px-1 rounded">media_status = approved_public</code> + <code className="bg-secondary/50 px-1 rounded">metricool_ready = true</code></p>
                   {post.visual_brief && <p className="mt-1 text-muted-foreground">Visual brief: {post.visual_brief}</p>}
@@ -197,10 +197,10 @@ export default function SocialScheduleQueue() {
 
       {/* Visual blocker warning */}
       {byStatus.visual_required.length > 0 && (
-        <div className="border border-amber-500/40 bg-amber-500/10 rounded-xl p-3 flex items-start gap-3">
-          <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+        <div className="border border-primary/40 bg-primary/10 rounded-xl p-3 flex items-start gap-3">
+          <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
           <div className="text-xs text-foreground/80">
-            <p className="font-semibold text-amber-300">{byStatus.visual_required.length} post{byStatus.visual_required.length !== 1 ? 's' : ''} blocked — caption ready, visual/video missing</p>
+            <p className="font-semibold text-primary">{byStatus.visual_required.length} post{byStatus.visual_required.length !== 1 ? 's' : ''} blocked — caption ready, visual/video missing</p>
             <p className="text-muted-foreground mt-0.5">These posts are NOT Metricool ready. Video/visual platforms require an approved public media URL before scheduling. Do not schedule caption-only on TikTok, IG Reels, Stories, YouTube Shorts, or Facebook video.</p>
           </div>
         </div>
@@ -209,7 +209,7 @@ export default function SocialScheduleQueue() {
       {/* Stats */}
       <div className="grid grid-cols-4 gap-3">
         {[
-          { key: 'visual_required', label: 'Visual Missing', color: 'text-amber-400' },
+          { key: 'visual_required', label: 'Visual Missing', color: 'text-primary' },
           { key: 'approved', label: 'Ready to Schedule', color: 'text-green-400' },
           { key: 'scheduled', label: 'In Metricool', color: 'text-blue-400' },
           { key: 'posted', label: 'Posted Live', color: 'text-primary' },

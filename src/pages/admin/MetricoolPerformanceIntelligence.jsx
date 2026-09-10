@@ -160,7 +160,7 @@ export default function MetricoolPerformanceIntelligence() {
                       </div>
                     )}
                   </div>
-                  <Badge className={`border-0 text-[9px] uppercase ${hasMetrics ? 'bg-green-500/10 text-green-400' : 'bg-amber-500/10 text-amber-400'}`}>
+                  <Badge className={`border-0 text-[9px] uppercase ${hasMetrics ? 'bg-green-500/10 text-green-400' : 'bg-primary/10 text-primary'}`}>
                     {hasMetrics ? 'Logged' : 'Pending'}
                   </Badge>
                 </div>

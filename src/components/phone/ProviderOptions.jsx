@@ -89,7 +89,7 @@ export default function ProviderOptions() {
                 <ul className="space-y-1">
                   {p.cons.map((con, i) => (
                     <li key={i} className="font-body text-xs text-foreground/60 flex items-start gap-1.5">
-                      <span className="text-yellow-500 mt-0.5 shrink-0">−</span> {con}
+                      <span className="text-primary mt-0.5 shrink-0">−</span> {con}
                     </li>
                   ))}
                 </ul>
@@ -112,7 +112,7 @@ export default function ProviderOptions() {
                 <p className="font-body text-sm text-foreground/80">{p.cost}</p>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-body text-[10px] text-yellow-400 bg-yellow-500/10 border border-yellow-500/30 rounded-full px-2.5 py-1 uppercase tracking-wider">
+                <span className="font-body text-[10px] text-primary bg-primary/10 border border-primary/30 rounded-full px-2.5 py-1 uppercase tracking-wider">
                   Human Action Required
                 </span>
                 <a href={p.url} target="_blank" rel="noopener noreferrer"

@@ -108,7 +108,7 @@ export default function TransparentUploadsTab() {
           {assets.filter(a => !a.transparent_png_url).map(a => (
             <div key={a.id} className="flex items-center justify-between text-sm text-muted-foreground">
               <span>{a.title}</span>
-              <span className="text-[10px] bg-yellow-500/20 text-yellow-300 px-2 py-0.5 rounded-full">{a.background_removed_status}</span>
+              <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full">{a.background_removed_status}</span>
             </div>
           ))}
           {assets.filter(a => !a.transparent_png_url).length === 0 && (

@@ -95,7 +95,7 @@ export default function SetupStripeFlow({ onComplete, onBlocked }) {
                 </div>
               )}
               {stripeMode === 'live' && (
-                <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 text-sm text-amber-300">
+                <div className="bg-primary/10 border border-primary/30 rounded-lg p-3 text-sm text-primary">
                   🔴 LIVE MODE — any checkout test will charge a real card. Only proceed when you're ready to approve a small controlled live purchase.
                 </div>
               )}
@@ -113,8 +113,8 @@ export default function SetupStripeFlow({ onComplete, onBlocked }) {
       {phase === 'checkout' && (
         <StepBlock number={4} title="Approve Checkout Test" status={checkoutApproved ? 'active' : 'waiting'} why="A controlled purchase proves: checkout opens, payment succeeds, webhook fires, order is created, receipt sends.">
           {stripeMode === 'live' && !checkoutApproved && (
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 mb-4">
-              <p className="text-amber-300 font-semibold text-sm mb-1">⚠️ Approval Required — LIVE payment will be made</p>
+            <div className="bg-primary/10 border border-primary/30 rounded-lg p-3 mb-4">
+              <p className="text-primary font-semibold text-sm mb-1">⚠️ Approval Required — LIVE payment will be made</p>
               <p className="text-xs text-muted-foreground">A small real charge will be made to verify the full end-to-end checkout flow. Do you approve?</p>
             </div>
           )}
@@ -161,7 +161,7 @@ function HealthRow({ label, value }) {
   return (
     <div className="flex items-center justify-between text-sm py-1 border-b border-border">
       <span className="text-muted-foreground">{label}</span>
-      <Badge className={`text-xs border ${isOk ? 'bg-green-500/20 text-green-300 border-green-500/30' : isWarn ? 'bg-amber-500/20 text-amber-300 border-amber-500/30' : 'bg-red-500/20 text-red-300 border-red-500/30'}`}>
+      <Badge className={`text-xs border ${isOk ? 'bg-green-500/20 text-green-300 border-green-500/30' : isWarn ? 'bg-primary/20 text-primary border-primary/30' : 'bg-red-500/20 text-red-300 border-red-500/30'}`}>
         {value || 'missing'}
       </Badge>
     </div>

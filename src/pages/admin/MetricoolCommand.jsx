@@ -143,10 +143,10 @@ export default function MetricoolCommand() {
       {metricoolAlerts.length > 0 && (
         <div className="space-y-2">
           {metricoolAlerts.slice(0, 3).map(n => (
-            <div key={n.id} className="bg-amber-500/5 border border-amber-500/30 rounded-xl p-3 flex items-start gap-3">
-              <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+            <div key={n.id} className="bg-primary/5 border border-primary/30 rounded-xl p-3 flex items-start gap-3">
+              <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
               <div className="flex-1 min-w-0">
-                <p className="font-body text-sm text-amber-400 font-semibold">{n.title}</p>
+                <p className="font-body text-sm text-primary font-semibold">{n.title}</p>
                 <p className="font-body text-xs text-muted-foreground mt-0.5">{n.summary}</p>
               </div>
               {n.linked_route && (
@@ -161,7 +161,7 @@ export default function MetricoolCommand() {
       <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
         {[
           { label: 'Drafts', value: stats.draft, color: 'text-muted-foreground' },
-          { label: 'Pending', value: stats.pending, color: 'text-amber-400' },
+          { label: 'Pending', value: stats.pending, color: 'text-primary' },
           { label: 'Approved', value: stats.approved, color: 'text-green-400' },
           { label: 'In Metricool', value: stats.scheduled, color: 'text-blue-400' },
           { label: 'Posted', value: stats.posted, color: 'text-primary' },
@@ -176,17 +176,17 @@ export default function MetricoolCommand() {
 
       {/* Approvals alert */}
       {approvals.length > 0 && (
-        <Card className="border-amber-500/30 bg-amber-500/5">
+        <Card className="border-primary/30 bg-primary/5">
           <CardContent className="p-4 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />
+              <AlertTriangle className="w-5 h-5 text-primary shrink-0" />
               <div>
-                <p className="font-body text-sm font-semibold text-amber-400">{approvals.length} items awaiting approval</p>
+                <p className="font-body text-sm font-semibold text-primary">{approvals.length} items awaiting approval</p>
                 <p className="font-body text-xs text-muted-foreground">Must approve before scheduling to Metricool</p>
               </div>
             </div>
             <Link to="/admin/approval-queue">
-              <Button size="sm" variant="outline" className="border-amber-500/40 text-amber-400 gap-1.5">
+              <Button size="sm" variant="outline" className="border-primary/40 text-primary gap-1.5">
                 <ChevronRight className="w-3 h-3" /> Review
               </Button>
             </Link>

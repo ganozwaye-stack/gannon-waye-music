@@ -57,11 +57,11 @@ export default function PhoneSystem() {
       </div>
 
       {/* Safety Banner */}
-      <div className="mb-6 bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 flex items-start gap-3">
-        <AlertTriangle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+      <div className="mb-6 bg-primary/10 border border-primary/30 rounded-xl p-4 flex items-start gap-3">
+        <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <div>
-          <p className="font-body text-xs font-semibold text-yellow-300">Safe Build Mode — No Provider Active</p>
-          <p className="font-body text-xs text-yellow-200/60 mt-0.5">
+          <p className="font-body text-xs font-semibold text-primary">Safe Build Mode — No Provider Active</p>
+          <p className="font-body text-xs text-primary/60 mt-0.5">
             No phone number is live. No SMS will be sent automatically. No calls will be made. No money has been spent.
             This system is CRM-ready for when you choose a provider and approve the go-live.
           </p>
@@ -71,7 +71,7 @@ export default function PhoneSystem() {
       {/* Stats Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
         {[
-          { label: 'Business Number', value: primaryNumber ? '1' : '0', sub: primaryNumber?.status === 'provider_needed' ? 'Provider needed' : 'Active', color: 'text-yellow-400' },
+          { label: 'Business Number', value: primaryNumber ? '1' : '0', sub: primaryNumber?.status === 'provider_needed' ? 'Provider needed' : 'Active', color: 'text-primary' },
           { label: 'New Leads', value: newLeads, sub: 'Awaiting contact', color: newLeads > 0 ? 'text-primary' : 'text-foreground' },
           { label: 'Total Leads', value: leads.length, sub: 'All time', color: 'text-foreground' },
           { label: 'Call Logs', value: callLogs.length, sub: 'Logged manually', color: 'text-foreground' },
@@ -105,7 +105,7 @@ export default function PhoneSystem() {
                 <span className="bg-primary text-primary-foreground rounded-full px-1.5 py-0 text-[9px] font-bold">{newLeads}</span>
               )}
               {tab.id === 'actions' && (
-                <span className="bg-yellow-500 text-black rounded-full px-1.5 py-0 text-[9px] font-bold">!</span>
+                <span className="bg-primary text-black rounded-full px-1.5 py-0 text-[9px] font-bold">!</span>
               )}
             </button>
           );

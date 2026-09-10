@@ -84,7 +84,7 @@ Keep it professional, specific, and actionable.`,
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Agent Actions', value: logs.length, icon: Activity, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-          { label: 'Unread Alerts', value: alerts.length, icon: AlertTriangle, color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+          { label: 'Unread Alerts', value: alerts.length, icon: AlertTriangle, color: 'text-primary', bg: 'bg-primary/10' },
           { label: 'Learning Records', value: learnings.length, icon: Zap, color: 'text-purple-400', bg: 'bg-purple-500/10' },
           { label: 'Checklist', value: `${checkedCount}/${totalItems}`, icon: CheckCircle2, color: 'text-green-400', bg: 'bg-green-500/10' },
         ].map(s => (

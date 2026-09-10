@@ -68,7 +68,7 @@ export default function CoachingLaunchControl() {
                   )}
                 </div>
                 {gate.isFinal && (
-                  <Badge className="bg-yellow-500/20 text-yellow-400 text-[10px] shrink-0">Final Step</Badge>
+                  <Badge className="bg-primary/20 text-primary text-[10px] shrink-0">Final Step</Badge>
                 )}
               </CardContent>
             </Card>

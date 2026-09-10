@@ -12,7 +12,7 @@ const QUICK_LINKS = [
   { label: 'My Store', url: 'https://ganozmixdirect.base44.app/products', icon: ShoppingCart, color: 'text-green-400' },
   { label: 'Orders', url: 'https://ganozmixdirect.base44.app/orders', icon: Package, color: 'text-orange-400' },
   { label: 'Profit Dashboard', url: 'https://ganozmixdirect.base44.app/profit-dashboard', icon: DollarSign, color: 'text-primary' },
-  { label: 'Product Rankings', url: 'https://ganozmixdirect.base44.app/admin/product-rankings', icon: TrendingUp, color: 'text-yellow-400' },
+  { label: 'Product Rankings', url: 'https://ganozmixdirect.base44.app/admin/product-rankings', icon: TrendingUp, color: 'text-primary' },
   { label: 'Price Protection', url: 'https://ganozmixdirect.base44.app/admin/price-protection', icon: Shield, color: 'text-red-400' },
   { label: 'Supplier Intel', url: 'https://ganozmixdirect.base44.app/admin/supplier-intelligence', icon: Globe, color: 'text-cyan-400' },
 ];
@@ -79,9 +79,9 @@ export default function GanozMixBridge() {
               href={action.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex flex-col gap-1 rounded-lg border border-zinc-800 bg-zinc-950/90 p-4 transition-all hover:border-amber-400/40 hover:bg-zinc-900 group cursor-pointer"
+              className="flex flex-col gap-1 rounded-lg border border-zinc-800 bg-zinc-950/90 p-4 transition-all hover:border-primary/40 hover:bg-zinc-900 group cursor-pointer"
             >
-              <span className="font-semibold text-sm text-zinc-100 group-hover:text-amber-300 transition-colors">{action.label}</span>
+              <span className="font-semibold text-sm text-zinc-100 group-hover:text-primary transition-colors">{action.label}</span>
               <span className="text-xs text-zinc-500">{action.desc}</span>
             </a>
           ))}
@@ -124,7 +124,7 @@ export default function GanozMixBridge() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950/90 px-3 py-2.5 transition-all hover:border-amber-400/30 hover:bg-zinc-900"
+                className="flex items-center gap-2 rounded-lg border border-zinc-800 bg-zinc-950/90 px-3 py-2.5 transition-all hover:border-primary/30 hover:bg-zinc-900"
               >
                 <Icon className={`w-4 h-4 ${link.color}`} />
                 <span className="text-xs font-medium text-zinc-100">{link.label}</span>
@@ -170,7 +170,7 @@ export default function GanozMixBridge() {
           </div>
         )}
         <p className="text-xs text-zinc-500 mt-2 text-center">
-          Linked app: <a href="https://ganozmixdirect.base44.app" target="_blank" rel="noopener noreferrer" className="text-amber-300 hover:underline">ganozmixdirect.base44.app</a>
+          Linked app: <a href="https://ganozmixdirect.base44.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">ganozmixdirect.base44.app</a>
         </p>
       </div>
     </div>

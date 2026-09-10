@@ -10,7 +10,7 @@ import ReactMarkdown from 'react-markdown';
 
 const STATUS_CONFIG = {
   not_connected: { label: 'Not Connected', color: 'bg-slate-500/10 text-slate-400 border-slate-500/30', Icon: Clock },
-  needs_credentials: { label: 'Needs Credentials', color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30', Icon: AlertTriangle },
+  needs_credentials: { label: 'Needs Credentials', color: 'bg-primary/10 text-primary border-primary/30', Icon: AlertTriangle },
   connecting: { label: 'Connecting', color: 'bg-blue-500/10 text-blue-400 border-blue-500/30', Icon: Loader2 },
   testing: { label: 'Testing', color: 'bg-purple-500/10 text-purple-400 border-purple-500/30', Icon: Loader2 },
   live: { label: 'Live', color: 'bg-green-500/10 text-green-400 border-green-500/30', Icon: CheckCircle2 },
@@ -161,18 +161,18 @@ Be specific, practical, and safe. Flag anything that costs money or requires app
         </div>
       </div>
 
-      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-start gap-3">
-        <Shield className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-start gap-3">
+        <Shield className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <div>
-          <p className="text-yellow-300 text-xs font-semibold">Do-Not-Spend-Or-Lose Rule: ACTIVE</p>
-          <p className="text-yellow-300/70 text-xs mt-0.5">Secrets are never displayed after saving. No paid subscriptions, terms of service, financial settings, or app review submissions will be made without explicit approval. All high-risk connections go to ApprovalQueue first.</p>
+          <p className="text-primary text-xs font-semibold">Do-Not-Spend-Or-Lose Rule: ACTIVE</p>
+          <p className="text-primary/70 text-xs mt-0.5">Secrets are never displayed after saving. No paid subscriptions, terms of service, financial settings, or app review submissions will be made without explicit approval. All high-risk connections go to ApprovalQueue first.</p>
         </div>
       </div>
 
       {/* Summary */}
       <div className="grid grid-cols-3 gap-3">
         <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-green-400">{liveCount}</p><p className="text-xs text-muted-foreground">Live</p></CardContent></Card>
-        <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-yellow-400">{needsCredCount}</p><p className="text-xs text-muted-foreground">Needs Credentials</p></CardContent></Card>
+        <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold text-primary">{needsCredCount}</p><p className="text-xs text-muted-foreground">Needs Credentials</p></CardContent></Card>
         <Card><CardContent className="p-4 text-center"><p className="text-2xl font-bold">{platforms.length}</p><p className="text-xs text-muted-foreground">Total Platforms</p></CardContent></Card>
       </div>
 
@@ -238,7 +238,7 @@ Be specific, practical, and safe. Flag anything that costs money or requires app
                         ))}
                         <div className="flex items-center gap-2 text-xs mt-1">
                           <span className="text-muted-foreground">Risk:</span>
-                          <Badge variant="outline" className={`text-xs ${platform.risk_level === 'high' ? 'text-red-400' : platform.risk_level === 'medium' ? 'text-yellow-400' : 'text-green-400'}`}>{platform.risk_level}</Badge>
+                          <Badge variant="outline" className={`text-xs ${platform.risk_level === 'high' ? 'text-red-400' : platform.risk_level === 'medium' ? 'text-primary' : 'text-green-400'}`}>{platform.risk_level}</Badge>
                         </div>
                       </div>
                     </div>
@@ -270,8 +270,8 @@ Be specific, practical, and safe. Flag anything that costs money or requires app
                   )}
 
                   {/* Human action required */}
-                  <div className="border border-yellow-500/20 bg-yellow-500/5 rounded-lg p-3">
-                    <p className="text-xs font-medium text-yellow-400 mb-1">👤 Manual Action Required</p>
+                  <div className="border border-primary/20 bg-primary/5 rounded-lg p-3">
+                    <p className="text-xs font-medium text-primary mb-1">👤 Manual Action Required</p>
                     <p className="text-xs text-muted-foreground">{platform.human_action_required}</p>
                   </div>
 

@@ -166,7 +166,7 @@ const GROUP_ORDER = ['Store Repair', 'GitHub Actions', 'Checkout / Stripe', 'Met
 
 const PRIORITY_COLOR = {
   critical: 'bg-red-500/20 text-red-300 border-red-500/30',
-  high: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+  high: 'bg-primary/20 text-primary border-primary/30',
   medium: 'bg-secondary text-muted-foreground border-border',
 };
 
@@ -366,13 +366,13 @@ export default function BusinessAttentionCentre() {
             notifications.map(n => (
               <Card key={n.id} className={
                 n.severity === 'critical' ? 'border-red-500/30' :
-                n.severity === 'high' ? 'border-amber-500/30' : 'border-border/40'
+                n.severity === 'high' ? 'border-primary/30' : 'border-border/40'
               }>
                 <CardContent className="p-3">
                   <div className="flex items-start gap-3">
                     <AlertTriangle className={`w-4 h-4 shrink-0 mt-0.5 ${
                       n.severity === 'critical' ? 'text-red-400' :
-                      n.severity === 'high' ? 'text-amber-400' : 'text-muted-foreground'
+                      n.severity === 'high' ? 'text-primary' : 'text-muted-foreground'
                     }`} />
                     <div className="flex-1">
                       <p className="text-sm font-semibold">{n.title}</p>
@@ -402,14 +402,14 @@ export default function BusinessAttentionCentre() {
             <Card><CardContent className="p-8 text-center text-muted-foreground">No pending approvals</CardContent></Card>
           ) : (
             approvals.map(a => (
-              <Card key={a.id} className="border-amber-500/30 bg-amber-500/5">
+              <Card key={a.id} className="border-primary/30 bg-primary/5">
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3 justify-between flex-wrap">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-semibold">{a.action_title}</p>
                       {a.action_description && <p className="text-xs text-muted-foreground mt-1">{a.action_description.substring(0, 200)}</p>}
                       <div className="flex gap-2 mt-2 flex-wrap">
-                        <Badge className="bg-amber-500/20 text-amber-300 text-xs">{a.risk_level}</Badge>
+                        <Badge className="bg-primary/20 text-primary text-xs">{a.risk_level}</Badge>
                         <Badge variant="outline" className="text-xs">{a.agent_name}</Badge>
                       </div>
                     </div>

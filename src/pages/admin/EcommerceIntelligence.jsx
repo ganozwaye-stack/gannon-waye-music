@@ -10,16 +10,16 @@ import ReactMarkdown from 'react-markdown';
 const AGENTS = [
   { id: 'product_research', label: 'Product Research', icon: Package, color: 'text-blue-400', prompt: 'Generate 5 winning product research insights for a music artist merchandise store. Focus on: trending fan products, emotional connection items, limited edition ideas, bundle opportunities. Include: product concept, target fan, emotional hook, estimated margin, difficulty to source, viral potential score (1-10).' },
   { id: 'pricing_strategy', label: 'Pricing Strategy', icon: TrendingUp, color: 'text-green-400', prompt: 'Analyse optimal pricing strategy for a music artist merchandise store selling: t-shirts ($49), hoodies ($89), CDs ($22.95), accessories. Suggest: price anchoring tactics, bundle pricing, premium tier pricing, psychological price points, upsell sequences, scarcity pricing.' },
-  { id: 'conversion', label: 'Conversion Optimizer', icon: Star, color: 'text-yellow-400', prompt: 'Identify 10 conversion optimization opportunities for a music artist ecommerce store. Focus on: checkout friction, trust signals, social proof, scarcity tactics, copy improvements, CTA optimization, mobile experience, abandoned cart recovery. Rate each by impact (1-10) and implementation difficulty (1-10).' },
+  { id: 'conversion', label: 'Conversion Optimizer', icon: Star, color: 'text-primary', prompt: 'Identify 10 conversion optimization opportunities for a music artist ecommerce store. Focus on: checkout friction, trust signals, social proof, scarcity tactics, copy improvements, CTA optimization, mobile experience, abandoned cart recovery. Rate each by impact (1-10) and implementation difficulty (1-10).' },
   { id: 'upsell', label: 'Upsell & Bundle', icon: Zap, color: 'text-purple-400', prompt: 'Design a premium upsell and bundle strategy for a music artist merchandise store. Products include: CDs, t-shirts, hoodies, accessories. Create: bundle names, bundle pricing, upsell sequences, cross-sell triggers, post-purchase offers, loyalty rewards. Focus on increasing average order value.' },
   { id: 'retention', label: 'Retention System', icon: CheckCircle2, color: 'text-cyan-400', prompt: 'Design a customer retention and loyalty system for a music artist\'s fan store. Include: post-purchase email sequence, loyalty milestones, exclusive access tiers, VIP offers, win-back campaigns, community touchpoints, anniversary triggers. Focus on lifetime value and emotional connection.' },
   { id: 'hooks', label: 'Product Hooks & Copy', icon: TrendingUp, color: 'text-pink-400', prompt: 'Write 10 powerful product hook lines and ad copy angles for a music artist merchandise store. Style: authentic, emotional, premium, LGBTQIA+ inclusive. For each include: hook line, sub-copy, CTA, target emotion, estimated resonance score (1-10).' },
 ];
 
 const RULE_BANNER = (
-  <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
-    <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
-    <p className="text-yellow-300 text-xs">
+  <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
+    <Shield className="w-4 h-4 text-primary shrink-0" />
+    <p className="text-primary text-xs">
       <strong>Safety Rule Active:</strong> No agent may order products, spend money, launch ads, change prices, issue refunds, or modify payment settings without explicit approval.
     </p>
   </div>

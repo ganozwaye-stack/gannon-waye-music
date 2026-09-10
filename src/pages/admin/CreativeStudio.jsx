@@ -79,7 +79,7 @@ export default function CreativeStudio() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="bg-secondary/40 border border-border/40 grid grid-cols-2 md:grid-cols-4 gap-1.5 p-1 h-auto">
           <TabsTrigger value="ai-generator" className="text-xs py-2"><Sparkles className="w-3.5 h-3.5 mr-1 text-primary" /> AI Generator</TabsTrigger>
-          <TabsTrigger value="nova-prompts" className="text-xs py-2"><Cpu className="w-3.5 h-3.5 mr-1 text-yellow-400" /> Nova Prompt Bank</TabsTrigger>
+          <TabsTrigger value="nova-prompts" className="text-xs py-2"><Cpu className="w-3.5 h-3.5 mr-1 text-primary" /> Nova Prompt Bank</TabsTrigger>
           <TabsTrigger value="governance" className="text-xs py-2"><ShieldAlert className="w-3.5 h-3.5 mr-1 text-red-500" /> Identity Rules</TabsTrigger>
           <TabsTrigger value="quick-links" className="text-xs py-2"><Palette className="w-3.5 h-3.5 mr-1" /> Studio Tools</TabsTrigger>
         </TabsList>

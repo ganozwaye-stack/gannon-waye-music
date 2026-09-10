@@ -248,8 +248,8 @@ export default function TikTokScreenGuide() {
         ))}
       </div>
 
-      <div className="border border-amber-500/30 bg-amber-500/5 rounded-lg p-4 text-sm">
-        <p className="font-semibold text-amber-300 mb-1">📋 Instructions</p>
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-4 text-sm">
+        <p className="font-semibold text-primary mb-1">📋 Instructions</p>
         <p className="text-foreground/80">Record at <strong>gannonwaye.com</strong> — not the Base44 editor preview. Record WITHOUT audio first. After recording, import into CapCut and add voiceover using the script below. Part 8 is required for TikTok Developer review.</p>
       </div>
 

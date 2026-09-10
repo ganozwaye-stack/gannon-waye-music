@@ -57,7 +57,7 @@ export default function LegalDrafts() {
       <div>
         <h1 className="font-display text-3xl text-foreground">Legal Drafts</h1>
         <p className="font-body text-sm text-muted-foreground mt-1">
-          Draft legal communications. <strong className="text-yellow-400">Do not send without Gannon's explicit approval.</strong>
+          Draft legal communications. <strong className="text-primary">Do not send without Gannon's explicit approval.</strong>
         </p>
       </div>
 
@@ -80,7 +80,7 @@ export default function LegalDrafts() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Badge className="bg-yellow-500/15 text-yellow-400 border border-yellow-500/30 text-[10px]">
+            <Badge className="bg-primary/15 text-primary border border-primary/30 text-[10px]">
               DRAFT — NOT SENT
             </Badge>
             <Lock className="w-3.5 h-3.5 text-muted-foreground" />
@@ -104,8 +104,8 @@ export default function LegalDrafts() {
             </Button>
           </div>
 
-          <div className="mt-5 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4">
-            <p className="font-body text-xs text-yellow-300 font-medium mb-1">Actions required before sending:</p>
+          <div className="mt-5 bg-primary/10 border border-primary/20 rounded-xl p-4">
+            <p className="font-body text-xs text-primary font-medium mb-1">Actions required before sending:</p>
             <ul className="space-y-1">
               {[
                 'Review letter with Gannon for accuracy',
@@ -115,7 +115,7 @@ export default function LegalDrafts() {
                 'Send via email with read receipt if possible',
                 'Store sent copy in this admin section',
               ].map((item, i) => (
-                <li key={i} className="font-body text-xs text-yellow-300/80 flex items-start gap-1.5">
+                <li key={i} className="font-body text-xs text-primary/80 flex items-start gap-1.5">
                   <span className="shrink-0 mt-0.5">•</span> {item}
                 </li>
               ))}

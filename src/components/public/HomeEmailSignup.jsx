@@ -145,7 +145,7 @@ export default function HomeEmailSignup() {
                 type="checkbox"
                 checked={form.consent_updates}
                 onChange={event => setForm(current => ({ ...current, consent_updates: event.target.checked }))}
-                className="mt-0.5 accent-yellow-500"
+                className="mt-0.5 accent-primary"
               />
               <span className="font-body text-xs text-foreground/70 leading-relaxed">
                 I would like to receive music and merchandise updates from Gannon Waye. I can unsubscribe at any time.

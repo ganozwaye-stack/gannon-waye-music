@@ -93,7 +93,7 @@ export default function QuickUpload() {
       case 'image': return <ImageIcon className="w-5 h-5 text-blue-400" />;
       case 'audio': return <Music className="w-5 h-5 text-green-400" />;
       case 'video': return <Video className="w-5 h-5 text-purple-400" />;
-      default: return <File className="w-5 h-5 text-amber-400" />;
+      default: return <File className="w-5 h-5 text-primary" />;
     }
   };
 

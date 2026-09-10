@@ -71,11 +71,11 @@ export default function ApprovalCards() {
   const go = (item) => navigate(CATEGORY_ROUTES[item.category] || '/admin/approval-queue');
 
   return (
-    <div className="bg-card border border-amber-500/20 rounded-2xl p-5">
+    <div className="bg-card border border-primary/20 rounded-2xl p-5">
       <div className="flex items-center gap-2 mb-4">
-        <Shield className="w-4 h-4 text-amber-400" />
+        <Shield className="w-4 h-4 text-primary" />
         <h2 className="font-display text-lg text-foreground">Needs Your Approval</h2>
-        <span className="font-body text-xs text-amber-400/70 ml-auto">{items.length} waiting</span>
+        <span className="font-body text-xs text-primary/70 ml-auto">{items.length} waiting</span>
       </div>
 
       {items.length === 0 ? (
@@ -83,7 +83,7 @@ export default function ApprovalCards() {
       ) : (
         <div className="space-y-2.5">
           {items.map((item) => (
-            <div key={item.id} className="rounded-xl border border-amber-500/20 bg-amber-500/5 p-3.5 group">
+            <div key={item.id} className="rounded-xl border border-primary/20 bg-primary/5 p-3.5 group">
               <button type="button" onClick={() => go(item)} className="w-full text-left flex items-start gap-2.5 cursor-pointer">
                 <span className="text-base shrink-0">{CATEGORY_ICONS[item.category] || '📌'}</span>
                 <div className="flex-1 min-w-0">
@@ -92,10 +92,10 @@ export default function ApprovalCards() {
                     <p className="font-body text-xs text-muted-foreground mt-1 leading-relaxed">{item.description}</p>
                   )}
                   {item.next_action && (
-                    <p className="font-body text-xs text-amber-400/80 mt-2">→ {item.next_action}</p>
+                    <p className="font-body text-xs text-primary/80 mt-2">→ {item.next_action}</p>
                   )}
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-amber-400/50 group-hover:text-amber-400 shrink-0 mt-1 transition-colors" />
+                <ArrowRight className="w-3.5 h-3.5 text-primary/50 group-hover:text-primary shrink-0 mt-1 transition-colors" />
               </button>
               <div className="flex items-center gap-2 mt-2.5 pl-7">
                 <button

@@ -106,17 +106,17 @@ export default function AutonomousOps() {
       </div>
 
       {/* Safety Banner */}
-      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-start gap-3">
-        <Shield className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
-        <p className="text-yellow-300 text-xs"><strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — All financial, legal, publishing, pricing, and supplier actions are blocked from automatic execution. They go to ApprovalQueue.</p>
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-start gap-3">
+        <Shield className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+        <p className="text-primary text-xs"><strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — All financial, legal, publishing, pricing, and supplier actions are blocked from automatic execution. They go to ApprovalQueue.</p>
       </div>
 
       {/* Status Overview */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Loops Active', value: SCHEDULED_LOOPS.length, icon: Play, color: 'text-green-400', bg: 'bg-green-500/10' },
-          { label: 'Actions Today', value: todayAutoLogs.length, icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10' },
-          { label: 'Pending Approvals', value: pending.length, icon: Clock, color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+          { label: 'Actions Today', value: todayAutoLogs.length, icon: Zap, color: 'text-primary', bg: 'bg-primary/10' },
+          { label: 'Pending Approvals', value: pending.length, icon: Clock, color: 'text-primary', bg: 'bg-primary/10' },
           { label: 'Blocked Actions', value: blockedLogs.length, icon: XCircle, color: 'text-red-400', bg: 'bg-red-500/10' },
         ].map(s => (
           <Card key={s.label}>
@@ -184,8 +184,8 @@ export default function AutonomousOps() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <Clock className="w-4 h-4 text-yellow-400" />Pending Approvals
-              {pending.length > 0 && <Badge className="bg-yellow-500/10 text-yellow-400 ml-auto text-xs">{pending.length}</Badge>}
+              <Clock className="w-4 h-4 text-primary" />Pending Approvals
+              {pending.length > 0 && <Badge className="bg-primary/10 text-primary ml-auto text-xs">{pending.length}</Badge>}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 max-h-72 overflow-y-auto">
@@ -195,9 +195,9 @@ export default function AutonomousOps() {
                 <p className="text-sm text-muted-foreground">No pending approvals</p>
               </div>
             ) : pending.map(item => (
-              <div key={item.id} className="border border-yellow-500/20 rounded-lg p-3">
+              <div key={item.id} className="border border-primary/20 rounded-lg p-3">
                 <div className="flex items-center gap-2 mb-1">
-                  <Badge className="text-xs bg-yellow-500/10 text-yellow-400">{item.risk_level}</Badge>
+                  <Badge className="text-xs bg-primary/10 text-primary">{item.risk_level}</Badge>
                   <span className="text-xs text-muted-foreground">{item.agent_name}</span>
                 </div>
                 <p className="text-sm font-medium">{item.action_title}</p>
@@ -338,7 +338,7 @@ export default function AutonomousOps() {
           {logs.slice(0, 20).map(log => (
             <Link key={log.id} to="/admin/agent-task-log">
               <div className="flex items-start gap-3 p-2 border border-border rounded-lg text-xs hover:border-primary/40 hover:bg-secondary/30 transition-all cursor-pointer group">
-                <div className={`w-2 h-2 rounded-full mt-1 shrink-0 ${log.risk_check_result === 'pass' ? 'bg-green-400' : log.risk_check_result === 'blocked' ? 'bg-red-400' : 'bg-yellow-400'}`} />
+                <div className={`w-2 h-2 rounded-full mt-1 shrink-0 ${log.risk_check_result === 'pass' ? 'bg-green-400' : log.risk_check_result === 'blocked' ? 'bg-red-400' : 'bg-primary'}`} />
                 <div className="flex-1 min-w-0">
                   <p className="font-medium">{log.task_title}</p>
                   <div className="flex items-center gap-2 mt-0.5">

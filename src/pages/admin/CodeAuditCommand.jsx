@@ -19,7 +19,7 @@ const AUDIT_RESULTS = [
   { id: 'contact-3', category: 'route', severity: 'high', status: 'fixed', file: 'pages/ContactGannon', issue: 'Booking language removed from Contact page', detail: 'Changed to: For press enquiries, management, collaborations, or general contact' },
   { id: 'footer-1', category: 'route', severity: 'medium', status: 'fixed', file: 'components/public/Footer', issue: 'Footer booking language updated', detail: '"For bookings and enquiries" → "For press, management & enquiries"' },
   { id: 'footer-2', category: 'route', severity: 'low', status: 'fixed', file: 'components/public/Footer', issue: 'Footer tour heading updated', detail: '"Tour updates & new music" → "New music & community updates"' },
-  { id: 'colour-1', category: 'colour', severity: 'low', status: 'fixed', file: 'pages/StoreCheckout', issue: 'text-amber-400 found — replaced with text-primary/80', detail: 'Brand gold token applied' },
+  { id: 'colour-1', category: 'colour', severity: 'low', status: 'fixed', file: 'pages/StoreCheckout', issue: 'text-primary found — replaced with text-primary/80', detail: 'Brand gold token applied' },
   { id: 'colour-2', category: 'colour', severity: 'info', status: 'correct', file: 'index.css', issue: 'Gold token system verified', detail: '--primary: 40 85% 58% maps to brand gold. No raw yellow classes on public pages.' },
   { id: 'route-1', category: 'route', severity: 'high', status: 'fixed', file: 'App.jsx', issue: '/bookings redirected to home', detail: 'Navigate to "/" replace — public bookings hidden' },
   { id: 'route-2', category: 'route', severity: 'high', status: 'fixed', file: 'App.jsx', issue: '/tour redirected to home', detail: 'Navigate to "/" replace — public tour hidden' },

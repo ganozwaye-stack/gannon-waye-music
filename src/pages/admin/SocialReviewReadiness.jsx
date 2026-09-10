@@ -139,8 +139,8 @@ const REVIEW_PLATFORMS = [
   },
 ];
 
-const readinessColor = (r) => r >= 75 ? 'text-green-400' : r >= 40 ? 'text-yellow-400' : 'text-red-400';
-const readinessBg = (r) => r >= 75 ? 'bg-green-500' : r >= 40 ? 'bg-yellow-500' : 'bg-red-500';
+const readinessColor = (r) => r >= 75 ? 'text-green-400' : r >= 40 ? 'text-primary' : 'text-red-400';
+const readinessBg = (r) => r >= 75 ? 'bg-green-500' : r >= 40 ? 'bg-primary' : 'bg-red-500';
 
 export default function SocialReviewReadiness() {
   const { toast } = useToast();
@@ -227,7 +227,7 @@ export default function SocialReviewReadiness() {
               </div>
 
               <div>
-                <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1"><Camera className="w-3 h-3 text-yellow-400" /> Required in Demo Recording</p>
+                <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1"><Camera className="w-3 h-3 text-primary" /> Required in Demo Recording</p>
                 <ul className="space-y-0.5">{selected.requiredDemos.map((d, i) => <li key={i} className="text-xs">• {d}</li>)}</ul>
               </div>
 

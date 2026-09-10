@@ -218,12 +218,12 @@ export default function ChatGPTCodeReviewExport() {
         </div>
       </div>
 
-      <Card className="border-yellow-500/30 bg-yellow-500/5">
+      <Card className="border-primary/30 bg-primary/5">
         <CardContent className="p-4 text-sm flex items-start gap-3">
-          <AlertTriangle className="w-4 h-4 text-yellow-300 shrink-0 mt-0.5" />
+          <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-yellow-200">Base44 does not support ZIP export of source code.</p>
-            <p className="text-yellow-100/80 mt-1">Use this guide to manually copy files from the Base44 builder and paste into your review tool. The manifest JSON provides the full file structure. Secret values are NEVER included.</p>
+            <p className="font-semibold text-primary">Base44 does not support ZIP export of source code.</p>
+            <p className="text-primary/80 mt-1">Use this guide to manually copy files from the Base44 builder and paste into your review tool. The manifest JSON provides the full file structure. Secret values are NEVER included.</p>
           </div>
         </CardContent>
       </Card>

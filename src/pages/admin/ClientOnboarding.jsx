@@ -33,8 +33,8 @@ const ONBOARDING_PHASES = [
   },
   {
     phase: 'Phase 3 — Training (Week 3)',
-    color: 'border-amber-500/30 bg-amber-500/5',
-    badge: 'bg-amber-500/10 text-amber-400',
+    color: 'border-primary/30 bg-primary/5',
+    badge: 'bg-primary/10 text-primary',
     steps: [
       'Walk client through Notifications dashboard',
       'Train them on ApprovalQueue (what to approve, what to reject)',

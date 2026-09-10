@@ -140,9 +140,9 @@ export default function BusinessProfileSettingsPage() {
         <div key={group.title} className="space-y-3">
           <h2 className="text-sm font-semibold text-foreground border-b border-border pb-2">{group.title}</h2>
           {group.warning && (
-            <div className="flex gap-2 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
-              <AlertTriangle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
-              <p className="text-xs text-yellow-200/80">{group.warning}</p>
+            <div className="flex gap-2 p-3 rounded-lg bg-primary/10 border border-primary/20">
+              <AlertTriangle className="w-4 h-4 text-primary flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-primary/80">{group.warning}</p>
             </div>
           )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">

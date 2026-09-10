@@ -107,12 +107,12 @@ const CAPABILITY_COLOR = {
   score: 'bg-cyan-500/20 text-cyan-400',
   summarise: 'bg-slate-500/20 text-slate-300',
   draft: 'bg-green-500/20 text-green-400',
-  notify_internally: 'bg-yellow-500/20 text-yellow-400',
+  notify_internally: 'bg-primary/20 text-primary',
   create_approval_items: 'bg-orange-500/20 text-orange-400',
   update_dashboards: 'bg-pink-500/20 text-pink-400',
 };
 
-const ROI_COLOR = (n) => n >= 9 ? 'text-green-400' : n >= 7 ? 'text-yellow-400' : 'text-red-400';
+const ROI_COLOR = (n) => n >= 9 ? 'text-green-400' : n >= 7 ? 'text-primary' : 'text-red-400';
 
 export default function AgentCapabilityMatrix() {
   const navigate = useNavigate();
@@ -137,7 +137,7 @@ export default function AgentCapabilityMatrix() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Card><CardContent className="p-4"><p className="text-2xl font-bold text-primary">{AGENTS.length}</p><p className="text-xs text-muted-foreground">Total Agents</p></CardContent></Card>
         <Card><CardContent className="p-4"><p className="text-2xl font-bold text-green-400">{AGENTS.filter(a=>a.roi>=9).length}</p><p className="text-xs text-muted-foreground">ROI Score 9+</p></CardContent></Card>
-        <Card><CardContent className="p-4"><p className="text-2xl font-bold text-yellow-400">{[...new Set(AGENTS.flatMap(a=>a.capabilities))].length}</p><p className="text-xs text-muted-foreground">Unique Capabilities</p></CardContent></Card>
+        <Card><CardContent className="p-4"><p className="text-2xl font-bold text-primary">{[...new Set(AGENTS.flatMap(a=>a.capabilities))].length}</p><p className="text-xs text-muted-foreground">Unique Capabilities</p></CardContent></Card>
         <Card><CardContent className="p-4"><p className="text-2xl font-bold text-red-400">{[...new Set(AGENTS.flatMap(a=>a.blocked))].length}</p><p className="text-xs text-muted-foreground">Blocked Actions</p></CardContent></Card>
       </div>
 

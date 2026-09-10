@@ -15,7 +15,7 @@ import { format } from 'date-fns';
 import { toast } from 'sonner';
 
 const ENGINES = [
-  { to: '/admin/revenue-actions', icon: Zap, label: 'Revenue Actions', desc: 'Agent proposals awaiting approval', color: 'text-yellow-400', key: 'proposals' },
+  { to: '/admin/revenue-actions', icon: Zap, label: 'Revenue Actions', desc: 'Agent proposals awaiting approval', color: 'text-primary', key: 'proposals' },
   { to: '/admin/approval-queue', icon: CheckCircle2, label: 'Approval Queue', desc: 'All items requiring your decision', color: 'text-green-400', key: 'approvals' },
   { to: '/admin/business-attention-centre', icon: AlertTriangle, label: 'Business Attention Centre', desc: 'Critical alerts and actions', color: 'text-red-400', key: 'alerts' },
   { to: '/admin/growth-engine', icon: TrendingUp, label: 'Growth Engine', desc: 'TikTok, social, and audience growth', color: 'text-blue-400', key: 'growth' },
@@ -41,7 +41,7 @@ const INCOME_SOURCES = [
   { label: 'Merch Store Orders', value: 'Stripe + MerchOrder', route: '/admin/orders', color: 'text-green-400' },
   { label: 'Supporter Contributions', value: 'Back This + SupportContribution', route: '/admin/supporters', color: 'text-blue-400' },
   { label: 'Bookings / Sessions', value: 'BookingEnquiry', route: '/admin/mastering', color: 'text-purple-400' },
-  { label: 'Mastering Projects', value: 'MasteringProject', route: '/admin/mastering', color: 'text-yellow-400' },
+  { label: 'Mastering Projects', value: 'MasteringProject', route: '/admin/mastering', color: 'text-primary' },
   { label: 'Bundle Offers', value: 'BundleOffer', route: '/admin/revenue-actions', color: 'text-orange-400' },
   { label: 'Promo Codes (Cost)', value: 'PromoCode usage', route: '/admin/promo-codes', color: 'text-red-400' },
   { label: 'Email Subscribers', value: 'EmailSubscriber', route: '/admin/subscribers', color: 'text-cyan-400' },
@@ -64,7 +64,7 @@ function OpportunityCard({ opp, onClick }) {
           {opp.estimated_revenue_impact && <p className="text-xs text-primary mt-0.5">💰 {opp.estimated_revenue_impact}</p>}
         </div>
         <div className="flex flex-col items-end gap-1 shrink-0">
-          {opp.viral_probability && <span className="text-xs text-yellow-400">Viral: {opp.viral_probability}/10</span>}
+          {opp.viral_probability && <span className="text-xs text-primary">Viral: {opp.viral_probability}/10</span>}
           <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary" />
         </div>
       </div>
@@ -91,7 +91,7 @@ function OpportunityDetail({ opp, onClose }) {
           {opp.cta_strategy && <div><p className="text-xs font-semibold text-muted-foreground mb-1">CTA Strategy</p><p>{opp.cta_strategy}</p></div>}
           <div className="grid grid-cols-3 gap-3">
             <div className="bg-secondary/30 rounded-lg p-3 text-center">
-              <p className="text-lg font-bold text-yellow-400">{opp.viral_probability}/10</p>
+              <p className="text-lg font-bold text-primary">{opp.viral_probability}/10</p>
               <p className="text-xs text-muted-foreground">Viral Probability</p>
             </div>
             <div className="bg-secondary/30 rounded-lg p-3 text-center">
@@ -171,7 +171,7 @@ export default function IntelligenceToIncome() {
         <Link to="/admin/revenue-actions">
           <Card className="hover:border-primary/40 cursor-pointer">
             <CardContent className="p-4">
-              <p className="text-2xl font-bold text-yellow-400">{proposals.length}</p>
+              <p className="text-2xl font-bold text-primary">{proposals.length}</p>
               <p className="text-xs text-muted-foreground">Pending Revenue Actions</p>
             </CardContent>
           </Card>

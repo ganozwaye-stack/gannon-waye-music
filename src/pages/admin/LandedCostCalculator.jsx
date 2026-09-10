@@ -118,7 +118,7 @@ export default function LandedCostCalculator() {
                 {row('Total Order Cost', `$${totalCost.toFixed(2)}`, 'text-primary')}
                 {row('Quantity', qty)}
                 {row('Landed Cost / Unit', `$${perUnit.toFixed(2)}`, 'text-green-400 text-base')}
-                {row('Cash Tied in Stock', `$${(perUnit * qty).toFixed(2)}`, 'text-amber-400')}
+                {row('Cash Tied in Stock', `$${(perUnit * qty).toFixed(2)}`, 'text-primary')}
               </div>
             </CardContent>
           </Card>
@@ -128,7 +128,7 @@ export default function LandedCostCalculator() {
               <CardHeader className="pb-2"><CardTitle className="text-sm">Profit Analysis at ${sellPrice.toFixed(2)}</CardTitle></CardHeader>
               <CardContent>
                 {row('Gross Profit / Unit', `$${grossProfit.toFixed(2)}`, grossProfit > 0 ? 'text-green-400' : 'text-red-400')}
-                {row('Gross Margin', `${grossMargin.toFixed(1)}%`, grossMargin > 30 ? 'text-green-400' : grossMargin > 10 ? 'text-amber-400' : 'text-red-400')}
+                {row('Gross Margin', `${grossMargin.toFixed(1)}%`, grossMargin > 30 ? 'text-green-400' : grossMargin > 10 ? 'text-primary' : 'text-red-400')}
                 {row('Min Profitable Price (10% margin)', `$${minProfitable.toFixed(2)}`)}
                 {row('Recommended Retail (2.5×)', `$${recommended.toFixed(2)}`, 'text-primary')}
                 {breakEven > 0 && row('Break-even Units', breakEven)}
@@ -144,7 +144,7 @@ export default function LandedCostCalculator() {
                 = ${totalCost.toFixed(2)} ÷ {qty} = <strong>${perUnit.toFixed(2)}</strong>
               </p>
               {f('shipping_cost_aud') === 0 && (
-                <p className="text-xs text-amber-400 mt-2">⚠️ Shipping not entered — result is PRELIMINARY</p>
+                <p className="text-xs text-primary mt-2">⚠️ Shipping not entered — result is PRELIMINARY</p>
               )}
             </CardContent>
           </Card>

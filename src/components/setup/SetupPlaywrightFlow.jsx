@@ -56,7 +56,7 @@ export default function SetupPlaywrightFlow({ onComplete, onBlocked }) {
         <div className="flex items-center gap-2 mb-1">
           <span className="text-xl">🧪</span>
           <h2 className="font-semibold text-lg">Playwright Browser QA</h2>
-          <Badge className="ml-auto bg-amber-500/20 text-amber-300 border-amber-500/30">High Priority</Badge>
+          <Badge className="ml-auto bg-primary/20 text-primary border-primary/30">High Priority</Badge>
         </div>
         <p className="text-sm text-muted-foreground">Cannot auto-run from inside the app. Must be run from your terminal against the live site. Results can be imported here.</p>
       </div>
@@ -98,7 +98,7 @@ export default function SetupPlaywrightFlow({ onComplete, onBlocked }) {
                         results[item.id] === val
                           ? val === 'passed' ? 'bg-green-500 text-white'
                             : val === 'failed' ? 'bg-red-500 text-white'
-                            : 'bg-amber-500 text-white'
+                            : 'bg-primary text-white'
                           : 'bg-secondary text-muted-foreground hover:bg-secondary/80'
                       }`}
                     >

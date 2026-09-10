@@ -137,7 +137,7 @@ const META_POSITIONING = `Official Gannon Waye creator workflow for content draf
 
 function cls(status) {
   if (status.includes('Fix')) return 'bg-red-500/20 text-red-300 border-red-500/30';
-  if (status.includes('Needs')) return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+  if (status.includes('Needs')) return 'bg-primary/20 text-primary border-primary/30';
   if (status.includes('Manual')) return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
   return 'bg-secondary text-muted-foreground border-border';
 }
@@ -176,7 +176,7 @@ export default function SocialDistributionReadiness() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
         {[
           ['TikTok fix', 'Remove unused scopes/products', 'text-red-300'],
-          ['Meta setup', 'Prepare OAuth and app review', 'text-yellow-300'],
+          ['Meta setup', 'Prepare OAuth and app review', 'text-primary'],
           ['Distribution', 'Ask Too Lost for official API/export path', 'text-blue-300'],
           ['Safety rule', 'No auto-posting or paid usage without approval', 'text-green-300'],
         ].map(([label, value, color]) => (

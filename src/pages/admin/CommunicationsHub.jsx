@@ -16,10 +16,10 @@ const COMMUNICATION_SOURCES = [
   { key: 'fanposts', label: 'Fan Posts', entity: 'FanPost', icon: MessageCircle, color: 'text-purple-400', bg: 'bg-purple-500/10', route: '/admin/fan-media' },
   { key: 'fanmedia', label: 'Fan Media', entity: 'FanMedia', icon: Video, color: 'text-indigo-400', bg: 'bg-indigo-500/10', route: '/admin/fan-media' },
   { key: 'fancomments', label: 'Fan Comments', entity: 'FanComment', icon: MessageCircle, color: 'text-cyan-400', bg: 'bg-cyan-500/10', route: '/admin/fans' },
-  { key: 'bookings', label: 'Booking Enquiries', entity: 'BookingEnquiry', icon: Calendar, color: 'text-amber-400', bg: 'bg-amber-500/10', route: '/admin/coaching-leads' },
+  { key: 'bookings', label: 'Booking Enquiries', entity: 'BookingEnquiry', icon: Calendar, color: 'text-primary', bg: 'bg-primary/10', route: '/admin/coaching-leads' },
   { key: 'leads', label: 'Coaching Leads', entity: 'CoachingLead', icon: Users, color: 'text-orange-400', bg: 'bg-orange-500/10', route: '/admin/coaching-leads' },
   { key: 'intakes', label: 'Coaching Intakes', entity: 'CoachingIntake', icon: BookOpen, color: 'text-teal-400', bg: 'bg-teal-500/10', route: '/admin/coaching-intakes' },
-  { key: 'feedback', label: 'Merch Feedback', entity: 'MerchFeedback', icon: Star, color: 'text-yellow-400', bg: 'bg-yellow-500/10', route: '/admin/merch-feedback' },
+  { key: 'feedback', label: 'Merch Feedback', entity: 'MerchFeedback', icon: Star, color: 'text-primary', bg: 'bg-primary/10', route: '/admin/merch-feedback' },
   { key: 'reviews', label: 'Product Reviews', entity: 'ProductReview', icon: Star, color: 'text-lime-400', bg: 'bg-lime-500/10', route: '/admin/merch' },
   { key: 'interest', label: 'Merch Interest', entity: 'MerchInterest', icon: Package, color: 'text-rose-400', bg: 'bg-rose-500/10', route: '/admin/merch' },
   { key: 'giftclaims', label: 'Gift Claims', entity: 'GiftClaim', icon: Gift, color: 'text-violet-400', bg: 'bg-violet-500/10', route: '/admin/gift-claims' },
@@ -80,7 +80,7 @@ function StatCard({ source, count, latest }) {
 function PriorityItem({ icon: Icon, title, desc, action, route, priority }) {
   const priorityColors = {
     high: 'border-red-500/30 bg-red-500/5',
-    medium: 'border-amber-500/30 bg-amber-500/5',
+    medium: 'border-primary/30 bg-primary/5',
     low: 'border-blue-500/30 bg-blue-500/5',
   };
   return (
@@ -108,7 +108,7 @@ function RevenueIdeaCard({ idea }) {
   const Icon = idea.icon;
   const priorityColors = {
     high: 'border-red-500/30 bg-red-500/5',
-    medium: 'border-amber-500/30 bg-amber-500/5',
+    medium: 'border-primary/30 bg-primary/5',
     low: 'border-blue-500/30 bg-blue-500/5',
   };
   return (
@@ -215,7 +215,7 @@ export default function CommunicationsHub() {
         {/* LEFT: Priority Items */}
         <div className="space-y-4">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-amber-400" />
+            <AlertTriangle className="w-4 h-4 text-primary" />
             <h2 className="font-display text-lg text-foreground">Priority Actions</h2>
             <span className="font-body text-xs text-muted-foreground">— Do these first</span>
           </div>
@@ -272,7 +272,7 @@ export default function CommunicationsHub() {
       {/* Automation Recommendations */}
       <div className="bg-card border border-border/40 rounded-2xl p-5">
         <div className="flex items-center gap-2 mb-4">
-          <Zap className="w-4 h-4 text-amber-400" />
+          <Zap className="w-4 h-4 text-primary" />
           <h2 className="font-display text-lg text-foreground">Automation Recommendations</h2>
           <span className="font-body text-xs text-muted-foreground">— Systems to install</span>
         </div>
@@ -283,7 +283,7 @@ export default function CommunicationsHub() {
               <div key={i} className="rounded-xl border border-border/40 bg-secondary/10 p-4 hover:border-primary/30 transition-colors group">
                 <div className="flex items-center justify-between mb-2">
                   <div className="w-8 h-8 rounded-lg bg-card/60 border border-border/30 flex items-center justify-center">
-                    <Icon className="w-4 h-4 text-amber-400" />
+                    <Icon className="w-4 h-4 text-primary" />
                   </div>
                   <span className="font-body text-[9px] text-muted-foreground uppercase tracking-wider">{suggestion.impact}</span>
                 </div>

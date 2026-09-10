@@ -59,7 +59,7 @@ export default function LinkIntegrityAudit() {
   const getStatusBadge = (status) => {
     switch (status) {
       case 'ok': return <Badge variant="outline" className="text-green-400 border-green-500/30 bg-green-500/5 gap-1 uppercase text-[9px]"><CheckCircle2 className="w-3 h-3" /> Clean</Badge>;
-      case 'warning': return <Badge variant="outline" className="text-yellow-400 border-yellow-500/30 bg-yellow-500/5 gap-1 uppercase text-[9px]"><AlertTriangle className="w-3 h-3" /> Warning</Badge>;
+      case 'warning': return <Badge variant="outline" className="text-primary border-primary/30 bg-primary/5 gap-1 uppercase text-[9px]"><AlertTriangle className="w-3 h-3" /> Warning</Badge>;
       default: return <Badge variant="outline" className="text-red-400 border-red-500/30 bg-red-500/5 gap-1 uppercase text-[9px]"><XCircle className="w-3 h-3" /> Broken</Badge>;
     }
   };

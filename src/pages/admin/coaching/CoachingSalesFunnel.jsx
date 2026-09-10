@@ -25,7 +25,7 @@ export default function CoachingSalesFunnel() {
         </div>
       </div>
 
-      <div className="flex items-center gap-2 bg-yellow-500/5 border border-yellow-500/20 rounded-xl p-3 text-xs text-yellow-300/80">
+      <div className="flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-xl p-3 text-xs text-primary/80">
         <Lock className="w-3.5 h-3.5 shrink-0" />
         This funnel is planned but not active. No traffic, no clients, no conversions yet.
       </div>

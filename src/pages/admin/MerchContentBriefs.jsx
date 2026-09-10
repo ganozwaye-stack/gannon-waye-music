@@ -463,10 +463,10 @@ export default function MerchContentBriefs() {
       </div>
 
       {/* Safety notice */}
-      <div className="flex items-start gap-3 p-3 rounded-xl border border-amber-500/30 bg-amber-500/5">
-        <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+      <div className="flex items-start gap-3 p-3 rounded-xl border border-primary/30 bg-primary/5">
+        <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <p className="font-body text-xs text-muted-foreground">
-          <strong className="text-amber-400">Approval-gated.</strong> No content is posted automatically. Use "Send to Approval Queue" on each brief, then approve at{' '}
+          <strong className="text-primary">Approval-gated.</strong> No content is posted automatically. Use "Send to Approval Queue" on each brief, then approve at{' '}
           <Link to="/admin/approval-queue" className="text-primary underline underline-offset-2">/admin/approval-queue</Link>{' '}
           before scheduling in Metricool.
         </p>

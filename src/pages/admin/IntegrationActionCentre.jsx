@@ -161,7 +161,7 @@ const OPTIONAL = [
   { name: 'Facebook/Meta API', note: 'Covered partially by Instagram Graph API setup. Full Facebook Page API requires app review which can take weeks.', url: 'https://developers.facebook.com' },
 ];
 
-const PRIORITY_COLOR = { high: 'text-red-400 bg-red-500/10 border-red-500/30', medium: 'text-yellow-400 bg-yellow-500/10 border-yellow-500/30', low: 'text-blue-400 bg-blue-500/10 border-blue-500/30' };
+const PRIORITY_COLOR = { high: 'text-red-400 bg-red-500/10 border-red-500/30', medium: 'text-primary bg-primary/10 border-primary/30', low: 'text-blue-400 bg-blue-500/10 border-blue-500/30' };
 
 export default function IntegrationActionCentre() {
   const [gmailConnecting, setGmailConnecting] = useState(false);
@@ -186,20 +186,20 @@ export default function IntegrationActionCentre() {
       </div>
 
       {/* ── GMAIL CRITICAL BANNER ── */}
-      <div className="border-2 border-amber-500/60 bg-amber-500/10 rounded-2xl p-5">
+      <div className="border-2 border-primary/60 bg-primary/10 rounded-2xl p-5">
         <div className="flex items-start gap-3 mb-4">
-          <XCircle className="w-6 h-6 text-amber-400 shrink-0 mt-0.5" />
+          <XCircle className="w-6 h-6 text-primary shrink-0 mt-0.5" />
           <div className="flex-1">
             <div className="flex items-center gap-2 flex-wrap mb-1">
-              <h2 className="font-bold text-amber-300 text-base">🔴 HUMAN ACTION REQUIRED — Gmail Not Connected</h2>
+              <h2 className="font-bold text-primary text-base">🔴 HUMAN ACTION REQUIRED — Gmail Not Connected</h2>
               <span className="text-[10px] bg-red-500/20 text-red-400 border border-red-500/30 rounded px-1.5 py-0.5 font-bold uppercase">Critical</span>
             </div>
-            <p className="text-sm text-amber-200/80 mb-1">{GMAIL_CRITICAL.why}</p>
+            <p className="text-sm text-primary/80 mb-1">{GMAIL_CRITICAL.why}</p>
             <p className="text-xs text-red-300/80 font-medium mb-3">💸 {GMAIL_CRITICAL.money_impact}</p>
             <ol className="space-y-1 mb-4">
               {GMAIL_CRITICAL.steps.map((step, i) => (
-                <li key={i} className="flex gap-2 text-xs text-amber-200/70">
-                  <span className="text-amber-400 font-bold shrink-0">{i + 1}.</span>
+                <li key={i} className="flex gap-2 text-xs text-primary/70">
+                  <span className="text-primary font-bold shrink-0">{i + 1}.</span>
                   <span>{step}</span>
                 </li>
               ))}
@@ -210,7 +210,7 @@ export default function IntegrationActionCentre() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button className="bg-amber-500 hover:bg-amber-400 text-black font-bold gap-2 text-sm">
+                <Button className="bg-primary hover:bg-primary text-black font-bold gap-2 text-sm">
                   <Mail className="w-4 h-4" />
                   Connect Gmail Now →
                 </Button>
@@ -220,7 +220,7 @@ export default function IntegrationActionCentre() {
                 Status: NOT CONNECTED
               </div>
             </div>
-            <p className="text-[10px] text-amber-300/50 mt-3">
+            <p className="text-[10px] text-primary/50 mt-3">
               To connect Gmail: go to Base44 Dashboard → App Settings → Connectors → Gmail → Authorize with ganozwaye@gmail.com
             </p>
           </div>
@@ -264,9 +264,9 @@ export default function IntegrationActionCentre() {
       </Card>
 
       {/* Gannon must action */}
-      <Card className="border-yellow-500/20">
+      <Card className="border-primary/20">
         <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2 text-yellow-400">
+          <CardTitle className="text-base flex items-center gap-2 text-primary">
             <AlertTriangle className="w-4 h-4" />Needs Your Action — Direct Links ({GANNON_MUST_DO.length})
           </CardTitle>
           <p className="text-xs text-muted-foreground">These require you to log into external platforms. Click the link, follow the steps, then add the key to Base44 Settings → Secrets.</p>
@@ -306,7 +306,7 @@ export default function IntegrationActionCentre() {
               </div>
 
               {item.note && (
-                <p className="text-xs text-yellow-300/70 mt-2 bg-yellow-500/5 rounded p-2">{item.note}</p>
+                <p className="text-xs text-primary/70 mt-2 bg-primary/5 rounded p-2">{item.note}</p>
               )}
             </div>
           ))}

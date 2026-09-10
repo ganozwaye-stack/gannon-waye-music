@@ -18,7 +18,7 @@ const ASSET_TYPES = [
   { value: 'image', label: 'Image', icon: Image, color: 'text-blue-400' },
   { value: 'audio', label: 'Audio', icon: Music, color: 'text-green-400' },
   { value: 'thumbnail', label: 'Thumbnail', icon: Image, color: 'text-purple-400' },
-  { value: 'b_roll', label: 'B-Roll', icon: Film, color: 'text-amber-400' },
+  { value: 'b_roll', label: 'B-Roll', icon: Film, color: 'text-primary' },
   { value: 'story_template', label: 'Story Template', icon: FileText, color: 'text-cyan-400' },
   { value: 'other', label: 'Other', icon: Folder, color: 'text-muted-foreground' },
 ];
@@ -315,7 +315,7 @@ function CsvImportPanel({ onImported }) {
       </CardHeader>
       <CardContent className="space-y-3">
         <p className="font-body text-xs text-muted-foreground">Accepted columns: <code className="bg-secondary/60 px-1 rounded">filename, file_path, folder, extension, size, asset_type, suggested_use, sensitive</code></p>
-        <p className="font-body text-xs text-amber-400 flex items-center gap-1.5"><ShieldAlert className="w-3 h-3" /> Files with <code className="bg-secondary/60 px-1 rounded">sensitive=true</code> are blocked from agent use until manually approved.</p>
+        <p className="font-body text-xs text-primary flex items-center gap-1.5"><ShieldAlert className="w-3 h-3" /> Files with <code className="bg-secondary/60 px-1 rounded">sensitive=true</code> are blocked from agent use until manually approved.</p>
         <input ref={fileRef} type="file" accept=".csv" onChange={handleFileChange}
           className="w-full font-body text-xs text-muted-foreground file:mr-2 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-xs file:bg-secondary file:text-foreground cursor-pointer" />
         {preview && (
@@ -385,7 +385,7 @@ export default function SocialAssetLibrary() {
         {[
           { label: 'Total Assets', value: assets.length, color: 'text-blue-400' },
           { label: 'Ready to Use', value: ready, color: 'text-green-400' },
-          { label: 'Raw / Untagged', value: raw, color: 'text-amber-400' },
+          { label: 'Raw / Untagged', value: raw, color: 'text-primary' },
         ].map(s => (
           <Card key={s.label}><CardContent className="p-4">
             <p className={`text-2xl font-bold font-display ${s.color}`}>{s.value}</p>

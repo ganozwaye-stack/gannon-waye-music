@@ -361,7 +361,7 @@ const MIGRATION_PHASES = [
 const STATUS_COLORS = {
   ready: 'bg-blue-500/15 text-blue-400 border-blue-500/30',
   not_started: 'bg-secondary text-muted-foreground border-border/30',
-  in_progress: 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30',
+  in_progress: 'bg-primary/15 text-primary border-primary/30',
   complete: 'bg-green-500/15 text-green-400 border-green-500/30',
 };
 
@@ -524,7 +524,7 @@ ${AGENTS.map(a => `// ${a}`).join('\n')}
             <div key={s.name} className="flex items-start gap-2 text-xs py-1">
               {s.critical ? <span className="text-red-400 shrink-0">●</span> : <span className="text-muted-foreground/30 shrink-0">○</span>}
               <code className="text-primary/70 shrink-0">{s.name}</code>
-              <span className="text-muted-foreground/60">— {s.desc} → <span className="text-yellow-400/70">{s.action}</span></span>
+              <span className="text-muted-foreground/60">— {s.desc} → <span className="text-primary/70">{s.action}</span></span>
             </div>
           ))}
         </div>
@@ -537,7 +537,7 @@ ${AGENTS.map(a => `// ${a}`).join('\n')}
             <div key={c.name} className="flex items-start gap-2 text-xs py-1">
               <span className="text-primary/70 shrink-0 font-medium">{c.name}</span>
               <span className="text-muted-foreground/50">scopes: {c.scopes}</span>
-              <span className="text-yellow-400/70 shrink-0">→ {c.action}</span>
+              <span className="text-primary/70 shrink-0">→ {c.action}</span>
             </div>
           ))}
         </div>

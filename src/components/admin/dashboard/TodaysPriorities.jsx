@@ -5,7 +5,7 @@ import { Flame, ArrowRight } from 'lucide-react';
 
 const PRIORITY_STYLES = {
   critical: { label: 'Critical', dot: 'bg-red-500', text: 'text-red-400', border: 'border-red-500/30' },
-  high: { label: 'High', dot: 'bg-amber-500', text: 'text-amber-400', border: 'border-amber-500/30' },
+  high: { label: 'High', dot: 'bg-primary', text: 'text-primary', border: 'border-primary/30' },
   medium: { label: 'Medium', dot: 'bg-blue-500', text: 'text-blue-400', border: 'border-blue-500/30' },
   low: { label: 'Low', dot: 'bg-muted-foreground', text: 'text-muted-foreground', border: 'border-border/40' },
 };

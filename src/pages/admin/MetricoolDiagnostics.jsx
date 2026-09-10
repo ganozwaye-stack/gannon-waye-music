@@ -132,14 +132,14 @@ export default function MetricoolDiagnostics() {
           </Card>
 
           {isFailed && (
-            <Card className="border-amber-500/30">
+            <Card className="border-primary/30">
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-amber-400" /> Likely Causes & Fixes</CardTitle>
+                <CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-primary" /> Likely Causes & Fixes</CardTitle>
               </CardHeader>
               <CardContent className="pt-0 space-y-3">
                 {LIKELY_CAUSES.map((c, i) => (
                   <div key={i} className="border border-border/30 rounded-lg p-3">
-                    <p className="text-sm font-medium text-amber-300">{c.cause}</p>
+                    <p className="text-sm font-medium text-primary">{c.cause}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{c.fix}</p>
                   </div>
                 ))}

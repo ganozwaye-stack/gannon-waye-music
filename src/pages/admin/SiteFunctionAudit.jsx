@@ -183,7 +183,7 @@ const AUDIT_DATA = [
 const STATUS_STYLE = {
   'Working': 'bg-green-500/15 text-green-300 border-green-500/30',
   'Fixed': 'bg-cyan-500/15 text-cyan-300 border-cyan-500/30',
-  'Partial': 'bg-yellow-500/15 text-yellow-300 border-yellow-500/30',
+  'Partial': 'bg-primary/15 text-primary border-primary/30',
   'Broken': 'bg-red-500/15 text-red-300 border-red-500/30',
 };
 
@@ -225,7 +225,7 @@ export default function SiteFunctionAudit() {
         {[
           { label: 'Total Pages', value: total, color: 'text-primary', filter: 'all' },
           { label: 'Working / Fixed', value: working, color: 'text-green-400', filter: 'Working' },
-          { label: 'Partial', value: partial, color: 'text-yellow-400', filter: 'Partial' },
+          { label: 'Partial', value: partial, color: 'text-primary', filter: 'Partial' },
           { label: 'Broken', value: broken, color: 'text-red-400', filter: 'Broken' },
           { label: 'Open Issues', value: totalIssues, color: 'text-orange-400', filter: 'all' },
         ].map(s => (
@@ -282,7 +282,7 @@ export default function SiteFunctionAudit() {
               <p className="text-xs text-primary font-mono">{p.route}</p>
             </div>
             {p.issues > 0 && (
-              <Badge className="bg-yellow-500/15 text-yellow-300 text-xs shrink-0">{p.issues} issue{p.issues > 1 ? 's' : ''}</Badge>
+              <Badge className="bg-primary/15 text-primary text-xs shrink-0">{p.issues} issue{p.issues > 1 ? 's' : ''}</Badge>
             )}
             <ChevronRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity shrink-0" />
           </div>
@@ -309,8 +309,8 @@ export default function SiteFunctionAudit() {
               <p className="text-sm">{selected.notes}</p>
             </div>
             {selected.issues > 0 && (
-              <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3">
-                <p className="text-xs text-yellow-400 mb-1">Open Issues: {selected.issues}</p>
+              <div className="border border-primary/30 bg-primary/5 rounded-lg p-3">
+                <p className="text-xs text-primary mb-1">Open Issues: {selected.issues}</p>
                 <p className="text-xs text-muted-foreground">See Operation Registry for specific operation-level fixes.</p>
               </div>
             )}

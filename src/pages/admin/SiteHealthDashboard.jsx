@@ -180,13 +180,13 @@ export default function SiteHealthDashboard() {
 
   const getStatusIcon = (status) => {
     if (status === TEST_RESULTS.PASS) return <CheckCircle2 className="w-4 h-4 text-green-500" />;
-    if (status === TEST_RESULTS.WARN) return <AlertTriangle className="w-4 h-4 text-yellow-500" />;
+    if (status === TEST_RESULTS.WARN) return <AlertTriangle className="w-4 h-4 text-primary" />;
     return <AlertCircle className="w-4 h-4 text-red-500" />;
   };
 
   const getHealthColor = (score) => {
     if (score === 100) return 'text-green-500';
-    if (score >= 80) return 'text-yellow-500';
+    if (score >= 80) return 'text-primary';
     return 'text-red-500';
   };
 
@@ -300,8 +300,8 @@ export default function SiteHealthDashboard() {
           </div>
 
           {results.backendError && (
-            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
-              <p className="font-display text-sm text-yellow-600 mb-1">Backend health function unavailable</p>
+            <div className="bg-primary/10 border border-primary/30 rounded-xl p-4">
+              <p className="font-display text-sm text-primary mb-1">Backend health function unavailable</p>
               <p className="font-body text-xs text-muted-foreground">
                 Fallback browser-side tests ran instead. Backend error: {results.backendError}
               </p>
@@ -318,9 +318,9 @@ export default function SiteHealthDashboard() {
               <p className="font-body text-xs tracking-widest uppercase text-green-500/70 mb-1">Passed</p>
               <p className="font-display text-2xl text-green-500">{results.passed}</p>
             </div>
-            <div className="bg-card border border-yellow-500/30 rounded-xl p-4">
-              <p className="font-body text-xs tracking-widest uppercase text-yellow-500/70 mb-1">Warnings</p>
-              <p className="font-display text-2xl text-yellow-500">{results.warnings}</p>
+            <div className="bg-card border border-primary/30 rounded-xl p-4">
+              <p className="font-body text-xs tracking-widest uppercase text-primary/70 mb-1">Warnings</p>
+              <p className="font-display text-2xl text-primary">{results.warnings}</p>
             </div>
             <div className="bg-card border border-red-500/30 rounded-xl p-4">
               <p className="font-body text-xs tracking-widest uppercase text-red-500/70 mb-1">Failed</p>
@@ -376,8 +376,8 @@ export default function SiteHealthDashboard() {
 
           {/* Action Items */}
           {(results.failed > 0 || results.warnings > 0) ? (
-            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4">
-              <p className="font-display text-sm text-yellow-600 mb-3">⚠️ Action Required</p>
+            <div className="bg-primary/10 border border-primary/30 rounded-xl p-4">
+              <p className="font-display text-sm text-primary mb-3">⚠️ Action Required</p>
               <ul className="space-y-2 font-body text-sm text-foreground/70">
                 {results.tests.filter(t => t.result === TEST_RESULTS.FAIL).map((test, i) => (
                   <li key={i} className="flex items-start gap-2">
@@ -387,7 +387,7 @@ export default function SiteHealthDashboard() {
                 ))}
                 {results.tests.filter(t => t.result === TEST_RESULTS.WARN).map((test, i) => (
                   <li key={i} className="flex items-start gap-2">
-                    <span className="text-yellow-500">•</span>
+                    <span className="text-primary">•</span>
                     <span><strong className="text-foreground">{test.name}:</strong> {test.details?.summary || test.details?.status}</span>
                   </li>
                 ))}

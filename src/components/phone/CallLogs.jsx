@@ -15,7 +15,7 @@ const DIRECTION_ICON = {
 const TYPE_COLOR = {
   answered: 'text-green-400',
   missed: 'text-red-400',
-  voicemail: 'text-yellow-400',
+  voicemail: 'text-primary',
   outbound_manual: 'text-blue-400',
 };
 

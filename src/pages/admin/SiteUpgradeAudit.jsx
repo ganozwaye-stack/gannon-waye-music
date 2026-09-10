@@ -93,7 +93,7 @@ const SECTIONS = [
     icon: Zap,
     title: 'Features You Asked About — Not Yet Built',
     priority: 'HIGH',
-    color: 'text-yellow-400',
+    color: 'text-primary',
     summary: 'Explicit requests from previous conversations that are tracked but not implemented.',
     items: [
       {
@@ -198,7 +198,7 @@ const SECTIONS = [
 
 const PRIORITY_COLORS = {
   HIGH: 'bg-red-500/15 text-red-400 border-red-500/30',
-  MEDIUM: 'bg-yellow-500/15 text-yellow-400 border-yellow-500/30',
+  MEDIUM: 'bg-primary/15 text-primary border-primary/30',
   DONE: 'bg-green-500/15 text-green-400 border-green-500/30',
   REFERENCE: 'bg-purple-500/15 text-purple-400 border-purple-500/30',
 };
@@ -221,7 +221,7 @@ export default function SiteUpgradeAudit() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'High Priority', count: SECTIONS.filter(s => s.priority === 'HIGH').length, color: 'text-red-400' },
-          { label: 'Medium', count: SECTIONS.filter(s => s.priority === 'MEDIUM').length, color: 'text-yellow-400' },
+          { label: 'Medium', count: SECTIONS.filter(s => s.priority === 'MEDIUM').length, color: 'text-primary' },
           { label: 'Completed', count: SECTIONS.filter(s => s.priority === 'DONE').length, color: 'text-green-400' },
           { label: 'Reference', count: SECTIONS.filter(s => s.priority === 'REFERENCE').length, color: 'text-purple-400' },
         ].map(s => (

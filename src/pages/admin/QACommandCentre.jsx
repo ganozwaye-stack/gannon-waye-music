@@ -103,7 +103,7 @@ const STATUS_COLORS = {
   passed: 'bg-green-500/20 text-green-300 border-green-500/30',
   failed: 'bg-red-500/20 text-red-300 border-red-500/30',
   blocked: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
-  needs_login: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+  needs_login: 'bg-primary/20 text-primary border-primary/30',
   pending: 'bg-secondary text-muted-foreground border-border',
   needs_manual: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
 };
@@ -360,10 +360,10 @@ export default function QACommandCentre() {
 
   const sectionColors = {
     '✅': 'border-green-500/30 bg-green-500/5',
-    '⚠️': 'border-yellow-500/30 bg-yellow-500/5',
+    '⚠️': 'border-primary/30 bg-primary/5',
     '🔴': 'border-red-500/30 bg-red-500/5',
     '🔐': 'border-purple-500/30 bg-purple-500/5',
-    '✅ GANNON': 'border-yellow-500/30 bg-yellow-500/5',
+    '✅ GANNON': 'border-primary/30 bg-primary/5',
     '⚖️': 'border-blue-500/30 bg-blue-500/5',
     '💰': 'border-primary/30 bg-primary/5',
     '🧪': 'border-green-500/30 bg-green-500/5',
@@ -433,7 +433,7 @@ export default function QACommandCentre() {
               ['Total Routes', ROUTES_TO_TEST.length, 'text-foreground'],
               ['Passed', passed, 'text-green-400'],
               ['Failed', failed, 'text-red-400'],
-              ['Needs Manual/Login', needsManual || ROUTES_TO_TEST.length, 'text-yellow-400'],
+              ['Needs Manual/Login', needsManual || ROUTES_TO_TEST.length, 'text-primary'],
             ].map(([label, count, color]) => (
               <Card key={label}><CardContent className="p-4">
                 <p className={`text-2xl font-bold ${color}`}>{count}</p>
@@ -465,7 +465,7 @@ export default function QACommandCentre() {
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
                         <Badge variant="outline" className="text-xs">{route.category}</Badge>
-                        {route.loginRequired && <Badge variant="outline" className="text-xs text-yellow-400">Login</Badge>}
+                        {route.loginRequired && <Badge variant="outline" className="text-xs text-primary">Login</Badge>}
                         {route.mustFail && <Badge className="bg-red-500/20 text-red-300 border-red-500/30 text-xs">Must 404</Badge>}
                       </div>
                     </div>

@@ -83,14 +83,14 @@ export default function PhoneActionRequired({ primaryNumber }) {
             <div key={item.item} className="flex items-start gap-2.5">
               {item.status
                 ? <CheckCircle className="w-3.5 h-3.5 text-green-500 shrink-0 mt-0.5" />
-                : <AlertTriangle className="w-3.5 h-3.5 text-yellow-500 shrink-0 mt-0.5" />
+                : <AlertTriangle className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
               }
               <div>
-                <span className={`font-body text-xs ${item.status ? 'text-foreground/70' : 'text-yellow-300'}`}>
+                <span className={`font-body text-xs ${item.status ? 'text-foreground/70' : 'text-primary'}`}>
                   {item.item}
                   {item.status
                     ? <span className="text-green-400 ml-1">✓</span>
-                    : <span className="text-yellow-400 ml-1">— Pending</span>
+                    : <span className="text-primary ml-1">— Pending</span>
                   }
                 </span>
                 {item.note && <p className="font-body text-[10px] text-muted-foreground/50 mt-0.5">{item.note}</p>}

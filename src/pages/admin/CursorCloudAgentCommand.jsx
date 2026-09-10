@@ -101,7 +101,7 @@ export default function CursorCloudAgentCommand() {
 
   const keyStatusColor = {
     unknown: 'bg-secondary text-muted-foreground',
-    present: 'bg-amber-500/20 text-amber-300',
+    present: 'bg-primary/20 text-primary',
     valid: 'bg-green-500/20 text-green-300',
     invalid: 'bg-red-500/20 text-red-300',
   };
@@ -216,9 +216,9 @@ export default function CursorCloudAgentCommand() {
       {/* TAB: API KEY */}
       {activeTab === 'apikey' && (
         <div className="space-y-4">
-          <Card className="border-amber-500/30 bg-amber-500/5">
+          <Card className="border-primary/30 bg-primary/5">
             <CardContent className="p-4 space-y-2">
-              <p className="text-sm font-semibold text-amber-300 flex items-center gap-2"><Key className="w-4 h-4" />CURSOR_API_KEY — Secure Setup</p>
+              <p className="text-sm font-semibold text-primary flex items-center gap-2"><Key className="w-4 h-4" />CURSOR_API_KEY — Secure Setup</p>
               <p className="text-xs text-muted-foreground">Never paste the key in chat. Never hardcode it in source. Store only in Base44 Secrets.</p>
             </CardContent>
           </Card>
@@ -298,9 +298,9 @@ export default function CursorCloudAgentCommand() {
             </CardContent>
           </Card>
 
-          <Card className="border-amber-500/20 bg-amber-500/5">
+          <Card className="border-primary/20 bg-primary/5">
             <CardContent className="p-4">
-              <p className="text-xs font-semibold text-amber-300 mb-1">What this prompt tells the agent:</p>
+              <p className="text-xs font-semibold text-primary mb-1">What this prompt tells the agent:</p>
               <ul className="text-xs text-muted-foreground space-y-1">
                 <li>✅ Keep Base44 as backend — do not migrate</li>
                 <li>✅ Run Playwright tests first</li>

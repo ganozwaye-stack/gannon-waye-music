@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 
 const STATUS_COLORS = {
   new: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  contacted: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  contacted: 'bg-primary/20 text-primary border-primary/30',
   booked: 'bg-green-500/20 text-green-400 border-green-500/30',
   declined: 'bg-red-500/20 text-red-400 border-red-500/30',
   unresponsive: 'bg-gray-500/20 text-gray-400 border-gray-500/30',
@@ -35,7 +35,7 @@ export default function CoachingLeads() {
         <div>
           <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary mb-1">Admin</p>
           <h1 className="font-display text-2xl text-foreground">Coaching Leads</h1>
-          {newCount > 0 && <p className="font-body text-xs text-yellow-400 mt-1">{newCount} new lead{newCount !== 1 ? 's' : ''} awaiting response</p>}
+          {newCount > 0 && <p className="font-body text-xs text-primary mt-1">{newCount} new lead{newCount !== 1 ? 's' : ''} awaiting response</p>}
         </div>
         <Select value={filterStatus} onValueChange={setFilterStatus}>
           <SelectTrigger className="w-40 bg-card/50 border-border/60 text-sm">

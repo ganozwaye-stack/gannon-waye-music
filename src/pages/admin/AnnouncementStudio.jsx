@@ -184,11 +184,11 @@ export default function AnnouncementStudio() {
       </Card>
 
       {/* Email blast */}
-      <Card className="border-yellow-500/20">
+      <Card className="border-primary/20">
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
-            <Send className="w-4 h-4 text-yellow-400" /> Email Blast — Subscriber List
-            <Badge className="text-xs bg-yellow-500/10 text-yellow-400 border-yellow-500/30">Requires Approval</Badge>
+            <Send className="w-4 h-4 text-primary" /> Email Blast — Subscriber List
+            <Badge className="text-xs bg-primary/10 text-primary border-primary/30">Requires Approval</Badge>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -203,7 +203,7 @@ export default function AnnouncementStudio() {
             <Button
               onClick={() => sendToApprovalMut.mutate()}
               disabled={sendToApprovalMut.isPending}
-              className="border-yellow-500/30 text-yellow-400 bg-yellow-500/10 hover:bg-yellow-500/20 rounded-full gap-2"
+              className="border-primary/30 text-primary bg-primary/10 hover:bg-primary/20 rounded-full gap-2"
               variant="outline"
             >
               {sendToApprovalMut.isPending ? <><Loader2 className="w-4 h-4 animate-spin" />Queuing...</> : <><Send className="w-4 h-4" />Send to Approval Queue</>}

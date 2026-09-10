@@ -114,7 +114,7 @@ export default function MusicFanHub() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="bg-secondary/40 border border-border/40 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1.5 p-1 h-auto">
           <TabsTrigger value="crm" className="text-xs py-2"><Users className="w-3.5 h-3.5 mr-1 text-primary" /> CRM Registry</TabsTrigger>
-          <TabsTrigger value="story-vault" className="text-xs py-2"><BookOpen className="w-3.5 h-3.5 mr-1 text-yellow-400" /> Story Vault</TabsTrigger>
+          <TabsTrigger value="story-vault" className="text-xs py-2"><BookOpen className="w-3.5 h-3.5 mr-1 text-primary" /> Story Vault</TabsTrigger>
           <TabsTrigger value="releases" className="text-xs py-2"><Music className="w-3.5 h-3.5 mr-1 text-green-400" /> Releases</TabsTrigger>
           <TabsTrigger value="newsletter" className="text-xs py-2"><Mail className="w-3.5 h-3.5 mr-1 text-purple-400" /> Newsletter</TabsTrigger>
           <TabsTrigger value="quick-links" className="text-xs py-2"><Send className="w-3.5 h-3.5 mr-1" /> All Fan Tools</TabsTrigger>
@@ -164,7 +164,7 @@ export default function MusicFanHub() {
                   <Heart className="w-4 h-4 mr-2 text-red-500" /> View Supporter Contributions
                 </Button>
                 <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/thank-you-cards'}>
-                  <Award className="w-4 h-4 mr-2 text-yellow-400" /> Draft Fan Thank You Cards
+                  <Award className="w-4 h-4 mr-2 text-primary" /> Draft Fan Thank You Cards
                 </Button>
               </CardContent>
             </Card>
@@ -233,7 +233,7 @@ export default function MusicFanHub() {
                         <div className="flex items-center justify-between">
                           <p className="font-semibold text-white">{mem.title}</p>
                           <div className="flex gap-1.5">
-                            <Badge className="bg-yellow-500/10 text-yellow-400 text-[9px] border-0">{mem.tags?.[0]}</Badge>
+                            <Badge className="bg-primary/10 text-primary text-[9px] border-0">{mem.tags?.[0]}</Badge>
                             <Badge className="bg-blue-500/10 text-blue-400 text-[9px] border-0">{mem.tags?.[1]}</Badge>
                           </div>
                         </div>
@@ -264,7 +264,7 @@ export default function MusicFanHub() {
                 )}
 
                 {vaultOutline && (
-                  <Card className="border-yellow-500/20 bg-yellow-500/5 mt-4">
+                  <Card className="border-primary/20 bg-primary/5 mt-4">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm font-semibold text-white">Generated Episode Script Outline</CardTitle>
                     </CardHeader>
@@ -331,7 +331,7 @@ export default function MusicFanHub() {
                 <Mail className="w-4 h-4 mr-2 text-purple-400" /> Send a New Email Newsletter Campaign
               </Button>
               <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/reveal-newsletter'}>
-                <Award className="w-4 h-4 mr-2 text-yellow-400" /> Draft Sonia Memorial Celebration Newsletter
+                <Award className="w-4 h-4 mr-2 text-primary" /> Draft Sonia Memorial Celebration Newsletter
               </Button>
             </CardContent>
           </Card>

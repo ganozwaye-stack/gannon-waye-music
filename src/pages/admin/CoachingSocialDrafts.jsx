@@ -9,10 +9,10 @@ import { toast } from 'sonner';
 const PILLAR_COLORS = {
   'Self Worth': 'text-rose-400 bg-rose-500/10 border-rose-500/20',
   'Boundaries': 'text-blue-400 bg-blue-500/10 border-blue-500/20',
-  'Rebuilding': 'text-amber-400 bg-amber-500/10 border-amber-500/20',
+  'Rebuilding': 'text-primary bg-primary/10 border-primary/20',
   'Creative Confidence': 'text-purple-400 bg-purple-500/10 border-purple-500/20',
   'Music': 'text-teal-400 bg-teal-500/10 border-teal-500/20',
-  'THANKYOU': 'text-yellow-400 bg-yellow-500/10 border-yellow-500/20',
+  'THANKYOU': 'text-primary bg-primary/10 border-primary/20',
   'Respect Is Earned': 'text-orange-400 bg-orange-500/10 border-orange-500/20',
   'Still Here': 'text-green-400 bg-green-500/10 border-green-500/20',
   'Shame to Self Respect': 'text-pink-400 bg-pink-500/10 border-pink-500/20',
@@ -26,14 +26,14 @@ function DraftCard({ item, onApprove, onReject }) {
   const pillarStyle = PILLAR_COLORS[pillar] || 'text-muted-foreground bg-secondary border-border';
 
   const statusColor = {
-    pending: 'bg-yellow-500/10 text-yellow-400',
+    pending: 'bg-primary/10 text-primary',
     approved: 'bg-green-500/10 text-green-400',
     rejected: 'bg-red-500/10 text-red-400',
     in_review: 'bg-cyan-500/10 text-cyan-400',
   }[item.status] || 'bg-secondary text-muted-foreground';
 
   return (
-    <div className={`border rounded-xl overflow-hidden transition-all ${item.status === 'pending' ? 'border-yellow-500/30' : 'border-border/50'}`}>
+    <div className={`border rounded-xl overflow-hidden transition-all ${item.status === 'pending' ? 'border-primary/30' : 'border-border/50'}`}>
       {/* Card header */}
       <div className="flex items-start gap-3 p-4 cursor-pointer" onClick={() => setExpanded(!expanded)}>
         <div className="flex-1 min-w-0">
@@ -48,7 +48,7 @@ function DraftCard({ item, onApprove, onReject }) {
           )}
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          {item.status === 'pending' && <span className="w-2 h-2 rounded-full bg-yellow-400" />}
+          {item.status === 'pending' && <span className="w-2 h-2 rounded-full bg-primary" />}
           {expanded ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
         </div>
       </div>
@@ -135,7 +135,7 @@ export default function CoachingSocialDrafts() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center">
-          <p className="font-display text-2xl text-yellow-400">{pending}</p>
+          <p className="font-display text-2xl text-primary">{pending}</p>
           <p className="font-body text-[9px] uppercase tracking-widest text-muted-foreground mt-1">Pending</p>
         </div>
         <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center">

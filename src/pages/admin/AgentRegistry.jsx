@@ -21,11 +21,11 @@ const STATUS_COLORS = {
   disabled: 'bg-zinc-500/10 text-zinc-500 border-zinc-500/30',
 };
 
-const RISK_COLORS = { none: 'text-green-400', low: 'text-yellow-400', medium: 'text-orange-400', high: 'text-red-400' };
+const RISK_COLORS = { none: 'text-green-400', low: 'text-primary', medium: 'text-orange-400', high: 'text-red-400' };
 
 const RISK_LEGEND = [
   { level: 'none', color: 'text-green-400 bg-green-500/10', label: 'None', desc: 'Fully safe to automate. Cannot spend money or create legal exposure.' },
-  { level: 'low', color: 'text-yellow-400 bg-yellow-500/10', label: 'Low', desc: 'Minor footprint possible. Allowed to auto-run with logging.' },
+  { level: 'low', color: 'text-primary bg-primary/10', label: 'Low', desc: 'Minor footprint possible. Allowed to auto-run with logging.' },
   { level: 'medium', color: 'text-orange-400 bg-orange-500/10', label: 'Medium', desc: 'Real cost or public exposure possible. Requires your review.' },
   { level: 'high', color: 'text-red-400 bg-red-500/10', label: 'High', desc: 'Direct financial/legal/reputation risk. Always requires explicit approval.' },
 ];
@@ -189,24 +189,24 @@ function AgentDetailModal({ agent, onClose, onUpdate }) {
 
           {/* Missing Credentials */}
           {missingCreds.length > 0 && (
-            <div className="p-3 bg-yellow-500/10 border border-yellow-500/20 rounded-xl">
-              <p className="text-xs font-semibold text-yellow-400 uppercase tracking-wider mb-1">Missing Credentials</p>
+            <div className="p-3 bg-primary/10 border border-primary/20 rounded-xl">
+              <p className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Missing Credentials</p>
               <ul className="list-disc pl-4 space-y-0.5">
                 {missingCreds.map(c => (
-                  <li key={c} className="text-xs text-yellow-300/80">{c}</li>
+                  <li key={c} className="text-xs text-primary/80">{c}</li>
                 ))}
               </ul>
             </div>
           )}
 
           {/* Readiness Panel */}
-          <div className={`rounded-xl p-4 border ${isReady ? 'border-green-500/20 bg-green-500/5' : 'border-yellow-500/20 bg-yellow-500/5'}`}>
+          <div className={`rounded-xl p-4 border ${isReady ? 'border-green-500/20 bg-green-500/5' : 'border-primary/20 bg-primary/5'}`}>
             <div className="flex items-center gap-2 mb-3">
               {isReady
                 ? <CheckCircle2 className="w-4 h-4 text-green-400" />
-                : <Clock className="w-4 h-4 text-yellow-400" />
+                : <Clock className="w-4 h-4 text-primary" />
               }
-              <p className={`text-sm font-semibold ${isReady ? 'text-green-400' : 'text-yellow-400'}`}>
+              <p className={`text-sm font-semibold ${isReady ? 'text-green-400' : 'text-primary'}`}>
                 {isReady ? 'Agent is Active' : 'Not Yet Active — What You Need To Do'}
               </p>
             </div>
@@ -374,12 +374,12 @@ export default function AgentRegistry() {
         <div>
           <h1 className="text-2xl font-display font-bold gradient-gold-text">Agent Registry</h1>
           <p className="text-muted-foreground text-sm">
-            {agents.length} agents · <span className="text-green-400">{activeCount} active</span> · <span className="text-yellow-400">{inactiveCount} inactive</span>
+            {agents.length} agents · <span className="text-green-400">{activeCount} active</span> · <span className="text-primary">{inactiveCount} inactive</span>
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {usingFallback && (
-            <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/30 flex items-center gap-1">
+            <Badge className="bg-primary/10 text-primary border-primary/30 flex items-center gap-1">
               <AlertTriangle className="w-3 h-3" /> Base Registry — Click an agent to activate
             </Badge>
           )}
@@ -409,7 +409,7 @@ export default function AgentRegistry() {
           <p className="text-xs text-muted-foreground border-t border-border pt-3">
             <strong className="text-foreground">Approval Level</strong>: &nbsp;
             <span className="text-primary">auto</span> = runs without review &nbsp;·&nbsp;
-            <span className="text-yellow-400">low_risk_auto</span> = runs but logs for review &nbsp;·&nbsp;
+            <span className="text-primary">low_risk_auto</span> = runs but logs for review &nbsp;·&nbsp;
             <span className="text-orange-400">always_approve</span> = pauses until you explicitly approve
           </p>
         </div>
@@ -483,7 +483,7 @@ export default function AgentRegistry() {
                   </span>
                 </div>
                 {agent.status !== 'active' && (
-                  <span className="text-xs text-yellow-400">Tap to activate →</span>
+                  <span className="text-xs text-primary">Tap to activate →</span>
                 )}
               </div>
             </CardContent>

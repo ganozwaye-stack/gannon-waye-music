@@ -18,7 +18,7 @@ const TYPE_CONFIG = {
   document: { color: 'text-slate-400', bg: 'bg-slate-500/10', border: 'border-slate-500/30', emoji: '📄' },
   campaign: { color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/30', emoji: '📣' },
   product: { color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/30', emoji: '📦' },
-  idea: { color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', emoji: '💡' },
+  idea: { color: 'text-primary', bg: 'bg-primary/10', border: 'border-primary/30', emoji: '💡' },
   risk: { color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/30', emoji: '⚠️' },
   legal: { color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/30', emoji: '⚖️' },
   revenue_opportunity: { color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/30', emoji: '💰' },
@@ -70,9 +70,9 @@ export default function MemoryGraph() {
         <Button onClick={() => setShowForm(true)} className="gradient-gold-button border-0"><Plus className="w-4 h-4 mr-1" />Add Node</Button>
       </div>
 
-      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
-        <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
-        <p className="text-yellow-300 text-xs"><strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — Memory nodes are informational only. No automated actions are taken from this graph without approval.</p>
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
+        <Shield className="w-4 h-4 text-primary shrink-0" />
+        <p className="text-primary text-xs"><strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — Memory nodes are informational only. No automated actions are taken from this graph without approval.</p>
       </div>
 
       {/* Type filter tiles */}

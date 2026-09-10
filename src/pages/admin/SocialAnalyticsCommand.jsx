@@ -116,9 +116,9 @@ const ANALYTICS_PLATFORMS = [
 ];
 
 const statusColor = {
-  not_available_yet: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+  not_available_yet: 'bg-primary/20 text-primary border-primary/30',
   not_built: 'bg-red-500/20 text-red-300 border-red-500/30',
-  planned_via_connector: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+  planned_via_connector: 'bg-primary/20 text-primary border-primary/30',
   manual_export_only: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   configured: 'bg-green-500/20 text-green-300 border-green-500/30',
 };
@@ -164,7 +164,7 @@ export default function SocialAnalyticsCommand() {
           ['Configured', ANALYTICS_PLATFORMS.filter(p => p.analyticsStatus === 'configured').length, 'text-green-400'],
           ['Manual Export', ANALYTICS_PLATFORMS.filter(p => p.analyticsStatus === 'manual_export_only').length, 'text-blue-400'],
           ['Not Built', ANALYTICS_PLATFORMS.filter(p => p.analyticsStatus === 'not_built').length, 'text-red-400'],
-          ['Planned', ANALYTICS_PLATFORMS.filter(p => ['planned_via_connector', 'not_available_yet'].includes(p.analyticsStatus)).length, 'text-yellow-400'],
+          ['Planned', ANALYTICS_PLATFORMS.filter(p => ['planned_via_connector', 'not_available_yet'].includes(p.analyticsStatus)).length, 'text-primary'],
         ].map(([label, count, color]) => (
           <Card key={label}><CardContent className="p-4">
             <p className={`text-2xl font-bold ${color}`}>{count}</p>
@@ -214,7 +214,7 @@ export default function SocialAnalyticsCommand() {
               </div>
 
               {selected.risk && (
-                <div className="rounded-lg border border-yellow-500/20 bg-yellow-500/5 p-2 text-xs text-yellow-200">
+                <div className="rounded-lg border border-primary/20 bg-primary/5 p-2 text-xs text-primary">
                   <AlertTriangle className="w-3 h-3 inline mr-1" /> {selected.risk}
                 </div>
               )}

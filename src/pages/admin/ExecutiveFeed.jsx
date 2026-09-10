@@ -10,9 +10,9 @@ import {
 } from 'lucide-react';
 
 const RULE = (
-  <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
-    <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
-    <p className="text-yellow-300 text-xs font-body">
+  <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
+    <Shield className="w-4 h-4 text-primary shrink-0" />
+    <p className="text-primary text-xs font-body">
       <strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — No AI action may spend money, change prices, issue refunds, create legal commitments, or publish high-risk content without explicit approval.
     </p>
   </div>
@@ -62,7 +62,7 @@ export default function ExecutiveFeed() {
       {/* Priority Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <SummaryCard icon={AlertTriangle} color="text-red-400" bg="bg-red-500/10" label="Critical Alerts" value={criticalAlerts.length} link="/admin/risk-alerts" urgent={criticalAlerts.length > 0} />
-        <SummaryCard icon={CheckCircle2} color="text-yellow-400" bg="bg-yellow-500/10" label="Awaiting Approval" value={pending.length} link="/admin/approval-queue" urgent={pending.length > 0} />
+        <SummaryCard icon={CheckCircle2} color="text-primary" bg="bg-primary/10" label="Awaiting Approval" value={pending.length} link="/admin/approval-queue" urgent={pending.length > 0} />
         <SummaryCard icon={Lightbulb} color="text-green-400" bg="bg-green-500/10" label="New Opportunities" value={ideas.length} link="/admin/ideas-engine" />
         <SummaryCard icon={Activity} color="text-blue-400" bg="bg-blue-500/10" label="Agent Actions Today" value={recentLogs.length} link="/admin/agent-task-log" />
       </div>
@@ -86,7 +86,7 @@ export default function ExecutiveFeed() {
                   <PriorityRow key={a.id} icon={AlertTriangle} iconColor="text-red-400" label={a.title} sub={`${a.alert_type} · ${a.severity}`} link="/admin/risk-alerts" badge="Critical" badgeColor="bg-red-500/20 text-red-400" />
                 ))}
                 {pending.slice(0, 3).map(p => (
-                  <PriorityRow key={p.id} icon={CheckCircle2} iconColor="text-yellow-400" label={p.action_title} sub={`${p.agent_name} · needs approval`} link="/admin/approval-queue" badge="Pending" badgeColor="bg-yellow-500/20 text-yellow-400" />
+                  <PriorityRow key={p.id} icon={CheckCircle2} iconColor="text-primary" label={p.action_title} sub={`${p.agent_name} · needs approval`} link="/admin/approval-queue" badge="Pending" badgeColor="bg-primary/20 text-primary" />
                 ))}
               </>
             )}
@@ -103,7 +103,7 @@ export default function ExecutiveFeed() {
           <CardContent className="space-y-3">
             <RiskRow label="Financial Risks" count={financialRisks.length} color="text-red-400" />
             <RiskRow label="Legal Risks" count={legalRisks.length} color="text-orange-400" />
-            <RiskRow label="Reputation Risks" count={reputationRisks.length} color="text-yellow-400" />
+            <RiskRow label="Reputation Risks" count={reputationRisks.length} color="text-primary" />
             <RiskRow label="Opportunities" count={opportunities.length} color="text-green-400" />
             {alerts.length === 0 && <p className="text-muted-foreground text-sm">No active risk alerts.</p>}
           </CardContent>
@@ -188,7 +188,7 @@ export default function ExecutiveFeed() {
 function SummaryCard({ icon: Icon, color, bg, label, value, link, urgent }) {
   return (
     <Link to={link}>
-      <Card className={`hover:border-primary/30 transition-all cursor-pointer ${urgent ? 'border-yellow-500/30' : ''}`}>
+      <Card className={`hover:border-primary/30 transition-all cursor-pointer ${urgent ? 'border-primary/30' : ''}`}>
         <CardContent className="p-4 flex items-center gap-3">
           <div className={`${bg} p-2 rounded-lg`}><Icon className={`w-5 h-5 ${color}`} /></div>
           <div>

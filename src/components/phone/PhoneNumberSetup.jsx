@@ -27,7 +27,7 @@ export default function PhoneNumberSetup({ primaryNumber }) {
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
   const STATUS_COLOR = {
-    provider_needed: 'text-yellow-400 border-yellow-500/40 bg-yellow-500/10',
+    provider_needed: 'text-primary border-primary/40 bg-primary/10',
     pending_setup: 'text-blue-400 border-blue-500/40 bg-blue-500/10',
     active: 'text-green-400 border-green-500/40 bg-green-500/10',
     suspended: 'text-red-400 border-red-500/40 bg-red-500/10',
@@ -94,7 +94,7 @@ export default function PhoneNumberSetup({ primaryNumber }) {
             ) : (
               <div className="flex items-center gap-2">
                 {primaryNumber.public_visibility === 'hidden'
-                  ? <><EyeOff className="w-3.5 h-3.5 text-yellow-400" /><span className="font-body text-sm text-yellow-400">Hidden — not shown on site</span></>
+                  ? <><EyeOff className="w-3.5 h-3.5 text-primary" /><span className="font-body text-sm text-primary">Hidden — not shown on site</span></>
                   : <><Eye className="w-3.5 h-3.5 text-green-400" /><span className="font-body text-sm text-green-400">Visible on site</span></>
                 }
               </div>
@@ -145,7 +145,7 @@ export default function PhoneNumberSetup({ primaryNumber }) {
       {/* Approval status */}
       <div className="bg-card/40 border border-border/30 rounded-xl p-5">
         <p className="font-body text-xs font-semibold text-foreground mb-3 flex items-center gap-2">
-          <AlertCircle className="w-4 h-4 text-yellow-400" /> Approval Status
+          <AlertCircle className="w-4 h-4 text-primary" /> Approval Status
         </p>
         <div className="space-y-2">
           {[
@@ -159,7 +159,7 @@ export default function PhoneNumberSetup({ primaryNumber }) {
             <div key={item.label} className="flex items-center gap-2">
               {item.done
                 ? <CheckCircle className="w-3.5 h-3.5 text-green-500 shrink-0" />
-                : <AlertCircle className="w-3.5 h-3.5 text-yellow-500/60 shrink-0" />
+                : <AlertCircle className="w-3.5 h-3.5 text-primary/60 shrink-0" />
               }
               <span className={`font-body text-xs ${item.done ? 'text-foreground/70' : 'text-muted-foreground'}`}>{item.label}</span>
             </div>

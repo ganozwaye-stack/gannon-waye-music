@@ -263,16 +263,16 @@ export default function SystemBlueprint() {
         {[
           { label: 'Public Routes', value: PUBLIC_ROUTES.length, icon: Globe, color: 'text-blue-400', to: null },
           { label: 'Admin Pages', value: totalAdminRoutes, icon: Shield, color: 'text-primary', to: null },
-          { label: 'Backend Functions', value: BACKEND_FUNCTIONS.length, icon: Zap, color: 'text-amber-400', to: null },
+          { label: 'Backend Functions', value: BACKEND_FUNCTIONS.length, icon: Zap, color: 'text-primary', to: null },
           { label: 'Integrations', value: INTEGRATIONS.length, icon: Link2, color: 'text-chart-2', to: null },
           { label: 'Active Orders', value: orders.filter(o => !['cancelled','refunded'].includes(o.status)).length, icon: Package, color: 'text-primary', to: '/admin/orders' },
           { label: 'Products', value: products.length, icon: ShoppingBag, color: 'text-foreground', to: '/admin/merch' },
           { label: 'Subscribers', value: subscribers.length, icon: Users, color: 'text-chart-2', to: '/admin/subscribers' },
-          { label: 'Pending Approvals', value: approvals.length, icon: CheckCircle2, color: approvals.length > 0 ? 'text-amber-400' : 'text-muted-foreground', to: '/admin/approval-queue' },
+          { label: 'Pending Approvals', value: approvals.length, icon: CheckCircle2, color: approvals.length > 0 ? 'text-primary' : 'text-muted-foreground', to: '/admin/approval-queue' },
           { label: 'Agents', value: agents.length, icon: Bot, color: 'text-purple-400', to: '/admin/agent-registry' },
           { label: 'Content Posts', value: calPosts.length, icon: BarChart2, color: 'text-cyan-400', to: '/admin/social-schedule-queue' },
           { label: 'Live Integrations', value: INTEGRATIONS.filter(i => i.status === 'live').length, icon: CheckCircle2, color: 'text-green-400', to: '/admin/api-setup' },
-          { label: 'Needs Action', value: INTEGRATIONS.filter(i => i.status !== 'live').length, icon: AlertTriangle, color: 'text-amber-400', to: '/admin/api-setup' },
+          { label: 'Needs Action', value: INTEGRATIONS.filter(i => i.status !== 'live').length, icon: AlertTriangle, color: 'text-primary', to: '/admin/api-setup' },
         ].map(s => {
           const Icon = s.icon;
           const inner = (
@@ -324,7 +324,7 @@ export default function SystemBlueprint() {
       ))}
 
       {/* Backend functions */}
-      <SectionBlock title={`Backend Functions — ${BACKEND_FUNCTIONS.length} total`} icon={Zap} color="text-amber-400">
+      <SectionBlock title={`Backend Functions — ${BACKEND_FUNCTIONS.length} total`} icon={Zap} color="text-primary">
         <div className="space-y-1">
           {['payment','order','social','agent','system','email'].map(cat => {
             const fns = BACKEND_FUNCTIONS.filter(f => f.category === cat);
@@ -353,7 +353,7 @@ export default function SystemBlueprint() {
               <div className="flex items-start gap-3 p-3 rounded-lg border border-border/40 hover:border-primary/40 transition-colors">
                 <Badge className={`text-xs shrink-0 border ${
                   i.status === 'live' ? 'bg-green-500/10 text-green-400 border-green-500/30' :
-                  i.status === 'needs_action' ? 'bg-amber-500/10 text-amber-400 border-amber-500/30' :
+                  i.status === 'needs_action' ? 'bg-primary/10 text-primary border-primary/30' :
                   'bg-slate-500/10 text-slate-400 border-slate-500/30'
                 }`}>
                   {i.status === 'live' ? '✓' : '⚠'} {i.status.replace('_', ' ')}
@@ -388,7 +388,7 @@ export default function SystemBlueprint() {
             { name: 'POSTHOG_KEY', set: false, note: 'Not yet set — analytics degraded' },
           ].map(s => (
             <div key={s.name} className="flex items-center gap-2 p-2 rounded bg-secondary/20">
-              {s.set ? <CheckCircle2 className="w-3.5 h-3.5 text-green-400 shrink-0" /> : <AlertTriangle className="w-3.5 h-3.5 text-amber-400 shrink-0" />}
+              {s.set ? <CheckCircle2 className="w-3.5 h-3.5 text-green-400 shrink-0" /> : <AlertTriangle className="w-3.5 h-3.5 text-primary shrink-0" />}
               <code className="font-mono text-xs text-primary flex-1">{s.name}</code>
               <span className="font-body text-[10px] text-muted-foreground">{s.note}</span>
             </div>

@@ -167,10 +167,10 @@ export default function PrintFulfilment() {
       </div>
 
       {/* Warning banner */}
-      <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-500/40 bg-amber-500/5">
-        <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+      <div className="flex items-start gap-3 p-4 rounded-xl border border-primary/40 bg-primary/5">
+        <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
         <div>
-          <p className="font-body text-sm font-semibold text-amber-400">No provider activated — manual fulfilment only</p>
+          <p className="font-body text-sm font-semibold text-primary">No provider activated — manual fulfilment only</p>
           <p className="font-body text-xs text-muted-foreground mt-1">
             Live fulfilment is locked until Gannon approves a provider and confirms sample quality.
             All poster orders currently route to <strong className="text-foreground">manual_fulfilment_required</strong> state.
@@ -258,13 +258,13 @@ export default function PrintFulfilment() {
       {/* ── TAB: Poster Products ── */}
       {tab === 'Poster Products' && (
         <div className="space-y-4">
-          <div className="p-4 rounded-xl border border-amber-500/40 bg-amber-500/5">
-            <p className="font-body text-sm font-semibold text-amber-400 flex items-center gap-2"><AlertTriangle className="w-4 h-4" /> Human Action Required</p>
+          <div className="p-4 rounded-xl border border-primary/40 bg-primary/5">
+            <p className="font-body text-sm font-semibold text-primary flex items-center gap-2"><AlertTriangle className="w-4 h-4" /> Human Action Required</p>
             <p className="font-body text-xs text-muted-foreground mt-1">
               The Respect Is Earned Lyric Wall Poster needs real poster-specific artwork images uploaded before it can be presented as fully sale-ready.
               Currently the fallback is the hoodie image which is not correct for a poster listing.
             </p>
-            <p className="font-body text-xs text-amber-400 mt-2 font-semibold">Action: Upload poster artwork mockup at /admin/merch → Poster product → Change Images.</p>
+            <p className="font-body text-xs text-primary mt-2 font-semibold">Action: Upload poster artwork mockup at /admin/merch → Poster product → Change Images.</p>
           </div>
           <Card>
             <CardContent className="p-5">
@@ -276,7 +276,7 @@ export default function PrintFulfilment() {
                   <p className="font-body text-sm font-semibold text-foreground">Respect Is Earned — Lyric Wall Poster</p>
                   <p className="font-body text-xs text-muted-foreground mt-1">Sizes: A4, A3, A2, A1 · Price: $19–$59 AUD · Print-on-demand (manual until provider approved)</p>
                   <div className="flex gap-2 mt-2 flex-wrap">
-                    <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/30 text-[9px]">Images Required</Badge>
+                    <Badge className="bg-primary/10 text-primary border border-primary/30 text-[9px]">Images Required</Badge>
                     <Badge className="bg-green-500/10 text-green-400 border border-green-500/30 text-[9px]">Pricing Set</Badge>
                     <Badge className="bg-secondary text-muted-foreground text-[9px]">Provider Not Assigned</Badge>
                   </div>
@@ -387,8 +387,8 @@ export default function PrintFulfilment() {
                 </div>
               ))}
             </div>
-            <div className="mt-4 p-3 rounded-lg bg-amber-500/5 border border-amber-500/30">
-              <p className="font-body text-xs text-amber-400 font-semibold">Action Required (Gannon)</p>
+            <div className="mt-4 p-3 rounded-lg bg-primary/5 border border-primary/30">
+              <p className="font-body text-xs text-primary font-semibold">Action Required (Gannon)</p>
               <p className="font-body text-xs text-muted-foreground mt-1">Order sample prints from Printful and Gelato before activating live fulfilment. Approve quality before connecting API.</p>
             </div>
           </CardContent>

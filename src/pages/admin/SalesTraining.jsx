@@ -95,7 +95,7 @@ export default function SalesTraining() {
                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Auto-runs</p>
                     {pkg.automations.map(item => (
                       <div key={item} className="flex items-start gap-1.5 text-xs text-foreground/80 mb-0.5">
-                        <Zap className="w-3 h-3 text-amber-400 shrink-0 mt-0.5" />{item}
+                        <Zap className="w-3 h-3 text-primary shrink-0 mt-0.5" />{item}
                       </div>
                     ))}
                   </div>

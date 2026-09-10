@@ -17,7 +17,7 @@ const CAT_COLORS = {
   saas: 'bg-blue-500/10 text-blue-400',
   content: 'bg-pink-500/10 text-pink-400',
   automation: 'bg-cyan-500/10 text-cyan-400',
-  customer_experience: 'bg-amber-500/10 text-amber-400',
+  customer_experience: 'bg-primary/10 text-primary',
   social: 'bg-rose-500/10 text-rose-400',
   marketing: 'bg-indigo-500/10 text-indigo-400',
   product: 'bg-lime-500/10 text-lime-400',
@@ -26,7 +26,7 @@ const CAT_COLORS = {
 
 const STATUS_COLORS = {
   new: 'bg-blue-500/10 text-blue-400',
-  reviewing: 'bg-yellow-500/10 text-yellow-400',
+  reviewing: 'bg-primary/10 text-primary',
   approved: 'bg-green-500/10 text-green-400',
   in_progress: 'bg-purple-500/10 text-purple-400',
   implemented: 'bg-emerald-500/10 text-emerald-400',
@@ -141,9 +141,9 @@ export default function IdeasEngine() {
           <h1 className="text-3xl font-display font-bold gradient-gold-text">Ideas Engine</h1>
           <p className="text-muted-foreground text-sm mt-1 font-body">AI-generated opportunities, innovations, and revenue ideas</p>
         </div>
-        <div className="flex items-center gap-2 border border-yellow-500/30 bg-yellow-500/5 rounded-lg px-3 py-2">
-          <Shield className="w-3 h-3 text-yellow-400" />
-          <span className="text-xs text-yellow-300">Approval required before action</span>
+        <div className="flex items-center gap-2 border border-primary/30 bg-primary/5 rounded-lg px-3 py-2">
+          <Shield className="w-3 h-3 text-primary" />
+          <span className="text-xs text-primary">Approval required before action</span>
         </div>
       </div>
 

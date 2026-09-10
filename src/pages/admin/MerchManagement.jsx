@@ -241,7 +241,7 @@ export default function MerchManagement() {
                   </div>
                   <div>
                     <p className="text-muted-foreground">Margin</p>
-                    <p className={`font-display ${product.profit_margin_percent >= 30 ? 'text-green-500' : product.profit_margin_percent >= 15 ? 'text-yellow-500' : 'text-red-500'}`}>
+                    <p className={`font-display ${product.profit_margin_percent >= 30 ? 'text-green-500' : product.profit_margin_percent >= 15 ? 'text-primary' : 'text-red-500'}`}>
                       {product.profit_margin_percent?.toFixed(1) || '—'}%
                     </p>
                   </div>

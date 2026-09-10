@@ -110,9 +110,9 @@ export default function LivestreamCommand() {
       </div>
 
       {/* Security banner */}
-      <div className="bg-amber-500/5 border border-amber-500/30 rounded-xl p-4 flex items-start gap-3">
-        <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-        <div className="font-body text-sm text-amber-400">
+      <div className="bg-primary/5 border border-primary/30 rounded-xl p-4 flex items-start gap-3">
+        <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+        <div className="font-body text-sm text-primary">
           <strong>Never paste stream keys, RTMP URLs, or private dashboard links here.</strong>{' '}
           Only paste the public embed URL from YouTube/Vimeo/StreamYard "Share &rarr; Embed" section.
           Allowed hosts: {ALLOWED_EMBED_HOSTS.join(', ')}
@@ -296,9 +296,9 @@ export default function LivestreamCommand() {
       </Button>
 
       {/* TikTok manual action notice */}
-      <Card className="border-amber-500/20 bg-amber-500/5">
+      <Card className="border-primary/20 bg-primary/5">
         <CardContent className="pt-4 pb-4">
-          <p className="font-body text-sm text-amber-400 font-semibold mb-1">⚠ TikTok Live — Manual Action Required</p>
+          <p className="font-body text-sm text-primary font-semibold mb-1">⚠ TikTok Live — Manual Action Required</p>
           <p className="font-body text-xs text-muted-foreground leading-relaxed">
             TikTok Live streaming cannot be configured by agents. Gannon must go live directly from the TikTok app.
             To embed a TikTok live stream here, copy the YouTube/Restream re-broadcast URL if you are simulcasting.

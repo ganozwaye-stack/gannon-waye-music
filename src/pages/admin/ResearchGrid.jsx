@@ -16,7 +16,7 @@ const FEED_CATEGORIES = [
   { id: 'financial', label: 'Financial', icon: TrendingUp, color: 'text-green-400' },
   { id: 'creative', label: 'Creative', icon: Brain, color: 'text-purple-400' },
   { id: 'brand_profile', label: 'Brand', icon: Eye, color: 'text-pink-400' },
-  { id: 'other', label: 'Other', icon: Zap, color: 'text-amber-400' },
+  { id: 'other', label: 'Other', icon: Zap, color: 'text-primary' },
 ];
 
 const LIVE_SCAN_TOPICS = [

@@ -40,7 +40,7 @@ const ASSET_VALUATIONS = [
 const STATUS_COLOR = {
   live: 'bg-green-500/20 text-green-400',
   pipeline: 'bg-blue-500/20 text-blue-400',
-  staging: 'bg-yellow-500/20 text-yellow-400',
+  staging: 'bg-primary/20 text-primary',
   blocked: 'bg-red-500/20 text-red-400',
   idea: 'bg-slate-500/20 text-slate-400',
 };
@@ -102,7 +102,7 @@ export default function BusinessWorthCommand() {
         </Card>
         <Card>
           <CardContent className="p-4">
-            <p className="text-2xl font-bold text-yellow-400">{stagingStreams.length}</p>
+            <p className="text-2xl font-bold text-primary">{stagingStreams.length}</p>
             <p className="text-xs text-muted-foreground">Staging (Not Yet Live)</p>
           </CardContent>
         </Card>
@@ -139,11 +139,11 @@ export default function BusinessWorthCommand() {
           {ASSET_VALUATIONS.map(asset => (
             <div key={asset.asset} className={`border rounded-xl p-4 ${asset.importance === 'critical' ? 'border-primary/30' : 'border-border'}`}>
               <div className="flex items-start gap-3">
-                <Star className={`w-4 h-4 shrink-0 mt-0.5 ${asset.importance === 'critical' ? 'text-primary' : asset.importance === 'high' ? 'text-yellow-400' : 'text-muted-foreground'}`} />
+                <Star className={`w-4 h-4 shrink-0 mt-0.5 ${asset.importance === 'critical' ? 'text-primary' : asset.importance === 'high' ? 'text-primary' : 'text-muted-foreground'}`} />
                 <div>
                   <div className="flex items-center gap-2 mb-1">
                     <p className="font-semibold text-sm">{asset.asset}</p>
-                    <Badge className={`text-xs ${asset.importance === 'critical' ? 'bg-primary/20 text-primary' : asset.importance === 'high' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-secondary text-secondary-foreground'}`}>
+                    <Badge className={`text-xs ${asset.importance === 'critical' ? 'bg-primary/20 text-primary' : asset.importance === 'high' ? 'bg-primary/20 text-primary' : 'bg-secondary text-secondary-foreground'}`}>
                       {asset.importance}
                     </Badge>
                   </div>

@@ -11,7 +11,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 const STATUS_CONFIG = {
   uploaded:        { label: 'Uploaded',   color: 'bg-blue-500/10 text-blue-400',     icon: Clock },
-  analysing:       { label: 'Analysing',  color: 'bg-yellow-500/10 text-yellow-400', icon: Loader2 },
+  analysing:       { label: 'Analysing',  color: 'bg-primary/10 text-primary', icon: Loader2 },
   ready_to_master: { label: 'Ready',      color: 'bg-primary/10 text-primary',        icon: Zap },
   mastering:       { label: 'Mastering',  color: 'bg-orange-500/10 text-orange-400', icon: Loader2 },
   mastered:        { label: 'Mastered',   color: 'bg-green-500/10 text-green-400',   icon: CheckCircle2 },
@@ -213,7 +213,7 @@ export default function MasteringAdmin() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
           { label: 'Total', value: stats.total, color: 'text-primary' },
-          { label: 'In Progress', value: stats.pending, color: 'text-yellow-400' },
+          { label: 'In Progress', value: stats.pending, color: 'text-primary' },
           { label: 'Mastered', value: stats.mastered, color: 'text-green-400' },
           { label: 'Failed', value: stats.failed, color: 'text-red-400' },
         ].map((s, i) => (

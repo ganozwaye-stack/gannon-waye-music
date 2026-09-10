@@ -134,10 +134,10 @@ export default function OpenAICommandCentre() {
 
       {/* Paused banner */}
       {paused && (
-        <Card className="border-amber-500/30 bg-amber-500/5">
+        <Card className="border-primary/30 bg-primary/5">
           <CardContent className="p-3 flex items-center gap-2">
-            <Pause className="w-4 h-4 text-amber-400" />
-            <p className="text-sm font-semibold text-amber-300">All AI jobs PAUSED. No OpenAI calls will be made until resumed.</p>
+            <Pause className="w-4 h-4 text-primary" />
+            <p className="text-sm font-semibold text-primary">All AI jobs PAUSED. No OpenAI calls will be made until resumed.</p>
           </CardContent>
         </Card>
       )}
@@ -205,7 +205,7 @@ export default function OpenAICommandCentre() {
                       color === 'green' ? 'bg-green-500/20 text-green-300 border-green-500/30 text-xs' :
                       color === 'red' ? 'bg-red-500/20 text-red-300 border-red-500/30 text-xs' :
                       color === 'orange' ? 'bg-orange-500/20 text-orange-300 border-orange-500/30 text-xs' :
-                      'bg-amber-500/20 text-amber-300 border-amber-500/30 text-xs'
+                      'bg-primary/20 text-primary border-primary/30 text-xs'
                     } variant="outline">{status}</Badge>
                     {route && <Link to={route}><Button variant="ghost" size="icon" className="h-5 w-5"><Eye className="w-3 h-3" /></Button></Link>}
                   </div>
@@ -221,7 +221,7 @@ export default function OpenAICommandCentre() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              { label: 'Active', count: activeMessages.length, color: 'text-amber-400' },
+              { label: 'Active', count: activeMessages.length, color: 'text-primary' },
               { label: 'Failed', count: failedMessages.length, color: 'text-red-400' },
               { label: 'Repair Tasks', count: repairMessages.length, color: 'text-orange-400' },
               { label: 'Content Tasks', count: contentMessages.length, color: 'text-blue-400' },
@@ -245,7 +245,7 @@ export default function OpenAICommandCentre() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
                         <Badge className="bg-secondary text-xs" variant="outline">{msg.message_type?.replace(/_/g, ' ')}</Badge>
-                        <Badge className={`text-xs ${msg.priority === 'critical' ? 'bg-red-500/20 text-red-300' : msg.priority === 'high' ? 'bg-amber-500/20 text-amber-300' : 'bg-secondary text-muted-foreground'}`} variant="outline">{msg.priority}</Badge>
+                        <Badge className={`text-xs ${msg.priority === 'critical' ? 'bg-red-500/20 text-red-300' : msg.priority === 'high' ? 'bg-primary/20 text-primary' : 'bg-secondary text-muted-foreground'}`} variant="outline">{msg.priority}</Badge>
                         <Badge className={`text-xs ${msg.status === 'resolved' ? 'bg-green-500/20 text-green-300' : msg.status === 'failed' ? 'bg-red-500/20 text-red-300' : 'bg-blue-500/20 text-blue-300'}`} variant="outline">{msg.status}</Badge>
                       </div>
                       <p className="text-sm font-medium">{msg.subject}</p>
@@ -269,9 +269,9 @@ export default function OpenAICommandCentre() {
       {/* ── REPAIR ASSISTANT ── */}
       {tab === 'repair' && (
         <div className="space-y-4">
-          <Card className="border-amber-500/20 bg-amber-500/5">
+          <Card className="border-primary/20 bg-primary/5">
             <CardContent className="p-4">
-              <p className="font-semibold text-amber-300 text-sm mb-1">Store Status: FAILED — NEEDS FIX</p>
+              <p className="font-semibold text-primary text-sm mb-1">Store Status: FAILED — NEEDS FIX</p>
               <p className="text-xs text-muted-foreground">Paste Playwright failures → OpenAI analyses → creates fix plan, Cursor prompt, Warp command, SystemHealthIssue, AgentMessage.</p>
             </CardContent>
           </Card>
@@ -328,7 +328,7 @@ export default function OpenAICommandCentre() {
                 <Button onClick={runRepairAnalysis} disabled={repairRunning || paused} className="w-full">
                   {repairRunning ? <><RefreshCw className="w-4 h-4 mr-2 animate-spin" />Analysing...</> : <><Brain className="w-4 h-4 mr-2" />Run Repair Analysis (~$0.001)</>}
                 </Button>
-                {paused && <p className="text-xs text-amber-300 text-center">AI is paused. Resume to run analysis.</p>}
+                {paused && <p className="text-xs text-primary text-center">AI is paused. Resume to run analysis.</p>}
               </CardContent>
             </Card>
           )}

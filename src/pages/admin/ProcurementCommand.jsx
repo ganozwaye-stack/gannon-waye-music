@@ -140,7 +140,7 @@ export default function ProcurementCommand() {
 
   const statusColors = {
     draft: 'bg-secondary text-muted-foreground border-border',
-    pending_approval: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+    pending_approval: 'bg-primary/20 text-primary border-primary/30',
     approved: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
     ordered: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
     paid: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
@@ -201,10 +201,10 @@ export default function ProcurementCommand() {
       </div>
 
       {/* Alibaba integration level */}
-      <Card className="border-amber-500/20">
+      <Card className="border-primary/20">
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center gap-2">
-            <ExternalLink className="w-4 h-4 text-amber-400" /> Alibaba Integration Level
+            <ExternalLink className="w-4 h-4 text-primary" /> Alibaba Integration Level
           </CardTitle>
         </CardHeader>
         <CardContent className="pt-0 space-y-2">
@@ -213,8 +213,8 @@ export default function ProcurementCommand() {
               <p className="text-xs font-semibold text-green-400 mb-1">✅ Level 1 — Manual (ACTIVE)</p>
               <p className="text-xs text-muted-foreground">Enter orders, costs, tracking manually. Works now with no API access.</p>
             </div>
-            <div className="bg-amber-500/10 border border-amber-500/20 rounded-lg p-3">
-              <p className="text-xs font-semibold text-amber-400 mb-1">⚡ Level 2 — CSV Import (READY)</p>
+            <div className="bg-primary/10 border border-primary/20 rounded-lg p-3">
+              <p className="text-xs font-semibold text-primary mb-1">⚡ Level 2 — CSV Import (READY)</p>
               <p className="text-xs text-muted-foreground">Upload Alibaba order export CSV. System parses supplier, products, costs.</p>
               <Button size="sm" variant="outline" className="mt-2 text-xs gap-1">
                 <Plus className="w-3 h-3" /> Upload CSV
@@ -230,7 +230,7 @@ export default function ProcurementCommand() {
               </a>
             </div>
           </div>
-          <p className="text-xs text-amber-400">⚠️ Orders/payments through Alibaba require Gannon's manual approval. System prepares purchase proposals only.</p>
+          <p className="text-xs text-primary">⚠️ Orders/payments through Alibaba require Gannon's manual approval. System prepares purchase proposals only.</p>
         </CardContent>
       </Card>
 
@@ -302,7 +302,7 @@ export default function ProcurementCommand() {
                 </div>
               </div>
               {!parseFloat(newPO.shipping_cost_aud) && (
-                <p className="text-xs text-amber-400 mt-2">⚠️ Shipping not entered — this will be marked PRELIMINARY</p>
+                <p className="text-xs text-primary mt-2">⚠️ Shipping not entered — this will be marked PRELIMINARY</p>
               )}
             </div>
 

@@ -27,7 +27,7 @@ function calcMargin({ cost, price, shipping_est, fee_pct, fee_fixed, include_shi
 }
 
 function MarginBar({ pct }) {
-  const color = pct >= 50 ? 'bg-green-500' : pct >= 30 ? 'bg-primary' : pct >= 10 ? 'bg-amber-500' : 'bg-red-500';
+  const color = pct >= 50 ? 'bg-green-500' : pct >= 30 ? 'bg-primary' : pct >= 10 ? 'bg-primary' : 'bg-red-500';
   return (
     <div className="w-full bg-secondary/40 rounded-full h-2 mt-1">
       <div className={`${color} h-2 rounded-full transition-all`} style={{ width: `${Math.max(0, Math.min(100, pct))}%` }} />
@@ -78,10 +78,10 @@ export default function PricingMarginCalculator() {
       </div>
 
       {/* Bundle rules reminder */}
-      <div className="flex items-start gap-3 p-3 rounded-xl border border-amber-500/30 bg-amber-500/5">
-        <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+      <div className="flex items-start gap-3 p-3 rounded-xl border border-primary/30 bg-primary/5">
+        <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <p className="font-body text-xs text-muted-foreground">
-          <strong className="text-amber-400">Bundle discount rules:</strong> Journal Bundle ($59) and Winter Bundle ($129) are excluded from all promo codes. Discount calculator will flag this.
+          <strong className="text-primary">Bundle discount rules:</strong> Journal Bundle ($59) and Winter Bundle ($129) are excluded from all promo codes. Discount calculator will flag this.
         </p>
       </div>
 
@@ -100,7 +100,7 @@ export default function PricingMarginCalculator() {
                 className="px-3 py-1.5 rounded-lg border border-border/40 text-xs font-body text-muted-foreground hover:border-primary/40 hover:text-foreground transition-all"
               >
                 {p.name}
-                {p.excludeFromDiscounts && <span className="ml-1 text-amber-400">⚠</span>}
+                {p.excludeFromDiscounts && <span className="ml-1 text-primary">⚠</span>}
               </button>
             ))}
           </div>
@@ -183,16 +183,16 @@ export default function PricingMarginCalculator() {
 
           {/* Discounted result */}
           {parseFloat(discountPct) > 0 && (
-            <Card className="border-amber-500/30 bg-amber-500/5">
+            <Card className="border-primary/30 bg-primary/5">
               <CardHeader className="pb-2 pt-4">
-                <CardTitle className="text-sm flex items-center gap-2 text-amber-400">
+                <CardTitle className="text-sm flex items-center gap-2 text-primary">
                   <DollarSign className="w-4 h-4" /> After {discountPct}% Discount
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
                 <div className="flex justify-between text-xs">
                   <span className="font-body text-muted-foreground">Discounted Price</span>
-                  <span className="font-body font-semibold text-amber-400">{fmt(discounted.price)}</span>
+                  <span className="font-body font-semibold text-primary">{fmt(discounted.price)}</span>
                 </div>
                 <div className="flex justify-between text-xs">
                   <span className="font-body text-muted-foreground">Profit after discount</span>
@@ -200,7 +200,7 @@ export default function PricingMarginCalculator() {
                 </div>
                 <div className="flex justify-between items-center text-xs mb-1">
                   <span className="font-body text-muted-foreground">Margin after discount</span>
-                  <span className={`font-display text-lg font-bold ${discountResult.marginPct >= 30 ? 'text-green-400' : discountResult.marginPct >= 10 ? 'text-amber-400' : 'text-red-400'}`}>
+                  <span className={`font-display text-lg font-bold ${discountResult.marginPct >= 30 ? 'text-green-400' : discountResult.marginPct >= 10 ? 'text-primary' : 'text-red-400'}`}>
                     {fmtPct(discountResult.marginPct)}
                   </span>
                 </div>
@@ -229,11 +229,11 @@ export default function PricingMarginCalculator() {
                       <div className="flex-1 min-w-0">
                         <span className="font-body text-foreground/80 truncate block">{p.name}</span>
                         {p.excludeFromDiscounts && (
-                          <span className="font-body text-[9px] text-amber-400">No discounts</span>
+                          <span className="font-body text-[9px] text-primary">No discounts</span>
                         )}
                       </div>
                       <div className="text-right shrink-0">
-                        <span className={`font-body font-semibold ${r.marginPct >= 50 ? 'text-green-400' : r.marginPct >= 30 ? 'text-primary' : r.marginPct >= 10 ? 'text-amber-400' : 'text-red-400'}`}>
+                        <span className={`font-body font-semibold ${r.marginPct >= 50 ? 'text-green-400' : r.marginPct >= 30 ? 'text-primary' : r.marginPct >= 10 ? 'text-primary' : 'text-red-400'}`}>
                           {fmtPct(r.marginPct)}
                         </span>
                         <span className="font-body text-muted-foreground ml-2">{fmt(r.profit)}</span>

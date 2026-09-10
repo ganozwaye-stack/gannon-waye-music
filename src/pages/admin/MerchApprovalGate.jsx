@@ -302,7 +302,7 @@ function ApprovalCard({ product, onSave, onApprove, onDiscard, saving, approving
               <span className={margin.meets_floor ? 'text-primary' : 'text-destructive'}>{margin.margin_percent.toFixed(1)}%</span>
             </div>
             {!margin.meets_floor && minPrice && (
-              <p className="text-[11px] text-amber-500 pt-1">
+              <p className="text-[11px] text-primary pt-1">
                 ⚠️ Below {MARGIN_FLOOR_PERCENT}% floor. Minimum sale price to clear it: <strong>${minPrice.toFixed(2)}</strong>
               </p>
             )}

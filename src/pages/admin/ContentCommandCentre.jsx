@@ -69,7 +69,7 @@ function PostCard({ post, onApprove, onReject, onEdit }) {
 
   const statusColors = {
     draft: 'bg-secondary text-muted-foreground border-border',
-    awaiting_approval: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+    awaiting_approval: 'bg-primary/20 text-primary border-primary/30',
     approved: 'bg-green-500/20 text-green-300 border-green-500/30',
     scheduled: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
     posted: 'bg-green-600/20 text-green-200 border-green-600/30',
@@ -92,7 +92,7 @@ function PostCard({ post, onApprove, onReject, onEdit }) {
             )}
           </div>
           {post.predicted_viral_probability > 0 && (
-            <span className="text-xs text-amber-300 font-mono shrink-0">{Math.round(post.predicted_viral_probability * 100)}% viral</span>
+            <span className="text-xs text-primary font-mono shrink-0">{Math.round(post.predicted_viral_probability * 100)}% viral</span>
           )}
         </div>
 
@@ -296,7 +296,7 @@ export default function ContentCommandCentre() {
       {/* Stats row */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {[
-          { label: 'Awaiting Approval', count: grouped.awaiting_approval.length, color: 'text-amber-400' },
+          { label: 'Awaiting Approval', count: grouped.awaiting_approval.length, color: 'text-primary' },
           { label: 'Approved', count: grouped.approved.length, color: 'text-green-400' },
           { label: 'Scheduled', count: grouped.scheduled.length, color: 'text-blue-400' },
           { label: 'Drafts', count: grouped.draft.length, color: 'text-muted-foreground' },
@@ -334,7 +334,7 @@ export default function ContentCommandCentre() {
                   <p className="font-body text-muted-foreground/70 text-[10px] mt-0.5">{item.note}</p>
                 </div>
                 <div className="flex items-center gap-1.5 shrink-0">
-                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 font-semibold uppercase tracking-wider whitespace-nowrap">Needs Review</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-primary/20 text-primary font-semibold uppercase tracking-wider whitespace-nowrap">Needs Review</span>
                   <Link to={item.link}><Button type="button" variant="ghost" size="sm" className="h-6 px-1.5 text-[10px] text-primary">Brief →</Button></Link>
                 </div>
               </div>
@@ -362,8 +362,8 @@ export default function ContentCommandCentre() {
               { name: 'Tote Bag', price: '$15', status: 'soldout', note: 'Sold out — permanent' },
               { name: 'Oversized Tee', price: '—', status: 'soldout', note: 'Sold out — display only' },
             ].map((p, i) => (
-              <div key={i} className={`flex items-start gap-1.5 p-2 rounded-lg border ${p.status === 'ok' ? 'border-green-500/20 bg-green-500/5' : p.status === 'review' ? 'border-amber-500/30 bg-amber-500/5' : 'border-border/30 bg-secondary/20'}`}>
-                <span className={`mt-0.5 text-[10px] ${p.status === 'ok' ? 'text-green-400' : p.status === 'review' ? 'text-amber-400' : 'text-muted-foreground'}`}>
+              <div key={i} className={`flex items-start gap-1.5 p-2 rounded-lg border ${p.status === 'ok' ? 'border-green-500/20 bg-green-500/5' : p.status === 'review' ? 'border-primary/30 bg-primary/5' : 'border-border/30 bg-secondary/20'}`}>
+                <span className={`mt-0.5 text-[10px] ${p.status === 'ok' ? 'text-green-400' : p.status === 'review' ? 'text-primary' : 'text-muted-foreground'}`}>
                   {p.status === 'ok' ? '✓' : p.status === 'review' ? '⚠' : '○'}
                 </span>
                 <div>
@@ -378,11 +378,11 @@ export default function ContentCommandCentre() {
       </Card>
 
       {/* Metricool status */}
-      <Card className="border-amber-500/20 bg-amber-500/5">
+      <Card className="border-primary/20 bg-primary/5">
         <CardContent className="p-3 flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
-            <p className="text-sm text-amber-300 font-medium">Metricool — Connect before scheduling</p>
+            <div className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <p className="text-sm text-primary font-medium">Metricool — Connect before scheduling</p>
             <p className="text-xs text-muted-foreground">No content scheduled until Gannon approves final visuals</p>
           </div>
           <Link to="/admin/metricool-command">

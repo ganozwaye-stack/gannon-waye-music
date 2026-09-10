@@ -85,7 +85,7 @@ export default function OwnerBusinessHub() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="bg-secondary/40 border border-border/40 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1.5 p-1 h-auto">
           <TabsTrigger value="overview" className="text-xs py-2"><ListTodo className="w-3.5 h-3.5 mr-1 text-primary" /> Tonight Tasks</TabsTrigger>
-          <TabsTrigger value="leads" className="text-xs py-2"><Briefcase className="w-3.5 h-3.5 mr-1 text-yellow-400" /> Client Pipeline ({leads.length})</TabsTrigger>
+          <TabsTrigger value="leads" className="text-xs py-2"><Briefcase className="w-3.5 h-3.5 mr-1 text-primary" /> Client Pipeline ({leads.length})</TabsTrigger>
           <TabsTrigger value="ganozmix" className="text-xs py-2"><DollarSign className="w-3.5 h-3.5 mr-1 text-green-400" /> Sourcing & eBay</TabsTrigger>
           <TabsTrigger value="quick-links" className="text-xs py-2"><Send className="w-3.5 h-3.5 mr-1" /> Quick Links</TabsTrigger>
         </TabsList>
@@ -127,7 +127,7 @@ export default function OwnerBusinessHub() {
                         {task.text}
                       </span>
                     </div>
-                    <Badge className={task.done ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-yellow-500/10 text-yellow-400 border border-yellow-500/20'}>
+                    <Badge className={task.done ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-primary/10 text-primary border border-primary/20'}>
                       {task.done ? 'Cleared' : 'Pending'}
                     </Badge>
                   </div>
@@ -159,7 +159,7 @@ export default function OwnerBusinessHub() {
                           <p className="text-[10px] text-muted-foreground">{lead.email} · Business: {lead.business_type}</p>
                         </div>
                         <div className="flex gap-1.5 items-center">
-                          <Badge className="bg-yellow-500/15 text-yellow-400 border border-yellow-500/20 uppercase text-[9px]">{lead.urgency}</Badge>
+                          <Badge className="bg-primary/15 text-primary border border-primary/20 uppercase text-[9px]">{lead.urgency}</Badge>
                           <Badge className="bg-green-500/15 text-green-400 border border-green-500/20 text-[9px]">{lead.budget_range}</Badge>
                           <Select 
                             value={lead.proposal_status || 'received'} 
@@ -224,8 +224,8 @@ export default function OwnerBusinessHub() {
                   </div>
                 </div>
 
-                <div className="border-t border-border/30 pt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-xs space-y-1.5">
-                  <p className="font-bold text-yellow-400 flex items-center gap-1.5"><AlertTriangle className="w-4 h-4" /> Listing Safeguards active:</p>
+                <div className="border-t border-border/30 pt-4 p-3 bg-primary/10 border border-primary/30 rounded-xl text-xs space-y-1.5">
+                  <p className="font-bold text-primary flex items-center gap-1.5"><AlertTriangle className="w-4 h-4" /> Listing Safeguards active:</p>
                   <p>• Listing publishes require Gannon's explicit verification before going live to prevent billing anomalies.</p>
                   <p>• CJ inventory reconciliations run every 6 hours; listings with zero stock are automatically paused.</p>
                 </div>

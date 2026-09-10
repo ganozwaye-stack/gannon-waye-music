@@ -193,8 +193,8 @@ export default function StoreProductDetail() {
 
           {/* Poster needs-images notice */}
           {details?.needsImages && (
-            <div style={{ padding: '10px 14px', borderRadius: '8px', background: 'rgba(234,179,8,0.08)', border: '1px solid rgba(234,179,8,0.3)', marginBottom: '16px' }}>
-              <p style={{ fontSize: '11px', color: '#facc15', margin: 0 }}>
+            <div style={{ padding: '10px 14px', borderRadius: '8px', background: 'rgba(212,175,55,0.08)', border: '1px solid rgba(212,175,55,0.3)', marginBottom: '16px' }}>
+              <p style={{ fontSize: '11px', color: '#d4af37', margin: 0 }}>
                 🖼️ Poster artwork images coming soon. Size pricing is live — order now and your print will be prepared once artwork is confirmed.
               </p>
             </div>

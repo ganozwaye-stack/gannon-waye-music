@@ -10,7 +10,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { Image, Upload, CheckCircle2, AlertTriangle, RefreshCw, Lock, X } from 'lucide-react';
 
 const ASSET_STATUS_META = {
-  raw: { label: 'Raw', color: 'text-amber-400', bg: 'bg-amber-500/10' },
+  raw: { label: 'Raw', color: 'text-primary', bg: 'bg-primary/10' },
   ready: { label: 'Ready', color: 'text-green-400', bg: 'bg-green-500/10' },
   used: { label: 'Used', color: 'text-blue-400', bg: 'bg-blue-500/10' },
   archived: { label: 'Archived', color: 'text-muted-foreground', bg: 'bg-secondary' },
@@ -126,10 +126,10 @@ export default function MetricoolMediaPipeline() {
       </div>
 
       {/* Safety notice */}
-      <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 flex items-start gap-3">
-        <Lock className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+      <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 flex items-start gap-3">
+        <Lock className="w-5 h-5 text-primary shrink-0 mt-0.5" />
         <div>
-          <p className="font-body text-sm text-amber-400 font-semibold">Sensitive assets blocked by default</p>
+          <p className="font-body text-sm text-primary font-semibold">Sensitive assets blocked by default</p>
           <p className="font-body text-xs text-muted-foreground mt-0.5">
             Only assets marked <strong>ready</strong> can be normalized. Raw/unverified assets are blocked. 
             Go to <strong>Social Asset Library</strong> to verify and approve assets first.
@@ -197,7 +197,7 @@ export default function MetricoolMediaPipeline() {
                     <span className="font-body text-[10px] text-primary">Normalize →</span>
                   )}
                   {mediaId && <CheckCircle2 className="w-4 h-4 text-green-400" />}
-                  {asset.status === 'raw' && <AlertTriangle className="w-4 h-4 text-amber-400" />}
+                  {asset.status === 'raw' && <AlertTriangle className="w-4 h-4 text-primary" />}
                 </div>
               </button>
             );

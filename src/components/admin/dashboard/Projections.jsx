@@ -35,7 +35,7 @@ export default function Projections() {
                   </div>
                   <div className="text-center">
                     <p className="font-body text-[9px] text-muted-foreground/50 uppercase">30 Day</p>
-                    <p className="font-body text-xs text-amber-400 mt-0.5">{m.goal_30day || 0}</p>
+                    <p className="font-body text-xs text-primary mt-0.5">{m.goal_30day || 0}</p>
                   </div>
                   <div className="text-center">
                     <p className="font-body text-[9px] text-muted-foreground/50 uppercase">90 Day</p>

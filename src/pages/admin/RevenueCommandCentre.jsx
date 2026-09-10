@@ -15,7 +15,7 @@ import { toast } from 'sonner';
 import { format } from 'date-fns';
 
 const AGENTS = [
-  { name: 'revenue_orchestrator', label: 'Revenue Orchestrator', icon: Star, color: 'text-yellow-400', desc: 'Master coordinator — daily action list' },
+  { name: 'revenue_orchestrator', label: 'Revenue Orchestrator', icon: Star, color: 'text-primary', desc: 'Master coordinator — daily action list' },
   { name: 'merch_sales_agent', label: 'Merch Sales', icon: ShoppingBag, color: 'text-blue-400', desc: 'Flash sales, stock alerts, bundles' },
   { name: 'pricing_optimiser', label: 'Pricing Optimiser', icon: DollarSign, color: 'text-green-400', desc: 'Margin analysis, price recommendations' },
   { name: 'superfan_converter', label: 'Superfan Converter', icon: Users, color: 'text-pink-400', desc: 'Turns fans into buyers' },
@@ -84,7 +84,7 @@ function OppDetailModal({ opp, onClose, onSendToApproval, onUpdateStatus }) {
         <div className="space-y-4 mt-2">
           {/* Badges */}
           <div className="flex flex-wrap gap-2">
-            <Badge className={`text-xs ${opp.status === 'live' ? 'bg-green-500/20 text-green-400' : opp.status === 'new' ? 'bg-yellow-500/20 text-yellow-400' : 'bg-blue-500/20 text-blue-400'}`}>
+            <Badge className={`text-xs ${opp.status === 'live' ? 'bg-green-500/20 text-green-400' : opp.status === 'new' ? 'bg-primary/20 text-primary' : 'bg-blue-500/20 text-blue-400'}`}>
               {opp.status}
             </Badge>
             <Badge
@@ -115,7 +115,7 @@ function OppDetailModal({ opp, onClose, onSendToApproval, onUpdateStatus }) {
               { label: 'Difficulty', value: opp.difficulty, color: 'text-orange-400' },
               { label: 'Automation', value: opp.automation_potential, color: 'text-cyan-400' },
               { label: 'Audience Match', value: opp.audience_match, color: 'text-green-400' },
-              { label: 'Risk', value: opp.risk_level, color: opp.risk_level === 'high' ? 'text-red-400' : 'text-yellow-400', isText: true },
+              { label: 'Risk', value: opp.risk_level, color: opp.risk_level === 'high' ? 'text-red-400' : 'text-primary', isText: true },
             ].map(s => (
               <div key={s.label} className="bg-secondary/30 rounded-lg p-2 text-center">
                 <p className={`text-lg font-bold ${s.color}`}>{s.value ?? '—'}</p>
@@ -274,7 +274,7 @@ export default function RevenueCommandCentre() {
   const liveCount = opportunities.filter(o => o.status === 'live').length;
 
   const STATUS_CARDS = [
-    { key: 'new-opportunities', label: 'New Opportunities', value: newCount, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'hover:border-yellow-500/40' },
+    { key: 'new-opportunities', label: 'New Opportunities', value: newCount, color: 'text-primary', bg: 'bg-primary/10', border: 'hover:border-primary/40' },
     { key: 'being-reviewed', label: 'Being Reviewed', value: reviewingCount, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'hover:border-blue-500/40' },
     { key: 'in-progress', label: 'In Progress', value: inProgressCount, color: 'text-green-400', bg: 'bg-green-500/10', border: 'hover:border-green-500/40' },
     { key: 'live-earning', label: 'Live & Earning', value: liveCount, color: 'text-primary', bg: 'bg-primary/10', border: 'hover:border-primary/40' },

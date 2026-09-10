@@ -18,7 +18,7 @@ const STAGE_COLORS = {
   lead: 'bg-slate-500/10 text-slate-400',
   discovery_call: 'bg-blue-500/10 text-blue-400',
   proposal_sent: 'bg-purple-500/10 text-purple-400',
-  approved: 'bg-yellow-500/10 text-yellow-400',
+  approved: 'bg-primary/10 text-primary',
   in_build: 'bg-orange-500/10 text-orange-400',
   testing: 'bg-cyan-500/10 text-cyan-400',
   live: 'bg-green-500/10 text-green-400',
@@ -63,9 +63,9 @@ export default function ClientInstalls() {
         </div>
       </div>
 
-      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
-        <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
-        <p className="text-yellow-300 text-xs"><strong>Do-Not-Spend-Or-Lose Rule:</strong> No contracts, payments, or commitments may be made without explicit approval. All client actions are tracked here.</p>
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
+        <Shield className="w-4 h-4 text-primary shrink-0" />
+        <p className="text-primary text-xs"><strong>Do-Not-Spend-Or-Lose Rule:</strong> No contracts, payments, or commitments may be made without explicit approval. All client actions are tracked here.</p>
       </div>
 
       {/* Pipeline overview */}

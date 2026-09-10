@@ -25,12 +25,12 @@ const SEVERITY_CONFIG = {
     headerBg: 'bg-orange-500/5',
   },
   warning: {
-    bar: 'border-l-4 border-l-yellow-500',
-    badge: 'bg-yellow-500/15 text-yellow-300 border-yellow-500/40',
+    bar: 'border-l-4 border-l-primary',
+    badge: 'bg-primary/15 text-primary border-primary/40',
     icon: AlertTriangle,
-    iconColor: 'text-yellow-400',
+    iconColor: 'text-primary',
     label: 'Warning',
-    headerBg: 'bg-yellow-500/5',
+    headerBg: 'bg-primary/5',
   },
   info: {
     bar: 'border-l-4 border-l-blue-500',
@@ -48,7 +48,7 @@ const TYPE_COLORS = {
   reputation: 'bg-pink-500/10 text-pink-400',
   security: 'bg-red-500/10 text-red-400',
   data: 'bg-cyan-500/10 text-cyan-400',
-  brand: 'bg-amber-500/10 text-amber-400',
+  brand: 'bg-primary/10 text-primary',
   system: 'bg-slate-500/10 text-slate-400',
   compliance: 'bg-orange-500/10 text-orange-400',
   opportunity: 'bg-emerald-500/10 text-emerald-400',
@@ -100,18 +100,18 @@ export default function RiskAlerts() {
             </div>
           )}
           {counts.open > 0 && (
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
-              <AlertTriangle className="w-4 h-4 text-yellow-400" />
-              <span className="text-xs text-yellow-300 font-medium">{counts.open} Open</span>
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/30">
+              <AlertTriangle className="w-4 h-4 text-primary" />
+              <span className="text-xs text-primary font-medium">{counts.open} Open</span>
             </div>
           )}
         </div>
       </div>
 
       {/* Do-Not-Spend banner */}
-      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-start gap-3">
-        <Shield className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
-        <p className="text-yellow-300 text-xs"><strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — High and critical alerts may require approval before action. Never resolve a financial or legal alert without human review.</p>
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-start gap-3">
+        <Shield className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+        <p className="text-primary text-xs"><strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — High and critical alerts may require approval before action. Never resolve a financial or legal alert without human review.</p>
       </div>
 
       {/* Filter tabs */}

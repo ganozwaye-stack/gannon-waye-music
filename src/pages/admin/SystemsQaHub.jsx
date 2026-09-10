@@ -35,7 +35,7 @@ export default function SystemsQaHub() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="bg-secondary/40 border border-border/40 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1.5 p-1 h-auto">
           <TabsTrigger value="health" className="text-xs py-2"><Activity className="w-3.5 h-3.5 mr-1 text-primary" /> Site Health</TabsTrigger>
-          <TabsTrigger value="stripe-webhooks" className="text-xs py-2"><CreditCard className="w-3.5 h-3.5 mr-1 text-yellow-400" /> Stripe & Webhooks</TabsTrigger>
+          <TabsTrigger value="stripe-webhooks" className="text-xs py-2"><CreditCard className="w-3.5 h-3.5 mr-1 text-primary" /> Stripe & Webhooks</TabsTrigger>
           <TabsTrigger value="performance" className="text-xs py-2"><Cpu className="w-3.5 h-3.5 mr-1 text-green-400" /> Performance Budget</TabsTrigger>
           <TabsTrigger value="alerts" className="text-xs py-2"><ShieldAlert className="w-3.5 h-3.5 mr-1 text-red-500" /> Risk Alerts</TabsTrigger>
           <TabsTrigger value="quick-links" className="text-xs py-2"><Send className="w-3.5 h-3.5 mr-1" /> All QA Tools</TabsTrigger>
@@ -103,7 +103,7 @@ export default function SystemsQaHub() {
           <Card className="border-border/40">
             <CardHeader>
               <CardTitle className="font-display text-lg text-white flex items-center gap-2">
-                <CreditCard className="w-5 h-5 text-yellow-400" /> Stripe Webhook Diagnostic Cockpit
+                <CreditCard className="w-5 h-5 text-primary" /> Stripe Webhook Diagnostic Cockpit
               </CardTitle>
               <CardDescription className="text-xs">Monitor Stripe event listener configurations. Note: Staging checkouts use sandbox; live endpoints are restricted.</CardDescription>
             </CardHeader>

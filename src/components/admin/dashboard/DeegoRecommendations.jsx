@@ -29,7 +29,7 @@ const LANE_ROUTES = {
 
 const RISK_STYLE = {
   low: 'text-green-400',
-  medium: 'text-amber-400',
+  medium: 'text-primary',
   high: 'text-red-400',
 };
 

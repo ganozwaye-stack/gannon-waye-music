@@ -34,8 +34,8 @@ export default function StoreVisualsTab() {
         </div>
       </div>
 
-      <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-4">
-        <h3 className="text-sm font-medium text-yellow-300 mb-1">⚠ Safety Rule</h3>
+      <div className="rounded-xl border border-primary/30 bg-primary/5 p-4">
+        <h3 className="text-sm font-medium text-primary mb-1">⚠ Safety Rule</h3>
         <p className="text-xs text-muted-foreground">
           Only compositions with <strong className="text-foreground">approval_status = approved or published</strong> are eligible for public display.
           Draft and awaiting_approval compositions never appear on the public store or homepage.

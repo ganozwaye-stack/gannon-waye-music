@@ -11,13 +11,13 @@ import { useToast } from '@/components/ui/use-toast';
 const PRIORITY_CONFIG = {
   critical: { color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/30' },
   high:     { color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/30' },
-  medium:   { color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30' },
+  medium:   { color: 'text-primary', bg: 'bg-primary/10', border: 'border-primary/30' },
   low:      { color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/30' },
 };
 
 const STATUS_CONFIG = {
   open:        { color: 'text-red-400', bg: 'bg-red-500/10' },
-  in_progress: { color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+  in_progress: { color: 'text-primary', bg: 'bg-primary/10' },
   resolved:    { color: 'text-green-400', bg: 'bg-green-500/10' },
   deferred:    { color: 'text-slate-400', bg: 'bg-slate-500/10' },
 };
@@ -181,9 +181,9 @@ export default function PremiumUX() {
       </div>
 
       {/* Safety banner */}
-      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
-        <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
-        <p className="text-yellow-300 text-xs"><strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — All fixes are suggestions only. Anything touching public pricing, payment flows, or legal content requires ApprovalQueue before implementation.</p>
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
+        <Shield className="w-4 h-4 text-primary shrink-0" />
+        <p className="text-primary text-xs"><strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — All fixes are suggestions only. Anything touching public pricing, payment flows, or legal content requires ApprovalQueue before implementation.</p>
       </div>
 
       {/* Stats */}
@@ -192,7 +192,7 @@ export default function PremiumUX() {
           { label: 'Total Issues', value: stats.total, color: 'text-foreground' },
           { label: 'Critical', value: stats.critical, color: 'text-red-400' },
           { label: 'High', value: stats.high, color: 'text-orange-400' },
-          { label: 'Open', value: stats.open, color: 'text-yellow-400' },
+          { label: 'Open', value: stats.open, color: 'text-primary' },
           { label: 'Resolved', value: stats.resolved, color: 'text-green-400' },
         ].map(s => (
           <Card key={s.label}>
@@ -272,7 +272,7 @@ export default function PremiumUX() {
                         <div className="flex items-center gap-1.5 shrink-0 flex-wrap">
                           <Badge className={`text-[10px] border ${pri.border} ${pri.bg} ${pri.color}`}>{item.priority}</Badge>
                           <Badge className={`text-[10px] ${sta.bg} ${sta.color}`}>{item._status?.replace('_', ' ')}</Badge>
-                          {item.requires_approval && <Badge className="text-[10px] bg-yellow-500/10 text-yellow-400">Needs Approval</Badge>}
+                          {item.requires_approval && <Badge className="text-[10px] bg-primary/10 text-primary">Needs Approval</Badge>}
                         </div>
                       </div>
 

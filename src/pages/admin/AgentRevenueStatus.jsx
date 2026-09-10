@@ -61,7 +61,7 @@ const AGENTS = [
 const STATUS_LABELS = {
   'Complete': { color: 'bg-green-500/20 text-green-300 border-green-500/30' },
   'Live-tested complete': { color: 'bg-green-500/20 text-green-300 border-green-500/30' },
-  'Built but untested': { color: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' },
+  'Built but untested': { color: 'bg-primary/20 text-primary border-primary/30' },
   'Blocked by external login': { color: 'bg-orange-500/20 text-orange-300 border-orange-500/30' },
   'Blocked by secret rotation': { color: 'bg-red-500/20 text-red-300 border-red-500/30' },
   'Blocked by Gannon approval': { color: 'bg-blue-500/20 text-blue-300 border-blue-500/30' },
@@ -152,7 +152,7 @@ export default function AgentRevenueStatus() {
         {[
           { label: 'Total Proposals', value: proposals.length, icon: FileText, color: 'text-primary' },
           { label: 'Approved', value: proposals.filter(p => p.status === 'approved' || p.status === 'published').length, icon: CheckCircle2, color: 'text-green-400' },
-          { label: 'Pending', value: proposals.filter(p => p.status === 'pending_approval').length, icon: Clock, color: 'text-yellow-400' },
+          { label: 'Pending', value: proposals.filter(p => p.status === 'pending_approval').length, icon: Clock, color: 'text-primary' },
           { label: 'KV Insights', value: kvEntries.length, icon: Brain, color: 'text-cyan-400' },
         ].map(s => {
           const Icon = s.icon;
@@ -202,7 +202,7 @@ export default function AgentRevenueStatus() {
                       <div className="flex gap-4 text-xs">
                         <span className="text-muted-foreground">Proposals: <span className="text-foreground font-medium">{stats.proposals}</span></span>
                         <span className="text-green-400">Approved: {stats.approved}</span>
-                        <span className="text-yellow-400">Pending: {stats.pending}</span>
+                        <span className="text-primary">Pending: {stats.pending}</span>
                         <span className="text-red-400">Rejected: {stats.rejected}</span>
                       </div>
                       {result && (
@@ -294,17 +294,17 @@ export default function AgentRevenueStatus() {
       </Card>
 
       {/* Blocker: rich data */}
-      <Card className="border-yellow-500/30 bg-yellow-500/5">
+      <Card className="border-primary/30 bg-primary/5">
         <CardContent className="p-4 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
+          <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-yellow-300 text-sm">Why agents produce generic output right now</p>
+            <p className="font-semibold text-primary text-sm">Why agents produce generic output right now</p>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
               Agents are fully functional and running — but the platform currently has only 2 orders, 7 subscribers, and 6 products.
               As real data accumulates (orders, fan growth, social analytics from Metricool, content performance), agent outputs become
               specific, high-value, and non-repeating. The deduplication system prevents repeated reports. More real data = better agent intelligence.
             </p>
-            <p className="text-xs text-yellow-300 mt-2 font-medium">Next step: Launch → get real orders → let agents run for 7 days → reassess output quality.</p>
+            <p className="text-xs text-primary mt-2 font-medium">Next step: Launch → get real orders → let agents run for 7 days → reassess output quality.</p>
           </div>
         </CardContent>
       </Card>

@@ -121,7 +121,7 @@ export default function LaunchContentHub() {
         <TabsList className="bg-secondary/40 border border-border/40 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1.5 p-1 h-auto">
           <TabsTrigger value="war-room" className="text-xs py-2"><Flame className="w-3.5 h-3.5 mr-1 text-red-500" /> War Room</TabsTrigger>
           <TabsTrigger value="live-feed" className="text-xs py-2"><Radio className="w-3.5 h-3.5 mr-1 text-primary" /> Live Setup</TabsTrigger>
-          <TabsTrigger value="guardian" className="text-xs py-2"><ShieldAlert className="w-3.5 h-3.5 mr-1 text-yellow-400" /> AI Guardian</TabsTrigger>
+          <TabsTrigger value="guardian" className="text-xs py-2"><ShieldAlert className="w-3.5 h-3.5 mr-1 text-primary" /> AI Guardian</TabsTrigger>
           <TabsTrigger value="approval-queue" className="text-xs py-2"><Clock className="w-3.5 h-3.5 mr-1 text-blue-400" /> Approval Queue ({queue.length})</TabsTrigger>
           <TabsTrigger value="quick-links" className="text-xs py-2"><LinkIcon className="w-3.5 h-3.5 mr-1" /> All Content Tools</TabsTrigger>
         </TabsList>
@@ -147,7 +147,7 @@ export default function LaunchContentHub() {
                   </div>
                   <div className="p-3 bg-secondary/30 rounded-xl border border-border/40">
                     <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Pending Action</p>
-                    <p className="text-xl font-bold text-yellow-400 mt-1">{queue.length} Assets</p>
+                    <p className="text-xl font-bold text-primary mt-1">{queue.length} Assets</p>
                   </div>
                   <div className="p-3 bg-secondary/30 rounded-xl border border-border/40 col-span-2 sm:col-span-1">
                     <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Stripe Gateway</p>
@@ -168,7 +168,7 @@ export default function LaunchContentHub() {
                     </div>
                     <div className="p-2.5 bg-secondary/20 rounded-lg flex items-center justify-between text-xs">
                       <span>07:00 PM - Portuguese Memorial Song Hook (TikTok LIVE)</span>
-                      <Badge className="bg-yellow-500/10 text-yellow-400">Awaiting Live</Badge>
+                      <Badge className="bg-primary/10 text-primary">Awaiting Live</Badge>
                     </div>
                   </div>
                 </div>
@@ -294,10 +294,10 @@ export default function LaunchContentHub() {
 
         {/* ─── TAB: AI GUARDIAN ────────────────────────────────────────── */}
         <TabsContent value="guardian" className="space-y-6">
-          <Card className="border-yellow-500/20 bg-yellow-500/5">
+          <Card className="border-primary/20 bg-primary/5">
             <CardHeader>
               <CardTitle className="font-display text-lg text-white flex items-center gap-2">
-                <ShieldAlert className="w-5 h-5 text-yellow-400" /> AI Brand Guardian Compliance Check
+                <ShieldAlert className="w-5 h-5 text-primary" /> AI Brand Guardian Compliance Check
               </CardTitle>
               <CardDescription className="text-xs">Validate your social captions, hooks, and album launch posts before sending them to the Metricool scheduling queue.</CardDescription>
             </CardHeader>

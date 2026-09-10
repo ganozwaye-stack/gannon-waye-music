@@ -69,9 +69,9 @@ export default function MarketingCentre() {
             className={`p-3 rounded-lg border text-left text-xs transition-all ${type === t.id ? 'border-primary bg-primary/10 text-primary' : 'border-border text-muted-foreground hover:border-primary/40'}`}>
             <div className="flex items-center justify-between mb-1">
               <span className="font-medium">{t.label}</span>
-              {t.requiresApproval ? <AlertTriangle className="w-3 h-3 text-yellow-400" /> : <CheckCircle2 className="w-3 h-3 text-green-400" />}
+              {t.requiresApproval ? <AlertTriangle className="w-3 h-3 text-primary" /> : <CheckCircle2 className="w-3 h-3 text-green-400" />}
             </div>
-            {t.note && <p className="text-yellow-400">{t.note}</p>}
+            {t.note && <p className="text-primary">{t.note}</p>}
           </button>
         ))}
       </div>
@@ -88,7 +88,7 @@ export default function MarketingCentre() {
             {generating ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Generating...</> : <><Megaphone className="w-4 h-4 mr-2" /> Generate</>}
           </Button>
           {selectedType?.requiresApproval && (
-            <Badge className="bg-yellow-500/10 text-yellow-400"><AlertTriangle className="w-3 h-3 mr-1" />Will require approval</Badge>
+            <Badge className="bg-primary/10 text-primary"><AlertTriangle className="w-3 h-3 mr-1" />Will require approval</Badge>
           )}
         </div>
       </div>
@@ -103,7 +103,7 @@ export default function MarketingCentre() {
               </Button>
             </div>
             {selectedType?.requiresApproval && (
-              <div className="bg-yellow-500/5 border border-yellow-500/20 rounded p-2 mb-3 text-xs text-yellow-400">
+              <div className="bg-primary/5 border border-primary/20 rounded p-2 mb-3 text-xs text-primary">
                 ⚠️ This content has been added to the Approval Queue. Review before taking any action.
               </div>
             )}

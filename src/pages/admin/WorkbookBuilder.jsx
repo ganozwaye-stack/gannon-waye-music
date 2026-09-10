@@ -138,7 +138,7 @@ function WorkbookCard({ wb }) {
             <Badge className={`text-[9px] ${isPaid ? 'bg-purple-500/20 text-purple-400 border-purple-500/30' : 'bg-blue-500/20 text-blue-400 border-blue-500/30'}`}>
               {isPaid ? 'Paid' : 'Free'}
             </Badge>
-            <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/30 text-[9px]">Needs Design</Badge>
+            <Badge className="bg-primary/10 text-primary border-primary/30 text-[9px]">Needs Design</Badge>
           </div>
         </div>
         <p className="font-body text-xs text-muted-foreground leading-relaxed">{wb.desc}</p>
@@ -185,15 +185,15 @@ export default function WorkbookBuilder() {
         </div>
       </div>
 
-      <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 mb-6">
+      <div className="bg-primary/10 border border-primary/30 rounded-xl p-4 mb-6">
         <div className="flex items-start gap-2">
-          <AlertCircle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+          <AlertCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
           <div>
-            <p className="font-body text-xs font-semibold text-yellow-400 mb-1">Action Required — Gannon</p>
+            <p className="font-body text-xs font-semibold text-primary mb-1">Action Required — Gannon</p>
             <ul className="space-y-1">
               {['All workbooks are defined and structured — PDFs need to be designed and uploaded', 'Set pricing for all 6 paid resources before sales pages can go live', 'Free lead magnets need email capture form connected (Mailchimp / ConvertKit / etc.)', 'Upload completed PDFs to /coaching/workbooks page for download'].map((a, i) => (
                 <li key={i} className="font-body text-xs text-foreground/70 flex items-start gap-1.5">
-                  <span className="text-yellow-400/60 shrink-0">{i + 1}.</span>{a}
+                  <span className="text-primary/60 shrink-0">{i + 1}.</span>{a}
                 </li>
               ))}
             </ul>

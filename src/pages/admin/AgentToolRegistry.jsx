@@ -229,7 +229,7 @@ const TOOLS = [
 
 const riskColor = {
   low: 'bg-green-500/20 text-green-300 border-green-500/30',
-  medium: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+  medium: 'bg-primary/20 text-primary border-primary/30',
   high: 'bg-red-500/20 text-red-300 border-red-500/30',
 };
 
@@ -274,7 +274,7 @@ export default function AgentToolRegistry() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           ['Total Tools', TOOLS.length, 'text-foreground'],
-          ['Approval Required', TOOLS.filter(t => t.approvalRequired).length, 'text-yellow-400'],
+          ['Approval Required', TOOLS.filter(t => t.approvalRequired).length, 'text-primary'],
           ['External Impact', TOOLS.filter(t => t.externalImpact).length, 'text-red-400'],
           ['Paid Credits', TOOLS.filter(t => t.paidCredits).length, 'text-primary'],
         ].map(([label, count, color]) => (
@@ -302,7 +302,7 @@ export default function AgentToolRegistry() {
                 </div>
                 <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{tool.purpose}</p>
                 <div className="flex gap-1 mt-1 flex-wrap">
-                  {tool.approvalRequired && <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30 text-xs">Approval</Badge>}
+                  {tool.approvalRequired && <Badge className="bg-primary/20 text-primary border-primary/30 text-xs">Approval</Badge>}
                   {tool.externalImpact && <Badge className="bg-red-500/20 text-red-300 border-red-500/30 text-xs">External</Badge>}
                   {tool.paidCredits && <Badge className="bg-primary/20 text-primary border-primary/30 text-xs">Paid</Badge>}
                 </div>
@@ -321,7 +321,7 @@ export default function AgentToolRegistry() {
 
               <div className="flex gap-2 flex-wrap">
                 <Badge className={riskColor[selected.riskLevel]}>Risk: {selected.riskLevel}</Badge>
-                {selected.approvalRequired && <Badge className="bg-yellow-500/20 text-yellow-300 border-yellow-500/30">Requires Approval</Badge>}
+                {selected.approvalRequired && <Badge className="bg-primary/20 text-primary border-primary/30">Requires Approval</Badge>}
                 {selected.externalImpact && <Badge className="bg-red-500/20 text-red-300 border-red-500/30">External Impact</Badge>}
                 {selected.paidCredits && <Badge className="bg-primary/20 text-primary border-primary/30">Uses Paid Credits</Badge>}
                 {!selected.externalImpact && !selected.approvalRequired && <Badge className="bg-green-500/20 text-green-300 border-green-500/30">Safe to Auto-run</Badge>}

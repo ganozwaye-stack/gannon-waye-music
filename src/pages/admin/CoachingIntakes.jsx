@@ -6,7 +6,7 @@ import { CheckCircle, AlertCircle } from 'lucide-react';
 
 const STATUS_COLORS = {
   submitted: 'text-blue-400',
-  reviewed: 'text-yellow-400',
+  reviewed: 'text-primary',
   approved: 'text-green-400',
   waitlisted: 'text-orange-400',
   declined: 'text-red-400',
@@ -35,7 +35,7 @@ export default function CoachingIntakes() {
         <div>
           <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary mb-1">Admin</p>
           <h1 className="font-display text-2xl text-foreground">Coaching Intakes</h1>
-          {newCount > 0 && <p className="font-body text-xs text-yellow-400 mt-1">{newCount} new submission{newCount !== 1 ? 's' : ''}</p>}
+          {newCount > 0 && <p className="font-body text-xs text-primary mt-1">{newCount} new submission{newCount !== 1 ? 's' : ''}</p>}
         </div>
         <Select value={filter} onValueChange={setFilter}>
           <SelectTrigger className="w-40 bg-card/50 border-border/60 text-sm">

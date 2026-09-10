@@ -210,7 +210,7 @@ function ClipCard({ clip, onSave, onApproval, onPost, onTogglePlatform, busy }) 
   const [music, setMusic] = useState(clip.music_bed_url || '');
 
   const score = Math.round(clip.virality_score || 0);
-  const scoreColor = score >= 80 ? 'text-emerald-400' : score >= 60 ? 'text-amber-400' : 'text-muted-foreground';
+  const scoreColor = score >= 80 ? 'text-emerald-400' : score >= 60 ? 'text-primary' : 'text-muted-foreground';
 
   const save = () => {
     onSave(clip, {
@@ -290,7 +290,7 @@ function ClipCard({ clip, onSave, onApproval, onPost, onTogglePlatform, busy }) 
 
           <div className="flex flex-wrap gap-2 pt-1">
             <Button type="button" size="sm" variant="outline" onClick={save} className="rounded-full">Save edits</Button>
-            <Button type="button" size="sm" variant="outline" onClick={() => onApproval(clip, 'in_revision')} className="rounded-full border-amber-500/40 text-amber-400">Send to revision</Button>
+            <Button type="button" size="sm" variant="outline" onClick={() => onApproval(clip, 'in_revision')} className="rounded-full border-primary/40 text-primary">Send to revision</Button>
             <Button type="button" size="sm" onClick={() => onApproval(clip, 'approved')} className="rounded-full gradient-gold-button border-0"><Check className="w-3.5 h-3.5" /> Approve</Button>
             <Button type="button" size="sm" variant="outline" onClick={() => onApproval(clip, 'rejected')} className="rounded-full border-destructive/40 text-destructive"><X className="w-3.5 h-3.5" /> Reject</Button>
             <Button type="button" size="sm" disabled={clip.approval_status !== 'approved' || busy} onClick={() => onPost(clip)} className="rounded-full gradient-gold-button border-0"><Send className="w-3.5 h-3.5" /> {busy ? 'Posting…' : 'Post approved'}</Button>

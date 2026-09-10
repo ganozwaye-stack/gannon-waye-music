@@ -41,7 +41,7 @@ const AGENTS = [
     name: 'Brand Voice Agent',
     group: 'social',
     icon: Star,
-    color: 'text-yellow-400',
+    color: 'text-primary',
     purpose: 'Turns ideas into authentic Gannon Waye content — emotional, cinematic, direct, human',
     money_purpose: 'Brand consistency → fan loyalty → long-term revenue',
     risk: 'low',
@@ -138,7 +138,7 @@ const AGENTS = [
 const RISK_COLORS = {
   none: 'bg-green-500/10 text-green-400 border-green-500/30',
   low: 'bg-blue-500/10 text-blue-400 border-blue-500/30',
-  medium: 'bg-amber-500/10 text-amber-400 border-amber-500/30',
+  medium: 'bg-primary/10 text-primary border-primary/30',
   high: 'bg-red-500/10 text-red-400 border-red-500/30',
 };
 
@@ -188,7 +188,7 @@ export default function AgentWorkbench() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Total Agents', value: AGENTS.length, color: 'text-primary' },
-          { label: 'Pending Approvals', value: approvals.length, color: 'text-amber-400' },
+          { label: 'Pending Approvals', value: approvals.length, color: 'text-primary' },
           { label: 'Draft Posts', value: drafts.length, color: 'text-blue-400' },
           { label: 'Auto-Post Risk', value: 'ZERO', color: 'text-green-400' },
         ].map(s => (
@@ -201,14 +201,14 @@ export default function AgentWorkbench() {
 
       {/* Approval Alert */}
       {approvals.length > 0 && (
-        <Card className="border-amber-500/30 bg-amber-500/5">
+        <Card className="border-primary/30 bg-primary/5">
           <CardContent className="p-4 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />
-              <p className="text-sm text-amber-400 font-semibold">{approvals.length} agent outputs awaiting your approval</p>
+              <AlertTriangle className="w-5 h-5 text-primary shrink-0" />
+              <p className="text-sm text-primary font-semibold">{approvals.length} agent outputs awaiting your approval</p>
             </div>
             <Link to="/admin/approval-queue">
-              <Button size="sm" variant="outline" className="border-amber-500/40 text-amber-400 gap-1">
+              <Button size="sm" variant="outline" className="border-primary/40 text-primary gap-1">
                 Review <ChevronRight className="w-3 h-3" />
               </Button>
             </Link>
