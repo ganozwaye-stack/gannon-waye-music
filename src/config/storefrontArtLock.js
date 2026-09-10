@@ -8,23 +8,26 @@
 
 export const STOREFRONT_ART_LOCK = Object.freeze({
   lockId: 'gannon-waye-boutique-world-v1',
-  version: 3,
+  version: 4,
   permanent: true,
-  ownerInstructionDate: '2026-09-09',
-  imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/437c98b2a_generated_image.png',
-  imageSha256: '7f50212c63f53a090b3797f06be9b515ca7771270ae08482fc8f904d92192f31',
+  ownerInstructionDate: '2026-09-10',
+  // v4 (owner-directed, 10 September 2026): the AI-regenerated v3 artwork is
+  // RETIRED — it distorted the faces printed on the products in the scene,
+  // including Sonia Waye's portrait, which the owner found unacceptable and
+  // disrespectful. The hero is restored to the owner's original bright
+  // photograph (v1), untouched. The checksum must be recomputed and recorded
+  // at the next audit; the sentinel below marks this restoration.
+  imageSha256: 'restored-original-v1-2026-09-10-sha-pending-recompute',
+  imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png',
   publicRoute: '/store',
   productSource: 'MerchProduct where is_active=true, publication_status=live and is_stage_one_sale=true',
   rule: 'The boutique world artwork remains permanently on the public store. Product data may change through the governed MerchProduct lifecycle, but the world artwork itself must not be replaced, moved, cropped, hidden or regenerated — and no overlay, banner, text block or other element may be placed over any part of it — without the owner’s explicit, contemporaneous permission for that specific change. This applies equally to human edits, AI agents and the Base44 builder. Clickable hotspot zones (see StorefrontHotspot entity / /admin/store-hotspots) are the one sanctioned exception: they are transparent, owner-managed, and never obscure the artwork.',
   coveringRequiresOwnerPermission: true,
-  // v3 (owner-directed, 9 September 2026): "MERCH STORE" gold lettering added
-  // beneath the GANNON WAYE neon sign, and the counter rebuilt as a full
-  // boutique display from the owner's supplied bundle photo — the folded
-  // Respect Is Earned hoodie, the journal, pen and thermos gift box set, and
-  // the coffee mugs back on display. Regenerated twice on the owner's explicit
-  // instruction in chat on 9 September 2026; the lock itself remains permanent.
-  // v1 artwork: cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png.
-  // v2 artwork: b271037e0_generated_image.png.
+  // Artwork history: v1 = the owner's original bright boutique photograph
+  // (current — restored 10 September 2026). v2 and v3 were AI regenerations;
+  // v3 is retired because it distorted the faces printed on in-scene products,
+  // including Sonia Waye's portrait. Standing owner rule: no AI regeneration
+  // of this artwork and no AI-generated or AI-altered human face, ever.
 });
 
 export const BOUTIQUE_HERO_IMAGE = STOREFRONT_ART_LOCK.imageUrl;

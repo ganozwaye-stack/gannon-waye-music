@@ -27,6 +27,7 @@ The storefront is the public face of an independent, care-led brand. Every produ
 3. **Brand consistency.** All store visuals use the brand system: the gold palette and the established typography. The "Gannon Waye" neon name is already part of the locked boutique hero photo itself (baked into the artwork as signage) — do not add a second, separate on-page rendering of the name over that photo; it duplicates what the photo already shows and was removed at the owner's direction (2026-09-08). New merch sections must match the existing storefront look; no clashing layouts or off-palette colouring.
 4. **Approved campaign imagery only.** Featured displays use artwork supplied or explicitly approved by Gannon (e.g. the Thank You collection display). Never generate new public-facing product photography without approval.
 5. **Dignity of memorial content.** Sonia's Garden and memorial assets use authentic artifacts only. They are never mixed into merch marketing or composited with product imagery.
+6. **No AI faces — anywhere, ever.** Product imagery that would show a face must either use the owner's authentic original photograph, untouched, or leave the face out entirely. AI recreation of any human likeness is prohibited in all store and content tasks, with no exceptions. This restates THE FIRST RULE above.
 
 ## 4. Copy & Public Presentation
 
@@ -42,6 +43,7 @@ The storefront is the public face of an independent, care-led brand. Every produ
 | Publish / retire a product | No | Yes |
 | Change price, stock, or shipping of a live product | No | Yes |
 | Replace or restyle locked storefront artwork | No | Never (permanently locked) |
+| Create, regenerate or alter any human face or portrait | No | Prohibited outright — never permitted |
 | Generate new public-facing imagery | No | Yes |
 | Feature merch on public pages | Draft proposal only | Yes |
 
