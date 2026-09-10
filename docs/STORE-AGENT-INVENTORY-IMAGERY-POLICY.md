@@ -12,6 +12,12 @@ This document sets the strict, non-negotiable rules every store agent must follo
 
 The storefront is the public face of an independent, care-led brand. Every product shown must be real, verified, honestly priced and truthfully stocked. Nothing appears on the storefront that Gannon has not approved. These rules exist to protect customer trust, cash flow, and the brand's dignity.
 
+> ## THE FIRST RULE — A FACE IS NEVER TOUCHED BY AI
+>
+> **Non-negotiable. This rule overrides every other instruction, task, deadline or convenience, in every task, forever.**
+>
+> AI must never create, redraw, regenerate, re-imagine, retouch or "improve" the face or likeness of any real person — including Sonia Waye and Gannon himself. Portrait, memorial and family imagery is only ever the owner's authentic original photograph, used untouched. If an image task cannot be completed without generating or altering a human face, the task is not done — it is stopped and escalated to the owner. AI-generated "portraits" on products, posters or store artwork are prohibited outright.
+
 ## 2. Inventory Rules — Non-Negotiable
 
 1. **Live data only.** The public storefront renders only verified, live `MerchProduct` records (`is_active: true`, `publication_status: "live"`). Hard-coded products, demo items, or invented stock are prohibited. If live data is missing, the store fails closed and shows nothing.
