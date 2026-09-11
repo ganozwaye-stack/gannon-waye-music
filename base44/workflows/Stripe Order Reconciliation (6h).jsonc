@@ -1,0 +1,45 @@
+{
+  "name": "Stripe Order Reconciliation (6h)",
+  "description": "Every 6 hours, cross-checks recent PAID Stripe checkout sessions against MerchOrder records and automatically creates any order the webhook missed. Idempotent safety net \u2014 no paid order can be silently lost.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "interval",
+      "cron_expression": null,
+      "one_time_date": null,
+      "timezone": "UTC",
+      "interval_value": 6,
+      "interval_unit": "hours",
+      "interval_anchor": "2026-09-11T16:00:00Z",
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "stripe_order_reconciliation_6h",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "reconcile_orders": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "reconcileStripeOrders",
+            "args": {}
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Reconcile Stripe orders",
+            "description": "Catch missed payments"
+          }
+        }
+      }
+    ]
+  }
+}
