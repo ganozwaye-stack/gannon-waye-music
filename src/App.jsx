@@ -70,6 +70,7 @@ import SiteSettings from '@/pages/admin/SiteSettings';
 import MerchPlatforms from '@/pages/admin/MerchPlatforms';
 import VideoManagement from '@/pages/admin/VideoManagement';
 import FanNewsletterDashboard from '@/pages/admin/Newsletter';
+import ReleaseEmailStudio from '@/pages/admin/ReleaseEmailStudio';
 import MerchDesigns from '@/pages/admin/MerchDesigns';
 import ThankYouCards from '@/pages/admin/ThankYouCards';
 import FanMedia from '@/pages/admin/FanMedia';
@@ -266,6 +267,7 @@ import ProductionTracker from '@/pages/admin/ProductionTracker';
 import MusicRoadmap from '@/pages/admin/MusicRoadmap';
 import BrandKit from '@/pages/admin/BrandKit';
 import FanLeaderboard from '@/pages/FanLeaderboard';
+import FanGuide from '@/pages/FanGuide';
 
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
@@ -462,6 +464,7 @@ const AuthenticatedApp = () => {
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/press-kit" element={<PressKit />} />
         <Route path="/fan-leaderboard" element={<FanLeaderboard />} />
+        <Route path="/fan-guide" element={<FanGuide />} />
         <Route path="/fan-profile" element={<FanDashboard />} />
         {/* Legacy and intentionally unpublished public links resolve to a safe current journey. */}
         <Route path="/fan-activity" element={<Navigate to="/contact" replace />} />
@@ -539,6 +542,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/merch-platforms" element={<MerchPlatforms />} />
         <Route path="/admin/videos" element={<VideoManagement />} />
         <Route path="/admin/newsletter" element={<FanNewsletterDashboard />} />
+        <Route path="/admin/release-email-studio" element={<ReleaseEmailStudio />} />
         <Route path="/admin/merch-designs" element={<MerchDesigns />} />
         <Route path="/admin/thank-you-cards" element={<ThankYouCards />} />
         <Route path="/admin/fan-media" element={<FanMedia />} />

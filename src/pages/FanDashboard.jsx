@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
-import { Package, BookOpen, MessageCircle, Heart, Loader2, LogIn, Trash2 } from 'lucide-react';
+import { Package, BookOpen, MessageCircle, Heart, Loader2, LogIn, Trash2, ArrowRight, GraduationCap } from 'lucide-react';
 
 export default function FanDashboard() {
   const qc = useQueryClient();
@@ -91,6 +91,28 @@ export default function FanDashboard() {
           <StatCard to="/lyrics" icon={<Heart className="w-5 h-5" />} label="Saved Lyrics" value={savedLyrics.length} />
           <StatCard to="/community" icon={<MessageCircle className="w-5 h-5" />} label="Wall Posts" value={myPosts.length} />
         </div>
+
+        {/* Fan Guide: audio walkthroughs for every part of the site */}
+        <Link
+          to="/fan-guide"
+          className="block mb-10 rounded-2xl border border-primary/30 hover:border-primary/60 transition-colors"
+          style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.10), rgba(8,8,14,0.3))' }}
+        >
+          <div className="p-5 flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-10 h-10 rounded-full bg-primary/10 border border-primary/30 flex items-center justify-center text-primary flex-shrink-0">
+                <GraduationCap className="w-5 h-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-body text-sm text-foreground font-medium">Fan Guide</p>
+                <p className="font-body text-xs text-muted-foreground truncate">
+                  Short audio walkthroughs: the community, the boutique, and every feature.
+                </p>
+              </div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary flex-shrink-0" />
+          </div>
+        </Link>
 
         {/* Orders */}
         <Section icon={<Package className="w-4 h-4" />} title="Order History" cta={{ label: 'All Orders', to: '/orders' }}>

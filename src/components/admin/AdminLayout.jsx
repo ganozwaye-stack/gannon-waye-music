@@ -84,6 +84,7 @@ const NAV_SECTIONS = [
       { label: 'Music Roadmap', path: '/admin/music-roadmap', icon: Calendar },
       { label: 'Music and Fan Hub', path: '/admin/music-fan', icon: Music },
       { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
+      { label: 'Release Email Studio', path: '/admin/release-email-studio', icon: Mail },
       { label: 'Production Tracker', path: '/admin/production-tracker', icon: Film },
       { label: 'Releases', path: '/admin/releases', icon: Star },
       { label: 'Videos', path: '/admin/videos', icon: Video },

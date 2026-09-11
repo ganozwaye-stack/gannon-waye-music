@@ -1,6 +1,6 @@
 {
   "name": "Release Status Update \u2192 Fan Email",
-  "description": "Emails the mailing list and opted-in store customers whenever an owner-approved release changes status. Each status is announced at most once, and the function itself re-checks every safety gate before sending.",
+  "description": "Whenever an owner-approved release changes status, a premium fan email draft is prepared and staged for approval. Nothing sends until Gannon approves it in the Release Email Studio (/admin/release-email-studio), where he can also edit it first.",
   "trigger": {
     "config": {
       "trigger_type": "entity",
@@ -14,26 +14,26 @@
   "definition": {
     "document": {
       "dsl": "1.0.0",
-      "name": "release_status_fan_email",
+      "name": "release_status_email_draft",
       "version": "1.0",
       "namespace": "base44"
     },
     "do": [
       {
-        "send_fan_update": {
+        "prepare_fan_email_draft": {
           "call": "invoke_backend_function",
           "with": {
-            "function_name": "notifyFansReleaseStatus",
+            "function_name": "prepareReleaseEmailDraft",
             "args": {
               "release_id": "${ .trigger.entity_id }",
-              "old_status": "${ .trigger.old_data.status }",
-              "new_status": "${ .trigger.data.status }"
+              "new_status": "${ .trigger.data.status }",
+              "source": "status_change"
             }
           },
           "then": "end",
           "x-base44": {
-            "title": "Email fans the status update",
-            "description": "Mailing list + store customers"
+            "title": "Prepare the fan email draft",
+            "description": "Draft lands in the email studio for approval"
           }
         }
       }

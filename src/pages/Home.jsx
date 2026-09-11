@@ -17,6 +17,7 @@ import GoldenEmbers from '@/components/three/GoldenEmbers';
 import MagneticButton from '@/components/public/MagneticButton';
 import TiltCard from '@/components/public/TiltCard';
 import HeroWelcomeBanner from '@/components/public/HeroWelcomeBanner';
+import SetFreeHero from '@/components/public/SetFreeHero';
 import MarqueeBar from '@/components/public/MarqueeBar';
 import PressKitHomeSection from '@/components/public/PressKitHomeSection';
 import { trackEvent } from '@/lib/analytics';
@@ -298,6 +299,9 @@ export default function Home() {
           <span className="block w-px h-10 bg-gradient-to-b from-primary/70 to-transparent" />
         </motion.div>
       </section>
+
+      {/* Set Free: 3D parallax hero with the shell planet artwork and gold light */}
+      <SetFreeHero />
 
       {/* Rotating marquee bar */}
       <MarqueeBar />

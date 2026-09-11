@@ -1,0 +1,97 @@
+{
+  "name": "ReleaseEmailDraft",
+  "type": "object",
+  "description": "A prepared fan email for a release status change, staged for owner approval. Created by prepareReleaseEmailDraft whenever an owner-approved release changes status. Nothing is sent until Gannon approves it in the Release Email Studio.",
+  "properties": {
+    "release_id": {
+      "type": "string",
+      "description": "Release record this email is about"
+    },
+    "release_title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "description": "The release status being announced"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "body_text": {
+      "type": "string",
+      "description": "Plain-text version of the email body"
+    },
+    "body_html": {
+      "type": "string",
+      "description": "Premium artwork HTML version of the email body"
+    },
+    "artwork_url": {
+      "type": "string",
+      "description": "Release artwork embedded in the email"
+    },
+    "cta_label": {
+      "type": "string"
+    },
+    "cta_url": {
+      "type": "string"
+    },
+    "recipient_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Mailing list plus opted-in store customers, deduplicated by email"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "sent",
+        "rejected"
+      ],
+      "default": "draft"
+    },
+    "prepared_source": {
+      "type": "string",
+      "description": "What staged this draft, e.g. status_change or manual"
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sent_count": {
+      "type": "number",
+      "default": 0
+    },
+    "failed_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "release_id",
+    "status",
+    "subject"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
