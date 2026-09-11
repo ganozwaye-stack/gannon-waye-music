@@ -15,7 +15,15 @@ Deno.serve(async (req) => {
     if (body.mode === 'admin_supervisor') {
       return Response.json(await supervise(base44.entities));
     }
-    // Legacy research spent AI credits. Do not fall through to paid work for any mode.
+    // The 4-hourly workflow still invokes the retired research mode. Answer it
+    // with a benign skip instead of 409 so the loop stops logging failures,
+    // while the no-spending mandate stays fully in force.
+    if (body.mode === 'intelligence_with_deego_heartbeat') {
+      return Response.json({
+        skipped: true,
+        reason: 'Legacy 4-hourly research is retired under the no-spending mandate. Supervision runs via supervisor_snapshot and admin_supervisor modes only.',
+      });
+    }
     return Response.json({ error: 'Research is disabled under the no-spending mandate. Unattended supervision requires verified scheduler authentication.' }, { status: 409 });
   } catch (error) {
     console.error('Deego supervisor failed', error?.name);
