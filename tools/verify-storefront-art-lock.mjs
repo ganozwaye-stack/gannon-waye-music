@@ -3,9 +3,9 @@ import path from 'node:path';
 
 const root = process.cwd();
 // v5 — the owner-supplied externally redesigned boutique world (11 September 2026).
-// Checksum sentinel until recomputed.
+// Exact checksum verified against the owner supplied v5 image bytes.
 const expectedUrl = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/31a17f0b8_image.png';
-const expectedSha256 = 'owner-v5-2026-09-11-sha-pending-recompute';
+const expectedSha256 = '13cc396dc5f8d3c968d13bb66a7d3a66c48a9219357d2dae4e3187c866b280e7';
 
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), 'utf8');
