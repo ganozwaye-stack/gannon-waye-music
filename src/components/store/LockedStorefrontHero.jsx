@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
 import WorldHotspot from '@/components/store/WorldHotspot';
+import ExpressInterestModal from '@/components/store/ExpressInterestModal';
 import { formatAudPrice } from '@/lib/liveStoreProducts';
 
 // Hotspot zones are DATA, not code — they live in the StorefrontHotspot entity
@@ -28,17 +29,35 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
   const activeHotspots = Array.isArray(hotspots) ? hotspots : [];
   const resolvedHotspots = activeHotspots
     .map((hotspot) => {
+      const zone = {
+        left: `${hotspot.left_pct}%`,
+        top: `${hotspot.top_pct}%`,
+        width: `${hotspot.width_pct}%`,
+        height: `${hotspot.height_pct}%`,
+      };
+      // Pre-design items have no live product: the hotspot collects Express
+      // Interest instead of selling. Fails closed without an item name.
+      if (hotspot.hotspot_mode === 'interest') {
+        const itemName = String(hotspot.interest_item_name || '').trim();
+        if (!itemName) return null;
+        return {
+          id: hotspot.id,
+          zone,
+          label: hotspot.label_override || `${itemName} — Express Interest`,
+          interest: {
+            key: hotspot.interest_item_key || hotspot.zone_key,
+            name: itemName,
+          },
+        };
+      }
+      // Product hotspots fail closed exactly as before: no matching live,
+      // in-stock product means the zone never renders.
       const product = products.find((p) => p.id === hotspot.product_id);
       const inStock = product && Number(product.stock_quantity) > 0;
       if (!inStock) return null;
       return {
         id: hotspot.id,
-        zone: {
-          left: `${hotspot.left_pct}%`,
-          top: `${hotspot.top_pct}%`,
-          width: `${hotspot.width_pct}%`,
-          height: `${hotspot.height_pct}%`,
-        },
+        zone,
         label: hotspot.label_override || `${product.name} — ${formatAudPrice(product.sale_price)} + delivery`,
         product,
       };
@@ -50,6 +69,7 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
   // them. The menu is fixed with a responsive height, so its bottom edge is
   // measured live on mount and on resize.
   const [navBottom, setNavBottom] = useState(null);
+  const [interestItem, setInterestItem] = useState(null);
   useEffect(() => {
     const nav = document.querySelector('nav');
     const measure = () => {
@@ -108,11 +128,19 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
         <WorldHotspot
           key={hotspot.id}
           zone={hotspot.zone}
-          testId="world-hoodie-hotspot"
+          testId={hotspot.product ? 'world-hoodie-hotspot' : 'world-interest-hotspot'}
           label={hotspot.label}
-          onClick={() => onOpenProduct?.(hotspot.product)}
+          onClick={() =>
+            hotspot.product
+              ? onOpenProduct?.(hotspot.product)
+              : setInterestItem(hotspot.interest)
+          }
         />
       ))}
+
+      {interestItem && (
+        <ExpressInterestModal item={interestItem} onClose={() => setInterestItem(null)} />
+      )}
     </section>
   );
 }
