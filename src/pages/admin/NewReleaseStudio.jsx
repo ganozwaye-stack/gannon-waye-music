@@ -2,27 +2,14 @@ import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { Rocket, Upload, CheckCircle2, AlertTriangle, XCircle, Loader2 } from 'lucide-react';
+import { Rocket, Upload, Loader2 } from 'lucide-react';
+import ReleasePackReport from '@/components/admin/ReleasePackReport';
 
 const GENRES = ['singer_songwriter', 'folk', 'soul', 'pop', 'rnb', 'hip_hop', 'spoken_word', 'cinematic', 'rock', 'other'];
 const MOODS = ['reflective', 'tender', 'raw', 'uplifting', 'melancholic', 'hopeful', 'anthemic', 'intimate', 'other'];
 
 const inputClass = 'w-full bg-secondary/50 border border-border/40 rounded-lg px-3 py-2 font-body text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40';
 const labelClass = 'block font-body text-[10px] tracking-[0.2em] uppercase text-muted-foreground mb-1.5';
-
-function ResultRow({ ok, warn, label, detail }) {
-  const Icon = ok ? CheckCircle2 : (warn ? AlertTriangle : XCircle);
-  const color = ok ? 'text-green-400' : (warn ? 'text-primary' : 'text-red-400');
-  return (
-    <div className="flex items-start gap-2.5 py-2">
-      <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${color}`} />
-      <div>
-        <p className="font-body text-sm text-foreground">{label}</p>
-        {detail && <p className="font-body text-xs text-muted-foreground mt-0.5">{detail}</p>}
-      </div>
-    </div>
-  );
-}
 
 export default function NewReleaseStudio() {
   const { toast } = useToast();
@@ -35,6 +22,7 @@ export default function NewReleaseStudio() {
     mood: '',
     description: '',
     lyrics: '',
+    presave_url: '',
     auto_publish_on_release_date: true,
   });
   const [artwork, setArtwork] = useState(null);
@@ -83,14 +71,12 @@ export default function NewReleaseStudio() {
     setSubmitting(false);
   };
 
-  const tooLost = result?.too_lost;
-
   return (
     <div className="max-w-2xl mx-auto pb-10">
       <div className="mb-6">
         <h1 className="text-3xl font-display font-bold gradient-gold-text">New Release Studio</h1>
         <p className="text-muted-foreground text-sm mt-1 font-body">
-          One button. Your song is saved to admin, synced to Too Lost, scheduled to go live on release day, and your press release and playlist pitch drafts are waiting in the Content Studio.
+          One press. Your song is saved, the full launch pack is written for your review (press release, playlist pitch, subscriber email, reel ideas, lyric quote, playlist pictures), synced to Too Lost, and scheduled to go live on release day.
         </p>
       </div>
 
@@ -135,6 +121,11 @@ export default function NewReleaseStudio() {
             <option value="">—</option>
             {MOODS.map(m => <option key={m} value={m}>{m}</option>)}
           </select>
+        </div>
+
+        <div>
+          <label className={labelClass} htmlFor="nrs-presave">Presave link (optional)</label>
+          <input id="nrs-presave" className={inputClass} value={form.presave_url} onChange={e => set('presave_url', e.target.value)} placeholder="Paste the too.fm presave link from Too Lost" />
         </div>
 
         <div>
@@ -189,29 +180,7 @@ export default function NewReleaseStudio() {
         </Button>
       </form>
 
-      {result && (
-        <div className="mt-6 border border-border/40 rounded-xl p-4 bg-card/40">
-          <p className="font-display text-lg text-foreground mb-1">Submission report</p>
-          <ResultRow ok label="Release saved to admin" detail={`Release date ${result.release_date}${result.auto_publish_on_release_date ? ' · auto-publishing on the day' : ''}`} />
-          <ResultRow ok={!!result.lyric_id} warn={!result.lyric_id} label={result.lyric_id ? 'Lyrics saved for review' : 'No lyrics provided'} detail={result.lyric_id ? 'Held behind the usual lyric review gate.' : 'You can add lyrics later from the Lyrics Archive.'} />
-          <ResultRow ok label="Press release draft created" detail="Waiting in the Content Studio for your review." />
-          <ResultRow ok label="Playlist pitch draft created" detail="Waiting in the Content Studio for your review." />
-          <ResultRow
-            ok={tooLost?.status === 'created'}
-            warn={tooLost?.status === 'reauthorise_required' || tooLost?.status === 'not_configured'}
-            label={
-              tooLost?.status === 'created' ? `Synced to Too Lost${tooLost.too_lost_release_id ? ` (release #${tooLost.too_lost_release_id})` : ''}` :
-              tooLost?.status === 'reauthorise_required' ? 'Too Lost needs re-authorising' :
-              tooLost?.status === 'not_configured' ? 'Too Lost not connected yet' :
-              'Too Lost sync failed'
-            }
-            detail={tooLost?.detail}
-          />
-          <p className="font-body text-[11px] text-muted-foreground mt-2">
-            The final mastered audio still needs uploading in the Too Lost portal — everything else is scheduled.
-          </p>
-        </div>
-      )}
+      <ReleasePackReport result={result} />
     </div>
   );
 }
