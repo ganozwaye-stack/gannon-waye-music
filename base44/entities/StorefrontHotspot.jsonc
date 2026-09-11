@@ -1,20 +1,37 @@
 {
   "name": "StorefrontHotspot",
   "type": "object",
-  "description": "A clickable zone placed over the LOCKED boutique hero photo (src/config/storefrontArtLock.js), linking one region of that permanent image to one live MerchProduct. Never stores or references any other image \u2014 these zones only ever sit on top of the one locked artwork.",
+  "description": "A clickable zone placed over the LOCKED boutique hero photo (src/config/storefrontArtLock.js). Two modes: 'product' links one region of the permanent image to one live MerchProduct and shows its price on hover; 'interest' marks a pre-design item with no live product yet and opens the Express Interest signup so fans can register to be told if and when it is released. These zones only ever sit on top of the one locked artwork.",
   "properties": {
     "lock_id": {
       "type": "string",
-      "default": "gannon-waye-boutique-world-v1",
+      "default": "gannon-waye-boutique-world-v5",
       "description": "Must match STOREFRONT_ART_LOCK.lockId. Exists so a hotspot can never silently get reinterpreted as belonging to a different, unlocked image."
     },
     "zone_key": {
       "type": "string",
       "description": "Short internal label for this zone, e.g. 'hoodie-left-rack', 'display-case-mug'."
     },
+    "hotspot_mode": {
+      "type": "string",
+      "enum": [
+        "product",
+        "interest"
+      ],
+      "default": "product",
+      "description": "product = links to a live, in-stock MerchProduct and shows its price on hover. interest = a pre-design item; hovering shows Express Interest and clicking opens the signup."
+    },
     "product_id": {
       "type": "string",
-      "description": "MerchProduct id this zone opens when clicked."
+      "description": "MerchProduct id this zone opens when clicked. Required when hotspot_mode is product; ignored for interest zones."
+    },
+    "interest_item_key": {
+      "type": "string",
+      "description": "Stable key for a pre-design item, e.g. 'thank-you-mug'. Saved with the interest record so fans can be matched to the item when it is released."
+    },
+    "interest_item_name": {
+      "type": "string",
+      "description": "Display name shown to fans for a pre-design item, e.g. 'Thank You Mug'."
     },
     "left_pct": {
       "type": "number",
@@ -42,7 +59,7 @@
     },
     "label_override": {
       "type": "string",
-      "description": "Optional custom hover label. Falls back to the linked product's name + price when blank."
+      "description": "Optional custom hover label. Falls back to the linked product's name + price for product zones, or the item name + 'Express Interest' for interest zones."
     },
     "active": {
       "type": "boolean",
@@ -56,7 +73,6 @@
   },
   "required": [
     "zone_key",
-    "product_id",
     "left_pct",
     "top_pct",
     "width_pct",

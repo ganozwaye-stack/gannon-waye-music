@@ -117,7 +117,7 @@ export default function CoachingIntakeForm({ offerInterest = '', onSuccess }) {
           { key: 'consent_to_contact', label: 'I consent to Gannon Waye contacting me about my enquiry.' },
         ].map(({ key, label }) => (
           <label key={key} className="flex items-start gap-3 cursor-pointer">
-            <input type="checkbox" checked={form[key]} onChange={e => set(key, e.target.checked)} className="mt-0.5 w-4 h-4 accent-yellow-500 shrink-0" />
+            <input type="checkbox" checked={form[key]} onChange={e => set(key, e.target.checked)} className="mt-0.5 w-4 h-4 accent-primary shrink-0" />
             <span className="font-body text-xs text-foreground/70 leading-relaxed">{label}</span>
           </label>
         ))}

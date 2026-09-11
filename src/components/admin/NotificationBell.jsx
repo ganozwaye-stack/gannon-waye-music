@@ -11,7 +11,7 @@ const TYPE_CONFIG = {
   order: { icon: ShoppingBag, color: 'text-green-400', route: '/admin/orders' },
   comment: { icon: MessageCircle, color: 'text-blue-400', route: '/admin/fans' },
   reply: { icon: MessageCircle, color: 'text-blue-400', route: '/admin/fans' },
-  approval: { icon: AlertTriangle, color: 'text-yellow-400', route: '/admin/approval-queue' },
+  approval: { icon: AlertTriangle, color: 'text-primary', route: '/admin/approval-queue' },
   risk_alert: { icon: AlertTriangle, color: 'text-red-400', route: '/admin/risk-alerts' },
   community_report: { icon: AlertTriangle, color: 'text-orange-400', route: '/admin/fans' },
   viral_opportunity: { icon: TrendingUp, color: 'text-purple-400', route: '/admin/trend-monitor' },
@@ -207,7 +207,7 @@ export default function NotificationBell() {
                             {n.created_date ? format(new Date(n.created_date), 'dd MMM · h:mm a') : ''}
                           </span>
                           {isCritical && <span className="font-body text-[9px] text-red-400 font-bold uppercase tracking-wider">{n.severity}</span>}
-                          {n.requires_action && <span className="font-body text-[9px] text-yellow-400 font-bold uppercase tracking-wider">Action</span>}
+                          {n.requires_action && <span className="font-body text-[9px] text-primary font-bold uppercase tracking-wider">Action</span>}
                         </div>
                       </div>
                       <ExternalLink className="w-3 h-3 text-muted-foreground/20 group-hover:text-primary/40 shrink-0 mt-1 transition-colors" />

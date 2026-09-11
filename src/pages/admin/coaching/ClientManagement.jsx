@@ -23,7 +23,7 @@ export default function ClientManagement() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           { label: 'Active Clients', value: 0, color: 'text-green-400' },
-          { label: 'Enquiries', value: 0, color: 'text-yellow-400' },
+          { label: 'Enquiries', value: 0, color: 'text-primary' },
           { label: 'Completed Programs', value: 0, color: 'text-primary' },
         ].map(s => (
           <Card key={s.label}>

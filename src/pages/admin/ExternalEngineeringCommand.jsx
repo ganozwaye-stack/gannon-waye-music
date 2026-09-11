@@ -636,9 +636,9 @@ export default function ExternalEngineeringCommand() {
     { id: 'tasks', label: 'Task List' },
   ];
 
-  const colorMap = { green: 'border-green-500/30 bg-green-500/5', amber: 'border-amber-500/30 bg-amber-500/5', blue: 'border-blue-500/30 bg-blue-500/5', purple: 'border-purple-500/30 bg-purple-500/5', red: 'border-red-500/30 bg-red-500/5' };
-  const textMap = { green: 'text-green-300', amber: 'text-amber-300', blue: 'text-blue-300', purple: 'text-purple-300', red: 'text-red-300' };
-  const statusMap = { available: 'bg-green-500/20 text-green-300 border-green-500/30', unknown: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30', safe: 'bg-blue-500/20 text-blue-300 border-blue-500/30', manual: 'bg-secondary text-muted-foreground border-border' };
+  const colorMap = { green: 'border-green-500/30 bg-green-500/5', amber: 'border-primary/30 bg-primary/5', blue: 'border-blue-500/30 bg-blue-500/5', purple: 'border-purple-500/30 bg-purple-500/5', red: 'border-red-500/30 bg-red-500/5' };
+  const textMap = { green: 'text-green-300', amber: 'text-primary', blue: 'text-blue-300', purple: 'text-purple-300', red: 'text-red-300' };
+  const statusMap = { available: 'bg-green-500/20 text-green-300 border-green-500/30', unknown: 'bg-primary/20 text-primary border-primary/30', safe: 'bg-blue-500/20 text-blue-300 border-blue-500/30', manual: 'bg-secondary text-muted-foreground border-border' };
 
   return (
     <div className="space-y-6 pb-10">
@@ -659,9 +659,9 @@ export default function ExternalEngineeringCommand() {
       </div>
 
       {/* Critical Actions Banner */}
-      <Card className="border-amber-500/40 bg-amber-500/5">
+      <Card className="border-primary/40 bg-primary/5">
         <CardContent className="p-4 space-y-2">
-          <p className="text-sm font-semibold text-amber-300 flex items-center gap-2"><AlertTriangle className="w-4 h-4" /> FIRST ACTION FOR GANNON — DO THESE IN ORDER</p>
+          <p className="text-sm font-semibold text-primary flex items-center gap-2"><AlertTriangle className="w-4 h-4" /> FIRST ACTION FOR GANNON — DO THESE IN ORDER</p>
           {[
             '1. Go to Base44 Dashboard → Settings → Check for GitHub Sync option',
             '2. If GitHub Sync available: connect and create private repo. If not: use manual export pack (download below).',
@@ -671,7 +671,7 @@ export default function ExternalEngineeringCommand() {
             '6. Only after repo + tests exist: consider Cursor Pro (~$20/month)',
             '7. Start Warp on Free tier — do not upgrade until repo + tests are done',
           ].map((step, i) => (
-            <p key={i} className="text-xs text-amber-200/80">{step}</p>
+            <p key={i} className="text-xs text-primary/80">{step}</p>
           ))}
         </CardContent>
       </Card>
@@ -836,7 +836,7 @@ export default function ExternalEngineeringCommand() {
                 <div className="flex items-center gap-2 flex-wrap">
                   <p className="text-sm font-semibold">{row.task}</p>
                   <Badge variant="outline" className="text-xs">{row.tool}</Badge>
-                  <Badge className={`text-xs ${row.cost === 'Free' ? 'bg-green-500/10 text-green-400' : 'bg-amber-500/10 text-amber-400'}`}>{row.cost}</Badge>
+                  <Badge className={`text-xs ${row.cost === 'Free' ? 'bg-green-500/10 text-green-400' : 'bg-primary/10 text-primary'}`}>{row.cost}</Badge>
                   {row.login !== 'No' && <Badge className="text-xs bg-blue-500/10 text-blue-400">{row.login}</Badge>}
                 </div>
                 <p className="text-xs text-muted-foreground mt-1">{row.note}</p>

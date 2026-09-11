@@ -16,7 +16,7 @@ import { format } from 'date-fns';
 
 const STATUS_MAP = {
   new: { label: 'New Order', color: 'bg-blue-500/20 text-blue-400', group: 'active' },
-  pending: { label: 'Pending Payment', color: 'bg-yellow-500/20 text-yellow-400', group: 'active' },
+  pending: { label: 'Pending Payment', color: 'bg-primary/20 text-primary', group: 'active' },
   paid: { label: 'Paid', color: 'bg-green-500/20 text-green-400', group: 'active' },
   processing: { label: 'Processing', color: 'bg-cyan-500/20 text-cyan-400', group: 'active' },
   packed: { label: 'Ready to Pack', color: 'bg-purple-500/20 text-purple-400', group: 'active' },

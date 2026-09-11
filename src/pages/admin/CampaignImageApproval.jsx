@@ -160,7 +160,7 @@ const DAY_COLORS = {
   3: 'border-pink-500/40 bg-pink-500/5',
   2: 'border-cyan-500/40 bg-cyan-500/5',
   1: 'border-green-500/40 bg-green-500/5',
-  null: 'border-amber-500/40 bg-amber-500/5',
+  null: 'border-primary/40 bg-primary/5',
 };
 
 function ImageApprovalCard({ img, onApprove }) {
@@ -187,7 +187,7 @@ function ImageApprovalCard({ img, onApprove }) {
       <CardHeader className="pb-2 pt-4 px-4">
         <div className="flex items-start justify-between gap-2 flex-wrap">
           <div>
-            <Badge className={`text-[10px] tracking-widest uppercase font-body mb-1.5 ${img.day === null ? 'bg-amber-500/20 text-amber-400 border-amber-500/30' : 'bg-primary/20 text-primary border-primary/30'} border`}>
+            <Badge className={`text-[10px] tracking-widest uppercase font-body mb-1.5 ${img.day === null ? 'bg-primary/20 text-primary border-primary/30' : 'bg-primary/20 text-primary border-primary/30'} border`}>
               {img.dayLabel}
             </Badge>
             <CardTitle className="text-sm font-body font-semibold text-foreground">{img.format}</CardTitle>
@@ -333,9 +333,9 @@ export default function CampaignImageApproval() {
         </div>
       )}
 
-      <div className="bg-amber-500/5 border border-amber-500/30 rounded-xl p-4 flex items-start gap-3">
-        <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-        <p className="font-body text-xs text-amber-300/80">
+      <div className="bg-primary/5 border border-primary/30 rounded-xl p-4 flex items-start gap-3">
+        <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+        <p className="font-body text-xs text-primary/80">
           All images are currently un-labelled / under wrong headings. Review each one below and pick the heading that fits. Your selections are saved this session — next step is to upload these to the Social Asset Library or Merch Visual Lab once approved.
         </p>
       </div>
@@ -372,8 +372,8 @@ export default function CampaignImageApproval() {
       {/* Mum tribute image */}
       <div>
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
-            <span className="text-amber-400 text-xl">♡</span>
+          <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center">
+            <span className="text-primary text-xl">♡</span>
           </div>
           <div>
             <h2 className="font-display text-xl font-bold text-foreground">Mum Tribute — /mum Page</h2>

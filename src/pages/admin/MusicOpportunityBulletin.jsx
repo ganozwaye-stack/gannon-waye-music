@@ -23,13 +23,13 @@ const CATEGORIES = [
 
 const EFFORT_COLORS = {
   low: 'bg-green-500/10 text-green-400',
-  medium: 'bg-yellow-500/10 text-yellow-400',
+  medium: 'bg-primary/10 text-primary',
   high: 'bg-red-500/10 text-red-400',
 };
 
 const STATUS_COLORS = {
   new: 'bg-blue-500/10 text-blue-400',
-  reviewing: 'bg-yellow-500/10 text-yellow-400',
+  reviewing: 'bg-primary/10 text-primary',
   applied: 'bg-purple-500/10 text-purple-400',
   approved: 'bg-green-500/10 text-green-400',
   rejected: 'bg-red-500/10 text-red-400',
@@ -157,7 +157,7 @@ function OpportunityCard({ opp, onStatusChange }) {
   const isDeadlineSoon = opp.deadline !== 'Rolling' && new Date(opp.deadline) < new Date(Date.now() + 14 * 86400000);
 
   return (
-    <div className={`bg-card/50 border rounded-xl overflow-hidden transition-all ${isDeadlineSoon ? 'border-yellow-500/30' : 'border-border/30'}`}>
+    <div className={`bg-card/50 border rounded-xl overflow-hidden transition-all ${isDeadlineSoon ? 'border-primary/30' : 'border-border/30'}`}>
       <div
         className="p-4 cursor-pointer hover:bg-white/3 transition-all"
         onClick={() => setExpanded(!expanded)}
@@ -167,7 +167,7 @@ function OpportunityCard({ opp, onStatusChange }) {
             <div className="flex items-center gap-2 flex-wrap mb-1">
               <Badge className={`text-[10px] ${STATUS_COLORS[opp.status] || STATUS_COLORS.new}`}>{opp.status}</Badge>
               <Badge variant="outline" className="text-[10px]">{opp.category}</Badge>
-              {isDeadlineSoon && <Badge className="bg-yellow-500/10 text-yellow-400 text-[10px]">⏰ Soon</Badge>}
+              {isDeadlineSoon && <Badge className="bg-primary/10 text-primary text-[10px]">⏰ Soon</Badge>}
               {opp.gannon_action && <Badge className="bg-orange-500/10 text-orange-400 text-[10px]">Your Action</Badge>}
             </div>
             <h3 className="font-semibold text-sm text-foreground leading-tight">{opp.title}</h3>
@@ -270,8 +270,8 @@ export default function MusicOpportunityBulletin() {
           <p className="text-2xl font-bold text-primary">{opportunities.length}</p>
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5">Total Opportunities</p>
         </div>
-        <div className="bg-yellow-500/5 border border-yellow-500/20 rounded-xl p-3 text-center">
-          <p className="text-2xl font-bold text-yellow-400">{urgentCount}</p>
+        <div className="bg-primary/5 border border-primary/20 rounded-xl p-3 text-center">
+          <p className="text-2xl font-bold text-primary">{urgentCount}</p>
           <p className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5">Deadline Within 14 Days</p>
         </div>
         <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl p-3 text-center">

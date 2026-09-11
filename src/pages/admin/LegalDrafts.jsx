@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
 import LetterheadPdfButton from '@/components/admin/LetterheadPdfButton';
-import BlankLetterheadButton from '@/components/admin/BlankLetterheadButton';
+import GannonSignature from '@/components/global/GannonSignature';
 
 // Involvement date: the Gmail connection holds send permission only, so Victor's
 // emails could not be searched for his start date. Per the owner's instruction,
@@ -13,11 +13,14 @@ import BlankLetterheadButton from '@/components/admin/BlankLetterheadButton';
 // which is 5 June 2026.
 const VICTOR_INVOLVEMENT_DATE = '5 June 2026';
 
-const TERMINATION_LETTER = `Subject: Termination of Involvement with GanozMix Direct
+// The letter is split at the signature point: [SIGNATURE] marks where Gannon's
+// real signature image is drawn (on screen and in the PDF) between "Regards,"
+// and his name — never a typed or AI-generated signature.
+const LETTER_HEAD = `Subject: Termination of Involvement with GanozMix Direct
 
 Victor,
 
-This letter is a formality to confirm the termination of your involvement, dating as from on or around ${VICTOR_INVOLVEMENT_DATE}, and effective immediately, if any misunderstanding has occurred. Any involvement, access, collaboration, representation, or association you may have had with GanozMix Direct is terminated.
+This letter is a formality to confirm the termination of your involvement with GanozMix Direct, effective as from on or around ${VICTOR_INVOLVEMENT_DATE}, and effective immediately, should any misunderstanding have occurred.
 
 Please note: GanozMix Direct has since rebranded and no longer exists or trades under that name. This notice is provided for clarity and record-keeping. Your involvement is acknowledged as dating from on or around ${VICTOR_INVOLVEMENT_DATE}; however, this decision is final.
 
@@ -27,13 +30,11 @@ Any access credentials, materials, files, business information, or account permi
 
 No further involvement is authorised unless confirmed in writing by Gannon Waye.
 
-We wish you every success in your endeavours; however, we will not be available for a character or employment reference at the benefit of your ability to regain employment.
+We wish you every success in your endeavours. However, we will not be available for a character or employment reference, at the benefit of your ability to regain employment.
 
-Regards,
+Regards,`;
 
-[signature]
-
-Gannon Waye
+const LETTER_TAIL = `Gannon Waye
 Gannon Waye Music
 
 Thanking You Kindly PTY LTD
@@ -41,14 +42,16 @@ Mobile: 0431 546 400
 
 Thanking You Kindly PTY LTD is the e-commerce brand operating the retail system for Gannon Waye Music, including its micro-branded dropshipping operations. In its first months of operation the brand has delivered strong early sales results, and the business continues to grow from a strong foundation.`;
 
+const FULL_LETTER = `${LETTER_HEAD}\n\n[SIGNATURE]\n\n${LETTER_TAIL}`;
+const PLAIN_LETTER = FULL_LETTER.replace('\n\n[SIGNATURE]\n\n', '\n\n');
+
 export default function LegalDrafts() {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [logged, setLogged] = useState(false);
 
   const copyLetter = () => {
-    // Strip the [signature] marker — the signature image only applies to the PDF.
-    navigator.clipboard.writeText(TERMINATION_LETTER.replace('[signature]', ''));
+    navigator.clipboard.writeText(PLAIN_LETTER);
     setCopied(true);
     toast({ title: 'Letter copied to clipboard', description: 'Review carefully before sending.' });
     setTimeout(() => setCopied(false), 3000);
@@ -70,7 +73,7 @@ export default function LegalDrafts() {
       <div>
         <h1 className="font-display text-3xl text-foreground">Legal Drafts</h1>
         <p className="font-body text-sm text-muted-foreground mt-1">
-          Draft legal communications. <strong className="text-yellow-400">Do not send without Gannon's explicit approval.</strong>
+          Draft legal communications. <strong className="text-primary">Do not send without Gannon's explicit approval.</strong>
         </p>
       </div>
 
@@ -93,7 +96,7 @@ export default function LegalDrafts() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Badge className="bg-yellow-500/15 text-yellow-400 border border-yellow-500/30 text-[10px]">
+            <Badge className="bg-primary/15 text-primary border border-primary/30 text-[10px]">
               DRAFT — NOT SENT
             </Badge>
             <Lock className="w-3.5 h-3.5 text-muted-foreground" />
@@ -102,12 +105,14 @@ export default function LegalDrafts() {
 
         <div className="p-6">
           <pre className="font-body text-xs text-muted-foreground whitespace-pre-wrap leading-relaxed bg-secondary/20 rounded-xl p-5 border border-border/30">
-            {TERMINATION_LETTER}
+            {`${LETTER_HEAD}\n\n`}
+            <GannonSignature className="block my-1" />
+            {`\n${LETTER_TAIL}`}
           </pre>
 
           <div className="flex flex-wrap gap-3 mt-4">
-            <LetterheadPdfButton letterText={TERMINATION_LETTER} />
-            <BlankLetterheadButton />
+            <LetterheadPdfButton letterText={FULL_LETTER} />
+            <LetterheadPdfButton blank />
             <Button variant="outline" size="sm" onClick={copyLetter} className="rounded-full text-xs gap-1.5">
               {copied ? <CheckCircle2 className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied' : 'Copy Letter'}
@@ -118,8 +123,8 @@ export default function LegalDrafts() {
             </Button>
           </div>
 
-          <div className="mt-5 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4">
-            <p className="font-body text-xs text-yellow-300 font-medium mb-1">Actions required before sending:</p>
+          <div className="mt-5 bg-primary/10 border border-primary/20 rounded-xl p-4">
+            <p className="font-body text-xs text-primary font-medium mb-1">Actions required before sending:</p>
             <ul className="space-y-1">
               {[
                 'Review letter with Gannon for accuracy',
@@ -129,7 +134,7 @@ export default function LegalDrafts() {
                 'Send via email with read receipt if possible',
                 'Store sent copy in this admin section',
               ].map((item, i) => (
-                <li key={i} className="font-body text-xs text-yellow-300/80 flex items-start gap-1.5">
+                <li key={i} className="font-body text-xs text-primary/80 flex items-start gap-1.5">
                   <span className="shrink-0 mt-0.5">•</span> {item}
                 </li>
               ))}

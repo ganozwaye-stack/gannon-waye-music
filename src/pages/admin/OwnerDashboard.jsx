@@ -107,7 +107,7 @@ export default function OwnerDashboard() {
                 <Package className="w-5 h-5 text-muted-foreground" />
                 <div>
                   <p className="font-body text-sm text-foreground">{product.name}</p>
-                  <p className="font-body text-xs text-yellow-500">Out of stock</p>
+                  <p className="font-body text-xs text-primary">Out of stock</p>
                 </div>
               </div>
               <ArrowRight className="w-4 h-4 text-muted-foreground" />

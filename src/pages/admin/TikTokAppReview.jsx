@@ -195,9 +195,9 @@ const ItemDetail = ({ item, type, onClose }) => (
         </div>
       )}
       {item.action && !item.done && (
-        <div className="border border-yellow-500/30 bg-yellow-500/10 rounded-lg p-3">
-          <p className="text-xs font-semibold text-yellow-400 mb-1">Action Required</p>
-          <p className="text-sm text-yellow-300">{item.action}</p>
+        <div className="border border-primary/30 bg-primary/10 rounded-lg p-3">
+          <p className="text-xs font-semibold text-primary mb-1">Action Required</p>
+          <p className="text-sm text-primary">{item.action}</p>
         </div>
       )}
       <Button variant="outline" size="sm" onClick={onClose}>Close</Button>
@@ -290,10 +290,10 @@ export default function TikTokAppReview() {
         <CardContent className="p-5">
           <div className="flex items-center justify-between mb-3">
             <p className="font-semibold">Submission Readiness</p>
-            <span className={`text-2xl font-bold ${score >= 80 ? 'text-green-400' : score >= 50 ? 'text-yellow-400' : 'text-red-400'}`}>{score}%</span>
+            <span className={`text-2xl font-bold ${score >= 80 ? 'text-green-400' : score >= 50 ? 'text-primary' : 'text-red-400'}`}>{score}%</span>
           </div>
           <div className="w-full bg-secondary rounded-full h-2.5">
-            <div className={`h-2.5 rounded-full transition-all ${score >= 80 ? 'bg-green-500' : score >= 50 ? 'bg-yellow-500' : 'bg-red-500'}`} style={{ width: `${score}%` }} />
+            <div className={`h-2.5 rounded-full transition-all ${score >= 80 ? 'bg-green-500' : score >= 50 ? 'bg-primary' : 'bg-red-500'}`} style={{ width: `${score}%` }} />
           </div>
           <p className="text-xs text-muted-foreground mt-2">{doneCount} of {CHECKLIST.length} items complete</p>
         </CardContent>
@@ -458,7 +458,7 @@ export default function TikTokAppReview() {
           <p className="text-red-300/80">The TikTok client secret has been exposed in chat. Treat it as compromised and rotate/regenerate it before production submission.</p>
           <p className="text-red-300/80">Do <strong>not</strong> display your TikTok client secret in the screen recording, review text, screenshots, or documents.</p>
           <p className="text-muted-foreground text-xs">Client Key may be visible in the portal. Client Secret must only be stored in the secure environment variable and never shown after saving.</p>
-          <p className="text-yellow-300/80 text-xs">Also rotate any Stripe, webhook, OpusClip, Meta, Google, or other API secret that appeared in chat, screenshots, logs, or recordings.</p>
+          <p className="text-primary/80 text-xs">Also rotate any Stripe, webhook, OpusClip, Meta, Google, or other API secret that appeared in chat, screenshots, logs, or recordings.</p>
         </CardContent>
       </Card>
 

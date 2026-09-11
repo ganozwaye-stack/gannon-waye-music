@@ -81,7 +81,7 @@ function tabMatches(platform, tab) {
 function statusClass(status) {
   if (status === 'Connected') return 'bg-green-500/20 text-green-300 border-green-500/30';
   if (status === 'Ready To Test') return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
-  if (status === 'Needs Credential' || status === 'Needs OAuth Login') return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+  if (status === 'Needs Credential' || status === 'Needs OAuth Login') return 'bg-primary/20 text-primary border-primary/30';
   if (status === 'Needs Approval' || status === 'Blocked') return 'bg-red-500/20 text-red-300 border-red-500/30';
   return 'bg-secondary text-muted-foreground border-border';
 }
@@ -220,7 +220,7 @@ export default function IntegrationCompletionCentre() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           ['Revenue Critical', counts['Revenue Critical'], 'text-red-400', Shield],
-          ['Needs Credentials', counts['Needs Credential'], 'text-yellow-400', Lock],
+          ['Needs Credentials', counts['Needs Credential'], 'text-primary', Lock],
           ['Ready To Test', counts['Ready To Test'], 'text-blue-400', Wrench],
           ['Connected', counts.Connected, 'text-green-400', CheckCircle2],
         ].map(([label, value, color, Icon]) => (

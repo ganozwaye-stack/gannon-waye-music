@@ -127,7 +127,7 @@ const EVOLUTION_ITEMS = [
 
 const STATUS_COLOR = {
   done: 'bg-green-500/20 text-green-400 border-green-500/30',
-  in_progress: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30',
+  in_progress: 'bg-primary/20 text-primary border-primary/30',
   blocked: 'bg-red-500/20 text-red-400 border-red-500/30',
   planned: 'bg-slate-500/20 text-slate-400',
 };
@@ -136,7 +136,7 @@ const PRIORITY_COLOR = {
   high: 'bg-orange-500/20 text-orange-400',
   done: 'bg-green-500/20 text-green-400',
   blocked: 'bg-red-500/20 text-red-400',
-  in_progress: 'bg-yellow-500/20 text-yellow-400',
+  in_progress: 'bg-primary/20 text-primary',
 };
 
 export default function WebsiteEvolution() {
@@ -184,20 +184,20 @@ export default function WebsiteEvolution() {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Card className="border-green-500/20"><CardContent className="p-4"><p className="text-2xl font-bold text-green-400">{done.length}</p><p className="text-xs text-muted-foreground">Completed</p></CardContent></Card>
-        <Card className="border-yellow-500/20"><CardContent className="p-4"><p className="text-2xl font-bold text-yellow-400">{inProgress.length}</p><p className="text-xs text-muted-foreground">In Progress</p></CardContent></Card>
+        <Card className="border-primary/20"><CardContent className="p-4"><p className="text-2xl font-bold text-primary">{inProgress.length}</p><p className="text-xs text-muted-foreground">In Progress</p></CardContent></Card>
         <Card className="border-red-500/20"><CardContent className="p-4"><p className="text-2xl font-bold text-red-400">{blocked.length}</p><p className="text-xs text-muted-foreground">Blocked</p></CardContent></Card>
         <Card><CardContent className="p-4"><p className="text-2xl font-bold text-primary">{EVOLUTION_ITEMS.length}</p><p className="text-xs text-muted-foreground">Total Items</p></CardContent></Card>
       </div>
 
       {/* ── HOMEPAGE APPROVAL GATE ─────────────────────────── */}
-      <div className={`rounded-xl border p-5 space-y-4 ${campaignSectionLive ? 'border-amber-500/40 bg-amber-500/5' : 'border-border/40 bg-secondary/10'}`}>
+      <div className={`rounded-xl border p-5 space-y-4 ${campaignSectionLive ? 'border-primary/40 bg-primary/5' : 'border-border/40 bg-secondary/10'}`}>
         <div className="flex items-start justify-between gap-3 flex-wrap">
           <div className="flex items-start gap-3">
-            <div className={`w-3 h-3 rounded-full mt-1 shrink-0 ${campaignSectionLive ? 'bg-amber-400 animate-pulse' : 'bg-secondary'}`} />
+            <div className={`w-3 h-3 rounded-full mt-1 shrink-0 ${campaignSectionLive ? 'bg-primary animate-pulse' : 'bg-secondary'}`} />
             <div>
               <p className="font-semibold text-sm text-foreground">Thank You Campaign Section — Homepage</p>
               <div className="flex items-center gap-2 mt-1">
-                <Badge className={campaignSectionLive ? 'bg-amber-500/20 text-amber-300 border-amber-500/30 text-[9px] uppercase tracking-wider' : 'bg-secondary text-muted-foreground text-[9px] uppercase tracking-wider'}>
+                <Badge className={campaignSectionLive ? 'bg-primary/20 text-primary border-primary/30 text-[9px] uppercase tracking-wider' : 'bg-secondary text-muted-foreground text-[9px] uppercase tracking-wider'}>
                   {campaignSectionLive ? 'LIVE — AWAITING GANNON REVIEW' : 'HIDDEN / ROLLED BACK'}
                 </Badge>
               </div>

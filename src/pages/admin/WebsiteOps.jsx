@@ -66,9 +66,9 @@ export default function WebsiteOps() {
             className={`p-3 rounded-lg border text-xs text-left transition-all ${tool === t.id ? 'border-primary bg-primary/10 text-primary' : 'border-border text-muted-foreground hover:border-primary/40'}`}>
             <div className="flex items-center justify-between mb-1">
               <span className="font-medium">{t.label}</span>
-              {t.auto ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <AlertTriangle className="w-3 h-3 text-yellow-400" />}
+              {t.auto ? <CheckCircle2 className="w-3 h-3 text-green-400" /> : <AlertTriangle className="w-3 h-3 text-primary" />}
             </div>
-            {t.note && <p className="text-yellow-400 text-xs">{t.note}</p>}
+            {t.note && <p className="text-primary text-xs">{t.note}</p>}
           </button>
         ))}
       </div>

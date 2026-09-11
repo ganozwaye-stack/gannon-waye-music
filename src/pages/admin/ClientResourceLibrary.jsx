@@ -44,7 +44,7 @@ function ResourceRow({ resource, template }) {
         <p className="font-body text-xs text-muted-foreground leading-relaxed">{resource.description || template?.desc}</p>
         {resource.file_url
           ? <Badge className="bg-green-500/10 text-green-400 border-green-500/30 text-[9px] mt-2">File uploaded</Badge>
-          : <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/30 text-[9px] mt-2">No file uploaded yet</Badge>
+          : <Badge className="bg-primary/10 text-primary border-primary/30 text-[9px] mt-2">No file uploaded yet</Badge>
         }
       </div>
       <div className="flex gap-2 shrink-0">
@@ -74,7 +74,7 @@ function TemplateRow({ template }) {
     },
   });
 
-  const priorityColor = { high: 'text-red-400 bg-red-500/10 border-red-500/20', medium: 'text-yellow-400 bg-yellow-500/10 border-yellow-500/20', low: 'text-muted-foreground bg-secondary border-border' }[template.priority];
+  const priorityColor = { high: 'text-red-400 bg-red-500/10 border-red-500/20', medium: 'text-primary bg-primary/10 border-primary/20', low: 'text-muted-foreground bg-secondary border-border' }[template.priority];
 
   return (
     <div className="flex items-start gap-3 p-4 border border-dashed border-border/40 rounded-xl bg-card/20 opacity-70">
@@ -122,20 +122,20 @@ export default function ClientResourceLibrary() {
           <p className="font-body text-[9px] uppercase tracking-widest text-muted-foreground mt-1">Published</p>
         </div>
         <div className="bg-card/50 border border-border/40 rounded-xl p-4 text-center">
-          <p className="font-display text-2xl text-yellow-400">{resources.filter(r => !r.file_url).length}</p>
+          <p className="font-display text-2xl text-primary">{resources.filter(r => !r.file_url).length}</p>
           <p className="font-body text-[9px] uppercase tracking-widest text-muted-foreground mt-1">Missing Files</p>
         </div>
       </div>
 
-      <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 mb-6">
+      <div className="bg-primary/10 border border-primary/30 rounded-xl p-4 mb-6">
         <div className="flex items-start gap-2">
-          <AlertCircle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+          <AlertCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
           <div>
-            <p className="font-body text-xs font-semibold text-yellow-400 mb-1">To activate client resources:</p>
+            <p className="font-body text-xs font-semibold text-primary mb-1">To activate client resources:</p>
             <ol className="space-y-1">
               {['Click "Add" to create each resource record', 'Upload the PDF file URL to each resource', 'Toggle "Show" to make visible to clients at /coaching/client-resources'].map((a, i) => (
                 <li key={i} className="font-body text-xs text-foreground/70 flex items-start gap-1.5">
-                  <span className="text-yellow-400/60 shrink-0">{i + 1}.</span>{a}
+                  <span className="text-primary/60 shrink-0">{i + 1}.</span>{a}
                 </li>
               ))}
             </ol>

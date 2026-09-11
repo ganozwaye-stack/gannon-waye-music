@@ -138,7 +138,7 @@ const CATEGORY_COLOR = {
   Executive: 'bg-purple-500/20 text-purple-400',
   Commerce: 'bg-green-500/20 text-green-400',
   Social: 'bg-pink-500/20 text-pink-400',
-  Community: 'bg-yellow-500/20 text-yellow-400',
+  Community: 'bg-primary/20 text-primary',
   Intelligence: 'bg-blue-500/20 text-blue-400',
   Operations: 'bg-cyan-500/20 text-cyan-400',
   Finance: 'bg-orange-500/20 text-orange-400',

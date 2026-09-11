@@ -26,7 +26,7 @@ const CONTENT_FORMATS = [
 const PIPELINE_STAGES = [
   { stage: 'Idea', desc: 'Content concept identified', color: 'bg-slate-500/20 text-slate-400' },
   { stage: 'Draft', desc: 'Brief written, ready to film', color: 'bg-blue-500/20 text-blue-400' },
-  { stage: 'Recorded', desc: 'Video captured on device', color: 'bg-yellow-500/20 text-yellow-400' },
+  { stage: 'Recorded', desc: 'Video captured on device', color: 'bg-primary/20 text-primary' },
   { stage: 'Uploaded to Draft', desc: 'Submitted to TikTok as private draft', color: 'bg-orange-500/20 text-orange-400' },
   { stage: 'Approved', desc: 'Gannon approved for publishing', color: 'bg-green-500/20 text-green-400' },
   { stage: 'Live', desc: 'Published — tracking revenue attribution', color: 'bg-primary/20 text-primary' },
@@ -136,7 +136,7 @@ Keep it practical. Gannon will read this brief and film it himself. Make it feel
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
             <Card><CardContent className="p-3"><p className="text-xl font-bold">{videos.length}</p><p className="text-xs text-muted-foreground">Total Videos</p></CardContent></Card>
             <Card><CardContent className="p-3"><p className="text-xl font-bold text-green-400">{liveVideos.length}</p><p className="text-xs text-muted-foreground">Live</p></CardContent></Card>
-            <Card><CardContent className="p-3"><p className="text-xl font-bold text-yellow-400">{draftVideos.length}</p><p className="text-xs text-muted-foreground">In Draft</p></CardContent></Card>
+            <Card><CardContent className="p-3"><p className="text-xl font-bold text-primary">{draftVideos.length}</p><p className="text-xs text-muted-foreground">In Draft</p></CardContent></Card>
             <Card><CardContent className="p-3"><p className="text-xl font-bold text-primary">{videos.filter(v=>v.revenue_attributed).length}</p><p className="text-xs text-muted-foreground">With Revenue</p></CardContent></Card>
           </div>
           {videos.length === 0 ? (
@@ -243,7 +243,7 @@ Keep it practical. Gannon will read this brief and film it himself. Make it feel
               <div className="flex items-start gap-2"><TrendingUp className="w-4 h-4 text-primary shrink-0 mt-0.5" /><p><strong className="text-foreground">Merch Sales:</strong> Merch reveal and lifestyle content directly drives store visits. Track via promo codes per video.</p></div>
               <div className="flex items-start gap-2"><Music className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" /><p><strong className="text-foreground">Streaming Revenue:</strong> Song-based content (lyric breakdowns, acoustic versions) drives Spotify/Apple saves.</p></div>
               <div className="flex items-start gap-2"><DollarSign className="w-4 h-4 text-green-400 shrink-0 mt-0.5" /><p><strong className="text-foreground">Email List Growth:</strong> Fan connection content grows the email list. Email list drives 3-5x more revenue than social.</p></div>
-              <div className="flex items-start gap-2"><Zap className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" /><p><strong className="text-foreground">Coaching Pipeline:</strong> Behind-the-scenes and personal story content builds the authority needed for coaching programs.</p></div>
+              <div className="flex items-start gap-2"><Zap className="w-4 h-4 text-primary shrink-0 mt-0.5" /><p><strong className="text-foreground">Coaching Pipeline:</strong> Behind-the-scenes and personal story content builds the authority needed for coaching programs.</p></div>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">

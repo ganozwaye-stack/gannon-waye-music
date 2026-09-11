@@ -39,7 +39,7 @@ const CHECKLIST = [
   {
     category: 'Store & Checkout',
     icon: Zap,
-    color: 'text-amber-400',
+    color: 'text-primary',
     items: [
       { id: 'products_active', label: 'All products marked is_active = true', status: 'done', note: 'Active in product catalogue' },
       { id: 'stock_levels', label: 'Stock quantities set correctly', status: 'done', note: 'Stock tracked on all items' },
@@ -115,7 +115,7 @@ const STATUS_CONFIG = {
   done: { label: 'Done', color: 'bg-green-500/10 text-green-400 border-green-500/30', icon: CheckCircle2, iconColor: 'text-green-400' },
   todo: { label: 'To Do', color: 'bg-slate-500/10 text-slate-400 border-slate-500/30', icon: Circle, iconColor: 'text-slate-400' },
   action: { label: 'Action Required', color: 'bg-red-500/10 text-red-400 border-red-500/30', icon: AlertTriangle, iconColor: 'text-red-400' },
-  review: { label: 'Review', color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30', icon: AlertTriangle, iconColor: 'text-yellow-400' },
+  review: { label: 'Review', color: 'bg-primary/10 text-primary border-primary/30', icon: AlertTriangle, iconColor: 'text-primary' },
 };
 
 export default function GoLiveChecklist() {
@@ -169,7 +169,7 @@ export default function GoLiveChecklist() {
             <span className="text-sm font-bold text-primary">{pct}%</span>
           </div>
           <div className="w-full bg-secondary rounded-full h-2 mb-3">
-            <div className="h-2 rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: pct >= 80 ? 'hsl(var(--primary))' : pct >= 50 ? '#f59e0b' : '#ef4444' }} />
+            <div className="h-2 rounded-full transition-all duration-500" style={{ width: `${pct}%`, background: pct >= 80 ? 'hsl(var(--primary))' : pct >= 50 ? '#a9842c' : '#ef4444' }} />
           </div>
           <div className="flex gap-4 text-xs">
             <span className="text-green-400">✓ {done} done</span>

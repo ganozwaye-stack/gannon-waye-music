@@ -18,7 +18,7 @@ function DashTile({ to, label, value, sub, icon: Icon, color = 'gold', urgent = 
   const colorMap = {
     gold: { bg: 'rgba(212,175,55,0.08)', border: 'rgba(212,175,55,0.25)', val: '#D4AF37', icon: 'rgba(212,175,55,0.7)' },
     red: { bg: 'rgba(239,68,68,0.08)', border: 'rgba(239,68,68,0.3)', val: '#f87171', icon: 'rgba(239,68,68,0.7)' },
-    yellow: { bg: 'rgba(234,179,8,0.08)', border: 'rgba(234,179,8,0.3)', val: '#facc15', icon: 'rgba(234,179,8,0.7)' },
+    yellow: { bg: 'rgba(212,175,55,0.08)', border: 'rgba(212,175,55,0.3)', val: '#d4af37', icon: 'rgba(212,175,55,0.7)' },
     green: { bg: 'rgba(34,197,94,0.08)', border: 'rgba(34,197,94,0.25)', val: '#4ade80', icon: 'rgba(34,197,94,0.7)' },
     blue: { bg: 'rgba(59,130,246,0.08)', border: 'rgba(59,130,246,0.25)', val: '#60a5fa', icon: 'rgba(59,130,246,0.7)' },
     muted: { bg: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.08)', val: '#9ca3af', icon: 'rgba(156,163,175,0.6)' },
@@ -106,13 +106,13 @@ export default function Dashboard() {
     <div className="space-y-6 pb-16">
 
       {/* ── GMAIL WARNING BANNER — persistent until Gmail is connected ── */}
-      <div className="flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-amber-500/50 bg-amber-500/8">
-        <Mail className="w-4 h-4 text-amber-400 shrink-0" />
-        <p className="text-sm text-amber-300 flex-1">
+      <div className="flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-primary/50 bg-primary/8">
+        <Mail className="w-4 h-4 text-primary shrink-0" />
+        <p className="text-sm text-primary flex-1">
           <span className="font-bold">⚠️ Gmail not connected</span> — customer shipping emails will <span className="font-bold text-red-400">NOT send</span>. Every fulfilled order is missing its confirmation email.
         </p>
         <Link to="/admin/integration-action-centre">
-          <Button size="sm" className="bg-amber-500 hover:bg-amber-400 text-black font-bold text-xs shrink-0 gap-1">
+          <Button size="sm" className="bg-primary hover:bg-primary text-black font-bold text-xs shrink-0 gap-1">
             <Mail className="w-3.5 h-3.5" />Connect Gmail →
           </Button>
         </Link>
@@ -158,7 +158,7 @@ export default function Dashboard() {
 
       {/* TIER 2 — HUMAN TASKS */}
       <div>
-        <p className="text-[10px] uppercase tracking-[0.25em] text-yellow-400/70 font-semibold mb-3 flex items-center gap-1.5">
+        <p className="text-[10px] uppercase tracking-[0.25em] text-primary/70 font-semibold mb-3 flex items-center gap-1.5">
           <FileCheck className="w-3.5 h-3.5" /> 2. Human Approval Tasks
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
@@ -214,7 +214,7 @@ export default function Dashboard() {
             <PriorityRow num={3} label="Review Stripe payment failures and dispute alerts" to="/admin/payment-diagnostics" urgent={stripeIssues.length > 0} />
             <PriorityRow num={4} label="Check shipping rules are active for all product categories" to="/admin/shipping-rates" />
 
-            <p className="text-[10px] uppercase tracking-widest text-yellow-400/60 px-3 pt-3 pb-1">🟡 Orders & Customers</p>
+            <p className="text-[10px] uppercase tracking-widest text-primary/60 px-3 pt-3 pb-1">🟡 Orders & Customers</p>
             <PriorityRow num={5} label="Review today's new orders and confirm customer details" to="/admin/orders?filter=today" />
             <PriorityRow num={6} label="Check Google Sheet sync — orders must log automatically" to="/admin/integration-action-centre" />
             <PriorityRow num={7} label="Send receipts for any orders missing email confirmation" to="/admin/orders" />
@@ -314,7 +314,7 @@ export default function Dashboard() {
               </Link>
               <Link to="/admin/metricool-command" className="flex items-center justify-between hover:opacity-80 transition-opacity">
                 <span className="text-muted-foreground">Metricool</span>
-                <Badge className="bg-yellow-500/10 text-yellow-400 text-[10px]">Check</Badge>
+                <Badge className="bg-primary/10 text-primary text-[10px]">Check</Badge>
               </Link>
               <Link to="/admin/tiktok-review" className="flex items-center justify-between hover:opacity-80 transition-opacity">
                 <span className="text-muted-foreground">TikTok OAuth</span>

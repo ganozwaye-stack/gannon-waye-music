@@ -55,7 +55,7 @@ export default function WealthDashboard() {
         </Card>
         <Card>
           <CardContent className="p-4 flex items-center gap-3">
-            <div className="bg-amber-500/10 p-2 rounded-lg"><Users className="w-5 h-5 text-amber-400" /></div>
+            <div className="bg-primary/10 p-2 rounded-lg"><Users className="w-5 h-5 text-primary" /></div>
             <div><p className="text-xl font-bold">{subscribers.length}</p><p className="text-xs text-muted-foreground">Email Subscribers</p></div>
           </CardContent>
         </Card>
@@ -83,7 +83,7 @@ export default function WealthDashboard() {
           {[
             { label: 'Merch Store', value: `$${totalOrders.toFixed(2)}`, count: `${orders.length} orders`, color: 'text-blue-400', link: '/admin/merch-financials' },
             { label: 'Supporter Contributions', value: `$${totalSupport.toFixed(2)}`, count: `${contributions.length} contributors`, color: 'text-pink-400', link: '/admin/supporters' },
-            { label: 'Email List Asset', value: `${subscribers.length} subscribers`, count: 'Untapped revenue channel', color: 'text-amber-400', link: '/admin/subscribers' },
+            { label: 'Email List Asset', value: `${subscribers.length} subscribers`, count: 'Untapped revenue channel', color: 'text-primary', link: '/admin/subscribers' },
           ].map(stream => (
             <Link key={stream.label} to={stream.link}>
               <Card className="hover:border-primary/30 transition-all cursor-pointer">

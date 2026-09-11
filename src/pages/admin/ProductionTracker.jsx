@@ -9,7 +9,7 @@ import { Film, Plus, X, RefreshCw, Play, AlertCircle, CheckCircle2, Clock, Loade
 
 const STATUS_STYLES = {
   queued: 'bg-blue-500/20 text-blue-400',
-  processing: 'bg-yellow-500/20 text-yellow-400',
+  processing: 'bg-primary/20 text-primary',
   completed: 'bg-green-500/20 text-green-400',
   failed: 'bg-red-500/20 text-red-400',
   cancelled: 'bg-secondary text-muted-foreground',
@@ -103,7 +103,7 @@ export default function ProductionTracker() {
         {[
           { label: 'Total', value: stats.total, color: 'text-foreground', icon: Film },
           { label: 'Queued', value: stats.queued, color: 'text-blue-400', icon: Clock },
-          { label: 'Processing', value: stats.processing, color: 'text-yellow-400', icon: Loader2 },
+          { label: 'Processing', value: stats.processing, color: 'text-primary', icon: Loader2 },
           { label: 'Completed', value: stats.completed, color: 'text-green-400', icon: CheckCircle2 },
           { label: 'Failed', value: stats.failed, color: 'text-red-400', icon: AlertCircle },
         ].map(s => (

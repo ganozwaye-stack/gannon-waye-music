@@ -10,12 +10,11 @@ const INK = [38, 42, 51];
 const MUTED = [122, 126, 136];
 
 // The official GW circle logo (transparent PNG) from the approved brand assets.
-export const LOGO_URL = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6e6f577bf_GW.png';
+const LOGO_URL = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6e6f577bf_GW.png';
+// Gannon's signature, placed between "Regards," and his name on signed letters.
+const SIGNATURE_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6eda965a4_image.png';
 
-// Gannon's approved signature image (the same asset used in outbound emails).
-export const SIGNATURE_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d02a2452f_2.png';
-
-export async function loadImageDataUrl(url) {
+async function loadImageDataUrl(url) {
   try {
     const res = await fetch(url);
     if (!res.ok) return null;
@@ -68,11 +67,11 @@ export function drawFooter(doc) {
   doc.setDrawColor(...GOLD);
   doc.setLineWidth(0.3);
   doc.line(22, y - 6, 188, y - 6);
-  // GanozMix Direct wordmark
+  // Sonico wordmark (Gannon Waye Music sits in the header with the GW logo)
   doc.setFont('times', 'bold');
   doc.setFontSize(10);
   doc.setTextColor(...GOLD);
-  doc.text('GanozMix Direct', 70, y, { align: 'center', charSpace: 0.4 });
+  doc.text('Sonico', 78, y, { align: 'center', charSpace: 0.4 });
   // Divider dot
   doc.setTextColor(...MUTED);
   doc.setFontSize(8);
@@ -81,7 +80,7 @@ export function drawFooter(doc) {
   doc.setFont('times', 'italic');
   doc.setFontSize(10);
   doc.setTextColor(...GOLD);
-  doc.text('Thanking You Kindly', 140, y, { align: 'center', charSpace: 0.4 });
+  doc.text('Thanking You Kindly', 132, y, { align: 'center', charSpace: 0.4 });
 }
 
 function renderLetter(doc, letterText, startY, signatureDataUrl) {
@@ -98,7 +97,7 @@ function renderLetter(doc, letterText, startY, signatureDataUrl) {
 
     // Signature marker: renders Gannon's signature image between "Regards,"
     // and his name — falls back to a hand-sign line if the image can't load.
-    if (block.trim() === '[signature]') {
+    if (block.trim().toLowerCase() === '[signature]') {
       if (signatureDataUrl) {
         doc.addImage(signatureDataUrl, 'PNG', margin, y - 3, 36, 12);
         y += 13;
@@ -134,12 +133,15 @@ function renderLetter(doc, letterText, startY, signatureDataUrl) {
       doc.text(line, margin, y);
       y += isSubject ? 6 : 4.6;
     });
+
   });
 
   return y;
 }
 
-export default function LetterheadPdfButton({ letterText }) {
+// letterText: the full letter, signed with the signature image after "Regards,".
+// blank: true renders only the letterhead itself, ready to save, print and sign by hand.
+export default function LetterheadPdfButton({ letterText = '', blank = false, label, filename }) {
   const { toast } = useToast();
   const [building, setBuilding] = useState(false);
 
@@ -147,23 +149,28 @@ export default function LetterheadPdfButton({ letterText }) {
     setBuilding(true);
     try {
       const doc = new jsPDF({ unit: 'mm', format: 'a4' });
-      const [logo, signature] = await Promise.all([
-        loadImageDataUrl(LOGO_URL),
-        loadImageDataUrl(SIGNATURE_URL),
-      ]);
+      const logo = await loadImageDataUrl(LOGO_URL);
       const bodyY = drawHeader(doc, logo);
-      renderLetter(doc, letterText, bodyY, signature);
+      if (!blank) {
+        const signature = await loadImageDataUrl(SIGNATURE_URL);
+        renderLetter(doc, letterText, bodyY, signature);
+      }
       // Footer on the final page
       const pageCount = doc.getNumberOfPages();
       doc.setPage(pageCount);
       drawFooter(doc);
-      doc.save('gannon-waye-termination-letter.pdf');
-      toast({ title: 'Letterhead PDF downloaded', description: 'Review before sending.' });
+      doc.save(filename || (blank ? 'gannon-waye-blank-letterhead.pdf' : 'gannon-waye-letterhead.pdf'));
+      toast({
+        title: blank ? 'Blank letterhead downloaded' : 'Letterhead PDF downloaded',
+        description: blank ? 'Save it, print it, sign it by hand.' : 'Review before sending.',
+      });
     } catch {
       toast({ title: 'Could not build the PDF', description: 'Please try again.', variant: 'destructive' });
     }
     setBuilding(false);
   };
+
+  const text = label || (blank ? 'Blank Letterhead' : 'Letterhead PDF');
 
   return (
     <Button
@@ -174,7 +181,7 @@ export default function LetterheadPdfButton({ letterText }) {
       className="rounded-full text-xs gap-1.5"
     >
       {building ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
-      {building ? 'Building…' : 'Letterhead PDF'}
+      {building ? 'Building…' : text}
     </Button>
   );
 }

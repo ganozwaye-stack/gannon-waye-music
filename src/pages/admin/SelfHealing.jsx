@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 
 const SEVERITY_CONFIG = {
   info:     { color: 'text-blue-400',   bg: 'bg-blue-500/10',   border: 'border-blue-500/30',   Icon: Activity },
-  warning:  { color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/30', Icon: AlertTriangle },
+  warning:  { color: 'text-primary', bg: 'bg-primary/10', border: 'border-primary/30', Icon: AlertTriangle },
   high:     { color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/30', Icon: AlertTriangle },
   critical: { color: 'text-red-400',    bg: 'bg-red-500/10',    border: 'border-red-500/30',    Icon: XCircle },
 };
@@ -18,7 +18,7 @@ const SEVERITY_CONFIG = {
 const STATUS_COLORS = {
   open:          'bg-red-500/10 text-red-400',
   drafting_fix:  'bg-blue-500/10 text-blue-400',
-  needs_approval:'bg-yellow-500/10 text-yellow-400',
+  needs_approval:'bg-primary/10 text-primary',
   approved:      'bg-purple-500/10 text-purple-400',
   resolved:      'bg-green-500/10 text-green-400',
   dismissed:     'bg-slate-500/10 text-slate-400',
@@ -267,9 +267,9 @@ export default function SelfHealing() {
       </div>
 
       {/* Safety rule */}
-      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
-        <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
-        <p className="text-yellow-300 text-xs"><strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — Low-risk repair drafts can be created automatically. Anything financial, legal, public, payment, pricing, data deletion, or reputation-related must go to ApprovalQueue before any action is taken.</p>
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
+        <Shield className="w-4 h-4 text-primary shrink-0" />
+        <p className="text-primary text-xs"><strong>Do-Not-Spend-Or-Lose Rule: ACTIVE</strong> — Low-risk repair drafts can be created automatically. Anything financial, legal, public, payment, pricing, data deletion, or reputation-related must go to ApprovalQueue before any action is taken.</p>
       </div>
 
       {/* Summary */}
@@ -277,7 +277,7 @@ export default function SelfHealing() {
         {[
           { label: 'Open Issues', value: openCount, color: openCount > 0 ? 'text-red-400' : 'text-green-400' },
           { label: 'Critical', value: criticalCount, color: criticalCount > 0 ? 'text-red-400' : 'text-muted-foreground' },
-          { label: 'Needs Approval', value: issues.filter(i => i.status === 'needs_approval').length, color: 'text-yellow-400' },
+          { label: 'Needs Approval', value: issues.filter(i => i.status === 'needs_approval').length, color: 'text-primary' },
           { label: 'Resolved', value: issues.filter(i => i.status === 'resolved').length, color: 'text-green-400' },
           { label: 'Total Detected', value: issues.length, color: 'text-foreground' },
         ].map(s => (
@@ -361,7 +361,7 @@ export default function SelfHealing() {
                         <div className="flex items-center gap-1.5 flex-wrap shrink-0">
                           <Badge className={`text-xs border ${cfg.border} ${cfg.bg} ${cfg.color}`}>{issue.severity}</Badge>
                           <Badge className={`text-xs ${STATUS_COLORS[issue.status] || ''}`}>{issue.status?.replace('_', ' ')}</Badge>
-                          {issue.requires_approval && <Badge className="text-xs bg-yellow-500/10 text-yellow-400 border-yellow-500/30">⚠ Needs Approval</Badge>}
+                          {issue.requires_approval && <Badge className="text-xs bg-primary/10 text-primary border-primary/30">⚠ Needs Approval</Badge>}
                         </div>
                       </div>
                       <p className="text-xs text-muted-foreground mt-0.5 capitalize">{issue.system_area?.replace('_', ' ')} {issue.risk_type && issue.risk_type !== 'none' ? `· ${issue.risk_type} risk` : ''}</p>
@@ -374,7 +374,7 @@ export default function SelfHealing() {
                         {issue.status === 'open' && (
                           <>
                             {issue.requires_approval ? (
-                              <Button size="sm" variant="outline" className="text-xs h-7 border-yellow-500/30 text-yellow-400" onClick={() => sendToApproval(issue)}>
+                              <Button size="sm" variant="outline" className="text-xs h-7 border-primary/30 text-primary" onClick={() => sendToApproval(issue)}>
                                 <Send className="w-3 h-3 mr-1" />Send to Approval Queue
                               </Button>
                             ) : (

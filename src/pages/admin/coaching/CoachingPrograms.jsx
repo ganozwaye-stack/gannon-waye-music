@@ -86,7 +86,7 @@ export default function CoachingPrograms() {
         <Button onClick={handleNew} size="sm" className="gap-2"><Plus className="w-4 h-4" />Add Program</Button>
       </div>
 
-      <div className="bg-yellow-500/5 border border-yellow-500/20 rounded-xl p-4 text-xs text-yellow-300/80">
+      <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-xs text-primary/80">
         🔒 All programs are in DRAFT status until explicitly published. No prices are shown publicly until launch gates are passed.
       </div>
 

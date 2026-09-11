@@ -69,9 +69,9 @@ const PACKAGES = [
     id: 'premium_business_os',
     name: 'Premium Business OS',
     icon: Crown,
-    color: 'text-amber-400',
-    border: 'border-amber-500/30',
-    bg: 'bg-amber-500/5',
+    color: 'text-primary',
+    border: 'border-primary/30',
+    bg: 'bg-primary/5',
     price_range: '$15,000 – $28,000 AUD setup',
     monthly: '$3,500/mo support',
     timeline: '6–10 weeks',
@@ -207,9 +207,9 @@ Be specific, warm, and confident.`,
         </Link>
       </div>
 
-      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
-        <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
-        <p className="text-yellow-300 text-xs"><strong>Private Only:</strong> No public pricing page or checkout exists. All packages are proposal-based. Requires manual approval before quoting any client.</p>
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
+        <Shield className="w-4 h-4 text-primary shrink-0" />
+        <p className="text-primary text-xs"><strong>Private Only:</strong> No public pricing page or checkout exists. All packages are proposal-based. Requires manual approval before quoting any client.</p>
       </div>
 
       {/* Client Intake Form */}
@@ -290,7 +290,7 @@ Be specific, warm, and confident.`,
                       <div className="space-y-1">
                         {pkg.risks.map((r, i) => (
                           <div key={i} className="flex items-start gap-2">
-                            <span className="text-yellow-400 mt-0.5 shrink-0">⚠</span>
+                            <span className="text-primary mt-0.5 shrink-0">⚠</span>
                             <p className="text-xs text-muted-foreground">{r}</p>
                           </div>
                         ))}

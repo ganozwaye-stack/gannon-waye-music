@@ -130,10 +130,10 @@ export default function InstagramSync() {
         </Card>
       )}
 
-      <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-500/30 bg-amber-500/5">
-        <AlertCircle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+      <div className="flex items-start gap-3 p-4 rounded-xl border border-primary/30 bg-primary/5">
+        <AlertCircle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <p className="font-body text-xs text-muted-foreground">
-          <strong className="text-amber-400">Note:</strong> Instagram requires a public image URL. Upload your image first via Quick Upload, then paste the URL here.
+          <strong className="text-primary">Note:</strong> Instagram requires a public image URL. Upload your image first via Quick Upload, then paste the URL here.
         </p>
       </div>
     </div>

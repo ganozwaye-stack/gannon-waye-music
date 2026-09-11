@@ -254,7 +254,7 @@ function StatusBadge({ status }) {
     failed: 'bg-red-500/20 text-red-300 border-red-500/30',
     passed: 'bg-green-500/20 text-green-300 border-green-500/30',
     unknown: 'bg-slate-500/20 text-slate-400 border-slate-500/30',
-    in_progress: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+    in_progress: 'bg-primary/20 text-primary border-primary/30',
   };
   return <Badge className={`text-[10px] uppercase tracking-wider ${map[status] || map.unknown}`} variant="outline">{status.replace('_', ' ')}</Badge>;
 }
@@ -455,8 +455,8 @@ export default function PlaywrightTestCentre() {
             ))}
           </div>
 
-          <div className="border border-amber-500/30 bg-amber-500/5 rounded-xl p-4 text-sm space-y-1">
-            <p className="font-semibold text-amber-300">System Status Truth</p>
+          <div className="border border-primary/30 bg-primary/5 rounded-xl p-4 text-sm space-y-1">
+            <p className="font-semibold text-primary">System Status Truth</p>
             <div className="text-xs text-muted-foreground space-y-1 mt-2">
               <p>🔴 <strong className="text-foreground">Store:</strong> FAILED — selector fix deployed, retest required</p>
               <p>⚪ <strong className="text-foreground">GitHub Actions:</strong> WORKFLOW CREATED — NOT YET COMMITTED TO GITHUB</p>
@@ -508,10 +508,10 @@ export default function PlaywrightTestCentre() {
               { label: 'Committed to GitHub', value: GITHUB_ACTIONS_STATUS.workflow_committed, note: 'Must commit .github/workflows/' },
               { label: 'GitHub Actions Active', value: GITHUB_ACTIONS_STATUS.workflow_active, note: 'Auto-runs on push/schedule' },
             ].map(item => (
-              <Card key={item.label} className={item.value ? 'border-green-500/30' : 'border-amber-500/30'}>
+              <Card key={item.label} className={item.value ? 'border-green-500/30' : 'border-primary/30'}>
                 <CardContent className="p-4">
                   <div className="flex items-center gap-2 mb-1">
-                    {item.value ? <CheckCircle2 className="w-4 h-4 text-green-400" /> : <Clock className="w-4 h-4 text-amber-400" />}
+                    {item.value ? <CheckCircle2 className="w-4 h-4 text-green-400" /> : <Clock className="w-4 h-4 text-primary" />}
                     <p className="font-semibold text-sm">{item.label}</p>
                   </div>
                   <p className="text-xs text-muted-foreground">{item.note}</p>
@@ -634,7 +634,7 @@ export default function PlaywrightTestCentre() {
           </div>
 
           {repairResult && (
-            <Card className={repairResult.error ? 'border-amber-500/30' : 'border-green-500/30'}>
+            <Card className={repairResult.error ? 'border-primary/30' : 'border-green-500/30'}>
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm">{repairResult.error ? '⚠ OpenAI Rate Limited — Fallback Analysis' : '✅ OpenAI Repair Analysis'}</CardTitle>
               </CardHeader>
@@ -677,7 +677,7 @@ export default function PlaywrightTestCentre() {
                 <CardContent className="p-3 flex items-center justify-between gap-2">
                   <div>
                     <p className="font-mono text-sm">{f.label}</p>
-                    <Badge className={`text-[10px] mt-1 ${f.priority === 'Critical' ? 'bg-red-500/20 text-red-300' : 'bg-amber-500/20 text-amber-300'}`}>{f.priority}</Badge>
+                    <Badge className={`text-[10px] mt-1 ${f.priority === 'Critical' ? 'bg-red-500/20 text-red-300' : 'bg-primary/20 text-primary'}`}>{f.priority}</Badge>
                   </div>
                   <DownloadButton filename={`tests/${f.label}`} content={f.content} label="" />
                 </CardContent>

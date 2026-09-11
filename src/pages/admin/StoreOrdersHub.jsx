@@ -83,7 +83,7 @@ export default function StoreOrdersHub() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="bg-secondary/40 border border-border/40 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-1.5 p-1 h-auto">
           <TabsTrigger value="orders" className="text-xs py-2"><Package className="w-3.5 h-3.5 mr-1 text-primary" /> Orders Registry</TabsTrigger>
-          <TabsTrigger value="utm-builder" className="text-xs py-2"><BarChart3 className="w-3.5 h-3.5 mr-1 text-yellow-400" /> Revenue Attribution</TabsTrigger>
+          <TabsTrigger value="utm-builder" className="text-xs py-2"><BarChart3 className="w-3.5 h-3.5 mr-1 text-primary" /> Revenue Attribution</TabsTrigger>
           <TabsTrigger value="financial-calculator" className="text-xs py-2"><Calculator className="w-3.5 h-3.5 mr-1 text-green-400" /> Financial Truth</TabsTrigger>
           <TabsTrigger value="quick-links" className="text-xs py-2"><Send className="w-3.5 h-3.5 mr-1" /> All Store Tools</TabsTrigger>
         </TabsList>
@@ -135,7 +135,7 @@ export default function StoreOrdersHub() {
 
                 <div className="p-3 bg-secondary/20 rounded-xl border border-border/20">
                   <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Pending Shipments</p>
-                  <p className="text-2xl font-bold text-yellow-400 mt-1">
+                  <p className="text-2xl font-bold text-primary mt-1">
                     {activeOrders.filter(o => o.status === 'pending').length} Orders
                   </p>
                 </div>
@@ -153,7 +153,7 @@ export default function StoreOrdersHub() {
           <Card className="border-border/40">
             <CardHeader>
               <CardTitle className="font-display text-lg text-white flex items-center gap-2">
-                <BarChart3 className="w-5 h-5 text-yellow-400" /> Revenue Attribution Link Generator
+                <BarChart3 className="w-5 h-5 text-primary" /> Revenue Attribution Link Generator
               </CardTitle>
               <CardDescription className="text-xs">Track which TikTok post, QR code, or campaign link is driving merchandise checkout conversions.</CardDescription>
             </CardHeader>
@@ -179,7 +179,7 @@ export default function StoreOrdersHub() {
               <div className="space-y-4">
                 <h4 className="font-display text-sm font-semibold text-white">Generated Destination Link</h4>
                 {generatedLink ? (
-                  <div className="p-4 rounded-xl border border-yellow-500/30 bg-yellow-500/5 space-y-3">
+                  <div className="p-4 rounded-xl border border-primary/30 bg-primary/5 space-y-3">
                     <pre className="p-3 bg-secondary/40 rounded-lg text-[10px] font-mono text-muted-foreground overflow-x-auto whitespace-pre-wrap">
                       {generatedLink}
                     </pre>
@@ -272,7 +272,7 @@ export default function StoreOrdersHub() {
                   <div className="border-t border-border/10 pt-3 text-[10px] text-muted-foreground space-y-1">
                     <p className="font-bold text-white uppercase tracking-wider">Marketplace Financial Guidance:</p>
                     <p className="flex items-center gap-1.5"><ShieldCheck className="w-3.5 h-3.5 text-green-400" /> Margin exceeds safety baseline (target: &gt;20%).</p>
-                    <p className="flex items-center gap-1.5"><AlertTriangle className="w-3.5 h-3.5 text-yellow-500" /> Factor in fluctuations of supplier shipping charges.</p>
+                    <p className="flex items-center gap-1.5"><AlertTriangle className="w-3.5 h-3.5 text-primary" /> Factor in fluctuations of supplier shipping charges.</p>
                   </div>
                 </div>
               </div>

@@ -64,10 +64,10 @@ export default function TrendMonitor() {
       <p className="text-xs text-muted-foreground">Uses live internet data. Automatic — no approval required to view insights.</p>
 
       {result && (
-        <Card className="border-amber-500/20">
+        <Card className="border-primary/20">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <Badge className="bg-amber-500/10 text-amber-400">{TREND_CATEGORIES.find(c=>c.id===activeCategory)?.label} — Live Intelligence</Badge>
+              <Badge className="bg-primary/10 text-primary">{TREND_CATEGORIES.find(c=>c.id===activeCategory)?.label} — Live Intelligence</Badge>
               <Button size="sm" variant="outline" onClick={() => { navigator.clipboard.writeText(result); toast.success('Copied'); }}>
                 <Copy className="w-3 h-3 mr-1" /> Copy
               </Button>

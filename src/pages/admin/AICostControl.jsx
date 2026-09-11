@@ -56,7 +56,7 @@ function StatusBadge({ status }) {
     recommended: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
     ready: 'bg-green-500/20 text-green-300 border-green-500/30',
     not_started: 'bg-secondary text-muted-foreground border-border',
-    hold: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+    hold: 'bg-primary/20 text-primary border-primary/30',
     blocked: 'bg-red-500/20 text-red-300 border-red-500/30',
     optional: 'bg-secondary text-muted-foreground border-border',
     pending_install: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
@@ -126,7 +126,7 @@ export default function AICostControl() {
         </Card>
         <Card>
           <CardContent className="p-4 flex items-center gap-3">
-            <div className="bg-amber-500/10 p-2 rounded-lg"><Lock className="w-5 h-5 text-amber-400" /></div>
+            <div className="bg-primary/10 p-2 rounded-lg"><Lock className="w-5 h-5 text-primary" /></div>
             <div>
               <p className="text-2xl font-bold">{blockedMonthly}</p>
               <p className="text-xs text-muted-foreground">Paid Tools Blocked</p>
@@ -158,7 +158,7 @@ export default function AICostControl() {
         <CardContent className="p-4 space-y-2">
           <p className="text-sm font-semibold text-primary">RECOMMENDED FIRST PAID TOOL: Cursor Pro (~$20/month)</p>
           <p className="text-xs text-muted-foreground">Only pay when: GitHub repo or source export exists. Use Cursor to fix: store load, cart, promo codes, shipping, checkout freeze, unauthenticated functions, TikTok OAuth.</p>
-          <p className="text-xs text-amber-300">DO NOT PAY YET until source export is confirmed. Complete the free checklist first.</p>
+          <p className="text-xs text-primary">DO NOT PAY YET until source export is confirmed. Complete the free checklist first.</p>
         </CardContent>
       </Card>
 

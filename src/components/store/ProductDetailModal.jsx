@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, ChevronLeft, ChevronRight, ShoppingCart, Plus, ZoomIn } from 'lucide-react';
 import { useCartStore } from '@/lib/cartStore';
 import { useToast } from '@/components/ui/use-toast';
+import CompleteTheSetOption from '@/components/store/CompleteTheSetOption';
 
 const INELIGIBLE_FOR_DISCOUNT = ['cd', 'vinyl', 'song', 'digital', 'music', 'bundle'];
 
@@ -20,19 +21,27 @@ function getShippingNote(category) {
   return 'Delivery within Australia is calculated before payment from the current approved shipping rule.';
 }
 
-export default function ProductDetailModal({ product, allImages, onClose }) {
+export default function ProductDetailModal({ product, allImages, completeSetProduct = null, onViewCompleteSet, onClose }) {
   const { toast } = useToast();
   const addItem = useCartStore(state => state.addItem);
   const [currentImg, setCurrentImg] = useState(0);
   const [zoomOpen, setZoomOpen] = useState(false);
   const [selectedSize, setSelectedSize] = useState('');
   const [showSizeError, setShowSizeError] = useState(false);
+  const [purchaseChoice, setPurchaseChoice] = useState('item');
 
   const images = allImages?.length > 0 ? allImages : (product.image_url ? [product.image_url] : []);
-  const hasSize = product.sizes_available?.length > 0;
+  const cartProduct = purchaseChoice === 'set' && completeSetProduct ? completeSetProduct : product;
+  const hasSize = cartProduct.sizes_available?.length > 0;
   const price = product.sale_price ?? product.price ?? 0;
-  const inStock = product.stock_quantity > 0;
-  const eligible = isEligibleForDiscount(product);
+  const inStock = Number(cartProduct.stock_quantity) > 0;
+  const eligible = isEligibleForDiscount(cartProduct);
+
+  const handleChoiceChange = (choice) => {
+    setPurchaseChoice(choice);
+    setSelectedSize('');
+    setShowSizeError(false);
+  };
 
   const prev = () => setCurrentImg(i => (i === 0 ? images.length - 1 : i - 1));
   const next = () => setCurrentImg(i => (i === images.length - 1 ? 0 : i + 1));
@@ -43,9 +52,9 @@ export default function ProductDetailModal({ product, allImages, onClose }) {
       toast({ title: 'Please select a size', variant: 'destructive' });
       return;
     }
-    addItem(product, 1, selectedSize || null);
+    addItem(cartProduct, 1, selectedSize || null);
     setShowSizeError(false);
-    toast({ title: 'Added to cart! 🤍', description: product.name });
+    toast({ title: 'Added to cart! 🤍', description: cartProduct.name });
     onClose();
   };
 
@@ -145,13 +154,23 @@ export default function ProductDetailModal({ product, allImages, onClose }) {
                 <p className="font-body text-sm text-foreground/70 leading-relaxed">{product.description}</p>
               )}
 
+              <CompleteTheSetOption
+                product={product}
+                completeSetProduct={completeSetProduct}
+                purchaseChoice={purchaseChoice}
+                onChoiceChange={handleChoiceChange}
+                onViewDetails={onViewCompleteSet}
+              />
+
               {/* Size selector */}
               {hasSize && (
                 <div>
-                  <p className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-2">Select Size</p>
+                  <p className="font-body text-xs tracking-wider uppercase text-muted-foreground mb-2">
+                    {purchaseChoice === 'set' ? 'Select hoodie size for the complete set' : 'Select size'}
+                  </p>
                   <div className="flex flex-wrap gap-2">
-                    {product.sizes_available.map(s => {
-                      const sizeStock = Number(product.stock_by_variant?.[s]);
+                    {cartProduct.sizes_available.map(s => {
+                      const sizeStock = Number(cartProduct.stock_by_variant?.[s]);
                       const unavailable = Number.isFinite(sizeStock) && sizeStock <= 0;
                       return (
                         <button
@@ -174,7 +193,7 @@ export default function ProductDetailModal({ product, allImages, onClose }) {
 
               {/* Shipping note */}
               <div className="bg-secondary/30 rounded-xl p-3">
-                <p className="font-body text-xs text-muted-foreground">🚚 {getShippingNote(product.category)}</p>
+                <p className="font-body text-xs text-muted-foreground">🚚 {getShippingNote(cartProduct.category)}</p>
               </div>
 
               {/* Image labels for mug */}
@@ -194,7 +213,7 @@ export default function ProductDetailModal({ product, allImages, onClose }) {
                   onClick={handleAddToCart}
                   className="w-full rounded-full py-3 gradient-gold-button font-body text-sm tracking-wider uppercase flex items-center justify-center gap-2"
                 >
-                  <Plus className="w-4 h-4" /> Add to Cart
+                  <Plus className="w-4 h-4" /> {purchaseChoice === 'set' ? 'Add Complete Set to Cart' : 'Add to Cart'}
                 </button>
               ) : (
                 <div className="w-full rounded-full py-3 border border-red-500/30 text-red-400 font-body text-sm tracking-wider uppercase text-center cursor-not-allowed">

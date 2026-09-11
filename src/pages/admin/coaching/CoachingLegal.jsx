@@ -40,7 +40,7 @@ const DOCUMENTS = [
 
 const reviewColor = (review) =>
   review === 'Professional Review Recommended' ? 'bg-red-500/20 text-red-300 border-red-500/30' :
-  review === 'Needs Review' ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' :
+  review === 'Needs Review' ? 'bg-primary/20 text-primary border-primary/30' :
   'bg-green-500/20 text-green-300 border-green-500/30';
 
 export default function CoachingLegal() {

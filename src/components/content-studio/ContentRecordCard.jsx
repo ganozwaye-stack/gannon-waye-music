@@ -15,7 +15,7 @@ const PLATFORM_LABELS = {
 
 const APPROVAL_STYLES = {
   draft: 'bg-secondary text-muted-foreground',
-  needs_review: 'bg-amber-500/20 text-amber-400',
+  needs_review: 'bg-primary/20 text-primary',
   approved: 'bg-green-500/20 text-green-400',
   rejected: 'bg-red-500/20 text-red-400',
 };

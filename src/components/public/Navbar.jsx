@@ -79,7 +79,7 @@ export default function Navbar() {
                   'px-3 py-1 rounded-full gradient-gold-text border border-primary/40 hover:border-primary/70 hover:bg-primary/10' :
                   isHighlighted ?
                   active ?
-                  'px-4 py-1.5 rounded-full bg-primary text-primary-foreground' :
+                  'px-4 py-1.5 rounded-full gradient-gold-glow border border-primary/80 bg-primary/10' :
                   'px-4 py-1.5 rounded-full border border-primary/60 hover:bg-primary/10 gradient-gold-text' :
                   active ?
                   'gradient-gold-text' :

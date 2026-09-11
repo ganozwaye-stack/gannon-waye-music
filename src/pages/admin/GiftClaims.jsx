@@ -11,7 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { format } from 'date-fns';
 
 const STATUS_COLORS = {
-  pending: 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30',
+  pending: 'bg-primary/10 text-primary border-primary/30',
   verified: 'bg-blue-500/10 text-blue-600 border-blue-500/30',
   gift_sent: 'bg-green-500/10 text-green-600 border-green-500/30',
   completed: 'bg-primary/10 text-primary border-primary/30',
@@ -78,7 +78,7 @@ export default function GiftClaims() {
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         {[
           { label: 'Total Claims', count: claims.length, color: 'bg-primary/10' },
-          { label: 'Pending', count: claims.filter(c => c.status === 'pending').length, color: 'bg-yellow-500/10' },
+          { label: 'Pending', count: claims.filter(c => c.status === 'pending').length, color: 'bg-primary/10' },
           { label: 'Gift Sent', count: claims.filter(c => c.status === 'gift_sent').length, color: 'bg-green-500/10' },
           { label: 'Completed', count: claims.filter(c => c.status === 'completed').length, color: 'bg-primary/10' },
         ].map(stat => (

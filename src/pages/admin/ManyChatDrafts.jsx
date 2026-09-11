@@ -30,7 +30,7 @@ export default function ManyChatDrafts() {
             {draft.keyword_tier}
           </Badge>
         </div>
-        <Badge className={`text-[9px] border-0 ${draft.status === 'draft' ? 'bg-amber-500/20 text-amber-400' : draft.status === 'approved' ? 'bg-green-500/20 text-green-400' : 'bg-secondary text-muted-foreground'}`}>
+        <Badge className={`text-[9px] border-0 ${draft.status === 'draft' ? 'bg-primary/20 text-primary' : draft.status === 'approved' ? 'bg-green-500/20 text-green-400' : 'bg-secondary text-muted-foreground'}`}>
           {draft.status}
         </Badge>
       </div>
@@ -67,10 +67,10 @@ export default function ManyChatDrafts() {
         </p>
       </div>
 
-      <div className="flex items-start gap-3 p-4 rounded-xl border border-amber-500/40 bg-amber-500/5">
-        <Megaphone className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+      <div className="flex items-start gap-3 p-4 rounded-xl border border-primary/40 bg-primary/5">
+        <Megaphone className="w-5 h-5 text-primary shrink-0 mt-0.5" />
         <p className="font-body text-xs text-muted-foreground">
-          <strong className="text-amber-400">Drafts only.</strong> These keyword campaigns are not connected to ManyChat. No auto-DMs are active. To activate, Gannon must approve each keyword and set up ManyChat manually.
+          <strong className="text-primary">Drafts only.</strong> These keyword campaigns are not connected to ManyChat. No auto-DMs are active. To activate, Gannon must approve each keyword and set up ManyChat manually.
         </p>
       </div>
 

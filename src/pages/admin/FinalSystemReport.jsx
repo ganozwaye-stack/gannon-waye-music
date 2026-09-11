@@ -90,7 +90,7 @@ const HUMAN_ACTIONS_REQUIRED = [
 
 const STATUS_CONFIG = {
   pass:   { icon: CheckCircle2, cls: 'text-green-400', bg: 'bg-green-500/10 border-green-500/30', label: 'Pass' },
-  review: { icon: AlertTriangle, cls: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/30', label: 'Review' },
+  review: { icon: AlertTriangle, cls: 'text-primary', bg: 'bg-primary/10 border-primary/30', label: 'Review' },
   fail:   { icon: XCircle, cls: 'text-red-400', bg: 'bg-red-500/10 border-red-500/30', label: 'Fail' },
   blocked:{ icon: Circle, cls: 'text-muted-foreground', bg: 'bg-secondary border-border', label: 'Blocked' },
 };
@@ -150,9 +150,9 @@ export default function FinalSystemReport() {
       {/* Score cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: 'System Score', value: `${score}%`, color: score >= 80 ? 'text-green-400' : 'text-amber-400' },
+          { label: 'System Score', value: `${score}%`, color: score >= 80 ? 'text-green-400' : 'text-primary' },
           { label: 'Passed', value: pass, color: 'text-green-400' },
-          { label: 'Needs Review', value: review, color: 'text-amber-400' },
+          { label: 'Needs Review', value: review, color: 'text-primary' },
           { label: 'Failed', value: fail, color: 'text-red-400' },
         ].map(s => (
           <Card key={s.label}>
@@ -165,9 +165,9 @@ export default function FinalSystemReport() {
       </div>
 
       {/* Human action required */}
-      <Card className="border-amber-500/40 bg-amber-500/5">
+      <Card className="border-primary/40 bg-primary/5">
         <CardHeader className="pb-2 pt-4">
-          <CardTitle className="text-sm flex items-center gap-2 text-amber-400">
+          <CardTitle className="text-sm flex items-center gap-2 text-primary">
             <AlertTriangle className="w-4 h-4" /> Human Action Required — First Things Gannon Must Do
           </CardTitle>
         </CardHeader>
@@ -191,7 +191,7 @@ export default function FinalSystemReport() {
           </div>
           <div className="mt-3">
             <Link to="/admin/human-action-required">
-              <Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs border-amber-500/40 text-amber-400">
+              <Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs border-primary/40 text-primary">
                 <ExternalLink className="w-3 h-3" /> Open Full Human Action Required Inbox
               </Button>
             </Link>
@@ -267,7 +267,7 @@ export default function FinalSystemReport() {
           <p className="pt-2 border-t border-border/30">
             <strong className="text-foreground">First thing Gannon must do:</strong> Upload real poster artwork at <Link to="/admin/merch" className="text-primary underline">/admin/merch</Link>, then connect Gmail at <Link to="/admin/api-setup" className="text-primary underline">/admin/api-setup</Link>.
           </p>
-          <p className={`pt-2 font-semibold ${safeToLaunch ? 'text-green-400' : 'text-amber-400'}`}>
+          <p className={`pt-2 font-semibold ${safeToLaunch ? 'text-green-400' : 'text-primary'}`}>
             Safe to launch: {safeToLaunch ? 'YES — after critical human actions resolved.' : 'NO — resolve all critical items first. See Human Action Required inbox.'}
           </p>
         </CardContent>

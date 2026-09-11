@@ -30,7 +30,7 @@ const SPRINT_THEMES = [
 
 function ScoreBar({ score }) {
   const pct = ((score || 0) / 10) * 100;
-  const color = score >= 8 ? 'bg-green-500' : score >= 6 ? 'bg-yellow-500' : 'bg-red-500';
+  const color = score >= 8 ? 'bg-green-500' : score >= 6 ? 'bg-primary' : 'bg-red-500';
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-1.5 bg-secondary rounded-full overflow-hidden">
@@ -241,7 +241,7 @@ export default function ContentQualityReview() {
           {filtered.map(post => {
             const pm = PLATFORM_META[post.platform] || { label: post.platform, color: 'text-foreground', bg: 'bg-secondary' };
             const hasScore = post.quality_score != null;
-            const scoreColor = hasScore ? (post.quality_score >= 8 ? 'text-green-400' : post.quality_score >= 6 ? 'text-yellow-400' : 'text-red-400') : 'text-muted-foreground';
+            const scoreColor = hasScore ? (post.quality_score >= 8 ? 'text-green-400' : post.quality_score >= 6 ? 'text-primary' : 'text-red-400') : 'text-muted-foreground';
             return (
               <button
                 key={post.id}
@@ -263,7 +263,7 @@ export default function ContentQualityReview() {
                   )}
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  {!hasScore && <Badge className="bg-amber-500/10 text-amber-400 border-0 text-[9px] tracking-wider uppercase">Unreviewed</Badge>}
+                  {!hasScore && <Badge className="bg-primary/10 text-primary border-0 text-[9px] tracking-wider uppercase">Unreviewed</Badge>}
                   {hasScore && post.quality_score < 7 && <Badge className="bg-red-500/10 text-red-400 border-0 text-[9px]">Needs Work</Badge>}
                   {hasScore && post.quality_score >= 7 && <Badge className="bg-green-500/10 text-green-400 border-0 text-[9px]">✓ Pass</Badge>}
                   <ChevronRight className="w-4 h-4 text-muted-foreground" />

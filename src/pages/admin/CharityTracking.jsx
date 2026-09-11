@@ -85,7 +85,7 @@ export default function CharityTracking() {
         </Card>
         <Card>
           <CardContent className="p-5">
-            <Calendar className="w-5 h-5 text-yellow-500 mb-3" />
+            <Calendar className="w-5 h-5 text-primary mb-3" />
             <p className="font-display text-2xl text-foreground">${stats.pending.toFixed(2)}</p>
             <p className="font-body text-xs text-muted-foreground uppercase tracking-wider mt-1">Pending Donation</p>
           </CardContent>
@@ -102,7 +102,7 @@ export default function CharityTracking() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
           >
-            <Card className={tracker.status === 'pending' ? 'border-yellow-500/30 bg-yellow-500/5' : tracker.status === 'paid' ? 'border-green-500/30 bg-green-500/5' : ''}>
+            <Card className={tracker.status === 'pending' ? 'border-primary/30 bg-primary/5' : tracker.status === 'paid' ? 'border-green-500/30 bg-green-500/5' : ''}>
               <CardContent className="p-5">
                 <div className="flex items-center justify-between">
                   <div className="flex-1">

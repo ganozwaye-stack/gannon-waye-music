@@ -10,12 +10,12 @@ export default function OperationalStatus() {
         <p className="font-body text-sm text-muted-foreground mt-1">Infrastructure constraints & safety limits</p>
       </div>
 
-      <div className="bg-amber-900/20 border border-amber-600/30 rounded-2xl p-6">
+      <div className="bg-primary/20 border border-primary/30 rounded-2xl p-6">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-1" />
+          <AlertTriangle className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
           <div>
-            <p className="font-display text-sm text-amber-100 font-semibold">Pre-Commercial Status</p>
-            <p className="font-body text-xs text-amber-200/70 mt-1">
+            <p className="font-display text-sm text-primary font-semibold">Pre-Commercial Status</p>
+            <p className="font-body text-xs text-primary/70 mt-1">
               Platform is hardened for launch with 1-2 concurrent users. Not production-ready for commercial scale (10+ concurrent orders/min). Plan infrastructure rebuild for Month 2.
             </p>
           </div>
@@ -29,7 +29,7 @@ export default function OperationalStatus() {
           { label: 'Max Products', value: PLATFORM_CONSTRAINTS.MAX_PRODUCTS, status: 'ok' },
           { label: 'Email Idempotence', value: 'Enabled', status: 'ok' },
         ].map((stat) => (
-          <Card key={stat.label} className={stat.status === 'warning' ? 'border-amber-600/30 bg-amber-900/10' : ''}>
+          <Card key={stat.label} className={stat.status === 'warning' ? 'border-primary/30 bg-primary/10' : ''}>
             <CardContent className="p-4">
               <p className="font-body text-[10px] text-muted-foreground uppercase tracking-wider mb-2">{stat.label}</p>
               <div className="flex items-center gap-2">
@@ -37,7 +37,7 @@ export default function OperationalStatus() {
                 {stat.status === 'ok' ? (
                   <CheckCircle2 className="w-4 h-4 text-green-500" />
                 ) : (
-                  <AlertTriangle className="w-4 h-4 text-amber-500" />
+                  <AlertTriangle className="w-4 h-4 text-primary" />
                 )}
               </div>
             </CardContent>

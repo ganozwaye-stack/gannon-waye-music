@@ -16,7 +16,7 @@ const TYPE_CONFIG = {
   order: { icon: ShoppingBag, color: 'text-green-400', bg: 'bg-green-500/10' },
   comment: { icon: MessageCircle, color: 'text-blue-400', bg: 'bg-blue-500/10' },
   reply: { icon: MessageCircle, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-  approval: { icon: AlertTriangle, color: 'text-yellow-400', bg: 'bg-yellow-500/10' },
+  approval: { icon: AlertTriangle, color: 'text-primary', bg: 'bg-primary/10' },
   risk_alert: { icon: AlertTriangle, color: 'text-red-400', bg: 'bg-red-500/10' },
   community_report: { icon: AlertTriangle, color: 'text-orange-400', bg: 'bg-orange-500/10' },
   viral_opportunity: { icon: TrendingUp, color: 'text-purple-400', bg: 'bg-purple-500/10' },
@@ -33,7 +33,7 @@ const TYPE_CONFIG = {
 const SEVERITY_CONFIG = {
   critical: { label: 'Critical', color: 'text-red-400', bg: 'bg-red-500/20', border: 'border-red-500/40' },
   high: { label: 'High', color: 'text-orange-400', bg: 'bg-orange-500/20', border: 'border-orange-500/40' },
-  warning: { label: 'Warning', color: 'text-yellow-400', bg: 'bg-yellow-500/20', border: 'border-yellow-500/30' },
+  warning: { label: 'Warning', color: 'text-primary', bg: 'bg-primary/20', border: 'border-primary/30' },
   info: { label: 'Info', color: 'text-blue-400', bg: 'bg-blue-500/20', border: 'border-border' },
 };
 
@@ -112,7 +112,7 @@ function NotificationDetailModal({ notification: n, onClose, onRead }) {
                 <Badge className={`text-xs ${sevConf.bg} ${sevConf.color}`}>{sevConf.label}</Badge>
                 <Badge variant="outline" className="text-xs">{n.notification_type?.replace(/_/g, ' ')}</Badge>
                 {!n.is_read && <Badge className="text-xs bg-primary/20 text-primary">Unread</Badge>}
-                {n.requires_action && <Badge className="text-xs bg-yellow-500/20 text-yellow-400">Action Needed</Badge>}
+                {n.requires_action && <Badge className="text-xs bg-primary/20 text-primary">Action Needed</Badge>}
               </div>
             </div>
           </div>
@@ -156,7 +156,7 @@ function NotificationDetailModal({ notification: n, onClose, onRead }) {
           <div className="flex flex-wrap gap-2 pt-1 border-t border-border">
             {n.requires_action && n.linked_route && (
               <Link to={n.linked_route} onClick={onClose}>
-                <Button size="sm" className="bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30 border border-yellow-500/30 gap-1 text-xs">
+                <Button size="sm" className="bg-primary/20 text-primary hover:bg-primary/30 border border-primary/30 gap-1 text-xs">
                   <CheckCircle2 className="w-3 h-3" />Review & Approve
                 </Button>
               </Link>
@@ -229,7 +229,7 @@ export default function Notifications() {
 
   const SUMMARY_CARDS = [
     { key: 'unread', label: 'Unread', value: counts.unread, color: 'text-red-400', bg: 'bg-red-500/10', border: counts.unread > 0 ? 'border-red-500/30 hover:border-red-500/60' : 'border-border hover:border-primary/40', urgent: counts.unread > 0 },
-    { key: 'needs-action', label: 'Needs Action', value: counts['needs-action'], color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: counts['needs-action'] > 0 ? 'border-yellow-500/30 hover:border-yellow-500/60' : 'border-border hover:border-primary/40', urgent: counts['needs-action'] > 0 },
+    { key: 'needs-action', label: 'Needs Action', value: counts['needs-action'], color: 'text-primary', bg: 'bg-primary/10', border: counts['needs-action'] > 0 ? 'border-primary/30 hover:border-primary/60' : 'border-border hover:border-primary/40', urgent: counts['needs-action'] > 0 },
     { key: 'needs-approval', label: 'Approval Waiting', value: proposals.length, color: 'text-orange-400', bg: 'bg-orange-500/10', border: proposals.length > 0 ? 'border-orange-500/30 hover:border-orange-500/60' : 'border-border hover:border-primary/40', urgent: proposals.length > 0, link: '/admin/revenue-actions' },
     { key: 'critical', label: 'Critical', value: counts.critical, color: 'text-red-500', bg: 'bg-red-700/10', border: counts.critical > 0 ? 'border-red-700/40 hover:border-red-500/60' : 'border-border hover:border-primary/40', urgent: counts.critical > 0 },
     { key: 'all', label: 'Total', value: counts.all, color: 'text-muted-foreground', bg: 'bg-muted', border: 'border-border hover:border-primary/40' },
@@ -299,14 +299,14 @@ export default function Notifications() {
 
       {/* Pending proposals alert */}
       {proposals.length > 0 && (
-        <div className="flex items-center gap-3 p-4 bg-yellow-500/5 border border-yellow-500/30 rounded-xl flex-wrap">
-          <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0" />
+        <div className="flex items-center gap-3 p-4 bg-primary/5 border border-primary/30 rounded-xl flex-wrap">
+          <AlertTriangle className="w-5 h-5 text-primary shrink-0" />
           <div className="flex-1 min-w-0">
-            <p className="font-semibold text-sm text-yellow-400">{proposals.length} Agent Proposal{proposals.length > 1 ? 's' : ''} Awaiting Approval</p>
+            <p className="font-semibold text-sm text-primary">{proposals.length} Agent Proposal{proposals.length > 1 ? 's' : ''} Awaiting Approval</p>
             <p className="text-xs text-muted-foreground">Agents have prepared ready-to-publish revenue actions. Your approval is required before anything goes live.</p>
           </div>
           <Link to="/admin/revenue-actions">
-            <Button size="sm" className="bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30 border border-yellow-500/30 gap-1 text-xs shrink-0">
+            <Button size="sm" className="bg-primary/20 text-primary hover:bg-primary/30 border border-primary/30 gap-1 text-xs shrink-0">
               <Eye className="w-3 h-3" />Review Proposals
             </Button>
           </Link>
@@ -421,7 +421,7 @@ function NotificationRow({ notification: n, onSelect, onRead }) {
             {n.severity && n.severity !== 'info' && (
               <Badge className={`text-xs ${sevConf.bg} ${sevConf.color}`}>{sevConf.label}</Badge>
             )}
-            {n.requires_action && <Badge className="bg-yellow-500/20 text-yellow-400 text-xs">Action</Badge>}
+            {n.requires_action && <Badge className="bg-primary/20 text-primary text-xs">Action</Badge>}
             {!n.is_read && <div className="w-2 h-2 rounded-full bg-primary shrink-0" />}
           </div>
         </div>

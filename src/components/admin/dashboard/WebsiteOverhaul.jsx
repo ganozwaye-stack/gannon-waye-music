@@ -23,7 +23,7 @@ const CATEGORY_LABELS = {
   other: 'Other',
 };
 
-const PRIORITY_DOT = { critical: 'bg-red-500', high: 'bg-amber-500', medium: 'bg-blue-500', low: 'bg-muted-foreground' };
+const PRIORITY_DOT = { critical: 'bg-red-500', high: 'bg-primary', medium: 'bg-blue-500', low: 'bg-muted-foreground' };
 const PRIORITY_ORDER = { critical: 0, high: 1, medium: 2, low: 3 };
 
 export default function WebsiteOverhaul() {

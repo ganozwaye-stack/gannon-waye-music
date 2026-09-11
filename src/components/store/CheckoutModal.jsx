@@ -219,7 +219,7 @@ export default function CheckoutModal({ product, onClose }) {
                  {quantity > 1 && pricing.shipping > 0 && (
                    <p className="text-xs text-muted-foreground/60">Items shipped together in one combined package.</p>
                  )}
-                 {pricing.internationalQuote && <p className="text-xs text-amber-400">International shipping: we'll contact you with a quote before dispatch.</p>}
+                 {pricing.internationalQuote && <p className="text-xs text-primary">International shipping: we'll contact you with a quote before dispatch.</p>}
                 {pricing.gstIncluded > 0 && (
                   <div className="flex justify-between text-muted-foreground text-xs">
                     <span>Includes GST</span><span>(${pricing.gstIncluded.toFixed(2)})</span>

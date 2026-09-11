@@ -53,7 +53,7 @@ const MODES = [
 
 function StatusBadge({ status }) {
   const c = status === 'Professional Review Recommended' ? 'bg-red-500/20 text-red-300' :
-    status === 'Needs Review' ? 'bg-yellow-500/20 text-yellow-300' :
+    status === 'Needs Review' ? 'bg-primary/20 text-primary' :
     status === 'Approved Internally' ? 'bg-green-500/20 text-green-300' : 'bg-secondary text-muted-foreground';
   return <Badge className={`text-xs ${c}`}>{status}</Badge>;
 }
@@ -211,18 +211,18 @@ export default function CoachingCommand() {
       </Card>
 
       {/* Public routes staged but locked */}
-      <Card className="border-yellow-500/20 bg-yellow-500/3">
-        <CardHeader><CardTitle className="text-base text-yellow-400">Staged Public Routes (All Locked)</CardTitle></CardHeader>
+      <Card className="border-primary/20 bg-primary/3">
+        <CardHeader><CardTitle className="text-base text-primary">Staged Public Routes (All Locked)</CardTitle></CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
             {['/coaching', '/mindset-mentorship', '/emotional-rebuilding', '/coaching-programs', '/book-coaching', '/client-login', '/client-dashboard', '/resources', '/meditations', '/reflection-library', '/client-consent', '/client-waiver'].map(r => (
               <div key={r} className="flex items-center gap-2 text-xs text-muted-foreground bg-secondary/20 rounded-lg px-3 py-2">
-                <Lock className="w-3 h-3 text-yellow-400 shrink-0" />
+                <Lock className="w-3 h-3 text-primary shrink-0" />
                 <span className="font-mono">{r}</span>
               </div>
             ))}
           </div>
-          <p className="text-xs text-yellow-300/80 mt-3">These routes are NOT accessible to the public. They will only be activated after all launch gates are passed and Gannon clicks final approval.</p>
+          <p className="text-xs text-primary/80 mt-3">These routes are NOT accessible to the public. They will only be activated after all launch gates are passed and Gannon clicks final approval.</p>
         </CardContent>
       </Card>
 
@@ -250,7 +250,7 @@ export default function CoachingCommand() {
       <Card className="border-border bg-secondary/10">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
+            <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
             <p className="text-xs text-muted-foreground">
               <strong className="text-foreground">Professional review is recommended</strong> for all legal documents, scope of practice statements, and public-facing disclaimers before any coaching offering goes live. This system does not provide legal or medical advice — it is an internal operational tool only.
             </p>

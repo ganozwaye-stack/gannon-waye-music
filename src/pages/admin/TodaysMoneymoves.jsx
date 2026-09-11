@@ -51,8 +51,8 @@ const TODAY_MOVES = [
     effort: 'low', potential: 'high',
     route: '/admin/fan-conversion-engine',
     icon: Users,
-    color: 'text-yellow-400',
-    bg: 'bg-yellow-500/10',
+    color: 'text-primary',
+    bg: 'bg-primary/10',
   },
   {
     rank: 5,
@@ -78,8 +78,8 @@ const TODAY_MOVES = [
   },
 ];
 
-const EFFORT_COLOR = { low: 'text-green-400', medium: 'text-yellow-400', high: 'text-red-400' };
-const POTENTIAL_COLOR = { very_high: 'text-purple-400', high: 'text-green-400', medium: 'text-yellow-400', low: 'text-muted-foreground' };
+const EFFORT_COLOR = { low: 'text-green-400', medium: 'text-primary', high: 'text-red-400' };
+const POTENTIAL_COLOR = { very_high: 'text-purple-400', high: 'text-green-400', medium: 'text-primary', low: 'text-muted-foreground' };
 
 export default function TodaysMoneymoves() {
   const navigate = useNavigate();
@@ -125,9 +125,9 @@ export default function TodaysMoneymoves() {
             <p className="text-xs text-muted-foreground">Today's Revenue</p>
           </CardContent>
         </Card>
-        <Card className={proposals.length > 0 ? 'border-yellow-500/30' : ''}>
+        <Card className={proposals.length > 0 ? 'border-primary/30' : ''}>
           <CardContent className="p-4">
-            <p className={`text-2xl font-bold ${proposals.length > 0 ? 'text-yellow-400' : 'text-foreground'}`}>{proposals.length}</p>
+            <p className={`text-2xl font-bold ${proposals.length > 0 ? 'text-primary' : 'text-foreground'}`}>{proposals.length}</p>
             <p className="text-xs text-muted-foreground">Proposals Awaiting You</p>
           </CardContent>
         </Card>

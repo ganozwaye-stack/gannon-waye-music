@@ -89,10 +89,10 @@ export default function BusinessProcessCommand() {
       {/* Key metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: 'Pending Approvals', value: approvals.length, color: 'text-amber-400', path: '/admin/approval-queue' },
+          { label: 'Pending Approvals', value: approvals.length, color: 'text-primary', path: '/admin/approval-queue' },
           { label: 'Active POs', value: activePOs.length, color: 'text-blue-400', path: '/admin/purchase-orders' },
           { label: 'Stock Value (AUD)', value: `$${stockValue.toFixed(2)}`, color: 'text-primary', path: '/admin/stock-flow-dashboard' },
-          { label: 'Preliminary Costs', value: prelimBatches.length, color: 'text-amber-400', path: '/admin/purchase-orders' },
+          { label: 'Preliminary Costs', value: prelimBatches.length, color: 'text-primary', path: '/admin/purchase-orders' },
           { label: 'Unread Alerts', value: notifications.length, color: 'text-red-400', path: '/admin/notifications' },
           { label: 'Customer Orders', value: pendingOrders.length, color: 'text-green-400', path: '/admin/orders' },
           { label: 'Products Needing Images', value: noImageProducts.length, color: 'text-orange-400', path: '/admin/merch' },
@@ -110,12 +110,12 @@ export default function BusinessProcessCommand() {
       </div>
 
       {/* Alibaba/supplier blocker */}
-      <Card className="border-amber-500/20">
+      <Card className="border-primary/20">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
-            <ExternalLink className="w-4 h-4 text-amber-400 mt-0.5 shrink-0" />
+            <ExternalLink className="w-4 h-4 text-primary mt-0.5 shrink-0" />
             <div className="flex-1">
-              <p className="text-sm font-semibold text-amber-300">Alibaba — Manual Login Required</p>
+              <p className="text-sm font-semibold text-primary">Alibaba — Manual Login Required</p>
               <p className="text-xs text-muted-foreground mt-1">
                 To import or view Alibaba orders, log into Alibaba.com manually. The system supports manual entry and CSV import.
                 No automatic ordering or payment will occur without your approval.

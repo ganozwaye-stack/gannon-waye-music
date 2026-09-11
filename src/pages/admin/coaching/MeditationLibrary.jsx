@@ -15,7 +15,7 @@ const STATUS_LABELS = {
   draft: 'Draft', needs_review: 'Needs Review', approved: 'Approved', published: 'Published', archived: 'Archived',
 };
 const STATUS_COLORS = {
-  draft: 'bg-muted text-muted-foreground', needs_review: 'bg-yellow-500/15 text-yellow-400',
+  draft: 'bg-muted text-muted-foreground', needs_review: 'bg-primary/15 text-primary',
   approved: 'bg-blue-500/15 text-blue-400', published: 'bg-green-500/15 text-green-400', archived: 'bg-red-500/15 text-red-400',
 };
 
@@ -88,7 +88,7 @@ export default function MeditationLibrary() {
         <Button onClick={handleNew} size="sm" className="gap-2"><Plus className="w-4 h-4" />Add Meditation</Button>
       </div>
 
-      <div className="flex items-center gap-2 bg-yellow-500/5 border border-yellow-500/20 rounded-xl p-3 text-xs text-yellow-300/80">
+      <div className="flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-xl p-3 text-xs text-primary/80">
         <Lock className="w-3.5 h-3.5 shrink-0" />
         All meditations must be reviewed and approved by Gannon before being published. These are drafts only.
       </div>

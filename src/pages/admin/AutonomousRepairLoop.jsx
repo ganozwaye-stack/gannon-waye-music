@@ -234,7 +234,7 @@ function LocalIngestForm({ onSubmit }) {
   return (
     <form onSubmit={e => { e.preventDefault(); onSubmit(f); }} className="space-y-4">
       <div className="grid grid-cols-3 gap-3">
-        {[['passed','Passed','text-green-400'],['failed','Failed','text-red-400'],['skipped','Skipped','text-amber-400']].map(([k,l,c]) => (
+        {[['passed','Passed','text-green-400'],['failed','Failed','text-red-400'],['skipped','Skipped','text-primary']].map(([k,l,c]) => (
           <div key={k}>
             <label className={`block text-xs ${c} mb-1`}>{l}</label>
             <input type="number" min="0" value={f[k]} onChange={e => setF(p => ({...p,[k]:e.target.value}))} placeholder="0"
@@ -287,7 +287,7 @@ function GitHubActionsIngestForm({ onSubmit }) {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-3">
-        {[['passed','Passed','text-green-400'],['failed','Failed','text-red-400'],['skipped','Skipped','text-amber-400']].map(([k,l,c]) => (
+        {[['passed','Passed','text-green-400'],['failed','Failed','text-red-400'],['skipped','Skipped','text-primary']].map(([k,l,c]) => (
           <div key={k}>
             <label className={`block text-xs ${c} mb-1`}>{l}</label>
             <input type="number" min="0" value={f[k]} onChange={e => setF(p => ({...p,[k]:e.target.value}))} placeholder="0"
@@ -367,15 +367,15 @@ export default function AutonomousRepairLoop() {
   const statusColor = s => {
     if (s.includes('PASSED') || s.includes('COMPLETE')) return 'bg-green-500/20 text-green-300 border-green-500/30';
     if (s.includes('FAILED')) return 'bg-red-500/20 text-red-300 border-red-500/30';
-    if (s.includes('FIX APPLIED')) return 'bg-amber-500/20 text-amber-300 border-amber-500/30';
+    if (s.includes('FIX APPLIED')) return 'bg-primary/20 text-primary border-primary/30';
     if (s.includes('BLOCKED')) return 'bg-orange-500/20 text-orange-300 border-orange-500/30';
     return 'bg-secondary text-muted-foreground border-border';
   };
 
   const prioColor = p => {
     if (p === 'critical') return 'bg-red-500/20 text-red-300 border-red-500/30';
-    if (p === 'high') return 'bg-amber-500/20 text-amber-300 border-amber-500/30';
-    return 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30';
+    if (p === 'high') return 'bg-primary/20 text-primary border-primary/30';
+    return 'bg-primary/20 text-primary border-primary/30';
   };
 
   const handleLocalIngest = async f => {
@@ -466,20 +466,20 @@ export default function AutonomousRepairLoop() {
       </div>
 
       {/* Master status banner */}
-      <Card className="border-amber-500/30 bg-amber-500/5">
+      <Card className="border-primary/30 bg-primary/5">
         <CardContent className="p-4">
           <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+            <AlertCircle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
             <div className="flex-1">
               <div className="flex items-center gap-2 flex-wrap">
-                <p className="font-semibold text-amber-300">STORE: FIX APPLIED — AWAITING LIVE PLAYWRIGHT RETEST</p>
-                <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30 text-xs" variant="outline">Attempt 1/5</Badge>
+                <p className="font-semibold text-primary">STORE: FIX APPLIED — AWAITING LIVE PLAYWRIGHT RETEST</p>
+                <Badge className="bg-primary/20 text-primary border-primary/30 text-xs" variant="outline">Attempt 1/5</Badge>
                 {paused && <Badge className="text-xs" variant="outline">PAUSED</Badge>}
                 {stopped && <Badge className="bg-red-500/20 text-red-300 border-red-500/30 text-xs" variant="outline">STOPPED</Badge>}
               </div>
               <p className="text-xs text-muted-foreground mt-1">6 code fixes applied. Run Playwright to confirm. Paste results → system auto-creates next fix cycle.</p>
               <div className="mt-2 flex items-center gap-2 flex-wrap">
-                <code className="text-xs font-mono bg-secondary/80 px-2 py-1 rounded text-amber-300">
+                <code className="text-xs font-mono bg-secondary/80 px-2 py-1 rounded text-primary">
                   npx playwright test tests/store-load.spec.js tests/cart.spec.js --headed
                 </code>
                 <Button variant="ghost" size="icon" className="h-6 w-6 shrink-0"
@@ -536,8 +536,8 @@ export default function AutonomousRepairLoop() {
               <p className="text-3xl font-bold text-red-400">{failing.length}</p>
               <p className="text-xs text-muted-foreground mt-1">Still Failing</p>
             </CardContent></Card>
-            <Card className="border-amber-500/20 bg-amber-500/5"><CardContent className="p-4 text-center">
-              <p className="text-3xl font-bold text-amber-400">{pending.length}</p>
+            <Card className="border-primary/20 bg-primary/5"><CardContent className="p-4 text-center">
+              <p className="text-3xl font-bold text-primary">{pending.length}</p>
               <p className="text-xs text-muted-foreground mt-1">Fix Applied — Awaiting Retest</p>
             </CardContent></Card>
             <Card className="border-orange-500/20 bg-orange-500/5"><CardContent className="p-4 text-center">
@@ -567,7 +567,7 @@ export default function AutonomousRepairLoop() {
                   <Badge className={
                     color === 'green' ? 'bg-green-500/20 text-green-300 border-green-500/30 text-xs' :
                     color === 'orange' ? 'bg-orange-500/20 text-orange-300 border-orange-500/30 text-xs' :
-                    'bg-amber-500/20 text-amber-300 border-amber-500/30 text-xs'
+                    'bg-primary/20 text-primary border-primary/30 text-xs'
                   } variant="outline">{status}</Badge>
                 </div>
               ))}
@@ -580,7 +580,7 @@ export default function AutonomousRepairLoop() {
               <CardContent className="space-y-2">
                 {healthIssues.slice(0,6).map(i => (
                   <div key={i.id} className="flex items-center gap-2 p-2 border border-border/30 rounded text-xs">
-                    <AlertCircle className={`w-3 h-3 shrink-0 ${i.severity === 'critical' ? 'text-red-400' : 'text-amber-400'}`} />
+                    <AlertCircle className={`w-3 h-3 shrink-0 ${i.severity === 'critical' ? 'text-red-400' : 'text-primary'}`} />
                     <span>{i.issue_title}</span>
                   </div>
                 ))}
@@ -716,9 +716,9 @@ export default function AutonomousRepairLoop() {
             </CardContent>
           </Card>
 
-          <Card className="border-amber-500/20 bg-amber-500/5">
+          <Card className="border-primary/20 bg-primary/5">
             <CardContent className="p-3 text-xs space-y-1">
-              <p className="font-semibold text-amber-300">If test pack is in a subfolder (e.g. gannonwaye-playwright-pack/):</p>
+              <p className="font-semibold text-primary">If test pack is in a subfolder (e.g. gannonwaye-playwright-pack/):</p>
               <p className="text-muted-foreground">Add this under the job definition:</p>
               <code className="block bg-secondary/50 p-2 rounded text-foreground/80">
                 {`defaults:\n  run:\n    working-directory: gannonwaye-playwright-pack`}

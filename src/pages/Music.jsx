@@ -9,6 +9,7 @@ import { usePlayerStore } from '@/lib/playerStore';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 import { APPLE_MUSIC_ARTIST_URL } from '@/config/artistLinks';
 import { cn } from '@/lib/utils';
+import ReleaseGallery from '@/components/public/ReleaseGallery';
 
 const GENRE_LABELS = {
   singer_songwriter: 'Singer-Songwriter',
@@ -360,6 +361,8 @@ export default function Music() {
                 </div>
               )}
             </section>
+
+            <ReleaseGallery />
           </>
         )}
       </div>

@@ -198,7 +198,7 @@ export default function ShippingRates() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="font-semibold">{rule.name}</h3>
                     {rule.is_active ? <Badge className="bg-green-500/10 text-green-400">Active</Badge> : <Badge variant="outline">Inactive</Badge>}
-                    {rule.status === 'pending_approval' && <Badge className="bg-yellow-500/10 text-yellow-400">Pending Approval</Badge>}
+                    {rule.status === 'pending_approval' && <Badge className="bg-primary/10 text-primary">Pending Approval</Badge>}
                   </div>
                   <div className="grid grid-cols-4 gap-3 text-sm">
                     <div><span className="text-muted-foreground">Region:</span> {REGIONS.find(r => r.value === rule.region)?.label}</div>

@@ -15,8 +15,8 @@ const EXPECTED_SCOPES = 'user.info.basic,video.upload';
 const EXPECTED_ENDPOINT = 'https://www.tiktok.com/v2/auth/authorize/';
 
 function DiagRow({ label, value, ok, warn, mono = true }) {
-  const color = ok === true ? 'text-green-400' : ok === false ? 'text-red-400' : 'text-amber-400';
-  const dot = ok === true ? 'bg-green-400' : ok === false ? 'bg-red-400' : 'bg-amber-400';
+  const color = ok === true ? 'text-green-400' : ok === false ? 'text-red-400' : 'text-primary';
+  const dot = ok === true ? 'bg-green-400' : ok === false ? 'bg-red-400' : 'bg-primary';
   return (
     <div className="flex items-center gap-3 py-1.5 border-b border-border/20 last:border-0">
       <div className={`w-2.5 h-2.5 rounded-full shrink-0 ${dot}`} />
@@ -176,7 +176,7 @@ export default function TikTokPlatformReviewAdmin() {
                 Trimmed key length: <strong>{diag.trimmed_key_length}</strong> chars · Prefix: <code className="bg-secondary/50 px-1 rounded">{diag.trimmed_key_prefix}</code>
                 (the .trim() in code removes it — OAuth URL uses this trimmed key)
               </p>
-              <p className="text-xs text-muted-foreground mt-2 font-semibold text-yellow-400">
+              <p className="text-xs text-muted-foreground mt-2 font-semibold text-primary">
                 ⚠️ Action: Go to Base44 → App Settings → Environment Variables → delete TIKTOK_CLIENT_KEY → re-enter it with NO leading/trailing spaces.
                 Copy directly from TikTok Developer Portal → your app → Client key field.
               </p>
@@ -193,14 +193,14 @@ export default function TikTokPlatformReviewAdmin() {
       )}
 
       {/* Connection status */}
-      <Card className={status?.connected ? 'border-green-500/40 bg-green-500/5' : 'border-amber-500/30 bg-amber-500/5'}>
+      <Card className={status?.connected ? 'border-green-500/40 bg-green-500/5' : 'border-primary/30 bg-primary/5'}>
         <CardContent className="p-4 flex items-center justify-between gap-4 flex-wrap">
           <div className="flex items-center gap-3">
             {status?.connected
               ? <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0" />
-              : <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />}
+              : <AlertTriangle className="w-5 h-5 text-primary shrink-0" />}
             <div>
-              <p className={`font-semibold text-sm ${status?.connected ? 'text-green-400' : 'text-amber-400'}`}>
+              <p className={`font-semibold text-sm ${status?.connected ? 'text-green-400' : 'text-primary'}`}>
                 {status?.connected ? `Connected: @${status.username || status.display_name}` : 'Not connected to TikTok'}
               </p>
               {status?.connected && (
@@ -322,7 +322,7 @@ export default function TikTokPlatformReviewAdmin() {
               <option value="Sandbox">Sandbox</option>
             </select>
             {appMode && (
-              <Badge className={appMode === 'Sandbox' ? 'bg-amber-500/20 text-amber-300 text-xs' : 'bg-blue-500/20 text-blue-300 text-xs'}>
+              <Badge className={appMode === 'Sandbox' ? 'bg-primary/20 text-primary text-xs' : 'bg-blue-500/20 text-blue-300 text-xs'}>
                 {appMode === 'Sandbox' ? 'Sandbox: test users only' : 'Production: any user can connect'}
               </Badge>
             )}
@@ -345,11 +345,11 @@ export default function TikTokPlatformReviewAdmin() {
       </div>
 
       {/* Not complete notice */}
-      <div className="border border-amber-500/30 bg-amber-500/5 rounded-xl p-4">
+      <div className="border border-primary/30 bg-primary/5 rounded-xl p-4">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+          <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
           <div className="text-xs text-foreground/70">
-            <p className="font-semibold text-amber-300 mb-1">TikTok OAuth is NOT complete</p>
+            <p className="font-semibold text-primary mb-1">TikTok OAuth is NOT complete</p>
             <p>The code correctly trims the key before use. OAuth still fails with <code className="bg-secondary/50 px-1 rounded">error_type=client_key</code> until:</p>
             <ol className="list-decimal list-inside mt-1 space-y-0.5">
               <li>Secret re-entered without spaces in Base44 → Environment Variables</li>

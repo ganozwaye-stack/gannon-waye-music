@@ -126,7 +126,7 @@ export default function InstagramAutoDMCommand() {
   });
 
   const statusColor = {
-    pending_approval: 'bg-amber-500/20 text-amber-300',
+    pending_approval: 'bg-primary/20 text-primary',
     approved: 'bg-green-500/20 text-green-300',
     rejected: 'bg-red-500/20 text-red-300',
     published: 'bg-blue-500/20 text-blue-300',
@@ -334,7 +334,7 @@ export default function InstagramAutoDMCommand() {
               <DialogTitle>New Instagram Auto-DM Campaign</DialogTitle>
             </DialogHeader>
             <div className="space-y-4 mt-2">
-              <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 text-xs text-amber-300">
+              <div className="bg-primary/10 border border-primary/30 rounded-lg p-3 text-xs text-primary">
                 ⚠️ This campaign will be submitted to Approval Queue. It cannot go live without explicit approval.
               </div>
               <div>

@@ -44,9 +44,9 @@ export default function LeadSources() {
                 <div className="flex items-center gap-1.5">
                   {source.is_live
                     ? <Eye className="w-3.5 h-3.5 text-green-400" />
-                    : <EyeOff className="w-3.5 h-3.5 text-yellow-400" />
+                    : <EyeOff className="w-3.5 h-3.5 text-primary" />
                   }
-                  <span className={`font-body text-[10px] uppercase tracking-wider ${source.is_live ? 'text-green-400' : 'text-yellow-400'}`}>
+                  <span className={`font-body text-[10px] uppercase tracking-wider ${source.is_live ? 'text-green-400' : 'text-primary'}`}>
                     {source.is_live ? 'Live' : 'Hidden'}
                   </span>
                 </div>

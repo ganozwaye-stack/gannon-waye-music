@@ -129,8 +129,8 @@ export default function MerchInterestModal({ product, onClose }) {
                     Pre-order interest only. <strong>No charge today.</strong> Payment scheduled for June 1, 2026, subject to confirmation.
                   </p>
                 </div>
-                <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg px-3 py-2">
-                  <p className="font-body text-xs text-amber-300 leading-relaxed">
+                <div className="bg-primary/10 border border-primary/30 rounded-lg px-3 py-2">
+                  <p className="font-body text-xs text-primary leading-relaxed">
                     🔥 <strong>Launch offer: use code THANKYOU15 for 15% off eligible Thank You merch until 5pm Sunday.</strong> While stocks last.
                   </p>
                 </div>

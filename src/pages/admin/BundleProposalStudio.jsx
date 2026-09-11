@@ -85,7 +85,7 @@ function BundleCard({ bundle, onApprove, onReject, onClick }) {
           <div className="flex items-center gap-2 mb-2">
             <ShoppingBag className="w-4 h-4 text-primary" />
             <span className="font-semibold">{bundle.name}</span>
-            <Badge className="text-xs bg-yellow-500/20 text-yellow-400">Draft — Awaiting Approval</Badge>
+            <Badge className="text-xs bg-primary/20 text-primary">Draft — Awaiting Approval</Badge>
           </div>
           <div className="flex flex-wrap gap-1.5 mb-2">
             {bundle.products.map(p => (
@@ -97,7 +97,7 @@ function BundleCard({ bundle, onApprove, onReject, onClick }) {
             <span className="text-primary font-bold">${bundle.prices[1]} mid-price</span>
             <span className="text-green-400">Net ${calc.net} profit</span>
             <span className="text-muted-foreground">{calc.margin}% margin</span>
-            <span className="text-yellow-400">{calc.discountPct}% off vs individual</span>
+            <span className="text-primary">{calc.discountPct}% off vs individual</span>
           </div>
         </div>
         <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0" />
@@ -195,9 +195,9 @@ function BundleDetailModal({ bundle, onClose, onSubmitForApproval }) {
           </div>
 
           {/* Warning */}
-          <div className="flex items-start gap-2 bg-yellow-500/5 border border-yellow-500/20 rounded-lg p-3">
-            <AlertTriangle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
-            <p className="text-xs text-yellow-300/80">
+          <div className="flex items-start gap-2 bg-primary/5 border border-primary/20 rounded-lg p-3">
+            <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+            <p className="text-xs text-primary/80">
               Submitting this creates a pending approval item. The bundle will NOT be published to the store until Gannon explicitly approves it in the Approval Queue.
             </p>
           </div>
@@ -288,17 +288,17 @@ export default function BundleProposalStudio() {
       </div>
 
       {/* Warning bar */}
-      <div className="flex items-center gap-2 bg-yellow-500/5 border border-yellow-500/20 rounded-xl p-4">
-        <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0" />
+      <div className="flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-xl p-4">
+        <AlertTriangle className="w-5 h-5 text-primary shrink-0" />
         <div>
-          <p className="text-sm font-semibold text-yellow-300">No Bundle Is Live Until You Approve It</p>
+          <p className="text-sm font-semibold text-primary">No Bundle Is Live Until You Approve It</p>
           <p className="text-xs text-muted-foreground mt-0.5">All proposals below go to the Approval Queue. Zero public impact until you click Approve & Publish.</p>
         </div>
       </div>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3">
-        <Card><CardContent className="p-4"><p className="text-2xl font-bold text-yellow-400">{pendingProposals.length}</p><p className="text-xs text-muted-foreground">Awaiting Your Approval</p></CardContent></Card>
+        <Card><CardContent className="p-4"><p className="text-2xl font-bold text-primary">{pendingProposals.length}</p><p className="text-xs text-muted-foreground">Awaiting Your Approval</p></CardContent></Card>
         <Card><CardContent className="p-4"><p className="text-2xl font-bold text-green-400">{publishedProposals.length}</p><p className="text-xs text-muted-foreground">Published Live</p></CardContent></Card>
         <Card><CardContent className="p-4"><p className="text-2xl font-bold text-primary">{PRESET_BUNDLES.length}</p><p className="text-xs text-muted-foreground">Bundle Templates</p></CardContent></Card>
       </div>
@@ -325,10 +325,10 @@ export default function BundleProposalStudio() {
             </div>
           ) : (
             pendingProposals.map(p => (
-              <div key={p.id} className="border border-yellow-500/30 bg-yellow-500/3 rounded-xl p-4">
+              <div key={p.id} className="border border-primary/30 bg-primary/3 rounded-xl p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <Badge className="text-xs bg-yellow-500/20 text-yellow-400 mb-1">Pending Approval</Badge>
+                    <Badge className="text-xs bg-primary/20 text-primary mb-1">Pending Approval</Badge>
                     <p className="font-semibold text-sm">{p.title}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{p.estimated_revenue_impact}</p>
                   </div>

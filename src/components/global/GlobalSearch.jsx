@@ -207,7 +207,7 @@ export default function GlobalSearch({ onClose }) {
       order: 'bg-blue-500/20 text-blue-500',
       subscriber: 'bg-green-500/20 text-green-500',
       product: 'bg-purple-500/20 text-purple-500',
-      contribution: 'bg-yellow-500/20 text-yellow-500',
+      contribution: 'bg-primary/20 text-primary',
       gift_claim: 'bg-pink-500/20 text-pink-500',
       promo_code: 'bg-orange-500/20 text-orange-500',
       booking: 'bg-indigo-500/20 text-indigo-500',

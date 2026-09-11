@@ -11,7 +11,7 @@ import { toast } from 'sonner';
 const CLASS_CONFIG = {
   general_positive: { label: 'Fan ❤️', color: 'bg-green-500/10 text-green-400' },
   general_negative: { label: 'Negative', color: 'bg-slate-500/10 text-slate-400' },
-  important_fan: { label: 'Important Fan ⭐', color: 'bg-yellow-500/10 text-yellow-400' },
+  important_fan: { label: 'Important Fan ⭐', color: 'bg-primary/10 text-primary' },
   business_opportunity: { label: '💼 Business', color: 'bg-blue-500/10 text-blue-400' },
   collaboration: { label: '🎵 Collab', color: 'bg-purple-500/10 text-purple-400' },
   media_press: { label: '📰 Press', color: 'bg-orange-500/10 text-orange-400' },
@@ -83,18 +83,18 @@ export default function SocialMonitor() {
       </div>
 
       {/* Connection Status */}
-      <Card className="border-yellow-500/20 bg-yellow-500/5">
+      <Card className="border-primary/20 bg-primary/5">
         <CardContent className="p-4 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
+          <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
           <div className="flex-1">
-            <p className="text-sm font-semibold text-yellow-300">Live Social Connection Required</p>
+            <p className="text-sm font-semibold text-primary">Live Social Connection Required</p>
             <p className="text-xs text-muted-foreground mt-1">
               To monitor real comments, your Instagram/TikTok business accounts need to be connected via OAuth. 
               Until then, use the <strong className="text-foreground">Demo Mode</strong> below to see exactly how the AI triage works, 
               or paste comments manually. Contact your team to set up the Meta Business API credentials.
             </p>
           </div>
-          <Badge className="bg-yellow-500/10 text-yellow-400 shrink-0">Demo Ready</Badge>
+          <Badge className="bg-primary/10 text-primary shrink-0">Demo Ready</Badge>
         </CardContent>
       </Card>
 
@@ -167,7 +167,7 @@ export default function SocialMonitor() {
                         <Badge className={`text-xs ${CLASS_CONFIG[item.classification]?.color || 'bg-secondary text-secondary-foreground'}`}>
                           {CLASS_CONFIG[item.classification]?.label || item.classification}
                         </Badge>
-                        <Badge className={`text-xs ${item.priority === 'high' || item.priority === 'critical' ? 'bg-red-500/10 text-red-400' : 'bg-yellow-500/10 text-yellow-400'}`}>
+                        <Badge className={`text-xs ${item.priority === 'high' || item.priority === 'critical' ? 'bg-red-500/10 text-red-400' : 'bg-primary/10 text-primary'}`}>
                           {item.priority}
                         </Badge>
                       </div>

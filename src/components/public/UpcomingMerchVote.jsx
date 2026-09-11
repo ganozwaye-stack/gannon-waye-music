@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { Heart, Check, Lock } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
-// Upcoming merch from the Thank You collection display. Fans vote privately:
-// votes are stored admin-only and are never displayed publicly.
+// The next phase of merch: Set Free first, then Without You Here.
+// Fans vote privately; votes are stored admin-only and never displayed publicly.
 const UPCOMING_ITEMS = [
-  { key: 'coffee-mug', name: 'Thank You Coffee Mug', blurb: 'White ceramic mug with the portrait and the Thank You mark.' },
-  { key: 'signature-notebook', name: 'Respect Is Earned Notebook', blurb: 'Black notebook with the gold serif line and the signature.' },
-  { key: 'insulated-bottle', name: 'Signature Thermos', blurb: 'Insulated bottle carrying the Respect Is Earned line and the G W monogram.' },
-  { key: 'gift-tote', name: 'Thank You Tote Bag', blurb: 'Black bag with gold star accents and the G W monogram.' },
-  { key: 'display-box', name: "Collector's Display Box", blurb: 'Matte black keepsake box with the portrait and the Thank You mark.' },
+  { key: 'set-free-hoodie', name: 'Set Free Hoodie', blurb: 'Heavyweight black hoodie carrying the Set Free artwork in gold.' },
+  { key: 'set-free-tee', name: 'Set Free T-Shirt', blurb: 'Black tee with the Set Free mark, made for everyday wear.' },
+  { key: 'without-you-here-vinyl', name: 'Without You Here Vinyl', blurb: 'The single pressed on vinyl, a keepsake of Mum and the song written for her.' },
+  { key: 'without-you-here-poster', name: 'Without You Here Lyric Poster', blurb: 'The lines that matter most, printed in gold ink to keep close.' },
+  { key: 'set-free-mug', name: 'Set Free Mug', blurb: 'Matte black mug with the Set Free mark for the morning ritual.' },
 ];
 
 export default function UpcomingMerchVote() {
@@ -44,7 +44,8 @@ export default function UpcomingMerchVote() {
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">New Merch To Come</p>
           <h2 className="font-body text-3xl md:text-5xl gradient-gold-text">Vote on what's next</h2>
           <p className="font-body text-sm text-muted-foreground mt-4 max-w-md mx-auto">
-            These pieces are being prepared. Tell me which ones you'd love and they move up the list.
+            The next collection is being designed around Set Free and Without You Here. Tell me which
+            pieces you'd love and they move up the list.
           </p>
         </motion.div>
 

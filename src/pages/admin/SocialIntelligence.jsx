@@ -14,9 +14,9 @@ import { useToast } from '@/components/ui/use-toast';
 import ReactMarkdown from 'react-markdown';
 
 const RULE = (
-  <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
-    <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
-    <p className="text-yellow-300 text-xs"><strong>Platform Safety Rule:</strong> No automated engagement, mass following, DM spam, fake interactions, or paid follower purchases. All outreach suggestions require human approval before action.</p>
+  <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
+    <Shield className="w-4 h-4 text-primary shrink-0" />
+    <p className="text-primary text-xs"><strong>Platform Safety Rule:</strong> No automated engagement, mass following, DM spam, fake interactions, or paid follower purchases. All outreach suggestions require human approval before action.</p>
   </div>
 );
 

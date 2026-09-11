@@ -13,7 +13,7 @@ import ReactMarkdown from 'react-markdown';
 const AGENT_IQ_MAP = [
   { name: 'AutonomousResearchAgent', iq: 94, domain: 'Research & Intelligence', color: 'text-cyan-400', bg: 'bg-cyan-500/10' },
   { name: 'TrendEngine', iq: 91, domain: 'Trend Forecasting', color: 'text-purple-400', bg: 'bg-purple-500/10' },
-  { name: 'ExecutiveBriefAgent', iq: 89, domain: 'Executive Intelligence', color: 'text-amber-400', bg: 'bg-amber-500/10' },
+  { name: 'ExecutiveBriefAgent', iq: 89, domain: 'Executive Intelligence', color: 'text-primary', bg: 'bg-primary/10' },
   { name: 'Orchestrator', iq: 97, domain: 'System Orchestration', color: 'text-primary', bg: 'bg-primary/10' },
   { name: 'SecurityAgent', iq: 86, domain: 'Security & Compliance', color: 'text-red-400', bg: 'bg-red-500/10' },
   { name: 'CreativeStudioAgent', iq: 88, domain: 'Creative & Content', color: 'text-pink-400', bg: 'bg-pink-500/10' },
@@ -87,14 +87,14 @@ function ActivityDetailModal({ log, onClose }) {
       <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-display text-xl flex items-center gap-2">
-            <Activity className="w-5 h-5 text-amber-400" />Agent Activity Log
+            <Activity className="w-5 h-5 text-primary" />Agent Activity Log
           </DialogTitle>
         </DialogHeader>
         <div className="space-y-4 mt-2">
           <div className="flex flex-wrap gap-2">
             {log.was_automatic && <Badge className="text-xs bg-blue-500/10 text-blue-400">Autonomous</Badge>}
             {log.risk_check_result && (
-              <Badge className={`text-xs ${log.risk_check_result === 'pass' ? 'bg-green-500/10 text-green-400' : log.risk_check_result === 'blocked' ? 'bg-red-500/10 text-red-400' : 'bg-yellow-500/10 text-yellow-400'}`}>
+              <Badge className={`text-xs ${log.risk_check_result === 'pass' ? 'bg-green-500/10 text-green-400' : log.risk_check_result === 'blocked' ? 'bg-red-500/10 text-red-400' : 'bg-primary/10 text-primary'}`}>
                 Risk: {log.risk_check_result}
               </Badge>
             )}
@@ -259,7 +259,7 @@ export default function AgentIntelligence() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Knowledge Entries', value: totalKnowledge, icon: BookOpen, color: 'text-cyan-400', bg: 'bg-cyan-500/10', link: '/admin/knowledge-vault' },
-          { label: 'Agent Actions Today', value: todayLogs.length, icon: Zap, color: 'text-amber-400', bg: 'bg-amber-500/10', link: '/admin/agent-task-log' },
+          { label: 'Agent Actions Today', value: todayLogs.length, icon: Zap, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/agent-task-log' },
           { label: 'Total Ideas Generated', value: totalIdeas, icon: Star, color: 'text-green-400', bg: 'bg-green-500/10', link: '/admin/ideas-engine' },
           { label: 'Learning Records', value: learnings.length, icon: Brain, color: 'text-purple-400', bg: 'bg-purple-500/10', link: '/admin/agent-learning' },
         ].map(s => (
@@ -339,7 +339,7 @@ export default function AgentIntelligence() {
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-base flex items-center gap-2">
-              <Activity className="w-4 h-4 text-amber-400" />Autonomous Activity
+              <Activity className="w-4 h-4 text-primary" />Autonomous Activity
               <Badge variant="outline" className="ml-auto text-xs">{autoLogs.length} auto</Badge>
             </CardTitle>
           </CardHeader>

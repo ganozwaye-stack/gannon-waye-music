@@ -691,7 +691,7 @@ export default function DeveloperHandoff() {
               ['Developer Handoff / Playwright / Cursor / Codex Setup', 'medium', 'Built — test packs available for download'],
             ].map(([item, priority, note]) => (
               <div key={item} className="flex items-start gap-3 p-2 rounded-lg border border-border/50">
-                <Badge className={priority === 'critical' ? 'bg-red-500/20 text-red-300 border-red-500/30' : priority === 'high' ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' : priority === 'legal' ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-secondary text-muted-foreground border-border'}>
+                <Badge className={priority === 'critical' ? 'bg-red-500/20 text-red-300 border-red-500/30' : priority === 'high' ? 'bg-primary/20 text-primary border-primary/30' : priority === 'legal' ? 'bg-purple-500/20 text-purple-300 border-purple-500/30' : 'bg-secondary text-muted-foreground border-border'}>
                   {priority}
                 </Badge>
                 <div>

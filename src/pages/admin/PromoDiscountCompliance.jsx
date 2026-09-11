@@ -198,7 +198,7 @@ export default function PromoDiscountCompliance() {
   const statusBadge = (status) => {
     if (status === 'yes') return <Badge className="bg-green-500/20 text-green-300">✅ Done</Badge>;
     if (status === 'action_required') return <Badge className="bg-red-500/20 text-red-300">⚠️ Action Required</Badge>;
-    if (status === 'pending') return <Badge className="bg-yellow-500/20 text-yellow-300">⏳ Pending Test</Badge>;
+    if (status === 'pending') return <Badge className="bg-primary/20 text-primary">⏳ Pending Test</Badge>;
     if (status === 'info') return <Badge className="bg-blue-500/20 text-blue-300">ℹ️ Info</Badge>;
     return <Badge className="bg-gray-500/20 text-gray-300">{status}</Badge>;
   };
@@ -296,8 +296,8 @@ export default function PromoDiscountCompliance() {
                     </button>
                   </div>
                   <p className="text-xs text-muted-foreground">{c.applies_to}</p>
-                  <div className="bg-yellow-500/10 border border-yellow-500/20 rounded p-2">
-                    <p className="text-xs text-yellow-300 font-semibold">Stripe Action Required</p>
+                  <div className="bg-primary/10 border border-primary/20 rounded p-2">
+                    <p className="text-xs text-primary font-semibold">Stripe Action Required</p>
                     <p className="text-xs text-foreground/70 mt-1">{c.stripe_action}</p>
                   </div>
                 </div>
@@ -324,8 +324,8 @@ export default function PromoDiscountCompliance() {
             </Card>
           </div>
 
-          <Card className="border-yellow-500/30">
-            <CardHeader><CardTitle className="text-sm text-yellow-300">How to Set Stripe Coupon applies_to Restrictions</CardTitle></CardHeader>
+          <Card className="border-primary/30">
+            <CardHeader><CardTitle className="text-sm text-primary">How to Set Stripe Coupon applies_to Restrictions</CardTitle></CardHeader>
             <CardContent className="space-y-3 text-sm text-foreground/80">
               <ol className="list-decimal list-inside space-y-2 text-sm">
                 <li>Go to <a href="https://dashboard.stripe.com/products" target="_blank" rel="noopener noreferrer" className="text-primary underline inline-flex items-center gap-1">Stripe Dashboard → Products <ExternalLink className="w-3 h-3" /></a></li>
@@ -463,7 +463,7 @@ export default function PromoDiscountCompliance() {
                   </div>
                 ))}
               </div>
-              <div className="mt-3 bg-yellow-500/10 border border-yellow-500/20 rounded p-3 text-xs text-yellow-200">
+              <div className="mt-3 bg-primary/10 border border-primary/20 rounded p-3 text-xs text-primary">
                 ⚠️ <strong>Do NOT permanently whitelist random generated preview URLs</strong> (e.g. *.base44.app random subdomains). Use <strong>gannonwaye.com</strong> for production testing and sharing with customers.
               </div>
             </CardContent>
@@ -484,13 +484,13 @@ export default function PromoDiscountCompliance() {
           </div>
 
           <Card>
-            <CardHeader><CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-yellow-400" />Cause Analysis &amp; Fixes</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-primary" />Cause Analysis &amp; Fixes</CardTitle></CardHeader>
             <CardContent className="space-y-3">
               {NORTON_LIKELY_CAUSES.map((c, i) => (
                 <div key={i} className="border border-border rounded-xl p-3 space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-sm font-medium">{c.cause}</p>
-                    <Badge className={c.type === 'False Positive' ? 'bg-blue-500/20 text-blue-300' : 'bg-yellow-500/20 text-yellow-300'}>{c.type}</Badge>
+                    <Badge className={c.type === 'False Positive' ? 'bg-blue-500/20 text-blue-300' : 'bg-primary/20 text-primary'}>{c.type}</Badge>
                   </div>
                   <p className="text-xs text-foreground/70">👉 {c.fix}</p>
                 </div>
@@ -505,7 +505,7 @@ export default function PromoDiscountCompliance() {
                 <div key={i} className="flex items-start gap-2 py-1.5 border-b border-border/30 last:border-0">
                   {item.done
                     ? <CheckCircle2 className="w-4 h-4 text-green-400 shrink-0 mt-0.5" />
-                    : <AlertTriangle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />}
+                    : <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />}
                   <div>
                     <p className="text-sm">{item.item}</p>
                     {item.note && <p className="text-xs text-muted-foreground mt-0.5">{item.note}</p>}
@@ -531,8 +531,8 @@ export default function PromoDiscountCompliance() {
             </CardContent>
           </Card>
 
-          <Card className="border-yellow-500/30">
-            <CardHeader><CardTitle className="text-sm text-yellow-300">Immediate Norton Fix Steps</CardTitle></CardHeader>
+          <Card className="border-primary/30">
+            <CardHeader><CardTitle className="text-sm text-primary">Immediate Norton Fix Steps</CardTitle></CardHeader>
             <CardContent className="space-y-3 text-sm">
               <div className="space-y-2">
                 <p className="font-semibold text-sm">Option A — Temporary: Disable Norton Safe Web while in Base44 preview</p>

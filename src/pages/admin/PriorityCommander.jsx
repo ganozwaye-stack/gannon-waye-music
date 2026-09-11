@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { CheckCircle2, User, Bot, RefreshCw, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-const PRIORITY_COLORS = { critical: '#ef4444', high: '#f59e0b', medium: '#3b82f6', low: '#6b7280' };
+const PRIORITY_COLORS = { critical: '#ef4444', high: '#a9842c', medium: '#3b82f6', low: '#6b7280' };
 
 function TaskRow({ task, onComplete, onDefer, onEscalate }) {
   const isOverdue = task.due_date && new Date(task.due_date) < new Date() && task.status !== 'completed';
@@ -131,7 +131,7 @@ export default function PriorityCommander() {
         {[
           { label: 'Your Action', count: gannonTasks.length, color: '#C9A84C' },
           { label: 'Agent Tasks', count: agentTasks.length, color: '#3b82f6' },
-          { label: 'Pending Approvals', count: approvals.length, color: '#f59e0b' },
+          { label: 'Pending Approvals', count: approvals.length, color: '#a9842c' },
           { label: 'Unread Alerts', count: notifications.length, color: '#ef4444' },
         ].map(s => (
           <div key={s.label} style={{ padding: '14px 16px', borderRadius: '8px', background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}33` }}>

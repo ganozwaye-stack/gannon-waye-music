@@ -199,7 +199,7 @@ export default function Orders() {
         {[
           { label: 'Total Orders', value: analytics.total, icon: Package, color: 'text-blue-500', filter: 'all', route: null },
           { label: 'Revenue', value: `$${analytics.revenue.toFixed(2)}`, icon: DollarSign, color: 'text-primary', filter: null, route: '/admin/financials' },
-          { label: 'Pending', value: analytics.pending, icon: Clock, color: 'text-yellow-500', filter: 'pending', route: null },
+          { label: 'Pending', value: analytics.pending, icon: Clock, color: 'text-primary', filter: 'pending', route: null },
           { label: 'Shipped', value: analytics.shipped, icon: Truck, color: 'text-green-500', filter: 'shipped', route: null },
           { label: 'Avg Order', value: `$${analytics.avgOrderValue.toFixed(2)}`, icon: TrendingUp, color: 'text-green-500', filter: null, route: '/admin/financials' },
         ].map((stat, i) => {

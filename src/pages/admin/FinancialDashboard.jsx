@@ -160,19 +160,19 @@ export default function FinancialDashboard() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-amber-900/20 border border-amber-600/30 rounded-2xl p-5"
+          className="bg-primary/20 border border-primary/30 rounded-2xl p-5"
         >
           <div className="flex items-start gap-3">
-            <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-1" />
+            <AlertCircle className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
             <div className="flex-1">
-              <p className="font-body text-sm font-semibold text-amber-100 mb-2">
+              <p className="font-body text-sm font-semibold text-primary mb-2">
                 {productsMissingCosts.length} Product{productsMissingCosts.length > 1 ? 's' : ''} Missing Cost Data
               </p>
-              <p className="font-body text-xs text-amber-200/70 mb-3">
+              <p className="font-body text-xs text-primary/70 mb-3">
                 Add cost prices and delivery costs to enable accurate profit calculations.
               </p>
               <Link to="/admin/merch-financials">
-                <Button size="sm" className="gap-2 bg-amber-600 hover:bg-amber-700 text-white">
+                <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white">
                   <Edit2 className="w-3 h-3" /> Add Cost Data Now
                 </Button>
               </Link>

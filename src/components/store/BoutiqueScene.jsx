@@ -409,7 +409,7 @@ export default function BoutiqueScene({ onOpenModal }) {
         <div style={{ display: 'flex', gap: '8px' }}>
           {[1, 2].map(i => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ width: '3px', height: '4px', background: 'radial-gradient(ellipse, #fff7aa 0%, #ffd700 50%, transparent 100%)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,220,80,0.8)' }} />
+              <div style={{ width: '3px', height: '4px', background: 'radial-gradient(ellipse, #fff7aa 0%, #d4af37 50%, transparent 100%)', borderRadius: '50%', boxShadow: '0 0 6px rgba(255,220,80,0.8)' }} />
               <div style={{ width: '7px', height: '18px', background: 'linear-gradient(180deg, #e8e0d0, #c8c0b0)', borderRadius: '1px', boxShadow: '0 2px 6px rgba(0,0,0,0.4)' }} />
             </div>
           ))}

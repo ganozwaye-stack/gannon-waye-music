@@ -12,7 +12,7 @@ export default function DeegoProgressRing({ recs = 0, approvals = 0, blocked = 0
 
   const bars = [
     { label: 'Recommendations', value: recs, color: 'bg-primary' },
-    { label: 'Approvals', value: approvals, color: 'bg-amber-400' },
+    { label: 'Approvals', value: approvals, color: 'bg-primary' },
     { label: 'Blocked', value: blocked, color: 'bg-red-400' },
   ];
   const maxBar = Math.max(1, ...bars.map((b) => b.value));

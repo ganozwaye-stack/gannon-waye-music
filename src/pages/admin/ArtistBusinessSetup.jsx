@@ -118,7 +118,7 @@ export default function ArtistBusinessSetup() {
 
   const priorityColor = (p) => ({
     'Critical': 'bg-red-500/20 text-red-300',
-    'High': 'bg-yellow-500/20 text-yellow-300',
+    'High': 'bg-primary/20 text-primary',
     'Active': 'bg-green-500/20 text-green-300',
     'Build': 'bg-blue-500/20 text-blue-300',
     'Plan': 'bg-purple-500/20 text-purple-300',
@@ -154,10 +154,10 @@ export default function ArtistBusinessSetup() {
         </CardContent>
       </Card>
 
-      <Card className="border-yellow-500/20 bg-yellow-500/3">
+      <Card className="border-primary/20 bg-primary/3">
         <CardContent className="p-4 flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
-          <p className="text-xs text-yellow-200/80">
+          <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+          <p className="text-xs text-primary/80">
             <strong>Disclaimer:</strong> This system provides operational checklists and information only. It does not provide legal, tax, financial, or professional advice. Always consult qualified professionals (accountant, lawyer, financial adviser) before making business formation, contract, or financial decisions.
           </p>
         </CardContent>

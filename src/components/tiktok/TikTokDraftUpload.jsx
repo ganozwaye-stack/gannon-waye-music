@@ -11,7 +11,7 @@ import { useToast } from '@/components/ui/use-toast';
 
 const APPROVAL_STATES = [
   { key: 'draft_created', label: 'Draft Created', color: 'bg-slate-500/20 text-slate-300' },
-  { key: 'awaiting_review', label: 'Awaiting Review', color: 'bg-yellow-500/20 text-yellow-300' },
+  { key: 'awaiting_review', label: 'Awaiting Review', color: 'bg-primary/20 text-primary' },
   { key: 'approved', label: 'Approved', color: 'bg-green-500/20 text-green-300' },
   { key: 'uploaded', label: 'Uploaded to TikTok Drafts', color: 'bg-blue-500/20 text-blue-300' },
   { key: 'creator_review', label: 'Ready for Creator Final Approval', color: 'bg-purple-500/20 text-purple-300' },
@@ -177,9 +177,9 @@ Return just the caption text, no explanation.`,
         </div>
 
         {/* Safety notice */}
-        <div className="border border-amber-500/20 bg-amber-500/5 rounded-lg p-3 flex items-start gap-2">
-          <Shield className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-          <p className="text-xs text-amber-300/80">
+        <div className="border border-primary/20 bg-primary/5 rounded-lg p-3 flex items-start gap-2">
+          <Shield className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+          <p className="text-xs text-primary/80">
             <strong>Manual approval required.</strong> Nothing auto-posts. After upload, you must open the TikTok app and manually publish from your Drafts folder.
           </p>
         </div>

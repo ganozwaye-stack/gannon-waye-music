@@ -306,7 +306,7 @@ const PLATFORMS = [
 const statusColor = {
   needs_live_test: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
   not_connected: 'bg-red-500/20 text-red-300 border-red-500/30',
-  partial: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+  partial: 'bg-primary/20 text-primary border-primary/30',
   manual_only: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   connected: 'bg-green-500/20 text-green-300 border-green-500/30',
 };
@@ -499,8 +499,8 @@ export default function SocialPlatformParity() {
                   <ul className="space-y-0.5">{selected.implemented.map(i => <li key={i} className="text-xs text-green-300/80">• {i}</li>)}</ul>
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1"><Clock className="w-3 h-3 text-yellow-400" /> Not Yet Implemented</p>
-                  <ul className="space-y-0.5">{selected.notImplemented.map(i => <li key={i} className="text-xs text-yellow-300/80">• {i}</li>)}</ul>
+                  <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1"><Clock className="w-3 h-3 text-primary" /> Not Yet Implemented</p>
+                  <ul className="space-y-0.5">{selected.notImplemented.map(i => <li key={i} className="text-xs text-primary/80">• {i}</li>)}</ul>
                 </div>
               </div>
 

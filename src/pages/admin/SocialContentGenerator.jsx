@@ -217,8 +217,8 @@ Return JSON with these exact fields:
       </div>
 
       {tone === 'gift_manual_review' && (
-        <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4">
-          <p className="font-body text-xs text-amber-400 leading-relaxed">
+        <div className="bg-primary/10 border border-primary/30 rounded-xl p-4">
+          <p className="font-body text-xs text-primary leading-relaxed">
             <strong>Manual review note:</strong> Gift offer content will include clear language that each entry is personally reviewed. No automatic social verification will be implied.
           </p>
         </div>

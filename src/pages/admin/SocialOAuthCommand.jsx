@@ -158,7 +158,7 @@ const OAUTH_PLATFORMS = [
 const statusColors = {
   built_needs_live_test: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
   not_built: 'bg-red-500/20 text-red-300 border-red-500/30',
-  partial_via_connector: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
+  partial_via_connector: 'bg-primary/20 text-primary border-primary/30',
   manual_only: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   connected: 'bg-green-500/20 text-green-300 border-green-500/30',
 };
@@ -204,7 +204,7 @@ export default function SocialOAuthCommand() {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          ['Live/Partial', OAUTH_PLATFORMS.filter(p => ['built_needs_live_test', 'partial_via_connector', 'connected'].includes(p.status)).length, 'text-yellow-400'],
+          ['Live/Partial', OAUTH_PLATFORMS.filter(p => ['built_needs_live_test', 'partial_via_connector', 'connected'].includes(p.status)).length, 'text-primary'],
           ['Not Built', OAUTH_PLATFORMS.filter(p => p.status === 'not_built').length, 'text-red-400'],
           ['Manual Only', OAUTH_PLATFORMS.filter(p => p.status === 'manual_only').length, 'text-blue-400'],
           ['Secrets Set', OAUTH_PLATFORMS.filter(p => p.secretsSet.every(Boolean)).length, 'text-green-400'],

@@ -118,7 +118,7 @@ Provide:
           {analysis && (
             <div className="bg-secondary/30 border border-border/40 rounded-xl p-4 space-y-2">
               <div className="flex items-center gap-2 mb-1">
-                <Badge className={`text-sm font-bold border-0 ${analysis.performance_grade === 'A' ? 'bg-green-500/20 text-green-400' : analysis.performance_grade === 'B' ? 'bg-blue-500/20 text-blue-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                <Badge className={`text-sm font-bold border-0 ${analysis.performance_grade === 'A' ? 'bg-green-500/20 text-green-400' : analysis.performance_grade === 'B' ? 'bg-blue-500/20 text-blue-400' : 'bg-primary/20 text-primary'}`}>
                   Grade: {analysis.performance_grade}
                 </Badge>
               </div>
@@ -221,7 +221,7 @@ export default function ContentPerformance() {
                   )}
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <Badge className={`text-[9px] border-0 ${hasMetrics ? 'bg-green-500/10 text-green-400' : 'bg-amber-500/10 text-amber-400'}`}>
+                  <Badge className={`text-[9px] border-0 ${hasMetrics ? 'bg-green-500/10 text-green-400' : 'bg-primary/10 text-primary'}`}>
                     {hasMetrics ? 'Metrics Logged' : 'Log Metrics'}
                   </Badge>
                   <ChevronRight className="w-4 h-4 text-muted-foreground" />

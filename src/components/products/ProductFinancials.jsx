@@ -35,7 +35,7 @@ export default function ProductFinancials({ product }) {
         <div className="space-y-2">
           {alerts.map((alert, i) => {
             const Icon = alert.type === 'error' ? AlertTriangle : alert.type === 'warning' ? AlertTriangle : Info;
-            const colors = alert.type === 'error' ? 'text-red-500 bg-red-500/10' : alert.type === 'warning' ? 'text-yellow-500 bg-yellow-500/10' : 'text-blue-500 bg-blue-500/10';
+            const colors = alert.type === 'error' ? 'text-red-500 bg-red-500/10' : alert.type === 'warning' ? 'text-primary bg-primary/10' : 'text-blue-500 bg-blue-500/10';
             return (
               <div key={i} className={`flex items-center gap-2 p-3 rounded-lg ${colors}`}>
                 <Icon className="w-4 h-4" />
@@ -97,7 +97,7 @@ export default function ProductFinancials({ product }) {
                 <p className="font-body text-xs text-green-700 mb-1">Profit Margin</p>
                 <p className={`font-display text-2xl ${
                   financials.profitability.marginPercent >= 30 ? 'text-green-600' : 
-                  financials.profitability.marginPercent >= 15 ? 'text-yellow-600' : 'text-red-600'
+                  financials.profitability.marginPercent >= 15 ? 'text-primary' : 'text-red-600'
                 }`}>
                   {financials.profitability.marginPercent.toFixed(1)}%
                 </p>
@@ -109,7 +109,7 @@ export default function ProductFinancials({ product }) {
               <span className="font-body text-xs text-green-700">Margin Tier:</span>
               <Badge className={
                 financials.analysis.marginTier === 'excellent' ? 'bg-green-600' :
-                financials.analysis.marginTier === 'good' ? 'bg-yellow-600' : 'bg-red-600'
+                financials.analysis.marginTier === 'good' ? 'bg-primary' : 'bg-red-600'
               }>
                 {financials.analysis.marginTier.toUpperCase()}
               </Badge>

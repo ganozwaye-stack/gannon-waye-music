@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 const BADGE_STYLES = {
   auto: 'bg-green-500/10 text-green-400',
-  approved: 'bg-yellow-500/10 text-yellow-400',
+  approved: 'bg-primary/10 text-primary',
   pass: 'bg-green-500/10 text-green-400',
   blocked: 'bg-red-500/10 text-red-400',
   escalated: 'bg-orange-500/10 text-orange-400',

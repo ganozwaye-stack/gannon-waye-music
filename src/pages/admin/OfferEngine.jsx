@@ -100,14 +100,14 @@ export default function OfferEngine() {
       </div>
 
       {/* Warning */}
-      <div className="flex items-center gap-2 bg-yellow-500/5 border border-yellow-500/20 rounded-xl p-3">
-        <AlertTriangle className="w-4 h-4 text-yellow-400 shrink-0" />
-        <p className="text-xs text-yellow-300/80">No offer goes live without Gannon's explicit approval. All proposals are staged in the Approval Queue.</p>
+      <div className="flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-xl p-3">
+        <AlertTriangle className="w-4 h-4 text-primary shrink-0" />
+        <p className="text-xs text-primary/80">No offer goes live without Gannon's explicit approval. All proposals are staged in the Approval Queue.</p>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Card className={pending.length > 0 ? 'border-yellow-500/30' : ''}>
-          <CardContent className="p-4"><p className={`text-2xl font-bold ${pending.length > 0 ? 'text-yellow-400' : ''}`}>{pending.length}</p><p className="text-xs text-muted-foreground">Pending Approval</p></CardContent>
+        <Card className={pending.length > 0 ? 'border-primary/30' : ''}>
+          <CardContent className="p-4"><p className={`text-2xl font-bold ${pending.length > 0 ? 'text-primary' : ''}`}>{pending.length}</p><p className="text-xs text-muted-foreground">Pending Approval</p></CardContent>
         </Card>
         <Card><CardContent className="p-4"><p className="text-2xl font-bold text-green-400">{activeBundles.length}</p><p className="text-xs text-muted-foreground">Active Bundles</p></CardContent></Card>
         <Card><CardContent className="p-4"><p className="text-2xl font-bold text-cyan-400">{promos.length}</p><p className="text-xs text-muted-foreground">Active Promo Codes</p></CardContent></Card>
@@ -178,10 +178,10 @@ export default function OfferEngine() {
           ) : (
             pending.map(p => (
               <Link key={p.id} to="/admin/revenue-actions">
-                <div className="border border-yellow-500/30 bg-yellow-500/3 rounded-xl p-4 hover:border-yellow-400/50 transition-all group">
+                <div className="border border-primary/30 bg-primary/3 rounded-xl p-4 hover:border-primary/50 transition-all group">
                   <div className="flex items-start justify-between gap-3">
                     <div>
-                      <Badge className="text-xs bg-yellow-500/20 text-yellow-400 mb-1 animate-pulse">Awaiting Your Approval</Badge>
+                      <Badge className="text-xs bg-primary/20 text-primary mb-1 animate-pulse">Awaiting Your Approval</Badge>
                       <p className="font-semibold text-sm">{p.title}</p>
                       {p.estimated_revenue_impact && <p className="text-xs text-green-400 mt-0.5">💰 {p.estimated_revenue_impact}</p>}
                     </div>
@@ -204,7 +204,7 @@ export default function OfferEngine() {
                     <span className="text-green-400">Potential: {ot.potential}</span>
                     <span className="text-muted-foreground">Effort: {ot.effort}</span>
                     <span className="text-muted-foreground">Risk: {ot.risk}</span>
-                    {ot.approval_required && <span className="text-yellow-400 flex items-center gap-1"><AlertTriangle className="w-3 h-3" />Approval required</span>}
+                    {ot.approval_required && <span className="text-primary flex items-center gap-1"><AlertTriangle className="w-3 h-3" />Approval required</span>}
                   </div>
                 </div>
               </div>
@@ -216,7 +216,7 @@ export default function OfferEngine() {
           {proposals.map(p => (
             <Link key={p.id} to="/admin/revenue-actions">
               <div className="border border-border rounded-xl p-3 hover:border-primary/30 hover:bg-secondary/10 transition-all flex items-center gap-3 group">
-                <Badge className={`text-xs shrink-0 ${p.status === 'published' ? 'bg-green-500/20 text-green-400' : p.status === 'pending_approval' ? 'bg-yellow-500/20 text-yellow-400' : p.status === 'rejected' ? 'bg-red-500/20 text-red-400' : 'bg-secondary text-secondary-foreground'}`}>
+                <Badge className={`text-xs shrink-0 ${p.status === 'published' ? 'bg-green-500/20 text-green-400' : p.status === 'pending_approval' ? 'bg-primary/20 text-primary' : p.status === 'rejected' ? 'bg-red-500/20 text-red-400' : 'bg-secondary text-secondary-foreground'}`}>
                   {p.status?.replace(/_/g,' ')}
                 </Badge>
                 <span className="text-sm flex-1 truncate">{p.title}</span>

@@ -49,17 +49,9 @@ export default function FanReminders() {
         is_sent: false,
       });
 
-      // Alert Gannon straight away — fire-and-forget so the fan's
-      // confirmation is never blocked if the alert is slow or unavailable.
-      base44.functions.invoke('notifyFanReminderRegistration', {
-        data: {
-          email: form.email,
-          name: form.name,
-          reminder_type: selectedType,
-          remind_at: remindAt,
-          custom_message: form.customMessage,
-        },
-      }).catch(() => {});
+      // The Fan Reminder Registration workflow (entity trigger on this
+      // create) sends the Gmail alert and admin bell notification — no
+      // direct call here, or Gannon would get the alert twice.
 
       setStatus('done');
     } catch (e) {

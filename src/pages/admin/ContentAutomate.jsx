@@ -73,7 +73,7 @@ export default function ContentAutomate() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Viral Trends', value: viralOps.length, icon: TrendingUp, color: 'text-orange-400' },
-          { label: 'Drafts Pending', value: socialDrafts.length, icon: Clock, color: 'text-yellow-400' },
+          { label: 'Drafts Pending', value: socialDrafts.length, icon: Clock, color: 'text-primary' },
           { label: 'Awaiting Approval', value: approvals.length, icon: AlertCircle, color: 'text-red-400' },
           { label: 'Published', value: socialVideos.filter(v => v.status === 'published').length, icon: CheckCircle2, color: 'text-green-400' },
         ].map(s => (
@@ -111,7 +111,7 @@ export default function ContentAutomate() {
                     <p className="font-body text-xs text-muted-foreground mt-1">{op.recommended_angle}</p>
                     <div className="flex items-center gap-2 mt-2">
                       <Badge variant="outline" className="text-[10px]">{op.platform}</Badge>
-                      <Badge className={`text-[10px] ${op.competition_level === 'high' ? 'bg-red-500/10 text-red-400' : op.competition_level === 'medium' ? 'bg-yellow-500/10 text-yellow-400' : 'bg-green-500/10 text-green-400'}`}>
+                      <Badge className={`text-[10px] ${op.competition_level === 'high' ? 'bg-red-500/10 text-red-400' : op.competition_level === 'medium' ? 'bg-primary/10 text-primary' : 'bg-green-500/10 text-green-400'}`}>
                         {op.competition_level} competition
                       </Badge>
                     </div>
@@ -130,7 +130,7 @@ export default function ContentAutomate() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-yellow-400" />
+            <Clock className="w-4 h-4 text-primary" />
             Drafts Ready for Review ({socialDrafts.length})
           </CardTitle>
         </CardHeader>

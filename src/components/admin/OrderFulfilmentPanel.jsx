@@ -81,8 +81,8 @@ export default function OrderFulfilmentPanel({ order, onFulfilled }) {
                 <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                   {passed
                     ? <CheckCircle className="w-4 h-4" style={{ color: '#22c55e', flexShrink: 0 }} />
-                    : <AlertTriangle className="w-4 h-4" style={{ color: '#f59e0b', flexShrink: 0 }} />}
-                  <span style={{ fontSize: '13px', color: passed ? '#c9e9c9' : '#fbbf24' }}>
+                    : <AlertTriangle className="w-4 h-4" style={{ color: '#a9842c', flexShrink: 0 }} />}
+                  <span style={{ fontSize: '13px', color: passed ? '#c9e9c9' : '#d4af37' }}>
                     {CHECKLIST_LABELS[key] || key}
                   </span>
                 </div>

@@ -1,0 +1,42 @@
+{
+  "name": "Release Status Update \u2192 Fan Email",
+  "description": "Whenever an owner-approved release changes status, a premium fan email draft is prepared and staged for approval. Nothing sends until Gannon approves it in the Release Email Studio (/admin/release-email-studio), where he can also edit it first.",
+  "trigger": {
+    "config": {
+      "trigger_type": "entity",
+      "entity_name": "Release",
+      "events": [
+        "update"
+      ]
+    },
+    "condition": "${ .trigger.changed_fields | index(\"status\") != null and .trigger.data.publishing_safe == true and .trigger.data.public_release_approval_status == \"approved\" }"
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "release_status_email_draft",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "prepare_fan_email_draft": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "prepareReleaseEmailDraft",
+            "args": {
+              "release_id": "${ .trigger.entity_id }",
+              "new_status": "${ .trigger.data.status }",
+              "source": "status_change"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Prepare the fan email draft",
+            "description": "Draft lands in the email studio for approval"
+          }
+        }
+      }
+    ]
+  }
+}

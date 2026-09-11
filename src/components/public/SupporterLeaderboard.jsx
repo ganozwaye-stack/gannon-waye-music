@@ -13,7 +13,7 @@ const TIER_LABELS = {
 };
 
 const BADGE_COLORS = {
-  day_one: 'text-yellow-400',
+  day_one: 'text-primary',
   top_supporter: 'text-primary',
   inner_circle: 'text-purple-400',
   supporter: 'text-muted-foreground',

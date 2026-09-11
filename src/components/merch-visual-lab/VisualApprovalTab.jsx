@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 
 const STATUS_COLORS = {
   draft: 'bg-secondary text-muted-foreground',
-  awaiting_approval: 'bg-yellow-500/20 text-yellow-300',
+  awaiting_approval: 'bg-primary/20 text-primary',
   approved: 'bg-green-500/20 text-green-300',
   rejected: 'bg-red-500/20 text-red-300',
   published: 'bg-blue-500/20 text-blue-300',
@@ -43,9 +43,9 @@ export default function VisualApprovalTab() {
         </p>
       </div>
 
-      <div className="rounded-xl border border-yellow-500/30 bg-yellow-500/5 p-4">
+      <div className="rounded-xl border border-primary/30 bg-primary/5 p-4">
         <p className="text-xs text-muted-foreground">
-          <strong className="text-yellow-300">Auto-post is blocked.</strong> Approved compositions can be queued to Metricool or ContentPost only after Gannon explicitly approves each asset. No content goes live without this step.
+          <strong className="text-primary">Auto-post is blocked.</strong> Approved compositions can be queued to Metricool or ContentPost only after Gannon explicitly approves each asset. No content goes live without this step.
         </p>
       </div>
 

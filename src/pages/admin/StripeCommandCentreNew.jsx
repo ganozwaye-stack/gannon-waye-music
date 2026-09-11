@@ -25,7 +25,7 @@ const RECOMMENDED_EVENTS = [
 const severityColor = (s) => {
   if (s === 'critical') return 'bg-red-600/20 text-red-300';
   if (s === 'high') return 'bg-orange-500/20 text-orange-300';
-  if (s === 'warning') return 'bg-yellow-500/20 text-yellow-300';
+  if (s === 'warning') return 'bg-primary/20 text-primary';
   return 'bg-blue-500/20 text-blue-300';
 };
 
@@ -314,10 +314,10 @@ export default function StripeCommandCentreNew() {
                   ))}
                 </div>
               </div>
-              <div className="border border-yellow-500/30 bg-yellow-500/10 rounded p-3">
-                <p className="font-semibold text-yellow-300 mb-1">Step 3 — Save the Signing Secret</p>
+              <div className="border border-primary/30 bg-primary/10 rounded p-3">
+                <p className="font-semibold text-primary mb-1">Step 3 — Save the Signing Secret</p>
                 <p className="text-xs text-foreground/70">After creating the endpoint, Stripe shows a Signing secret starting with <code className="font-mono">whsec_</code>. Save it as:</p>
-                <p className="font-mono text-sm mt-2 text-yellow-200">STRIPE_WEBHOOK_SECRET</p>
+                <p className="font-mono text-sm mt-2 text-primary">STRIPE_WEBHOOK_SECRET</p>
                 <p className="text-xs text-muted-foreground mt-1">Go to Base44 → Settings → Environment Variables → add STRIPE_WEBHOOK_SECRET.</p>
               </div>
             </CardContent>

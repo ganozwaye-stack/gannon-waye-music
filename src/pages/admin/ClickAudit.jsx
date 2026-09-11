@@ -42,7 +42,7 @@ const ROUTE_AUDIT = [
 const STATUS_CONFIG = {
   working: { icon: CheckCircle2, color: '#22c55e', label: 'Working' },
   broken: { icon: XCircle, color: '#ef4444', label: 'Broken' },
-  partial: { icon: AlertTriangle, color: '#f59e0b', label: 'Partial' },
+  partial: { icon: AlertTriangle, color: '#a9842c', label: 'Partial' },
   'display-only': { icon: AlertTriangle, color: '#6b7280', label: 'Display Only' },
 };
 
@@ -75,7 +75,7 @@ export default function ClickAudit() {
         {[
           { label: 'Working', count: counts.working, color: '#22c55e' },
           { label: 'Broken', count: counts.broken, color: '#ef4444' },
-          { label: 'Partial', count: counts.partial, color: '#f59e0b' },
+          { label: 'Partial', count: counts.partial, color: '#a9842c' },
         ].map(s => (
           <div key={s.label} style={{ padding: '14px', borderRadius: '8px', background: 'rgba(255,255,255,0.03)', border: `1px solid ${s.color}33`, textAlign: 'center' }}>
             <p style={{ fontSize: '24px', fontWeight: 800, color: s.color }}>{s.count}</p>

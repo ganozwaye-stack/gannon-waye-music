@@ -10,7 +10,7 @@ const STATUS_LABELS = {
 };
 const STATUS_COLORS = {
   researching: 'bg-muted text-muted-foreground', contacted: 'bg-blue-500/15 text-blue-400',
-  quoted: 'bg-yellow-500/15 text-yellow-400', shortlisted: 'bg-purple-500/15 text-purple-400',
+  quoted: 'bg-primary/15 text-primary', shortlisted: 'bg-purple-500/15 text-purple-400',
   selected: 'bg-green-500/15 text-green-400', passed: 'bg-red-500/15 text-red-400',
 };
 
@@ -77,7 +77,7 @@ export default function ProducerDirectory() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <div className="border border-border/40 rounded-xl px-4 py-3 bg-card/30"><p className="text-[10px] uppercase text-muted-foreground">Total</p><p className="text-xl font-semibold">{producers.length}</p></div>
         <div className="border border-border/40 rounded-xl px-4 py-3 bg-card/30"><p className="text-[10px] uppercase text-muted-foreground">Shortlisted</p><p className="text-xl font-semibold text-purple-400">{producers.filter(p => p.status === 'shortlisted' || p.status === 'selected').length}</p></div>
-        <div className="border border-border/40 rounded-xl px-4 py-3 bg-card/30"><p className="text-[10px] uppercase text-muted-foreground">Quoted</p><p className="text-xl font-semibold text-yellow-400">{producers.filter(p => p.price_quote).length}</p></div>
+        <div className="border border-border/40 rounded-xl px-4 py-3 bg-card/30"><p className="text-[10px] uppercase text-muted-foreground">Quoted</p><p className="text-xl font-semibold text-primary">{producers.filter(p => p.price_quote).length}</p></div>
         <div className="border border-border/40 rounded-xl px-4 py-3 bg-card/30"><p className="text-[10px] uppercase text-muted-foreground">Avg Quote</p><p className="text-xl font-semibold">${avgQuote}</p></div>
       </div>
 
@@ -130,7 +130,7 @@ export default function ProducerDirectory() {
                   <h3 className="font-display text-lg text-foreground">{p.name}</h3>
                   <span className={`px-2 py-0.5 rounded text-[9px] uppercase tracking-wide font-medium ${STATUS_COLORS[p.status]}`}>{STATUS_LABELS[p.status]}</span>
                   {p.rating && (
-                    <span className="flex items-center gap-0.5 text-[10px] text-yellow-400">
+                    <span className="flex items-center gap-0.5 text-[10px] text-primary">
                       {Array.from({ length: 5 }).map((_, i) => <Star key={i} className={`w-3 h-3 ${i < p.rating ? 'fill-current' : 'opacity-30'}`} />)}
                     </span>
                   )}

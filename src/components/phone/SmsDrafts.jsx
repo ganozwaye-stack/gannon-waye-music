@@ -31,11 +31,11 @@ export default function SmsDrafts() {
 
   return (
     <div className="space-y-5">
-      <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-4 flex items-start gap-3">
-        <AlertTriangle className="w-4 h-4 text-yellow-400 shrink-0 mt-0.5" />
+      <div className="bg-primary/10 border border-primary/30 rounded-xl p-4 flex items-start gap-3">
+        <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <div>
-          <p className="font-body text-xs font-semibold text-yellow-300">Draft Only — No SMS Will Be Sent</p>
-          <p className="font-body text-xs text-yellow-200/60 mt-0.5">
+          <p className="font-body text-xs font-semibold text-primary">Draft Only — No SMS Will Be Sent</p>
+          <p className="font-body text-xs text-primary/60 mt-0.5">
             These are message templates for when the phone provider is active. No automatic SMS, no bulk SMS, no unsolicited contact.
             Every send requires your manual approval.
           </p>
@@ -54,7 +54,7 @@ export default function SmsDrafts() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-body text-[9px] uppercase tracking-wider text-yellow-400 bg-yellow-500/10 border border-yellow-500/30 rounded-full px-2.5 py-1">
+                <span className="font-body text-[9px] uppercase tracking-wider text-primary bg-primary/10 border border-primary/30 rounded-full px-2.5 py-1">
                   DRAFT
                 </span>
                 {editingId !== draft.id && (

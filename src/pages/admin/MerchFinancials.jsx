@@ -166,20 +166,20 @@ export default function MerchFinancials() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-amber-900/20 border border-amber-600/30 rounded-2xl p-5"
+          className="bg-primary/20 border border-primary/30 rounded-2xl p-5"
         >
           <div className="flex items-start gap-3">
-            <Zap className="w-5 h-5 text-amber-500 flex-shrink-0 mt-1" />
+            <Zap className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
             <div className="flex-1">
-              <p className="font-body text-sm font-semibold text-amber-100 mb-2">
+              <p className="font-body text-sm font-semibold text-primary mb-2">
                 {productsMissingCosts.length} Product{productsMissingCosts.length > 1 ? 's' : ''} Need Cost Data
               </p>
-              <p className="font-body text-xs text-amber-200/70 mb-3">
+              <p className="font-body text-xs text-primary/70 mb-3">
                 Click "Edit" on each product below to enter cost prices and delivery costs.
               </p>
               <div className="flex gap-2">
                 {bulkEditMode && (
-                  <Button size="sm" className="bg-amber-600 hover:bg-amber-700 text-white" onClick={() => {
+                  <Button size="sm" className="bg-primary hover:bg-primary text-white" onClick={() => {
                     const updates = productsMissingCosts.map(p => ({
                       id: p.id,
                       data: { cost_price: 20, delivery_cost: 8, merchant_fee_percent: 3.5 }
@@ -201,7 +201,7 @@ export default function MerchFinancials() {
           { label: 'Revenue', value: `$${storeTotals.totalRevenue.toFixed(2)}`, icon: DollarSign, color: 'text-primary' },
           { label: 'Costs', value: `$${storeTotals.totalCosts.toFixed(2)}`, icon: Package, color: 'text-red-500' },
           { label: 'Profit', value: `$${storeTotals.totalProfit.toFixed(2)}`, icon: TrendingUp, color: 'text-green-500' },
-          { label: 'Margin %', value: `${storeTotals.profitMarginPercent.toFixed(1)}%`, icon: Zap, color: 'text-yellow-500' },
+          { label: 'Margin %', value: `${storeTotals.profitMarginPercent.toFixed(1)}%`, icon: Zap, color: 'text-primary' },
           { label: 'Products', value: products.length, icon: Package, color: 'text-blue-500' },
         ].map((stat, i) => {
           const Icon = stat.icon;
@@ -241,7 +241,7 @@ export default function MerchFinancials() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.02 }}
           >
-            <Card className={product.missingCosts ? 'border-amber-600/30 bg-amber-900/10' : ''}>
+            <Card className={product.missingCosts ? 'border-primary/30 bg-primary/10' : ''}>
               <CardContent className="p-5">
                 <div className="grid grid-cols-1 md:grid-cols-7 gap-4 items-center">
                   {/* Product Info */}
@@ -281,7 +281,7 @@ export default function MerchFinancials() {
                     </div>
                     <div>
                       <p className="font-body text-[10px] text-muted-foreground uppercase tracking-wider">Margin %</p>
-                      <p className={`font-display text-lg ${product.profitMarginPercent >= 30 ? 'text-green-500' : product.profitMarginPercent >= 15 ? 'text-yellow-500' : 'text-red-500'}`}>
+                      <p className={`font-display text-lg ${product.profitMarginPercent >= 30 ? 'text-green-500' : product.profitMarginPercent >= 15 ? 'text-primary' : 'text-red-500'}`}>
                         {product.profitMarginPercent?.toFixed(1) || '—'}%
                       </p>
                     </div>
@@ -434,7 +434,7 @@ export default function MerchFinancials() {
                     <span>Margin %:</span>
                     <span className={
                       (selectedProduct.salePrice - (editForm.cost_price || 0) - (editForm.delivery_cost || 0) - (selectedProduct.salePrice * ((editForm.merchant_fee_percent || 3.5) / 100))) / selectedProduct.salePrice >= 0.3
-                        ? 'text-green-500' : 'text-yellow-500'
+                        ? 'text-green-500' : 'text-primary'
                     }>
                       {(((selectedProduct.salePrice - (editForm.cost_price || 0) - (editForm.delivery_cost || 0) - (selectedProduct.salePrice * ((editForm.merchant_fee_percent || 3.5) / 100))) / selectedProduct.salePrice) * 100).toFixed(1)}%
                     </span>

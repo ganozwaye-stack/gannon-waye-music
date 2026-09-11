@@ -21,7 +21,7 @@ const STEPS = [
   { id: 'final', label: 'Final Dashboard', icon: '🏁', desc: 'Full system status board', priority: 'info' },
 ];
 
-const priorityColor = { critical: 'bg-red-500/20 text-red-300 border-red-500/30', high: 'bg-amber-500/20 text-amber-300 border-amber-500/30', medium: 'bg-blue-500/20 text-blue-300 border-blue-500/30', info: 'bg-green-500/20 text-green-300 border-green-500/30' };
+const priorityColor = { critical: 'bg-red-500/20 text-red-300 border-red-500/30', high: 'bg-primary/20 text-primary border-primary/30', medium: 'bg-blue-500/20 text-blue-300 border-blue-500/30', info: 'bg-green-500/20 text-green-300 border-green-500/30' };
 
 export default function GuidedSetupConcierge() {
   const [activeStep, setActiveStep] = useState('stripe');
@@ -33,7 +33,7 @@ export default function GuidedSetupConcierge() {
     const s = stepStatus[id];
     if (s === 'complete') return <CheckCircle2 className="w-4 h-4 text-green-400" />;
     if (s === 'blocked') return <XCircle className="w-4 h-4 text-red-400" />;
-    if (s === 'partial') return <AlertTriangle className="w-4 h-4 text-amber-400" />;
+    if (s === 'partial') return <AlertTriangle className="w-4 h-4 text-primary" />;
     return <Circle className="w-4 h-4 text-muted-foreground" />;
   };
 

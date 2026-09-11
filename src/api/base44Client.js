@@ -71,6 +71,9 @@ if (isLocal || token === 'mock-admin-token') {
       images_array: [
         'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/e1954bbbf_RespectisEarnedThankyouDarkGreyHoodieFront.png',
         'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/fc46764a3_RespectisEarnedThankyouDarkGreyHoodieBack.jpg',
+        '/store-product-images/thankyou-respect-hoodie-front-promo.jpeg',
+        '/store-product-images/thankyou-respect-hoodie-back-promo.jpeg',
+        '/store-product-images/winter-writing-comfort-bundle-new-journal.jpeg',
       ],
     },
     {
@@ -101,6 +104,28 @@ if (isLocal || token === 'mock-admin-token') {
       images_array: [
         'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/18964f39a_BundleJournalPenThermos.png',
         'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/9aab98d2b_RIEBundleBox.png',
+        '/store-product-images/winter-writing-comfort-bundle-new-journal.jpeg',
+      ],
+    },
+    {
+      id: '6a9a945016c72a1e3c04935f',
+      name: 'Winter Writing & Comfort Bundle',
+      description: 'A complete comfort set with the Respect Is Earned hoodie, journal, matching pen and thermos. Choose the hoodie size before adding the set to your cart.',
+      sale_price: 119,
+      category: 'bundle',
+      stock_quantity: 14,
+      stock_by_variant: { S: 3, M: 4, L: 5, XL: 2 },
+      sizes_available: ['S', 'M', 'L', 'XL'],
+      inventory_source: 'owned_stock',
+      shipping_policy: 'customer_pays',
+      exclude_from_discounts: true,
+      is_stage_one_sale: true,
+      publication_status: 'live',
+      is_active: true,
+      image_url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/db6305989_gannon-waye-thankyou-giftbox-4-studio.jpg',
+      images_array: [
+        'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/db6305989_gannon-waye-thankyou-giftbox-4-studio.jpg',
+        '/store-product-images/winter-writing-comfort-bundle-new-journal.jpeg',
       ],
     },
   ];

@@ -87,7 +87,7 @@ const MODULES = [
   {
     id: 'finance',
     category: '💰 Finance & Business',
-    color: 'border-yellow-500/30',
+    color: 'border-primary/30',
     items: [
       { label: 'Financial Dashboard', path: '/admin/financials', desc: 'Revenue, profit, GST, monthly totals', icon: DollarSign, level: 'essential' },
       { label: 'Weekly Money Report', path: '/admin/weekly-money-report', desc: 'Auto-generated weekly income/expense summary with AI recommendations', icon: DollarSign, level: 'essential' },
@@ -200,10 +200,10 @@ export default function TrainingHub() {
       {/* Security Alerts */}
       <div className="space-y-2">
         {SECURITY_ALERTS.filter((_, i) => !dismissedAlerts[i]).map((alert, i) => (
-          <div key={i} className={`flex items-start gap-3 p-4 rounded-xl border ${alert.urgent ? 'border-red-500/40 bg-red-500/5' : 'border-yellow-500/30 bg-yellow-500/5'}`}>
-            <AlertTriangle className={`w-4 h-4 shrink-0 mt-0.5 ${alert.urgent ? 'text-red-400' : 'text-yellow-400'}`} />
+          <div key={i} className={`flex items-start gap-3 p-4 rounded-xl border ${alert.urgent ? 'border-red-500/40 bg-red-500/5' : 'border-primary/30 bg-primary/5'}`}>
+            <AlertTriangle className={`w-4 h-4 shrink-0 mt-0.5 ${alert.urgent ? 'text-red-400' : 'text-primary'}`} />
             <div className="flex-1 min-w-0">
-              <p className={`text-sm font-semibold ${alert.urgent ? 'text-red-300' : 'text-yellow-300'}`}>{alert.label}</p>
+              <p className={`text-sm font-semibold ${alert.urgent ? 'text-red-300' : 'text-primary'}`}>{alert.label}</p>
               <p className="text-xs text-muted-foreground mt-0.5">{alert.desc}</p>
               <a href={alert.link} target={alert.link.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer">
                 <Button size="sm" variant="outline" className="mt-2 text-xs gap-1">
@@ -221,7 +221,7 @@ export default function TrainingHub() {
         {[
           { label: 'Dashboard', path: '/admin', icon: Zap, color: 'text-primary' },
           { label: 'Notifications', path: '/admin/notifications', icon: AlertTriangle, color: 'text-red-400' },
-          { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield, color: 'text-yellow-400' },
+          { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield, color: 'text-primary' },
           { label: 'Orchestrator Chat', path: '/admin/orchestrator-chat', icon: Brain, color: 'text-cyan-400' },
         ].map(link => {
           const Icon = link.icon;

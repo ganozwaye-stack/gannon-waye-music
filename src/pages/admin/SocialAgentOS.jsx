@@ -15,7 +15,7 @@ import { toast } from 'sonner';
 const AGENTS = [
   { name: 'Social Orchestrator', role: 'Coordinates all social content, Metricool, approvals, assets, performance', icon: Layers, color: 'text-primary' },
   { name: 'Trend Research Agent', role: 'Researches TikTok, Instagram, YouTube Shorts, Threads trends in real-time', icon: TrendingUp, color: 'text-cyan-400' },
-  { name: 'Brand Voice Agent', role: 'Turns ideas into Gannon Waye style — emotional, cinematic, direct, human', icon: Star, color: 'text-yellow-400' },
+  { name: 'Brand Voice Agent', role: 'Turns ideas into Gannon Waye style — emotional, cinematic, direct, human', icon: Star, color: 'text-primary' },
   { name: 'Asset Matching Agent', role: 'Matches approved SocialAsset records to posts — never uses unapproved files', icon: Eye, color: 'text-blue-400' },
   { name: 'Metricool Scheduling Agent', role: 'Prepares schedule-ready posts — CANNOT schedule without ApprovalQueue approval', icon: Calendar, color: 'text-green-400' },
   { name: 'Content Quality Agent', role: 'Scores brand fit, viral potential, emotional connection, cringe risk, platform fit', icon: BarChart2, color: 'text-orange-400' },
@@ -120,7 +120,7 @@ export default function SocialAgentOS() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Drafts', value: drafts.length, color: 'text-muted-foreground' },
-          { label: 'Pending Approval', value: pendingApprovals.length, color: 'text-amber-400' },
+          { label: 'Pending Approval', value: pendingApprovals.length, color: 'text-primary' },
           { label: 'Approved', value: approvedPosts.length, color: 'text-green-400' },
           { label: 'Scheduled', value: scheduledPosts.length, color: 'text-blue-400' },
         ].map(s => (
@@ -132,17 +132,17 @@ export default function SocialAgentOS() {
       </div>
 
       {pendingApprovals.length > 0 && (
-        <Card className="border-amber-500/30 bg-amber-500/5">
+        <Card className="border-primary/30 bg-primary/5">
           <CardContent className="p-4 flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0" />
+              <AlertTriangle className="w-5 h-5 text-primary shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-amber-400">{pendingApprovals.length} posts awaiting your approval</p>
+                <p className="text-sm font-semibold text-primary">{pendingApprovals.length} posts awaiting your approval</p>
                 <p className="text-xs text-muted-foreground">Nothing schedules to Metricool without your sign-off</p>
               </div>
             </div>
             <Link to="/admin/approval-queue">
-              <Button size="sm" variant="outline" className="border-amber-500/40 text-amber-400 gap-1">
+              <Button size="sm" variant="outline" className="border-primary/40 text-primary gap-1">
                 <ChevronRight className="w-3 h-3" /> Review
               </Button>
             </Link>
@@ -161,7 +161,7 @@ export default function SocialAgentOS() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-1">
                     <Badge className={`text-[10px] ${PLATFORM_COLORS[p.platform] || 'bg-secondary'}`}>{p.platform}</Badge>
-                    <Badge variant="outline" className="text-[10px] text-amber-400">{p.status}</Badge>
+                    <Badge variant="outline" className="text-[10px] text-primary">{p.status}</Badge>
                   </div>
                   <p className="text-sm font-medium mb-1">{p.hook || '(no hook)'}</p>
                   <p className="text-xs text-muted-foreground line-clamp-2">{p.caption}</p>

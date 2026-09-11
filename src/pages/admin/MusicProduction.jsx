@@ -11,7 +11,7 @@ const STATUS_LABELS = {
 const STATUS_COLORS = {
   idea: 'bg-muted text-muted-foreground', demo: 'bg-blue-500/15 text-blue-400',
   arranging: 'bg-purple-500/15 text-purple-400', recording: 'bg-orange-500/15 text-orange-400',
-  mixing: 'bg-yellow-500/15 text-yellow-400', mastering: 'bg-amber-500/15 text-amber-400',
+  mixing: 'bg-primary/15 text-primary', mastering: 'bg-primary/15 text-primary',
   ready: 'bg-green-500/15 text-green-400', released: 'bg-primary/15 text-primary',
 };
 

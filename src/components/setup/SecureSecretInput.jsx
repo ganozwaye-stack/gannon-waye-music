@@ -75,7 +75,7 @@ export default function SecureSecretInput({ label, secretName, placeholder = '�
         </Button>
       </div>
       {error && (
-        <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 text-xs text-amber-300">
+        <div className="bg-primary/10 border border-primary/30 rounded-lg p-3 text-xs text-primary">
           ⚠️ {error}
           <div className="mt-2 font-mono text-xs bg-secondary/50 rounded p-2">
             Secret name: <strong>{secretName}</strong>

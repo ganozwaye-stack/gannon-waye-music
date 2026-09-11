@@ -33,7 +33,7 @@ const RULE_COLORS = {
   publishing: 'bg-blue-500/10 text-blue-400',
   social: 'bg-purple-500/10 text-purple-400',
   moderation: 'bg-red-500/10 text-red-400',
-  learning: 'bg-amber-500/10 text-amber-400',
+  learning: 'bg-primary/10 text-primary',
   governance: 'bg-cyan-500/10 text-cyan-400',
   legal: 'bg-orange-500/10 text-orange-400',
   data: 'bg-rose-500/10 text-rose-400',
@@ -52,7 +52,7 @@ const BOT_WORKFLOW = [
     desc: 'AI categorises every input: is this general, important, a risk, an opportunity, or a threat?',
   },
   {
-    step: 3, label: 'Risk Check', icon: Shield, color: 'text-yellow-400',
+    step: 3, label: 'Risk Check', icon: Shield, color: 'text-primary',
     desc: 'Do-Not-Spend rule enforced: could this cost money, create legal risk, or damage reputation?',
   },
   {
@@ -60,7 +60,7 @@ const BOT_WORKFLOW = [
     desc: 'Low-risk → auto-handle and log. High-risk → pause, create ApprovalQueue entry, notify Gannon',
   },
   {
-    step: 5, label: 'Learn & Log', icon: BookOpen, color: 'text-amber-400',
+    step: 5, label: 'Learn & Log', icon: BookOpen, color: 'text-primary',
     desc: 'Every action is logged to AgentTaskLog. Research findings saved to Knowledge Vault automatically',
   },
 ];
@@ -180,15 +180,15 @@ Revenue potential: [how this converts to sales/fans]`,
 
       {/* Status Strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Card className="border-amber-500/20">
+        <Card className="border-primary/20">
           <CardContent className="p-3 flex items-center gap-3">
-            <AlertTriangle className="w-5 h-5 text-amber-400" />
+            <AlertTriangle className="w-5 h-5 text-primary" />
             <div><p className="text-xl font-bold">{openAlerts.length}</p><p className="text-xs text-muted-foreground">Open Alerts</p></div>
           </CardContent>
         </Card>
-        <Card className="border-yellow-500/20">
+        <Card className="border-primary/20">
           <CardContent className="p-3 flex items-center gap-3">
-            <Clock className="w-5 h-5 text-yellow-400" />
+            <Clock className="w-5 h-5 text-primary" />
             <div><p className="text-xl font-bold">{pendingApprovals.length}</p><p className="text-xs text-muted-foreground">Pending Approvals</p></div>
           </CardContent>
         </Card>
@@ -225,7 +225,7 @@ Revenue potential: [how this converts to sales/fans]`,
               </h3>
               <div className="space-y-2">
                 {openAlerts.map(a => (
-                  <Card key={a.id} className={`border ${a.severity === 'critical' ? 'border-red-500/30' : a.severity === 'high' ? 'border-orange-500/30' : 'border-yellow-500/20'}`}>
+                  <Card key={a.id} className={`border ${a.severity === 'critical' ? 'border-red-500/30' : a.severity === 'high' ? 'border-orange-500/30' : 'border-primary/20'}`}>
                     <CardContent className="p-3 flex items-start gap-3">
                       <AlertTriangle className={`w-4 h-4 shrink-0 mt-0.5 ${a.severity === 'critical' ? 'text-red-400' : 'text-orange-400'}`} />
                       <div className="flex-1">
@@ -248,11 +248,11 @@ Revenue potential: [how this converts to sales/fans]`,
           {pendingApprovals.length > 0 && (
             <div>
               <h3 className="text-sm font-semibold mb-2 flex items-center gap-2">
-                <Clock className="w-4 h-4 text-yellow-400" /> Pending Approvals
+                <Clock className="w-4 h-4 text-primary" /> Pending Approvals
               </h3>
               <div className="space-y-2">
                 {pendingApprovals.map(item => (
-                  <Card key={item.id} className="border-yellow-500/20">
+                  <Card key={item.id} className="border-primary/20">
                     <CardContent className="p-3">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1">
@@ -377,7 +377,7 @@ Revenue potential: [how this converts to sales/fans]`,
                     <p className="text-xs text-muted-foreground">{log.agent_name} · {log.outcome}</p>
                   </div>
                   <div className="flex gap-1 shrink-0">
-                    <Badge className={log.was_automatic ? 'bg-green-500/10 text-green-400 text-xs' : 'bg-yellow-500/10 text-yellow-400 text-xs'}>
+                    <Badge className={log.was_automatic ? 'bg-green-500/10 text-green-400 text-xs' : 'bg-primary/10 text-primary text-xs'}>
                       {log.was_automatic ? 'Auto' : 'Manual'}
                     </Badge>
                     <Badge className={`text-xs ${log.risk_check_result === 'pass' ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>

@@ -7,7 +7,7 @@ import { AlertTriangle, CheckCircle2, Clock, XCircle, ExternalLink, Shield, Zap,
 const STATUS_CONFIG = {
   'Complete': { color: 'bg-green-500/10 text-green-300 border-green-500/30', icon: CheckCircle2 },
   'Live-tested complete': { color: 'bg-green-500/10 text-green-300 border-green-500/30', icon: CheckCircle2 },
-  'Built but untested': { color: 'bg-yellow-500/10 text-yellow-300 border-yellow-500/30', icon: Clock },
+  'Built but untested': { color: 'bg-primary/10 text-primary border-primary/30', icon: Clock },
   'Blocked by external login': { color: 'bg-orange-500/10 text-orange-300 border-orange-500/30', icon: AlertTriangle },
   'Blocked by secret rotation': { color: 'bg-red-500/10 text-red-400 border-red-500/30', icon: AlertTriangle },
   'Blocked by Gannon approval': { color: 'bg-blue-500/10 text-blue-300 border-blue-500/30', icon: Shield },
@@ -75,7 +75,7 @@ const SECTIONS = [
   {
     title: '✅ ApprovalQueue Auto-Action Proof',
     icon: Shield,
-    iconColor: 'text-yellow-400',
+    iconColor: 'text-primary',
     items: [
       { label: 'Test ApprovalQueue item exists', status: 'Live-tested complete', detail: 'LIVE-TESTED — proofApprovalChain created a real test proposal, approved it, and confirmed BundleOffer was created.' },
       { label: 'publishApprovedProposal function works', status: 'Live-tested complete', detail: 'LIVE-TESTED — BundleOffer created and confirmed in proofApprovalChain test run.' },
@@ -174,7 +174,7 @@ export default function FinalSystemStatus() {
         </Card>
         <Card>
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-yellow-400">{untestedCount}</p>
+            <p className="text-2xl font-bold text-primary">{untestedCount}</p>
             <p className="text-xs text-muted-foreground">Built but untested</p>
           </CardContent>
         </Card>
@@ -237,7 +237,7 @@ export default function FinalSystemStatus() {
                 const Icon = cfg.icon;
                 return (
                   <div key={i} className="flex items-start gap-3 p-2 rounded-lg hover:bg-secondary/20">
-                    <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${item.status.includes('Complete') ? 'text-green-400' : item.status.includes('Blocked') ? 'text-orange-400' : 'text-yellow-400'}`} />
+                    <Icon className={`w-4 h-4 shrink-0 mt-0.5 ${item.status.includes('Complete') ? 'text-green-400' : item.status.includes('Blocked') ? 'text-orange-400' : 'text-primary'}`} />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-sm">{item.label}</span>

@@ -37,7 +37,7 @@ export default function AutomationAgentsHub() {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="bg-secondary/40 border border-border/40 grid grid-cols-2 md:grid-cols-4 gap-1.5 p-1 h-auto">
           <TabsTrigger value="registry" className="text-xs py-2"><Brain className="w-3.5 h-3.5 mr-1 text-primary" /> Agent Registry</TabsTrigger>
-          <TabsTrigger value="message-bus" className="text-xs py-2"><Network className="w-3.5 h-3.5 mr-1 text-yellow-400" /> Message Bus</TabsTrigger>
+          <TabsTrigger value="message-bus" className="text-xs py-2"><Network className="w-3.5 h-3.5 mr-1 text-primary" /> Message Bus</TabsTrigger>
           <TabsTrigger value="vault" className="text-xs py-2"><Database className="w-3.5 h-3.5 mr-1 text-green-400" /> Knowledge Vault</TabsTrigger>
           <TabsTrigger value="quick-links" className="text-xs py-2"><Send className="w-3.5 h-3.5 mr-1" /> Quick Links</TabsTrigger>
         </TabsList>
@@ -74,7 +74,7 @@ export default function AutomationAgentsHub() {
           <Card className="border-border/40">
             <CardHeader>
               <CardTitle className="font-display text-lg text-white flex items-center gap-2">
-                <Terminal className="w-5 h-5 text-yellow-400" /> Agent Message Bus Logs
+                <Terminal className="w-5 h-5 text-primary" /> Agent Message Bus Logs
               </CardTitle>
               <CardDescription className="text-xs">Incoming event-driven logs indicating broker messaging routing actions.</CardDescription>
             </CardHeader>
@@ -84,7 +84,7 @@ export default function AutomationAgentsHub() {
                 <p className="text-blue-400">[2026-06-03 23:12:02] [Orchestrator] Dispatched tasks to Merch Sales Agent and Email Agent.</p>
                 <p className="text-green-400">[2026-06-03 23:12:05] [Email Agent] Drafted WELCOME_NEWSLETTER for recipient.</p>
                 <p className="text-green-400">[2026-06-03 23:15:30] [Broker] Event METRICOOL_QUEUE_SYNC dispatched. 0 items failed.</p>
-                <p className="text-yellow-400">[2026-06-03 23:20:00] [Broker] Scheduled cron check: Expired eBay listings sync. Completed with status: OK.</p>
+                <p className="text-primary">[2026-06-03 23:20:00] [Broker] Scheduled cron check: Expired eBay listings sync. Completed with status: OK.</p>
               </div>
             </CardContent>
           </Card>

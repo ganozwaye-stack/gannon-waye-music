@@ -31,7 +31,7 @@ export default function SetupAIKeysFlow({ onComplete, onBlocked }) {
         <div className="flex items-center gap-2 mb-1">
           <span className="text-xl">🤖</span>
           <h2 className="font-semibold text-lg">AI Model Keys + Cost Controls</h2>
-          <Badge className="ml-auto bg-amber-500/20 text-amber-300 border-amber-500/30">High Priority</Badge>
+          <Badge className="ml-auto bg-primary/20 text-primary border-primary/30">High Priority</Badge>
         </div>
         <p className="text-sm text-muted-foreground">Cost controls must be set before keys are entered. Base44 InvokeLLM fallback is always available.</p>
       </div>
@@ -127,7 +127,7 @@ function StatusRow({ label, value, ok }) {
   return (
     <div className="flex items-center justify-between py-1 border-b border-border">
       <span className="text-muted-foreground">{label}</span>
-      <Badge className={`text-xs border ${ok ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-amber-500/20 text-amber-300 border-amber-500/30'}`}>{value}</Badge>
+      <Badge className={`text-xs border ${ok ? 'bg-green-500/20 text-green-300 border-green-500/30' : 'bg-primary/20 text-primary border-primary/30'}`}>{value}</Badge>
     </div>
   );
 }

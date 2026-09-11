@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 const STATUS_CONFIG = {
   not_started: { label: 'Not Started', color: 'bg-secondary/30', icon: Clock, text: 'Awaiting initial engagement' },
   in_progress: { label: 'In Progress', color: 'bg-blue-900/20', icon: Clock, text: 'User working on requirements' },
-  all_requirements_met: { label: 'Requirements Met', color: 'bg-amber-900/20', icon: Zap, text: 'Proof submitted, awaiting verification' },
+  all_requirements_met: { label: 'Requirements Met', color: 'bg-primary/20', icon: Zap, text: 'Proof submitted, awaiting verification' },
   gift_sent: { label: 'Gift Sent', color: 'bg-green-900/20', icon: CheckCircle2, text: 'Gift shipped to user' },
 };
 
@@ -117,14 +117,14 @@ export default function GiftVerification() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.05 }}
-                className="bg-card border border-amber-600/30 rounded-2xl p-5 space-y-4"
+                className="bg-card border border-primary/30 rounded-2xl p-5 space-y-4"
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-display text-lg text-foreground">{tracker.subscriber_name}</p>
                     <p className="font-body text-sm text-muted-foreground">{tracker.subscriber_email}</p>
                   </div>
-                  <Badge className="bg-amber-900/30 text-amber-100">Proof Submitted</Badge>
+                  <Badge className="bg-primary/30 text-primary">Proof Submitted</Badge>
                 </div>
 
                 {tracker.screenshot_submitted && (

@@ -13,7 +13,7 @@ test.describe('Permanent boutique world and verified store', () => {
 
     const world = page.locator('[data-testid="locked-storefront-world"]');
     await expect(world).toBeVisible();
-    await expect(world).toHaveAttribute('data-storefront-lock-id', 'gannon-waye-boutique-world-v1');
+    await expect(world).toHaveAttribute('data-storefront-lock-id', STOREFRONT_ART_LOCK.lockId);
 
     const image = page.locator('[data-testid="locked-storefront-world-image"]');
     await expect(image).toBeVisible();

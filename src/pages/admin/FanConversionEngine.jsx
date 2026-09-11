@@ -11,7 +11,7 @@ const CONVERSION_LADDER = [
   { stage: 3, label: 'Community Member', desc: 'Engaged with posts, left a comment', action: 'Personal reply from Gannon + featured in community', route: '/admin/fans', color: 'text-cyan-400' },
   { stage: 4, label: 'First-Time Buyer', desc: 'Purchased one merch item', action: 'Thank-you note + introduce supporter tiers', route: '/admin/orders', color: 'text-green-400' },
   { stage: 5, label: 'Repeat Buyer', desc: 'Purchased 2+ items', action: 'VIP early access + bundle offer', route: '/admin/orders', color: 'text-primary' },
-  { stage: 6, label: 'Supporter / Backer', desc: 'Made a direct contribution', action: 'Personal acknowledgement + exclusive content', route: '/admin/supporters', color: 'text-yellow-400' },
+  { stage: 6, label: 'Supporter / Backer', desc: 'Made a direct contribution', action: 'Personal acknowledgement + exclusive content', route: '/admin/supporters', color: 'text-primary' },
   { stage: 7, label: 'Superfan', desc: 'Highest engagement + spend', action: 'Direct relationship + VIP access + advisory input', route: '/admin/fans', color: 'text-orange-400' },
 ];
 
@@ -29,7 +29,7 @@ const RETENTION_STRATEGIES = [
 ];
 
 function UrgencyBadge({ urgency }) {
-  const c = urgency === 'High' ? 'bg-red-500/20 text-red-300' : urgency === 'Medium' ? 'bg-yellow-500/20 text-yellow-300' : 'bg-secondary text-muted-foreground';
+  const c = urgency === 'High' ? 'bg-red-500/20 text-red-300' : urgency === 'Medium' ? 'bg-primary/20 text-primary' : 'bg-secondary text-muted-foreground';
   return <Badge className={`text-xs ${c}`}>{urgency}</Badge>;
 }
 
@@ -58,7 +58,7 @@ export default function FanConversionEngine() {
           { label: 'Email Subscribers', value: subscribers.length, color: 'text-blue-400', route: '/admin/subscribers' },
           { label: 'Unique Buyers', value: uniqueBuyers, color: 'text-green-400', route: '/admin/orders' },
           { label: 'Repeat Buyers', value: repeatBuyers, color: 'text-primary', route: '/admin/orders' },
-          { label: 'Supporters', value: supporters.length, color: 'text-yellow-400', route: '/admin/supporters' },
+          { label: 'Supporters', value: supporters.length, color: 'text-primary', route: '/admin/supporters' },
         ].map(({ label, value, color, route }) => (
           <Link key={label} to={route}>
             <Card className="hover:border-primary/40 cursor-pointer">

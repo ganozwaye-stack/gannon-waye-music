@@ -12,7 +12,7 @@ const STATUS_COLORS = {
   new: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   triaged: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
   assigned: 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30',
-  in_progress: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+  in_progress: 'bg-primary/20 text-primary border-primary/30',
   awaiting_approval: 'bg-orange-500/20 text-orange-300 border-orange-500/30',
   blocked: 'bg-red-500/20 text-red-300 border-red-500/30',
   resolved: 'bg-green-500/20 text-green-300 border-green-500/30',
@@ -21,7 +21,7 @@ const STATUS_COLORS = {
 
 const PRIORITY_COLORS = {
   critical: 'bg-red-500/20 text-red-300 border-red-500/30',
-  high: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+  high: 'bg-primary/20 text-primary border-primary/30',
   medium: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   low: 'bg-secondary text-muted-foreground border-border',
 };
@@ -78,7 +78,7 @@ export default function AgentMessageBus() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Total', count: messages.length, color: 'text-foreground' },
-          { label: 'Active', count: messages.filter(m => !['resolved','failed'].includes(m.status)).length, color: 'text-amber-400' },
+          { label: 'Active', count: messages.filter(m => !['resolved','failed'].includes(m.status)).length, color: 'text-primary' },
           { label: 'Critical', count: messages.filter(m => m.priority === 'critical').length, color: 'text-red-400' },
           { label: 'Awaiting Approval', count: byStatus.awaiting_approval || 0, color: 'text-orange-400' },
         ].map(({ label, count, color }) => (

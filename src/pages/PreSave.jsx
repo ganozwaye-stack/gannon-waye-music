@@ -65,6 +65,20 @@ export default function PreSave() {
           </Button>
         </div>
 
+        {/* Current release presave — switches to each new release as it is scheduled. */}
+        <div className="rounded-2xl border border-primary/30 bg-primary/5 p-5 md:p-6 mt-6">
+          <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary/80 mb-2">
+            Current release — pre-save now
+          </p>
+          <p className="font-display text-xl text-foreground mb-1">Set Free</p>
+          <p className="font-body text-xs text-muted-foreground mb-4">Out 25 September 2026</p>
+          <a href="https://too.fm/setfree_gannonwaye" target="_blank" rel="noopener noreferrer">
+            <Button className="rounded-full gradient-gold-button border-0 px-7">
+              Pre-save Set Free on Too Lost
+            </Button>
+          </a>
+        </div>
+
         <p className="font-body text-[11px] text-muted-foreground/70 mt-6">
           Distributor presave buttons for the current release appear here as soon as each
           link is verified — the permanent URL itself never needs updating.

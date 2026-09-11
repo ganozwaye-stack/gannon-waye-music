@@ -27,8 +27,8 @@ function StatusPill({ status }) {
     reachable:    'bg-blue-500/15 text-blue-400 border-blue-500/30',
     failed:       'bg-red-500/15 text-red-400 border-red-500/30',
     auth_failed:  'bg-red-500/15 text-red-400 border-red-500/30',
-    missing:      'bg-amber-500/15 text-amber-400 border-amber-500/30',
-    needs_confirmation: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
+    missing:      'bg-primary/15 text-primary border-primary/30',
+    needs_confirmation: 'bg-primary/15 text-primary border-primary/30',
     untested:     'bg-secondary text-muted-foreground border-border/40',
     optional:     'bg-secondary text-muted-foreground border-border/40',
     unauthorized: 'bg-orange-500/15 text-orange-400 border-orange-500/30',
@@ -218,7 +218,7 @@ export default function MetricoolApiSetup() {
               <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg text-xs font-body space-y-1">
                 <p className="text-green-400 font-semibold">Profile selected: {selectedProfile.name || selectedProfile.blogName}</p>
                 <p className="text-muted-foreground">Blog ID to save: <code className="text-primary">{selectedProfile.blogId}</code></p>
-                <p className="text-amber-400 mt-1">To activate: Update METRICOOL_BLOG_ID secret in Base44 → Settings → Secrets with this value.</p>
+                <p className="text-primary mt-1">To activate: Update METRICOOL_BLOG_ID secret in Base44 → Settings → Secrets with this value.</p>
               </div>
             )}
           </CardContent>
@@ -229,7 +229,7 @@ export default function MetricoolApiSetup() {
       {diag && diag.tests && (
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-amber-400" /> Endpoint Test Details</CardTitle>
+            <CardTitle className="text-sm flex items-center gap-2"><AlertTriangle className="w-4 h-4 text-primary" /> Endpoint Test Details</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-2 text-xs font-body">

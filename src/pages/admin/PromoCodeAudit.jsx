@@ -94,16 +94,16 @@ export default function PromoCodeAudit() {
       </div>
 
       {/* Live Customer-Facing Code Clarity */}
-      <Card className="border-amber-500/30 bg-amber-500/5">
+      <Card className="border-primary/30 bg-primary/5">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm flex items-center gap-2 text-amber-400">
+          <CardTitle className="text-sm flex items-center gap-2 text-primary">
             <AlertTriangle className="w-4 h-4" /> Important: Friendly codes like THANKYOU15 / FAMILYFRIENDS30 are NOT active
           </CardTitle>
         </CardHeader>
         <CardContent className="text-xs text-muted-foreground space-y-2">
-          <p>The current live codes use deliberately complex strings (e.g. <code className="font-mono bg-secondary/40 px-1 rounded">F20UN26DVIP</code>, <code className="font-mono bg-secondary/40 px-1 rounded">F30MOM26A</code>) to prevent guessing. Codes like <code className="font-mono bg-secondary/40 px-1 rounded">THANKYOU15</code>, <code className="font-mono bg-secondary/40 px-1 rounded">FAMILYFRIENDS30</code>, <code className="font-mono bg-secondary/40 px-1 rounded">GIFTAPPROVED25</code>, <code className="font-mono bg-secondary/40 px-1 rounded">FRIENDS30</code> are <strong className="text-amber-400">not in the database</strong> — they will return "Code not found" if a customer tries them.</p>
+          <p>The current live codes use deliberately complex strings (e.g. <code className="font-mono bg-secondary/40 px-1 rounded">F20UN26DVIP</code>, <code className="font-mono bg-secondary/40 px-1 rounded">F30MOM26A</code>) to prevent guessing. Codes like <code className="font-mono bg-secondary/40 px-1 rounded">THANKYOU15</code>, <code className="font-mono bg-secondary/40 px-1 rounded">FAMILYFRIENDS30</code>, <code className="font-mono bg-secondary/40 px-1 rounded">GIFTAPPROVED25</code>, <code className="font-mono bg-secondary/40 px-1 rounded">FRIENDS30</code> are <strong className="text-primary">not in the database</strong> — they will return "Code not found" if a customer tries them.</p>
           <p>If you want to give those friendly codes to fans/family, create them below using the <strong>New Code</strong> button with the exact string you want customers to type. The <strong>Description</strong> field is your internal note about who the code is for.</p>
-          <p className="text-amber-400 font-semibold">Current live codes and their intended audience are shown in the table below under "Description".</p>
+          <p className="text-primary font-semibold">Current live codes and their intended audience are shown in the table below under "Description".</p>
         </CardContent>
       </Card>
 
@@ -128,7 +128,7 @@ export default function PromoCodeAudit() {
         <AuditStatCard label="Total Codes" value={codes.length} icon={Tag} color="text-blue-400" bg="bg-blue-500/10" />
         <AuditStatCard label="Active" value={codes.filter(c => c.is_active).length} icon={CheckCircle2} color="text-green-400" bg="bg-green-500/10" />
         <AuditStatCard label="Expired But Active" value={expiredButActive.length} icon={AlertTriangle} color="text-red-400" bg="bg-red-500/10" urgent />
-        <AuditStatCard label="100% Discount" value={oneHundredPercent.length} icon={DollarSign} color="text-amber-400" bg="bg-amber-500/10" urgent />
+        <AuditStatCard label="100% Discount" value={oneHundredPercent.length} icon={DollarSign} color="text-primary" bg="bg-primary/10" urgent />
         <AuditStatCard label="No Expiry" value={noExpiry.length} icon={Calendar} color="text-purple-400" bg="bg-purple-500/10" />
       </div>
 
@@ -155,15 +155,15 @@ export default function PromoCodeAudit() {
       )}
 
       {oneHundredPercent.length > 0 && (
-        <Card className="border-amber-500/30 bg-amber-500/5">
+        <Card className="border-primary/30 bg-primary/5">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2 text-amber-400">
+            <CardTitle className="text-base flex items-center gap-2 text-primary">
               <DollarSign className="w-4 h-4" /> 100% Discount Codes (Revenue Risk)
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             {oneHundredPercent.map(c => (
-              <div key={c.id} className="flex items-center justify-between border border-amber-500/20 rounded-lg p-3">
+              <div key={c.id} className="flex items-center justify-between border border-primary/20 rounded-lg p-3">
                 <div>
                   <p className="font-semibold text-sm">{c.code}</p>
                   <p className="text-xs text-muted-foreground">Uses: {c.times_used || 0}{c.max_uses ? ` / ${c.max_uses}` : ''}</p>

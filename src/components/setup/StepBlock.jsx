@@ -4,7 +4,7 @@ const statusConfig = {
   active: { icon: <Circle className="w-5 h-5 text-primary" />, border: 'border-primary/40', bg: 'bg-primary/5' },
   done: { icon: <CheckCircle2 className="w-5 h-5 text-green-400" />, border: 'border-green-500/30', bg: 'bg-green-500/5' },
   error: { icon: <XCircle className="w-5 h-5 text-red-400" />, border: 'border-red-500/30', bg: 'bg-red-500/5' },
-  waiting: { icon: <Clock className="w-5 h-5 text-amber-400" />, border: 'border-amber-500/30', bg: 'bg-amber-500/5' },
+  waiting: { icon: <Clock className="w-5 h-5 text-primary" />, border: 'border-primary/30', bg: 'bg-primary/5' },
   skipped: { icon: <AlertTriangle className="w-5 h-5 text-muted-foreground" />, border: 'border-border', bg: 'bg-muted/20' },
 };
 

@@ -47,7 +47,7 @@ export default function ReleasePromoCommand() {
         <SummaryCard label="Total Videos" value={totalContent.videos} icon={Video} color="text-red-400" bg="bg-red-500/10" />
         <SummaryCard label="Total Stories" value={totalContent.stories} icon={Image} color="text-blue-400" bg="bg-blue-500/10" />
         <SummaryCard label="Community CTAs" value={totalContent.communityCTAs} icon={Heart} color="text-green-400" bg="bg-green-500/10" />
-        <SummaryCard label="Merch CTAs" value={totalContent.merchCTAs} icon={ShoppingBag} color="text-amber-400" bg="bg-amber-500/10" />
+        <SummaryCard label="Merch CTAs" value={totalContent.merchCTAs} icon={ShoppingBag} color="text-primary" bg="bg-primary/10" />
       </div>
 
       {/* Campaign Timeline */}

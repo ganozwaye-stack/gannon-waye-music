@@ -9,7 +9,7 @@ import { Plus, Check, Trash2, Loader2, ListTodo, ChevronDown, ArrowUpRight, Cale
 
 const PRIORITY_STYLE = {
   critical: 'bg-red-500/15 text-red-400 border-red-500/30',
-  high: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
+  high: 'bg-primary/15 text-primary border-primary/30',
   medium: 'bg-primary/15 text-primary border-primary/30',
   low: 'bg-secondary text-muted-foreground border-border/40',
 };

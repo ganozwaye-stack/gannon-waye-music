@@ -228,7 +228,7 @@ export default function TikTokRecordingStudio() {
         <CardHeader className="pb-2">
           <CardTitle className="text-sm flex items-center justify-between">
             <span>Pre-Recording Readiness</span>
-            <Badge className={readyCount >= READINESS.length * 0.8 ? 'bg-green-500/20 text-green-300' : 'bg-yellow-500/20 text-yellow-300'}>
+            <Badge className={readyCount >= READINESS.length * 0.8 ? 'bg-green-500/20 text-green-300' : 'bg-primary/20 text-primary'}>
               {readyCount}/{READINESS.length}
             </Badge>
           </CardTitle>
@@ -273,12 +273,12 @@ export default function TikTokRecordingStudio() {
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                   <span className="font-mono text-lg text-red-400">{fmtTime(elapsed)}</span>
-                  {paused && <Badge variant="outline" className="text-yellow-300">Paused</Badge>}
+                  {paused && <Badge variant="outline" className="text-primary">Paused</Badge>}
                 </div>
               )}
             </div>
             {elapsed > 240 && recording && (
-              <p className="text-xs text-yellow-300">⚠ Recording is over 4 minutes. TikTok demo videos should be 2–5 minutes.</p>
+              <p className="text-xs text-primary">⚠ Recording is over 4 minutes. TikTok demo videos should be 2–5 minutes.</p>
             )}
           </CardContent>
         </Card>
@@ -353,7 +353,7 @@ export default function TikTokRecordingStudio() {
               </div>
             </div>
             {recordedBlob.mime.includes('webm') && (
-              <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 text-xs text-yellow-300">
+              <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 text-xs text-primary">
                 <p className="font-semibold mb-1">⚠ Format Note</p>
                 <p>Your browser saved this as WEBM. Convert to MP4 before uploading to TikTok if required.</p>
                 <p className="mt-1 text-muted-foreground">Use: CapCut, HandBrake, CloudConvert, or QuickTime (File → Export → MP4)</p>

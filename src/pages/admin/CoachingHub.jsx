@@ -62,8 +62,8 @@ export default function CoachingHub() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-8">
         {[
-          { label: 'New Leads', value: newLeads, color: newLeads > 0 ? 'text-yellow-400' : 'text-foreground' },
-          { label: 'New Intakes', value: newIntakes, color: newIntakes > 0 ? 'text-yellow-400' : 'text-foreground' },
+          { label: 'New Leads', value: newLeads, color: newLeads > 0 ? 'text-primary' : 'text-foreground' },
+          { label: 'New Intakes', value: newIntakes, color: newIntakes > 0 ? 'text-primary' : 'text-foreground' },
           { label: 'Active Clients', value: activeClients, color: 'text-green-400' },
         ].map(stat => (
           <div key={stat.label} className="bg-card/50 border border-border/40 rounded-xl p-4 text-center">
@@ -75,14 +75,14 @@ export default function CoachingHub() {
 
       {/* Human actions required */}
       <div className="mb-8">
-        <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-5">
-          <p className="font-body text-xs font-semibold text-yellow-400 flex items-center gap-2 mb-3">
+        <div className="bg-primary/10 border border-primary/30 rounded-xl p-5">
+          <p className="font-body text-xs font-semibold text-primary flex items-center gap-2 mb-3">
             <AlertCircle className="w-4 h-4" /> Human Actions Required ({HUMAN_ACTIONS.length})
           </p>
           <ol className="space-y-2">
             {HUMAN_ACTIONS.map((action, i) => (
               <li key={i} className="flex items-start gap-2">
-                <span className="font-body text-[10px] text-yellow-500/60 shrink-0 mt-0.5">{i + 1}.</span>
+                <span className="font-body text-[10px] text-primary/60 shrink-0 mt-0.5">{i + 1}.</span>
                 <p className="font-body text-xs text-foreground/70">{action}</p>
               </li>
             ))}
@@ -117,10 +117,10 @@ export default function CoachingHub() {
               <div className="flex items-center gap-2">
                 {page.ready
                   ? <CheckCircle className="w-3.5 h-3.5 text-green-500 shrink-0" />
-                  : <AlertCircle className="w-3.5 h-3.5 text-yellow-500 shrink-0" />
+                  : <AlertCircle className="w-3.5 h-3.5 text-primary shrink-0" />
                 }
                 <span className="font-body text-xs text-foreground/70 font-mono">{page.label}</span>
-                {page.note && <span className="font-body text-[9px] text-yellow-400/70">— {page.note}</span>}
+                {page.note && <span className="font-body text-[9px] text-primary/70">— {page.note}</span>}
               </div>
               <a href={page.path} target="_blank" rel="noopener noreferrer" className="text-muted-foreground/40 hover:text-primary/60 transition-colors">
                 <ExternalLink className="w-3 h-3" />

@@ -12,7 +12,7 @@ import {
 
 const DASHBOARDS = [
   { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain, color: 'text-purple-400', desc: '100+ specialist agents' },
-  { label: 'Approval Queue', path: '/admin/approval-queue', icon: CheckCircle2, color: 'text-yellow-400', desc: 'Pending decisions' },
+  { label: 'Approval Queue', path: '/admin/approval-queue', icon: CheckCircle2, color: 'text-primary', desc: 'Pending decisions' },
   { label: 'Risk Alerts', path: '/admin/risk-alerts', icon: AlertTriangle, color: 'text-red-400', desc: 'Financial & legal flags' },
   { label: 'Knowledge Vault', path: '/admin/knowledge-vault', icon: Lock, color: 'text-blue-400', desc: 'Secure document store' },
   { label: 'Legal Dashboard', path: '/admin/legal-dashboard', icon: FileText, color: 'text-orange-400', desc: 'Legal ops & timeline' },
@@ -24,7 +24,7 @@ const DASHBOARDS = [
   { label: 'Website Ops', path: '/admin/website-ops', icon: Globe, color: 'text-lime-400', desc: 'Site automation' },
   { label: 'Security Centre', path: '/admin/security-centre', icon: Shield, color: 'text-rose-400', desc: 'Access & compliance' },
   { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Activity, color: 'text-slate-400', desc: 'All agent actions' },
-  { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp, color: 'text-amber-400', desc: 'Rising opportunities' },
+  { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp, color: 'text-primary', desc: 'Rising opportunities' },
   { label: 'Orchestrator', path: '/admin/orchestrator-chat', icon: Zap, color: 'text-violet-400', desc: 'Master AI chat' },
 ];
 
@@ -75,17 +75,17 @@ export default function CommandCentre() {
 
       {/* Status Strip */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatusCard icon={CheckCircle2} color="text-yellow-400" bg="bg-yellow-500/10" label="Pending Approvals" value={pendingApprovals.length} link="/admin/approval-queue" />
+        <StatusCard icon={CheckCircle2} color="text-primary" bg="bg-primary/10" label="Pending Approvals" value={pendingApprovals.length} link="/admin/approval-queue" />
         <StatusCard icon={AlertTriangle} color="text-red-400" bg="bg-red-500/10" label="Open Risk Alerts" value={openAlerts.length} link="/admin/risk-alerts" />
         <StatusCard icon={Brain} color="text-purple-400" bg="bg-purple-500/10" label="Agents Registered" value={agents.length} link="/admin/agent-registry" />
         <StatusCard icon={Activity} color="text-green-400" bg="bg-green-500/10" label="Tasks Logged Today" value={recentLogs.length} link="/admin/agent-task-log" />
       </div>
 
       {/* Do Not Spend Rule Banner */}
-      <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-4 flex items-start gap-3">
-        <Shield className="w-5 h-5 text-yellow-400 mt-0.5 shrink-0" />
+      <div className="border border-primary/30 bg-primary/5 rounded-lg p-4 flex items-start gap-3">
+        <Shield className="w-5 h-5 text-primary mt-0.5 shrink-0" />
         <div>
-          <p className="text-yellow-300 font-semibold text-sm">Do-Not-Spend-Or-Lose Rule: ACTIVE</p>
+          <p className="text-primary font-semibold text-sm">Do-Not-Spend-Or-Lose Rule: ACTIVE</p>
           <p className="text-muted-foreground text-xs mt-1">All agents are blocked from spending money, issuing refunds, changing prices, creating legal commitments, or publishing high-risk content without your explicit approval.</p>
         </div>
       </div>
@@ -94,12 +94,12 @@ export default function CommandCentre() {
       {pendingApprovals.length > 0 && (
         <div>
           <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-            <Bell className="w-4 h-4 text-yellow-400" /> Needs Your Attention
+            <Bell className="w-4 h-4 text-primary" /> Needs Your Attention
           </h2>
           <div className="space-y-2">
             {pendingApprovals.slice(0, 5).map(item => (
               <Link key={item.id} to="/admin/approval-queue">
-                <div className="border border-yellow-500/20 bg-yellow-500/5 rounded-lg p-3 hover:bg-yellow-500/10 transition-colors flex items-center justify-between">
+                <div className="border border-primary/20 bg-primary/5 rounded-lg p-3 hover:bg-primary/10 transition-colors flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-foreground">{item.action_title}</p>
                     <p className="text-xs text-muted-foreground">{item.agent_name} · Risk: {item.risk_level}</p>
@@ -186,7 +186,7 @@ export default function CommandCentre() {
                   <p className="text-sm font-medium">{log.task_title}</p>
                   <p className="text-xs text-muted-foreground">{log.agent_name}</p>
                 </div>
-                <Badge className={log.was_automatic ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400'}>
+                <Badge className={log.was_automatic ? 'bg-green-500/10 text-green-400' : 'bg-primary/10 text-primary'}>
                   {log.was_automatic ? 'Auto' : 'Approved'}
                 </Badge>
               </div>

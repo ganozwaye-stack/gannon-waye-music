@@ -10,8 +10,8 @@ const STAGES = [
   { key: 'writing', label: 'Writing', color: 'border-l-blue-500 bg-blue-500/5' },
   { key: 'pre_production', label: 'Pre-Production', color: 'border-l-purple-500 bg-purple-500/5' },
   { key: 'recording', label: 'Recording', color: 'border-l-orange-500 bg-orange-500/5' },
-  { key: 'mixing', label: 'Mixing', color: 'border-l-yellow-500 bg-yellow-500/5' },
-  { key: 'mastering', label: 'Mastering', color: 'border-l-amber-500 bg-amber-500/5' },
+  { key: 'mixing', label: 'Mixing', color: 'border-l-primary bg-primary/5' },
+  { key: 'mastering', label: 'Mastering', color: 'border-l-primary bg-primary/5' },
   { key: 'ready', label: 'Ready', color: 'border-l-green-500 bg-green-500/5' },
   { key: 'released', label: 'Released', color: 'border-l-primary bg-primary/5' },
 ];

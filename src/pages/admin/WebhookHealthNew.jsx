@@ -95,9 +95,9 @@ export default function WebhookHealthNew() {
         </Button>
       </div>
 
-      <Card className={`border ${overallHealth === 'healthy' ? 'border-green-500/30' : overallHealth === 'critical' ? 'border-red-500/50' : 'border-yellow-500/30'}`}>
+      <Card className={`border ${overallHealth === 'healthy' ? 'border-green-500/30' : overallHealth === 'critical' ? 'border-red-500/50' : 'border-primary/30'}`}>
         <CardContent className="p-4 flex items-center gap-4">
-          <Activity className={`w-6 h-6 ${overallHealth === 'healthy' ? 'text-green-400' : overallHealth === 'critical' ? 'text-red-400' : 'text-yellow-400'}`} />
+          <Activity className={`w-6 h-6 ${overallHealth === 'healthy' ? 'text-green-400' : overallHealth === 'critical' ? 'text-red-400' : 'text-primary'}`} />
           <div>
             <p className="font-semibold capitalize">
               {overallHealth === 'healthy' ? 'Webhook System Healthy' :
@@ -108,7 +108,7 @@ export default function WebhookHealthNew() {
               {received} received · {processed} processed · {failed} failed · {duplicates} duplicates blocked
             </p>
           </div>
-          <Badge className={`ml-auto ${overallHealth === 'healthy' ? 'bg-green-500/20 text-green-300' : overallHealth === 'critical' ? 'bg-red-500/20 text-red-300' : 'bg-yellow-500/20 text-yellow-300'}`}>
+          <Badge className={`ml-auto ${overallHealth === 'healthy' ? 'bg-green-500/20 text-green-300' : overallHealth === 'critical' ? 'bg-red-500/20 text-red-300' : 'bg-primary/20 text-primary'}`}>
             {overallHealth}
           </Badge>
         </CardContent>
@@ -178,21 +178,21 @@ export default function WebhookHealthNew() {
       </Card>
 
       {/* ── WEBHOOK VERIFICATION GUIDE ── */}
-      <div className="border border-yellow-500/40 bg-yellow-500/5 rounded-xl p-4">
+      <div className="border border-primary/40 bg-primary/5 rounded-xl p-4">
         <div className="flex items-start gap-3">
-          <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
+          <AlertTriangle className="w-5 h-5 text-primary shrink-0 mt-0.5" />
           <div className="flex-1">
-            <p className="font-semibold text-yellow-300">Verify Webhook Delivery in Stripe Dashboard</p>
+            <p className="font-semibold text-primary">Verify Webhook Delivery in Stripe Dashboard</p>
             <p className="text-sm text-foreground/70 mt-1">
               Confirm your <strong>stripeWebhook</strong> endpoint is receiving signed events and returning 2xx. This is the primary order fulfillment path.
             </p>
             <div className="mt-3 space-y-1.5 text-sm text-foreground/65">
               <p>✅ <strong>stripeWebhook:</strong> Primary — creates MerchOrder, decrements inventory, sends receipts, notifies admin.</p>
               <p>✅ <strong>stripeIntelligenceRouter:</strong> Optional secondary — logs events, creates diagnostics. Does NOT create orders.</p>
-              <p className="text-yellow-300 font-semibold">⚠️ Only Stripe Dashboard → Recent deliveries proves delivery is working.</p>
+              <p className="text-primary font-semibold">⚠️ Only Stripe Dashboard → Recent deliveries proves delivery is working.</p>
             </div>
-            <div className="mt-3 border border-yellow-500/30 rounded-lg p-3 text-xs text-foreground/70 space-y-1">
-              <p className="font-semibold text-yellow-300">Manual Stripe Dashboard steps:</p>
+            <div className="mt-3 border border-primary/30 rounded-lg p-3 text-xs text-foreground/70 space-y-1">
+              <p className="font-semibold text-primary">Manual Stripe Dashboard steps:</p>
               <ol className="list-decimal list-inside space-y-0.5">
                 <li>Open <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer" className="text-primary underline">dashboard.stripe.com/webhooks</a></li>
                 <li>Click the <code className="bg-secondary/50 px-1 rounded">stripeWebhook</code> endpoint</li>
@@ -274,7 +274,7 @@ export default function WebhookHealthNew() {
                 <span className={scanResults.orders_missing > 0 ? 'text-red-400' : 'text-green-400'}>
                   Missing orders: <strong>{scanResults.orders_missing}</strong>
                 </span>
-                <Badge className={scanResults.stripe_mode === 'live' ? 'bg-green-500/20 text-green-300' : 'bg-yellow-500/20 text-yellow-300'}>
+                <Badge className={scanResults.stripe_mode === 'live' ? 'bg-green-500/20 text-green-300' : 'bg-primary/20 text-primary'}>
                   {scanResults.stripe_mode} mode
                 </Badge>
               </div>

@@ -85,10 +85,10 @@ export default function StripeModeDetector({ onModeDetected }) {
       instruction: 'Stripe keys are not configured. Set STRIPE_SECRET_KEY and STRIPE_PUBLISHABLE_KEY in Base44 Secrets.',
     },
     unknown: {
-      icon: <AlertTriangle className="w-4 h-4 text-yellow-400" />,
-      badge: 'bg-yellow-500/20 text-yellow-200 border-yellow-500/40',
+      icon: <AlertTriangle className="w-4 h-4 text-primary" />,
+      badge: 'bg-primary/20 text-primary border-primary/40',
       label: 'Unknown',
-      border: 'border-yellow-500/30 bg-yellow-500/5',
+      border: 'border-primary/30 bg-primary/5',
       instruction: 'Cannot determine Stripe mode. Run integrationHealthCheck before attempting any checkout test.',
     },
   };

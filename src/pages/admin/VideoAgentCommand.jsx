@@ -187,7 +187,7 @@ export default function VideoAgentCommand() {
                     <p className="text-sm font-medium">{m.subject}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{m.summary?.substring(0, 100)}</p>
                   </div>
-                  <Badge className={m.status === 'resolved' ? 'bg-green-500/20 text-green-300 text-xs' : 'bg-amber-500/20 text-amber-300 text-xs'} variant="outline">{m.status}</Badge>
+                  <Badge className={m.status === 'resolved' ? 'bg-green-500/20 text-green-300 text-xs' : 'bg-primary/20 text-primary text-xs'} variant="outline">{m.status}</Badge>
                 </div>
               </CardContent>
             </Card>

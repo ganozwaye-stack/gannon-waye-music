@@ -95,7 +95,7 @@ export default function WeeklyMoneyReport() {
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-        <Metric label="Supporter Contributions" value={`$${thisSupport.toFixed(0)}`} sub="This week" route="/admin/supporters" color="text-yellow-400" />
+        <Metric label="Supporter Contributions" value={`$${thisSupport.toFixed(0)}`} sub="This week" route="/admin/supporters" color="text-primary" />
         <Metric label="Lost Revenue (Cancelled)" value={`$${lostRevenue.toFixed(0)}`} sub={`${cancelledThis.length} cancelled this week`} route="/admin/order-profit-intelligence" color="text-red-400" />
         <Metric label="Last Week Revenue" value={`$${lastRevenue.toFixed(0)}`} sub="Comparison baseline" route="/admin/order-profit-intelligence" color="text-muted-foreground" />
       </div>
@@ -112,7 +112,7 @@ export default function WeeklyMoneyReport() {
               { label: 'Check shipping for packed orders', route: '/admin/orders', urgent: false },
             ].map(item => (
               <Link key={item.route} to={item.route}>
-                <div className={`flex items-center justify-between border rounded-lg px-3 py-2.5 hover:border-primary/40 transition-colors ${item.urgent ? 'border-yellow-500/30 bg-yellow-500/3' : 'border-border'}`}>
+                <div className={`flex items-center justify-between border rounded-lg px-3 py-2.5 hover:border-primary/40 transition-colors ${item.urgent ? 'border-primary/30 bg-primary/3' : 'border-border'}`}>
                   <p className="text-sm">{item.label}</p>
                   <ChevronRight className="w-4 h-4 text-muted-foreground" />
                 </div>
@@ -126,7 +126,7 @@ export default function WeeklyMoneyReport() {
           <CardContent className="space-y-3">
             {[
               { label: 'Merch Sales', value: `$${thisRevenue.toFixed(0)}`, color: 'text-green-400', route: '/admin/orders' },
-              { label: 'Supporter Contributions', value: `$${thisSupport.toFixed(0)}`, color: 'text-yellow-400', route: '/admin/supporters' },
+              { label: 'Supporter Contributions', value: `$${thisSupport.toFixed(0)}`, color: 'text-primary', route: '/admin/supporters' },
               { label: 'Mastering / Bookings', value: 'Check manually', color: 'text-purple-400', route: '/admin/mastering' },
               { label: 'Total Active Revenue', value: `$${(thisRevenue + thisSupport).toFixed(0)}`, color: 'text-primary', route: '/admin/financials' },
             ].map(item => (

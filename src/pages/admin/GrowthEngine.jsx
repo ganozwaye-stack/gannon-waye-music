@@ -9,14 +9,14 @@ import { Shield, Loader2, Zap, TrendingUp, DollarSign, Target, CheckCircle2, XCi
 import { toast } from 'sonner';
 
 const RULE = (
-  <div className="border border-yellow-500/30 bg-yellow-500/5 rounded-lg p-3 flex items-center gap-3">
-    <Shield className="w-4 h-4 text-yellow-400 shrink-0" />
-    <p className="text-yellow-300 text-xs"><strong>Safety Rule Active:</strong> All opportunities require human approval before any action. No automated content posting. No automated engagement.</p>
+  <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
+    <Shield className="w-4 h-4 text-primary shrink-0" />
+    <p className="text-primary text-xs"><strong>Safety Rule Active:</strong> All opportunities require human approval before any action. No automated content posting. No automated engagement.</p>
   </div>
 );
 
 const PLATFORM_COLORS = { tiktok: 'text-pink-400', instagram: 'text-purple-400', youtube: 'text-red-400', twitter: 'text-blue-400', all: 'text-green-400' };
-const COMP_COLORS = { none: 'text-green-400', low: 'text-green-400', medium: 'text-yellow-400', high: 'text-orange-400', saturated: 'text-red-400' };
+const COMP_COLORS = { none: 'text-green-400', low: 'text-green-400', medium: 'text-primary', high: 'text-orange-400', saturated: 'text-red-400' };
 
 export default function GrowthEngine() {
   const [scanning, setScanning] = useState(false);
@@ -196,7 +196,7 @@ function RevenueCard({ op, onApprove, onDismiss }) {
             <p className="font-semibold text-sm">{op.opportunity_name}</p>
             <div className="flex gap-1 mt-1 flex-wrap">
               <Badge variant="outline" className="text-xs capitalize">{op.revenue_type}</Badge>
-              <Badge variant="outline" className={`text-xs ${op.risk_level === 'low' ? 'text-green-400' : op.risk_level === 'high' ? 'text-red-400' : 'text-yellow-400'}`}>{op.risk_level} risk</Badge>
+              <Badge variant="outline" className={`text-xs ${op.risk_level === 'low' ? 'text-green-400' : op.risk_level === 'high' ? 'text-red-400' : 'text-primary'}`}>{op.risk_level} risk</Badge>
             </div>
           </div>
           {op.estimated_value && <Badge className="bg-primary/10 text-primary text-xs shrink-0">{op.estimated_value}</Badge>}

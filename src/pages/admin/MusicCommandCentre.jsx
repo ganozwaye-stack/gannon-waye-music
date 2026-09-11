@@ -17,7 +17,7 @@ function CountdownBadge() {
   const days = Math.max(0, Math.ceil((RELEASE_DATE - now) / (1000 * 60 * 60 * 24)));
   const urgent = days <= 14;
   return (
-    <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-body font-semibold ${urgent ? 'border-yellow-500/60 bg-yellow-500/10 text-yellow-400' : 'border-primary/40 bg-primary/10 text-primary'}`}>
+    <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-body font-semibold ${urgent ? 'border-primary/60 bg-primary/10 text-primary' : 'border-primary/40 bg-primary/10 text-primary'}`}>
       <Calendar className="w-4 h-4" />
       <span>{days} days until "Thank You" releases — June 5, 2026</span>
       {urgent && <span className="animate-pulse">⚡</span>}
@@ -26,7 +26,7 @@ function CountdownBadge() {
 }
 
 const AGENTS = [
-  { name: 'Music Orchestrator', icon: Zap, color: 'text-yellow-400', desc: 'Master coordinator — daily top action', path: '/admin/orchestrator-chat' },
+  { name: 'Music Orchestrator', icon: Zap, color: 'text-primary', desc: 'Master coordinator — daily top action', path: '/admin/orchestrator-chat' },
   { name: 'Release Launch Agent', icon: Play, color: 'text-green-400', desc: 'Thankyou single launch plan', path: '/admin/command-centre' },
   { name: 'Fan Engagement', icon: Heart, color: 'text-pink-400', desc: 'Community health & superfans', path: '/admin/fans' },
   { name: 'Revenue Orchestrator', icon: DollarSign, color: 'text-emerald-400', desc: 'Daily money opportunities', path: '/admin/revenue-command' },
@@ -34,7 +34,7 @@ const AGENTS = [
   { name: 'Social Intelligence', icon: TrendingUp, color: 'text-blue-400', desc: 'Viral trends & creator gaps', path: '/admin/social-intelligence' },
   { name: 'Growth Engine', icon: Radio, color: 'text-purple-400', desc: 'Audience & playlist growth', path: '/admin/growth-engine' },
   { name: 'Content Automate', icon: Share2, color: 'text-cyan-400', desc: 'Social post automation', path: '/admin/content-automate' },
-  { name: 'Release Sprint', icon: Calendar, color: 'text-yellow-400', desc: '10-day Metricool content engine', path: '/admin/release-sprint' },
+  { name: 'Release Sprint', icon: Calendar, color: 'text-primary', desc: '10-day Metricool content engine', path: '/admin/release-sprint' },
 ];
 
 export default function MusicCommandCentre() {
@@ -97,12 +97,12 @@ export default function MusicCommandCentre() {
       {/* Stats row */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
-          { label: 'Days to Release', value: daysLeft, icon: Calendar, color: 'text-yellow-400', urgent: daysLeft <= 14 },
+          { label: 'Days to Release', value: daysLeft, icon: Calendar, color: 'text-primary', urgent: daysLeft <= 14 },
           { label: 'Total Subscribers', value: subscribers.length, icon: Users, color: 'text-blue-400' },
           { label: 'New This Week', value: recentSubs, icon: TrendingUp, color: 'text-green-400' },
           { label: 'Pending Approvals', value: approvals.length, icon: Clock, color: 'text-orange-400' },
         ].map(stat => (
-          <Card key={stat.label} className={stat.urgent ? 'border-yellow-500/40' : ''}>
+          <Card key={stat.label} className={stat.urgent ? 'border-primary/40' : ''}>
             <CardContent className="p-4 flex items-center gap-3">
               <stat.icon className={`w-8 h-8 ${stat.color}`} />
               <div>

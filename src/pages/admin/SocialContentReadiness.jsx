@@ -199,7 +199,7 @@ export default function SocialContentReadiness() {
                     <span>{p.icon}</span>
                     <p className="font-semibold text-sm">{p.name}</p>
                   </div>
-                  <Badge className={p.testStatus === 'Not built' ? 'bg-red-500/20 text-red-300 border-red-500/30' : p.testStatus.includes('live') ? 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30' : 'bg-blue-500/20 text-blue-300 border-blue-500/30'} style={{fontSize: '10px'}}>
+                  <Badge className={p.testStatus === 'Not built' ? 'bg-red-500/20 text-red-300 border-red-500/30' : p.testStatus.includes('live') ? 'bg-primary/20 text-primary border-primary/30' : 'bg-blue-500/20 text-blue-300 border-blue-500/30'} style={{fontSize: '10px'}}>
                     {p.testStatus === 'Not built' ? 'Not Built' : p.testStatus.includes('live') ? 'Needs Live Test' : 'Manual Only'}
                   </Badge>
                 </div>

@@ -208,7 +208,7 @@ export default function Blueprint() {
           { label: 'Mastering Jobs', value: counts.projects ?? '—', color: 'text-primary', to: '/admin/mastering' },
           { label: 'Products', value: counts.products ?? '—', color: 'text-blue-400', to: '/admin/merch' },
           { label: 'Subscribers', value: counts.subscribers ?? '—', color: 'text-green-400', to: '/admin/subscribers' },
-          { label: 'Supporters', value: counts.supporters ?? '—', color: 'text-yellow-400', to: '/admin/supporters' },
+          { label: 'Supporters', value: counts.supporters ?? '—', color: 'text-primary', to: '/admin/supporters' },
           { label: 'Orders', value: counts.orders ?? '—', color: 'text-orange-400', to: '/admin/orders' },
           { label: 'Bookings', value: counts.enquiries ?? '—', color: 'text-purple-400', to: '/admin/fans' },
         ].map(s => (
@@ -264,7 +264,7 @@ export default function Blueprint() {
       </Section>
 
       {/* Backend Functions */}
-      <Section icon={Zap} title="Backend Functions" count={FUNCTIONS.length} color="bg-yellow-500/10 text-yellow-400">
+      <Section icon={Zap} title="Backend Functions" count={FUNCTIONS.length} color="bg-primary/10 text-primary">
         <div className="space-y-4">
           {funcCategories.map(cat => (
             <div key={cat}>
@@ -272,7 +272,7 @@ export default function Blueprint() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {FUNCTIONS.filter(f => f.category === cat).map(f => (
                   <div key={f.name} className="flex items-start gap-2 px-3 py-2 rounded-lg border border-border/30">
-                    <Zap className="w-3.5 h-3.5 text-yellow-400 mt-0.5 flex-shrink-0" />
+                    <Zap className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" />
                     <div>
                       <p className="font-body text-xs text-foreground font-medium">{f.name}</p>
                       <p className="font-body text-[11px] text-muted-foreground">{f.desc}</p>
@@ -294,7 +294,7 @@ export default function Blueprint() {
                 <p className="font-body text-sm text-foreground">{i.name}</p>
                 <p className="font-body text-[11px] text-muted-foreground">{i.desc}</p>
               </div>
-              <Badge className={`text-[10px] border-0 ${i.status === 'active' ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400'}`}>
+              <Badge className={`text-[10px] border-0 ${i.status === 'active' ? 'bg-green-500/10 text-green-400' : 'bg-primary/10 text-primary'}`}>
                 {i.status}
               </Badge>
             </div>
@@ -327,8 +327,8 @@ export default function Blueprint() {
       {/* Payment Test Checklist — ADMIN ONLY */}
       <Section icon={CreditCard} title="Stripe Payment Test Checklist" count={6} color="bg-blue-500/10 text-blue-400">
         <div className="space-y-4">
-          <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3">
-            <p className="font-body text-xs text-amber-400 leading-relaxed">
+          <div className="bg-primary/10 border border-primary/30 rounded-xl p-3">
+            <p className="font-body text-xs text-primary leading-relaxed">
               <strong>Admin only — not visible publicly.</strong> Use these Stripe test cards in the Stripe test/sandbox environment before going live. Use a small test amount (e.g. $5). Confirm in Stripe Dashboard → Payments that each result is as expected.
             </p>
           </div>
@@ -336,7 +336,7 @@ export default function Blueprint() {
             {[
               { card: '4242 4242 4242 4242', result: 'Success — payment completes', color: 'text-green-400', check: 'SupportContribution created once · SupporterProfile upserted (no duplicate) · receipt email sends or logs sandbox note · admin notification sends or logs sandbox note' },
               { card: '4000 0000 0000 9995', result: 'Decline — insufficient funds', color: 'text-red-400', check: 'Visible error shown to user · No SupportContribution or MerchOrder created · No promo usage recorded' },
-              { card: '4000 0000 0000 3220', result: '3D Secure / authentication required', color: 'text-yellow-400', check: 'Auth popup appears · After completing auth, payment succeeds · SupportContribution created once only' },
+              { card: '4000 0000 0000 3220', result: '3D Secure / authentication required', color: 'text-primary', check: 'Auth popup appears · After completing auth, payment succeeds · SupportContribution created once only' },
             ].map(({ card, result, color, check }) => (
               <div key={card} className="bg-secondary/30 rounded-xl p-4 border border-border/30">
                 <div className="flex items-start gap-3">
@@ -402,7 +402,7 @@ export default function Blueprint() {
                   <p className="font-body text-sm text-foreground font-medium">{req}</p>
                   <p className="font-body text-xs text-muted-foreground mt-1">{desc}</p>
                 </div>
-                <Badge className={status.includes('Ready') ? 'bg-green-500/10 text-green-400 border-green-500/30' : status.includes('Partial') ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30' : 'bg-blue-500/10 text-blue-400 border-blue-500/30'}>
+                <Badge className={status.includes('Ready') ? 'bg-green-500/10 text-green-400 border-green-500/30' : status.includes('Partial') ? 'bg-primary/10 text-primary border-primary/30' : 'bg-blue-500/10 text-blue-400 border-blue-500/30'}>
                   {status.split(' ')[0]}
                 </Badge>
               </div>

@@ -305,7 +305,7 @@ export default function MasterBlueprint() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           { label: 'Days to Release', value: daysToRelease, icon: Music, color: 'text-primary', urgent: daysToRelease <= 5 },
-          { label: 'Pending Approvals', value: approvals.length, icon: Shield, color: 'text-amber-400', urgent: approvals.length > 0 },
+          { label: 'Pending Approvals', value: approvals.length, icon: Shield, color: 'text-primary', urgent: approvals.length > 0 },
           { label: 'Sprint Posts Pending', value: pendingPosts, icon: Zap, color: 'text-blue-400', urgent: pendingPosts > 0 },
           { label: 'Unread Notifications', value: notifications.length, icon: Activity, color: 'text-purple-400', urgent: notifications.length > 0 },
         ].map(s => (
@@ -335,7 +335,7 @@ export default function MasterBlueprint() {
               <p className="font-body text-[10px] text-muted-foreground">Total Posts</p>
             </div>
             <div className="text-center bg-card/60 rounded-lg p-2">
-              <p className="font-display text-xl font-bold text-amber-400">{pendingPosts}</p>
+              <p className="font-display text-xl font-bold text-primary">{pendingPosts}</p>
               <p className="font-body text-[10px] text-muted-foreground">Pending Approval</p>
             </div>
             <div className="text-center bg-card/60 rounded-lg p-2">
@@ -461,8 +461,8 @@ export default function MasterBlueprint() {
 
       {/* Admin Routes */}
       <Section title="🔑 Admin Routes" icon={Lock}>
-        <div className="mb-2 p-2 bg-amber-500/5 border border-amber-500/20 rounded-lg">
-          <p className="font-body text-[11px] text-amber-400">All /admin/* routes require login + admin role. None must be publicly accessible.</p>
+        <div className="mb-2 p-2 bg-primary/5 border border-primary/20 rounded-lg">
+          <p className="font-body text-[11px] text-primary">All /admin/* routes require login + admin role. None must be publicly accessible.</p>
         </div>
         {ADMIN_ROUTES.map((r, i) => (
           <RouteRow key={i} {...r} />
@@ -519,9 +519,9 @@ export default function MasterBlueprint() {
 
       {/* Pending Approval Items */}
       {approvals.length > 0 && (
-        <Card className="border-amber-500/40 bg-amber-500/5">
+        <Card className="border-primary/40 bg-primary/5">
           <CardHeader className="pb-2 pt-4">
-            <CardTitle className="text-sm flex items-center gap-2 text-amber-400">
+            <CardTitle className="text-sm flex items-center gap-2 text-primary">
               <Shield className="w-4 h-4" /> {approvals.length} Items Pending Your Approval
             </CardTitle>
           </CardHeader>
@@ -530,13 +530,13 @@ export default function MasterBlueprint() {
               {approvals.slice(0, 5).map(a => (
                 <div key={a.id} className="flex items-center justify-between gap-2 text-xs font-body">
                   <span className="text-foreground/80 truncate">{a.action_title}</span>
-                  <Badge className="bg-amber-500/10 text-amber-400 border-amber-500/30 border text-[9px] shrink-0">{a.risk_level}</Badge>
+                  <Badge className="bg-primary/10 text-primary border-primary/30 border text-[9px] shrink-0">{a.risk_level}</Badge>
                 </div>
               ))}
               {approvals.length > 5 && <p className="text-xs text-muted-foreground">+{approvals.length - 5} more</p>}
             </div>
             <Link to="/admin/approval-queue">
-              <Button size="sm" variant="outline" className="gap-1.5 border-amber-500/40 text-amber-400 text-xs">
+              <Button size="sm" variant="outline" className="gap-1.5 border-primary/40 text-primary text-xs">
                 <ExternalLink className="w-3 h-3" /> Open Approval Queue
               </Button>
             </Link>

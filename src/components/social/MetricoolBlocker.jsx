@@ -40,7 +40,7 @@ export default function MetricoolBlocker({ isBlocked, children }) {
       >
         <ExternalLink className="w-3 h-3" /> Open Metricool
       </a>
-      <div className="flex items-center gap-2 text-xs font-body text-amber-400/80 bg-amber-500/5 border border-amber-500/20 rounded-lg px-3 py-2 w-full max-w-sm">
+      <div className="flex items-center gap-2 text-xs font-body text-primary/80 bg-primary/5 border border-primary/20 rounded-lg px-3 py-2 w-full max-w-sm">
         <AlertTriangle className="w-3 h-3 shrink-0" />
         <span>Manual copy-paste workflow is fully operational. Nothing is blocked in production.</span>
       </div>

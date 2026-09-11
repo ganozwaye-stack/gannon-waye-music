@@ -2,11 +2,11 @@ import { motion } from 'framer-motion';
 import { Gift } from 'lucide-react';
 
 const GIFT_CONFIGS = [
-  { bg: 'from-red-600 to-red-800', ribbon: 'from-gold-400 to-yellow-500', bow: 'from-red-500 to-red-700' },
-  { bg: 'from-emerald-600 to-emerald-800', ribbon: 'from-gold-400 to-yellow-500', bow: 'from-emerald-500 to-emerald-700' },
+  { bg: 'from-red-600 to-red-800', ribbon: 'from-gold-400 to-primary', bow: 'from-red-500 to-red-700' },
+  { bg: 'from-emerald-600 to-emerald-800', ribbon: 'from-gold-400 to-primary', bow: 'from-emerald-500 to-emerald-700' },
   { bg: 'from-purple-600 to-purple-800', ribbon: 'from-pink-400 to-rose-500', bow: 'from-purple-500 to-purple-700' },
   { bg: 'from-blue-600 to-blue-800', ribbon: 'from-cyan-400 to-blue-500', bow: 'from-blue-500 to-blue-700' },
-  { bg: 'from-amber-600 to-amber-800', ribbon: 'from-gold-400 to-yellow-500', bow: 'from-amber-500 to-amber-700' },
+  { bg: 'from-primary to-primary', ribbon: 'from-gold-400 to-primary', bow: 'from-primary to-primary' },
 ];
 
 export default function WrappedGiftPlaceholder({ index = 0 }) {

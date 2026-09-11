@@ -2,10 +2,10 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
-// v4 — the original owner photograph restored (AI v3 artwork retired for
-// distorting faces, 10 September 2026). Checksum computed from the live file.
-const expectedUrl = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cf2757c39_3d0e6cbc-87a7-4f9e-8d1c-05b82eb5b2e1.png';
-const expectedSha256 = '9667a3698d14ec59d8b744d44a54692db5b24aefa09ed90e9344edd17eb83f98';
+// v5 — the owner-supplied externally redesigned boutique world (11 September 2026).
+// Exact checksum verified against the owner supplied v5 image bytes.
+const expectedUrl = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/31a17f0b8_image.png';
+const expectedSha256 = '13cc396dc5f8d3c968d13bb66a7d3a66c48a9219357d2dae4e3187c866b280e7';
 
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), 'utf8');

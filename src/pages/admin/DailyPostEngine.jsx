@@ -23,7 +23,7 @@ const PLATFORM_COLORS = {
 
 const STATUS_COLORS = {
   draft: 'bg-secondary text-muted-foreground',
-  pending_approval: 'bg-amber-500/20 text-amber-300 border-amber-500/30',
+  pending_approval: 'bg-primary/20 text-primary border-primary/30',
   approved: 'bg-green-500/20 text-green-300 border-green-500/30',
   scheduled: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   posted: 'bg-emerald-500/20 text-emerald-300',
@@ -178,9 +178,9 @@ export default function DailyPostEngine() {
                           </div>
                         )}
                         {(post.status === 'draft' || post.status === 'pending_approval') && (
-                          <div className="flex items-center gap-2 bg-amber-500/5 border border-amber-500/20 rounded-lg p-2">
-                            <Lock className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                            <p className="text-xs text-amber-400">Scheduling locked until approved in Approval Queue</p>
+                          <div className="flex items-center gap-2 bg-primary/5 border border-primary/20 rounded-lg p-2">
+                            <Lock className="w-3.5 h-3.5 text-primary shrink-0" />
+                            <p className="text-xs text-primary">Scheduling locked until approved in Approval Queue</p>
                           </div>
                         )}
                       </div>

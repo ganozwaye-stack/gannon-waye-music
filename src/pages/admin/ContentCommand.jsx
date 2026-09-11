@@ -24,7 +24,7 @@ const PLATFORM_META = {
 
 const STATUS_CONFIG = {
   draft:             { label: 'Draft',            color: 'bg-secondary text-muted-foreground' },
-  awaiting_approval: { label: 'Awaiting Approval', color: 'bg-amber-500/20 text-amber-300' },
+  awaiting_approval: { label: 'Awaiting Approval', color: 'bg-primary/20 text-primary' },
   approved:          { label: 'Approved',          color: 'bg-green-500/20 text-green-300' },
   scheduled:         { label: 'Scheduled',         color: 'bg-blue-500/20 text-blue-300' },
   posted:            { label: 'Posted',            color: 'bg-green-600/20 text-green-200' },
@@ -36,7 +36,7 @@ const NAV_MODULES = [
   { label: 'Approval Queue', desc: 'Review before publishing', to: '/admin/approval-queue', icon: CheckCircle2, color: 'text-green-400' },
   { label: 'Schedule Queue', desc: 'Approved → Metricool', to: '/admin/social-schedule-queue', icon: Calendar, color: 'text-blue-400' },
   { label: 'Asset Library', desc: 'Videos, images, overlays', to: '/admin/social-asset-library', icon: Image, color: 'text-purple-400' },
-  { label: 'Quality Review', desc: 'Score drafts before publish', to: '/admin/content-quality-review', icon: Target, color: 'text-amber-400' },
+  { label: 'Quality Review', desc: 'Score drafts before publish', to: '/admin/content-quality-review', icon: Target, color: 'text-primary' },
   { label: 'Performance', desc: 'Analytics & engagement', to: '/admin/content-performance', icon: BarChart2, color: 'text-cyan-400' },
   { label: 'Metricool Setup', desc: 'API config & diagnostics', to: '/admin/metricool-api-setup', icon: Radio, color: 'text-orange-400' },
   { label: 'Daily Post Engine', desc: 'Auto-generate daily drafts', to: '/admin/daily-post-engine', icon: Cpu, color: 'text-pink-400' },
@@ -66,7 +66,7 @@ function PostCard({ post, onApprove, onReject, onEdit }) {
             {post.campaign && <span className="text-[9px] font-mono tracking-widest uppercase px-2 py-0.5 rounded-full bg-primary/10 text-primary">{post.campaign}</span>}
           </div>
           {post.predicted_viral_probability > 0 && (
-            <span className="text-xs text-amber-300 font-mono shrink-0">{Math.round((post.predicted_viral_probability || 0) * 100)}% viral</span>
+            <span className="text-xs text-primary font-mono shrink-0">{Math.round((post.predicted_viral_probability || 0) * 100)}% viral</span>
           )}
         </div>
 
@@ -283,13 +283,13 @@ export default function ContentCommand() {
       {/* Stats row */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
         {[
-          { label: 'Awaiting Approval', count: grouped.awaiting_approval.length + approvals.length, color: 'text-amber-400', urgent: true },
+          { label: 'Awaiting Approval', count: grouped.awaiting_approval.length + approvals.length, color: 'text-primary', urgent: true },
           { label: 'Approved Ready',    count: grouped.approved.length,    color: 'text-green-400' },
           { label: 'Scheduled',         count: grouped.scheduled.length,   color: 'text-blue-400' },
           { label: 'Drafts',            count: grouped.draft.length,       color: 'text-muted-foreground' },
           { label: 'Posted Live',       count: grouped.posted.length,      color: 'text-primary' },
         ].map(({ label, count, color, urgent }) => (
-          <Card key={label} className={urgent && count > 0 ? 'border-amber-500/30' : ''}>
+          <Card key={label} className={urgent && count > 0 ? 'border-primary/30' : ''}>
             <CardContent className="p-3 text-center">
               <p className={`text-2xl font-bold font-display ${color}`}>{count}</p>
               <p className="text-xs text-muted-foreground mt-1">{label}</p>
@@ -356,19 +356,19 @@ export default function ContentCommand() {
 
           {/* Pending approvals alert */}
           {(approvals.length > 0 || grouped.awaiting_approval.length > 0) && (
-            <Card className="border-amber-500/30 bg-amber-500/5">
+            <Card className="border-primary/30 bg-primary/5">
               <CardContent className="p-4 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center shrink-0">
-                    <AlertTriangle className="w-4 h-4 text-amber-400" />
+                  <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
+                    <AlertTriangle className="w-4 h-4 text-primary" />
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-amber-300">{approvals.length + grouped.awaiting_approval.length} items awaiting your approval</p>
+                    <p className="text-sm font-semibold text-primary">{approvals.length + grouped.awaiting_approval.length} items awaiting your approval</p>
                     <p className="text-xs text-muted-foreground">Nothing publishes without your sign-off</p>
                   </div>
                 </div>
                 <Link to="/admin/approval-queue">
-                  <Button size="sm" className="bg-amber-600 hover:bg-amber-700 border-0 text-xs gap-1.5">
+                  <Button size="sm" className="bg-primary hover:bg-primary border-0 text-xs gap-1.5">
                     <ArrowRight className="w-3 h-3" />Review Now
                   </Button>
                 </Link>
@@ -415,7 +415,7 @@ export default function ContentCommand() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[
             {
-              name: 'Viral Hook Agent', icon: TrendingUp, color: 'text-amber-400',
+              name: 'Viral Hook Agent', icon: TrendingUp, color: 'text-primary',
               desc: 'Finds high-performing emotional hooks, viral psychology triggers, creator gap opportunities',
               action: 'Find Viral Hooks', angle: 'viral_hook',
             },
@@ -507,7 +507,7 @@ export default function ContentCommand() {
                     <p className="text-sm font-semibold text-foreground">{v.visual_concept || v.prompt?.slice(0, 60)}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{v.visual_type} · {v.platform}</p>
                   </div>
-                  <Badge className="bg-amber-500/20 text-amber-300 border-0 text-[9px] uppercase tracking-wider">{v.asset_status}</Badge>
+                  <Badge className="bg-primary/20 text-primary border-0 text-[9px] uppercase tracking-wider">{v.asset_status}</Badge>
                 </div>
                 {v.prompt && <p className="text-xs text-muted-foreground line-clamp-2">{v.prompt}</p>}
               </CardContent>

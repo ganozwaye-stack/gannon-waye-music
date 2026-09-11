@@ -40,7 +40,7 @@ export default function SetupMetricoolFlow({ onComplete, onBlocked }) {
         <div className="flex items-center gap-2 mb-1">
           <span className="text-xl">📅</span>
           <h2 className="font-semibold text-lg">Metricool Social Scheduling</h2>
-          <Badge className="ml-auto bg-amber-500/20 text-amber-300 border-amber-500/30">High Priority</Badge>
+          <Badge className="ml-auto bg-primary/20 text-primary border-primary/30">High Priority</Badge>
         </div>
         <p className="text-sm text-muted-foreground">Set up API token, verify brand profiles, check connected social accounts. All scheduling goes through ApprovalQueue before any posts are made.</p>
       </div>
@@ -110,7 +110,7 @@ export default function SetupMetricoolFlow({ onComplete, onBlocked }) {
                 ✅ {connectedCount}/{PROFILES.length} profiles marked connected
               </div>
             )}
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-3 text-xs text-amber-300 mt-3">
+            <div className="bg-primary/10 border border-primary/30 rounded-lg p-3 text-xs text-primary mt-3">
               🛡️ Safety lock: All scheduling actions go to ApprovalQueue first. Nothing posts automatically without your approval.
             </div>
             <div className="flex gap-2 mt-3">

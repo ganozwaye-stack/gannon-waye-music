@@ -10,10 +10,10 @@ import {
 const CONTENT_PILLARS = [
   { id: 1, icon: Heart, name: 'Self Worth', color: 'text-rose-400', bg: 'bg-rose-500/10 border-rose-500/20', desc: 'Knowing your value without needing to earn it', hooks: ['Are you tired of proving your worth to people committed to misunderstanding you?', 'What if self respect is not anger, but the moment you stop abandoning yourself?'] },
   { id: 2, icon: Shield, name: 'Boundaries', color: 'text-blue-400', bg: 'bg-blue-500/10 border-blue-500/20', desc: 'Protecting your peace without guilt', hooks: ['Have you been calling it love when it kept costing you your peace?', 'What if a boundary is not a wall — it is a door you control?'] },
-  { id: 3, icon: Sunrise, name: 'Rebuilding After Painful Chapters', color: 'text-amber-400', bg: 'bg-amber-500/10 border-amber-500/20', desc: 'Rising after the chapter that tried to erase you', hooks: ['What if the chapter that broke you was not the chapter that defines you?', 'You survived it. Now let\'s build something from it.'] },
+  { id: 3, icon: Sunrise, name: 'Rebuilding After Painful Chapters', color: 'text-primary', bg: 'bg-primary/10 border-primary/20', desc: 'Rising after the chapter that tried to erase you', hooks: ['What if the chapter that broke you was not the chapter that defines you?', 'You survived it. Now let\'s build something from it.'] },
   { id: 4, icon: Star, name: 'Creative Confidence', color: 'text-purple-400', bg: 'bg-purple-500/10 border-purple-500/20', desc: 'Expressing yourself without apology', hooks: ['What if your voice was never the problem — the audience was?', 'You were born with something to say. What stopped you?'] },
   { id: 5, icon: Music, name: 'Music as Survival & Expression', color: 'text-teal-400', bg: 'bg-teal-500/10 border-teal-500/20', desc: 'How music carries what words alone cannot', hooks: ['Some songs are not written. They are survived.', 'Music was the only language that never judged me.'] },
-  { id: 6, icon: Zap, name: 'The THANKYOU Movement', color: 'text-yellow-400', bg: 'bg-yellow-500/10 border-yellow-500/20', desc: 'The turning point. The line drawn. The thank you said.', hooks: ['Who are you saying THANKYOU to today?', 'THANKYOU is not gratitude. It is goodbye to what no longer serves you.'] },
+  { id: 6, icon: Zap, name: 'The THANKYOU Movement', color: 'text-primary', bg: 'bg-primary/10 border-primary/20', desc: 'The turning point. The line drawn. The thank you said.', hooks: ['Who are you saying THANKYOU to today?', 'THANKYOU is not gratitude. It is goodbye to what no longer serves you.'] },
   { id: 7, icon: Flame, name: 'Respect Is Earned', color: 'text-orange-400', bg: 'bg-orange-500/10 border-orange-500/20', desc: 'Refusing to earn what was always yours', hooks: ['When did you realise respect is earned, not a game you make me play?', 'You stopped performing for people who would never applaud you.'] },
   { id: 8, icon: Eye, name: 'Still Here', color: 'text-green-400', bg: 'bg-green-500/10 border-green-500/20', desc: 'Proof that staying was the bravest thing', hooks: ['Still here. Still standing. Still choosing yourself.', 'Every day you wake up is evidence that you survived what tried to end you.'] },
   { id: 9, icon: Layers, name: 'From Shame to Self Respect', color: 'text-pink-400', bg: 'bg-pink-500/10 border-pink-500/20', desc: 'The journey from hiding to being seen', hooks: ['From shame to self respect is not a straight line. It is a return.', 'Shame whispers. Self respect speaks clearly.'] },
@@ -23,7 +23,7 @@ const CONTENT_PILLARS = [
 const CTA_TYPES = [
   { label: 'Book a Clarity Session', tag: 'booking', color: 'bg-primary/20 text-primary border-primary/30' },
   { label: 'Download the Free Workbook', tag: 'workbook', color: 'bg-blue-500/20 text-blue-400 border-blue-500/30' },
-  { label: 'Join the THANKYOU List', tag: 'email', color: 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30' },
+  { label: 'Join the THANKYOU List', tag: 'email', color: 'bg-primary/20 text-primary border-primary/30' },
   { label: 'Shop the Merch', tag: 'merch', color: 'bg-orange-500/20 text-orange-400 border-orange-500/30' },
   { label: 'Listen to THANKYOU', tag: 'music', color: 'bg-teal-500/20 text-teal-400 border-teal-500/30' },
   { label: 'Start Your Self Respect Reset', tag: 'reset', color: 'bg-rose-500/20 text-rose-400 border-rose-500/30' },
@@ -152,8 +152,8 @@ export default function CoachingContentEngine() {
               ))}
             </ul>
           </div>
-          <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-5">
-            <p className="font-body text-xs font-semibold text-yellow-400 mb-3">⚠ Needs Gannon Input</p>
+          <div className="bg-primary/10 border border-primary/30 rounded-xl p-5">
+            <p className="font-body text-xs font-semibold text-primary mb-3">⚠ Needs Gannon Input</p>
             <ul className="space-y-1.5">
               {[
                 'Review and approve/edit each of the 30 social post drafts in /admin/social-drafts',
@@ -165,7 +165,7 @@ export default function CoachingContentEngine() {
                 'Record the 30 reels (hooks and scripts are ready — visuals need design)',
               ].map((item, i) => (
                 <li key={i} className="flex items-start gap-2">
-                  <span className="text-yellow-400 text-xs shrink-0 mt-0.5">{i + 1}.</span>
+                  <span className="text-primary text-xs shrink-0 mt-0.5">{i + 1}.</span>
                   <p className="font-body text-xs text-foreground/70">{item}</p>
                 </li>
               ))}
@@ -231,7 +231,7 @@ export default function CoachingContentEngine() {
                 <p className="font-body text-xs text-muted-foreground mt-0.5">{lm.desc}</p>
                 <Badge variant="outline" className="text-[9px] mt-2">{lm.pillar}</Badge>
               </div>
-              <Badge className="bg-yellow-500/10 text-yellow-400 border-yellow-500/30 text-[9px] shrink-0">Needs Design</Badge>
+              <Badge className="bg-primary/10 text-primary border-primary/30 text-[9px] shrink-0">Needs Design</Badge>
             </div>
           ))}
         </div>
@@ -268,7 +268,7 @@ export default function CoachingContentEngine() {
               <div key={i} className="flex items-center gap-3 p-3 bg-card/50 border border-border/40 rounded-lg">
                 <span className="font-body text-[10px] text-muted-foreground/50 w-5 text-right shrink-0">{i + 1}.</span>
                 <p className="font-body text-sm text-foreground/80">{res}</p>
-                <Badge className="ml-auto bg-yellow-500/10 text-yellow-400 border-yellow-500/30 text-[9px] shrink-0">Needs Upload</Badge>
+                <Badge className="ml-auto bg-primary/10 text-primary border-primary/30 text-[9px] shrink-0">Needs Upload</Badge>
               </div>
             ))}
           </div>

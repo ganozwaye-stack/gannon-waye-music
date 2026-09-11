@@ -16,7 +16,7 @@ import { useToast } from '@/components/ui/use-toast';
 const CATEGORY_CONFIG = {
   getting_started: { label: 'Getting Started', icon: '🚀', color: 'text-green-400' },
   music_business:  { label: 'Music Business',  icon: '🎵', color: 'text-blue-400' },
-  store_ops:       { label: 'Store Ops',        icon: '🛒', color: 'text-yellow-400' },
+  store_ops:       { label: 'Store Ops',        icon: '🛒', color: 'text-primary' },
   social_media:    { label: 'Social Media',     icon: '📱', color: 'text-purple-400' },
   fan_engagement:  { label: 'Fan Engagement',   icon: '❤️', color: 'text-pink-400' },
   analytics:       { label: 'Analytics',        icon: '📊', color: 'text-cyan-400' },
@@ -27,7 +27,7 @@ const CATEGORY_CONFIG = {
 const TYPE_CONFIG = {
   video:       { label: 'Video',        icon: Video,    color: 'text-red-400' },
   text_image:  { label: 'Written',      icon: FileText, color: 'text-blue-400' },
-  practice:    { label: 'Practice',     icon: BookOpen, color: 'text-yellow-400' },
+  practice:    { label: 'Practice',     icon: BookOpen, color: 'text-primary' },
   mixed:       { label: 'Mixed',        icon: Play,     color: 'text-green-400' },
 };
 
@@ -145,7 +145,7 @@ function ModuleCard({ module, onEdit, onDelete, onTogglePublish }) {
           <div className="flex items-center gap-2 flex-wrap">
             <p className="font-medium text-sm text-foreground">{module.title}</p>
             <Badge className="text-[9px] bg-secondary/50 text-muted-foreground border-border/30">{catCfg.icon} {catCfg.label}</Badge>
-            {!module.is_published && <Badge className="text-[9px] bg-yellow-500/10 text-yellow-400 border-yellow-500/30">Draft</Badge>}
+            {!module.is_published && <Badge className="text-[9px] bg-primary/10 text-primary border-primary/30">Draft</Badge>}
           </div>
           {module.subtitle && <p className="text-xs text-muted-foreground mt-0.5">{module.subtitle}</p>}
         </div>
@@ -245,7 +245,7 @@ export default function TrainingCentre() {
         {[
           { label: 'Total Modules', value: modules.length, color: 'text-foreground' },
           { label: 'Published', value: publishedCount, color: 'text-green-400' },
-          { label: 'Drafts', value: modules.length - publishedCount, color: 'text-yellow-400' },
+          { label: 'Drafts', value: modules.length - publishedCount, color: 'text-primary' },
           { label: 'Total Duration', value: `${modules.reduce((s, m) => s + (m.duration_minutes || 0), 0)}m`, color: 'text-primary' },
         ].map(s => (
           <Card key={s.label}>
