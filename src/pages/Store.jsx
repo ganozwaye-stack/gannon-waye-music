@@ -234,16 +234,26 @@ function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
             <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
           )}
 
+          <CompleteTheSetOption
+            product={product}
+            completeSetProduct={completeSetProduct}
+            purchaseChoice={purchaseChoice}
+            onChoiceChange={handleChoiceChange}
+          />
+
           {hasSize && (
             <div className="mt-3">
+              <p className="mb-2 text-center font-body text-[10px] uppercase tracking-wider text-muted-foreground">
+                {purchaseChoice === 'set' ? 'Select hoodie size for the complete set' : 'Select size'}
+              </p>
               <div className="flex flex-wrap gap-2 justify-center">
-                {product.sizes_available.map(s => (
+                {cartProduct.sizes_available.map(s => (
                   <button
                     key={s}
                     type="button"
                     data-testid="size-option"
                     aria-pressed={selectedSize === s}
-                    aria-label={`Select size ${s}${Number.isFinite(product.stock_by_variant?.[s]) ? `, ${product.stock_by_variant[s]} in stock` : ''}`}
+                    aria-label={`Select size ${s}${Number.isFinite(cartProduct.stock_by_variant?.[s]) ? `, ${cartProduct.stock_by_variant[s]} in stock` : ''}`}
                     onClick={() => {
                       setSelectedSize(s);
                       setShowSizeError(false);
@@ -254,7 +264,7 @@ function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
                         : 'border-border/50 text-muted-foreground hover:border-primary/30'
                     }`}
                   >
-                    {s}{Number.isFinite(product.stock_by_variant?.[s]) ? ` (${product.stock_by_variant[s]})` : ''}
+                    {s}{Number.isFinite(cartProduct.stock_by_variant?.[s]) ? ` (${cartProduct.stock_by_variant[s]})` : ''}
                   </button>
                 ))}
               </div>
@@ -264,7 +274,7 @@ function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
             </div>
           )}
           
-          {STORE_OPEN && product.stock_quantity > 0 ? (
+          {STORE_OPEN && cartInStock ? (
             addedToCart ? (
               <div data-testid="add-to-cart-success" className="mt-3 space-y-1.5">
                 <p className="text-center font-body text-[10px] text-green-400 tracking-wider">✓ Added to cart</p>
@@ -298,10 +308,10 @@ function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
                 onClick={handleAddToCart}
                 className="mt-3 w-full rounded-full py-2.5 font-body text-[10px] tracking-wider uppercase transition-all flex items-center justify-center gap-2 gradient-gold-button hover:opacity-90"
               >
-                <Plus className="w-3.5 h-3.5" /> Add to Cart
+                <Plus className="w-3.5 h-3.5" /> {purchaseChoice === 'set' ? 'Add Complete Set to Cart' : 'Add to Cart'}
               </button>
             )
-          ) : STORE_OPEN && product.stock_quantity === 0 ? (
+          ) : STORE_OPEN && !cartInStock ? (
             <div className="mt-3 w-full rounded-xl py-2.5 px-3 font-body text-[10px] tracking-wider uppercase text-center border border-red-500/30 text-red-400 bg-red-500/10 cursor-not-allowed">
               {product.id === '69eed3e64e2da78ae4418a9a' 
                 ? "Sold out due to popular demand. These will not be restocked." 
@@ -318,6 +328,8 @@ function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
         <ProductDetailModal
           product={product}
           allImages={allImages}
+          completeSetProduct={completeSetProduct}
+          onViewCompleteSet={() => setDetailOpen(false)}
           onClose={() => setDetailOpen(false)}
         />
       )}
@@ -341,6 +353,13 @@ export default function Store() {
   });
   // Fail closed. Never replace missing data with invented products, stock or prices.
   const products = Array.isArray(dbProducts) ? dbProducts : [];
+  const completeSetProduct = products.find(product =>
+    product.id === WINTER_BUNDLE_ID &&
+    product.is_active === true &&
+    product.publication_status === 'live' &&
+    product.is_stage_one_sale === true &&
+    Number(product.stock_quantity) > 0
+  ) || null;
 
   // Sort: merch groups first, then music, sold-out last
   const GROUP_ORDER = { apparel: 0, accessories: 1, drinkware: 2, bundle: 3, poster: 4, vinyl: 5, cd: 6, other: 7 };
@@ -419,7 +438,7 @@ export default function Store() {
             <div className="flex justify-center">
               <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
                 {cdProducts.map(product => (
-                   <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/cart-details')} onViewCart={() => setCartOpen(true)} />
+                   <ProductCard key={product.id} product={product} completeSetProduct={COMPLETE_SET_SOURCE_IDS.has(product.id) ? completeSetProduct : null} onCheckout={() => navigate('/store/cart-details')} onViewCart={() => setCartOpen(true)} />
                  ))}
               </div>
             </div>
@@ -436,7 +455,7 @@ export default function Store() {
             </div>
             <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {merchProducts.map(product => (
-                 <ProductCard key={product.id} product={product} onCheckout={() => navigate('/store/cart-details')} onViewCart={() => setCartOpen(true)} />
+                 <ProductCard key={product.id} product={product} completeSetProduct={COMPLETE_SET_SOURCE_IDS.has(product.id) ? completeSetProduct : null} onCheckout={() => navigate('/store/cart-details')} onViewCart={() => setCartOpen(true)} />
                ))}
             </div>
           </>
@@ -452,6 +471,8 @@ export default function Store() {
         <ProductDetailModal
           product={worldProduct}
           allImages={worldProductImages}
+          completeSetProduct={COMPLETE_SET_SOURCE_IDS.has(worldProduct.id) ? completeSetProduct : null}
+          onViewCompleteSet={() => setWorldProduct(null)}
           onClose={() => setWorldProduct(null)}
         />
       )}
