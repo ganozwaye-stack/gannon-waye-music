@@ -1,0 +1,54 @@
+{
+  "name": "ReleaseStatusEmailLog",
+  "type": "object",
+  "description": "One record per fan email actually sent for a release status change, so each status of each release is only ever announced to fans once. Written only by the notifyFansReleaseStatus function.",
+  "properties": {
+    "release_id": {
+      "type": "string",
+      "description": "Release record this announcement was about"
+    },
+    "release_title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "description": "The status that was announced"
+    },
+    "sent_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Emails successfully sent"
+    },
+    "recipient_count": {
+      "type": "number",
+      "default": 0,
+      "description": "Total recipients on the list for this announcement"
+    }
+  },
+  "required": [
+    "release_id",
+    "status"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "email": "__service_role_only__@invalid.local"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "email": "__service_role_only__@invalid.local"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "email": "__service_role_only__@invalid.local"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "email": "__service_role_only__@invalid.local"
+      }
+    }
+  }
+}

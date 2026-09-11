@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Heart, Star, Crown, Medal, Trophy, TrendingUp } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import FanEngagementBoard from '@/components/public/FanEngagementBoard';
 
 const TIER_LABELS = {
   day_one: 'Day One',
@@ -13,10 +14,11 @@ const TIER_LABELS = {
   founding: 'Founding Supporter',
 };
 
+// Gold essence only: every rank uses the signature gold, only its intensity changes.
 const RANK_ICONS = [
-  { icon: Crown, color: 'text-primary', bg: 'from-primary/20 to-primary/5', label: '1st' },
-  { icon: Medal, color: 'text-gray-300', bg: 'from-gray-400/20 to-gray-400/5', label: '2nd' },
-  { icon: Trophy, color: 'text-orange-400', bg: 'from-orange-500/20 to-orange-500/5', label: '3rd' },
+  { icon: Crown, color: 'text-primary', bg: 'from-primary/25 to-primary/5', label: '1st' },
+  { icon: Medal, color: 'text-primary/80', bg: 'from-primary/15 to-primary/5', label: '2nd' },
+  { icon: Trophy, color: 'text-primary/60', bg: 'from-primary/10 to-primary/5', label: '3rd' },
 ];
 
 export default function FanLeaderboard() {
@@ -37,6 +39,7 @@ export default function FanLeaderboard() {
 
   const topThree = supporters.slice(0, 3);
   const rest = supporters.slice(3);
+  const foundingSet = new Set(foundingSupporters.map((f) => String(f.name || '').trim().toLowerCase()));
 
   return (
     <div className="min-h-screen px-4 md:px-8 py-12 max-w-[1400px] mx-auto">
@@ -113,7 +116,12 @@ export default function FanLeaderboard() {
                       <span className="font-display text-base text-muted-foreground">{(s.supporter_name || '?')[0]?.toUpperCase()}</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-body text-sm text-foreground font-medium truncate">{s.supporter_name || 'Anonymous Supporter'}</p>
+                      <div className="flex items-center gap-1.5">
+                        <p className="font-body text-sm text-foreground font-medium truncate">{s.supporter_name || 'Anonymous Supporter'}</p>
+                        {foundingSet.has(String(s.supporter_name || '').trim().toLowerCase()) && (
+                          <Star className="w-3.5 h-3.5 text-primary shrink-0" aria-label="Founding supporter" />
+                        )}
+                      </div>
                       <p className="font-body text-xs text-muted-foreground">{TIER_LABELS[s.tier] || s.tier}</p>
                     </div>
                     {s.total_contributed && (
@@ -175,6 +183,8 @@ export default function FanLeaderboard() {
           </div>
         </div>
       </div>
+
+      <FanEngagementBoard foundingNames={foundingSupporters.map((f) => f.name)} />
     </div>
   );
 }

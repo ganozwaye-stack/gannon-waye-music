@@ -1,0 +1,42 @@
+{
+  "name": "Release Status Update \u2192 Fan Email",
+  "description": "Emails the mailing list and opted-in store customers whenever an owner-approved release changes status. Each status is announced at most once, and the function itself re-checks every safety gate before sending.",
+  "trigger": {
+    "config": {
+      "trigger_type": "entity",
+      "entity_name": "Release",
+      "events": [
+        "update"
+      ]
+    },
+    "condition": "${ .trigger.changed_fields | index(\"status\") != null and .trigger.data.publishing_safe == true and .trigger.data.public_release_approval_status == \"approved\" }"
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "release_status_fan_email",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "send_fan_update": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "notifyFansReleaseStatus",
+            "args": {
+              "release_id": "${ .trigger.entity_id }",
+              "old_status": "${ .trigger.old_data.status }",
+              "new_status": "${ .trigger.data.status }"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Email fans the status update",
+            "description": "Mailing list + store customers"
+          }
+        }
+      }
+    ]
+  }
+}
