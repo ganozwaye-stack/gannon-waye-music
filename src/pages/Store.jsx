@@ -8,6 +8,7 @@ import { useToast } from '@/components/ui/use-toast';
 import ProductImageRotator from '@/components/store/ProductImageRotator';
 import { useCartStore } from '@/lib/cartStore';
 import ProductDetailModal from '@/components/store/ProductDetailModal';
+import CompleteTheSetOption from '@/components/store/CompleteTheSetOption';
 import CartDrawer from '@/components/store/CartDrawer';
 import AdminEditButton from '@/components/store/AdminEditButton';
 import LockedStorefrontHero from '@/components/store/LockedStorefrontHero';
@@ -23,6 +24,11 @@ const PRODUCT_BADGES = {
 
 // Store is OPEN — products show buy button
 const STORE_OPEN = true;
+
+const HOODIE_PRODUCT_ID = '69f11d1fc43e13c61fe6b9d7';
+const JOURNAL_BUNDLE_ID = '69fbd261b760426cede1b7a3';
+const WINTER_BUNDLE_ID = '6a9a945016c72a1e3c04935f';
+const COMPLETE_SET_SOURCE_IDS = new Set([HOODIE_PRODUCT_ID, JOURNAL_BUNDLE_ID]);
 
 // Per-product config: sub-label only (no buy mode while store closed)
 const PRODUCT_CONFIG = {
@@ -113,13 +119,14 @@ function InterestButton({ productId, productName }) {
   );
 }
 
-function ProductCard({ product, onCheckout, onViewCart }) {
+function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
   const { toast } = useToast();
   const addItem = useCartStore(state => state.addItem);
   const [selectedSize, setSelectedSize] = useState('');
   const [showSizeError, setShowSizeError] = useState(false);
   const [detailOpen, setDetailOpen] = useState(false);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [purchaseChoice, setPurchaseChoice] = useState('item');
 
   const isPoster = product.category === 'poster';
   const hasPosterVariantPricing = isPoster && product.sizes_available?.some(s => POSTER_SIZE_PRICES[s]);
@@ -133,7 +140,15 @@ function ProductCard({ product, onCheckout, onViewCart }) {
   const galleryImages = product.images_array?.length > 0 ? product.images_array.filter(Boolean) : null;
   const allImages = galleryImages || (product.image_url ? [product.image_url] : []);
   const singleImage = product.image_url;
-  const hasSize = product.sizes_available?.length > 0;
+  const cartProduct = purchaseChoice === 'set' && completeSetProduct ? completeSetProduct : product;
+  const hasSize = cartProduct.sizes_available?.length > 0;
+  const cartInStock = Number(cartProduct.stock_quantity) > 0;
+
+  const handleChoiceChange = (choice) => {
+    setPurchaseChoice(choice);
+    setSelectedSize('');
+    setShowSizeError(false);
+  };
   
   const handleAddToCart = () => {
     if (hasSize && !selectedSize) {
@@ -142,12 +157,13 @@ function ProductCard({ product, onCheckout, onViewCart }) {
       return;
     }
     
-    addItem(product, 1, selectedSize || null);
+    addItem(cartProduct, 1, selectedSize || null);
     setSelectedSize('');
     setShowSizeError(false);
     setAddedToCart(true);
+    setPurchaseChoice('item');
     setTimeout(() => setAddedToCart(false), 4000);
-    toast({ title: 'Added to cart! 🤍', description: product.name });
+    toast({ title: 'Added to cart! 🤍', description: cartProduct.name });
   };
 
   return (
@@ -164,7 +180,9 @@ function ProductCard({ product, onCheckout, onViewCart }) {
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: 'easeOut' }}
+        id={`store-product-${product.id}`}
         data-testid="product-card"
+        data-product-id={product.id}
         className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
       >
         {/* Image — click to open detail modal */}
