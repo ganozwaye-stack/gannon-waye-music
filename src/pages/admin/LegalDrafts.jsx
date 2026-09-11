@@ -5,12 +5,16 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
 import LetterheadPdfButton from '@/components/admin/LetterheadPdfButton';
+import GannonSignature from '@/components/global/GannonSignature';
 
-const TERMINATION_LETTER = `Subject: Termination of Involvement with GanozMix Direct
+// The letter is split at the signature point: [SIGNATURE] marks where Gannon's
+// real signature image is drawn (on screen and in the PDF) between "Regards,"
+// and his name — never a typed or AI-generated signature.
+const LETTER_HEAD = `Subject: Termination of Involvement with GanozMix Direct
 
 Victor,
 
-This letter confirms that, effective as at [DATE OF ORIGINAL NOTICE — insert the date this termination was first issued] and effective immediately, any involvement, access, collaboration, representation, or association you may have had with GanozMix Direct is terminated.
+This letter is a formality to confirm the termination of your involvement with GanozMix Direct, effective as from on or around 5 June 2026, and effective immediately, should any misunderstanding have occurred.
 
 Please note: GanozMix Direct has since rebranded and no longer exists or trades under that name. This notice is provided for clarity and record-keeping. Your involvement is acknowledged as dating from the earliest stages of the brand; however, this decision is final.
 
@@ -20,8 +24,11 @@ Any access credentials, materials, files, business information, or account permi
 
 No further involvement is authorised unless confirmed in writing by Gannon Waye.
 
-Regards,
-Gannon Waye
+We wish you every success in your endeavours. However, we will not be available for a character or employment reference, at the benefit of your ability to regain employment.
+
+Regards,`;
+
+const LETTER_TAIL = `Gannon Waye
 Gannon Waye Music
 
 Thanking You Kindly PTY LTD
@@ -29,13 +36,16 @@ Mobile: 0431 546 400
 
 Thanking You Kindly PTY LTD is the e-commerce brand operating the retail system for Gannon Waye Music, including its micro-branded dropshipping operations. In its first months of operation the brand has delivered strong early sales results, and the business continues to grow from a strong foundation.`;
 
+const FULL_LETTER = `${LETTER_HEAD}\n\n[SIGNATURE]\n\n${LETTER_TAIL}`;
+const PLAIN_LETTER = FULL_LETTER.replace('\n\n[SIGNATURE]\n\n', '\n\n');
+
 export default function LegalDrafts() {
   const { toast } = useToast();
   const [copied, setCopied] = useState(false);
   const [logged, setLogged] = useState(false);
 
   const copyLetter = () => {
-    navigator.clipboard.writeText(TERMINATION_LETTER);
+    navigator.clipboard.writeText(PLAIN_LETTER);
     setCopied(true);
     toast({ title: 'Letter copied to clipboard', description: 'Review carefully before sending.' });
     setTimeout(() => setCopied(false), 3000);
@@ -89,11 +99,14 @@ export default function LegalDrafts() {
 
         <div className="p-6">
           <pre className="font-body text-xs text-muted-foreground whitespace-pre-wrap leading-relaxed bg-secondary/20 rounded-xl p-5 border border-border/30">
-            {TERMINATION_LETTER}
+            {`${LETTER_HEAD}\n\n`}
+            <GannonSignature className="block my-1" />
+            {`\n${LETTER_TAIL}`}
           </pre>
 
           <div className="flex flex-wrap gap-3 mt-4">
-            <LetterheadPdfButton letterText={TERMINATION_LETTER} />
+            <LetterheadPdfButton letterText={FULL_LETTER} />
+            <LetterheadPdfButton blank />
             <Button variant="outline" size="sm" onClick={copyLetter} className="rounded-full text-xs gap-1.5">
               {copied ? <CheckCircle2 className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
               {copied ? 'Copied' : 'Copy Letter'}

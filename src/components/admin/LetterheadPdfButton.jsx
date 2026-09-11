@@ -28,6 +28,33 @@ async function loadLogoDataUrl() {
   }
 }
 
+// Gannon's real signature (transparent PNG) — placed between "Regards," and his name.
+const SIGNATURE_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6eda965a4_image.png';
+
+async function loadSignature() {
+  try {
+    const res = await fetch(SIGNATURE_URL);
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    const dataUrl = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(blob);
+    });
+    if (!dataUrl) return null;
+    const dims = await new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+      img.onerror = () => resolve(null);
+      img.src = dataUrl;
+    });
+    return dims ? { dataUrl, ...dims } : null;
+  } catch {
+    return null;
+  }
+}
+
 function drawHeader(doc, logoDataUrl) {
   let y = 14;
   if (logoDataUrl) {
@@ -81,7 +108,7 @@ function drawFooter(doc) {
   doc.text('Thanking You Kindly', 132, y, { align: 'center', charSpace: 0.4 });
 }
 
-function renderLetter(doc, letterText, startY) {
+function renderLetter(doc, letterText, startY, signature) {
   const margin = 22;
   const width = 210 - margin * 2;
   let y = startY;
@@ -89,6 +116,18 @@ function renderLetter(doc, letterText, startY) {
 
   blocks.forEach((block, index) => {
     if (index > 0) y += 3;
+
+    // The [SIGNATURE] marker draws Gannon's real signature image, never text.
+    if (block.trim() === '[SIGNATURE]') {
+      if (signature) {
+        if (y > 268) { doc.addPage(); y = 22; }
+        const sigWidth = 42;
+        const sigHeight = Math.min(16, sigWidth * (signature.height / signature.width));
+        doc.addImage(signature.dataUrl, 'PNG', margin, y, sigWidth, sigHeight);
+        y += sigHeight + 6;
+      }
+      return;
+    }
 
     const isSubject = block.startsWith('Subject:');
     const isSignoff = block.startsWith('Regards,');
@@ -121,7 +160,7 @@ function renderLetter(doc, letterText, startY) {
   return y;
 }
 
-export default function LetterheadPdfButton({ letterText }) {
+export default function LetterheadPdfButton({ letterText, blank = false }) {
   const { toast } = useToast();
   const [building, setBuilding] = useState(false);
 
@@ -131,13 +170,20 @@ export default function LetterheadPdfButton({ letterText }) {
       const doc = new jsPDF({ unit: 'mm', format: 'a4' });
       const logo = await loadLogoDataUrl();
       const bodyY = drawHeader(doc, logo);
-      renderLetter(doc, letterText, bodyY);
+      if (!blank) {
+        const signature = await loadSignature();
+        renderLetter(doc, letterText, bodyY, signature);
+      }
       // Footer on the final page
       const pageCount = doc.getNumberOfPages();
       doc.setPage(pageCount);
       drawFooter(doc);
-      doc.save('gannon-waye-termination-letter.pdf');
-      toast({ title: 'Letterhead PDF downloaded', description: 'Review before sending.' });
+      doc.save(blank ? 'gannon-waye-blank-letterhead.pdf' : 'gannon-waye-termination-letter.pdf');
+      toast(
+        blank
+          ? { title: 'Blank letterhead downloaded', description: 'Ready to save, print and sign.' }
+          : { title: 'Letterhead PDF downloaded', description: 'Review before sending.' }
+      );
     } catch {
       toast({ title: 'Could not build the PDF', description: 'Please try again.', variant: 'destructive' });
     }
@@ -153,7 +199,7 @@ export default function LetterheadPdfButton({ letterText }) {
       className="rounded-full text-xs gap-1.5"
     >
       {building ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Download className="w-3.5 h-3.5" />}
-      {building ? 'Building…' : 'Letterhead PDF'}
+      {building ? 'Building…' : blank ? 'Blank Letterhead' : 'Letterhead PDF'}
     </Button>
   );
 }

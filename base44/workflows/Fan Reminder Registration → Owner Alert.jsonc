@@ -1,0 +1,41 @@
+{
+  "description": "Whenever a fan registers a release reminder on the public Fan Reminders page, Gannon gets an email via Gmail with their name, email, reminder type and note, plus an admin bell notification, so he can track interest.",
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "fan_reminder_registration_alert",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "notify_owner": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "notifyFanReminderRegistration",
+            "args": {
+              "reminder_id": "${ .trigger.entity_id }",
+              "data": "${ .trigger.data }"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Email Gannon about the new reminder",
+            "description": "Gmail alert + admin bell notification"
+          }
+        }
+      }
+    ]
+  },
+  "name": "Fan Reminder Registration \u2192 Owner Alert",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "entity",
+      "events": [
+        "create"
+      ],
+      "entity_name": "FanReminder"
+    }
+  }
+}
