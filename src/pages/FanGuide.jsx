@@ -8,6 +8,8 @@ const GUIDE_VIDEO =
 
 // Narrations are recorded with the site voice, from Gannon-approved copy.
 // House style: no em dashes, gold essence palette only.
+// Every lesson also carries the full walkthrough as on-screen text, so the
+// whole guide is readable without pressing play.
 const LESSONS = [
   {
     key: 'community',
@@ -17,6 +19,12 @@ const LESSONS = [
       'How to share your story, be recognised for showing up, and keep the words that matter to you close.',
     audioUrl:
       'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/f17812bcd_speech.mp3',
+    walkthrough: [
+      'Open the fan leaderboard to see how showing up is recognised.',
+      'Visit your fan profile to follow all of your own activity in one place.',
+      'Open any lyric and press Save to keep the words that matter to you.',
+      'Leave a comment on a post so other fans see you showed up.',
+    ],
     steps: [
       { label: 'See the fan leaderboard', to: '/fan-leaderboard' },
       { label: 'Open your fan profile', to: '/fan-profile' },
@@ -31,6 +39,12 @@ const LESSONS = [
       'A walkthrough of the boutique: live prices on the storefront, checkout, receipts and order tracking.',
     audioUrl:
       'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/9c5bd3347_speech.mp3',
+    walkthrough: [
+      'Enter the boutique and hover over the storefront world to see live prices.',
+      'Choose your piece and size, then add it to the cart.',
+      'Checkout when you are ready, and your receipt arrives by email.',
+      'Track your order any time from the order status page.',
+    ],
     steps: [
       { label: 'Enter the boutique', to: '/store' },
       { label: 'Track an order', to: '/order-status' },
@@ -45,6 +59,12 @@ const LESSONS = [
       'Pre-saving, release update emails, your dashboard, and finding the right song for your mood.',
     audioUrl:
       'https://media.base44.com/files/public/69eb7905ca6eb4180010f794/4f3899c55_speech.mp3',
+    walkthrough: [
+      'Open the pre-save page to lock in the next release before it drops.',
+      'Use Discover to find the right song for your mood.',
+      'Set your email preferences so you only hear about what you asked for.',
+      'Check your fan dashboard for everything saved in one place.',
+    ],
     steps: [
       { label: 'Pre-save the next release', to: '/presave' },
       { label: 'Discover music by mood', to: '/discover' },
@@ -75,7 +95,7 @@ export default function FanGuide() {
           <h1 className="font-display text-4xl md:text-6xl gradient-gold-text mb-4">Everything Here Is For You</h1>
           <p className="font-body text-sm text-foreground/80 max-w-xl mx-auto leading-relaxed">
             Three short walkthroughs with audio guidance, each under a minute. Press play
-            and follow along, or read the steps if you prefer.
+            and follow along, or read every step right here on the screen.
           </p>
         </div>
       </section>
@@ -109,6 +129,23 @@ export default function FanGuide() {
               <p className="font-body text-sm text-foreground/80 leading-relaxed mb-5">
                 {lesson.description}
               </p>
+
+              {/* Everything on screen: the full walkthrough in writing */}
+              <div className="mb-6 rounded-xl border border-border/30 bg-background/30 p-5">
+                <p className="font-body text-[10px] tracking-[0.25em] uppercase text-muted-foreground mb-3">
+                  On this screen
+                </p>
+                <ol className="space-y-2.5">
+                  {lesson.walkthrough.map((step, i) => (
+                    <li key={i} className="flex gap-3 items-start">
+                      <span className="font-display text-xs text-primary/70 tabular-nums pt-0.5 w-4 shrink-0">
+                        {i + 1}
+                      </span>
+                      <span className="font-body text-sm text-foreground/85 leading-relaxed text-left">{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </div>
 
               {/* Audio guidance */}
               <div className="mb-5">

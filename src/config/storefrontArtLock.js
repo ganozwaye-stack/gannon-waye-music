@@ -18,7 +18,8 @@ export const STOREFRONT_ART_LOCK = Object.freeze({
   // himself. It shows the full future merch line — Set Free and Thank You
   // hoodies, mugs, CDs and vinyl, totes and posters — so hotspots over items
   // that have no live product yet collect Express Interest instead of selling.
-  imageSha256: 'owner-v5-2026-09-11-sha-pending-recompute',
+  // sha256 of the exact v5 image bytes, computed 11 September 2026.
+  imageSha256: '13cc396dc5f8d3c968d13bb66a7d3a66c48a9219357d2dae4e3187c866b280e7',
   imageUrl: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/31a17f0b8_image.png',
   publicRoute: '/store',
   productSource: 'MerchProduct where is_active=true, publication_status=live and is_stage_one_sale=true',
