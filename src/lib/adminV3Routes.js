@@ -160,7 +160,8 @@ export const LEGACY_ROUTES = [
   r('/admin/coaching/client-resources', 'Coaching and Clients', 'specialist', false, 'keep'),
   r('/admin/training', 'Coaching and Clients', 'specialist', true, 'merge'),
   r('/admin/training-centre', 'Coaching and Clients', 'specialist', false, 'merged_into:/admin/education-hub'),
-  r('/admin/education-hub', 'Coaching and Clients', 'specialist', true, 'merge'),
+  // Now the canonical training screen: /admin/training-centre redirects here.
+  r('/admin/education-hub', 'Coaching and Clients', 'primary', true, 'keep'),
   r('/admin/sales-training', 'Coaching and Clients', 'specialist', true, 'keep'),
 
   // ─── Fans and Support ───────────────────────────────────────────────────
