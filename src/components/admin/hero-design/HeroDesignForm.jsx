@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Switch } from '@/components/ui/switch';
 
 // Owner-controlled sliders for every hero design value. Values are stored in
 // HeroDesignSettings and render live on the public hero once saved.
@@ -22,6 +23,7 @@ const GROUPS = [
     title: 'Heart artwork',
     fields: [
       { key: 'heart_size_pct', label: 'Heart size relative to the standard width', min: 50, max: 180, step: 1, suffix: '%' },
+      { key: 'heart_pos_y_pct', label: 'Vertical position, 0 is top, 100 is bottom', min: 0, max: 100, step: 1, suffix: '%' },
     ],
   },
   {
@@ -112,6 +114,20 @@ export default function HeroDesignForm({ values, releases = [], onChange }) {
             uploading={uploadingKey === 'galaxy_image_url'}
             onUpload={(f) => handleUpload('galaxy_image_url', f)}
           />
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardContent className="p-4 space-y-4">
+          <p className="font-body text-sm font-semibold text-foreground">Atmosphere</p>
+          <div className="flex items-center justify-between">
+            <Label className="font-body text-xs text-muted-foreground">Rising gold embers</Label>
+            <Switch checked={values.embers_enabled !== false} onCheckedChange={(v) => onChange('embers_enabled', v)} />
+          </div>
+          <div className="flex items-center justify-between">
+            <Label className="font-body text-xs text-muted-foreground">Gold light rays behind the heart</Label>
+            <Switch checked={values.rays_enabled !== false} onCheckedChange={(v) => onChange('rays_enabled', v)} />
+          </div>
         </CardContent>
       </Card>
 

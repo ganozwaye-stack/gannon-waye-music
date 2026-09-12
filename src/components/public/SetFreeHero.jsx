@@ -84,6 +84,7 @@ export default function SetFreeHero() {
       )}
 
       {/* Gold light rays, waking up as the heart scrolls through view */}
+      {design.rays_enabled !== false && (
       <motion.div
         className="absolute inset-0 pointer-events-none"
         style={{ opacity: rayOpacity, rotate: rayRotate }}
@@ -97,12 +98,14 @@ export default function SetFreeHero() {
           }}
         />
       </motion.div>
+      )}
 
       {/* The heart shell, the deepest 3D layer, framed by the owner's locked-in design */}
       <motion.div
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
         style={{ y: yPlanet, z: zPlanet, rotateX: rotateXPlanet, transformStyle: 'preserve-3d' }}
       >
+        <div style={{ transform: `translateY(${(design.heart_pos_y_pct - 50) * 0.9}%)` }}>
         <div
           className="relative aspect-square"
           style={{ width: `min(${76 * design.heart_size_pct / 100}vw, ${540 * design.heart_size_pct / 100}px)` }}
@@ -120,12 +123,15 @@ export default function SetFreeHero() {
           {/* Tilted orbit ring with travelling sparks, driven by the Hero Design Studio */}
           <HeroOrbitRing ring={design} />
         </div>
+        </div>
       </motion.div>
 
       {/* Gold dust rising through the light */}
-      <motion.div className="absolute inset-0 pointer-events-none" style={{ scale: emberScale }}>
-        <GoldenEmbers />
-      </motion.div>
+      {design.embers_enabled !== false && (
+        <motion.div className="absolute inset-0 pointer-events-none" style={{ scale: emberScale }}>
+          <GoldenEmbers />
+        </motion.div>
+      )}
 
       {/* Copy, floating above the heart so the letters pop with depth */}
       <div className="relative z-10 min-h-[92svh] flex flex-col items-center justify-center text-center px-6">

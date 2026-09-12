@@ -20,6 +20,9 @@ export const HERO_DESIGN_DEFAULTS = {
   heart_size_pct: 100,
   galaxy_scan_pct: 12,
   galaxy_pos_y: 34,
+  heart_pos_y_pct: 50,
+  embers_enabled: true,
+  rays_enabled: true,
 };
 
 // The official Set Free shell artwork, supplied by Gannon. Never regenerate,

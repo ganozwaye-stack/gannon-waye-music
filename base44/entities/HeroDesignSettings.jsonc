@@ -1,7 +1,7 @@
 {
   "name": "HeroDesignSettings",
   "type": "object",
-  "description": "Owner-controlled live design values for the home page hero: featured release, labels, artwork, orbit ring, sparks, heart size and galaxy framing. Edited visually in the Hero Design Studio (admin only). One record holds the live values; the public hero falls back to code defaults when no record exists.",
+  "description": "Owner-controlled live design values for the home page hero: featured release, labels, artwork, orbit ring, sparks, heart position and size, galaxy framing and atmosphere. Edited visually in the Hero Design Studio (admin only). One record holds the live values; the public hero falls back to code defaults when no record exists.",
   "properties": {
     "hero_release_id": {
       "type": "string",
@@ -22,6 +22,11 @@
       "type": "string",
       "default": "",
       "description": "Optional galaxy background image URL. Rendered full-bleed with the over-scan so no edge of the image can ever show. Empty string uses the built-in gold glow."
+    },
+    "heart_pos_y_pct": {
+      "type": "number",
+      "default": 50,
+      "description": "Heart vertical position within the hero, 0 top to 100 bottom."
     },
     "ring_top_pct": {
       "type": "number",
@@ -67,6 +72,16 @@
       "type": "number",
       "default": 100,
       "description": "Heart plate size as a percentage of the standard width."
+    },
+    "embers_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show the rising gold embers in the hero."
+    },
+    "rays_enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Show the gold light rays behind the heart."
     },
     "galaxy_scan_pct": {
       "type": "number",

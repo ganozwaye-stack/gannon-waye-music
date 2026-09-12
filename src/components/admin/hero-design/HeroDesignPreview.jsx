@@ -1,3 +1,4 @@
+import GoldenEmbers from '@/components/three/GoldenEmbers';
 import HeroOrbitRing from '@/components/public/HeroOrbitRing';
 import { HERO_HEART_ART } from '@/lib/heroDesignDefaults';
 
@@ -34,8 +35,24 @@ export default function HeroDesignPreview({ settings, title = 'Set Free' }) {
           }}
         />
       )}
+      {/* Atmosphere: gold light rays and rising embers, switchable from the studio */}
+      {s.rays_enabled !== false && (
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ opacity: 0.35 }}>
+          <div
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[170%] aspect-square"
+            style={{
+              background:
+                'repeating-conic-gradient(from 0deg at 50% 50%, rgba(212,175,55,0.18) 0deg 5deg, rgba(212,175,55,0) 5deg 17deg)',
+              filter: 'blur(26px)',
+            }}
+          />
+        </div>
+      )}
+      {s.embers_enabled !== false && <GoldenEmbers density={0.6} intensity={0.8} />}
+
       {/* Heart plate with the tilted orbit ring and sparks */}
       <div className="absolute inset-0 flex items-center justify-center">
+        <div style={{ transform: `translateY(${(s.heart_pos_y_pct - 50) * 0.9}%)` }}>
         <div className="relative aspect-square" style={{ width: `${36 * s.heart_size_pct / 100}%` }}>
           <img
             src={s.heart_art_url || HERO_HEART_ART}
@@ -44,6 +61,7 @@ export default function HeroDesignPreview({ settings, title = 'Set Free' }) {
             style={{ boxShadow: '0 0 40px rgba(212,175,55,0.35), 0 14px 40px rgba(0,0,0,0.6)' }}
           />
           <HeroOrbitRing ring={s} />
+        </div>
         </div>
       </div>
       {/* Labels */}
