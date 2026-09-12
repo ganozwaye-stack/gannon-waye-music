@@ -1,0 +1,253 @@
+{
+  "name": "DeegoOwnerReport",
+  "type": "object",
+  "description": "Full private Deego owner report with per-destination delivery status. Admin only.",
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "description": "Stable report identifier"
+    },
+    "version": {
+      "type": "string",
+      "description": "Report version. New evidence produces a new version, never a silent edit of a delivered one."
+    },
+    "title": {
+      "type": "string"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "evidence_checked_at": {
+      "type": "string",
+      "description": "When the evidence was actually checked. Never updated unless rechecked."
+    },
+    "snapshot_label": {
+      "type": "string",
+      "description": "Dated snapshot label"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "recommendation": {
+      "type": "string"
+    },
+    "decision_requested": {
+      "type": "string"
+    },
+    "assumptions": {
+      "type": "string",
+      "description": "Evidence basis, cost basis and standing constraints"
+    },
+    "sections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "heading": {
+            "type": "string"
+          },
+          "paragraphs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "bullets": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "heading"
+        ]
+      }
+    },
+    "offers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "stock": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "cost": {
+            "type": "string"
+          },
+          "market": {
+            "type": "string"
+          },
+          "margin": {
+            "type": "string"
+          },
+          "recommendation": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "price"
+        ]
+      }
+    },
+    "comparison": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "seller": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "qualification": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "seller"
+        ]
+      }
+    },
+    "source_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "classification": {
+      "type": "string",
+      "default": "private_owner"
+    },
+    "telegram_status": {
+      "type": "string",
+      "enum": [
+        "not_configured",
+        "awaiting_approval",
+        "test_pending",
+        "accepted_by_provider",
+        "arrival_confirmed",
+        "failed"
+      ],
+      "default": "test_pending"
+    },
+    "telegram_message_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ids of every sent part, preserved across partial failures so a retry resumes instead of repeating."
+    },
+    "telegram_error": {
+      "type": "string"
+    },
+    "telegram_attempted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "email_status": {
+      "type": "string",
+      "enum": [
+        "not_configured",
+        "awaiting_approval",
+        "test_pending",
+        "accepted_by_provider",
+        "arrival_confirmed",
+        "failed"
+      ],
+      "default": "test_pending"
+    },
+    "email_message_id": {
+      "type": "string"
+    },
+    "email_error": {
+      "type": "string"
+    },
+    "email_attempted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "delivery_log": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "at": {
+            "type": "string"
+          },
+          "telegram": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "at"
+        ]
+      }
+    },
+    "delivery_note": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "report_id",
+    "version",
+    "title"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

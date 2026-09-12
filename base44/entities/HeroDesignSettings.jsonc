@@ -1,0 +1,91 @@
+{
+  "name": "HeroDesignSettings",
+  "type": "object",
+  "description": "Owner-controlled live design values for the home page hero: featured release, labels, orbit ring, sparks, heart size and galaxy framing. Edited visually in the Hero Design Studio (admin only). One record holds the live values; the public hero falls back to code defaults when no record exists.",
+  "properties": {
+    "hero_release_id": {
+      "type": "string",
+      "default": "",
+      "description": "Release the home hero features. Empty string means follow the current single automatically."
+    },
+    "eyebrow_label": {
+      "type": "string",
+      "default": "New Single",
+      "description": "Small label shown above the hero heading."
+    },
+    "ring_top_pct": {
+      "type": "number",
+      "default": 12,
+      "description": "Orbit ring top edge as a percentage of the heart plate height."
+    },
+    "ring_left_pct": {
+      "type": "number",
+      "default": -22,
+      "description": "Orbit ring left edge as a percentage of the heart plate width."
+    },
+    "ring_width_pct": {
+      "type": "number",
+      "default": 144,
+      "description": "Orbit ring width as a percentage of the heart plate width."
+    },
+    "ring_aspect": {
+      "type": "number",
+      "default": 3.4,
+      "description": "Orbit ring width divided by height. Higher means a flatter ring."
+    },
+    "ring_rotation_deg": {
+      "type": "number",
+      "default": -14,
+      "description": "Orbit ring tilt in degrees."
+    },
+    "spark_main_size": {
+      "type": "number",
+      "default": 8,
+      "description": "Main orbit ball diameter in pixels."
+    },
+    "spark_companion_size": {
+      "type": "number",
+      "default": 6,
+      "description": "Second orbit ball diameter in pixels. 0 hides it."
+    },
+    "orbit_duration": {
+      "type": "number",
+      "default": 18,
+      "description": "Seconds for each orbit ball to travel one full lap."
+    },
+    "heart_size_pct": {
+      "type": "number",
+      "default": 100,
+      "description": "Heart plate size as a percentage of the standard width."
+    },
+    "galaxy_scan_pct": {
+      "type": "number",
+      "default": 12,
+      "description": "Galaxy plate over-scan percentage on every side, hiding any baked edge of the image."
+    },
+    "galaxy_pos_y": {
+      "type": "number",
+      "default": 34,
+      "description": "Galaxy vertical framing position, 0 to 100."
+    }
+  },
+  "required": [],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {},
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
