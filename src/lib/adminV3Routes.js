@@ -52,7 +52,10 @@ export const LEGACY_ROUTES = [
   r('/admin/content-studio', 'Content and Publishing', 'primary', true, 'keep'),
   r('/admin/social-content', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/content-dashboard', 'Content and Publishing', 'specialist', true, 'merge'),
-  r('/admin/content-command-centre', 'Content and Publishing', 'specialist', false, 'merge'),
+  // DEAD ROUTE: no matching <Route> exists in App.jsx, so this path 404s.
+  // The ContentCommandCentre.jsx page file still exists (507 lines) and is orphaned.
+  // Decide: either wire it up in App.jsx, or delete the page file. Verified 12 Sep 2026.
+  r('/admin/content-command-centre', 'Content and Publishing', 'specialist', false, 'dead_route'),
   r('/admin/content-command', 'Content and Publishing', 'specialist', false, 'merge'),
   r('/admin/content-automate', 'Content and Publishing', 'specialist', true, 'investigate'),
   r('/admin/content-to-cash', 'Content and Publishing', 'specialist', true, 'investigate'),
@@ -97,7 +100,7 @@ export const LEGACY_ROUTES = [
   // ─── Store and Fulfilment ────────────────────────────────────────────────
   r('/admin/merch', 'Store and Fulfilment', 'primary', true, 'keep'),
   r('/admin/orders', 'Store and Fulfilment', 'primary', true, 'keep'),
-  r('/admin/store-orders', 'Store and Fulfilment', 'specialist', true, 'merge'),
+  r('/admin/store-orders', 'Store and Fulfilment', 'specialist', false, 'merged_into:/admin/orders'),
   r('/admin/merch-designs', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/merch-platforms', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/merch-financials', 'Store and Fulfilment', 'specialist', true, 'merge'),
@@ -156,7 +159,7 @@ export const LEGACY_ROUTES = [
   r('/admin/coaching/intake', 'Coaching and Clients', 'specialist', false, 'keep'),
   r('/admin/coaching/client-resources', 'Coaching and Clients', 'specialist', false, 'keep'),
   r('/admin/training', 'Coaching and Clients', 'specialist', true, 'merge'),
-  r('/admin/training-centre', 'Coaching and Clients', 'specialist', true, 'merge'),
+  r('/admin/training-centre', 'Coaching and Clients', 'specialist', false, 'merged_into:/admin/education-hub'),
   r('/admin/education-hub', 'Coaching and Clients', 'specialist', true, 'merge'),
   r('/admin/sales-training', 'Coaching and Clients', 'specialist', true, 'keep'),
 
