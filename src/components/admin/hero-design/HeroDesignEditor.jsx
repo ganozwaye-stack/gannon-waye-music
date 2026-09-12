@@ -25,20 +25,40 @@ export default function HeroDesignEditor() {
     initialData: [],
   });
 
-  const liveRecord = records[0] || null;
+  // The public hero only ever reads the live record. Draft records are the
+  // owner's private work. Records without the flag are the original saved
+  // design from before drafts existed, and stay live.
+  const liveRecord = records.find((r) => r.is_live === true)
+    || records.find((r) => r.is_live === undefined)
+    || null;
+  const draftRecord = records.find((r) => r.is_live === false) || null;
   const [values, setValues] = useState(null);
 
   useEffect(() => {
-    if (!values) setValues({ ...HERO_DESIGN_DEFAULTS, ...(liveRecord || {}) });
-  }, [liveRecord, values]);
+    if (!values) setValues({ ...HERO_DESIGN_DEFAULTS, ...(draftRecord || liveRecord || {}) });
+  }, [draftRecord, liveRecord, values]);
 
-  const save = useMutation({
-    mutationFn: (vals) => liveRecord
-      ? base44.entities.HeroDesignSettings.update(liveRecord.id, vals)
-      : base44.entities.HeroDesignSettings.create(vals),
+  const invalidate = () => qc.invalidateQueries({ queryKey: ['heroDesignSettings'] });
+
+  // Save keeps the design private. Nothing changes on the site until the
+  // owner presses Go Live.
+  const saveDraft = useMutation({
+    mutationFn: (vals) => draftRecord
+      ? base44.entities.HeroDesignSettings.update(draftRecord.id, vals)
+      : base44.entities.HeroDesignSettings.create({ ...vals, is_live: false }),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['heroDesignSettings'] });
-      toast({ title: 'Hero design saved. These values are now locked in and live.' });
+      invalidate();
+      toast({ title: 'Draft saved. Nothing changes on the site until you press Go Live.' });
+    },
+  });
+
+  const goLive = useMutation({
+    mutationFn: (vals) => liveRecord
+      ? base44.entities.HeroDesignSettings.update(liveRecord.id, { ...vals, is_live: true })
+      : base44.entities.HeroDesignSettings.create({ ...vals, is_live: true }),
+    onSuccess: () => {
+      invalidate();
+      toast({ title: 'Live. The site now uses this hero design.' });
     },
   });
 
@@ -61,11 +81,19 @@ export default function HeroDesignEditor() {
       <div className="flex items-center gap-3 flex-wrap">
         <Button
           type="button"
-          onClick={() => save.mutate(values)}
-          disabled={save.isPending}
+          onClick={() => saveDraft.mutate(values)}
+          disabled={saveDraft.isPending}
           className="gradient-gold-button border-0 rounded-full px-6"
         >
-          {save.isPending ? 'Saving...' : 'Save and make live'}
+          {saveDraft.isPending ? 'Saving...' : 'Save Draft'}
+        </Button>
+        <Button
+          type="button"
+          onClick={() => goLive.mutate(values)}
+          disabled={goLive.isPending}
+          className="rounded-full px-6 bg-green-600 hover:bg-green-700 text-white border-0"
+        >
+          {goLive.isPending ? 'Going live...' : 'Go Live'}
         </Button>
         <Button
           type="button"
@@ -75,12 +103,11 @@ export default function HeroDesignEditor() {
         >
           Reset to defaults
         </Button>
-        <span className="font-body text-xs text-muted-foreground">
-          {liveRecord
-            ? 'A saved design is live on the site right now.'
-            : 'No saved design yet. The site is using the built-in defaults.'}
-        </span>
       </div>
+      <p className="font-body text-xs text-muted-foreground">
+        Save Draft keeps your changes private. The site keeps showing the live design, whatever you change
+        here, until you press Go Live.
+      </p>
     </div>
   );
 }

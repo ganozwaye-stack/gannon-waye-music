@@ -27,7 +27,13 @@ export default function SetFreeHero() {
     queryFn: () => base44.entities.HeroDesignSettings.list(),
     initialData: [],
   });
-  const design = { ...HERO_DESIGN_DEFAULTS, ...(settingsRecords[0] || {}) };
+  // Only the live record renders publicly. Draft records are the owner's
+  // private work and never appear here. Records without the flag are the
+  // original saved design from before drafts existed, and stay live.
+  const liveSettings = settingsRecords.find((r) => r.is_live === true)
+    || settingsRecords.find((r) => r.is_live === undefined)
+    || null;
+  const design = { ...HERO_DESIGN_DEFAULTS, ...(liveSettings || {}) };
 
   const { data: releaseCandidates = [] } = useQuery({
     queryKey: ['setfree-hero-releases'],

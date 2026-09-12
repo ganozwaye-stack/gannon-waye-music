@@ -1,8 +1,13 @@
 {
   "name": "HeroDesignSettings",
   "type": "object",
-  "description": "Owner-controlled live design values for the home page hero: featured release, labels, artwork, orbit ring, sparks, heart position and size, galaxy framing and atmosphere. Edited visually in the Hero Design Studio (admin only). One record holds the live values; the public hero falls back to code defaults when no record exists.",
+  "description": "Owner-controlled live design values for the home page hero: featured release, labels, artwork, orbit ring, sparks, heart position and size, galaxy framing and atmosphere. Edited visually in the Hero Design Studio (admin only). One record flagged is_live holds the public design; other records are the owner's private drafts. The public hero falls back to code defaults when no live record exists.",
   "properties": {
+    "is_live": {
+      "type": "boolean",
+      "default": false,
+      "description": "True means this record is the live design the public hero renders. False means it is the owner's private draft, never shown publicly."
+    },
     "hero_release_id": {
       "type": "string",
       "default": "",
