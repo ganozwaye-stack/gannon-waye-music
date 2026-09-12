@@ -37,3 +37,27 @@ export async function findRowByValue(accessToken, sheetId, tabName, columnLetter
   }
   return 0;
 }
+
+// Upsert one row keyed by an exact value in column A. Creates the tab with
+// headers when missing, updates the existing row when the key is found,
+// appends a new row otherwise.
+export async function upsertRow(accessToken, sheetId, tabName, headers, lastColumnLetter, key, row) {
+  await ensureTabWithHeaders(accessToken, sheetId, tabName, headers, lastColumnLetter);
+  const existingRow = await findRowByValue(accessToken, sheetId, tabName, 'A', key);
+  const base = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}`;
+  const authHeaders = { Authorization: `Bearer ${accessToken}`, 'Content-Type': 'application/json' };
+  if (existingRow > 1) {
+    await fetch(`${base}/values/${tabName}!A${existingRow}:${lastColumnLetter}${existingRow}?valueInputOption=RAW`, {
+      method: 'PUT',
+      headers: authHeaders,
+      body: JSON.stringify({ values: [row] }),
+    });
+    return existingRow;
+  }
+  await fetch(`${base}/values/${tabName}!A:${lastColumnLetter}:append?valueInputOption=RAW&insertDataOption=INSERT_ROWS`, {
+    method: 'POST',
+    headers: authHeaders,
+    body: JSON.stringify({ values: [row] }),
+  });
+  return 0;
+}
