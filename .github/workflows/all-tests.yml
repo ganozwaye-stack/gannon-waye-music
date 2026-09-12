@@ -51,17 +51,26 @@ jobs:
   secret-scan:
     name: Secret Scanning & Credentials Check
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: TruffleHog OSS Secret Scan
-        uses: trufflesecurity/trufflehog-actions@main
+        # Official action, pinned to the inspected v3.97.4 commit.
+        # Let the action select push/PR ranges; main vs HEAD can be identical.
+        uses: trufflesecurity/trufflehog@363923b901c911a9164f50b6c423f47c15372b1c
         with:
           path: ./
-          base: ${{ github.event.repository.default_branch }}
-          head: HEAD
-          extra_args: --debug --only-verified
+          version: '3.97.4'
+          # Static detection only: do not try discovered credentials against providers.
+          # The action supplies --fail. Include unverified findings, not just valid keys.
+          extra_args: --no-verification --results=verified,unknown,unverified
 
   codeql-scan:
     name: CodeQL Security Scan
