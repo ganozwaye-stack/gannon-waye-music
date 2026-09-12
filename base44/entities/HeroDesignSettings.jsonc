@@ -1,7 +1,7 @@
 {
   "name": "HeroDesignSettings",
   "type": "object",
-  "description": "Owner-controlled live design values for the home page hero: featured release, labels, orbit ring, sparks, heart size and galaxy framing. Edited visually in the Hero Design Studio (admin only). One record holds the live values; the public hero falls back to code defaults when no record exists.",
+  "description": "Owner-controlled live design values for the home page hero: featured release, labels, artwork, orbit ring, sparks, heart size and galaxy framing. Edited visually in the Hero Design Studio (admin only). One record holds the live values; the public hero falls back to code defaults when no record exists.",
   "properties": {
     "hero_release_id": {
       "type": "string",
@@ -12,6 +12,16 @@
       "type": "string",
       "default": "New Single",
       "description": "Small label shown above the hero heading."
+    },
+    "heart_art_url": {
+      "type": "string",
+      "default": "",
+      "description": "Custom heart artwork image URL. Empty string uses the official built-in Set Free artwork."
+    },
+    "galaxy_image_url": {
+      "type": "string",
+      "default": "",
+      "description": "Optional galaxy background image URL. Rendered full-bleed with the over-scan so no edge of the image can ever show. Empty string uses the built-in gold glow."
     },
     "ring_top_pct": {
       "type": "number",

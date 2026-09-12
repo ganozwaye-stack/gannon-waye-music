@@ -7,6 +7,8 @@
 export const HERO_DESIGN_DEFAULTS = {
   hero_release_id: '',
   eyebrow_label: 'The New Single',
+  heart_art_url: '',
+  galaxy_image_url: '',
   ring_top_pct: 12,
   ring_left_pct: -22,
   ring_width_pct: 144,

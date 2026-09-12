@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { base44 } from '@/api/base44Client';
+import { Upload } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -41,9 +44,77 @@ const GROUPS = [
   },
 ];
 
+// One artwork field: paste a URL or upload your own file.
+function ArtworkField({ label, hint, value, onChange, uploading, onUpload }) {
+  return (
+    <div className="space-y-1.5">
+      <p className="font-body text-xs text-muted-foreground">{label}</p>
+      <div className="flex gap-2">
+        <input
+          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 font-body text-sm shadow-sm"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
+          placeholder={hint}
+        />
+        <label className="inline-flex items-center gap-1.5 rounded-md border border-input px-3 text-xs font-body cursor-pointer hover:bg-accent/10 whitespace-nowrap">
+          {uploading ? 'Uploading...' : <><Upload className="w-3 h-3" /> Upload</>}
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => {
+              const f = e.target.files && e.target.files[0];
+              if (f) onUpload(f);
+              e.target.value = '';
+            }}
+          />
+        </label>
+      </div>
+    </div>
+  );
+}
+
 export default function HeroDesignForm({ values, releases = [], onChange }) {
+  const [uploadingKey, setUploadingKey] = useState(null);
+  const handleUpload = async (key, file) => {
+    setUploadingKey(key);
+    try {
+      const res = await base44.integrations.Core.UploadPublicFile({ file });
+      onChange(key, res.file_url);
+    } finally {
+      setUploadingKey(null);
+    }
+  };
+
   return (
     <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+      <Card>
+        <CardContent className="p-4 space-y-3">
+          <p className="font-body text-sm font-semibold text-foreground">Artwork</p>
+          <p className="font-body text-xs text-muted-foreground">
+            Add your own artwork here. The galaxy always fills the whole background, full-bleed with the
+            over-scan, so no white sides can ever show on any screen.
+          </p>
+          <ArtworkField
+            label="Heart artwork"
+            hint="Leave blank to use the official built-in artwork"
+            value={values.heart_art_url || ''}
+            onChange={(v) => onChange('heart_art_url', v)}
+            uploading={uploadingKey === 'heart_art_url'}
+            onUpload={(f) => handleUpload('heart_art_url', f)}
+          />
+          <ArtworkField
+            label="Galaxy background"
+            hint="Leave blank for the built-in gold glow"
+            value={values.galaxy_image_url || ''}
+            onChange={(v) => onChange('galaxy_image_url', v)}
+            uploading={uploadingKey === 'galaxy_image_url'}
+            onUpload={(f) => handleUpload('galaxy_image_url', f)}
+          />
+        </CardContent>
+      </Card>
+
       <Card>
         <CardContent className="p-4 space-y-3">
           <div className="grid gap-4 sm:grid-cols-2">

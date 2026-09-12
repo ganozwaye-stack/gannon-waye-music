@@ -10,9 +10,10 @@ export default function HeroDesignStudio() {
         <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">Owner Only</p>
         <h1 className="font-display text-3xl font-bold gradient-gold-text">Hero Design Studio</h1>
         <p className="font-body text-sm text-muted-foreground mt-1 max-w-2xl">
-          Full control over the home hero. Move the sliders, watch the live preview, then save to lock
-          it in. The galaxy over-scan guarantees no screen edge can ever show, and release day needs
-          nothing from anyone but you.
+          Full control over the home hero, by your brief. Upload your own heart artwork and galaxy
+          background, move the sliders, watch the live preview, then save to lock it in. The galaxy
+          fills the whole background and over-scans past every edge, so white sides can never show,
+          and release day needs nothing from anyone but you.
         </p>
       </div>
       <HeroDesignEditor />

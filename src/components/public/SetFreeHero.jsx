@@ -60,14 +60,28 @@ export default function SetFreeHero() {
       style={{ perspective: '1400px', background: '#0a0a0e', minHeight: '92svh' }}
     >
       {/* Galaxy plate. The over-scan percentage bleeds it past every edge so
-          no baked edge of the image can ever show, at any screen size. */}
-      <div
-        className="absolute pointer-events-none"
-        style={{
-          inset: `-${design.galaxy_scan_pct}%`,
-          background: `radial-gradient(90% 70% at 50% ${design.galaxy_pos_y}%, rgba(212,175,55,0.09), rgba(10,10,14,0) 65%)`,
-        }}
-      />
+          no baked edge of the image can ever show, at any screen size. A
+          custom galaxy image is cover-filled across the whole plate, so
+          white sides are impossible whatever shape the file is. */}
+      {design.galaxy_image_url ? (
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            inset: `-${design.galaxy_scan_pct}%`,
+            backgroundImage: `url(${design.galaxy_image_url})`,
+            backgroundSize: 'cover',
+            backgroundPosition: `50% ${design.galaxy_pos_y}%`,
+          }}
+        />
+      ) : (
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            inset: `-${design.galaxy_scan_pct}%`,
+            background: `radial-gradient(90% 70% at 50% ${design.galaxy_pos_y}%, rgba(212,175,55,0.09), rgba(10,10,14,0) 65%)`,
+          }}
+        />
+      )}
 
       {/* Gold light rays, waking up as the heart scrolls through view */}
       <motion.div
@@ -94,7 +108,7 @@ export default function SetFreeHero() {
           style={{ width: `min(${76 * design.heart_size_pct / 100}vw, ${540 * design.heart_size_pct / 100}px)` }}
         >
           <img
-            src={HERO_HEART_ART}
+            src={design.heart_art_url || HERO_HEART_ART}
             alt={`${heroTitle} artwork, a heart shell bathed in gold light`}
             draggable="false"
             className="relative w-full h-full object-cover rounded-full border-2 border-primary/40 select-none"
