@@ -529,7 +529,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/owner-command-v3" element={<OwnerCommandV3 />} />
         <Route path="/admin/launch-content" element={<LaunchContentHub />} />
         <Route path="/admin/music-fan" element={<MusicFanHub />} />
-        <Route path="/admin/store-orders" element={<StoreOrdersHub />} />
+        {/* Merged into /admin/orders (12 Sep 2026). Orders reads the same MerchOrder data
+            and additionally updates orders and reads MerchProduct, so it is a strict superset.
+            Kept as a redirect so existing links and bookmarks still work.
+            To undo: restore element={<StoreOrdersHub />}. */}
+        <Route path="/admin/store-orders" element={<Navigate to="/admin/orders" replace />} />
         <Route path="/admin/automation-agents" element={<AutomationAgentsHub />} />
         <Route path="/admin/systems-qa" element={<SystemsQaHub />} />
         <Route path="/admin/owner-business" element={<OwnerBusinessHub />} />
@@ -726,7 +730,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/link-integrity-audit" element={<LinkIntegrityAudit />} />
         <Route path="/admin/education-hub" element={<EducationHub />} />
         <Route path="/admin/instagram-story-studio" element={<InstagramStoryStudio />} />
-        <Route path="/admin/training-centre" element={<TrainingCentre />} />
+        {/* Merged into /admin/education-hub (12 Sep 2026). Both screens read and write the
+            same TrainingModule entity with the same create/update/delete operations;
+            Education Hub is the fuller of the two.
+            To undo: restore element={<TrainingCentre />}. */}
+        <Route path="/admin/training-centre" element={<Navigate to="/admin/education-hub" replace />} />
         <Route path="/admin/announcement-studio" element={<AnnouncementStudio />} />
         <Route path="/admin/campaign-image-approval" element={<CampaignImageApproval />} />
         <Route path="/admin/master-blueprint" element={<MasterBlueprint />} />
