@@ -159,7 +159,7 @@ export default function SocialScheduleQueue() {
 
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ['schedule-queue'],
-    queryFn: () => base44.entities.ContentCalendarPost.filter({ campaign: 'thank_you_june5_sprint' }, 'sprint_day', 200),
+    queryFn: () => base44.entities.ContentCalendarPost.filter({}, 'scheduled_date', 200),
     refetchInterval: 30000,
   });
 

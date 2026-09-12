@@ -61,6 +61,8 @@ import DailyDashboard from '@/pages/admin/DailyDashboard';
 import DailyDashboardV2 from '@/pages/admin/DailyDashboardV2';
 import OwnerCommandV3 from '@/pages/admin/OwnerCommandV3';
 import Releases from '@/pages/admin/Releases';
+import HeroDesignStudio from '@/pages/admin/HeroDesignStudio';
+import ReleasePrepStudio from '@/pages/admin/ReleasePrepStudio';
 import MerchManagement from '@/pages/admin/MerchManagement';
 import StoreHotspotEditor from '@/pages/admin/StoreHotspotEditor';
 import Orders from '@/pages/admin/Orders';
@@ -533,6 +535,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/owner-business" element={<OwnerBusinessHub />} />
         <Route path="/admin/mission-control" element={<MissionControl />} />
         <Route path="/admin/releases" element={<Releases />} />
+        <Route path="/admin/hero-design-studio" element={<HeroDesignStudio />} />
+        <Route path="/admin/release-prep" element={<ReleasePrepStudio />} />
         <Route path="/admin/merch" element={<MerchManagement />} />
         <Route path="/admin/store-hotspots" element={<StoreHotspotEditor />} />
         <Route path="/admin/orders" element={<Orders />} />

@@ -74,17 +74,20 @@ const NAV_SECTIONS = [
       { label: 'Launch and Content Hub', path: '/admin/launch-content', icon: Megaphone },
       { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },
       { label: 'Reel Factory', path: '/admin/reel-factory', icon: Film },
+      { label: 'Social Schedule Queue', path: '/admin/social-schedule-queue', icon: Calendar },
       { label: 'Social Monitor', path: '/admin/social-monitor', icon: Activity },
     ]
   },
   {
     title: 'Music and Releases',
     items: [
+      { label: 'Hero Design Studio', path: '/admin/hero-design-studio', icon: Palette },
       { label: 'Lyrics Archive', path: '/admin/lyrics-archive', icon: FileText },
       { label: 'Music Roadmap', path: '/admin/music-roadmap', icon: Calendar },
       { label: 'Music and Fan Hub', path: '/admin/music-fan', icon: Music },
       { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
       { label: 'Release Email Studio', path: '/admin/release-email-studio', icon: Mail },
+      { label: 'Release Prep Studio', path: '/admin/release-prep', icon: Lock },
       { label: 'Production Tracker', path: '/admin/production-tracker', icon: Film },
       { label: 'Releases', path: '/admin/releases', icon: Star },
       { label: 'Videos', path: '/admin/videos', icon: Video },
