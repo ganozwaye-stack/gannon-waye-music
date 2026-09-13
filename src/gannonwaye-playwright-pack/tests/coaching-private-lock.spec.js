@@ -15,8 +15,7 @@ test.describe('Coaching public launch lock', () => {
       await page.goto(route);
       await page.waitForLoadState('domcontentloaded');
 
-      await expect(page.getByRole('heading', { name: 'Page Not Found' })).toBeVisible();
-      await expect(page.getByRole('heading', { name: '404' })).toBeVisible();
+      await expect(page).toHaveURL(/\/contact\/?$/);
 
       const body = await page.locator('body').innerText();
       expect(body).not.toContain('Book a Session');
