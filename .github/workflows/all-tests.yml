@@ -27,14 +27,14 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npm run test:e2e:install
+      - name: Install Playwright browser and system dependencies
+        run: npm run test:e2e:setup
 
       - name: Run Build
         run: npm run build
 
       - name: Run Playwright Test Suite
-        run: npx playwright test --reporter=github,html
+        run: npm run test:e2e -- --project=chromium --reporter=github,html
         env:
           BASE_URL: http://localhost:5173
 
@@ -52,6 +52,7 @@ jobs:
     timeout-minutes: 15
     permissions:
       contents: read
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -77,6 +78,7 @@ jobs:
       security-events: write
       actions: read
       contents: read
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
