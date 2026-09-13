@@ -1,6 +1,7 @@
 # .github/workflows/playwright-store-tests.yml
-# Automated Playwright store tests for gannonwaye.com
-# Runs on push to main, PRs, manually, and every 6 hours while store repair is active.
+# Focused live site checks for gannonwaye.com.
+# Runs from the repository root so every job uses the single pinned Playwright install
+# and the single root Playwright configuration.
 
 name: Playwright Store Tests
 
@@ -9,7 +10,7 @@ on:
     branches: [main, master, fix/store-runtime-error]
   pull_request:
     branches: [main, master]
-  workflow_dispatch:   # Allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
 
 jobs:
   test-store:
@@ -17,10 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
 
-    defaults:
-      run:
-        working-directory: gannonwaye-playwright-pack
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -30,17 +27,17 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: gannonwaye-playwright-pack/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browser and system dependencies
+        run: npm run test:e2e:setup
 
       - name: Run critical store tests
-        run: npx playwright test tests/store-load.spec.js tests/cart.spec.js --reporter=github,html
+        run: npm run test:e2e -- src/gannonwaye-playwright-pack/tests/store-load.spec.js src/gannonwaye-playwright-pack/tests/cart.spec.js --project=chromium --reporter=github,html
         env:
+          LIVE: '1'
           BASE_URL: https://gannonwaye.com
 
       - name: Upload Playwright report
@@ -48,17 +45,13 @@ jobs:
         if: always()
         with:
           name: playwright-report
-          path: gannonwaye-playwright-pack/playwright-report/
+          path: playwright-report/
           retention-days: 14
 
   test-security:
     name: Security & Coaching Lock Tests
     runs-on: ubuntu-latest
     timeout-minutes: 10
-
-    defaults:
-      run:
-        working-directory: gannonwaye-playwright-pack
 
     steps:
       - name: Checkout repo
@@ -69,17 +62,17 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: gannonwaye-playwright-pack/package-lock.json
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browser and system dependencies
+        run: npm run test:e2e:setup
 
       - name: Run security tests
-        run: npx playwright test tests/security.spec.js tests/coaching-private-lock.spec.js --reporter=github
+        run: npm run test:e2e -- src/gannonwaye-playwright-pack/tests/security.spec.js src/gannonwaye-playwright-pack/tests/coaching-private-lock.spec.js --project=chromium --reporter=github,html
         env:
+          LIVE: '1'
           BASE_URL: https://gannonwaye.com
 
       - name: Upload security report
@@ -87,5 +80,5 @@ jobs:
         if: always()
         with:
           name: security-report
-          path: gannonwaye-playwright-pack/playwright-report/
+          path: playwright-report/
           retention-days: 14
