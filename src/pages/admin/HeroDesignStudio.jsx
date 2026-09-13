@@ -1,22 +1,35 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import HeroDesignWorkbench from '@/components/admin/hero-design/HeroDesignWorkbench';
 import HeroDesignEditor from '@/components/admin/hero-design/HeroDesignEditor';
 
-// Dedicated owner-only section for the hero artwork: galaxy framing, orbit
-// ring, sparks, heart size and labels. Nothing here touches any other part
-// of the site, and nothing goes live until Save is pressed.
+// Dedicated owner-only section for the hero artwork. The Canvas Studio is
+// the full design tool: uploads, drag and drop, fonts, brand colours, glow
+// and shadow. The Fine Sliders tab keeps the classic simple controls.
+// Nothing goes live until Go Live is pressed.
 export default function HeroDesignStudio() {
   return (
-    <div className="space-y-6 pb-10">
+    <div className="pb-10">
       <div>
         <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">Owner Only</p>
         <h1 className="font-display text-3xl font-bold gradient-gold-text">Hero Design Studio</h1>
         <p className="font-body text-sm text-muted-foreground mt-1 max-w-2xl">
-          Full control over the home hero, by your brief. Upload your own heart artwork and galaxy
-          background, move the sliders, watch the live preview, then save to lock it in. The galaxy
-          fills the whole background and over-scans past every edge, so white sides can never show,
-          and release day needs nothing from anyone but you.
+          Design the home hero your way. Upload as many images as you want, drop them on the canvas, drag, resize,
+          rotate, add text in your brand fonts, glow, shadow and colour, then press Save Draft. The site only changes
+          when you press Go Live, so you can perfect everything now and publish on the day.
         </p>
       </div>
-      <HeroDesignEditor />
+      <Tabs defaultValue="canvas" className="mt-4">
+        <TabsList>
+          <TabsTrigger value="canvas">Canvas Studio</TabsTrigger>
+          <TabsTrigger value="sliders">Fine Sliders</TabsTrigger>
+        </TabsList>
+        <TabsContent value="canvas">
+          <HeroDesignWorkbench />
+        </TabsContent>
+        <TabsContent value="sliders">
+          <HeroDesignEditor />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

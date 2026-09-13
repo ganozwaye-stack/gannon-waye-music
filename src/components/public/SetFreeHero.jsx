@@ -8,6 +8,7 @@ import GoldenEmbers from '@/components/three/GoldenEmbers';
 import MagneticButton from '@/components/public/MagneticButton';
 import HeroOrbitRing from '@/components/public/HeroOrbitRing';
 import { HERO_DESIGN_DEFAULTS, HERO_HEART_ART } from '@/lib/heroDesignDefaults';
+import HeroElementsStage from '@/components/public/HeroElementsStage';
 import { PUBLIC_RELEASE_FILTER } from '@/lib/publicRelease';
 
 // Set Free official artwork: the shell-like heart, supplied by Gannon and
@@ -34,6 +35,9 @@ export default function SetFreeHero() {
     || settingsRecords.find((r) => r.is_live === undefined)
     || null;
   const design = { ...HERO_DESIGN_DEFAULTS, ...(liveSettings || {}) };
+  // Canvas Studio designs are a free-form element list. When the live
+  // design has one, it renders instead of the fixed hero structure below.
+  const usingElements = Array.isArray(design.elements) && design.elements.length > 0;
 
   const { data: releaseCandidates = [] } = useQuery({
     queryKey: ['setfree-hero-releases'],
@@ -65,6 +69,7 @@ export default function SetFreeHero() {
       className="relative overflow-hidden"
       style={{ perspective: '1400px', background: '#0a0a0e', minHeight: '92svh' }}
     >
+      {!usingElements && (<>
       {/* Galaxy plate. The over-scan percentage bleeds it past every edge so
           no baked edge of the image can ever show, at any screen size. A
           custom galaxy image is cover-filled across the whole plate, so
@@ -179,6 +184,8 @@ export default function SetFreeHero() {
           </MagneticButton>
         </motion.div>
       </div>
+      </>)}
+      {usingElements && <HeroElementsStage elements={design.elements} />}
 
       {/* Vignette and page blend */}
       <div

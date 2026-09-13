@@ -1,12 +1,185 @@
 {
   "name": "HeroDesignSettings",
   "type": "object",
-  "description": "Owner-controlled live design values for the home page hero: featured release, labels, artwork, orbit ring, sparks, heart position and size, galaxy framing and atmosphere. Edited visually in the Hero Design Studio (admin only). One record flagged is_live holds the public design; other records are the owner's private drafts. The public hero falls back to code defaults when no live record exists.",
+  "description": "Owner-controlled live design values for the home page hero. Two ways to design: the free-form Canvas Studio saves an elements list (background, text, images, orbit rings, atmosphere, buttons, all freely positioned), while the Fine Sliders tab writes the classic scalar fields. One record flagged is_live holds the public design; other records are the owner's private drafts. The public hero falls back to code defaults when no live record exists.",
   "properties": {
     "is_live": {
       "type": "boolean",
       "default": false,
       "description": "True means this record is the live design the public hero renders. False means it is the owner's private draft, never shown publicly."
+    },
+    "elements": {
+      "type": "array",
+      "description": "Canvas Studio design: a list of freely positioned elements. x_pct and y_pct are the element centre as a percentage across and down the hero. Pixel sizes are stored for a 1440px design width and scale with the screen, so the design holds everywhere with no edges showing.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "background",
+              "text",
+              "image",
+              "ring",
+              "atmosphere",
+              "button"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "description": "Sub-type: embers or rays for atmosphere, solid or outline for button"
+          },
+          "z": {
+            "type": "number",
+            "default": 0
+          },
+          "hidden": {
+            "type": "boolean",
+            "default": false
+          },
+          "locked": {
+            "type": "boolean",
+            "default": false
+          },
+          "x_pct": {
+            "type": "number"
+          },
+          "y_pct": {
+            "type": "number"
+          },
+          "width_pct": {
+            "type": "number"
+          },
+          "rotation_deg": {
+            "type": "number",
+            "default": 0
+          },
+          "opacity": {
+            "type": "number",
+            "default": 1
+          },
+          "content": {
+            "type": "string",
+            "description": "Text content or button label"
+          },
+          "font": {
+            "type": "string",
+            "description": "Font key: poppins, cormorant, playfair, inter or dancing"
+          },
+          "font_size": {
+            "type": "number",
+            "description": "Font size in pixels at a 1440px design width"
+          },
+          "font_weight": {
+            "type": "number"
+          },
+          "letter_spacing_em": {
+            "type": "number"
+          },
+          "uppercase": {
+            "type": "boolean"
+          },
+          "italic": {
+            "type": "boolean"
+          },
+          "align": {
+            "type": "string",
+            "enum": [
+              "left",
+              "center",
+              "right"
+            ]
+          },
+          "color": {
+            "type": "string",
+            "description": "Hex colour for text, button label or ring"
+          },
+          "image_url": {
+            "type": "string",
+            "description": "Image source for image and background elements"
+          },
+          "aspect": {
+            "type": "number",
+            "description": "Image width divided by height"
+          },
+          "mask": {
+            "type": "string",
+            "enum": [
+              "none",
+              "circle",
+              "rounded"
+            ]
+          },
+          "border_color": {
+            "type": "string"
+          },
+          "border_width_px": {
+            "type": "number"
+          },
+          "glow_color": {
+            "type": "string"
+          },
+          "glow_strength": {
+            "type": "number",
+            "description": "Glow blur radius in pixels at 1440px. 0 is off."
+          },
+          "shadow_color": {
+            "type": "string"
+          },
+          "shadow_blur": {
+            "type": "number"
+          },
+          "shadow_y": {
+            "type": "number"
+          },
+          "ring_aspect": {
+            "type": "number",
+            "description": "Orbit ring width divided by height"
+          },
+          "ring_thickness_px": {
+            "type": "number"
+          },
+          "ring_color": {
+            "type": "string"
+          },
+          "spark_main_size": {
+            "type": "number"
+          },
+          "spark_companion_size": {
+            "type": "number"
+          },
+          "orbit_duration": {
+            "type": "number",
+            "description": "Seconds for each spark to travel one full lap"
+          },
+          "density": {
+            "type": "number",
+            "description": "Ember density multiplier"
+          },
+          "bg_pos_y": {
+            "type": "number",
+            "description": "Background framing position, 0 to 100"
+          },
+          "bg_scan_pct": {
+            "type": "number",
+            "description": "Background over-scan percentage on every side"
+          },
+          "bg_blur_px": {
+            "type": "number"
+          },
+          "link": {
+            "type": "string",
+            "description": "Button destination route"
+          }
+        },
+        "required": [
+          "id",
+          "type"
+        ]
+      }
     },
     "hero_release_id": {
       "type": "string",

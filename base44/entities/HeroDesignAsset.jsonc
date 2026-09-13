@@ -1,0 +1,58 @@
+{
+  "name": "HeroDesignAsset",
+  "type": "object",
+  "description": "An image in the owner's hero image library, uploaded from their computer in the Hero Canvas Studio and stored permanently. Any number of backgrounds and artwork pieces can live here; the hero is never limited to one background and one heart.",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Original file name or owner label"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "Permanent public storage URL returned by the upload"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "background",
+        "artwork",
+        "other"
+      ],
+      "default": "other"
+    },
+    "natural_width": {
+      "type": "number",
+      "description": "Pixel width of the uploaded image"
+    },
+    "natural_height": {
+      "type": "number",
+      "description": "Pixel height of the uploaded image"
+    }
+  },
+  "required": [
+    "title",
+    "file_url"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

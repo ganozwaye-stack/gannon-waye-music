@@ -208,6 +208,12 @@
   }
 }
 
+/* Hero Canvas Studio orbit sparks: one full lap, any duration. */
+@keyframes heroOrbitSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 @keyframes gwNeonPulse {
   0%, 100% {
     text-shadow:
