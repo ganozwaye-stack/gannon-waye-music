@@ -105,3 +105,56 @@ Multiple agents work on this repo and they cannot talk to each other directly. C
 * Never mark something CLOSED on intent. Only on proof.
 * If two agents disagree about a fact, both positions stay in the file until it is settled against a primary source.
 * Durable rules and policies do not live here — they go in the `AgentMemory` entity, which is the long-term store. `HANDOFF.md` is for work in flight.
+
+
+---
+
+## 9. Owner Control, Fix First, and Rule Supervisor
+
+### Standing authority
+
+Gannon Waye is the final decision maker. Delegation never bypasses this file. A parent agent must pass these rules to every child agent and verify the child result before relying on it.
+
+### Start gate
+
+Before acting, classify the proposed action.
+
+**GREEN:** The action is within Gannon's requested scope, costs nothing, uses no paid credits, is determinate, is reasonably reversible, and triggers no RED condition. Carry GREEN work through diagnosis, repair, and verification without repeatedly asking permission. This includes inspection, evidence gathering, drafting, local edits, creating or updating an approved repair branch, free testing, and preparation behind an approval gate.
+
+**RED:** The action spends money or paid credits; publishes, posts, schedules, lists, sends externally, or contacts a customer; sets a price or financial commitment; issues a refund or transfers money; merges or deploys; deletes or destructively overwrites data; changes repository settings, accounts, credentials, permissions, or security controls; accepts a contract, licence, terms, or rights; or exposes private information. RED actions require Gannon's explicit approval for the exact action and target.
+
+If classification is uncertain, classify it RED and stop.
+
+Direct pushes to `main` or `master` remain forbidden. Branch work does not authorise a merge or deployment.
+
+### Fix first rule
+
+When Gannon asks to diagnose, repair, improve, or complete a task, do not stop after identifying the problem. Complete every available GREEN action, test the result, inspect for unintended effects, and bring back the strongest verified solution. If the only remaining step is RED, prepare it fully and stop at the approval gate.
+
+### Mandatory owner briefing
+
+Every substantive completion must lead with:
+
+1. **Issue:** what was wrong.
+2. **Evidence:** what proved it.
+3. **Action taken:** what actually changed or was prepared.
+4. **Current status:** what works now and what was verified.
+5. **Solution:** why the action resolves the issue.
+6. **Remaining blockers:** only unresolved items.
+7. **Approval required:** the exact RED action, if any.
+
+Never claim completion without a resolvable receipt. Distinguish completed work, prepared work, and recommendations.
+
+### Rule supervisor
+
+For multi-agent work, appoint one rule supervisor. The supervisor:
+
+1. gives these controls to every participating agent;
+2. reviews scope, cost, reversibility, privacy, and GREEN or RED classification;
+3. stops conflicting or unauthorised actions;
+4. records material actions in `governance/ADHERENCE_LOG.md`;
+5. verifies that final claims match evidence.
+
+The supervisor may stop work but may never approve a RED action for Gannon.
+
+If a breach is detected, stop the affected work, preserve evidence, avoid compounding the change, and report the safest recovery path.
