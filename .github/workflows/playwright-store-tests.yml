@@ -35,7 +35,7 @@ jobs:
         run: npm run test:e2e:setup
 
       - name: Run critical store tests
-        run: npm run test:e2e -- src/gannonwaye-playwright-pack/tests/store-load.spec.js src/gannonwaye-playwright-pack/tests/cart.spec.js --project=chromium --reporter=github,html
+        run: npm run test:e2e -- store-load.spec.js cart.spec.js --project=chromium --reporter=github,html
         env:
           LIVE: '1'
           BASE_URL: https://gannonwaye.com
@@ -70,7 +70,7 @@ jobs:
         run: npm run test:e2e:setup
 
       - name: Run security tests
-        run: npm run test:e2e -- src/gannonwaye-playwright-pack/tests/security.spec.js src/gannonwaye-playwright-pack/tests/coaching-private-lock.spec.js --project=chromium --reporter=github,html
+        run: npm run test:e2e -- security.spec.js coaching-private-lock.spec.js --project=chromium --reporter=github,html
         env:
           LIVE: '1'
           BASE_URL: https://gannonwaye.com
