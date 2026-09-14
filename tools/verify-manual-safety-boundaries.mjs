@@ -53,6 +53,16 @@ const heldEndpoints = [
   'base44/functions/soniaChat/entry.ts',
   'base44/functions/generateHeyGenVideo/entry.ts',
   'base44/functions/registerHeygenWebhook/entry.ts',
+  'base44/functions/heygenWebhook/entry.ts',
+  'base44/functions/tiktokOAuth/entry.ts',
+  'base44/functions/openaiAgent/entry.ts',
+  'base44/functions/onNewOrderAutomation/entry.ts',
+  'base44/functions/sendOrderReceipt/entry.ts',
+  'base44/functions/fulfilOrderAndNotify/entry.ts',
+  'base44/functions/createHeygenPhotoAvatar/entry.ts',
+  'base44/functions/opusClipCreateProject/entry.ts',
+  'base44/functions/opusClipFetchClips/entry.ts',
+  'base44/functions/reconcileStripeOrders/entry.ts',
 ];
 
 for (const path of heldEndpoints) {
