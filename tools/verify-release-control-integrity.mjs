@@ -163,6 +163,28 @@ requireText(
   'exact_snapshot_guard',
   'Evidence saves do not report an exact-snapshot compare-and-set guard.',
 );
+const publication = read('base44/functions/publishSingleWorkflow/entry.ts');
+const saveEvidenceStart = publication.indexOf("if (action === 'save_evidence')");
+const saveEvidenceEnd = publication.indexOf("\n    if (action === 'revoke')", saveEvidenceStart);
+const saveEvidenceBlock = saveEvidenceStart >= 0 && saveEvidenceEnd > saveEvidenceStart
+  ? publication.slice(saveEvidenceStart, saveEvidenceEnd)
+  : '';
+if (!saveEvidenceBlock.includes('const candidate = evidenceCandidate(release, body);')) {
+  failures.push('Evidence saves must derive a complete candidate from the current private record.');
+}
+for (const field of [
+  'rights_evidence_reference',
+  'master_evidence_reference',
+  'delivery_evidence_reference',
+  'public_link_evidence_url',
+]) {
+  if (!saveEvidenceBlock.includes(`${field}: exact(candidate.${field})`)) {
+    failures.push(`Evidence saves do not preserve an omitted ${field} value from the current record.`);
+  }
+  if (saveEvidenceBlock.includes(`${field}: exact(body.${field})`)) {
+    failures.push(`Evidence saves may clear an omitted ${field} value from a partial request.`);
+  }
+}
 requireText(
   'base44/functions/publishSingleWorkflow/entry.ts',
   'updated_date: release.updated_date',
