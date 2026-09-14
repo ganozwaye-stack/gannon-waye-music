@@ -53,6 +53,8 @@ export function isHttpsUrl(value: unknown): boolean {
 
 export function releaseEvidenceErrors(release: Record<string, any>): string[] {
   const errors: string[] = [];
+  if (!exact(release?.title)) errors.push('A release title is required.');
+  if (!exact(release?.version_label)) errors.push('An exact version label is required.');
   const references = [
     ['rights_evidence_reference', 'rights evidence'],
     ['master_evidence_reference', 'master evidence'],
