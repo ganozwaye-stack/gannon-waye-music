@@ -63,6 +63,8 @@ export default function NewReleaseStudio() {
       const res = await base44.functions.invoke('submitNewRelease', {
         ...form,
         artwork_url: artwork?.url || '',
+        cost_acknowledged: costAcknowledged,
+        dry_run: true,
       });
       setResult(res.data);
       toast({ title: 'Private release draft created', description: form.title });
