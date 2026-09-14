@@ -109,6 +109,16 @@ requireText(
   'validApprovalReceipt',
   'Publication does not re-check the immutable approval receipt.',
 );
+requireText(
+  'base44/functions/publishSingleWorkflow/entry.ts',
+  'confirm_revoke_phrase',
+  'Revocation does not require its own explicit typed phrase.',
+);
+requireText(
+  'base44/functions/publishSingleWorkflow/entry.ts',
+  'revokeFingerprint',
+  'Revocation does not re-check the current release fingerprint.',
+);
 
 requireText(
   'base44/functions/prepareReleaseEmailDraft/entry.ts',
