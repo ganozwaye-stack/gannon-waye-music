@@ -24,7 +24,7 @@ const DISTRIBUTORS = [
     selected: true,
     login_link: 'https://toolost.com',
     contact_email: 'support@toolost.com',
-    notes: 'Primary distributor. Connect once through the official Too Lost authorization window. Base44 checks the connection every 30 seconds and securely renews an expiring access token with the refresh token.',
+    notes: 'Primary distributor. Connect only through the official Too Lost authorization window when you deliberately choose to do so. Status checks are read-only and never renew the login.',
     features: ['Distribution to 450+ services', 'Royalty tracking', 'ISRC/UPC generation', 'Release scheduling', 'Spotify for Artists claim'],
   },
 ];
@@ -43,9 +43,7 @@ export default function Distributors() {
       const res = await base44.functions.invoke('tooLostOAuth', { action: 'status' });
       return res.data;
     },
-    refetchInterval: 30_000,
-    refetchIntervalInBackground: true,
-    refetchOnWindowFocus: true,
+    refetchOnWindowFocus: false,
     retry: false,
   });
 
@@ -110,7 +108,7 @@ export default function Distributors() {
     <div className="space-y-6 pb-10">
       <div>
         <h1 className="text-3xl font-display font-bold gradient-gold-text">Distributor Hub</h1>
-        <p className="text-muted-foreground text-sm mt-1 font-body">Music distribution partners and release sync management</p>
+        <p className="text-muted-foreground text-sm mt-1 font-body">Music distributor connection status</p>
       </div>
 
       <div className="border border-primary/30 bg-primary/5 rounded-lg p-3 flex items-center gap-3">
@@ -126,9 +124,9 @@ export default function Distributors() {
             catalog_status: connected ? 'Connected' : offlineStatus,
             release_status: connected ? 'Connected' : offlineStatus,
             royalty_status: connected ? 'Connected' : offlineStatus,
-            sync_status: connected ? 'Live' : offlineStatus,
+            sync_status: connected ? 'Connected' : offlineStatus,
             next_action: connected
-              ? 'Connected. Base44 checks every 30 seconds and renews the login automatically before it expires.'
+              ? 'Connected. The saved login is never renewed automatically; refresh status only when you choose to.'
               : notConfigured
                 ? connectionStatus?.detail || 'Complete the Too Lost developer settings, then connect.'
                 : needsReconnect
@@ -218,8 +216,8 @@ export default function Distributors() {
                 </div>
 
                 <p className="text-[11px] text-muted-foreground">
-                  Status refreshes automatically every 30 seconds and whenever you return to this tab.
-                  {connectionStatus?.last_refreshed_at ? ` Token last renewed ${new Date(connectionStatus.last_refreshed_at).toLocaleString('en-AU')}.` : ''}
+                  Status is read-only. It refreshes when this page opens, when you choose Refresh status, or after you complete a sign-in.
+                  {connectionStatus?.last_refreshed_at ? ` Login last updated ${new Date(connectionStatus.last_refreshed_at).toLocaleString('en-AU')}.` : ''}
                 </p>
                 {connected && connectionStatus?.connected_email && (
                   <p className="text-xs text-muted-foreground">Connected as {connectionStatus.connected_email}</p>
