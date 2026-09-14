@@ -1,0 +1,5 @@
+// Canonical Base44 application binding.
+// This is versioned intentionally so deployment cannot silently target a Copy app.
+{
+  "id": "69eb7905ca6eb4180010f794"
+}
