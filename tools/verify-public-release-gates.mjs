@@ -31,6 +31,12 @@ const required = [
   ['base44/functions/prepareReleaseEmailDraft/entry.ts', "release.is_published === true"],
   ['base44/functions/prepareReleaseEmailDraft/entry.ts', "release.status === 'released'"],
   ['base44/functions/prepareReleaseEmailDraft/entry.ts', 'OWNER_EMAILS.has'],
+  ['base44/functions/prepareReleaseEmailDraft/entry.ts', 'Gannon owner sign-in required to prepare a release email draft.'],
+  ['src/pages/admin/ReleaseEmailStudio.jsx', 'const eligibleReleases = releases.filter'],
+  ['src/pages/admin/ReleaseEmailStudio.jsx', 'No release currently meets the full public-release approval gate'],
+  ['src/components/admin/ReleaseEmailDraftCard.jsx', 'buildEditedEmailHtml'],
+  ['src/components/admin/ReleaseEmailDraftCard.jsx', 'body_html: buildEditedEmailHtml(bodyText)'],
+  ['src/components/admin/ReleaseEmailDraftCard.jsx', 'window.confirm'],
   ['base44/functions/sendReleaseEmailDraft/entry.ts', "release?.is_published === true"],
   ['base44/functions/sendReleaseEmailDraft/entry.ts', "release?.status === 'released'"],
   ['base44/functions/sendReleaseEmailDraft/entry.ts', 'Gannon owner sign-in required.'],
@@ -49,6 +55,7 @@ const forbidden = [
   ['base44/functions/notifyFansReleaseStatus/entry.ts', /integrations\.Core\.SendEmail/],
   ['base44/functions/notifySubscribersNewRelease/entry.ts', /ApprovalQueue\.create|integrations\.Core\.SendEmail/],
   ['base44/functions/prepareReleaseEmailDraft/entry.ts', /integrations\.Core\.SendEmail/],
+  ['src/pages/admin/ReleaseEmailStudio.jsx', /Every time a release status changes/],
 ];
 
 for (const [path, snippet] of required) {
