@@ -36,6 +36,15 @@
       "type": "string",
       "format": "date-time",
       "description": "Expiry for the pending OAuth security check"
+    },
+    "pending_oauth_requested_by": {
+      "type": "string",
+      "description": "Exact owner email that deliberately started the pending OAuth request"
+    },
+    "pending_oauth_requested_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the pending OAuth request was deliberately started"
     }
   },
   "rls": {
