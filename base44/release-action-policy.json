@@ -8,7 +8,7 @@
     },
     "publishSingleWorkflow": {
       "mode": "owner_confirmed_publication",
-      "required": ["exact_owner", "exact_title", "exact_version", "current_release_fingerprint", "immutable_approval_receipt", "separate_approval_then_publish", "exact_revoke_phrase"]
+      "required": ["exact_owner", "exact_title", "exact_version", "current_release_fingerprint", "immutable_approval_receipt", "separate_approval_then_publish", "exact_revoke_phrase", "server_verified_action_phrase"]
     },
     "sendReleaseEmailDraft": {
       "mode": "owner_confirmed_fan_email",
