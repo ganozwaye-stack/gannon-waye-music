@@ -1,6 +1,4 @@
 {
-  "name": "Agent Intelligence Loop  -  Every 4 Hours",
-  "description": "Disabled safety hold: agentIntelligenceLoop rejects unattended calls until scheduler identity and a no-spend supervisor acceptance test are verified.",
   "trigger": {
     "condition": "${ false }",
     "config": {
@@ -40,6 +38,8 @@
       }
     ]
   },
+  "name": "Agent Intelligence Loop  -  Every 4 Hours",
+  "description": "Disabled safety hold: agentIntelligenceLoop rejects unattended calls until scheduler identity and a no-spend supervisor acceptance test are verified.",
   "x-base44-migrated-from-automation": {
     "legacy_payload_function": "agentIntelligenceLoop"
   }
