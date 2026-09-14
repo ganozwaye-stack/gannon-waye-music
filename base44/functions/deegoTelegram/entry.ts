@@ -11,7 +11,7 @@ export default async function(req: Request) {
   }
 
   return Response.json({
-    error: 'Legacy messaging doorway is held pending a separately approved receipt-logged workflow.',
+    error: 'Legacy messaging doorway is held. A separately approved receipt-logged workflow is required.',
     code: LEGACY_HOLD_CODE,
     skipped: true,
     external_actions: 0,
