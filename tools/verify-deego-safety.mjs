@@ -45,6 +45,15 @@ function assertAutomationSafetyHold() {
   }
 }
 
+function assertFunctionBoundarySafety() {
+  const prohibitedSiblingImport = "from '../agentIntelligenceLoop/supervisor.mjs'";
+  for (const target of listFiles('base44/functions').filter(file => file.endsWith('entry.ts'))) {
+    if (readFileSync(target, 'utf8').includes(prohibitedSiblingImport)) {
+      failures.push(`${relative(ROOT, target)} imports a sibling function helper that cannot be bundled for deployment.`);
+    }
+  }
+}
+
 const required = [
   ['base44/functions/agentIntelligenceLoop/entry.ts', 'Authenticated owner session required.'],
   ['base44/functions/agentIntelligenceLoop/function.jsonc', '"is_active": false'],
@@ -109,6 +118,7 @@ for (const [path, snippet] of forbidden) {
 }
 
 assertAutomationSafetyHold();
+assertFunctionBoundarySafety();
 
 if (failures.length) {
   console.error('Deego safety and status-truth check failed:');
