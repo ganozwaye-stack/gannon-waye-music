@@ -4,9 +4,9 @@
   "automations": [
     {
       "type": "scheduled",
-      "description": "Operational audit every hour from 9am through 3pm Melbourne time and every two hours outside that window. Saves a Deego report and ranked action notification.",
+      "description": "Disabled duplicate scheduler. The Hourly System Alert Check workflow is the only scheduler for this function; unchanged states are suppressed by the function.",
       "ends_type": "never",
-      "is_active": true,
+      "is_active": false,
       "name": "Deego Operational Audit Check Up",
       "repeat_interval": 1,
       "repeat_unit": "hours",
