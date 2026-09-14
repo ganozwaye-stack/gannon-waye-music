@@ -1,0 +1,74 @@
+{
+  "name": "ReleasePublicationApproval",
+  "type": "object",
+  "description": "Append-only immutable owner approval receipt for one exact public release snapshot. A later content or evidence change requires a new receipt.",
+  "properties": {
+    "release_id": {
+      "type": "string"
+    },
+    "release_title": {
+      "type": "string"
+    },
+    "version_label": {
+      "type": "string"
+    },
+    "content_fingerprint": {
+      "type": "string",
+      "description": "SHA-256 fingerprint of the approved release content and evidence snapshot"
+    },
+    "rights_evidence_reference": {
+      "type": "string"
+    },
+    "master_evidence_reference": {
+      "type": "string"
+    },
+    "delivery_evidence_reference": {
+      "type": "string"
+    },
+    "public_link_evidence_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approval_note": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "control_version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "release_id",
+    "release_title",
+    "version_label",
+    "content_fingerprint",
+    "rights_evidence_reference",
+    "master_evidence_reference",
+    "delivery_evidence_reference",
+    "public_link_evidence_url",
+    "approved_by",
+    "approved_at",
+    "control_version"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "email": "__service_role_only__@invalid.local"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": false,
+    "delete": false
+  }
+}
