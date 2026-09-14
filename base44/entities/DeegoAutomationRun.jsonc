@@ -62,6 +62,14 @@
     },
     "next_run_hint": {
       "type": "string"
+    },
+    "state_fingerprint": {
+      "type": "string",
+      "maxLength": 128
+    },
+    "last_checked_at": {
+      "type": "string",
+      "format": "date-time"
     }
   },
   "required": [
