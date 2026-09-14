@@ -73,6 +73,14 @@ requireText(
   'Private draft creation no longer records external actions as held.'
 );
 requireText(
+  'src/pages/admin/NewReleaseStudio.jsx',
+  'Automatic launch-packet generation is held',
+  'New Release Studio no longer explains the automatic launch-packet safety hold.'
+);
+if (/generateReleaseLaunchPacket/.test(read('src/pages/admin/NewReleaseStudio.jsx'))) {
+  failures.push('New Release Studio still invokes the automatic launch-packet generator.');
+}
+requireText(
   'base44/functions/publishSingleWorkflow/entry.ts',
   'confirmTitle !== exactTitle || confirmVersion !== exactVersion',
   'Public release no longer requires exact title and version confirmation.'
