@@ -50,6 +50,7 @@ const heldEndpoints = [
   'base44/functions/sendFanReminders/entry.ts',
   'base44/functions/syncOrderNotifications/entry.ts',
   'base44/functions/syncOrderToSheet/entry.ts',
+  'base44/functions/syncTunecore/entry.ts',
   'base44/functions/onNewOrderSlack/entry.ts',
   'base44/functions/generateResearchedSocialContent/entry.ts',
   'base44/functions/icloudIngest/entry.ts',
@@ -120,6 +121,10 @@ requireSnippet('base44/functions/tooLostOAuth/entry.ts', 'read_only: true');
 forbid('base44/functions/tooLostOAuth/entry.ts', /getValidTooLostAccessToken|fetch\(/, 'automatic token refresh or optional profile lookup');
 requireSnippet('base44/shared/tooLostAuth.ts', 'pending_oauth_requested_by');
 forbid('base44/shared/tooLostAuth.ts', /refreshTooLostTokens|getValidTooLostAccessToken|refresh_token/, 'automatic refresh-token handling');
+requireSnippet('src/pages/admin/TunecoreIntegration.jsx', 'TuneCore import is held');
+forbid('src/pages/admin/TunecoreIntegration.jsx', /base44\.functions\.invoke|apiKey|password|account-api/, 'browser-side distributor credential or importer invocation');
+requireSnippet('src/pages/admin/ReleasePrepStudio.jsx', 'Read-only release review');
+forbid('src/pages/admin/ReleasePrepStudio.jsx', /base44\.entities\.Release\.(?:create|update|updateMany|delete)\s*\(/, 'direct Release mutation from the release-prep screen');
 requireSnippet('src/pages/admin/Distributors.jsx', 'refetchOnWindowFocus: false');
 requireSnippet('src/pages/admin/Distributors.jsx', 'Status is read-only.');
 forbid('src/pages/admin/Distributors.jsx', /refetchInterval|checks the connection every 30 seconds|renews the login automatically|Status refreshes automatically every 30 seconds/, 'background distributor polling or automatic renewal');
