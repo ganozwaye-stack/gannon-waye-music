@@ -40,7 +40,7 @@ export default function AgentMessageBus() {
 
   const resolveMutation = useMutation({
     mutationFn: id => base44.entities.AgentMessage.update(id, { status: 'resolved', resolved_date: new Date().toISOString() }),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['all-agent-messages'] }); toast({ title: 'Resolved' }); },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['all-agent-messages'] }); toast({ title: 'Record marked resolved. No work was started or sent.' }); },
   });
 
   const failMutation = useMutation({
@@ -65,8 +65,8 @@ export default function AgentMessageBus() {
         <div className="flex items-center gap-3">
           <Link to="/admin/openai-command"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4" /></Button></Link>
           <div>
-            <h1 className="text-3xl font-display font-bold gradient-gold-text">AI Agent Message Bus</h1>
-            <p className="text-sm text-muted-foreground mt-1">All inter-system messages · Repair · Content · Security · Approvals</p>
+            <h1 className="text-3xl font-display font-bold gradient-gold-text">Internal Agent Message Ledger</h1>
+            <p className="text-sm text-muted-foreground mt-1">Saved internal records only. This is not a connector, delivery system, or cross-chat transport.</p>
           </div>
         </div>
         <Button variant="outline" size="sm" onClick={() => refetch()}>
@@ -112,7 +112,7 @@ export default function AgentMessageBus() {
         {isLoading ? (
           <p className="text-sm text-muted-foreground">Loading messages...</p>
         ) : filtered.length === 0 ? (
-          <Card><CardContent className="p-8 text-center text-muted-foreground text-sm">No messages match filter. Run OpenAI assistants to generate messages.</CardContent></Card>
+          <Card><CardContent className="p-8 text-center text-muted-foreground text-sm">No message records match this filter. No work is started by an empty ledger.</CardContent></Card>
         ) : filtered.map(msg => (
           <Card key={msg.id} className={
             msg.priority === 'critical' && msg.status !== 'resolved' ? 'border-red-500/20' :
