@@ -4,7 +4,7 @@
   "automations": [
     {
       "type": "scheduled",
-      "description": "Reviews all agent activity from the past 24h and logs improvement learning records.",
+      "description": "Legacy self-improvement hard stop. This schedule must remain inactive; the endpoint performs no work.",
       "ends_type": "never",
       "is_active": false,
       "name": "Daily Agent Self-Improvement",
@@ -16,7 +16,7 @@
     },
     {
       "type": "scheduled",
-      "description": "Reviews 24h agent activity, scores outputs, compares approved vs rejected proposals, and saves learning records to AgentLearningRecord and KnowledgeVault. Runs daily.",
+      "description": "Legacy self-improvement hard stop. This schedule must remain inactive; the endpoint performs no work.",
       "ends_type": "never",
       "is_active": false,
       "name": "Agent Self-Improvement — Daily Review",
