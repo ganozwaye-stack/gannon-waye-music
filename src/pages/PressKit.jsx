@@ -10,7 +10,7 @@ const FALLBACK_HEADSHOT = 'https://media.base44.com/images/public/69eb7905ca6eb4
 const BIO = 'Gannon Waye is an independent Australian singer songwriter born in Adelaide and based in Melbourne. Raised in low socioeconomic conditions, formal music lessons were out of reach, but he built his voice through school choirs, church, worship ministry, drag performance and community stages. After family violence, abusive relationships, addiction, PTSD and the loss of his mum Sonia, he returned to music with I\'m Still Here, a fifteen song project about being knocked down and choosing to rise.';
 
 export default function PressKit() {
-  const { data: releaseCandidates = [] } = useQuery({
+  const { data: releaseCandidates = [], isLoading: isLoadingReleases } = useQuery({
     queryKey: ['press-kit-public-releases'],
     queryFn: () => base44.entities.Release.filter(PUBLIC_RELEASE_FILTER, '-release_date', 50),
     initialData: [],
@@ -113,7 +113,11 @@ export default function PressKit() {
             <Music2 className="w-5 h-5 text-primary" />
             <h2 className="font-display text-3xl text-foreground">Public music</h2>
           </div>
-          {releases.length === 0 ? (
+          {isLoadingReleases ? (
+            <p className="font-body text-sm text-muted-foreground">
+              Loading approved music…
+            </p>
+          ) : releases.length === 0 ? (
             <p className="font-body text-sm text-muted-foreground">
               No release is currently approved for public press use. Please contact Gannon for private review material.
             </p>
