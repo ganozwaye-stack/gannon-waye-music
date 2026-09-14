@@ -1,29 +1,6 @@
 {
   "name": "growthOpportunityScanner",
   "entry": "entry.ts",
-  "automations": [
-    {
-      "type": "scheduled",
-      "description": "Daily morning revenue opportunity deep scan",
-      "ends_type": "never",
-      "is_active": false,
-      "name": "Revenue Opportunity Scan (Daily 7am)",
-      "repeat_interval": 1,
-      "repeat_unit": "days",
-      "schedule_mode": "recurring",
-      "schedule_type": "simple",
-      "start_time": "21:00"
-    },
-    {
-      "type": "scheduled",
-      "description": "Scans for viral trends and revenue opportunities every 2 hours",
-      "ends_type": "never",
-      "is_active": false,
-      "name": "Viral Opportunity Scan (2h)",
-      "repeat_interval": 2,
-      "repeat_unit": "hours",
-      "schedule_mode": "recurring",
-      "schedule_type": "simple"
-    }
-  ]
+  "description": "Legacy safety hold. No schedule or manual runner is permitted until owner-controlled runtime reconciliation is complete.",
+  "automations": []
 }
