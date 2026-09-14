@@ -1,136 +1,16 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
-
-const OWNER_EMAILS = new Set(['ganozwaye@gmail.com', 'gannonwayemusic@gmail.com']);
-
-function isOwner(user) {
-  return user?.role === 'admin' && OWNER_EMAILS.has(String(user.email || '').trim().toLowerCase());
-}
+const LEGACY_HOLD_CODE = 'legacy_growth_opportunity_scanner_held';
 
 Deno.serve(async (req) => {
-  try {
-    const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me().catch(() => null);
-    if (!isOwner(user)) {
-      return Response.json({ error: 'Growth scan requires Gannon owner sign-in.' }, { status: 403 });
-    }
-    const body = await req.json().catch(() => ({}));
-    if (body?.mode !== 'manual_internal_review') {
-      return Response.json({ error: 'Growth scan is paused pending a controlled owner-approved internal review.' }, { status: 409 });
-    }
-
-    const [opportunities, revenueOps] = await Promise.all([
-      base44.asServiceRole.integrations.Core.InvokeLLM({
-        prompt: `You are an autonomous growth intelligence agent for Gannon Waye, an independent Australian music artist with a luxury brand, LGBTQIA+-inclusive messaging, and focus on emotional authenticity.
-
-Scan for 5 high-value GROWTH OPPORTUNITIES right now (2026):
-- Viral TikTok/Instagram content formats trending this week
-- Underserved emotional creator niches
-- Algorithm windows opening up
-- Best audience engagement windows
-- Collaboration angles
-
-For each opportunity return JSON. Output a JSON array of 5 objects:
-[{
-  "trend_name": "string",
-  "platform": "tiktok|instagram|youtube|all",
-  "opportunity_type": "viral_trend|creator_gap|collaboration|emotional_hook|algorithm_window|content_format",
-  "viral_probability": 8,
-  "engagement_potential": 9,
-  "competition_level": "low|medium|high",
-  "audience_match_score": 8,
-  "recommended_hook": "opening line for content",
-  "recommended_format": "video format description",
-  "emotional_trigger": "core emotion",
-  "cta_strategy": "what to ask audience to do",
-  "estimated_growth_impact": "string estimate",
-  "estimated_revenue_impact": "string estimate",
-  "requires_approval": true
-}]
-
-CRITICAL: requires_approval must always be true. Never suggest automated posting.`,
-        add_context_from_internet: true,
-        model: 'gemini_3_flash',
-        response_json_schema: {
-          type: 'object',
-          properties: { opportunities: { type: 'array', items: { type: 'object' } } }
-        }
-      }),
-
-      base44.asServiceRole.integrations.Core.InvokeLLM({
-        prompt: `You are a revenue intelligence agent for Gannon Waye, an independent Australian music artist.
-
-Identify 3 high-value REVENUE OPPORTUNITIES for today (2026):
-- Digital products that would sell well right now
-- Premium service upsells for existing fans
-- Subscription or membership angle
-- Merch bundle opportunities
-- Licensing opportunities
-
-Return a JSON array of 3 revenue opportunities:
-[{
-  "opportunity_name": "string",
-  "source": "string - where this came from",
-  "revenue_type": "product|service|subscription|affiliate|partnership|digital|licensing|upsell|bundle",
-  "estimated_value": "$X-$Y per month",
-  "difficulty": 4,
-  "risk_level": "low|medium|high",
-  "automation_potential": 7,
-  "audience_match": 9,
-  "recommended_next_step": "specific action"
-}]`,
-        add_context_from_internet: true,
-        model: 'gemini_3_flash',
-        response_json_schema: {
-          type: 'object',
-          properties: { opportunities: { type: 'array', items: { type: 'object' } } }
-        }
-      }),
-    ]);
-
-    let growthSaved = 0;
-    let revenueSaved = 0;
-
-    // Save growth opportunities
-    const growthList = opportunities?.opportunities || (Array.isArray(opportunities) ? opportunities : []);
-    for (const opp of growthList.slice(0, 5)) {
-      if (!opp.trend_name) continue;
-      await base44.asServiceRole.entities.GrowthOpportunity.create({
-        ...opp,
-        source_agent: 'GrowthOpportunityScanner',
-        status: 'new',
-        tags: ['auto-scan', opp.platform || 'all'],
-      });
-      growthSaved++;
-    }
-
-    // Save revenue opportunities
-    const revenueList = revenueOps?.opportunities || (Array.isArray(revenueOps) ? revenueOps : []);
-    for (const opp of revenueList.slice(0, 3)) {
-      if (!opp.opportunity_name) continue;
-      await base44.asServiceRole.entities.RevenueOpportunity.create({
-        ...opp,
-        source_agent: 'GrowthOpportunityScanner',
-        status: 'new',
-        tags: ['auto-scan', opp.revenue_type || 'other'],
-      });
-      revenueSaved++;
-    }
-
-    // This scout writes only internal draft records. It never invokes an external notifier.
-
-    await base44.asServiceRole.entities.AgentTaskLog.create({
-      agent_name: 'GrowthOpportunityScanner',
-      task_title: 'Growth + Revenue Opportunity Scan',
-      outcome: `Saved ${growthSaved} growth ops + ${revenueSaved} revenue ops`,
-      was_automatic: false,
-      required_approval: true,
-      risk_check_result: 'manual_internal_review',
-      tags: ['growth', 'revenue', 'manual_internal_review'],
-    });
-
-    return Response.json({ success: true, growth_saved: growthSaved, revenue_saved: revenueSaved });
-
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+  if (req.method !== 'POST') {
+    return Response.json({ error: 'Method not allowed.' }, { status: 405 });
   }
+
+  return Response.json({
+    error: 'Legacy growth scanning is held. Owner-controlled runtime reconciliation is required before any internal review can be designed.',
+    code: LEGACY_HOLD_CODE,
+    skipped: true,
+    external_actions: 0,
+    network_requests: 0,
+    internal_records_created: 0,
+  }, { status: 503 });
 });
