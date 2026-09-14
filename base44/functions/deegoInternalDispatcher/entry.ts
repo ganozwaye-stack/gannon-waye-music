@@ -62,30 +62,66 @@ Deno.serve(async (req) => {
     const inputHash = await sha256(input);
     sr = base44.asServiceRole;
 
-    // This is lookup-before-create idempotency. It is sufficient for a
-    // zero-effect synthetic test, but production concurrency guarantees still
-    // require a separate platform conditional-write test.
-    const existing = await sr.entities.DeegoExecutionTask.filter(
-      { idempotency_key: idempotencyKey },
-      '-created_date',
-      1,
-    );
-    if (existing?.[0]) {
-      if (existing[0].input_hash !== inputHash) {
+    // Command is a fail-closed reservation for the task. The platform has no
+    // verified atomic unique-key create yet, so inconsistent or incomplete
+    // ledger state blocks this lane rather than creating another receipt.
+    const [existingTasks, existingCommands] = await Promise.all([
+      sr.entities.DeegoExecutionTask.filter(
+        { idempotency_key: idempotencyKey },
+        '-created_date',
+        2,
+      ),
+      sr.entities.DeegoExecutionCommand.filter(
+        { idempotency_key: idempotencyKey },
+        '-created_date',
+        2,
+      ),
+    ]);
+    const existingTask = existingTasks?.[0];
+    const existingCommand = existingCommands?.[0];
+
+    if ((existingTasks?.length || 0) > 1 || (existingCommands?.length || 0) > 1) {
+      return Response.json({
+        error: 'Receipt ledger integrity failure. The same idempotency key has multiple reservations or tasks.',
+        code: 'receipt_ledger_integrity_failure',
+      }, { status: 409 });
+    }
+
+    if (existingTask) {
+      if (
+        existingTask.input_hash !== inputHash
+        || !existingCommand
+        || exact(existingTask.command_id) !== exact(existingCommand.id)
+        || exact(existingTask.command_key) !== exact(existingCommand.command_key)
+        || exact(existingCommand.canonical_input_hash) !== inputHash
+      ) {
         return Response.json({
-          error: 'This idempotency key was already used with a different payload.',
+          error: 'Receipt ledger integrity failure. The existing receipt does not match this exact request.',
+          code: 'receipt_ledger_integrity_failure',
         }, { status: 409 });
       }
       return Response.json({
         ok: true,
         deduplicated: true,
-        task_id: existing[0].id,
-        command_id: existing[0].command_id,
-        runtime_state: existing[0].runtime_state,
+        task_id: existingTask.id,
+        command_id: existingTask.command_id,
+        runtime_state: existingTask.runtime_state,
         external_actions: 0,
         network_requests: 0,
-        idempotency_guarantee: 'lookup-before-create; concurrent platform test pending',
+        idempotency_guarantee: 'reservation and ledger-integrity guard; concurrent platform test pending',
       });
+    }
+
+    if (existingCommand) {
+      if (exact(existingCommand.canonical_input_hash) !== inputHash) {
+        return Response.json({
+          error: 'This idempotency key was already used with a different payload.',
+        }, { status: 409 });
+      }
+      return Response.json({
+        error: 'An incomplete receipt reservation already exists. It will not be retried automatically.',
+        code: 'idempotency_reservation_incomplete',
+      }, { status: 409 });
     }
 
     const now = new Date().toISOString();
@@ -104,6 +140,29 @@ Deno.serve(async (req) => {
       submitted_at: now,
       external_actions: 0,
     });
+
+    const reservations = await sr.entities.DeegoExecutionCommand.filter(
+      { idempotency_key: idempotencyKey },
+      '-created_date',
+      2,
+    );
+    const ownReservation = reservations?.[0];
+    if (
+      !Array.isArray(reservations)
+      || reservations.length !== 1
+      || exact(ownReservation?.id) !== exact(command.id)
+      || exact(ownReservation?.canonical_input_hash) !== inputHash
+      || exact(ownReservation?.command_key) !== commandKey
+    ) {
+      await sr.entities.DeegoExecutionCommand.update(command.id, {
+        runtime_state: 'rejected',
+        rejection_code: 'concurrent_reservation',
+      }).catch(() => undefined);
+      return Response.json({
+        error: 'The command reservation was contested or incomplete. No task was created.',
+        code: 'concurrent_reservation',
+      }, { status: 409 });
+    }
 
     task = await sr.entities.DeegoExecutionTask.create({
       command_id: command.id,
@@ -175,11 +234,18 @@ Deno.serve(async (req) => {
       receipt_version: result.receipt_version,
       external_actions: 0,
       network_requests: 0,
-      idempotency_guarantee: 'lookup-before-create; concurrent platform test pending',
+      idempotency_guarantee: 'reservation and ledger-integrity guard; concurrent platform test pending',
     });
   } catch (error) {
     const errorCode = 'internal_receipt_failed';
     const detail = 'The synthetic internal receipt did not complete. No external action was requested or performed.';
+
+    if (sr && command && !task) {
+      await sr.entities.DeegoExecutionCommand.update(command.id, {
+        runtime_state: 'rejected',
+        rejection_code: errorCode,
+      }).catch(() => undefined);
+    }
 
     if (sr && task && command) {
       const failedAt = new Date().toISOString();
