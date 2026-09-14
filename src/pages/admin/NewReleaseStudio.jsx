@@ -65,7 +65,10 @@ export default function NewReleaseStudio() {
         artwork_url: artwork?.url || '',
         private_draft_acknowledged: privateDraftAcknowledged,
       });
-      setResult(res.data);
+      const packetResponse = await base44.functions.invoke('generateReleaseLaunchPacket', {
+        release_id: res.data.release_id,
+      });
+      setResult({ ...res.data, ...packetResponse.data, external_actions: 'held', release_date: res.data.release_date, too_lost: res.data.too_lost });
       toast({ title: 'Release created, launch packet built', description: form.title });
     } catch (err) {
       toast({
