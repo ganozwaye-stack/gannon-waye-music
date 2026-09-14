@@ -52,6 +52,12 @@ requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'network_req
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'DeegoExecutionCommand.create');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'DeegoExecutionTask.create');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'DeegoTaskEvent.create');
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'DeegoExecutionCommand.filter');
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'receipt_ledger_integrity_failure');
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'idempotency_reservation_incomplete');
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'concurrent_reservation');
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', "runtime_state: 'rejected'");
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'if (sr && command && !task)');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'concurrent platform test pending');
 forbid(
   'base44/functions/deegoInternalDispatcher/entry.ts',
@@ -100,7 +106,10 @@ requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "mode: 'controlle
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "action: 'synthetic_internal_test'");
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'creates internal audit records only');
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'Recheck same receipt');
-requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "verifyReceiptLane.mutate(receiptKey)");
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'receiptSingleFlight');
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'mutateAsync');
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'Receipt key locked');
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'runReceiptLane(receiptKey)');
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'WhatsApp monitoring is held pending a separately approved, receipt-logged inbound workflow.');
 forbid('src/components/admin/DeegoSupervisorDesk.jsx', /getWhatsAppConnectURL|Open Deego WhatsApp connection/, 'unapproved external messaging connection link');
 
