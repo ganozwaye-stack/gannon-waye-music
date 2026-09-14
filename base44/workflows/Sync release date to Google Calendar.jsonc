@@ -1,8 +1,8 @@
 {
   "name": "Sync release date to Google Calendar",
-  "description": "When a Release's release_date is updated in the admin console, sync the release schedule to Gannon's Google Calendar (creates or updates the matching event).",
+  "description": "Paused by the global safety hold. Calendar writes require a controlled owner test and explicit action-time approval.",
   "trigger": {
-    "condition": "${ (.trigger.changed_fields | index(\"release_date\") != null) }",
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [
