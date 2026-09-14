@@ -43,10 +43,13 @@ function timingSafeEqual(left, right) {
   return difference === 0;
 }
 
-export async function rememberTooLostOAuthState(sr, state) {
+export async function rememberTooLostOAuthState(sr, state, requestedBy) {
+  const requestedAt = new Date().toISOString();
   const patch = {
     pending_oauth_state_hash: await sha256(state),
     pending_oauth_state_expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
+    pending_oauth_requested_by: String(requestedBy || '').trim().toLowerCase(),
+    pending_oauth_requested_at: requestedAt,
   };
   const existing = await fetchTooLostConnection(sr);
   if (existing) {
