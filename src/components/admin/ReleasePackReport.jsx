@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { CheckCircle2, AlertTriangle, XCircle } from 'lucide-react';
 
 function ResultRow({ ok, warn, label, detail }) {
@@ -18,10 +19,13 @@ export default function ReleasePackReport({ result }) {
   if (!result) return null;
   const tooLost = result.too_lost;
   const pack = result.pack || {};
+  const packetFailed = result.launch_packet === 'failed';
 
   return (
     <div className="mt-6 border border-border/40 rounded-xl p-4 bg-card/40">
-      <p className="font-display text-lg text-foreground mb-1">Private release draft report</p>
+      <p className="font-display text-lg text-foreground mb-1">
+        {packetFailed ? 'Release draft report, launch packet failed' : 'Release & launch packet report'}
+      </p>
 
       <ResultRow
         ok
@@ -35,10 +39,60 @@ export default function ReleasePackReport({ result }) {
         detail={result.lyric_id ? 'Held behind the usual lyric review gate.' : 'You can add lyrics later from the Lyrics Archive.'}
       />
       <ResultRow
-        ok={pack.review_shells === 3}
-        warn={pack.review_shells !== 3}
-        label={pack.review_shells === 3 ? 'Three private review shells created' : 'Review shells need attention'}
-        detail="Press, playlist-pitch and subscriber-email drafts are blank until you choose what to write or paste."
+        ok={!!result.hero_draft_id}
+        warn={!result.hero_draft_id}
+        label={result.hero_draft_id ? 'Hero design draft created' : 'Hero design draft not created'}
+        detail={result.hero_draft_id
+          ? 'A private Canvas Studio draft featuring this release. The public hero is unchanged until you take it live yourself.'
+          : (result.launch_packet_error || 'The strategy pass did not produce a hero draft.')}
+      />
+      <ResultRow
+        ok={!!pack.press_release}
+        warn={!pack.press_release}
+        label={pack.press_release ? 'Press release drafted' : 'Press release shell left blank'}
+        detail={pack.press_release
+          ? 'Waiting for your review in the Content Studio. Not approved for any use.'
+          : (result.launch_packet_error || 'Write or paste approved press copy from the Content Studio.')}
+      />
+      <ResultRow
+        ok={!!pack.playlist_pitch}
+        warn={!pack.playlist_pitch}
+        label={pack.playlist_pitch ? 'Playlist pitch drafted' : 'Playlist pitch shell left blank'}
+        detail={pack.playlist_pitch
+          ? 'Waiting for your review in the Content Studio.'
+          : 'Write or paste an approved pitch from the Content Studio.'}
+      />
+      <ResultRow
+        ok={!!pack.subscriber_email}
+        warn={!pack.subscriber_email}
+        label={pack.subscriber_email ? 'Fan email staged' : 'Fan email shell left blank'}
+        detail={pack.subscriber_email
+          ? 'Waiting in the Release Email Studio. Nothing sends until you approve it there.'
+          : 'Write or paste approved email copy.'}
+      />
+      <ResultRow
+        ok={pack.social_count > 0}
+        warn={pack.social_count === 0}
+        label={pack.social_count > 0 ? `${pack.social_count} social post drafts created` : 'No social drafts created'}
+        detail={pack.social_count > 0
+          ? 'Hooks, captions, hashtags, visual direction and DM keywords, ready for your review in the Content Studio.'
+          : 'The strategy pass produced no posts. Re-run or add them manually.'}
+      />
+      <ResultRow
+        ok={pack.merch_count > 0}
+        warn={pack.merch_count === 0}
+        label={pack.merch_count > 0 ? `${pack.merch_count} merch concepts drafted` : 'No merch concepts created'}
+        detail={pack.merch_count > 0
+          ? 'Concept drafts tied to the song story. Design work and approval stay in your hands.'
+          : 'Add concepts from the merch design lane when ready.'}
+      />
+      <ResultRow
+        ok={pack.launch_plan_count > 0}
+        warn={pack.launch_plan_count === 0}
+        label={pack.launch_plan_count > 0 ? `${pack.launch_plan_count} launch-plan steps dated` : 'No launch plan created'}
+        detail={pack.launch_plan_count > 0
+          ? 'A dated run sheet from 28 days before release to 14 days after. Public-facing steps are flagged for your approval.'
+          : 'Build your plan from the release checklist.'}
       />
       <ResultRow
         ok={result.presave_wired}
@@ -55,8 +109,15 @@ export default function ReleasePackReport({ result }) {
         detail={tooLost?.detail || 'Publication, delivery, email, posting and scheduling remain unavailable from this draft.'}
       />
 
-      <p className="font-body text-[11px] text-muted-foreground mt-2">
-        Nothing from this screen delivers, publishes, posts, sends, schedules, or makes a public claim.
+      <div className="mt-3 flex flex-wrap gap-2">
+        <Link to="/admin/hero-design-studio" className="font-body text-xs tracking-wider uppercase border border-primary/40 text-primary rounded-full px-3 py-1.5 hover:bg-primary/10">Open Hero Design Studio</Link>
+        <Link to="/admin/content-studio" className="font-body text-xs tracking-wider uppercase border border-primary/40 text-primary rounded-full px-3 py-1.5 hover:bg-primary/10">Open Content Studio</Link>
+        <Link to="/admin/release-email-studio" className="font-body text-xs tracking-wider uppercase border border-primary/40 text-primary rounded-full px-3 py-1.5 hover:bg-primary/10">Open Email Studio</Link>
+        <Link to="/admin/releases" className="font-body text-xs tracking-wider uppercase border border-primary/40 text-primary rounded-full px-3 py-1.5 hover:bg-primary/10">Open Releases</Link>
+      </div>
+
+      <p className="font-body text-[11px] text-muted-foreground mt-3">
+        Everything above is a private draft. Nothing delivers, publishes, posts, sends, schedules, or makes a public claim until you approve each piece separately.
       </p>
     </div>
   );
