@@ -6,7 +6,7 @@
       "type": "scheduled",
       "description": "Syncs all Release entities to Google Calendar every Monday morning.",
       "ends_type": "never",
-      "is_active": true,
+      "is_active": false,
       "name": "Weekly Release Calendar Sync",
       "repeat_on_days": [
         1
