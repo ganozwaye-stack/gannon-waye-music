@@ -93,6 +93,18 @@ forbid('src/pages/admin/ContentAutomate.jsx', /base44\.functions\.invoke|handleR
 
 requireSnippet('base44/functions/deegoTelegram/entry.ts', 'if (!expected || got !== expected)');
 
+requireSnippet('base44/functions/tooLostOAuth/entry.ts', 'OWNER_EMAILS.has(actorEmail)');
+requireSnippet('base44/functions/tooLostOAuth/entry.ts', 'OWNER_EMAILS.has(stateCheck.requestedBy)');
+requireSnippet('base44/functions/tooLostOAuth/entry.ts', 'rememberTooLostOAuthState(sr, state, actorEmail)');
+requireSnippet('base44/functions/tooLostOAuth/entry.ts', "status: 'reauthorise_required'");
+requireSnippet('base44/functions/tooLostOAuth/entry.ts', 'read_only: true');
+forbid('base44/functions/tooLostOAuth/entry.ts', /getValidTooLostAccessToken|fetch\(/, 'automatic token refresh or optional profile lookup');
+requireSnippet('base44/shared/tooLostAuth.ts', 'pending_oauth_requested_by');
+forbid('base44/shared/tooLostAuth.ts', /refreshTooLostTokens|getValidTooLostAccessToken|refresh_token/, 'automatic refresh-token handling');
+requireSnippet('src/pages/admin/Distributors.jsx', 'refetchOnWindowFocus: false');
+requireSnippet('src/pages/admin/Distributors.jsx', 'Status is read-only.');
+forbid('src/pages/admin/Distributors.jsx', /refetchInterval|checks the connection every 30 seconds|renews the login automatically|Status refreshes automatically every 30 seconds/, 'background distributor polling or automatic renewal');
+
 if (failures.length > 0) {
   console.error('Manual safety-boundary check failed:');
   for (const failure of failures) console.error(`- ${failure}`);
