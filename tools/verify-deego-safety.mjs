@@ -1,5 +1,5 @@
-import { existsSync, readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { relative, resolve } from 'node:path';
 
 const ROOT = resolve('.');
 const failures = [];
@@ -11,6 +11,37 @@ function read(path) {
     return '';
   }
   return readFileSync(target, 'utf8');
+}
+
+function listFiles(relativeDir) {
+  const root = resolve(ROOT, relativeDir);
+  if (!existsSync(root)) {
+    failures.push(`${relativeDir} is missing.`);
+    return [];
+  }
+  const files = [];
+  const visit = (dir) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const target = resolve(dir, entry.name);
+      if (entry.isDirectory()) visit(target);
+      else files.push(target);
+    }
+  };
+  visit(root);
+  return files;
+}
+
+function assertAutomationSafetyHold() {
+  for (const target of listFiles('base44/functions').filter(file => file.endsWith('function.jsonc'))) {
+    if (readFileSync(target, 'utf8').includes('"is_active": true')) {
+      failures.push(`${relative(ROOT, target)} has an active function automation outside the safety hold.`);
+    }
+  }
+  for (const target of listFiles('base44/workflows').filter(file => file.endsWith('.jsonc'))) {
+    if (readFileSync(target, 'utf8').includes('"condition": null')) {
+      failures.push(`${relative(ROOT, target)} has an enabled legacy workflow trigger outside the safety hold.`);
+    }
+  }
 }
 
 const required = [
@@ -50,6 +81,8 @@ for (const [path, snippet] of forbidden) {
     failures.push(`${path} contains a stale Deego operational claim: ${snippet}`);
   }
 }
+
+assertAutomationSafetyHold();
 
 if (failures.length) {
   console.error('Deego safety and status-truth check failed:');
