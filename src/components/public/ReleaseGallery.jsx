@@ -2,12 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { base44 } from '@/api/base44Client';
 
-// The Set Free making-of gallery: official artwork and production photos,
-// published from the admin gallery (GalleryImage, is_published true) and
-// framed in the gold aesthetic. Nothing renders until the owner publishes
-// imagery, so no placeholders and no stock photos ever appear.
+// Gallery imagery is tied to an already-public release supplied by the parent.
+// Never supply a draft-release fallback here: a public page must fail closed.
 
-export default function ReleaseGallery({ releaseTitle = 'Set Free' }) {
+export default function ReleaseGallery({ releaseTitle }) {
+  const hasPublicRelease = Boolean(releaseTitle);
   const { data: images = [], isLoading } = useQuery({
     queryKey: ['releaseGallery', releaseTitle],
     queryFn: () => base44.entities.GalleryImage.filter(
@@ -15,9 +14,10 @@ export default function ReleaseGallery({ releaseTitle = 'Set Free' }) {
       'sort_order'
     ),
     staleTime: 60_000,
+    enabled: hasPublicRelease,
   });
 
-  if (isLoading || images.length === 0) return null;
+  if (!hasPublicRelease || isLoading || images.length === 0) return null;
 
   return (
     <section className="mt-20" aria-label={`${releaseTitle} artwork and production gallery`}>
