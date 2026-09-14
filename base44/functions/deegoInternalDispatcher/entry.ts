@@ -94,18 +94,54 @@ Deno.serve(async (req) => {
         || exact(existingTask.command_id) !== exact(existingCommand.id)
         || exact(existingTask.command_key) !== exact(existingCommand.command_key)
         || exact(existingCommand.canonical_input_hash) !== inputHash
+        || exact(existingCommand.task_id) !== exact(existingTask.id)
+        || existingCommand.runtime_state !== 'accepted'
+        || Number(existingTask.external_actions || 0) !== 0
+        || Number(existingCommand.external_actions || 0) !== 0
       ) {
         return Response.json({
           error: 'Receipt ledger integrity failure. The existing receipt does not match this exact request.',
           code: 'receipt_ledger_integrity_failure',
         }, { status: 409 });
       }
+
+      const terminalEvents = await sr.entities.DeegoTaskEvent.filter(
+        { task_id: existingTask.id, command_id: existingCommand.id },
+        'sequence',
+        4,
+      );
+      const expectedTerminalEvents = [
+        { sequence: 1, event_type: 'accepted' },
+        { sequence: 2, event_type: 'started' },
+        { sequence: 3, event_type: 'succeeded' },
+      ];
+      const completeTerminalReceipt = existingTask.runtime_state === 'succeeded'
+        && Array.isArray(terminalEvents)
+        && terminalEvents.length === expectedTerminalEvents.length
+        && expectedTerminalEvents.every((expected, index) => {
+          const event = terminalEvents[index];
+          return Number(event?.sequence) === expected.sequence
+            && exact(event?.event_type) === expected.event_type
+            && exact(event?.task_id) === exact(existingTask.id)
+            && exact(event?.command_id) === exact(existingCommand.id)
+            && Number(event?.external_actions || 0) === 0;
+        });
+      if (!completeTerminalReceipt) {
+        return Response.json({
+          error: 'The existing receipt is not a complete successful internal record. It is held for manual reconciliation and will not be retried automatically.',
+          code: 'idempotency_receipt_not_succeeded',
+          runtime_state: exact(existingTask.runtime_state),
+        }, { status: 409 });
+      }
+
       return Response.json({
         ok: true,
         deduplicated: true,
         task_id: existingTask.id,
         command_id: existingTask.command_id,
         runtime_state: existingTask.runtime_state,
+        event_count: 3,
+        receipt_integrity: 'complete',
         external_actions: 0,
         network_requests: 0,
         idempotency_guarantee: 'reservation and ledger-integrity guard; concurrent platform test pending',
@@ -232,6 +268,8 @@ Deno.serve(async (req) => {
       command_id: command.id,
       runtime_state: 'succeeded',
       receipt_version: result.receipt_version,
+      event_count: 3,
+      receipt_integrity: 'complete',
       external_actions: 0,
       network_requests: 0,
       idempotency_guarantee: 'reservation and ledger-integrity guard; concurrent platform test pending',
