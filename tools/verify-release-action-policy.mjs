@@ -107,7 +107,7 @@ if (/generateReleaseLaunchPacket/.test(read('src/pages/admin/NewReleaseStudio.js
 
 const publication = read('base44/functions/publishSingleWorkflow/entry.ts');
 for (const needle of [
-  'requireExactConfirmation(body, candidate, fingerprint)',
+  'requireExactConfirmation(body, candidate, fingerprint, action)',
   'releaseEvidenceErrors(candidate)',
   'ReleasePublicationApproval.create',
   'casSucceeded(approvalClaimed)',
