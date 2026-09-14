@@ -35,6 +35,9 @@ export default async function(req) {
     }
 
     const body = await req.json().catch(() => ({}));
+    if (body.cost_acknowledged !== true) {
+      return Response.json({ error: 'Confirm the private-draft and AI-quota acknowledgement before creating a release pack.' }, { status: 400 });
+    }
     const title = exact(body.title);
     const releaseDate = exact(body.release_date);
     const lyrics = exact(body.lyrics);
@@ -45,7 +48,8 @@ export default async function(req) {
     // Never schedule public publication from the draft-creation flow.
     const autoPublish = false;
     const presaveUrl = exact(body.presave_url);
-    const dryRun = body.dry_run === true;
+    // The private draft endpoint never generates image assets. Image work needs a separate owner-approved action.
+    const dryRun = true;
     // Delivery is deliberately held until the separate owner-approved workflow exists.
     const allowDistributionPush = false;
 
