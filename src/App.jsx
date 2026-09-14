@@ -63,6 +63,7 @@ import OwnerCommandV3 from '@/pages/admin/OwnerCommandV3';
 import Releases from '@/pages/admin/Releases';
 import HeroDesignStudio from '@/pages/admin/HeroDesignStudio';
 import ReleasePrepStudio from '@/pages/admin/ReleasePrepStudio';
+import ReleaseControlDesk from '@/pages/admin/ReleaseControlDesk';
 import MerchManagement from '@/pages/admin/MerchManagement';
 import StoreHotspotEditor from '@/pages/admin/StoreHotspotEditor';
 import Orders from '@/pages/admin/Orders';
@@ -541,6 +542,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/releases" element={<Releases />} />
         <Route path="/admin/hero-design-studio" element={<HeroDesignStudio />} />
         <Route path="/admin/release-prep" element={<ReleasePrepStudio />} />
+        <Route path="/admin/release-control" element={<ReleaseControlDesk />} />
         <Route path="/admin/merch" element={<MerchManagement />} />
         <Route path="/admin/store-hotspots" element={<StoreHotspotEditor />} />
         <Route path="/admin/orders" element={<Orders />} />
