@@ -31,7 +31,7 @@ const heldEndpoints = [
   'base44/functions/sendBirthdayDiscount/entry.ts',
   'base44/functions/metricoolSchedulePost/entry.ts',
   'base44/functions/generateReleaseLaunchPacket/entry.ts',
-  'base44/functions/publishApprovedReel/entry.ts
+  'base44/functions/publishApprovedReel/entry.ts',
   'base44/functions/postReelToInstagram/entry.ts',
   'base44/functions/tiktokUploadDraft/entry.ts',
   'base44/functions/autonomousSocialPoster/entry.ts',
