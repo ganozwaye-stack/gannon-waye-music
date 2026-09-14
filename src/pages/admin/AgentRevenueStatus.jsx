@@ -31,15 +31,19 @@ const AGENTS = [
     data_sources: ['DailyDashboardTask', 'ActionItem', 'AdminNotification'],
     purpose: 'Owner-triggered, no-spend task supervision that records internal follow-up alerts',
     schedule: 'Manual owner-only; automated schedule paused',
+    status: 'Paused pending owner test',
     invokeArgs: { mode: 'admin_supervisor' },
   },
   {
     name: 'ExecutiveMorningBrief',
     label: 'Executive Brief',
     function: 'executiveMorningBrief',
-    data_sources: ['MerchOrder', 'AdminNotification', 'AgentActionProposal', 'SystemHealthIssue'],
-    purpose: 'Daily AI-generated executive summary',
-    schedule: 'Daily 7am AEST',
+    data_sources: ['RiskAlert', 'ApprovalQueue', 'AgentTaskLog', 'IdeaOpportunity'],
+    purpose: 'Owner-generated internal AI brief; saves a private Knowledge Vault record and returns it to the signed-in owner',
+    schedule: 'Manual owner-only; automatic delivery paused',
+    status: 'Paused pending owner test',
+    requiresConfirmation: true,
+    buttonLabel: 'Generate internal brief',
   },
   {
     name: 'AutonomousAlertSystem',
@@ -105,6 +109,9 @@ export default function AgentRevenueStatus() {
   };
 
   const runAgent = async (agent) => {
+    if (agent.requiresConfirmation && !window.confirm(
+      'Generate the internal executive brief? This uses AI quota and creates only internal records. It will not send Slack, email, publish, post, submit, or make a payment.'
+    )) return;
     setRunning(p => ({ ...p, [agent.name]: true }));
     try {
       const res = await base44.functions.invoke(agent.function, agent.invokeArgs || {});
@@ -191,7 +198,14 @@ export default function AgentRevenueStatus() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap mb-1">
                         <p className="text-sm font-semibold">{agent.label}</p>
-                        <Badge variant="outline" className="text-[10px] text-green-300 border-green-500/30">Active</Badge>
+                        <Badge
+                          variant="outline"
+                          className={agent.status === 'Paused pending owner test'
+                            ? 'text-[10px] text-amber-300 border-amber-500/30'
+                            : 'text-[10px] text-muted-foreground border-border/50'}
+                        >
+                          {agent.status || 'Configured'}
+                        </Badge>
                         <Badge variant="outline" className="text-[10px] text-muted-foreground">{agent.schedule}</Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mb-2">{agent.purpose}</p>
@@ -222,7 +236,7 @@ export default function AgentRevenueStatus() {
                       className="gap-1 shrink-0"
                     >
                       <RefreshCw className={`w-3 h-3 ${isRunning ? 'animate-spin' : ''}`} />
-                      Run Now
+                      {isRunning ? 'Running…' : (agent.buttonLabel || 'Run Now')}
                     </Button>
                   </div>
                 </div>
