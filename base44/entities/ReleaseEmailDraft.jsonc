@@ -45,8 +45,10 @@
       "enum": [
         "draft",
         "approved",
+        "sending",
         "sent",
-        "rejected"
+        "rejected",
+        "send_failed"
       ],
       "default": "draft"
     },
@@ -65,6 +67,61 @@
     "failed_count": {
       "type": "number",
       "default": 0
+    },
+    "release_version_label": {
+      "type": "string",
+      "description": "Release version included in the exact send confirmation."
+    },
+    "publication_approval_id": {
+      "type": "string",
+      "description": "Immutable publication approval receipt required for this draft."
+    },
+    "release_fingerprint": {
+      "type": "string",
+      "description": "Exact approved release fingerprint captured when this draft was prepared."
+    },
+    "content_fingerprint": {
+      "type": "string",
+      "description": "Exact email-content fingerprint captured before owner confirmation."
+    },
+    "approved_by": {
+      "type": "string",
+      "description": "Owner who confirmed this exact email content for sending."
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "send_state": {
+      "type": "string",
+      "enum": [
+        "ready",
+        "claimed",
+        "sent",
+        "blocked"
+      ],
+      "default": "ready",
+      "description": "Fail-closed send state. Claimed or blocked drafts are never retried automatically."
+    },
+    "send_request_id": {
+      "type": "string",
+      "description": "Owner-confirmed client request identifier for this send attempt."
+    },
+    "send_claim_id": {
+      "type": "string",
+      "description": "Server-generated compare-and-set claim identifier."
+    },
+    "send_claimed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "send_completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "send_blocked_at": {
+      "type": "string",
+      "format": "date-time"
     }
   },
   "required": [
