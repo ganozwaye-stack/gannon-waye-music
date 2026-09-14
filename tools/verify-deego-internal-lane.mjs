@@ -67,6 +67,22 @@ forbid(
   'external capability allowlist',
 );
 
+const planningOnlyAgents = [
+  'base44/agents/deego_master_ai.jsonc',
+  'base44/agents/deego_content_interviewer.jsonc',
+  'base44/agents/deego_design_hub_operator.jsonc',
+  'base44/agents/deego_gannons_mix_direct_operator.jsonc',
+  'base44/agents/deego_market_radar.jsonc',
+  'base44/agents/deego_operations_controller.jsonc',
+  'base44/agents/deego_profit_attribution_analyst.jsonc',
+  'base44/agents/deego_sound_vault_operator.jsonc',
+];
+
+for (const path of planningOnlyAgents) {
+  requireSnippet(path, '"tool_configs": []');
+  forbid(path, /allowed_operations|function_name/, 'direct tool permissions');
+}
+
 requireSnippet('base44/entities/AgentTaskLog.jsonc', '"default": false');
 requireSnippet('base44/entities/AgentTaskLog.jsonc', '"create": {');
 requireSnippet('base44/entities/AgentTaskLog.jsonc', '"role": "admin"');
@@ -74,9 +90,22 @@ requireSnippet('base44/entities/AgentTaskLog.jsonc', '"role": "admin"');
 requireSnippet('src/pages/admin/AgentRegistry.jsx', 'This registry is descriptive only.');
 forbid(
   'src/pages/admin/AgentRegistry.jsx',
-  /base44\.entities\.AgentTaskLog\.create|All sub-systems online and verified|Activate Agent|Run Now/,
+  /base44\.entities\.AgentTaskLog\.create|All sub-systems online and verified|Activate Agent|Run Now|Fully safe to automate|Allowed to auto-run/,
   'unverified agent execution or activation control',
 );
+
+requireSnippet('src/pages/admin/AgentWorkbench.jsx', 'Held — no verified executor');
+forbid('src/pages/admin/AgentWorkbench.jsx', /base44\.functions\.invoke|Run Now|Auto-runs/, 'legacy runner control');
+requireSnippet('src/pages/admin/AgentIntelligence.jsx', 'Legacy automated runners are held.');
+forbid('src/pages/admin/AgentIntelligence.jsx', /base44\.functions\.invoke\('autonomousResearch'|base44\.functions\.invoke\('autonomousTrendEngine'/, 'legacy research runner control');
+requireSnippet('src/pages/admin/ContentDashboard.jsx', 'Legacy research and trend runners are held');
+forbid('src/pages/admin/ContentDashboard.jsx', /base44\.functions\.invoke\('autonomousResearch'|base44\.functions\.invoke\('autonomousTrendEngine'/, 'legacy dashboard runner control');
+requireSnippet('src/pages/admin/OrchestratorChat.jsx', 'Deego is planning-only:');
+forbid('src/pages/admin/OrchestratorChat.jsx', /Start \/execution mode|Run daily_money_radar/, 'false Deego execution prompt');
+requireSnippet('src/components/admin/dashboard/DeegoRecommendations.jsx', 'no work has started or been sent.');
+requireSnippet('src/pages/admin/AgentMessageBus.jsx', 'Internal Agent Message Ledger');
+requireSnippet('src/pages/admin/AutomationAgentsHub.jsx', 'No verified executor or cross-agent relay is active');
+forbid('src/pages/admin/AutomationAgentsHub.jsx', /Invoke Agent|Scheduled cron check|Dispatched tasks to/, 'fabricated execution evidence');
 
 if (failures.length > 0) {
   console.error('Deego internal-lane check failed:');
