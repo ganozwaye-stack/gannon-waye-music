@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Link, useSearchParams } from 'react-router-dom';
@@ -27,6 +27,7 @@ export default function DeegoSupervisorDesk() {
   });
   const [laneReceipt, setLaneReceipt] = useState(null);
   const [receiptKey, setReceiptKey] = useState(null);
+  const receiptSingleFlight = useRef(false);
   const verifyReceiptLane = useMutation({
     mutationFn: async (idempotency_key) => (await base44.functions.invoke('deegoInternalDispatcher', {
       mode: 'controlled_internal_test',
@@ -35,10 +36,21 @@ export default function DeegoSupervisorDesk() {
     })).data,
     onSuccess: data => setLaneReceipt(data),
   });
+  const runReceiptLane = async (key) => {
+    if (receiptSingleFlight.current) return;
+    receiptSingleFlight.current = true;
+    try {
+      await verifyReceiptLane.mutateAsync(key);
+    } finally {
+      receiptSingleFlight.current = false;
+    }
+  };
+
   const createReceiptTest = () => {
+    if (receiptKey || receiptSingleFlight.current) return;
     const key = `deego-desk-${Date.now()}-${crypto.randomUUID()}`;
     setReceiptKey(key);
-    verifyReceiptLane.mutate(key);
+    void runReceiptLane(key).catch(() => undefined);
   };
   if (identity.isPending) return <section aria-busy="true" className="rounded-2xl border border-border p-6 animate-pulse">Loading Deego desk…</section>;
   if (!owner(identity.data)) return <section className="rounded-2xl border border-border p-6">Deego supervision requires the signed-in owner account.</section>;
@@ -63,16 +75,16 @@ export default function DeegoSupervisorDesk() {
       <button
         type="button"
         className="rounded-lg border border-primary/50 px-4 py-2 text-sm disabled:opacity-50"
-        disabled={verifyReceiptLane.isPending}
+        disabled={verifyReceiptLane.isPending || Boolean(receiptKey)}
         onClick={createReceiptTest}
       >
-        {verifyReceiptLane.isPending ? 'Creating internal receipt…' : 'Verify internal receipt lane'}
+        {verifyReceiptLane.isPending ? 'Creating internal receipt…' : receiptKey ? 'Receipt key locked' : 'Verify internal receipt lane'}
       </button>
-      {laneReceipt && receiptKey && <button
+      {receiptKey && <button
         type="button"
         className="rounded-lg border border-border px-4 py-2 text-sm disabled:opacity-50"
         disabled={verifyReceiptLane.isPending}
-        onClick={() => verifyReceiptLane.mutate(receiptKey)}
+        onClick={() => void runReceiptLane(receiptKey).catch(() => undefined)}
       >
         Recheck same receipt
       </button>}
