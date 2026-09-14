@@ -50,6 +50,9 @@ const heldEndpoints = [
   'base44/functions/onNewOrderSlack/entry.ts',
   'base44/functions/generateResearchedSocialContent/entry.ts',
   'base44/functions/icloudIngest/entry.ts',
+  'base44/functions/soniaChat/entry.ts',
+  'base44/functions/generateHeyGenVideo/entry.ts',
+  'base44/functions/registerHeygenWebhook/entry.ts',
 ];
 
 for (const path of heldEndpoints) {
