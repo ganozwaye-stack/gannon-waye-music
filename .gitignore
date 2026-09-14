@@ -31,3 +31,4 @@ dist-ssr
 .vite
 # The canonical app ID is intentionally versioned: it prevents deploys to a Copy app.
 # It contains no credential or secret.
+!base44/.app.jsonc
