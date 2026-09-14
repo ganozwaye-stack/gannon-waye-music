@@ -108,7 +108,7 @@ export default async function (req: Request) {
     // --- Verify the call really came from Telegram -------------------------
     const expected = Deno.env.get('TELEGRAM_WEBHOOK_SECRET');
     const got = req.headers.get('x-telegram-bot-api-secret-token');
-    if (expected && got !== expected) {
+    if (!expected || got !== expected) {
       return new Response('ok', { status: 200 }); // silent
     }
 
