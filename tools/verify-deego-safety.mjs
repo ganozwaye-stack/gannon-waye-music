@@ -109,21 +109,40 @@ const required = [
   ['base44/functions/deegoTelegram/entry.ts', 'network_requests: 0'],
 
   ['base44/functions/executiveMorningBrief/function.jsonc', '"automations": []'],
+  ['base44/workflows/Executive Morning Brief (Daily 7am).jsonc', '"condition": "${ false }"'],
   ['base44/workflows/Deego Morning Brief — 6am.jsonc', '"condition": "${ false }"'],
   ['base44/functions/executiveMorningBrief/entry.ts', "const LEGACY_HOLD_CODE = 'legacy_executive_morning_brief_held'"],
+  ['base44/functions/executiveMorningBrief/entry.ts', "req.method !== 'POST'"],
   ['base44/functions/executiveMorningBrief/entry.ts', 'Legacy executive briefing is held.'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'skipped: true'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'external_actions: 0'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'network_requests: 0'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'internal_records_created: 0'],
+  ['base44/functions/executiveMorningBrief/entry.ts', 'status: 503'],
 
   ['base44/functions/growthOpportunityScanner/function.jsonc', '"automations": []'],
+  ['base44/workflows/Revenue Opportunity Scan (Daily 7am).jsonc', '"condition": "${ false }"'],
+  ['base44/workflows/Viral Opportunity Scan (2h).jsonc', '"condition": "${ false }"'],
   ['base44/functions/growthOpportunityScanner/entry.ts', "const LEGACY_HOLD_CODE = 'legacy_growth_opportunity_scanner_held'"],
+  ['base44/functions/growthOpportunityScanner/entry.ts', "req.method !== 'POST'"],
   ['base44/functions/growthOpportunityScanner/entry.ts', 'Legacy growth scanning is held.'],
   ['base44/functions/growthOpportunityScanner/entry.ts', 'skipped: true'],
   ['base44/functions/growthOpportunityScanner/entry.ts', 'external_actions: 0'],
   ['base44/functions/growthOpportunityScanner/entry.ts', 'network_requests: 0'],
   ['base44/functions/growthOpportunityScanner/entry.ts', 'internal_records_created: 0'],
+  ['base44/functions/growthOpportunityScanner/entry.ts', 'status: 503'],
+
+  ['base44/functions/autonomousResearch/function.jsonc', '"is_active": false'],
+  ['base44/workflows/Autonomous Research Agent — Hourly.jsonc', '"condition": "${ false }"'],
+  ['base44/functions/autonomousResearch/entry.ts', 'skipped: true'],
+  ['base44/functions/autonomousResearch/entry.ts', 'Safety hold: legacy autonomous research is disabled.'],
+  ['base44/functions/autonomousResearch/entry.ts', 'status: 503'],
+
+  ['base44/functions/autonomousTrendEngine/function.jsonc', '"is_active": false'],
+  ['base44/workflows/Trend Engine — Daily Report.jsonc', '"condition": "${ false }"'],
+  ['base44/functions/autonomousTrendEngine/entry.ts', 'skipped: true'],
+  ['base44/functions/autonomousTrendEngine/entry.ts', 'Safety hold: legacy trend generation is disabled.'],
+  ['base44/functions/autonomousTrendEngine/entry.ts', 'status: 503'],
 
   ['base44/workflows/Hourly System Alert Check.jsonc', '"mode": "legacy_hold"'],
   ['src/pages/admin/FinalSystemStatus.jsx', 'Paused pending owner test'],
@@ -153,12 +172,28 @@ const forbidden = [
   ['base44/functions/executiveMorningBrief/entry.ts', 'asServiceRole'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'Core.InvokeLLM'],
   ['base44/functions/executiveMorningBrief/entry.ts', '.entities.'],
+  ['base44/functions/executiveMorningBrief/entry.ts', 'fetch('],
+  ['base44/functions/executiveMorningBrief/entry.ts', 'Deno.env'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'sendSlackAlert'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'was_automatic: true'],
   ['base44/functions/growthOpportunityScanner/entry.ts', 'createClientFromRequest'],
   ['base44/functions/growthOpportunityScanner/entry.ts', 'asServiceRole'],
   ['base44/functions/growthOpportunityScanner/entry.ts', 'Core.InvokeLLM'],
   ['base44/functions/growthOpportunityScanner/entry.ts', '.entities.'],
+  ['base44/functions/growthOpportunityScanner/entry.ts', 'fetch('],
+  ['base44/functions/growthOpportunityScanner/entry.ts', 'Deno.env'],
+  ['base44/functions/autonomousResearch/entry.ts', 'fetch('],
+  ['base44/functions/autonomousResearch/entry.ts', 'Deno.env'],
+  ['base44/functions/autonomousResearch/entry.ts', 'createClientFromRequest'],
+  ['base44/functions/autonomousResearch/entry.ts', 'asServiceRole'],
+  ['base44/functions/autonomousResearch/entry.ts', 'Core.InvokeLLM'],
+  ['base44/functions/autonomousResearch/entry.ts', '.entities.'],
+  ['base44/functions/autonomousTrendEngine/entry.ts', 'fetch('],
+  ['base44/functions/autonomousTrendEngine/entry.ts', 'Deno.env'],
+  ['base44/functions/autonomousTrendEngine/entry.ts', 'createClientFromRequest'],
+  ['base44/functions/autonomousTrendEngine/entry.ts', 'asServiceRole'],
+  ['base44/functions/autonomousTrendEngine/entry.ts', 'Core.InvokeLLM'],
+  ['base44/functions/autonomousTrendEngine/entry.ts', '.entities.'],
   ['src/pages/admin/GrowthEngine.jsx', "functions.invoke('growthOpportunityScanner'"],
   ['src/pages/admin/IntelligenceToIncome.jsx', "functions.invoke('growthOpportunityScanner'"],
   ['src/pages/admin/NewReleaseStudio.jsx', 'Go live automatically at midnight on release day'],
@@ -201,6 +236,7 @@ for (const [path, snippet] of forbidden) {
 assertAutomationSafetyHold();
 assertFunctionBoundarySafety();
 assertHeldAgentCards();
+assertHeldScannerPages();
 
 if (failures.length) {
   console.error('Deego safety and status-truth check failed:');
