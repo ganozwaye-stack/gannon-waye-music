@@ -72,7 +72,11 @@ export async function verifyTooLostOAuthState(sr, state) {
   if (!timingSafeEqual(candidateHash, connection.pending_oauth_state_hash)) {
     return { ok: false, error: 'The login security check did not match. Start again from Distributor Hub.' };
   }
-  return { ok: true, connectionId: connection.id };
+  return {
+    ok: true,
+    connectionId: connection.id,
+    requestedBy: String(connection.pending_oauth_requested_by || '').trim().toLowerCase(),
+  };
 }
 
 export async function clearTooLostOAuthState(sr, connectionId) {
