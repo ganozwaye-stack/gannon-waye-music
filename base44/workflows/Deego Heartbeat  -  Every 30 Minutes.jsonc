@@ -1,8 +1,8 @@
 {
   "name": "Deego Heartbeat  -  Every 30 Minutes",
-  "description": "Deego heartbeat every 30 minutes. Updates approval budget, $1M profit target, current blockers, and task log. Internal only: no spend, no publishing, no supplier contact, no external messages.",
+  "description": "Disabled safety hold: agentIntelligenceLoop rejects unattended calls until scheduler identity and a no-spend supervisor acceptance test are verified.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],
