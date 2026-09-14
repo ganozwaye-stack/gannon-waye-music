@@ -10,7 +10,7 @@ import ReactMarkdown from 'react-markdown';
 
 const AGENTS = [
   { name: 'orchestrator', label: 'Master Orchestrator', icon: Zap, color: 'text-violet-400', bg: 'bg-violet-500/10', desc: 'Routes tasks · Knows your brand & goals · Enforces Do-Not-Spend rule' },
-  { name: 'deego_master_ai', label: 'Deego', icon: Brain, color: 'text-emerald-400', bg: 'bg-emerald-500/10', desc: 'Execution modes · Money radar · Content, design and Sound Vault' },
+  { name: 'deego_master_ai', label: 'Deego', icon: Brain, color: 'text-emerald-400', bg: 'bg-emerald-500/10', desc: 'Private planning chat · No task executor or cross-chat relay' },
   { name: 'literature_researcher', label: 'Literature Researcher', icon: BookOpen, color: 'text-cyan-400', bg: 'bg-cyan-500/10', desc: 'PhD-level research · Peer-reviewed literature · Finds gaps & themes' },
   { name: 'academic_writing_coach', label: 'Academic Writing Coach', icon: Brain, color: 'text-pink-400', bg: 'bg-pink-500/10', desc: 'HD-level writing coach · Argument structure · APA 7th · Your voice' },
 ];
@@ -87,7 +87,7 @@ export default function OrchestratorChat() {
 
   const PROMPTS = {
     orchestrator: ['What should I focus on today?', 'Draft a social post about Thank You', 'Check for financial risks', 'What agents are inactive and why?'],
-    deego_master_ai: ['Start /execution mode for my top money move', 'Run daily_money_radar', 'Interview me for awareness content', "Build a Gannon's Mix Direct product test pack"],
+    deego_master_ai: ['Help me prioritise my top money move', 'Draft a money-radar checklist', 'Help me prepare interview questions for awareness content', "Draft a Gannon's Mix Direct product-test checklist"],
     literature_researcher: ['I need peer-reviewed research on [your topic]', 'What are the key themes in [field]?', 'Identify gaps in the literature on [topic]', 'How do these studies link together?'],
     academic_writing_coach: ['Help me structure my literature review', 'How do I write a strong topic sentence?', 'Review my paragraph for depth', 'Help me link these articles together in my writing'],
   };
@@ -145,6 +145,11 @@ export default function OrchestratorChat() {
           </div>
           <Badge className={`ml-auto shrink-0 ${agentConfig.bg} ${agentConfig.color}`}>AI</Badge>
         </div>
+        {selectedAgent === 'deego_master_ai' && (
+          <p className="border-b border-border px-4 py-2 text-xs text-muted-foreground">
+            Deego is planning-only: this chat does not start work, alter records, transfer tasks to another chat, or act externally.
+          </p>
+        )}
 
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 space-y-4">
