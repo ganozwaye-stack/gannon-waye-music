@@ -6,7 +6,7 @@
       "type": "scheduled",
       "description": "Daily shipping rate audit for excessive costs, undercharging, profit protection",
       "ends_type": "never",
-      "is_active": true,
+      "is_active": false,
       "name": "Shipping Optimisation Audit (Daily 9am)",
       "repeat_interval": 1,
       "repeat_unit": "days",
