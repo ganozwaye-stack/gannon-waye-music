@@ -50,11 +50,13 @@ if (policy) {
   requirePolicyRequirements(policy, 'publishSingleWorkflow', 'owner_confirmed_publication', [
     'exact_owner', 'exact_title', 'exact_version', 'current_release_fingerprint',
     'immutable_approval_receipt', 'separate_approval_then_publish', 'exact_revoke_phrase',
-    'server_verified_action_phrase',
+    'server_verified_action_phrase', 'evidence_frozen_after_approval',
+    'exact_snapshot_compare_and_set', 'post_commit_reconciliation',
   ]);
   requirePolicyRequirements(policy, 'sendReleaseEmailDraft', 'owner_confirmed_fan_email', [
     'exact_owner', 'public_released_record', 'current_evidence', 'immutable_publication_receipt',
-    'exact_title_version_and_fingerprints', 'private_release_email_dispatch_claim',
+    'exact_title_version_and_fingerprints', 'server_verified_send_phrase',
+    'exact_snapshot_compare_and_set', 'private_release_email_dispatch_claim',
     'send_deduplication', 'no_retry_after_claim',
   ]);
   requirePolicyRequirements(policy, 'tooLostOAuth', 'manual_owner_connection', [
@@ -117,6 +119,11 @@ for (const needle of [
   'confirm_publish_phrase',
   'requiredActionPhrase',
   'revokeFingerprint',
+  'Evidence is frozen after approval begins.',
+  'exact_snapshot_guard',
+  'updated_date: release.updated_date',
+  'reconcileLinkedLyricsPublication',
+  'manual_reconciliation_required',
 ]) {
   if (!publication.includes(needle)) {
     failures.push(`Public release control is missing required fail-closed guard: ${needle}`);
@@ -132,6 +139,10 @@ for (const needle of [
   'casSucceeded(releaseClaim)',
   'confirm_release_fingerprint',
   'confirm_draft_fingerprint',
+  'confirm_send_phrase',
+  'expectedSendPhrase',
+  'updated_date: draft.updated_date',
+  'updated_date: release.updated_date',
   "release_email_dispatch_state: 'idle'",
   'will not be retried automatically',
 ]) {
