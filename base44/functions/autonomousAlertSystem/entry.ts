@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { isOwner } from '../agentIntelligenceLoop/supervisor.mjs';
 
 const TIME_ZONE = 'Australia/Melbourne';
 const PRIORITY_ORDER = { critical: 0, high: 1, medium: 2, low: 3 };
@@ -234,8 +235,16 @@ async function stateFingerprint(value) {
 }
 
 Deno.serve(async (req) => {
-  const startedAt = new Date();
+  const base44 = createClientFromRequest(req);
+  const user = await base44.auth.me().catch(() => null);
+  if (!isOwner(user)) {
+    return Response.json({ error: 'Operational audit requires Gannon owner sign-in.' }, { status: 403 });
+  }
   const payload = await parsePayload(req);
+  if (payload?.mode !== 'controlled_internal_test') {
+    return Response.json({ error: 'Operational audit is paused pending a controlled owner-approved internal test.' }, { status: 409 });
+  }
+  const startedAt = new Date();
   const parts = localParts(startedAt);
   const force = payload?.force === true;
 
@@ -248,7 +257,6 @@ Deno.serve(async (req) => {
     });
   }
 
-  const base44 = createClientFromRequest(req);
   let runRecord = null;
 
   try {
