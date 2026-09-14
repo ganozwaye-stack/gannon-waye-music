@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Shield, Loader2, Zap, TrendingUp, DollarSign, Target, CheckCircle2, XCircle } from 'lucide-react';
+import { Shield, TrendingUp, DollarSign, Target, CheckCircle2, XCircle } from 'lucide-react';
 import { toast } from 'sonner';
 
 const RULE = (
@@ -19,7 +18,6 @@ const PLATFORM_COLORS = { tiktok: 'text-pink-400', instagram: 'text-purple-400',
 const COMP_COLORS = { none: 'text-green-400', low: 'text-green-400', medium: 'text-primary', high: 'text-orange-400', saturated: 'text-red-400' };
 
 export default function GrowthEngine() {
-  const [scanning, setScanning] = useState(false);
   const queryClient = useQueryClient();
 
   const { data: growthOps = [] } = useQuery({
@@ -49,19 +47,6 @@ export default function GrowthEngine() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['revenue-opportunities'] }),
   });
 
-  const runScan = async () => {
-    setScanning(true);
-    try {
-      await base44.functions.invoke('growthOpportunityScanner', {});
-      queryClient.invalidateQueries({ queryKey: ['growth-opportunities'] });
-      queryClient.invalidateQueries({ queryKey: ['revenue-opportunities'] });
-      toast.success('Growth scan complete. New opportunities loaded.');
-    } catch (err) {
-      toast.error('Scan failed: ' + err?.message);
-    }
-    setScanning(false);
-  };
-
   const approveGrowth = (id) => {
     updateGrowth.mutate({ id, status: 'approved' });
     toast.success('Approved — saved to action queue');
@@ -78,8 +63,8 @@ export default function GrowthEngine() {
           <h1 className="text-3xl font-display font-bold gradient-gold-text">Growth Engine</h1>
           <p className="text-muted-foreground text-sm mt-1 font-body">Viral opportunities, revenue intelligence, audience growth vectors</p>
         </div>
-        <Button onClick={runScan} disabled={scanning} className="gradient-gold-button border-0 shrink-0">
-          {scanning ? <><Loader2 className="w-4 h-4 animate-spin mr-2" />Scanning...</> : <><Zap className="w-4 h-4 mr-2" />Run Growth Scan</>}
+        <Button disabled variant="outline" className="shrink-0">
+          Safety hold active
         </Button>
       </div>
 
@@ -102,7 +87,7 @@ export default function GrowthEngine() {
 
         <TabsContent value="growth" className="mt-4">
           {growthOps.length === 0 ? (
-            <EmptyState icon={TrendingUp} message="No new growth opportunities. Run a scan above." />
+            <EmptyState icon={TrendingUp} message="No new growth opportunities. The legacy scanner is held pending runtime reconciliation." />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {growthOps.map(op => (
@@ -114,7 +99,7 @@ export default function GrowthEngine() {
 
         <TabsContent value="revenue" className="mt-4">
           {revenueOps.length === 0 ? (
-            <EmptyState icon={DollarSign} message="No revenue opportunities yet. Run a scan to populate." />
+            <EmptyState icon={DollarSign} message="No revenue opportunities yet. The legacy scanner is held pending runtime reconciliation." />
 
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
