@@ -167,6 +167,11 @@ export default async function (req: Request) {
       }, { status: 409 });
     }
 
+    const expectedSendPhrase = 'SEND ' + exact(release.title);
+    if (exact(body.confirm_send_phrase) !== expectedSendPhrase) {
+      return Response.json({ error: 'The exact typed send phrase is required.' }, { status: 409 });
+    }
+
     const existingReceipts = await sr.entities.ReleaseEmailSendReceipt.filter(
       { release_id: release.id, status: exact(draft.status) },
       '-created_date',
@@ -183,6 +188,7 @@ export default async function (req: Request) {
     const draftClaim = await sr.entities.ReleaseEmailDraft.updateMany(
       {
         id: draft.id,
+        updated_date: draft.updated_date,
         approval_status: 'draft',
         send_state: 'ready',
         content_fingerprint: draftFingerprint,
@@ -220,6 +226,7 @@ export default async function (req: Request) {
         public_release_approval_status: 'approved',
         public_release_approval_id: exact(release.public_release_approval_id),
         public_release_approval_fingerprint: releaseFingerprint,
+        updated_date: release.updated_date,
         release_email_dispatch_state: 'idle',
       },
       {
