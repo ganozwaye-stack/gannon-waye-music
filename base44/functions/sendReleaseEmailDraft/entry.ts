@@ -105,13 +105,7 @@ export default async function (req) {
       recipient_count: recipients.length,
     });
 
-    await sr.integrations.Core.SendEmail({
-      to: OWNER_EMAIL,
-      subject: `Fan update sent: "${draft.release_title}" (${draft.status.replace(/_/g, ' ')})`,
-      text: `${sent} of ${recipients.length} fans were emailed about "${draft.release_title}" moving to ${draft.status.replace(/_/g, ' ')}.`
-        + (capped ? ` Only the first ${MAX_RECIPIENTS} were emailed this run; the rest need a follow-up send.` : '')
-        + (failures.length ? `\n\n${failures.length} sends failed.` : ''),
-    }).catch(() => {});
+    // The owner initiated this specific send in the studio; do not generate a second automatic email notification.
 
     await sr.entities.AdminNotification.create({
       notification_type: 'system',
