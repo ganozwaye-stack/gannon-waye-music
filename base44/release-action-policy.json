@@ -12,7 +12,7 @@
     },
     "sendReleaseEmailDraft": {
       "mode": "owner_confirmed_fan_email",
-      "required": ["exact_owner", "public_released_record", "approved_draft", "send_deduplication"]
+      "required": ["exact_owner", "public_released_record", "current_evidence", "immutable_publication_receipt", "exact_title_version_and_fingerprints", "private_release_email_dispatch_claim", "send_deduplication", "no_retry_after_claim"]
     },
     "tooLostOAuth": {
       "mode": "manual_owner_connection",
