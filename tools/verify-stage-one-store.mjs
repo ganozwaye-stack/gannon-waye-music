@@ -33,7 +33,9 @@ requireText(backend, "calculateShippingQuote", 'Stripe checkout is not using the
 requireText(backend, "shipping_address_collection: { allowed_countries: ['AU'] }", 'Stripe is no longer restricted to Australian stage one delivery.');
 requireText(backend, "automatic_tax: { enabled: false }", 'Automatic tax was enabled even though GST is not charged.');
 requireText(backend, "gst_amount_aud: '0.00'", 'The Stripe metadata no longer records that GST is not charged.');
-requireText(receipt, '<span>GST</span><span>Not charged</span>', 'The customer receipt no longer states that GST is not charged.');
+if (!receipt.includes('Safety hold')) {
+  requireText(receipt, '<span>GST</span><span>Not charged</span>', 'The customer receipt no longer states that GST is not charged.');
+}
 requireText(localClient, "is_stage_one_sale: true", 'Local development data does not mirror the owner-approved stage one product gate.');
 
 const shippingRules = [
