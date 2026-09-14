@@ -33,11 +33,33 @@ const heldEndpoints = [
   'base44/functions/tiktokUploadDraft/entry.ts',
   'base44/functions/autonomousSocialPoster/entry.ts',
   'base44/functions/syncDeegoReportsToSheets/entry.ts',
+  'base44/functions/aiFanReply/entry.ts',
+  'base44/functions/fanPostNotification/entry.ts',
+  'base44/functions/notifyFanReminderRegistration/entry.ts',
+  'base44/functions/onNewOrderAlert/entry.ts',
+  'base44/functions/onDriveChange/entry.ts',
+  'base44/functions/syncFanWallToSheets/entry.ts',
+  'base44/functions/syncInventoryToSheets/entry.ts',
+  'base44/functions/syncOrderToSheets/entry.ts',
+  'base44/functions/syncSubscriberToSheets/entry.ts',
+  'base44/functions/postApprovedToTiktok/entry.ts',
+  'base44/functions/onMemorySubmission/entry.ts',
+  'base44/functions/sendFanReminders/entry.ts',
+  'base44/functions/syncOrderNotifications/entry.ts',
+  'base44/functions/syncOrderToSheet/entry.ts',
+  'base44/functions/onNewOrderSlack/entry.ts',
+  'base44/functions/generateResearchedSocialContent/entry.ts',
+  'base44/functions/icloudIngest/entry.ts',
 ];
 
 for (const path of heldEndpoints) {
   requireSnippet(path, 'Safety hold');
   requireSnippet(path, 'skipped: true');
+  forbid(
+    path,
+    /fetch\(|Core\.SendEmail|InvokeLLM|GenerateImage|functions\.invoke|connectors\.getConnection|integrations\./,
+    'network, connector, paid-generation, or outbound-action code',
+  );
 }
 
 requireSnippet('src/pages/admin/Releases.jsx', 'legacy register is read-only');
@@ -50,19 +72,24 @@ requireSnippet('base44/entities/Release.jsonc', '"data.public_release_approved_a
 forbid('src/pages/admin/Releases.jsx', /base44\.entities\.Release\.(?:create|update|updateMany|delete)\s*\(/, 'direct Release mutation');
 forbid('src/pages/admin/Releases.jsx', /promoteMutation|publishSingleMutation|Published \(visible on site\)/, 'legacy public-release control');
 
+requireSnippet('src/pages/admin/NewReleaseStudio.jsx', 'private_draft_acknowledged');
+requireSnippet('src/pages/admin/NewReleaseStudio.jsx', 'only a private release record and blank review drafts');
+forbid('src/pages/admin/NewReleaseStudio.jsx', /AI-quota|costAcknowledged/, 'obsolete automatic-draft acknowledgement');
+requireSnippet('base44/functions/submitNewRelease/entry.ts', 'private_draft_acknowledged');
+requireSnippet('base44/functions/submitNewRelease/entry.ts', "external_actions: 'held'");
+requireSnippet('base44/functions/submitNewRelease/entry.ts', 'auto_publish_on_release_date: false');
+forbid(
+  'base44/functions/submitNewRelease/entry.ts',
+  /InvokeLLM|GenerateImage|fetch\(|tooLostAuth|secrets|waitUntil|integrations\./,
+  'automatic generation, delivery, or connector code in the private-draft flow',
+);
+requireSnippet('src/components/admin/ReleasePackReport.jsx', 'All external actions are held');
+
 requireSnippet('src/pages/admin/AutonomousOps.jsx', 'Safety hold active');
 forbid('src/pages/admin/AutonomousOps.jsx', /base44\.functions\.invoke|ApprovalQueue\.update|updateApproval/, 'legacy automation execution or approval mutation');
 
 requireSnippet('src/pages/admin/ContentAutomate.jsx', 'Safety hold active');
 forbid('src/pages/admin/ContentAutomate.jsx', /base44\.functions\.invoke|handleRunAutomation|Run Generator/, 'legacy content-generator execution');
-
-forbid('base44/functions/sendBirthdayDiscount/entry.ts', /Core\.SendEmail|PromoCode\.(?:create|update)/, 'customer email or live discount-code creation');
-forbid('base44/functions/metricoolSchedulePost/entry.ts', /fetch\(|autoPublish|createClientFromRequest/, 'Metricool network scheduling');
-forbid('base44/functions/publishApprovedReel/entry.ts', /functions\.invoke|postReelToInstagram|tiktokUploadDraft/, 'Reel connector invocation');
-forbid('base44/functions/postReelToInstagram/entry.ts', /graph\.instagram\.com|media_publish|fetch\(/, 'Instagram Graph publication');
-forbid('base44/functions/tiktokUploadDraft/entry.ts', /fetch\(|createClientFromRequest|integrations\./, 'TikTok external upload');
-forbid('base44/functions/autonomousSocialPoster/entry.ts', /InvokeLLM|sendSlackAlert|createClientFromRequest|asServiceRole/, 'paid generation, data mutation, or Slack send');
-forbid('base44/functions/syncDeegoReportsToSheets/entry.ts', /upsertRow|createClientFromRequest|integrations\./, 'Google Sheets connector write');
 
 requireSnippet('base44/functions/deegoTelegram/entry.ts', 'if (!expected || got !== expected)');
 
