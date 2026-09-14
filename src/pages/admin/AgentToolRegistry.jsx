@@ -266,7 +266,7 @@ export default function AgentToolRegistry() {
           <Link to="/admin"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4" /></Button></Link>
           <div>
             <h1 className="text-3xl font-display font-bold gradient-gold-text">Agent Tool Registry</h1>
-            <p className="text-sm text-muted-foreground mt-1">{TOOLS.length} tools catalogued — what every agent can and cannot do.</p>
+            <p className="text-sm text-muted-foreground mt-1">{TOOLS.length} planned capabilities catalogued. This page is not an executor or policy-enforcement layer.</p>
           </div>
         </div>
       </div>
@@ -324,7 +324,7 @@ export default function AgentToolRegistry() {
                 {selected.approvalRequired && <Badge className="bg-primary/20 text-primary border-primary/30">Requires Approval</Badge>}
                 {selected.externalImpact && <Badge className="bg-red-500/20 text-red-300 border-red-500/30">External Impact</Badge>}
                 {selected.paidCredits && <Badge className="bg-primary/20 text-primary border-primary/30">Uses Paid Credits</Badge>}
-                {!selected.externalImpact && !selected.approvalRequired && <Badge className="bg-green-500/20 text-green-300 border-green-500/30">Safe to Auto-run</Badge>}
+                {!selected.externalImpact && !selected.approvalRequired && <Badge className="bg-secondary text-muted-foreground border-border">Catalogued only — held</Badge>}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -347,7 +347,7 @@ export default function AgentToolRegistry() {
               </div>
 
               <div className="rounded-lg border border-border/50 p-3 text-xs text-muted-foreground">
-                Source chain: Agent request → Tool Registry check → Risk validation → {selected.approvalRequired ? 'Approval Queue → Gannon approves → ' : ''}Execute → {selected.externalImpact ? 'External action → ' : ''}Result stored → Audit log
+                Planned path only: a future controlled lane would need an owner-approved request, explicit policy check, verified receipt, and separate review. This registry does not execute tools.
               </div>
 
               <div className="flex gap-2 flex-wrap">
