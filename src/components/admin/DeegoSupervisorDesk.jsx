@@ -29,12 +29,26 @@ export default function DeegoSupervisorDesk() {
   const [receiptKey, setReceiptKey] = useState(null);
   const receiptSingleFlight = useRef(false);
   const verifyReceiptLane = useMutation({
-    mutationFn: async (idempotency_key) => (await base44.functions.invoke('deegoInternalDispatcher', {
-      mode: 'controlled_internal_test',
-      action: 'synthetic_internal_test',
-      idempotency_key,
-    })).data,
+    mutationFn: async (idempotency_key) => {
+      const data = (await base44.functions.invoke('deegoInternalDispatcher', {
+        mode: 'controlled_internal_test',
+        action: 'synthetic_internal_test',
+        idempotency_key,
+      })).data;
+      if (
+        data?.ok !== true
+        || data?.runtime_state !== 'succeeded'
+        || data?.receipt_integrity !== 'complete'
+        || Number(data?.event_count) !== 3
+        || Number(data?.external_actions) !== 0
+        || Number(data?.network_requests) !== 0
+      ) {
+        throw new Error('The internal receipt did not return a complete successful no-external-action result.');
+      }
+      return data;
+    },
     onSuccess: data => setLaneReceipt(data),
+    onError: () => setLaneReceipt(null),
   });
   const runReceiptLane = async (key) => {
     if (receiptSingleFlight.current) return;
@@ -97,7 +111,7 @@ export default function DeegoSupervisorDesk() {
       {MAILBOXES.map(address => <div key={address} className="border border-border rounded-lg p-3 break-all text-sm">{address}<span className="block text-muted-foreground">Not verified for monitoring</span></div>)}
     </div>}
     {run.isSuccess && <p role="status" className="text-sm">{run.data.followed_up} internal follow-up records prepared across {run.data.reviewed} tasks. No message, payment, refund, submission, or external action was sent.</p>}
-    {verifyReceiptLane.isSuccess && laneReceipt && <p role="status" className="text-sm border border-green-500/30 rounded-lg p-3">Internal receipt verified: task {laneReceipt.task_id}. External actions: {laneReceipt.external_actions}; network requests: {laneReceipt.network_requests}; repeat result: {laneReceipt.deduplicated ? 'same receipt returned' : 'new receipt created'}.</p>}
+    {verifyReceiptLane.isSuccess && laneReceipt && <p role="status" className="text-sm border border-green-500/30 rounded-lg p-3">Internal receipt verified: task {laneReceipt.task_id}. Three ordered internal events confirmed. External actions: {laneReceipt.external_actions}; network requests: {laneReceipt.network_requests}; repeat result: {laneReceipt.deduplicated ? 'same receipt returned' : 'new receipt created'}.</p>}
     {verifyReceiptLane.isError && <div role="alert" className="text-sm border border-destructive/40 rounded-lg p-3">Internal receipt test did not complete. No external action was requested or performed.</div>}
     {(run.isError || review.isError) && <div role="alert" className="text-sm border border-destructive/40 rounded-lg p-3">Task review unavailable or partially completed. No complete coverage claimed. <button className="underline" onClick={() => review.refetch()}>Retry loading</button></div>}
     {review.isPending ? <p aria-busy="true">Loading task registers…</p> : !review.isError && <>
