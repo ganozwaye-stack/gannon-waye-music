@@ -54,20 +54,18 @@ Verify that these keys exist inside your **Base44 App Settings → Secrets**:
 ## 🛠️ Step-by-Step Restoration Flows
 
 ### If the Website layout breaks:
-1. Open terminal in the directory `C:\Users\ganno\Documents\Codex\2026-05-23\can-you-screen-record-and-give\gannonwaye-live-eject-2026-06-01-tiktokfix`
-2. Run `git status` to see any uncommitted work.
-3. To rollback to the last working Git state, run:
+1. Use the canonical Base44 source bound to App ID `69eb7905ca6eb4180010f794`. Do not use an old eject copy or an unbound local folder as deployment authority.
+2. Inspect the current source and use a named Base44 checkpoint for recovery. Do not run destructive Git reset commands from this guide.
+3. Run the no-deploy acceptance check:
    ```bash
-   git reset --hard HEAD
+   npm run test:acceptance
    ```
-4. Rebuild the bundle to verify compilation:
+4. Review the local preview and identify the specific regression. Do not use a real checkout, social post, email, calendar, distributor, or connector control while diagnosing.
+5. Only after the checks pass and Gannon gives explicit action-time approval, deploy using the guarded repository command:
    ```bash
-   npm run build
+   npm run deploy
    ```
-5. Deploy to Base44 Live:
-   ```bash
-   npx base44 deploy
-   ```
+6. Read back the deployed version and safety-hold state before considering any workflow re-enable.
 
 ### If Gannon gets locked out of the Admin panel:
 * Admin credentials are tied to the Owner login email (`ganozwaye@gmail.com`). 
