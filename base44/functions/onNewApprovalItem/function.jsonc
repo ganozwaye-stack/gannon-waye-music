@@ -9,7 +9,7 @@
       "event_types": [
         "create"
       ],
-      "is_active": true,
+      "is_active": false,
       "name": "Notify on New Approval Queue Item"
     }
   ]
