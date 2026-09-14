@@ -94,6 +94,11 @@ forbid(
   'unverified agent execution or activation control',
 );
 
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "base44.functions.invoke('deegoInternalDispatcher'");
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "mode: 'controlled_internal_test'");
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "action: 'synthetic_internal_test'");
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'creates internal audit records only');
+
 requireSnippet('src/pages/admin/AgentWorkbench.jsx', 'Held — no verified executor');
 forbid('src/pages/admin/AgentWorkbench.jsx', /base44\.functions\.invoke|Run Now|Auto-runs/, 'legacy runner control');
 requireSnippet('src/pages/admin/AgentIntelligence.jsx', 'Legacy automated runners are held.');
