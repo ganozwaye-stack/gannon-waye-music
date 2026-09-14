@@ -46,12 +46,12 @@ export default function DeegoRecommendations() {
 
   const actMut = useMutation({
     mutationFn: async ({ id, status }) => base44.entities.AgentAction.update(id, { status }),
-    onSuccess: () => qc.invalidateQueries(['deego-recommendations']),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['deego-recommendations'] }),
   });
 
   const approve = (a) => {
     actMut.mutate({ id: a.id, status: 'approved' });
-    toast({ title: 'Approved — Deego will proceed' });
+    toast({ title: 'Approval recorded — no work has started or been sent.' });
   };
   const defer = (a) => {
     actMut.mutate({ id: a.id, status: 'draft' });
@@ -67,7 +67,7 @@ export default function DeegoRecommendations() {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <Sparkles className="w-4 h-4 text-primary" />
-          <h2 className="font-display text-lg text-foreground">Deego's Recommendations</h2>
+          <h2 className="font-display text-lg text-foreground">Deego Planning Recommendations</h2>
         </div>
         <span className="font-body text-[11px] text-muted-foreground">{actions.length} awaiting your call</span>
       </div>
@@ -77,7 +77,7 @@ export default function DeegoRecommendations() {
       ) : actions.length === 0 ? (
         <div className="text-center py-8">
           <Sparkles className="w-8 h-8 text-muted-foreground/30 mx-auto mb-2" />
-          <p className="font-body text-xs text-muted-foreground">Deego has no open recommendations right now. Everything's handled.</p>
+          <p className="font-body text-xs text-muted-foreground">No recommendations are awaiting review. This does not confirm that any work is complete.</p>
         </div>
       ) : (
         <div className="space-y-3">
