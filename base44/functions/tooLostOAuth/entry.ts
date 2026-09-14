@@ -67,7 +67,7 @@ export default async function(req) {
       await clearTooLostOAuthState(sr, stateCheck.connectionId);
 
       const tokens = await exchangeTooLostCode(config, code);
-      const connectionId = await saveTooLostConnection(sr, config, tokens);
+      await saveTooLostConnection(sr, config, tokens);
 
       // This callback completes the one user-started OAuth exchange only.
       // It never performs an optional profile lookup or background token renewal.
