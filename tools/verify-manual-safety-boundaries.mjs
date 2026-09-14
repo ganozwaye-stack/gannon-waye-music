@@ -42,6 +42,11 @@ for (const path of heldEndpoints) {
 
 requireSnippet('src/pages/admin/Releases.jsx', 'legacy register is read-only');
 requireSnippet('src/pages/admin/Releases.jsx', 'hasFullPublicReleaseGate');
+requireSnippet('base44/entities/Release.jsonc', '"create": false');
+requireSnippet('base44/entities/Release.jsonc', '"update": false');
+requireSnippet('base44/entities/Release.jsonc', '"delete": false');
+requireSnippet('base44/entities/Release.jsonc', '"data.public_release_approved_by": "ganozwaye@gmail.com"');
+requireSnippet('base44/entities/Release.jsonc', '"data.public_release_approved_at": {');
 forbid('src/pages/admin/Releases.jsx', /base44\.entities\.Release\.(?:create|update|updateMany|delete)\s*\(/, 'direct Release mutation');
 forbid('src/pages/admin/Releases.jsx', /promoteMutation|publishSingleMutation|Published \(visible on site\)/, 'legacy public-release control');
 
