@@ -76,7 +76,7 @@ export default function DeegoSupervisorDesk() {
       >
         Recheck same receipt
       </button>}
-      <a className="text-primary underline text-sm" href={base44.agents.getWhatsAppConnectURL('deego_master_ai')} target="_blank" rel="noreferrer">Open Deego WhatsApp connection</a>
+      <span className="text-sm text-muted-foreground">WhatsApp monitoring is held pending a separately approved, receipt-logged inbound workflow.</span>
       <button type="button" className="text-primary underline text-sm" aria-expanded={showAccounts} onClick={() => setShowAccounts(!showAccounts)}>Mailbox setup ({MAILBOXES.length})</button>
     </div>
     <p className="text-xs text-muted-foreground">The receipt test is owner-only and creates internal audit records only: no message, account access, payment, submission, publication, or external request.</p>
