@@ -158,12 +158,12 @@ export default function AgentRevenueStatus() {
   // Improvement plan items
   const IMPROVEMENT_PLAN = [
     { item: 'Connect agents to Metricool performance data', status: 'Built but untested', note: 'metricoolImportMetrics function exists — needs scheduling + agent read access' },
-    { item: 'Connect agents to order/profit data', status: 'Complete', note: 'agentProposalScanner reads MerchProduct + MerchOrder' },
+    { item: 'Connect agents to order/profit data', status: 'Safety hold active', note: 'Source reads exist, but owner guards, AI-cost review, and a controlled internal test are required before any runner is enabled.' },
     { item: 'Connect Deego audit evidence to KnowledgeVault', status: 'Built but untested', note: 'The state-deduplicated audit can save internal reports; verify a controlled owner run before calling it operational.' },
     { item: 'Connect agents to release sprint posts', status: 'Built but untested', note: 'ContentCalendarPost entity exists — no agent reads it yet' },
     { item: 'Connect agents to ApprovalQueue outcomes', status: 'Built but untested', note: 'publishApprovedProposal fires on approval — agent learning not yet wired to outcome' },
-    { item: 'Connect agents to Business Attention Centre', status: 'Complete', note: 'All agents create AdminNotification records on action' },
-    { item: 'Schedule daily revenue scans', status: 'Complete', note: 'agentProposalScanner + growthOpportunityScanner both on daily automation' },
+    { item: 'Connect agents to Business Attention Centre', status: 'Built but untested', note: 'Internal notification code exists; no held agent runner is currently permitted to invoke it.' },
+    { item: 'Schedule daily revenue scans', status: 'Safety hold active', note: 'All scheduled scans are false-held until individual owner-approved controlled tests pass.' },
     { item: 'Schedule daily content opportunity scans', status: 'Built but untested', note: 'No dedicated content scan agent yet — autonomousAlertSystem covers some' },
     { item: 'Weekly learning from approvals/rejections', status: 'Built but untested', note: 'agentSelfImprovement function exists — not yet wired to approval outcomes' },
     { item: 'Richer source data records (not generic reports)', status: 'Blocked by Gannon approval', note: 'Need real orders, real fan growth, real social data to generate non-generic insights' },
@@ -303,11 +303,11 @@ export default function AgentRevenueStatus() {
         </CardHeader>
         <CardContent className="pt-0">
           <p className="text-sm text-muted-foreground mb-3">
-            Runs the full chain: create test proposal → approve → create BundleOffer → cleanup → verify duplicate prevention → notify Business Attention Centre.
+            This production-data proof chain is disabled by the safety hold. It needs an isolated fixture, owner approval, and a verified zero-external-effect test before use.
           </p>
-          <Button onClick={runProofChain} disabled={provingChain} variant="outline" className="gap-2 mb-3">
+          <Button onClick={runProofChain} disabled={SAFETY_HOLD_ACTIVE || provingChain} variant="outline" className="gap-2 mb-3">
             <Zap className={`w-4 h-4 ${provingChain ? 'animate-spin' : ''}`} />
-            {provingChain ? 'Running proof...' : 'Run ApprovalQueue Proof Chain'}
+            {SAFETY_HOLD_ACTIVE ? 'Safety hold active' : (provingChain ? 'Running proof...' : 'Run ApprovalQueue Proof Chain')}
           </Button>
           {chainResult && (
             <div className={`p-3 rounded-lg text-sm ${chainResult.ok ? 'bg-green-500/10 border border-green-500/20' : 'bg-red-500/10 border border-red-500/20'}`}>
@@ -324,7 +324,7 @@ export default function AgentRevenueStatus() {
             </div>
           )}
           {!chainResult && (
-            <p className="text-xs text-muted-foreground">Previous run: 7/7 steps ✓ — BundleOffer created and cleaned up — 26 May 2026</p>
+            <p className="text-xs text-muted-foreground">Historical result only: a proof run is recorded from 26 May 2026. It is not evidence that the current production chain is safe or enabled.</p>
           )}
         </CardContent>
       </Card>
@@ -336,11 +336,9 @@ export default function AgentRevenueStatus() {
           <div>
             <p className="font-semibold text-primary text-sm">Why agents produce generic output right now</p>
             <p className="text-xs text-muted-foreground mt-1 leading-relaxed">
-              Agents are fully functional and running — but the platform currently has only 2 orders, 7 subscribers, and 6 products.
-              As real data accumulates (orders, fan growth, social analytics from Metricool, content performance), agent outputs become
-              specific, high-value, and non-repeating. The deduplication system prevents repeated reports. More real data = better agent intelligence.
+              Agent source exists, but the unguarded and scheduled runners are intentionally paused. Before any one is enabled, it needs an owner guard, an AI-cost disclosure where relevant, a controlled internal fixture, and evidence that it cannot send, post, spend, or mutate external systems.
             </p>
-            <p className="text-xs text-primary mt-2 font-medium">Next step: Launch → get real orders → let agents run for 7 days → reassess output quality.</p>
+            <p className="text-xs text-primary mt-2 font-medium">Next step: approve one controlled no-spend owner test, then re-enable only the tested path.</p>
           </div>
         </CardContent>
       </Card>
