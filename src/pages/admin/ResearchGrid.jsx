@@ -473,7 +473,7 @@ Be specific with numbers, names, and percentages. No vague generalities.`,
             <div className="col-span-2 text-center py-16 border border-dashed border-border rounded-xl">
               <BookOpen className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
               <p className="text-muted-foreground">No research entries found.</p>
-              <p className="text-xs text-muted-foreground mt-1">Research runs automatically every 4 hours.</p>
+              <p className="text-xs text-muted-foreground mt-1">Legacy automatic research is held. New entries require a separate verified manual workflow.</p>
             </div>
           )}
         </div>
