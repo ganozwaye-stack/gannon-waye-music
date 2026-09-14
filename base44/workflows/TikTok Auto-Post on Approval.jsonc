@@ -1,5 +1,4 @@
 {
-  "name": "TikTok Auto-Post on Approval",
   "description": "Paused by the global safety hold. No TikTok upload or draft creation is permitted from approval events.",
   "trigger": {
     "condition": "${ false }",
@@ -11,6 +10,7 @@
       "entity_name": "ContentStudioRecord"
     }
   },
+  "name": "TikTok Auto-Post on Approval",
   "definition": {
     "document": {
       "dsl": "1.0.0",
