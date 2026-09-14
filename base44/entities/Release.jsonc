@@ -215,6 +215,7 @@
       "type": "string",
       "enum": [
         "pending",
+        "approval_claimed",
         "approved",
         "revoked"
       ],
