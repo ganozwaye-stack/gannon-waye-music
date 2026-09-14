@@ -100,6 +100,8 @@ requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "action: 'synthet
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'creates internal audit records only');
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'Recheck same receipt');
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "verifyReceiptLane.mutate(receiptKey)");
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'WhatsApp monitoring is held pending a separately approved, receipt-logged inbound workflow.');
+forbid('src/components/admin/DeegoSupervisorDesk.jsx', /getWhatsAppConnectURL|Open Deego WhatsApp connection/, 'unapproved external messaging connection link');
 
 requireSnippet('src/pages/admin/AgentWorkbench.jsx', 'Held — no verified executor');
 forbid('src/pages/admin/AgentWorkbench.jsx', /base44\.functions\.invoke|Run Now|Auto-runs/, 'legacy runner control');
