@@ -1,5 +1,10 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
-import { isOwner } from '../agentIntelligenceLoop/supervisor.mjs';
+
+const OWNER_EMAILS = new Set(['ganozwaye@gmail.com', 'gannonwayemusic@gmail.com']);
+
+function isOwner(user) {
+  return user?.role === 'admin' && OWNER_EMAILS.has(String(user.email || '').trim().toLowerCase());
+}
 
 Deno.serve(async (req) => {
   try {
@@ -7,6 +12,10 @@ Deno.serve(async (req) => {
     const user = await base44.auth.me().catch(() => null);
     if (!user || !isOwner(user)) {
       return Response.json({ error: 'Executive brief requires Gannon owner sign-in.' }, { status: 403 });
+    }
+    const body = await req.json().catch(() => ({}));
+    if (body.cost_acknowledged !== true) {
+      return Response.json({ error: 'Confirm the AI-quota acknowledgement before generating an internal executive brief.' }, { status: 400 });
     }
 
     // Fetch recent data for context
