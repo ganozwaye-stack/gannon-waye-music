@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "default_release_policy": "held",
+  "controlled_functions": {
+    "submitNewRelease": {
+      "mode": "private_draft_only",
+      "required": ["exact_owner", "private_draft_acknowledgement", "external_actions_held"]
+    },
+    "publishSingleWorkflow": {
+      "mode": "owner_confirmed_publication",
+      "required": ["exact_owner", "exact_title", "exact_version", "separate_approval_then_publish"]
+    },
+    "sendReleaseEmailDraft": {
+      "mode": "owner_confirmed_fan_email",
+      "required": ["exact_owner", "public_released_record", "approved_draft", "send_deduplication"]
+    },
+    "tooLostOAuth": {
+      "mode": "manual_owner_connection",
+      "required": ["exact_owner", "one_time_state", "read_only_status", "no_automatic_renewal"]
+    }
+  },
+  "held_entrypoints": [
+    "base44/functions/sendBirthdayDiscount/entry.ts",
+    "base44/functions/metricoolSchedulePost/entry.ts",
+    "base44/functions/publishApprovedReel/entry.ts",
+    "base44/functions/postReelToInstagram/entry.ts",
+    "base44/functions/tiktokUploadDraft/entry.ts",
+    "base44/functions/autonomousSocialPoster/entry.ts",
+    "base44/functions/syncDeegoReportsToSheets/entry.ts",
+    "base44/functions/aiFanReply/entry.ts",
+    "base44/functions/fanPostNotification/entry.ts",
+    "base44/functions/notifyFanReminderRegistration/entry.ts",
+    "base44/functions/onNewOrderAlert/entry.ts",
+    "base44/functions/onDriveChange/entry.ts",
+    "base44/functions/syncFanWallToSheets/entry.ts",
+    "base44/functions/syncInventoryToSheets/entry.ts",
+    "base44/functions/syncOrderToSheets/entry.ts",
+    "base44/functions/syncSubscriberToSheets/entry.ts",
+    "base44/functions/postApprovedToTiktok/entry.ts",
+    "base44/functions/onMemorySubmission/entry.ts",
+    "base44/functions/sendFanReminders/entry.ts",
+    "base44/functions/syncOrderNotifications/entry.ts",
+    "base44/functions/syncOrderToSheet/entry.ts",
+    "base44/functions/onNewOrderSlack/entry.ts",
+    "base44/functions/generateResearchedSocialContent/entry.ts",
+    "base44/functions/icloudIngest/entry.ts",
+    "base44/functions/soniaChat/entry.ts",
+    "base44/functions/generateHeyGenVideo/entry.ts",
+    "base44/functions/registerHeygenWebhook/entry.ts",
+    "base44/functions/heygenWebhook/entry.ts",
+    "base44/functions/tiktokOAuth/entry.ts",
+    "base44/functions/openaiAgent/entry.ts",
+    "base44/functions/onNewOrderAutomation/entry.ts",
+    "base44/functions/sendOrderReceipt/entry.ts",
+    "base44/functions/fulfilOrderAndNotify/entry.ts",
+    "base44/functions/createHeygenPhotoAvatar/entry.ts",
+    "base44/functions/opusClipCreateProject/entry.ts",
+    "base44/functions/opusClipFetchClips/entry.ts",
+    "base44/functions/reconcileStripeOrders/entry.ts"
+  ]
+}
