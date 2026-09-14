@@ -116,6 +116,7 @@ export default async function(req: Request) {
     // Once approval begins, evidence is frozen so publication cannot reuse an
     // approval receipt for a later snapshot.
     if (action === 'save_evidence') {
+      const candidate = evidenceCandidate(release, body);
       const evidenceState = exact(release.public_release_approval_status) || 'pending';
       if (
         release.is_published === true
@@ -137,10 +138,10 @@ export default async function(req: Request) {
         },
         {
           $set: {
-            rights_evidence_reference: exact(body.rights_evidence_reference),
-            master_evidence_reference: exact(body.master_evidence_reference),
-            delivery_evidence_reference: exact(body.delivery_evidence_reference),
-            public_link_evidence_url: exact(body.public_link_evidence_url),
+            rights_evidence_reference: exact(candidate.rights_evidence_reference),
+            master_evidence_reference: exact(candidate.master_evidence_reference),
+            delivery_evidence_reference: exact(candidate.delivery_evidence_reference),
+            public_link_evidence_url: exact(candidate.public_link_evidence_url),
           },
         },
       );
