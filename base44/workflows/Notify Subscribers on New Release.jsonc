@@ -1,6 +1,5 @@
 {
   "name": "Notify Subscribers on New Release",
-  "description": "Disabled safety hold. Release updates may prepare one reviewed draft through Release Status Update \u2192 Fan Email; nothing sends or queues automatically.",
   "trigger": {
     "condition": "${ false }",
     "config": {
@@ -31,6 +30,7 @@
       }
     ]
   },
+  "description": "Disabled safety hold. Release updates may prepare one reviewed draft through Release Status Update \u2192 Fan Email; nothing sends or queues automatically.",
   "x-base44-migrated-from-automation": {
     "legacy_payload_function": "notifySubscribersNewRelease"
   }
