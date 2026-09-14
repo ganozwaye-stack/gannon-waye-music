@@ -362,7 +362,7 @@ export default function Music() {
               )}
             </section>
 
-            <ReleaseGallery />
+            <ReleaseGallery releaseTitle={featured?.title} />
           </>
         )}
       </div>
