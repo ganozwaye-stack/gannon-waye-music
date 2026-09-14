@@ -4,8 +4,8 @@ import { Heart, Check, Lock } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
 // Keep this evergreen. Public merch voting must not disclose a draft release,
- // its artwork, or a planned collection before it has passed the release gate.
- // Votes are stored admin-only and never displayed publicly.
+// its artwork, or a planned collection before it has passed the release gate.
+// Votes are stored admin-only and never displayed publicly.
 const UPCOMING_ITEMS = [
   { key: 'artist-hoodie', name: 'Artist Hoodie', blurb: 'A heavyweight black hoodie, released only when the design is approved.' },
   { key: 'artist-tee', name: 'Artist T-Shirt', blurb: 'A simple black tee designed for everyday wear.' },
