@@ -11,7 +11,7 @@ Deno.serve(async (req) => {
   }
 
   return Response.json({
-    error: 'Legacy self-improvement work is held pending owner-controlled runtime reconciliation.',
+    error: 'Legacy self-improvement work is held. Owner-controlled runtime reconciliation is required.',
     code: LEGACY_HOLD_CODE,
     skipped: true,
     external_actions: 0,
