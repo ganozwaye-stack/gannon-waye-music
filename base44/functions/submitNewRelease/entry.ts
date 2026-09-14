@@ -5,19 +5,10 @@ import {
   getValidTooLostAccessToken,
 } from '../../shared/tooLostAuth.ts';
 
-// THE ONE-PRESS RELEASE MACHINE. Owner only. A single button press:
-//   1. saves the Release + Lyric records,
-//   2. WRITES the full launch pack with AI (press release, playlist pitch,
-//      subscriber announcement email, 3 reel ideas, a lyric quote post and a
-//      ManyChat keyword idea) using only the facts Gannon submitted,
-//   3. generates a two-image playlist picture pack (abstract, NO faces ever),
-//   4. wires the presave link onto the release,
-//   5. pushes the release to Too Lost, and
-//   6. schedules everything to go live at midnight on release day
-//      (publishDueReleases + its midnight workflow).
-// Nothing sends itself: every written piece lands as a draft for owner review.
-// body.dry_run=true runs the whole pipeline without the Too Lost push or the
-// picture pack, for QA.
+// RELEASE DRAFT STUDIO. Owner only. A submission creates private records
+// and reviewable launch-material drafts. It never publishes, delivers to a
+// distributor, posts to social media, or sends fan email. Those actions are
+// separate owner-approved workflows with their own evidence and confirmation.
 
 const OWNER_EMAILS = new Set([
   'ganozwaye@gmail.com',
@@ -51,9 +42,12 @@ export default async function(req) {
     const description = exact(body.description);
     const versionLabel = exact(body.version_label) || 'Original';
     const type = ['single', 'ep', 'album'].includes(exact(body.type)) ? exact(body.type) : 'single';
-    const autoPublish = body.auto_publish_on_release_date !== false;
+    // Never schedule public publication from the draft-creation flow.
+    const autoPublish = false;
     const presaveUrl = exact(body.presave_url);
     const dryRun = body.dry_run === true;
+    // Delivery is deliberately held until the separate owner-approved workflow exists.
+    const allowDistributionPush = false;
 
     if (!title) return Response.json({ error: 'Song name is required' }, { status: 400 });
     if (!/^\d{4}-\d{2}-\d{2}$/.test(releaseDate)) {
@@ -61,7 +55,7 @@ export default async function(req) {
     }
 
     const sr = base44.asServiceRole;
-    const approvedAt = new Date().toISOString();
+    // New releases begin private and unapproved; no draft can become public by date alone.
 
     // 1. The Release record — every detail saved to admin.
     const release = await sr.entities.Release.create({
@@ -77,12 +71,10 @@ export default async function(req) {
       language: exact(body.language) || 'English',
       version_label: versionLabel,
       is_published: false,
-      publishing_safe: true,
-      public_release_approval_status: 'approved',
-      public_release_approved_by: ownerEmail,
-      public_release_approved_at: approvedAt,
-      public_release_approval_note: `Submitted and approved by ${ownerEmail} via New Release Studio`,
-      auto_publish_on_release_date: autoPublish,
+      publishing_safe: false,
+      public_release_approval_status: 'pending',
+      public_release_approval_note: 'Created as a private launch draft. Rights, delivery, public approval and channel approvals remain required.',
+      auto_publish_on_release_date: false,
       ...(presaveUrl ? { other_links: [{ platform: 'Too Lost Pre-Save', url: presaveUrl }] } : {}),
     });
 
@@ -322,8 +314,13 @@ Deliverables:
 
     // 6. Push the release to Too Lost using the connected account (auto-renewed OAuth).
     let tooLost;
-    if (dryRun) {
-      tooLost = { status: 'not_attempted', detail: 'Dry run: Too Lost push skipped.' };
+    if (dryRun || !allowDistributionPush) {
+      tooLost = {
+        status: 'not_attempted',
+        detail: dryRun
+          ? 'Dry run: Too Lost push skipped.'
+          : 'Distribution is held. Use a separate, explicitly approved delivery workflow after release readiness is verified.',
+      };
     } else {
       const config = tooLostConfigFromSecrets(secrets);
       const apiBase = secrets.get('TOO_LOST_API_BASE_URL') || 'https://api.toolost.com/v1';
@@ -386,7 +383,7 @@ Deliverables:
       notification_type: 'system',
       severity: tooLost.status === 'created' ? 'info' : 'warning',
       requires_action: tooLost.status !== 'created',
-      title: `New release submitted — ${title}`,
+      title: `Release draft created — ${title}`,
       summary: `Saved to admin with release date ${releaseDate}${autoPublish ? ' and scheduled to publish automatically on release day' : ''}. Launch pack drafted: press release, playlist pitch${emailDraftId ? ', subscriber email' : ''}, ${socialDraftIds.length} reel ideas${filled(pack?.lyric_quote) ? ', a lyric quote post' : ''}${filled(pack?.manychat?.keyword) ? ', a ManyChat keyword idea' : ''}. ${dryRun ? 'Picture pack skipped (dry run).' : 'Playlist pictures generating.'} Too Lost sync: ${tooLost.status}.`,
       source: 'submitNewRelease',
       linked_entity: 'Release',
