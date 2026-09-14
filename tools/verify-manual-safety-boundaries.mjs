@@ -111,7 +111,8 @@ forbid('src/pages/admin/AutonomousOps.jsx', /base44\.functions\.invoke|ApprovalQ
 requireSnippet('src/pages/admin/ContentAutomate.jsx', 'Safety hold active');
 forbid('src/pages/admin/ContentAutomate.jsx', /base44\.functions\.invoke|handleRunAutomation|Run Generator/, 'legacy content-generator execution');
 
-requireSnippet('base44/functions/deegoTelegram/entry.ts', 'if (!expected || got !== expected)');
+requireSnippet('base44/functions/deegoTelegram/entry.ts', 'Legacy messaging doorway is held.');
+requireSnippet('base44/functions/deegoTelegram/entry.ts', 'skipped: true');
 
 requireSnippet('base44/functions/tooLostOAuth/entry.ts', 'OWNER_EMAILS.has(actorEmail)');
 requireSnippet('base44/functions/tooLostOAuth/entry.ts', 'OWNER_EMAILS.has(stateCheck.requestedBy)');
@@ -121,9 +122,9 @@ requireSnippet('base44/functions/tooLostOAuth/entry.ts', 'read_only: true');
 forbid('base44/functions/tooLostOAuth/entry.ts', /getValidTooLostAccessToken|fetch\(/, 'automatic token refresh or optional profile lookup');
 requireSnippet('base44/shared/tooLostAuth.ts', 'pending_oauth_requested_by');
 forbid('base44/shared/tooLostAuth.ts', /refreshTooLostTokens|getValidTooLostAccessToken|refresh_token/, 'automatic refresh-token handling');
-requireSnippet('src/pages/admin/TunecoreIntegration.jsx', 'TuneCore import is held');
+requireSnippet('src/pages/admin/TunecoreIntegration.jsx', 'Importer held for release safety');
 forbid('src/pages/admin/TunecoreIntegration.jsx', /base44\.functions\.invoke|apiKey|password|account-api/, 'browser-side distributor credential or importer invocation');
-requireSnippet('src/pages/admin/ReleasePrepStudio.jsx', 'Read-only release review');
+requireSnippet('src/pages/admin/ReleasePrepStudio.jsx', 'Release records are read-only here.');
 forbid('src/pages/admin/ReleasePrepStudio.jsx', /base44\.entities\.Release\.(?:create|update|updateMany|delete)\s*\(/, 'direct Release mutation from the release-prep screen');
 requireSnippet('src/pages/admin/Distributors.jsx', 'refetchOnWindowFocus: false');
 requireSnippet('src/pages/admin/Distributors.jsx', 'Status is read-only.');
