@@ -28,9 +28,10 @@ const AGENTS = [
     name: 'AgentIntelligenceLoop',
     label: 'Intelligence Loop',
     function: 'agentIntelligenceLoop',
-    data_sources: ['KnowledgeVault', 'MusicAgentMemory', 'AgentLearningRecord'],
-    purpose: 'Researches topics, saves insights to KnowledgeVault',
-    schedule: 'Daily (automation)',
+    data_sources: ['DailyDashboardTask', 'ActionItem', 'AdminNotification'],
+    purpose: 'Owner-triggered, no-spend task supervision that records internal follow-up alerts',
+    schedule: 'Manual owner-only; automated schedule paused',
+    invokeArgs: { mode: 'admin_supervisor' },
   },
   {
     name: 'ExecutiveMorningBrief',
@@ -106,7 +107,7 @@ export default function AgentRevenueStatus() {
   const runAgent = async (agent) => {
     setRunning(p => ({ ...p, [agent.name]: true }));
     try {
-      const res = await base44.functions.invoke(agent.function, {});
+      const res = await base44.functions.invoke(agent.function, agent.invokeArgs || {});
       setResults(p => ({ ...p, [agent.name]: { ok: true, data: res.data } }));
       toast.success(`${agent.label} ran successfully`);
     } catch (e) {
@@ -130,7 +131,7 @@ export default function AgentRevenueStatus() {
   const IMPROVEMENT_PLAN = [
     { item: 'Connect agents to Metricool performance data', status: 'Built but untested', note: 'metricoolImportMetrics function exists — needs scheduling + agent read access' },
     { item: 'Connect agents to order/profit data', status: 'Complete', note: 'agentProposalScanner reads MerchProduct + MerchOrder' },
-    { item: 'Connect agents to KnowledgeVault', status: 'Complete', note: 'agentIntelligenceLoop writes to KnowledgeVault; other agents can read' },
+    { item: 'Connect Deego audit evidence to KnowledgeVault', status: 'Built but untested', note: 'The state-deduplicated audit can save internal reports; verify a controlled owner run before calling it operational.' },
     { item: 'Connect agents to release sprint posts', status: 'Built but untested', note: 'ContentCalendarPost entity exists — no agent reads it yet' },
     { item: 'Connect agents to ApprovalQueue outcomes', status: 'Built but untested', note: 'publishApprovedProposal fires on approval — agent learning not yet wired to outcome' },
     { item: 'Connect agents to Business Attention Centre', status: 'Complete', note: 'All agents create AdminNotification records on action' },
