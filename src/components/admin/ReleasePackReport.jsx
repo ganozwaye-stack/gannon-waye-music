@@ -19,12 +19,12 @@ export default function ReleasePackReport({ result }) {
   if (!result) return null;
   const tooLost = result.too_lost;
   const pack = result.pack || {};
-  const packetFailed = result.launch_packet === 'failed';
+  const launchPacketHeld = result.launch_packet === 'held';
 
   return (
     <div className="mt-6 border border-border/40 rounded-xl p-4 bg-card/40">
       <p className="font-display text-lg text-foreground mb-1">
-        {packetFailed ? 'Release draft report, launch packet failed' : 'Release & launch packet report'}
+        Private release-draft report
       </p>
 
       <ResultRow
@@ -39,12 +39,18 @@ export default function ReleasePackReport({ result }) {
         detail={result.lyric_id ? 'Held behind the usual lyric review gate.' : 'You can add lyrics later from the Lyrics Archive.'}
       />
       <ResultRow
+        ok={launchPacketHeld}
+        warn={!launchPacketHeld}
+        label={launchPacketHeld ? 'Automatic launch-packet generation is held' : 'Launch-packet state needs review'}
+        detail="Private release creation never generates campaign material. Prepare and approve individual drafts only when you choose."
+      />
+      <ResultRow
         ok={!!result.hero_draft_id}
         warn={!result.hero_draft_id}
-        label={result.hero_draft_id ? 'Hero design draft created' : 'Hero design draft not created'}
+        label={result.hero_draft_id ? 'Hero design draft created' : 'No hero design draft created automatically'}
         detail={result.hero_draft_id
           ? 'A private Canvas Studio draft featuring this release. The public hero is unchanged until you take it live yourself.'
-          : (result.launch_packet_error || 'The strategy pass did not produce a hero draft.')}
+          : 'Create a private hero draft later if and when you choose.'}
       />
       <ResultRow
         ok={!!pack.press_release}
@@ -52,7 +58,7 @@ export default function ReleasePackReport({ result }) {
         label={pack.press_release ? 'Press release drafted' : 'Press release shell left blank'}
         detail={pack.press_release
           ? 'Waiting for your review in the Content Studio. Not approved for any use.'
-          : (result.launch_packet_error || 'Write or paste approved press copy from the Content Studio.')}
+          : 'Write or paste approved press copy from the Content Studio when you choose.'}
       />
       <ResultRow
         ok={!!pack.playlist_pitch}
@@ -76,7 +82,7 @@ export default function ReleasePackReport({ result }) {
         label={pack.social_count > 0 ? `${pack.social_count} social post drafts created` : 'No social drafts created'}
         detail={pack.social_count > 0
           ? 'Hooks, captions, hashtags, visual direction and DM keywords, ready for your review in the Content Studio.'
-          : 'The strategy pass produced no posts. Re-run or add them manually.'}
+          : 'No social drafts are created automatically. Add them manually when you choose.'}
       />
       <ResultRow
         ok={pack.merch_count > 0}
@@ -84,7 +90,7 @@ export default function ReleasePackReport({ result }) {
         label={pack.merch_count > 0 ? `${pack.merch_count} merch concepts drafted` : 'No merch concepts created'}
         detail={pack.merch_count > 0
           ? 'Concept drafts tied to the song story. Design work and approval stay in your hands.'
-          : 'Add concepts from the merch design lane when ready.'}
+          : 'No merchandise concepts are created automatically. Add them manually when ready.'}
       />
       <ResultRow
         ok={pack.launch_plan_count > 0}
@@ -92,7 +98,7 @@ export default function ReleasePackReport({ result }) {
         label={pack.launch_plan_count > 0 ? `${pack.launch_plan_count} launch-plan steps dated` : 'No launch plan created'}
         detail={pack.launch_plan_count > 0
           ? 'A dated run sheet from 28 days before release to 14 days after. Public-facing steps are flagged for your approval.'
-          : 'Build your plan from the release checklist.'}
+          : 'No launch plan is created automatically. Build your plan from the release checklist when ready.'}
       />
       <ResultRow
         ok={result.presave_wired}
