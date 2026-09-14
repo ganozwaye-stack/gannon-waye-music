@@ -1,8 +1,8 @@
 {
   "name": "Automated Site Tests (Nightly 3am)",
-  "description": "Daily at 3am \u2014 runs automated site tests (link integrity, route checks, promo exclusions)",
+  "description": "Disabled safety hold. This legacy test requires an authenticated admin and must be run as a controlled test, not by an unauthenticated scheduler.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],
