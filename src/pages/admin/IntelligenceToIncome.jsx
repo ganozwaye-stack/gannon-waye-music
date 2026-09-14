@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import {
   ArrowLeft, TrendingUp, Zap, Star, Activity, ChevronRight,
-  RefreshCw, Loader2, BookOpen, ShoppingBag, Users, Music, Target,
+  BookOpen, ShoppingBag, Users, Music, Target,
   AlertTriangle, CheckCircle2
 } from 'lucide-react';
 import { format } from 'date-fns';
@@ -115,7 +115,6 @@ function OpportunityDetail({ opp, onClose }) {
 
 export default function IntelligenceToIncome() {
   const [selectedOpp, setSelectedOpp] = useState(null);
-  const [scanning, setScanning] = useState(false);
 
   const { data: opportunities = [], refetch: refetchOpps } = useQuery({
     queryKey: ['growth-opps'],
@@ -134,18 +133,6 @@ export default function IntelligenceToIncome() {
     queryFn: () => base44.entities.MerchOrder.list('-created_date', 10),
   });
 
-  const triggerResearch = async () => {
-    setScanning(true);
-    try {
-      await base44.functions.invoke('growthOpportunityScanner', {});
-      toast.success('Opportunity scan complete');
-      refetchOpps();
-    } catch {
-      toast.error('Scan failed');
-    }
-    setScanning(false);
-  };
-
   const activeOrders = orders.filter(o => !['cancelled', 'refunded', 'deleted'].includes(o.status));
   const revenueOrders = activeOrders.filter(o => o.payment_status === 'paid');
   const totalRevenue = revenueOrders.reduce((sum, o) => sum + (o.total_amount || 0), 0);
@@ -160,9 +147,8 @@ export default function IntelligenceToIncome() {
             <p className="text-sm text-muted-foreground mt-1">The full revenue cycle — observe, analyse, prepare, approve, execute, track, learn</p>
           </div>
         </div>
-        <Button variant="outline" onClick={triggerResearch} disabled={scanning} className="gap-2">
-          {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
-          Scan for Opportunities
+        <Button variant="outline" disabled>
+          Safety hold active
         </Button>
       </div>
 
