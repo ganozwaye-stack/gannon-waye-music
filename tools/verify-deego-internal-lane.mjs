@@ -98,6 +98,8 @@ requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "base44.functions
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "mode: 'controlled_internal_test'");
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "action: 'synthetic_internal_test'");
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'creates internal audit records only');
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'Recheck same receipt');
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "verifyReceiptLane.mutate(receiptKey)");
 
 requireSnippet('src/pages/admin/AgentWorkbench.jsx', 'Held — no verified executor');
 forbid('src/pages/admin/AgentWorkbench.jsx', /base44\.functions\.invoke|Run Now|Auto-runs/, 'legacy runner control');
