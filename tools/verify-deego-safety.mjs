@@ -45,7 +45,7 @@ function assertAutomationSafetyHold() {
   }
   for (const target of listFiles('base44/workflows').filter(file => file.endsWith('.jsonc'))) {
     const content = readFileSync(target, 'utf8');
-    const rel = relative(ROOT, target);
+    const rel = relative(ROOT, target).replaceAll('\\', '/');
     if (OWNER_APPROVED_ACTIVE_WORKFLOWS.has(rel)) {
       if (!content.includes('Owner approved active')) {
         failures.push(`${rel} is on the owner-approved active list but does not record that approval in its description.`);
