@@ -60,8 +60,11 @@ const required = [
   ['base44/workflows/Deego Heartbeat  -  Every 30 Minutes.jsonc', '"condition": "${ false }"'],
   ['base44/workflows/Agent Intelligence Loop  -  Every 4 Hours.jsonc', '"condition": "${ false }"'],
   ['base44/functions/autonomousAlertSystem/function.jsonc', '"is_active": false'],
-  ['base44/functions/autonomousAlertSystem/entry.ts', 'state_fingerprint'],
-  ['base44/functions/autonomousAlertSystem/entry.ts', 'No material Deego state change since the last audit.'],
+  ['base44/functions/autonomousAlertSystem/entry.ts', "const LEGACY_HOLD_CODE = 'legacy_operational_audit_held'"],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'Legacy operational audit is held.'],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'external_actions: 0'],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'network_requests: 0'],
+  ['base44/workflows/Hourly System Alert Check.jsonc', '"mode": "legacy_hold"'],
   ['src/pages/admin/FinalSystemStatus.jsx', 'Paused pending owner test'],
   ['src/pages/admin/AgentRevenueStatus.jsx', 'Manual owner-only; automated schedule paused'],
   ['src/pages/admin/AgentRevenueStatus.jsx', "invokeArgs: { mode: 'admin_supervisor' }"],
@@ -85,8 +88,7 @@ const required = [
   ['base44/functions/agentProposalScanner/entry.ts', "body?.mode !== 'manual_internal_review'"],
   ['base44/functions/socialCommentMonitor/entry.ts', 'Social comment triage requires Gannon owner sign-in.'],
   ['base44/functions/socialCommentMonitor/entry.ts', "body?.mode !== 'manual_internal_review'"],
-  ['base44/functions/autonomousAlertSystem/entry.ts', 'Operational audit requires Gannon owner sign-in.'],
-  ['base44/functions/autonomousAlertSystem/entry.ts', "payload?.mode !== 'controlled_internal_test'"],
+
   ['base44/functions/executiveMorningBrief/entry.ts', 'Confirm the AI-quota acknowledgement before generating an internal executive brief.'],
   ['base44/functions/submitNewRelease/entry.ts', 'body.private_draft_acknowledged !== true'],
   ['base44/functions/submitNewRelease/entry.ts', "external_actions: 'held'"],
@@ -103,6 +105,14 @@ const forbidden = [
   ['base44/entities/Release.jsonc', "'created' means it was synced at New Release Studio submission"],
   ['DISASTER_RECOVERY.md', 'npx base44 deploy'],
   ['base44/functions/growthOpportunityScanner/entry.ts', "functions.invoke('notifyAdmin'"],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'fetch('],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'connectors.'],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'KnowledgeVault'],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'AdminNotification'],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'DeegoAutomationRun'],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'createClientFromRequest'],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'asServiceRole'],
+  ['base44/workflows/Hourly System Alert Check.jsonc', 'sends Slack alerts'],
 ];
 
 for (const [path, snippet] of required) {
