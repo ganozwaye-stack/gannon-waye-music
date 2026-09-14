@@ -1,16 +1,21 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { isOwner } from '../agentIntelligenceLoop/supervisor.mjs';
 
 Deno.serve(async (req) => {
   const base44 = createClientFromRequest(req);
 
-  // Auth check — service role or admin user
-  let isAdmin = false;
+  let user = null;
   try {
-    const user = await base44.auth.me();
-    isAdmin = user?.role === 'admin';
+    user = await base44.auth.me();
   } catch (_) {
-    // May be called without user context from automation
-    isAdmin = true;
+    user = null;
+  }
+  if (!isOwner(user)) {
+    return Response.json({ error: 'Ecommerce scan requires Gannon owner sign-in.' }, { status: 403 });
+  }
+  const body = await req.json().catch(() => ({}));
+  if (body?.mode !== 'manual_internal_review') {
+    return Response.json({ error: 'Ecommerce scan is paused pending a controlled owner-approved internal review.' }, { status: 409 });
   }
 
   // Load products to find bundle candidates
