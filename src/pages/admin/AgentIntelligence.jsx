@@ -6,8 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Brain, TrendingUp, Activity, Zap, Star, BookOpen, Loader2, ArrowRight, ChevronRight } from 'lucide-react';
-import { toast } from 'sonner';
+import { Brain, TrendingUp, Activity, Zap, Star, BookOpen, ArrowRight, ChevronRight } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 
 const AGENT_IQ_MAP = [
@@ -183,12 +182,11 @@ function RoadmapDetailModal({ item, onClose }) {
 }
 
 export default function AgentIntelligence() {
-  const [triggering, setTriggering] = useState(false);
   const [selectedLearning, setSelectedLearning] = useState(null);
   const [selectedLog, setSelectedLog] = useState(null);
   const [selectedRoadmap, setSelectedRoadmap] = useState(null);
 
-  const { data: logs = [], refetch: refetchLogs } = useQuery({
+  const { data: logs = [] } = useQuery({
     queryKey: ['agent-intel-logs'],
     queryFn: () => base44.entities.AgentTaskLog.list('-created_date', 30),
   });
@@ -208,30 +206,6 @@ export default function AgentIntelligence() {
     queryFn: () => base44.entities.IdeaOpportunity.list('-created_date', 50),
   });
 
-  const triggerResearch = async () => {
-    setTriggering(true);
-    try {
-      await base44.functions.invoke('autonomousResearch', {});
-      toast.success('Research loop triggered — check Knowledge Vault in ~30s');
-      refetchLogs();
-    } catch {
-      toast.error('Trigger failed');
-    }
-    setTriggering(false);
-  };
-
-  const triggerTrends = async () => {
-    setTriggering(true);
-    try {
-      await base44.functions.invoke('autonomousTrendEngine', {});
-      toast.success('Trend engine triggered');
-      refetchLogs();
-    } catch {
-      toast.error('Trigger failed');
-    }
-    setTriggering(false);
-  };
-
   const autoLogs = logs.filter(l => l.was_automatic);
   const todayLogs = logs.filter(l => new Date(l.created_date).toDateString() === new Date().toDateString());
   const totalKnowledge = vaultCount.length;
@@ -242,17 +216,11 @@ export default function AgentIntelligence() {
       <div className="flex items-start justify-between flex-wrap gap-4">
         <div>
           <h1 className="text-3xl font-display font-bold gradient-gold-text">Agent Intelligence</h1>
-          <p className="text-muted-foreground text-sm mt-1">Autonomous learning progress, IQ scores, and knowledge growth</p>
+          <p className="text-muted-foreground text-sm mt-1">Historical task and knowledge records. Legacy automated runners are held.</p>
         </div>
-        <div className="flex gap-2 flex-wrap">
-          <Button variant="outline" onClick={triggerResearch} disabled={triggering} className="gap-2 text-xs">
-            {triggering ? <Loader2 className="w-3 h-3 animate-spin" /> : <Brain className="w-3 h-3" />}
-            Trigger Research
-          </Button>
-          <Button variant="outline" onClick={triggerTrends} disabled={triggering} className="gap-2 text-xs">
-            <TrendingUp className="w-3 h-3" />Trigger Trends
-          </Button>
-        </div>
+        <p className="text-xs text-muted-foreground max-w-sm">
+          Research and trend generation are disabled until a verified receipt-producing lane is connected.
+        </p>
       </div>
 
       {/* Clickable Stat Cards */}
