@@ -82,7 +82,7 @@ export default function NewReleaseStudio() {
       <div className="mb-6">
         <h1 className="text-3xl font-display font-bold gradient-gold-text">New Release Studio</h1>
         <p className="text-muted-foreground text-sm mt-1 font-body">
-          One press creates the private release draft and runs your launch agents: hero design, merch concepts, socials, press release, playlist pitch, fan email and a dated launch plan, all kept private for your review.
+          Create a private release draft and review pack. One press also runs your launch agents: hero design, merch concepts, socials, press release, playlist pitch, fan email and a dated launch plan, all kept private for your review.
         </p>
       </div>
 
