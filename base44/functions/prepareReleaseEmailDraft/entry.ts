@@ -84,17 +84,21 @@ export default async function (req) {
     const release = matches?.[0];
     if (!release?.id) return Response.json({ error: 'Release not found' }, { status: 404 });
 
-    const approved = release.publishing_safe === true
-      && release.public_release_approval_status === 'approved';
-    if (!approved) {
+    const status = String(body.status || release.status || '').trim();
+    const approved = release.is_published === true
+      && release.publishing_safe === true
+      && release.status === 'released'
+      && release.public_release_approval_status === 'approved'
+      && typeof release.public_release_approved_by === 'string'
+      && release.public_release_approved_by.trim().length > 0
+      && Boolean(release.public_release_approved_at);
+
+    if (!approved || status !== 'released') {
       return Response.json({
         skipped: true,
-        reason: 'Release is not owner-approved for public updates, so no fan email is drafted yet.',
+        reason: 'Fan email drafts are only prepared after a fully approved release is public and released.',
       });
     }
-
-    const status = String(body.status || release.status || '').trim();
-    if (!status) return Response.json({ skipped: true, reason: 'No status to announce.' });
 
     // Fans were already emailed about this status: never draft it again.
     const priorSends = await sr.entities.ReleaseStatusEmailLog.filter(
