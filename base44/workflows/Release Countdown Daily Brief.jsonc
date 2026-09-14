@@ -1,6 +1,6 @@
 {
-  "name": "Release Countdown Daily Brief",
   "description": "Disabled safety hold. Legacy countdowns must not inspect or announce unapproved releases.",
+  "name": "Release Countdown Daily Brief",
   "trigger": {
     "condition": "${ false }",
     "config": {
