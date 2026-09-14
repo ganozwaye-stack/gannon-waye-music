@@ -153,6 +153,31 @@ requireText(
   'revokeFingerprint',
   'Revocation does not re-check the current release fingerprint.',
 );
+requireText(
+  'base44/functions/publishSingleWorkflow/entry.ts',
+  'Evidence is frozen after approval begins.',
+  'Evidence is not frozen after approval begins.',
+);
+requireText(
+  'base44/functions/publishSingleWorkflow/entry.ts',
+  'exact_snapshot_guard',
+  'Evidence saves do not report an exact-snapshot compare-and-set guard.',
+);
+requireText(
+  'base44/functions/publishSingleWorkflow/entry.ts',
+  'updated_date: release.updated_date',
+  'Release approval, publication, or revocation lacks an updated-date snapshot guard.',
+);
+requireText(
+  'base44/functions/publishSingleWorkflow/entry.ts',
+  'reconcileLinkedLyricsPublication',
+  'Post-commit lyric propagation can still turn a committed release outcome into a generic failure.',
+);
+requireText(
+  'base44/functions/publishSingleWorkflow/entry.ts',
+  'manual_reconciliation_required',
+  'Committed release outcomes do not report a reconciliation-required result.',
+);
 
 requireText(
   'base44/functions/prepareReleaseEmailDraft/entry.ts',
@@ -176,6 +201,10 @@ for (const needle of [
   'casSucceeded(draftClaim)',
   'casSucceeded(releaseClaim)',
   'confirm_draft_fingerprint',
+  'confirm_send_phrase',
+  'expectedSendPhrase',
+  'updated_date: draft.updated_date',
+  'updated_date: release.updated_date',
   "release_email_dispatch_state: 'idle'", 
 ]) {
   if (!send.includes(needle)) failures.push('Email send control is missing ' + needle + '.');
@@ -203,6 +232,7 @@ for (const functionName of [
 for (const field of [
   'confirm_release_fingerprint',
   'confirm_draft_fingerprint',
+  'confirm_send_phrase',
   'send_request_id',
 ]) {
   if (!card.includes(field)) failures.push('ReleaseEmailDraftCard does not pass ' + field + '.');
