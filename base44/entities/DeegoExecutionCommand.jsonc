@@ -1,0 +1,82 @@
+{
+  "name": "DeegoExecutionCommand",
+  "type": "object",
+  "properties": {
+    "command_key": {
+      "type": "string"
+    },
+    "idempotency_key": {
+      "type": "string"
+    },
+    "requester_email": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "owner_manual"
+      ]
+    },
+    "requested_capability": {
+      "type": "string",
+      "enum": [
+        "internal_read",
+        "internal_record_write",
+        "internal_summary"
+      ]
+    },
+    "command_text": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "canonical_input_hash": {
+      "type": "string"
+    },
+    "policy_version": {
+      "type": "string"
+    },
+    "runtime_state": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "rejected"
+      ]
+    },
+    "rejection_code": {
+      "type": "string"
+    },
+    "submitted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "task_id": {
+      "type": "string"
+    },
+    "external_actions": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "command_key",
+    "idempotency_key",
+    "requester_email",
+    "source",
+    "requested_capability",
+    "canonical_input_hash",
+    "policy_version",
+    "runtime_state",
+    "submitted_at",
+    "external_actions"
+  ],
+  "rls": {
+    "create": false,
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": false,
+    "delete": false
+  }
+}
