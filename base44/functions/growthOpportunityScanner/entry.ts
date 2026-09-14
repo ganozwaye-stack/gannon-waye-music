@@ -1,8 +1,17 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { isOwner } from '../agentIntelligenceLoop/supervisor.mjs';
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+    const user = await base44.auth.me().catch(() => null);
+    if (!isOwner(user)) {
+      return Response.json({ error: 'Growth scan requires Gannon owner sign-in.' }, { status: 403 });
+    }
+    const body = await req.json().catch(() => ({}));
+    if (body?.mode !== 'manual_internal_review') {
+      return Response.json({ error: 'Growth scan is paused pending a controlled owner-approved internal review.' }, { status: 409 });
+    }
 
     const [opportunities, revenueOps] = await Promise.all([
       base44.asServiceRole.integrations.Core.InvokeLLM({
@@ -102,27 +111,16 @@ Return a JSON array of 3 revenue opportunities:
       revenueSaved++;
     }
 
-    // Notify if high-value opportunities found
-    if (growthSaved > 0 || revenueSaved > 0) {
-      await base44.asServiceRole.functions.invoke('notifyAdmin', {
-        notification_type: 'viral_opportunity',
-        title: `Growth scan: ${growthSaved} viral + ${revenueSaved} revenue opportunities found`,
-        summary: `New opportunities detected. Review in Growth Engine.`,
-        severity: 'info',
-        linked_route: '/admin/growth-engine',
-        requires_action: false,
-        source: 'GrowthOpportunityScanner',
-      });
-    }
+    // This scout writes only internal draft records. It never invokes an external notifier.
 
     await base44.asServiceRole.entities.AgentTaskLog.create({
       agent_name: 'GrowthOpportunityScanner',
       task_title: 'Growth + Revenue Opportunity Scan',
       outcome: `Saved ${growthSaved} growth ops + ${revenueSaved} revenue ops`,
-      was_automatic: true,
-      required_approval: false,
-      risk_check_result: 'pass',
-      tags: ['growth', 'revenue', 'autonomous'],
+      was_automatic: false,
+      required_approval: true,
+      risk_check_result: 'manual_internal_review',
+      tags: ['growth', 'revenue', 'manual_internal_review'],
     });
 
     return Response.json({ success: true, growth_saved: growthSaved, revenue_saved: revenueSaved });
