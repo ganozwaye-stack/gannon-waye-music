@@ -1,6 +1,6 @@
 {
   "name": "Release Status Update \u2192 Fan Email",
-  "description": "Prepare a fan-email draft only after a fully approved release becomes public and released. Nothing sends automatically.",
+  "description": "Paused by the global safety hold. After a controlled owner test, this may prepare an internal owner-reviewed draft only; it never sends an email.",
   "trigger": {
     "config": {
       "trigger_type": "entity",
@@ -9,7 +9,7 @@
         "update"
       ]
     },
-    "condition": "${ .trigger.changed_fields | index(\"status\") != null and .trigger.data.is_published == true and .trigger.data.publishing_safe == true and .trigger.data.status == \"released\" and .trigger.data.public_release_approval_status == \"approved\" }"
+    "condition": "${ false }"
   },
   "definition": {
     "document": {
