@@ -29,7 +29,7 @@ export default function NewReleaseStudio() {
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState(null);
-  const [costAcknowledged, setCostAcknowledged] = useState(false);
+  const [privateDraftAcknowledged, setPrivateDraftAcknowledged] = useState(false);
 
   const set = (key, value) => setForm(current => ({ ...current, [key]: value }));
 
@@ -53,8 +53,8 @@ export default function NewReleaseStudio() {
       toast({ title: 'Song name and release date are required', variant: 'destructive' });
       return;
     }
-    if (!costAcknowledged) {
-      toast({ title: 'Confirm the private-draft and AI-quota acknowledgement first', variant: 'destructive' });
+    if (!privateDraftAcknowledged) {
+      toast({ title: 'Confirm the private-draft acknowledgement first', variant: 'destructive' });
       return;
     }
     setSubmitting(true);
@@ -63,7 +63,7 @@ export default function NewReleaseStudio() {
       const res = await base44.functions.invoke('submitNewRelease', {
         ...form,
         artwork_url: artwork?.url || '',
-        cost_acknowledged: costAcknowledged,
+        private_draft_acknowledged: privateDraftAcknowledged,
         dry_run: true,
       });
       setResult(res.data);
@@ -172,23 +172,23 @@ export default function NewReleaseStudio() {
           <label className="mt-3 flex items-start gap-2 cursor-pointer">
             <input
               type="checkbox"
-              checked={costAcknowledged}
-              onChange={e => setCostAcknowledged(e.target.checked)}
+              checked={privateDraftAcknowledged}
+              onChange={e => setPrivateDraftAcknowledged(e.target.checked)}
               className="mt-0.5 accent-[#d4af37]"
             />
             <span className="font-body text-xs text-foreground">
-              I understand this private draft may use AI quota to prepare review material.
+              I understand this creates only a private release record and blank review drafts. It does not take any outside action.
             </span>
           </label>
         </div>
 
         <Button
           type="submit"
-          disabled={submitting || uploading || !costAcknowledged}
+          disabled={submitting || uploading || !privateDraftAcknowledged}
           className="w-full gradient-gold-button rounded-full py-2.5 font-body text-xs tracking-wider uppercase"
         >
           {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />}
-          {submitting ? 'Creating private draft…' : 'Create private draft & review pack'}
+          {submitting ? 'Creating private draft…' : 'Create private draft & review shells'}
         </Button>
       </form>
 
