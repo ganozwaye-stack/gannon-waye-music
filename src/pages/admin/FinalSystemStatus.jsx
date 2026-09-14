@@ -9,6 +9,7 @@ const STATUS_CONFIG = {
   'Live-tested complete': { color: 'bg-green-500/10 text-green-300 border-green-500/30', icon: CheckCircle2 },
   'Built but untested': { color: 'bg-primary/10 text-primary border-primary/30', icon: Clock },
   'Paused pending owner test': { color: 'bg-primary/10 text-primary border-primary/30', icon: Clock },
+  'Safety hold active': { color: 'bg-orange-500/10 text-orange-300 border-orange-500/30', icon: Shield },
   'Blocked by external login': { color: 'bg-orange-500/10 text-orange-300 border-orange-500/30', icon: AlertTriangle },
   'Blocked by secret rotation': { color: 'bg-red-500/10 text-red-400 border-red-500/30', icon: AlertTriangle },
   'Blocked by Gannon approval': { color: 'bg-blue-500/10 text-blue-300 border-blue-500/30', icon: Shield },
@@ -102,6 +103,7 @@ const SECTIONS = [
     icon: Brain,
     iconColor: 'text-cyan-400',
     items: [
+      { label: 'Automation safety hold', status: 'Safety hold active', detail: 'Every legacy function automation and workflow trigger is disabled in source. Nothing may send, post, sync, spend AI quota, or mutate business records automatically until a controlled owner test and explicit re-enable.' },
       { label: 'Unattended Deego supervision schedule', status: 'Paused pending owner test', detail: 'Deliberately paused: scheduler identity and a no-spend owner acceptance test must be verified before it can run unattended.' },
       { label: 'Proposals created and going to Approval Queue', status: 'Complete', detail: 'Live proposals confirmed in AgentActionProposal entity' },
       { label: 'Agents connected to order/product data', status: 'Complete', detail: 'agentProposalScanner reads MerchProduct + stock levels' },
@@ -161,7 +163,7 @@ export default function FinalSystemStatus() {
           <AlertTriangle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
           <div>
             <p className="font-semibold text-red-300 text-sm">⚠ System Audit NOT marked complete</p>
-            <p className="text-xs text-muted-foreground mt-1">Stripe webhook secret must be rotated. TikTok OAuth must be live-tested. Checkout must be live-tested. Browser QA must be run. These are external actions only Gannon can take.</p>
+            <p className="text-xs text-muted-foreground mt-1">Automation safety hold is active: every legacy function automation and workflow trigger is disabled in source. Stripe webhook rotation, TikTok OAuth, checkout, and browser QA still require controlled owner-approved tests before any re-enable or deployment.</p>
           </div>
         </CardContent>
       </Card>
