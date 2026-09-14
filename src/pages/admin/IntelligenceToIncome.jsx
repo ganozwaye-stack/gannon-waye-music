@@ -12,7 +12,6 @@ import {
   AlertTriangle, CheckCircle2
 } from 'lucide-react';
 import { format } from 'date-fns';
-import { toast } from 'sonner';
 
 const ENGINES = [
   { to: '/admin/revenue-actions', icon: Zap, label: 'Revenue Actions', desc: 'Agent proposals awaiting approval', color: 'text-primary', key: 'proposals' },
@@ -116,7 +115,7 @@ function OpportunityDetail({ opp, onClose }) {
 export default function IntelligenceToIncome() {
   const [selectedOpp, setSelectedOpp] = useState(null);
 
-  const { data: opportunities = [], refetch: refetchOpps } = useQuery({
+  const { data: opportunities = [] } = useQuery({
     queryKey: ['growth-opps'],
     queryFn: () => base44.entities.GrowthOpportunity.filter({ status: 'new' }, '-created_date', 20),
   });
