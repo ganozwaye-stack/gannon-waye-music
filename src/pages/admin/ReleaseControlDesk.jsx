@@ -335,16 +335,27 @@ export default function ReleaseControlDesk() {
       }
 
       const actionLabel = ACTIONS[action].shortLabel;
+      const needsReconciliation = result.manual_reconciliation_required === true
+        || result.linked_lyrics_reconciled === false;
+      const outcomeDetail = action === 'approve'
+        ? 'The server reports a private approval. Publication still requires a separate fresh review and exact confirmation.'
+        : action === 'publish'
+          ? 'The server reports publication for the exact reviewed snapshot.'
+          : 'The server reports the release has been revoked and public state removed.';
+      const reconciliationDetail = needsReconciliation
+        ? ' The release outcome is already recorded; linked lyrics require manual reconciliation and will not retry automatically.'
+        : '';
       setMessage({
-        tone: 'success',
-        title: actionLabel + ' recorded',
-        detail: action === 'approve'
-          ? 'The server reports a private approval. Publication still requires a separate fresh review and exact confirmation.'
-          : action === 'publish'
-            ? 'The server reports publication for the exact reviewed snapshot.'
-            : 'The server reports the release has been revoked and public state removed.',
+        tone: needsReconciliation ? 'warning' : 'success',
+        title: needsReconciliation ? actionLabel + ' recorded — reconciliation needed' : actionLabel + ' recorded',
+        detail: outcomeDetail + reconciliationDetail,
       });
-      toast({ title: actionLabel + ' recorded', description: 'The release register has been refreshed.' });
+      toast({
+        title: needsReconciliation ? actionLabel + ' recorded — reconciliation needed' : actionLabel + ' recorded',
+        description: needsReconciliation
+          ? 'The release register was updated. Linked lyrics need manual reconciliation.'
+          : 'The release register has been refreshed.',
+      });
       setReview(null);
       setConfirmationAction('');
       setTypedConfirmation('');
