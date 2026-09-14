@@ -24,11 +24,19 @@ const required = [
   ['src/pages/admin/FinalSystemStatus.jsx', 'Paused pending owner test'],
   ['src/pages/admin/AgentRevenueStatus.jsx', 'Manual owner-only; automated schedule paused'],
   ['src/pages/admin/AgentRevenueStatus.jsx', "invokeArgs: { mode: 'admin_supervisor' }"],
+  ['base44/functions/executiveMorningBrief/function.jsonc', '"is_active": false'],
+  ['base44/workflows/Deego Morning Brief — 6am.jsonc', '"condition": "${ false }"'],
+  ['base44/functions/executiveMorningBrief/entry.ts', 'Executive brief requires Gannon owner sign-in.'],
+  ['base44/functions/executiveMorningBrief/entry.ts', 'No Slack, email, post, or external delivery is allowed from this function.'],
+  ['src/pages/admin/AgentRevenueStatus.jsx', 'Manual owner-only; automatic delivery paused'],
+  ['src/pages/admin/AgentRevenueStatus.jsx', 'This uses AI quota and creates only internal records.'],
 ];
 
 const forbidden = [
   ['src/pages/admin/FinalSystemStatus.jsx', 'agentProposalScanner, growthOpportunityScanner, agentIntelligenceLoop all running daily'],
   ['src/pages/admin/AgentRevenueStatus.jsx', "purpose: 'Researches topics, saves insights to KnowledgeVault'"],
+  ['base44/functions/executiveMorningBrief/entry.ts', 'sendSlackAlert'],
+  ['base44/functions/executiveMorningBrief/entry.ts', 'was_automatic: true'],
 ];
 
 for (const [path, snippet] of required) {
