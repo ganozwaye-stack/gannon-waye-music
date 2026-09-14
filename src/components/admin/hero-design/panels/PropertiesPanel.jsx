@@ -149,6 +149,7 @@ export default function PropertiesPanel({ el, onChange, onDelete, onDuplicate, o
           <ColourField label="Glow colour" value={el.glow_color} onChange={(v) => set({ glow_color: v })} />
           {el.type !== 'ring' && (
             <>
+              <ColourField label="Shadow colour" value={el.shadow_color} onChange={(v) => set({ shadow_color: v })} />
               <NumField label="Shadow blur" value={el.shadow_blur} onChange={(v) => set({ shadow_blur: v })} />
               <NumField label="Shadow drop" value={el.shadow_y} onChange={(v) => set({ shadow_y: v })} />
             </>

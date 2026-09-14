@@ -30,12 +30,10 @@ const heldEndpoints = [
   'base44/functions/autonomousTrendEngine/entry.ts',
   'base44/functions/sendBirthdayDiscount/entry.ts',
   'base44/functions/metricoolSchedulePost/entry.ts',
-  'base44/functions/generateReleaseLaunchPacket/entry.ts',
   'base44/functions/publishApprovedReel/entry.ts',
   'base44/functions/postReelToInstagram/entry.ts',
   'base44/functions/tiktokUploadDraft/entry.ts',
   'base44/functions/autonomousSocialPoster/entry.ts',
-  'base44/functions/syncDeegoReportsToSheets/entry.ts',
   'base44/functions/aiFanReply/entry.ts',
   'base44/functions/fanPostNotification/entry.ts',
   'base44/functions/notifyFanReminderRegistration/entry.ts',
@@ -76,6 +74,39 @@ for (const path of heldEndpoints) {
     path,
     /fetch\(|Core\.SendEmail|InvokeLLM|GenerateImage|functions\.invoke|connectors\.getConnection|integrations\./,
     'network, connector, paid-generation, or outbound-action code',
+  );
+}
+
+// Owner-gated generator, activated by explicit owner instruction on
+// 2026-09-14. It must stay exact-owner confirmed, acknowledged, and
+// private-drafts-only: no publish, post, send or schedule capability.
+const ownerGatedGenerators = [
+  'base44/functions/generateReleaseLaunchPacket/entry.ts',
+];
+for (const path of ownerGatedGenerators) {
+  requireSnippet(path, 'OWNER_EMAILS');
+  requireSnippet(path, 'launch_packet_acknowledged');
+  requireSnippet(path, "external_actions: 'held'");
+  forbid(
+    path,
+    /Core\.SendEmail|GenerateVideo|postToInstagram|metricoolSchedulePost|postApprovedToTiktok/,
+    'an outbound publish, post or send action',
+  );
+}
+
+// Owner-scoped report sync, activated by explicit owner instruction on
+// 2026-09-14. It may only mirror Deego owner reports out to the owner's
+// master spreadsheet; no other capability may live in this endpoint.
+const ownerScopedReportSyncs = [
+  'base44/functions/syncDeegoReportsToSheets/entry.ts',
+];
+for (const path of ownerScopedReportSyncs) {
+  requireSnippet(path, 'DeegoOwnerReport');
+  requireSnippet(path, 'googlesheets');
+  forbid(
+    path,
+    /Core\.SendEmail|InvokeLLM|GenerateImage/,
+    'an unrelated outbound or paid-generation capability',
   );
 }
 

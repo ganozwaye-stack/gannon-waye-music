@@ -127,6 +127,7 @@ import BlueprintBuilder from '@/pages/admin/BlueprintBuilder';
 import ClientInstalls from '@/pages/admin/ClientInstalls';
 import Distributors from '@/pages/admin/Distributors';
 import NewReleaseStudio from '@/pages/admin/NewReleaseStudio';
+import LaunchPacketStudio from '@/pages/admin/LaunchPacketStudio';
 import AgentLearning from '@/pages/admin/AgentLearning';
 import MemoryGraph from '@/pages/admin/MemoryGraph';
 import SelfHealing from '@/pages/admin/SelfHealing';
@@ -251,7 +252,6 @@ import LinkIntegrityAudit from '@/pages/admin/LinkIntegrityAudit';
 import EducationHub from '@/pages/admin/EducationHub';
 import IntegrationActionCentre from '@/pages/admin/IntegrationActionCentre';
 import InstagramStoryStudio from '@/pages/admin/InstagramStoryStudio';
-import TrainingCentre from '@/pages/admin/TrainingCentre';
 import AnnouncementStudio from '@/pages/admin/AnnouncementStudio';
 import UpcomingMusic from '@/pages/UpcomingMusic';
 import CarryTheMessage from '@/pages/CarryTheMessage';
@@ -275,11 +275,9 @@ import FanGuide from '@/pages/FanGuide';
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
 import MusicFanHub from '@/pages/admin/MusicFanHub';
-import StoreOrdersHub from '@/pages/admin/StoreOrdersHub';
 import AutomationAgentsHub from '@/pages/admin/AutomationAgentsHub';
 import SystemsQaHub from '@/pages/admin/SystemsQaHub';
 import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
-import MissionControl from '@/pages/admin/MissionControl';
 import PrintFulfilment from '@/pages/admin/PrintFulfilment';
 import MumsGarden from '@/pages/MumsGarden';
 import SoniasGarden from '@/pages/SoniasGarden';
@@ -538,7 +536,10 @@ const AuthenticatedApp = () => {
         <Route path="/admin/automation-agents" element={<AutomationAgentsHub />} />
         <Route path="/admin/systems-qa" element={<SystemsQaHub />} />
         <Route path="/admin/owner-business" element={<OwnerBusinessHub />} />
-        <Route path="/admin/mission-control" element={<MissionControl />} />
+        {/* Mission Control merged into the single Command Centre (15 Sep 2026):
+            status strip, actions required and the to-do list all live there now.
+            To undo: restore element={<MissionControl />}. */}
+        <Route path="/admin/mission-control" element={<Navigate to="/admin/command-centre" replace />} />
         <Route path="/admin/releases" element={<Releases />} />
         <Route path="/admin/hero-design-studio" element={<HeroDesignStudio />} />
         <Route path="/admin/release-prep" element={<ReleasePrepStudio />} />
@@ -605,6 +606,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/client-installs" element={<ClientInstalls />} />
         <Route path="/admin/distributors" element={<Distributors />} />
         <Route path="/admin/new-release-studio" element={<NewReleaseStudio />} />
+        <Route path="/admin/launch-packet-studio" element={<LaunchPacketStudio />} />
         <Route path="/admin/agent-learning" element={<AgentLearning />} />
         <Route path="/admin/memory-graph" element={<MemoryGraph />} />
         <Route path="/admin/self-healing" element={<SelfHealing />} />

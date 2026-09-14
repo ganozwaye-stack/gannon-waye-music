@@ -10,6 +10,14 @@
       "mode": "owner_confirmed_publication",
       "required": ["exact_owner", "exact_title", "exact_version", "current_release_fingerprint", "immutable_approval_receipt", "separate_approval_then_publish", "exact_revoke_phrase", "server_verified_action_phrase"]
     },
+    "generateReleaseLaunchPacket": {
+      "mode": "owner_confirmed_private_generation",
+      "required": ["exact_owner", "launch_packet_acknowledgement", "private_draft_records_only", "external_actions_held"]
+    },
+    "syncDeegoReportsToSheets": {
+      "mode": "owner_scoped_report_sync",
+      "required": ["admin_only_user_calls", "deego_owner_report_only", "single_spreadsheet_target"]
+    },
     "sendReleaseEmailDraft": {
       "mode": "owner_confirmed_fan_email",
       "required": ["exact_owner", "public_released_record", "current_evidence", "immutable_publication_receipt", "exact_title_version_and_fingerprints", "private_release_email_dispatch_claim", "send_deduplication", "no_retry_after_claim"]
@@ -22,12 +30,10 @@
   "held_entrypoints": [
     "base44/functions/sendBirthdayDiscount/entry.ts",
     "base44/functions/metricoolSchedulePost/entry.ts",
-    "base44/functions/generateReleaseLaunchPacket/entry.ts",
     "base44/functions/publishApprovedReel/entry.ts",
     "base44/functions/postReelToInstagram/entry.ts",
     "base44/functions/tiktokUploadDraft/entry.ts",
     "base44/functions/autonomousSocialPoster/entry.ts",
-    "base44/functions/syncDeegoReportsToSheets/entry.ts",
     "base44/functions/aiFanReply/entry.ts",
     "base44/functions/fanPostNotification/entry.ts",
     "base44/functions/notifyFanReminderRegistration/entry.ts",

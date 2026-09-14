@@ -60,6 +60,12 @@ if (policy) {
   requirePolicyRequirements(policy, 'tooLostOAuth', 'manual_owner_connection', [
     'exact_owner', 'one_time_state', 'read_only_status', 'no_automatic_renewal',
   ]);
+  requirePolicyRequirements(policy, 'generateReleaseLaunchPacket', 'owner_confirmed_private_generation', [
+    'exact_owner', 'launch_packet_acknowledgement', 'external_actions_held',
+  ]);
+  requirePolicyRequirements(policy, 'syncDeegoReportsToSheets', 'owner_scoped_report_sync', [
+    'admin_only_user_calls', 'deego_owner_report_only',
+  ]);
 
   const held = policy.held_entrypoints;
   if (!Array.isArray(held) || held.length === 0) {
@@ -101,7 +107,7 @@ if (/generateReleaseLaunchPacket/.test(read('src/pages/admin/NewReleaseStudio.js
 
 const publication = read('base44/functions/publishSingleWorkflow/entry.ts');
 for (const needle of [
-  'requireExactConfirmation(body, candidate, fingerprint, action)',
+  'requireExactConfirmation(body, candidate, fingerprint)',
   'releaseEvidenceErrors(candidate)',
   'ReleasePublicationApproval.create',
   'casSucceeded(approvalClaimed)',

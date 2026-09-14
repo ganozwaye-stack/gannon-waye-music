@@ -17,6 +17,7 @@ import {
   Loader2,
   LockKeyhole,
   RefreshCw,
+  Save,
   ShieldCheck,
   XCircle,
 } from 'lucide-react';
@@ -59,10 +60,10 @@ const ACTIONS = {
     confirmMessage: 'Record this private approval? The release remains private until a separate publish action.',
   },
   publish: {
-    label: 'Publish reviewed release',
-    shortLabel: 'Publish',
-    description: 'Requests public release only if the exact immutable approval and fingerprint still match.',
-    confirmMessage: 'Publish this exact reviewed release? This changes public visibility only if every server-side gate still matches.',
+    label: 'Go live with the reviewed release',
+    shortLabel: 'Go Live',
+    description: 'Takes the release public on the site only if the exact immutable approval and fingerprint still match. This is the only path to publication.',
+    confirmMessage: 'Go live with this exact reviewed release? This is your release-day button: it changes public visibility only if every server-side gate still matches.',
   },
   revoke: {
     label: 'Revoke public release',
@@ -228,6 +229,41 @@ export default function ReleaseControlDesk() {
       setReview(null);
       setMessage({ tone: 'error', title: 'Review held', detail });
       toast({ title: 'Review held', description: detail, variant: 'destructive' });
+    } finally {
+      setBusy('');
+    }
+  };
+
+  // Save changes keeps everything private: it stores the evidence edits on
+  // the private release record and never touches publication state. Going
+  // live remains a completely separate, deliberately confirmed action.
+  const evidenceChanged = !!selectedRelease && EVIDENCE_FIELDS.some(({ key }) => exact(evidence[key]) !== exact(selectedRelease[key]));
+
+  const saveChanges = async () => {
+    if (!isExactOwner || !selectedRelease) return;
+    setBusy('save');
+    setMessage(null);
+    try {
+      const response = await base44.functions.invoke('publishSingleWorkflow', {
+        action: 'save_evidence',
+        release_id: selectedRelease.id,
+        ...evidence,
+      });
+      const result = responseData(response);
+      if (result.error || result.ok !== true) {
+        throw new Error(result.error || 'The private save did not complete.');
+      }
+      setMessage({
+        tone: 'success',
+        title: 'Changes saved privately',
+        detail: 'Your evidence edits are stored on the private release. Nothing is published until a separate review, approval and Go Live press on release day.',
+      });
+      toast({ title: 'Changes saved', description: 'Private only. Nothing published.' });
+      await queryClient.invalidateQueries({ queryKey: ['releaseControlDeskReleases'] });
+    } catch (error) {
+      const detail = errorMessage(error);
+      setMessage({ tone: 'error', title: 'Save held', detail });
+      toast({ title: 'Save held', description: detail, variant: 'destructive' });
     } finally {
       setBusy('');
     }
@@ -404,15 +440,28 @@ export default function ReleaseControlDesk() {
                 <p className="mt-2 font-body text-xs text-destructive">Could not read the private release register: {errorMessage(releasesError)}</p>
               )}
             </div>
-            <Button
-              type="button"
-              onClick={runReview}
-              disabled={!selectedRelease || busy !== ''}
-              className="gap-2 rounded-full font-body text-xs uppercase tracking-wider"
-            >
-              {busy === 'review' ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-              Review exact snapshot
-            </Button>
+            <div className="flex flex-wrap items-center gap-2 lg:justify-end">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={saveChanges}
+                disabled={!selectedRelease || busy !== '' || !evidenceChanged}
+                title="Stores your evidence edits on the private release. Nothing is published."
+                className="gap-2 rounded-full font-body text-xs uppercase tracking-wider border-primary/40 text-primary hover:bg-primary/10"
+              >
+                {busy === 'save' ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                Save changes
+              </Button>
+              <Button
+                type="button"
+                onClick={runReview}
+                disabled={!selectedRelease || busy !== ''}
+                className="gap-2 rounded-full font-body text-xs uppercase tracking-wider"
+              >
+                {busy === 'review' ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+                Review exact snapshot
+              </Button>
+            </div>
           </div>
 
           {selectedRelease && (

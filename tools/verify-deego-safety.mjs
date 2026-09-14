@@ -31,6 +31,12 @@ function listFiles(relativeDir) {
   return files;
 }
 
+// Workflows the owner has explicitly approved to run, recorded here with
+// the approval date. Each must state that approval in its own description.
+const OWNER_APPROVED_ACTIVE_WORKFLOWS = new Set([
+  'Deego Report → Master Spreadsheet.jsonc',
+]);
+
 function assertAutomationSafetyHold() {
   for (const target of listFiles('base44/functions').filter(file => file.endsWith('function.jsonc'))) {
     if (readFileSync(target, 'utf8').includes('"is_active": true')) {
@@ -39,8 +45,15 @@ function assertAutomationSafetyHold() {
   }
   for (const target of listFiles('base44/workflows').filter(file => file.endsWith('.jsonc'))) {
     const content = readFileSync(target, 'utf8');
+    const rel = relative(ROOT, target);
+    if (OWNER_APPROVED_ACTIVE_WORKFLOWS.has(rel)) {
+      if (!content.includes('Owner approved active')) {
+        failures.push(`${rel} is on the owner-approved active list but does not record that approval in its description.`);
+      }
+      continue;
+    }
     if (!content.includes('"condition": "${ false }"')) {
-      failures.push(`${relative(ROOT, target)} has a workflow trigger that is not explicitly disabled by the safety hold.`);
+      failures.push(`${rel} has a workflow trigger that is not explicitly disabled by the safety hold.`);
     }
   }
 }

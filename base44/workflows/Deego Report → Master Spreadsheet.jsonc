@@ -3,7 +3,7 @@
     "document": {
       "dsl": "1.0.0",
       "name": "deego_report_to_master_spreadsheet",
-      "version": "1.0",
+      "version": "1.1",
       "namespace": "base44"
     },
     "do": [
@@ -25,10 +25,10 @@
       }
     ]
   },
-  "description": "Automatically pushes every new or updated Deego owner report into the master Google Spreadsheet, keeping the report, offers and market comparison tabs in sync.",
+  "description": "Automatically pushes every new or updated Deego owner report into the master Google Spreadsheet, keeping the report, offers and market comparison tabs in sync. Owner approved active on 2026-09-14.",
   "name": "Deego Report \u2192 Master Spreadsheet",
   "trigger": {
-    "condition": "${ false }",
+    "condition": "${ true }",
     "config": {
       "trigger_type": "entity",
       "events": [

@@ -83,13 +83,34 @@ export default async function(req: Request) {
     const releaseId = exact(body.release_id);
     const action = exact(body.action || 'review').toLowerCase();
     if (!releaseId) return Response.json({ error: 'release_id required' }, { status: 400 });
-    if (!['review', 'approve', 'publish', 'revoke'].includes(action)) {
-      return Response.json({ error: 'action must be review, approve, publish, or revoke' }, { status: 400 });
+    if (!['review', 'approve', 'publish', 'revoke', 'save_evidence'].includes(action)) {
+      return Response.json({ error: 'action must be review, approve, publish, revoke, or save_evidence' }, { status: 400 });
     }
 
     const sr = base44.asServiceRole;
     const release = await sr.entities.Release.get(releaseId).catch(() => null);
     if (!release?.id) return Response.json({ error: 'Release not found' }, { status: 404 });
+
+    // Private evidence save. Owner-only, and it never touches any
+    // publication, approval or dispatch field: saving changes and going
+    // live stay two fully separate actions.
+    if (action === 'save_evidence') {
+      const savedEvidence = await sr.entities.Release.updateMany(
+        { id: release.id },
+        {
+          $set: {
+            rights_evidence_reference: exact(body.rights_evidence_reference),
+            master_evidence_reference: exact(body.master_evidence_reference),
+            delivery_evidence_reference: exact(body.delivery_evidence_reference),
+            public_link_evidence_url: exact(body.public_link_evidence_url),
+          },
+        },
+      );
+      if (!casSucceeded(savedEvidence)) {
+        return Response.json({ error: 'The private evidence save did not complete. Nothing was published.' }, { status: 409 });
+      }
+      return Response.json({ ok: true, release_id: release.id, saved: 'evidence', published: false });
+    }
 
     if (action === 'revoke') {
       const revokeFingerprint = await fingerprintReleaseControl(release);

@@ -1,217 +1,80 @@
-import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { Link } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { AGENT_REGISTRY_SEED } from '@/lib/agentRegistrySeed';
-import {
-  AlertTriangle, CheckCircle2, Brain, Shield, DollarSign,
-  Zap, TrendingUp, FileText, Globe, Music, Users, Megaphone,
-  Eye, Lock, Activity, ChevronRight, Bell, Star
-} from 'lucide-react';
+import { base44 } from '@/api/base44Client';
+import StatusStrip from '@/components/admin/command-centre/StatusStrip';
+import ActionsRequiredCard from '@/components/admin/command-centre/ActionsRequiredCard';
+import WorkstreamTodoCard from '@/components/admin/command-centre/WorkstreamTodoCard';
+import HubNav from '@/components/admin/command-centre/HubNav';
+import { Activity, Shield } from 'lucide-react';
 
-const DASHBOARDS = [
-  { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain, color: 'text-purple-400', desc: '100+ specialist agents' },
-  { label: 'Approval Queue', path: '/admin/approval-queue', icon: CheckCircle2, color: 'text-primary', desc: 'Pending decisions' },
-  { label: 'Risk Alerts', path: '/admin/risk-alerts', icon: AlertTriangle, color: 'text-red-400', desc: 'Financial & legal flags' },
-  { label: 'Knowledge Vault', path: '/admin/knowledge-vault', icon: Lock, color: 'text-blue-400', desc: 'Secure document store' },
-  { label: 'Legal Dashboard', path: '/admin/legal-dashboard', icon: FileText, color: 'text-orange-400', desc: 'Legal ops & timeline' },
-  { label: 'Wealth Dashboard', path: '/admin/wealth-dashboard', icon: DollarSign, color: 'text-green-400', desc: 'Revenue & protection' },
-  { label: 'Research Hub', path: '/admin/research-hub', icon: Eye, color: 'text-cyan-400', desc: 'Deep intelligence' },
-  { label: 'Creative Studio', path: '/admin/creative-studio', icon: Music, color: 'text-pink-400', desc: 'Music, content, video' },
-  { label: 'Marketing Centre', path: '/admin/marketing-centre', icon: Megaphone, color: 'text-indigo-400', desc: 'Campaigns & growth' },
-  { label: 'Social Command', path: '/admin/social-command', icon: Users, color: 'text-teal-400', desc: 'All social channels' },
-  { label: 'Website Ops', path: '/admin/website-ops', icon: Globe, color: 'text-lime-400', desc: 'Site automation' },
-  { label: 'Security Centre', path: '/admin/security-centre', icon: Shield, color: 'text-rose-400', desc: 'Access & compliance' },
-  { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Activity, color: 'text-slate-400', desc: 'All agent actions' },
-  { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp, color: 'text-primary', desc: 'Rising opportunities' },
-  { label: 'Orchestrator', path: '/admin/orchestrator-chat', icon: Zap, color: 'text-violet-400', desc: 'Master AI chat' },
-];
-
+// THE single Command Centre. Every old dashboard cluster now lives here:
+// status numbers, actions required across the business, the owner's
+// workstream to-do list with deadlines, grouped links to every hub, and
+// recent agent activity. One screen, no jumping between pages.
 export default function CommandCentre() {
-  const { data: pendingApprovals = [] } = useQuery({
-    queryKey: ['approval-queue-pending'],
-    queryFn: () => base44.entities.ApprovalQueue.filter({ status: 'pending' }),
-  });
-  const { data: openAlerts = [] } = useQuery({
-    queryKey: ['risk-alerts-open'],
-    queryFn: () => base44.entities.RiskAlert.filter({ status: 'open' }),
-  });
-  const { data: dbAgents = [], isLoading: agentsLoading } = useQuery({
-    queryKey: ['agent-registry'],
-    queryFn: () => base44.entities.AgentRegistry.list('-created_date', 200),
-  });
   const { data: recentLogs = [] } = useQuery({
     queryKey: ['agent-task-log-recent'],
-    queryFn: () => base44.entities.AgentTaskLog.list('-created_date', 5),
+    queryFn: () => base44.entities.AgentTaskLog.list('-created_date', 5).catch(() => []),
+    initialData: [],
   });
 
-  // Fallback to static seed if DB returns empty
-  const usingFallback = !agentsLoading && dbAgents.length === 0;
-  const agents = usingFallback ? AGENT_REGISTRY_SEED : dbAgents;
-
-  const activeAgents = agents.filter(a => a.status === 'active').length;
-  const criticalAlerts = openAlerts.filter(a => a.severity === 'critical').length;
-
   return (
-    <div className="p-6 space-y-8 min-h-screen bg-background">
-      {/* Header */}
-      <div className="flex items-center justify-between">
+    <div className="pb-12 space-y-8">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display font-bold gradient-gold-text">Gannon Command Centre</h1>
-          <p className="text-muted-foreground text-sm mt-1 font-body">AI Operating System — Private & Secure</p>
+          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary font-semibold mb-1">One place to run everything</p>
+          <h1 className="font-display text-3xl font-bold gradient-gold-text">Command Centre</h1>
+          <p className="font-body text-sm text-muted-foreground mt-1 max-w-2xl">
+            Your whole business on one screen: what needs you now, your workstream to-do list with deadlines,
+            and every hub and owner tool one click away.
+          </p>
         </div>
-        <div className="flex gap-2">
-          {criticalAlerts > 0 && (
-            <Badge className="bg-red-500/20 text-red-400 border-red-500/30 animate-pulse">
-              {criticalAlerts} Critical
-            </Badge>
-          )}
-          <Badge className="bg-primary/20 text-primary border-primary/30">
-            {agentsLoading ? '…' : activeAgents} Active / {agentsLoading ? '…' : agents.length} Total
-          </Badge>
-        </div>
+        <Badge className="bg-red-500/20 text-red-400 border border-red-500/30 font-mono text-xs">ADMIN ACCESS</Badge>
       </div>
 
-      {/* Status Strip */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <StatusCard icon={CheckCircle2} color="text-primary" bg="bg-primary/10" label="Pending Approvals" value={pendingApprovals.length} link="/admin/approval-queue" />
-        <StatusCard icon={AlertTriangle} color="text-red-400" bg="bg-red-500/10" label="Open Risk Alerts" value={openAlerts.length} link="/admin/risk-alerts" />
-        <StatusCard icon={Brain} color="text-purple-400" bg="bg-purple-500/10" label="Agents Registered" value={agents.length} link="/admin/agent-registry" />
-        <StatusCard icon={Activity} color="text-green-400" bg="bg-green-500/10" label="Tasks Logged Today" value={recentLogs.length} link="/admin/agent-task-log" />
-      </div>
-
-      {/* Do Not Spend Rule Banner */}
       <div className="border border-primary/30 bg-primary/5 rounded-lg p-4 flex items-start gap-3">
         <Shield className="w-5 h-5 text-primary mt-0.5 shrink-0" />
         <div>
-          <p className="text-primary font-semibold text-sm">Do-Not-Spend-Or-Lose Rule: ACTIVE</p>
-          <p className="text-muted-foreground text-xs mt-1">All agents are blocked from spending money, issuing refunds, changing prices, creating legal commitments, or publishing high-risk content without your explicit approval.</p>
+          <p className="text-primary font-semibold text-sm">Nothing goes live without you</p>
+          <p className="text-muted-foreground text-xs mt-1">
+            Releases publish only from the Release Control Desk after review and your Go Live press. Launch packets,
+            hero designs and hotspot zones all save as private drafts first.
+          </p>
         </div>
       </div>
 
-      {/* Pending Approvals */}
-      {pendingApprovals.length > 0 && (
-        <div>
-          <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-            <Bell className="w-4 h-4 text-primary" /> Needs Your Attention
-          </h2>
-          <div className="space-y-2">
-            {pendingApprovals.slice(0, 5).map(item => (
-              <Link key={item.id} to="/admin/approval-queue">
-                <div className="border border-primary/20 bg-primary/5 rounded-lg p-3 hover:bg-primary/10 transition-colors flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{item.action_title}</p>
-                    <p className="text-xs text-muted-foreground">{item.agent_name} · Risk: {item.risk_level}</p>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      <StatusStrip />
 
-      {/* Risk Alerts */}
-      {openAlerts.length > 0 && (
-        <div>
-          <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-red-400" /> Risk Alerts
-          </h2>
-          <div className="space-y-2">
-            {openAlerts.slice(0, 3).map(alert => (
-              <Link key={alert.id} to="/admin/risk-alerts">
-                <div className="border border-red-500/20 bg-red-500/5 rounded-lg p-3 hover:bg-red-500/10 transition-colors flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-foreground">{alert.title}</p>
-                    <p className="text-xs text-muted-foreground">{alert.alert_type} · {alert.source_agent}</p>
-                  </div>
-                  <Badge className={`text-xs ${alert.severity === 'critical' ? 'bg-red-500/20 text-red-400' : 'bg-orange-500/20 text-orange-400'}`}>
-                    {alert.severity}
-                  </Badge>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Dashboard Grid — Grouped by Category */}
-      <div>
-        <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
-          <Star className="w-4 h-4 text-primary" /> Command Dashboards
-        </h2>
-        <div className="space-y-6">
-          {[
-            { category: 'Security & Risk', labels: ['Risk Alerts', 'Security Centre', 'Knowledge Vault'] },
-            { category: 'Revenue & Legal', labels: ['Wealth Dashboard', 'Legal Dashboard', 'Approval Queue'] },
-            { category: 'Intelligence', labels: ['Research Hub', 'Trend Monitor', 'Orchestrator'] },
-            { category: 'Creative & Content', labels: ['Creative Studio', 'Marketing Centre', 'Social Command', 'Website Ops'] },
-            { category: 'Operations', labels: ['Agent Registry', 'Agent Task Log'] },
-          ].map(group => {
-            const items = DASHBOARDS.filter(d => group.labels.includes(d.label));
-            if (!items.length) return null;
-            return (
-              <div key={group.category}>
-                <p className="font-body text-[10px] tracking-widest uppercase text-muted-foreground mb-3">{group.category}</p>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-                  {items.map(d => (
-                    <Link key={d.path} to={d.path}>
-                      <Card className="hover:border-primary/40 transition-all cursor-pointer h-full">
-                        <CardContent className="p-4">
-                          <d.icon className={`w-6 h-6 ${d.color} mb-2`} />
-                          <p className="font-medium text-sm text-foreground">{d.label}</p>
-                          <p className="text-xs text-muted-foreground mt-1">{d.desc}</p>
-                        </CardContent>
-                      </Card>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        <ActionsRequiredCard />
+        <WorkstreamTodoCard />
       </div>
 
-      {/* Recent Agent Activity */}
+      <HubNav />
+
       {recentLogs.length > 0 && (
         <div>
           <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
             <Activity className="w-4 h-4 text-green-400" /> Recent Agent Activity
           </h2>
           <div className="space-y-2">
-            {recentLogs.map(log => (
-              <div key={log.id} className="border border-border rounded-lg p-3 flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium">{log.task_title}</p>
-                  <p className="text-xs text-muted-foreground">{log.agent_name}</p>
-                </div>
-                <Badge className={log.was_automatic ? 'bg-green-500/10 text-green-400' : 'bg-primary/10 text-primary'}>
-                  {log.was_automatic ? 'Auto' : 'Approved'}
-                </Badge>
-              </div>
+            {recentLogs.map((log) => (
+              <Card key={log.id} className="border-border/40">
+                <CardContent className="p-3 flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-foreground">{log.task_title || 'Agent task'}</p>
+                    <p className="text-xs text-muted-foreground">{log.agent_name || 'Agent'}</p>
+                  </div>
+                  <Badge className={log.was_automatic ? 'bg-green-500/10 text-green-400' : 'bg-primary/10 text-primary'}>
+                    {log.was_automatic ? 'Auto' : 'Approved'}
+                  </Badge>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
       )}
     </div>
-  );
-}
-
-function StatusCard({ icon: Icon, color, bg, label, value, link }) {
-  return (
-    <Link to={link}>
-      <Card className="hover:border-primary/30 transition-all cursor-pointer">
-        <CardContent className="p-4 flex items-center gap-3">
-          <div className={`${bg} p-2 rounded-lg`}>
-            <Icon className={`w-5 h-5 ${color}`} />
-          </div>
-          <div>
-            <p className="text-2xl font-bold">{value}</p>
-            <p className="text-xs text-muted-foreground">{label}</p>
-          </div>
-        </CardContent>
-      </Card>
-    </Link>
   );
 }

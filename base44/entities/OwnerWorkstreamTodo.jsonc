@@ -1,0 +1,72 @@
+{
+  "name": "OwnerWorkstreamTodo",
+  "type": "object",
+  "description": "The owner's active workstream to-do list, tracked with deadlines so every project keeps moving. Surfaced on the Command Centre. Admin only.",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "What needs to be done, in the owner's words"
+    },
+    "workstream": {
+      "type": "string",
+      "description": "Which area of the business this belongs to, e.g. Release Machine, Store, Hero Design, Deego Reports"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "todo",
+        "in_progress",
+        "blocked",
+        "done"
+      ],
+      "default": "todo"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "The deadline for this item"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "high",
+        "normal",
+        "low"
+      ],
+      "default": "normal"
+    },
+    "linked_route": {
+      "type": "string",
+      "description": "Admin route where this item is worked on"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
