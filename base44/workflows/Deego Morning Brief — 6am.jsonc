@@ -1,8 +1,8 @@
 {
   "name": "Deego Morning Brief \u2014 6am",
-  "description": "Each morning at 6am Deego writes the executive brief (top priority, best money move, biggest risk, content idea, what needs approval) and posts it to Slack + Knowledge Vault so it's waiting when Gannon wakes.",
+  "description": "Disabled safety hold. A signed-in Gannon owner may manually generate an internal executive brief; no scheduled generation or Slack delivery.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],
