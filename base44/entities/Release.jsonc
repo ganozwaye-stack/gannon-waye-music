@@ -354,11 +354,7 @@
     "title"
   ],
   "rls": {
-    "create": {
-      "user_condition": {
-        "role": "admin"
-      }
-    },
+    "create": false,
     "read": {
       "$or": [
         {
@@ -374,6 +370,24 @@
             },
             {
               "data.public_release_approval_status": "approved"
+            },
+            {
+              "$or": [
+                {
+                  "data.public_release_approved_by": "ganozwaye@gmail.com"
+                },
+                {
+                  "data.public_release_approved_by": "gannonwayemusic@gmail.com"
+                }
+              ]
+            },
+            {
+              "data.public_release_approved_at": {
+                "$nin": [
+                  "",
+                  null
+                ]
+              }
             }
           ]
         },
@@ -384,33 +398,7 @@
         }
       ]
     },
-    "update": {
-      "$or": [
-        {
-          "user_condition": {
-            "email": "ganozwaye@gmail.com"
-          }
-        },
-        {
-          "user_condition": {
-            "email": "gannonwayemusic@gmail.com"
-          }
-        }
-      ]
-    },
-    "delete": {
-      "$or": [
-        {
-          "user_condition": {
-            "email": "ganozwaye@gmail.com"
-          }
-        },
-        {
-          "user_condition": {
-            "email": "gannonwayemusic@gmail.com"
-          }
-        }
-      ]
-    }
+    "update": false,
+    "delete": false
   }
 }
