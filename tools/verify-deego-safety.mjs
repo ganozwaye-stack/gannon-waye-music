@@ -34,7 +34,7 @@ function listFiles(relativeDir) {
 // Workflows the owner has explicitly approved to run, recorded here with
 // the approval date. Each must state that approval in its own description.
 const OWNER_APPROVED_ACTIVE_WORKFLOWS = new Set([
-  'Deego Report → Master Spreadsheet.jsonc',
+  'base44/workflows/Deego Report → Master Spreadsheet.jsonc',
 ]);
 
 function assertAutomationSafetyHold() {
