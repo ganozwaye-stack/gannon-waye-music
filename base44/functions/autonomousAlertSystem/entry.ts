@@ -1,5 +1,10 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { isOwner } from '../agentIntelligenceLoop/supervisor.mjs';
+
+const OWNER_EMAILS = new Set(['ganozwaye@gmail.com', 'gannonwayemusic@gmail.com']);
+
+function isOwner(user) {
+  return user?.role === 'admin' && OWNER_EMAILS.has(String(user.email || '').trim().toLowerCase());
+}
 
 const TIME_ZONE = 'Australia/Melbourne';
 const PRIORITY_ORDER = { critical: 0, high: 1, medium: 2, low: 3 };
