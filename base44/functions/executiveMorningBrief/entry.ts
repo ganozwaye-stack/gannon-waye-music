@@ -1,8 +1,13 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { isOwner } from '../agentIntelligenceLoop/supervisor.mjs';
 
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+    const user = await base44.auth.me().catch(() => null);
+    if (!user || !isOwner(user)) {
+      return Response.json({ error: 'Executive brief requires Gannon owner sign-in.' }, { status: 403 });
+    }
 
     // Fetch recent data for context
     const [alerts, pending, recentLogs, ideas] = await Promise.all([
@@ -52,7 +57,7 @@ Format: Clear headings, concise bullets, action-oriented language. Keep total un
       category: 'decision_history',
       content: briefResult,
       summary: `Executive brief for ${briefDate}. ${alerts.length} alerts, ${pending.length} pending approvals.`,
-      source: 'Executive Morning Brief (Scheduled)',
+      source: 'Executive Morning Brief (manual owner initiated)',
       access_level: 'admin_only',
       is_sensitive: false,
       tags: ['daily-brief', 'executive', briefDate],
@@ -64,31 +69,14 @@ Format: Clear headings, concise bullets, action-oriented language. Keep total un
       task_title: `Daily Executive Brief — ${briefDate}`,
       task_description: `Generated morning brief with ${alerts.length} alerts and ${pending.length} approvals`,
       outcome: 'Saved to Knowledge Vault',
-      was_automatic: true,
+      was_automatic: false,
       required_approval: false,
       risk_check_result: 'pass',
-      tags: ['daily-brief', 'scheduled'],
+      tags: ['daily-brief', 'manual-owner-run'],
     });
 
-    // Send brief to Slack
-    try {
-      const slackSummary = briefResult.substring(0, 800).replace(/\n{3,}/g, '\n\n');
-      await base44.asServiceRole.functions.invoke('sendSlackAlert', {
-        channel: '#gannon-alerts',
-        title: `Daily Brief — ${briefDate}`,
-        urgency: alerts.filter(a => a.severity === 'critical').length > 0 ? 'high' : 'normal',
-        message: `*📋 Today's Executive Brief*\n\n${slackSummary}${briefResult.length > 800 ? '\n\n_...see Knowledge Vault for full brief_' : ''}`,
-        fields: [
-          { label: '🚨 Open Alerts', value: String(alerts.length) },
-          { label: '⏳ Pending Approvals', value: String(pending.length) },
-          { label: '💡 New Ideas', value: String(ideas.length) },
-        ],
-        action_url: 'https://gannonwaye.base44.app/admin/executive-feed',
-        category: 'brief',
-      });
-    } catch (_slackErr) {
-      // Slack alert is non-blocking — brief still succeeds if Slack fails
-    }
+    // No Slack, email, post, or external delivery is allowed from this function.
+    // The signed-in owner receives the internal brief in the response and Knowledge Vault.
 
     return Response.json({
       success: true,
