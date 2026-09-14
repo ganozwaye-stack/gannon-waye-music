@@ -47,9 +47,8 @@ export default function SetFreeHero() {
   const heroRelease = (design.hero_release_id && releaseCandidates.find((r) => r.id === design.hero_release_id))
     || releaseCandidates.find((r) => r.is_current_single === true)
     || null;
-  const heroTitle = heroRelease?.title || 'Set Free';
-  const heroCopy = heroRelease?.current_single_hero_copy || heroRelease?.description
-    || 'The turning point. The sound of choosing peace, restoring boundaries and reclaiming your own direction.';
+  const heroTitle = heroRelease?.title || '';
+  const heroCopy = heroRelease?.current_single_hero_copy || heroRelease?.description || '';
 
   // Each layer drifts at its own rate so the heart sits in true 3D depth
   // while the gold light breathes as the section scrolls through view.
@@ -61,6 +60,10 @@ export default function SetFreeHero() {
   const rayOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.1, 0.42, 0.06]);
   const rayRotate = useTransform(scrollYProgress, [0, 1], [-24, 42]);
   const emberScale = useTransform(scrollYProgress, [0, 1], [0.95, 1.28]);
+
+  // Do not advertise a draft or rights-pending release on public pages.
+  // Music, Press, release detail, and this home section must share the same gate.
+  if (!heroRelease) return null;
 
   return (
     <section
