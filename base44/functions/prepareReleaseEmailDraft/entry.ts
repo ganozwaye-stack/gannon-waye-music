@@ -1,10 +1,9 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
 import { collectFanEmailAudience } from '../../shared/fanEmailAudience.ts';
 
-// Prepares a premium fan email DRAFT (never sends) whenever an owner-approved
-// release changes status. The draft lands in the Release Email Studio where
-// Gannon previews, edits, approves and sends with one press each.
-// Invoked by the Release Status Update workflow and by the studio itself.
+// Prepares a premium fan email DRAFT (never sends) for a fully approved,
+// public release. The draft lands in the Release Email Studio for owner review.
+// The global workflow safety hold keeps this owner-initiated only.
 
 const SITE_URL = 'https://gannonwaye.com';
 const OWNER_EMAILS = new Set([
@@ -78,6 +77,11 @@ function buildEmailHtml({ title, statusLine, ctaLabel, ctaUrl, artworkUrl }) {
 export default async function (req) {
   try {
     const base44 = createClientFromRequest(req);
+    const user = await base44.auth.me().catch(() => null);
+    const actorEmail = String(user?.email || '').trim().toLowerCase();
+    if (!user || user.role !== 'admin' || !OWNER_EMAILS.has(actorEmail)) {
+      return Response.json({ error: 'Gannon owner sign-in required to prepare a release email draft.' }, { status: 403 });
+    }
     const sr = base44.asServiceRole;
     const body = await req.json().catch(() => ({}));
     const releaseId = String(body.release_id || '').trim();
