@@ -1,23 +1,4 @@
 {
-  "name": "Deego Morning Brief \u2014 6am",
-  "description": "Disabled safety hold. A signed-in Gannon owner may manually generate an internal executive brief; no scheduled generation or Slack delivery.",
-  "trigger": {
-    "condition": "${ false }",
-    "config": {
-      "trigger_type": "scheduled",
-      "events": [],
-      "schedule_mode": "recurring",
-      "cron_expression": "0 20 * * *",
-      "one_time_date": null,
-      "timezone": "UTC",
-      "interval_value": null,
-      "interval_unit": null,
-      "interval_anchor": null,
-      "ends_type": "never",
-      "ends_on_date": null,
-      "ends_after_count": null
-    }
-  },
   "definition": {
     "document": {
       "dsl": "1.0.0",
@@ -38,6 +19,25 @@
       }
     ]
   },
+  "trigger": {
+    "condition": "${ false }",
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 20 * * *",
+      "one_time_date": null,
+      "timezone": "UTC",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "name": "Deego Morning Brief \u2014 6am",
+  "description": "Disabled safety hold. A signed-in Gannon owner may manually generate an internal executive brief; no scheduled generation or Slack delivery.",
   "x-base44-migrated-from-automation": {
     "legacy_payload_function": "executiveMorningBrief"
   }
