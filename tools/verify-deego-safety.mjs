@@ -83,6 +83,16 @@ function assertHeldScannerPages() {
   }
 }
 
+function assertHeldWorkbench() {
+  const workbench = read('src/pages/admin/AgentWorkbench.jsx');
+  if (!workbench.includes('Held — no verified executor') || !workbench.includes('disabled')) {
+    failures.push('Agent Workbench must keep its legacy-agent runner control disabled.');
+  }
+  if (workbench.includes('functions.invoke(')) {
+    failures.push('Agent Workbench must not directly invoke legacy agents.');
+  }
+}
+
 const required = [
   ['base44/functions/agentIntelligenceLoop/entry.ts', 'Authenticated owner session required.'],
   ['base44/functions/agentIntelligenceLoop/function.jsonc', '"is_active": false'],
@@ -237,6 +247,7 @@ assertAutomationSafetyHold();
 assertFunctionBoundarySafety();
 assertHeldAgentCards();
 assertHeldScannerPages();
+assertHeldWorkbench();
 
 if (failures.length) {
   console.error('Deego safety and status-truth check failed:');
