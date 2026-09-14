@@ -76,11 +76,7 @@
     "control_version"
   ],
   "rls": {
-    "create": {
-      "user_condition": {
-        "email": "__service_role_only__@invalid.local"
-      }
-    },
+    "create": false,
     "read": {
       "user_condition": {
         "role": "admin"
