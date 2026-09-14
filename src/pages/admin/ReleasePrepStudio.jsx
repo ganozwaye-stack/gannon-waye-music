@@ -7,85 +7,71 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/components/ui/use-toast';
 import HeroDesignEditor from '@/components/admin/hero-design/HeroDesignEditor';
 import UnearthedPack from '@/components/admin/UnearthedPack';
 import { Lock, Music, Palette, FileText, Radio } from 'lucide-react';
 
-// Private, non-public workspace: manage releases, edit the hero artwork and
-// update the bio in one place. Fans never see any work in progress here. A
-// release only goes public through the usual owner approval gates.
+// Private, non-public workspace: review release information, edit the hero
+// artwork, and update the bio in one place. Release records are read-only here.
 
 const TABS = [
-  { key: 'releases', label: 'Releases', icon: Music },
+  { key: 'releases', label: 'Release Review', icon: Music },
   { key: 'hero', label: 'Hero Artwork', icon: Palette },
   { key: 'bio', label: 'Bio', icon: FileText },
   { key: 'unearthed', label: 'Unearthed Submission', icon: Radio },
 ];
 
-const RELEASE_STATUSES = ['idea', 'writing', 'pre_production', 'recording', 'mixing', 'mastering', 'ready', 'released'];
-const GENRES = ['singer_songwriter', 'folk', 'soul', 'pop', 'rnb', 'hip_hop', 'spoken_word', 'cinematic', 'rock', 'other'];
-const MOODS = ['reflective', 'tender', 'raw', 'uplifting', 'melancholic', 'hopeful', 'anthemic', 'intimate', 'other'];
 const STATUS_COLORS = {
   released: 'bg-green-500/10 text-green-400', ready: 'bg-blue-500/10 text-blue-400',
   mastering: 'bg-purple-500/10 text-purple-400', mixing: 'bg-purple-500/10 text-purple-400',
   recording: 'bg-orange-500/10 text-orange-400',
 };
 
+function ReadOnlyReleaseField({ label, value, multiline = false }) {
+  const displayValue = value == null || value === '' ? 'Not provided' : String(value);
+
+  return (
+    <div className="space-y-1.5">
+      <Label className="font-body text-xs">{label}</Label>
+      {multiline ? (
+        <Textarea
+          rows={3}
+          value={displayValue}
+          readOnly
+          aria-readonly="true"
+          className="resize-none bg-secondary/20"
+        />
+      ) : (
+        <Input value={displayValue} readOnly aria-readonly="true" className="bg-secondary/20" />
+      )}
+    </div>
+  );
+}
+
 function ReleasesTab({ releases }) {
-  const qc = useQueryClient();
-  const { toast } = useToast();
   const [selectedId, setSelectedId] = useState(null);
   const release = releases.find((r) => r.id === selectedId) || releases[0] || null;
-  const [draft, setDraft] = useState({});
-
-  useEffect(() => {
-    if (release) {
-      setDraft({
-        title: release.title || '',
-        status: release.status || 'idea',
-        release_date: release.release_date || '',
-        genre: release.genre || '',
-        mood: release.mood || '',
-        description: release.description || '',
-        current_single_hero_copy: release.current_single_hero_copy || '',
-        current_single_behind_story: release.current_single_behind_story || '',
-        spotify_link: release.spotify_link || '',
-        apple_music_link: release.apple_music_link || '',
-        youtube_link: release.youtube_link || '',
-      });
-    }
-  }, [release?.id]);
-
-  const save = useMutation({
-    mutationFn: () => base44.entities.Release.update(release.id, draft),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['release-prep-releases'] });
-      toast({ title: 'Release saved privately.' });
-    },
-  });
 
   if (!releases.length) {
     return <p className="font-body text-sm text-muted-foreground py-8 text-center">No releases yet.</p>;
   }
 
-  const set = (key, value) => setDraft((prev) => ({ ...prev, [key]: value }));
-
   return (
     <div className="grid gap-4 lg:grid-cols-[280px_1fr]">
-      {/* Release list */}
       <div className="space-y-2">
         {releases.map((r) => (
           <button
             key={r.id}
             type="button"
             onClick={() => setSelectedId(r.id)}
-            className={`w-full text-left p-3 rounded-xl border transition-colors ${release?.id === r.id ? 'border-primary/60 bg-primary/10' : 'border-border/40 hover:border-primary/30'}`}
+            className={release?.id === r.id
+              ? 'w-full text-left p-3 rounded-xl border transition-colors border-primary/60 bg-primary/10'
+              : 'w-full text-left p-3 rounded-xl border transition-colors border-border/40 hover:border-primary/30'}
           >
             <p className="font-body text-sm font-semibold text-foreground truncate">{r.title}</p>
             <div className="flex items-center gap-2 mt-1">
-              <Badge className={`text-[9px] uppercase tracking-wider border-0 ${STATUS_COLORS[r.status] || 'bg-secondary text-muted-foreground'}`}>
+              <Badge className={'text-[9px] uppercase tracking-wider border-0 ' + (STATUS_COLORS[r.status] || 'bg-secondary text-muted-foreground')}>
                 {r.status ? r.status.replace(/_/g, ' ') : 'idea'}
               </Badge>
               <span className="font-body text-[10px] text-muted-foreground">{r.release_date || 'no date'}</span>
@@ -94,87 +80,39 @@ function ReleasesTab({ releases }) {
         ))}
       </div>
 
-      {/* Detail panel next to the selected release */}
       {release && (
         <Card>
-          <CardContent className="p-5">
-            <div className="flex items-center gap-4 mb-4">
+          <CardContent className="p-5 space-y-5">
+            <div className="flex items-center gap-4">
               {release.artwork_url && (
-                <img src={release.artwork_url} alt={`${release.title} artwork`} className="w-14 h-14 rounded-lg object-cover border border-border/40" />
+                <img src={release.artwork_url} alt={(release.title || 'Release') + ' artwork'} className="w-14 h-14 rounded-lg object-cover border border-border/40" />
               )}
               <div>
-                <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary font-semibold">Private working copy</p>
-                <p className="font-body text-xs text-muted-foreground mt-0.5">Fans never see these changes. Public visibility needs your usual approval gates.</p>
+                <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary font-semibold">Release review</p>
+                <p className="font-body text-xs text-muted-foreground mt-0.5">
+                  Release records are read-only here. This workspace cannot create, edit, import, publish, or submit a release.
+                </p>
               </div>
             </div>
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <div className="space-y-1.5">
-                  <Label className="font-body text-xs">Title</Label>
-                  <Input value={draft.title || ''} onChange={(e) => set('title', e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }} />
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="font-body text-xs">Status</Label>
-                  <Select value={draft.status} onValueChange={(v) => set('status', v)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      {RELEASE_STATUSES.map((s) => <SelectItem key={s} value={s}>{s.replace(/_/g, ' ')}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="font-body text-xs">Release date</Label>
-                  <Input type="date" value={draft.release_date || ''} onChange={(e) => set('release_date', e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }} />
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="font-body text-xs">Genre</Label>
-                  <Select value={draft.genre || '__none__'} onValueChange={(v) => set('genre', v === '__none__' ? '' : v)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="__none__">Not tagged</SelectItem>
-                      {GENRES.map((g) => <SelectItem key={g} value={g}>{g.replace(/_/g, ' ')}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="font-body text-xs">Mood</Label>
-                  <Select value={draft.mood || '__none__'} onValueChange={(v) => set('mood', v === '__none__' ? '' : v)}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="__none__">Not tagged</SelectItem>
-                      {MOODS.map((m) => <SelectItem key={m} value={m}>{m.replace(/_/g, ' ')}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="font-body text-xs">Spotify link</Label>
-                  <Input value={draft.spotify_link || ''} onChange={(e) => set('spotify_link', e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }} />
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="font-body text-xs">Apple Music link</Label>
-                  <Input value={draft.apple_music_link || ''} onChange={(e) => set('apple_music_link', e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }} />
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="font-body text-xs">YouTube link</Label>
-                  <Input value={draft.youtube_link || ''} onChange={(e) => set('youtube_link', e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }} />
-                </div>
-              </div>
-              <div className="space-y-1.5">
-                <Label className="font-body text-xs">Description</Label>
-                <Textarea rows={3} value={draft.description || ''} onChange={(e) => set('description', e.target.value)} />
-              </div>
-              <div className="space-y-1.5">
-                <Label className="font-body text-xs">Hero copy for the current single page</Label>
-                <Textarea rows={3} value={draft.current_single_hero_copy || ''} onChange={(e) => set('current_single_hero_copy', e.target.value)} />
-              </div>
-              <div className="space-y-1.5">
-                <Label className="font-body text-xs">Behind the song story</Label>
-                <Textarea rows={4} value={draft.current_single_behind_story || ''} onChange={(e) => set('current_single_behind_story', e.target.value)} />
-              </div>
-              <Button type="button" onClick={() => save.mutate()} disabled={save.isPending} className="gradient-gold-button border-0 rounded-full px-6">
-                {save.isPending ? 'Saving...' : 'Save privately'}
-              </Button>
-            </form>
+
+            <div className="grid gap-4 sm:grid-cols-2">
+              <ReadOnlyReleaseField label="Title" value={release.title} />
+              <ReadOnlyReleaseField label="Status" value={release.status ? release.status.replace(/_/g, ' ') : ''} />
+              <ReadOnlyReleaseField label="Release date" value={release.release_date} />
+              <ReadOnlyReleaseField label="Genre" value={release.genre} />
+              <ReadOnlyReleaseField label="Mood" value={release.mood} />
+              <ReadOnlyReleaseField label="Spotify link" value={release.spotify_link} />
+              <ReadOnlyReleaseField label="Apple Music link" value={release.apple_music_link} />
+              <ReadOnlyReleaseField label="YouTube link" value={release.youtube_link} />
+            </div>
+
+            <ReadOnlyReleaseField label="Description" value={release.description} multiline />
+            <ReadOnlyReleaseField label="Hero copy for the current single page" value={release.current_single_hero_copy} multiline />
+            <ReadOnlyReleaseField label="Behind the song story" value={release.current_single_behind_story} multiline />
+
+            <p className="font-body text-xs text-muted-foreground">
+              Release changes must use the owner-approved, server-side release workflow. No external action can start from this screen.
+            </p>
           </CardContent>
         </Card>
       )}
@@ -241,7 +179,7 @@ export default function ReleasePrepStudio() {
         </p>
         <h1 className="font-display text-3xl font-bold gradient-gold-text">Release Prep Studio</h1>
         <p className="font-body text-sm text-muted-foreground mt-1">
-          Manage releases, edit the hero artwork and update your bio. Nothing here is public until you approve it.
+          Review release information, edit the hero artwork and update your bio. Release changes require the owner-approved workflow.
         </p>
       </div>
 
