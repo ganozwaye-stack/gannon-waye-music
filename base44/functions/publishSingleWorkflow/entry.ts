@@ -79,11 +79,17 @@ export default async function(req: Request) {
     if (!release?.id) return Response.json({ error: 'Release not found' }, { status: 404 });
 
     if (action === 'revoke') {
+      const revokeFingerprint = await fingerprintReleaseControl(release);
+      const revokePhrase = 'REVOKE ' + exact(release.title);
       if (
         exact(body.confirm_title) !== exact(release.title)
         || exact(body.confirm_version_label) !== exact(release.version_label)
+        || exact(body.confirm_release_fingerprint) !== revokeFingerprint
+        || exact(body.confirm_revoke_phrase) !== revokePhrase
       ) {
-        return Response.json({ error: 'Exact title and version confirmation are required to revoke.' }, { status: 409 });
+        return Response.json({
+          error: 'Exact title, version, current release fingerprint, and revoke phrase are required to revoke.',
+        }, { status: 409 });
       }
 
       const revokedAt = new Date().toISOString();
