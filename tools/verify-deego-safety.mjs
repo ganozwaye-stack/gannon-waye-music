@@ -62,6 +62,25 @@ const required = [
   ['base44/functions/executiveMorningBrief/entry.ts', 'No Slack, email, post, or external delivery is allowed from this function.'],
   ['src/pages/admin/AgentRevenueStatus.jsx', 'Manual owner-only; automatic delivery paused'],
   ['src/pages/admin/AgentRevenueStatus.jsx', 'This uses AI quota and creates only internal records.'],
+  ['src/pages/admin/NewReleaseStudio.jsx', 'Create a private release draft and review pack.'],
+  ['src/pages/admin/NewReleaseStudio.jsx', 'auto_publish_on_release_date: false'],
+  ['src/pages/admin/NewReleaseStudio.jsx', 'cost_acknowledged: costAcknowledged'],
+  ['base44/entities/Release.jsonc', 'New Release Studio never authorises automatic publication'],
+  ['base44/entities/Release.jsonc', 'There is no automatic distributor sync'],
+  ['DISASTER_RECOVERY.md', 'npm run deploy'],
+  ['src/pages/admin/AgentRevenueStatus.jsx', 'const SAFETY_HOLD_ACTIVE = true;'],
+  ['src/pages/admin/AgentRevenueStatus.jsx', 'disabled={isRunning || agent.disabled}'],
+  ['base44/functions/growthOpportunityScanner/entry.ts', 'Growth scan requires Gannon owner sign-in.'],
+  ['base44/functions/growthOpportunityScanner/entry.ts', "body?.mode !== 'manual_internal_review'"],
+  ['base44/functions/agentProposalScanner/entry.ts', 'Ecommerce scan requires Gannon owner sign-in.'],
+  ['base44/functions/agentProposalScanner/entry.ts', "body?.mode !== 'manual_internal_review'"],
+  ['base44/functions/socialCommentMonitor/entry.ts', 'Social comment triage requires Gannon owner sign-in.'],
+  ['base44/functions/socialCommentMonitor/entry.ts', "body?.mode !== 'manual_internal_review'"],
+  ['base44/functions/autonomousAlertSystem/entry.ts', 'Operational audit requires Gannon owner sign-in.'],
+  ['base44/functions/autonomousAlertSystem/entry.ts', "payload?.mode !== 'controlled_internal_test'"],
+  ['base44/functions/executiveMorningBrief/entry.ts', 'Confirm the AI-quota acknowledgement before generating an internal executive brief.'],
+  ['base44/functions/submitNewRelease/entry.ts', 'body.cost_acknowledged !== true'],
+  ['base44/functions/submitNewRelease/entry.ts', 'const dryRun = true;'],
 ];
 
 const forbidden = [
@@ -69,6 +88,12 @@ const forbidden = [
   ['src/pages/admin/AgentRevenueStatus.jsx', "purpose: 'Researches topics, saves insights to KnowledgeVault'"],
   ['base44/functions/executiveMorningBrief/entry.ts', 'sendSlackAlert'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'was_automatic: true'],
+  ['src/pages/admin/NewReleaseStudio.jsx', 'Go live automatically at midnight on release day'],
+  ['src/pages/admin/NewReleaseStudio.jsx', 'synced to Too Lost, and scheduled to go live'],
+  ['base44/entities/Release.jsonc', 'publish this release publicly at midnight on its release date'],
+  ['base44/entities/Release.jsonc', "'created' means it was synced at New Release Studio submission"],
+  ['DISASTER_RECOVERY.md', 'npx base44 deploy'],
+  ['base44/functions/growthOpportunityScanner/entry.ts', "functions.invoke('notifyAdmin'"],
 ];
 
 for (const [path, snippet] of required) {
