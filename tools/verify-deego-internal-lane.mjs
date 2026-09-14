@@ -63,7 +63,7 @@ requireSnippet('base44/functions/deegoInternalDispatcher/policy.ts', "DEEGO_INTE
 requireSnippet('base44/functions/deegoInternalDispatcher/policy.ts', "'internal_summary'");
 forbid(
   'base44/functions/deegoInternalDispatcher/policy.ts',
-  /email|message|social_post|publish|distribution|submission|payment|refund|purchase|connector_access|network_request|schedule/,
+  /'email'|'message'|'social_post'|'publish'|'distribution'|'submission'|'payment'|'refund'|'purchase'|'connector_access'|'network_request'|'schedule'/,
   'external capability allowlist',
 );
 
