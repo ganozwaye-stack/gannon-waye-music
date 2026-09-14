@@ -208,6 +208,9 @@ export default async function (req: Request) {
     }
     claimedDraft = { ...draft, send_claim_id: claimId };
 
+    // This private Release row is the cross-draft compare-and-set mutex. It
+    // never changes public content or publication state; a non-1 result blocks
+    // this draft before any SendEmail call.
     const releaseClaim = await sr.entities.Release.updateMany(
       {
         id: release.id,
