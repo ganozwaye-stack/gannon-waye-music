@@ -127,16 +127,16 @@ if (read('base44/functions/prepareReleaseEmailDraft/entry.ts').includes('integra
 const send = read('base44/functions/sendReleaseEmailDraft/entry.ts');
 for (const needle of [
   'validSendRequestId(requestId)',
-  'send_state: \\'claimed\\'',
+  "send_state: 'claimed'", 
   'ReleaseEmailSendReceipt.create',
   'casSucceeded(draftClaim)',
   'casSucceeded(releaseClaim)',
   'confirm_draft_fingerprint',
-  'release_email_dispatch_state: \\'idle\\'',
+  "release_email_dispatch_state: 'idle'", 
 ]) {
   if (!send.includes(needle)) failures.push('Email send control is missing ' + needle + '.');
 }
-const receiptIndex = send.indexOf('receipt_type: \\'claimed\\'');
+const receiptIndex = send.indexOf("receipt_type: 'claimed'");
 const sendIndex = send.indexOf('integrations.Core.SendEmail');
 if (receiptIndex < 0 || sendIndex < 0 || receiptIndex > sendIndex) {
   failures.push('The immutable claimed receipt must be written before outbound email.');
