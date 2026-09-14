@@ -5,7 +5,7 @@ import {
   isExactOwner,
   isInternalCapability,
   sha256,
-} from '../_shared/deegoInternalPolicy.ts';
+} from './policy.ts';
 
 // This first real Deego execution lane deliberately supports one action only.
 // It creates a durable internal receipt and never accesses a connector, network,
