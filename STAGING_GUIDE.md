@@ -1,6 +1,6 @@
 # Staging vs Production Environment Guide
 
-To prevent broken code, payment errors, and broken layouts on the live site, follow this deployment guide.
+This guide separates safe, no-deploy acceptance checks from owner-controlled production deployment.
 
 ---
 
@@ -20,20 +20,30 @@ To prevent broken code, payment errors, and broken layouts on the live site, fol
 
 ---
 
-## 🚦 Deployment Gate Rules
+## Release safety and test gates
 
-1. **Verify Local Compiles First:** Never push code directly without verifying that it builds on your computer. Run:
+1. **Run the no-deploy acceptance check first.** This checks the canonical app binding, release gates, Deego safety hold, supervisor suite, source build, storefront artwork, and store rules. It does not deploy or invoke a live backend function.
+
    ```bash
-   npm run build
+   npm run test:acceptance
    ```
-2. **Review Changes in Local Browser:** Open `http://localhost:5173` and test:
-   * Navbar click targets.
-   * Add to Cart checkout fields.
-   * Live Tipping Modal opening and fields rendering.
-3. **Run Staging Check:** Verify that test orders pass using Stripe Test mode coordinates before updating live keys.
-4. **Owner Approval Gate:** Real payment tests (with real money) require your explicit owner sign-off.
-5. **Deploy Commands:**
+
+2. **Review the local preview without triggering external actions.**
+
    ```bash
-   npx base44 deploy
+   npm run dev
    ```
-   This takes the local compiled files and publishes them to the live production server.
+
+   Check navigation, release visibility, public copy, cart rendering, and responsive layout. Do not use a live checkout, social-post, email, distributor, or connector control during this step.
+
+3. **Run a controlled owner test only after agreeing the exact fixture and expected zero-external-effect result.** The global automation safety hold stays active. A deploy does not re-enable scheduled or entity-triggered automations.
+
+4. **Production deployment is an approval-only action.** After the above checks and Gannon's explicit action-time approval, use the repository command:
+
+   ```bash
+   npm run deploy
+   ```
+
+   It verifies the canonical app ID, builds, then runs the Base44 deploy command. Do not use `npx base44 deploy`, `base44 eject`, or an unbound copy application.
+
+5. **Read back after deployment.** Confirm the deployed app/version, public release gates, and the safety-hold state before re-enabling any individual automation. Re-enable one path only after its controlled owner test has passed and its external effect is explicitly approved.
