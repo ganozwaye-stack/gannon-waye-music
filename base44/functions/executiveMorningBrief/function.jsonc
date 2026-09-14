@@ -1,18 +1,6 @@
 {
   "name": "executiveMorningBrief",
   "entry": "entry.ts",
-  "automations": [
-    {
-      "type": "scheduled",
-      "description": "Disabled safety hold. A signed-in Gannon owner may manually generate an internal brief after reviewing its AI-quota use; no scheduled generation or Slack delivery.",
-      "ends_type": "never",
-      "is_active": false,
-      "name": "Executive Morning Brief (manual owner-only)",
-      "repeat_interval": 1,
-      "repeat_unit": "days",
-      "schedule_mode": "recurring",
-      "schedule_type": "simple",
-      "start_time": "21:00"
-    }
-  ]
+  "description": "Legacy safety hold. No schedule or manual runner is permitted until owner-controlled runtime reconciliation is complete.",
+  "automations": []
 }
