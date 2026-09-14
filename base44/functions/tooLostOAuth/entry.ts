@@ -9,8 +9,11 @@ import {
   clearTooLostOAuthState,
   exchangeTooLostCode,
   saveTooLostConnection,
-  getValidTooLostAccessToken,
 } from '../../shared/tooLostAuth.ts';
+
+const OWNER_EMAILS = new Set([
+  'ganozwaye@gmail.com',
+]);
 
 function exact(value) {
   return String(value || '').trim();
@@ -57,39 +60,25 @@ export default async function(req) {
 
       const stateCheck = await verifyTooLostOAuthState(sr, state);
       if (!stateCheck.ok) return json({ error: stateCheck.error }, 400);
+      if (!OWNER_EMAILS.has(stateCheck.requestedBy)) {
+        await clearTooLostOAuthState(sr, stateCheck.connectionId);
+        return json({ error: 'Only the owner who deliberately started this connection can finish it.' }, 403);
+      }
       await clearTooLostOAuthState(sr, stateCheck.connectionId);
 
       const tokens = await exchangeTooLostCode(config, code);
       const connectionId = await saveTooLostConnection(sr, config, tokens);
 
-      let account = null;
-      try {
-        const apiBase = secrets.get('TOO_LOST_API_BASE_URL') || 'https://api.toolost.com/v1';
-        const meRes = await fetch(`${apiBase}/me`, {
-          headers: { Authorization: `Bearer ${tokens.access_token}`, Accept: 'application/json' },
-          signal: AbortSignal.timeout(15_000),
-        });
-        if (meRes.ok) {
-          const meData = await meRes.json().catch(() => ({}));
-          account = meData?.data || null;
-        }
-      } catch {
-        // Profile display is optional. The token exchange already succeeded.
-      }
-
-      if (account) {
-        await sr.entities.TooLostConnection.update(connectionId, {
-          connected_name: [account.first_name, account.last_name].filter(Boolean).join(' ') || account.username || undefined,
-          connected_email: account.email || undefined,
-        });
-      }
+      // This callback completes the one user-started OAuth exchange only.
+      // It never performs an optional profile lookup or background token renewal.
 
       const current = await fetchTooLostConnection(sr);
       return json(safeConnectionStatus(current));
     }
 
     const user = await base44.auth.me().catch(() => null);
-    if (!user || user.role !== 'admin') {
+    const actorEmail = String(user?.email || '').trim().toLowerCase();
+    if (!user || user.role !== 'admin' || !OWNER_EMAILS.has(actorEmail)) {
       return json({ error: 'Only Gannon can manage the Too Lost connection' }, 403);
     }
 
@@ -114,18 +103,19 @@ export default async function(req) {
         });
       }
 
-      const auth = await getValidTooLostAccessToken(sr, config);
-      if (!auth.token) {
+      const expiresAt = existing.access_token_expires_at
+        ? new Date(existing.access_token_expires_at).getTime()
+        : 0;
+      if (!expiresAt || expiresAt <= Date.now() + 120_000) {
         return json({
           ok: true,
-          status: auth.error,
-          detail: auth.detail,
+          status: 'reauthorise_required',
+          detail: 'The saved Too Lost login needs a deliberate reconnect before it can be used.',
           checked_at: new Date().toISOString(),
         });
       }
 
-      const current = await fetchTooLostConnection(sr);
-      return json(safeConnectionStatus(current, { refreshed: auth.refreshed === true }));
+      return json(safeConnectionStatus(existing, { read_only: true }));
     }
 
     if (action === 'authorize_url') {
@@ -134,7 +124,7 @@ export default async function(req) {
       }
 
       const state = crypto.randomUUID().replace(/-/g, '');
-      await rememberTooLostOAuthState(sr, state);
+      await rememberTooLostOAuthState(sr, state, actorEmail);
       const url = `${config.authorizeUrl}?${new URLSearchParams({
         client_id: config.clientId,
         redirect_uri: config.redirectUri,
