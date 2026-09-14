@@ -61,6 +61,7 @@ export default async function(req) {
       public_release_approval_status: 'pending',
       public_release_approval_note: 'Created as a private launch draft. Rights, delivery, public approval and channel approvals remain required.',
       auto_publish_on_release_date: false,
+      release_email_dispatch_state: 'idle',
       ...(presaveUrl ? { other_links: [{ platform: 'Too Lost Pre-Save', url: presaveUrl }] } : {}),
     });
 
