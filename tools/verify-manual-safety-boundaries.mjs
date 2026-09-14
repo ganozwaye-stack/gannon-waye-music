@@ -118,6 +118,9 @@ requireSnippet('src/pages/admin/Distributors.jsx', 'refetchOnWindowFocus: false'
 requireSnippet('src/pages/admin/Distributors.jsx', 'Status is read-only.');
 forbid('src/pages/admin/Distributors.jsx', /refetchInterval|checks the connection every 30 seconds|renews the login automatically|Status refreshes automatically every 30 seconds/, 'background distributor polling or automatic renewal');
 
+requireSnippet('src/components/setup/SecureSecretInput.jsx', 'In-app secret entry is disabled.');
+forbid('src/components/setup/SecureSecretInput.jsx', /base44\.functions\.invoke|saveSecretValue|secret_value|<Input/, 'browser-side secret collection or unverified secret-save invocation');
+
 if (failures.length > 0) {
   console.error('Manual safety-boundary check failed:');
   for (const failure of failures) console.error(`- ${failure}`);
