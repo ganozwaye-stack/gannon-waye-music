@@ -88,6 +88,7 @@ const NAV_SECTIONS = [
       { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
       { label: 'Release Email Studio', path: '/admin/release-email-studio', icon: Mail },
       { label: 'Release Prep Studio', path: '/admin/release-prep', icon: Lock },
+      { label: 'Release Control Desk', path: '/admin/release-control', icon: Shield, ownerOnly: true },
       { label: 'Production Tracker', path: '/admin/production-tracker', icon: Film },
       { label: 'Releases', path: '/admin/releases', icon: Star },
       { label: 'Videos', path: '/admin/videos', icon: Video },
@@ -117,7 +118,7 @@ const NAV_SECTIONS = [
   }
 ];
 
-const OWNER_EMAIL = 'ganozwaye@gmail.com';
+const OWNER_EMAILS = new Set(['ganozwaye@gmail.com', 'gannonwayemusic@gmail.com']);
 
 export default function AdminLayout() {
   const location = useLocation();
@@ -131,7 +132,7 @@ export default function AdminLayout() {
   const isAdmin = user?.role === 'admin';
 
   useEffect(() => {
-    if (user) setIsOwner(user.email === OWNER_EMAIL);
+    if (user) setIsOwner(OWNER_EMAILS.has(String(user.email || '').trim().toLowerCase()));
   }, [user]);
 
   useEffect(() => {
