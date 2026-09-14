@@ -42,7 +42,8 @@
     "base44/functions/sendFanReminders/entry.ts",
     "base44/functions/syncOrderNotifications/entry.ts",
     "base44/functions/syncOrderToSheet/entry.ts",
-    "base44/functions/onNewOrderSlack/entry.ts",
+    "base44/functions/syncTunecore/entry.ts",
+    "base44/functions/onNewOrderSlack/entry.ts
     "base44/functions/generateResearchedSocialContent/entry.ts",
     "base44/functions/icloudIngest/entry.ts",
     "base44/functions/soniaChat/entry.ts",
