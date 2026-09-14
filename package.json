@@ -12,6 +12,7 @@
     "test:storefront-lock": "node tools/verify-storefront-art-lock.mjs",
     "test:stage-one-store": "node tools/verify-stage-one-store.mjs",
     "test:deego-supervisor": "node --test tests/deego/supervisor.test.mjs",
+    "test:acceptance": "npm run check:canonical-app && npm run test:deego-supervisor && npm run build",
     "lint": "node tools/quality-gate.mjs lint",
     "lint:report": "eslint .",
     "lint:fix": "eslint . --fix",
