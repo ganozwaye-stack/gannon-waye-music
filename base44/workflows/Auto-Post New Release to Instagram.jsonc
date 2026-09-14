@@ -1,8 +1,8 @@
 {
   "name": "Auto-Post New Release to Instagram",
-  "description": "When a Release is marked published (is_published flips to true), automatically posts the cover artwork + store link to the connected Instagram Business account.",
+  "description": "Disabled safety hold. Create and approve a channel-specific Instagram draft before any post is made.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [
