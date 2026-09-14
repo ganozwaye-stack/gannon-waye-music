@@ -4,7 +4,7 @@
   "properties": {
     "token_envelope": {
       "type": "string",
-      "description": "AES-GCM encrypted server-only Too Lost access and refresh tokens"
+      "description": "AES-GCM encrypted server-only Too Lost access token; renewal always requires a new owner-started connection"
     },
     "access_token_expires_at": {
       "type": "string",
