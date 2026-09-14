@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { useToast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
-import { Rocket, Upload, Loader2 } from 'lucide-react';
+import { FilePlus, Upload, Loader2 } from 'lucide-react';
 import ReleasePackReport from '@/components/admin/ReleasePackReport';
 
 const GENRES = ['singer_songwriter', 'folk', 'soul', 'pop', 'rnb', 'hip_hop', 'spoken_word', 'cinematic', 'rock', 'other'];
@@ -65,11 +65,8 @@ export default function NewReleaseStudio() {
         artwork_url: artwork?.url || '',
         private_draft_acknowledged: privateDraftAcknowledged,
       });
-      const packetResponse = await base44.functions.invoke('generateReleaseLaunchPacket', {
-        release_id: res.data.release_id,
-      });
-      setResult({ ...res.data, ...packetResponse.data, external_actions: 'held', release_date: res.data.release_date, too_lost: res.data.too_lost });
-      toast({ title: 'Release created, launch packet built', description: form.title });
+      setResult({ ...res.data, launch_packet: 'held', external_actions: 'held', release_date: res.data.release_date, too_lost: res.data.too_lost });
+      toast({ title: 'Private release draft created', description: form.title });
     } catch (err) {
       toast({
         title: 'Submission failed',
@@ -85,7 +82,7 @@ export default function NewReleaseStudio() {
       <div className="mb-6">
         <h1 className="text-3xl font-display font-bold gradient-gold-text">New Release Studio</h1>
         <p className="text-muted-foreground text-sm mt-1 font-body">
-          Create a private release draft and review pack. One press also runs your launch agents: hero design, merch concepts, socials, press release, playlist pitch, fan email and a dated launch plan, all kept private for your review.
+          Create a private release draft and blank review shells. Campaign material is never generated automatically; prepare and approve each draft separately when you are ready.
         </p>
       </div>
 
@@ -166,10 +163,10 @@ export default function NewReleaseStudio() {
 
         <div className="p-3 border border-primary/20 bg-primary/5 rounded-lg">
           <p className="font-body text-xs text-foreground">
-            This creates a private release draft, then your agents draft the full promotional packet around it. Every generated item stays a private draft for your review.
+            This creates a private release draft and blank review shells only. No press, pitch, email, social, merchandise, hero or launch-plan content is generated automatically.
           </p>
           <p className="font-body text-xs text-muted-foreground mt-1">
-            It does not deliver to a distributor, publish, post, send, schedule, or charge a payment method. Any later public release needs the separate exact owner approval gates.
+            Automatic launch-packet generation is held. This does not deliver to a distributor, publish, post, send, schedule, generate campaign material, or charge a payment method. Any later public release needs the separate exact owner approval gates.
           </p>
           <label className="mt-3 flex items-start gap-2 cursor-pointer">
             <input
@@ -179,7 +176,7 @@ export default function NewReleaseStudio() {
               className="mt-0.5 accent-[#d4af37]"
             />
             <span className="font-body text-xs text-foreground">
-              I understand this creates only a private release record and blank review drafts, including promotional drafts for my review. It does not publish, deliver, post, email or schedule anything.
+              I understand this creates only a private release record and blank review shells. It does not generate campaign material, publish, deliver, post, email or schedule anything.
             </span>
           </label>
         </div>
@@ -189,8 +186,8 @@ export default function NewReleaseStudio() {
           disabled={submitting || uploading || !privateDraftAcknowledged}
           className="w-full gradient-gold-button rounded-full py-2.5 font-body text-xs tracking-wider uppercase"
         >
-          {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />}
-          {submitting ? 'Building your launch packet…' : 'Create release & build launch packet'}
+          {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <FilePlus className="w-4 h-4" />}
+          {submitting ? 'Creating private release draft…' : 'Create private release draft'}
         </Button>
       </form>
 
