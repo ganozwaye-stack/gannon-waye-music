@@ -390,6 +390,7 @@ export default async function(req) {
     return Response.json({
       ok: true,
       private_draft: true,
+      external_actions: 'held',
       launch_packet: packetError ? 'failed' : 'built',
       launch_packet_error: packetError || undefined,
       release_id: release.id,

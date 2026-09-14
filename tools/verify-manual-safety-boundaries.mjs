@@ -26,6 +26,8 @@ function forbid(path, pattern, label) {
 }
 
 const heldEndpoints = [
+  'base44/functions/autonomousResearch/entry.ts',
+  'base44/functions/autonomousTrendEngine/entry.ts',
   'base44/functions/sendBirthdayDiscount/entry.ts',
   'base44/functions/metricoolSchedulePost/entry.ts',
   'base44/functions/publishApprovedReel/entry.ts',
