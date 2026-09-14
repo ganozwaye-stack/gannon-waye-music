@@ -80,6 +80,7 @@ const planningOnlyAgents = [
 
 for (const path of planningOnlyAgents) {
   requireSnippet(path, '"tool_configs": []');
+  requireSnippet(path, '"whatsapp_greeting": null');
   forbid(path, /allowed_operations|function_name/, 'direct tool permissions');
 }
 
