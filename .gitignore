@@ -29,4 +29,5 @@ dist-ssr
 
 .env
 .vite
-base44/.app.jsonc
+# The canonical app ID is intentionally versioned: it prevents deploys to a Copy app.
+# It contains no credential or secret.
