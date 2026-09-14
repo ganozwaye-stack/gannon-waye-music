@@ -1,6 +1,6 @@
 {
   "name": "Hourly System Alert Check",
-  "description": "Evaluates system health every hour and sends Slack alerts for critical issues.",
+  "description": "Legacy operational audit hard stop. This workflow is explicitly disabled and must not be re-enabled without a separately reviewed replacement.",
   "trigger": {
     "condition": "${ false }",
     "config": {
@@ -31,7 +31,9 @@
           "call": "invoke_backend_function",
           "with": {
             "function_name": "autonomousAlertSystem",
-            "args": {}
+            "args": {
+              "mode": "legacy_hold"
+            }
           },
           "then": "end"
         }
