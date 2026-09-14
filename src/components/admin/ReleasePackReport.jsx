@@ -1,7 +1,5 @@
 import { CheckCircle2, AlertTriangle, XCircle } from 'lucide-react';
 
-// The one-press release report: everything the submit button did, in one panel.
-
 function ResultRow({ ok, warn, label, detail }) {
   const Icon = ok ? CheckCircle2 : (warn ? AlertTriangle : XCircle);
   const color = ok ? 'text-green-400' : (warn ? 'text-primary' : 'text-red-400');
@@ -23,12 +21,12 @@ export default function ReleasePackReport({ result }) {
 
   return (
     <div className="mt-6 border border-border/40 rounded-xl p-4 bg-card/40">
-      <p className="font-display text-lg text-foreground mb-1">One-press release report</p>
+      <p className="font-display text-lg text-foreground mb-1">Private release draft report</p>
 
       <ResultRow
         ok
-        label="Release saved to admin"
-        detail={`Release date ${result.release_date}${result.auto_publish_on_release_date ? ' · auto-publishing on release day' : ''}`}
+        label="Release saved privately"
+        detail={`Release date ${result.release_date}. Automatic publication is off.`}
       />
       <ResultRow
         ok={!!result.lyric_id}
@@ -37,66 +35,28 @@ export default function ReleasePackReport({ result }) {
         detail={result.lyric_id ? 'Held behind the usual lyric review gate.' : 'You can add lyrics later from the Lyrics Archive.'}
       />
       <ResultRow
-        ok={pack.press_release}
-        warn={!pack.press_release}
-        label={pack.press_release ? 'Press release written' : 'Press release placeholder created'}
-        detail="Waiting in the Content Studio for your review."
-      />
-      <ResultRow
-        ok={pack.playlist_pitch}
-        warn={!pack.playlist_pitch}
-        label={pack.playlist_pitch ? 'Playlist pitch written' : 'Playlist pitch placeholder created'}
-        detail="Waiting in the Content Studio for your review."
-      />
-      <ResultRow
-        ok={pack.subscriber_email}
-        warn={!pack.subscriber_email}
-        label={pack.subscriber_email ? 'Subscriber announcement drafted' : 'Subscriber email not drafted'}
-        detail={pack.subscriber_email
-          ? 'Review it, then send from the Newsletter dashboard on release day.'
-          : 'AI writing failed this time. You can write it in the Content Studio.'}
-      />
-      <ResultRow
-        ok={pack.social_count > 0}
-        warn={pack.social_count === 0}
-        label={pack.social_count > 0 ? `${pack.social_count} reel ideas written` : 'Reel ideas not written'}
-        detail="Each is a draft card in the Content Studio with hook, caption, hashtags and visual direction."
-      />
-      {pack.lyric_quote && (
-        <ResultRow ok label="Lyric quote post drafted" detail="The strongest line from your lyric sheet, ready for a quote card." />
-      )}
-      {pack.manychat && (
-        <ResultRow ok label="ManyChat keyword drafted" detail="Trigger word and auto-reply waiting for review." />
-      )}
-      <ResultRow
-        ok={result.pictures === 'generating'}
-        warn={result.pictures !== 'generating'}
-        label={result.pictures === 'generating' ? 'Playlist pictures generating' : 'Playlist pictures skipped'}
-        detail="Two abstract visuals, no faces. They land in the admin gallery as drafts for your review."
+        ok={pack.review_shells === 3}
+        warn={pack.review_shells !== 3}
+        label={pack.review_shells === 3 ? 'Three private review shells created' : 'Review shells need attention'}
+        detail="Press, playlist-pitch and subscriber-email drafts are blank until you choose what to write or paste."
       />
       <ResultRow
         ok={result.presave_wired}
         warn={!result.presave_wired}
-        label={result.presave_wired ? 'Presave link wired to the release' : 'No presave link provided'}
+        label={result.presave_wired ? 'Presave link stored privately' : 'No presave link provided'}
         detail={result.presave_wired
-          ? 'It now lives on the release record and the presave page.'
-          : 'Paste the too.fm link next time, or add it from the Releases page later.'}
+          ? 'The link is stored on the private release record; it has not been made public.'
+          : 'You can add a verified link later.'}
       />
       <ResultRow
-        ok={tooLost?.status === 'created'}
-        warn={tooLost?.status === 'reauthorise_required' || tooLost?.status === 'not_configured'}
-        label={
-          tooLost?.status === 'created' ? `Synced to Too Lost${tooLost.too_lost_release_id ? ` (release #${tooLost.too_lost_release_id})` : ''}` :
-          tooLost?.status === 'reauthorise_required' ? 'Too Lost needs re-authorising' :
-          tooLost?.status === 'not_configured' ? 'Too Lost not connected yet' :
-          'Too Lost sync skipped or failed'
-        }
-        detail={tooLost?.detail}
+        ok={result.external_actions === 'held'}
+        warn={result.external_actions !== 'held'}
+        label={result.external_actions === 'held' ? 'All external actions are held' : 'External-action state needs review'}
+        detail={tooLost?.detail || 'Publication, delivery, email, posting and scheduling remain unavailable from this draft.'}
       />
 
       <p className="font-body text-[11px] text-muted-foreground mt-2">
-        The final mastered audio still needs uploading in the Too Lost portal. Everything written above
-        is a draft until you approve it. Nothing sends itself.
+        Nothing from this screen delivers, publishes, posts, sends, schedules, or makes a public claim.
       </p>
     </div>
   );
