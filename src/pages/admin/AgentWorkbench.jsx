@@ -1,16 +1,15 @@
 import { useState } from 'react';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import {
-  Brain, RefreshCw, AlertTriangle,
-  Play, Eye, TrendingUp, Shield, Star, BarChart2,
+  Brain, AlertTriangle,
+  Eye, TrendingUp, Shield, Star, BarChart2,
   Calendar, Layers, Users, Lock, ChevronRight
 } from 'lucide-react';
-import { toast } from 'sonner';
 
 const AGENTS = [
   {
@@ -143,8 +142,6 @@ const RISK_COLORS = {
 };
 
 export default function AgentWorkbench() {
-  const queryClient = useQueryClient();
-  const [running, setRunning] = useState(null);
   const [filter, setFilter] = useState('all');
 
   const { data: approvals = [] } = useQuery({
@@ -156,23 +153,6 @@ export default function AgentWorkbench() {
     queryFn: () => base44.entities.ContentCalendarPost.filter({ status: 'draft' }, '-created_date', 5),
   });
 
-  const runAgent = async (agent) => {
-    if (!agent.run_fn) { toast.info(`${agent.name} runs automatically as part of workflows`); return; }
-    setRunning(agent.name);
-    try {
-      const payload = agent.run_fn === 'generateDailyDrafts'
-        ? { date: new Date().toISOString().slice(0, 10), post_count: 2 }
-        : {};
-      const res = await base44.functions.invoke(agent.run_fn, payload);
-      queryClient.invalidateQueries({ queryKey: ['agent-workbench-drafts'] });
-      queryClient.invalidateQueries({ queryKey: ['agent-workbench-approvals'] });
-      toast.success(`${agent.name}: ${res.data?.message || 'complete'}`);
-    } catch (e) {
-      toast.error(`${agent.name}: ${e?.response?.data?.error || e.message}`);
-    }
-    setRunning(null);
-  };
-
   const groups = ['all', 'social', 'business', 'music', 'systems', 'security'];
   const filtered = filter === 'all' ? AGENTS : AGENTS.filter(a => a.group === filter);
 
@@ -181,7 +161,7 @@ export default function AgentWorkbench() {
       <div>
         <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-1">Intelligence System</p>
         <h1 className="font-display text-3xl font-bold gradient-gold-text">Agent Workbench</h1>
-        <p className="text-muted-foreground text-sm mt-1">All agents · Run controls · Approval gates · Output tracking</p>
+        <p className="text-muted-foreground text-sm mt-1">Registry catalogue · historical records · approval context</p>
       </div>
 
       {/* Stats */}
@@ -252,14 +232,12 @@ export default function AgentWorkbench() {
               <div className="flex gap-2">
                 <Button
                   size="sm"
-                  onClick={() => runAgent(agent)}
-                  disabled={running === agent.name}
+                  disabled
                   className="gap-1 flex-1"
+                  title="Registry metadata only. No verified executor is connected."
                 >
-                  {running === agent.name
-                    ? <RefreshCw className="w-3 h-3 animate-spin" />
-                    : <Play className="w-3 h-3" />}
-                  {agent.run_fn ? 'Run Now' : 'Auto-runs'}
+                  <Lock className="w-3 h-3" />
+                  Held — no verified executor
                 </Button>
                 <Link to={agent.path}>
                   <Button size="sm" variant="outline" className="gap-1">
