@@ -49,8 +49,15 @@ for (const ledgerPath of [
   'base44/entities/ReleaseEmailSendReceipt.jsonc',
 ]) {
   const ledger = parseJson(ledgerPath);
-  if (ledger && (ledger.rls?.update !== false || ledger.rls?.delete !== false)) {
-    failures.push(ledgerPath + ' must be append-only.');
+  if (
+    ledger
+    && (
+      ledger.rls?.create !== false
+      || ledger.rls?.update !== false
+      || ledger.rls?.delete !== false
+    )
+  ) {
+    failures.push(ledgerPath + ' must deny direct writes; only trusted backend service-role code may append receipts.');
   }
 }
 
