@@ -8,7 +8,7 @@
     },
     "publishSingleWorkflow": {
       "mode": "owner_confirmed_publication",
-      "required": ["exact_owner", "exact_title", "exact_version", "current_release_fingerprint", "immutable_approval_receipt", "separate_approval_then_publish", "exact_revoke_phrase", "server_verified_action_phrase"]
+      "required": ["exact_owner", "exact_title", "exact_version", "current_release_fingerprint", "immutable_approval_receipt", "separate_approval_then_publish", "exact_revoke_phrase", "server_verified_action_phrase", "evidence_frozen_after_approval", "exact_snapshot_compare_and_set", "post_commit_reconciliation"]
     },
     "generateReleaseLaunchPacket": {
       "mode": "owner_confirmed_private_generation",
@@ -20,7 +20,7 @@
     },
     "sendReleaseEmailDraft": {
       "mode": "owner_confirmed_fan_email",
-      "required": ["exact_owner", "public_released_record", "current_evidence", "immutable_publication_receipt", "exact_title_version_and_fingerprints", "private_release_email_dispatch_claim", "send_deduplication", "no_retry_after_claim"]
+      "required": ["exact_owner", "public_released_record", "current_evidence", "immutable_publication_receipt", "exact_title_version_and_fingerprints", "server_verified_send_phrase", "exact_snapshot_compare_and_set", "private_release_email_dispatch_claim", "send_deduplication", "no_retry_after_claim"]
     },
     "tooLostOAuth": {
       "mode": "manual_owner_connection",
