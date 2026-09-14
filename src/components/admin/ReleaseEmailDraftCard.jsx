@@ -96,6 +96,7 @@ export default function ReleaseEmailDraftCard({ draft }) {
         confirm_version_label: draft.release_version_label,
         confirm_release_fingerprint: draft.release_fingerprint,
         confirm_draft_fingerprint: draft.content_fingerprint,
+        confirm_send_phrase: typedPhrase,
         send_request_id: makeRequestId(),
       });
       const result = res?.data || res || {};
