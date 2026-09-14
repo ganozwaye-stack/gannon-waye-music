@@ -38,8 +38,9 @@ function assertAutomationSafetyHold() {
     }
   }
   for (const target of listFiles('base44/workflows').filter(file => file.endsWith('.jsonc'))) {
-    if (readFileSync(target, 'utf8').includes('"condition": null')) {
-      failures.push(`${relative(ROOT, target)} has an enabled legacy workflow trigger outside the safety hold.`);
+    const content = readFileSync(target, 'utf8');
+    if (!content.includes('"condition": "${ false }"')) {
+      failures.push(`${relative(ROOT, target)} has a workflow trigger that is not explicitly disabled by the safety hold.`);
     }
   }
 }
