@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { Play, Heart, MessageCircle, Music } from 'lucide-react';
 import { format } from 'date-fns';
+import { PUBLIC_RELEASE_FILTER, onlyPublicReleases } from '@/lib/publicRelease';
 
 export default function LiveFeedSection() {
   const queryClient = useQueryClient();
@@ -30,7 +31,7 @@ export default function LiveFeedSection() {
 
   const { data: releases } = useQuery({
     queryKey: ['liveFeedReleases'],
-    queryFn: () => base44.entities.Release.filter({ is_published: true }, '-updated_date'),
+    queryFn: () => base44.entities.Release.filter(PUBLIC_RELEASE_FILTER, '-updated_date'),
     initialData: [],
   });
 
@@ -48,7 +49,7 @@ export default function LiveFeedSection() {
   const latestVideo = videos[0];
   const latestSupporter = supporters[0];
   const latestPost = posts[0];
-  const latestRelease = releases[0];
+  const latestRelease = onlyPublicReleases(releases)[0];
 
   const items = [
     latestVideo && {
