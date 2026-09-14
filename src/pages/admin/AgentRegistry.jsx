@@ -23,10 +23,10 @@ const STATUS_COLORS = {
 const RISK_COLORS = { none: 'text-green-400', low: 'text-primary', medium: 'text-orange-400', high: 'text-red-400' };
 
 const RISK_LEGEND = [
-  { level: 'none', color: 'text-green-400 bg-green-500/10', label: 'None', desc: 'Fully safe to automate. Cannot spend money or create legal exposure.' },
-  { level: 'low', color: 'text-primary bg-primary/10', label: 'Low', desc: 'Minor footprint possible. Allowed to auto-run with logging.' },
-  { level: 'medium', color: 'text-orange-400 bg-orange-500/10', label: 'Medium', desc: 'Real cost or public exposure possible. Requires your review.' },
-  { level: 'high', color: 'text-red-400 bg-red-500/10', label: 'High', desc: 'Direct financial/legal/reputation risk. Always requires explicit approval.' },
+  { level: 'none', color: 'text-green-400 bg-green-500/10', label: 'None', desc: 'Historic registry label only. Held until a verified receipt-producing lane is deployed.' },
+  { level: 'low', color: 'text-primary bg-primary/10', label: 'Low', desc: 'Historic registry label only. No automatic work is permitted from this record.' },
+  { level: 'medium', color: 'text-orange-400 bg-orange-500/10', label: 'Medium', desc: 'Historic registry label only. A separate owner-reviewed workflow is required.' },
+  { level: 'high', color: 'text-red-400 bg-red-500/10', label: 'High', desc: 'Historic registry label only. It remains held pending an exact owner decision.' },
 ];
 
 // What agents need to be "ready" and useful
@@ -39,7 +39,7 @@ const READINESS_CHECKLIST = {
   marketing: [
     'Social media handles are set in Site Settings',
     'Approval Queue is monitored — all social posts need your approval first',
-    'Release date is confirmed (June 5, 2026)',
+    'Verify release details against the canonical private record before any public plan.',
   ],
   social: [
     'TikTok, Instagram, YouTube handles confirmed',
@@ -61,7 +61,7 @@ const READINESS_CHECKLIST = {
     'Always approve before any legal agent takes action',
   ],
   finance: [
-    'Connect Stripe (already active) for revenue tracking',
+    'Verify any payment connection through a current owner-approved source before using it.',
     'Do-Not-Spend rule blocks all financial actions without your approval',
   ],
 };
@@ -349,10 +349,7 @@ export default function AgentRegistry() {
             ))}
           </div>
           <p className="text-xs text-muted-foreground border-t border-border pt-3">
-            <strong className="text-foreground">Approval Level</strong>: &nbsp;
-            <span className="text-primary">auto</span> = runs without review &nbsp;·&nbsp;
-            <span className="text-primary">low_risk_auto</span> = runs but logs for review &nbsp;·&nbsp;
-            <span className="text-orange-400">always_approve</span> = pauses until you explicitly approve
+            Historic policy labels may remain in legacy records. They do not grant execution, connector access, or approval.
           </p>
         </div>
       )}
