@@ -179,7 +179,7 @@ export default function NewReleaseStudio() {
               className="mt-0.5 accent-[#d4af37]"
             />
             <span className="font-body text-xs text-foreground">
-              I understand this creates a private release record and private promotional drafts. It does not publish, deliver, post, email or schedule anything.
+              I understand this creates only a private release record and blank review drafts, including promotional drafts for my review. It does not publish, deliver, post, email or schedule anything.
             </span>
           </label>
         </div>
