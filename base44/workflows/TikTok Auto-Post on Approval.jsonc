@@ -1,8 +1,8 @@
 {
   "name": "TikTok Auto-Post on Approval",
-  "description": "When a ContentStudioRecord is approved, automatically post it to TikTok as a draft. Requires TikTok OAuth to be connected.",
+  "description": "Paused by the global safety hold. No TikTok upload or draft creation is permitted from approval events.",
   "trigger": {
-    "condition": "${ ((.trigger.changed_fields | index(\"approval_status\") != null) and (.trigger.data.approval_status == \"approved\")) }",
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [
