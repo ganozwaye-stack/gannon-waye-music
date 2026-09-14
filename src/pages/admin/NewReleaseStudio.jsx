@@ -64,10 +64,9 @@ export default function NewReleaseStudio() {
         ...form,
         artwork_url: artwork?.url || '',
         private_draft_acknowledged: privateDraftAcknowledged,
-        dry_run: true,
       });
       setResult(res.data);
-      toast({ title: 'Private release draft created', description: form.title });
+      toast({ title: 'Release created, launch packet built', description: form.title });
     } catch (err) {
       toast({
         title: 'Submission failed',
@@ -83,7 +82,7 @@ export default function NewReleaseStudio() {
       <div className="mb-6">
         <h1 className="text-3xl font-display font-bold gradient-gold-text">New Release Studio</h1>
         <p className="text-muted-foreground text-sm mt-1 font-body">
-          Create a private release draft and review pack. Nothing is delivered, published, posted, emailed, scheduled, or publicly claimed from this screen.
+          One press creates the private release draft and runs your launch agents: hero design, merch concepts, socials, press release, playlist pitch, fan email and a dated launch plan, all kept private for your review.
         </p>
       </div>
 
@@ -164,7 +163,7 @@ export default function NewReleaseStudio() {
 
         <div className="p-3 border border-primary/20 bg-primary/5 rounded-lg">
           <p className="font-body text-xs text-foreground">
-            This creates a private release draft and internal review pack only.
+            This creates a private release draft, then your agents draft the full promotional packet around it. Every generated item stays a private draft for your review.
           </p>
           <p className="font-body text-xs text-muted-foreground mt-1">
             It does not deliver to a distributor, publish, post, send, schedule, or charge a payment method. Any later public release needs the separate exact owner approval gates.
@@ -177,7 +176,7 @@ export default function NewReleaseStudio() {
               className="mt-0.5 accent-[#d4af37]"
             />
             <span className="font-body text-xs text-foreground">
-              I understand this creates only a private release record and blank review drafts. It does not take any outside action.
+              I understand this creates a private release record and private promotional drafts. It does not publish, deliver, post, email or schedule anything.
             </span>
           </label>
         </div>
@@ -188,7 +187,7 @@ export default function NewReleaseStudio() {
           className="w-full gradient-gold-button rounded-full py-2.5 font-body text-xs tracking-wider uppercase"
         >
           {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />}
-          {submitting ? 'Creating private draft…' : 'Create private draft & review shells'}
+          {submitting ? 'Building your launch packet…' : 'Create release & build launch packet'}
         </Button>
       </form>
 
