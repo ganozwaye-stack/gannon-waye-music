@@ -4,7 +4,7 @@
   "automations": [
     {
       "type": "scheduled",
-      "description": "Disabled duplicate scheduler. The Hourly System Alert Check workflow is the only scheduler for this function; unchanged states are suppressed by the function.",
+      "description": "Legacy operational audit hard stop. This automation must remain inactive; the endpoint performs no audit work.",
       "ends_type": "never",
       "is_active": false,
       "name": "Deego Operational Audit Check Up",
