@@ -20,7 +20,7 @@
     },
     "was_automatic": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "required_approval": {
       "type": "boolean",
@@ -55,7 +55,11 @@
     "task_title"
   ],
   "rls": {
-    "create": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
     "read": {
       "user_condition": {
         "role": "admin"
