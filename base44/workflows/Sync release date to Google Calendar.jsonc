@@ -1,6 +1,4 @@
 {
-  "name": "Sync release date to Google Calendar",
-  "description": "Paused by the global safety hold. Calendar writes require a controlled owner test and explicit action-time approval.",
   "trigger": {
     "condition": "${ false }",
     "config": {
@@ -12,6 +10,8 @@
       "entity_name": "Release"
     }
   },
+  "name": "Sync release date to Google Calendar",
+  "description": "Paused by the global safety hold. Calendar writes require a controlled owner test and explicit action-time approval.",
   "definition": {
     "document": {
       "dsl": "1.0.0",
