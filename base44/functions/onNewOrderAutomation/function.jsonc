@@ -8,7 +8,7 @@
       "event_types": [
         "create"
       ],
-      "is_active": true,
+      "is_active": false,
       "name": "New Order — Admin Alert + Customer Email + Google Sheets"
     }
   ]
