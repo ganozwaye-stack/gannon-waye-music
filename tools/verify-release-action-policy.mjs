@@ -50,6 +50,7 @@ if (policy) {
   requirePolicyRequirements(policy, 'publishSingleWorkflow', 'owner_confirmed_publication', [
     'exact_owner', 'exact_title', 'exact_version', 'current_release_fingerprint',
     'immutable_approval_receipt', 'separate_approval_then_publish', 'exact_revoke_phrase',
+    'server_verified_action_phrase',
   ]);
   requirePolicyRequirements(policy, 'sendReleaseEmailDraft', 'owner_confirmed_fan_email', [
     'exact_owner', 'public_released_record', 'current_evidence', 'immutable_publication_receipt',
@@ -106,6 +107,9 @@ for (const needle of [
   'casSucceeded(approvalClaimed)',
   'validApprovalReceipt',
   'confirm_revoke_phrase',
+  'confirm_approval_phrase',
+  'confirm_publish_phrase',
+  'requiredActionPhrase',
   'revokeFingerprint',
 ]) {
   if (!publication.includes(needle)) {
