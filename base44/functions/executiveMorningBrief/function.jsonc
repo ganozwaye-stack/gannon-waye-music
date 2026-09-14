@@ -4,10 +4,10 @@
   "automations": [
     {
       "type": "scheduled",
-      "description": "Generates a daily AI executive brief saved to the Knowledge Vault every morning at 7am Sydney time",
+      "description": "Disabled safety hold. A signed-in Gannon owner may manually generate an internal brief after reviewing its AI-quota use; no scheduled generation or Slack delivery.",
       "ends_type": "never",
-      "is_active": true,
-      "name": "Executive Morning Brief (Daily 7am)",
+      "is_active": false,
+      "name": "Executive Morning Brief (manual owner-only)",
       "repeat_interval": 1,
       "repeat_unit": "days",
       "schedule_mode": "recurring",
