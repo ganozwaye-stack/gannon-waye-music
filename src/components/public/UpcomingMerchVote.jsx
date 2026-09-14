@@ -3,14 +3,14 @@ import { motion } from 'framer-motion';
 import { Heart, Check, Lock } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 
-// The next phase of merch: Set Free first, then Without You Here.
-// Fans vote privately; votes are stored admin-only and never displayed publicly.
+// Keep this evergreen. Public merch voting must not disclose a draft release,
+ // its artwork, or a planned collection before it has passed the release gate.
+ // Votes are stored admin-only and never displayed publicly.
 const UPCOMING_ITEMS = [
-  { key: 'set-free-hoodie', name: 'Set Free Hoodie', blurb: 'Heavyweight black hoodie carrying the Set Free artwork in gold.' },
-  { key: 'set-free-tee', name: 'Set Free T-Shirt', blurb: 'Black tee with the Set Free mark, made for everyday wear.' },
-  { key: 'without-you-here-vinyl', name: 'Without You Here Vinyl', blurb: 'The single pressed on vinyl, a keepsake of Mum and the song written for her.' },
-  { key: 'without-you-here-poster', name: 'Without You Here Lyric Poster', blurb: 'The lines that matter most, printed in gold ink to keep close.' },
-  { key: 'set-free-mug', name: 'Set Free Mug', blurb: 'Matte black mug with the Set Free mark for the morning ritual.' },
+  { key: 'artist-hoodie', name: 'Artist Hoodie', blurb: 'A heavyweight black hoodie, released only when the design is approved.' },
+  { key: 'artist-tee', name: 'Artist T-Shirt', blurb: 'A simple black tee designed for everyday wear.' },
+  { key: 'lyric-poster', name: 'Lyric Poster', blurb: 'A limited print built around the words that matter most.' },
+  { key: 'artist-mug', name: 'Artist Mug', blurb: 'A matte black mug for the morning ritual.' },
 ];
 
 export default function UpcomingMerchVote() {
@@ -44,8 +44,7 @@ export default function UpcomingMerchVote() {
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">New Merch To Come</p>
           <h2 className="font-body text-3xl md:text-5xl gradient-gold-text">Vote on what's next</h2>
           <p className="font-body text-sm text-muted-foreground mt-4 max-w-md mx-auto">
-            The next collection is being designed around Set Free and Without You Here. Tell me which
-            pieces you'd love and they move up the list.
+            Future pieces are being considered. Tell me what you would love to see next and it moves up the list.
           </p>
         </motion.div>
 
