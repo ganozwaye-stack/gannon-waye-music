@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Brain, Search, Play, AlertTriangle, ChevronRight, Activity, MessageSquare, CheckCircle2, Clock } from 'lucide-react';
+import { Brain, Search, AlertTriangle, ChevronRight, Activity, MessageSquare, CheckCircle2, Clock } from 'lucide-react';
 import { AGENT_REGISTRY_SEED } from '@/lib/agentRegistrySeed';
 import { Link } from 'react-router-dom';
-import { toast } from 'sonner';
 
 const GROUPS = ['all','personal','communication','legal','research','creative','website','marketing','social','business','finance','systems','security','orchestrator'];
 
@@ -67,9 +66,7 @@ const READINESS_CHECKLIST = {
   ],
 };
 
-function AgentDetailModal({ agent, onClose, onUpdate }) {
-  const qc = useQueryClient();
-  const [running, setRunning] = useState(false);
+function AgentDetailModal({ agent, onClose }) {
 
   // DB queries for memories and learning records
   const { data: memories = [] } = useQuery({
@@ -87,9 +84,9 @@ function AgentDetailModal({ agent, onClose, onUpdate }) {
   if (!agent) return null;
 
   const readinessItems = READINESS_CHECKLIST[agent.group] || [
-    'Set agent status to "active" to enable',
+    'Verify that a real executor is attached before treating this registry record as operational',
     'Brief the Orchestrator on what this agent should focus on',
-    'Monitor Agent Task Log for activity',
+    'Use the internal execution receipt, not a registry label, as proof of activity',
   ];
 
   // Dynamic Credentials Audit
@@ -109,37 +106,9 @@ function AgentDetailModal({ agent, onClose, onUpdate }) {
   };
 
   const missingCreds = getMissingCredentials(agent.group);
-  const isReady = agent.status === 'active';
-  const currentTask = isReady ? (agent.current_task || 'Monitoring active streams & database events') : 'None (Agent is offline)';
-  const whyIdle = agent.status !== 'active' ? 'Agent status is set to inactive or disabled' : (agent.why_idle || 'Awaiting webhook-triggered operational requests');
-
-  const handleRunNow = async () => {
-    setRunning(true);
-    try {
-      // Create a task log entry
-      await base44.entities.AgentTaskLog.create({
-        agent_name: agent.agent_name,
-        task_name: 'Manual execution test',
-        status: 'success',
-        duration_ms: 1240,
-        logs: `Triggered manual test sequence for ${agent.agent_name}. All sub-systems online and verified.`
-      });
-
-      // Update agent registry with a new last action
-      await onUpdate({
-        id: agent.id,
-        data: {
-          last_action: `Manually executed sequence at ${new Date().toLocaleTimeString('en-AU')}`,
-          last_output: 'Success: No issues detected during diagnostics.',
-        }
-      });
-      toast.success(`${agent.agent_name} executed successfully! Task log created.`);
-      qc.invalidateQueries({ queryKey: ['agent-registry'] });
-    } catch (err) {
-      toast.error('Failed to trigger execution: ' + err.message);
-    }
-    setRunning(false);
-  };
+  const registryMarkedActive = agent.status === 'active';
+  const currentTask = agent.current_task || 'No verified executor is attached to this registry record.';
+  const whyIdle = agent.why_idle || 'Registry status alone does not start, connect, or run an agent.';
 
   return (
     <Dialog open onOpenChange={onClose}>
@@ -200,14 +169,14 @@ function AgentDetailModal({ agent, onClose, onUpdate }) {
           )}
 
           {/* Readiness Panel */}
-          <div className={`rounded-xl p-4 border ${isReady ? 'border-green-500/20 bg-green-500/5' : 'border-primary/20 bg-primary/5'}`}>
+          <div className={`rounded-xl p-4 border ${registryMarkedActive ? 'border-green-500/20 bg-green-500/5' : 'border-primary/20 bg-primary/5'}`}>
             <div className="flex items-center gap-2 mb-3">
-              {isReady
+              {registryMarkedActive
                 ? <CheckCircle2 className="w-4 h-4 text-green-400" />
                 : <Clock className="w-4 h-4 text-primary" />
               }
-              <p className={`text-sm font-semibold ${isReady ? 'text-green-400' : 'text-primary'}`}>
-                {isReady ? 'Agent is Active' : 'Not Yet Active — What You Need To Do'}
+              <p className={`text-sm font-semibold ${registryMarkedActive ? 'text-primary' : 'text-primary'}`}>
+                {registryMarkedActive ? 'Registry record marked active' : 'Registry record not verified'}
               </p>
             </div>
             <ul className="space-y-1.5 mb-3">
@@ -218,26 +187,9 @@ function AgentDetailModal({ agent, onClose, onUpdate }) {
                 </li>
               ))}
             </ul>
-            <div className="flex gap-2">
-              {agent.id ? (
-                <>
-                  <Button
-                    size="sm"
-                    className={`gap-1 ${isReady ? 'bg-orange-600 hover:bg-orange-700 text-white' : 'bg-green-600 hover:bg-green-700 text-white'}`}
-                    onClick={() => onUpdate({ id: agent.id, data: { status: isReady ? 'inactive' : 'active' } })}
-                  >
-                    {isReady ? 'Pause Agent' : 'Activate Agent'}
-                  </Button>
-                  {isReady && (
-                    <Button size="sm" variant="outline" className="gap-1" onClick={handleRunNow} disabled={running}>
-                      <Play className="w-3 h-3" /> {running ? 'Running...' : 'Run Now'}
-                    </Button>
-                  )}
-                </>
-              ) : (
-                <p className="text-xs text-muted-foreground italic">Seed configuration — active on production backend only.</p>
-              )}
-            </div>
+            <p className="text-xs text-muted-foreground">
+              This registry is descriptive only. It cannot activate, connect, or execute an agent. Use the controlled internal task lane after its deployment verification creates a real receipt.
+            </p>
           </div>
 
           {/* Last Action */}
@@ -333,19 +285,9 @@ export default function AgentRegistry() {
   const [activeLetter, setActiveLetter] = useState('');
   const [showLegend, setShowLegend] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState(null);
-  const qc = useQueryClient();
-
   const { data: dbAgents = [], isLoading } = useQuery({
     queryKey: ['agent-registry'],
     queryFn: () => base44.entities.AgentRegistry.list('-created_date', 200),
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.AgentRegistry.update(id, data),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['agent-registry'] });
-      toast.success('Agent updated');
-    },
   });
 
   const usingFallback = !isLoading && dbAgents.length === 0;
@@ -374,13 +316,13 @@ export default function AgentRegistry() {
         <div>
           <h1 className="text-2xl font-display font-bold gradient-gold-text">Agent Registry</h1>
           <p className="text-muted-foreground text-sm">
-            {agents.length} agents · <span className="text-green-400">{activeCount} active</span> · <span className="text-primary">{inactiveCount} inactive</span>
+            {agents.length} registry records · <span className="text-primary">{activeCount} labelled active</span> · <span className="text-muted-foreground">{inactiveCount} not labelled active</span>
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           {usingFallback && (
             <Badge className="bg-primary/10 text-primary border-primary/30 flex items-center gap-1">
-              <AlertTriangle className="w-3 h-3" /> Base Registry — Click an agent to activate
+              <AlertTriangle className="w-3 h-3" /> Base Registry — descriptive records only
             </Badge>
           )}
           <Button size="sm" variant="outline" onClick={() => setShowLegend(!showLegend)}>
@@ -392,7 +334,7 @@ export default function AgentRegistry() {
       {/* How This Works banner */}
       <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 text-sm text-foreground/70 leading-relaxed">
         <p className="font-semibold text-foreground mb-1">👆 Click any agent card to see full details</p>
-        <p>You'll see what the agent does, whether it's ready, exactly what YOU need to do to make it successful, its last actions, and risk controls. Activate or pause any agent from inside the card.</p>
+        <p>You'll see the intended role, registry label, historical records, and risk controls. A registry label is not proof of an active connection or executor.</p>
       </div>
 
       {showLegend && (
@@ -483,7 +425,7 @@ export default function AgentRegistry() {
                   </span>
                 </div>
                 {agent.status !== 'active' && (
-                  <span className="text-xs text-primary">Tap to activate →</span>
+                  <span className="text-xs text-primary">Tap for registry details →</span>
                 )}
               </div>
             </CardContent>
@@ -499,10 +441,6 @@ export default function AgentRegistry() {
         <AgentDetailModal
           agent={selectedAgent}
           onClose={() => setSelectedAgent(null)}
-          onUpdate={(args) => {
-            updateMutation.mutate(args);
-            setSelectedAgent(prev => ({ ...prev, ...args.data }));
-          }}
         />
       )}
     </div>
