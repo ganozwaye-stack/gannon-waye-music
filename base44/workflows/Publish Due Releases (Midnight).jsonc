@@ -24,9 +24,9 @@
       }
     ]
   },
-  "description": "At midnight Sydney time, publishes owner-approved releases whose scheduled release date has arrived (submitted via the New Release Studio).",
+  "description": "Disabled safety hold. A release date alone never publishes a release, delivers it, or triggers public channels.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],
