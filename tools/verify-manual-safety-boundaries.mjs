@@ -30,7 +30,8 @@ const heldEndpoints = [
   'base44/functions/autonomousTrendEngine/entry.ts',
   'base44/functions/sendBirthdayDiscount/entry.ts',
   'base44/functions/metricoolSchedulePost/entry.ts',
-  'base44/functions/publishApprovedReel/entry.ts',
+  'base44/functions/generateReleaseLaunchPacket/entry.ts',
+  'base44/functions/publishApprovedReel/entry.ts
   'base44/functions/postReelToInstagram/entry.ts',
   'base44/functions/tiktokUploadDraft/entry.ts',
   'base44/functions/autonomousSocialPoster/entry.ts',
@@ -88,7 +89,9 @@ forbid('src/pages/admin/Releases.jsx', /base44\.entities\.Release\.(?:create|upd
 forbid('src/pages/admin/Releases.jsx', /promoteMutation|publishSingleMutation|Published \(visible on site\)/, 'legacy public-release control');
 
 requireSnippet('src/pages/admin/NewReleaseStudio.jsx', 'private_draft_acknowledged');
-requireSnippet('src/pages/admin/NewReleaseStudio.jsx', 'only a private release record and blank review drafts');
+requireSnippet('src/pages/admin/NewReleaseStudio.jsx', 'only a private release record and blank review shells');
+requireSnippet('src/pages/admin/NewReleaseStudio.jsx', 'Automatic launch-packet generation is held');
+forbid('src/pages/admin/NewReleaseStudio.jsx', /generateReleaseLaunchPacket/, 'automatic launch-packet invocation');
 forbid('src/pages/admin/NewReleaseStudio.jsx', /AI-quota|costAcknowledged/, 'obsolete automatic-draft acknowledgement');
 requireSnippet('base44/functions/submitNewRelease/entry.ts', 'private_draft_acknowledged');
 requireSnippet('base44/functions/submitNewRelease/entry.ts', "external_actions: 'held'");
@@ -99,6 +102,7 @@ forbid(
   'automatic generation, delivery, or connector code in the private-draft flow',
 );
 requireSnippet('src/components/admin/ReleasePackReport.jsx', 'All external actions are held');
+requireSnippet('src/components/admin/ReleasePackReport.jsx', 'Automatic launch-packet generation is held');
 
 requireSnippet('src/pages/admin/AutonomousOps.jsx', 'Safety hold active');
 forbid('src/pages/admin/AutonomousOps.jsx', /base44\.functions\.invoke|ApprovalQueue\.update|updateApproval/, 'legacy automation execution or approval mutation');
