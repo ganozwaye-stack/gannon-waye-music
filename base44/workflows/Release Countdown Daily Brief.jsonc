@@ -1,8 +1,8 @@
 {
   "name": "Release Countdown Daily Brief",
-  "description": "Every morning: counts down days until June 10 release, checks subscriber growth and merch orders, notifies admin.",
+  "description": "Disabled safety hold. Legacy countdowns must not inspect or announce unapproved releases.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],
