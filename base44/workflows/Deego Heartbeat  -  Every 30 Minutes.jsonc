@@ -1,6 +1,6 @@
 {
-  "name": "Deego Heartbeat  -  Every 30 Minutes",
   "description": "Disabled safety hold: agentIntelligenceLoop rejects unattended calls until scheduler identity and a no-spend supervisor acceptance test are verified.",
+  "name": "Deego Heartbeat  -  Every 30 Minutes",
   "trigger": {
     "condition": "${ false }",
     "config": {
