@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { AreaChart, Area, BarChart, Bar, XAxis, Tooltip, ResponsiveContainer } from 'recharts';
 import { motion } from 'framer-motion';
 import { TrendingUp, ShoppingBag } from 'lucide-react';
+import { PUBLIC_RELEASE_FILTER, onlyPublicReleases } from '@/lib/publicRelease';
 
 export default function HomeCharts() {
   const { data: orders } = useQuery({
@@ -13,8 +14,8 @@ export default function HomeCharts() {
   });
 
   const { data: releases } = useQuery({
-    queryKey: ['releases'],
-    queryFn: () => base44.entities.Release.list(),
+    queryKey: ['public-chart-releases'],
+    queryFn: () => base44.entities.Release.filter(PUBLIC_RELEASE_FILTER, '-release_date'),
     initialData: [],
   });
 
@@ -37,8 +38,9 @@ export default function HomeCharts() {
       const d = new Date();
       d.setMonth(d.getMonth() - i);
       const label = d.toLocaleDateString('en-AU', { month: 'short' });
-      // Simulated stream count based on published releases (no real stream API)
-      const publishedCount = releases.filter(r => r.is_published && r.release_date && new Date(r.release_date) <= d).length;
+      // Simulated stream count based on public releases only (no real stream API).
+      const publishedCount = onlyPublicReleases(releases)
+        .filter(r => r.release_date && new Date(r.release_date) <= d).length;
       months.push({ month: label, streams: publishedCount * (80 + Math.floor(i * 30)) });
     }
     return months;
