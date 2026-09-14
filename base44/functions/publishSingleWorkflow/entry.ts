@@ -71,6 +71,27 @@ async function setLinkedLyricsPublication(sr: any, releaseId: string, approved: 
   );
 }
 
+async function reconcileLinkedLyricsPublication(sr: any, release: any, approved: boolean, action: string) {
+  try {
+    const result = await setLinkedLyricsPublication(sr, release.id, approved);
+    if (result?.success === false) throw new Error('Linked lyric update was not acknowledged.');
+    return { linked_lyrics_reconciled: true, manual_reconciliation_required: false };
+  } catch {
+    await sr.entities.AdminNotification.create({
+      notification_type: 'system',
+      severity: 'warning',
+      requires_action: true,
+      title: 'Release lyric reconciliation required: ' + exact(release.title),
+      summary: 'The release ' + exact(action) + ' was recorded, but linked lyric visibility needs manual reconciliation. No automatic retry was started.',
+      source: 'publishSingleWorkflow',
+      linked_entity: 'Release',
+      linked_id: release.id,
+      linked_route: '/admin/release-control',
+    }).catch(() => undefined);
+    return { linked_lyrics_reconciled: false, manual_reconciliation_required: true };
+  }
+}
+
 export default async function(req: Request) {
   try {
     const base44 = createClientFromRequest(req);
@@ -91,12 +112,29 @@ export default async function(req: Request) {
     const release = await sr.entities.Release.get(releaseId).catch(() => null);
     if (!release?.id) return Response.json({ error: 'Release not found' }, { status: 404 });
 
-    // Private evidence save. Owner-only, and it never touches any
-    // publication, approval or dispatch field: saving changes and going
-    // live stay two fully separate actions.
+    // Evidence is mutable only while the record is private and not approved.
+    // Once approval begins, evidence is frozen so publication cannot reuse an
+    // approval receipt for a later snapshot.
     if (action === 'save_evidence') {
+      const evidenceState = exact(release.public_release_approval_status) || 'pending';
+      if (
+        release.is_published === true
+        || release.publishing_safe === true
+        || !['pending', 'revoked'].includes(evidenceState)
+      ) {
+        return Response.json({
+          error: 'Evidence is frozen after approval begins. Revoke, then save, review, and approve again.',
+        }, { status: 409 });
+      }
+
       const savedEvidence = await sr.entities.Release.updateMany(
-        { id: release.id },
+        {
+          id: release.id,
+          updated_date: release.updated_date,
+          is_published: false,
+          publishing_safe: false,
+          public_release_approval_status: evidenceState,
+        },
         {
           $set: {
             rights_evidence_reference: exact(body.rights_evidence_reference),
@@ -107,9 +145,15 @@ export default async function(req: Request) {
         },
       );
       if (!casSucceeded(savedEvidence)) {
-        return Response.json({ error: 'The private evidence save did not complete. Nothing was published.' }, { status: 409 });
+        return Response.json({ error: 'The private evidence changed before this exact save. Reload and review again; nothing was published.' }, { status: 409 });
       }
-      return Response.json({ ok: true, release_id: release.id, saved: 'evidence', published: false });
+      return Response.json({
+        ok: true,
+        release_id: release.id,
+        saved: 'evidence',
+        published: false,
+        exact_snapshot_guard: 'updated_date',
+      });
     }
 
     if (action === 'revoke') {
@@ -128,7 +172,7 @@ export default async function(req: Request) {
 
       const revokedAt = new Date().toISOString();
       const revoked = await sr.entities.Release.updateMany(
-        { id: release.id },
+        { id: release.id, updated_date: release.updated_date },
         {
           $set: {
             publishing_safe: false,
@@ -149,8 +193,14 @@ export default async function(req: Request) {
       if (!casSucceeded(revoked)) {
         return Response.json({ error: 'Revocation was not durably recorded. The release was not changed.' }, { status: 409 });
       }
-      await setLinkedLyricsPublication(sr, release.id, false);
-      return Response.json({ ok: true, release_id: release.id, approval: 'revoked', published: false });
+      const lyricReconciliation = await reconcileLinkedLyricsPublication(sr, release, false, 'revocation');
+      return Response.json({
+        ok: true,
+        release_id: release.id,
+        approval: 'revoked',
+        published: false,
+        ...lyricReconciliation,
+      });
     }
 
     const candidate = evidenceCandidate(release, body);
@@ -202,7 +252,13 @@ export default async function(req: Request) {
       }
 
       const approvalClaimed = await sr.entities.Release.updateMany(
-        { id: release.id, public_release_approval_status: priorState, is_published: false },
+        {
+          id: release.id,
+          updated_date: release.updated_date,
+          public_release_approval_status: priorState,
+          is_published: false,
+          publishing_safe: false,
+        },
         {
           $set: {
             publishing_safe: false,
@@ -269,7 +325,7 @@ export default async function(req: Request) {
         }, { status: 503 });
       }
 
-      await setLinkedLyricsPublication(sr, release.id, false);
+      const lyricReconciliation = await reconcileLinkedLyricsPublication(sr, release, false, 'approval');
       return Response.json({
         ok: true,
         release_id: release.id,
@@ -278,6 +334,7 @@ export default async function(req: Request) {
         approval_receipt_id: approvalReceipt.id,
         release_fingerprint: fingerprint,
         release_snapshot: releaseControlSnapshot(candidate),
+        ...lyricReconciliation,
       });
     }
 
@@ -318,6 +375,7 @@ export default async function(req: Request) {
         public_release_approval_status: 'approved',
         public_release_approval_id: receipt.id,
         public_release_approval_fingerprint: fingerprint,
+        updated_date: release.updated_date,
         status: release.status,
       },
       { $set: { is_published: true, status: 'released' } },
@@ -328,13 +386,14 @@ export default async function(req: Request) {
       }, { status: 409 });
     }
 
-    await setLinkedLyricsPublication(sr, release.id, true);
+    const lyricReconciliation = await reconcileLinkedLyricsPublication(sr, release, true, 'publication');
     return Response.json({
       ok: true,
       release_id: release.id,
       approval: 'approved',
       published: true,
       release_fingerprint: fingerprint,
+      ...lyricReconciliation,
     });
   } catch {
     return Response.json({
