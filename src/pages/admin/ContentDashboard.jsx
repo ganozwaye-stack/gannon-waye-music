@@ -145,37 +145,17 @@ Revenue potential: [how this converts to sales/fans]`,
     },
   });
 
-  const autoRunResearch = async () => {
-    toast.info('Triggering research agent...');
-    const res = await base44.functions.invoke('autonomousResearch', {});
-    toast.success(`Research complete: ${res.data?.saved || 'Saved to vault'}`);
-    qc.invalidateQueries({ queryKey: ['vault-research-feed'] });
-  };
-
-  const autoRunTrends = async () => {
-    toast.info('Running trend engine...');
-    const res = await base44.functions.invoke('autonomousTrendEngine', {});
-    toast.success('Trend report saved to Knowledge Vault');
-    qc.invalidateQueries({ queryKey: ['vault-creative-feed'] });
-    qc.invalidateQueries({ queryKey: ['pending-approvals-dash'] });
-  };
-
   return (
     <div className="p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-2xl font-display font-bold gradient-gold-text">Content Dashboard</h1>
-          <p className="text-muted-foreground text-sm">Bot activity, research feed, alerts, and creative engine — all in one</p>
+          <p className="text-muted-foreground text-sm">Historical records, alerts, and private drafts in one place</p>
         </div>
-        <div className="flex gap-2 flex-wrap">
-          <Button size="sm" onClick={autoRunResearch} variant="outline">
-            <Search className="w-3 h-3 mr-1" /> Run Research Now
-          </Button>
-          <Button size="sm" onClick={autoRunTrends} variant="outline">
-            <TrendingUp className="w-3 h-3 mr-1" /> Run Trend Engine Now
-          </Button>
-        </div>
+        <p className="text-xs text-muted-foreground max-w-sm">
+          Legacy research and trend runners are held until a verified internal lane is connected.
+        </p>
       </div>
 
       {/* Status Strip */}
