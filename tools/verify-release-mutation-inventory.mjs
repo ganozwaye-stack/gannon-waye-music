@@ -6,6 +6,7 @@ const failures = [];
 const allowedFunctionMutators = new Set([
   'base44/functions/submitNewRelease/entry.ts',
   'base44/functions/publishSingleWorkflow/entry.ts',
+  'base44/functions/sendReleaseEmailDraft/entry.ts',
 ]);
 const releaseMutation = /\.entities\.Release\.(?:create|update|updateMany|delete)\s*\(/;
 const directClientMutation = /base44\.entities\.Release\.(?:create|update|updateMany|delete)\s*\(/;
@@ -49,7 +50,7 @@ if (!existsSync(policyPath)) {
 } else {
   try {
     const policy = JSON.parse(readFileSync(policyPath, 'utf8'));
-    for (const controlled of ['submitNewRelease', 'publishSingleWorkflow']) {
+    for (const controlled of ['submitNewRelease', 'publishSingleWorkflow', 'sendReleaseEmailDraft']) {
       if (!policy.controlled_functions?.[controlled]) {
         failures.push(`Release mutation workflow ${controlled} is missing from the release action policy.`);
       }
