@@ -47,13 +47,10 @@ const AGENTS = [
     label: 'Executive Brief',
     function: 'executiveMorningBrief',
     data_sources: ['RiskAlert', 'ApprovalQueue', 'AgentTaskLog', 'IdeaOpportunity'],
-    purpose: 'Owner-generated internal AI brief; saves a private Knowledge Vault record and returns it to the signed-in owner',
-    schedule: 'Manual owner-only; automatic delivery paused',
-    status: 'Paused pending owner test',
-    requiresConfirmation: true,
-    invokeArgs: { cost_acknowledged: true },
-    confirmationMessage: 'Generate the internal executive brief? This uses AI quota and creates only internal records. It will not send Slack, email, publish, post, submit, or make a payment.',
-    buttonLabel: 'Generate internal brief',
+    purpose: 'Legacy briefing runner is held pending owner-controlled runtime reconciliation.',
+    schedule: 'Safety hold active; not runnable',
+    status: 'Safety hold active',
+    disabled: true,
   },
   {
     name: 'AutonomousAlertSystem',
@@ -166,7 +163,7 @@ export default function AgentRevenueStatus() {
     { item: 'Connect agents to Business Attention Centre', status: 'Built but untested', note: 'Internal notification code exists; no held agent runner is currently permitted to invoke it.' },
     { item: 'Schedule daily revenue scans', status: 'Safety hold active', note: 'All scheduled scans are false-held until individual owner-approved controlled tests pass.' },
     { item: 'Schedule daily content opportunity scans', status: 'Built but untested', note: 'No dedicated content scan agent yet — autonomousAlertSystem covers some' },
-    { item: 'Weekly learning from approvals/rejections', status: 'Built but untested', note: 'agentSelfImprovement function exists — not yet wired to approval outcomes' },
+    { item: 'Weekly learning from approvals/rejections', status: 'Safety hold active', note: 'Legacy improvement runner is held until owner-controlled runtime reconciliation is complete.' },
     { item: 'Richer source data records (not generic reports)', status: 'Blocked by Gannon approval', note: 'Need real orders, real fan growth, real social data to generate non-generic insights' },
   ];
 
