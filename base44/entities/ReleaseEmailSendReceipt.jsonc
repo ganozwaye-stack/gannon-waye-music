@@ -1,0 +1,92 @@
+{
+  "name": "ReleaseEmailSendReceipt",
+  "type": "object",
+  "description": "Append-only receipt trail for a manually confirmed fan release email. A claim is written before any outbound email attempt.",
+  "properties": {
+    "release_id": {
+      "type": "string"
+    },
+    "release_title": {
+      "type": "string"
+    },
+    "draft_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "receipt_type": {
+      "type": "string",
+      "enum": [
+        "claimed",
+        "completed",
+        "blocked"
+      ]
+    },
+    "claim_id": {
+      "type": "string"
+    },
+    "send_request_id": {
+      "type": "string"
+    },
+    "release_fingerprint": {
+      "type": "string"
+    },
+    "draft_fingerprint": {
+      "type": "string"
+    },
+    "claimed_by": {
+      "type": "string"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "recipient_count": {
+      "type": "number",
+      "default": 0
+    },
+    "sent_count": {
+      "type": "number",
+      "default": 0
+    },
+    "failed_count": {
+      "type": "number",
+      "default": 0
+    },
+    "detail": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "control_version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "release_id",
+    "draft_id",
+    "status",
+    "receipt_type",
+    "claim_id",
+    "send_request_id",
+    "release_fingerprint",
+    "draft_fingerprint",
+    "claimed_by",
+    "recorded_at",
+    "control_version"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "email": "__service_role_only__@invalid.local"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": false,
+    "delete": false
+  }
+}
