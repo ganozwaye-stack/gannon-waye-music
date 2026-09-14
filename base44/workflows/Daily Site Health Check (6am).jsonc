@@ -2,7 +2,7 @@
   "name": "Daily Site Health Check (6am)",
   "description": "Daily at 6am \u2014 runs comprehensive site health checks and logs issues",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

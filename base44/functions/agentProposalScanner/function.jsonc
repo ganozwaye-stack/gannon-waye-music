@@ -6,7 +6,7 @@
       "type": "scheduled",
       "description": "Agents scan for fast-return bundle opportunities every 6 hours and prepare proposals for Gannon's approval",
       "ends_type": "never",
-      "is_active": true,
+      "is_active": false,
       "name": "Bundle Opportunity Scanner",
       "repeat_interval": 6,
       "repeat_unit": "hours",

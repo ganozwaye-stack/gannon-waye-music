@@ -2,7 +2,7 @@
   "name": "Agent Self-Improvement \u2014 Daily Review",
   "description": "Reviews 24h agent activity, scores outputs, compares approved vs rejected proposals, and saves learning records to AgentLearningRecord and KnowledgeVault. Runs daily.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

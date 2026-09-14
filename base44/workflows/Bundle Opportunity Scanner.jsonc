@@ -2,7 +2,7 @@
   "name": "Bundle Opportunity Scanner",
   "description": "Agents scan for fast-return bundle opportunities every 6 hours and prepare proposals for Gannon's approval",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

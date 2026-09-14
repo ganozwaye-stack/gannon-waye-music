@@ -2,7 +2,7 @@
   "name": "Executive Morning Brief (Daily 7am)",
   "description": "Generates a daily AI executive brief saved to the Knowledge Vault every morning at 7am Sydney time",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

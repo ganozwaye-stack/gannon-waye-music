@@ -2,7 +2,7 @@
   "name": "Social Comment Monitor (30min)",
   "description": "Every 30 minutes \u2014 monitors social comments for engagement opportunities and replies",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

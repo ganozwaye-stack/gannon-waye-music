@@ -2,7 +2,7 @@
   "name": "Monthly Charity Donation Tracker",
   "description": "Monthly on the 1st - calculates charity donation from merch orders and logs the total",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

@@ -2,7 +2,7 @@
   "name": "Weekly Prompt Evolution",
   "description": "Evolves agent system prompts weekly based on approved/rejected patterns and learnings.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

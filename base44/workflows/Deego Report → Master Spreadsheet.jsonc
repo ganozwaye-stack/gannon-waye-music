@@ -28,7 +28,7 @@
   "description": "Automatically pushes every new or updated Deego owner report into the master Google Spreadsheet, keeping the report, offers and market comparison tabs in sync.",
   "name": "Deego Report \u2192 Master Spreadsheet",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

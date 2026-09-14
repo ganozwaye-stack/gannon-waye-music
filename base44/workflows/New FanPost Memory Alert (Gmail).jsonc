@@ -2,7 +2,7 @@
   "name": "New FanPost Memory Alert (Gmail)",
   "description": "",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

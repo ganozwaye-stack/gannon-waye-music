@@ -2,7 +2,7 @@
   "name": "Notify on New Risk Alert",
   "description": "Fires notifyAdmin when a new risk alert is created",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

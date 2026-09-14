@@ -29,7 +29,7 @@
   },
   "name": "Fan Reminder Registration \u2192 Owner Alert",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

@@ -2,7 +2,7 @@
   "name": "Paid order inventory and notifications",
   "description": "Single owner for new paid-order stock and notification side effects",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

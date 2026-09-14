@@ -2,7 +2,7 @@
   "name": "Legacy new-order Slack alert disabled",
   "description": "Disabled so one canonical automation owns each paid-order alert",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

@@ -2,7 +2,7 @@
   "name": "Birthday Discount \u2014 Daily Check",
   "description": "Daily at 9am \u2014 checks for subscribers with birthdays today or in the next 3 days, creates 20% discount codes, and sends birthday emails.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

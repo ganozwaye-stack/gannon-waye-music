@@ -2,7 +2,7 @@
   "name": "Daily Revenue Email Summary",
   "description": "Sends a daily email at 7am Sydney time with yesterday's store revenue, profit, and top-selling merch",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

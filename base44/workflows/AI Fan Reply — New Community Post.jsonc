@@ -2,7 +2,7 @@
   "name": "AI Fan Reply \u2014 New Community Post",
   "description": "When a new fan post is created with an email, generate a personalised AI reply from Gannon and send it to the fan.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

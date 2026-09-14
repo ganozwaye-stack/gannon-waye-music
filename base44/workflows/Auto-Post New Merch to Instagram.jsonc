@@ -2,7 +2,7 @@
   "name": "Auto-Post New Merch to Instagram",
   "description": "Automatically posts new merchandise products to the connected Instagram Business account when they are created in the database.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

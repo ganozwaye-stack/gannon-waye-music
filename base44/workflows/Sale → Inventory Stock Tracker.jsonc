@@ -27,7 +27,7 @@
   },
   "name": "Sale \u2192 Inventory Stock Tracker",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

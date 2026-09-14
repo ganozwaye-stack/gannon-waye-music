@@ -2,7 +2,7 @@
   "name": "Auto-delete stale low-risk approvals (5 days)",
   "description": "Daily at 02:30 \u2014 deletes ApprovalQueue items still pending with no response, risk_level low, older than 5 days.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

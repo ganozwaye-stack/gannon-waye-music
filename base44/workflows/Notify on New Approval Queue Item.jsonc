@@ -2,7 +2,7 @@
   "name": "Notify on New Approval Queue Item",
   "description": "Fires notifyAdmin whenever a new approval queue item is created",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

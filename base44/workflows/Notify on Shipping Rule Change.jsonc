@@ -2,7 +2,7 @@
   "name": "Notify on Shipping Rule Change",
   "description": "Notify admin when shipping rates are created or changed",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

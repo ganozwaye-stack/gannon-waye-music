@@ -2,7 +2,7 @@
   "name": "Daily Sales Tracking Summary",
   "description": "Daily sales tracking summary \u2014 aggregates orders, revenue, and pending counts, posts an admin notification.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

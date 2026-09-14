@@ -2,7 +2,7 @@
   "name": "Welcome Email on New Subscriber",
   "description": "Sends a personalized welcome email via Gmail when a new email subscriber joins the site.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

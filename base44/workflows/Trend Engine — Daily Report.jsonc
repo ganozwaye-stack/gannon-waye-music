@@ -2,7 +2,7 @@
   "name": "Trend Engine \u2014 Daily Report",
   "description": "Every morning at 7am \u2014 generates viral hooks, winning content ideas, and daily money opportunities",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

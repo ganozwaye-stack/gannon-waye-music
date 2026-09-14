@@ -2,7 +2,7 @@
   "name": "Shipping Optimisation Audit (Daily 9am)",
   "description": "Daily shipping rate audit for excessive costs, undercharging, profit protection",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

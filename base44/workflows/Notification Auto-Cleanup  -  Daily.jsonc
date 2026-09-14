@@ -2,7 +2,7 @@
   "name": "Notification Auto-Cleanup  -  Daily",
   "description": "Daily at 2am - marks old AdminNotifications as read and checks whether the public reels page needs a fresh approved clip.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

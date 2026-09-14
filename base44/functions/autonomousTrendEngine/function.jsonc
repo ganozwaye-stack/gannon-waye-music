@@ -6,7 +6,7 @@
       "type": "scheduled",
       "description": "Every morning at 7am — generates viral hooks, winning content ideas, and daily money opportunities",
       "ends_type": "never",
-      "is_active": true,
+      "is_active": false,
       "name": "Trend Engine — Daily Report",
       "repeat_interval": 1,
       "repeat_unit": "days",

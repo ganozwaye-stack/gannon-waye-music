@@ -2,7 +2,7 @@
   "name": "Hourly System Alert Check",
   "description": "Evaluates system health every hour and sends Slack alerts for critical issues.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

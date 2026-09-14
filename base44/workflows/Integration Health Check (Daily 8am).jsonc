@@ -2,7 +2,7 @@
   "name": "Integration Health Check (Daily 8am)",
   "description": "Daily check: Stripe live mode, Toolost API, Slack alerts, webhook secret",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

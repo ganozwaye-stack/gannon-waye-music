@@ -2,7 +2,7 @@
   "name": "Weekly Release Calendar Sync",
   "description": "Syncs all Release entities to Google Calendar every Monday morning.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

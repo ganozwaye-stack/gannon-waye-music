@@ -2,7 +2,7 @@
   "name": "Daily Social Post Drafts",
   "description": "Generates 2-3 Gannon Waye branded social post drafts daily at 8am AEST. Brand Voice Agent + Quality Gate. All posts go to ApprovalQueue \u2014 zero auto-posting. Requires explicit approval before Metricool scheduling.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

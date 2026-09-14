@@ -6,7 +6,7 @@
       "type": "scheduled",
       "description": "Daily check: Stripe live mode, Toolost API, Slack alerts, webhook secret",
       "ends_type": "never",
-      "is_active": true,
+      "is_active": false,
       "name": "Integration Health Check (Daily 8am)",
       "repeat_interval": 1,
       "repeat_unit": "days",

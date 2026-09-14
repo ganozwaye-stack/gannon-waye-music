@@ -2,7 +2,7 @@
   "name": "Social Quality Council (Daily 2pm)",
   "description": "Daily at 2pm \u2014 reviews all social content drafts through the quality council gate",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

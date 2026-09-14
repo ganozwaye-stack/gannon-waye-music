@@ -2,7 +2,7 @@
   "name": "Newsletter Signup \u2192 Google Sheets",
   "description": "Every new newsletter subscriber is appended as a row to the Google Sheets Subscribers tab, with name, email, phone, date of birth and how they found the page. Upserts by email.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

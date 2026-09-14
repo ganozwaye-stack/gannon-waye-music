@@ -8,7 +8,7 @@
       "event_types": [
         "update"
       ],
-      "is_active": true,
+      "is_active": false,
       "name": "Alert on Low Product Stock"
     }
   ]

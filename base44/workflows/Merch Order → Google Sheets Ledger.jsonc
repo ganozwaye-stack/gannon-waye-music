@@ -2,7 +2,7 @@
   "name": "Merch Order \u2192 Google Sheets Ledger",
   "description": "Every new merch order is appended as a row to the Google Sheets Orders ledger, with order details, items, status, tracking number, and fulfillment/supplier shipping status.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

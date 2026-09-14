@@ -6,7 +6,7 @@
       "type": "scheduled",
       "description": "Runs daily to analyze trending topics, generate social hooks, and queue content for approval.",
       "ends_type": "never",
-      "is_active": true,
+      "is_active": false,
       "name": "Daily Social Content Generator",
       "repeat_interval": 1,
       "repeat_unit": "days",

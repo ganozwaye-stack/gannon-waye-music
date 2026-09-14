@@ -10,7 +10,7 @@
         "create",
         "update"
       ],
-      "is_active": true,
+      "is_active": false,
       "name": "Notify on Shipping Rule Change"
     },
     {
@@ -20,7 +20,7 @@
       "event_types": [
         "create"
       ],
-      "is_active": true,
+      "is_active": false,
       "name": "Notify on New Risk Alert"
     }
   ]

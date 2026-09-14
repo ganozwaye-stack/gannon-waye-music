@@ -8,7 +8,7 @@
       "event_types": [
         "create"
       ],
-      "is_active": true,
+      "is_active": false,
       "name": "Admin Alert - New Fan Post"
     }
   ]

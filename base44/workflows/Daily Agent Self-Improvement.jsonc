@@ -2,7 +2,7 @@
   "name": "Daily Agent Self-Improvement",
   "description": "Reviews all agent activity from the past 24h and logs improvement learning records.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

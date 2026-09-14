@@ -2,7 +2,7 @@
   "name": "Legacy order notification sync disabled",
   "description": "Disabled because onNewOrderAutomation is the single paid-order side-effect owner",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

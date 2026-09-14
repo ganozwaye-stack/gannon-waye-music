@@ -2,7 +2,7 @@
   "name": "Daily Fan Reminder Sender",
   "description": "Daily check for due fan reminders \u2014 sends email and marks as sent",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

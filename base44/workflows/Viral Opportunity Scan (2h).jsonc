@@ -2,7 +2,7 @@
   "name": "Viral Opportunity Scan (2h)",
   "description": "Scans for viral trends and revenue opportunities every 2 hours",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

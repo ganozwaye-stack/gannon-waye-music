@@ -2,7 +2,7 @@
   "name": "Customer Order Receipt Email",
   "description": "Retired in favour of the idempotent paid-order notification path; retained inactive for rollback.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

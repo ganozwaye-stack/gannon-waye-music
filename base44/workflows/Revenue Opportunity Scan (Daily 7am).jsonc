@@ -2,7 +2,7 @@
   "name": "Revenue Opportunity Scan (Daily 7am)",
   "description": "Daily morning revenue opportunity deep scan",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

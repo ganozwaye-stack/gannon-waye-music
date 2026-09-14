@@ -2,7 +2,7 @@
   "name": "Stripe Order Reconciliation (6h)",
   "description": "Every 6 hours, cross-checks recent PAID Stripe checkout sessions against MerchOrder records and automatically creates any order the webhook missed. Idempotent safety net \u2014 no paid order can be silently lost.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

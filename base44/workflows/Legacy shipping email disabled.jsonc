@@ -2,7 +2,7 @@
   "name": "Legacy shipping email disabled",
   "description": "Disabled because fulfilOrderAndNotify is the single shipping-email owner",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

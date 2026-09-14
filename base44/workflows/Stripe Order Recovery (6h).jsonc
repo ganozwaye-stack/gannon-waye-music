@@ -2,7 +2,7 @@
   "name": "Stripe Order Recovery (6h)",
   "description": "Retired after the canonical Stripe event inbox was introduced; retained inactive for rollback.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "scheduled",
       "events": [],

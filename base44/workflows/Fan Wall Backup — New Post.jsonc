@@ -28,7 +28,7 @@
   },
   "name": "Fan Wall Backup \u2014 New Post",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [

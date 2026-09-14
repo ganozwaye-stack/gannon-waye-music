@@ -2,7 +2,7 @@
   "name": "Google Calendar \u2192 Schedule Sync",
   "description": "Real-time webhook from Google Calendar \u2014 upserts gigs and release dates into CalendarEvent so the public schedule page stays current automatically.",
   "trigger": {
-    "condition": null,
+    "condition": "${ false }",
     "config": {
       "trigger_type": "connector",
       "events": [
