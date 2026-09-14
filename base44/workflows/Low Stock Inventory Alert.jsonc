@@ -1,8 +1,8 @@
 {
   "name": "Low Stock Inventory Alert",
-  "description": "",
+  "description": "Paused by the global safety hold. Do not send low-stock emails automatically.",
   "trigger": {
-    "condition": "${ ((.trigger.data.stock_quantity <= 5) and (.trigger.data.is_active == true)) }",
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [
