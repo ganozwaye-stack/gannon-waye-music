@@ -1,8 +1,16 @@
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const ROOT = resolve('.');
-const read = (path) => readFileSync(resolve(ROOT, path), 'utf8');
+const failures = [];
+const read = (path) => {
+  const target = resolve(ROOT, path);
+  if (!existsSync(target)) {
+    failures.push(`${path} is missing.`);
+    return '';
+  }
+  return readFileSync(target, 'utf8');
+};
 
 const required = [
   ['src/components/public/SetFreeHero.jsx', 'if (!heroRelease) return null;'],
@@ -15,11 +23,20 @@ const required = [
   ['src/components/public/ReleaseGallery.jsx', 'if (!hasPublicRelease || isLoading || images.length === 0) return null;'],
   ['base44/workflows/Auto-Post New Release to Instagram.jsonc', '"condition": "${ false }"'],
   ['base44/workflows/Publish Due Releases (Midnight).jsonc', '"condition": "${ false }"'],
+  ['base44/workflows/Notify Subscribers on New Release.jsonc', '"condition": "${ false }"'],
+  ['base44/functions/notifySubscribersNewRelease/function.jsonc', '"is_active": false'],
   ['base44/functions/submitNewRelease/entry.ts', 'const autoPublish = false;'],
   ['base44/functions/submitNewRelease/entry.ts', 'publishing_safe: false'],
   ['base44/functions/submitNewRelease/entry.ts', 'const allowDistributionPush = false;'],
   ['base44/functions/prepareReleaseEmailDraft/entry.ts', "release.is_published === true"],
   ['base44/functions/prepareReleaseEmailDraft/entry.ts', "release.status === 'released'"],
+  ['base44/functions/prepareReleaseEmailDraft/entry.ts', 'OWNER_EMAILS.has'],
+  ['base44/functions/sendReleaseEmailDraft/entry.ts', "release?.is_published === true"],
+  ['base44/functions/sendReleaseEmailDraft/entry.ts', "release?.status === 'released'"],
+  ['base44/functions/sendReleaseEmailDraft/entry.ts', 'Gannon owner sign-in required.'],
+  ['base44/functions/postReleaseToSocial/entry.ts', 'Automatic Instagram publication is disabled.'],
+  ['base44/functions/notifyFansReleaseStatus/entry.ts', 'Automatic fan release-status email is disabled.'],
+  ['base44/functions/notifySubscribersNewRelease/entry.ts', 'Automatic subscriber notification is disabled.'],
   ['base44/functions/publishDueReleases/entry.ts', 'Automatic release publication is disabled.'],
 ];
 
@@ -28,9 +45,11 @@ const forbidden = [
   ['src/components/public/ReleaseGallery.jsx', /releaseTitle\s*=\s*['"]Set Free['"]/],
   ['src/components/public/LiveFeedSection.jsx', /Release\.filter\(\{\s*is_published:\s*true\s*\}/],
   ['src/components/public/HomeCharts.jsx', /Release\.list\(/],
+  ['base44/functions/postReleaseToSocial/entry.ts', /graph\.instagram\.com|media_publish|postToInstagram/],
+  ['base44/functions/notifyFansReleaseStatus/entry.ts', /integrations\.Core\.SendEmail/],
+  ['base44/functions/notifySubscribersNewRelease/entry.ts', /ApprovalQueue\.create|integrations\.Core\.SendEmail/],
+  ['base44/functions/prepareReleaseEmailDraft/entry.ts', /integrations\.Core\.SendEmail/],
 ];
-
-const failures = [];
 
 for (const [path, snippet] of required) {
   if (!read(path).includes(snippet)) failures.push(`${path} is missing required public-release gate: ${snippet}`);
