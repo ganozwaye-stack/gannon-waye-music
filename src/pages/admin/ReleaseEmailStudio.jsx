@@ -43,6 +43,13 @@ export default function ReleaseEmailStudio() {
     && release.public_release_approval_status === 'approved'
     && OWNER_EMAILS.has(String(release.public_release_approved_by || '').trim().toLowerCase())
     && Boolean(release.public_release_approved_at)
+    && Boolean(release.public_release_approval_id)
+    && Boolean(release.public_release_approval_fingerprint)
+    && String(release.release_email_dispatch_state || '') === 'idle'
+    && String(release.rights_evidence_reference || '').trim().length >= 8
+    && String(release.master_evidence_reference || '').trim().length >= 8
+    && String(release.delivery_evidence_reference || '').trim().length >= 8
+    && /^https:\/\//.test(String(release.public_link_evidence_url || '').trim())
   );
 
   const handlePrepare = async (e) => {
@@ -79,9 +86,9 @@ export default function ReleaseEmailStudio() {
         <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2">Release Email Studio</p>
         <h1 className="font-body text-3xl gradient-gold-text mb-2">Fan Emails, One Screen</h1>
         <p className="font-body text-sm text-muted-foreground leading-relaxed max-w-2xl">
-          Choose a fully approved public release to prepare one private draft. Preview it, edit it,
-          then use the final confirmation before any email is sent. Your mailing list plus opted-in
-          store customers are only contacted after that owner action, and each release is announced once.
+          Choose a fully approved public release with current evidence and an immutable approval receipt
+          to prepare one private draft. Preview or edit it, then use the exact final confirmation before
+          any email is sent. Claimed or interrupted sends are held for manual reconciliation and are never retried automatically.
         </p>
         {pendingCount > 0 && (
           <p className="font-body text-xs text-primary mt-3 tracking-wider uppercase">
