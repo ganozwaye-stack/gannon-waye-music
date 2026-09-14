@@ -7,22 +7,28 @@ import { Button } from '@/components/ui/button';
 import { Brain, FileText, CheckCircle2, Clock, AlertTriangle, RefreshCw, Zap, TrendingUp } from 'lucide-react';
 import { toast } from 'sonner';
 
+const SAFETY_HOLD_ACTIVE = true;
+
 const AGENTS = [
   {
     name: 'EcommerceIntelligenceAgent',
     label: 'Ecommerce Intelligence',
     function: 'agentProposalScanner',
     data_sources: ['MerchProduct', 'MerchOrder', 'BundleOffer', 'AgentActionProposal'],
-    purpose: 'Scans products/stock/margins → creates bundle + spotlight proposals',
-    schedule: 'Daily (automation)',
+    purpose: 'Paused pending an owner guard, AI-cost review, and controlled internal test.',
+    schedule: 'Safety hold active; not runnable',
+    status: 'Safety hold active',
+    disabled: true,
   },
   {
     name: 'GrowthOpportunityScanner',
     label: 'Growth Opportunity',
     function: 'growthOpportunityScanner',
     data_sources: ['EmailSubscriber', 'MerchOrder', 'GrowthOpportunity', 'KnowledgeVault'],
-    purpose: 'Finds upsell/cross-sell/email revenue opportunities',
-    schedule: 'Daily (automation)',
+    purpose: 'Paused pending an owner guard, AI-cost review, and controlled internal test.',
+    schedule: 'Safety hold active; not runnable',
+    status: 'Safety hold active',
+    disabled: true,
   },
   {
     name: 'AgentIntelligenceLoop',
@@ -33,6 +39,8 @@ const AGENTS = [
     schedule: 'Manual owner-only; automated schedule paused',
     status: 'Paused pending owner test',
     invokeArgs: { mode: 'admin_supervisor' },
+    requiresConfirmation: true,
+    confirmationMessage: 'Run the internal Deego supervisor? This uses AI quota and creates only internal records. It will not send Slack, email, publish, post, submit, or make a payment.',
   },
   {
     name: 'ExecutiveMorningBrief',
@@ -43,6 +51,7 @@ const AGENTS = [
     schedule: 'Manual owner-only; automatic delivery paused',
     status: 'Paused pending owner test',
     requiresConfirmation: true,
+    confirmationMessage: 'Generate the internal executive brief? This uses AI quota and creates only internal records. It will not send Slack, email, publish, post, submit, or make a payment.',
     buttonLabel: 'Generate internal brief',
   },
   {
@@ -50,16 +59,20 @@ const AGENTS = [
     label: 'Alert System',
     function: 'autonomousAlertSystem',
     data_sources: ['MerchOrder', 'MerchProduct', 'EmailSubscriber', 'RiskAlert'],
-    purpose: 'Monitors for low stock, failed payments, anomalies',
-    schedule: 'Every 6 hours (automation)',
+    purpose: 'Paused pending connector-scope correction, owner guard, and controlled internal test.',
+    schedule: 'Safety hold active; not runnable',
+    status: 'Safety hold active',
+    disabled: true,
   },
   {
     name: 'SocialCommentMonitor',
     label: 'Social Monitor',
     function: 'socialCommentMonitor',
     data_sources: ['FanComment', 'FanPost', 'FanReview'],
-    purpose: 'Monitors fan comments, flags moderation needs',
-    schedule: 'On new comment (entity automation)',
+    purpose: 'Paused pending an owner guard, AI-cost review, and controlled internal test.',
+    schedule: 'Safety hold active; not runnable',
+    status: 'Safety hold active',
+    disabled: true,
   },
 ];
 
@@ -67,6 +80,8 @@ const STATUS_LABELS = {
   'Complete': { color: 'bg-green-500/20 text-green-300 border-green-500/30' },
   'Live-tested complete': { color: 'bg-green-500/20 text-green-300 border-green-500/30' },
   'Built but untested': { color: 'bg-primary/20 text-primary border-primary/30' },
+  'Paused pending owner test': { color: 'bg-primary/20 text-primary border-primary/30' },
+  'Safety hold active': { color: 'bg-orange-500/20 text-orange-300 border-orange-500/30' },
   'Blocked by external login': { color: 'bg-orange-500/20 text-orange-300 border-orange-500/30' },
   'Blocked by secret rotation': { color: 'bg-red-500/20 text-red-300 border-red-500/30' },
   'Blocked by Gannon approval': { color: 'bg-blue-500/20 text-blue-300 border-blue-500/30' },
@@ -96,6 +111,10 @@ export default function AgentRevenueStatus() {
   const [chainResult, setChainResult] = useState(null);
 
   const runProofChain = async () => {
+    if (SAFETY_HOLD_ACTIVE) {
+      toast.error('Safety hold active — the ApprovalQueue proof chain is disabled pending a controlled owner test.');
+      return;
+    }
     setProvingChain(true);
     try {
       const res = await base44.functions.invoke('proofApprovalChain', {});
@@ -109,9 +128,11 @@ export default function AgentRevenueStatus() {
   };
 
   const runAgent = async (agent) => {
-    if (agent.requiresConfirmation && !window.confirm(
-      'Generate the internal executive brief? This uses AI quota and creates only internal records. It will not send Slack, email, publish, post, submit, or make a payment.'
-    )) return;
+    if (agent.disabled) {
+      toast.error('Safety hold active — this runner is unavailable pending its owner guard and controlled test.');
+      return;
+    }
+    if (agent.requiresConfirmation && !window.confirm(agent.confirmationMessage)) return;
     setRunning(p => ({ ...p, [agent.name]: true }));
     try {
       const res = await base44.functions.invoke(agent.function, agent.invokeArgs || {});
@@ -152,7 +173,7 @@ export default function AgentRevenueStatus() {
     <div className="space-y-6 pb-12">
       <div>
         <h1 className="text-3xl font-display font-bold gradient-gold-text">Agent Revenue Status</h1>
-        <p className="text-muted-foreground text-sm mt-1">Live agent activity, data connections, improvement plan</p>
+        <p className="text-muted-foreground text-sm mt-1">Agent readiness, internal evidence, and the safety-hold recovery plan</p>
       </div>
 
       {/* Summary stats */}
@@ -200,7 +221,7 @@ export default function AgentRevenueStatus() {
                         <p className="text-sm font-semibold">{agent.label}</p>
                         <Badge
                           variant="outline"
-                          className={agent.status === 'Paused pending owner test'
+                          className={agent.status === 'Paused pending owner test' || agent.status === 'Safety hold active'
                             ? 'text-[10px] text-amber-300 border-amber-500/30'
                             : 'text-[10px] text-muted-foreground border-border/50'}
                         >
@@ -232,7 +253,7 @@ export default function AgentRevenueStatus() {
                       size="sm"
                       variant="outline"
                       onClick={() => runAgent(agent)}
-                      disabled={isRunning}
+                      disabled={isRunning || agent.disabled}
                       className="gap-1 shrink-0"
                     >
                       <RefreshCw className={`w-3 h-3 ${isRunning ? 'animate-spin' : ''}`} />
