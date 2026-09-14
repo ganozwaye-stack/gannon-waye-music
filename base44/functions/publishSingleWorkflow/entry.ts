@@ -36,13 +36,26 @@ function validApprovalReceipt(receipt: any, release: any, fingerprint: string) {
   );
 }
 
-function requireExactConfirmation(body: any, release: any, fingerprint: string) {
+function requiredActionPhrase(action: string, title: unknown) {
+  const verb = exact(action).toUpperCase();
+  return ['APPROVE', 'PUBLISH'].includes(verb) ? verb + ' ' + exact(title) : '';
+}
+
+function requireExactConfirmation(body: any, release: any, fingerprint: string, action: string) {
   if (
     exact(body.confirm_title) !== exact(release.title)
     || exact(body.confirm_version_label) !== exact(release.version_label)
     || exact(body.confirm_release_fingerprint) !== fingerprint
   ) {
     return 'Exact title, version, and current release fingerprint confirmation are required.';
+  }
+
+  const expectedPhrase = requiredActionPhrase(action, release.title);
+  const submittedPhrase = action === 'approve'
+    ? exact(body.confirm_approval_phrase)
+    : exact(body.confirm_publish_phrase);
+  if (!expectedPhrase || submittedPhrase !== expectedPhrase) {
+    return 'The exact typed ' + exact(action) + ' phrase is required.';
   }
   return '';
 }
@@ -147,7 +160,7 @@ export default async function(req: Request) {
       }, { status: 409 });
     }
 
-    const confirmationError = requireExactConfirmation(body, candidate, fingerprint);
+    const confirmationError = requireExactConfirmation(body, candidate, fingerprint, action);
     if (confirmationError) {
       return Response.json({ error: confirmationError }, { status: 409 });
     }
