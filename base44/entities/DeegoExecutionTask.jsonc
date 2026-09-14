@@ -1,0 +1,110 @@
+{
+  "name": "DeegoExecutionTask",
+  "type": "object",
+  "properties": {
+    "command_id": {
+      "type": "string"
+    },
+    "command_key": {
+      "type": "string"
+    },
+    "idempotency_key": {
+      "type": "string"
+    },
+    "requested_capability": {
+      "type": "string",
+      "enum": [
+        "internal_read",
+        "internal_record_write",
+        "internal_summary"
+      ]
+    },
+    "policy_version": {
+      "type": "string"
+    },
+    "input_hash": {
+      "type": "string"
+    },
+    "runtime_state": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "claimed",
+        "running",
+        "awaiting_approval",
+        "blocked",
+        "succeeded",
+        "failed",
+        "cancelled",
+        "expired"
+      ],
+      "default": "queued"
+    },
+    "attempt_count": {
+      "type": "number",
+      "default": 0
+    },
+    "lease_id": {
+      "type": "string"
+    },
+    "lease_expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approval_grant_id": {
+      "type": "string"
+    },
+    "requires_approval": {
+      "type": "boolean",
+      "default": false
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "result_hash": {
+      "type": "string"
+    },
+    "output_summary": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "error_code": {
+      "type": "string"
+    },
+    "receipt_version": {
+      "type": "string"
+    },
+    "external_actions": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "command_id",
+    "command_key",
+    "idempotency_key",
+    "requested_capability",
+    "policy_version",
+    "input_hash",
+    "runtime_state",
+    "attempt_count",
+    "requires_approval",
+    "receipt_version",
+    "external_actions"
+  ],
+  "rls": {
+    "create": false,
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": false,
+    "delete": false
+  }
+}
