@@ -6,6 +6,7 @@ import {
   isInternalCapability,
   sha256,
 } from './policy.ts';
+import { isCompleteInternalReceipt } from '../../shared/deegoReceiptIntegrity.js';
 
 // This first real Deego execution lane deliberately supports one action only.
 // It creates a durable internal receipt and never accesses a connector, network,
@@ -110,22 +111,12 @@ Deno.serve(async (req) => {
         'sequence',
         4,
       );
-      const expectedTerminalEvents = [
-        { sequence: 1, event_type: 'accepted' },
-        { sequence: 2, event_type: 'started' },
-        { sequence: 3, event_type: 'succeeded' },
-      ];
-      const completeTerminalReceipt = existingTask.runtime_state === 'succeeded'
-        && Array.isArray(terminalEvents)
-        && terminalEvents.length === expectedTerminalEvents.length
-        && expectedTerminalEvents.every((expected, index) => {
-          const event = terminalEvents[index];
-          return Number(event?.sequence) === expected.sequence
-            && exact(event?.event_type) === expected.event_type
-            && exact(event?.task_id) === exact(existingTask.id)
-            && exact(event?.command_id) === exact(existingCommand.id)
-            && Number(event?.external_actions || 0) === 0;
-        });
+      const completeTerminalReceipt = isCompleteInternalReceipt({
+        command: existingCommand,
+        task: existingTask,
+        events: terminalEvents,
+        inputHash,
+      });
       if (!completeTerminalReceipt) {
         return Response.json({
           error: 'The existing receipt is not a complete successful internal record. It is held for manual reconciliation and will not be retried automatically.',
