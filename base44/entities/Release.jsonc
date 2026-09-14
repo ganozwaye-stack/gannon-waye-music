@@ -336,6 +336,268 @@
         }
       }
     },
+    "rights_evidence_reference": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Private reference to the rights-clearance evidence required before public release.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        },
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
+    },
+    "master_evidence_reference": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Private reference to the approved distribution master required before public release.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        },
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
+    },
+    "delivery_evidence_reference": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Private reference to confirmed distribution delivery or availability.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        },
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
+    },
+    "public_link_evidence_url": {
+      "type": "string",
+      "format": "uri",
+      "maxLength": 2000,
+      "description": "Canonical HTTPS public listening page verified before publication.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        },
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
+    },
+    "public_release_approval_id": {
+      "type": "string",
+      "description": "Private pointer to the immutable approval receipt for this exact release snapshot.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        },
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
+    },
+    "public_release_approval_fingerprint": {
+      "type": "string",
+      "description": "Private SHA-256 fingerprint of the exact release content and evidence approved by the owner.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        },
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
+    },
+    "release_email_dispatch_state": {
+      "type": "string",
+      "enum": [
+        "idle",
+        "claimed",
+        "sent",
+        "blocked"
+      ],
+      "default": "idle",
+      "description": "Private fail-closed state for the one manually confirmed fan release email.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        },
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
+    },
+    "release_email_dispatch_status": {
+      "type": "string",
+      "description": "Private status value reserved by the one fan-email dispatch claim.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        },
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
+    },
+    "release_email_dispatch_claim_id": {
+      "type": "string",
+      "description": "Private claim identifier that prevents concurrent release-email dispatches.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        },
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
+    },
+    "release_email_dispatch_fingerprint": {
+      "type": "string",
+      "description": "Private fingerprint of the approved release snapshot used by the dispatch claim.",
+      "rls": {
+        "write": {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        },
+        "read": {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      }
+    },
     "toolost_sync_status": {
       "type": "string",
       "enum": [
