@@ -6,7 +6,10 @@ import { collectFanEmailAudience } from '../../shared/fanEmailAudience.ts';
 // from the Release Email Studio after Gannon presses Approve and Send.
 
 const SITE_URL = 'https://gannonwaye.com';
-const OWNER_EMAIL = 'gannonwayemusic@gmail.com';
+const OWNER_EMAILS = new Set([
+  'ganozwaye@gmail.com',
+  'gannonwayemusic@gmail.com',
+]);
 const MAX_RECIPIENTS = 250;
 
 function errorMessage(error) {
@@ -17,8 +20,9 @@ export default async function (req) {
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me().catch(() => null);
-    if (!user || user.role !== 'admin') {
-      return Response.json({ error: 'Admin sign-in required.' }, { status: 403 });
+    const actorEmail = String(user?.email || '').trim().toLowerCase();
+    if (!user || user.role !== 'admin' || !OWNER_EMAILS.has(actorEmail)) {
+      return Response.json({ error: 'Gannon owner sign-in required.' }, { status: 403 });
     }
 
     const sr = base44.asServiceRole;
@@ -29,6 +33,20 @@ export default async function (req) {
     const matches = await sr.entities.ReleaseEmailDraft.filter({ id: draftId }, '', 1);
     const draft = matches?.[0];
     if (!draft?.id) return Response.json({ error: 'Draft not found' }, { status: 404 });
+
+    const releaseMatches = await sr.entities.Release.filter({ id: draft.release_id }, '', 1);
+    const release = releaseMatches?.[0];
+    const releaseApproved = release?.is_published === true
+      && release?.publishing_safe === true
+      && release?.status === 'released'
+      && release?.public_release_approval_status === 'approved'
+      && OWNER_EMAILS.has(String(release?.public_release_approved_by || '').trim().toLowerCase())
+      && Boolean(release?.public_release_approved_at);
+    if (!releaseApproved || draft.status !== 'released') {
+      return Response.json({
+        error: 'A fan email can be sent only for a fully approved, public, released record.',
+      }, { status: 400 });
+    }
 
     if (draft.approval_status === 'sent') {
       return Response.json({ skipped: true, reason: 'This draft was already sent.' });
