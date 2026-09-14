@@ -40,7 +40,7 @@ const AGENTS = [
     status: 'Paused pending owner test',
     invokeArgs: { mode: 'admin_supervisor' },
     requiresConfirmation: true,
-    confirmationMessage: 'Run the internal Deego supervisor? This uses AI quota and creates only internal records. It will not send Slack, email, publish, post, submit, or make a payment.',
+    confirmationMessage: 'Run the internal Deego supervisor? It creates only internal task alerts and does not call paid AI, send Slack or email, publish, post, submit, or make a payment.',
   },
   {
     name: 'ExecutiveMorningBrief',
@@ -51,6 +51,7 @@ const AGENTS = [
     schedule: 'Manual owner-only; automatic delivery paused',
     status: 'Paused pending owner test',
     requiresConfirmation: true,
+    invokeArgs: { cost_acknowledged: true },
     confirmationMessage: 'Generate the internal executive brief? This uses AI quota and creates only internal records. It will not send Slack, email, publish, post, submit, or make a payment.',
     buttonLabel: 'Generate internal brief',
   },
