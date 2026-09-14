@@ -25,6 +25,18 @@ export default function DeegoSupervisorDesk() {
     mutationFn: async () => (await base44.functions.invoke('agentIntelligenceLoop', { mode: 'admin_supervisor' })).data,
     onSettled: () => client.invalidateQueries({ queryKey: ['deego-supervisor'] }),
   });
+  const [laneReceipt, setLaneReceipt] = useState(null);
+  const verifyReceiptLane = useMutation({
+    mutationFn: async () => {
+      const idempotency_key = `deego-desk-${Date.now()}-${crypto.randomUUID()}`;
+      return (await base44.functions.invoke('deegoInternalDispatcher', {
+        mode: 'controlled_internal_test',
+        action: 'synthetic_internal_test',
+        idempotency_key,
+      })).data;
+    },
+    onSuccess: data => setLaneReceipt(data),
+  });
   if (identity.isPending) return <section aria-busy="true" className="rounded-2xl border border-border p-6 animate-pulse">Loading Deego desk…</section>;
   if (!owner(identity.data)) return <section className="rounded-2xl border border-border p-6">Deego supervision requires the signed-in owner account.</section>;
   const tasks = (review.data?.tasks || []).filter(task => !task.verified);
@@ -45,14 +57,25 @@ export default function DeegoSupervisorDesk() {
       <button type="button" className="rounded-lg bg-primary text-primary-foreground px-4 py-2 disabled:opacity-50" disabled={run.isPending || review.isPending || review.isError} onClick={() => run.mutate()}>
         {run.isPending ? 'Reviewing task records…' : 'Run internal task review'}
       </button>
+      <button
+        type="button"
+        className="rounded-lg border border-primary/50 px-4 py-2 text-sm disabled:opacity-50"
+        disabled={verifyReceiptLane.isPending}
+        onClick={() => verifyReceiptLane.mutate()}
+      >
+        {verifyReceiptLane.isPending ? 'Creating internal receipt…' : 'Verify internal receipt lane'}
+      </button>
       <a className="text-primary underline text-sm" href={base44.agents.getWhatsAppConnectURL('deego_master_ai')} target="_blank" rel="noreferrer">Open Deego WhatsApp connection</a>
       <button type="button" className="text-primary underline text-sm" aria-expanded={showAccounts} onClick={() => setShowAccounts(!showAccounts)}>Mailbox setup ({MAILBOXES.length})</button>
     </div>
+    <p className="text-xs text-muted-foreground">The receipt test is owner-only and creates internal audit records only: no message, account access, payment, submission, publication, or external request.</p>
     {showAccounts && <div className="space-y-2">
       <p className="text-sm text-muted-foreground">Requested accounts, not proof of connection. Each needs identity, read access and a successful message fetch verified before monitoring starts.</p>
       {MAILBOXES.map(address => <div key={address} className="border border-border rounded-lg p-3 break-all text-sm">{address}<span className="block text-muted-foreground">Not verified for monitoring</span></div>)}
     </div>}
     {run.isSuccess && <p role="status" className="text-sm">{run.data.followed_up} internal follow-up records prepared across {run.data.reviewed} tasks. No message, payment, refund, submission, or external action was sent.</p>}
+    {verifyReceiptLane.isSuccess && laneReceipt && <p role="status" className="text-sm border border-green-500/30 rounded-lg p-3">Internal receipt verified: task {laneReceipt.task_id}. External actions: {laneReceipt.external_actions}; network requests: {laneReceipt.network_requests}.</p>}
+    {verifyReceiptLane.isError && <div role="alert" className="text-sm border border-destructive/40 rounded-lg p-3">Internal receipt test did not complete. No external action was requested or performed.</div>}
     {(run.isError || review.isError) && <div role="alert" className="text-sm border border-destructive/40 rounded-lg p-3">Task review unavailable or partially completed. No complete coverage claimed. <button className="underline" onClick={() => review.refetch()}>Retry loading</button></div>}
     {review.isPending ? <p aria-busy="true">Loading task registers…</p> : !review.isError && <>
       <p className="text-sm text-muted-foreground">{tasks.length} tasks require follow-through or completion evidence. Delegation does not remove them.</p>
