@@ -23,12 +23,13 @@ export default function NewReleaseStudio() {
     description: '',
     lyrics: '',
     presave_url: '',
-    auto_publish_on_release_date: true,
+    auto_publish_on_release_date: false,
   });
   const [artwork, setArtwork] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [result, setResult] = useState(null);
+  const [costAcknowledged, setCostAcknowledged] = useState(false);
 
   const set = (key, value) => setForm(current => ({ ...current, [key]: value }));
 
@@ -52,6 +53,10 @@ export default function NewReleaseStudio() {
       toast({ title: 'Song name and release date are required', variant: 'destructive' });
       return;
     }
+    if (!costAcknowledged) {
+      toast({ title: 'Confirm the private-draft and AI-quota acknowledgement first', variant: 'destructive' });
+      return;
+    }
     setSubmitting(true);
     setResult(null);
     try {
@@ -60,7 +65,7 @@ export default function NewReleaseStudio() {
         artwork_url: artwork?.url || '',
       });
       setResult(res.data);
-      toast({ title: 'Release submitted 🚀', description: form.title });
+      toast({ title: 'Private release draft created', description: form.title });
     } catch (err) {
       toast({
         title: 'Submission failed',
@@ -76,7 +81,7 @@ export default function NewReleaseStudio() {
       <div className="mb-6">
         <h1 className="text-3xl font-display font-bold gradient-gold-text">New Release Studio</h1>
         <p className="text-muted-foreground text-sm mt-1 font-body">
-          One press. Your song is saved, the full launch pack is written for your review (press release, playlist pitch, subscriber email, reel ideas, lyric quote, playlist pictures), synced to Too Lost, and scheduled to go live on release day.
+          Create a private release draft and review pack. Nothing is delivered, published, posted, emailed, scheduled, or publicly claimed from this screen.
         </p>
       </div>
 
@@ -125,7 +130,7 @@ export default function NewReleaseStudio() {
 
         <div>
           <label className={labelClass} htmlFor="nrs-presave">Presave link (optional)</label>
-          <input id="nrs-presave" className={inputClass} value={form.presave_url} onChange={e => set('presave_url', e.target.value)} placeholder="Paste the too.fm presave link from Too Lost" />
+          <input id="nrs-presave" className={inputClass} value={form.presave_url} onChange={e => set('presave_url', e.target.value)} placeholder="Paste an already verified pre-save link, if one exists" />
         </div>
 
         <div>
@@ -152,31 +157,36 @@ export default function NewReleaseStudio() {
 
         <div>
           <label className={labelClass} htmlFor="nrs-lyrics">Lyrics</label>
-          <textarea id="nrs-lyrics" rows={6} className={inputClass} value={form.lyrics} onChange={e => set('lyrics', e.target.value)} placeholder="Paste the full lyrics — they're saved behind the usual review gate before going public" />
+          <textarea id="nrs-lyrics" rows={6} className={inputClass} value={form.lyrics} onChange={e => set('lyrics', e.target.value)} placeholder="Paste the full lyrics — they stay private while the approval gates remain closed" />
         </div>
 
-        <label className="flex items-start gap-3 p-3 border border-primary/20 bg-primary/5 rounded-lg cursor-pointer">
-          <input
-            type="checkbox"
-            checked={form.auto_publish_on_release_date}
-            onChange={e => set('auto_publish_on_release_date', e.target.checked)}
-            className="mt-0.5 accent-[#d4af37]"
-          />
-          <span className="font-body text-xs text-foreground">
-            Go live automatically at midnight on release day
-            <span className="block text-muted-foreground mt-0.5">
-              Your song page, the current single feature and the music listing all update together the moment the date arrives.
+        <div className="p-3 border border-primary/20 bg-primary/5 rounded-lg">
+          <p className="font-body text-xs text-foreground">
+            This creates a private release draft and internal review pack only.
+          </p>
+          <p className="font-body text-xs text-muted-foreground mt-1">
+            It does not deliver to a distributor, publish, post, send, schedule, or charge a payment method. Any later public release needs the separate exact owner approval gates.
+          </p>
+          <label className="mt-3 flex items-start gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={costAcknowledged}
+              onChange={e => setCostAcknowledged(e.target.checked)}
+              className="mt-0.5 accent-[#d4af37]"
+            />
+            <span className="font-body text-xs text-foreground">
+              I understand this private draft may use AI quota to prepare review material.
             </span>
-          </span>
-        </label>
+          </label>
+        </div>
 
         <Button
           type="submit"
-          disabled={submitting || uploading}
+          disabled={submitting || uploading || !costAcknowledged}
           className="w-full gradient-gold-button rounded-full py-2.5 font-body text-xs tracking-wider uppercase"
         >
           {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />}
-          {submitting ? 'Submitting…' : 'Submit release — one button does it all'}
+          {submitting ? 'Creating private draft…' : 'Create private draft & review pack'}
         </Button>
       </form>
 
