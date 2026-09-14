@@ -43,7 +43,7 @@ export default function DeegoSupervisorDesk() {
     </div>
     <div className="flex flex-wrap gap-3 items-center">
       <button type="button" className="rounded-lg bg-primary text-primary-foreground px-4 py-2 disabled:opacity-50" disabled={run.isPending || review.isPending || review.isError} onClick={() => run.mutate()}>
-        {run.isPending ? 'Reviewing tasks…' : 'Run task follow-ups'}
+        {run.isPending ? 'Reviewing task records…' : 'Run internal task review'}
       </button>
       <a className="text-primary underline text-sm" href={base44.agents.getWhatsAppConnectURL('deego_master_ai')} target="_blank" rel="noreferrer">Open Deego WhatsApp connection</a>
       <button type="button" className="text-primary underline text-sm" aria-expanded={showAccounts} onClick={() => setShowAccounts(!showAccounts)}>Mailbox setup ({MAILBOXES.length})</button>
@@ -52,7 +52,7 @@ export default function DeegoSupervisorDesk() {
       <p className="text-sm text-muted-foreground">Requested accounts, not proof of connection. Each needs identity, read access and a successful message fetch verified before monitoring starts.</p>
       {MAILBOXES.map(address => <div key={address} className="border border-border rounded-lg p-3 break-all text-sm">{address}<span className="block text-muted-foreground">Not verified for monitoring</span></div>)}
     </div>}
-    {run.isSuccess && <p role="status" className="text-sm">{run.data.followed_up} follow-ups recorded across {run.data.reviewed} tasks. Alerts were saved inside the website; no WhatsApp message was sent.</p>}
+    {run.isSuccess && <p role="status" className="text-sm">{run.data.followed_up} internal follow-up records prepared across {run.data.reviewed} tasks. No message, payment, refund, submission, or external action was sent.</p>}
     {(run.isError || review.isError) && <div role="alert" className="text-sm border border-destructive/40 rounded-lg p-3">Task review unavailable or partially completed. No complete coverage claimed. <button className="underline" onClick={() => review.refetch()}>Retry loading</button></div>}
     {review.isPending ? <p aria-busy="true">Loading task registers…</p> : !review.isError && <>
       <p className="text-sm text-muted-foreground">{tasks.length} tasks require follow-through or completion evidence. Delegation does not remove them.</p>
