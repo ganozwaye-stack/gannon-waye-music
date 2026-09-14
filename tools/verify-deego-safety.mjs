@@ -54,14 +54,32 @@ function assertFunctionBoundarySafety() {
   }
 }
 
-function assertHeldAgentCards() {
-  const dashboard = read('src/pages/admin/AgentRevenueStatus.jsx');
-  const marker = "name: 'ExecutiveMorningBrief',";
+function assertHeldAgentCard(dashboard, agentName, label) {
+  const marker = `name: '${agentName}',`;
   const start = dashboard.indexOf(marker);
   const end = start === -1 ? -1 : dashboard.indexOf('\n  },', start);
   const card = start === -1 || end === -1 ? '' : dashboard.slice(start, end);
-  if (!card.includes('Safety hold active; not runnable') || !card.includes('disabled: true')) {
-    failures.push('Executive Brief dashboard card must remain a disabled safety hold.');
+  if (!card.includes("status: 'Safety hold active'") || !card.includes('Safety hold active; not runnable') || !card.includes('disabled: true')) {
+    failures.push(`${label} dashboard card must remain a disabled safety hold.`);
+  }
+}
+
+function assertHeldAgentCards() {
+  const dashboard = read('src/pages/admin/AgentRevenueStatus.jsx');
+  assertHeldAgentCard(dashboard, 'GrowthOpportunityScanner', 'Growth Opportunity');
+  assertHeldAgentCard(dashboard, 'ExecutiveMorningBrief', 'Executive Brief');
+}
+
+function assertHeldScannerPages() {
+  const checks = [
+    ['src/pages/admin/GrowthEngine.jsx', '<Button disabled variant="outline"', 'Growth Engine'],
+    ['src/pages/admin/IntelligenceToIncome.jsx', '<Button variant="outline" disabled>', 'Intelligence to Income'],
+  ];
+  for (const [path, disabledButton, label] of checks) {
+    const page = read(path);
+    if (!page.includes(disabledButton) || !page.includes('Safety hold active')) {
+      failures.push(`${label} must show a disabled safety-hold control instead of a scanner runner.`);
+    }
   }
 }
 
