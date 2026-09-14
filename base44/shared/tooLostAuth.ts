@@ -92,18 +92,13 @@ function bytesToBase64(bytes) {
   return btoa(binary);
 }
 
-function base64ToBytes(value) {
-  const binary = atob(value);
-  return Uint8Array.from(binary, character => character.charCodeAt(0));
-}
-
 async function tokenCipherKey(config) {
   const material = config.tokenEncryptionKey || config.clientSecret;
   const digest = await crypto.subtle.digest(
     'SHA-256',
     new TextEncoder().encode(`gannon-waye-too-lost-token-v1:${material}`),
   );
-  return crypto.subtle.importKey('raw', digest, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt']);
+  return crypto.subtle.importKey('raw', digest, { name: 'AES-GCM' }, false, ['encrypt']);
 }
 
 async function encryptTokenBundle(config, bundle) {
@@ -116,33 +111,13 @@ async function encryptTokenBundle(config, bundle) {
   return `v1.${bytesToBase64(iv)}.${bytesToBase64(new Uint8Array(encrypted))}`;
 }
 
-async function decryptTokenBundle(config, envelope) {
-  const [version, ivValue, cipherValue] = String(envelope || '').split('.');
-  if (version !== 'v1' || !ivValue || !cipherValue) throw new Error('Invalid token envelope');
-  const decrypted = await crypto.subtle.decrypt(
-    { name: 'AES-GCM', iv: base64ToBytes(ivValue) },
-    await tokenCipherKey(config),
-    base64ToBytes(cipherValue),
-  );
-  return JSON.parse(new TextDecoder().decode(decrypted));
-}
-
 export async function saveTooLostConnection(sr, config, tokens) {
   if (!tokens?.access_token) throw new Error('Too Lost did not return an access token.');
   const now = new Date();
   const expiresAt = new Date(now.getTime() + (Number(tokens.expires_in) || 1296000) * 1000);
   const existing = await fetchTooLostConnection(sr);
-  let existingBundle = {};
-  if (existing?.token_envelope) {
-    try {
-      existingBundle = await decryptTokenBundle(config, existing.token_envelope);
-    } catch {
-      existingBundle = {};
-    }
-  }
   const bundle = {
     access_token: tokens.access_token,
-    refresh_token: tokens.refresh_token || existingBundle.refresh_token || null,
   };
   const patch = {
     token_envelope: await encryptTokenBundle(config, bundle),
@@ -183,54 +158,4 @@ export async function exchangeTooLostCode(config, code) {
   }, 'authorization code');
 }
 
-async function refreshTooLostTokens(config, refreshToken) {
-  return tokenRequest(config, {
-    grant_type: 'refresh_token',
-    client_id: config.clientId,
-    client_secret: config.clientSecret,
-    refresh_token: refreshToken,
-  }, 'token refresh');
-}
-
-// Returns { token } on success, or a safe status without exposing credentials.
-export async function getValidTooLostAccessToken(sr, config) {
-  const missing = missingTooLostConfig(config);
-  if (missing.length) {
-    return { error: 'not_configured', detail: `Missing Base44 secrets: ${missing.join(', ')}` };
-  }
-
-  const connection = await fetchTooLostConnection(sr);
-  if (!connection?.token_envelope) {
-    return { error: 'not_connected', detail: 'Too Lost is not connected yet. Click Connect Too Lost on Distributor Hub.' };
-  }
-
-  let bundle;
-  try {
-    bundle = await decryptTokenBundle(config, connection.token_envelope);
-  } catch {
-    return { error: 'reauthorise_required', detail: 'The saved Too Lost login could not be opened securely. Click Reconnect Too Lost.' };
-  }
-
-  const expiresAt = connection.access_token_expires_at
-    ? new Date(connection.access_token_expires_at).getTime()
-    : 0;
-  if (bundle.access_token && expiresAt > Date.now() + 120_000) {
-    return { token: bundle.access_token };
-  }
-
-  if (bundle.refresh_token) {
-    try {
-      const tokens = await refreshTooLostTokens(config, bundle.refresh_token);
-      await saveTooLostConnection(sr, config, tokens);
-      return { token: tokens.access_token, refreshed: true };
-    } catch (refreshError) {
-      return {
-        error: 'reauthorise_required',
-        detail: `Too Lost could not renew the login: ${refreshError?.message || 'unknown error'}. Click Reconnect Too Lost.`,
-      };
-    }
-  }
-
-  return { error: 'reauthorise_required', detail: 'The Too Lost login expired. Click Reconnect Too Lost.' };
-}
 
