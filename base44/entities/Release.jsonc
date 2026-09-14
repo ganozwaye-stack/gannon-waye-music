@@ -317,7 +317,7 @@
     "auto_publish_on_release_date": {
       "type": "boolean",
       "default": false,
-      "description": "Set at New Release Studio submission: publish this release publicly at midnight on its release date, executing the owner's one-button approval. Legacy releases stay false and keep the manual publish flow.",
+      "description": "Reserved for a future owner-approved workflow. New Release Studio never authorises automatic publication; this remains false until the exact public-release gates and a separate owner action are complete.",
       "rls": {
         "write": {
           "$or": [
@@ -347,7 +347,7 @@
         "error"
       ],
       "default": "not_attempted",
-      "description": "Whether this release and its metadata have been pushed to Too Lost for distribution. 'created' means it was synced at New Release Studio submission; 'pushed_on_release_date' means the release-day push delivered it."
+      "description": "Record-only delivery state. There is no automatic distributor sync; any delivery claim must be supported by a separate owner-approved provider receipt."
     }
   },
   "required": [
