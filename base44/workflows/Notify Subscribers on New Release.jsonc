@@ -1,8 +1,8 @@
 {
   "name": "Notify Subscribers on New Release",
-  "description": "",
+  "description": "Disabled safety hold. Release updates may prepare one reviewed draft through Release Status Update \u2192 Fan Email; nothing sends or queues automatically.",
   "trigger": {
-    "condition": "${ ((.trigger.changed_fields | index(\"is_published\") != null) and (.trigger.data.is_published == true)) }",
+    "condition": "${ false }",
     "config": {
       "trigger_type": "entity",
       "events": [
