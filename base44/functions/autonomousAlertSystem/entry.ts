@@ -180,6 +180,59 @@ function safeDate(value) {
   return Number.isFinite(time) ? time : 0;
 }
 
+function fingerprintRows(items = [], fields = []) {
+  return [...items].map((item) => {
+    const record: Record<string, unknown> = {};
+    for (const field of fields) record[field] = item?.[field] ?? null;
+    return record;
+  }).sort((a, b) => String(a.id || '').localeCompare(String(b.id || '')));
+}
+
+function materialSnapshot({
+  allTasks,
+  approvalItems,
+  blockedItems,
+  riskAlerts,
+  taskLogs,
+  paymentDiagnostics,
+  siteChecks,
+  gmail,
+  laptopSnapshot,
+}) {
+  return JSON.stringify({
+    open_tasks: fingerprintRows(
+      allTasks.filter((task) => task.status !== 'complete' && task.status !== 'deferred'),
+      ['id', 'title', 'priority', 'status', 'due_date', 'owner', 'next_action'],
+    ),
+    approvals: fingerprintRows(approvalItems, ['id', 'status', 'title', 'priority', 'next_action']),
+    blockers: fingerprintRows(blockedItems, ['id', 'status', 'title', 'severity', 'next_action']),
+    risks: fingerprintRows(riskAlerts, ['id', 'status', 'title', 'severity', 'summary']),
+    payments: fingerprintRows(paymentDiagnostics, ['id', 'status', 'title', 'summary']),
+    recent_agent_work: fingerprintRows(taskLogs, ['id', 'task_title', 'agent_name', 'outcome']),
+    sites: [...siteChecks].map((site) => ({
+      name: site.name,
+      ok: Boolean(site.ok),
+      status: site.status || 0,
+      final_url: site.final_url || null,
+    })).sort((a, b) => a.name.localeCompare(b.name)),
+    gmail: {
+      connected: Boolean(gmail?.connected),
+      error: gmail?.error || null,
+      messages: fingerprintRows(gmail?.messages || [], ['id', 'unread']),
+    },
+    laptop: laptopSnapshot ? {
+      recent_files_count: laptopSnapshot.recent_files_count || 0,
+      running_work_count: laptopSnapshot.running_work_count || 0,
+      browser_activity_count: laptopSnapshot.browser_activity_count || 0,
+    } : null,
+  });
+}
+
+async function stateFingerprint(value) {
+  const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+  return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, '0')).join('');
+}
+
 Deno.serve(async (req) => {
   const startedAt = new Date();
   const payload = await parsePayload(req);
@@ -199,6 +252,54 @@ Deno.serve(async (req) => {
   let runRecord = null;
 
   try {
+    const [
+      preflightTasks,
+      preflightApprovals,
+      preflightBlockers,
+      preflightRisks,
+      preflightTaskLogs,
+      preflightPayments,
+      preflightSites,
+      preflightGmail,
+      stateRecords,
+    ] = await Promise.all([
+      base44.asServiceRole.entities.DailyDashboardTask.list('sort_order', 500),
+      base44.asServiceRole.entities.ApprovalQueueItem.list('-created_date', 200),
+      base44.asServiceRole.entities.BlockedItem.list('-created_date', 200),
+      base44.asServiceRole.entities.RiskAlert.list('-created_date', 100),
+      base44.asServiceRole.entities.AgentTaskLog.list('-created_date', 100),
+      base44.asServiceRole.entities.PaymentDiagnostic.list('-created_date', 100),
+      Promise.all(PUBLIC_SITES.map(checkSite)),
+      gmailSnapshot(base44),
+      base44.asServiceRole.entities.DeegoAutomationRun.filter({ mode_key: 'operational_audit_state' }, '-updated_date', 2),
+    ]);
+
+    const fingerprint = await stateFingerprint(materialSnapshot({
+      allTasks: preflightTasks,
+      approvalItems: preflightApprovals,
+      blockedItems: preflightBlockers,
+      riskAlerts: preflightRisks,
+      taskLogs: preflightTaskLogs,
+      paymentDiagnostics: preflightPayments,
+      siteChecks: preflightSites,
+      gmail: preflightGmail,
+      laptopSnapshot: payload?.local_snapshot || null,
+    }));
+    const stateRecord = stateRecords[0] || null;
+
+    if (stateRecord?.state_fingerprint === fingerprint) {
+      await base44.asServiceRole.entities.DeegoAutomationRun.update(stateRecord.id, {
+        last_checked_at: startedAt.toISOString(),
+        next_run_hint: 'No material state change; report and notification creation suppressed.',
+      });
+      return Response.json({
+        success: true,
+        skipped: true,
+        reason: 'No material Deego state change since the last audit.',
+        local_time: localLabel(startedAt),
+      });
+    }
+
     runRecord = await base44.asServiceRole.entities.DeegoAutomationRun.create({
       run_name: 'Deego Operational Audit Check Up',
       mode_key: 'operational_audit',
@@ -210,6 +311,8 @@ Deno.serve(async (req) => {
       revenue_items_created: 0,
       design_items_created: 0,
       blockers: [],
+      state_fingerprint: fingerprint,
+      last_checked_at: startedAt.toISOString(),
     });
 
     const [
@@ -348,7 +451,31 @@ Deno.serve(async (req) => {
       design_items_created: 0,
       blockers,
       next_run_hint: parts.hour >= 9 && parts.hour < 15 ? 'Next hourly Melbourne check.' : 'Next eligible Melbourne schedule slot.',
+      state_fingerprint: fingerprint,
+      last_checked_at: new Date().toISOString(),
     });
+
+    const currentState = {
+      run_name: 'Deego Operational Audit State',
+      mode_key: 'operational_audit_state',
+      trigger_source: payload?.local_snapshot ? 'handoff' : 'scheduled',
+      started_at: startedAt.toISOString(),
+      completed_at: new Date().toISOString(),
+      status: waiting.length > 0 || failedSites.length > 0 || failedRecentRuns.length > 0 ? 'needs_approval' : 'success',
+      summary: `Last material audit: ${openTasks.length} open, ${processing.length} processing, ${waiting.length} waiting. Top priority: ${topTasks[0]?.title || 'none'}.`,
+      approval_items_created: 0,
+      revenue_items_created: 0,
+      design_items_created: 0,
+      blockers,
+      next_run_hint: 'State-based dedupe active. Unchanged audits only refresh last_checked_at.',
+      state_fingerprint: fingerprint,
+      last_checked_at: new Date().toISOString(),
+    };
+    if (stateRecord?.id) {
+      await base44.asServiceRole.entities.DeegoAutomationRun.update(stateRecord.id, currentState);
+    } else {
+      await base44.asServiceRole.entities.DeegoAutomationRun.create(currentState);
+    }
 
     return Response.json({
       success: true,
