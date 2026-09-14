@@ -1,0 +1,70 @@
+{
+  "name": "DeegoTaskEvent",
+  "type": "object",
+  "properties": {
+    "task_id": {
+      "type": "string"
+    },
+    "command_id": {
+      "type": "string"
+    },
+    "sequence": {
+      "type": "number"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "started",
+        "succeeded",
+        "failed",
+        "deduplicated"
+      ]
+    },
+    "actor": {
+      "type": "string"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "correlation_id": {
+      "type": "string"
+    },
+    "payload_hash": {
+      "type": "string"
+    },
+    "details": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "error_code": {
+      "type": "string"
+    },
+    "external_actions": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "task_id",
+    "command_id",
+    "sequence",
+    "event_type",
+    "actor",
+    "occurred_at",
+    "correlation_id",
+    "payload_hash",
+    "external_actions"
+  ],
+  "rls": {
+    "create": false,
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": false,
+    "delete": false
+  }
+}
