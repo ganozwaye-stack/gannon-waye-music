@@ -106,6 +106,9 @@ requireSnippet('src/components/admin/dashboard/DeegoRecommendations.jsx', 'no wo
 requireSnippet('src/pages/admin/AgentMessageBus.jsx', 'Internal Agent Message Ledger');
 requireSnippet('src/pages/admin/AutomationAgentsHub.jsx', 'No verified executor or cross-agent relay is active');
 forbid('src/pages/admin/AutomationAgentsHub.jsx', /Invoke Agent|Scheduled cron check|Dispatched tasks to/, 'fabricated execution evidence');
+requireSnippet('src/pages/admin/AgentToolRegistry.jsx', 'This page is not an executor or policy-enforcement layer.');
+forbid('src/pages/admin/AgentToolRegistry.jsx', /Safe to Auto-run|→ Execute →/, 'false tool-execution claim');
+requireSnippet('src/pages/admin/ResearchGrid.jsx', 'Legacy automatic research is held.');
 
 if (failures.length > 0) {
   console.error('Deego internal-lane check failed:');
