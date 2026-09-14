@@ -73,7 +73,7 @@ const required = [
   ['src/pages/admin/AgentRevenueStatus.jsx', 'This uses AI quota and creates only internal records.'],
   ['src/pages/admin/NewReleaseStudio.jsx', 'Create a private release draft and review pack.'],
   ['src/pages/admin/NewReleaseStudio.jsx', 'auto_publish_on_release_date: false'],
-  ['src/pages/admin/NewReleaseStudio.jsx', 'cost_acknowledged: costAcknowledged'],
+  ['src/pages/admin/NewReleaseStudio.jsx', 'private_draft_acknowledged: privateDraftAcknowledged'],
   ['base44/entities/Release.jsonc', 'New Release Studio never authorises automatic publication'],
   ['base44/entities/Release.jsonc', 'There is no automatic distributor sync'],
   ['DISASTER_RECOVERY.md', 'npm run deploy'],
@@ -88,8 +88,8 @@ const required = [
   ['base44/functions/autonomousAlertSystem/entry.ts', 'Operational audit requires Gannon owner sign-in.'],
   ['base44/functions/autonomousAlertSystem/entry.ts', "payload?.mode !== 'controlled_internal_test'"],
   ['base44/functions/executiveMorningBrief/entry.ts', 'Confirm the AI-quota acknowledgement before generating an internal executive brief.'],
-  ['base44/functions/submitNewRelease/entry.ts', 'body.cost_acknowledged !== true'],
-  ['base44/functions/submitNewRelease/entry.ts', 'const dryRun = true;'],
+  ['base44/functions/submitNewRelease/entry.ts', 'body.private_draft_acknowledged !== true'],
+  ['base44/functions/submitNewRelease/entry.ts', "external_actions: 'held'"],
 ];
 
 const forbidden = [
