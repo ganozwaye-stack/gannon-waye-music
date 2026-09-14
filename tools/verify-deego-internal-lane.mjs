@@ -55,6 +55,10 @@ requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'DeegoTaskEv
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'DeegoExecutionCommand.filter');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'receipt_ledger_integrity_failure');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'idempotency_reservation_incomplete');
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'idempotency_receipt_not_succeeded');
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'completeTerminalReceipt');
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', "receipt_integrity: 'complete'");
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'event_count: 3');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'concurrent_reservation');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', "runtime_state: 'rejected'");
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'if (sr && command && !task)');
@@ -109,6 +113,9 @@ requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'Recheck same rec
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'receiptSingleFlight');
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'mutateAsync');
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'Receipt key locked');
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "data?.runtime_state !== 'succeeded'");
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', "data?.receipt_integrity !== 'complete'");
+requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'onError: () => setLaneReceipt(null)');
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'runReceiptLane(receiptKey)');
 requireSnippet('src/components/admin/DeegoSupervisorDesk.jsx', 'WhatsApp monitoring is held pending a separately approved, receipt-logged inbound workflow.');
 forbid('src/components/admin/DeegoSupervisorDesk.jsx', /getWhatsAppConnectURL|Open Deego WhatsApp connection/, 'unapproved external messaging connection link');
