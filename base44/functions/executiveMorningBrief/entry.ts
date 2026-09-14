@@ -1,100 +1,16 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
-
-const OWNER_EMAILS = new Set(['ganozwaye@gmail.com', 'gannonwayemusic@gmail.com']);
-
-function isOwner(user) {
-  return user?.role === 'admin' && OWNER_EMAILS.has(String(user.email || '').trim().toLowerCase());
-}
+const LEGACY_HOLD_CODE = 'legacy_executive_morning_brief_held';
 
 Deno.serve(async (req) => {
-  try {
-    const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me().catch(() => null);
-    if (!user || !isOwner(user)) {
-      return Response.json({ error: 'Executive brief requires Gannon owner sign-in.' }, { status: 403 });
-    }
-    const body = await req.json().catch(() => ({}));
-    if (body.cost_acknowledged !== true) {
-      return Response.json({ error: 'Confirm the AI-quota acknowledgement before generating an internal executive brief.' }, { status: 400 });
-    }
-
-    // Fetch recent data for context
-    const [alerts, pending, recentLogs, ideas] = await Promise.all([
-      base44.asServiceRole.entities.RiskAlert.filter({ status: 'open' }),
-      base44.asServiceRole.entities.ApprovalQueue.filter({ status: 'pending' }),
-      base44.asServiceRole.entities.AgentTaskLog.list('-created_date', 20),
-      base44.asServiceRole.entities.IdeaOpportunity.filter({ status: 'new' }),
-    ]);
-
-    const today = new Date().toLocaleDateString('en-AU', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-
-    const contextSummary = `
-Today is ${today}.
-Open risk alerts: ${alerts.length} (${alerts.filter(a => a.severity === 'critical').length} critical)
-Pending approvals: ${pending.length}
-Recent agent actions (last 24h): ${recentLogs.length}
-New opportunities in pipeline: ${ideas.length}
-
-Critical alerts: ${alerts.filter(a => a.severity === 'critical').map(a => a.title).join(', ') || 'None'}
-Pending items: ${pending.slice(0, 3).map(p => p.action_title).join(', ') || 'None'}
-Top new idea: ${ideas.sort((a, b) => (b.opportunity_score || 0) - (a.opportunity_score || 0))[0]?.title || 'None yet'}
-    `.trim();
-
-    const briefResult = await base44.asServiceRole.integrations.Core.InvokeLLM({
-      prompt: `You are the Gannon Core AI Executive Briefing System. Based on the following system data, generate a daily executive morning brief for the artist/business owner.
-
-System Data:
-${contextSummary}
-
-Generate a concise Daily Executive Brief covering:
-1. TODAY'S TOP PRIORITY (single most important thing to do today)
-2. BEST MONEY OPPORTUNITY (highest ROI action available right now)
-3. BIGGEST RISK (most urgent risk to address)
-4. BEST CONTENT IDEA (viral/engagement opportunity for today)
-5. BEST SYSTEM IMPROVEMENT (one automation or workflow improvement)
-6. BEST CLIENT/SERVICE OPPORTUNITY (commercial or partnership lead)
-7. WHAT TO IGNORE TODAY (things that can wait or be deprioritized)
-8. WHAT NEEDS APPROVAL (items requiring human decision)
-
-Format: Clear headings, concise bullets, action-oriented language. Keep total under 400 words.`,
-    });
-
-    // Save to Knowledge Vault
-    const briefDate = new Date().toISOString().split('T')[0];
-    await base44.asServiceRole.entities.KnowledgeVault.create({
-      title: `Daily Executive Brief — ${briefDate}`,
-      category: 'decision_history',
-      content: briefResult,
-      summary: `Executive brief for ${briefDate}. ${alerts.length} alerts, ${pending.length} pending approvals.`,
-      source: 'Executive Morning Brief (manual owner initiated)',
-      access_level: 'admin_only',
-      is_sensitive: false,
-      tags: ['daily-brief', 'executive', briefDate],
-    });
-
-    // Log the task
-    await base44.asServiceRole.entities.AgentTaskLog.create({
-      agent_name: 'Executive Brief Agent',
-      task_title: `Daily Executive Brief — ${briefDate}`,
-      task_description: `Generated morning brief with ${alerts.length} alerts and ${pending.length} approvals`,
-      outcome: 'Saved to Knowledge Vault',
-      was_automatic: false,
-      required_approval: false,
-      risk_check_result: 'pass',
-      tags: ['daily-brief', 'manual-owner-run'],
-    });
-
-    // No Slack, email, post, or external delivery is allowed from this function.
-    // The signed-in owner receives the internal brief in the response and Knowledge Vault.
-
-    return Response.json({
-      success: true,
-      date: briefDate,
-      brief: briefResult,
-      context: { alerts: alerts.length, pending: pending.length, ideas: ideas.length },
-    });
-
-  } catch (error) {
-    return Response.json({ error: error.message }, { status: 500 });
+  if (req.method !== 'POST') {
+    return Response.json({ error: 'Method not allowed.' }, { status: 405 });
   }
+
+  return Response.json({
+    error: 'Legacy executive briefing is held. Owner-controlled runtime reconciliation is required before any internal brief can be designed.',
+    code: LEGACY_HOLD_CODE,
+    skipped: true,
+    external_actions: 0,
+    network_requests: 0,
+    internal_records_created: 0,
+  }, { status: 503 });
 });
