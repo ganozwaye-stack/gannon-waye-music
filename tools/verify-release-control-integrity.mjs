@@ -61,6 +61,18 @@ for (const ledgerPath of [
   }
 }
 
+const draftSchema = parseJson('base44/entities/ReleaseEmailDraft.jsonc');
+if (
+  draftSchema
+  && (
+    draftSchema.rls?.create !== false
+    || draftSchema.rls?.update !== false
+    || draftSchema.rls?.delete !== false
+  )
+) {
+  failures.push('ReleaseEmailDraft must deny direct writes; only exact-owner backend workflows may create or alter drafts.');
+}
+
 for (const field of [
   'release_version_label',
   'publication_approval_id',
@@ -100,6 +112,21 @@ requireText(
   'base44/functions/publishSingleWorkflow/entry.ts',
   'confirm_release_fingerprint',
   'Publication does not require the exact release fingerprint confirmation.',
+);
+requireText(
+  'base44/functions/publishSingleWorkflow/entry.ts',
+  'requiredActionPhrase',
+  'Publication does not compute a server-verified action phrase.',
+);
+requireText(
+  'base44/functions/publishSingleWorkflow/entry.ts',
+  'confirm_approval_phrase',
+  'Private approval does not require its server-verified typed phrase.',
+);
+requireText(
+  'base44/functions/publishSingleWorkflow/entry.ts',
+  'confirm_publish_phrase',
+  'Publication does not require its server-verified typed phrase.',
 );
 requireText(
   'base44/functions/publishSingleWorkflow/entry.ts',
