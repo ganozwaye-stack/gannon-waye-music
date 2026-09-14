@@ -1,5 +1,10 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
-import { isOwner } from '../agentIntelligenceLoop/supervisor.mjs';
+
+const OWNER_EMAILS = new Set(['ganozwaye@gmail.com', 'gannonwayemusic@gmail.com']);
+
+function isOwner(user) {
+  return user?.role === 'admin' && OWNER_EMAILS.has(String(user.email || '').trim().toLowerCase());
+}
 
 // Social comment triage — classifies comments and decides response strategy
 // When real OAuth is connected, this will fetch live comments
