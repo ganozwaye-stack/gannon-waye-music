@@ -15,6 +15,16 @@ const STATUS_TONE = {
   rejected: 'border-destructive/40 text-destructive',
 };
 
+function buildEditedEmailHtml(value) {
+  const escaped = String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/\n/g, '<br />');
+  return `<!doctype html><html lang="en"><body style="margin:0;padding:32px;background:#0a0a0e;color:#f0e6c8;font-family:Arial,Helvetica,sans-serif;line-height:1.6;"><div style="max-width:600px;margin:0 auto;padding:32px;background:#12121a;border:1px solid #3d3420;border-radius:16px;"><p style="white-space:normal;">${escaped}</p></div></body></html>`;
+}
+
 export default function ReleaseEmailDraftCard({ draft }) {
   const qc = useQueryClient();
   const { toast } = useToast();
@@ -28,7 +38,11 @@ export default function ReleaseEmailDraftCard({ draft }) {
   const handleSaveEdit = async () => {
     setBusy('edit');
     try {
-      await base44.entities.ReleaseEmailDraft.update(draft.id, { subject, body_text: bodyText });
+      await base44.entities.ReleaseEmailDraft.update(draft.id, {
+        subject,
+        body_text: bodyText,
+        body_html: buildEditedEmailHtml(bodyText),
+      });
       toast({ title: 'Draft updated' });
       setEditOpen(false);
       refresh();
@@ -40,6 +54,11 @@ export default function ReleaseEmailDraftCard({ draft }) {
   };
 
   const handleApproveAndSend = async () => {
+    const recipientCount = Number(draft.recipient_count || 0);
+    const confirmed = window.confirm(
+      `Send this approved release email for "${draft.release_title || 'this release'}" to up to ${recipientCount} opted-in fans now? This is an external action and cannot be unsent.`
+    );
+    if (!confirmed) return;
     setBusy('send');
     try {
       await base44.entities.ReleaseEmailDraft.update(draft.id, { approval_status: 'approved' });
@@ -152,6 +171,7 @@ export default function ReleaseEmailDraftCard({ draft }) {
         <DialogContent className="max-w-xl bg-card border-border/60">
           <DialogHeader>
             <DialogTitle className="font-body text-base gradient-gold-text">Edit the email</DialogTitle>
+            <p className="text-xs text-muted-foreground">Saving replaces the outbound HTML with this exact, safely formatted text so preview and send match.</p>
           </DialogHeader>
           <form onSubmit={(e) => { e.preventDefault(); handleSaveEdit(); }} className="space-y-4">
             <div>
