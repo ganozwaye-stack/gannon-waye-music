@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { isOwner } from '../agentIntelligenceLoop/supervisor.mjs';
 
 // Social comment triage — classifies comments and decides response strategy
 // When real OAuth is connected, this will fetch live comments
@@ -7,7 +8,14 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
+    const user = await base44.auth.me().catch(() => null);
+    if (!isOwner(user)) {
+      return Response.json({ error: 'Social comment triage requires Gannon owner sign-in.' }, { status: 403 });
+    }
     const body = await req.json().catch(() => ({}));
+    if (body?.mode !== 'manual_internal_review') {
+      return Response.json({ error: 'Social comment triage is paused pending a controlled owner-approved internal review.' }, { status: 409 });
+    }
 
     const { comments = [], platform = 'instagram', simulate = false } = body;
 
@@ -128,9 +136,9 @@ Return ONLY valid JSON array, no markdown.`;
       agent_name: 'SocialCommentMonitor',
       task_title: `Triaged ${triage.length} ${platform} comments`,
       outcome: `${triage.filter(t => t.escalate_to_gannon).length} escalated, ${triage.filter(t => t.auto_response).length} auto-responses drafted`,
-      was_automatic: true,
-      required_approval: false,
-      risk_check_result: 'pass',
+      was_automatic: false,
+      required_approval: true,
+      risk_check_result: 'manual_internal_review',
       tags: ['social', 'comments', platform],
     });
 
