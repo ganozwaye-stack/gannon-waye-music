@@ -7,7 +7,10 @@ import { collectFanEmailAudience } from '../../shared/fanEmailAudience.ts';
 // Invoked by the Release Status Update workflow and by the studio itself.
 
 const SITE_URL = 'https://gannonwaye.com';
-const OWNER_EMAIL = 'gannonwayemusic@gmail.com';
+const OWNER_EMAILS = new Set([
+  'ganozwaye@gmail.com',
+  'gannonwayemusic@gmail.com',
+]);
 // Gannon's approved press portrait. Embedded unedited, never altered.
 const PORTRAIT_URL =
   'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e6ad7f7a7_IMG_4345.JPG';
@@ -90,7 +93,7 @@ export default async function (req) {
       && release.status === 'released'
       && release.public_release_approval_status === 'approved'
       && typeof release.public_release_approved_by === 'string'
-      && release.public_release_approved_by.trim().length > 0
+      && OWNER_EMAILS.has(release.public_release_approved_by.trim().toLowerCase())
       && Boolean(release.public_release_approved_at);
 
     if (!approved || status !== 'released') {
@@ -173,14 +176,7 @@ export default async function (req) {
       prepared_source: String(body.source || 'status_change'),
     });
 
-    await sr.integrations.Core.SendEmail({
-      to: OWNER_EMAIL,
-      subject: `New fan email draft ready: "${title}" (${status.replace(/_/g, ' ')})`,
-      text: `A fan email draft for "${title}" moving to ${status.replace(/_/g, ' ')} is ready for your approval.\n\n`
-        + `Recipients: ${recipients.length}\n`
-        + `Subject line: ${subject}\n\n`
-        + `Preview, edit and send it from the Release Email Studio:\n${SITE_URL}/admin/release-email-studio`,
-    }).catch(() => {});
+    // Do not send a notification email automatically. The admin notification below is the review signal.
 
     await sr.entities.AdminNotification.create({
       notification_type: 'approval',
