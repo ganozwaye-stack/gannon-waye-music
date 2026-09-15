@@ -21,7 +21,6 @@ import SetFreeHero from '@/components/public/SetFreeHero';
 import MarqueeBar from '@/components/public/MarqueeBar';
 import PressKitHomeSection from '@/components/public/PressKitHomeSection';
 import { trackEvent } from '@/lib/analytics';
-import { usePlayerStore } from '@/lib/playerStore';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
@@ -31,6 +30,14 @@ const WYH_STENCIL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010
 const HERO_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6eb4180010f794/8e23b3544_Ambient_Hero_Loop.mp4';
 const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
 const WYH_ANGEL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3df8d7b0d_image.png';
+
+// Set Free, the next single, out 25 September 2026. The Release record is still
+// behind the public approval gates (deliberately untouched), so the featured block
+// carries the owner-approved copy directly. Artwork is the existing official
+// Set Free artwork from that record, used unchanged.
+const SET_FREE_ART = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e2c44c509_image.png';
+const SET_FREE_PRESAVE = 'https://too.fm/setfree_gannonwaye';
+const SET_FREE_DATE = '25 September 2026';
 
 // Cover art comes from each release's artwork_url in the database, the single source of truth.
 // Do not hardcode per-song cover overrides here (that caused mis-assigned artwork in the past).
@@ -50,16 +57,11 @@ export default function Home() {
 
   const site = settings[0] || {};
   const releases = releaseCandidates.filter(isPublicRelease);
-  const currentSingle = releases.find((release) => release.is_current_single === true) || releases[0] || null;
-  const currentArt = currentSingle?.artwork_url || HERO_IMAGE;
-  const currentSpotify = currentSingle?.spotify_link || '';
-  const currentLink = currentSingle?.id ? `/release/${currentSingle.id}` : '/music';
-  const currentTitle = currentSingle?.title || 'Gannon Waye Music';
-  const currentHeroCopy = currentSingle?.current_single_hero_copy
-    || currentSingle?.description
-    || 'Music is shared here only when it is ready.';
+  // Set Free takes the featured slot; Without You Here moves into the previous
+  // release position and the hero banner plus memorial touches follow it there.
+  const previousRelease = releases.find((release) => release.title === 'Without You Here') || releases[0] || null;
+  const previousLink = previousRelease?.id ? `/release/${previousRelease.id}` : '/music';
   const approvedAlbum = releases.find((release) => release.type === 'album') || null;
-  const playTrack = usePlayerStore((state) => state.playTrack);
 
   // 3D immersive parallax: layers drift at different rates as the hero scrolls away.
   const heroRef = useRef(null);
@@ -90,7 +92,7 @@ export default function Home() {
           className="absolute inset-0 z-[1] w-full h-full object-cover opacity-25 pointer-events-none" />
 
         {/* Mum, the angel in the Without You Here artwork. Faint, far left, behind everything — her presence at the fire. Slow, almost-imperceptible drift. */}
-        {currentSingle?.title === 'Without You Here' && (
+        {previousRelease?.title === 'Without You Here' && (
           <motion.img
             src={WYH_ANGEL}
             alt=""
@@ -129,7 +131,7 @@ export default function Home() {
         
 
         {/* "Without You Here" stencil, stretched out as a background design staple on the right */}
-        {currentSingle?.title === 'Without You Here' && (
+        {previousRelease?.title === 'Without You Here' && (
           <motion.img
             src={WYH_STENCIL}
             alt=""
@@ -174,70 +176,67 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.4 }}
               className="font-body text-base tracking-[0.45em] uppercase gradient-gold-text mb-4">
-              
-              {currentSingle ? 'Current Release' : 'Music'}
+              Next Release
             </motion.p>
 
-            {/* Cover artwork */}
+            {/* Cover artwork: the existing official Set Free artwork, unchanged */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.6 }}
               className="mb-4">
-              
-              <Link to={currentLink} className="block mx-auto rounded-full overflow-hidden border-2 border-primary/40 hover:border-primary/70 transition-colors aspect-square max-w-[140px]"
+              <a
+                href={SET_FREE_PRESAVE}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
+                className="block mx-auto rounded-full overflow-hidden border-2 border-primary/40 hover:border-primary/70 transition-colors aspect-square max-w-[140px]"
                 style={{ boxShadow: '0 0 24px rgba(212,175,55,0.35), 0 6px 18px rgba(0,0,0,0.45)' }}>
-                <img src={currentArt} alt={`${currentTitle}, Gannon Waye`} className="w-full h-full object-cover" />
-              </Link>
+                <img src={SET_FREE_ART} alt="Set Free, Gannon Waye" className="w-full h-full object-cover" />
+              </a>
             </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 1.0 }}
+              className="font-body text-2xl uppercase tracking-[0.22em] gradient-gold-text mb-1 text-center">
+              Set Free
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 1.15 }}
+              className="font-body text-xs tracking-[0.18em] uppercase text-muted-foreground mb-3 text-center">
+              Gannon Waye, out {SET_FREE_DATE}
+            </motion.p>
 
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 1.6, delay: 1.3 }}
-              className="font-body text-sm text-foreground/85 max-w-sm mx-auto leading-relaxed italic mb-3 text-center" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>
-              
-              {currentHeroCopy}
+              className="font-body text-sm text-foreground/85 max-w-sm mx-auto leading-relaxed italic mb-4 text-center" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>
+              The moment a boundary becomes non negotiable. Set Free is a pop single about reclaiming your voice, protecting your peace and choosing what happens next.
             </motion.p>
-
-            {currentSingle?.title === 'Without You Here' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.4 }}
-              className="mb-5 text-center">
-              
-              <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase gradient-gold-text hover:opacity-80 transition-opacity">
-                Read Mum's story <ArrowRight className="w-3 h-3" />
-              </Link>
-            </motion.div>
-            )}
           </div>
 
-            {/* CTAs: Listen Here, Back The Thankyou Project, Out Now in a row beneath the CD */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.6 }}
-              className="flex flex-wrap items-center justify-center gap-2.5 mt-2">
-              {currentSpotify && (
-                <MagneticButton>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      trackEvent('stream_click', {
-                        platform: 'spotify',
-                        source: 'hero_listen_here',
-                        release_id: currentSingle?.id,
-                      });
-                      playTrack(currentSpotify, { title: currentTitle, artwork: currentArt, lyrics: currentSingle?.lyrics || '' });
-                    }}
-                    className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap"
-                  >
-                    <Play className="w-3 h-3" /> Listen
-                  </Button>
-                </MagneticButton>
-              )}
+          {/* CTAs: Presave Set Free, Back The Thankyou Project, Work with Me in a row beneath the CD */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.4, delay: 1.6 }}
+            className="flex flex-wrap items-center justify-center gap-2.5 mt-2">
+            <MagneticButton>
+              <a
+                href={SET_FREE_PRESAVE}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
+                Presave Set Free
+              </a>
+            </MagneticButton>
               <MagneticButton>
                 <Link to="/store">
                   <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
@@ -269,7 +268,14 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.4, delay: 0.6 }}
               className="mb-8">
-              <HeroWelcomeBanner release={currentSingle} releaseLink={currentLink} />
+              <HeroWelcomeBanner release={previousRelease} releaseLink={previousLink} badgeLabel="Previous release" />
+              {previousRelease?.title === 'Without You Here' && (
+                <div className="mt-4 text-center">
+                  <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase gradient-gold-text hover:opacity-80 transition-opacity">
+                    Read Mum's story <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              )}
             </motion.div>
 
             <div className="relative rounded-2xl border border-border/30 px-5 py-4 backdrop-blur-[2px]"

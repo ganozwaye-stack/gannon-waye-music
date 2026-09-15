@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { trackEvent } from '@/lib/analytics';
 import { isPublicRelease } from '@/lib/publicRelease';
 
-export default function HeroWelcomeBanner({ release, releaseLink }) {
+export default function HeroWelcomeBanner({ release, releaseLink, badgeLabel = 'Current release' }) {
   const [index, setIndex] = useState(0);
   const safeRelease = isPublicRelease(release) ? release : null;
 
@@ -60,7 +60,7 @@ export default function HeroWelcomeBanner({ release, releaseLink }) {
               </span>
             </div>
             <span className="font-body text-[9px] tracking-[0.25em] uppercase text-muted-foreground whitespace-nowrap">
-              {safeRelease ? 'Current release' : 'Official artist site'}
+              {safeRelease ? badgeLabel : 'Official artist site'}
             </span>
           </div>
 

@@ -117,12 +117,36 @@ export default function PressKit() {
             <p className="font-body text-sm text-muted-foreground">
               Loading approved music…
             </p>
-          ) : releases.length === 0 ? (
-            <p className="font-body text-sm text-muted-foreground">
-              No release is currently approved for public press use. Please contact Gannon for private review material.
-            </p>
           ) : (
             <div className="grid sm:grid-cols-2 gap-4">
+              {/* Set Free, the next single, out 25 September 2026. Its Release record
+                  is still behind the public approval gates, so the press details are
+                  carried here directly. Sits above the public catalogue. */}
+              <article className="rounded-2xl border border-primary/35 bg-background/30 p-5">
+                <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary">
+                  Single · Out 25 September 2026
+                </p>
+                <h3 className="font-display text-2xl text-foreground mt-1">Set Free</h3>
+                <p className="font-body text-xs text-muted-foreground mt-1">
+                  Written by Gannon Waye · Produced by Will Henderson
+                </p>
+                <p className="font-body text-sm text-foreground/70 leading-relaxed mt-3">
+                  Set Free captures the moment a boundary becomes non negotiable, built on the line "I'm not the one you're breaking anymore." It moves towards peace, freedom and reclaiming your voice.
+                </p>
+                <a
+                  href="https://too.fm/setfree_gannonwaye"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-full gradient-gold-button border-0 px-5 py-2.5 mt-4 font-body text-xs tracking-wider uppercase"
+                >
+                  Presave Set Free
+                </a>
+              </article>
+              {releases.length === 0 && (
+                <p className="font-body text-sm text-muted-foreground">
+                  No release is currently approved for public press use. Please contact Gannon for private review material.
+                </p>
+              )}
               {releases.map((release) => (
                 <Link
                   key={release.id}

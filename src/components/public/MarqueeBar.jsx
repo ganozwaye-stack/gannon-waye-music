@@ -4,9 +4,7 @@ import { motion } from 'framer-motion';
 // One clean, continuously scrolling marquee bar with evergreen public facts.
 const ITEMS = [
   'Independent, heart-first music from Gannon Waye',
-  'Music approved for public sharing appears on the Music page',
-  'The Store shows only current owner-approved stock',
-  'New music is shared only when it is ready',
+  'Set Free, out 25 September 2026',
   'Join the community and follow the story',
 ];
 
