@@ -48,7 +48,7 @@ In the canonical Base44 editor, inspect the deployed/current version of these ex
 - `ReleaseEmailDraft`
 - `ReleaseEmailSendReceipt`
 
-### Release control functions
+### Release control functions and shared controls
 
 - `publishSingleWorkflow`
 - `prepareReleaseEmailDraft`
@@ -56,10 +56,14 @@ In the canonical Base44 editor, inspect the deployed/current version of these ex
 - `rejectReleaseEmailDraft`
 - `sendReleaseEmailDraft`
 - `submitNewRelease`
+- `generateReleaseLaunchPacket`
 - `publishDueReleases`
 - `postReleaseToSocial`
 - `notifyFansReleaseStatus`
 - `notifySubscribersNewRelease`
+- `releaseCalendarSync`
+- `base44/shared/releaseControl.ts`
+- `base44/release-action-policy.json`
 
 Confirm the deployed functions match the reviewed source and retain their manual approval and no-automatic-action protections.
 
@@ -69,7 +73,9 @@ Confirm the deployed functions match the reviewed source and retain their manual
 - `DeegoExecutionTask`
 - `DeegoTaskEvent`
 - `deegoInternalDispatcher`
+- `base44/functions/deegoInternalDispatcher/policy.ts`
 - `base44/shared/deegoReceiptIntegrity.js`
+- `src/components/admin/DeegoSupervisorDesk.jsx`
 
 Confirm one same-key internal test can produce an accepted command, one task, and the expected ordered receipt events with zero external-effect fields. Do not run it until the exact test fixture and expected zero-effect result are agreed by the owner.
 
@@ -78,9 +84,16 @@ Confirm one same-key internal test can produce an accepted command, one task, an
 - `Auto-Post New Release to Instagram`
 - `Publish Due Releases (Midnight)`
 - `Notify Subscribers on New Release`
+- `Release Status Update → Fan Email`
+- `Sync release date to Google Calendar`
+- `Weekly Release Calendar Sync`
+- `Deego Heartbeat  -  Every 30 Minutes`
+- `Agent Intelligence Loop  -  Every 4 Hours`
+- `Agent Self-Improvement — Daily Review`
+- `Deego Morning Brief — 6am`
 - `Deego Report → Master Spreadsheet`
 
-The first three must remain on their safety holds. The spreadsheet workflow is a separately approved exception: do not trigger it during the internal receipt test.
+All except the spreadsheet workflow must remain on their safety holds. The spreadsheet workflow is a separately approved exception: do not trigger it during the internal receipt test.
 
 ### Connector and access readback
 
