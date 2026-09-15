@@ -28,6 +28,21 @@ const MOOD_AMBIENCE = {
 };
 const DEFAULT_AMBIENCE = { density: 0.7, intensity: 0.65, glow: 0.13 };
 
+// Background imagery per release, supplied by Gannon. Without You Here keeps the
+// exact home-hero world: the stencil title and Gannon's portrait. Thankyou
+// carries its own image of Gannon, the official single photo. A new release
+// simply gets the ember ambience; add an entry here to give a song its own
+// portrait or stencil.
+const RELEASE_IMAGERY = {
+  'Without You Here': {
+    stencil: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b82279641_without-you-here-stencil-outline-only-transparent-tight-2026-08-03.png',
+    portrait: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png',
+  },
+  Thankyou: {
+    portrait: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/af70e9d80_image.png',
+  },
+};
+
 export default function ReleaseDetail() {
   const { id } = useParams();
   const { data: matches = [], isLoading } = useQuery({
@@ -70,6 +85,7 @@ export default function ReleaseDetail() {
   }
 
   const ambience = MOOD_AMBIENCE[release.mood] || DEFAULT_AMBIENCE;
+  const imagery = RELEASE_IMAGERY[release.title];
 
   const links = [
     ['Spotify', release.spotify_link],
@@ -85,11 +101,44 @@ export default function ReleaseDetail() {
         className="absolute inset-0 z-0 pointer-events-none"
         style={{ background: `radial-gradient(120% 80% at 50% 18%, rgba(212,175,55,${ambience.glow}), rgba(8,8,14,0) 60%)` }}
       />
-      <div className="absolute inset-0 z-[1] pointer-events-none">
+
+      {/* The song's own background imagery: Gannon's portrait, and where one
+          exists, the stencil of the title, exactly as the home hero world. */}
+      {imagery?.portrait && (
+        <motion.img
+          src={imagery.portrait}
+          alt=""
+          aria-hidden
+          className="absolute inset-0 z-[1] pointer-events-none select-none w-full h-full object-cover"
+          style={{
+            opacity: 0.35,
+            objectPosition: 'right center',
+            maskImage: 'linear-gradient(to right, transparent 0%, black 30%, black 100%)',
+            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 30%, black 100%)',
+            filter: 'drop-shadow(0 0 40px rgba(212,175,55,0.2))',
+          }}
+          animate={{ x: [0, -8, 6, 0], y: [0, -8, 6, 0], scale: [1, 1.02, 1, 1] }}
+          transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      )}
+      {imagery?.stencil && (
+        <motion.img
+          src={imagery.stencil}
+          alt=""
+          aria-hidden
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 0.22, x: 0 }}
+          transition={{ duration: 1.8, delay: 0.5 }}
+          className="absolute z-[2] pointer-events-none select-none w-[90%] max-w-[58rem]"
+          style={{ right: '-4%', top: '4%', filter: 'drop-shadow(0 0 34px rgba(212,175,55,0.4))' }}
+        />
+      )}
+
+      <div className="absolute inset-0 z-[4] pointer-events-none">
         <GoldenEmbers density={ambience.density} intensity={ambience.intensity} />
       </div>
       <div
-        className="absolute inset-0 z-[2] pointer-events-none"
+        className="absolute inset-0 z-[3] pointer-events-none"
         style={{ background: 'radial-gradient(130% 90% at 50% 40%, rgba(8,8,14,0) 45%, rgba(8,8,14,0.7) 100%)' }}
       />
 
