@@ -56,7 +56,10 @@ requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'DeegoExecut
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'receipt_ledger_integrity_failure');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'idempotency_reservation_incomplete');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'idempotency_receipt_not_succeeded');
+requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'isCompleteInternalReceipt');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'completeTerminalReceipt');
+requireSnippet('base44/shared/deegoReceiptIntegrity.js', 'isCompleteInternalReceipt');
+requireSnippet('tests/deego/receipt-integrity.test.mjs', 'failed, incomplete, duplicate, mismatched, or non-zero-action receipts fail closed');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', "receipt_integrity: 'complete'");
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'event_count: 3');
 requireSnippet('base44/functions/deegoInternalDispatcher/entry.ts', 'concurrent_reservation');
