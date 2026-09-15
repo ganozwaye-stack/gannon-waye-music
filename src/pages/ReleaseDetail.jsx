@@ -7,6 +7,26 @@ import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/lib/playerStore';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 import { APPLE_MUSIC_ARTIST_URL } from '@/config/artistLinks';
+import GoldenEmbers from '@/components/three/GoldenEmbers';
+
+/**
+ * Every release page carries its own natural ambience, drawn from the release's
+ * mood. The mood decides how dense and bright the ember field is and how much
+ * gold glow sits behind the artwork, so each song's page feels like its own
+ * world without any per-song setup. Any new release created in the Release
+ * Studio gets a page with its own atmosphere automatically.
+ */
+const MOOD_AMBIENCE = {
+  reflective: { density: 0.5, intensity: 0.55, glow: 0.1 },
+  melancholic: { density: 0.4, intensity: 0.45, glow: 0.08 },
+  tender: { density: 0.55, intensity: 0.55, glow: 0.11 },
+  intimate: { density: 0.45, intensity: 0.5, glow: 0.1 },
+  raw: { density: 0.65, intensity: 0.7, glow: 0.13 },
+  uplifting: { density: 0.8, intensity: 0.8, glow: 0.16 },
+  hopeful: { density: 0.75, intensity: 0.75, glow: 0.15 },
+  anthemic: { density: 0.9, intensity: 0.85, glow: 0.18 },
+};
+const DEFAULT_AMBIENCE = { density: 0.7, intensity: 0.65, glow: 0.13 };
 
 export default function ReleaseDetail() {
   const { id } = useParams();
@@ -49,6 +69,8 @@ export default function ReleaseDetail() {
     );
   }
 
+  const ambience = MOOD_AMBIENCE[release.mood] || DEFAULT_AMBIENCE;
+
   const links = [
     ['Spotify', release.spotify_link],
     ['Listen Now', release.apple_music_link || APPLE_MUSIC_ARTIST_URL],
@@ -56,11 +78,25 @@ export default function ReleaseDetail() {
   ].filter(([, href]) => href);
 
   return (
-    <div className="min-h-screen py-24 px-4 md:px-8">
+    <div className="relative min-h-screen py-24 px-4 md:px-8 overflow-hidden">
+      {/* The song's own world: gold glow, rising embers and a soft vignette,
+          tuned to the release's mood. Pointer-transparent, purely atmospheric. */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none"
+        style={{ background: `radial-gradient(120% 80% at 50% 18%, rgba(212,175,55,${ambience.glow}), rgba(8,8,14,0) 60%)` }}
+      />
+      <div className="absolute inset-0 z-[1] pointer-events-none">
+        <GoldenEmbers density={ambience.density} intensity={ambience.intensity} />
+      </div>
+      <div
+        className="absolute inset-0 z-[2] pointer-events-none"
+        style={{ background: 'radial-gradient(130% 90% at 50% 40%, rgba(8,8,14,0) 45%, rgba(8,8,14,0.7) 100%)' }}
+      />
+
       <motion.main
         initial={{ opacity: 0, y: 18 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-5xl mx-auto"
+        className="relative z-10 max-w-5xl mx-auto"
       >
         <Link
           to="/music"
@@ -70,7 +106,13 @@ export default function ReleaseDetail() {
         </Link>
 
         <div className="grid md:grid-cols-[minmax(0,420px)_1fr] gap-9 items-start">
-          <div className="aspect-square rounded-3xl overflow-hidden border border-border/40 bg-card/55">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, delay: 0.1 }}
+            className="relative aspect-square rounded-2xl overflow-hidden border border-primary/40 bg-card/55"
+            style={{ boxShadow: '0 0 42px rgba(212,175,55,0.16), 0 18px 48px rgba(0,0,0,0.5)' }}
+          >
             {release.artwork_url ? (
               <img
                 src={release.artwork_url}
@@ -82,13 +124,25 @@ export default function ReleaseDetail() {
                 <Music2 className="w-16 h-16 text-muted-foreground/30" />
               </div>
             )}
-          </div>
+          </motion.div>
 
           <div className="pt-2">
-            <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-3">
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-3"
+            >
               {release.type || 'release'}
-            </p>
-            <h1 className="font-display text-5xl md:text-7xl text-foreground">{release.title}</h1>
+            </motion.p>
+            <motion.h1
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="font-display text-5xl md:text-7xl text-foreground"
+            >
+              {release.title}
+            </motion.h1>
             {release.version_label && (
               <p className="font-body text-sm tracking-[0.2em] uppercase text-muted-foreground mt-2">
                 {release.version_label}
@@ -104,12 +158,22 @@ export default function ReleaseDetail() {
               </p>
             )}
             {release.description && (
-              <p className="font-body text-base text-foreground/70 leading-relaxed mt-7">
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.9, delay: 0.45 }}
+                className="font-body text-base text-foreground/70 leading-relaxed mt-7"
+              >
                 {release.description}
-              </p>
+              </motion.p>
             )}
 
-            <div className="flex flex-wrap gap-3 mt-8">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="flex flex-wrap gap-3 mt-8"
+            >
               {release.spotify_link && (
                 <Button
                   type="button"
@@ -124,12 +188,12 @@ export default function ReleaseDetail() {
               )}
               {links.map(([label, href]) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="gap-2 rounded-full border-primary/35 text-primary">
+                  <Button variant="outline" className="gap-2 rounded-full border-foreground/30 text-foreground hover:border-foreground/60 hover:bg-foreground/5">
                     {label} <ExternalLink className="w-3.5 h-3.5" />
                   </Button>
                 </a>
               ))}
-            </div>
+            </motion.div>
 
             {release.credits && (
               <div className="mt-10 pt-7 border-t border-border/40">
