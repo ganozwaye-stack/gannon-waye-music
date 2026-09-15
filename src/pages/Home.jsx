@@ -72,8 +72,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
-      <FirstVisitOnboarding />
-
       {/* HERO: two columns. Left: artwork + single info. Right: welcome write-up, with the stencil as a backdrop. */}
       <section ref={heroRef} className="relative min-h-[100svh] overflow-hidden" style={{ perspective: '1200px' }}>
         {/* Ambient base glow (face photo removed; fire embers carry the hero) */}
@@ -307,6 +305,9 @@ export default function Home() {
 
       {/* Rotating marquee bar */}
       <MarqueeBar />
+
+      {/* Welcome prompt: appears the first time a visitor reaches this point */}
+      <FirstVisitOnboarding />
 
       {/* Featured merchandise display: the Thank You collection */}
       <FeaturedMerchShowcase />
