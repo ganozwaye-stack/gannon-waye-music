@@ -40,7 +40,7 @@ export default function Biography() {
     <div className="min-h-screen pb-20">
 
       {/* Hero — Gannon in the clouds, looking up into the light */}
-      <section className="relative overflow-hidden min-h-[78vh] sm:min-h-[82vh] flex items-center">
+      <section className="relative overflow-hidden min-h-[40vh] sm:min-h-[46vh] flex items-end">
         <img
           src={HERO_PORTRAIT}
           alt="Gannon Waye, looking up into the light"
@@ -55,7 +55,7 @@ export default function Biography() {
           style={{ background: 'radial-gradient(85% 60% at 50% 35%, transparent 0%, rgba(8,8,14,0.55) 100%)' }}
         />
 
-        <div className="relative z-10 w-full max-w-4xl mx-auto px-4 md:px-8 pt-32 pb-16 text-center">
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 md:px-8 pt-24 pb-10 text-center">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -94,10 +94,10 @@ export default function Biography() {
         </div>
       </section>
 
-      <div className="max-w-4xl mx-auto px-4 md:px-8 pt-14">
+      <div className="max-w-6xl mx-auto px-4 md:px-8 pt-8">
 
-        {/* Portrait + intro */}
-        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 mb-16 items-start">
+        {/* Portrait + intro, the write-up in two columns */}
+        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 md:gap-10 mb-12 items-start">
           <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="relative mx-auto md:mx-0 w-full max-w-[280px]">
             <div className="aspect-square rounded-2xl overflow-hidden border border-primary/20">
               <img src={PORTRAIT} alt="Gannon Waye" className="w-full h-full object-cover object-top" />
@@ -107,7 +107,7 @@ export default function Biography() {
           <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col justify-center">
             <h2 className="font-display text-3xl gradient-gold-text mb-1">Gannon Waye</h2>
             <p className="font-body text-sm gradient-gold-text tracking-widest uppercase mb-6">Independent Artist · Songwriter</p>
-            <div className="space-y-4 font-body text-sm text-foreground/70 leading-relaxed">
+            <div className="md:columns-2 md:gap-8 font-body text-sm text-foreground/70 leading-relaxed [&>p]:mb-4">
               <p>
                 Gannon Waye is an independent Australian singer songwriter whose contemporary pop work turns lived experience into connection. Born in Adelaide and now based in Melbourne, he was raised in low socioeconomic conditions where formal music lessons were never possible. He built his craft by leading school choirs, singing in church, serving as a worship minister and taking every stage that would let him learn.
               </p>
@@ -173,21 +173,23 @@ export default function Biography() {
           className="bg-card/60 border border-border/30 rounded-2xl p-6 md:p-12 mb-16 space-y-5 font-body text-sm text-foreground/70 leading-relaxed"
         >
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2">In His Own Words</p>
-          <p>
-            Music was the opportunity my family could not afford and the escape I could create for myself. I asked for lessons, cried for them and begged for them, but they never came. I sang anyway. School choirs, church, worship ministry, drag performance and every available stage became the education I built for myself.
-          </p>
-          <p>
-            Home was shaped by an abusive father, family violence and a mother who struggled with emotional regulation. As an adult I repeated some of those patterns in abusive relationships, then faced addiction, PTSD and the loss of Mum, my best friend and greatest believer. Life has knocked me down more than once.
-          </p>
-          <p>
-            The work now is about what happens after the fall. My music, and the coaching work growing beside it, come from the same determination to turn hard earned lessons into connection, direction and hope for someone else.
-          </p>
-          <p>
-            I am still here. The album carries that sentence through every chapter, not as a claim that everything is fixed, but as proof that the story continued.
-          </p>
-          <p className="text-foreground/80 italic">
-            I am not chasing fame as the purpose. I am trying to reach the person who needs a song to speak before they can.
-          </p>
+          <div className="md:columns-2 md:gap-8 [&>p]:mb-4">
+            <p>
+              Music was the opportunity my family could not afford and the escape I could create for myself. I asked for lessons, cried for them and begged for them, but they never came. I sang anyway. School choirs, church, worship ministry, drag performance and every available stage became the education I built for myself.
+            </p>
+            <p>
+              Home was shaped by an abusive father, family violence and a mother who struggled with emotional regulation. As an adult I repeated some of those patterns in abusive relationships, then faced addiction, PTSD and the loss of Mum, my best friend and greatest believer. Life has knocked me down more than once.
+            </p>
+            <p>
+              The work now is about what happens after the fall. My music, and the coaching work growing beside it, come from the same determination to turn hard earned lessons into connection, direction and hope for someone else.
+            </p>
+            <p>
+              I am still here. The album carries that sentence through every chapter, not as a claim that everything is fixed, but as proof that the story continued.
+            </p>
+            <p className="text-foreground/80 italic">
+              I am not chasing fame as the purpose. I am trying to reach the person who needs a song to speak before they can.
+            </p>
+          </div>
         </motion.div>
 
         {/* This Is My Life series callout */}
