@@ -38,12 +38,12 @@ This guide separates safe, no-deploy acceptance checks from owner-controlled pro
 
 3. **Run a controlled owner test only after agreeing the exact fixture and expected zero-external-effect result.** The global automation safety hold stays active. A deploy does not re-enable scheduled or entity-triggered automations.
 
-4. **Site-only production deployment is an approval-only action.** After the above checks and Gannon's explicit action-time approval, use the repository command:
+4. **Site-only production deployment is owner-controlled and preflighted.** After the above checks and Gannon's explicit action-time approval, use the repository command:
 
    ```bash
-   npm run deploy
+   npm run deploy:site
    ```
 
-   It verifies the canonical app ID, builds, then runs `npx base44 site deploy -y`. That deploys the hosted site only; it does **not** prove functions, workflows, entities, connectors, or authentication settings are deployed or unchanged. Do not use `npx base44 deploy`, `base44 eject`, or an unbound copy application without first reviewing the exact resource and connector difference.
+   This first runs the full no-deploy acceptance suite and deployment-truth preflight, then runs `npx base44 site deploy -y`. It deploys the hosted site only; it does **not** prove functions, workflows, entities, connectors, or authentication settings are deployed or unchanged. Do not use `npx base44 deploy`, `base44 eject`, or an unbound copy application without first reviewing the exact resource and connector difference.
 
 5. **Read back after deployment.** Confirm the deployed site/version and public release gates. Before treating backend safeguards as live, separately verify the deployed functions, workflows, entities, and connector/auth state. Re-enable one path only after its controlled owner test has passed and its external effect is explicitly approved.
