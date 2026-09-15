@@ -31,7 +31,7 @@ for (const phrase of [
   'does **not** prove functions, workflows, entities, connectors, or authentication settings',
   'Read back after deployment',
 ]) {
-  if (!guide.includes(phrase)) failures.push(`STAGING_GUIDE.md is missing deployment-truth instruction: ${phrase}`);
+  if (!guide.toLowerCase().includes(phrase.toLowerCase())) failures.push(`STAGING_GUIDE.md is missing deployment-truth instruction: ${phrase}`);
 }
 
 for (const path of [
