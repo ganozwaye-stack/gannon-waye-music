@@ -39,7 +39,6 @@ import ContactGannon from '@/pages/ContactGannon.jsx';
 import PrivacyPolicy from '@/pages/PrivacyPolicy';
 import TermsOfService from '@/pages/TermsOfService';
 import PublicLayout from '@/components/public/PublicLayout';
-import StickySupportBar from '@/components/global/StickySupportBar';
 import LyricsPage from '@/pages/LyricsPage';
 import Press from '@/pages/Press';
 import ThisIsMyLife from '@/pages/ThisIsMyLife';
@@ -359,7 +358,6 @@ const AuthenticatedApp = () => {
 
   return (
     <>
-    <StickySupportBar />
     <Routes>
       <Route path="/login" element={<Login />} />
 
