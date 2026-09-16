@@ -19,7 +19,7 @@ export default function GlobalPlayerDock() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 24 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-20 md:bottom-6 left-4 right-4 md:left-6 md:right-auto md:w-[380px] z-40">
+            className="fixed bottom-20 md:bottom-16 left-4 right-4 md:left-6 md:right-auto md:w-[380px] z-40">
             <div data-testid="global-player" className="rounded-2xl border border-primary/30 bg-card/95 backdrop-blur-md overflow-hidden shadow-2xl">
               <div className="flex items-center gap-3 px-3 py-2.5">
                 {artwork && (

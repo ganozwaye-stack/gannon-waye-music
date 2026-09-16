@@ -18,7 +18,6 @@ import GoldenEmbers from '@/components/three/GoldenEmbers';
 import MagneticButton from '@/components/public/MagneticButton';
 import TiltCard from '@/components/public/TiltCard';
 import HeroWelcomeBanner from '@/components/public/HeroWelcomeBanner';
-import MarqueeBar from '@/components/public/MarqueeBar';
 import PressKitHomeSection from '@/components/public/PressKitHomeSection';
 import { trackEvent } from '@/lib/analytics';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
@@ -309,9 +308,6 @@ export default function Home() {
           <span className="block w-px h-10 bg-gradient-to-b from-primary/70 to-transparent" />
         </motion.div>
       </section>
-
-      {/* Rotating marquee bar */}
-      <MarqueeBar />
 
       {/* Welcome prompt: appears the first time a visitor reaches this point */}
       <FirstVisitOnboarding />

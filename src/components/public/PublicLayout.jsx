@@ -7,12 +7,13 @@ import SocialProofTicker from './SocialProofTicker';
 import GlobalPlayerDock from './GlobalPlayerDock';
 import AmbientReleasePlayer from './AmbientReleasePlayer';
 import ReleaseUpdatesPopup from './ReleaseUpdatesPopup';
+import MarqueeBar from './MarqueeBar';
 
 export default function PublicLayout() {
   const { pathname } = useLocation();
 
   return (
-    <div className="min-h-screen flex flex-col pb-44 md:pb-0">
+    <div className="min-h-screen flex flex-col pb-44 md:pb-12">
       <Navbar />
       <main className="flex-1 pt-16 overflow-x-hidden">
         <AnimatePresence mode="wait">
@@ -21,6 +22,7 @@ export default function PublicLayout() {
       </main>
       <Footer />
       <MobileBottomTabs />
+      <MarqueeBar />
       <GlobalPlayerDock />
       <AmbientReleasePlayer />
       <ReleaseUpdatesPopup />

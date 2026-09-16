@@ -1,15 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
-// One clean, continuously scrolling marquee bar with evergreen public facts.
+// The site-wide release ticker, permanently fixed to the bottom of the screen
+// on desktop. Mobile keeps its bottom tab bar instead of this strip.
 const ITEMS = [
-  'Independent, heart-first music from Gannon Waye',
   'Set Free, out 25 September 2026',
   'Join the community and follow the story',
+  'Independent, heart-first music from Gannon Waye',
 ];
 
 const Separator = () => (
-  <span className="mx-6 text-primary/70 text-[10px]" aria-hidden>◆</span>
+  <span className="mx-6 text-[10px] shrink-0" style={{ color: '#d4af37' }} aria-hidden>◆</span>
 );
 
 export default function MarqueeBar() {
@@ -17,7 +18,9 @@ export default function MarqueeBar() {
     <div className="flex items-center shrink-0" aria-hidden={ariaHidden}>
       {ITEMS.map((item, i) => (
         <React.Fragment key={i}>
-          <span className="font-body text-[11px] tracking-[0.22em] uppercase text-foreground/80 whitespace-nowrap">
+          <span
+            className="font-body text-[11px] tracking-[0.22em] uppercase whitespace-nowrap"
+            style={{ color: '#e0e0e0' }}>
             {item}
           </span>
           <Separator />
@@ -28,19 +31,22 @@ export default function MarqueeBar() {
 
   return (
     <div
-      className="relative w-full overflow-hidden border-y border-primary/25"
-      style={{ background: 'linear-gradient(90deg, rgba(212,175,55,0.10), rgba(245,208,110,0.05), rgba(212,175,55,0.10))' }}>
+      className="fixed bottom-0 left-0 right-0 z-40 hidden md:block overflow-hidden"
+      style={{
+        background: 'rgba(26, 26, 21, 0.8)',
+        backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
+        borderTop: '1px solid rgba(92, 80, 48, 0.9)',
+        borderBottom: '1px solid rgba(92, 80, 48, 0.9)',
+      }}>
       <motion.div
-        className="flex py-3"
+        className="flex py-2.5"
         initial={{ x: 0 }}
         animate={{ x: '-50%' }}
         transition={{ duration: 34, ease: 'linear', repeat: Infinity }}>
         <Row />
         <Row ariaHidden />
       </motion.div>
-      {/* Edge fades for a polished finish */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-background to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-background to-transparent" />
     </div>
   );
 }
