@@ -36,11 +36,10 @@ export default function ReleaseUpdatesPopup() {
     if (!trimmed || submitting) return;
     setSubmitting(true);
     try {
-      await base44.entities.EmailSubscriber.create({
+      await base44.functions.invoke('saveSubscriber', {
         email: trimmed,
         name: 'Fan',
         consent_updates: true,
-        consent_at: new Date().toISOString(),
         source: 'site_popup',
       });
       trackEvent('release_updates_popup_signup', { source: '30s_popup' });

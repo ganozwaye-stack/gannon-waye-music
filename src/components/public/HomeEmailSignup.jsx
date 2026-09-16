@@ -159,13 +159,11 @@ export default function HomeEmailSignup() {
 
     setLoading(true);
     try {
-      await base44.entities.EmailSubscriber.create({
+      await base44.functions.invoke('saveSubscriber', {
         name: form.name.trim(),
         email: form.email.trim().toLowerCase(),
         consent_updates: true,
-        consent_at: new Date().toISOString(),
         source: 'home_email_signup',
-        unsubscribed: false,
       });
       setDone(true);
     } catch {

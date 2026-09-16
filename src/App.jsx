@@ -280,8 +280,6 @@ import AutomationAgentsHub from '@/pages/admin/AutomationAgentsHub';
 import SystemsQaHub from '@/pages/admin/SystemsQaHub';
 import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
 import PrintFulfilment from '@/pages/admin/PrintFulfilment';
-import MumsGarden from '@/pages/MumsGarden';
-import SoniasGarden from '@/pages/SoniasGarden';
 import Memorial from '@/pages/Memorial';
 import PriorityCommander from '@/pages/admin/PriorityCommander';
 import ClickAudit from '@/pages/admin/ClickAudit';
@@ -401,14 +399,18 @@ const AuthenticatedApp = () => {
         <Route path="/upcoming-music" element={<UpcomingMusic />} />
         <Route path="/carry-the-message" element={<CarryTheMessage />} />
         <Route path="/remember-mum" element={<RememberMum />} />
-        <Route path="/mums-garden" element={<MumsGarden />} />
-        <Route path="/sonias-garden" element={<SoniasGarden />} />
+        {/* Mum's Garden and Sonia's Garden were archived and locked at the owner's
+            request on 16 September 2026. These redirects keep old links safe. Do not
+            restore the pages unless the owner explicitly asks to unlock and make
+            Mum's Garden public again. See src/pages/archive/mums-garden/ARCHIVE_LOCK.md */}
+        <Route path="/mums-garden" element={<Navigate to="/" replace />} />
+        <Route path="/sonias-garden" element={<Navigate to="/" replace />} />
         {/* /mum was a 404. It is the most guessable URL for the memorial page and
             the one the test suite has always used, so anyone following an old link
             or typing the obvious thing hit a dead 404 on the page that matters most
             on this site. Redirected, not left to the catch-all. */}
-        <Route path="/mum" element={<Navigate to="/mums-garden" replace />} />
-        <Route path="/mums" element={<Navigate to="/mums-garden" replace />} />
+        <Route path="/mum" element={<Navigate to="/" replace />} />
+        <Route path="/mums" element={<Navigate to="/" replace />} />
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
         <Route path="/store/checkout-success" element={<Navigate to="/checkout-success" replace />} />
         <Route path="/payment-success" element={<Navigate to="/checkout-success" replace />} />
@@ -768,7 +770,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/workbook-builder" element={<WorkbookBuilder />} />
         <Route path="/admin/client-resource-library" element={<ClientResourceLibrary />} />
         <Route path="/admin/phone-system" element={<PhoneSystem />} />
-        <Route path="/admin/mums-garden" element={<MumsGarden />} />
+        <Route path="/admin/mums-garden" element={<Navigate to="/admin/dashboard" replace />} />
         <Route path="/admin/mum" element={<MumTribute />} />
         <Route path="/admin/without-you-here" element={<MumTribute />} />
         <Route path="/admin/memorial" element={<Memorial />} />

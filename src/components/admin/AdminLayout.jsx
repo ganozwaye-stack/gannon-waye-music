@@ -62,7 +62,6 @@ const NAV_SECTIONS = [
       { label: 'Coaching Leads', path: '/admin/coaching-leads', icon: Mail },
       { label: 'Memorial', path: '/admin/memorial', icon: Heart },
       { label: 'Mum Tribute', path: '/admin/mum', icon: Heart },
-      { label: "Mum's Garden", path: '/admin/mums-garden', icon: Heart },
     ]
   },
   {

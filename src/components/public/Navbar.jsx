@@ -16,7 +16,6 @@ const NAV_LINKS = [
 { label: 'Biography', path: '/biography' },
 { label: 'Music', path: '/music' },
 { label: 'Store', path: '/store' },
-{ label: "Mum's Garden", path: '/mums-garden' },
 ...(FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED ? [{ label: 'Coaching', path: '/coaching', soon: true }] : []),
 { label: 'Press', path: '/press' },
 { label: 'Contact', path: '/contact' }];
