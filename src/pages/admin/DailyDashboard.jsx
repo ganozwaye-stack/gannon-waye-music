@@ -44,64 +44,60 @@ export default function DailyDashboard() {
               {greeting}, Gannon. Deego's pulled together today's priorities, what's waiting on your call, and where the music pipeline is sitting.
             </p>
           </div>
-          <div className="flex flex-col items-start gap-3 lg:items-end">
-            <Link
-              to="/admin/orchestrator-chat"
-              className="inline-flex items-center gap-2 rounded-lg gradient-gold-button px-4 py-2 font-body text-xs font-semibold tracking-wide uppercase transition-transform hover:-translate-y-0.5"
-            >
-              <MessageSquare className="w-4 h-4" /> Talk to Deego
-            </Link>
-            <div className="flex flex-wrap gap-2 lg:justify-end">
-              {counters.map((c) => (
-                <button
-                  key={c.label}
-                  type="button"
-                  onClick={() => navigate(c.path)}
-                  className={`font-body text-[11px] px-3 py-1.5 rounded-full border ${c.cls} cursor-pointer hover:scale-105 transition-transform`}
-                >
-                  {c.value} {c.label}
-                </button>
-              ))}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:justify-end">
+            <DeegoProgressRing compact recs={recs.length} approvals={approvals.length} blocked={blocked.length} />
+            <div className="flex flex-col items-start gap-3 sm:items-end">
+              <Link
+                to="/admin/orchestrator-chat"
+                className="inline-flex items-center gap-2 rounded-lg gradient-gold-button px-4 py-2 font-body text-xs font-semibold tracking-wide uppercase transition-transform hover:-translate-y-0.5"
+              >
+                <MessageSquare className="w-4 h-4" /> Talk to Deego
+              </Link>
+              <div className="flex flex-wrap gap-2 sm:justify-end">
+                {counters.map((c) => (
+                  <button
+                    key={c.label}
+                    type="button"
+                    onClick={() => navigate(c.path)}
+                    className={`font-body text-[11px] px-3 py-1.5 rounded-full border ${c.cls} cursor-pointer hover:scale-105 transition-transform`}
+                  >
+                    {c.value} {c.label}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </header>
 
-      {/* ── Hero focus — Today's priorities + Pending approvals ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch">
-        <div className="lg:col-span-8">
+      {/* ── Three-rail desk: launcher | work cards | to-do ── */}
+      <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 items-start">
+        <aside className="hidden xl:block xl:col-span-2">
+          <FunctionLauncher rail />
+        </aside>
+
+        <div className="xl:col-span-7 space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
+            <div id="deego-recommendations"><DeegoRecommendations /></div>
+            <div id="deego-blocked"><BlockedItems /></div>
+            <div id="deego-approvals"><ApprovalCards /></div>
+            <DeegoProspects />
+          </div>
+        </div>
+
+        <aside className="xl:col-span-3">
           <DeegoTodoList />
-        </div>
-        <div id="deego-approvals" className="lg:col-span-4">
-          <ApprovalCards />
-        </div>
+        </aside>
       </div>
 
-      {/* ── Also today — supporting grid (subdued) ── */}
-      <p className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50 pt-2 pb-1">Also today</p>
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start opacity-95">
-        <div id="deego-recommendations" className="lg:col-span-5">
-          <DeegoRecommendations />
-        </div>
-        <div className="lg:col-span-3">
-          <DeegoProgressRing recs={recs.length} approvals={approvals.length} blocked={blocked.length} />
-        </div>
-        <div id="deego-blocked" className="lg:col-span-4">
-          <BlockedItems />
-        </div>
-        <div className="lg:col-span-4">
-          <DeegoProspects />
-        </div>
-        <div className="lg:col-span-8">
-          <DailyNotes />
-        </div>
+      {/* ── Bottom band: pending releases + notes ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+        <div className="lg:col-span-4"><ReleasePipelineList /></div>
+        <div className="lg:col-span-8"><DailyNotes /></div>
       </div>
 
-      {/* ── Release pipeline — wide ── */}
-      <ReleasePipelineList />
-
-      {/* ── Function launcher — full width (kept) ── */}
-      <FunctionLauncher />
+      {/* Launcher for screens too narrow for the left rail */}
+      <div className="xl:hidden"><FunctionLauncher /></div>
 
       {/* ── Footer ── */}
       <footer className="text-center pt-2">

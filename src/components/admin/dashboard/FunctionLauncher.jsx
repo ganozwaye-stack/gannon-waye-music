@@ -94,7 +94,8 @@ const GROUPS = [
   },
 ];
 
-export default function FunctionLauncher() {
+// rail=true renders a narrow single-column list for the side of Deego's Desk.
+export default function FunctionLauncher({ rail = false }) {
   const [query, setQuery] = useState('');
 
   const filtered = GROUPS.map((g) => ({
@@ -103,11 +104,11 @@ export default function FunctionLauncher() {
   })).filter((g) => g.items.length > 0);
 
   return (
-    <div className="bg-card border border-border/40 rounded-2xl p-5">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+    <div className={`bg-card border border-border/40 rounded-2xl ${rail ? 'p-4 h-full' : 'p-5'}`}>
+      <div className={`flex gap-3 mb-4 ${rail ? 'flex-col' : 'flex-col sm:flex-row sm:items-center sm:justify-between'}`}>
         <div className="flex items-center gap-2">
           <Terminal className="w-4 h-4 text-primary" />
-          <h2 className="font-display text-lg text-foreground">Function Launcher</h2>
+          <h2 className={`font-display text-foreground ${rail ? 'text-base' : 'text-lg'}`}>Function Launcher</h2>
         </div>
         <div className="relative">
           <Search className="w-3.5 h-3.5 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
@@ -115,16 +116,16 @@ export default function FunctionLauncher() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search functions…"
-            className="h-8 w-full sm:w-56 rounded-md border border-border/40 bg-secondary/30 pl-9 pr-3 text-sm font-body"
+            className={`h-8 w-full rounded-md border border-border/40 bg-secondary/30 pl-9 pr-3 text-sm font-body ${rail ? '' : 'sm:w-56'}`}
           />
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className={rail ? 'space-y-4' : 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'}>
         {filtered.map((g) => (
           <div key={g.title}>
             <p className="font-body text-[10px] uppercase tracking-widest text-muted-foreground mb-2">{g.title}</p>
-            <div className="grid grid-cols-2 gap-2">
+            <div className={rail ? 'flex flex-col gap-1' : 'grid grid-cols-2 gap-2'}>
               {g.items.map((item) => {
                 const Icon = item.icon;
                 return (
