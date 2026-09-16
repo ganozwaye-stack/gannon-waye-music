@@ -1,9 +1,7 @@
 # .github/workflows/playwright-store-tests.yml
-# Copy this file to: .github/workflows/playwright-store-tests.yml
-# in the gannonwaye-business-os GitHub repository.
-#
-# If tests are inside a subfolder (e.g. gannonwaye-playwright-pack),
-# uncomment the working-directory lines below.
+# Focused live site checks for gannonwaye.com.
+# Runs from the repository root so every job uses the single pinned Playwright install
+# and the single root Playwright configuration.
 
 name: Playwright Store Tests
 
@@ -12,18 +10,13 @@ on:
     branches: [main, master, fix/store-runtime-error]
   pull_request:
     branches: [main, master]
-  workflow_dispatch:   # Allow manual trigger from GitHub Actions UI
+  workflow_dispatch:
 
 jobs:
   test-store:
     name: Store & Cart Tests
     runs-on: ubuntu-latest
     timeout-minutes: 20
-
-    # Uncomment if tests are in a subfolder:
-    # defaults:
-    #   run:
-    #     working-directory: gannonwaye-playwright-pack
 
     steps:
       - name: Checkout repo
@@ -38,12 +31,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browser and system dependencies
+        run: npm run test:e2e:setup
 
       - name: Run critical store tests
-        run: npx playwright test tests/store-load.spec.js tests/cart.spec.js --reporter=github,html
+        run: npm run test:e2e -- store-load.spec.js cart.spec.js --project=chromium --reporter=github,html
         env:
+          LIVE: '1'
           BASE_URL: https://gannonwaye.com
 
       - name: Upload Playwright report
@@ -59,10 +53,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
-    # defaults:
-    #   run:
-    #     working-directory: gannonwaye-playwright-pack
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -76,12 +66,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+      - name: Install Playwright browser and system dependencies
+        run: npm run test:e2e:setup
 
       - name: Run security tests
-        run: npx playwright test tests/security.spec.js tests/coaching-private-lock.spec.js --reporter=github
+        run: npm run test:e2e -- security.spec.js coaching-private-lock.spec.js --project=chromium --reporter=github,html
         env:
+          LIVE: '1'
           BASE_URL: https://gannonwaye.com
 
       - name: Upload security report

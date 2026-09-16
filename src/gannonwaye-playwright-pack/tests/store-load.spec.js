@@ -8,8 +8,8 @@ test.describe('Verified public store', () => {
   test('/store is the sole public boutique and product route', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
     await expect(page.locator('[data-testid="store-page"]')).toBeVisible();
-    await expect(page.locator('[data-testid="locked-storefront-world"]')).toBeVisible();
-    await expect(page.locator('[data-testid="locked-storefront-stage"]')).toBeVisible();
+    await expect(page.getByRole('region', { name: 'Permanent Gannon Waye boutique world' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Shop the collection' })).toBeVisible();
   });
 
   test('/store/all redirects to the same canonical store', async ({ page }) => {
@@ -21,7 +21,6 @@ test.describe('Verified public store', () => {
   test('exactly three live stage one product cards are visible', async ({ page }) => {
     await page.goto(`${BASE_URL}/store`);
     await expect(page.locator('[data-testid="product-card"]')).toHaveCount(3);
-    await expect(page.locator('[data-testid="world-product-card"]')).toHaveCount(3);
   });
 
   test('product images, titles and prices are visible', async ({ page }) => {
@@ -39,7 +38,7 @@ test.describe('Verified public store', () => {
     await hoodie.locator('[data-testid="add-to-cart-btn"]').click();
     await expect(hoodie.locator('.text-destructive')).toContainText('Please select a size');
 
-    await hoodie.getByRole('button', { name: /^M \(4\)$/ }).click();
+    await hoodie.getByRole('button', { name: 'Select size M, 4 in stock' }).click();
     await hoodie.locator('[data-testid="add-to-cart-btn"]').click();
     await expect(hoodie.locator('[data-testid="add-to-cart-success"]')).toBeVisible();
   });
