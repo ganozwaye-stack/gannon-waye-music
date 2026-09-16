@@ -1,0 +1,70 @@
+{
+  "name": "MasterHandoverPhase",
+  "type": "object",
+  "description": "One phase of the 13-phase Master Handover distribution process, tracked by the owner on the Master Handover Timeline admin page. Admin only.",
+  "properties": {
+    "phase_number": {
+      "type": "number",
+      "description": "Phase order, 1 to 13"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short name of this phase"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "What completing this phase involves"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "in_progress",
+        "blocked",
+        "done"
+      ],
+      "default": "not_started"
+    },
+    "due_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Target date for completing this phase"
+    },
+    "linked_route": {
+      "type": "string",
+      "description": "Admin route where this phase is worked on"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Owner notes on progress, blockers or evidence"
+    }
+  },
+  "required": [
+    "phase_number",
+    "title"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

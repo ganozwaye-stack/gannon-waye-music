@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, ChevronDown, ShoppingCart } from 'lucide-react';
+import { Menu, X, Search, ChevronDown, ShoppingCart, Heart } from 'lucide-react';
 import { useCartStore } from '@/lib/cartStore';
 import CartDrawer from '@/components/store/CartDrawer';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -141,6 +141,13 @@ export default function Navbar() {
 
         {/* Search + Mobile toggle */}
         <div className="flex items-center gap-2">
+          <Link
+            to="/back-this"
+            aria-label="Support the project"
+            className="hidden sm:inline-flex items-center gap-1.5 h-8 px-3 rounded-full border border-primary/50 gradient-gold-text hover:border-primary/70 hover:bg-primary/10 transition-all font-body text-[10px] tracking-widest uppercase whitespace-nowrap">
+            <Heart className="w-3.5 h-3.5" />
+            Support
+          </Link>
           <button
             type="button"
             onClick={() => setSearchOpen(true)}

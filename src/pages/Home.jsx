@@ -11,6 +11,7 @@ import StoreWorldTeaser from '@/components/public/StoreWorldTeaser';
 import FeaturedMerchShowcase from '@/components/public/FeaturedMerchShowcase';
 import UpcomingMerchVote from '@/components/public/UpcomingMerchVote';
 import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
+import SetFreeCountdown from '@/components/public/SetFreeCountdown';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import GoldenEmbers from '@/components/three/GoldenEmbers';
@@ -163,18 +164,20 @@ export default function Home() {
             Gannon Waye
           </motion.h1>
 
-          <div className="grid md:grid-cols-2 gap-8 items-start flex-1">
+          <div className="grid md:grid-cols-2 gap-8 items-stretch flex-1">
           {/* LEFT: single info and CTAs */}
-          <div className="max-w-xl w-full text-center mx-auto">
+          <div className="max-w-xl w-full text-center mx-auto flex flex-col h-full">
           <div className="rounded-2xl border border-border/25 px-5 py-4 backdrop-blur-[2px]"
                style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.5) 0%, rgba(8,8,14,0.32) 60%, rgba(8,8,14,0.18) 100%)', boxShadow: '0 8px 28px rgba(0,0,0,0.28)' }}>
-            <motion.p
+            <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.4 }}
-              className="font-body text-base tracking-[0.45em] uppercase gradient-gold-text mb-4">
-              Next Release
-            </motion.p>
+              className="mb-4">
+              <p className="font-body text-base tracking-[0.45em] uppercase gradient-gold-text leading-relaxed">New Release</p>
+              <p className="font-body text-[10px] tracking-[0.35em] uppercase text-foreground/70 mt-1">Coming</p>
+              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-text mt-0.5">September 25</p>
+            </motion.div>
 
             {/* Cover artwork: the existing official Set Free artwork, unchanged */}
             <motion.div
@@ -218,12 +221,15 @@ export default function Home() {
             </motion.p>
           </div>
 
-          {/* CTAs: Presave Set Free, Back The Thankyou Project, Work with Me in a row beneath the CD */}
+          {/* Countdown to the Set Free release, between the write-up and the CTAs */}
+          <SetFreeCountdown />
+
+          {/* CTAs: Presave Set Free, Carry The Message and Work with Me, lowered to sit level with the welcome box */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1.4, delay: 1.6 }}
-            className="flex flex-wrap items-center justify-center gap-2.5 mt-2">
+            className="flex flex-wrap items-center justify-center gap-2.5 mt-6 md:mt-auto md:pb-20">
             <MagneticButton>
               <a
                 href={SET_FREE_PRESAVE}
@@ -237,7 +243,7 @@ export default function Home() {
               <MagneticButton>
                 <Link to="/store">
                   <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
-                    Wear the Message
+                    Carry the Message
                   </Button>
                 </Link>
               </MagneticButton>
@@ -265,7 +271,8 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.4, delay: 0.6 }}
               className="mb-8">
-              <HeroWelcomeBanner release={previousRelease} releaseLink={previousLink} badgeLabel="Previous release" />
+              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3 text-center md:text-left">Current Release</p>
+              <HeroWelcomeBanner release={previousRelease} releaseLink={previousLink} badgeLabel="Current release" />
               {previousRelease?.title === 'Without You Here' && (
                 <div className="mt-4 text-center">
                   <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase gradient-gold-text hover:opacity-80 transition-opacity">

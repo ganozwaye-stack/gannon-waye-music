@@ -5,6 +5,8 @@ import Footer from './Footer';
 import MobileBottomTabs from './MobileBottomTabs';
 import SocialProofTicker from './SocialProofTicker';
 import GlobalPlayerDock from './GlobalPlayerDock';
+import AmbientReleasePlayer from './AmbientReleasePlayer';
+import ReleaseUpdatesPopup from './ReleaseUpdatesPopup';
 
 export default function PublicLayout() {
   const { pathname } = useLocation();
@@ -20,6 +22,8 @@ export default function PublicLayout() {
       <Footer />
       <MobileBottomTabs />
       <GlobalPlayerDock />
+      <AmbientReleasePlayer />
+      <ReleaseUpdatesPopup />
       <SocialProofTicker />
     </div>
   );

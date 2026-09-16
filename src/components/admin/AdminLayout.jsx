@@ -83,6 +83,7 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Hero Design Studio', path: '/admin/hero-design-studio', icon: Palette },
       { label: 'Lyrics Archive', path: '/admin/lyrics-archive', icon: FileText },
+      { label: 'Master Handover Timeline', path: '/admin/master-handover', icon: ListTodo },
       { label: 'Music Roadmap', path: '/admin/music-roadmap', icon: Calendar },
       { label: 'Music and Fan Hub', path: '/admin/music-fan', icon: Music },
       { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
@@ -99,6 +100,7 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Merch Approval Gate', path: '/admin/merch-approval', icon: CheckCircle2 },
       { label: 'Merch Management', path: '/admin/merch', icon: Package },
+      { label: 'Deego Stock vs Market', path: '/admin/deego-stock-market', icon: Package },
       { label: 'Store Hotspot Editor', path: '/admin/store-hotspots', icon: Eye },
       { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
       { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },

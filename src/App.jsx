@@ -229,6 +229,8 @@ import DiscountGuardAdmin from '@/pages/admin/DiscountGuardAdmin';
 import ProcurementCommand from '@/pages/admin/ProcurementCommand';
 import LandedCostCalculator from '@/pages/admin/LandedCostCalculator';
 import StockFlowDashboard from '@/pages/admin/StockFlowDashboard';
+import DeegoStockMarketPanel from '@/pages/admin/DeegoStockMarketPanel';
+import MasterHandoverTimeline from '@/pages/admin/MasterHandoverTimeline';
 import BusinessProcessCommand from '@/pages/admin/BusinessProcessCommand';
 import AgentTrustHub from '@/pages/admin/AgentTrustHub';
 import ExternalEngineeringCommand from '@/pages/admin/ExternalEngineeringCommand';
@@ -711,6 +713,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/procurement-command" element={<ProcurementCommand />} />
         <Route path="/admin/landed-cost-calculator" element={<LandedCostCalculator />} />
         <Route path="/admin/stock-flow-dashboard" element={<StockFlowDashboard />} />
+        <Route path="/admin/deego-stock-market" element={<DeegoStockMarketPanel />} />
+        <Route path="/admin/master-handover" element={<MasterHandoverTimeline />} />
         <Route path="/admin/business-process-command" element={<BusinessProcessCommand />} />
         <Route path="/admin/agent-trust-hub" element={<AgentTrustHub />} />
         <Route path="/admin/external-engineering-command" element={<ExternalEngineeringCommand />} />
