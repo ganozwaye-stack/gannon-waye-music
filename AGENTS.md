@@ -71,6 +71,13 @@ unmissable:
 
 ---
 
+## 4a. Base44 Sandbox Dev Environment
+
+* Run with `docker compose -f docker-compose.base44.yml up -d` — a single `node:22` service that bind-mounts the repo, runs `npm install` on start, and serves Vite on host port 3000 (container 5173).
+* This is a frontend-only Vite app; there is no local backend. `@base44/vite-plugin` proxies `/api` to `VITE_BASE44_APP_BASE_URL` (`https://gannonwaye.base44.app`), so the preview reads live data from the canonical app `69eb7905ca6eb4180010f794`. Both values are public and set inline in the compose file; no secrets are required to boot.
+* `vite.config.js` sets `logLevel: 'error'`, so a quiet log is normal. Verify with `curl -sf localhost:3000/` and look for `[base44] Proxy enabled` in `docker compose logs web`.
+* `node_modules` lives in a named volume; after changing `package.json`, run `docker compose -f docker-compose.base44.yml restart web` to reinstall.
+
 ## 5. Contact & Support
 If any issue or test failure arises that you cannot resolve autonomously, stop work immediately and notify Gannon via a GitHub issue or the chat interface. Do not force override failing tests.
 
