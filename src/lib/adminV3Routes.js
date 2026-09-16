@@ -55,7 +55,7 @@ export const LEGACY_ROUTES = [
   // DEAD ROUTE: no matching <Route> exists in App.jsx, so this path 404s.
   // The ContentCommandCentre.jsx page file still exists (507 lines) and is orphaned.
   // Decide: either wire it up in App.jsx, or delete the page file. Verified 12 Sep 2026.
-  r('/admin/content-command-centre', 'Content and Publishing', 'specialist', false, 'dead_route'),
+  r('/admin/content-command', 'Content and Publishing', 'specialist', false, 'dead_route'),
   r('/admin/content-command', 'Content and Publishing', 'specialist', false, 'merge'),
   r('/admin/content-automate', 'Content and Publishing', 'specialist', true, 'investigate'),
   r('/admin/content-to-cash', 'Content and Publishing', 'specialist', true, 'investigate'),

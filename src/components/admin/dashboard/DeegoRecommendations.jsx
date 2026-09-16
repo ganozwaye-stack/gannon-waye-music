@@ -18,7 +18,7 @@ const LANE_LABEL = {
 
 const LANE_ROUTES = {
   grant: '/admin/research-hub',
-  producer_collab: '/admin/producer-directory',
+  producer_collab: '/producer-directory',
   label_outreach: '/admin/distributors',
   music_promo: '/admin/release-promo-command',
   web_build: '/admin/website-ops',

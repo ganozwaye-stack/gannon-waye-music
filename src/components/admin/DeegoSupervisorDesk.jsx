@@ -130,7 +130,7 @@ export default function DeegoSupervisorDesk() {
       <p className="text-sm">{selected.next_action}</p>
       <p className="text-xs text-muted-foreground">Source: {selected.entity} · {selected.id}</p>
       <p className="text-sm">Owner: {selected.owner}. Status: {selected.status}. {selected.evidence_required ? 'Reported complete; evidence still needs verification.' : ''}</p>
-      <Link className="text-sm underline text-primary" to={selected.entity === 'DailyDashboardTask' ? '/admin/daily-dashboard' : '/admin/todo'}>Open task register</Link>
+      <Link className="text-sm underline text-primary" to={selected.entity === 'DailyDashboardTask' ? '/admin/dashboard' : '/admin/agent-revenue-status'}>Open task register</Link>
     </div>}
   </section>;
 }

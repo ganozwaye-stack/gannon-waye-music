@@ -32,7 +32,7 @@ const PRODUCTS = [
     demonstrated: true,
     demoSection: 'TikTok Review Demo → Step 2–3: OAuth flow + connected account display',
     whyRequired: 'Authenticates the authorised TikTok creator account via official OAuth.',
-    whereOnSite: '/admin/tiktok-review-demo → Step 2 & 3',
+    whereOnSite: '/admin/tiktok-platform-review → Step 2 & 3',
     missing: null,
   },
   {
@@ -41,7 +41,7 @@ const PRODUCTS = [
     demonstrated: true,
     demoSection: 'TikTok Review Demo → Step 5–7: Approval pipeline + video.upload draft flow',
     whyRequired: 'Uploads approved video drafts to TikTok for creator final review before publishing.',
-    whereOnSite: '/admin/tiktok-review-demo → Step 5, 6, 7',
+    whereOnSite: '/admin/tiktok-platform-review → Step 5, 6, 7',
     missing: null,
   },
   {
@@ -492,7 +492,7 @@ export default function TikTokAppReview() {
             { label: 'App Review Guidelines', url: 'https://developers.tiktok.com/doc/app-review-guidelines' },
             { label: 'Privacy Policy', url: 'https://gannonwaye.com/privacy-policy' },
             { label: 'Terms of Service', url: 'https://gannonwaye.com/terms-of-service' },
-            { label: 'TikTok Review Demo (10-step)', url: '/admin/tiktok-review-demo' },
+            { label: 'TikTok Review Demo (10-step)', url: '/admin/tiktok-platform-review' },
             { label: 'Screen Recording Guide', url: '/admin/tiktok-screen-guide' },
             { label: 'Recording Studio', url: '/admin/tiktok-recording-studio' },
             { label: 'Social + Distribution Readiness', url: '/admin/social-distribution-readiness' },
