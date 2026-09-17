@@ -121,7 +121,8 @@ export default function ReleaseControlDesk() {
   const { user } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [releaseId, setReleaseId] = useState('');
+  // Deep link: /admin/release-control?release=<id> opens straight onto that release.
+  const [releaseId, setReleaseId] = useState(() => new URLSearchParams(window.location.search).get('release') || '');
   const [evidence, setEvidence] = useState(() => evidenceFromRelease(null));
   const [review, setReview] = useState(null);
   const [approvalNote, setApprovalNote] = useState('');

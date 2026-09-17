@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Clock, Disc3, Calendar } from 'lucide-react';
@@ -45,7 +46,7 @@ export default function ReleaseCountdownSection() {
           const rem = getRemaining(r.release_date);
           const dateStr = new Date(r.release_date).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' });
           return (
-            <div key={r.id} className="rounded-2xl border border-border/30 bg-card p-5">
+            <Link key={r.id} to={`/admin/release-control?release=${r.id}`} className="block rounded-2xl border border-border/30 bg-card p-5 hover:border-primary/40 transition-colors">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-lg bg-secondary/50 overflow-hidden flex-shrink-0">
                   {r.artwork_url ? (
@@ -67,7 +68,7 @@ export default function ReleaseCountdownSection() {
                   </div>
                 ))}
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

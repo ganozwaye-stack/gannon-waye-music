@@ -66,7 +66,7 @@ unmissable:
 ## 4. Operational Requirements
 
 * **Performance:** Ensure fast load times, query pagination, and skeleton loading screens for all dashboards.
-* **Global Clickability:** Every card, metric tile, row item, and agent action must click through to its specific source/detail view.
+* **Global Clickability (owner rule, 17 Sep 2026):** Every number, title, box, display tab, picture, artwork, card, metric tile, row item and agent action must click through to the destination of its relevance. Whoever changes anything must audit the changed screen to clickable status and follow every click to its target screen, which must load without an error, dead end or roadblock. A change is not finished until that walk-through succeeds. Read-only registers are not exempt: a list item that cannot be opened is a defect.
 * **Aesthetics:** The interface must feel cinematic, luxury, premium, and emotionally immersive (focusing on healing, grief, survival, and community).
 
 ---

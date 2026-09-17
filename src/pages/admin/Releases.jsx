@@ -1,9 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
+import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { Music, ShieldCheck } from 'lucide-react';
+import { Music, ShieldCheck, ArrowRight } from 'lucide-react';
 import ReleaseCountdownSection from '@/components/admin/dashboard/ReleaseCountdownSection';
 
 const OWNER_EMAILS = new Set([
@@ -36,7 +37,7 @@ export default function Releases() {
         <div>
           <h1 className="font-display text-3xl text-foreground">Release register</h1>
           <p className="mt-1 max-w-2xl font-body text-sm text-muted-foreground">
-            This legacy register is read-only. It cannot create, alter, approve, publish, promote, or delete a release.
+            This legacy register is read-only. Click any release to open it in the Release Control Desk, where it can be edited, reviewed and released.
           </p>
         </div>
         <Button asChild className="gap-2 rounded-full font-body text-sm">
@@ -63,7 +64,8 @@ export default function Releases() {
         {releases.map((release) => {
           const isPublic = hasFullPublicReleaseGate(release);
           return (
-            <Card key={release.id} className="border-border/40 bg-card">
+            <Link key={release.id} to={`/admin/release-control?release=${release.id}`} className="block group">
+            <Card className="border-border/40 bg-card transition-colors group-hover:border-primary/40">
               <CardContent className="flex items-center gap-4 p-4">
                 <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-secondary/50">
                   {release.artwork_url ? (
@@ -74,7 +76,7 @@ export default function Releases() {
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="font-display text-lg text-foreground">{release.title}</h2>
+                    <h2 className="font-display text-lg text-foreground group-hover:text-primary transition-colors">{release.title}</h2>
                     <Badge variant="outline" className="text-[10px] uppercase tracking-widest">
                       {release.type || 'single'}
                     </Badge>
@@ -90,8 +92,10 @@ export default function Releases() {
                     {release.version_label ? ` · ${release.version_label}` : ''}
                   </p>
                 </div>
+                <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground group-hover:text-primary transition-colors" />
               </CardContent>
             </Card>
+            </Link>
           );
         })}
         {releases.length === 0 && (
