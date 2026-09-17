@@ -41,9 +41,11 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
+      # LIVE=1 stops the config from booting a local Vite server we do not use here.
       - name: Run critical store tests
-        run: npx playwright test tests/store-load.spec.js tests/cart.spec.js --reporter=github,html
+        run: npx playwright test store-load.spec.js cart.spec.js --project=chromium --project=mobile-chrome --project=tablet-chrome --reporter=github,html
         env:
+          LIVE: '1'
           BASE_URL: https://gannonwaye.com
 
       - name: Upload Playwright report
@@ -80,8 +82,9 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Run security tests
-        run: npx playwright test tests/security.spec.js tests/coaching-private-lock.spec.js --reporter=github
+        run: npx playwright test security.spec.js coaching-private-lock.spec.js --project=chromium --project=mobile-chrome --project=tablet-chrome --reporter=github,html
         env:
+          LIVE: '1'
           BASE_URL: https://gannonwaye.com
 
       - name: Upload security report

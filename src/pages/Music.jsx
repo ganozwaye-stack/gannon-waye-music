@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { ExternalLink, Music2, Play } from 'lucide-react';
+import { ExternalLink, ListPlus, Music2, Play } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { usePlayerStore } from '@/lib/playerStore';
@@ -109,6 +109,16 @@ export default function Music() {
     ? releases.find((release) => release.is_current_single === true) || releases[0] || null
     : null;
   const playTrack = usePlayerStore((state) => state.playTrack);
+  const addToQueue = usePlayerStore((state) => state.addToQueue);
+  const playQueue = usePlayerStore((state) => state.playQueue);
+
+  const toTrackMeta = (release) => ({
+    title: release.title || '',
+    artwork: release.artwork_url || '',
+    lyrics: release.lyrics || '',
+  });
+  const playable = filtered.filter((release) => release.spotify_link);
+  const playAll = () => playQueue(playable.map((release) => ({ url: release.spotify_link, ...toTrackMeta(release) })));
 
   return (
     <div className="min-h-screen py-24 px-4 md:px-8">
@@ -125,6 +135,16 @@ export default function Music() {
           <p className="font-body text-sm text-muted-foreground max-w-xl mx-auto leading-relaxed">
             Explore Gannon Waye's current catalogue, the stories behind the songs, and official listening links.
           </p>
+          {playable.length > 0 && (
+            <Button
+              type="button"
+              onClick={playAll}
+              data-testid="play-all"
+              className="gap-2 rounded-full gradient-gold-button border-0 mt-6"
+            >
+              <Play className="w-4 h-4" /> Play all ({playable.length})
+            </Button>
+          )}
         </motion.header>
 
         {isLoading ? (
@@ -217,13 +237,20 @@ export default function Music() {
                     {featured.spotify_link && (
                       <Button
                         type="button"
-                        onClick={() => playTrack(featured.spotify_link, {
-                          title: featured.title || '',
-                          artwork: featured.artwork_url || '',
-                        })}
+                        onClick={() => playTrack(featured.spotify_link, toTrackMeta(featured))}
                         className="gap-2 rounded-full gradient-gold-button border-0"
                       >
                         <Play className="w-4 h-4" /> Play
+                      </Button>
+                    )}
+                    {featured.spotify_link && (
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => addToQueue(featured.spotify_link, toTrackMeta(featured))}
+                        className="gap-2 rounded-full border-primary/35 text-primary"
+                      >
+                        <ListPlus className="w-4 h-4" /> Add to queue
                       </Button>
                     )}
                     {[
@@ -337,9 +364,29 @@ export default function Music() {
                           )}
                         </Link>
                         <div className="flex flex-wrap items-center gap-2.5 mt-5">
-                          <a href={listenHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full gradient-gold-button border-0 px-6 py-2.5">
-                            <Play className="w-4 h-4" /> Listen
-                          </a>
+                          {release.spotify_link ? (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => playTrack(release.spotify_link, toTrackMeta(release))}
+                                className="inline-flex items-center gap-2 rounded-full gradient-gold-button border-0 px-6 py-2.5"
+                              >
+                                <Play className="w-4 h-4" /> Play
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => addToQueue(release.spotify_link, toTrackMeta(release))}
+                                aria-label={`Add ${release.title} to queue`}
+                                className="inline-flex items-center gap-2 rounded-full border border-primary/35 text-primary px-5 py-2.5 hover:bg-primary/10 transition-colors"
+                              >
+                                <ListPlus className="w-3.5 h-3.5" /> Queue
+                              </button>
+                            </>
+                          ) : (
+                            <a href={listenHref} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full gradient-gold-button border-0 px-6 py-2.5">
+                              <Play className="w-4 h-4" /> Listen
+                            </a>
+                          )}
                           {release.spotify_link && (
                             <a href={release.spotify_link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-primary/35 text-primary px-5 py-2.5 hover:bg-primary/10 transition-colors">
                               <ExternalLink className="w-3.5 h-3.5" /> Spotify

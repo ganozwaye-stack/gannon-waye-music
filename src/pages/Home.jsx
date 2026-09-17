@@ -163,82 +163,58 @@ export default function Home() {
             Gannon Waye
           </motion.h1>
 
-          <div className="grid md:grid-cols-2 gap-8 items-stretch flex-1">
-          {/* LEFT: single info and CTAs */}
-          <div className="max-w-xl w-full text-center mx-auto flex flex-col h-full">
-          <div className="rounded-2xl border border-border/25 px-5 py-4 backdrop-blur-[2px]"
-               style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.5) 0%, rgba(8,8,14,0.32) 60%, rgba(8,8,14,0.18) 100%)', boxShadow: '0 8px 28px rgba(0,0,0,0.28)' }}>
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, delay: 0.4 }}
-              className="mb-4">
-              <p className="font-body text-base tracking-[0.45em] uppercase gradient-gold-text leading-relaxed">New Release</p>
-              <p className="font-body text-[10px] tracking-[0.35em] uppercase text-foreground/70 mt-1">Coming</p>
-              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-text mt-0.5">September 25</p>
-            </motion.div>
-
-            {/* Cover artwork: the existing official Set Free artwork, unchanged */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, delay: 0.6 }}
-              className="mb-4">
-              <a
-                href={SET_FREE_PRESAVE}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
-                className="block mx-auto rounded-full overflow-hidden border-2 border-primary/40 hover:border-primary/70 transition-colors aspect-square max-w-[140px]"
-                style={{ boxShadow: '0 0 24px rgba(212,175,55,0.35), 0 6px 18px rgba(0,0,0,0.45)' }}>
-                <img src={SET_FREE_ART} alt="Set Free, Gannon Waye" className="w-full h-full object-cover" />
-              </a>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.0 }}
-              className="font-body text-2xl uppercase tracking-[0.22em] gradient-gold-text mb-1 text-center">
-              Set Free
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.15 }}
-              className="font-body text-xs tracking-[0.18em] uppercase text-muted-foreground mb-3 text-center">
-              Gannon Waye, out {SET_FREE_DATE}
-            </motion.p>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.6, delay: 1.3 }}
-              className="font-body text-sm text-foreground/85 max-w-sm mx-auto leading-relaxed italic mb-4 text-center" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>
-              The moment a boundary becomes non negotiable. Set Free is a pop single about reclaiming your voice, protecting your peace and choosing what happens next.
-            </motion.p>
-          </div>
-
-          {/* Countdown to the Set Free release, between the write-up and the CTAs */}
-          <SetFreeCountdown />
-
-          {/* CTAs: Presave Set Free, Carry The Message and Work with Me, lowered to sit level with the welcome box */}
+          <div className="grid md:grid-cols-5 gap-8 items-stretch flex-1">
+          {/* LEFT (wide): welcome write-up on top, then the current release, then the CTAs */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.4, delay: 1.6 }}
-            className="flex flex-wrap items-center justify-center gap-2.5 mt-6 md:mt-auto md:pb-20">
-            <MagneticButton>
-              <a
-                href={SET_FREE_PRESAVE}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
-                Presave Set Free
-              </a>
-            </MagneticButton>
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.6, delay: 0.4 }}
+            className="md:col-span-3 w-full flex flex-col h-full">
+            <div className="relative rounded-2xl border border-border/30 px-6 py-5 backdrop-blur-[2px]"
+                 style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.5) 0%, rgba(8,8,14,0.32) 60%, rgba(8,8,14,0.18) 100%)', boxShadow: '0 8px 28px rgba(0,0,0,0.28)' }}>
+            <motion.p
+              initial={{ opacity: 0, letterSpacing: '0.8em' }}
+              animate={{ opacity: 1, letterSpacing: '0.45em' }}
+              transition={{ duration: 1.4, delay: 0.4 }}
+              className="font-body uppercase gradient-gold-text text-base my-2 px-1">WELCOME</motion.p>
+            <p className="font-body text-sm md:text-[15px] text-foreground/85 leading-relaxed" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>I'm an Adelaide-born singer-songwriter now based in Melbourne. I grew up without access to formal music lessons, so I found my voice through school choirs, church, worship ministry, drag performance and every stage that would have me. After family violence, abusive relationships, addiction, PTSD and losing Mum, I returned to music with a purpose. I'm Still Here is not a search for fame. It is for anyone who needs a song to say what they cannot yet say. This is independent, heart-first art. You are not alone here.
+
+            </p>
+            </div>
+
+            {/* Current release: Without You Here, beneath the welcome */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.4, delay: 0.8 }}
+              className="mt-6">
+              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3 text-center md:text-left">Current Release</p>
+              <HeroWelcomeBanner release={previousRelease} releaseLink={previousLink} badgeLabel="Current release" />
+              {previousRelease?.title === 'Without You Here' && (
+                <div className="-mt-3 text-center md:text-left">
+                  <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase gradient-gold-text hover:opacity-80 transition-opacity">
+                    Read Mum's story <ArrowRight className="w-3 h-3" />
+                  </Link>
+                </div>
+              )}
+            </motion.div>
+
+            {/* CTAs: Presave Set Free, Carry The Message and Work with Me */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 1.6 }}
+              className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 mt-6 md:mt-auto md:pb-20">
+              <MagneticButton>
+                <a
+                  href={SET_FREE_PRESAVE}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
+                  Presave Set Free
+                </a>
+              </MagneticButton>
               <MagneticButton>
                 <Link to="/store">
                   <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
@@ -254,47 +230,71 @@ export default function Home() {
                 </Link>
               </MagneticButton>
             </motion.div>
+          </motion.div>
 
-          </div>
-
-          {/* RIGHT: welcome / mission write-up */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.6, delay: 0.8 }}
-            className="max-w-md w-full md:pl-4 pb-20">
-            
-            {/* Streaming player, top of the right column, below WAYE */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.4, delay: 0.6 }}
-              className="mb-8">
-              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3 text-center md:text-left">Current Release</p>
-              <HeroWelcomeBanner release={previousRelease} releaseLink={previousLink} badgeLabel="Current release" />
-              {previousRelease?.title === 'Without You Here' && (
-                <div className="mt-4 text-center">
-                  <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase gradient-gold-text hover:opacity-80 transition-opacity">
-                    Read Mum's story <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              )}
-            </motion.div>
-
-            <div className="relative rounded-2xl border border-border/30 px-5 py-4 backdrop-blur-[2px]"
-                 style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.5) 0%, rgba(8,8,14,0.32) 60%, rgba(8,8,14,0.18) 100%)', boxShadow: '0 8px 28px rgba(0,0,0,0.28)' }}>
-            <motion.p
-              initial={{ opacity: 0, letterSpacing: '0.8em' }}
-              animate={{ opacity: 1, letterSpacing: '0.45em' }}
-              transition={{ duration: 1.4, delay: 0.4 }}
-              className="font-body uppercase gradient-gold-text text-base my-2 px-1">WELCOME</motion.p>
-            <p className="font-body text-sm text-foreground/85 leading-relaxed" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>I'm an Adelaide-born singer-songwriter now based in Melbourne. I grew up without access to formal music lessons, so I found my voice through school choirs, church, worship ministry, drag performance and every stage that would have me. After family violence, abusive relationships, addiction, PTSD and losing Mum, I returned to music with a purpose. I'm Still Here is not a search for fame. It is for anyone who needs a song to say what they cannot yet say. This is independent, heart-first art. You are not alone here.
-
-            </p>
+          {/* RIGHT (narrow): the Set Free new release feature, countdown running down its left side */}
+          <div className="md:col-span-2 w-full max-w-sm mx-auto md:mx-0 md:ml-auto flex flex-col h-full md:pb-20">
+          <div className="rounded-2xl border border-border/25 px-4 py-4 backdrop-blur-[2px] flex gap-4"
+               style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.5) 0%, rgba(8,8,14,0.32) 60%, rgba(8,8,14,0.18) 100%)', boxShadow: '0 8px 28px rgba(0,0,0,0.28)' }}>
+            {/* Countdown to the Set Free release, a narrow strip down the left */}
+            <div className="shrink-0 border-r border-border/25 pr-4">
+              <SetFreeCountdown vertical />
             </div>
 
+            <div className="flex-1 min-w-0 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.6, delay: 0.4 }}
+              className="mb-4">
+              <p className="font-body text-sm tracking-[0.4em] uppercase gradient-gold-text leading-relaxed">New Release</p>
+              <p className="font-body text-[10px] tracking-[0.35em] uppercase text-foreground/70 mt-1">Coming</p>
+              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-text mt-0.5">September 25</p>
+            </motion.div>
 
-          </motion.div>
+            {/* Cover artwork: the existing official Set Free artwork, unchanged */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.6, delay: 0.6 }}
+              className="mb-4">
+              <a
+                href={SET_FREE_PRESAVE}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
+                className="block mx-auto rounded-full overflow-hidden border-2 border-primary/40 hover:border-primary/70 transition-colors aspect-square max-w-[120px]"
+                style={{ boxShadow: '0 0 24px rgba(212,175,55,0.35), 0 6px 18px rgba(0,0,0,0.45)' }}>
+                <img src={SET_FREE_ART} alt="Set Free, Gannon Waye" className="w-full h-full object-cover" />
+              </a>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 1.0 }}
+              className="font-body text-xl uppercase tracking-[0.22em] gradient-gold-text mb-1">
+              Set Free
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.4, delay: 1.15 }}
+              className="font-body text-[10px] tracking-[0.18em] uppercase text-muted-foreground mb-3">
+              Gannon Waye, out {SET_FREE_DATE}
+            </motion.p>
+
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1.6, delay: 1.3 }}
+              className="font-body text-xs text-foreground/85 leading-relaxed italic" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>
+              The moment a boundary becomes non negotiable. Set Free is a pop single about reclaiming your voice, protecting your peace and choosing what happens next.
+            </motion.p>
+            </div>
+          </div>
+          </div>
           </div>
         </motion.div>
 
