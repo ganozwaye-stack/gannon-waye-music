@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
 
+// Wide landscape portrait: anchor its left edge to the frame so Gannon is not cropped out.
+const WIDE_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c000a4871_EDC9C0C5-826F-4776-9C04-320EEA25CA29.png';
 const FALLBACK_HEADSHOT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/46d4a449f_34508B53-5E54-4EAB-9923-73CB67595C65.png';
 const BIO = 'Gannon Waye is an independent Australian singer songwriter born in Adelaide and based in Melbourne. Raised in low socioeconomic conditions, formal music lessons were out of reach, but he built his voice through school choirs, church, worship ministry, drag performance and community stages. After family violence, abusive relationships, addiction, PTSD and the loss of his mum Sonia, he returned to music with I\'m Still Here, a fifteen song project about being knocked down and choosing to rise.';
 
@@ -94,7 +96,7 @@ export default function PressKit() {
                 <img
                   src={image.image_url}
                   alt={image.title || 'Gannon Waye'}
-                  className="w-full aspect-[4/5] object-cover object-[center_20%]"
+                  className={`w-full aspect-[4/5] object-cover ${image.image_url === WIDE_PORTRAIT ? 'object-left' : 'object-[center_20%]'}`}
                 />
                 <div className="p-4 flex items-center justify-between gap-3">
                   <p className="font-body text-xs text-muted-foreground truncate">

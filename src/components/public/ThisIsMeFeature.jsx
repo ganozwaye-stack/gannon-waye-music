@@ -20,14 +20,17 @@ export default function ThisIsMeFeature({ compact = false }) {
     >
       <div className="max-w-6xl mx-auto rounded-2xl overflow-hidden border border-primary/30"
         style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(8,8,14,0.9))' }}>
-        <div className="grid md:grid-cols-[1fr_auto] gap-6 md:gap-10 items-center p-6 md:p-10">
-          <div>
+        <div className="grid md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-center p-6 md:p-10">
+          <img src={THIS_IS_ME_POSTERS[0].url} alt={THIS_IS_ME_POSTERS[0].alt}
+            className="hidden md:block w-[170px] lg:w-[190px] aspect-[9/16] object-cover rounded-xl border border-primary/25"
+            style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.45)' }} />
+          <div className="text-center">
             <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-2">New series · The Prelude</p>
             <h2 className="font-body text-3xl md:text-5xl uppercase tracking-[0.18em] gradient-gold-text mb-3">This Is Me</h2>
-            <p className="font-body text-sm md:text-base text-foreground/75 leading-relaxed max-w-xl">
+            <p className="font-body text-sm md:text-base text-foreground/75 leading-relaxed max-w-xl mx-auto">
               The songs are only part of the story. This Is Me is the video series behind the music: the years of showing up, the recovery that was needed too, and everything that led to Set Free.
             </p>
-            <div className="flex flex-wrap gap-3 mt-6">
+            <div className="flex flex-wrap justify-center gap-3 mt-6">
               <a href="https://www.youtube.com/@gannonwaye" target="_blank" rel="noopener noreferrer">
                 <Button className="rounded-full gradient-gold-button border-0 font-body text-xs tracking-wider uppercase">
                   Follow the series on YouTube <ArrowRight className="w-3.5 h-3.5 ml-2" />
@@ -40,10 +43,14 @@ export default function ThisIsMeFeature({ compact = false }) {
               </Link>
             </div>
           </div>
-          <div className="flex gap-3 justify-center md:justify-end">
+          {/* Right poster on desktop; on mobile both posters sit together beneath the text */}
+          <img src={THIS_IS_ME_POSTERS[1].url} alt={THIS_IS_ME_POSTERS[1].alt}
+            className="hidden md:block w-[170px] lg:w-[190px] aspect-[9/16] object-cover rounded-xl border border-primary/25"
+            style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.45)' }} />
+          <div className="flex md:hidden gap-3 justify-center">
             {THIS_IS_ME_POSTERS.map((p) => (
               <img key={p.url} src={p.url} alt={p.alt}
-                className="w-[140px] sm:w-[170px] md:w-[190px] aspect-[9/16] object-cover rounded-xl border border-primary/25"
+                className="w-[140px] sm:w-[170px] aspect-[9/16] object-cover rounded-xl border border-primary/25"
                 style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.45)' }} />
             ))}
           </div>
