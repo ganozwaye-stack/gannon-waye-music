@@ -7,6 +7,7 @@ import ReelBuilderTab from '@/components/merch-visual-lab/ReelBuilderTab';
 import StoreVisualsTab from '@/components/merch-visual-lab/StoreVisualsTab';
 import VisualApprovalTab from '@/components/merch-visual-lab/VisualApprovalTab';
 import ExportCentreTab from '@/components/merch-visual-lab/ExportCentreTab';
+import MockupStudioTab from '@/components/merch-visual-lab/mockup/MockupStudioTab';
 
 export default function MerchVisualLab() {
   return (
@@ -21,8 +22,9 @@ export default function MerchVisualLab() {
         </div>
       </div>
 
-      <Tabs defaultValue="assets">
+      <Tabs defaultValue="mockups">
         <TabsList className="flex-wrap h-auto gap-1 mb-6">
+          <TabsTrigger value="mockups">Product Mockups</TabsTrigger>
           <TabsTrigger value="assets">Product Assets</TabsTrigger>
           <TabsTrigger value="guide">BG Removal Guide</TabsTrigger>
           <TabsTrigger value="uploads">PNG Uploads</TabsTrigger>
@@ -33,6 +35,7 @@ export default function MerchVisualLab() {
           <TabsTrigger value="export">Export Centre</TabsTrigger>
         </TabsList>
 
+        <TabsContent value="mockups"><MockupStudioTab /></TabsContent>
         <TabsContent value="assets"><ProductAssetsTab /></TabsContent>
         <TabsContent value="guide"><BgRemovalGuideTab /></TabsContent>
         <TabsContent value="uploads"><TransparentUploadsTab /></TabsContent>

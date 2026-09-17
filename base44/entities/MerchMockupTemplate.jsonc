@@ -1,0 +1,68 @@
+{
+  "name": "MerchMockupTemplate",
+  "type": "object",
+  "description": "A blank product photo (hoodie, tee, mug) used as a reusable template in the Merch Visual Lab Product Mockups tab. A design is dropped onto the blank at the default print area, then exported as the product's shop image. Admin only.",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "product_type": {
+      "type": "string",
+      "enum": [
+        "hoodie",
+        "shirt",
+        "mug",
+        "tote",
+        "poster",
+        "journal",
+        "other"
+      ],
+      "default": "hoodie"
+    },
+    "blank_image_url": {
+      "type": "string",
+      "description": "Square photo of the blank product with no design on it"
+    },
+    "print_x_pct": {
+      "type": "number",
+      "default": 50,
+      "description": "Default horizontal centre of the print area, percent across the image"
+    },
+    "print_y_pct": {
+      "type": "number",
+      "default": 42,
+      "description": "Default vertical centre of the print area, percent down the image"
+    },
+    "print_w_pct": {
+      "type": "number",
+      "default": 36,
+      "description": "Default design width as a percent of the image width"
+    }
+  },
+  "required": [
+    "title",
+    "blank_image_url"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
