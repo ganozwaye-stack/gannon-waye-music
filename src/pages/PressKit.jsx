@@ -33,24 +33,24 @@ export default function PressKit() {
     : [{ id: 'fallback', image_url: FALLBACK_HEADSHOT, title: 'Gannon Waye' }];
 
   return (
-    <div className="min-h-screen py-24 px-4 md:px-8">
+    <div className="min-h-screen pt-6 md:pt-8 pb-24 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         <motion.header
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-14"
+          className="text-center mb-8"
         >
-          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2">
             Media resources
           </p>
-          <h1 className="font-display text-5xl md:text-7xl text-foreground mb-5">Press Kit</h1>
+          <h1 className="font-display text-4xl md:text-6xl text-foreground mb-3">Press Kit</h1>
           <p className="font-body text-sm text-muted-foreground max-w-xl mx-auto">
             Official biography, approved images, contact details, and current public music.
           </p>
         </motion.header>
 
-        <section className="grid lg:grid-cols-[1.1fr_0.9fr] gap-8 mb-12">
-          <div className="rounded-3xl border border-primary/20 bg-card/55 p-7 md:p-10">
+        <section className="grid lg:grid-cols-[1.1fr_0.9fr] gap-6 mb-12">
+          <div className="rounded-3xl border border-primary/20 bg-card/55 p-6 md:p-8">
             <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-4">Biography</p>
             <p className="font-body text-base text-foreground/75 leading-relaxed">{BIO}</p>
             <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">
