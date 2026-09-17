@@ -28,6 +28,16 @@ const MOOD_AMBIENCE = {
 };
 const DEFAULT_AMBIENCE = { density: 0.7, intensity: 0.65, glow: 0.13 };
 
+// The same ambient campfire loop the home hero uses, so a song page feels like
+// the hero it came from.
+const HERO_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6eb4180010f794/8e23b3544_Ambient_Hero_Loop.mp4';
+
+// The glass panel of the home hero, reused for every block on a song page.
+const GLASS_PANEL = {
+  background: 'linear-gradient(135deg, rgba(8,8,14,0.5) 0%, rgba(8,8,14,0.32) 60%, rgba(8,8,14,0.18) 100%)',
+  boxShadow: '0 8px 28px rgba(0,0,0,0.28)',
+};
+
 // Background imagery per release, supplied by Gannon. Without You Here keeps the
 // exact home-hero world: the stencil title and Gannon's portrait. Thankyou
 // carries its own image of Gannon, the official single photo. A new release
@@ -102,6 +112,17 @@ export default function ReleaseDetail() {
         style={{ background: `radial-gradient(120% 80% at 50% 18%, rgba(212,175,55,${ambience.glow}), rgba(8,8,14,0) 60%)` }}
       />
 
+      {/* Ambient fire loop, the same one the home hero runs. */}
+      <video
+        src={HERO_VIDEO}
+        autoPlay
+        loop
+        muted
+        playsInline
+        aria-hidden
+        className="absolute inset-0 z-[1] w-full h-full object-cover opacity-25 pointer-events-none"
+      />
+
       {/* The song's own background imagery: Gannon's portrait, and where one
           exists, the stencil of the title, exactly as the home hero world. */}
       {imagery?.portrait && (
@@ -109,7 +130,7 @@ export default function ReleaseDetail() {
           src={imagery.portrait}
           alt=""
           aria-hidden
-          className="absolute inset-0 z-[1] pointer-events-none select-none w-full h-full object-cover"
+          className="absolute inset-0 z-[2] pointer-events-none select-none w-full h-full object-cover"
           style={{
             opacity: 0.35,
             objectPosition: 'right center',
@@ -154,13 +175,13 @@ export default function ReleaseDetail() {
           <ArrowLeft className="w-4 h-4" /> Music
         </Link>
 
-        <div className="grid md:grid-cols-[minmax(0,420px)_1fr] gap-9 items-start">
+        <div className="grid md:grid-cols-[minmax(0,360px)_1fr] gap-9 items-start">
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.9, delay: 0.1 }}
-            className="relative aspect-square rounded-2xl overflow-hidden border border-primary/40 bg-card/55"
-            style={{ boxShadow: '0 0 42px rgba(212,175,55,0.16), 0 18px 48px rgba(0,0,0,0.5)' }}
+            className="relative aspect-square rounded-full overflow-hidden border-2 border-primary/40 bg-card/55 mx-auto w-full max-w-[340px]"
+            style={{ boxShadow: '0 0 32px rgba(212,175,55,0.35), 0 10px 30px rgba(0,0,0,0.5)' }}
           >
             {release.artwork_url ? (
               <img
@@ -175,12 +196,12 @@ export default function ReleaseDetail() {
             )}
           </motion.div>
 
-          <div className="pt-2">
+          <div className="rounded-2xl border border-border/30 px-6 py-6 backdrop-blur-[2px]" style={GLASS_PANEL}>
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-3"
+              className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3"
             >
               {release.type || 'release'}
             </motion.p>
@@ -188,7 +209,7 @@ export default function ReleaseDetail() {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="font-display text-5xl md:text-7xl text-foreground"
+              className="font-body text-3xl md:text-5xl uppercase tracking-[0.18em] gradient-gold-text"
             >
               {release.title}
             </motion.h1>
@@ -211,7 +232,8 @@ export default function ReleaseDetail() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.9, delay: 0.45 }}
-                className="font-body text-base text-foreground/70 leading-relaxed mt-7"
+                className="font-body text-sm md:text-[15px] text-foreground/85 leading-relaxed mt-6"
+                style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}
               >
                 {release.description}
               </motion.p>
@@ -230,14 +252,14 @@ export default function ReleaseDetail() {
                     title: release.title || '',
                     artwork: release.artwork_url || '',
                   })}
-                  className="gap-2 rounded-full gradient-gold-button border-0"
+                  className="gap-2 px-5 py-2.5 h-auto text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0"
                 >
                   <Play className="w-4 h-4" /> Play
                 </Button>
               )}
               {links.map(([label, href]) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" className="gap-2 rounded-full border-foreground/30 text-foreground hover:border-foreground/60 hover:bg-foreground/5">
+                  <Button variant="outline" className="gap-2 px-5 py-2.5 h-auto text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10">
                     {label} <ExternalLink className="w-3.5 h-3.5" />
                   </Button>
                 </a>
@@ -246,7 +268,7 @@ export default function ReleaseDetail() {
 
             {release.credits && (
               <div className="mt-10 pt-7 border-t border-border/40">
-                <h2 className="font-body text-xs tracking-[0.25em] uppercase text-primary mb-3">Credits</h2>
+                <h2 className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3">Credits</h2>
                 <p className="font-body text-sm text-muted-foreground whitespace-pre-wrap">
                   {release.credits}
                 </p>
