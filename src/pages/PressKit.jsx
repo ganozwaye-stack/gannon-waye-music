@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Download, Mail, Music2 } from 'lucide-react';
+import { Mail, Music2 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
+import PressReleaseCard from '@/components/public/press/PressReleaseCard';
+import PressHeadshotStrip from '@/components/public/press/PressHeadshotStrip';
 
-// Wide landscape portrait: anchor its left edge to the frame so Gannon is not cropped out.
-const WIDE_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/c000a4871_EDC9C0C5-826F-4776-9C04-320EEA25CA29.png';
 const FALLBACK_HEADSHOT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/46d4a449f_34508B53-5E54-4EAB-9923-73CB67595C65.png';
 const BIO = 'Gannon Waye is an independent Australian singer songwriter born in Adelaide and based in Melbourne. Raised in low socioeconomic conditions, formal music lessons were out of reach, but he built his voice through school choirs, church, worship ministry, drag performance and community stages. After family violence, abusive relationships, addiction, PTSD and the loss of his mum Sonia, he returned to music with I\'m Still Here, a fifteen song project about being knocked down and choosing to rise.';
 
@@ -68,52 +68,24 @@ export default function PressKit() {
                 </Button>
               </a>
             </div>
+
+            <div className="h-px bg-border/50 my-7" />
+            <PressHeadshotStrip images={headshots.slice(1, 7)} />
           </div>
 
           <div className="rounded-3xl overflow-hidden border border-border/40 bg-card/55">
+            {/* object-[center_38%] crops the empty navy above his head so his face
+                sits higher in the frame. */}
             <img
               src={headshots[0].image_url}
               alt={headshots[0].title || 'Gannon Waye'}
-              className="w-full h-full min-h-[360px] object-cover object-top"
+              className="w-full h-full min-h-[360px] object-cover object-[center_38%]"
             />
           </div>
         </section>
 
-        <section className="mb-12">
-          <div className="flex items-end justify-between gap-4 mb-6">
-            <div>
-              <p className="font-body text-[10px] tracking-[0.3em] uppercase text-primary mb-2">Official images</p>
-              <h2 className="font-display text-3xl text-foreground">Headshots</h2>
-            </div>
-            <span className="font-body text-xs text-muted-foreground">High resolution available on request</span>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {headshots.slice(1, 7).map((image) => (
-              <article
-                key={image.id || image.image_url}
-                className="rounded-2xl overflow-hidden border border-border/40 bg-card/55"
-              >
-                <img
-                  src={image.image_url}
-                  alt={image.title || 'Gannon Waye'}
-                  className={`w-full aspect-[4/5] object-cover ${image.image_url === WIDE_PORTRAIT ? 'object-left' : 'object-[center_20%]'}`}
-                />
-                <div className="p-4 flex items-center justify-between gap-3">
-                  <p className="font-body text-xs text-muted-foreground truncate">
-                    {image.title || 'Gannon Waye'}
-                  </p>
-                  <a href={image.image_url} target="_blank" rel="noopener noreferrer">
-                    <Download className="w-4 h-4 text-primary" />
-                  </a>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <div className="mb-12"><ThisIsMeFeature compact /></div>
-
-        <section className="rounded-3xl border border-primary/20 bg-card/55 p-7 md:p-10">
+        {/* Music sits above the video series: this is a music site first. */}
+        <section className="rounded-3xl border border-primary/20 bg-card/55 p-7 md:p-10 mb-12">
           <div className="flex items-center gap-3 mb-6">
             <Music2 className="w-5 h-5 text-primary" />
             <h2 className="font-display text-3xl text-foreground">Public music</h2>
@@ -153,25 +125,13 @@ export default function PressKit() {
                 </p>
               )}
               {releases.map((release) => (
-                <Link
-                  key={release.id}
-                  to={`/release/${release.id}`}
-                  className="rounded-2xl border border-border/40 bg-background/30 p-5 hover:border-primary/35 transition-colors"
-                >
-                  <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary">
-                    {release.type || 'release'}
-                  </p>
-                  <h3 className="font-display text-2xl text-foreground mt-1">{release.title}</h3>
-                  {release.version_label && (
-                    <p className="font-body text-xs text-muted-foreground mt-1">
-                      {release.version_label}
-                    </p>
-                  )}
-                </Link>
+                <PressReleaseCard key={release.id} release={release} />
               ))}
             </div>
           )}
         </section>
+
+        <ThisIsMeFeature compact />
       </div>
     </div>
   );
