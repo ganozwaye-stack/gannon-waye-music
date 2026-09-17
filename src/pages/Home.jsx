@@ -15,7 +15,6 @@ import SetFreeCountdown from '@/components/public/SetFreeCountdown';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import GoldenEmbers from '@/components/three/GoldenEmbers';
-import MagneticButton from '@/components/public/MagneticButton';
 import TiltCard from '@/components/public/TiltCard';
 import HeroWelcomeBanner from '@/components/public/HeroWelcomeBanner';
 import PressKitHomeSection from '@/components/public/PressKitHomeSection';
@@ -199,37 +198,6 @@ export default function Home() {
               )}
             </motion.div>
 
-            {/* CTAs: Presave Set Free, Carry The Message and Work with Me */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.6 }}
-              className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 mt-6 md:mt-auto md:pb-20">
-              <MagneticButton>
-                <a
-                  href={SET_FREE_PRESAVE}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
-                  Presave Set Free
-                </a>
-              </MagneticButton>
-              <MagneticButton>
-                <Link to="/store">
-                  <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
-                    Carry the Message
-                  </Button>
-                </Link>
-              </MagneticButton>
-              <MagneticButton>
-                <Link to="/contact">
-                  <Button variant="outline" className="gap-2 px-5 py-2.5 text-xs tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
-                    Work with Me
-                  </Button>
-                </Link>
-              </MagneticButton>
-            </motion.div>
           </motion.div>
 
           {/* RIGHT (narrow): the Set Free new release feature, countdown running down its left side */}
@@ -294,6 +262,32 @@ export default function Home() {
             </motion.p>
             </div>
           </div>
+
+          {/* CTAs: one neat line beneath the new release column */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.4, delay: 1.6 }}
+            className="flex items-center justify-center gap-1.5 mt-4 flex-nowrap">
+            <a
+              href={SET_FREE_PRESAVE}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
+              className="inline-flex items-center justify-center px-3 py-2 text-[9px] tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
+              Presave
+            </a>
+            <Link to="/store">
+              <Button variant="outline" className="px-3 py-2 h-auto text-[9px] tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
+                Carry the Message
+              </Button>
+            </Link>
+            <Link to="/contact">
+              <Button variant="outline" className="px-3 py-2 h-auto text-[9px] tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
+                Work with Me
+              </Button>
+            </Link>
+          </motion.div>
           </div>
           </div>
         </motion.div>
