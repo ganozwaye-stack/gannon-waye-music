@@ -5,7 +5,7 @@ import { ArrowRight, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { base44 } from '@/api/base44Client';
 
-const FALLBACK_HEADSHOT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cb360d5ee_image.png';
+const FALLBACK_HEADSHOT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/46d4a449f_34508B53-5E54-4EAB-9923-73CB67595C65.png';
 
 const MISSION =
   "To reach people who need a voice or a song for what they cannot yet say through independent, emotionally honest music and storytelling.";
@@ -83,7 +83,7 @@ export default function PressKitHomeSection() {
               <div className={`grid ${cols} gap-3`}>
                 {shots.map((s, i) => (
                   <div key={i} className="aspect-[3/4] rounded-xl overflow-hidden border border-primary/20 bg-secondary/40">
-                    <img src={s.image_url} alt={s.title || 'Gannon Waye'} className="w-full h-full object-cover object-[right_top]" />
+                    <img src={s.image_url} alt={s.title || 'Gannon Waye'} className="w-full h-full object-cover object-[center_20%]" />
                   </div>
                 ))}
               </div>

@@ -7,6 +7,7 @@ import SignatureQuoteDivider from '@/components/public/SignatureQuoteDivider';
 import ShareButtons from '@/components/public/ShareButtons';
 import EpisodeNotifyModal from '@/components/public/EpisodeNotifyModal';
 import GannonSignature from '@/components/global/GannonSignature';
+import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
 
 const EPISODES = [
   {
@@ -232,6 +233,9 @@ export default function ThisIsMyLife() {
           </div>
         </motion.div>
       </section>
+
+      {/* This Is Me video series, The Prelude, launched 17 September 2026 */}
+      <ThisIsMeFeature />
 
       {/* About / Bio section */}
       <section className="py-16 md:py-20 px-4 md:px-8 border-b border-border/20">

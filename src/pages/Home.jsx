@@ -18,6 +18,7 @@ import GoldenEmbers from '@/components/three/GoldenEmbers';
 import TiltCard from '@/components/public/TiltCard';
 import HeroWelcomeBanner from '@/components/public/HeroWelcomeBanner';
 import PressKitHomeSection from '@/components/public/PressKitHomeSection';
+import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
 import { trackEvent } from '@/lib/analytics';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
@@ -305,6 +306,9 @@ export default function Home() {
 
       {/* Welcome prompt: appears the first time a visitor reaches this point */}
       <FirstVisitOnboarding />
+
+      {/* This Is Me: the video series behind the music, launched 17 September 2026 */}
+      <ThisIsMeFeature />
 
       {/* Featured merchandise display: the Thank You collection */}
       <FeaturedMerchShowcase />

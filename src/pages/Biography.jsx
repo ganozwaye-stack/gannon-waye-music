@@ -2,11 +2,12 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Music, Heart, Mic, Headphones, Quote, BookOpen, Star } from 'lucide-react';
+import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
 
 // Gannon, side profile, looking up into the light through the clouds. The hero.
 const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
 // Primary Gannon headshot, gold halo on navy
-const PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/a02a9ab6c_image_edited.png';
+const PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/94d50ca39_77B69334-B27B-44A8-9C21-F7216216A118.png';
 
 const CHAPTERS = [
   { year: 'Adelaide', title: 'No lessons, still singing', text: 'Gannon was raised in low socioeconomic conditions where formal music lessons were out of reach. No amount of asking, tears or begging changed that, so he built a voice wherever music was available, leading school choirs and learning by doing.' },
@@ -191,6 +192,9 @@ export default function Biography() {
             </p>
           </div>
         </motion.div>
+
+        {/* This Is Me video series, launched 17 September 2026 */}
+        <div className="mb-16"><ThisIsMeFeature compact /></div>
 
         {/* This Is My Life series callout */}
         <motion.div
