@@ -28,15 +28,16 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        working-directory: src/gannonwaye-playwright-pack
         run: npx playwright install --with-deps chromium
 
       - name: Run Build
         run: npm run build
 
+      # Run from the repo root: /playwright.config.js is the only live config
+      # (the one inside src/gannonwaye-playwright-pack throws on purpose).
+      # Only the Chromium projects run here; WebKit is not installed on CI.
       - name: Run Playwright Test Suite
-        working-directory: src/gannonwaye-playwright-pack
-        run: npx playwright test --reporter=github,html
+        run: npx playwright test --project=chromium --project=mobile-chrome --project=tablet-chrome --reporter=github,html
         env:
           BASE_URL: http://localhost:5173
 
@@ -45,23 +46,25 @@ jobs:
         if: always()
         with:
           name: playwright-report
-          path: src/gannonwaye-playwright-pack/playwright-report/
+          path: playwright-report/
           retention-days: 14
 
   secret-scan:
     name: Secret Scanning & Credentials Check
     runs-on: ubuntu-latest
     steps:
+      # Full history is needed: a shallow checkout has no base ref to diff
+      # against, which made this job fail on every pull request.
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: TruffleHog OSS Secret Scan
         uses: trufflesecurity/trufflehog-actions@main
         with:
           path: ./
-          base: ${{ github.event.repository.default_branch }}
-          head: HEAD
-          extra_args: --debug --only-verified
+          extra_args: --only-verified
 
   codeql-scan:
     name: CodeQL Security Scan

@@ -3,7 +3,6 @@ import { AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import MobileBottomTabs from './MobileBottomTabs';
-import SocialProofTicker from './SocialProofTicker';
 import GlobalPlayerDock from './GlobalPlayerDock';
 import AmbientReleasePlayer from './AmbientReleasePlayer';
 import ReleaseUpdatesPopup from './ReleaseUpdatesPopup';
@@ -26,7 +25,6 @@ export default function PublicLayout() {
       <GlobalPlayerDock />
       <AmbientReleasePlayer />
       <ReleaseUpdatesPopup />
-      <SocialProofTicker />
     </div>
   );
 }

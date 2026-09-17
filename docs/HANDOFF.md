@@ -153,6 +153,16 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-09-17 · Base44 · music queue player, home hero, CI repair
+
+Did:      Added a song queue to the shared player (`src/lib/playerStore.js`: playQueue, addToQueue, next, prev, playAt, removeAt) and rebuilt `GlobalPlayerDock.jsx` as a music player with previous/next, a queue list and an inline lyrics panel for the current song. New `SpotifyEmbed.jsx` uses Spotify's IFrame API so the queue advances when a track ends (falls back to a plain embed if the API script is blocked). Music page gained Play all, Play and Queue buttons. Removed the bottom centre `SocialProofTicker` popup and the now unused `LyricsOverlay`. Home hero rearranged: welcome write up wide on the left top, Without You Here beneath it, Set Free narrow on the right with the countdown running vertically down its left side (`SetFreeCountdown` gained a `vertical` prop). CI: Playwright now runs from the repo root on the Chromium projects only, TruffleHog checks out full history without a base ref, store/security jobs set LIVE=1, and the missing `security.spec.js` and `coaching-private-lock.spec.js` were written (14 tests, all pass locally).
+
+Found:    Every check on PR #38 also fails on `main` before this branch. Causes: Playwright was run from `src/gannonwaye-playwright-pack` whose config deliberately throws; the WebKit project ran on CI with only Chromium installed; two referenced spec files did not exist; TruffleHog diffed against a ref a shallow checkout does not have. Separately, `store-load.spec.js` expects `locked-storefront-stage`, `world-product-card` and an `M (4)` size button that the current store does not render (4 of 20 store/cart tests fail locally). Only one public Release exists (Without You Here) so the queue holds one song today; there is no audio file field on Release, playback is via the approved Spotify link.
+
+Left:     `store-load.spec.js` drift against the world locked store was not touched: changing the store is forbidden by the storefront lock and rewriting the spec needs Gannon's call on what the store should assert. Full `all-tests` Playwright suite (34 specs) was not run end to end.
+
+For:      Gannon to decide whether `store-load.spec.js` should be aligned to the current store or the store's test hooks restored.
+
 ### 2026-09-01 · Codex · Set Free release and merchandise staging
 
 Did:      Verified the private Drive source folder Set Free 2026 GW. Corrected Lyric record 6a3aa17c5f2267d730b5a824 to the canonical title Set Free, refreshed its text from Drive file 1YiTQeuQTIdXKJDZmpB7XLl0RogeGhY9A, linked it to Release 6a538a537c7842081551d561, and kept every publication gate closed. Linked 11 other existing Lyric records to exact Release records. Added three one or two colour printable Set Free SVG drafts and DeegoDesignAsset records 6a96fa3d63802e058e7b7133 through 6a96fa3d63802e058e7b7135. Expanded DeegoDesignAsset with placement, image, colour count and song gate fields. Build passed.
