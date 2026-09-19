@@ -142,8 +142,16 @@ forbid('src/pages/admin/AutonomousOps.jsx', /base44\.functions\.invoke|ApprovalQ
 requireSnippet('src/pages/admin/ContentAutomate.jsx', 'Safety hold active');
 forbid('src/pages/admin/ContentAutomate.jsx', /base44\.functions\.invoke|handleRunAutomation|Run Generator/, 'legacy content-generator execution');
 
-requireSnippet('base44/functions/deegoTelegram/entry.ts', 'Legacy messaging doorway is held.');
-requireSnippet('base44/functions/deegoTelegram/entry.ts', 'skipped: true');
+requireSnippet('base44/functions/deegoTelegram/entry.ts', 'approvalMatchesDraft');
+requireSnippet('base44/functions/deegoTelegram/entry.ts', "config.send_enabled !== true");
+requireSnippet('base44/functions/deegoTelegram/entry.ts', 'MessagingApprovalReceipt');
+requireSnippet('base44/functions/deegoTelegram/entry.ts', "provider_status: 'claimed'");
+requireSnippet('base44/functions/sendApprovedFanSms/entry.ts', 'FanMessagingConsent');
+requireSnippet('base44/functions/sendApprovedFanSms/entry.ts', "consent_status: 'opted_in'");
+requireSnippet('base44/functions/sendApprovedFanSms/entry.ts', 'smsBodyComplianceErrors');
+requireSnippet('base44/functions/sendApprovedFanSms/entry.ts', 'MessagingApprovalReceipt');
+requireSnippet('base44/functions/twilioInboundSms/entry.ts', "consent_status: 'opted_out'");
+requireSnippet('base44/functions/twilioInboundSms/entry.ts', 'twimlEmptyResponse');
 
 requireSnippet('base44/functions/tooLostOAuth/entry.ts', 'OWNER_EMAILS.has(actorEmail)');
 requireSnippet('base44/functions/tooLostOAuth/entry.ts', 'OWNER_EMAILS.has(stateCheck.requestedBy)');
