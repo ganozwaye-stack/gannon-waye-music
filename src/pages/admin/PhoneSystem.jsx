@@ -8,7 +8,8 @@ import CallLogs from '@/components/phone/CallLogs';
 import SmsDrafts from '@/components/phone/SmsDrafts';
 import LeadSources from '@/components/phone/LeadSources';
 import PhoneActionRequired from '@/components/phone/PhoneActionRequired';
-import { Phone, Users, MessageSquare, MapPin, AlertTriangle, BookOpen, PhoneCall } from 'lucide-react';
+import DeegoMessaging from '@/components/phone/DeegoMessaging';
+import { Phone, Users, MessageSquare, MapPin, AlertTriangle, BookOpen, PhoneCall, Bot } from 'lucide-react';
 
 const TABS = [
   { id: 'setup', label: 'Number Setup', icon: Phone },
@@ -16,6 +17,7 @@ const TABS = [
   { id: 'leads', label: 'Inbound Leads', icon: Users },
   { id: 'calls', label: 'Call Logs', icon: PhoneCall },
   { id: 'sms', label: 'SMS Drafts', icon: MessageSquare },
+  { id: 'deego-messaging', label: 'Deego Messaging', icon: Bot },
   { id: 'sources', label: 'Lead Sources', icon: MapPin },
   { id: 'actions', label: 'Action Required', icon: AlertTriangle },
 ];
@@ -118,6 +120,7 @@ export default function PhoneSystem() {
       {activeTab === 'leads' && <InboundLeads leads={leads} />}
       {activeTab === 'calls' && <CallLogs callLogs={callLogs} leads={leads} />}
       {activeTab === 'sms' && <SmsDrafts />}
+      {activeTab === 'deego-messaging' && <DeegoMessaging />}
       {activeTab === 'sources' && <LeadSources />}
       {activeTab === 'actions' && <PhoneActionRequired primaryNumber={primaryNumber} />}
     </div>
