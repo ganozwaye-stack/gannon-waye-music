@@ -81,7 +81,6 @@ forbid(
 );
 
 const planningOnlyAgents = [
-  'base44/agents/deego_master_ai.jsonc',
   'base44/agents/deego_content_interviewer.jsonc',
   'base44/agents/deego_design_hub_operator.jsonc',
   'base44/agents/deego_gannons_mix_direct_operator.jsonc',
@@ -96,6 +95,15 @@ for (const path of planningOnlyAgents) {
   requireSnippet(path, '"whatsapp_greeting": null');
   forbid(path, /allowed_operations|function_name/, 'direct tool permissions');
 }
+
+requireSnippet('base44/agents/deego_master_ai.jsonc', '"entity_name": "OutboundMessageDraft"');
+requireSnippet('base44/agents/deego_master_ai.jsonc', '"entity_name": "MessagingChannelConfig"');
+requireSnippet('base44/agents/deego_master_ai.jsonc', '"entity_name": "FanMessagingConsent"');
+requireSnippet('base44/agents/deego_master_ai.jsonc', '"entity_name": "MessagingApprovalReceipt"');
+requireSnippet('base44/agents/deego_master_ai.jsonc', '"entity_name": "MessagingDeliveryReceipt"');
+requireSnippet('base44/agents/deego_master_ai.jsonc', '"entity_name": "ApprovalQueue"');
+requireSnippet('base44/agents/deego_master_ai.jsonc', '"whatsapp_greeting": null');
+forbid('base44/agents/deego_master_ai.jsonc', /function_name/, 'direct provider function permission');
 
 requireSnippet('base44/entities/AgentTaskLog.jsonc', '"default": false');
 requireSnippet('base44/entities/AgentTaskLog.jsonc', '"create": {');
