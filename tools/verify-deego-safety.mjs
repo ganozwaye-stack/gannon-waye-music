@@ -133,7 +133,7 @@ const required = [
   ['base44/functions/deegoTelegram/entry.ts', 'MessagingApprovalReceipt'],
   ['base44/functions/deegoTelegram/entry.ts', "provider_status: 'claimed'"],
   ['base44/functions/deegoTelegram/entry.ts', 'send_request_id: sendRequestId'],
-  ['base44/functions/deegoTelegram/entry.ts', 'no automatic retry'],
+  ['base44/functions/deegoTelegram/entry.ts', 'will not retry automatically'],
 
   ['base44/functions/executiveMorningBrief/function.jsonc', '"automations": []'],
   ['base44/workflows/Executive Morning Brief (Daily 7am).jsonc', '"condition": "${ false }"'],
