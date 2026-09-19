@@ -1,0 +1,85 @@
+{
+  "name": "MessagingApprovalReceipt",
+  "type": "object",
+  "description": "Immutable owner approval for one exact outbound message and audience.",
+  "properties": {
+    "message_draft_id": {
+      "type": "string"
+    },
+    "channel": {
+      "type": "string",
+      "enum": [
+        "telegram_owner",
+        "sms_fan"
+      ]
+    },
+    "recipient_scope": {
+      "type": "string"
+    },
+    "recipient_ref": {
+      "type": "string"
+    },
+    "audience_description": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "content_fingerprint": {
+      "type": "string"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approval_phrase": {
+      "type": "string"
+    },
+    "approval_note": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "control_version": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "archived_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "message_draft_id",
+    "channel",
+    "recipient_scope",
+    "content_fingerprint",
+    "approved_by",
+    "approved_at",
+    "control_version"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": false,
+    "delete": false
+  }
+}

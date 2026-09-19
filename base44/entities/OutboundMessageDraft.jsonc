@@ -1,0 +1,145 @@
+{
+  "name": "OutboundMessageDraft",
+  "type": "object",
+  "description": "Exact communication staged for owner approval before any external distribution.",
+  "properties": {
+    "channel": {
+      "type": "string",
+      "enum": [
+        "telegram_owner",
+        "sms_fan"
+      ]
+    },
+    "message_type": {
+      "type": "string",
+      "enum": [
+        "owner_brief",
+        "fan_campaign",
+        "individual_reply",
+        "transactional",
+        "other"
+      ],
+      "default": "other"
+    },
+    "title": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "recipient_scope": {
+      "type": "string",
+      "enum": [
+        "owner",
+        "individual",
+        "opted_in_sms_segment"
+      ]
+    },
+    "recipient_ref": {
+      "type": "string"
+    },
+    "audience_description": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "recipient_count_estimate": {
+      "type": "number",
+      "default": 0
+    },
+    "content_fingerprint": {
+      "type": "string"
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "pending",
+        "approved",
+        "rejected",
+        "claimed",
+        "sent",
+        "blocked"
+      ],
+      "default": "draft"
+    },
+    "approval_receipt_id": {
+      "type": "string"
+    },
+    "approved_by": {
+      "type": "string"
+    },
+    "approved_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "approval_note": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "send_request_id": {
+      "type": "string"
+    },
+    "claim_id": {
+      "type": "string"
+    },
+    "provider_status": {
+      "type": "string",
+      "enum": [
+        "not_configured",
+        "ready",
+        "attempted",
+        "accepted",
+        "delivered",
+        "failed",
+        "blocked"
+      ],
+      "default": "not_configured"
+    },
+    "sent_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by_agent": {
+      "type": "string"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "archived_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "channel",
+    "body",
+    "recipient_scope"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": false
+  }
+}

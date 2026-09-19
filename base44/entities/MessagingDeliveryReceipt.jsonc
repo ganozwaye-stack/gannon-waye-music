@@ -1,0 +1,113 @@
+{
+  "name": "MessagingDeliveryReceipt",
+  "type": "object",
+  "description": "Append-only provider delivery receipt for an approved Telegram or SMS send attempt.",
+  "properties": {
+    "message_draft_id": {
+      "type": "string"
+    },
+    "approval_receipt_id": {
+      "type": "string"
+    },
+    "channel": {
+      "type": "string",
+      "enum": [
+        "telegram_owner",
+        "sms_fan"
+      ]
+    },
+    "recipient_ref": {
+      "type": "string"
+    },
+    "consent_record_id": {
+      "type": "string"
+    },
+    "provider": {
+      "type": "string",
+      "enum": [
+        "telegram_bot",
+        "twilio"
+      ]
+    },
+    "provider_message_id": {
+      "type": "string"
+    },
+    "provider_status": {
+      "type": "string",
+      "enum": [
+        "claimed",
+        "accepted",
+        "delivered",
+        "failed",
+        "blocked"
+      ]
+    },
+    "content_fingerprint": {
+      "type": "string"
+    },
+    "send_request_id": {
+      "type": "string"
+    },
+    "claim_id": {
+      "type": "string"
+    },
+    "attempted_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "delivered_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "error_code": {
+      "type": "string"
+    },
+    "detail": {
+      "type": "string",
+      "maxLength": 1500
+    },
+    "external_actions": {
+      "type": "number",
+      "default": 0
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "archived_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "message_draft_id",
+    "channel",
+    "provider",
+    "provider_status",
+    "content_fingerprint",
+    "send_request_id",
+    "claim_id",
+    "attempted_at"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": false,
+    "delete": false
+  }
+}

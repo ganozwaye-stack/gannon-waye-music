@@ -1,0 +1,110 @@
+{
+  "name": "MessagingChannelConfig",
+  "type": "object",
+  "description": "Private configuration state for Deego external messaging channels. Secrets are never stored here.",
+  "properties": {
+    "channel_key": {
+      "type": "string",
+      "enum": [
+        "telegram_owner",
+        "sms_fan"
+      ]
+    },
+    "provider": {
+      "type": "string",
+      "enum": [
+        "telegram_bot",
+        "twilio"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "not_configured",
+        "pending",
+        "ready",
+        "error"
+      ],
+      "default": "not_configured"
+    },
+    "send_enabled": {
+      "type": "boolean",
+      "default": false
+    },
+    "credentials_configured": {
+      "type": "boolean",
+      "default": false
+    },
+    "destination_configured": {
+      "type": "boolean",
+      "default": false
+    },
+    "owner_destination_label": {
+      "type": "string"
+    },
+    "business_phone_number_id": {
+      "type": "string"
+    },
+    "approval_required": {
+      "type": "boolean",
+      "default": true
+    },
+    "consent_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "unsubscribe_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "last_tested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_test_result": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 3000
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "archived_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "channel_key",
+    "provider"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": false
+  }
+}

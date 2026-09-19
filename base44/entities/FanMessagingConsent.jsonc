@@ -1,0 +1,98 @@
+{
+  "name": "FanMessagingConsent",
+  "type": "object",
+  "description": "Channel-specific fan consent and suppression record. Email consent is never treated as SMS consent.",
+  "properties": {
+    "contact_key": {
+      "type": "string",
+      "description": "Stable normalized contact key, normally E.164 phone number."
+    },
+    "subscriber_id": {
+      "type": "string"
+    },
+    "subscriber_email": {
+      "type": "string"
+    },
+    "phone_number": {
+      "type": "string"
+    },
+    "channel": {
+      "type": "string",
+      "enum": [
+        "sms"
+      ],
+      "default": "sms"
+    },
+    "consent_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "opted_in",
+        "opted_out",
+        "blocked"
+      ],
+      "default": "pending"
+    },
+    "consent_source": {
+      "type": "string"
+    },
+    "consent_evidence": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "consent_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "revoked_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_inbound_keyword": {
+      "type": "string"
+    },
+    "suppression_reason": {
+      "type": "string",
+      "maxLength": 1000
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "archived_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "created_by": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "contact_key",
+    "phone_number",
+    "channel",
+    "consent_status"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": false
+  }
+}
