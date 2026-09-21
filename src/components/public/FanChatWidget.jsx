@@ -76,14 +76,14 @@ export default function FanChatWidget() {
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-label={open ? 'Close fan chat' : 'Open fan chat'}
-        className="fixed bottom-20 md:bottom-6 right-4 md:right-6 z-40 w-12 h-12 rounded-full gradient-gold-button border-0 flex items-center justify-center shadow-lg"
+        className="fixed bottom-24 md:bottom-16 right-4 md:right-6 z-50 w-12 h-12 rounded-full gradient-gold-button border-0 flex items-center justify-center shadow-lg"
       >
         {open ? <X className="w-5 h-5" /> : <MessageCircle className="w-5 h-5" />}
       </button>
 
       {/* Panel */}
       {open && (
-        <div className="fixed bottom-36 md:bottom-24 right-4 md:right-6 z-40 w-[calc(100%-2rem)] max-w-[340px] rounded-2xl border border-border/60 bg-card shadow-2xl overflow-hidden flex flex-col">
+        <div className="fixed bottom-[10.5rem] md:bottom-[8rem] right-4 md:right-6 z-50 w-[calc(100%-2rem)] max-w-[340px] rounded-2xl border border-border/60 bg-card shadow-2xl overflow-hidden flex flex-col">
           {/* Header */}
           <div className="gradient-gold-button px-4 py-3">
             <div className="flex items-center gap-2">
