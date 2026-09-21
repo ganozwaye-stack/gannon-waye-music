@@ -12,6 +12,13 @@ import {
   BarChart2, Star, MessageSquare, Globe, AlertCircle,
   FileCheck, Bot, Activity, Heart, Mail
 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import FlightdeckTab from '@/components/admin/dashboard-family/FlightdeckTab';
+import ApprovalsTab from '@/components/admin/dashboard-family/ApprovalsTab';
+import CrmFanTab from '@/components/admin/dashboard-family/CrmFanTab';
+import ProductionSupplyTab from '@/components/admin/dashboard-family/ProductionSupplyTab';
+import CreativeUxTab from '@/components/admin/dashboard-family/CreativeUxTab';
+import InstallsIndexTab from '@/components/admin/dashboard-family/InstallsIndexTab';
 
 // Tile component
 function DashTile({ to, label, value, sub, icon: Icon, color = 'gold', urgent = false, onClick }) {
@@ -104,6 +111,18 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6 pb-16">
+      <Tabs defaultValue="overview" className="w-full space-y-6">
+        <TabsList className="h-auto flex-wrap justify-start gap-1">
+          <TabsTrigger value="overview">Cockpit Overview</TabsTrigger>
+          <TabsTrigger value="flightdeck">Flightdeck Overview &amp; Action Inbox</TabsTrigger>
+          <TabsTrigger value="approvals">Approval Queue &amp; System Approvals</TabsTrigger>
+          <TabsTrigger value="crm-fan">CRM &amp; Fan Subscriptions</TabsTrigger>
+          <TabsTrigger value="production-supply">Production &amp; Supply Chain</TabsTrigger>
+          <TabsTrigger value="creative-ux">Creative Suite &amp; UX Audits</TabsTrigger>
+          <TabsTrigger value="installs-index">Client Installs &amp; Site A-Z Index</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-6">
 
       {/* ── GMAIL WARNING BANNER — persistent until Gmail is connected ── */}
       <div className="flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-primary/50 bg-primary/8">
@@ -362,6 +381,32 @@ export default function Dashboard() {
           </div>
         )}
       </div>
+        </TabsContent>
+
+        <TabsContent value="flightdeck" className="space-y-6">
+          <FlightdeckTab />
+        </TabsContent>
+
+        <TabsContent value="approvals" className="space-y-6">
+          <ApprovalsTab />
+        </TabsContent>
+
+        <TabsContent value="crm-fan" className="space-y-6">
+          <CrmFanTab />
+        </TabsContent>
+
+        <TabsContent value="production-supply" className="space-y-6">
+          <ProductionSupplyTab />
+        </TabsContent>
+
+        <TabsContent value="creative-ux" className="space-y-6">
+          <CreativeUxTab />
+        </TabsContent>
+
+        <TabsContent value="installs-index" className="space-y-6">
+          <InstallsIndexTab />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

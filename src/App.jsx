@@ -57,6 +57,7 @@ import ReleaseDetail from '@/pages/ReleaseDetail';
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
 import DailyDashboard from '@/pages/admin/DailyDashboard';
+import Dashboard from '@/pages/admin/Dashboard';
 import DailyDashboardV2 from '@/pages/admin/DailyDashboardV2';
 import OwnerCommandV3 from '@/pages/admin/OwnerCommandV3';
 import Releases from '@/pages/admin/Releases';
@@ -525,7 +526,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/negotiation-rights-tracker" element={<Navigate to="/admin/artist-business-setup" replace />} />
         <Route path="/admin/creative-tools-stack" element={<Navigate to="/admin/artist-business-setup" replace />} />
 
-        <Route path="/admin/dashboard" element={<DailyDashboard />} />
+        {/* /admin/dashboard is Deego's Desk (Dashboard.jsx) — the canonical Command/Dashboards
+            hub. The old Daily Dashboard stays as a file for a later retirement wave. */}
+        <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/dashboard-v2" element={<DailyDashboardV2 />} />
         <Route path="/admin/owner-command-v3" element={<OwnerCommandV3 />} />
         <Route path="/admin/launch-content" element={<LaunchContentHub />} />
