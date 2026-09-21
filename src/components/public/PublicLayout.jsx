@@ -6,6 +6,7 @@ import MobileBottomTabs from './MobileBottomTabs';
 import GlobalPlayerDock from './GlobalPlayerDock';
 import AmbientReleasePlayer from './AmbientReleasePlayer';
 import ReleaseUpdatesPopup from './ReleaseUpdatesPopup';
+import FanChatWidget from './FanChatWidget';
 import MarqueeBar from './MarqueeBar';
 
 export default function PublicLayout() {
@@ -25,6 +26,7 @@ export default function PublicLayout() {
       <GlobalPlayerDock />
       <AmbientReleasePlayer />
       <ReleaseUpdatesPopup />
+      <FanChatWidget />
     </div>
   );
 }

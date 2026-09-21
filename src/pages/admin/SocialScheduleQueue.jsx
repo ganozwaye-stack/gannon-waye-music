@@ -7,6 +7,7 @@ import FactoryTab from '@/components/admin/social-hub/FactoryTab';
 import AssetsPipelineTab from '@/components/admin/social-hub/AssetsPipelineTab';
 import IntegrationsTab from '@/components/admin/social-hub/IntegrationsTab';
 import IntelligenceTab from '@/components/admin/social-hub/IntelligenceTab';
+import FanKeywordsTab from '@/components/admin/social-hub/FanKeywordsTab';
 
 export default function SocialScheduleQueue() {
   return (
@@ -33,6 +34,7 @@ export default function SocialScheduleQueue() {
           <TabsTrigger value="assets-pipeline">Assets &amp; Pipeline</TabsTrigger>
           <TabsTrigger value="integrations">IG &amp; TikTok</TabsTrigger>
           <TabsTrigger value="intelligence">Intelligence</TabsTrigger>
+          <TabsTrigger value="fan-keywords">Fan Keywords</TabsTrigger>
         </TabsList>
 
         <TabsContent value="queue"><ScheduleQueueTab /></TabsContent>
@@ -41,6 +43,7 @@ export default function SocialScheduleQueue() {
         <TabsContent value="assets-pipeline"><AssetsPipelineTab /></TabsContent>
         <TabsContent value="integrations"><IntegrationsTab /></TabsContent>
         <TabsContent value="intelligence"><IntelligenceTab /></TabsContent>
+        <TabsContent value="fan-keywords"><FanKeywordsTab /></TabsContent>
       </Tabs>
     </div>
   );
