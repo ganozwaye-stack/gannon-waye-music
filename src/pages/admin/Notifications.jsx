@@ -371,7 +371,7 @@ export default function Notifications() {
 }
 
 const ROUTE_MAP = {
-  order: '/admin/orders',
+  order: '/admin/merch-designs',
   comment: '/admin/fans',
   reply: '/admin/fans',
   approval: '/admin/dashboard',

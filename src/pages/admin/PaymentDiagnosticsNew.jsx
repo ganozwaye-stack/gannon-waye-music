@@ -168,7 +168,7 @@ function OrderDetail({ order, onClose }) {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={onClose}><ArrowLeft className="w-3 h-3 mr-1" />Back</Button>
-          <Link to="/admin/orders"><Button variant="outline" size="sm"><ExternalLink className="w-3 h-3 mr-1" />All Orders</Button></Link>
+          <Link to="/admin/merch-designs"><Button variant="outline" size="sm"><ExternalLink className="w-3 h-3 mr-1" />All Orders</Button></Link>
         </div>
       </div>
     </div>
@@ -405,7 +405,7 @@ export default function PaymentDiagnosticsNew() {
           <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm" className="gap-1"><Webhook className="w-3 h-3" />Stripe Webhooks</Button>
           </a>
-          <Link to="/admin/orders"><Button variant="outline" size="sm" className="gap-1"><Package className="w-3 h-3" />All Orders</Button></Link>
+          <Link to="/admin/merch-designs"><Button variant="outline" size="sm" className="gap-1"><Package className="w-3 h-3" />All Orders</Button></Link>
           <Link to="/admin/financials"><Button variant="outline" size="sm" className="gap-1"><Webhook className="w-3 h-3" />Webhook Health</Button></Link>
           <Link to="/admin/financials"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Stripe Command Centre</Button></Link>
         </CardContent>

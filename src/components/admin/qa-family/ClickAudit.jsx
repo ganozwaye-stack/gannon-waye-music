@@ -22,8 +22,6 @@ const ROUTE_AUDIT = [
   { page: 'Terms of Service', route: '/terms-of-service', elements: ['Internal links'], status: 'working' },
   // Admin
   { page: 'Priority Commander', route: '/admin/priority-commander', elements: ['Approval Queue link', 'Task complete/defer/escalate', 'Refresh', 'Filter controls'], status: 'working' },
-  { page: 'Orders', route: '/admin/orders', elements: ['Order rows → detail dialog', 'Status update', 'Track shipment', 'Receipt email'], status: 'working' },
-  { page: 'Merch Management', route: '/admin/merch', elements: ['Product cards', 'Edit dialog', 'Create product', 'Delete product'], status: 'working' },
   { page: 'Site Settings', route: '/admin/settings', elements: ['Save settings', 'Upload images'], status: 'working' },
   { page: 'Mission Control', route: '/admin/mission-control', elements: ['Panel links', 'Quick actions'], status: 'working' },
   { page: 'Payment Diagnostics', route: '/admin/payment-diagnostics', elements: ['Stripe test', 'Webhook rotate'], status: 'working' },

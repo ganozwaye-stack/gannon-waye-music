@@ -21,8 +21,8 @@ const LANE_ROUTES = {
   producer_collab: '/producer-directory',
   label_outreach: '/admin/distributors',
   music_promo: '/admin/release-promo-command',
-  web_build: '/admin/website-ops',
-  merch: '/admin/merch',
+  web_build: '/admin/operational-status',
+  merch: '/admin/merch-designs',
   booking: '/admin/communications-hub',
   operations: '/admin/operation-registry',
 };

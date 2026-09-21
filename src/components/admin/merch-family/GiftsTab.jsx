@@ -1,6 +1,6 @@
-import GiftClaims from '@/pages/admin/GiftClaims';
-import GiftVerification from '@/pages/admin/GiftVerification';
-import GiftProgressAdmin from '@/pages/admin/GiftProgressAdmin';
+import GiftClaims from '@/components/admin/merch-family/GiftClaims';
+import GiftVerification from '@/components/admin/merch-family/GiftVerification';
+import GiftProgressAdmin from '@/components/admin/merch-family/GiftProgressAdmin';
 
 // Gifts, Verification & Progress: the full Gift Claims, Gift Verification and
 // Gift Progress screens (GiftClaim and GiftRequirementTracker entities,

@@ -84,15 +84,15 @@ test.describe('Enter Key Behaviour — Admin (requires login)', () => {
     const cookies = process.env.ADMIN_SESSION_COOKIE;
     if (!cookies) { test.skip(); return; }
 
-    await page.goto(`${BASE_URL}/admin/orders`);
+    await page.goto(`${BASE_URL}/admin/merch-designs`);
     await page.waitForLoadState('networkidle');
 
     const search = page.locator('input[placeholder*="Search"]').first();
     if (await search.count() > 0) {
       await search.fill('test');
       await search.press('Enter');
-      // Should remain on /admin/orders, not redirect to /admin
-      expect(page.url()).toContain('/admin/orders');
+      // Should remain on /admin/merch-designs, not redirect to /admin
+      expect(page.url()).toContain('/admin/merch-designs');
     }
   });
 
@@ -100,15 +100,15 @@ test.describe('Enter Key Behaviour — Admin (requires login)', () => {
     const cookies = process.env.ADMIN_SESSION_COOKIE;
     if (!cookies) { test.skip(); return; }
 
-    await page.goto(`${BASE_URL}/admin/orders`);
+    await page.goto(`${BASE_URL}/admin/merch-designs`);
     await page.waitForLoadState('networkidle');
-    expect(page.url()).toContain('/admin/orders');
+    expect(page.url()).toContain('/admin/merch-designs');
 
     const search = page.locator('input').first();
     if (await search.count() > 0) {
       await search.press('Enter');
       await page.waitForTimeout(500);
-      expect(page.url()).toContain('/admin/orders');
+      expect(page.url()).toContain('/admin/merch-designs');
     }
   });
 });

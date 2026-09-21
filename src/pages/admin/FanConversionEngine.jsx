@@ -9,8 +9,8 @@ const CONVERSION_LADDER = [
   { stage: 1, label: 'Unknown Visitor', desc: 'Arrives from TikTok, Spotify, or search', action: 'Capture email with lead magnet or signup form', route: '/admin/dashboard', color: 'text-muted-foreground' },
   { stage: 2, label: 'Email Subscriber', desc: 'Has joined the mailing list', action: 'Welcome sequence + community invitation', route: '/admin/release-email-studio', color: 'text-blue-400' },
   { stage: 3, label: 'Community Member', desc: 'Engaged with posts, left a comment', action: 'Personal reply from Gannon + featured in community', route: '/admin/fans', color: 'text-cyan-400' },
-  { stage: 4, label: 'First-Time Buyer', desc: 'Purchased one merch item', action: 'Thank-you note + introduce supporter tiers', route: '/admin/orders', color: 'text-green-400' },
-  { stage: 5, label: 'Repeat Buyer', desc: 'Purchased 2+ items', action: 'VIP early access + bundle offer', route: '/admin/orders', color: 'text-primary' },
+  { stage: 4, label: 'First-Time Buyer', desc: 'Purchased one merch item', action: 'Thank-you note + introduce supporter tiers', route: '/admin/merch-designs', color: 'text-green-400' },
+  { stage: 5, label: 'Repeat Buyer', desc: 'Purchased 2+ items', action: 'VIP early access + bundle offer', route: '/admin/merch-designs', color: 'text-primary' },
   { stage: 6, label: 'Supporter / Backer', desc: 'Made a direct contribution', action: 'Personal acknowledgement + exclusive content', route: '/admin/supporters', color: 'text-primary' },
   { stage: 7, label: 'Superfan', desc: 'Highest engagement + spend', action: 'Direct relationship + VIP access + advisory input', route: '/admin/fans', color: 'text-orange-400' },
 ];
@@ -56,8 +56,8 @@ export default function FanConversionEngine() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Email Subscribers', value: subscribers.length, color: 'text-blue-400', route: '/admin/dashboard' },
-          { label: 'Unique Buyers', value: uniqueBuyers, color: 'text-green-400', route: '/admin/orders' },
-          { label: 'Repeat Buyers', value: repeatBuyers, color: 'text-primary', route: '/admin/orders' },
+          { label: 'Unique Buyers', value: uniqueBuyers, color: 'text-green-400', route: '/admin/merch-designs' },
+          { label: 'Repeat Buyers', value: repeatBuyers, color: 'text-primary', route: '/admin/merch-designs' },
           { label: 'Supporters', value: supporters.length, color: 'text-primary', route: '/admin/supporters' },
         ].map(({ label, value, color, route }) => (
           <Link key={label} to={route}>

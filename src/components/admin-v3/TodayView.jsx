@@ -95,7 +95,7 @@ export default function TodayView() {
 
   // ── Money & customer exceptions ──
   const moneyItems = [
-    ...paymentExcs.failedOrders.slice(0, 3).map(o => ({ title: `Order ${o.customer_name || '—'}`, subtitle: `$${o.total_amount || 0} · ${o.payment_status}`, status: o.payment_status, level: 'red', path: '/admin/orders' })),
+    ...paymentExcs.failedOrders.slice(0, 3).map(o => ({ title: `Order ${o.customer_name || '—'}`, subtitle: `$${o.total_amount || 0} · ${o.payment_status}`, status: o.payment_status, level: 'red', path: '/admin/merch-designs' })),
   ];
 
   // ── Release deadlines ──
@@ -125,7 +125,7 @@ export default function TodayView() {
       {/* ── KPIs ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <KpiCard icon={Shield} label="Pending Approvals" value={approvals.count} sublabel={`${approvals.fromApprovalQueue} queue + ${approvals.fromApprovalQueueItems} items`} path="/admin/dashboard" tooltip={approvals.formula} level={approvals.count > 0 ? 'orange' : 'green'} />
-        <KpiCard icon={DollarSign} label="Verified Revenue" value={`$${revenue.total.toLocaleString('en-AU')}`} sublabel={`${revenue.count} paid orders`} path="/admin/orders" tooltip={revenue.formula} level="green" />
+        <KpiCard icon={DollarSign} label="Verified Revenue" value={`$${revenue.total.toLocaleString('en-AU')}`} sublabel={`${revenue.count} paid orders`} path="/admin/merch-designs" tooltip={revenue.formula} level="green" />
         <KpiCard icon={AlertTriangle} label="Payment Exceptions" value={paymentExcs.count} sublabel="Needs resolution" path="/admin/payment-diagnostics" tooltip={paymentExcs.formula} level={paymentExcs.count > 0 ? 'red' : 'green'} />
         <KpiCard icon={Star} label="Active Releases" value={releases.length} sublabel={`${releases.filter(r => r.status !== 'released').length} in progress`} path="/admin/release-email-studio" level="grey" />
       </div>
@@ -142,7 +142,7 @@ export default function TodayView() {
 
       {/* ── Money + Release ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <SectionCard title="Money & Customer Exceptions" count={moneyItems.length} actionLabel="Orders" actionPath="/admin/orders">
+        <SectionCard title="Money & Customer Exceptions" count={moneyItems.length} actionLabel="Orders" actionPath="/admin/merch-designs">
           {moneyItems.length === 0 ? <EmptyState message="No payment exceptions." icon={CheckCircle2} /> : moneyItems.map((item, i) => <RowItem key={i} {...item} />)}
         </SectionCard>
         <SectionCard title="Release & Campaign Deadlines" count={releaseItems.length} actionLabel="All releases" actionPath="/admin/release-email-studio">

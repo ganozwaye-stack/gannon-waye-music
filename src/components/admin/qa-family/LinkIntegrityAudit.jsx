@@ -33,7 +33,7 @@ export default function LinkIntegrityAudit() {
     // Admin Routes
     { id: 13, name: 'Dashboard', path: '/admin', type: 'admin', status: 'ok', hrefs: 48, issues: [] },
     { id: 14, name: 'Master Blueprint', path: '/admin/master-blueprint', type: 'admin', status: 'ok', hrefs: 120, issues: [] },
-    { id: 15, name: 'Business Settings', path: '/admin/settings/business-details', type: 'admin', status: 'ok', hrefs: 20, note: 'Replaced old business-profile-settings', issues: [] },
+    { id: 15, name: 'Business Settings', path: '/admin/settings', type: 'admin', status: 'ok', hrefs: 20, note: 'Replaced old business-profile-settings', issues: [] },
     { id: 16, name: 'Stripe Diagnostics', path: '/admin/payment-diagnostics', type: 'admin', status: 'ok', hrefs: 15, issues: [] },
     { id: 17, name: 'Metricool Command', path: '/admin/metricool-command', type: 'admin', status: 'ok', hrefs: 12, issues: [] },
   ]);

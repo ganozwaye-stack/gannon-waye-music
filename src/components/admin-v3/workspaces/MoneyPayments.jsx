@@ -52,16 +52,16 @@ export default function MoneyPayments() {
     <div className="space-y-6">
       {/* ── KPIs ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <KpiCard icon={DollarSign} label="Verified Revenue" value={`$${revenue.total.toLocaleString('en-AU')}`} sublabel={`${revenue.count} paid orders`} path="/admin/orders" tooltip={revenue.formula} level="green" />
+        <KpiCard icon={DollarSign} label="Verified Revenue" value={`$${revenue.total.toLocaleString('en-AU')}`} sublabel={`${revenue.count} paid orders`} path="/admin/merch-designs" tooltip={revenue.formula} level="green" />
         <KpiCard icon={AlertTriangle} label="Payment Exceptions" value={exceptions.count} sublabel="Needs resolution" path="/admin/payment-diagnostics" tooltip={exceptions.formula} level={exceptions.count > 0 ? 'red' : 'green'} />
-        <KpiCard icon={RefreshCw} label="Awaiting Fulfilment" value={awaiting.count} sublabel="Paid, not shipped" path="/admin/orders" tooltip={awaiting.formula} level={awaiting.count > 0 ? 'orange' : 'green'} />
+        <KpiCard icon={RefreshCw} label="Awaiting Fulfilment" value={awaiting.count} sublabel="Paid, not shipped" path="/admin/merch-designs" tooltip={awaiting.formula} level={awaiting.count > 0 ? 'orange' : 'green'} />
         <KpiCard icon={Heart} label="Support Contributions" value={`$${contributionTotal.toLocaleString('en-AU')}`} sublabel={`${contributions.length} contributions`} path="/admin/supporters" level="green" />
       </div>
 
       {/* ── Verified Revenue Detail ── */}
-      <SectionCard title="Verified Revenue" count={revenue.count} actionLabel="Orders" actionPath="/admin/orders">
+      <SectionCard title="Verified Revenue" count={revenue.count} actionLabel="Orders" actionPath="/admin/merch-designs">
         {isLoading ? <LoadingState /> : revenue.count === 0 ? <EmptyState message="No verified paid orders." /> : revenue.orders.slice(0, 10).map(o => (
-          <RowItem key={o.id} title={o.customer_name || 'Customer'} subtitle={`$${o.total_amount || 0} · ${new Date(o.created_date).toLocaleDateString('en-AU')}`} status="Paid" statusLevel="green" path="/admin/orders" />
+          <RowItem key={o.id} title={o.customer_name || 'Customer'} subtitle={`$${o.total_amount || 0} · ${new Date(o.created_date).toLocaleDateString('en-AU')}`} status="Paid" statusLevel="green" path="/admin/merch-designs" />
         ))}
         {revenue.count > 10 && <p className="text-[10px] text-muted-foreground/40 px-3">+{revenue.count - 10} more</p>}
       </SectionCard>
@@ -81,15 +81,15 @@ export default function MoneyPayments() {
           )}
         </SectionCard>
 
-        <SectionCard title="Duplicate & Excluded Orders" count={dupExcluded.count} actionLabel="View" actionPath="/admin/orders">
+        <SectionCard title="Duplicate & Excluded Orders" count={dupExcluded.count} actionLabel="View" actionPath="/admin/merch-designs">
           {dupExcluded.count === 0 ? <EmptyState message="No duplicate or excluded orders." /> : dupExcluded.orders.slice(0, 8).map(o => (
-            <RowItem key={o.id} title={o.customer_name || 'Customer'} subtitle={`$${o.total_amount || 0} · ${o.status}`} status={o.status} statusLevel="red" path="/admin/orders" />
+            <RowItem key={o.id} title={o.customer_name || 'Customer'} subtitle={`$${o.total_amount || 0} · ${o.status}`} status={o.status} statusLevel="red" path="/admin/merch-designs" />
           ))}
         </SectionCard>
       </div>
 
       {/* ── Product Cost Completeness ── */}
-      <SectionCard title="Product Costs & True Margin" count={products.length} actionLabel="Products" actionPath="/admin/merch">
+      <SectionCard title="Product Costs & True Margin" count={products.length} actionLabel="Products" actionPath="/admin/merch-designs">
         {products.length === 0 ? <EmptyState message="No products." /> : products.slice(0, 15).map(p => {
           const completeness = calcProductCostCompleteness(p);
           return (

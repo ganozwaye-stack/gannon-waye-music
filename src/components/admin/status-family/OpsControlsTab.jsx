@@ -1,5 +1,5 @@
-import WebsiteOps from '@/pages/admin/WebsiteOps';
-import AutonomousOps from '@/pages/admin/AutonomousOps';
+import WebsiteOps from '@/components/admin/status-family/WebsiteOps';
+import AutonomousOps from '@/components/admin/status-family/AutonomousOps';
 
 // Website & Autonomous Ops Controls: the full Website Ops and Autonomous Ops
 // screens (ApprovalQueue and AgentTaskLog entities; WEBSITE_TOOLS and

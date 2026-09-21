@@ -50,7 +50,7 @@ export default function StoreFulfilment() {
       </div>
 
       {/* ── Products ── */}
-      <SectionCard title="Products" count={products.length} actionLabel="Merch management" actionPath="/admin/merch">
+      <SectionCard title="Products" count={products.length} actionLabel="Merch management" actionPath="/admin/merch-designs">
         {pLoading ? <LoadingState /> : products.length === 0 ? <EmptyState message="No products." /> : products.slice(0, 15).map(p => {
           const completeness = calcProductCostCompleteness(p);
           const profit = calcTrueProfit(p);
@@ -78,15 +78,15 @@ export default function StoreFulfilment() {
 
       {/* ── Orders & Fulfilment ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <SectionCard title="Orders Awaiting Fulfilment" count={awaiting.count} actionLabel="All orders" actionPath="/admin/orders">
+        <SectionCard title="Orders Awaiting Fulfilment" count={awaiting.count} actionLabel="All orders" actionPath="/admin/merch-designs">
           {awaiting.count === 0 ? <EmptyState message="No orders awaiting fulfilment." /> : awaiting.orders.slice(0, 8).map(o => (
-            <RowItem key={o.id} title={o.customer_name || 'Unknown customer'} subtitle={`$${o.total_amount || 0} · ${o.status || 'pending'}`} status={o.status || 'pending'} statusLevel="orange" path="/admin/orders" />
+            <RowItem key={o.id} title={o.customer_name || 'Unknown customer'} subtitle={`$${o.total_amount || 0} · ${o.status || 'pending'}`} status={o.status || 'pending'} statusLevel="orange" path="/admin/merch-designs" />
           ))}
         </SectionCard>
 
-        <SectionCard title="Returns, Duplicates & Exceptions" count={dupExcluded.count} actionLabel="View" actionPath="/admin/orders">
+        <SectionCard title="Returns, Duplicates & Exceptions" count={dupExcluded.count} actionLabel="View" actionPath="/admin/merch-designs">
           {dupExcluded.count === 0 ? <EmptyState message="No duplicate or excluded orders." /> : dupExcluded.orders.slice(0, 8).map(o => (
-            <RowItem key={o.id} title={o.customer_name || 'Unknown'} subtitle={`$${o.total_amount || 0} · ${o.status}`} status={o.status} statusLevel="red" path="/admin/orders" />
+            <RowItem key={o.id} title={o.customer_name || 'Unknown'} subtitle={`$${o.total_amount || 0} · ${o.status}`} status={o.status} statusLevel="red" path="/admin/merch-designs" />
           ))}
         </SectionCard>
       </div>
@@ -99,9 +99,9 @@ export default function StoreFulfilment() {
           ))}
         </SectionCard>
 
-        <SectionCard title="Shipping Rate Rules" count={shippingRules.length} actionLabel="Manage" actionPath="/admin/shipping-rates">
+        <SectionCard title="Shipping Rate Rules" count={shippingRules.length} actionLabel="Manage" actionPath="/admin/merch-designs">
           {shippingRules.length === 0 ? <EmptyState message="No shipping rules." /> : shippingRules.slice(0, 8).map(r => (
-            <RowItem key={r.id} title={r.rule_name || r.name || 'Shipping rule'} subtitle={r.description || ''} status="Active" statusLevel="green" path="/admin/shipping-rates" />
+            <RowItem key={r.id} title={r.rule_name || r.name || 'Shipping rule'} subtitle={r.description || ''} status="Active" statusLevel="green" path="/admin/merch-designs" />
           ))}
         </SectionCard>
       </div>
@@ -114,9 +114,9 @@ export default function StoreFulfilment() {
           ))}
         </SectionCard>
 
-        <SectionCard title="Merch Feedback" count={feedback.length} actionLabel="View" actionPath="/admin/merch-feedback">
+        <SectionCard title="Merch Feedback" count={feedback.length} actionLabel="View" actionPath="/admin/merch-designs">
           {feedback.length === 0 ? <EmptyState message="No feedback." /> : feedback.slice(0, 5).map(f => (
-            <RowItem key={f.id} title={f.customer_name || 'Customer'} subtitle={f.product_name || ''} status={f.rating ? `${f.rating}★` : 'New'} statusLevel="grey" path="/admin/merch-feedback" />
+            <RowItem key={f.id} title={f.customer_name || 'Customer'} subtitle={f.product_name || ''} status={f.rating ? `${f.rating}★` : 'New'} statusLevel="grey" path="/admin/merch-designs" />
           ))}
         </SectionCard>
       </div>

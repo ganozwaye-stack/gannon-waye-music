@@ -13,7 +13,7 @@ const PUBLIC_ROUTES = [
 
 const ADMIN_ROUTES = [
   { path: '/admin', label: 'Admin Dashboard' },
-  { path: '/admin/orders', label: 'Orders' },
+  { path: '/admin/merch-designs', label: 'Orders' },
   { path: '/admin/music-opportunity-bulletin', label: 'Music Opportunity Bulletin' },
   { path: '/admin/base44-exit-plan', label: 'Base44 Exit Plan' },
   { path: '/admin/legal-drafts', label: 'Legal Drafts' },

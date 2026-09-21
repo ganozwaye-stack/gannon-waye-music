@@ -227,7 +227,7 @@ function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
         <div className="p-4 border-t border-border/30 bg-card/20">
           <div className="flex items-start justify-between gap-2 mb-1">
             <p data-testid="product-title" className="font-display text-sm text-foreground leading-snug">{product.name}</p>
-            <AdminEditButton href={`/admin/merch`} label="Edit" className="shrink-0" />
+            <AdminEditButton href={`/admin/merch-designs`} label="Edit" className="shrink-0" />
           </div>
           <p data-testid="product-price" className="font-body text-sm gradient-gold-glow font-medium">${price} AUD</p>
           {cfg?.sub && (

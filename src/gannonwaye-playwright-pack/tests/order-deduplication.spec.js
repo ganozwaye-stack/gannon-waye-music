@@ -7,7 +7,7 @@
  * - Duplicate orders are excluded from dashboard totals
  * - stripeWebhook idempotency prevents duplicate creation
  * - recoverStripeOrders detects duplicates in scan
- * - /admin/orders hides duplicates from default view
+ * - /admin/merch-designs hides duplicates from default view
  */
 
  
@@ -29,14 +29,14 @@ test.describe('Order Deduplication — Thea Elsworth', () => {
   test('admin orders page loads without console errors', async ({ page }) => {
     const errors = [];
     page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()); });
-    await page.goto(`${BASE_URL}/admin/orders`);
+    await page.goto(`${BASE_URL}/admin/merch-designs`);
     await page.waitForLoadState('load');
     const criticalErrors = errors.filter(e => !e.includes('favicon') && !e.includes('analytics') && !e.includes('posthog') && !e.includes('ERR_CONNECTION_REFUSED') && !e.includes('401') && !e.includes('403') && !e.includes('Unauthorized') && !e.includes('Authentication required') && !e.includes('net::ERR'));
     expect(criticalErrors).toHaveLength(0);
   });
 
   test('default order view (Active Orders) does not show duplicate_void orders', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/orders`);
+    await page.goto(`${BASE_URL}/admin/merch-designs`);
     await page.waitForLoadState('load');
 
     // Default filter should be "Active Orders" — duplicates hidden
@@ -46,7 +46,7 @@ test.describe('Order Deduplication — Thea Elsworth', () => {
   });
 
   test('duplicate warning banner appears when duplicates exist', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/orders`);
+    await page.goto(`${BASE_URL}/admin/merch-designs`);
     await page.waitForLoadState('load');
     // Banner should mention excluded duplicate
     const banner = page.locator('text=/duplicate void order/i');
@@ -54,7 +54,7 @@ test.describe('Order Deduplication — Thea Elsworth', () => {
   });
 
   test('switching to Duplicates / Voids filter shows voided Thea order', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/orders`);
+    await page.goto(`${BASE_URL}/admin/merch-designs`);
     await page.waitForLoadState('load');
 
     // Switch to duplicates filter
@@ -67,7 +67,7 @@ test.describe('Order Deduplication — Thea Elsworth', () => {
   });
 
   test('active order count excludes the duplicate (expects 3 not 4)', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/orders`);
+    await page.goto(`${BASE_URL}/admin/merch-designs`);
     await page.waitForLoadState('load');
 
     // The header/subtitle should show active orders count
@@ -79,7 +79,7 @@ test.describe('Order Deduplication — Thea Elsworth', () => {
   });
 
   test('revenue total excludes duplicate $90.48', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/orders`);
+    await page.goto(`${BASE_URL}/admin/merch-designs`);
     await page.waitForLoadState('load');
 
     // Revenue card — should not be double-counting Thea's order
@@ -119,7 +119,7 @@ test.describe('Order Deduplication — Thea Elsworth', () => {
 
   test('admin orders page is mobile responsive', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto(`${BASE_URL}/admin/orders`);
+    await page.goto(`${BASE_URL}/admin/merch-designs`);
     await page.waitForLoadState('load');
     await expect(page.locator('text=Order Management')).toBeVisible();
     const errors = [];

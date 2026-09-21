@@ -184,7 +184,7 @@ export default function TodaysMoneymoves() {
           { label: 'Intelligence to Income', route: '/admin/intelligence-to-income', desc: 'Full income cycle view' },
           { label: 'Business Attention Centre', route: '/admin/notifications', desc: 'All alerts and actions' },
           { label: 'Agent Capability Matrix', route: '/admin/agent-capability-matrix', desc: 'What agents are doing' },
-          { label: 'Bundle Studio', route: '/admin/bundle-proposal-studio', desc: 'Design and submit bundles' },
+          { label: 'Bundle Studio', route: '/admin/merch-designs', desc: 'Design and submit bundles' },
           { label: 'Weekly Money Report', route: '/admin/weekly-money-report', desc: 'Full weekly breakdown' },
         ].map(l => (
           <Link key={l.route} to={l.route}>

@@ -264,7 +264,7 @@ export default function PrintFulfilment() {
               The Respect Is Earned Lyric Wall Poster needs real poster-specific artwork images uploaded before it can be presented as fully sale-ready.
               Currently the fallback is the hoodie image which is not correct for a poster listing.
             </p>
-            <p className="font-body text-xs text-primary mt-2 font-semibold">Action: Upload poster artwork mockup at /admin/merch → Poster product → Change Images.</p>
+            <p className="font-body text-xs text-primary mt-2 font-semibold">Action: Upload poster artwork mockup at /admin/merch-designs → Poster product → Change Images.</p>
           </div>
           <Card>
             <CardContent className="p-5">
@@ -406,7 +406,7 @@ export default function PrintFulfilment() {
               <div className="p-3 rounded-lg bg-red-500/5 border border-red-500/30">
                 <p className="text-red-400 font-semibold">If provider API not connected (current state):</p>
                 <p className="text-muted-foreground mt-1">→ Order status set to <code className="bg-secondary px-1 rounded">manual_fulfilment_required</code></p>
-                <p className="text-muted-foreground">→ Admin sees human checklist in /admin/orders</p>
+                <p className="text-muted-foreground">→ Admin sees human checklist in /admin/merch-designs</p>
                 <p className="text-muted-foreground">→ Admin enters tracking manually</p>
                 <p className="text-muted-foreground">→ Customer notified via existing fulfilOrderAndNotify function</p>
               </div>
@@ -428,7 +428,7 @@ export default function PrintFulfilment() {
         <Card>
           <CardContent className="p-5 text-xs text-muted-foreground">
             <p className="text-foreground font-semibold mb-2">Tracking System</p>
-            <p>Manual tracking entry via /admin/orders → Order → Fulfilment Panel.</p>
+            <p>Manual tracking entry via /admin/merch-designs → Order → Fulfilment Panel.</p>
             <p className="mt-2">When API provider is connected, tracking will be auto-pushed from provider webhook → MerchOrder.tracking_number → customer notification email.</p>
             <p className="mt-2">Supported carriers for manual entry: Australia Post, Sendle, DHL, FedEx, UPS.</p>
           </CardContent>
@@ -451,8 +451,8 @@ export default function PrintFulfilment() {
             {
               priority: 'critical',
               action: 'Upload poster-specific artwork/mockup images for Respect Is Earned Lyric Wall Poster',
-              detail: 'Current product listing falls back to emoji. Cannot sell publicly without proper poster artwork. Go to /admin/merch → Poster → Change Images.',
-              link: '/admin/merch',
+              detail: 'Current product listing falls back to emoji. Cannot sell publicly without proper poster artwork. Go to /admin/merch-designs → Poster → Change Images.',
+              link: '/admin/merch-designs',
             },
             {
               priority: 'high',

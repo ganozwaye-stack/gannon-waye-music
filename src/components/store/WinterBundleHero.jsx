@@ -77,7 +77,7 @@ export default function WinterBundleHero({ onViewCart }) {
             <span className="font-body text-[9px] tracking-[0.15em] uppercase px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/25 text-red-400 flex items-center gap-1.5">
               <Shield className="w-3 h-3" /> No further discounts apply
             </span>
-            <AdminEditButton href="/admin/merch" label="Edit Bundle" />
+            <AdminEditButton href="/admin/merch-designs" label="Edit Bundle" />
           </div>
 
           <div>

@@ -26,16 +26,11 @@ const AUDIT_DATA = [
   {
     section: 'Commerce',
     pages: [
-      { page: 'Orders', route: '/admin/orders', status: 'Working', issues: 0, notes: 'Rows clickable, status filter works, mark shipped functional.' },
-      { page: 'Products / Merch', route: '/admin/merch', status: 'Working', issues: 1, notes: 'Edit/delete work. Product card detail modal pending.' },
       { page: 'Stripe Live Report', route: '/admin/stripe-live-report', status: 'Partial', issues: 1, notes: 'Data loads. Transaction row detail needs upgrade.' },
       { page: 'Ecommerce Command', route: '/admin/ecommerce-command', status: 'Working', issues: 1, notes: 'Revenue card source chain pending.' },
       { page: 'Ecommerce Intelligence', route: '/admin/ecommerce-intelligence', status: 'Partial', issues: 2, notes: 'Insight cards need detail view and source chain.' },
-      { page: 'Merch Financials', route: '/admin/merch-financials', status: 'Partial', issues: 1, notes: 'Financials display. Row drill-down needed.' },
       { page: 'Product Insights', route: '/admin/product-insights', status: 'Partial', issues: 1, notes: 'Charts load. Bar click source chain pending.' },
-      { page: 'Shipping Rates', route: '/admin/shipping-rates', status: 'Working', issues: 0, notes: 'CRUD operations working.' },
       { page: 'Supporters', route: '/admin/supporters', status: 'Working', issues: 0, notes: 'Supporter rows clickable with detail.' },
-      { page: 'Merch Feedback', route: '/admin/merch-feedback', status: 'Working', issues: 0, notes: 'Feedback rows and status filter working.' },
     ],
   },
   // ── SOCIAL ───────────────────────────────────────────────────────────────────
@@ -60,9 +55,6 @@ const AUDIT_DATA = [
       { page: 'Fan Messages', route: '/admin/fans', status: 'Working', issues: 0, notes: 'Comment rows, approve/reject/reply all working.' },
       { page: 'Birthday Discounts', route: '/admin/birthdays', status: 'Working', issues: 0, notes: 'Birthday list and send discount working.' },
       { page: 'Fan Media', route: '/admin/fan-media', status: 'Working', issues: 0, notes: 'Media rows and approve/reject working.' },
-      { page: 'Gift Claims', route: '/admin/gift-claims', status: 'Working', issues: 0, notes: 'Claim rows and verify flow working.' },
-      { page: 'Gift Progress', route: '/admin/gift-progress', status: 'Working', issues: 0, notes: 'Progress tracking display working.' },
-      { page: 'Gift Verification', route: '/admin/gift-verification', status: 'Working', issues: 0, notes: 'Verification flow working.' },
       { page: 'Thank You Cards', route: '/admin/thank-you-cards', status: 'Working', issues: 0, notes: 'Card generation and send working.' },
     ],
   },
@@ -70,7 +62,6 @@ const AUDIT_DATA = [
   {
     section: 'Intelligence',
     pages: [
-      { page: 'Autonomous Ops', route: '/admin/autonomous-ops', status: 'Working', issues: 1, notes: 'Loop triggers and pending approvals work. Loop card source chain pending.' },
       { page: 'Ideas Engine', route: '/admin/ideas-engine', status: 'Partial', issues: 1, notes: 'Ideas display. Row detail modal needed.' },
       { page: 'Operation Registry', route: '/admin/operation-registry', status: 'Fixed', issues: 0, notes: 'Full page+operation catalogue. Every entry clickable with detail modal.' },
     ],
@@ -80,7 +71,6 @@ const AUDIT_DATA = [
     section: 'Operations',
     pages: [
       { page: 'Music Command', route: '/admin/music-command', status: 'Partial', issues: 1, notes: 'Release cards need detail view.' },
-      { page: 'Website Ops', route: '/admin/website-ops', status: 'Working', issues: 0, notes: 'Health checks and links working.' },
       { page: 'API Setup', route: '/admin/api-setup', status: 'Working', issues: 1, notes: 'Platform cards display. Detail view needed.' },
       { page: 'Charity Tracking', route: '/admin/charity-tracking', status: 'Working', issues: 0, notes: 'Donation records and tracking working.' },
       { page: 'Distributors', route: '/admin/distributors', status: 'Working', issues: 0, notes: 'Distributor list and links working.' },

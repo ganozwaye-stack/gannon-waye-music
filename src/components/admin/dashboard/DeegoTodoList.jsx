@@ -49,9 +49,9 @@ const TODO_ROUTES = [
   { match: /sku|sourcing|procurement|supplier/i, path: '/admin/dashboard' },
   { match: /function|deployment|deploy/i, path: '/admin/operation-registry' },
   { match: /release/i, path: '/admin/release-email-studio' },
-  { match: /merch|product/i, path: '/admin/merch' },
+  { match: /merch|product/i, path: '/admin/merch-designs' },
   { match: /social|content/i, path: '/admin/content-studio' },
-  { match: /store|shop/i, path: '/admin/merch' },
+  { match: /store|shop/i, path: '/admin/merch-designs' },
 ];
 
 function routeForTask(t) {

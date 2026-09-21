@@ -1,5 +1,5 @@
-import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
-import MerchApprovalGate from '@/pages/admin/MerchApprovalGate';
+import MerchFeedbackAdmin from '@/components/admin/merch-family/MerchFeedbackAdmin';
+import MerchApprovalGate from '@/components/admin/merch-family/MerchApprovalGate';
 
 // Product Approvals & Fan Feedback: the full Merch Feedback Admin
 // (MerchFeedback entity) and Merch Approval Gate (product approval gates)

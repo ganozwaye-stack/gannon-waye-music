@@ -23,9 +23,9 @@ const PAGES = [
   // Admin
   { label: 'Dashboard', path: '/admin', admin: true },
   { label: 'Releases', path: '/admin/release-email-studio', admin: true },
-  { label: 'Merch Management', path: '/admin/merch', admin: true },
-  { label: 'Merch Financials', path: '/admin/merch-financials', admin: true },
-  { label: 'Orders', path: '/admin/orders', admin: true },
+  { label: 'Merch Management', path: '/admin/merch-designs', admin: true },
+  { label: 'Merch Financials', path: '/admin/merch-designs', admin: true },
+  { label: 'Orders', path: '/admin/merch-designs', admin: true },
   { label: 'Subscribers', path: '/admin/dashboard', admin: true },
   { label: 'Fan Management', path: '/admin/fans', admin: true },
   { label: 'Supporters', path: '/admin/supporters', admin: true },
@@ -36,8 +36,8 @@ const PAGES = [
   { label: 'Site Health', path: '/admin/site-health', admin: true },
   { label: 'Audit Log', path: '/admin/qa-command-centre', admin: true },
   { label: 'Mastering Queue', path: '/admin/content-studio', admin: true },
-  { label: 'Gift Claims', path: '/admin/gift-claims', admin: true },
-  { label: 'Gift Progress', path: '/admin/gift-progress', admin: true },
+  { label: 'Gift Claims', path: '/admin/merch-designs', admin: true },
+  { label: 'Gift Progress', path: '/admin/merch-designs', admin: true },
   { label: 'Release Countdown', path: '/admin/release-email-studio', admin: true },
   { label: 'Content Automate', path: '/admin/content-studio', admin: true },
   { label: 'Charity Tracking', path: '/admin/charity-tracking', admin: true },
@@ -206,10 +206,10 @@ export default function Blueprint() {
       <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
         {[
           { label: 'Mastering Jobs', value: counts.projects ?? '—', color: 'text-primary', to: '/admin/content-studio' },
-          { label: 'Products', value: counts.products ?? '—', color: 'text-blue-400', to: '/admin/merch' },
+          { label: 'Products', value: counts.products ?? '—', color: 'text-blue-400', to: '/admin/merch-designs' },
           { label: 'Subscribers', value: counts.subscribers ?? '—', color: 'text-green-400', to: '/admin/dashboard' },
           { label: 'Supporters', value: counts.supporters ?? '—', color: 'text-primary', to: '/admin/supporters' },
-          { label: 'Orders', value: counts.orders ?? '—', color: 'text-orange-400', to: '/admin/orders' },
+          { label: 'Orders', value: counts.orders ?? '—', color: 'text-orange-400', to: '/admin/merch-designs' },
           { label: 'Bookings', value: counts.enquiries ?? '—', color: 'text-purple-400', to: '/admin/fans' },
         ].map(s => (
           <Link key={s.label} to={s.to} className="bg-card border border-border/40 rounded-xl p-3 text-center hover:border-primary/40 hover:bg-primary/5 transition-all cursor-pointer">
@@ -368,7 +368,7 @@ export default function Blueprint() {
                 'Failed payments show visible user-facing error and create no paid record',
                 'Customer receipt email sends (or logs "sandbox restricted" — expected in test mode)',
                 'Admin notification sends (or logs expected sandbox note)',
-                'Order/pre-order status visible in /admin/orders',
+                'Order/pre-order status visible in /admin/merch-designs',
               ].map(item => (
                 <div key={item} className="flex items-start gap-2">
                   <CheckSquare className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" />

@@ -93,7 +93,7 @@ export default function SiteHealthDashboard() {
   const handleTestClick = (test) => {
     const name = test.name.toLowerCase();
     if (name.includes('product calculations') || name.includes('product')) {
-      navigate('/admin/merch');
+      navigate('/admin/merch-designs');
     } else if (name.includes('gmail') || name.includes('sheets') || name.includes('connector')) {
       navigate('/admin/api-setup');
     } else if (name.includes('stripe') || name.includes('stripe configuration')) {

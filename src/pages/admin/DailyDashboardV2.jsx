@@ -15,9 +15,9 @@ const QUICK_LINKS = [
   { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
   { label: 'Lyrics Archive', path: '/admin/content-studio', icon: FileText },
   { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: Megaphone },
-  { label: 'Merch Management', path: '/admin/merch', icon: ShoppingBag },
+  { label: 'Merch Management', path: '/admin/merch-designs', icon: ShoppingBag },
   { label: 'Music Releases', path: '/admin/release-email-studio', icon: Music },
-  { label: 'Orders', path: '/admin/orders', icon: ShoppingBag },
+  { label: 'Orders', path: '/admin/merch-designs', icon: ShoppingBag },
   { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
   { label: 'Release Sprint', path: '/admin/release-sprint', icon: Star },
   { label: 'Site Settings', path: '/admin/settings', icon: Settings },
@@ -156,7 +156,7 @@ export default function DailyDashboardV2() {
       {/* ── KPI Cards ── */}
       <div className="px-6 lg:px-10 pb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          <KpiCard icon={DollarSign} label="Revenue" value={`$${revenue.toLocaleString('en-AU')}`} sublabel="Verified paid orders" path="/admin/orders" />
+          <KpiCard icon={DollarSign} label="Revenue" value={`$${revenue.toLocaleString('en-AU')}`} sublabel="Verified paid orders" path="/admin/merch-designs" />
           <KpiCard icon={Shield} label="Approvals" value={approvals.length} sublabel="Waiting for you" path="/admin/dashboard" />
           <KpiCard icon={Film} label="Content" value={pipeline.length} sublabel="Draft assets prepared" path="/admin/content-studio" />
           <KpiCard icon={Star} label="Release" value={`${releaseReady}%`} sublabel="Campaign readiness" path="/admin/release-email-studio" />

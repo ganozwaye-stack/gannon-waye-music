@@ -27,8 +27,8 @@ const TABLE = [
   // Admin pages
   { category: 'Admin Pages', item: 'Dashboard (/admin)', status: 'pass', note: 'Operational cockpit live' },
   { category: 'Admin Pages', item: 'Master Blueprint (/admin/master-blueprint)', status: 'pass', note: 'This system — live' },
-  { category: 'Admin Pages', item: 'Orders (/admin/orders)', status: 'pass', note: 'Live — fulfilment panel included' },
-  { category: 'Admin Pages', item: 'Merch Management (/admin/merch)', status: 'pass', note: 'Live' },
+  { category: 'Admin Pages', item: 'Orders (/admin/merch-designs)', status: 'pass', note: 'Live — fulfilment panel included' },
+  { category: 'Admin Pages', item: 'Merch Management (/admin/merch-designs)', status: 'pass', note: 'Live' },
   { category: 'Admin Pages', item: 'Approval Queue (/admin/dashboard)', status: 'pass', note: 'Live' },
   { category: 'Admin Pages', item: 'Print Fulfilment (/admin/print-fulfilment)', status: 'pass', note: '6 providers. Manual fallback. Samples not ordered.' },
   { category: 'Admin Pages', item: 'Site Health (/admin/site-health)', status: 'pass', note: 'Backend health function live' },
@@ -38,7 +38,7 @@ const TABLE = [
   { category: 'Admin Pages', item: 'Agent Registry (/admin/agent-workbench)', status: 'pass', note: 'Live' },
   { category: 'Admin Pages', item: 'Stripe Command Centre (/admin/financials)', status: 'pass', note: 'Live' },
   { category: 'Admin Pages', item: 'Promo Codes (/admin/financials)', status: 'pass', note: 'Live' },
-  { category: 'Admin Pages', item: 'Shipping Rates (/admin/shipping-rates)', status: 'pass', note: 'Live' },
+  { category: 'Admin Pages', item: 'Shipping Rates (/admin/merch-designs)', status: 'pass', note: 'Live' },
 
   // Integrations
   { category: 'Integrations', item: 'Stripe Payments', status: 'review', note: 'Keys set. Confirm LIVE mode in Stripe Dashboard.' },
@@ -78,12 +78,12 @@ const TABLE = [
 ];
 
 const HUMAN_ACTIONS_REQUIRED = [
-  { priority: 'critical', item: 'Upload real poster artwork for Lyric Wall Poster', link: '/admin/merch' },
+  { priority: 'critical', item: 'Upload real poster artwork for Lyric Wall Poster', link: '/admin/merch-designs' },
   { priority: 'critical', item: 'Connect Gmail for order receipt emails', link: '/admin/api-setup' },
   { priority: 'critical', item: 'Confirm Stripe is in LIVE mode', link: '/admin/financials' },
   { priority: 'high', item: 'Order sample prints from Printful and Gelato', link: '/admin/print-fulfilment' },
   { priority: 'high', item: 'Connect Slack for weekly order notifications', link: '/admin/api-setup' },
-  { priority: 'high', item: 'Set public business email in Business Details settings', link: '/admin/settings/business-details' },
+  { priority: 'high', item: 'Set public business email in Business Details settings', link: '/admin/settings' },
   { priority: 'medium', item: 'Push codebase to GitHub and verify Playwright CI', link: '/admin/base44-exit-plan' },
   { priority: 'medium', item: 'Approve all pending Campaign Images and Sprint posts', link: '/admin/content-studio' },
 ];
@@ -265,7 +265,7 @@ export default function FinalSystemReport() {
           <p>⚪ <strong className="text-foreground">Active agents:</strong> Music Orchestrator, Release Launch, Fan Engagement, Merch Sales, Content Revenue, QA Systems Auditor, Order Support, Pricing Optimiser.</p>
           <p>⚪ <strong className="text-foreground">Placeholder agents:</strong> Supplier Outreach (blocked — cannot send externally).</p>
           <p className="pt-2 border-t border-border/30">
-            <strong className="text-foreground">First thing Gannon must do:</strong> Upload real poster artwork at <Link to="/admin/merch" className="text-primary underline">/admin/merch</Link>, then connect Gmail at <Link to="/admin/api-setup" className="text-primary underline">/admin/api-setup</Link>.
+            <strong className="text-foreground">First thing Gannon must do:</strong> Upload real poster artwork at <Link to="/admin/merch-designs" className="text-primary underline">/admin/merch-designs</Link>, then connect Gmail at <Link to="/admin/api-setup" className="text-primary underline">/admin/api-setup</Link>.
           </p>
           <p className={`pt-2 font-semibold ${safeToLaunch ? 'text-green-400' : 'text-primary'}`}>
             Safe to launch: {safeToLaunch ? 'YES — after critical human actions resolved.' : 'NO — resolve all critical items first. See Human Action Required inbox.'}

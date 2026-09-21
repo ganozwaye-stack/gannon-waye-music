@@ -67,13 +67,13 @@ Key facts:
 All admin pages are behind AdminLayout which checks user.role === 'admin'
 Key admin routes:
 /admin → Dashboard
-/admin/orders → Order management
-/admin/merch → Merch management
+/admin/merch-designs → Order management
+/admin/merch-designs → Merch management
 /admin/financials → Financial dashboard
 /admin/business-worth-command → Business valuation
 /admin/order-profit-intelligence → Order P&L
 /admin/offer-engine → Active offers
-/admin/bundle-proposal-studio → Bundle builder
+/admin/merch-designs → Bundle builder
 /admin/content-studio → Content pipeline
 /admin/website-evolution → Site improvements
 /admin/todays-money-moves → Daily actions

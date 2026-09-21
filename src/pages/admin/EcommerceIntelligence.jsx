@@ -131,8 +131,8 @@ export default function EcommerceIntelligence() {
           <p className="text-sm font-medium mb-3 flex items-center gap-2"><ShoppingBag className="w-4 h-4 text-primary" /> Quick Store Stats</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             {[
-              { label: 'Products Active', link: '/admin/merch' },
-              { label: 'Orders', link: '/admin/orders' },
+              { label: 'Products Active', link: '/admin/merch-designs' },
+              { label: 'Orders', link: '/admin/merch-designs' },
               { label: 'Promo Codes', link: '/admin/financials' },
               { label: 'Product Insights', link: '/admin/product-insights' },
             ].map(item => (

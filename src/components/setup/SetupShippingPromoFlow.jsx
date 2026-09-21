@@ -82,7 +82,7 @@ export default function SetupShippingPromoFlow({ onComplete, onBlocked }) {
             );
           })}
         </div>
-        <Button variant="outline" size="sm" className="mt-3 gap-2" onClick={() => window.open('/admin/shipping-rates', '_blank')}>
+        <Button variant="outline" size="sm" className="mt-3 gap-2" onClick={() => window.open('/admin/merch-designs', '_blank')}>
           <ExternalLink className="w-3 h-3" /> Open Shipping Rules Manager
         </Button>
       </StepBlock>

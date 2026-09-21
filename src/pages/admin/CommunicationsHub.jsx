@@ -10,7 +10,7 @@ import {
 } from 'lucide-react';
 
 const COMMUNICATION_SOURCES = [
-  { key: 'orders', label: 'Store Orders', entity: 'MerchOrder', icon: ShoppingCart, color: 'text-blue-400', bg: 'bg-blue-500/10', route: '/admin/orders' },
+  { key: 'orders', label: 'Store Orders', entity: 'MerchOrder', icon: ShoppingCart, color: 'text-blue-400', bg: 'bg-blue-500/10', route: '/admin/merch-designs' },
   { key: 'subscribers', label: 'Email Subscribers', entity: 'EmailSubscriber', icon: Mail, color: 'text-green-400', bg: 'bg-green-500/10', route: '/admin/dashboard' },
   { key: 'supporters', label: 'Support Contributions', entity: 'SupportContribution', icon: Heart, color: 'text-pink-400', bg: 'bg-pink-500/10', route: '/admin/supporters' },
   { key: 'fanposts', label: 'Fan Posts', entity: 'FanPost', icon: MessageCircle, color: 'text-purple-400', bg: 'bg-purple-500/10', route: '/admin/fan-media' },
@@ -19,10 +19,10 @@ const COMMUNICATION_SOURCES = [
   { key: 'bookings', label: 'Booking Enquiries', entity: 'BookingEnquiry', icon: Calendar, color: 'text-primary', bg: 'bg-primary/10', route: '/admin/coaching-hub' },
   { key: 'leads', label: 'Coaching Leads', entity: 'CoachingLead', icon: Users, color: 'text-orange-400', bg: 'bg-orange-500/10', route: '/admin/coaching-hub' },
   { key: 'intakes', label: 'Coaching Intakes', entity: 'CoachingIntake', icon: BookOpen, color: 'text-teal-400', bg: 'bg-teal-500/10', route: '/admin/coaching-intakes' },
-  { key: 'feedback', label: 'Merch Feedback', entity: 'MerchFeedback', icon: Star, color: 'text-primary', bg: 'bg-primary/10', route: '/admin/merch-feedback' },
-  { key: 'reviews', label: 'Product Reviews', entity: 'ProductReview', icon: Star, color: 'text-lime-400', bg: 'bg-lime-500/10', route: '/admin/merch' },
-  { key: 'interest', label: 'Merch Interest', entity: 'MerchInterest', icon: Package, color: 'text-rose-400', bg: 'bg-rose-500/10', route: '/admin/merch' },
-  { key: 'giftclaims', label: 'Gift Claims', entity: 'GiftClaim', icon: Gift, color: 'text-violet-400', bg: 'bg-violet-500/10', route: '/admin/gift-claims' },
+  { key: 'feedback', label: 'Merch Feedback', entity: 'MerchFeedback', icon: Star, color: 'text-primary', bg: 'bg-primary/10', route: '/admin/merch-designs' },
+  { key: 'reviews', label: 'Product Reviews', entity: 'ProductReview', icon: Star, color: 'text-lime-400', bg: 'bg-lime-500/10', route: '/admin/merch-designs' },
+  { key: 'interest', label: 'Merch Interest', entity: 'MerchInterest', icon: Package, color: 'text-rose-400', bg: 'bg-rose-500/10', route: '/admin/merch-designs' },
+  { key: 'giftclaims', label: 'Gift Claims', entity: 'GiftClaim', icon: Gift, color: 'text-violet-400', bg: 'bg-violet-500/10', route: '/admin/merch-designs' },
   { key: 'notifications', label: 'System Alerts', entity: 'AdminNotification', icon: Bell, color: 'text-red-400', bg: 'bg-red-500/10', route: '/admin/notifications' },
 ];
 
@@ -158,7 +158,7 @@ export default function CommunicationsHub() {
     ...(pendingOrders.length > 0 ? [{
       icon: ShoppingCart, title: `${pendingOrders.length} orders need attention`,
       desc: 'Orders pending fulfilment. Process these to maintain customer satisfaction.',
-      action: 'View orders', route: '/admin/orders', priority: 'high',
+      action: 'View orders', route: '/admin/merch-designs', priority: 'high',
     }] : []),
     ...(newBookings.length > 0 ? [{
       icon: Calendar, title: `${newBookings.length} new booking enquiries`,

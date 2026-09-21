@@ -119,7 +119,7 @@ export default function OfferEngine() {
           {scanning ? <Loader2 className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
           {scanning ? 'Scanning...' : 'Scan for Opportunities'}
         </Button>
-        <Link to="/admin/bundle-proposal-studio">
+        <Link to="/admin/merch-designs">
           <Button variant="outline" className="gap-2 text-sm"><Package className="w-4 h-4" />Bundle Studio</Button>
         </Link>
         <Link to="/admin/financials">

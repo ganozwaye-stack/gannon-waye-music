@@ -366,7 +366,7 @@ export default function WebhookHealthNew() {
               <li>Open endpoint: <code className="bg-secondary/50 px-1 rounded">stripeIntelligenceRouter</code></li>
               <li>Check failed events log — copy latest error</li>
               <li>Click "Resend" on any failed events from May 26 onwards</li>
-              <li>Confirm <a href="/admin/orders" className="text-primary/70 hover:underline">/admin/orders</a> shows matching orders</li>
+              <li>Confirm <a href="/admin/merch-designs" className="text-primary/70 hover:underline">/admin/merch-designs</a> shows matching orders</li>
               <li>If endpoint is proven healthy, Stripe will resume normal delivery</li>
             </ol>
           </div>

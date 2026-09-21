@@ -134,7 +134,7 @@ export default function SetupStripeFlow({ onComplete, onBlocked }) {
               </Button>
               <div className="mt-4 space-y-2 text-sm text-muted-foreground">
                 <p className="font-semibold text-foreground">Verify all of these after checkout:</p>
-                {['Checkout modal opens without freeze', 'Payment succeeds (no misleading save-card message)', 'Webhook event received in Stripe', 'Order created in /admin/orders', 'Receipt email sent to buyer', 'Inventory/profit updates in /admin/order-profit-intelligence', 'Order status shows correctly'].map(item => (
+                {['Checkout modal opens without freeze', 'Payment succeeds (no misleading save-card message)', 'Webhook event received in Stripe', 'Order created in /admin/merch-designs', 'Receipt email sent to buyer', 'Inventory/profit updates in /admin/order-profit-intelligence', 'Order status shows correctly'].map(item => (
                   <label key={item} className="flex items-center gap-2 cursor-pointer hover:text-foreground">
                     <input type="checkbox" className="w-3 h-3" /> {item}
                   </label>

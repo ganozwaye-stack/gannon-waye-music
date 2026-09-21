@@ -39,7 +39,7 @@ const SCREEN_RECORDING_STEPS = [
   {
     section: 'PART 4 — Autonomous Ops (30 seconds)',
     steps: [
-      'Navigate to Autonomous Ops (/admin/autonomous-ops)',
+      'Navigate to Autonomous Ops (/admin/operational-status)',
       'Show the Active Automation Loops panel — loops running with intervals',
       'Show the Pending Approvals section',
       'Click one of the trigger buttons to show real-time function triggering',
@@ -50,7 +50,7 @@ const SCREEN_RECORDING_STEPS = [
     steps: [
       'Navigate to Ecommerce Command (/admin/ecommerce-command)',
       'Show the revenue summary cards',
-      'Navigate to Orders (/admin/orders) — show the order list',
+      'Navigate to Orders (/admin/merch-designs) — show the order list',
       'Click one order to show the detail view',
     ],
   },

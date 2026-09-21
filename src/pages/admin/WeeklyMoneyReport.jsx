@@ -109,7 +109,7 @@ export default function WeeklyMoneyReport() {
               { label: 'Check payment diagnostics', route: '/admin/payment-diagnostics', urgent: false },
               { label: 'Review unread notifications', route: '/admin/notifications', urgent: false },
               { label: 'Approve/reject approval queue items', route: '/admin/dashboard', urgent: false },
-              { label: 'Check shipping for packed orders', route: '/admin/orders', urgent: false },
+              { label: 'Check shipping for packed orders', route: '/admin/merch-designs', urgent: false },
             ].map(item => (
               <Link key={item.route} to={item.route}>
                 <div className={`flex items-center justify-between border rounded-lg px-3 py-2.5 hover:border-primary/40 transition-colors ${item.urgent ? 'border-primary/30 bg-primary/3' : 'border-border'}`}>
@@ -125,7 +125,7 @@ export default function WeeklyMoneyReport() {
           <CardHeader><CardTitle className="text-base">Income Source Breakdown</CardTitle></CardHeader>
           <CardContent className="space-y-3">
             {[
-              { label: 'Merch Sales', value: `$${thisRevenue.toFixed(0)}`, color: 'text-green-400', route: '/admin/orders' },
+              { label: 'Merch Sales', value: `$${thisRevenue.toFixed(0)}`, color: 'text-green-400', route: '/admin/merch-designs' },
               { label: 'Supporter Contributions', value: `$${thisSupport.toFixed(0)}`, color: 'text-primary', route: '/admin/supporters' },
               { label: 'Mastering / Bookings', value: 'Check manually', color: 'text-purple-400', route: '/admin/content-studio' },
               { label: 'Total Active Revenue', value: `$${(thisRevenue + thisSupport).toFixed(0)}`, color: 'text-primary', route: '/admin/financials' },

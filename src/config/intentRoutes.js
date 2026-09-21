@@ -26,14 +26,14 @@ export const INTENT_ROUTES = {
 
   // Store / products
   product_detail: '/store',
-  product_admin_edit: '/admin/merch',
+  product_admin_edit: '/admin/merch-designs',
 
   // Lyrics
   lyrics_detail: '/lyrics',
   lyrics_admin_editor: '/admin/release-email-studio',
 
   // Merch admin
-  merch_admin_editor: '/admin/merch',
+  merch_admin_editor: '/admin/merch-designs',
 
   // Booking / audit
   systems_audit_booking: '/contact',
@@ -41,10 +41,10 @@ export const INTENT_ROUTES = {
   // Admin tools
   admin_sales_pipeline: '/admin/financials',
   admin_master_blueprint: '/admin/master-blueprint',
-  admin_orders: '/admin/orders',
+  admin_orders: '/admin/merch-designs',
   admin_site_health: '/admin/site-health',
   admin_content: '/admin/content-command',
-  admin_merch: '/admin/merch',
+  admin_merch: '/admin/merch-designs',
   admin_promo_codes: '/admin/financials',
   admin_releases: '/admin/release-email-studio',
   admin_base44_exit: '/admin/base44-exit-plan',

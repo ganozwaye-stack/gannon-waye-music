@@ -39,7 +39,7 @@ const GUIDE_STEPS = [
     title: 'Autonomous Ops',
     duration: '30 sec',
     instruction: 'Show automation loops, pending approvals. Click a trigger button to show real-time triggering.',
-    navPath: '/admin/autonomous-ops',
+    navPath: '/admin/operational-status',
     navLabel: 'Open Autonomous Ops',
   },
   {

@@ -37,7 +37,7 @@ const CYCLE_STEPS = [
 ];
 
 const INCOME_SOURCES = [
-  { label: 'Merch Store Orders', value: 'Stripe + MerchOrder', route: '/admin/orders', color: 'text-green-400' },
+  { label: 'Merch Store Orders', value: 'Stripe + MerchOrder', route: '/admin/merch-designs', color: 'text-green-400' },
   { label: 'Supporter Contributions', value: 'Back This + SupportContribution', route: '/admin/supporters', color: 'text-blue-400' },
   { label: 'Bookings / Sessions', value: 'BookingEnquiry', route: '/admin/content-studio', color: 'text-purple-400' },
   { label: 'Mastering Projects', value: 'MasteringProject', route: '/admin/content-studio', color: 'text-primary' },
@@ -169,7 +169,7 @@ export default function IntelligenceToIncome() {
             </CardContent>
           </Card>
         </Link>
-        <Link to="/admin/orders">
+        <Link to="/admin/merch-designs">
           <Card className="hover:border-primary/40 cursor-pointer">
             <CardContent className="p-4">
               <p className="text-2xl font-bold text-green-400">{revenueOrders.length}</p>

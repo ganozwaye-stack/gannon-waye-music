@@ -359,7 +359,7 @@ export default function AgentIntelligence() {
 
       <div className="flex gap-3 flex-wrap">
         <Link to="/admin/ideas-engine"><Button variant="outline" className="gap-2 text-xs"><TrendingUp className="w-3 h-3" />Research Grid</Button></Link>
-        <Link to="/admin/autonomous-ops"><Button variant="outline" className="gap-2 text-xs"><Zap className="w-3 h-3" />Autonomous Ops</Button></Link>
+        <Link to="/admin/operational-status"><Button variant="outline" className="gap-2 text-xs"><Zap className="w-3 h-3" />Autonomous Ops</Button></Link>
         <Link to="/admin/ideas-engine"><Button variant="outline" className="gap-2 text-xs"><BookOpen className="w-3 h-3" />Knowledge Vault</Button></Link>
         <Link to="/admin/agent-workbench"><Button variant="outline" className="gap-2 text-xs"><Brain className="w-3 h-3" />Agent Learning</Button></Link>
       </div>

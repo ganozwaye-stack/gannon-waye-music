@@ -43,7 +43,7 @@ export default function StatusStrip() {
     },
     {
       icon: Package, color: 'text-blue-400', bg: 'bg-blue-500/10',
-      label: 'Orders to fulfil', value: orders.length, link: '/admin/orders',
+      label: 'Orders to fulfil', value: orders.length, link: '/admin/merch-designs',
     },
     {
       icon: ClipboardList, color: 'text-amber-400', bg: 'bg-amber-500/10',

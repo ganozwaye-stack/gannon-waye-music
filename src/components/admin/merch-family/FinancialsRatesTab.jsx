@@ -1,6 +1,6 @@
-import MerchFinancials from '@/pages/admin/MerchFinancials';
-import ShippingRates from '@/pages/admin/ShippingRates';
-import BundleProposalStudio from '@/pages/admin/BundleProposalStudio';
+import MerchFinancials from '@/components/admin/merch-family/MerchFinancials';
+import ShippingRates from '@/components/admin/merch-family/ShippingRates';
+import BundleProposalStudio from '@/components/admin/merch-family/BundleProposalStudio';
 
 // Financials, Rates & Bundle Proposals: the full Merch Financials (margin
 // calculators), Shipping Rates (ShippingRate entity) and Bundle Proposal

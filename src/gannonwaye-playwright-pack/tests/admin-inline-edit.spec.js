@@ -8,7 +8,7 @@ test.describe('Admin Inline Edit Buttons — Public Visibility', () => {
     await page.goto('/store/all');
     // Admin edit buttons have no data-testid by design — look for Edit text in gold admin buttons
     // They should not appear for unauthenticated users
-    const editLinks = await page.locator('a[href*="/admin/merch"]:has-text("Edit")').count();
+    const editLinks = await page.locator('a[href*="/admin/merch-designs"]:has-text("Edit")').count();
     expect(editLinks).toBe(0);
   });
 
@@ -37,7 +37,7 @@ test.describe('Admin Inline Edit Buttons — Admin Visibility (requires auth)', 
   test.skip('Edit buttons visible to admin on /store/all', async ({ page }) => {
     // Requires: page.context().addCookies([adminSessionCookie])
     await page.goto('/store/all');
-    const editLinks = await page.locator('a[href*="/admin/merch"]:has-text("Edit")').count();
+    const editLinks = await page.locator('a[href*="/admin/merch-designs"]:has-text("Edit")').count();
     expect(editLinks).toBeGreaterThan(0);
   });
 

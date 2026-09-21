@@ -1,5 +1,5 @@
-import FinalSystemStatus from '@/pages/admin/FinalSystemStatus';
-import FinalSystemReport from '@/pages/admin/FinalSystemReport';
+import FinalSystemStatus from '@/components/admin/status-family/FinalSystemStatus';
+import FinalSystemReport from '@/components/admin/status-family/FinalSystemReport';
 
 // System Blueprint & Audit Reports: the full Final System Status and Final
 // System Report screens (STATUS_CONFIG, SECTIONS, NEXT_ACTIONS, TABLE and

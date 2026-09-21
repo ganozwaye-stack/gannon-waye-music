@@ -28,7 +28,7 @@ const EVOLUTION_ITEMS = [
     priority: 'done',
     status: 'done',
     description: 'Bundle Proposal Studio created. No bundle publishes without Gannon approval. All proposals go to Approval Queue.',
-    route: '/admin/bundle-proposal-studio',
+    route: '/admin/merch-designs',
     impact: 'Revenue control — every bundle must be reviewed before going live',
   },
   {
@@ -38,7 +38,7 @@ const EVOLUTION_ITEMS = [
     priority: 'done',
     status: 'done',
     description: 'Active revenue totals exclude cancelled, refunded, and deleted orders. All status categories separated and clickable.',
-    route: '/admin/orders',
+    route: '/admin/merch-designs',
     impact: 'Financial clarity — revenue figures are accurate and trustworthy',
   },
   {

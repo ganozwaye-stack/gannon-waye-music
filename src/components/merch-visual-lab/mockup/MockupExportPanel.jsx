@@ -38,7 +38,7 @@ export default function MockupExportPanel({ stageRef, products, ready }) {
       </Button>
       {save.isError && <p className="text-xs text-destructive">Export failed: {save.error?.message}</p>}
       {lastUrl && (
-        <p className="text-xs text-green-400">Saved. <a href={lastUrl} target="_blank" rel="noopener noreferrer" className="underline">Open image</a> · review in <a href="/admin/merch" className="underline">Merch Management</a></p>
+        <p className="text-xs text-green-400">Saved. <a href={lastUrl} target="_blank" rel="noopener noreferrer" className="underline">Open image</a> · review in <a href="/admin/merch-designs" className="underline">Merch Management</a></p>
       )}
     </div>
   );

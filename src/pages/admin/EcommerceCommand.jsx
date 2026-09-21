@@ -63,7 +63,7 @@ export default function EcommerceCommand() {
         </div>
         <div className="flex gap-2">
           <Link to="/admin/ecommerce-intelligence"><Button variant="outline" className="text-xs gap-2"><Zap className="w-3 h-3" />Full Intelligence</Button></Link>
-          <Link to="/admin/merch"><Button variant="outline" className="text-xs gap-2"><Package className="w-3 h-3" />Products</Button></Link>
+          <Link to="/admin/merch-designs"><Button variant="outline" className="text-xs gap-2"><Package className="w-3 h-3" />Products</Button></Link>
         </div>
       </div>
 
@@ -76,8 +76,8 @@ export default function EcommerceCommand() {
       {/* Live Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: 'Active Products', value: products.length, icon: Package, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/merch' },
-          { label: 'Recent Orders', value: orders.length, icon: ShoppingBag, color: 'text-green-400', bg: 'bg-green-500/10', link: '/admin/orders' },
+          { label: 'Active Products', value: products.length, icon: Package, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/merch-designs' },
+          { label: 'Recent Orders', value: orders.length, icon: ShoppingBag, color: 'text-green-400', bg: 'bg-green-500/10', link: '/admin/merch-designs' },
           { label: 'New Opportunities', value: ideas.length, icon: Star, color: 'text-cyan-400', bg: 'bg-cyan-500/10', link: '/admin/ideas-engine' },
           { label: 'Est. Recent Revenue', value: `$${totalRevenue.toFixed(0)}`, icon: DollarSign, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/financials' },
         ].map(s => (
@@ -148,9 +148,9 @@ export default function EcommerceCommand() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
         {[
           { label: 'Product Insights', path: '/admin/product-insights' },
-          { label: 'Merch Financials', path: '/admin/merch-financials' },
+          { label: 'Merch Financials', path: '/admin/merch-designs' },
           { label: 'Promo Codes', path: '/admin/financials' },
-          { label: 'Orders & Shipping', path: '/admin/orders' },
+          { label: 'Orders & Shipping', path: '/admin/merch-designs' },
         ].map(l => (
           <Link key={l.path} to={l.path}>
             <div className="border border-border rounded-lg p-3 text-xs text-muted-foreground hover:border-primary/40 hover:text-foreground transition-all text-center">{l.label} →</div>

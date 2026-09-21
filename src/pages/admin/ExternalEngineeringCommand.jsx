@@ -423,8 +423,8 @@ HIGH PRIORITY:
 
 MEDIUM PRIORITY:
 - pages/admin/Dashboard.jsx
-- pages/admin/Orders.jsx
-- pages/admin/MerchManagement.jsx
+- components/admin/merch-family/Orders.jsx
+- components/admin/merch-family/MerchManagement.jsx
 - functions/metricoolSchedulePost.js
 - All other functions/*.js
 - entities/*.json (all schemas)

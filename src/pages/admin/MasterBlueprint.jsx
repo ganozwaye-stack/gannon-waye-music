@@ -108,13 +108,13 @@ const PUBLIC_ROUTES = [
 const ADMIN_ROUTES = [
   { label: 'Dashboard',                path: '/admin',                         status: 'ok' },
   { label: '⭐ Master Blueprint',      path: '/admin/master-blueprint',        status: 'ok',     note: 'This page — live ✓' },
-  { label: 'Orders',                   path: '/admin/orders',                  status: 'ok' },
-  { label: 'Merch Management',         path: '/admin/merch',                   status: 'ok' },
+  { label: 'Orders',                   path: '/admin/merch-designs',                  status: 'ok' },
+  { label: 'Merch Management',         path: '/admin/merch-designs',                   status: 'ok' },
   { label: 'Approval Queue',           path: '/admin/dashboard',          status: 'ok' },
   { label: 'Release Sprint (6-Day)',   path: '/admin/release-sprint',          status: 'ok' },
   { label: 'Campaign Image Approval',  path: '/admin/content-studio', status: 'ok' },
   { label: 'Merch Visual Lab',         path: '/admin/merch-visual-lab',        status: 'ok' },
-  { label: 'Business Details Settings',path: '/admin/settings/business-details',status: 'ok',    note: 'Business profile details settings — live ✓' },
+  { label: 'Business Details Settings',path: '/admin/settings',status: 'ok',    note: 'Business profile details settings — live ✓' },
   { label: 'Quick Upload / Media Library', path: '/admin/content-studio',        status: 'ok',     note: 'Staged media library cockpit — live ✓' },
   { label: 'Link Integrity Audit',     path: '/admin/qa-command-centre',    status: 'ok',     note: 'Diagnostic link & handle scanning — live ✓' },
   { label: 'Metricool Command',        path: '/admin/metricool-command',       status: 'ok' },
@@ -134,7 +134,7 @@ const ADMIN_ROUTES = [
   { label: 'Playwright Test Centre',   path: '/admin/qa-command-centre',  status: 'ok' },
   { label: 'Notifications',           path: '/admin/notifications',            status: 'ok' },
   { label: 'Promo Codes',             path: '/admin/financials',              status: 'ok' },
-  { label: 'Shipping Rates',          path: '/admin/shipping-rates',           status: 'ok' },
+  { label: 'Shipping Rates',          path: '/admin/merch-designs',           status: 'ok' },
   { label: 'Supporters',              path: '/admin/supporters',               status: 'ok' },
   { label: 'Subscribers',             path: '/admin/dashboard',              status: 'ok' },
   { label: 'Financial Dashboard',     path: '/admin/financials',               status: 'ok' },
@@ -148,7 +148,7 @@ const ADMIN_ROUTES = [
   { label: 'Print Fulfilment',          path: '/admin/print-fulfilment',         status: 'broken',  note: 'BLOCKED — No provider active. All poster orders → manual_fulfilment_required. Samples not ordered. No API keys set. Do not activate providers without approval.' },
   { label: 'Human Action Required',     path: '/admin/dashboard',    status: 'ok',      note: 'Centralised inbox — all human-required actions in priority order.' },
   { label: 'Pricing & Margin Calculator', path: '/admin/pricing-margin-calculator', status: 'ok',  note: 'Full margin/profit calculator with bundle exclusion rules.' },
-  { label: 'Final System Report',       path: '/admin/final-system-report',      status: 'ok',      note: 'Autonomous build session truth table — pass/review/fail across all systems.' },
+  { label: 'Final System Report',       path: '/admin/operational-status',      status: 'ok',      note: 'Autonomous build session truth table — pass/review/fail across all systems.' },
 ];
 
 const CONTENT_PRODUCTION = [
@@ -235,21 +235,21 @@ const SAFETY_CHECKS = [
 ];
 
 const NEXT_ACTIONS = [
-  { priority: 'critical', action: 'Verify public details in /admin/settings/business-details — confirm it is NOT ganozwaye@gmail.com', link: '/admin/settings/business-details' },
+  { priority: 'critical', action: 'Verify public details in /admin/settings — confirm it is NOT ganozwaye@gmail.com', link: '/admin/settings' },
   { priority: 'high',     action: 'Go to /admin/content-studio — approve heading for each of the 11 campaign images', link: '/admin/content-studio' },
   { priority: 'high',     action: 'Go to /admin/release-sprint — review and approve 18 pending campaign posts before June 5', link: '/admin/release-sprint' },
   { priority: 'medium',   action: 'Review Mum Tribute page at /mum — confirm photos, content, and heart animation are correct', link: '/mum' },
   { priority: 'medium',   action: 'Run Link Integrity Audit at /admin/qa-command-centre to check for broken links and handle parity', link: '/admin/qa-command-centre' },
   { priority: 'medium',   action: 'Verify GanozMix Direct agent workflow and Separated Ecommerce Blueprint', link: '/admin/ganozmix' },
   { priority: 'low',      action: 'Switch Stripe from test mode to live mode in Stripe Dashboard if not already done', link: null },
-  { priority: 'critical', action: 'Upload poster-specific artwork images for Respect Is Earned Lyric Wall Poster — current fallback is emoji. Go to /admin/merch → Poster → Change Images.', link: '/admin/merch' },
+  { priority: 'critical', action: 'Upload poster-specific artwork images for Respect Is Earned Lyric Wall Poster — current fallback is emoji. Go to /admin/merch-designs → Poster → Change Images.', link: '/admin/merch-designs' },
   { priority: 'high',     action: 'Order sample prints from Printful and Gelato — review at /admin/print-fulfilment before activating live fulfilment', link: '/admin/print-fulfilment' },
-  { priority: 'medium',   action: 'Upload corrected Journal bundle image showing journal, pen, and thermos together via /admin/merch', link: '/admin/merch' },
+  { priority: 'medium',   action: 'Upload corrected Journal bundle image showing journal, pen, and thermos together via /admin/merch-designs', link: '/admin/merch-designs' },
   { priority: 'medium',   action: 'Review Base44 Exit Plan phases and begin Phase 1 (stabilise) at /admin/base44-exit-plan', link: '/admin/base44-exit-plan' },
   { priority: 'medium',   action: 'Review draft termination letter for GanozMix / Victor at /admin/legal-drafts before sending', link: '/admin/legal-drafts' },
   { priority: 'high',     action: 'Open Human Action Required inbox — full prioritised list of items needing your personal action', link: '/admin/dashboard' },
   { priority: 'medium',   action: 'Use Pricing & Margin Calculator to verify all product margins before next promotion', link: '/admin/pricing-margin-calculator' },
-  { priority: 'medium',   action: 'Review the Final System Report for a complete build/test/status truth table', link: '/admin/final-system-report' },
+  { priority: 'medium',   action: 'Review the Final System Report for a complete build/test/status truth table', link: '/admin/operational-status' },
 ];
 
 const PRIORITY_COLORS = {
@@ -495,12 +495,12 @@ export default function MasterBlueprint() {
       <Section title="🛒 Commerce / Stripe / Orders" icon={ShoppingCart}>
         <RouteRow label="Stripe Live Key" status="review" note="Confirm Stripe Dashboard is in LIVE mode (not test mode)" />
         <RouteRow label="Stripe Webhook" path="/admin/financials" status="ok" note="Webhook connected — monitor for signature failures" />
-        <RouteRow label="Order Management" path="/admin/orders" status="ok" />
+        <RouteRow label="Order Management" path="/admin/merch-designs" status="ok" />
         <RouteRow label="Payment Diagnostics" path="/admin/payment-diagnostics" status="ok" />
         <RouteRow label="Duplicate Order Guard" status="ok" note="Idempotency enforced — Thea Elsworth duplicate handled" />
         <RouteRow label="Stripe Support Email" status="review" note="Update in Stripe Dashboard → Settings → Business → Support email. Do not use ganozwaye@gmail.com." />
         <RouteRow label="Promo Codes" path="/admin/financials" status="ok" />
-        <RouteRow label="Shipping Rates" path="/admin/shipping-rates" status="ok" />
+        <RouteRow label="Shipping Rates" path="/admin/merch-designs" status="ok" />
       </Section>
 
       {/* Mum Tribute */}
@@ -556,17 +556,17 @@ export default function MasterBlueprint() {
               { label: 'Approval Queue',       path: '/admin/dashboard' },
               { label: 'Merch Visual Lab',     path: '/admin/merch-visual-lab' },
               { label: 'Campaign Images',      path: '/admin/content-studio' },
-              { label: 'Orders',               path: '/admin/orders' },
+              { label: 'Orders',               path: '/admin/merch-designs' },
               { label: 'Stripe Command',       path: '/admin/financials' },
               { label: 'Metricool',            path: '/admin/metricool-command' },
-              { label: 'Business Details',     path: '/admin/settings/business-details' },
+              { label: 'Business Details',     path: '/admin/settings' },
               { label: 'Notifications',        path: '/admin/notifications' },
               { label: 'Site Health',          path: '/admin/site-health' },
               { label: 'Agent Registry',       path: '/admin/agent-workbench' },
               { label: 'Mum Tribute',          path: '/mum' },
               { label: 'Human Action Required', path: '/admin/dashboard' },
               { label: 'Margin Calculator',     path: '/admin/pricing-margin-calculator' },
-              { label: 'Final Report',          path: '/admin/final-system-report' },
+              { label: 'Final Report',          path: '/admin/operational-status' },
             ].map(link => (
               <Link key={link.path} to={link.path}>
                 <div className="border border-border/40 rounded-xl p-3 hover:border-primary/40 hover:bg-secondary/30 transition-all cursor-pointer">

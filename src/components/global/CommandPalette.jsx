@@ -73,7 +73,7 @@ export default function CommandPalette({ isOpen, onClose }) {
             label: `Merch: ${p.name} ($${p.price})`,
             icon: ShoppingBag,
             shortcut: 'PROD',
-            action: `/admin/merch?id=${p.id}`
+            action: `/admin/merch-designs?id=${p.id}`
           });
         }
       });
@@ -86,7 +86,7 @@ export default function CommandPalette({ isOpen, onClose }) {
             label: `Order #${o.id?.slice(-6)} - ${o.customer_name} (${o.status})`,
             icon: Package,
             shortcut: 'ORDER',
-            action: `/admin/orders?id=${o.id}`
+            action: `/admin/merch-designs?id=${o.id}`
           });
         }
       });

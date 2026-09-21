@@ -143,17 +143,17 @@ export default function FinancialDashboard() {
           </p>
         </div>
         <div className="flex gap-2">
-          <Link to="/admin/merch-financials">
+          <Link to="/admin/merch-designs">
             <Button className="gap-2 rounded-full">
               <Calculator className="w-4 h-4" /> Product Costing
             </Button>
           </Link>
-          <Link to="/admin/merch">
+          <Link to="/admin/merch-designs">
             <Button variant="outline" className="gap-2 rounded-full">
               <Plus className="w-4 h-4" /> Add Product
             </Button>
           </Link>
-          <Link to="/admin/orders">
+          <Link to="/admin/merch-designs">
             <Button variant="outline" className="gap-2 rounded-full">
               <ShoppingCart className="w-4 h-4" /> View Orders
             </Button>
@@ -185,7 +185,7 @@ export default function FinancialDashboard() {
               <p className="font-body text-xs text-primary/70 mb-3">
                 Add cost prices and delivery costs to enable accurate profit calculations.
               </p>
-              <Link to="/admin/merch-financials">
+              <Link to="/admin/merch-designs">
                 <Button size="sm" className="gap-2 bg-primary hover:bg-primary text-white">
                   <Edit2 className="w-3 h-3" /> Add Cost Data Now
                 </Button>
@@ -206,7 +206,7 @@ export default function FinancialDashboard() {
           label="Merch Revenue"
           value={`$${metrics.merchRevenue.toFixed(2)}`}
           subtext={`${metrics.merchUnits} units sold`}
-          linkTo="/admin/orders"
+          linkTo="/admin/merch-designs"
         />
         <MetricCard
           icon={TrendingDown}
@@ -214,7 +214,7 @@ export default function FinancialDashboard() {
           value={`$${metrics.totalMerchCost.toFixed(2)}`}
           subtext="Production + sourcing"
           color="destructive"
-          linkTo="/admin/merch-financials"
+          linkTo="/admin/merch-designs"
         />
         <MetricCard
           icon={TrendingUp}
@@ -234,7 +234,7 @@ export default function FinancialDashboard() {
 
       {/* Quick Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Link to="/admin/merch">
+        <Link to="/admin/merch-designs">
           <Card className="cursor-pointer hover:border-primary/40 transition-colors">
             <CardContent className="p-5">
               <div className="flex items-center gap-3">
@@ -249,7 +249,7 @@ export default function FinancialDashboard() {
             </CardContent>
           </Card>
         </Link>
-        <Link to="/admin/merch-financials">
+        <Link to="/admin/merch-designs">
           <Card className="cursor-pointer hover:border-primary/40 transition-colors">
             <CardContent className="p-5">
               <div className="flex items-center gap-3">
@@ -264,7 +264,7 @@ export default function FinancialDashboard() {
             </CardContent>
           </Card>
         </Link>
-        <Link to="/admin/orders">
+        <Link to="/admin/merch-designs">
           <Card className="cursor-pointer hover:border-primary/40 transition-colors">
             <CardContent className="p-5">
               <div className="flex items-center gap-3">
@@ -371,7 +371,7 @@ export default function FinancialDashboard() {
                         <p className="font-display text-sm text-destructive">${p.cost.toFixed(2)}</p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Link to="/admin/merch-financials">
+                        <Link to="/admin/merch-designs">
                           <Button size="sm" variant="outline" className="gap-1">
                             <Edit2 className="w-3 h-3" /> Edit Costs
                           </Button>
@@ -386,7 +386,7 @@ export default function FinancialDashboard() {
             <div className="text-center py-12">
               <Package className="w-12 h-12 text-muted-foreground/20 mx-auto mb-4" />
               <p className="font-body text-muted-foreground mb-4">No sales data yet.</p>
-              <Link to="/admin/merch">
+              <Link to="/admin/merch-designs">
                 <Button className="gap-2">
                   <Plus className="w-4 h-4" /> Add Products to Start Selling
                 </Button>

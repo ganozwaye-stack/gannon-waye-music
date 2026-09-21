@@ -129,7 +129,7 @@ export default function MerchFeedbackAdmin() {
             </div>
             <div className="text-xs text-muted-foreground">
               <p className="font-semibold mb-0.5">Source Chain</p>
-              <p className="font-mono text-[10px]">MerchFeedback → AdminNotification → /admin/merch-feedback</p>
+              <p className="font-mono text-[10px]">MerchFeedback → AdminNotification → /admin/merch-designs</p>
             </div>
           </div>
         </div>

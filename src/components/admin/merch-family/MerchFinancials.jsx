@@ -146,7 +146,7 @@ export default function MerchFinancials() {
           </div>
         </div>
         <div className="flex gap-2">
-          <Link to="/admin/merch">
+          <Link to="/admin/merch-designs">
             <Button variant="outline" className="gap-2 rounded-full">
               <Plus className="w-4 h-4" /> Add New Product
             </Button>
@@ -299,7 +299,7 @@ export default function MerchFinancials() {
                       </Button>
                     ) : (
                       <>
-                        <Link to="/admin/merch">
+                        <Link to="/admin/merch-designs">
                           <Button size="sm" variant="outline" className="gap-1">
                             <Edit2 className="w-3 h-3" /> Full Edit
                           </Button>
@@ -349,7 +349,7 @@ export default function MerchFinancials() {
           <div className="text-center py-24 bg-card border border-border/40 rounded-2xl">
             <Package className="w-16 h-16 text-muted-foreground/20 mx-auto mb-4" />
             <p className="font-body text-muted-foreground mb-4">No products found.</p>
-            <Link to="/admin/merch">
+            <Link to="/admin/merch-designs">
               <Button className="gap-2">
                 <Plus className="w-4 h-4" /> Add Your First Product
               </Button>

@@ -172,7 +172,7 @@ const required = [
   ['base44/functions/autonomousTrendEngine/entry.ts', 'status: 503'],
 
   ['base44/workflows/Hourly System Alert Check.jsonc', '"mode": "legacy_hold"'],
-  ['src/pages/admin/FinalSystemStatus.jsx', 'Paused pending owner test'],
+  ['src/components/admin/status-family/FinalSystemStatus.jsx', 'Paused pending owner test'],
   ['src/components/admin/agent-workbench/AgentRevenueStatus.jsx', "invokeArgs: { mode: 'admin_supervisor' }"],
   ['src/components/admin/release-studio/NewReleaseStudio.jsx', 'Create a private release draft and blank review shells.'],
   ['src/components/admin/release-studio/NewReleaseStudio.jsx', 'auto_publish_on_release_date: false'],
@@ -193,7 +193,7 @@ const required = [
 ];
 
 const forbidden = [
-  ['src/pages/admin/FinalSystemStatus.jsx', 'agentProposalScanner, growthOpportunityScanner, agentIntelligenceLoop all running daily'],
+  ['src/components/admin/status-family/FinalSystemStatus.jsx', 'agentProposalScanner, growthOpportunityScanner, agentIntelligenceLoop all running daily'],
   ['src/components/admin/agent-workbench/AgentRevenueStatus.jsx', "purpose: 'Researches topics, saves insights to KnowledgeVault'"],
   ['base44/functions/executiveMorningBrief/entry.ts', 'createClientFromRequest'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'asServiceRole'],

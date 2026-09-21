@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
 
 const BASE_URL = globalThis.process?.env?.BASE_URL || 'http://localhost:5173';
 
-const ADMIN_ROUTES = ['/admin', '/admin/dashboard', '/admin/orders', '/admin/dashboard'];
+const ADMIN_ROUTES = ['/admin', '/admin/dashboard', '/admin/merch-designs', '/admin/dashboard'];
 
 test.describe('Admin routes are locked to anonymous visitors', () => {
   for (const route of ADMIN_ROUTES) {

@@ -136,8 +136,8 @@ forbid(
 requireSnippet('src/components/admin/ReleasePackReport.jsx', 'All external actions are held');
 requireSnippet('src/components/admin/ReleasePackReport.jsx', 'Automatic launch-packet generation is held');
 
-requireSnippet('src/pages/admin/AutonomousOps.jsx', 'Safety hold active');
-forbid('src/pages/admin/AutonomousOps.jsx', /base44\.functions\.invoke|ApprovalQueue\.update|updateApproval/, 'legacy automation execution or approval mutation');
+requireSnippet('src/components/admin/status-family/AutonomousOps.jsx', 'Safety hold active');
+forbid('src/components/admin/status-family/AutonomousOps.jsx', /base44\.functions\.invoke|ApprovalQueue\.update|updateApproval/, 'legacy automation execution or approval mutation');
 
 requireSnippet('src/components/admin/content-studio/monetization/ContentAutomatePanel.jsx', 'Safety hold active');
 forbid('src/components/admin/content-studio/monetization/ContentAutomatePanel.jsx', /base44\.functions\.invoke|handleRunAutomation|Run Generator/, 'legacy content-generator execution');

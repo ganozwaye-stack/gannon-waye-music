@@ -9,7 +9,7 @@ import { ArrowLeft, Star, ArrowUpRight
 } from 'lucide-react';
 
 const INCOME_STREAMS = [
-  { name: 'Merch Sales', status: 'live', monthly_est: '$200-800', category: 'Commerce', route: '/admin/orders', maturity: 'active' },
+  { name: 'Merch Sales', status: 'live', monthly_est: '$200-800', category: 'Commerce', route: '/admin/merch-designs', maturity: 'active' },
   { name: 'Music Streaming Royalties', status: 'live', monthly_est: '$50-300', category: 'Music', route: '/admin/music-command', maturity: 'active' },
   { name: 'Digital Downloads', status: 'live', monthly_est: '$20-100', category: 'Music', route: '/admin/music-command', maturity: 'active' },
   { name: 'Fan Support (Back This)', status: 'live', monthly_est: '$100-500', category: 'Community', route: '/admin/supporters', maturity: 'active' },
@@ -21,7 +21,7 @@ const INCOME_STREAMS = [
   { name: 'Artist Management Services', status: 'staging', monthly_est: '$2,000-10,000/month', category: 'Business', route: '/admin/artist-business-setup', maturity: 'staging' },
   { name: 'Life Coaching / Mindset', status: 'staging', monthly_est: '$3,000-15,000/month', category: 'Coaching', route: '/admin/coaching-command', maturity: 'staging' },
   { name: 'Music Production Sessions', status: 'pipeline', monthly_est: '$200-1,000 per session', category: 'Music', route: '/admin/sync-licensing-command', maturity: 'pipeline' },
-  { name: 'Merchandise Licensing', status: 'idea', monthly_est: 'Unknown', category: 'Commerce', route: '/admin/merch', maturity: 'idea' },
+  { name: 'Merchandise Licensing', status: 'idea', monthly_est: 'Unknown', category: 'Commerce', route: '/admin/merch-designs', maturity: 'idea' },
   { name: 'Partnership / Brand Deals', status: 'idea', monthly_est: '$500-10,000 per deal', category: 'Business', route: '/admin/dashboard', maturity: 'idea' },
   { name: 'Affiliate / Referral Income', status: 'idea', monthly_est: '$50-500', category: 'Commerce', route: '/admin/financials', maturity: 'idea' },
 ];

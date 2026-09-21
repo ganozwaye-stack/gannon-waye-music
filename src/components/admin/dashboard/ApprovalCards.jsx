@@ -31,8 +31,8 @@ const CATEGORY_ROUTES = {
   newsletter_send: '/admin/release-email-studio',
   instagram_post: '/admin/social-schedule-queue',
   tiktok_post: '/admin/tiktok-recording-studio',
-  merch_feature: '/admin/merch',
-  page_publish: '/admin/website-ops',
+  merch_feature: '/admin/merch-designs',
+  page_publish: '/admin/operational-status',
   other: '/admin/dashboard',
 };
 

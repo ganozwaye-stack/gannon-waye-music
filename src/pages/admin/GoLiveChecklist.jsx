@@ -16,7 +16,7 @@ const CHECKLIST = [
       { id: 'stripe_webhook_signed', label: 'Webhook signing verified (STRIPE_WEBHOOK_SECRET matches endpoint)', status: 'todo', note: 'Stripe Dashboard → Webhooks → stripeWebhook → Recent deliveries shows no signature failures.' },
       { id: 'stripe_webhook_2xx', label: 'Webhook delivery returns 2xx in Stripe Dashboard', status: 'todo', note: 'Open Recent deliveries on the stripeWebhook endpoint — confirm HTTP 200 on recent events.' },
       { id: 'stripe_checkout_session', label: 'Checkout session creates successfully (createCheckoutSession)', status: 'todo', note: 'Complete a test checkout — Stripe Checkout page loads with correct line items and total.' },
-      { id: 'stripe_merchorder_created', label: 'MerchOrder created on checkout.session.completed', status: 'todo', note: 'After test purchase, verify a MerchOrder appears in /admin/orders with status confirmed.' },
+      { id: 'stripe_merchorder_created', label: 'MerchOrder created on checkout.session.completed', status: 'todo', note: 'After test purchase, verify a MerchOrder appears in /admin/merch-designs with status confirmed.' },
       { id: 'stripe_receipt_email', label: 'Order receipt email fires to customer', status: 'todo', note: 'Verify customer receives receipt email after test purchase (sendOrderReceipt).' },
       { id: 'stripe_admin_notification', label: 'Admin notification fires on new order', status: 'todo', note: 'Verify admin alert appears in /admin/notifications after test purchase.' },
       { id: 'stripe_inventory_profit', label: 'Inventory decremented + profit calculated automatically', status: 'todo', note: 'Verify MerchProduct.stock_quantity decreased and StripeEventLog shows profit margin after test purchase.' },

@@ -167,11 +167,11 @@ export default function Dashboard() {
           <AlertCircle className="w-3.5 h-3.5" /> 1. Financial Risk — Act First
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-          <DashTile to="/admin/orders" label="Money at Risk" value={`$${moneyAtRisk.toFixed(0)}`} sub="In unfulfilled orders" icon={DollarSign} color="red" urgent={moneyAtRisk > 0} />
-          <DashTile to="/admin/orders?filter=today" label="Orders Today" value={ordersToday.length} sub="New customer orders" icon={ShoppingBag} color={ordersToday.length > 0 ? 'yellow' : 'muted'} />
-          <DashTile to="/admin/orders?filter=unfulfilled" label="Unfulfilled Orders" value={unfulfilledOrders.length} sub="Need packing & ship" icon={PackageCheck} color={unfulfilledOrders.length > 0 ? 'red' : 'green'} />
+          <DashTile to="/admin/merch-designs" label="Money at Risk" value={`$${moneyAtRisk.toFixed(0)}`} sub="In unfulfilled orders" icon={DollarSign} color="red" urgent={moneyAtRisk > 0} />
+          <DashTile to="/admin/merch-designs?filter=today" label="Orders Today" value={ordersToday.length} sub="New customer orders" icon={ShoppingBag} color={ordersToday.length > 0 ? 'yellow' : 'muted'} />
+          <DashTile to="/admin/merch-designs?filter=unfulfilled" label="Unfulfilled Orders" value={unfulfilledOrders.length} sub="Need packing & ship" icon={PackageCheck} color={unfulfilledOrders.length > 0 ? 'red' : 'green'} />
           <DashTile to="/admin/payment-diagnostics" label="Stripe Issues" value={stripeIssues.length || 0} sub="Failed / disputed" icon={CreditCard} color={stripeIssues.length > 0 ? 'red' : 'green'} />
-          <DashTile to="/admin/shipping-rates" label="Shipping Issues" value={shippingIssues.length || 0} sub="Rules / failures" icon={Truck} color={shippingIssues.length > 0 ? 'yellow' : 'green'} />
+          <DashTile to="/admin/merch-designs" label="Shipping Issues" value={shippingIssues.length || 0} sub="Rules / failures" icon={Truck} color={shippingIssues.length > 0 ? 'yellow' : 'green'} />
         </div>
       </div>
 
@@ -210,7 +210,7 @@ export default function Dashboard() {
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           <DashTile to="/admin/financials" label="Store Revenue" value={`$${activeRevenue.toFixed(0)}`} sub="All-time AUD" icon={DollarSign} color="gold" />
-          <DashTile to="/admin/merch?sort=best" label="Best Products" value={products.filter(p => p.is_active).length} sub="Active products" icon={Star} color="gold" />
+          <DashTile to="/admin/merch-designs?sort=best" label="Best Products" value={products.filter(p => p.is_active).length} sub="Active products" icon={Star} color="gold" />
           <DashTile to="/admin/music-opportunity-bulletin" label="Music Opportunities" value="Scan" sub="Grants, playlists, gigs" icon={Music} color="blue" />
           <DashTile to="/admin/ganozmix" label="Dropshipping Opps" value="Scout" sub="GanozMix / eBay" icon={BarChart2} color="blue" />
           <DashTile to="/admin/community?tab=activity" label="Community Activity" value={fanPosts.length} sub="Posts to review" icon={Heart} color="muted" />
@@ -229,14 +229,14 @@ export default function Dashboard() {
           <div className="space-y-0.5">
             <p className="text-[10px] uppercase tracking-widest text-red-400/60 px-3 pt-2 pb-1">🔴 Financial Loss Risks</p>
             <PriorityRow num={1} label="⚠️ CONNECT GMAIL NOW — customer shipping emails are broken" to="/admin/integration-action-centre" urgent={true} />
-            <PriorityRow num={2} label={`Fulfil ${unfulfilledOrders.length} unfulfilled orders before next dispatch cutoff`} to="/admin/orders?filter=unfulfilled" urgent={unfulfilledOrders.length > 0} />
+            <PriorityRow num={2} label={`Fulfil ${unfulfilledOrders.length} unfulfilled orders before next dispatch cutoff`} to="/admin/merch-designs?filter=unfulfilled" urgent={unfulfilledOrders.length > 0} />
             <PriorityRow num={3} label="Review Stripe payment failures and dispute alerts" to="/admin/payment-diagnostics" urgent={stripeIssues.length > 0} />
-            <PriorityRow num={4} label="Check shipping rules are active for all product categories" to="/admin/shipping-rates" />
+            <PriorityRow num={4} label="Check shipping rules are active for all product categories" to="/admin/merch-designs" />
 
             <p className="text-[10px] uppercase tracking-widest text-primary/60 px-3 pt-3 pb-1">🟡 Orders & Customers</p>
-            <PriorityRow num={5} label="Review today's new orders and confirm customer details" to="/admin/orders?filter=today" />
+            <PriorityRow num={5} label="Review today's new orders and confirm customer details" to="/admin/merch-designs?filter=today" />
             <PriorityRow num={6} label="Check Google Sheet sync — orders must log automatically" to="/admin/integration-action-centre" />
-            <PriorityRow num={7} label="Send receipts for any orders missing email confirmation" to="/admin/orders" />
+            <PriorityRow num={7} label="Send receipts for any orders missing email confirmation" to="/admin/merch-designs" />
 
             <p className="text-[10px] uppercase tracking-widest text-orange-400/60 px-3 pt-3 pb-1">🟠 Human Approval Tasks</p>
             <PriorityRow num={8} label={`Review ${approvals.length} pending approvals in queue`} to="/admin/dashboard" urgent={approvals.length > 0} />
@@ -299,7 +299,7 @@ export default function Dashboard() {
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground mb-3">Quick Access</p>
             <div className="space-y-1">
               {[
-                { to: '/admin/orders', label: '📦 Orders' },
+                { to: '/admin/merch-designs', label: '📦 Orders' },
                 { to: '/admin/dashboard', label: '✅ Approvals' },
                 { to: '/admin/payment-diagnostics', label: '💳 Payments' },
                 { to: '/admin/notifications', label: '🔔 Notifications' },

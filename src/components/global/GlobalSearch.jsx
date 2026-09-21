@@ -171,11 +171,11 @@ export default function GlobalSearch({ onClose }) {
 
   const handleResultClick = (result) => {
     const routes = {
-      order: `/admin/orders`,
+      order: `/admin/merch-designs`,
       subscriber: `/admin/dashboard`,
-      product: `/admin/merch`,
+      product: `/admin/merch-designs`,
       contribution: `/admin/supporters`,
-      gift_claim: `/admin/gift-verification`,
+      gift_claim: `/admin/merch-designs`,
       promo_code: `/admin/financials`,
       booking: `/admin`, // Bookings managed from dashboard initially
       media: `/admin/fan-media`,

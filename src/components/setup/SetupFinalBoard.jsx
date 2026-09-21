@@ -145,7 +145,7 @@ export default function SetupFinalBoard({ stepStatus = {} }) {
         <Button variant="outline" className="gap-2" onClick={() => window.open('/admin/go-live', '_blank')}>
           <ExternalLink className="w-4 h-4" /> Full Go-Live Checklist
         </Button>
-        <Button variant="outline" className="gap-2" onClick={() => window.open('/admin/final-system-status', '_blank')}>
+        <Button variant="outline" className="gap-2" onClick={() => window.open('/admin/operational-status', '_blank')}>
           <ExternalLink className="w-4 h-4" /> Final System Status
         </Button>
       </div>

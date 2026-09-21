@@ -66,7 +66,7 @@ export default function MerchFeedback() {
       source: 'MerchFeedback',
       requires_action: false,
       linked_entity: 'MerchFeedback',
-      linked_route: '/admin/merch-feedback',
+      linked_route: '/admin/merch-designs',
       is_read: false,
     });
     setSubmitted(true);

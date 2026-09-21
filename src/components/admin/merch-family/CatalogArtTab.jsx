@@ -1,4 +1,4 @@
-import MerchManagement from '@/pages/admin/MerchManagement';
+import MerchManagement from '@/components/admin/merch-family/MerchManagement';
 
 // Artwork Designs & Product Catalog: the full Merch Management screen
 // (MerchProduct entity, AI artwork cards, Alibaba supplier links, category

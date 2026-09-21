@@ -22,7 +22,7 @@ const SOURCE_ROUTES = {
   Notifications: '/admin/notifications',
   AgentRegistry: '/admin/agent-workbench',
   AgentIntelligence: '/admin/agent-workbench',
-  AutonomousOps: '/admin/autonomous-ops',
+  AutonomousOps: '/admin/operational-status',
 };
 
 function TaskDetailModal({ log, onClose }) {
