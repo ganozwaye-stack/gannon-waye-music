@@ -61,8 +61,6 @@ import Dashboard from '@/pages/admin/Dashboard';
 import DailyDashboardV2 from '@/pages/admin/DailyDashboardV2';
 import HeroDesignStudio from '@/pages/admin/HeroDesignStudio';
 import ReleaseControlDesk from '@/pages/admin/ReleaseControlDesk';
-import MerchManagement from '@/components/admin/merch-family/MerchManagement';
-import Orders from '@/components/admin/merch-family/Orders';
 import FanManagement from '@/pages/admin/FanManagement';
 import SiteSettings from '@/pages/admin/SiteSettings';
 import MerchPlatforms from '@/pages/admin/MerchPlatforms';
@@ -74,15 +72,11 @@ import BackOfHouseReport from '@/pages/admin/BackOfHouseReport';
 import RevealNewsletter from '@/pages/admin/RevealNewsletter';
 import ProductInsights from '@/pages/admin/ProductInsights';
 import Supporters from '@/pages/admin/Supporters';
-import GiftClaims from '@/components/admin/merch-family/GiftClaims';
 import TunecoreIntegration from '@/pages/admin/TunecoreIntegration';
 import HoodieOffer from '@/pages/admin/HoodieOffer';
 import FinancialDashboard from '@/pages/admin/FinancialDashboard';
-import GiftVerification from '@/components/admin/merch-family/GiftVerification';
 import GiftChecklistPage from '@/pages/GiftChecklistPage';
-import MerchFinancials from '@/components/admin/merch-family/MerchFinancials';
 import SiteHealthDashboard from '@/pages/admin/SiteHealthDashboard';
-import GiftProgressAdmin from '@/components/admin/merch-family/GiftProgressAdmin';
 import BirthdayDiscounts from '@/pages/admin/BirthdayDiscounts';
 import CharityTracking from '@/pages/admin/CharityTracking';
 import OperationalStatus from '@/pages/admin/OperationalStatus';
@@ -93,7 +87,6 @@ import LegalDashboard from '@/pages/admin/LegalDashboard';
 import WealthDashboard from '@/pages/admin/WealthDashboard';
 import SecurityCentre from '@/pages/admin/SecurityCentre';
 import TrendMonitor from '@/pages/admin/TrendMonitor';
-import WebsiteOps from '@/components/admin/status-family/WebsiteOps';
 import ExecutiveFeed from '@/pages/admin/ExecutiveFeed';
 import IdeasEngine from '@/pages/admin/IdeasEngine';
 import EcommerceIntelligence from '@/pages/admin/EcommerceIntelligence';
@@ -104,10 +97,8 @@ import CreatorInsights from '@/pages/admin/CreatorInsights';
 import ApiSetup from '@/pages/admin/ApiSetup';
 import GoLiveChecklist from '@/pages/admin/GoLiveChecklist';
 import EcommerceCommand from '@/pages/admin/EcommerceCommand';
-import AutonomousOps from '@/components/admin/status-family/AutonomousOps';
 import StripeLiveReport from '@/pages/admin/StripeLiveReport';
 import Notifications from '@/pages/admin/Notifications';
-import ShippingRates from '@/components/admin/merch-family/ShippingRates';
 import TikTokAppReview from '@/pages/admin/TikTokAppReview';
 import MusicCommandCentre from '@/pages/admin/MusicCommandCentre';
 import GanozMixBridge from '@/pages/admin/GanozMixBridge';
@@ -119,7 +110,6 @@ import TikTokPlatformReview from '@/pages/TikTokPlatformReview';
 import TikTokCallback from '@/pages/TikTokCallback.jsx';
 import TooLostCallback from '@/pages/TooLostCallback.jsx';
 import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
-import MerchFeedbackAdmin from '@/components/admin/merch-family/MerchFeedbackAdmin';
 import OperationRegistry from '@/pages/admin/OperationRegistry';
 import PaymentDiagnostics from '@/pages/admin/PaymentDiagnosticsNew';
 import IntegrationCompletionCentre from '@/pages/admin/IntegrationCompletionCentre';
@@ -139,7 +129,6 @@ import OrderProfitIntelligence from '@/pages/admin/OrderProfitIntelligence';
 import WeeklyMoneyReport from '@/pages/admin/WeeklyMoneyReport';
 import FanConversionEngine from '@/pages/admin/FanConversionEngine';
 import AgentCapabilityMatrix from '@/pages/admin/AgentCapabilityMatrix';
-import BundleProposalStudio from '@/components/admin/merch-family/BundleProposalStudio';
 import TodaysMoneymoves from '@/pages/admin/TodaysMoneymoves';
 import WebsiteEvolution from '@/pages/admin/WebsiteEvolution';
 import BusinessWorthCommand from '@/pages/admin/BusinessWorthCommand';
@@ -163,7 +152,6 @@ import SystemBlueprint from '@/pages/admin/SystemBlueprint';
 import MetricoolApiSetup from '@/pages/admin/MetricoolApiSetup';
 import MetricoolSchedulerQueue from '@/pages/admin/MetricoolSchedulerQueue';
 import MetricoolPerformanceIntelligence from '@/pages/admin/MetricoolPerformanceIntelligence';
-import FinalSystemStatus from '@/components/admin/status-family/FinalSystemStatus';
 import GuidedSetupConcierge from '@/pages/admin/GuidedSetupConcierge';
 import MetricoolDiagnostics from '@/pages/admin/MetricoolDiagnostics.jsx';
 import SocialAgentOS from '@/pages/admin/SocialAgentOS.jsx';
@@ -174,7 +162,6 @@ import StockFlowDashboard from '@/pages/admin/StockFlowDashboard';
 import DeegoStockMarketPanel from '@/pages/admin/DeegoStockMarketPanel';
 import MasterHandoverTimeline from '@/pages/admin/MasterHandoverTimeline';
 import BusinessProcessCommand from '@/pages/admin/BusinessProcessCommand';
-import AgentTrustHub from '@/components/admin/security-family/AgentTrustHub';
 import ExternalEngineeringCommand from '@/pages/admin/ExternalEngineeringCommand';
 import PromoDiscountCompliance from '@/pages/admin/PromoDiscountCompliance';
 import CursorCloudAgentCommand from '@/pages/admin/CursorCloudAgentCommand';
@@ -183,7 +170,6 @@ import AgentMessageBus from '@/pages/admin/AgentMessageBus';
 import CodeAuditCommand from '@/pages/admin/CodeAuditCommand';
 import StrategicExecutionPlan from '@/pages/admin/StrategicExecutionPlan';
 import MerchVisualLab from '@/pages/admin/MerchVisualLab';
-import BusinessProfileSettingsPage from '@/components/admin/settings-family/BusinessProfileSettings';
 import MasterBlueprint from '@/pages/admin/MasterBlueprint';
 import IntegrationActionCentre from '@/pages/admin/IntegrationActionCentre';
 import AnnouncementStudio from '@/pages/admin/AnnouncementStudio';
@@ -215,7 +201,6 @@ import DomesticViolenceSupport from '@/pages/DomesticViolenceSupport';
 import MusicOpportunityBulletin from '@/pages/admin/MusicOpportunityBulletin';
 import MerchContentBriefs from '@/pages/admin/MerchContentBriefs';
 import PricingMarginCalculator from '@/pages/admin/PricingMarginCalculator';
-import FinalSystemReport from '@/components/admin/status-family/FinalSystemReport';
 import Coaching from '@/pages/Coaching';
 import CoachingSelfWorthReset from '@/pages/CoachingSelfWorthReset';
 import CoachingBoundaries from '@/pages/CoachingBoundaries';
@@ -235,7 +220,6 @@ import PressKit from '@/pages/PressKit';
 import ContentStudio from '@/pages/admin/ContentStudio';
 import ManyChatDrafts from '@/pages/admin/ManyChatDrafts';
 import CommunicationsHub from '@/pages/admin/CommunicationsHub';
-import MerchApprovalGate from '@/components/admin/merch-family/MerchApprovalGate';
 import MerchVotes from '@/pages/admin/MerchVotes';
 import Login from '@/pages/Login';
 
@@ -448,11 +432,9 @@ const AuthenticatedApp = () => {
             hub. The old Daily Dashboard stays as a file for a later retirement wave. */}
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/dashboard-v2" element={<DailyDashboardV2 />} />
-        {/* Merged into /admin/orders (12 Sep 2026). Orders reads the same MerchOrder data
-            and additionally updates orders and reads MerchProduct, so it is a strict superset.
-            Kept as a redirect so existing links and bookmarks still work.
-            To undo: restore element={<StoreOrdersHub />}. */}
-        <Route path="/admin/store-orders" element={<Navigate to="/admin/orders" replace />} />
+        {/* Orders lives in the Merch Designs hub (orders tab) since 21 Sep 2026.
+            store-orders keeps redirecting so old links still work. */}
+        <Route path="/admin/store-orders" element={<Navigate to="/admin/merch-designs" replace />} />
         <Route path="/admin/systems-qa" element={<SystemsQaHub />} />
         {/* Mission Control merged into the single Command Centre (15 Sep 2026):
             status strip, actions required and the to-do list all live there now.
@@ -460,8 +442,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/mission-control" element={<Navigate to="/admin/command-centre" replace />} />
         <Route path="/admin/hero-design-studio" element={<HeroDesignStudio />} />
         <Route path="/admin/release-control" element={<ReleaseControlDesk />} />
-        <Route path="/admin/merch" element={<MerchManagement />} />
-        <Route path="/admin/orders" element={<Orders />} />
         <Route path="/admin/fans" element={<FanManagement />} />
         <Route path="/admin/settings" element={<SiteSettings />} />
         <Route path="/admin/merch-platforms" element={<MerchPlatforms />} />
@@ -473,15 +453,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/reveal-newsletter" element={<RevealNewsletter />} />
         <Route path="/admin/product-insights" element={<ProductInsights />} />
         <Route path="/admin/supporters" element={<Supporters />} />
-        <Route path="/admin/gift-claims" element={<GiftClaims />} />
         <Route path="/admin/tunecore" element={<TunecoreIntegration />} />
         <Route path="/admin/hoodie-offer" element={<HoodieOffer />} />
         <Route path="/admin/financials" element={<FinancialDashboard />} />
-        <Route path="/admin/gift-verification" element={<GiftVerification />} />
-        <Route path="/admin/merch-financials" element={<MerchFinancials />} />
         <Route path="/admin/site-health" element={<SiteHealthDashboard />} />
         <Route path="/admin/system-health" element={<Navigate to="/admin/site-health" replace />} />
-        <Route path="/admin/gift-progress" element={<GiftProgressAdmin />} />
         <Route path="/admin/birthdays" element={<BirthdayDiscounts />} />
         <Route path="/admin/charity-tracking" element={<CharityTracking />} />
         <Route path="/admin/operational-status" element={<OperationalStatus />} />
@@ -491,7 +467,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/wealth-dashboard" element={<WealthDashboard />} />
         <Route path="/admin/security-centre" element={<SecurityCentre />} />
         <Route path="/admin/trend-monitor" element={<TrendMonitor />} />
-        <Route path="/admin/website-ops" element={<WebsiteOps />} />
         <Route path="/admin/executive-feed" element={<ExecutiveFeed />} />
         <Route path="/admin/ideas-engine" element={<IdeasEngine />} />
         <Route path="/admin/ecommerce-intelligence" element={<EcommerceIntelligence />} />
@@ -503,10 +478,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/integration-action-centre" element={<IntegrationActionCentre />} />
         <Route path="/admin/go-live" element={<GoLiveChecklist />} />
         <Route path="/admin/ecommerce-command" element={<EcommerceCommand />} />
-        <Route path="/admin/autonomous-ops" element={<AutonomousOps />} />
         <Route path="/admin/stripe-live-report" element={<StripeLiveReport />} />
         <Route path="/admin/notifications" element={<Notifications />} />
-        <Route path="/admin/shipping-rates" element={<ShippingRates />} />
         <Route path="/admin/tiktok-review" element={<TikTokAppReview />} />
         <Route path="/admin/music-command" element={<MusicCommandCentre />} />
         <Route path="/admin/ganozmix" element={<GanozMixBridge />} />
@@ -515,7 +488,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/monthly-monitoring" element={<MonthlyMonitoring />} />
         <Route path="/admin/tiktok-screen-guide" element={<TikTokScreenGuide />} />
         <Route path="/admin/tiktok-recording-studio" element={<TikTokRecordingStudio />} />
-        <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
         <Route path="/admin/operation-registry" element={<OperationRegistry />} />
         <Route path="/admin/payment-diagnostics" element={<PaymentDiagnostics />} />
         <Route path="/admin/integration-completion-centre" element={<IntegrationCompletionCentre />} />
@@ -542,7 +514,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/website-evolution" element={<WebsiteEvolution />} />
         <Route path="/admin/business-worth-command" element={<BusinessWorthCommand />} />
         <Route path="/admin/agent-capability-matrix" element={<AgentCapabilityMatrix />} />
-        <Route path="/admin/bundle-proposal-studio" element={<BundleProposalStudio />} />
         <Route path="/admin/social-platform-parity" element={<SocialPlatformParity />} />
         <Route path="/admin/social-oauth-command" element={<SocialOAuthCommand />} />
         <Route path="/admin/social-review-readiness" element={<SocialReviewReadiness />} />
@@ -563,7 +534,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/metricool-api-setup" element={<MetricoolApiSetup />} />
         <Route path="/admin/metricool-scheduler-queue" element={<MetricoolSchedulerQueue />} />
         <Route path="/admin/metricool-performance-intelligence" element={<MetricoolPerformanceIntelligence />} />
-        <Route path="/admin/final-system-status" element={<FinalSystemStatus />} />
         <Route path="/admin/guided-setup-concierge" element={<GuidedSetupConcierge />} />
         <Route path="/admin/metricool-diagnostics" element={<MetricoolDiagnostics />} />
         <Route path="/admin/social-agent-os" element={<SocialAgentOS />} />
@@ -576,7 +546,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/business-process-command" element={<BusinessProcessCommand />} />
         <Route path="/admin/agent-trust-hub" element={<AgentTrustHub />} />
         <Route path="/admin/external-engineering-command" element={<ExternalEngineeringCommand />} />
-        <Route path="/admin/security-trust-centre" element={<AgentTrustHub />} />
         <Route path="/admin/norton-safe-web-guide" element={<PromoDiscountCompliance />} />
         <Route path="/admin/promo-discount-compliance" element={<PromoDiscountCompliance />} />
         <Route path="/admin/cursor-cloud-agent-command" element={<CursorCloudAgentCommand />} />
@@ -585,8 +554,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/code-audit-command" element={<CodeAuditCommand />} />
         <Route path="/admin/strategic-execution-plan" element={<StrategicExecutionPlan />} />
         <Route path="/admin/merch-visual-lab" element={<MerchVisualLab />} />
-        <Route path="/admin/business-profile-settings" element={<BusinessProfileSettingsPage />} />
-        <Route path="/admin/settings/business-details" element={<BusinessProfileSettingsPage />} />
         {/* Training Centre merged into the Education Hub, which itself merged into
             /admin/dashboard (creative-ux tab) on 21 Sep 2026. */}
         <Route path="/admin/training-centre" element={<Navigate to="/admin/dashboard" replace />} />
@@ -601,7 +568,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/print-fulfilment" element={<PrintFulfilment />} />
         <Route path="/admin/merch-content-briefs" element={<MerchContentBriefs />} />
         <Route path="/admin/pricing-margin-calculator" element={<PricingMarginCalculator />} />
-        <Route path="/admin/final-system-report" element={<FinalSystemReport />} />
         <Route path="/admin/coaching-hub" element={<CoachingHub />} />
         <Route path="/admin/coaching-overview" element={<CoachingOverview />} />
         <Route path="/admin/coaching-intakes" element={<CoachingIntakes />} />
@@ -624,7 +590,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/content-studio" element={<ContentStudio />} />
         <Route path="/admin/manychat-drafts" element={<ManyChatDrafts />} />
         <Route path="/admin/communications-hub" element={<CommunicationsHub />} />
-        <Route path="/admin/merch-approval" element={<MerchApprovalGate />} />
         <Route path="/admin/merch-votes" element={<MerchVotes />} />
       </Route>
 
