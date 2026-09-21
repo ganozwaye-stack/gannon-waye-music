@@ -407,7 +407,7 @@ export default function CodeAuditExport() {
           </div>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <Link to="/admin/chatgpt-code-review-export"><Button className="gradient-gold-button" size="sm">ChatGPT Export Guide</Button></Link>
+          <Link to="/admin/qa-command-centre"><Button className="gradient-gold-button" size="sm">ChatGPT Export Guide</Button></Link>
           <Button variant="outline" size="sm" onClick={downloadManifest}><Download className="w-3 h-3 mr-1" />Download Manifest JSON</Button>
           <Link to="/admin/developer-handoff"><Button variant="outline" size="sm"><FileText className="w-3 h-3 mr-1" />Dev Handoff</Button></Link>
         </div>
@@ -418,7 +418,7 @@ export default function CodeAuditExport() {
           <AlertTriangle className="w-4 h-4 text-orange-300 shrink-0 mt-0.5" />
           <div>
             <p className="font-semibold text-orange-200">Base44 does not support ZIP export.</p>
-            <p className="text-orange-100/80 mt-1">To share code with ChatGPT/Cursor/Codex: use the file lists below to locate each file in the Base44 builder, then copy & paste. The manifest JSON provides the full structure. <Link to="/admin/chatgpt-code-review-export" className="underline text-orange-200">See ChatGPT Export Guide →</Link></p>
+            <p className="text-orange-100/80 mt-1">To share code with ChatGPT/Cursor/Codex: use the file lists below to locate each file in the Base44 builder, then copy & paste. The manifest JSON provides the full structure. <Link to="/admin/qa-command-centre" className="underline text-orange-200">See ChatGPT Export Guide →</Link></p>
           </div>
         </CardContent>
       </Card>

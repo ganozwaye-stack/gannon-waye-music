@@ -107,7 +107,7 @@ const FINAL_REPORT = {
       title: '✅ BUILT & READY',
       items: [
         'External QA Bot (Base44-side) — /admin/qa-command-centre',
-        'Playwright Test Centre — /admin/playwright-test-centre (6 test suites, downloadable)',
+        'Playwright Test Centre — /admin/qa-command-centre (6 test suites, downloadable)',
         'QA Systems Auditor Agent — created with entity permissions',
         'Agent Tool Registry — /admin/agent-tool-registry (20 tools catalogued)',
         'Developer Handoff — /admin/developer-handoff (full docs + task packs)',
@@ -387,7 +387,7 @@ export default function QACommandCentre() {
         </div>
         <div className="flex gap-2 flex-wrap">
           <Link to="/admin/qa-failure-report"><Button size="sm" className="bg-red-500/80 hover:bg-red-500 text-white"><AlertTriangle className="w-3 h-3 mr-1" />Failure Report</Button></Link>
-          <Link to="/admin/playwright-test-centre"><Button variant="outline" size="sm"><FileText className="w-3 h-3 mr-1" />Playwright Pack</Button></Link>
+          <Link to="/admin/qa-command-centre"><Button variant="outline" size="sm"><FileText className="w-3 h-3 mr-1" />Playwright Pack</Button></Link>
           <Link to="/admin/developer-handoff"><Button variant="outline" size="sm">Dev Handoff</Button></Link>
           <Button variant="outline" size="sm" onClick={copyReport}><Copy className="w-3 h-3 mr-1" />Copy Report</Button>
           <Button variant="outline" size="sm" onClick={downloadReport}><Download className="w-3 h-3 mr-1" />Download Report</Button>
@@ -404,7 +404,7 @@ export default function QACommandCentre() {
             <p className="font-semibold text-orange-200">External Playwright Required</p>
             <p className="text-orange-100/80 mt-1">Base44 cannot run a real browser test against gannonwaye.com from inside the builder. Download the test pack and run externally. No route can be marked "passed" until confirmed in a real browser on the live domain.</p>
             <div className="flex gap-2 mt-2 flex-wrap">
-              <Link to="/admin/playwright-test-centre"><Button size="sm" className="gradient-gold-button">Get Playwright Test Pack</Button></Link>
+              <Link to="/admin/qa-command-centre"><Button size="sm" className="gradient-gold-button">Get Playwright Test Pack</Button></Link>
               <a href="https://gannonwaye.com/admin" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="sm"><ExternalLink className="w-3 h-3 mr-1" />Open Live Site</Button>
               </a>
