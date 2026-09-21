@@ -9,6 +9,12 @@ import {
   ArrowLeft, AlertTriangle, Play,
   RefreshCw, ExternalLink, FileText, Download, Copy
 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import TestRunnerTab from '@/components/admin/qa-family/TestRunnerTab';
+import FunctionClickTab from '@/components/admin/qa-family/FunctionClickTab';
+import LinkVoiceTab from '@/components/admin/qa-family/LinkVoiceTab';
+import PlatformLogTab from '@/components/admin/qa-family/PlatformLogTab';
+import CodeExportTab from '@/components/admin/qa-family/CodeExportTab';
 
 const ROUTES_TO_TEST = [
   // Public
@@ -378,6 +384,17 @@ export default function QACommandCentre() {
 
   return (
     <div className="space-y-6 pb-10">
+      <Tabs defaultValue="overview" className="w-full space-y-6">
+        <TabsList className="h-auto flex-wrap justify-start gap-1">
+          <TabsTrigger value="overview">QA Overview</TabsTrigger>
+          <TabsTrigger value="test-runner">Playwright Test Runner &amp; Repair Loops</TabsTrigger>
+          <TabsTrigger value="function-click">Site Function &amp; Click Audit</TabsTrigger>
+          <TabsTrigger value="link-voice">Link Integrity &amp; Voice Input Tester</TabsTrigger>
+          <TabsTrigger value="platform-log">Platform Change Audit Logs</TabsTrigger>
+          <TabsTrigger value="code-export">Code Review Export &amp; Prompt Packs</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-6">
       <div className="flex items-start justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-3">
           <Link to="/admin"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4" /></Button></Link>
@@ -536,6 +553,28 @@ export default function QACommandCentre() {
           </div>
         </div>
       )}
+        </TabsContent>
+
+        <TabsContent value="test-runner" className="space-y-6">
+          <TestRunnerTab />
+        </TabsContent>
+
+        <TabsContent value="function-click" className="space-y-6">
+          <FunctionClickTab />
+        </TabsContent>
+
+        <TabsContent value="link-voice" className="space-y-6">
+          <LinkVoiceTab />
+        </TabsContent>
+
+        <TabsContent value="platform-log" className="space-y-6">
+          <PlatformLogTab />
+        </TabsContent>
+
+        <TabsContent value="code-export" className="space-y-6">
+          <CodeExportTab />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
