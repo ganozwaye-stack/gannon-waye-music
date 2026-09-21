@@ -257,7 +257,7 @@ export default function Dashboard() {
 
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground/30 px-3 pt-3 pb-1">⚫ Improvements</p>
             <PriorityRow num={17} label="Run site health check for low-priority issues" to="/admin/site-health" />
-            <PriorityRow num={18} label="Review agent learning logs and improve prompts" to="/admin/agent-learning" />
+            <PriorityRow num={18} label="Review agent learning logs and improve prompts" to="/admin/agent-workbench" />
           </div>
         </div>
 

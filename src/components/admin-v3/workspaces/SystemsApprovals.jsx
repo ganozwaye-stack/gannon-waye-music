@@ -114,7 +114,7 @@ export default function SystemsApprovals() {
       </SectionCard>
 
       {/* ─── Agent Crews ── */}
-      <SectionCard title="Agent Crews" count={agentRegistry.length} actionLabel="Agent registry" actionPath="/admin/agent-registry">
+      <SectionCard title="Agent Crews" count={agentRegistry.length} actionLabel="Agent registry" actionPath="/admin/agent-workbench">
         <p className="text-[10px] text-muted-foreground/50 px-2 pb-2">{agentRegistry.length} registered agents grouped into {AGENT_CREW_NAMES.length} accountable crews. Agent status distinguishes registered records from verified executions.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 p-1">
           {AGENT_CREW_NAMES.map(crew => <CrewCard key={crew} crew={crew} agents={agentRegistry} taskLogs={taskLogs} />)}
@@ -135,9 +135,9 @@ export default function SystemsApprovals() {
 
       {/* ── Activity History ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <SectionCard title="Agent Task Log (Recent)" count={taskLogs.length} actionLabel="Full log" actionPath="/admin/agent-task-log">
+        <SectionCard title="Agent Task Log (Recent)" count={taskLogs.length} actionLabel="Full log" actionPath="/admin/agent-workbench">
           {taskLogs.length === 0 ? <EmptyState message="No recent agent tasks." /> : taskLogs.slice(0, 10).map(t => (
-            <RowItem key={t.id} title={t.action || t.task || 'Task'} subtitle={t.agent_name || 'System'} status={t.status || 'unknown'} statusLevel={t.status === 'completed' || t.status === 'success' ? 'green' : t.status === 'failed' ? 'red' : 'grey'} path="/admin/agent-task-log" />
+            <RowItem key={t.id} title={t.action || t.task || 'Task'} subtitle={t.agent_name || 'System'} status={t.status || 'unknown'} statusLevel={t.status === 'completed' || t.status === 'success' ? 'green' : t.status === 'failed' ? 'red' : 'grey'} path="/admin/agent-workbench" />
           ))}
         </SectionCard>
 

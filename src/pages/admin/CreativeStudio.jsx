@@ -222,7 +222,7 @@ export default function CreativeStudio() {
         <TabsContent value="quick-links" className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { title: 'Image Editor & Resizer', desc: 'Crop or adjust visual sizing for TikTok/Insta format.', link: '/admin/image-editor' },
+              { title: 'Image Editor & Resizer', desc: 'Crop or adjust visual sizing for TikTok/Insta format.', link: '/admin/content-studio' },
               { title: 'Merch Visual Lab', desc: 'Mockup designs and layout overlays.', link: '/admin/merch-visual-lab' },
               { title: 'Social Asset Library', desc: 'View raw footage, templates, and thumbnails.', link: '/admin/social-schedule-queue' },
               { title: 'Merch Designs List', desc: 'Manage your primary merchandise vectors.', link: '/admin/merch-designs' }

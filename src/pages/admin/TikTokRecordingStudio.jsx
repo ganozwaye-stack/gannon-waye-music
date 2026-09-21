@@ -31,7 +31,7 @@ const GUIDE_STEPS = [
     title: 'Agent Registry',
     duration: '30 sec',
     instruction: 'Show agent cards. Click one agent to show detail modal — purpose, risk level, readiness checklist.',
-    navPath: '/admin/agent-registry',
+    navPath: '/admin/agent-workbench',
     navLabel: 'Open Agent Registry',
   },
   {
@@ -55,7 +55,7 @@ const GUIDE_STEPS = [
     title: 'Agent Intelligence',
     duration: '30 sec',
     instruction: 'Show IQ scorecards. Click a Learning Record — show what worked, what failed, improvement.',
-    navPath: '/admin/agent-intelligence',
+    navPath: '/admin/agent-workbench',
     navLabel: 'Open Agent Intelligence',
   },
   {

@@ -380,7 +380,7 @@ const ROUTE_MAP = {
   viral_opportunity: '/admin/trend-monitor',
   creator_gap: '/admin/creator-insights',
   high_value_supporter: '/admin/supporters',
-  automation_failed: '/admin/agent-task-log',
+  automation_failed: '/admin/agent-workbench',
   email_failed: '/admin/subscribers',
   payment_warning: '/admin/stripe-command-centre',
   growth_spike: '/admin/growth-engine',

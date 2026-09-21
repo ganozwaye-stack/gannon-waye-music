@@ -67,7 +67,7 @@ const EXTERNAL_TEST_STATUS = [
   { category: 'Admin Routes', item: '/admin/order-profit-intelligence', label: 'Order Profit Intelligence', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/intelligence-to-income', label: 'Intelligence to Income', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/todays-money-moves', label: "Today's Money Moves", status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
-  { category: 'Admin Routes', item: '/admin/content-to-cash', label: 'Content to Cash', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
+  { category: 'Admin Routes', item: '/admin/content-studio', label: 'Content to Cash', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/website-evolution', label: 'Website Evolution', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/business-worth-command', label: 'Business Worth Command', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/offer-engine', label: 'Offer Engine', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },

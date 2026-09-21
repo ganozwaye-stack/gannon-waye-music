@@ -311,7 +311,7 @@ export default function AutoDMPanel() {
           { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
           { label: 'Business Attention Centre', path: '/admin/business-attention-centre', icon: AlertTriangle },
           { label: 'Fan Conversion Engine', path: '/admin/fan-conversion-engine', icon: Users },
-          { label: 'Content Performance', path: '/admin/content-performance', icon: TrendingUp },
+          { label: 'Content Performance', path: '/admin/content-studio', icon: TrendingUp },
         ].map(nav => (
           <Link key={nav.path} to={nav.path}>
             <Card className="hover:border-primary/40 transition-colors cursor-pointer">

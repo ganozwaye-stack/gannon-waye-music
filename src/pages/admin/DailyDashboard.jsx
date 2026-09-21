@@ -48,7 +48,7 @@ export default function DailyDashboard() {
             <DeegoProgressRing compact recs={recs.length} approvals={approvals.length} blocked={blocked.length} />
             <div className="flex flex-col items-start gap-3 sm:items-end">
               <Link
-                to="/admin/orchestrator-chat"
+                to="/admin/agent-workbench"
                 className="inline-flex items-center gap-2 rounded-lg gradient-gold-button px-4 py-2 font-body text-xs font-semibold tracking-wide uppercase transition-transform hover:-translate-y-0.5"
               >
                 <MessageSquare className="w-4 h-4" /> Talk to Deego

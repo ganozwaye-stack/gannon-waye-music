@@ -1,5 +1,5 @@
-import AgentRegistryPage from '@/pages/admin/AgentRegistry';
-import AgentRevenueStatus from '@/pages/admin/AgentRevenueStatus';
+import AgentRegistryPage from '@/components/admin/agent-workbench/AgentRegistry';
+import AgentRevenueStatus from '@/components/admin/agent-workbench/AgentRevenueStatus';
 
 // Agent Registry & Capabilities: the full agent registry (AgentRegistry,
 // AgentMemory, AgentLearningRecord, AgentActionProposal, GrowthOpportunity,

@@ -1,6 +1,6 @@
-import AgentLearning from '@/pages/admin/AgentLearning';
-import MemoryGraph from '@/pages/admin/MemoryGraph';
-import AgentIntelligence from '@/pages/admin/AgentIntelligence';
+import AgentLearning from '@/components/admin/agent-workbench/AgentLearning';
+import MemoryGraph from '@/components/admin/agent-workbench/MemoryGraph';
+import AgentIntelligence from '@/components/admin/agent-workbench/AgentIntelligence';
 
 // Learning Loop & Memory Graph: the learning records (AgentLearningRecord,
 // LESSON_TYPES), the memory graph (MemoryGraphNode, NODE_TYPES) and the

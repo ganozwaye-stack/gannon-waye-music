@@ -27,7 +27,6 @@ export const LEGACY_ROUTES = [
   r('/admin/human-action-required', 'Today', 'specialist', true, 'keep'),
 
   // ─── Music and Mastering ────────────────────────────────────────────────
-  r('/admin/mastering', 'Music and Mastering', 'primary', true, 'keep'),
   r('/admin/release-sprint', 'Music and Mastering', 'primary', true, 'keep'),
   r('/admin/release-countdown', 'Music and Mastering', 'specialist', true, 'keep'),
   r('/admin/release-promo-command', 'Music and Mastering', 'specialist', true, 'keep'),
@@ -44,16 +43,12 @@ export const LEGACY_ROUTES = [
 
   // ─── Content and Publishing ──────────────────────────────────────────────
   r('/admin/content-studio', 'Content and Publishing', 'primary', true, 'keep'),
-  r('/admin/content-dashboard', 'Content and Publishing', 'specialist', true, 'merge'),
   // DEAD ROUTE: no matching <Route> exists in App.jsx, so this path 404s.
   // The ContentCommandCentre.jsx page file still exists (507 lines) and is orphaned.
   // Decide: either wire it up in App.jsx, or delete the page file. Verified 12 Sep 2026.
   r('/admin/content-command', 'Content and Publishing', 'specialist', false, 'dead_route'),
   r('/admin/content-command', 'Content and Publishing', 'specialist', false, 'merge'),
-  r('/admin/content-automate', 'Content and Publishing', 'specialist', true, 'investigate'),
-  r('/admin/content-to-cash', 'Content and Publishing', 'specialist', true, 'investigate'),
   r('/admin/content-quality-review', 'Content and Publishing', 'specialist', true, 'keep'),
-  r('/admin/content-performance', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/social-agent-os', 'Content and Publishing', 'specialist', true, 'investigate'),
   r('/admin/social-schedule-queue', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/social-platform-parity', 'Content and Publishing', 'specialist', true, 'investigate'),
@@ -71,14 +66,11 @@ export const LEGACY_ROUTES = [
   r('/admin/creative-studio', 'Content and Publishing', 'specialist', true, 'investigate'),
   r('/admin/marketing-centre', 'Content and Publishing', 'specialist', true, 'merge'),
   r('/admin/announcement-studio', 'Content and Publishing', 'specialist', true, 'keep'),
-  r('/admin/campaign-image-approval', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/metricool-command', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/metricool-api-setup', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/metricool-scheduler-queue', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/metricool-performance-intelligence', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/metricool-diagnostics', 'Content and Publishing', 'specialist', true, 'keep'),
-  r('/admin/video-agent-command', 'Content and Publishing', 'specialist', true, 'keep'),
-  r('/admin/livestream-command', 'Content and Publishing', 'specialist', true, 'keep'),
 
   // ─── Store and Fulfilment ────────────────────────────────────────────────
   r('/admin/store-orders', 'Store and Fulfilment', 'specialist', false, 'merged_into:/admin/orders'),
@@ -99,8 +91,6 @@ export const LEGACY_ROUTES = [
   r('/admin/bundle-proposal-studio', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/offer-engine', 'Store and Fulfilment', 'specialist', true, 'investigate'),
   r('/admin/product-insights', 'Store and Fulfilment', 'specialist', true, 'keep'),
-  r('/admin/image-editor', 'Store and Fulfilment', 'specialist', true, 'keep'),
-  r('/admin/quick-upload', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/thank-you-cards', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/hoodie-offer', 'Store and Fulfilment', 'specialist', true, 'investigate'),
   r('/admin/gift-claims', 'Store and Fulfilment', 'specialist', true, 'keep'),
@@ -131,7 +121,6 @@ export const LEGACY_ROUTES = [
   r('/admin/coaching/boundaries', 'Coaching and Clients', 'specialist', false, 'keep'),
   r('/admin/coaching/creative-confidence', 'Coaching and Clients', 'specialist', false, 'keep'),
   r('/admin/coaching/intake', 'Coaching and Clients', 'specialist', false, 'keep'),
-  r('/admin/training', 'Coaching and Clients', 'specialist', true, 'merge'),
   r('/admin/training-centre', 'Coaching and Clients', 'specialist', false, 'merged_into:/admin/education-hub'),
   // Now the canonical training screen: /admin/training-centre redirects here.
   r('/admin/education-hub', 'Coaching and Clients', 'primary', true, 'keep'),
@@ -157,7 +146,6 @@ export const LEGACY_ROUTES = [
   r('/admin/stripe-live-report', 'Money and Payments', 'specialist', true, 'merge'),
   r('/admin/webhook-health', 'Money and Payments', 'specialist', true, 'keep'),
   r('/admin/revenue-actions', 'Money and Payments', 'specialist', true, 'keep'),
-  r('/admin/agent-revenue-status', 'Money and Payments', 'specialist', true, 'keep'),
   r('/admin/order-profit-intelligence', 'Money and Payments', 'specialist', true, 'keep'),
   r('/admin/charity-tracking', 'Money and Payments', 'specialist', true, 'keep'),
   r('/admin/weekly-money-report', 'Money and Payments', 'specialist', true, 'keep'),
@@ -170,13 +158,10 @@ export const LEGACY_ROUTES = [
   // ─── Systems and Approvals ──────────────────────────────────────────────
   r('/admin/command-centre', 'Systems and Approvals', 'specialist', true, 'merge'),
   r('/admin/agent-workbench', 'Systems and Approvals', 'specialist', true, 'keep'),
-  r('/admin/agent-intelligence', 'Systems and Approvals', 'specialist', true, 'keep'),
-  r('/admin/agent-learning', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/agent-capability-matrix', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/agent-tool-registry', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/agent-message-bus', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/agent-trust-hub', 'Systems and Approvals', 'specialist', true, 'keep'),
-  r('/admin/memory-graph', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/self-healing', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/autonomous-ops', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/autonomous-repair-loop', 'Systems and Approvals', 'specialist', true, 'keep'),
@@ -205,7 +190,6 @@ export const LEGACY_ROUTES = [
   r('/admin/operation-registry', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/external-engineering-command', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/cursor-cloud-agent-command', 'Systems and Approvals', 'specialist', true, 'keep'),
-  r('/admin/openai-command', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/code-audit-command', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/code-audit-export', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/chatgpt-code-review-export', 'Systems and Approvals', 'specialist', true, 'keep'),

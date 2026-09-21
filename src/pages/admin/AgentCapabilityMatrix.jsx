@@ -306,7 +306,7 @@ export default function AgentCapabilityMatrix() {
                 </ul>
               </div>
               <div className="flex gap-2 pt-2 border-t border-border">
-                <Link to="/admin/agent-intelligence">
+                <Link to="/admin/agent-workbench">
                   <Button size="sm" variant="outline" className="text-xs">View Agent Intelligence</Button>
                 </Link>
                 <Link to="/admin/approval-queue">

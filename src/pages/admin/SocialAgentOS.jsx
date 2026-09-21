@@ -224,7 +224,7 @@ export default function SocialAgentOS() {
           { label: 'Metricool Command', path: '/admin/metricool-command', desc: 'Scheduling hub' },
           { label: 'Social Asset Library', path: '/admin/social-schedule-queue', desc: 'Approved media' },
           { label: 'Social Schedule Queue', path: '/admin/social-schedule-queue', desc: 'Send to Metricool' },
-          { label: 'Content Performance', path: '/admin/content-performance', desc: 'Track results' },
+          { label: 'Content Performance', path: '/admin/content-studio', desc: 'Track results' },
           { label: 'Metricool Diagnostics', path: '/admin/metricool-diagnostics', desc: 'Test connection' },
         ].map(n => (
           <Link key={n.path} to={n.path}>

@@ -100,7 +100,7 @@ const AGENTS = [
     risk: 'low',
     tools: ['agentProposalScanner', 'RevenueOpportunity', 'ApprovalQueue'],
     run_fn: 'agentProposalScanner',
-    path: '/admin/agent-revenue-status',
+    path: '/admin/agent-workbench',
   },
   {
     name: 'QA Systems Auditor',
@@ -286,7 +286,7 @@ export default function AgentWorkbench() {
         <Link to="/admin/social-agent-os"><Button variant="outline" size="sm">Social Agent OS</Button></Link>
         <Link to="/admin/approval-queue"><Button variant="outline" size="sm">Approval Queue</Button></Link>
         <Link to="/admin/daily-post-engine"><Button variant="outline" size="sm">Daily Post Engine</Button></Link>
-        <Link to="/admin/agent-learning"><Button variant="outline" size="sm">Agent Learning</Button></Link>
+        <Link to="/admin/agent-workbench"><Button variant="outline" size="sm">Agent Learning</Button></Link>
       </div>
 
         </TabsContent>

@@ -30,20 +30,20 @@ const PAGES = [
   { label: 'Fan Management', path: '/admin/fans', admin: true },
   { label: 'Supporters', path: '/admin/supporters', admin: true },
   { label: 'Newsletter', path: '/admin/newsletter', admin: true },
-  { label: 'Videos', path: '/admin/videos', admin: true },
+  { label: 'Videos', path: '/admin/content-studio', admin: true },
   { label: 'Financial Dashboard', path: '/admin/financials', admin: true },
   { label: 'Site Settings', path: '/admin/settings', admin: true },
   { label: 'Site Health', path: '/admin/site-health', admin: true },
   { label: 'Audit Log', path: '/admin/audit-log', admin: true },
-  { label: 'Mastering Queue', path: '/admin/mastering', admin: true },
+  { label: 'Mastering Queue', path: '/admin/content-studio', admin: true },
   { label: 'Gift Claims', path: '/admin/gift-claims', admin: true },
   { label: 'Gift Progress', path: '/admin/gift-progress', admin: true },
   { label: 'Release Countdown', path: '/admin/release-countdown', admin: true },
-  { label: 'Content Automate', path: '/admin/content-automate', admin: true },
+  { label: 'Content Automate', path: '/admin/content-studio', admin: true },
   { label: 'Charity Tracking', path: '/admin/charity-tracking', admin: true },
   { label: 'Birthday Discounts', path: '/admin/birthdays', admin: true },
   { label: 'Promo Codes', path: '/admin/promo-codes', admin: true },
-  { label: 'Training Hub', path: '/admin/training', admin: true },
+  { label: 'Training Hub', path: '/admin/agent-workbench', admin: true },
   { label: 'Blueprint', path: '/admin/blueprint', admin: true },
 ];
 
@@ -205,7 +205,7 @@ export default function Blueprint() {
       {/* Live Stats */}
       <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
         {[
-          { label: 'Mastering Jobs', value: counts.projects ?? '—', color: 'text-primary', to: '/admin/mastering' },
+          { label: 'Mastering Jobs', value: counts.projects ?? '—', color: 'text-primary', to: '/admin/content-studio' },
           { label: 'Products', value: counts.products ?? '—', color: 'text-blue-400', to: '/admin/merch' },
           { label: 'Subscribers', value: counts.subscribers ?? '—', color: 'text-green-400', to: '/admin/subscribers' },
           { label: 'Supporters', value: counts.supporters ?? '—', color: 'text-primary', to: '/admin/supporters' },

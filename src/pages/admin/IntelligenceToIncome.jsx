@@ -20,7 +20,7 @@ const ENGINES = [
   { to: '/admin/growth-engine', icon: TrendingUp, label: 'Growth Engine', desc: 'TikTok, social, and audience growth', color: 'text-blue-400', key: 'growth' },
   { to: '/admin/fan-conversion-engine', icon: Users, label: 'Fan Conversion', desc: 'Turn fans into buyers and supporters', color: 'text-purple-400', key: 'fans' },
   { to: '/admin/offer-engine', icon: Star, label: 'Offer Engine', desc: 'Bundles, promos, and limited-time offers', color: 'text-primary', key: 'offers' },
-  { to: '/admin/content-to-cash', icon: Music, label: 'Content to Cash', desc: 'TikTok and social content → revenue', color: 'text-cyan-400', key: 'content' },
+  { to: '/admin/content-studio', icon: Music, label: 'Content to Cash', desc: 'TikTok and social content → revenue', color: 'text-cyan-400', key: 'content' },
   { to: '/admin/ecommerce-command', icon: ShoppingBag, label: 'Ecommerce Command', desc: 'Orders, stock, profit intelligence', color: 'text-orange-400', key: 'ecommerce' },
   { to: '/admin/weekly-money-report', icon: Activity, label: 'Weekly Money Report', desc: 'Revenue, costs, profit, and trends', color: 'text-emerald-400', key: 'weekly' },
 ];
@@ -39,8 +39,8 @@ const CYCLE_STEPS = [
 const INCOME_SOURCES = [
   { label: 'Merch Store Orders', value: 'Stripe + MerchOrder', route: '/admin/orders', color: 'text-green-400' },
   { label: 'Supporter Contributions', value: 'Back This + SupportContribution', route: '/admin/supporters', color: 'text-blue-400' },
-  { label: 'Bookings / Sessions', value: 'BookingEnquiry', route: '/admin/mastering', color: 'text-purple-400' },
-  { label: 'Mastering Projects', value: 'MasteringProject', route: '/admin/mastering', color: 'text-primary' },
+  { label: 'Bookings / Sessions', value: 'BookingEnquiry', route: '/admin/content-studio', color: 'text-purple-400' },
+  { label: 'Mastering Projects', value: 'MasteringProject', route: '/admin/content-studio', color: 'text-primary' },
   { label: 'Bundle Offers', value: 'BundleOffer', route: '/admin/revenue-actions', color: 'text-orange-400' },
   { label: 'Promo Codes (Cost)', value: 'PromoCode usage', route: '/admin/promo-codes', color: 'text-red-400' },
   { label: 'Email Subscribers', value: 'EmailSubscriber', route: '/admin/subscribers', color: 'text-cyan-400' },

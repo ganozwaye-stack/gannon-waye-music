@@ -127,7 +127,7 @@ export default function WeeklyMoneyReport() {
             {[
               { label: 'Merch Sales', value: `$${thisRevenue.toFixed(0)}`, color: 'text-green-400', route: '/admin/orders' },
               { label: 'Supporter Contributions', value: `$${thisSupport.toFixed(0)}`, color: 'text-primary', route: '/admin/supporters' },
-              { label: 'Mastering / Bookings', value: 'Check manually', color: 'text-purple-400', route: '/admin/mastering' },
+              { label: 'Mastering / Bookings', value: 'Check manually', color: 'text-purple-400', route: '/admin/content-studio' },
               { label: 'Total Active Revenue', value: `$${(thisRevenue + thisSupport).toFixed(0)}`, color: 'text-primary', route: '/admin/financials' },
             ].map(item => (
               <Link key={item.label} to={item.route}>

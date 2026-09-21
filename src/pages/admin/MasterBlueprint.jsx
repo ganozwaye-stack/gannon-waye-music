@@ -112,10 +112,10 @@ const ADMIN_ROUTES = [
   { label: 'Merch Management',         path: '/admin/merch',                   status: 'ok' },
   { label: 'Approval Queue',           path: '/admin/approval-queue',          status: 'ok' },
   { label: 'Release Sprint (6-Day)',   path: '/admin/release-sprint',          status: 'ok' },
-  { label: 'Campaign Image Approval',  path: '/admin/campaign-image-approval', status: 'ok' },
+  { label: 'Campaign Image Approval',  path: '/admin/content-studio', status: 'ok' },
   { label: 'Merch Visual Lab',         path: '/admin/merch-visual-lab',        status: 'ok' },
   { label: 'Business Details Settings',path: '/admin/settings/business-details',status: 'ok',    note: 'Business profile details settings — live ✓' },
-  { label: 'Quick Upload / Media Library', path: '/admin/quick-upload',        status: 'ok',     note: 'Staged media library cockpit — live ✓' },
+  { label: 'Quick Upload / Media Library', path: '/admin/content-studio',        status: 'ok',     note: 'Staged media library cockpit — live ✓' },
   { label: 'Link Integrity Audit',     path: '/admin/link-integrity-audit',    status: 'ok',     note: 'Diagnostic link & handle scanning — live ✓' },
   { label: 'Metricool Command',        path: '/admin/metricool-command',       status: 'ok' },
   { label: 'Metricool Diagnostics',    path: '/admin/metricool-diagnostics',   status: 'ok' },
@@ -123,7 +123,7 @@ const ADMIN_ROUTES = [
   { label: 'Social Asset Library',     path: '/admin/social-schedule-queue',    status: 'ok' },
   { label: 'Content Quality Review',   path: '/admin/content-quality-review',  status: 'ok' },
   { label: 'Agent Message Bus',        path: '/admin/agent-message-bus',       status: 'ok' },
-  { label: 'Agent Registry',           path: '/admin/agent-registry',          status: 'ok' },
+  { label: 'Agent Registry',           path: '/admin/agent-workbench',          status: 'ok' },
   { label: 'Knowledge Vault',          path: '/admin/knowledge-vault',         status: 'ok' },
   { label: 'Risk Alerts',              path: '/admin/risk-alerts',             status: 'ok' },
   { label: 'Stripe Command Centre',    path: '/admin/stripe-command-centre',   status: 'ok' },
@@ -236,7 +236,7 @@ const SAFETY_CHECKS = [
 
 const NEXT_ACTIONS = [
   { priority: 'critical', action: 'Verify public details in /admin/settings/business-details — confirm it is NOT ganozwaye@gmail.com', link: '/admin/settings/business-details' },
-  { priority: 'high',     action: 'Go to /admin/campaign-image-approval — approve heading for each of the 11 campaign images', link: '/admin/campaign-image-approval' },
+  { priority: 'high',     action: 'Go to /admin/campaign-image-approval — approve heading for each of the 11 campaign images', link: '/admin/content-studio' },
   { priority: 'high',     action: 'Go to /admin/release-sprint — review and approve 18 pending campaign posts before June 5', link: '/admin/release-sprint' },
   { priority: 'medium',   action: 'Review Mum Tribute page at /mum — confirm photos, content, and heart animation are correct', link: '/mum' },
   { priority: 'medium',   action: 'Run Link Integrity Audit at /admin/link-integrity-audit to check for broken links and handle parity', link: '/admin/link-integrity-audit' },
@@ -345,7 +345,7 @@ export default function MasterBlueprint() {
           </div>
           <div className="flex gap-2 flex-wrap">
             <Link to="/admin/release-sprint"><Button size="sm" className="gradient-gold-button border-0 gap-1.5 text-xs"><Zap className="w-3.5 h-3.5" /> Review Sprint Posts</Button></Link>
-            <Link to="/admin/campaign-image-approval"><Button size="sm" variant="outline" className="gap-1.5 text-xs">Approve Campaign Images</Button></Link>
+            <Link to="/admin/content-studio"><Button size="sm" variant="outline" className="gap-1.5 text-xs">Approve Campaign Images</Button></Link>
             <Link to="/admin/social-schedule-queue"><Button size="sm" variant="outline" className="gap-1.5 text-xs">Schedule Queue</Button></Link>
           </div>
         </CardContent>
@@ -362,7 +362,7 @@ export default function MasterBlueprint() {
         <div className="mt-3 flex gap-2 flex-wrap">
           <Link to="/admin/merch-content-briefs"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Content Briefs</Button></Link>
           <Link to="/admin/approval-queue"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Approval Queue</Button></Link>
-          <Link to="/admin/quick-upload"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Upload Assets</Button></Link>
+          <Link to="/admin/content-studio"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Upload Assets</Button></Link>
         </div>
       </Section>
 
@@ -485,7 +485,7 @@ export default function MasterBlueprint() {
           <RouteRow key={i} label={r.label} status={r.status} note={r.note} />
         ))}
         <div className="mt-3">
-          <Link to="/admin/agent-registry">
+          <Link to="/admin/agent-workbench">
             <Button size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Full Agent Registry</Button>
           </Link>
         </div>
@@ -555,14 +555,14 @@ export default function MasterBlueprint() {
               { label: 'Release Sprint',       path: '/admin/release-sprint' },
               { label: 'Approval Queue',       path: '/admin/approval-queue' },
               { label: 'Merch Visual Lab',     path: '/admin/merch-visual-lab' },
-              { label: 'Campaign Images',      path: '/admin/campaign-image-approval' },
+              { label: 'Campaign Images',      path: '/admin/content-studio' },
               { label: 'Orders',               path: '/admin/orders' },
               { label: 'Stripe Command',       path: '/admin/stripe-command-centre' },
               { label: 'Metricool',            path: '/admin/metricool-command' },
               { label: 'Business Details',     path: '/admin/settings/business-details' },
               { label: 'Notifications',        path: '/admin/notifications' },
               { label: 'Site Health',          path: '/admin/site-health' },
-              { label: 'Agent Registry',       path: '/admin/agent-registry' },
+              { label: 'Agent Registry',       path: '/admin/agent-workbench' },
               { label: 'Mum Tribute',          path: '/mum' },
               { label: 'Human Action Required', path: '/admin/human-action-required' },
               { label: 'Margin Calculator',     path: '/admin/pricing-margin-calculator' },

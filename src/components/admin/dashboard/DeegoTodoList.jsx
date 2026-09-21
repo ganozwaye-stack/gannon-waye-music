@@ -41,16 +41,16 @@ function taskOrder(a, b) {
 // Route a to-do to the admin screen where the task is actually performed.
 const TODO_ROUTES = [
   { match: /ganozmix/i, path: '/admin/ganozmix' },
-  { match: /icloud/i, path: '/admin/quick-upload' },
-  { match: /lyric/i, path: '/admin/lyrics-archive' },
-  { match: /deego/i, path: '/admin/orchestrator-chat' },
+  { match: /icloud/i, path: '/admin/content-studio' },
+  { match: /lyric/i, path: '/admin/content-studio' },
+  { match: /deego/i, path: '/admin/agent-workbench' },
   { match: /stats|projection|profit|metric|revenue/i, path: '/admin/financials' },
   { match: /approval/i, path: '/admin/approval-queue' },
   { match: /sku|sourcing|procurement|supplier/i, path: '/admin/procurement-command' },
   { match: /function|deployment|deploy/i, path: '/admin/operation-registry' },
   { match: /release/i, path: '/admin/releases' },
   { match: /merch|product/i, path: '/admin/merch' },
-  { match: /social|content/i, path: '/admin/content-dashboard' },
+  { match: /social|content/i, path: '/admin/content-studio' },
   { match: /store|shop/i, path: '/admin/merch' },
 ];
 

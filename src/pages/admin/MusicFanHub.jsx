@@ -296,7 +296,7 @@ export default function MusicFanHub() {
                 <p className="text-xs text-muted-foreground">Manage single releases, audio stems, artwork, and streaming distribution platforms.</p>
               </CardContent>
             </Card>
-            <Card className="hover:border-primary/40 transition-colors cursor-pointer" onClick={() => window.location.href = '/admin/videos'}>
+            <Card className="hover:border-primary/40 transition-colors cursor-pointer" onClick={() => window.location.href = '/admin/content-studio'}>
               <CardHeader>
                 <CardTitle className="text-sm font-semibold text-white flex items-center justify-between">
                   Videos & Visuals <Film className="w-4 h-4 text-primary" />
@@ -306,7 +306,7 @@ export default function MusicFanHub() {
                 <p className="text-xs text-muted-foreground">Upload and configure YouTube links or promotional video reels.</p>
               </CardContent>
             </Card>
-            <Card className="hover:border-primary/40 transition-colors cursor-pointer" onClick={() => window.location.href = '/admin/mastering'}>
+            <Card className="hover:border-primary/40 transition-colors cursor-pointer" onClick={() => window.location.href = '/admin/content-studio'}>
               <CardHeader>
                 <CardTitle className="text-sm font-semibold text-white flex items-center justify-between">
                   Mastering Console <Award className="w-4 h-4 text-primary" />

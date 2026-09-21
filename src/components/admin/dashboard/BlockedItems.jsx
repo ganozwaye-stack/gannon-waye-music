@@ -5,16 +5,16 @@ import { Lock, ArrowRight } from 'lucide-react';
 
 const BLOCKED_ROUTES = [
   { match: /ganozmix/i, path: '/admin/ganozmix' },
-  { match: /icloud/i, path: '/admin/quick-upload' },
-  { match: /lyric/i, path: '/admin/lyrics-archive' },
-  { match: /deego|agent/i, path: '/admin/orchestrator-chat' },
+  { match: /icloud/i, path: '/admin/content-studio' },
+  { match: /lyric/i, path: '/admin/content-studio' },
+  { match: /deego|agent/i, path: '/admin/agent-workbench' },
   { match: /finance|profit|revenue|stripe|payment/i, path: '/admin/financials' },
   { match: /approval/i, path: '/admin/approval-queue' },
   { match: /sku|sourcing|procurement|supplier/i, path: '/admin/procurement-command' },
   { match: /function|deployment|deploy/i, path: '/admin/operation-registry' },
   { match: /release/i, path: '/admin/releases' },
   { match: /merch|product|store|shop/i, path: '/admin/merch' },
-  { match: /social|content|post/i, path: '/admin/content-dashboard' },
+  { match: /social|content|post/i, path: '/admin/content-studio' },
 ];
 
 function routeForBlocked(item) {

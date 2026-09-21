@@ -21,9 +21,9 @@ const CATEGORY_ICONS = {
 };
 
 const CATEGORY_ROUTES = {
-  lyrics_publishing: '/admin/lyrics-archive',
-  lyric_source: '/admin/lyrics-archive',
-  unresolved_lines: '/admin/lyrics-archive',
+  lyrics_publishing: '/admin/content-studio',
+  lyric_source: '/admin/content-studio',
+  unresolved_lines: '/admin/content-studio',
   public_email: '/admin/communications-hub',
   mums_garden_images: '/admin/mums-garden',
   press_photo: '/admin/press-kit',

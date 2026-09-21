@@ -252,12 +252,12 @@ function AgentDetailModal({ agent, onClose }) {
 
           {/* Quick Links */}
           <div className="flex flex-wrap gap-2 pt-2 border-t border-border">
-            <Link to="/admin/orchestrator-chat" onClick={onClose}>
+            <Link to="/admin/agent-workbench" onClick={onClose}>
               <Button size="sm" variant="outline" className="gap-1 border-primary/30 text-primary">
                 <MessageSquare className="w-3 h-3" /> Chat with Orchestrator about this agent
               </Button>
             </Link>
-            <Link to="/admin/agent-task-log" onClick={onClose}>
+            <Link to="/admin/agent-workbench" onClick={onClose}>
               <Button size="sm" variant="outline" className="gap-1">
                 <Activity className="w-3 h-3" /> View Task Log
               </Button>

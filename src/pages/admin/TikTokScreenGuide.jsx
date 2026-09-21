@@ -333,7 +333,7 @@ export default function TikTokScreenGuide() {
               <p className="text-xs text-primary mt-1">→ /admin/orchestrator-chat — select "Academic Writing Coach" agent</p>
             </div>
           </div>
-          <Link to="/admin/orchestrator-chat">
+          <Link to="/admin/agent-workbench">
             <Button className="gradient-gold-button border-0 gap-2 mt-2">
               <MessageSquare className="w-4 h-4" /> Go to Orchestrator Chat → Study Pals
             </Button>

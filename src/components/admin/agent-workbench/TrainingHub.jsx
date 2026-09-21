@@ -20,7 +20,7 @@ const MODULES = [
       { label: 'Business Attention Centre', path: '/admin/notifications', desc: 'Every notification, alert, action item — tabbed by category', icon: AlertTriangle, level: 'essential' },
       { label: 'Approval Queue', path: '/admin/approval-queue', desc: 'All agent proposals awaiting your decision — nothing publishes without you', icon: Shield, level: 'essential' },
       { label: "Today's Money Moves", path: '/admin/todays-money-moves', desc: 'AI-prioritised daily revenue actions', icon: Star, level: 'essential' },
-      { label: 'Orchestrator Chat', path: '/admin/orchestrator-chat', desc: 'Talk to your AI Orchestrator — brief it, direct it, ask anything', icon: Brain, level: 'essential' },
+      { label: 'Orchestrator Chat', path: '/admin/agent-workbench', desc: 'Talk to your AI Orchestrator — brief it, direct it, ask anything', icon: Brain, level: 'essential' },
     ],
   },
   {
@@ -102,15 +102,15 @@ const MODULES = [
     category: '🤖 AI Agents',
     color: 'border-cyan-500/30',
     items: [
-      { label: 'Agent Registry', path: '/admin/agent-registry', desc: '15+ AI agents — what each does, risk level, how to activate, readiness checklist', icon: Brain, level: 'essential' },
+      { label: 'Agent Registry', path: '/admin/agent-workbench', desc: '15+ AI agents — what each does, risk level, how to activate, readiness checklist', icon: Brain, level: 'essential' },
       { label: 'Agent Capability Matrix', path: '/admin/agent-capability-matrix', desc: 'Complete capability map — what each agent can and cannot do', icon: Brain, level: 'standard' },
-      { label: 'Agent Task Log', path: '/admin/agent-task-log', desc: 'All agent actions — what ran, when, outcome', icon: Eye, level: 'standard' },
-      { label: 'Agent Intelligence', path: '/admin/agent-intelligence', desc: 'Agent IQ scores, learning records, improvement tracking', icon: Brain, level: 'advanced' },
-      { label: 'Agent Learning', path: '/admin/agent-learning', desc: 'What the agents learned, what worked, what failed', icon: BookOpen, level: 'advanced' },
+      { label: 'Agent Task Log', path: '/admin/agent-workbench', desc: 'All agent actions — what ran, when, outcome', icon: Eye, level: 'standard' },
+      { label: 'Agent Intelligence', path: '/admin/agent-workbench', desc: 'Agent IQ scores, learning records, improvement tracking', icon: Brain, level: 'advanced' },
+      { label: 'Agent Learning', path: '/admin/agent-workbench', desc: 'What the agents learned, what worked, what failed', icon: BookOpen, level: 'advanced' },
       { label: 'Autonomous Ops', path: '/admin/autonomous-ops', desc: 'Automation loops, scheduled agent tasks, self-healing status', icon: Zap, level: 'advanced' },
       { label: 'Knowledge Vault', path: '/admin/knowledge-vault', desc: 'Agent memory store — insights, intelligence, stored context', icon: BookOpen, level: 'advanced' },
       { label: 'Revenue Actions', path: '/admin/revenue-actions', desc: 'Agent revenue proposals — review and approve income-generating actions', icon: DollarSign, level: 'essential' },
-      { label: 'Agent Revenue Status', path: '/admin/agent-revenue-status', desc: 'Live agent activity dashboard — runs, proposals created, data sources, improvement plan', icon: Brain, level: 'standard' },
+      { label: 'Agent Revenue Status', path: '/admin/agent-workbench', desc: 'Live agent activity dashboard — runs, proposals created, data sources, improvement plan', icon: Brain, level: 'standard' },
     ],
   },
   {
@@ -149,7 +149,7 @@ const MODULES = [
       { label: 'Playwright Test Centre', path: '/admin/playwright-test-centre', desc: 'Download browser test suite — run against gannonwaye.com', icon: Play, level: 'advanced' },
       { label: 'Site Function Audit', path: '/admin/site-function-audit', desc: 'Audit all admin functions — clickability, data, dead-ends', icon: Eye, level: 'advanced' },
       { label: 'Final System Status', path: '/admin/final-system-status', desc: 'Accurate completion status — all live tests, blockers, exact next steps', icon: CheckCircle2, level: 'essential' },
-      { label: 'Agent Revenue Status', path: '/admin/agent-revenue-status', desc: 'Live agent dashboard — runs, proposals, data sources, improvement plan', icon: Brain, level: 'standard' },
+      { label: 'Agent Revenue Status', path: '/admin/agent-workbench', desc: 'Live agent dashboard — runs, proposals, data sources, improvement plan', icon: Brain, level: 'standard' },
     ],
   },
 ];
@@ -222,7 +222,7 @@ export default function TrainingHub() {
           { label: 'Dashboard', path: '/admin', icon: Zap, color: 'text-primary' },
           { label: 'Notifications', path: '/admin/notifications', icon: AlertTriangle, color: 'text-red-400' },
           { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield, color: 'text-primary' },
-          { label: 'Orchestrator Chat', path: '/admin/orchestrator-chat', icon: Brain, color: 'text-cyan-400' },
+          { label: 'Orchestrator Chat', path: '/admin/agent-workbench', icon: Brain, color: 'text-cyan-400' },
         ].map(link => {
           const Icon = link.icon;
           return (

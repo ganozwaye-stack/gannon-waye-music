@@ -114,7 +114,7 @@ export default function TodayView() {
 
   // ── Handled automatically ──
   const autoItems = recentTasks.filter(t => t.status === 'completed' || t.status === 'success').slice(0, 5).map(t => ({
-    title: t.action || t.task || 'Agent task', subtitle: t.agent_name || 'System', status: 'Auto', level: 'green', path: '/admin/agent-task-log'
+    title: t.action || t.task || 'Agent task', subtitle: t.agent_name || 'System', status: 'Auto', level: 'green', path: '/admin/agent-workbench'
   }));
 
   // ── Recently completed ──
@@ -162,7 +162,7 @@ export default function TodayView() {
 
       {/* ── Handled Automatically + Recently Completed ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <SectionCard title="Handled Automatically" count={autoItems.length} actionLabel="Agent log" actionPath="/admin/agent-task-log">
+        <SectionCard title="Handled Automatically" count={autoItems.length} actionLabel="Agent log" actionPath="/admin/agent-workbench">
           {autoItems.length === 0 ? <EmptyState message="No recent automated activity." /> : autoItems.map((item, i) => <RowItem key={i} {...item} />)}
         </SectionCard>
         <SectionCard title="Recently Completed" count={completedItems.length} actionLabel="Dashboard" actionPath="/admin/dashboard">

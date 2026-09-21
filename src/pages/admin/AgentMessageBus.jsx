@@ -63,7 +63,7 @@ export default function AgentMessageBus() {
     <div className="space-y-5 pb-10">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-3">
-          <Link to="/admin/openai-command"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4" /></Button></Link>
+          <Link to="/admin/agent-workbench"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4" /></Button></Link>
           <div>
             <h1 className="text-3xl font-display font-bold gradient-gold-text">Internal Agent Message Ledger</h1>
             <p className="text-sm text-muted-foreground mt-1">Saved internal records only. This is not a connector, delivery system, or cross-chat transport.</p>

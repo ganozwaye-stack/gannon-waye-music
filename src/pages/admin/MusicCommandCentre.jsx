@@ -26,14 +26,14 @@ function CountdownBadge() {
 }
 
 const AGENTS = [
-  { name: 'Music Orchestrator', icon: Zap, color: 'text-primary', desc: 'Master coordinator — daily top action', path: '/admin/orchestrator-chat' },
+  { name: 'Music Orchestrator', icon: Zap, color: 'text-primary', desc: 'Master coordinator — daily top action', path: '/admin/agent-workbench' },
   { name: 'Release Launch Agent', icon: Play, color: 'text-green-400', desc: 'Thankyou single launch plan', path: '/admin/command-centre' },
   { name: 'Fan Engagement', icon: Heart, color: 'text-pink-400', desc: 'Community health & superfans', path: '/admin/fans' },
   { name: 'Revenue Orchestrator', icon: DollarSign, color: 'text-emerald-400', desc: 'Daily money opportunities', path: '/admin/revenue-command' },
   { name: 'Merch Sales Agent', icon: Star, color: 'text-orange-400', desc: 'Flash sales, bundles, stock', path: '/admin/merch' },
   { name: 'Social Intelligence', icon: TrendingUp, color: 'text-blue-400', desc: 'Viral trends & creator gaps', path: '/admin/social-schedule-queue' },
   { name: 'Growth Engine', icon: Radio, color: 'text-purple-400', desc: 'Audience & playlist growth', path: '/admin/growth-engine' },
-  { name: 'Content Automate', icon: Share2, color: 'text-cyan-400', desc: 'Social post automation', path: '/admin/content-automate' },
+  { name: 'Content Automate', icon: Share2, color: 'text-cyan-400', desc: 'Social post automation', path: '/admin/content-studio' },
   { name: 'Release Sprint', icon: Calendar, color: 'text-primary', desc: '10-day Metricool content engine', path: '/admin/release-sprint' },
 ];
 

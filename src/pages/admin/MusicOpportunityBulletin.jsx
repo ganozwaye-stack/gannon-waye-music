@@ -321,10 +321,10 @@ export default function MusicOpportunityBulletin() {
           New opportunities appear here automatically. Items marked "Your Action" require Gannon to personally apply or approve.
         </p>
         <div className="flex gap-2 mt-3 flex-wrap">
-          <Link to="/admin/agent-registry">
+          <Link to="/admin/agent-workbench">
             <Button size="sm" variant="outline" className="text-xs h-7 border-border/40">View Agent Registry</Button>
           </Link>
-          <Link to="/admin/orchestrator-chat">
+          <Link to="/admin/agent-workbench">
             <Button size="sm" variant="outline" className="text-xs h-7 border-blue-500/30 text-blue-400">Chat with Orchestrator</Button>
           </Link>
         </div>

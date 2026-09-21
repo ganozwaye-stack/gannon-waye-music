@@ -18,7 +18,7 @@ const TOOLS = [
   { label: 'Media Pipeline', path: '/admin/social-schedule-queue', icon: Image, desc: 'Normalize & upload assets' },
   { label: 'Scheduler Queue', path: '/admin/metricool-scheduler-queue', icon: Calendar, desc: 'Send approved posts to Metricool' },
   { label: 'Performance Intel', path: '/admin/metricool-performance-intelligence', icon: BarChart2, desc: 'Import metrics from Metricool' },
-  { label: 'Content Performance', path: '/admin/content-performance', icon: BarChart2, desc: 'Track what works' },
+  { label: 'Content Performance', path: '/admin/content-studio', icon: BarChart2, desc: 'Track what works' },
 ];
 
 const SOURCE_CHAIN = [

@@ -20,9 +20,9 @@ const AGENT_IQ_MAP = [
 
 const ROADMAP_ITEMS = [
   { area: 'Research Depth', current: 'Rotating 15 topics every 4h', next: 'Add competitor scanning + product scouting loops', priority: 'high', related_agents: ['AutonomousResearchAgent', 'TrendEngine'], link: '/admin/research-grid' },
-  { area: 'Memory Persistence', current: 'KnowledgeVault + AgentLearningRecord', next: 'Cross-reference learning between agents', priority: 'medium', related_agents: ['Orchestrator'], link: '/admin/memory-graph' },
+  { area: 'Memory Persistence', current: 'KnowledgeVault + AgentLearningRecord', next: 'Cross-reference learning between agents', priority: 'medium', related_agents: ['Orchestrator'], link: '/admin/agent-workbench' },
   { area: 'Opportunity Detection', current: 'Ideas Engine + Trend Monitor', next: 'Automated scoring + escalation to ApprovalQueue', priority: 'high', related_agents: ['TrendEngine', 'Orchestrator'], link: '/admin/ideas-engine' },
-  { area: 'Self Improvement', current: 'Manual learning records', next: 'Auto-compare approved vs rejected outputs', priority: 'medium', related_agents: ['Orchestrator'], link: '/admin/agent-learning' },
+  { area: 'Self Improvement', current: 'Manual learning records', next: 'Auto-compare approved vs rejected outputs', priority: 'medium', related_agents: ['Orchestrator'], link: '/admin/agent-workbench' },
 ];
 
 function LearningDetailModal({ record, onClose }) {
@@ -70,7 +70,7 @@ function LearningDetailModal({ record, onClose }) {
             Recorded: {new Date(record.created_date).toLocaleString('en-AU')}
           </div>
           <div className="flex gap-2">
-            <Link to="/admin/agent-learning" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><BookOpen className="w-3 h-3" />All Learning Records</Button></Link>
+            <Link to="/admin/agent-workbench" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><BookOpen className="w-3 h-3" />All Learning Records</Button></Link>
             <Link to="/admin/knowledge-vault" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Knowledge Vault</Button></Link>
           </div>
         </div>
@@ -133,8 +133,8 @@ function ActivityDetailModal({ log, onClose }) {
             Executed: {new Date(log.created_date).toLocaleString('en-AU')}
           </div>
           <div className="flex gap-2 pt-1 flex-wrap">
-            <Link to="/admin/agent-task-log" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Activity className="w-3 h-3" />Full Task Log</Button></Link>
-            <Link to="/admin/agent-learning" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><BookOpen className="w-3 h-3" />Learning Records</Button></Link>
+            <Link to="/admin/agent-workbench" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Activity className="w-3 h-3" />Full Task Log</Button></Link>
+            <Link to="/admin/agent-workbench" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><BookOpen className="w-3 h-3" />Learning Records</Button></Link>
             <Link to="/admin/knowledge-vault" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Knowledge Vault</Button></Link>
           </div>
           <p className="text-xs text-muted-foreground italic border-t border-border pt-2">Source chain: Agent Task Log → Agent Learning Records → Knowledge Vault → Ideas Engine</p>
@@ -172,7 +172,7 @@ function RoadmapDetailModal({ item, onClose }) {
           </div>
           <div className="pt-2 border-t border-border flex gap-2 flex-wrap">
             <Link to={item.link} onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><ArrowRight className="w-3 h-3" />View Related Page</Button></Link>
-            <Link to="/admin/agent-registry" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Agent Registry</Button></Link>
+            <Link to="/admin/agent-workbench" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Agent Registry</Button></Link>
           </div>
           <p className="text-xs text-muted-foreground italic border-t border-border pt-2">This is the deepest available source record for this roadmap item — a system-defined capability improvement target.</p>
         </div>
@@ -227,9 +227,9 @@ export default function AgentIntelligence() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Knowledge Entries', value: totalKnowledge, icon: BookOpen, color: 'text-cyan-400', bg: 'bg-cyan-500/10', link: '/admin/knowledge-vault' },
-          { label: 'Agent Actions Today', value: todayLogs.length, icon: Zap, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/agent-task-log' },
+          { label: 'Agent Actions Today', value: todayLogs.length, icon: Zap, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/agent-workbench' },
           { label: 'Total Ideas Generated', value: totalIdeas, icon: Star, color: 'text-green-400', bg: 'bg-green-500/10', link: '/admin/ideas-engine' },
-          { label: 'Learning Records', value: learnings.length, icon: Brain, color: 'text-purple-400', bg: 'bg-purple-500/10', link: '/admin/agent-learning' },
+          { label: 'Learning Records', value: learnings.length, icon: Brain, color: 'text-purple-400', bg: 'bg-purple-500/10', link: '/admin/agent-workbench' },
         ].map(s => (
           <Link key={s.label} to={s.link}>
             <Card className="hover:border-primary/40 transition-all cursor-pointer group">
@@ -251,14 +251,14 @@ export default function AgentIntelligence() {
         <CardHeader className="pb-3">
           <CardTitle className="text-base flex items-center gap-2">
             <Brain className="w-4 h-4 text-primary" />Agent IQ Scores
-            <Link to="/admin/agent-registry" className="ml-auto">
+            <Link to="/admin/agent-workbench" className="ml-auto">
               <Button size="sm" variant="ghost" className="text-xs gap-1 h-6"><ChevronRight className="w-3 h-3" />All Agents</Button>
             </Link>
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           {AGENT_IQ_MAP.map(agent => (
-            <Link key={agent.name} to="/admin/agent-registry" className="flex items-center gap-3 group hover:opacity-80 transition-opacity">
+            <Link key={agent.name} to="/admin/agent-workbench" className="flex items-center gap-3 group hover:opacity-80 transition-opacity">
               <div className={`${agent.bg} px-2 py-1 rounded text-xs font-mono ${agent.color} w-20 text-center shrink-0`}>
                 IQ {agent.iq}
               </div>
@@ -361,7 +361,7 @@ export default function AgentIntelligence() {
         <Link to="/admin/research-grid"><Button variant="outline" className="gap-2 text-xs"><TrendingUp className="w-3 h-3" />Research Grid</Button></Link>
         <Link to="/admin/autonomous-ops"><Button variant="outline" className="gap-2 text-xs"><Zap className="w-3 h-3" />Autonomous Ops</Button></Link>
         <Link to="/admin/knowledge-vault"><Button variant="outline" className="gap-2 text-xs"><BookOpen className="w-3 h-3" />Knowledge Vault</Button></Link>
-        <Link to="/admin/agent-learning"><Button variant="outline" className="gap-2 text-xs"><Brain className="w-3 h-3" />Agent Learning</Button></Link>
+        <Link to="/admin/agent-workbench"><Button variant="outline" className="gap-2 text-xs"><Brain className="w-3 h-3" />Agent Learning</Button></Link>
       </div>
 
       {selectedLearning && <LearningDetailModal record={selectedLearning} onClose={() => setSelectedLearning(null)} />}

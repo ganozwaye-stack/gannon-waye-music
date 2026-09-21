@@ -37,7 +37,7 @@ const NAV_MODULES = [
   { label: 'Schedule Queue', desc: 'Approved → Metricool', to: '/admin/social-schedule-queue', icon: Calendar, color: 'text-blue-400' },
   { label: 'Asset Library', desc: 'Videos, images, overlays', to: '/admin/social-schedule-queue', icon: Image, color: 'text-purple-400' },
   { label: 'Quality Review', desc: 'Score drafts before publish', to: '/admin/content-quality-review', icon: Target, color: 'text-primary' },
-  { label: 'Performance', desc: 'Analytics & engagement', to: '/admin/content-performance', icon: BarChart2, color: 'text-cyan-400' },
+  { label: 'Performance', desc: 'Analytics & engagement', to: '/admin/content-studio', icon: BarChart2, color: 'text-cyan-400' },
   { label: 'Metricool Setup', desc: 'API config & diagnostics', to: '/admin/metricool-api-setup', icon: Radio, color: 'text-orange-400' },
   { label: 'Daily Post Engine', desc: 'Auto-generate daily drafts', to: '/admin/daily-post-engine', icon: Cpu, color: 'text-pink-400' },
 ];

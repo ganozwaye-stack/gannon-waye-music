@@ -85,7 +85,7 @@ const HUMAN_ACTIONS_REQUIRED = [
   { priority: 'high', item: 'Connect Slack for weekly order notifications', link: '/admin/api-setup' },
   { priority: 'high', item: 'Set public business email in Business Details settings', link: '/admin/settings/business-details' },
   { priority: 'medium', item: 'Push codebase to GitHub and verify Playwright CI', link: '/admin/base44-exit-plan' },
-  { priority: 'medium', item: 'Approve all pending Campaign Images and Sprint posts', link: '/admin/campaign-image-approval' },
+  { priority: 'medium', item: 'Approve all pending Campaign Images and Sprint posts', link: '/admin/content-studio' },
 ];
 
 const STATUS_CONFIG = {

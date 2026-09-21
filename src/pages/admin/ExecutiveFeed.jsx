@@ -64,7 +64,7 @@ export default function ExecutiveFeed() {
         <SummaryCard icon={AlertTriangle} color="text-red-400" bg="bg-red-500/10" label="Critical Alerts" value={criticalAlerts.length} link="/admin/risk-alerts" urgent={criticalAlerts.length > 0} />
         <SummaryCard icon={CheckCircle2} color="text-primary" bg="bg-primary/10" label="Awaiting Approval" value={pending.length} link="/admin/approval-queue" urgent={pending.length > 0} />
         <SummaryCard icon={Lightbulb} color="text-green-400" bg="bg-green-500/10" label="New Opportunities" value={ideas.length} link="/admin/ideas-engine" />
-        <SummaryCard icon={Activity} color="text-blue-400" bg="bg-blue-500/10" label="Agent Actions Today" value={recentLogs.length} link="/admin/agent-task-log" />
+        <SummaryCard icon={Activity} color="text-blue-400" bg="bg-blue-500/10" label="Agent Actions Today" value={recentLogs.length} link="/admin/agent-workbench" />
       </div>
 
       {/* Two-column layout */}
@@ -169,8 +169,8 @@ export default function ExecutiveFeed() {
             { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp },
             { label: 'Approval Queue', path: '/admin/approval-queue', icon: CheckCircle2 },
             { label: 'Risk Alerts', path: '/admin/risk-alerts', icon: AlertTriangle },
-            { label: 'Agent Registry', path: '/admin/agent-registry', icon: Brain },
-            { label: 'Orchestrator', path: '/admin/orchestrator-chat', icon: Zap },
+            { label: 'Agent Registry', path: '/admin/agent-workbench', icon: Brain },
+            { label: 'Orchestrator', path: '/admin/agent-workbench', icon: Zap },
           ].map(item => (
             <Link key={item.path} to={item.path}>
               <div className="border border-border rounded-lg p-3 hover:border-primary/40 transition-colors flex items-center gap-2">

@@ -151,7 +151,7 @@ export default function MusicMastering() {
                   </div>
                 )}
 
-                <Link to="/admin/mastering" className="text-xs text-primary hover:underline flex items-center gap-1">Mastering room <ChevronRight className="w-3 h-3" /></Link>
+                <Link to="/admin/content-studio" className="text-xs text-primary hover:underline flex items-center gap-1">Mastering room <ChevronRight className="w-3 h-3" /></Link>
               </div>
             </SectionCard>
           ) : (
@@ -163,23 +163,23 @@ export default function MusicMastering() {
       </div>
 
       {/* ── Lyrics ── */}
-      <SectionCard title="Lyrics — Publishing Status" count={lyrics.length} actionLabel="Lyrics archive" actionPath="/admin/lyrics-archive">
+      <SectionCard title="Lyrics — Publishing Status" count={lyrics.length} actionLabel="Lyrics archive" actionPath="/admin/content-studio">
         {lyrics.length === 0 ? <EmptyState message="No lyrics stored." /> : lyrics.slice(0, 10).map(lyric => (
           <RowItem key={lyric.id}
             title={lyric.title}
             subtitle={`Source: ${lyric.source || '—'} · ${lyric.version_status || 'unverified'}`}
             status={lyric.is_published ? 'Published' : lyric.needs_review ? 'Needs Review' : 'Private'}
             statusLevel={lyricStatusLevel(lyric)}
-            path="/admin/lyrics-archive"
+            path="/admin/content-studio"
           />
         ))}
       </SectionCard>
 
       {/* ── Featured Videos ── */}
       {videos.length > 0 && (
-        <SectionCard title="Featured Videos" count={videos.length} actionLabel="Video management" actionPath="/admin/videos">
+        <SectionCard title="Featured Videos" count={videos.length} actionLabel="Video management" actionPath="/admin/content-studio">
           {videos.slice(0, 5).map(v => (
-            <RowItem key={v.id} title={v.title || 'Untitled video'} subtitle={v.platform || 'Video'} status={v.is_published ? 'Live' : 'Draft'} statusLevel={v.is_published ? 'green' : 'grey'} path="/admin/videos" />
+            <RowItem key={v.id} title={v.title || 'Untitled video'} subtitle={v.platform || 'Video'} status={v.is_published ? 'Live' : 'Draft'} statusLevel={v.is_published ? 'green' : 'grey'} path="/admin/content-studio" />
           ))}
         </SectionCard>
       )}

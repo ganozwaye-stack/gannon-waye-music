@@ -1,5 +1,5 @@
-import OrchestratorChat from '@/pages/admin/OrchestratorChat';
-import OpenAICommandCentre from '@/pages/admin/OpenAICommandCentre';
+import OrchestratorChat from '@/components/admin/agent-workbench/OrchestratorChat';
+import OpenAICommandCentre from '@/components/admin/agent-workbench/OpenAICommandCentre';
 
 // Agent Chat & Orchestrator: the orchestrator conversation console (AgentMessage)
 // and the OpenAI Command Centre (API key link + emergency kill-switch) merged

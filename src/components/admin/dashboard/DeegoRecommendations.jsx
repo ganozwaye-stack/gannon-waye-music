@@ -87,7 +87,7 @@ export default function DeegoRecommendations() {
                 <div className="min-w-0">
                   <button
                     type="button"
-                    onClick={() => navigate(LANE_ROUTES[a.lane] || '/admin/agent-task-log')}
+                    onClick={() => navigate(LANE_ROUTES[a.lane] || '/admin/agent-workbench')}
                     className="text-left group/title"
                   >
                     <p className="font-body text-sm text-foreground font-semibold group-hover/title:text-primary transition-colors inline-flex items-center gap-1">

@@ -13,7 +13,7 @@ const QUICK_LINKS = [
   { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
   { label: 'Communications', path: '/admin/communications-hub', icon: Mail },
   { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
-  { label: 'Lyrics Archive', path: '/admin/lyrics-archive', icon: FileText },
+  { label: 'Lyrics Archive', path: '/admin/content-studio', icon: FileText },
   { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: Megaphone },
   { label: 'Merch Management', path: '/admin/merch', icon: ShoppingBag },
   { label: 'Music Releases', path: '/admin/releases', icon: Music },

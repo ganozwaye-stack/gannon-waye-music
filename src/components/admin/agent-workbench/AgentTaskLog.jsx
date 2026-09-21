@@ -20,8 +20,8 @@ const SOURCE_ROUTES = {
   ResearchGrid: '/admin/research-grid',
   ApprovalQueue: '/admin/approval-queue',
   Notifications: '/admin/notifications',
-  AgentRegistry: '/admin/agent-registry',
-  AgentIntelligence: '/admin/agent-intelligence',
+  AgentRegistry: '/admin/agent-workbench',
+  AgentIntelligence: '/admin/agent-workbench',
   AutonomousOps: '/admin/autonomous-ops',
 };
 
