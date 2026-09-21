@@ -3,8 +3,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Plus, Loader2 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ContentRecordCard from '@/components/content-studio/ContentRecordCard';
 import ContentRecordModal from '@/components/content-studio/ContentRecordModal';
+import SprintStagingTab from '@/components/admin/content-studio/SprintStagingTab';
+import VideoLiveTab from '@/components/admin/content-studio/VideoLiveTab';
+import AudioLyricsTab from '@/components/admin/content-studio/AudioLyricsTab';
+import ImageStudioTab from '@/components/admin/content-studio/ImageStudioTab';
+import MonetizationTab from '@/components/admin/content-studio/MonetizationTab';
 
 const PLATFORMS = ['all', 'instagram', 'tiktok', 'youtube', 'facebook', 'x_twitter'];
 const STATUSES = ['all', 'draft', 'needs_review', 'approved', 'rejected'];
@@ -32,7 +38,8 @@ function FilterSelect({ label, value, onChange, options, labels }) {
   );
 }
 
-export default function ContentStudio() {
+// The original single-screen content pipeline — kept as the default tab.
+function StudioPipeline() {
   const qc = useQueryClient();
   const [platformF, setPlatformF] = useState('all');
   const [statusF, setStatusF] = useState('all');
@@ -114,16 +121,12 @@ export default function ContentStudio() {
   };
 
   return (
-    <div className="space-y-6 pb-16">
+    <div className="space-y-6 pb-10">
       <div className="flex items-start justify-between flex-wrap gap-4">
-        <div>
-          <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-1">Admin · Private</p>
-          <h1 className="font-display text-3xl font-bold gradient-gold-text">Content Studio</h1>
-          <p className="font-body text-sm text-muted-foreground mt-1">
-            Single-screen content pipeline — draft to publish. {records.length} records.
-          </p>
-        </div>
-        <Button onClick={() => setModal('new')} className="gap-2">
+        <p className="font-body text-sm text-muted-foreground">
+          Single-screen content pipeline — draft to publish. {records.length} records.
+        </p>
+        <Button type="button" onClick={() => setModal('new')} className="gap-2">
           <Plus className="w-4 h-4" /> New Post
         </Button>
       </div>
@@ -168,6 +171,38 @@ export default function ContentStudio() {
           onClose={() => setModal(null)}
         />
       )}
+    </div>
+  );
+}
+
+export default function ContentStudio() {
+  return (
+    <div className="space-y-6 pb-16">
+      <div>
+        <p className="font-body text-xs tracking-[0.3em] uppercase text-muted-foreground mb-1">Admin · Private</p>
+        <h1 className="font-display text-3xl font-bold gradient-gold-text">Content Studio</h1>
+        <p className="font-body text-sm text-muted-foreground mt-1">
+          The full Content family in one place — pipeline, sprint staging, video &amp; livestream, audio &amp; lyrics, image studio, monetization.
+        </p>
+      </div>
+
+      <Tabs defaultValue="studio">
+        <TabsList className="flex-wrap h-auto gap-1 mb-6">
+          <TabsTrigger value="studio">Content Pipeline</TabsTrigger>
+          <TabsTrigger value="sprint-staging">Sprint &amp; Staging</TabsTrigger>
+          <TabsTrigger value="video-live">Video &amp; Live</TabsTrigger>
+          <TabsTrigger value="audio-lyrics">Audio &amp; Lyrics</TabsTrigger>
+          <TabsTrigger value="image-studio">Image Studio</TabsTrigger>
+          <TabsTrigger value="monetization">Monetization</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="studio"><StudioPipeline /></TabsContent>
+        <TabsContent value="sprint-staging"><SprintStagingTab /></TabsContent>
+        <TabsContent value="video-live"><VideoLiveTab /></TabsContent>
+        <TabsContent value="audio-lyrics"><AudioLyricsTab /></TabsContent>
+        <TabsContent value="image-studio"><ImageStudioTab /></TabsContent>
+        <TabsContent value="monetization"><MonetizationTab /></TabsContent>
+      </Tabs>
     </div>
   );
 }
