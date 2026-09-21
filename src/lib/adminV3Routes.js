@@ -69,7 +69,7 @@ export const LEGACY_ROUTES = [
   r('/admin/metricool-diagnostics', 'Content and Publishing', 'specialist', true, 'keep'),
 
   // ─── Store and Fulfilment ────────────────────────────────────────────────
-  r('/admin/store-orders', 'Store and Fulfilment', 'specialist', false, 'merged_into:/admin/orders'),
+  r('/admin/store-orders', 'Store and Fulfilment', 'specialist', false, 'merged_into:/admin/merch-designs'),
   r('/admin/merch-designs', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/merch-platforms', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/merch-visual-lab', 'Store and Fulfilment', 'specialist', true, 'keep'),
@@ -171,7 +171,6 @@ export const LEGACY_ROUTES = [
   r('/admin/legal-dashboard', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/legal-drafts', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/ganozmix-direct/legal', 'Systems and Approvals', 'duplicate_candidate', true, 'redirect'),
-  r('/admin/settings/business-details', 'Systems and Approvals', 'duplicate_candidate', true, 'redirect'),
   r('/admin/business-process-command', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/artist-business-setup', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/strategic-execution-plan', 'Systems and Approvals', 'specialist', true, 'keep'),

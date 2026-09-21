@@ -13,7 +13,7 @@ const AUDIT_DATA = [
   {
     section: 'Executive',
     pages: [
-      { page: 'Dashboard', route: '/admin', status: 'Working', issues: 1, notes: 'Stat cards link to source pages. Pending order rows clickable via link to /admin/orders.' },
+      { page: 'Dashboard', route: '/admin', status: 'Working', issues: 1, notes: 'Stat cards link to source pages. Pending order rows clickable via link to /admin/merch-designs.' },
       { page: 'Notifications / BAC', route: '/admin/notifications', status: 'Working', issues: 0, notes: 'Tabs, rows, summary cards, mark-read, source chain all working. Severity badge filter added.' },
       { page: 'Executive Feed', route: '/admin/executive-feed', status: 'Partial', issues: 2, notes: 'Trigger brief button works. Intelligence cards need source chain links.' },
       { page: 'Command Centre', route: '/admin/command-centre', status: 'Working', issues: 0, notes: 'Navigation hub — links all work.' },
