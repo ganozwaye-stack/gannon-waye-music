@@ -18,7 +18,7 @@ const TYPE_CONFIG = {
   creator_gap: { icon: TrendingUp, color: 'text-cyan-400', route: '/admin/creator-insights' },
   high_value_supporter: { icon: Star, color: 'text-primary', route: '/admin/supporters' },
   automation_failed: { icon: Zap, color: 'text-red-400', route: '/admin/systems-qa' },
-  email_failed: { icon: Mail, color: 'text-red-400', route: '/admin/subscribers' },
+  email_failed: { icon: Mail, color: 'text-red-400', route: '/admin/dashboard' },
   payment_warning: { icon: AlertTriangle, color: 'text-red-400', route: '/admin/payment-diagnostics' },
   growth_spike: { icon: TrendingUp, color: 'text-green-400', route: '/admin/growth-engine' },
   system: { icon: Hash, color: 'text-muted-foreground', route: '/admin/site-health' },

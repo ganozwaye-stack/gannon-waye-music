@@ -141,7 +141,7 @@ export default function SocialAgentOS() {
                 <p className="text-xs text-muted-foreground">Nothing schedules to Metricool without your sign-off</p>
               </div>
             </div>
-            <Link to="/admin/approval-queue">
+            <Link to="/admin/dashboard">
               <Button size="sm" variant="outline" className="border-primary/40 text-primary gap-1">
                 <ChevronRight className="w-3 h-3" /> Review
               </Button>
@@ -220,7 +220,7 @@ export default function SocialAgentOS() {
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {[
-          { label: 'Approval Queue', path: '/admin/approval-queue', desc: 'Review & approve drafts' },
+          { label: 'Approval Queue', path: '/admin/dashboard', desc: 'Review & approve drafts' },
           { label: 'Metricool Command', path: '/admin/metricool-command', desc: 'Scheduling hub' },
           { label: 'Social Asset Library', path: '/admin/social-schedule-queue', desc: 'Approved media' },
           { label: 'Social Schedule Queue', path: '/admin/social-schedule-queue', desc: 'Send to Metricool' },

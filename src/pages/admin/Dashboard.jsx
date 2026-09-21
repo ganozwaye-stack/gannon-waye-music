@@ -181,11 +181,11 @@ export default function Dashboard() {
           <FileCheck className="w-3.5 h-3.5" /> 2. Human Approval Tasks
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
-          <DashTile to="/admin/approval-queue" label="Approval Queue" value={approvals.length} sub="Waiting for you" icon={FileCheck} color={approvals.length > 0 ? 'yellow' : 'green'} />
+          <DashTile to="/admin/dashboard" label="Approval Queue" value={approvals.length} sub="Waiting for you" icon={FileCheck} color={approvals.length > 0 ? 'yellow' : 'green'} />
           <DashTile to="/admin/fan-management?filter=pending" label="Fan Posts" value={fanPosts.length} sub="Pending moderation" icon={MessageSquare} color={fanPosts.length > 0 ? 'yellow' : 'green'} />
           <DashTile to="/admin/site-health" label="System Health" value={criticalIssues.length} sub={criticalIssues.length > 0 ? 'Critical alerts' : 'All clear'} icon={ShieldCheck} color={criticalIssues.length > 0 ? 'red' : 'green'} />
           <DashTile to="/admin/payment-diagnostics" label="Checkout Failures" value={stripeEvents.filter(e => e.type?.includes('failed')).length || 0} sub="Stripe payment failures" icon={AlertTriangle} color="yellow" />
-          <DashTile to="/admin/subscribers" label="Subscribers" value={subscribers.length} sub="Email list size" icon={Users} color="blue" />
+          <DashTile to="/admin/dashboard" label="Subscribers" value={subscribers.length} sub="Email list size" icon={Users} color="blue" />
         </div>
       </div>
 
@@ -239,7 +239,7 @@ export default function Dashboard() {
             <PriorityRow num={7} label="Send receipts for any orders missing email confirmation" to="/admin/orders" />
 
             <p className="text-[10px] uppercase tracking-widest text-orange-400/60 px-3 pt-3 pb-1">🟠 Human Approval Tasks</p>
-            <PriorityRow num={8} label={`Review ${approvals.length} pending approvals in queue`} to="/admin/approval-queue" urgent={approvals.length > 0} />
+            <PriorityRow num={8} label={`Review ${approvals.length} pending approvals in queue`} to="/admin/dashboard" urgent={approvals.length > 0} />
             <PriorityRow num={9} label={`Moderate ${fanPosts.length} fan post submissions`} to="/admin/fan-management?filter=pending" />
 
             <p className="text-[10px] uppercase tracking-widest text-blue-400/60 px-3 pt-3 pb-1">🔵 Integration Failures</p>
@@ -300,7 +300,7 @@ export default function Dashboard() {
             <div className="space-y-1">
               {[
                 { to: '/admin/orders', label: '📦 Orders' },
-                { to: '/admin/approval-queue', label: '✅ Approvals' },
+                { to: '/admin/dashboard', label: '✅ Approvals' },
                 { to: '/admin/payment-diagnostics', label: '💳 Payments' },
                 { to: '/admin/notifications', label: '🔔 Notifications' },
                 { to: '/admin/music-opportunity-bulletin', label: '🎵 Music Opps' },

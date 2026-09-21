@@ -54,10 +54,8 @@ const ROUTES_TO_TEST = [
   { route: '/admin/fan-conversion-engine', label: 'Fan Conversion Engine', category: 'admin', loginRequired: true },
   // Admin — Agents/Intelligence
   { route: '/admin/agent-capability-matrix', label: 'Agent Capability Matrix', category: 'admin', loginRequired: true },
-  { route: '/admin/az-index', label: 'A-Z Index', category: 'admin', loginRequired: true },
   { route: '/admin/agent-tool-registry', label: 'Agent Tool Registry', category: 'admin', loginRequired: true },
   { route: '/admin/knowledge-vault', label: 'Knowledge Vault', category: 'admin', loginRequired: true },
-  { route: '/admin/approval-queue', label: 'Approval Queue', category: 'admin', loginRequired: true },
   { route: '/admin/notifications', label: 'Business Attention Centre', category: 'admin', loginRequired: true },
   // Admin — Social/TikTok
   { route: '/admin/social-schedule-queue', label: 'TikTok Platform Review', category: 'admin', loginRequired: true },
@@ -131,7 +129,6 @@ const FINAL_REPORT = {
         'Website Evolution — /admin/website-evolution',
         'Business Worth Command — /admin/business-worth-command',
         'Offer Engine — /admin/offer-engine',
-        'A-Z Index — /admin/az-index',
         'Order Profit Intelligence — /admin/order-profit-intelligence',
         'Coaching Command — /admin/coaching-command (PRIVATE)',
         'Artist Business Setup — /admin/artist-business-setup',

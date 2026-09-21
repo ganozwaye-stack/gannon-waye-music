@@ -310,7 +310,7 @@ export default function RevenueActions() {
             {scanning ? <Loader2 className="w-3 h-3 animate-spin" /> : <RefreshCw className="w-3 h-3" />}
             Scan for Opportunities
           </Button>
-          <Link to="/admin/approval-queue">
+          <Link to="/admin/dashboard">
             <Button variant="outline" className="gap-2 text-xs"><Eye className="w-3 h-3" />Approval Queue</Button>
           </Link>
         </div>

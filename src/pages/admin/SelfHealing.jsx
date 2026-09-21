@@ -389,7 +389,7 @@ export default function SelfHealing() {
                           <Button size="sm" variant="ghost" className="text-xs h-7" onClick={() => updateMutation.mutate({ id: issue.id, data: { status: 'open' } })}><RefreshCw className="w-3 h-3 mr-1" />Reopen</Button>
                         )}
                         {issue.status === 'needs_approval' && (
-                          <Link to="/admin/approval-queue"><Button size="sm" variant="outline" className="text-xs h-7">View in Approval Queue →</Button></Link>
+                          <Link to="/admin/dashboard"><Button size="sm" variant="outline" className="text-xs h-7">View in Approval Queue →</Button></Link>
                         )}
                       </div>
                     </div>

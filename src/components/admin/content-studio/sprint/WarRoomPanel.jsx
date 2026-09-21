@@ -97,7 +97,7 @@ export default function WarRoomPanel() {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Link to="/admin/approval-queue" className="block p-3 bg-secondary/30 rounded-xl border border-border/40 hover:border-primary/40 transition-colors">
+              <Link to="/admin/dashboard" className="block p-3 bg-secondary/30 rounded-xl border border-border/40 hover:border-primary/40 transition-colors">
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Awaiting Approval</p>
                 <p className="text-xl font-bold text-primary mt-1">{isLoadingContent ? '…' : pendingReviewCount} items</p>
                 <p className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1">Approval Queue <ArrowRight className="w-3 h-3" /></p>

@@ -28,7 +28,7 @@ export default function LegalDashboard() {
   const QUICK_ACTIONS = [
     { label: 'Add Legal Document', icon: FileText, link: '/admin/knowledge-vault' },
     { label: 'View Risk Alerts', icon: AlertTriangle, link: '/admin/risk-alerts' },
-    { label: 'Approval Queue', icon: Clock, link: '/admin/approval-queue' },
+    { label: 'Approval Queue', icon: Clock, link: '/admin/dashboard' },
     { label: 'Knowledge Vault', icon: Shield, link: '/admin/knowledge-vault' },
   ];
 

@@ -78,7 +78,7 @@ Key admin routes:
 /admin/website-evolution → Site improvements
 /admin/todays-money-moves → Daily actions
 /admin/agent-capability-matrix → Agent management
-/admin/az-index → A-Z page index
+/admin/dashboard → A-Z page index
 /admin/coaching-command → Coaching (PRIVATE — not public)
 /admin/social-schedule-queue → TikTok admin
 /admin/social-platform-parity → Social platform tracker

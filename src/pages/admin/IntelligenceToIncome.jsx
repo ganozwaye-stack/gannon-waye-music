@@ -15,7 +15,7 @@ import { format } from 'date-fns';
 
 const ENGINES = [
   { to: '/admin/financials', icon: Zap, label: 'Revenue Actions', desc: 'Agent proposals awaiting approval', color: 'text-primary', key: 'proposals' },
-  { to: '/admin/approval-queue', icon: CheckCircle2, label: 'Approval Queue', desc: 'All items requiring your decision', color: 'text-green-400', key: 'approvals' },
+  { to: '/admin/dashboard', icon: CheckCircle2, label: 'Approval Queue', desc: 'All items requiring your decision', color: 'text-green-400', key: 'approvals' },
   { to: '/admin/business-attention-centre', icon: AlertTriangle, label: 'Business Attention Centre', desc: 'Critical alerts and actions', color: 'text-red-400', key: 'alerts' },
   { to: '/admin/growth-engine', icon: TrendingUp, label: 'Growth Engine', desc: 'TikTok, social, and audience growth', color: 'text-blue-400', key: 'growth' },
   { to: '/admin/fan-conversion-engine', icon: Users, label: 'Fan Conversion', desc: 'Turn fans into buyers and supporters', color: 'text-purple-400', key: 'fans' },
@@ -43,7 +43,7 @@ const INCOME_SOURCES = [
   { label: 'Mastering Projects', value: 'MasteringProject', route: '/admin/content-studio', color: 'text-primary' },
   { label: 'Bundle Offers', value: 'BundleOffer', route: '/admin/financials', color: 'text-orange-400' },
   { label: 'Promo Codes (Cost)', value: 'PromoCode usage', route: '/admin/financials', color: 'text-red-400' },
-  { label: 'Email Subscribers', value: 'EmailSubscriber', route: '/admin/subscribers', color: 'text-cyan-400' },
+  { label: 'Email Subscribers', value: 'EmailSubscriber', route: '/admin/dashboard', color: 'text-cyan-400' },
   { label: 'Digital Products (Future)', value: 'TBD — pending product setup', route: null, color: 'text-muted-foreground' },
   { label: 'Coaching (Staged)', value: 'LOCKED — not live', route: '/admin/coaching-command', color: 'text-muted-foreground' },
   { label: 'Sync / Publishing (Research)', value: 'Research pipeline', route: '/admin/sync-licensing-command', color: 'text-muted-foreground' },

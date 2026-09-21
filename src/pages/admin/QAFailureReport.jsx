@@ -72,14 +72,14 @@ const EXTERNAL_TEST_STATUS = [
   { category: 'Admin Routes', item: '/admin/business-worth-command', label: 'Business Worth Command', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/offer-engine', label: 'Offer Engine', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/agent-capability-matrix', label: 'Agent Capability Matrix', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
-  { category: 'Admin Routes', item: '/admin/az-index', label: 'A-Z Index', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
+  { category: 'Admin Routes', item: '/admin/dashboard', label: 'A-Z Index', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/artist-business-setup', label: 'Artist Business Setup', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/sync-licensing-command', label: 'Sync Licensing Command', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/coaching-command', label: 'Coaching Command', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/payment-diagnostics', label: 'Payment Diagnostics', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/financials', label: 'Stripe Command Centre', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/financials', label: 'Webhook Health', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
-  { category: 'Admin Routes', item: '/admin/approval-queue', label: 'Approval Queue', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
+  { category: 'Admin Routes', item: '/admin/dashboard', label: 'Approval Queue', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/notifications', label: 'Business Attention Centre', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   // Coaching lock
   { category: 'Coaching Lock', item: '/coaching', label: 'Must return 404', status: 'not_run', blocker: 'Verify in real browser' },
@@ -228,7 +228,7 @@ const MANUAL_STEPS = [
   { priority: 6, action: 'Test TikTok OAuth live', where: 'gannonwaye.com/admin/social-schedule-queue (admin session)', then: 'Click Connect TikTok → confirm /tiktok-callback receives code → confirm connected status shows' },
   { priority: 7, action: 'Fix Stripe key mismatch BEFORE any checkout test', where: 'Base44 Secrets dashboard', then: 'Option A (testing): set both STRIPE_SECRET_KEY=sk_test_... and STRIPE_PUBLISHABLE_KEY=pk_test_... then use test card 4242 4242 4242 4242. Option B (production): set both to live keys, then use a real approved low-value purchase only — never a test card.' },
   { priority: 8, action: 'Test coaching lock', where: 'Open gannonwaye.com/coaching in incognito', then: 'Confirm PageNotFound or 404 — not coaching content' },
-  { priority: 9, action: 'Approve Approval Queue items', where: '/admin/approval-queue', then: 'Review 3 shipping audit items + any others pending' },
+  { priority: 9, action: 'Approve Approval Queue items', where: '/admin/dashboard', then: 'Review 3 shipping audit items + any others pending' },
 ];
 
 const CODEX_FIX_LIST = `# Tasks for Codex / Cursor / Claude Code

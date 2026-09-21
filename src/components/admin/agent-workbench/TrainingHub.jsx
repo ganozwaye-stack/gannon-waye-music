@@ -18,7 +18,7 @@ const MODULES = [
     items: [
       { label: 'Main Dashboard', path: '/admin', desc: 'Your command centre — orders, revenue, alerts, system health', icon: Zap, level: 'essential' },
       { label: 'Business Attention Centre', path: '/admin/notifications', desc: 'Every notification, alert, action item — tabbed by category', icon: AlertTriangle, level: 'essential' },
-      { label: 'Approval Queue', path: '/admin/approval-queue', desc: 'All agent proposals awaiting your decision — nothing publishes without you', icon: Shield, level: 'essential' },
+      { label: 'Approval Queue', path: '/admin/dashboard', desc: 'All agent proposals awaiting your decision — nothing publishes without you', icon: Shield, level: 'essential' },
       { label: "Today's Money Moves", path: '/admin/todays-money-moves', desc: 'AI-prioritised daily revenue actions', icon: Star, level: 'essential' },
       { label: 'Orchestrator Chat', path: '/admin/agent-workbench', desc: 'Talk to your AI Orchestrator — brief it, direct it, ask anything', icon: Brain, level: 'essential' },
     ],
@@ -74,7 +74,7 @@ const MODULES = [
     category: '❤️ Community & Fans',
     color: 'border-pink-500/30',
     items: [
-      { label: 'Subscribers', path: '/admin/subscribers', desc: 'Email list management — supporters, VIPs, all segments', icon: Mail, level: 'essential' },
+      { label: 'Subscribers', path: '/admin/dashboard', desc: 'Email list management — supporters, VIPs, all segments', icon: Mail, level: 'essential' },
       { label: 'Fan Management', path: '/admin/fans', desc: 'Moderate community posts, approve/reject fan content', icon: Users, level: 'essential' },
       { label: 'Newsletter', path: '/admin/release-email-studio', desc: 'Send emails to subscribers — release alerts, special offers', icon: Mail, level: 'essential' },
       { label: 'Birthday Discounts', path: '/admin/birthdays', desc: 'Automated birthday campaigns — 10% off for fans on their birthday', icon: Heart, level: 'standard' },
@@ -221,7 +221,7 @@ export default function TrainingHub() {
         {[
           { label: 'Dashboard', path: '/admin', icon: Zap, color: 'text-primary' },
           { label: 'Notifications', path: '/admin/notifications', icon: AlertTriangle, color: 'text-red-400' },
-          { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield, color: 'text-primary' },
+          { label: 'Approval Queue', path: '/admin/dashboard', icon: Shield, color: 'text-primary' },
           { label: 'Orchestrator Chat', path: '/admin/agent-workbench', icon: Brain, color: 'text-cyan-400' },
         ].map(link => {
           const Icon = link.icon;

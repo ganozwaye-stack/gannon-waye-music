@@ -156,7 +156,7 @@ export default function PriorityCommander() {
         <Button size="sm" variant="outline" onClick={() => qc.invalidateQueries()} style={{ fontSize: '11px', borderColor: '#333', color: '#888' }}>
           <RefreshCw style={{ width: '12px', height: '12px', marginRight: '4px' }} /> Refresh
         </Button>
-        <Link to="/admin/approval-queue">
+        <Link to="/admin/dashboard">
           <Button size="sm" style={{ fontSize: '11px', background: '#C9A84C', color: '#111' }}>
             View Approval Queue <ArrowUpRight style={{ width: '12px', height: '12px', marginLeft: '4px' }} />
           </Button>

@@ -375,7 +375,7 @@ export default function TikTokRecordingStudio() {
         <CardContent className="flex flex-wrap gap-2">
           <Link to="/admin/tiktok-review"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />TikTok Review</Button></Link>
           <Link to="/admin/tiktok-screen-guide"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Screen Guide</Button></Link>
-          <Link to="/admin/approval-queue"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Approval Queue</Button></Link>
+          <Link to="/admin/dashboard"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Approval Queue</Button></Link>
           <Link to="/admin/notifications"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Notifications</Button></Link>
           <Link to="/admin/social-schedule-queue"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Social Content</Button></Link>
         </CardContent>

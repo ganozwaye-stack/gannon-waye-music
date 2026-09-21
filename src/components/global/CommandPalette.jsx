@@ -16,11 +16,11 @@ const STATIC_COMMANDS = [
   { id: 'nav_release_prep', label: 'Open Release Prep', shortcut: 'G R', icon: Star, action: '/admin/release-sprint' },
 
   // Remaining commands alphabetical
-  { id: 'hub_creative', label: 'Hub: Creative Studio Hub', shortcut: 'H C', icon: Palette, action: '/admin/creative-studio' },
+  { id: 'hub_creative', label: 'Hub: Creative Studio Hub', shortcut: 'H C', icon: Palette, action: '/admin/dashboard' },
   { id: 'hub_store', label: 'Hub: Store & Orders Hub', shortcut: 'H S', icon: ShoppingBag, action: '/admin/store-orders' },
   { id: 'hub_systems', label: 'Hub: Systems & QA Hub', shortcut: 'H Q', icon: Activity, action: '/admin/systems-qa' },
   { id: 'nav_dashboard', label: 'Go to Admin Dashboard', shortcut: 'G A', icon: TrendingUp, action: '/admin' },
-  { id: 'nav_subscribers', label: 'View Supporter CRM', shortcut: 'G R', icon: Users, action: '/admin/subscribers' },
+  { id: 'nav_subscribers', label: 'View Supporter CRM', shortcut: 'G R', icon: Users, action: '/admin/dashboard' },
   { id: 'nav_financials', label: 'View Financials', shortcut: 'G F', icon: DollarSign, action: '/admin/financials' },
   { id: 'nav_health', label: 'Site Health Check', shortcut: 'G H', icon: Activity, action: '/admin/site-health' },
   { id: 'nav_site', label: 'View Public Site Home', shortcut: 'G V', icon: ExternalLink, action: '/' },
@@ -99,7 +99,7 @@ export default function CommandPalette({ isOpen, onClose }) {
             label: `Supporter: ${s.name} (${s.email})`,
             icon: Users,
             shortcut: 'SUPP',
-            action: `/admin/subscribers?email=${s.email}`
+            action: `/admin/dashboard?email=${s.email}`
           });
         }
       });

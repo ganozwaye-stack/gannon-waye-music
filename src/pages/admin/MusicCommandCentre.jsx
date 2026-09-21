@@ -153,7 +153,7 @@ export default function MusicCommandCentre() {
               <Zap className="w-4 h-4" />
               {generating ? 'Generating...' : 'Generate Today\'s Posts Now'}
             </Button>
-            <Link to="/admin/approval-queue">
+            <Link to="/admin/dashboard">
               <Button variant="outline" className="gap-2">
                 <Clock className="w-4 h-4" />
                 Review Queue ({approvals.length})

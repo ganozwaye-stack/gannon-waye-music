@@ -241,7 +241,7 @@ export default function OwnerBusinessHub() {
                 <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/ganozmix'}>
                   <DollarSign className="w-4 h-4 mr-2 text-primary" /> GanozMix Direct Dashboard
                 </Button>
-                <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/procurement-command'}>
+                <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/dashboard'}>
                   <Briefcase className="w-4 h-4 mr-2 text-primary" /> Procurement Command
                 </Button>
                 <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/api-setup'}>
@@ -257,7 +257,7 @@ export default function OwnerBusinessHub() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { title: 'Business Profile Settings', desc: 'Modify localized seller addresses.', link: '/admin/settings/business-details' },
-              { title: 'Procurement Console', desc: 'Process bulk orders to AliExpress.', link: '/admin/procurement-command' },
+              { title: 'Procurement Console', desc: 'Process bulk orders to AliExpress.', link: '/admin/dashboard' },
               { title: 'Business Process Command', desc: 'Review active workers state.', link: '/admin/business-process-command' }
             ].map(item => (
               <Card key={item.title} className="hover:border-primary/40 transition-colors cursor-pointer" onClick={() => window.location.href = item.link}>

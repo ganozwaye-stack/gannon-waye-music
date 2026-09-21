@@ -93,9 +93,9 @@ export default function StoreFulfilment() {
 
       {/* ── Suppliers & Shipping ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <SectionCard title="Suppliers" count={suppliers.length} actionLabel="Procurement" actionPath="/admin/procurement-command">
+        <SectionCard title="Suppliers" count={suppliers.length} actionLabel="Procurement" actionPath="/admin/dashboard">
           {suppliers.length === 0 ? <EmptyState message="No suppliers configured." /> : suppliers.slice(0, 8).map(s => (
-            <RowItem key={s.id} title={s.name || s.supplier_name || 'Supplier'} subtitle={s.category || 'General'} status={s.status || 'active'} statusLevel={s.status === 'active' ? 'green' : 'grey'} path="/admin/procurement-command" />
+            <RowItem key={s.id} title={s.name || s.supplier_name || 'Supplier'} subtitle={s.category || 'General'} status={s.status || 'active'} statusLevel={s.status === 'active' ? 'green' : 'grey'} path="/admin/dashboard" />
           ))}
         </SectionCard>
 

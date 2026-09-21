@@ -241,7 +241,7 @@ export default function WebsiteEvolution() {
               <CheckCircle2 className="w-3 h-3" />Re-publish Section
             </Button>
           )}
-          <Link to="/admin/approval-queue">
+          <Link to="/admin/dashboard">
             <Button size="sm" variant="outline" className="gap-1.5 text-xs">
               <Clock className="w-3 h-3" />View Approval Queue
             </Button>

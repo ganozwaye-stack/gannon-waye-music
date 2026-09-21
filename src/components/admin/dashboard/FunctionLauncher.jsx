@@ -56,7 +56,7 @@ const GROUPS = [
     title: 'Fans & Coaching',
     items: [
       { label: 'Fans', path: '/admin/fans', icon: Users },
-      { label: 'Subscribers', path: '/admin/subscribers', icon: Mail },
+      { label: 'Subscribers', path: '/admin/dashboard', icon: Mail },
       { label: 'Coaching Hub', path: '/admin/coaching-hub', icon: GraduationCap },
       { label: 'Supporters', path: '/admin/supporters', icon: Heart },
     ],

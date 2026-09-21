@@ -115,7 +115,7 @@ export default function AnnouncementStudio() {
       status: 'pending',
       proposed_output: EMAIL_BODY,
     }),
-    onSuccess: () => toast({ title: 'Email blast sent to Approval Queue — check /admin/approval-queue' }),
+    onSuccess: () => toast({ title: 'Email blast sent to Approval Queue — check /admin/dashboard' }),
   });
 
   return (

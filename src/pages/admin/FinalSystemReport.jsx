@@ -29,11 +29,11 @@ const TABLE = [
   { category: 'Admin Pages', item: 'Master Blueprint (/admin/master-blueprint)', status: 'pass', note: 'This system — live' },
   { category: 'Admin Pages', item: 'Orders (/admin/orders)', status: 'pass', note: 'Live — fulfilment panel included' },
   { category: 'Admin Pages', item: 'Merch Management (/admin/merch)', status: 'pass', note: 'Live' },
-  { category: 'Admin Pages', item: 'Approval Queue (/admin/approval-queue)', status: 'pass', note: 'Live' },
+  { category: 'Admin Pages', item: 'Approval Queue (/admin/dashboard)', status: 'pass', note: 'Live' },
   { category: 'Admin Pages', item: 'Print Fulfilment (/admin/print-fulfilment)', status: 'pass', note: '6 providers. Manual fallback. Samples not ordered.' },
   { category: 'Admin Pages', item: 'Site Health (/admin/site-health)', status: 'pass', note: 'Backend health function live' },
   { category: 'Admin Pages', item: 'Quick Upload (/admin/content-studio)', status: 'pass', note: 'Staged media library live' },
-  { category: 'Admin Pages', item: 'Human Action Required (/admin/human-action-required)', status: 'pass', note: 'NEW — built this session' },
+  { category: 'Admin Pages', item: 'Human Action Required (/admin/dashboard)', status: 'pass', note: 'NEW — built this session' },
   { category: 'Admin Pages', item: 'Pricing Margin Calculator (/admin/pricing-margin-calculator)', status: 'pass', note: 'NEW — built this session' },
   { category: 'Admin Pages', item: 'Agent Registry (/admin/agent-workbench)', status: 'pass', note: 'Live' },
   { category: 'Admin Pages', item: 'Stripe Command Centre (/admin/financials)', status: 'pass', note: 'Live' },
@@ -190,7 +190,7 @@ export default function FinalSystemReport() {
             ))}
           </div>
           <div className="mt-3">
-            <Link to="/admin/human-action-required">
+            <Link to="/admin/dashboard">
               <Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs border-primary/40 text-primary">
                 <ExternalLink className="w-3 h-3" /> Open Full Human Action Required Inbox
               </Button>
@@ -274,7 +274,7 @@ export default function FinalSystemReport() {
       </Card>
 
       <div className="flex gap-3 flex-wrap">
-        <Link to="/admin/human-action-required">
+        <Link to="/admin/dashboard">
           <Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Human Action Inbox</Button>
         </Link>
         <Link to="/admin/master-blueprint">

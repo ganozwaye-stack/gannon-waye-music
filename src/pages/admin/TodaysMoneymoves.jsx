@@ -180,7 +180,7 @@ export default function TodaysMoneymoves() {
       {/* Quick links */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {[
-          { label: 'Approval Queue', route: '/admin/approval-queue', desc: 'Everything awaiting your decision' },
+          { label: 'Approval Queue', route: '/admin/dashboard', desc: 'Everything awaiting your decision' },
           { label: 'Intelligence to Income', route: '/admin/intelligence-to-income', desc: 'Full income cycle view' },
           { label: 'Business Attention Centre', route: '/admin/notifications', desc: 'All alerts and actions' },
           { label: 'Agent Capability Matrix', route: '/admin/agent-capability-matrix', desc: 'What agents are doing' },

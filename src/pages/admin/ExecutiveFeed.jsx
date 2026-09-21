@@ -62,7 +62,7 @@ export default function ExecutiveFeed() {
       {/* Priority Grid */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <SummaryCard icon={AlertTriangle} color="text-red-400" bg="bg-red-500/10" label="Critical Alerts" value={criticalAlerts.length} link="/admin/risk-alerts" urgent={criticalAlerts.length > 0} />
-        <SummaryCard icon={CheckCircle2} color="text-primary" bg="bg-primary/10" label="Awaiting Approval" value={pending.length} link="/admin/approval-queue" urgent={pending.length > 0} />
+        <SummaryCard icon={CheckCircle2} color="text-primary" bg="bg-primary/10" label="Awaiting Approval" value={pending.length} link="/admin/dashboard" urgent={pending.length > 0} />
         <SummaryCard icon={Lightbulb} color="text-green-400" bg="bg-green-500/10" label="New Opportunities" value={ideas.length} link="/admin/ideas-engine" />
         <SummaryCard icon={Activity} color="text-blue-400" bg="bg-blue-500/10" label="Agent Actions Today" value={recentLogs.length} link="/admin/agent-workbench" />
       </div>
@@ -86,7 +86,7 @@ export default function ExecutiveFeed() {
                   <PriorityRow key={a.id} icon={AlertTriangle} iconColor="text-red-400" label={a.title} sub={`${a.alert_type} · ${a.severity}`} link="/admin/risk-alerts" badge="Critical" badgeColor="bg-red-500/20 text-red-400" />
                 ))}
                 {pending.slice(0, 3).map(p => (
-                  <PriorityRow key={p.id} icon={CheckCircle2} iconColor="text-primary" label={p.action_title} sub={`${p.agent_name} · needs approval`} link="/admin/approval-queue" badge="Pending" badgeColor="bg-primary/20 text-primary" />
+                  <PriorityRow key={p.id} icon={CheckCircle2} iconColor="text-primary" label={p.action_title} sub={`${p.agent_name} · needs approval`} link="/admin/dashboard" badge="Pending" badgeColor="bg-primary/20 text-primary" />
                 ))}
               </>
             )}
@@ -167,7 +167,7 @@ export default function ExecutiveFeed() {
             { label: 'Research Hub', path: '/admin/research-hub', icon: Eye },
             { label: 'Ecommerce Intel', path: '/admin/ecommerce-intelligence', icon: ShoppingBag },
             { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp },
-            { label: 'Approval Queue', path: '/admin/approval-queue', icon: CheckCircle2 },
+            { label: 'Approval Queue', path: '/admin/dashboard', icon: CheckCircle2 },
             { label: 'Risk Alerts', path: '/admin/risk-alerts', icon: AlertTriangle },
             { label: 'Agent Registry', path: '/admin/agent-workbench', icon: Brain },
             { label: 'Orchestrator', path: '/admin/agent-workbench', icon: Zap },

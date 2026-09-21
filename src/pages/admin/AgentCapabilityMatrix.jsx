@@ -309,7 +309,7 @@ export default function AgentCapabilityMatrix() {
                 <Link to="/admin/agent-workbench">
                   <Button size="sm" variant="outline" className="text-xs">View Agent Intelligence</Button>
                 </Link>
-                <Link to="/admin/approval-queue">
+                <Link to="/admin/dashboard">
                   <Button size="sm" variant="outline" className="text-xs">Approval Queue</Button>
                 </Link>
               </div>

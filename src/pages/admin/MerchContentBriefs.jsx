@@ -467,7 +467,7 @@ export default function MerchContentBriefs() {
         <AlertTriangle className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <p className="font-body text-xs text-muted-foreground">
           <strong className="text-primary">Approval-gated.</strong> No content is posted automatically. Use "Send to Approval Queue" on each brief, then approve at{' '}
-          <Link to="/admin/approval-queue" className="text-primary underline underline-offset-2">/admin/approval-queue</Link>{' '}
+          <Link to="/admin/dashboard" className="text-primary underline underline-offset-2">/admin/dashboard</Link>{' '}
           before scheduling in Metricool.
         </p>
       </div>
@@ -489,7 +489,7 @@ export default function MerchContentBriefs() {
 
       {/* Footer links */}
       <div className="flex gap-3 flex-wrap pt-2">
-        <Link to="/admin/approval-queue">
+        <Link to="/admin/dashboard">
           <Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Approval Queue</Button>
         </Link>
         <Link to="/admin/social-schedule-queue">

@@ -77,16 +77,16 @@ export default function SystemsApprovals() {
 
       {/* ── Approvals ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <SectionCard title="Approval Queue" count={approvalQueue.length} actionLabel="Manage" actionPath="/admin/approval-queue">
+        <SectionCard title="Approval Queue" count={approvalQueue.length} actionLabel="Manage" actionPath="/admin/dashboard">
           {isLoading ? <LoadingState /> : approvalQueue.length === 0 ? <EmptyState message="No pending approvals." /> : approvalQueue.slice(0, 10).map(a => (
-            <RowItem key={a.id} title={a.action_title || a.title || 'Action'} subtitle={a.agent_name || 'System'} status={a.risk_level} statusLevel={a.risk_level === 'critical' ? 'red' : a.risk_level === 'high' ? 'orange' : 'grey'} path="/admin/approval-queue" />
+            <RowItem key={a.id} title={a.action_title || a.title || 'Action'} subtitle={a.agent_name || 'System'} status={a.risk_level} statusLevel={a.risk_level === 'critical' ? 'red' : a.risk_level === 'high' ? 'orange' : 'grey'} path="/admin/dashboard" />
           ))}
           {approvalQueue.length > 10 && <p className="text-[10px] text-muted-foreground/40 px-3">+{approvalQueue.length - 10} more pending</p>}
         </SectionCard>
 
-        <SectionCard title="Approval Queue Items" count={approvalItems.length} actionLabel="View" actionPath="/admin/approval-queue">
+        <SectionCard title="Approval Queue Items" count={approvalItems.length} actionLabel="View" actionPath="/admin/dashboard">
           {approvalItems.length === 0 ? <EmptyState message="No items need approval." /> : approvalItems.slice(0, 10).map(a => (
-            <RowItem key={a.id} title={a.title} subtitle={a.category || ''} status="Needs approval" statusLevel="orange" path="/admin/approval-queue" />
+            <RowItem key={a.id} title={a.title} subtitle={a.category || ''} status="Needs approval" statusLevel="orange" path="/admin/dashboard" />
           ))}
         </SectionCard>
       </div>

@@ -10,7 +10,7 @@ import {
 
 // ─── Quick Links (alphabetised, clean grid) ───────────────────────────────
 const QUICK_LINKS = [
-  { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
+  { label: 'Approval Queue', path: '/admin/dashboard', icon: Shield },
   { label: 'Communications', path: '/admin/communications-hub', icon: Mail },
   { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
   { label: 'Lyrics Archive', path: '/admin/content-studio', icon: FileText },
@@ -23,7 +23,7 @@ const QUICK_LINKS = [
   { label: 'Site Settings', path: '/admin/settings', icon: Settings },
   { label: 'Site Overhaul', path: '/admin/site-upgrade-audit', icon: Globe },
   { label: 'Store Customers', path: '/admin/fans', icon: Users },
-  { label: 'Subscribers', path: '/admin/subscribers', icon: Heart },
+  { label: 'Subscribers', path: '/admin/dashboard', icon: Heart },
   { label: 'Supporters', path: '/admin/supporters', icon: Gift },
   { label: 'View Live Site', path: '/', icon: ExternalLink },
 ];
@@ -157,7 +157,7 @@ export default function DailyDashboardV2() {
       <div className="px-6 lg:px-10 pb-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <KpiCard icon={DollarSign} label="Revenue" value={`$${revenue.toLocaleString('en-AU')}`} sublabel="Verified paid orders" path="/admin/orders" />
-          <KpiCard icon={Shield} label="Approvals" value={approvals.length} sublabel="Waiting for you" path="/admin/approval-queue" />
+          <KpiCard icon={Shield} label="Approvals" value={approvals.length} sublabel="Waiting for you" path="/admin/dashboard" />
           <KpiCard icon={Film} label="Content" value={pipeline.length} sublabel="Draft assets prepared" path="/admin/content-studio" />
           <KpiCard icon={Star} label="Release" value={`${releaseReady}%`} sublabel="Campaign readiness" path="/admin/release-email-studio" />
         </div>
@@ -193,10 +193,10 @@ export default function DailyDashboardV2() {
           </SectionCard>
 
           {/* Right: Approval Queue */}
-          <SectionCard title="Approval Queue" actionLabel="View all" actionPath="/admin/approval-queue">
+          <SectionCard title="Approval Queue" actionLabel="View all" actionPath="/admin/dashboard">
             {approvals.length > 0 ? (
               approvals.slice(0, 6).map((item) => (
-                <ApprovalRow key={item.id} title={item.title} desc={item.category || 'Needs review'} path="/admin/approval-queue" />
+                <ApprovalRow key={item.id} title={item.title} desc={item.category || 'Needs review'} path="/admin/dashboard" />
               ))
             ) : (
               <div className="px-3 py-6 text-center">

@@ -101,7 +101,7 @@ export default function DailyPostEngine() {
           {generating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Zap className="w-4 h-4" />}
           Generate {selectedDate} Drafts
         </Button>
-        <Link to="/admin/approval-queue">
+        <Link to="/admin/dashboard">
           <Button variant="outline" size="sm" className="gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5" /> Approval Queue
           </Button>

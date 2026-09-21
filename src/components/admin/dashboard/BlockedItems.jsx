@@ -9,8 +9,8 @@ const BLOCKED_ROUTES = [
   { match: /lyric/i, path: '/admin/content-studio' },
   { match: /deego|agent/i, path: '/admin/agent-workbench' },
   { match: /finance|profit|revenue|stripe|payment/i, path: '/admin/financials' },
-  { match: /approval/i, path: '/admin/approval-queue' },
-  { match: /sku|sourcing|procurement|supplier/i, path: '/admin/procurement-command' },
+  { match: /approval/i, path: '/admin/dashboard' },
+  { match: /sku|sourcing|procurement|supplier/i, path: '/admin/dashboard' },
   { match: /function|deployment|deploy/i, path: '/admin/operation-registry' },
   { match: /release/i, path: '/admin/release-email-studio' },
   { match: /merch|product|store|shop/i, path: '/admin/merch' },
@@ -21,7 +21,7 @@ function routeForBlocked(item) {
   if (item.related_page && item.related_page.startsWith('/')) return item.related_page;
   const text = `${item.title || ''} ${item.next_action || ''}`.toLowerCase();
   const hit = BLOCKED_ROUTES.find((r) => r.match.test(text));
-  return hit ? hit.path : '/admin/human-action-required';
+  return hit ? hit.path : '/admin/dashboard';
 }
 
 export default function BlockedItems() {

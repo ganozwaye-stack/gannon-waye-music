@@ -17,12 +17,12 @@ const INCOME_STREAMS = [
   { name: 'Sync Licensing', status: 'pipeline', monthly_est: '$500-10,000 per placement', category: 'Music', route: '/admin/sync-licensing-command', maturity: 'high_potential' },
   { name: 'YouTube AdSense', status: 'pipeline', monthly_est: '$20-200', category: 'Social', route: '/admin/content-studio', maturity: 'pipeline' },
   { name: 'TikTok Creator Fund', status: 'blocked', monthly_est: '$10-100', category: 'Social', route: '/tiktok-platform-review', maturity: 'blocked' },
-  { name: 'Email List Monetisation', status: 'pipeline', monthly_est: '$100-2,000 per campaign', category: 'Community', route: '/admin/subscribers', maturity: 'pipeline' },
+  { name: 'Email List Monetisation', status: 'pipeline', monthly_est: '$100-2,000 per campaign', category: 'Community', route: '/admin/dashboard', maturity: 'pipeline' },
   { name: 'Artist Management Services', status: 'staging', monthly_est: '$2,000-10,000/month', category: 'Business', route: '/admin/artist-business-setup', maturity: 'staging' },
   { name: 'Life Coaching / Mindset', status: 'staging', monthly_est: '$3,000-15,000/month', category: 'Coaching', route: '/admin/coaching-command', maturity: 'staging' },
   { name: 'Music Production Sessions', status: 'pipeline', monthly_est: '$200-1,000 per session', category: 'Music', route: '/admin/sync-licensing-command', maturity: 'pipeline' },
   { name: 'Merchandise Licensing', status: 'idea', monthly_est: 'Unknown', category: 'Commerce', route: '/admin/merch', maturity: 'idea' },
-  { name: 'Partnership / Brand Deals', status: 'idea', monthly_est: '$500-10,000 per deal', category: 'Business', route: '/admin/marketing-centre', maturity: 'idea' },
+  { name: 'Partnership / Brand Deals', status: 'idea', monthly_est: '$500-10,000 per deal', category: 'Business', route: '/admin/dashboard', maturity: 'idea' },
   { name: 'Affiliate / Referral Income', status: 'idea', monthly_est: '$50-500', category: 'Commerce', route: '/admin/financials', maturity: 'idea' },
 ];
 

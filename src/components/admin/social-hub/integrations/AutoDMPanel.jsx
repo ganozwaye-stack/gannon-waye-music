@@ -308,7 +308,7 @@ export default function AutoDMPanel() {
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
+          { label: 'Approval Queue', path: '/admin/dashboard', icon: Shield },
           { label: 'Business Attention Centre', path: '/admin/business-attention-centre', icon: AlertTriangle },
           { label: 'Fan Conversion Engine', path: '/admin/fan-conversion-engine', icon: Users },
           { label: 'Content Performance', path: '/admin/content-studio', icon: TrendingUp },

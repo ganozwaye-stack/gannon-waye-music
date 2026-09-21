@@ -1,5 +1,5 @@
-import ClientInstalls from '@/pages/admin/ClientInstalls';
-import AtoZIndex from '@/pages/admin/AtoZIndex';
+import ClientInstalls from '@/components/admin/dashboard-family/ClientInstalls';
+import AtoZIndex from '@/components/admin/dashboard-family/AtoZIndex';
 
 // Client Installs & Site A-Z Index: the full Client Installs
 // (ClientBlueprintInstall entity) plus the A-to-Z Index with its ALL_PAGES

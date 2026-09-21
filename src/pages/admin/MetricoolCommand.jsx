@@ -185,7 +185,7 @@ export default function MetricoolCommand() {
                 <p className="font-body text-xs text-muted-foreground">Must approve before scheduling to Metricool</p>
               </div>
             </div>
-            <Link to="/admin/approval-queue">
+            <Link to="/admin/dashboard">
               <Button size="sm" variant="outline" className="border-primary/40 text-primary gap-1.5">
                 <ChevronRight className="w-3 h-3" /> Review
               </Button>

@@ -91,7 +91,7 @@ export default function WeeklyMoneyReport() {
         <Metric label="Revenue This Week" value={`$${thisRevenue.toFixed(0)}`} sub="Paid orders only" delta={revenueDelta} route="/admin/order-profit-intelligence" color="text-green-400" />
         <Metric label="Net Profit This Week" value={`$${thisProfit.toFixed(0)}`} sub="After costs + fees" delta={profitDelta} route="/admin/order-profit-intelligence" color="text-primary" />
         <Metric label="Orders This Week" value={thisOrders.length} sub={`${lastOrders.length} last week`} route="/admin/order-profit-intelligence" />
-        <Metric label="New Subscribers" value={thisSubs} sub="Email list growth" route="/admin/subscribers" color="text-blue-400" />
+        <Metric label="New Subscribers" value={thisSubs} sub="Email list growth" route="/admin/dashboard" color="text-blue-400" />
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -108,7 +108,7 @@ export default function WeeklyMoneyReport() {
               { label: 'Review pending agent proposals', route: '/admin/financials', urgent: true },
               { label: 'Check payment diagnostics', route: '/admin/payment-diagnostics', urgent: false },
               { label: 'Review unread notifications', route: '/admin/notifications', urgent: false },
-              { label: 'Approve/reject approval queue items', route: '/admin/approval-queue', urgent: false },
+              { label: 'Approve/reject approval queue items', route: '/admin/dashboard', urgent: false },
               { label: 'Check shipping for packed orders', route: '/admin/orders', urgent: false },
             ].map(item => (
               <Link key={item.route} to={item.route}>

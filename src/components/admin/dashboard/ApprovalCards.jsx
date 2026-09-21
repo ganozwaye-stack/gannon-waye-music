@@ -33,7 +33,7 @@ const CATEGORY_ROUTES = {
   tiktok_post: '/admin/tiktok-recording-studio',
   merch_feature: '/admin/merch',
   page_publish: '/admin/website-ops',
-  other: '/admin/approval-queue',
+  other: '/admin/dashboard',
 };
 
 export default function ApprovalCards() {
@@ -68,7 +68,7 @@ export default function ApprovalCards() {
     toast({ title: 'Declined & removed', description: item.title });
   };
 
-  const go = (item) => navigate(CATEGORY_ROUTES[item.category] || '/admin/approval-queue');
+  const go = (item) => navigate(CATEGORY_ROUTES[item.category] || '/admin/dashboard');
 
   return (
     <div className="bg-card border border-primary/20 rounded-2xl p-5">

@@ -26,8 +26,8 @@ export default function DailyDashboard() {
 
   const counters = [
     { label: 'recommendations', value: recs.length, cls: 'text-primary border-primary/25 bg-primary/10', path: '/admin/financials' },
-    { label: 'approvals', value: approvals.length, cls: 'text-primary border-primary/25 bg-primary/10', path: '/admin/approval-queue' },
-    { label: 'blocked', value: blocked.length, cls: 'text-red-400 border-red-500/25 bg-red-500/10', path: '/admin/human-action-required' },
+    { label: 'approvals', value: approvals.length, cls: 'text-primary border-primary/25 bg-primary/10', path: '/admin/dashboard' },
+    { label: 'blocked', value: blocked.length, cls: 'text-red-400 border-red-500/25 bg-red-500/10', path: '/admin/dashboard' },
   ];
 
   return (

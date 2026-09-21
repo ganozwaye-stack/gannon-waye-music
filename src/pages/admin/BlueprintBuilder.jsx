@@ -202,7 +202,7 @@ Be specific, warm, and confident.`,
           <h1 className="text-3xl font-display font-bold gradient-gold-text">Blueprint Builder</h1>
           <p className="text-muted-foreground text-sm mt-1 font-body">Sellable AI operating system packages — private admin only</p>
         </div>
-        <Link to="/admin/client-installs">
+        <Link to="/admin/dashboard">
           <Button variant="outline">View Client Installs →</Button>
         </Link>
       </div>

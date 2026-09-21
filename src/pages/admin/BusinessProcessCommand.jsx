@@ -44,7 +44,7 @@ export default function BusinessProcessCommand() {
   const criticalAlerts = notifications.filter(n => n.severity === 'critical' || n.severity === 'high');
 
   const commandLinks = [
-    { label: 'Procurement Command', path: '/admin/procurement-command', icon: ShoppingCart, desc: 'Alibaba · Purchase Orders · Landed Cost' },
+    { label: 'Procurement Command', path: '/admin/dashboard', icon: ShoppingCart, desc: 'Alibaba · Purchase Orders · Landed Cost' },
     { label: 'Landed Cost Calculator', path: '/admin/financials', icon: DollarSign, desc: 'Calculate per-unit costs' },
     { label: 'Stock Flow Dashboard', path: '/admin/stock-flow-dashboard', icon: Boxes, desc: 'Inventory · Ordered · Available · Sold' },
     { label: 'Purchase Orders', path: '/admin/purchase-orders', icon: Package, desc: 'All POs · Tracking · Status' },
@@ -52,7 +52,7 @@ export default function BusinessProcessCommand() {
     { label: 'Merch Management', path: '/admin/merch', icon: Package, desc: 'Products · Prices · Stock' },
     { label: 'Merch Financials', path: '/admin/merch-financials', icon: BarChart3, desc: 'Profit · Margins · Revenue' },
     { label: 'Stripe Command Centre', path: '/admin/financials', icon: Shield, desc: 'Payments · Webhooks' },
-    { label: 'Approval Queue', path: '/admin/approval-queue', icon: CheckCircle2, desc: 'Pending approvals' },
+    { label: 'Approval Queue', path: '/admin/dashboard', icon: CheckCircle2, desc: 'Pending approvals' },
     { label: 'Business Attention Centre', path: '/admin/business-attention-centre', icon: AlertTriangle, desc: 'All blockers' },
     { label: 'Discount Guard', path: '/admin/financials', icon: Shield, desc: 'Promo code rules' },
     { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Truck, desc: 'Postage rules' },
@@ -89,7 +89,7 @@ export default function BusinessProcessCommand() {
       {/* Key metrics */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: 'Pending Approvals', value: approvals.length, color: 'text-primary', path: '/admin/approval-queue' },
+          { label: 'Pending Approvals', value: approvals.length, color: 'text-primary', path: '/admin/dashboard' },
           { label: 'Active POs', value: activePOs.length, color: 'text-blue-400', path: '/admin/purchase-orders' },
           { label: 'Stock Value (AUD)', value: `$${stockValue.toFixed(2)}`, color: 'text-primary', path: '/admin/stock-flow-dashboard' },
           { label: 'Preliminary Costs', value: prelimBatches.length, color: 'text-primary', path: '/admin/purchase-orders' },
@@ -124,7 +124,7 @@ export default function BusinessProcessCommand() {
                 <a href="https://www.alibaba.com/trade/ManageOrders/order_list.htm" target="_blank" rel="noopener noreferrer">
                   <Button size="sm" variant="outline" className="text-xs gap-1"><ExternalLink className="w-3 h-3" /> Open Alibaba Orders</Button>
                 </a>
-                <Link to="/admin/procurement-command">
+                <Link to="/admin/dashboard">
                   <Button size="sm" className="text-xs gap-1"><Package className="w-3 h-3" /> Enter Order Manually</Button>
                 </Link>
               </div>

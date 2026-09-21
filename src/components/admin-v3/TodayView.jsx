@@ -90,7 +90,7 @@ export default function TodayView() {
     subtitle: a.agent_name || a.category || 'Needs review',
     status: 'Review',
     level: 'orange',
-    path: '/admin/approval-queue',
+    path: '/admin/dashboard',
   }));
 
   // ── Money & customer exceptions ──
@@ -124,7 +124,7 @@ export default function TodayView() {
     <div className="space-y-6">
       {/* ── KPIs ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-        <KpiCard icon={Shield} label="Pending Approvals" value={approvals.count} sublabel={`${approvals.fromApprovalQueue} queue + ${approvals.fromApprovalQueueItems} items`} path="/admin/approval-queue" tooltip={approvals.formula} level={approvals.count > 0 ? 'orange' : 'green'} />
+        <KpiCard icon={Shield} label="Pending Approvals" value={approvals.count} sublabel={`${approvals.fromApprovalQueue} queue + ${approvals.fromApprovalQueueItems} items`} path="/admin/dashboard" tooltip={approvals.formula} level={approvals.count > 0 ? 'orange' : 'green'} />
         <KpiCard icon={DollarSign} label="Verified Revenue" value={`$${revenue.total.toLocaleString('en-AU')}`} sublabel={`${revenue.count} paid orders`} path="/admin/orders" tooltip={revenue.formula} level="green" />
         <KpiCard icon={AlertTriangle} label="Payment Exceptions" value={paymentExcs.count} sublabel="Needs resolution" path="/admin/payment-diagnostics" tooltip={paymentExcs.formula} level={paymentExcs.count > 0 ? 'red' : 'green'} />
         <KpiCard icon={Star} label="Active Releases" value={releases.length} sublabel={`${releases.filter(r => r.status !== 'released').length} in progress`} path="/admin/release-email-studio" level="grey" />
@@ -135,7 +135,7 @@ export default function TodayView() {
         <SectionCard title="Do Now" count={doNowItems.length} actionLabel="All blocked" actionPath="/admin/dashboard">
           {aqLoading ? <LoadingState /> : doNowItems.length === 0 ? <EmptyState message="Nothing urgent. You're all caught up." icon={CheckCircle2} /> : doNowItems.map((item, i) => <RowItem key={i} {...item} />)}
         </SectionCard>
-        <SectionCard title="Waiting for Gannon" count={waitingItems.length} actionLabel="View all" actionPath="/admin/approval-queue">
+        <SectionCard title="Waiting for Gannon" count={waitingItems.length} actionLabel="View all" actionPath="/admin/dashboard">
           {waitingItems.length === 0 ? <EmptyState message="No approvals waiting." icon={CheckCircle2} /> : waitingItems.map((item, i) => <RowItem key={i} {...item} />)}
         </SectionCard>
       </div>

@@ -172,7 +172,7 @@ export default function GlobalSearch({ onClose }) {
   const handleResultClick = (result) => {
     const routes = {
       order: `/admin/orders`,
-      subscriber: `/admin/subscribers`,
+      subscriber: `/admin/dashboard`,
       product: `/admin/merch`,
       contribution: `/admin/supporters`,
       gift_claim: `/admin/gift-verification`,

@@ -84,7 +84,7 @@ const SECTIONS = [
       { label: 'Duplicate approval prevention', status: 'Live-tested complete', detail: 'LIVE-TESTED — proofApprovalChain confirmed duplicate_blocked: true.' },
       { label: 'Notification created on approval', status: 'Live-tested complete', detail: 'LIVE-TESTED — Business Attention Centre notification created during proof chain run.' },
       { label: 'Full chain: proposal → approve → BundleOffer', status: 'Built but untested', detail: 'A historical proof run exists, but the current production-data chain is safety-held and needs an isolated fixture plus owner-approved retest.' },
-      { label: 'Full UI → approve → published proof (Gannon)', status: 'Blocked by Gannon approval', detail: 'Backend chain proven. UI approval by Gannon still needed: go to /admin/approval-queue → approve a social draft or proposal → confirm result.' },
+      { label: 'Full UI → approve → published proof (Gannon)', status: 'Blocked by Gannon approval', detail: 'Backend chain proven. UI approval by Gannon still needed: go to /admin/dashboard → approve a social draft or proposal → confirm result.' },
     ],
   },
   {

@@ -6,7 +6,7 @@ import { test, expect } from '@playwright/test';
 
 const BASE_URL = globalThis.process?.env?.BASE_URL || 'http://localhost:5173';
 
-const ADMIN_ROUTES = ['/admin', '/admin/dashboard', '/admin/orders', '/admin/approval-queue'];
+const ADMIN_ROUTES = ['/admin', '/admin/dashboard', '/admin/orders', '/admin/dashboard'];
 
 test.describe('Admin routes are locked to anonymous visitors', () => {
   for (const route of ADMIN_ROUTES) {
@@ -26,7 +26,7 @@ test.describe('Admin routes are locked to anonymous visitors', () => {
         }, { timeout: 20_000 })
         .toBe(true);
 
-      await expect(page.locator('a[href="/admin/approval-queue"]')).toHaveCount(0);
+      await expect(page.locator('a[href="/admin/dashboard"]')).toHaveCount(0);
     });
   }
 });

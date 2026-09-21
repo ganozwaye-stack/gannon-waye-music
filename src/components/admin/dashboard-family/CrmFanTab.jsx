@@ -1,5 +1,5 @@
-import Subscribers from '@/pages/admin/Subscribers';
-import MusicFanHub from '@/pages/admin/MusicFanHub';
+import Subscribers from '@/components/admin/dashboard-family/Subscribers';
+import MusicFanHub from '@/components/admin/dashboard-family/MusicFanHub';
 
 // CRM & Fan Subscriptions: the full Subscribers CRM table (EmailSubscriber,
 // GiftRequirementTracker, MerchOrder and SupportContribution entities) plus

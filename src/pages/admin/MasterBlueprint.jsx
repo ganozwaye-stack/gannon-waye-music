@@ -110,7 +110,7 @@ const ADMIN_ROUTES = [
   { label: '⭐ Master Blueprint',      path: '/admin/master-blueprint',        status: 'ok',     note: 'This page — live ✓' },
   { label: 'Orders',                   path: '/admin/orders',                  status: 'ok' },
   { label: 'Merch Management',         path: '/admin/merch',                   status: 'ok' },
-  { label: 'Approval Queue',           path: '/admin/approval-queue',          status: 'ok' },
+  { label: 'Approval Queue',           path: '/admin/dashboard',          status: 'ok' },
   { label: 'Release Sprint (6-Day)',   path: '/admin/release-sprint',          status: 'ok' },
   { label: 'Campaign Image Approval',  path: '/admin/content-studio', status: 'ok' },
   { label: 'Merch Visual Lab',         path: '/admin/merch-visual-lab',        status: 'ok' },
@@ -136,17 +136,17 @@ const ADMIN_ROUTES = [
   { label: 'Promo Codes',             path: '/admin/financials',              status: 'ok' },
   { label: 'Shipping Rates',          path: '/admin/shipping-rates',           status: 'ok' },
   { label: 'Supporters',              path: '/admin/supporters',               status: 'ok' },
-  { label: 'Subscribers',             path: '/admin/subscribers',              status: 'ok' },
+  { label: 'Subscribers',             path: '/admin/dashboard',              status: 'ok' },
   { label: 'Financial Dashboard',     path: '/admin/financials',               status: 'ok' },
   { label: 'Landed Cost Calculator',  path: '/admin/financials',   status: 'ok' },
-  { label: 'Procurement Command',     path: '/admin/procurement-command',      status: 'ok' },
+  { label: 'Procurement Command',     path: '/admin/dashboard',      status: 'ok' },
   { label: 'Audit Log',               path: '/admin/audit-log',                status: 'ok' },
   // Missing / not yet built
   { label: 'Thankyou Campaign Engine', path: '/admin/thankyou-6-day-campaign', status: 'missing', note: 'Use /admin/release-sprint as current alternative' },
   { label: 'Base44 Exit Plan',          path: '/admin/base44-exit-plan',         status: 'ok',      note: '5-phase migration plan to GitHub-controlled stack' },
   { label: 'Legal Drafts',              path: '/admin/legal-drafts',             status: 'ok',      note: 'Draft termination letter for Victor de Mauro / GanozMix separation' },
   { label: 'Print Fulfilment',          path: '/admin/print-fulfilment',         status: 'broken',  note: 'BLOCKED — No provider active. All poster orders → manual_fulfilment_required. Samples not ordered. No API keys set. Do not activate providers without approval.' },
-  { label: 'Human Action Required',     path: '/admin/human-action-required',    status: 'ok',      note: 'Centralised inbox — all human-required actions in priority order.' },
+  { label: 'Human Action Required',     path: '/admin/dashboard',    status: 'ok',      note: 'Centralised inbox — all human-required actions in priority order.' },
   { label: 'Pricing & Margin Calculator', path: '/admin/pricing-margin-calculator', status: 'ok',  note: 'Full margin/profit calculator with bundle exclusion rules.' },
   { label: 'Final System Report',       path: '/admin/final-system-report',      status: 'ok',      note: 'Autonomous build session truth table — pass/review/fail across all systems.' },
 ];
@@ -247,7 +247,7 @@ const NEXT_ACTIONS = [
   { priority: 'medium',   action: 'Upload corrected Journal bundle image showing journal, pen, and thermos together via /admin/merch', link: '/admin/merch' },
   { priority: 'medium',   action: 'Review Base44 Exit Plan phases and begin Phase 1 (stabilise) at /admin/base44-exit-plan', link: '/admin/base44-exit-plan' },
   { priority: 'medium',   action: 'Review draft termination letter for GanozMix / Victor at /admin/legal-drafts before sending', link: '/admin/legal-drafts' },
-  { priority: 'high',     action: 'Open Human Action Required inbox — full prioritised list of items needing your personal action', link: '/admin/human-action-required' },
+  { priority: 'high',     action: 'Open Human Action Required inbox — full prioritised list of items needing your personal action', link: '/admin/dashboard' },
   { priority: 'medium',   action: 'Use Pricing & Margin Calculator to verify all product margins before next promotion', link: '/admin/pricing-margin-calculator' },
   { priority: 'medium',   action: 'Review the Final System Report for a complete build/test/status truth table', link: '/admin/final-system-report' },
 ];
@@ -361,7 +361,7 @@ export default function MasterBlueprint() {
         ))}
         <div className="mt-3 flex gap-2 flex-wrap">
           <Link to="/admin/merch-content-briefs"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Content Briefs</Button></Link>
-          <Link to="/admin/approval-queue"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Approval Queue</Button></Link>
+          <Link to="/admin/dashboard"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Approval Queue</Button></Link>
           <Link to="/admin/content-studio"><Button type="button" size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" /> Upload Assets</Button></Link>
         </div>
       </Section>
@@ -535,7 +535,7 @@ export default function MasterBlueprint() {
               ))}
               {approvals.length > 5 && <p className="text-xs text-muted-foreground">+{approvals.length - 5} more</p>}
             </div>
-            <Link to="/admin/approval-queue">
+            <Link to="/admin/dashboard">
               <Button size="sm" variant="outline" className="gap-1.5 border-primary/40 text-primary text-xs">
                 <ExternalLink className="w-3 h-3" /> Open Approval Queue
               </Button>
@@ -553,7 +553,7 @@ export default function MasterBlueprint() {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
             {[
               { label: 'Release Sprint',       path: '/admin/release-sprint' },
-              { label: 'Approval Queue',       path: '/admin/approval-queue' },
+              { label: 'Approval Queue',       path: '/admin/dashboard' },
               { label: 'Merch Visual Lab',     path: '/admin/merch-visual-lab' },
               { label: 'Campaign Images',      path: '/admin/content-studio' },
               { label: 'Orders',               path: '/admin/orders' },
@@ -564,7 +564,7 @@ export default function MasterBlueprint() {
               { label: 'Site Health',          path: '/admin/site-health' },
               { label: 'Agent Registry',       path: '/admin/agent-workbench' },
               { label: 'Mum Tribute',          path: '/mum' },
-              { label: 'Human Action Required', path: '/admin/human-action-required' },
+              { label: 'Human Action Required', path: '/admin/dashboard' },
               { label: 'Margin Calculator',     path: '/admin/pricing-margin-calculator' },
               { label: 'Final Report',          path: '/admin/final-system-report' },
             ].map(link => (

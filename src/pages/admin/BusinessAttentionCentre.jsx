@@ -427,7 +427,7 @@ export default function BusinessAttentionCentre() {
                       onClick={() => approvalMutation.mutate({ id: a.id, status: 'in_review', note: 'Under review' })}>
                       Revise
                     </Button>
-                    <Link to="/admin/approval-queue">
+                    <Link to="/admin/dashboard">
                       <Button variant="ghost" size="sm" className="h-7 text-xs">Full Review →</Button>
                     </Link>
                   </div>

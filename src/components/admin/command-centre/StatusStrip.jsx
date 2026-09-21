@@ -35,7 +35,7 @@ export default function StatusStrip() {
   const cards = [
     {
       icon: CheckCircle2, color: 'text-primary', bg: 'bg-primary/10',
-      label: 'Pending approvals', value: approvals.length, link: '/admin/approval-queue',
+      label: 'Pending approvals', value: approvals.length, link: '/admin/dashboard',
     },
     {
       icon: AlertTriangle, color: 'text-red-400', bg: 'bg-red-500/10',

@@ -1,5 +1,5 @@
-import ApprovalQueuePage from '@/pages/admin/ApprovalQueue';
-import MarketingCentre from '@/pages/admin/MarketingCentre';
+import ApprovalQueuePage from '@/components/admin/dashboard-family/ApprovalQueue';
+import MarketingCentre from '@/components/admin/dashboard-family/MarketingCentre';
 
 // Approval Queue & System Approvals: the full Approval Queue (ApprovalQueue,
 // ContentCalendarPost and PurchaseOrder entities, risk badges, approval

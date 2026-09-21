@@ -1,6 +1,6 @@
-import ProductionTracker from '@/pages/admin/ProductionTracker';
-import MusicRoadmap from '@/pages/admin/MusicRoadmap';
-import ProcurementCommand from '@/pages/admin/ProcurementCommand';
+import ProductionTracker from '@/components/admin/dashboard-family/ProductionTracker';
+import MusicRoadmap from '@/components/admin/dashboard-family/MusicRoadmap';
+import ProcurementCommand from '@/components/admin/dashboard-family/ProcurementCommand';
 
 // Production & Supply Chain: the full Production Tracker (ContentProductionJob,
 // MusicProductionProject, Release and AdminNotification entities), the Music

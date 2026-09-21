@@ -195,7 +195,7 @@ export default function OpenAICommandCentre() {
                 ['AI Message Bus', `${messages.length} messages`, 'green', '/admin/agent-workbench'],
                 ['Content Command', 'BUILT BUT UNTESTED', 'amber', '/admin/content-command'],
                 ['Metricool', 'BLOCKED BY PROFILE/ACCOUNT ID', 'orange', '/admin/metricool-command'],
-                ['Approval Queue', 'ACTIVE', 'green', '/admin/approval-queue'],
+                ['Approval Queue', 'ACTIVE', 'green', '/admin/dashboard'],
                 ['Paid AI jobs', paused ? 'PAUSED' : 'ENABLED (cost-controlled)', paused ? 'orange' : 'green', null],
               ].map(([label, status, color, route]) => (
                 <div key={label} className="flex items-center justify-between gap-2 p-2 border border-border/20 rounded text-xs">
@@ -376,7 +376,7 @@ export default function OpenAICommandCentre() {
                 <Link to="/admin/content-command" className="flex-1">
                   <Button variant="outline" size="sm" className="w-full">Review in Content Command →</Button>
                 </Link>
-                <Link to="/admin/approval-queue" className="flex-1">
+                <Link to="/admin/dashboard" className="flex-1">
                   <Button variant="outline" size="sm" className="w-full">Approval Queue →</Button>
                 </Link>
               </div>

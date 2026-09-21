@@ -1,5 +1,5 @@
-import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
-import HumanActionRequired from '@/pages/admin/HumanActionRequired';
+import OwnerBusinessHub from '@/components/admin/dashboard-family/OwnerBusinessHub';
+import HumanActionRequired from '@/components/admin/dashboard-family/HumanActionRequired';
 
 // Flightdeck Overview & Action Inbox: the full Owner Business Hub
 // (SystemsManagerLead entity, PINNED_TASKS_DEFAULT and ACTIONS configs,

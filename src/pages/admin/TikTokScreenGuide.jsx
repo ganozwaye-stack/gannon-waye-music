@@ -409,7 +409,7 @@ export default function TikTokScreenGuide() {
           <Link to="/admin/tiktok-review"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />TikTok Review</Button></Link>
           <Link to="/admin/tiktok-recording-studio"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Recording Studio</Button></Link>
           <Link to="/admin/social-schedule-queue"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Social Content</Button></Link>
-          <Link to="/admin/approval-queue"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Approval Queue</Button></Link>
+          <Link to="/admin/dashboard"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Approval Queue</Button></Link>
           <Link to="/admin/notifications"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Notifications</Button></Link>
         </CardContent>
       </Card>

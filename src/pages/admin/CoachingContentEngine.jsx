@@ -64,7 +64,7 @@ const ADMIN_LINKS = [
   { label: '30-Day Social Drafts', path: '/admin/social-drafts', desc: 'Review and approve all 30 posts' },
   { label: 'Workbook Builder', path: '/admin/workbook-builder', desc: 'Manage workbooks and lead magnets' },
   { label: 'Client Resource Library', path: '/admin/client-resource-library', desc: 'Session resources and templates' },
-  { label: 'Approval Queue', path: '/admin/approval-queue?tab=coaching', desc: 'All coaching content awaiting approval' },
+  { label: 'Approval Queue', path: '/admin/dashboard?tab=coaching', desc: 'All coaching content awaiting approval' },
   { label: 'Coaching Hub', path: '/admin/coaching-hub', desc: 'Leads, intakes, clients' },
 ];
 
@@ -294,7 +294,7 @@ export default function CoachingContentEngine() {
                 { title: '3. Workbooks Created', items: PAID_RESOURCES.map(r => r.name) },
                 { title: '4. Client Manuals Created', items: CLIENT_RESOURCES },
                 { title: '5. Lead Magnets Created', items: LEAD_MAGNETS.map(l => l.name) },
-                { title: '6. Admin Pages Created', items: ['/admin/coaching-content-engine', '/admin/social-drafts', '/admin/workbook-builder', '/admin/client-resource-library', '/admin/approval-queue', '/admin/coaching-hub'] },
+                { title: '6. Admin Pages Created', items: ['/admin/coaching-content-engine', '/admin/social-drafts', '/admin/workbook-builder', '/admin/client-resource-library', '/admin/dashboard', '/admin/coaching-hub'] },
                 { title: '7. Approval Queue Items', items: ['30 coaching social post drafts loaded into Approval Queue', 'All tagged: coaching, social, content', 'Status: pending — awaiting Gannon review'] },
                 { title: '8. Ready to Design', items: ['All 5 lead magnet PDF templates', 'All 6 paid workbook PDF layouts', 'Reel graphic templates for each pillar (10 visual themes)', 'Cover images for each workbook'] },
                 { title: '9. Ready to Post After Approval', items: ['All 30 social posts are scripted and ready', 'Hooks, captions, first comments, and CTAs are written', 'Once approved in queue → export to Metricool → schedule'] },

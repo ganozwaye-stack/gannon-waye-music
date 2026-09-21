@@ -76,7 +76,7 @@ const AGENTS = [
     risk: 'none',
     tools: ['ApprovalQueue', 'AdminNotification'],
     run_fn: null,
-    path: '/admin/approval-queue',
+    path: '/admin/dashboard',
   },
   {
     name: 'Supervisor Agent',
@@ -205,7 +205,7 @@ export default function AgentWorkbench() {
               <AlertTriangle className="w-5 h-5 text-primary shrink-0" />
               <p className="text-sm text-primary font-semibold">{approvals.length} agent outputs awaiting your approval</p>
             </div>
-            <Link to="/admin/approval-queue">
+            <Link to="/admin/dashboard">
               <Button size="sm" variant="outline" className="border-primary/40 text-primary gap-1">
                 Review <ChevronRight className="w-3 h-3" />
               </Button>
@@ -284,7 +284,7 @@ export default function AgentWorkbench() {
 
       <div className="flex gap-2 flex-wrap">
         <Link to="/admin/social-agent-os"><Button variant="outline" size="sm">Social Agent OS</Button></Link>
-        <Link to="/admin/approval-queue"><Button variant="outline" size="sm">Approval Queue</Button></Link>
+        <Link to="/admin/dashboard"><Button variant="outline" size="sm">Approval Queue</Button></Link>
         <Link to="/admin/daily-post-engine"><Button variant="outline" size="sm">Daily Post Engine</Button></Link>
         <Link to="/admin/agent-workbench"><Button variant="outline" size="sm">Agent Learning</Button></Link>
       </div>

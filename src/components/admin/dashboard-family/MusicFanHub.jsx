@@ -157,7 +157,7 @@ export default function MusicFanHub() {
                 <CardDescription className="text-xs">Quick shortcuts for supporter interactions.</CardDescription>
               </CardHeader>
               <CardContent className="space-y-2.5">
-                <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/subscribers'}>
+                <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/dashboard'}>
                   <Users className="w-4 h-4 mr-2 text-primary" /> Manage CRM Profiles
                 </Button>
                 <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/supporters'}>

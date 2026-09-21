@@ -21,13 +21,10 @@ const ROUTE_AUDIT = [
   { page: 'Privacy Policy', route: '/privacy-policy', elements: ['Internal links'], status: 'working' },
   { page: 'Terms of Service', route: '/terms-of-service', elements: ['Internal links'], status: 'working' },
   // Admin
-  { page: 'Admin Dashboard', route: '/admin', elements: ['Mission Control → /admin/mission-control', 'Financials → /admin/financials', 'Orders → /admin/orders', 'Approval Queue → /admin/approval-queue', 'Releases → /admin/release-email-studio'], status: 'working' },
   { page: 'Priority Commander', route: '/admin/priority-commander', elements: ['Approval Queue link', 'Task complete/defer/escalate', 'Refresh', 'Filter controls'], status: 'working' },
   { page: 'Click Audit', route: '/admin/click-audit', elements: ['Route table', 'Search filter', 'Status filters', 'External links'], status: 'working' },
   { page: 'Orders', route: '/admin/orders', elements: ['Order rows → detail dialog', 'Status update', 'Track shipment', 'Receipt email'], status: 'working' },
   { page: 'Merch Management', route: '/admin/merch', elements: ['Product cards', 'Edit dialog', 'Create product', 'Delete product'], status: 'working' },
-  { page: 'Approval Queue', route: '/admin/approval-queue', elements: ['Approve/reject buttons', 'Filter by status'], status: 'working' },
-  { page: 'Subscribers', route: '/admin/subscribers', elements: ['Subscriber list', 'Export', 'Send email'], status: 'working' },
   { page: 'Site Settings', route: '/admin/settings', elements: ['Save settings', 'Upload images'], status: 'working' },
   { page: 'Mission Control', route: '/admin/mission-control', elements: ['Panel links', 'Quick actions'], status: 'working' },
   { page: 'Payment Diagnostics', route: '/admin/payment-diagnostics', elements: ['Stripe test', 'Webhook rotate'], status: 'working' },

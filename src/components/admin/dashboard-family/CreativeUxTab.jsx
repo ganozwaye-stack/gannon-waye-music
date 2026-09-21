@@ -1,6 +1,6 @@
-import CreativeStudio from '@/pages/admin/CreativeStudio';
-import PremiumUX from '@/pages/admin/PremiumUX';
-import EducationHub from '@/pages/admin/EducationHub';
+import CreativeStudio from '@/components/admin/dashboard-family/CreativeStudio';
+import PremiumUX from '@/components/admin/dashboard-family/PremiumUX';
+import EducationHub from '@/components/admin/dashboard-family/EducationHub';
 
 // Creative Suite & UX Audits: the full Creative Studio (KnowledgeVault
 // entity, CREATIVE_TOOLS and NOVA_PROMPTS configs), the Premium UX audits

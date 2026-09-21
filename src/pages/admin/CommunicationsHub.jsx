@@ -11,7 +11,7 @@ import {
 
 const COMMUNICATION_SOURCES = [
   { key: 'orders', label: 'Store Orders', entity: 'MerchOrder', icon: ShoppingCart, color: 'text-blue-400', bg: 'bg-blue-500/10', route: '/admin/orders' },
-  { key: 'subscribers', label: 'Email Subscribers', entity: 'EmailSubscriber', icon: Mail, color: 'text-green-400', bg: 'bg-green-500/10', route: '/admin/subscribers' },
+  { key: 'subscribers', label: 'Email Subscribers', entity: 'EmailSubscriber', icon: Mail, color: 'text-green-400', bg: 'bg-green-500/10', route: '/admin/dashboard' },
   { key: 'supporters', label: 'Support Contributions', entity: 'SupportContribution', icon: Heart, color: 'text-pink-400', bg: 'bg-pink-500/10', route: '/admin/supporters' },
   { key: 'fanposts', label: 'Fan Posts', entity: 'FanPost', icon: MessageCircle, color: 'text-purple-400', bg: 'bg-purple-500/10', route: '/admin/fan-media' },
   { key: 'fanmedia', label: 'Fan Media', entity: 'FanMedia', icon: Video, color: 'text-indigo-400', bg: 'bg-indigo-500/10', route: '/admin/fan-media' },

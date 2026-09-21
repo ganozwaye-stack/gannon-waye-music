@@ -27,7 +27,7 @@ const GROUPS = [
     category: 'Command dashboards',
     items: [
       { label: 'Risk Alerts', path: '/admin/risk-alerts', icon: ShieldCheck, desc: 'Financial and legal flags' },
-      { label: 'Marketing Centre', path: '/admin/marketing-centre', icon: Megaphone, desc: 'Campaigns and growth' },
+      { label: 'Marketing Centre', path: '/admin/dashboard', icon: Megaphone, desc: 'Campaigns and growth' },
       { label: 'Social Command', path: '/admin/social-schedule-queue', icon: Users, desc: 'All social channels' },
       { label: 'Website Ops', path: '/admin/website-ops', icon: Globe, desc: 'Site automation' },
       { label: 'Audit Log', path: '/admin/audit-log', icon: FileText, desc: 'Change history' },

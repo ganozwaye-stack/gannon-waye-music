@@ -24,7 +24,6 @@ export const LEGACY_ROUTES = [
   r('/admin/dashboard-v2', 'Today', 'specialist', false, 'investigate'),
   r('/admin/mission-control', 'Today', 'specialist', true, 'investigate'),
   r('/admin/priority-commander', 'Today', 'specialist', true, 'investigate'),
-  r('/admin/human-action-required', 'Today', 'specialist', true, 'keep'),
 
   // ─── Music and Mastering ────────────────────────────────────────────────
   r('/admin/release-sprint', 'Music and Mastering', 'primary', true, 'keep'),
@@ -62,8 +61,6 @@ export const LEGACY_ROUTES = [
   r('/admin/trend-monitor', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/creator-insights', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/ideas-engine', 'Content and Publishing', 'specialist', true, 'keep'),
-  r('/admin/creative-studio', 'Content and Publishing', 'specialist', true, 'investigate'),
-  r('/admin/marketing-centre', 'Content and Publishing', 'specialist', true, 'merge'),
   r('/admin/announcement-studio', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/metricool-command', 'Content and Publishing', 'specialist', true, 'keep'),
   r('/admin/metricool-api-setup', 'Content and Publishing', 'specialist', true, 'keep'),
@@ -80,7 +77,6 @@ export const LEGACY_ROUTES = [
   r('/admin/merch-feedback', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/merch-content-briefs', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/print-fulfilment', 'Store and Fulfilment', 'specialist', true, 'keep'),
-  r('/admin/procurement-command', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/stock-flow-dashboard', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/promo-discount-compliance', 'Store and Fulfilment', 'specialist', true, 'keep'),
   r('/admin/pricing-margin-calculator', 'Store and Fulfilment', 'specialist', true, 'keep'),
@@ -117,14 +113,12 @@ export const LEGACY_ROUTES = [
   r('/admin/coaching/boundaries', 'Coaching and Clients', 'specialist', false, 'keep'),
   r('/admin/coaching/creative-confidence', 'Coaching and Clients', 'specialist', false, 'keep'),
   r('/admin/coaching/intake', 'Coaching and Clients', 'specialist', false, 'keep'),
-  r('/admin/training-centre', 'Coaching and Clients', 'specialist', false, 'merged_into:/admin/education-hub'),
+  r('/admin/training-centre', 'Coaching and Clients', 'specialist', false, 'merged_into:/admin/dashboard'),
   // Now the canonical training screen: /admin/training-centre redirects here.
-  r('/admin/education-hub', 'Coaching and Clients', 'primary', true, 'keep'),
   r('/admin/sales-training', 'Coaching and Clients', 'specialist', true, 'keep'),
 
   // ─── Fans and Support ───────────────────────────────────────────────────
   r('/admin/fans', 'Fans and Support', 'primary', true, 'keep'),
-  r('/admin/subscribers', 'Fans and Support', 'primary', true, 'keep'),
   r('/admin/supporters', 'Fans and Support', 'primary', true, 'keep'),
   r('/admin/fan-media', 'Fans and Support', 'specialist', true, 'keep'),
   r('/admin/communications-hub', 'Fans and Support', 'primary', true, 'keep'),
@@ -203,12 +197,10 @@ export const LEGACY_ROUTES = [
   r('/admin/research-grid', 'Systems and Approvals', 'specialist', true, 'merge'),
   r('/admin/business-profile-settings', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/settings/business-details', 'Systems and Approvals', 'duplicate_candidate', true, 'redirect'),
-  r('/admin/premium-ux', 'Systems and Approvals', 'specialist', true, 'investigate'),
   r('/admin/business-process-command', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/artist-business-setup', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/strategic-execution-plan', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/monthly-monitoring', 'Systems and Approvals', 'specialist', true, 'keep'),
-  r('/admin/client-installs', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/systems-qa', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/tiktok-review', 'Systems and Approvals', 'specialist', true, 'keep'),
   r('/admin/tiktok-screen-guide', 'Systems and Approvals', 'specialist', true, 'keep'),

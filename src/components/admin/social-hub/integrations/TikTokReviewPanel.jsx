@@ -360,7 +360,7 @@ export default function TikTokReviewPanel() {
       <div className="flex gap-2 flex-wrap">
         <Link to="/admin/tiktok-recording-studio"><Button type="button" variant="outline" size="sm">Recording Studio</Button></Link>
         <Link to="/admin/tiktok-screen-guide"><Button type="button" variant="outline" size="sm">Screen Guide</Button></Link>
-        <Link to="/admin/approval-queue"><Button type="button" variant="outline" size="sm">Approval Queue</Button></Link>
+        <Link to="/admin/dashboard"><Button type="button" variant="outline" size="sm">Approval Queue</Button></Link>
       </div>
     </div>
   );

@@ -61,7 +61,7 @@ export default function SetupApprovalProofFlow({ onComplete, onBlocked }) {
 
       <StepBlock number={3} title="UI Approval Test" status="active" why="Confirms the UI approval button also triggers the chain correctly for real proposals.">
         <p className="text-sm text-muted-foreground mb-2">Open the ApprovalQueue and approve a real pending item to confirm the UI flow works:</p>
-        <Button className="gap-2 mb-3" onClick={() => window.open('/admin/approval-queue', '_blank')}>
+        <Button className="gap-2 mb-3" onClick={() => window.open('/admin/dashboard', '_blank')}>
           <ExternalLink className="w-4 h-4" /> Open ApprovalQueue
         </Button>
         <div className="text-sm text-muted-foreground space-y-1">

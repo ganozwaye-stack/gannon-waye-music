@@ -33,7 +33,7 @@ const STATUS_CONFIG = {
 
 const NAV_MODULES = [
   { label: 'Post Factory', desc: 'AI-generate sprint briefs', to: '/admin/social-schedule-queue', icon: Zap, color: 'text-primary' },
-  { label: 'Approval Queue', desc: 'Review before publishing', to: '/admin/approval-queue', icon: CheckCircle2, color: 'text-green-400' },
+  { label: 'Approval Queue', desc: 'Review before publishing', to: '/admin/dashboard', icon: CheckCircle2, color: 'text-green-400' },
   { label: 'Schedule Queue', desc: 'Approved → Metricool', to: '/admin/social-schedule-queue', icon: Calendar, color: 'text-blue-400' },
   { label: 'Asset Library', desc: 'Videos, images, overlays', to: '/admin/social-schedule-queue', icon: Image, color: 'text-purple-400' },
   { label: 'Quality Review', desc: 'Score drafts before publish', to: '/admin/content-quality-review', icon: Target, color: 'text-primary' },
@@ -367,7 +367,7 @@ export default function ContentCommand() {
                     <p className="text-xs text-muted-foreground">Nothing publishes without your sign-off</p>
                   </div>
                 </div>
-                <Link to="/admin/approval-queue">
+                <Link to="/admin/dashboard">
                   <Button size="sm" className="bg-primary hover:bg-primary border-0 text-xs gap-1.5">
                     <ArrowRight className="w-3 h-3" />Review Now
                   </Button>
