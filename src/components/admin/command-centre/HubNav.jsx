@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import {
-  Megaphone, Music, Package, Bot, ShieldCheck, Briefcase, Sparkles,
-  Palette, Crosshair, Rocket, Settings, FileText, Users, Globe, Star,
+  Megaphone, ShieldCheck, Sparkles,
+  Palette, Crosshair, Rocket, FileText, Users, Globe, Star,
 } from 'lucide-react';
 
 // Grouped navigation to every hub and owner tool, so the Command Centre is
@@ -13,7 +13,6 @@ const GROUPS = [
     items: [
       { label: 'New Release Studio', path: '/admin/new-release-studio', icon: Sparkles, desc: 'Create a private release draft' },
       { label: 'One Press Launch Packet', path: '/admin/launch-packet-studio', icon: Rocket, desc: 'Draft the whole packet in one press' },
-      { label: 'Release Control Desk', path: '/admin/release-control', icon: ShieldCheck, desc: 'Save changes, approve, Go Live' },
       { label: 'Hero Design Studio', path: '/admin/hero-design-studio', icon: Palette, desc: 'Design the home hero' },
       { label: 'Store Hotspot Editor', path: '/admin/store-hotspots', icon: Crosshair, desc: 'Zone the locked boutique photo' },
     ],
@@ -21,24 +20,16 @@ const GROUPS = [
   {
     category: 'Business hubs',
     items: [
-      { label: 'Launch and Content', path: '/admin/launch-content', icon: Megaphone, desc: 'Campaigns and content' },
-      { label: 'Music and Fans', path: '/admin/music-fan', icon: Music, desc: 'Catalogue and fan base' },
-      { label: 'Orders and Store', path: '/admin/orders', icon: Package, desc: 'Orders, fulfilment, stock' },
-      { label: 'Automation and Agents', path: '/admin/automation-agents', icon: Bot, desc: 'Agents and automations' },
       { label: 'Systems and QA', path: '/admin/systems-qa', icon: Star, desc: 'Quality and site health' },
-      { label: 'Owner Business', path: '/admin/owner-business', icon: Briefcase, desc: 'Leads, money, business ops' },
     ],
   },
   {
     category: 'Command dashboards',
     items: [
-      { label: 'Approval Queue', path: '/admin/approval-queue', icon: ShieldCheck, desc: 'Pending decisions' },
       { label: 'Risk Alerts', path: '/admin/risk-alerts', icon: ShieldCheck, desc: 'Financial and legal flags' },
-      { label: 'Agent Registry', path: '/admin/agent-registry', icon: Bot, desc: 'Specialist agents' },
       { label: 'Marketing Centre', path: '/admin/marketing-centre', icon: Megaphone, desc: 'Campaigns and growth' },
       { label: 'Social Command', path: '/admin/social-command', icon: Users, desc: 'All social channels' },
       { label: 'Website Ops', path: '/admin/website-ops', icon: Globe, desc: 'Site automation' },
-      { label: 'Settings', path: '/admin/settings', icon: Settings, desc: 'Site settings' },
       { label: 'Audit Log', path: '/admin/audit-log', icon: FileText, desc: 'Change history' },
     ],
   },

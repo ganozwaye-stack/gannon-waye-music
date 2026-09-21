@@ -142,8 +142,6 @@ export default function OwnerCommandShell({ activeTab, onTabChange, children }) 
       <div className="px-4 lg:px-8 py-2 flex items-center gap-2 text-[10px] text-muted-foreground/50">
         <Link to="/admin" className="hover:text-foreground">Admin</Link>
         <span>/</span>
-        <Link to="/admin/owner-command-v3" className="hover:text-foreground">Owner Command V3</Link>
-        <span>/</span>
         <span className="text-foreground/70">{currentWorkspace}</span>
         {activeTab === 'legacy' && (
           <span className="ml-auto text-[10px] text-muted-foreground/40">{stats.total} routes · {stats.inSidebar} in sidebar</span>

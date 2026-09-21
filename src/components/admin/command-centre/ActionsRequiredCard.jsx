@@ -33,12 +33,12 @@ export default function ActionsRequiredCard() {
     approvals.length > 0 && {
       count: approvals.length,
       text: 'approval queue item' + (approvals.length === 1 ? '' : 's') + ' awaiting your decision.',
-      link: '/admin/approval-queue',
+      link: '/admin/business-attention-centre',
     },
     orders.length > 0 && {
       count: orders.length,
       text: 'merch order' + (orders.length === 1 ? '' : 's') + ' pending fulfilment.',
-      link: '/admin/orders',
+      link: '/admin/ecommerce-intelligence',
     },
     rawAssets.length > 0 && {
       count: rawAssets.length,

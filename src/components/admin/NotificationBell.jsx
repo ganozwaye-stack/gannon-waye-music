@@ -8,18 +8,18 @@ import { format } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const TYPE_CONFIG = {
-  order: { icon: ShoppingBag, color: 'text-green-400', route: '/admin/orders' },
+  order: { icon: ShoppingBag, color: 'text-green-400', route: '/admin/ecommerce-intelligence' },
   comment: { icon: MessageCircle, color: 'text-blue-400', route: '/admin/fans' },
   reply: { icon: MessageCircle, color: 'text-blue-400', route: '/admin/fans' },
-  approval: { icon: AlertTriangle, color: 'text-primary', route: '/admin/approval-queue' },
+  approval: { icon: AlertTriangle, color: 'text-primary', route: '/admin/business-attention-centre' },
   risk_alert: { icon: AlertTriangle, color: 'text-red-400', route: '/admin/risk-alerts' },
   community_report: { icon: AlertTriangle, color: 'text-orange-400', route: '/admin/fans' },
   viral_opportunity: { icon: TrendingUp, color: 'text-purple-400', route: '/admin/trend-monitor' },
   creator_gap: { icon: TrendingUp, color: 'text-cyan-400', route: '/admin/creator-insights' },
   high_value_supporter: { icon: Star, color: 'text-primary', route: '/admin/supporters' },
-  automation_failed: { icon: Zap, color: 'text-red-400', route: '/admin/agent-task-log' },
+  automation_failed: { icon: Zap, color: 'text-red-400', route: '/admin/systems-qa' },
   email_failed: { icon: Mail, color: 'text-red-400', route: '/admin/subscribers' },
-  payment_warning: { icon: AlertTriangle, color: 'text-red-400', route: '/admin/stripe-command-centre' },
+  payment_warning: { icon: AlertTriangle, color: 'text-red-400', route: '/admin/payment-diagnostics' },
   growth_spike: { icon: TrendingUp, color: 'text-green-400', route: '/admin/growth-engine' },
   system: { icon: Hash, color: 'text-muted-foreground', route: '/admin/site-health' },
   like: { icon: Star, color: 'text-pink-400', route: '/admin/fans' },

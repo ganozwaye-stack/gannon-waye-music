@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '@/lib/AuthContext';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, Music, ShoppingBag, Package, Users, Settings, Globe, LogOut,
-  Video, Mail, Palette, Heart, Tag, Star, DollarSign, Activity, Calendar, Search, Command,
-  ChevronRight, Menu, X, Zap, Brain, Shield, Lock, Eye, Megaphone, CreditCard, Bell, FileText,
-  GraduationCap, AlertTriangle, ShoppingCart, Calculator, Terminal,
+  LayoutDashboard, ShoppingBag, Package, Globe, LogOut,
+  Mail, Palette, Heart, DollarSign, Activity, Calendar, Search, Command,
+  ChevronRight, Menu, X, Zap, Shield, Eye, Megaphone, Bell, Lock,
+  GraduationCap, AlertTriangle, Terminal,
   Film, MessageSquare, Sun, CheckCircle2, ListTodo
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
@@ -21,27 +21,21 @@ const NAV_SECTIONS = [
     title: 'Daily Operating',
     items: [
       { label: 'Daily Dashboard', path: '/admin/dashboard', icon: LayoutDashboard },
-      { label: 'Deego', path: '/admin/orchestrator-chat', icon: Brain },
       { label: 'Communications Hub', path: '/admin/communications-hub', icon: Mail },
       { label: 'Command Center', path: '/admin/command-centre', icon: Terminal },
       { label: "Today's Top Priorities", path: '/admin/dashboard', icon: Sun },
       { label: 'Daily Admin Checklist', path: '/admin/dashboard', icon: CheckCircle2 },
       { label: 'Daily To-Dos', path: '/admin/dashboard', icon: ListTodo },
-      { label: 'Approval Queue', path: '/admin/approval-queue', icon: Shield },
       { label: 'Blocked Items', path: '/admin/dashboard', icon: AlertTriangle },
       { label: 'Website Overhaul', path: '/admin/site-upgrade-audit', icon: Globe },
       { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
-      { label: 'Owner Command V3', path: '/admin/owner-command-v3', icon: Zap },
     ]
   },
   // ─── ALPHABETICAL SECTIONS ──────────────────────────────────────────────────
   {
     title: 'Automations and Agents',
     items: [
-      { label: 'Agent Registry', path: '/admin/agent-registry', icon: Eye },
-      { label: 'Agent Task Log', path: '/admin/agent-task-log', icon: Terminal },
       { label: 'Agent Workbench', path: '/admin/agent-workbench', icon: Terminal },
-      { label: 'Automation and Agents Hub', path: '/admin/automation-agents', icon: Brain },
     ]
   },
   {
@@ -49,17 +43,12 @@ const NAV_SECTIONS = [
     items: [
       { label: 'Attention Centre', path: '/admin/business-attention-centre', icon: Bell },
       { label: 'Financial Dashboard', path: '/admin/financials', icon: DollarSign },
-      { label: 'Owner Business Hub', path: '/admin/owner-business', icon: Lock, ownerOnly: true },
-      { label: 'Revenue Command', path: '/admin/revenue-command', icon: DollarSign },
-      { label: 'Stripe Command', path: '/admin/stripe-command-centre', icon: CreditCard },
     ]
   },
   {
     title: 'Coaching and Private Work',
     items: [
-      { label: 'Coaching Clients', path: '/admin/coaching-clients', icon: Users },
       { label: 'Coaching Hub', path: '/admin/coaching-hub', icon: GraduationCap },
-      { label: 'Coaching Leads', path: '/admin/coaching-leads', icon: Mail },
       { label: 'Memorial', path: '/admin/memorial', icon: Heart },
       { label: 'Mum Tribute', path: '/admin/mum', icon: Heart },
     ]
@@ -70,40 +59,27 @@ const NAV_SECTIONS = [
       { label: 'Brand Kit', path: '/admin/brand-kit', icon: Palette },
       { label: 'Content Studio', path: '/admin/content-studio', icon: Film },
       { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Zap },
-      { label: 'Launch and Content Hub', path: '/admin/launch-content', icon: Megaphone },
       { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },
-      { label: 'Reel Factory', path: '/admin/reel-factory', icon: Film },
       { label: 'Social Schedule Queue', path: '/admin/social-schedule-queue', icon: Calendar },
-      { label: 'Social Monitor', path: '/admin/social-monitor', icon: Activity },
     ]
   },
   {
     title: 'Music and Releases',
     items: [
       { label: 'Hero Design Studio', path: '/admin/hero-design-studio', icon: Palette },
-      { label: 'Lyrics Archive', path: '/admin/lyrics-archive', icon: FileText },
       { label: 'Master Handover Timeline', path: '/admin/master-handover', icon: ListTodo },
-      { label: 'Music Roadmap', path: '/admin/music-roadmap', icon: Calendar },
-      { label: 'Music and Fan Hub', path: '/admin/music-fan', icon: Music },
       { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
       { label: 'Release Email Studio', path: '/admin/release-email-studio', icon: Mail },
-      { label: 'Release Prep Studio', path: '/admin/release-prep', icon: Lock },
-      { label: 'Release Control Desk', path: '/admin/release-control', icon: Shield, ownerOnly: true },
-      { label: 'Production Tracker', path: '/admin/production-tracker', icon: Film },
-      { label: 'Releases', path: '/admin/releases', icon: Star },
-      { label: 'Videos', path: '/admin/videos', icon: Video },
+      // Required by tools/verify-release-control-desk.mjs — the owner must always
+      // have a nav route to the Go Live desk. Do not remove this entry.
+      { label: 'Release Control Desk', path: '/admin/release-control', icon: Lock, ownerOnly: true },
     ]
   },
   {
     title: 'Store and Orders',
     items: [
-      { label: 'Merch Approval Gate', path: '/admin/merch-approval', icon: CheckCircle2 },
-      { label: 'Merch Management', path: '/admin/merch', icon: Package },
       { label: 'Deego Stock vs Market', path: '/admin/deego-stock-market', icon: Package },
       { label: 'Store Hotspot Editor', path: '/admin/store-hotspots', icon: Eye },
-      { label: 'Orders', path: '/admin/orders', icon: ShoppingCart },
-      { label: 'Promo Codes', path: '/admin/promo-codes', icon: Tag },
-      { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Calculator },
       { label: 'Store and Orders Hub', path: '/admin/store-orders', icon: ShoppingBag },
     ]
   },
@@ -113,7 +89,6 @@ const NAV_SECTIONS = [
       { label: 'API Setup', path: '/admin/api-setup', icon: Zap },
       { label: 'Security Centre', path: '/admin/security-centre', icon: Shield },
       { label: 'Site Health', path: '/admin/site-health', icon: Heart },
-      { label: 'Site Settings', path: '/admin/settings', icon: Settings },
       { label: 'Systems and QA Hub', path: '/admin/systems-qa', icon: Activity },
     ]
   }
