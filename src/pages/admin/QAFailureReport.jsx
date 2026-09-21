@@ -142,9 +142,9 @@ const CONFIRMED_FAILURES = [
     area: 'Shipping Rules',
     issue: '3 missing shipping rules — cd, merch, vinyl have no active ShippingRateRule',
     impact: 'Checkout shipping calculation returns $0 or error for these product types',
-    fix: 'Go to /admin/shipping-rates and add rules for cd, merch, vinyl. 3 Approval Queue items already created.',
+    fix: 'Go to /admin/merch-designs and add rules for cd, merch, vinyl. 3 Approval Queue items already created.',
     file: 'entities/ShippingRateRule.json',
-    route: '/admin/shipping-rates',
+    route: '/admin/merch-designs',
     confirmed: true,
   },
   {
@@ -221,7 +221,7 @@ const CONFIRMED_FAILURES = [
 
 const MANUAL_STEPS = [
   { priority: 1, action: 'Rotate TIKTOK_CLIENT_SECRET immediately', where: 'developer.tiktok.com → App → Keys → Regenerate', then: 'Update in Base44 Secrets dashboard' },
-  { priority: 2, action: 'Add 3 shipping rules (cd, merch, vinyl)', where: 'gannonwaye.com/admin/shipping-rates', then: 'Approve Approval Queue items already waiting' },
+  { priority: 2, action: 'Add 3 shipping rules (cd, merch, vinyl)', where: 'gannonwaye.com/admin/merch-designs', then: 'Approve Approval Queue items already waiting' },
   { priority: 3, action: 'Get ADMIN_SESSION_COOKIE', where: 'Chrome DevTools → Application → Cookies → gannonwaye.com', then: 'Store as ADMIN_SESSION_COOKIE=<value> in local .env file (never commit)' },
   { priority: 4, action: 'Download Playwright test pack', where: '/admin/qa-command-centre → Download All Test Files', then: 'Run: npm install -D @playwright/test && npx playwright install chromium' },
   { priority: 5, action: 'Run Playwright tests', where: 'Terminal in project folder', then: 'npx playwright test — view report: npx playwright show-report' },
@@ -239,7 +239,7 @@ const CODEX_FIX_LIST = `# Tasks for Codex / Cursor / Claude Code
 
 ### 1a. Shipping Rules Missing
 - File: entities/ShippingRateRule.json (schema ok)
-- Fix: Seed 3 default rules via admin UI at /admin/shipping-rates
+- Fix: Seed 3 default rules via admin UI at /admin/merch-designs
 - Or: Create a seedShippingRules backend function that inserts defaults
 
 ### 1b. TIKTOK_CLIENT_SECRET Rotation

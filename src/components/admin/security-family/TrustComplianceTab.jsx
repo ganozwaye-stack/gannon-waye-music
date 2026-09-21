@@ -1,6 +1,6 @@
 import AgentTrustHub from '@/components/admin/security-family/AgentTrustHub';
 
-// Trust Centre & Compliance: the full screen that serves /admin/security-centre
+// Trust Centre & Compliance: the full screen that serves /admin/security-trust-centre
 // (AgentTrustHub.jsx renders that route) — security compliance checklists, data
 // protection rules, secret management status, and public trust verification
 // badges — rendered verbatim. Zero function loss.
