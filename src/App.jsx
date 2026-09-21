@@ -612,11 +612,9 @@ const AuthenticatedApp = () => {
         <Route path="/admin/business-profile-settings" element={<BusinessProfileSettingsPage />} />
         <Route path="/admin/settings/business-details" element={<BusinessProfileSettingsPage />} />
         <Route path="/admin/link-integrity-audit" element={<LinkIntegrityAudit />} />
-        {/* Merged into /admin/education-hub (12 Sep 2026). Both screens read and write the
-            same TrainingModule entity with the same create/update/delete operations;
-            Education Hub is the fuller of the two.
-            To undo: restore element={<TrainingCentre />}. */}
-        <Route path="/admin/training-centre" element={<Navigate to="/admin/education-hub" replace />} />
+        {/* Training Centre merged into the Education Hub, which itself merged into
+            /admin/dashboard (creative-ux tab) on 21 Sep 2026. */}
+        <Route path="/admin/training-centre" element={<Navigate to="/admin/dashboard" replace />} />
         <Route path="/admin/announcement-studio" element={<AnnouncementStudio />} />
         <Route path="/admin/master-blueprint" element={<MasterBlueprint />} />
         <Route path="/admin/click-audit" element={<ClickAudit />} />
