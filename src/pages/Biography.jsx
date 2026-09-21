@@ -42,7 +42,7 @@ export default function Biography() {
     <div className="min-h-screen pb-20">
 
       {/* Hero — Gannon in the clouds, looking up into the light */}
-      <section className="relative overflow-hidden min-h-screen flex items-end">
+      <section className="relative overflow-hidden min-h-screen flex items-start">
         <img
           src={HERO_PORTRAIT}
           alt="Gannon Waye, looking up into the light"
@@ -61,7 +61,7 @@ export default function Biography() {
           <GoldenEmbers density={0.5} intensity={0.45} />
         </div>
 
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 md:px-8 pt-20 pb-12 md:pb-16 text-center">
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 md:px-8 pt-24 md:pt-28 pb-6 text-center">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
