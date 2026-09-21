@@ -159,7 +159,7 @@ const CONTENT_PRODUCTION = [
   { label: 'Metricool scheduling',                              status: 'missing', note: 'BLOCKED — no content to be scheduled until Gannon approves final visual for each piece.' },
   { label: 'Canva/Adobe Express assets',                        status: 'missing', note: 'HUMAN ACTION REQUIRED — Gannon must create assets in Canva/Adobe Express using brief instructions.' },
   { label: 'CapCut reel edits',                                 status: 'missing', note: 'HUMAN ACTION REQUIRED — Gannon must produce reels in CapCut using scene lists. Product photos required.' },
-  { label: 'Product photos for CapCut',                         status: 'missing', note: 'HUMAN ACTION REQUIRED — Upload hoodie, mug, tote, journal, pen, thermos photos to /admin/quick-upload.' },
+  { label: 'Product photos for CapCut',                         status: 'missing', note: 'HUMAN ACTION REQUIRED — Upload hoodie, mug, tote, journal, pen, thermos photos to /admin/content-studio.' },
 ];
 
 const PRODUCT_TRUTH = [
@@ -236,7 +236,7 @@ const SAFETY_CHECKS = [
 
 const NEXT_ACTIONS = [
   { priority: 'critical', action: 'Verify public details in /admin/settings/business-details — confirm it is NOT ganozwaye@gmail.com', link: '/admin/settings/business-details' },
-  { priority: 'high',     action: 'Go to /admin/campaign-image-approval — approve heading for each of the 11 campaign images', link: '/admin/content-studio' },
+  { priority: 'high',     action: 'Go to /admin/content-studio — approve heading for each of the 11 campaign images', link: '/admin/content-studio' },
   { priority: 'high',     action: 'Go to /admin/release-sprint — review and approve 18 pending campaign posts before June 5', link: '/admin/release-sprint' },
   { priority: 'medium',   action: 'Review Mum Tribute page at /mum — confirm photos, content, and heart animation are correct', link: '/mum' },
   { priority: 'medium',   action: 'Run Link Integrity Audit at /admin/link-integrity-audit to check for broken links and handle parity', link: '/admin/link-integrity-audit' },

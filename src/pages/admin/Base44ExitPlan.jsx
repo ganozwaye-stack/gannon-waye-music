@@ -484,7 +484,7 @@ ${AGENTS.map(a => `// ${a}`).join('\n')}
         <Zap className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
         <div className="text-xs text-blue-300/90">
           <p className="font-semibold mb-1">Mastering System Location</p>
-          <p>Admin: <code className="bg-secondary/40 rounded px-1">/admin/mastering</code> (MasteringAdmin — upload, analyze, master audio)</p>
+          <p>Admin: <code className="bg-secondary/40 rounded px-1">/admin/content-studio</code> (MasteringAdmin — upload, analyze, master audio)</p>
           <p>Public: <code className="bg-secondary/40 rounded px-1">/mastering</code> (Mastering — public mastering service page)</p>
         </div>
       </div>

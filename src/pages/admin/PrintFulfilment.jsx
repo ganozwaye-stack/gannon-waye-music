@@ -370,7 +370,7 @@ export default function PrintFulfilment() {
         <div className="p-8 rounded-xl border border-dashed border-border/40 text-center text-muted-foreground">
           <Image className="w-10 h-10 mx-auto mb-3 opacity-30" />
           <p className="font-body text-sm">No mockup images uploaded yet.</p>
-          <p className="font-body text-xs mt-1">Upload poster mockups via /admin/quick-upload then link here.</p>
+          <p className="font-body text-xs mt-1">Upload poster mockups via /admin/content-studio then link here.</p>
         </div>
       )}
 

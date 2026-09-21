@@ -92,9 +92,9 @@ const SECTIONS = [
     icon: Video,
     iconColor: 'text-blue-400',
     items: [
-      { label: 'Training Hub modules rebuilt (50+)', status: 'Complete', detail: '9 categories, 50+ written modules at /admin/training' },
+      { label: 'Training Hub modules rebuilt (50+)', status: 'Complete', detail: '9 categories, 50+ written modules at /admin/agent-workbench' },
       { label: 'TikTok recording studio script', status: 'Complete', detail: 'Full voiceover script + 8-step shot list at /admin/tiktok-recording-studio' },
-      { label: 'Actual screen-recorded training videos', status: 'Not done', detail: 'NOT RECORDED. No video files exist. Written guides only. Use /admin/training modules + the scripts below to record when ready.' },
+      { label: 'Actual screen-recorded training videos', status: 'Not done', detail: 'NOT RECORDED. No video files exist. Written guides only. Use /admin/agent-workbench modules + the scripts below to record when ready.' },
       { label: 'Video recording scripts available', status: 'Complete', detail: 'TikTok demo script in /admin/tiktok-recording-studio — other module scripts must still be written' },
     ],
   },
@@ -263,7 +263,7 @@ export default function FinalSystemStatus() {
           <div>
             <p className="font-semibold text-blue-300 text-sm">Training Videos — NOT RECORDED</p>
             <p className="text-xs text-muted-foreground mt-1">
-              Written training modules exist (50+ at /admin/training). The TikTok recording demo script exists at /admin/tiktok-recording-studio.
+              Written training modules exist (50+ at /admin/agent-workbench). The TikTok recording demo script exists at /admin/tiktok-recording-studio.
               No actual screen-recorded video files have been created. To record: use a screen recorder (OBS, QuickTime, Loom) and follow the scripts.
             </p>
             <Link to="/admin/tiktok-recording-studio">

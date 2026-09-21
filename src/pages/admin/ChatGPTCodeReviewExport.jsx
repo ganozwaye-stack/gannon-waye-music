@@ -147,7 +147,7 @@ AGENTS WITH ENTITY PERMISSIONS:
 - merch_sales_agent — MerchProduct, MerchOrder, AgentActionProposal
 - revenue_orchestrator — RevenueOpportunity, AgentActionProposal, AdminNotification
 
-CHECK: Are automations actually running? Check /admin/operational-status and /admin/agent-task-log for last run timestamps.`,
+CHECK: Are automations actually running? Check /admin/operational-status and /admin/agent-workbench for last run timestamps.`,
   },
   {
     id: 'security_pack',

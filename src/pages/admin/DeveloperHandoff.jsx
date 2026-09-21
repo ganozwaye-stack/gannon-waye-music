@@ -74,7 +74,7 @@ Key admin routes:
 /admin/order-profit-intelligence → Order P&L
 /admin/offer-engine → Active offers
 /admin/bundle-proposal-studio → Bundle builder
-/admin/content-to-cash → Content pipeline
+/admin/content-studio → Content pipeline
 /admin/website-evolution → Site improvements
 /admin/todays-money-moves → Daily actions
 /admin/agent-capability-matrix → Agent management

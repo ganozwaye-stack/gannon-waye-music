@@ -29,7 +29,7 @@ const SCREEN_RECORDING_STEPS = [
   {
     section: 'PART 3 — Agent Registry (30 seconds)',
     steps: [
-      'Navigate to Agent Registry (/admin/agent-registry)',
+      'Navigate to Agent Registry (/admin/agent-workbench)',
       'Show the grid of agent cards with their status badges',
       'Click one agent card — show the full detail modal',
       'Show: purpose, readiness checklist, risk level, approval level, connected systems',
@@ -57,7 +57,7 @@ const SCREEN_RECORDING_STEPS = [
   {
     section: 'PART 6 — Agent Intelligence (30 seconds)',
     steps: [
-      'Navigate to Agent Intelligence (/admin/agent-intelligence)',
+      'Navigate to Agent Intelligence (/admin/agent-workbench)',
       'Show the IQ scorecard for each agent',
       'Click a Learning Record to show the full detail modal (what worked, what failed, improvement)',
       'Click an Autonomous Activity item to show the activity detail',
@@ -325,12 +325,12 @@ export default function TikTokScreenGuide() {
             <div className="border border-border rounded-lg p-3">
               <p className="text-sm font-medium">📚 Literature Researcher</p>
               <p className="text-xs text-muted-foreground mt-1">Finds, summarises and analyses academic papers, journals, and research sources.</p>
-              <p className="text-xs text-primary mt-1">→ /admin/orchestrator-chat — select "Literature Researcher" agent</p>
+              <p className="text-xs text-primary mt-1">→ /admin/agent-workbench — select "Literature Researcher" agent</p>
             </div>
             <div className="border border-border rounded-lg p-3">
               <p className="text-sm font-medium">✍️ Academic Writing Coach</p>
               <p className="text-xs text-muted-foreground mt-1">Helps structure essays, literature reviews, referencing, and academic writing style.</p>
-              <p className="text-xs text-primary mt-1">→ /admin/orchestrator-chat — select "Academic Writing Coach" agent</p>
+              <p className="text-xs text-primary mt-1">→ /admin/agent-workbench — select "Academic Writing Coach" agent</p>
             </div>
           </div>
           <Link to="/admin/agent-workbench">
