@@ -1,5 +1,11 @@
 import { ExternalLink, Download } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import CatalogArtTab from '@/components/admin/merch-family/CatalogArtTab';
+import MerchOrdersTab from '@/components/admin/merch-family/MerchOrdersTab';
+import GiftsTab from '@/components/admin/merch-family/GiftsTab';
+import FinancialsRatesTab from '@/components/admin/merch-family/FinancialsRatesTab';
+import ApprovalsFeedbackTab from '@/components/admin/merch-family/ApprovalsFeedbackTab';
 
 const DESIGNS = [
   {
@@ -101,6 +107,18 @@ export default function MerchDesigns() {
         </p>
       </div>
 
+      <Tabs defaultValue="artwork" className="w-full">
+        <TabsList className="h-auto flex-wrap justify-start gap-1 mb-6">
+          <TabsTrigger value="artwork">Artwork Designs</TabsTrigger>
+          <TabsTrigger value="catalog-art">Artwork Designs &amp; Product Catalog</TabsTrigger>
+          <TabsTrigger value="orders">Orders &amp; Fulfillment</TabsTrigger>
+          <TabsTrigger value="gifts">Gifts, Verification &amp; Progress</TabsTrigger>
+          <TabsTrigger value="financials-rates">Financials, Rates &amp; Bundle Proposals</TabsTrigger>
+          <TabsTrigger value="approvals-feedback">Product Approvals &amp; Fan Feedback</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="artwork" className="space-y-8">
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {DESIGNS.map((design) => (
           <div key={design.title} className="bg-card border border-border/40 rounded-2xl overflow-hidden flex flex-col">
@@ -154,6 +172,28 @@ export default function MerchDesigns() {
           <strong className="text-foreground">How to use these:</strong> Download the design, then send the image file to the Alibaba supplier via their product inquiry or customisation form. Ask them to print it exactly as shown, specifying placement (front chest for tee, front panel for tote/notebook).
         </p>
       </div>
+        </TabsContent>
+
+        <TabsContent value="catalog-art" className="space-y-6">
+          <CatalogArtTab />
+        </TabsContent>
+
+        <TabsContent value="orders" className="space-y-6">
+          <MerchOrdersTab />
+        </TabsContent>
+
+        <TabsContent value="gifts" className="space-y-6">
+          <GiftsTab />
+        </TabsContent>
+
+        <TabsContent value="financials-rates" className="space-y-6">
+          <FinancialsRatesTab />
+        </TabsContent>
+
+        <TabsContent value="approvals-feedback" className="space-y-6">
+          <ApprovalsFeedbackTab />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

@@ -8,6 +8,7 @@ import StoreVisualsTab from '@/components/merch-visual-lab/StoreVisualsTab';
 import VisualApprovalTab from '@/components/merch-visual-lab/VisualApprovalTab';
 import ExportCentreTab from '@/components/merch-visual-lab/ExportCentreTab';
 import MockupStudioTab from '@/components/merch-visual-lab/mockup/MockupStudioTab';
+import HotspotsTab from '@/components/admin/merch-family/HotspotsTab';
 
 export default function MerchVisualLab() {
   return (
@@ -33,6 +34,7 @@ export default function MerchVisualLab() {
           <TabsTrigger value="store">Store Visuals</TabsTrigger>
           <TabsTrigger value="approval">Approval Queue</TabsTrigger>
           <TabsTrigger value="export">Export Centre</TabsTrigger>
+          <TabsTrigger value="hotspots">Hotspot Canvas Studio</TabsTrigger>
         </TabsList>
 
         <TabsContent value="mockups"><MockupStudioTab /></TabsContent>
@@ -44,6 +46,7 @@ export default function MerchVisualLab() {
         <TabsContent value="store"><StoreVisualsTab /></TabsContent>
         <TabsContent value="approval"><VisualApprovalTab /></TabsContent>
         <TabsContent value="export"><ExportCentreTab /></TabsContent>
+        <TabsContent value="hotspots"><HotspotsTab /></TabsContent>
       </Tabs>
     </div>
   );
