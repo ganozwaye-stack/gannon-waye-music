@@ -19,8 +19,8 @@ const HUMAN_ACTIONS = [
 // Coaching Intakes stays the canonical screen for full intake form submissions.
 const NAV_ITEMS = [
   { label: 'Coaching Intakes', path: '/admin/coaching-intakes', icon: Inbox, desc: 'Full intake form submissions (canonical)' },
-  { label: 'Coaching Leads', path: '/admin/coaching-leads', icon: Inbox, desc: 'Enquiries and workbook requests' },
-  { label: 'Coaching Clients', path: '/admin/coaching-clients', icon: Users, desc: 'Active and past coaching clients' },
+  { label: 'Coaching Leads', path: '/admin/coaching-hub', icon: Inbox, desc: 'Enquiries and workbook requests' },
+  { label: 'Coaching Clients', path: '/admin/coaching-hub', icon: Users, desc: 'Active and past coaching clients' },
   { label: 'Coaching Sessions', path: '/admin/coaching-sessions', icon: Calendar, desc: 'Session log and notes' },
 ];
 

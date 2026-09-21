@@ -14,17 +14,17 @@ const PUBLIC_COACHING_PAGES = [
 
 const ADMIN_COACHING_PAGES = [
   { path: '/admin/coaching-hub', title: 'Coaching Hub', desc: 'Central admin dashboard for all coaching operations.' },
-  { path: '/admin/coaching-leads', title: 'Coaching Leads', desc: 'Manage incoming coaching leads and enquiries.' },
+  { path: '/admin/coaching-hub', title: 'Coaching Leads', desc: 'Manage incoming coaching leads and enquiries.' },
   { path: '/admin/coaching-intakes', title: 'Coaching Intakes', desc: 'Review submitted intake forms from potential clients.' },
-  { path: '/admin/coaching-clients', title: 'Coaching Clients', desc: 'Manage active coaching clients and their progress.' },
+  { path: '/admin/coaching-hub', title: 'Coaching Clients', desc: 'Manage active coaching clients and their progress.' },
   { path: '/admin/coaching-content-engine', title: 'Content Engine', desc: 'Generate and manage coaching-related content.' },
-  { path: '/admin/coaching-programs', title: 'Coaching Programs', desc: 'Configure coaching program offerings and pricing.' },
+  { path: '/admin/coaching-hub', title: 'Coaching Programs', desc: 'Configure coaching program offerings and pricing.' },
   { path: '/admin/coaching-legal', title: 'Coaching Legal', desc: 'Legal documents and compliance for coaching services.' },
   { path: '/admin/coaching-launch-control', title: 'Launch Control', desc: 'Manage the launch sequence for coaching offerings.' },
   { path: '/admin/coaching-roi', title: 'Coaching ROI', desc: 'Track return on investment and outcomes for coaching programs.' },
   { path: '/admin/coaching-sales-funnel', title: 'Sales Funnel', desc: 'Manage the coaching sales funnel and conversion pipeline.' },
   { path: '/admin/coaching-content-library', title: 'Content Library', desc: 'Library of coaching content, resources, and materials.' },
-  { path: '/admin/meditation-library', title: 'Meditation Library', desc: 'Manage guided meditations and audio resources.' },
+  { path: '/admin/coaching-hub', title: 'Meditation Library', desc: 'Manage guided meditations and audio resources.' },
   { path: '/admin/client-management', title: 'Client Management', desc: 'Detailed client management and session tracking.' },
   { path: '/admin/appointment-scheduler', title: 'Appointment Scheduler', desc: 'Schedule and manage coaching appointments.' },
   { path: '/admin/workbook-builder', title: 'Workbook Builder', desc: 'Create and edit coaching workbooks.' },
@@ -229,10 +229,10 @@ export default function CoachingOverview() {
         </h2>
         <div className="bg-card/40 border border-border/30 rounded-xl p-5 space-y-3">
           {[
-            'Set pricing for each coaching program in /admin/coaching-programs',
+            'Set pricing for each coaching program in /admin/coaching-hub',
             'Review and finalize intake form questions at /admin/coaching-intakes',
             'Upload workbooks to /admin/workbook-builder',
-            'Add meditation audio files to /admin/meditation-library',
+            'Add meditation audio files to /admin/coaching-hub',
             'Configure appointment availability in /admin/appointment-scheduler',
             'Set up ManyChat keywords (COACH, BOUNDARIES, WORTH) linking to /coaching/intake',
             'Add coaching CTA to Home page and Music page',

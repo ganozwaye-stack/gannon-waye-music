@@ -252,7 +252,7 @@ export default function Dashboard() {
             <PriorityRow num={14} label="Check social content drafts waiting for scheduling" to="/admin/social-schedule-queue" />
 
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground/40 px-3 pt-3 pb-1">⚪ Design & Content</p>
-            <PriorityRow num={15} label="Review pending social post visuals in asset library" to="/admin/social-asset-library" />
+            <PriorityRow num={15} label="Review pending social post visuals in asset library" to="/admin/social-schedule-queue" />
             <PriorityRow num={16} label="Check announcement studio for any drafts to publish" to="/admin/announcement-studio" />
 
             <p className="text-[10px] uppercase tracking-widest text-muted-foreground/30 px-3 pt-3 pb-1">⚫ Improvements</p>

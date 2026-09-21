@@ -16,8 +16,8 @@ const COMMUNICATION_SOURCES = [
   { key: 'fanposts', label: 'Fan Posts', entity: 'FanPost', icon: MessageCircle, color: 'text-purple-400', bg: 'bg-purple-500/10', route: '/admin/fan-media' },
   { key: 'fanmedia', label: 'Fan Media', entity: 'FanMedia', icon: Video, color: 'text-indigo-400', bg: 'bg-indigo-500/10', route: '/admin/fan-media' },
   { key: 'fancomments', label: 'Fan Comments', entity: 'FanComment', icon: MessageCircle, color: 'text-cyan-400', bg: 'bg-cyan-500/10', route: '/admin/fans' },
-  { key: 'bookings', label: 'Booking Enquiries', entity: 'BookingEnquiry', icon: Calendar, color: 'text-primary', bg: 'bg-primary/10', route: '/admin/coaching-leads' },
-  { key: 'leads', label: 'Coaching Leads', entity: 'CoachingLead', icon: Users, color: 'text-orange-400', bg: 'bg-orange-500/10', route: '/admin/coaching-leads' },
+  { key: 'bookings', label: 'Booking Enquiries', entity: 'BookingEnquiry', icon: Calendar, color: 'text-primary', bg: 'bg-primary/10', route: '/admin/coaching-hub' },
+  { key: 'leads', label: 'Coaching Leads', entity: 'CoachingLead', icon: Users, color: 'text-orange-400', bg: 'bg-orange-500/10', route: '/admin/coaching-hub' },
   { key: 'intakes', label: 'Coaching Intakes', entity: 'CoachingIntake', icon: BookOpen, color: 'text-teal-400', bg: 'bg-teal-500/10', route: '/admin/coaching-intakes' },
   { key: 'feedback', label: 'Merch Feedback', entity: 'MerchFeedback', icon: Star, color: 'text-primary', bg: 'bg-primary/10', route: '/admin/merch-feedback' },
   { key: 'reviews', label: 'Product Reviews', entity: 'ProductReview', icon: Star, color: 'text-lime-400', bg: 'bg-lime-500/10', route: '/admin/merch' },
@@ -163,12 +163,12 @@ export default function CommunicationsHub() {
     ...(newBookings.length > 0 ? [{
       icon: Calendar, title: `${newBookings.length} new booking enquiries`,
       desc: 'People want to book you. Respond within 24 hours for best conversion.',
-      action: 'View bookings', route: '/admin/coaching-leads', priority: 'high',
+      action: 'View bookings', route: '/admin/coaching-hub', priority: 'high',
     }] : []),
     ...(newLeads.length > 0 ? [{
       icon: Users, title: `${newLeads.length} coaching leads to follow up`,
       desc: 'Potential coaching clients waiting for response. Every day of delay reduces conversion.',
-      action: 'Follow up', route: '/admin/coaching-leads', priority: 'high',
+      action: 'Follow up', route: '/admin/coaching-hub', priority: 'high',
     }] : []),
     {
       icon: TrendingUp, title: 'Daily sales tracking ran last night',

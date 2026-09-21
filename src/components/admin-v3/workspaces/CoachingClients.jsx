@@ -74,7 +74,7 @@ export default function CoachingClients() {
       </div>
 
       {/* ── Coaching Pipeline ── */}
-      <SectionCard title="Coaching Pipeline" count={leads.length} actionLabel="Leads" actionPath="/admin/coaching-leads">
+      <SectionCard title="Coaching Pipeline" count={leads.length} actionLabel="Leads" actionPath="/admin/coaching-hub">
         {isLoading ? <LoadingState /> : leads.length === 0 ? <EmptyState message="No coaching leads." /> : (
           <div className="p-3 space-y-3">
             {COACHING_STAGES.map(stage => {
@@ -84,7 +84,7 @@ export default function CoachingClients() {
                 <div key={stage}>
                   <p className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1.5">{stage} <span className="opacity-50">({stageLeads.length})</span></p>
                   {stageLeads.slice(0, 5).map(l => (
-                    <RowItem key={l.id} title={l.name || l.customer_name || 'Lead'} subtitle={l.email || l.program_type || ''} status={l.status || 'new'} statusLevel={stage === 'Enquiry' ? 'orange' : stage === 'Session' ? 'green' : 'grey'} path="/admin/coaching-leads" />
+                    <RowItem key={l.id} title={l.name || l.customer_name || 'Lead'} subtitle={l.email || l.program_type || ''} status={l.status || 'new'} statusLevel={stage === 'Enquiry' ? 'orange' : stage === 'Session' ? 'green' : 'grey'} path="/admin/coaching-hub" />
                   ))}
                   {stageLeads.length > 5 && <p className="text-[10px] text-muted-foreground/40 px-3">+{stageLeads.length - 5} more</p>}
                 </div>
@@ -102,9 +102,9 @@ export default function CoachingClients() {
           ))}
         </SectionCard>
 
-        <SectionCard title="Booking Enquiries" count={bookings.length} actionLabel="View" actionPath="/admin/coaching-leads">
+        <SectionCard title="Booking Enquiries" count={bookings.length} actionLabel="View" actionPath="/admin/coaching-hub">
           {bookings.length === 0 ? <EmptyState message="No booking enquiries." /> : bookings.slice(0, 8).map(b => (
-            <RowItem key={b.id} title={b.name || b.contact_name || 'Enquiry'} subtitle={b.event_type || b.booking_type || ''} status={b.status || 'new'} statusLevel={b.status === 'confirmed' ? 'green' : 'orange'} path="/admin/coaching-leads" />
+            <RowItem key={b.id} title={b.name || b.contact_name || 'Enquiry'} subtitle={b.event_type || b.booking_type || ''} status={b.status || 'new'} statusLevel={b.status === 'confirmed' ? 'green' : 'orange'} path="/admin/coaching-hub" />
           ))}
         </SectionCard>
       </div>
@@ -121,18 +121,18 @@ export default function CoachingClients() {
             <RowItem key={r.id} title={r.title || 'Resource'} subtitle={r.type || ''} status="Available" statusLevel="green" path="/admin/client-resource-library" />
           ))}
         </SectionCard>
-        <SectionCard title="Offers" count={offers.length} actionLabel="View" actionPath="/admin/coaching-programs">
+        <SectionCard title="Offers" count={offers.length} actionLabel="View" actionPath="/admin/coaching-hub">
           {offers.length === 0 ? <EmptyState message="No offers." /> : offers.slice(0, 5).map(o => (
-            <RowItem key={o.id} title={o.title || o.name || 'Offer'} subtitle={o.price ? `$${o.price}` : ''} status={o.status || 'active'} statusLevel="grey" path="/admin/coaching-programs" />
+            <RowItem key={o.id} title={o.title || o.name || 'Offer'} subtitle={o.price ? `$${o.price}` : ''} status={o.status || 'active'} statusLevel="grey" path="/admin/coaching-hub" />
           ))}
         </SectionCard>
       </div>
 
       {/* ── Testimonials ── */}
       {testimonials.length > 0 && (
-        <SectionCard title="Testimonials" count={testimonials.length} actionLabel="View" actionPath="/admin/coaching-clients">
+        <SectionCard title="Testimonials" count={testimonials.length} actionLabel="View" actionPath="/admin/coaching-hub">
           {testimonials.slice(0, 5).map(t => (
-            <RowItem key={t.id} title={t.client_name || 'Client'} subtitle={t.content || ''} status={t.is_approved ? 'Approved' : 'Pending'} statusLevel={t.is_approved ? 'green' : 'orange'} path="/admin/coaching-clients" />
+            <RowItem key={t.id} title={t.client_name || 'Client'} subtitle={t.content || ''} status={t.is_approved ? 'Approved' : 'Pending'} statusLevel={t.is_approved ? 'green' : 'orange'} path="/admin/coaching-hub" />
           ))}
         </SectionCard>
       )}

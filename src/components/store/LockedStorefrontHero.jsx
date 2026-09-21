@@ -7,7 +7,7 @@ import ExpressInterestModal from '@/components/store/ExpressInterestModal';
 import { formatAudPrice } from '@/lib/liveStoreProducts';
 
 // Hotspot zones are DATA, not code — they live in the StorefrontHotspot entity
-// so Gannon can add, move or retire them himself from /admin/store-hotspots as
+// so Gannon can add, move or retire them himself from /admin/merch-visual-lab as
 // new merch comes in, without ever touching this file or the locked photo
 // underneath them. A hotspot only ever renders on top of the ONE locked
 // artwork below (src/config/storefrontArtLock.js) — every record is filtered

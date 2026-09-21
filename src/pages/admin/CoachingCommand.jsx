@@ -136,11 +136,11 @@ export default function CoachingCommand() {
       {/* Admin-only navigation to staging sub-pages */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
         {[
-          { to: '/admin/coaching-programs', icon: BookOpen, label: 'Programs (Staging)', desc: 'View/edit draft coaching programs' },
+          { to: '/admin/coaching-hub', icon: BookOpen, label: 'Programs (Staging)', desc: 'View/edit draft coaching programs' },
           { to: '/admin/coaching-legal', icon: Shield, label: 'Legal Documents', desc: 'Draft contracts, waivers, disclaimers' },
           { to: '/admin/coaching-launch-control', icon: Lock, label: 'Launch Control', desc: 'Final gate checklist and launch approval' },
           { to: '/admin/coaching-content-library', icon: FileText, label: 'Content Library', desc: 'Private resources and reflection tools' },
-          { to: '/admin/meditation-library', icon: Heart, label: 'Meditation Library', desc: 'Private meditations — not published' },
+          { to: '/admin/coaching-hub', icon: Heart, label: 'Meditation Library', desc: 'Private meditations — not published' },
           { to: '/admin/client-management', icon: Users, label: 'Client Management', desc: 'Draft client dashboard and CRM' },
           { to: '/admin/appointment-scheduler', icon: Calendar, label: 'Session Scheduler', desc: 'Draft booking/appointment system' },
           { to: '/admin/coaching-roi', icon: Star, label: 'Coaching ROI', desc: 'Revenue potential and program pricing' },

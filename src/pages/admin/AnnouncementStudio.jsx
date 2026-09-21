@@ -222,7 +222,7 @@ export default function AnnouncementStudio() {
             <p className="font-semibold text-sm">Instagram Story Templates</p>
             <p className="text-xs text-muted-foreground mt-0.5">Story slides for the merch drop, bundle deal, and THANKYOU announcement</p>
           </div>
-          <Link to="/admin/instagram-story-studio">
+          <Link to="/admin/social-schedule-queue">
             <Button size="sm" variant="outline" className="rounded-full gap-2">
               Open Studio →
             </Button>

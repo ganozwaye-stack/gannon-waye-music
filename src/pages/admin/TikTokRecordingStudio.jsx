@@ -377,7 +377,7 @@ export default function TikTokRecordingStudio() {
           <Link to="/admin/tiktok-screen-guide"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Screen Guide</Button></Link>
           <Link to="/admin/approval-queue"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Approval Queue</Button></Link>
           <Link to="/admin/notifications"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Notifications</Button></Link>
-          <Link to="/admin/social-content"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Social Content</Button></Link>
+          <Link to="/admin/social-schedule-queue"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Social Content</Button></Link>
         </CardContent>
       </Card>
     </div>

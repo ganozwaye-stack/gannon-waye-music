@@ -102,7 +102,6 @@ const CODE_PACKS = [
     id: 'admin-social-tiktok',
     label: '5. Admin — Social & TikTok',
     files: [
-      { path: 'pages/admin/TikTokPlatformReviewAdmin.jsx', desc: 'TikTok review (admin)' },
       { path: 'pages/admin/TikTokRecordingStudio.jsx', desc: 'TikTok recording guide' },
       { path: 'pages/admin/TikTokAppReview.jsx', desc: 'TikTok app review prep' },
       { path: 'pages/admin/TikTokScreenGuide.jsx', desc: 'TikTok screen recording guide' },
@@ -111,7 +110,6 @@ const CODE_PACKS = [
       { path: 'pages/admin/SocialReviewReadiness.jsx', desc: 'Social review prep' },
       { path: 'pages/admin/SocialContentReadiness.jsx', desc: 'Content readiness' },
       { path: 'pages/admin/SocialAnalyticsCommand.jsx', desc: 'Analytics command' },
-      { path: 'pages/admin/SocialCommand.jsx', desc: 'Social command centre' },
       { path: 'pages/admin/SocialDistributionReadiness.jsx', desc: 'Distribution readiness' },
       { path: 'components/tiktok/TikTokConnectionCard.jsx', desc: 'TikTok OAuth UI component' },
       { path: 'components/tiktok/TikTokDraftUpload.jsx', desc: 'TikTok draft uploader' },

@@ -32,7 +32,7 @@ export default function SetupTikTokFlow({ onComplete, onBlocked }) {
   const testOAuth = async () => {
     setTesting(true);
     try {
-      window.open('https://gannonwaye.com/admin/tiktok-platform-review', '_blank');
+      window.open('https://gannonwaye.com/admin/social-schedule-queue', '_blank');
       setOauthResult({ info: 'OAuth page opened in new tab. Complete the TikTok login flow there. Return here when done.' });
     } catch (e) {
       setOauthResult({ error: e.message });
@@ -127,7 +127,7 @@ export default function SetupTikTokFlow({ onComplete, onBlocked }) {
               <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-3 text-sm text-green-300 mb-3">
                 ✅ Safe — drafts are sent to your TikTok Creator inbox only. Nothing is published publicly.
               </div>
-              <Button onClick={() => window.open('https://gannonwaye.com/admin/tiktok-platform-review', '_blank')} className="gap-2 mb-3">
+              <Button onClick={() => window.open('https://gannonwaye.com/admin/social-schedule-queue', '_blank')} className="gap-2 mb-3">
                 <ExternalLink className="w-4 h-4" /> Open TikTok Upload Test Page
               </Button>
               <div className="flex gap-2 mt-2">

@@ -29,7 +29,7 @@ const CATEGORY_ROUTES = {
   press_photo: '/admin/press-kit',
   spotify_embed: '/admin/releases',
   newsletter_send: '/admin/newsletter',
-  instagram_post: '/admin/social-command',
+  instagram_post: '/admin/social-schedule-queue',
   tiktok_post: '/admin/tiktok-recording-studio',
   merch_feature: '/admin/merch',
   page_publish: '/admin/website-ops',

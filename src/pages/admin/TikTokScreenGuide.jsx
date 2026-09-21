@@ -78,7 +78,7 @@ const SCREEN_RECORDING_STEPS = [
       'Step 2: Navigate to /admin/tiktok-review and show the recommended submission: Login Kit + Content Posting API only.',
       'Step 3: Show TikTok connection status — connected creator account name, authorised status, TikTok display name if available.',
       'Step 4 (Login Kit): Click Connect TikTok or Reconnect TikTok button. If possible, show the TikTok OAuth authorisation screen. Show the return to https://gannonwaye.com/tiktok-callback. Show connected status inside admin.',
-      'Step 5 (Content Posting API / video.upload): Open TikTok content draft area (/admin/social-content). Select or create a video draft. Show video/caption/copy prepared by the system. Show the Approval Queue step. Approve the draft. Click Upload Draft to TikTok. Show successful upload status — "Draft uploaded" or "Awaiting creator review".',
+      'Step 5 (Content Posting API / video.upload): Open TikTok content draft area (/admin/social-schedule-queue). Select or create a video draft. Show video/caption/copy prepared by the system. Show the Approval Queue step. Approve the draft. Click Upload Draft to TikTok. Show successful upload status — "Draft uploaded" or "Awaiting creator review".',
       'Step 6: Show that nothing auto-posts. Show manual approval required. Show creator approval required. Show the Approval Queue. Narrate: "AI prepares drafts but Gannon controls publishing."',
       'Step 7: Show that Share Kit, Webhooks, user.info.stats, video.list, and video.publish are removed unless each can be demonstrated end to end.',
       'Step 8: End by showing Business Attention Centre. Show TikTok notification, approval status, uploaded draft status, and source chain.',
@@ -408,7 +408,7 @@ export default function TikTokScreenGuide() {
         <CardContent className="flex flex-wrap gap-2">
           <Link to="/admin/tiktok-review"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />TikTok Review</Button></Link>
           <Link to="/admin/tiktok-recording-studio"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Recording Studio</Button></Link>
-          <Link to="/admin/social-content"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Social Content</Button></Link>
+          <Link to="/admin/social-schedule-queue"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Social Content</Button></Link>
           <Link to="/admin/approval-queue"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Approval Queue</Button></Link>
           <Link to="/admin/notifications"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Notifications</Button></Link>
         </CardContent>

@@ -80,7 +80,7 @@ Key admin routes:
 /admin/agent-capability-matrix → Agent management
 /admin/az-index → A-Z page index
 /admin/coaching-command → Coaching (PRIVATE — not public)
-/admin/tiktok-platform-review → TikTok admin
+/admin/social-schedule-queue → TikTok admin
 /admin/social-platform-parity → Social platform tracker
 /admin/qa-command-centre → QA & testing
 /admin/playwright-test-centre → Test packs
@@ -650,7 +650,7 @@ export default function DeveloperHandoff() {
             <Link to="/admin/qa-command-centre"><Button variant="ghost" size="sm" className="w-full justify-start text-xs">QA Command Centre</Button></Link>
             <Link to="/admin/playwright-test-centre"><Button variant="ghost" size="sm" className="w-full justify-start text-xs">Playwright Tests</Button></Link>
             <Link to="/admin/social-platform-parity"><Button variant="ghost" size="sm" className="w-full justify-start text-xs">Social Parity</Button></Link>
-            <Link to="/admin/tiktok-platform-review"><Button variant="ghost" size="sm" className="w-full justify-start text-xs">TikTok Review</Button></Link>
+            <Link to="/admin/social-schedule-queue"><Button variant="ghost" size="sm" className="w-full justify-start text-xs">TikTok Review</Button></Link>
           </div>
         </div>
 

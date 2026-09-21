@@ -20,7 +20,7 @@ const OAUTH_PLATFORMS = [
     secretsRequired: ['TIKTOK_CLIENT_KEY', 'TIKTOK_CLIENT_SECRET'],
     secretsSet: [true, true],
     flow: 'Admin clicks Connect → popup opens TikTok → creator authorises → code sent to /tiktok-callback → backend exchanges code → token stored in KnowledgeVault',
-    testUrl: 'https://gannonwaye.com/admin/tiktok-platform-review',
+    testUrl: 'https://gannonwaye.com/admin/social-schedule-queue',
     blockers: ['Must be live-tested on gannonwaye.com (not Base44 preview)', 'Client secret may need rotation', 'Developer review pending'],
     canAgentPrepare: true,
     agentCannotDo: 'Complete real OAuth (Gannon must click Connect in browser)',

@@ -112,7 +112,7 @@ export default function CommandPalette({ isOpen, onClose }) {
             label: `Asset: ${a.name} (${a.asset_type})`,
             icon: Camera,
             shortcut: 'ASSET',
-            action: `/admin/social-asset-library?id=${a.id}`
+            action: `/admin/social-schedule-queue?id=${a.id}`
           });
         }
       });

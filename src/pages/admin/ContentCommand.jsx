@@ -32,10 +32,10 @@ const STATUS_CONFIG = {
 };
 
 const NAV_MODULES = [
-  { label: 'Post Factory', desc: 'AI-generate sprint briefs', to: '/admin/social-post-factory', icon: Zap, color: 'text-primary' },
+  { label: 'Post Factory', desc: 'AI-generate sprint briefs', to: '/admin/social-schedule-queue', icon: Zap, color: 'text-primary' },
   { label: 'Approval Queue', desc: 'Review before publishing', to: '/admin/approval-queue', icon: CheckCircle2, color: 'text-green-400' },
   { label: 'Schedule Queue', desc: 'Approved → Metricool', to: '/admin/social-schedule-queue', icon: Calendar, color: 'text-blue-400' },
-  { label: 'Asset Library', desc: 'Videos, images, overlays', to: '/admin/social-asset-library', icon: Image, color: 'text-purple-400' },
+  { label: 'Asset Library', desc: 'Videos, images, overlays', to: '/admin/social-schedule-queue', icon: Image, color: 'text-purple-400' },
   { label: 'Quality Review', desc: 'Score drafts before publish', to: '/admin/content-quality-review', icon: Target, color: 'text-primary' },
   { label: 'Performance', desc: 'Analytics & engagement', to: '/admin/content-performance', icon: BarChart2, color: 'text-cyan-400' },
   { label: 'Metricool Setup', desc: 'API config & diagnostics', to: '/admin/metricool-api-setup', icon: Radio, color: 'text-orange-400' },
@@ -274,7 +274,7 @@ export default function ContentCommand() {
           <Button onClick={() => setShowGenerate(true)} className="gradient-gold-button border-0 gap-2">
             <Zap className="w-4 h-4" />Generate Post
           </Button>
-          <Link to="/admin/social-post-factory">
+          <Link to="/admin/social-schedule-queue">
             <Button variant="outline" size="sm" className="gap-1.5"><Plus className="w-3.5 h-3.5" />Sprint Brief</Button>
           </Link>
         </div>
@@ -513,7 +513,7 @@ export default function ContentCommand() {
               </CardContent>
             </Card>
           ))}
-          <Link to="/admin/social-asset-library">
+          <Link to="/admin/social-schedule-queue">
             <Button variant="outline" className="w-full gap-2"><Image className="w-4 h-4" />Open Full Asset Library</Button>
           </Link>
         </div>

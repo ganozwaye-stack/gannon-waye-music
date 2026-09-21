@@ -59,13 +59,11 @@ import AdminLayout from '@/components/admin/AdminLayout';
 import DailyDashboard from '@/pages/admin/DailyDashboard';
 import Dashboard from '@/pages/admin/Dashboard';
 import DailyDashboardV2 from '@/pages/admin/DailyDashboardV2';
-import OwnerCommandV3 from '@/pages/admin/OwnerCommandV3';
 import Releases from '@/pages/admin/Releases';
 import HeroDesignStudio from '@/pages/admin/HeroDesignStudio';
 import ReleasePrepStudio from '@/pages/admin/ReleasePrepStudio';
 import ReleaseControlDesk from '@/pages/admin/ReleaseControlDesk';
 import MerchManagement from '@/pages/admin/MerchManagement';
-import StoreHotspotEditor from '@/pages/admin/StoreHotspotEditor';
 import Orders from '@/pages/admin/Orders';
 import Subscribers from '@/pages/admin/Subscribers';
 import FanManagement from '@/pages/admin/FanManagement';
@@ -100,7 +98,6 @@ import AuditLog from '@/pages/admin/AuditLog';
 import OperationalStatus from '@/pages/admin/OperationalStatus';
 import OrderStatus from '@/pages/OrderStatus';
 import MasteringAdmin from '@/pages/admin/MasteringAdmin';
-import SocialContentGenerator from '@/pages/admin/SocialContentGenerator';
 import CommandCentre from '@/pages/admin/CommandCentre';
 import AgentRegistryPage from '@/pages/admin/AgentRegistry';
 import ApprovalQueuePage from '@/pages/admin/ApprovalQueue';
@@ -112,12 +109,10 @@ import WealthDashboard from '@/pages/admin/WealthDashboard';
 import ResearchHub from '@/pages/admin/ResearchHub';
 import CreativeStudio from '@/pages/admin/CreativeStudio';
 import MarketingCentre from '@/pages/admin/MarketingCentre';
-import SocialCommand from '@/pages/admin/SocialCommand';
 import SecurityCentre from '@/pages/admin/SecurityCentre';
 import AgentTaskLogPage from '@/pages/admin/AgentTaskLog';
 import TrendMonitor from '@/pages/admin/TrendMonitor';
 import WebsiteOps from '@/pages/admin/WebsiteOps';
-import SocialMonitor from '@/pages/admin/SocialMonitor';
 import ContentDashboard from '@/pages/admin/ContentDashboard';
 import ExecutiveFeed from '@/pages/admin/ExecutiveFeed';
 import IdeasEngine from '@/pages/admin/IdeasEngine';
@@ -131,7 +126,6 @@ import LaunchPacketStudio from '@/pages/admin/LaunchPacketStudio';
 import AgentLearning from '@/pages/admin/AgentLearning';
 import MemoryGraph from '@/pages/admin/MemoryGraph';
 import SelfHealing from '@/pages/admin/SelfHealing';
-import SocialIntelligence from '@/pages/admin/SocialIntelligence';
 import CreatorInsights from '@/pages/admin/CreatorInsights';
 import ApiSetup from '@/pages/admin/ApiSetup';
 import GoLiveChecklist from '@/pages/admin/GoLiveChecklist';
@@ -155,7 +149,6 @@ import TikTokScreenGuide from '@/pages/admin/TikTokScreenGuide';
 import TikTokPlatformReview from '@/pages/TikTokPlatformReview';
 import TikTokCallback from '@/pages/TikTokCallback.jsx';
 import TooLostCallback from '@/pages/TooLostCallback.jsx';
-import TikTokPlatformReviewAdmin from '@/pages/admin/TikTokPlatformReviewAdmin';
 import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
 import RevenueActions from '@/pages/admin/RevenueActions';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
@@ -167,12 +160,10 @@ import StripeCommandCentre from '@/pages/admin/StripeCommandCentreNew';
 import WebhookHealth from '@/pages/admin/WebhookHealthNew';
 import SocialDistributionReadiness from '@/pages/admin/SocialDistributionReadiness';
 import CoachingCommand from '@/pages/admin/CoachingCommand';
-import CoachingPrograms from '@/pages/admin/coaching/CoachingPrograms';
 import CoachingLegal from '@/pages/admin/coaching/CoachingLegal';
 import CoachingLaunchControl from '@/pages/admin/coaching/CoachingLaunchControl';
 import CoachingROI from '@/pages/admin/coaching/CoachingROI';
 import CoachingContentLibrary from '@/pages/admin/coaching/CoachingContentLibrary';
-import CoachingMeditationLibrary from '@/pages/admin/coaching/MeditationLibrary';
 import CoachingClientManagement from '@/pages/admin/coaching/ClientManagement';
 import AppointmentScheduler from '@/pages/admin/coaching/AppointmentScheduler';
 import CoachingSalesFunnel from '@/pages/admin/coaching/CoachingSalesFunnel';
@@ -206,15 +197,12 @@ import VoiceInputTestPage from '@/pages/admin/VoiceInputTestPage';
 import PromoCodeAudit from '@/pages/admin/PromoCodeAudit';
 import AICostControl from '@/pages/admin/AICostControl';
 import ReleasePromoCommand from '@/pages/admin/ReleasePromoCommand';
-import SocialAssetLibrary from '@/pages/admin/SocialAssetLibrary';
-import SocialPostFactory from '@/pages/admin/SocialPostFactory';
 import ContentQualityReview from '@/pages/admin/ContentQualityReview';
 import SocialScheduleQueue from '@/pages/admin/SocialScheduleQueue';
 import ContentPerformance from '@/pages/admin/ContentPerformance';
 import MetricoolCommand from '@/pages/admin/MetricoolCommand';
 import SystemBlueprint from '@/pages/admin/SystemBlueprint';
 import MetricoolApiSetup from '@/pages/admin/MetricoolApiSetup';
-import MetricoolMediaPipeline from '@/pages/admin/MetricoolMediaPipeline';
 import MetricoolSchedulerQueue from '@/pages/admin/MetricoolSchedulerQueue';
 import MetricoolPerformanceIntelligence from '@/pages/admin/MetricoolPerformanceIntelligence';
 import AgentRevenueStatus from '@/pages/admin/AgentRevenueStatus';
@@ -225,7 +213,6 @@ import SocialAgentOS from '@/pages/admin/SocialAgentOS.jsx';
 import DailyPostEngine from '@/pages/admin/DailyPostEngine.jsx';
 import AgentWorkbench from '@/pages/admin/AgentWorkbench';
 import BusinessAttentionCentre from '@/pages/admin/BusinessAttentionCentre';
-import InstagramAutoDMCommand from '@/pages/admin/InstagramAutoDMCommand';
 import DiscountGuardAdmin from '@/pages/admin/DiscountGuardAdmin';
 import ProcurementCommand from '@/pages/admin/ProcurementCommand';
 import LandedCostCalculator from '@/pages/admin/LandedCostCalculator';
@@ -253,7 +240,6 @@ import QuickUpload from '@/pages/admin/QuickUpload';
 import LinkIntegrityAudit from '@/pages/admin/LinkIntegrityAudit';
 import EducationHub from '@/pages/admin/EducationHub';
 import IntegrationActionCentre from '@/pages/admin/IntegrationActionCentre';
-import InstagramStoryStudio from '@/pages/admin/InstagramStoryStudio';
 import AnnouncementStudio from '@/pages/admin/AnnouncementStudio';
 import UpcomingMusic from '@/pages/UpcomingMusic';
 import CarryTheMessage from '@/pages/CarryTheMessage';
@@ -277,7 +263,6 @@ import FanGuide from '@/pages/FanGuide';
 // New Hub & Mission Control pages
 import LaunchContentHub from '@/pages/admin/LaunchContentHub';
 import MusicFanHub from '@/pages/admin/MusicFanHub';
-import AutomationAgentsHub from '@/pages/admin/AutomationAgentsHub';
 import SystemsQaHub from '@/pages/admin/SystemsQaHub';
 import OwnerBusinessHub from '@/pages/admin/OwnerBusinessHub';
 import PrintFulfilment from '@/pages/admin/PrintFulfilment';
@@ -302,9 +287,7 @@ import CoachingIntakePage from '@/pages/CoachingIntakePage';
 import CoachingClientResources from '@/pages/CoachingClientResources';
 import CoachingHub from '@/pages/admin/CoachingHub';
 import CoachingOverview from '@/pages/admin/CoachingOverview';
-import CoachingLeads from '@/pages/admin/CoachingLeads';
 import CoachingIntakes from '@/pages/admin/CoachingIntakes';
-import CoachingClients from '@/pages/admin/CoachingClients';
 import CoachingContentEngine from '@/pages/admin/CoachingContentEngine';
 import CoachingSocialDrafts from '@/pages/admin/CoachingSocialDrafts';
 import WorkbookBuilder from '@/pages/admin/WorkbookBuilder';
@@ -314,9 +297,7 @@ import PressKit from '@/pages/PressKit';
 import LyricsArchive from '@/pages/admin/LyricsArchive';
 import ContentStudio from '@/pages/admin/ContentStudio';
 import ManyChatDrafts from '@/pages/admin/ManyChatDrafts';
-import InstagramSync from '@/pages/admin/InstagramSync';
 import CommunicationsHub from '@/pages/admin/CommunicationsHub';
-import ReelFactory from '@/pages/admin/ReelFactory';
 import MerchApprovalGate from '@/pages/admin/MerchApprovalGate';
 import MerchVotes from '@/pages/admin/MerchVotes';
 import Login from '@/pages/Login';
@@ -530,7 +511,6 @@ const AuthenticatedApp = () => {
             hub. The old Daily Dashboard stays as a file for a later retirement wave. */}
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/admin/dashboard-v2" element={<DailyDashboardV2 />} />
-        <Route path="/admin/owner-command-v3" element={<OwnerCommandV3 />} />
         <Route path="/admin/launch-content" element={<LaunchContentHub />} />
         <Route path="/admin/music-fan" element={<MusicFanHub />} />
         {/* Merged into /admin/orders (12 Sep 2026). Orders reads the same MerchOrder data
@@ -538,7 +518,6 @@ const AuthenticatedApp = () => {
             Kept as a redirect so existing links and bookmarks still work.
             To undo: restore element={<StoreOrdersHub />}. */}
         <Route path="/admin/store-orders" element={<Navigate to="/admin/orders" replace />} />
-        <Route path="/admin/automation-agents" element={<AutomationAgentsHub />} />
         <Route path="/admin/systems-qa" element={<SystemsQaHub />} />
         <Route path="/admin/owner-business" element={<OwnerBusinessHub />} />
         {/* Mission Control merged into the single Command Centre (15 Sep 2026):
@@ -550,7 +529,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/release-prep" element={<ReleasePrepStudio />} />
         <Route path="/admin/release-control" element={<ReleaseControlDesk />} />
         <Route path="/admin/merch" element={<MerchManagement />} />
-        <Route path="/admin/store-hotspots" element={<StoreHotspotEditor />} />
         <Route path="/admin/orders" element={<Orders />} />
         <Route path="/admin/subscribers" element={<Subscribers />} />
         <Route path="/admin/fans" element={<FanManagement />} />
@@ -584,7 +562,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/audit-log" element={<AuditLog />} />
         <Route path="/admin/operational-status" element={<OperationalStatus />} />
         <Route path="/admin/mastering" element={<MasteringAdmin />} />
-        <Route path="/admin/social-content" element={<SocialContentGenerator />} />
         <Route path="/admin/command-centre" element={<CommandCentre />} />
         <Route path="/admin/agent-registry" element={<AgentRegistryPage />} />
         <Route path="/admin/approval-queue" element={<ApprovalQueuePage />} />
@@ -596,12 +573,10 @@ const AuthenticatedApp = () => {
         <Route path="/admin/research-hub" element={<ResearchHub />} />
         <Route path="/admin/creative-studio" element={<CreativeStudio />} />
         <Route path="/admin/marketing-centre" element={<MarketingCentre />} />
-        <Route path="/admin/social-command" element={<SocialCommand />} />
         <Route path="/admin/security-centre" element={<SecurityCentre />} />
         <Route path="/admin/agent-task-log" element={<AgentTaskLogPage />} />
         <Route path="/admin/trend-monitor" element={<TrendMonitor />} />
         <Route path="/admin/website-ops" element={<WebsiteOps />} />
-        <Route path="/admin/social-monitor" element={<SocialMonitor />} />
         <Route path="/admin/content-dashboard" element={<ContentDashboard />} />
         <Route path="/admin/executive-feed" element={<ExecutiveFeed />} />
         <Route path="/admin/ideas-engine" element={<IdeasEngine />} />
@@ -615,7 +590,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/agent-learning" element={<AgentLearning />} />
         <Route path="/admin/memory-graph" element={<MemoryGraph />} />
         <Route path="/admin/self-healing" element={<SelfHealing />} />
-        <Route path="/admin/social-intelligence" element={<SocialIntelligence />} />
         <Route path="/admin/creator-insights" element={<CreatorInsights />} />
         <Route path="/admin/api-setup" element={<ApiSetup />} />
         <Route path="/admin/integration-action-centre" element={<IntegrationActionCentre />} />
@@ -637,7 +611,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/client-onboarding" element={<ClientOnboarding />} />
         <Route path="/admin/monthly-monitoring" element={<MonthlyMonitoring />} />
         <Route path="/admin/tiktok-screen-guide" element={<TikTokScreenGuide />} />
-        <Route path="/admin/tiktok-platform-review" element={<TikTokPlatformReviewAdmin />} />
         <Route path="/admin/tiktok-recording-studio" element={<TikTokRecordingStudio />} />
         <Route path="/admin/revenue-actions" element={<RevenueActions />} />
         <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
@@ -650,7 +623,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/social-distribution-readiness" element={<SocialDistributionReadiness />} />
         <Route path="/admin/coaching-command" element={<CoachingCommand />} />
         <Route path="/admin/coaching-launch-control" element={<CoachingLaunchControl />} />
-        <Route path="/admin/coaching-programs" element={<CoachingPrograms />} />
         <Route path="/music-production" element={<MusicProduction />} />
         <Route path="/producer-directory" element={<ProducerDirectory />} />
         <Route path="/admin/production-tracker" element={<ProductionTracker />} />
@@ -658,7 +630,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/brand-kit" element={<BrandKit />} />
         <Route path="/admin/coaching-legal" element={<CoachingLegal />} />
         <Route path="/admin/coaching-content-library" element={<CoachingContentLibrary />} />
-        <Route path="/admin/meditation-library" element={<CoachingMeditationLibrary />} />
         <Route path="/admin/client-management" element={<CoachingClientManagement />} />
         <Route path="/admin/appointment-scheduler" element={<AppointmentScheduler />} />
         <Route path="/admin/coaching-roi" element={<CoachingROI />} />
@@ -694,15 +665,12 @@ const AuthenticatedApp = () => {
         <Route path="/admin/ai-cost-control" element={<AICostControl />} />
         <Route path="/admin/release-promo-command" element={<ReleasePromoCommand />} />
 
-        <Route path="/admin/social-asset-library" element={<SocialAssetLibrary />} />
-        <Route path="/admin/social-post-factory" element={<SocialPostFactory />} />
         <Route path="/admin/content-quality-review" element={<ContentQualityReview />} />
         <Route path="/admin/social-schedule-queue" element={<SocialScheduleQueue />} />
         <Route path="/admin/content-performance" element={<ContentPerformance />} />
         <Route path="/admin/metricool-command" element={<MetricoolCommand />} />
         <Route path="/admin/system-blueprint" element={<SystemBlueprint />} />
         <Route path="/admin/metricool-api-setup" element={<MetricoolApiSetup />} />
-        <Route path="/admin/metricool-media-pipeline" element={<MetricoolMediaPipeline />} />
         <Route path="/admin/metricool-scheduler-queue" element={<MetricoolSchedulerQueue />} />
         <Route path="/admin/metricool-performance-intelligence" element={<MetricoolPerformanceIntelligence />} />
         <Route path="/admin/agent-revenue-status" element={<AgentRevenueStatus />} />
@@ -713,7 +681,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/daily-post-engine" element={<DailyPostEngine />} />
         <Route path="/admin/agent-workbench" element={<AgentWorkbench />} />
         <Route path="/admin/business-attention-centre" element={<BusinessAttentionCentre />} />
-        <Route path="/admin/instagram-auto-dm-command" element={<InstagramAutoDMCommand />} />
         <Route path="/admin/discount-guard" element={<DiscountGuardAdmin />} />
         <Route path="/admin/procurement-command" element={<ProcurementCommand />} />
         <Route path="/admin/landed-cost-calculator" element={<LandedCostCalculator />} />
@@ -740,7 +707,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/quick-upload" element={<QuickUpload />} />
         <Route path="/admin/link-integrity-audit" element={<LinkIntegrityAudit />} />
         <Route path="/admin/education-hub" element={<EducationHub />} />
-        <Route path="/admin/instagram-story-studio" element={<InstagramStoryStudio />} />
         {/* Merged into /admin/education-hub (12 Sep 2026). Both screens read and write the
             same TrainingModule entity with the same create/update/delete operations;
             Education Hub is the fuller of the two.
@@ -765,9 +731,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/google-drive" element={<GoogleDriveCommand />} />
         <Route path="/admin/coaching-hub" element={<CoachingHub />} />
         <Route path="/admin/coaching-overview" element={<CoachingOverview />} />
-        <Route path="/admin/coaching-leads" element={<CoachingLeads />} />
         <Route path="/admin/coaching-intakes" element={<CoachingIntakes />} />
-        <Route path="/admin/coaching-clients" element={<CoachingClients />} />
         <Route path="/admin/coaching-content-engine" element={<CoachingContentEngine />} />
         <Route path="/admin/social-drafts" element={<CoachingSocialDrafts />} />
         <Route path="/admin/workbook-builder" element={<WorkbookBuilder />} />
@@ -782,16 +746,12 @@ const AuthenticatedApp = () => {
         <Route path="/admin/coaching/self-worth-reset" element={<CoachingSelfWorthReset />} />
         <Route path="/admin/coaching/boundaries" element={<CoachingBoundaries />} />
         <Route path="/admin/coaching/creative-confidence" element={<CoachingCreativeConfidence />} />
-        <Route path="/admin/coaching/workbooks" element={<CoachingWorkbooks />} />
         <Route path="/admin/coaching/intake" element={<CoachingIntakePage />} />
-        <Route path="/admin/coaching/client-resources" element={<CoachingClientResources />} />
         <Route path="/admin/press-kit" element={<PressKit />} />
         <Route path="/admin/lyrics-archive" element={<LyricsArchive />} />
         <Route path="/admin/content-studio" element={<ContentStudio />} />
         <Route path="/admin/manychat-drafts" element={<ManyChatDrafts />} />
-        <Route path="/admin/instagram-sync" element={<InstagramSync />} />
         <Route path="/admin/communications-hub" element={<CommunicationsHub />} />
-        <Route path="/admin/reel-factory" element={<ReelFactory />} />
         <Route path="/admin/merch-approval" element={<MerchApprovalGate />} />
         <Route path="/admin/merch-votes" element={<MerchVotes />} />
       </Route>

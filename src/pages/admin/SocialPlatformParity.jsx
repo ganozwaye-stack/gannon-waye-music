@@ -32,7 +32,7 @@ const PLATFORMS = [
     notImplemented: ['Live OAuth test on gannonwaye.com not confirmed', 'Developer review demo not submitted', 'analytics/insights', 'comments', 'webhooks active'],
     manualActions: ['Rotate client secret in TikTok Developer Portal', 'Update TIKTOK_CLIENT_SECRET env var', 'Confirm redirect URI: https://gannonwaye.com/tiktok-callback', 'Record demo video showing real OAuth + draft upload', 'Submit app for TikTok Developer Review'],
     nextAction: 'Live-test OAuth on gannonwaye.com, then submit developer review demo',
-    route: '/admin/tiktok-platform-review',
+    route: '/admin/social-schedule-queue',
     docsUrl: 'https://developers.tiktok.com/doc/overview/',
     lastTest: 'Not confirmed outside Base44 preview',
     sourceChain: 'TikTok Developer Portal → OAuth → /tiktok-callback → KnowledgeVault token → tiktokOAuth function → admin draft UI → Approval Queue → creator publishes in TikTok',
@@ -397,7 +397,7 @@ export default function SocialPlatformParity() {
             <p className="font-semibold text-orange-200">TikTok live validation required</p>
             <p className="text-orange-100/80 mt-1">TikTok OAuth and draft upload must be tested on gannonwaye.com, not Base44 preview. Until confirmed live, TikTok status remains "Needs Live Test".</p>
             <div className="flex gap-2 mt-2">
-              <Link to="/admin/tiktok-platform-review"><Button size="sm" className="gradient-gold-button">Open TikTok Review</Button></Link>
+              <Link to="/admin/social-schedule-queue"><Button size="sm" className="gradient-gold-button">Open TikTok Review</Button></Link>
               <Link to="/admin/tiktok-recording-studio"><Button variant="outline" size="sm">Recording Studio</Button></Link>
             </div>
           </div>

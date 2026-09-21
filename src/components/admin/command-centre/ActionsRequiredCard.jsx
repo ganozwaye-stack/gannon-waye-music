@@ -43,7 +43,7 @@ export default function ActionsRequiredCard() {
     rawAssets.length > 0 && {
       count: rawAssets.length,
       text: 'raw social asset' + (rawAssets.length === 1 ? '' : 's') + ' awaiting brand sign-off.',
-      link: '/admin/social-asset-library',
+      link: '/admin/social-schedule-queue',
     },
     messages.length > 0 && {
       count: messages.length,

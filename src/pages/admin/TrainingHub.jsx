@@ -59,11 +59,11 @@ const MODULES = [
     category: '📱 Social Media',
     color: 'border-purple-500/30',
     items: [
-      { label: 'Social Asset Library', path: '/admin/social-asset-library', desc: 'All video/image assets for release sprint — upload, tag, track', icon: Video, level: 'essential' },
+      { label: 'Social Asset Library', path: '/admin/social-schedule-queue', desc: 'All video/image assets for release sprint — upload, tag, track', icon: Video, level: 'essential' },
       { label: 'Content Quality Review', path: '/admin/content-quality-review', desc: 'AI quality scoring for each post — hook, authenticity, timing', icon: Eye, level: 'essential' },
       { label: 'Social Schedule Queue', path: '/admin/social-schedule-queue', desc: 'Posts approved and queued for Metricool scheduling', icon: Play, level: 'essential' },
       { label: 'Metricool Command', path: '/admin/metricool-command', desc: 'Social scheduling HQ — API connected, human-in-the-loop', icon: TrendingUp, level: 'standard' },
-      { label: 'Social Post Factory', path: '/admin/social-post-factory', desc: 'AI-generate post copy, captions, hashtags for each platform', icon: Zap, level: 'standard' },
+      { label: 'Social Post Factory', path: '/admin/social-schedule-queue', desc: 'AI-generate post copy, captions, hashtags for each platform', icon: Zap, level: 'standard' },
       { label: 'TikTok Recording Studio', path: '/admin/tiktok-recording-studio', desc: 'Screen recording guide for TikTok developer review demo', icon: Video, level: 'standard' },
       { label: 'TikTok Platform Review (Admin)', path: '/admin/tiktok-review', desc: 'OAuth connection, review submission readiness, draft upload status', icon: Video, level: 'advanced' },
       { label: 'Social Analytics Command', path: '/admin/social-analytics-command', desc: 'Track social metrics across TikTok, Instagram, YouTube', icon: TrendingUp, level: 'advanced' },
@@ -136,7 +136,7 @@ const MODULES = [
       { label: 'Training Centre', path: '/admin/training-centre', desc: 'Upload video modules, written guides, step-by-step lessons with student progress tracking', icon: BookOpen, level: 'essential' },
       { label: 'Announcement Studio', path: '/admin/announcement-studio', desc: 'THANKYOU announcement — ready to post to community, copy for social, and email blast approval', icon: Zap, level: 'essential' },
       { label: 'Upcoming Music (Public)', path: '/upcoming-music', desc: 'Garden-themed public preview page — upcoming songs with locked preview clips', icon: Music, level: 'essential' },
-      { label: 'Instagram Story Studio', path: '/admin/instagram-story-studio', desc: 'Story templates — Winter Bundle, Poster drop, THANKYOU announcement, all merch slides', icon: TrendingUp, level: 'essential' },
+      { label: 'Instagram Story Studio', path: '/admin/social-schedule-queue', desc: 'Story templates — Winter Bundle, Poster drop, THANKYOU announcement, all merch slides', icon: TrendingUp, level: 'essential' },
     ],
   },
   {

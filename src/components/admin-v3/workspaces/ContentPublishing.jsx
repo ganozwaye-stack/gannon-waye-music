@@ -115,9 +115,9 @@ export default function ContentPublishing() {
       </SectionCard>
 
       {/* ── Social Assets ── */}
-      <SectionCard title="Social Assets" count={socialAssets.length} actionLabel="Asset library" actionPath="/admin/social-asset-library">
+      <SectionCard title="Social Assets" count={socialAssets.length} actionLabel="Asset library" actionPath="/admin/social-schedule-queue">
         {socialAssets.length === 0 ? <EmptyState message="No social assets." /> : socialAssets.slice(0, 10).map(a => (
-          <RowItem key={a.id} title={a.title || a.file_name || 'Asset'} subtitle={`${a.platform || 'Unknown'} · ${a.status || 'raw'}`} status={a.status || 'raw'} statusLevel={a.status === 'approved' ? 'green' : 'grey'} path="/admin/social-asset-library" />
+          <RowItem key={a.id} title={a.title || a.file_name || 'Asset'} subtitle={`${a.platform || 'Unknown'} · ${a.status || 'raw'}`} status={a.status || 'raw'} statusLevel={a.status === 'approved' ? 'green' : 'grey'} path="/admin/social-schedule-queue" />
         ))}
       </SectionCard>
 

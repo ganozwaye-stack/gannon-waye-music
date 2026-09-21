@@ -66,7 +66,7 @@ const ROUTES_TO_TEST = [
   { route: '/admin/notifications', label: 'Business Attention Centre', category: 'admin', loginRequired: true },
   { route: '/admin/orchestrator-chat', label: 'Orchestrator Chat', category: 'admin', loginRequired: true },
   // Admin — Social/TikTok
-  { route: '/admin/tiktok-platform-review', label: 'TikTok Platform Review', category: 'admin', loginRequired: true },
+  { route: '/admin/social-schedule-queue', label: 'TikTok Platform Review', category: 'admin', loginRequired: true },
   { route: '/admin/tiktok-recording-studio', label: 'TikTok Recording Studio', category: 'admin', loginRequired: true },
   { route: '/admin/social-platform-parity', label: 'Social Platform Parity', category: 'admin', loginRequired: true },
   { route: '/admin/social-oauth-command', label: 'Social OAuth Command', category: 'admin', loginRequired: true },
@@ -146,7 +146,7 @@ const FINAL_REPORT = {
         'Coaching Command — /admin/coaching-command (PRIVATE)',
         'Artist Business Setup — /admin/artist-business-setup',
         'Sync Licensing Command — /admin/sync-licensing-command',
-        'TikTok Platform Review — /admin/tiktok-platform-review',
+        'TikTok Platform Review — /admin/social-schedule-queue',
         'TikTok Recording Studio — /admin/tiktok-recording-studio',
         'Revenue Automation Loop — 70+ backend functions deployed',
         'Stripe Checkout + Order System — live',

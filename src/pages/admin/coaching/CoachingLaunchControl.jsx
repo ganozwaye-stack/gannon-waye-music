@@ -6,13 +6,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 
 const GATES = [
-  { label: 'Design approved by Gannon', desc: 'Review all pages, layouts, and branding for the coaching section', link: '/admin/coaching-programs' },
+  { label: 'Design approved by Gannon', desc: 'Review all pages, layouts, and branding for the coaching section', link: '/admin/coaching-hub' },
   { label: 'Legal wording reviewed by professional', desc: 'Engage a qualified legal professional to review all coaching documents', link: '/admin/coaching-legal' },
   { label: 'All documents approved', desc: 'Every legal document signed off internally before going live', link: '/admin/coaching-legal' },
   { label: 'Client dashboard tested', desc: 'Run full test of client-facing dashboard with a test account', link: '/admin/client-management' },
   { label: 'Payment flow tested (no live charges yet)', desc: 'Complete a Stripe test checkout for each coaching program', link: '/admin/stripe-command-centre' },
   { label: 'Resources reviewed by Gannon', desc: 'All content library materials personally approved', link: '/admin/coaching-content-library' },
-  { label: 'Meditations reviewed by Gannon', desc: 'All meditation tracks personally listened to and approved', link: '/admin/meditation-library' },
+  { label: 'Meditations reviewed by Gannon', desc: 'All meditation tracks personally listened to and approved', link: '/admin/coaching-hub' },
   { label: 'Music site still working after integration', desc: 'Full regression test of music site to confirm no coaching integration breaks it', link: '/admin/site-health' },
   { label: 'Gannon clicks final launch approval', desc: 'The final confirmation — only Gannon can do this', link: null, isFinal: true },
 ];

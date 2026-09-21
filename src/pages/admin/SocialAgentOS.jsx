@@ -222,7 +222,7 @@ export default function SocialAgentOS() {
         {[
           { label: 'Approval Queue', path: '/admin/approval-queue', desc: 'Review & approve drafts' },
           { label: 'Metricool Command', path: '/admin/metricool-command', desc: 'Scheduling hub' },
-          { label: 'Social Asset Library', path: '/admin/social-asset-library', desc: 'Approved media' },
+          { label: 'Social Asset Library', path: '/admin/social-schedule-queue', desc: 'Approved media' },
           { label: 'Social Schedule Queue', path: '/admin/social-schedule-queue', desc: 'Send to Metricool' },
           { label: 'Content Performance', path: '/admin/content-performance', desc: 'Track results' },
           { label: 'Metricool Diagnostics', path: '/admin/metricool-diagnostics', desc: 'Test connection' },

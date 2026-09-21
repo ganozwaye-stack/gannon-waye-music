@@ -157,7 +157,7 @@ export const updateBookingStatus = async (enquiryId, newStatus, notes = '') => {
         requires_action: true,
         linked_entity: 'BookingEnquiry',
         linked_id: enquiryId,
-        linked_route: '/admin/coaching-leads',
+        linked_route: '/admin/coaching-hub',
         delivered_email: false,
         delivered_slack: false,
       });

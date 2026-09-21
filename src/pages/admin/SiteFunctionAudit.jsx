@@ -49,7 +49,7 @@ const AUDIT_DATA = [
   {
     section: 'Social',
     pages: [
-      { page: 'Social Content Generator', route: '/admin/social-content', status: 'Working', issues: 1, notes: 'Generation works. Draft detail row view pending.' },
+      { page: 'Social Content Generator', route: '/admin/social-schedule-queue', status: 'Working', issues: 1, notes: 'Generation works. Draft detail row view pending.' },
       { page: 'TikTok App Review', route: '/admin/tiktok-review', status: 'Working', issues: 0, notes: 'All items clickable. Scope/product modals, checklist, copy buttons all working.' },
       { page: 'TikTok Screen Guide', route: '/admin/tiktok-screen-guide', status: 'Working', issues: 0, notes: 'Part 8 added. Voiceover copy button works. Related links work.' },
       { page: 'TikTok Recording Studio', route: '/admin/tiktok-recording-studio', status: 'Working', issues: 0, notes: 'MediaRecorder, step guide, download, voiceover copy, fallback all working.' },
@@ -58,9 +58,9 @@ const AUDIT_DATA = [
       { page: 'Creative Studio', route: '/admin/creative-studio', status: 'Working', issues: 0, notes: 'Generation and save flow working.' },
       { page: 'Creator Insights', route: '/admin/creator-insights', status: 'Partial', issues: 1, notes: 'Insight cards need detail view.' },
       { page: 'Marketing Centre', route: '/admin/marketing-centre', status: 'Working', issues: 0, notes: 'Campaign items clickable.' },
-      { page: 'Social Command', route: '/admin/social-command', status: 'Working', issues: 0, notes: 'Platform links and actions working.' },
-      { page: 'Social Intelligence', route: '/admin/social-intelligence', status: 'Partial', issues: 1, notes: 'Intelligence cards need detail modal.' },
-      { page: 'Social Monitor', route: '/admin/social-monitor', status: 'Working', issues: 0, notes: 'Feed items display correctly.' },
+      { page: 'Social Command', route: '/admin/social-schedule-queue', status: 'Working', issues: 0, notes: 'Platform links and actions working.' },
+      { page: 'Social Intelligence', route: '/admin/social-schedule-queue', status: 'Partial', issues: 1, notes: 'Intelligence cards need detail modal.' },
+      { page: 'Social Monitor', route: '/admin/social-schedule-queue', status: 'Working', issues: 0, notes: 'Feed items display correctly.' },
       { page: 'Trend Monitor', route: '/admin/trend-monitor', status: 'Working', issues: 1, notes: 'Trend cards clickable. Viral probability badge filter pending.' },
     ],
   },

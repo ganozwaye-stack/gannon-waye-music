@@ -60,7 +60,7 @@ const EXTERNAL_TEST_STATUS = [
   { category: 'Admin Routes', item: '/admin/developer-handoff', label: 'Developer Handoff', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/agent-tool-registry', label: 'Agent Tool Registry', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/social-platform-parity', label: 'Social Platform Parity', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
-  { category: 'Admin Routes', item: '/admin/tiktok-platform-review', label: 'TikTok Platform Review (admin)', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
+  { category: 'Admin Routes', item: '/admin/social-schedule-queue', label: 'TikTok Platform Review (admin)', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/tiktok-recording-studio', label: 'TikTok Recording Studio', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/revenue-actions', label: 'Revenue Actions', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/bundle-proposal-studio', label: 'Bundle Proposal Studio', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
@@ -162,9 +162,9 @@ const CONFIRMED_FAILURES = [
     area: 'TikTok OAuth',
     issue: 'TikTok OAuth has NOT been tested live. Connection status unknown.',
     impact: 'TikTok draft upload feature unverified. App review submission blocked.',
-    fix: '1. Rotate TIKTOK_CLIENT_SECRET in TikTok developer portal. 2. Open /admin/tiktok-platform-review on gannonwaye.com. 3. Click Connect TikTok. 4. Confirm /tiktok-callback receives code.',
+    fix: '1. Rotate TIKTOK_CLIENT_SECRET in TikTok developer portal. 2. Open /admin/social-schedule-queue on gannonwaye.com. 3. Click Connect TikTok. 4. Confirm /tiktok-callback receives code.',
     file: 'functions/tiktokOAuth.js',
-    route: '/admin/tiktok-platform-review',
+    route: '/admin/social-schedule-queue',
     confirmed: true,
   },
   {
@@ -225,7 +225,7 @@ const MANUAL_STEPS = [
   { priority: 3, action: 'Get ADMIN_SESSION_COOKIE', where: 'Chrome DevTools → Application → Cookies → gannonwaye.com', then: 'Store as ADMIN_SESSION_COOKIE=<value> in local .env file (never commit)' },
   { priority: 4, action: 'Download Playwright test pack', where: '/admin/playwright-test-centre → Download All Test Files', then: 'Run: npm install -D @playwright/test && npx playwright install chromium' },
   { priority: 5, action: 'Run Playwright tests', where: 'Terminal in project folder', then: 'npx playwright test — view report: npx playwright show-report' },
-  { priority: 6, action: 'Test TikTok OAuth live', where: 'gannonwaye.com/admin/tiktok-platform-review (admin session)', then: 'Click Connect TikTok → confirm /tiktok-callback receives code → confirm connected status shows' },
+  { priority: 6, action: 'Test TikTok OAuth live', where: 'gannonwaye.com/admin/social-schedule-queue (admin session)', then: 'Click Connect TikTok → confirm /tiktok-callback receives code → confirm connected status shows' },
   { priority: 7, action: 'Fix Stripe key mismatch BEFORE any checkout test', where: 'Base44 Secrets dashboard', then: 'Option A (testing): set both STRIPE_SECRET_KEY=sk_test_... and STRIPE_PUBLISHABLE_KEY=pk_test_... then use test card 4242 4242 4242 4242. Option B (production): set both to live keys, then use a real approved low-value purchase only — never a test card.' },
   { priority: 8, action: 'Test coaching lock', where: 'Open gannonwaye.com/coaching in incognito', then: 'Confirm PageNotFound or 404 — not coaching content' },
   { priority: 9, action: 'Approve Approval Queue items', where: '/admin/approval-queue', then: 'Review 3 shipping audit items + any others pending' },
@@ -255,7 +255,7 @@ const CODEX_FIX_LIST = `# Tasks for Codex / Cursor / Claude Code
 - Fix any failing routes, then re-run
 
 ### 2b. TikTok OAuth live test
-- Open /admin/tiktok-platform-review on gannonwaye.com
+- Open /admin/social-schedule-queue on gannonwaye.com
 - Click Connect TikTok, complete OAuth
 - Confirm /tiktok-callback receives code and exchanges for token
 - Confirm TIKTOK_CLIENT_SECRET not visible in page source

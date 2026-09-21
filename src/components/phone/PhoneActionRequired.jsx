@@ -53,9 +53,9 @@ const ACTIONS = [
   {
     priority: 8,
     title: 'Review coaching CRM connection',
-    description: 'Phone leads can automatically become Coaching CRM leads. Review the Inbound Leads tab and manually promote any coaching enquiry leads to the coaching pipeline at /admin/coaching-clients.',
+    description: 'Phone leads can automatically become Coaching CRM leads. Review the Inbound Leads tab and manually promote any coaching enquiry leads to the coaching pipeline at /admin/coaching-hub.',
     done_when: 'You\'ve reviewed and linked at least one phone lead to a coaching lead.',
-    link: '/admin/coaching-clients',
+    link: '/admin/coaching-hub',
   },
 ];
 

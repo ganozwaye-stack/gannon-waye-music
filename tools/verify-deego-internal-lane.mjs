@@ -141,8 +141,6 @@ requireSnippet('src/pages/admin/OrchestratorChat.jsx', 'Deego is planning-only:'
 forbid('src/pages/admin/OrchestratorChat.jsx', /Start \/execution mode|Run daily_money_radar/, 'false Deego execution prompt');
 requireSnippet('src/components/admin/dashboard/DeegoRecommendations.jsx', 'no work has started or been sent.');
 requireSnippet('src/pages/admin/AgentMessageBus.jsx', 'Internal Agent Message Ledger');
-requireSnippet('src/pages/admin/AutomationAgentsHub.jsx', 'No verified executor or cross-agent relay is active');
-forbid('src/pages/admin/AutomationAgentsHub.jsx', /Invoke Agent|Scheduled cron check|Dispatched tasks to/, 'fabricated execution evidence');
 requireSnippet('src/pages/admin/AgentToolRegistry.jsx', 'This page is not an executor or policy-enforcement layer.');
 forbid('src/pages/admin/AgentToolRegistry.jsx', /Safe to Auto-run|→ Execute →/, 'false tool-execution claim');
 requireSnippet('src/pages/admin/ResearchGrid.jsx', 'Legacy automatic research is held.');

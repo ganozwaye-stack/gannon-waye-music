@@ -168,7 +168,7 @@ Keep it practical. Gannon will read this brief and film it himself. Make it feel
           )}
           <div className="flex gap-2">
             <Link to="/tiktok-platform-review"><Button variant="outline" className="text-xs gap-1"><Video className="w-3 h-3" />TikTok Draft Studio</Button></Link>
-            <Link to="/admin/social-content"><Button variant="outline" className="text-xs gap-1"><Zap className="w-3 h-3" />Social Content Gen</Button></Link>
+            <Link to="/admin/social-schedule-queue"><Button variant="outline" className="text-xs gap-1"><Zap className="w-3 h-3" />Social Content Gen</Button></Link>
           </div>
         </TabsContent>
 

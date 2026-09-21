@@ -15,7 +15,7 @@ const TOOLS = [
   { label: 'Full Diagnostics', path: '/admin/metricool-diagnostics', icon: Wifi, desc: 'Test all endpoints safely' },
   { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Brain, desc: '2–3 approval-gated drafts/day' },
   { label: 'Social Agent OS', path: '/admin/social-agent-os', icon: Brain, desc: '10-agent collaboration system' },
-  { label: 'Media Pipeline', path: '/admin/metricool-media-pipeline', icon: Image, desc: 'Normalize & upload assets' },
+  { label: 'Media Pipeline', path: '/admin/social-schedule-queue', icon: Image, desc: 'Normalize & upload assets' },
   { label: 'Scheduler Queue', path: '/admin/metricool-scheduler-queue', icon: Calendar, desc: 'Send approved posts to Metricool' },
   { label: 'Performance Intel', path: '/admin/metricool-performance-intelligence', icon: BarChart2, desc: 'Import metrics from Metricool' },
   { label: 'Content Performance', path: '/admin/content-performance', icon: BarChart2, desc: 'Track what works' },

@@ -486,8 +486,8 @@ export default function LaunchContentHub() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
               { title: 'Release Promo Command', desc: 'Track days leading up to launch.', link: '/admin/release-promo-command' },
-              { title: 'Social Post Factory', desc: 'Draft and format posts for X, Reels, and TikTok.', link: '/admin/social-post-factory' },
-              { title: 'Social Asset Library', desc: 'Manage your videos, footage, and graphics files.', link: '/admin/social-asset-library' },
+              { title: 'Social Post Factory', desc: 'Draft and format posts for X, Reels, and TikTok.', link: '/admin/social-schedule-queue' },
+              { title: 'Social Asset Library', desc: 'Manage your videos, footage, and graphics files.', link: '/admin/social-schedule-queue' },
               { title: 'Metricool Command', desc: 'Sync your social schedule queue.', link: '/admin/metricool-command' },
               { title: 'Metricool Diagnostics', desc: 'Inspect token validation and auth hooks.', link: '/admin/metricool-diagnostics' },
               { title: 'Content Performance', desc: 'Monitor engagement, clicks, and conversion data.', link: '/admin/content-performance' },

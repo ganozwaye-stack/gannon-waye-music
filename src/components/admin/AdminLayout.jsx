@@ -76,7 +76,7 @@ const NAV_SECTIONS = [
     title: 'Store and Orders',
     items: [
       { label: 'Deego Stock vs Market', path: '/admin/deego-stock-market', icon: Package },
-      { label: 'Store Hotspot Editor', path: '/admin/store-hotspots', icon: Eye },
+      { label: 'Store Hotspot Editor', path: '/admin/merch-visual-lab', icon: Eye },
       { label: 'Store and Orders Hub', path: '/admin/store-orders', icon: ShoppingBag },
     ]
   },

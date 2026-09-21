@@ -14,7 +14,7 @@ const GROUPS = [
       { label: 'New Release Studio', path: '/admin/new-release-studio', icon: Sparkles, desc: 'Create a private release draft' },
       { label: 'One Press Launch Packet', path: '/admin/launch-packet-studio', icon: Rocket, desc: 'Draft the whole packet in one press' },
       { label: 'Hero Design Studio', path: '/admin/hero-design-studio', icon: Palette, desc: 'Design the home hero' },
-      { label: 'Store Hotspot Editor', path: '/admin/store-hotspots', icon: Crosshair, desc: 'Zone the locked boutique photo' },
+      { label: 'Store Hotspot Editor', path: '/admin/merch-visual-lab', icon: Crosshair, desc: 'Zone the locked boutique photo' },
     ],
   },
   {
@@ -28,7 +28,7 @@ const GROUPS = [
     items: [
       { label: 'Risk Alerts', path: '/admin/risk-alerts', icon: ShieldCheck, desc: 'Financial and legal flags' },
       { label: 'Marketing Centre', path: '/admin/marketing-centre', icon: Megaphone, desc: 'Campaigns and growth' },
-      { label: 'Social Command', path: '/admin/social-command', icon: Users, desc: 'All social channels' },
+      { label: 'Social Command', path: '/admin/social-schedule-queue', icon: Users, desc: 'All social channels' },
       { label: 'Website Ops', path: '/admin/website-ops', icon: Globe, desc: 'Site automation' },
       { label: 'Audit Log', path: '/admin/audit-log', icon: FileText, desc: 'Change history' },
     ],

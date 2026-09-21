@@ -224,7 +224,7 @@ export default function CreativeStudio() {
             {[
               { title: 'Image Editor & Resizer', desc: 'Crop or adjust visual sizing for TikTok/Insta format.', link: '/admin/image-editor' },
               { title: 'Merch Visual Lab', desc: 'Mockup designs and layout overlays.', link: '/admin/merch-visual-lab' },
-              { title: 'Social Asset Library', desc: 'View raw footage, templates, and thumbnails.', link: '/admin/social-asset-library' },
+              { title: 'Social Asset Library', desc: 'View raw footage, templates, and thumbnails.', link: '/admin/social-schedule-queue' },
               { title: 'Merch Designs List', desc: 'Manage your primary merchandise vectors.', link: '/admin/merch-designs' }
             ].map(item => (
               <Card key={item.title} className="hover:border-primary/40 transition-colors cursor-pointer" onClick={() => window.location.href = item.link}>
