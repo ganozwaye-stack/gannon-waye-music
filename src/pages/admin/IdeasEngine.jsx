@@ -8,6 +8,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Lightbulb, Loader2, Shield, CheckCircle2, Archive } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import ReactMarkdown from 'react-markdown';
+import IdeasGrowthTab from '@/components/admin/ideas-family/IdeasGrowthTab';
+import ResearchGridTab from '@/components/admin/ideas-family/ResearchGridTab';
+import KnowledgeVaultTab from '@/components/admin/ideas-family/KnowledgeVaultTab';
+import BlueprintBuilderTab from '@/components/admin/ideas-family/BlueprintBuilderTab';
 
 const CATEGORIES = ['business', 'ecommerce', 'saas', 'content', 'automation', 'customer_experience', 'social', 'marketing', 'product'];
 
@@ -148,10 +152,14 @@ export default function IdeasEngine() {
       </div>
 
       <Tabs defaultValue="generate">
-        <TabsList>
+        <TabsList className="h-auto flex-wrap justify-start gap-1">
           <TabsTrigger value="generate">Generate Ideas</TabsTrigger>
           <TabsTrigger value="library">Idea Library ({ideas.length})</TabsTrigger>
           <TabsTrigger value="top">Top Opportunities</TabsTrigger>
+          <TabsTrigger value="ideas-growth">Ideas &amp; Growth Opportunities</TabsTrigger>
+          <TabsTrigger value="research-grid">Research Hub &amp; Live Scan Grid</TabsTrigger>
+          <TabsTrigger value="knowledge-vault">Knowledge Vault Memory Store</TabsTrigger>
+          <TabsTrigger value="blueprint-builder">Blueprint Builder</TabsTrigger>
         </TabsList>
 
         {/* Generate Tab */}
@@ -250,6 +258,26 @@ export default function IdeasEngine() {
               ))}
             </div>
           )}
+        </TabsContent>
+
+        {/* Ideas & Growth Opportunities Tab */}
+        <TabsContent value="ideas-growth" className="mt-4 space-y-6">
+          <IdeasGrowthTab />
+        </TabsContent>
+
+        {/* Research Hub & Live Scan Grid Tab */}
+        <TabsContent value="research-grid" className="mt-4 space-y-6">
+          <ResearchGridTab />
+        </TabsContent>
+
+        {/* Knowledge Vault Memory Store Tab */}
+        <TabsContent value="knowledge-vault" className="mt-4 space-y-6">
+          <KnowledgeVaultTab />
+        </TabsContent>
+
+        {/* Blueprint Builder Tab */}
+        <TabsContent value="blueprint-builder" className="mt-4 space-y-6">
+          <BlueprintBuilderTab />
         </TabsContent>
       </Tabs>
     </div>
