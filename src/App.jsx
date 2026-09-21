@@ -170,7 +170,6 @@ import AgentMessageBus from '@/pages/admin/AgentMessageBus';
 import CodeAuditCommand from '@/pages/admin/CodeAuditCommand';
 import StrategicExecutionPlan from '@/pages/admin/StrategicExecutionPlan';
 import MerchVisualLab from '@/pages/admin/MerchVisualLab';
-import BusinessProfileSettingsPage from '@/components/admin/settings-family/BusinessProfileSettings';
 import MasterBlueprint from '@/pages/admin/MasterBlueprint';
 import IntegrationActionCentre from '@/pages/admin/IntegrationActionCentre';
 import AnnouncementStudio from '@/pages/admin/AnnouncementStudio';
