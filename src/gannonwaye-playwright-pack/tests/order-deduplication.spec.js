@@ -89,20 +89,20 @@ test.describe('Order Deduplication — Thea Elsworth', () => {
   });
 
   test('webhook health page loads and shows recovery scanner', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/webhook-health`);
+    await page.goto(`${BASE_URL}/admin/financials`);
     await page.waitForLoadState('load');
     await expect(page.locator('text=Order Recovery Scanner')).toBeVisible();
     await expect(page.locator('text=Run Missing Order Scan')).toBeVisible();
   });
 
   test('webhook health page shows Stripe failure context banner', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/webhook-health`);
+    await page.goto(`${BASE_URL}/admin/financials`);
     await page.waitForLoadState('load');
     await expect(page.locator('text=Stripe Webhook Delivery Failure').first()).toBeVisible();
   });
 
   test('scan button is clickable and returns results', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/webhook-health`);
+    await page.goto(`${BASE_URL}/admin/financials`);
     await page.waitForLoadState('load');
 
     const scanBtn = page.locator('text=Run Missing Order Scan');
@@ -111,7 +111,7 @@ test.describe('Order Deduplication — Thea Elsworth', () => {
   });
 
   test('no duplicate_void order appears in Stripe event log as revenue', async ({ page }) => {
-    await page.goto(`${BASE_URL}/admin/webhook-health`);
+    await page.goto(`${BASE_URL}/admin/financials`);
     await page.waitForLoadState('load');
     // The event log section exists
     await expect(page.locator('text=Event Log').first()).toBeVisible();

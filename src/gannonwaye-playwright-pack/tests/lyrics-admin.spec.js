@@ -24,7 +24,7 @@ test.describe('Lyrics page — public visibility', () => {
 });
 
 test.describe('Admin releases route', () => {
-  test('/admin/releases does not 404', async ({ page }) => {
+  test('/admin/release-email-studio does not 404', async ({ page }) => {
     await page.goto('/admin/release-email-studio');
     await page.waitForLoadState('networkidle');
     // Will redirect to login if not authenticated — just confirm no 404

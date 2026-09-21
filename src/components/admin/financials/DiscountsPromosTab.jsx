@@ -1,6 +1,6 @@
-import PromoCodes from '@/pages/admin/PromoCodes';
-import PromoCodeAudit from '@/pages/admin/PromoCodeAudit';
-import DiscountGuardAdmin from '@/pages/admin/DiscountGuardAdmin';
+import PromoCodes from '@/components/admin/financials/PromoCodes';
+import PromoCodeAudit from '@/components/admin/financials/PromoCodeAudit';
+import DiscountGuardAdmin from '@/components/admin/financials/DiscountGuardAdmin';
 
 // Promo Codes & Discount Guard: the full PromoCode manager (CRUD, send
 // flows), the audit rules for active codes (F20UN26DVIP, F30MOM26A) with

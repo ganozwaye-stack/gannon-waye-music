@@ -90,7 +90,7 @@ function OppDetailModal({ opp, onClose, onSendToApproval, onUpdateStatus }) {
             <Badge
               variant="outline"
               className="text-xs cursor-pointer hover:bg-primary/10 hover:border-primary/40 transition-colors"
-              onClick={() => { onClose(); window.location.href = `/admin/revenue-command?tab=${opp.revenue_type}`; }}
+              onClick={() => { onClose(); window.location.href = `/admin/financials?tab=${opp.revenue_type}`; }}
             >
               {opp.revenue_type} ↗
             </Badge>

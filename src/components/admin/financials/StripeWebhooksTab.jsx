@@ -1,5 +1,5 @@
-import StripeCommandCentre from '@/pages/admin/StripeCommandCentreNew';
-import WebhookHealth from '@/pages/admin/WebhookHealthNew';
+import StripeCommandCentre from '@/components/admin/financials/StripeCommandCentreNew';
+import WebhookHealth from '@/components/admin/financials/WebhookHealthNew';
 
 // Stripe Intelligence & Webhook Health: the full Stripe Command Centre
 // (MerchOrder and PaymentDiagnostic records, Stripe dashboard links) plus

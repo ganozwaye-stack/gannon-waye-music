@@ -1,5 +1,5 @@
-import NewReleaseStudio from '@/pages/admin/NewReleaseStudio';
-import ReleasePrepStudio from '@/pages/admin/ReleasePrepStudio';
+import NewReleaseStudio from '@/components/admin/release-studio/NewReleaseStudio';
+import ReleasePrepStudio from '@/components/admin/release-studio/ReleasePrepStudio';
 
 // Release Prep & Draft Studio: the full New Release Studio (Release entity
 // with GENRES, MOODS, STATUS_COLORS configs, owner-gated approval fields)

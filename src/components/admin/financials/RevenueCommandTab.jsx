@@ -1,5 +1,5 @@
-import RevenueCommandCentre from '@/pages/admin/RevenueCommandCentre';
-import RevenueActions from '@/pages/admin/RevenueActions';
+import RevenueCommandCentre from '@/components/admin/financials/RevenueCommandCentre';
+import RevenueActions from '@/components/admin/financials/RevenueActions';
 
 // Revenue Command & Action Proposals: the full Revenue Command Centre
 // (RevenueOpportunity records, REVENUE_TABS filters, OppDetailModal with

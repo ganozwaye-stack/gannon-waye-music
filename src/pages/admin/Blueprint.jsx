@@ -364,7 +364,7 @@ export default function Blueprint() {
               {[
                 'SupportContribution record created exactly once (check /admin/supporters)',
                 'SupporterProfile upserted by email — not duplicated',
-                'Promo code usage recorded only after payment success (check /admin/promo-codes)',
+                'Promo code usage recorded only after payment success (check /admin/financials)',
                 'Failed payments show visible user-facing error and create no paid record',
                 'Customer receipt email sends (or logs "sandbox restricted" — expected in test mode)',
                 'Admin notification sends (or logs expected sandbox note)',

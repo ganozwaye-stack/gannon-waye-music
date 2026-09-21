@@ -1,5 +1,5 @@
 import ReleaseControlDesk from '@/pages/admin/ReleaseControlDesk';
-import Releases from '@/pages/admin/Releases';
+import Releases from '@/components/admin/release-studio/Releases';
 
 // Owner Control Desk & Register Archive: the full owner-only Release
 // Control Desk (safety holds, evidence fields, fingerprint confirmations)

@@ -36,8 +36,8 @@ const TABLE = [
   { category: 'Admin Pages', item: 'Human Action Required (/admin/human-action-required)', status: 'pass', note: 'NEW — built this session' },
   { category: 'Admin Pages', item: 'Pricing Margin Calculator (/admin/pricing-margin-calculator)', status: 'pass', note: 'NEW — built this session' },
   { category: 'Admin Pages', item: 'Agent Registry (/admin/agent-workbench)', status: 'pass', note: 'Live' },
-  { category: 'Admin Pages', item: 'Stripe Command Centre (/admin/stripe-command-centre)', status: 'pass', note: 'Live' },
-  { category: 'Admin Pages', item: 'Promo Codes (/admin/promo-codes)', status: 'pass', note: 'Live' },
+  { category: 'Admin Pages', item: 'Stripe Command Centre (/admin/financials)', status: 'pass', note: 'Live' },
+  { category: 'Admin Pages', item: 'Promo Codes (/admin/financials)', status: 'pass', note: 'Live' },
   { category: 'Admin Pages', item: 'Shipping Rates (/admin/shipping-rates)', status: 'pass', note: 'Live' },
 
   // Integrations

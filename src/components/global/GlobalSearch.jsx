@@ -176,7 +176,7 @@ export default function GlobalSearch({ onClose }) {
       product: `/admin/merch`,
       contribution: `/admin/supporters`,
       gift_claim: `/admin/gift-verification`,
-      promo_code: `/admin/promo-codes`,
+      promo_code: `/admin/financials`,
       booking: `/admin`, // Bookings managed from dashboard initially
       media: `/admin/fan-media`,
       audit: `/admin/audit-log`,

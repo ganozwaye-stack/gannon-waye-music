@@ -112,7 +112,7 @@ const SECTIONS = [
         title: 'Fan Newsletter — Enable & send',
         desc: 'EmailSubscriber entity exists. Newsletter admin page exists. But the actual send button and send function may not be fully wired. Verify and test.',
         effort: 'Low — audit existing function',
-        howto: 'Go to /admin/newsletter — verify the send functionality works end-to-end with a test subscriber.',
+        howto: 'Go to /admin/release-email-studio — verify the send functionality works end-to-end with a test subscriber.',
       },
       {
         title: 'Inventory Alerts — Low stock notifications',

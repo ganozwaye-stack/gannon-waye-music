@@ -85,7 +85,7 @@ test.describe('Link Integrity — Admin routing (requires login)', () => {
     }
   });
 
-  test('add Spotify link notification routes to /admin/releases not /admin/notifications', async ({ page }) => {
+  test('add Spotify link notification routes to /admin/release-email-studio not /admin/notifications', async ({ page }) => {
     const cookies = process.env.ADMIN_SESSION_COOKIE;
     if (!cookies) { test.skip(); return; }
 
@@ -104,7 +104,7 @@ test.describe('Link Integrity — Admin routing (requires login)', () => {
     }
   });
 
-  test('add lyrics notification routes to /admin/releases not /admin/notifications', async ({ page }) => {
+  test('add lyrics notification routes to /admin/release-email-studio not /admin/notifications', async ({ page }) => {
     const cookies = process.env.ADMIN_SESSION_COOKIE;
     if (!cookies) { test.skip(); return; }
     // Semantic check: notifications page should have releases links for lyrics action items

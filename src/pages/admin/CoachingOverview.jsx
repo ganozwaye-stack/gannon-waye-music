@@ -236,7 +236,7 @@ export default function CoachingOverview() {
             'Configure appointment availability in /admin/appointment-scheduler',
             'Set up ManyChat keywords (COACH, BOUNDARIES, WORTH) linking to /coaching/intake',
             'Add coaching CTA to Home page and Music page',
-            'Send launch email to subscriber list via /admin/newsletter',
+            'Send launch email to subscriber list via /admin/release-email-studio',
             'Post coaching reels to Instagram and TikTok',
             'Create coaching bundle in store for $129 bundle offer',
           ].map((step, i) => (
