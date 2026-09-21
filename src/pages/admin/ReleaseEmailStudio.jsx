@@ -3,7 +3,12 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import ReleaseEmailDraftCard from '@/components/admin/ReleaseEmailDraftCard';
+import PrepStudioTab from '@/components/admin/release-studio/PrepStudioTab';
+import OwnerControlTab from '@/components/admin/release-studio/OwnerControlTab';
+import CountdownTab from '@/components/admin/release-studio/CountdownTab';
+import NewsletterTab from '@/components/admin/release-studio/NewsletterTab';
 import { Loader2, MailPlus, Inbox } from 'lucide-react';
 
 const STATUS_OPTIONS = ['released'];
@@ -81,7 +86,17 @@ export default function ReleaseEmailStudio() {
   };
 
   return (
-    <div className="p-6 md:p-8 max-w-4xl mx-auto">
+    <div className="p-6 md:p-8">
+      <Tabs defaultValue="studio" className="w-full space-y-6">
+        <TabsList className="h-auto flex-wrap justify-start gap-1">
+          <TabsTrigger value="studio">Email Drafts</TabsTrigger>
+          <TabsTrigger value="prep-studio">Release Prep &amp; Draft Studio</TabsTrigger>
+          <TabsTrigger value="owner-control">Owner Control Desk &amp; Register Archive</TabsTrigger>
+          <TabsTrigger value="countdown">Countdown &amp; Site Reveals</TabsTrigger>
+          <TabsTrigger value="newsletter">Newsletter &amp; Subscriber Broadcasts</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="studio" className="space-y-6 max-w-4xl mx-auto">
       <div className="mb-8">
         <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-2">Release Email Studio</p>
         <h1 className="font-body text-3xl gradient-gold-text mb-2">Fan Emails, One Screen</h1>
@@ -164,6 +179,24 @@ export default function ReleaseEmailStudio() {
           ))}
         </div>
       )}
+        </TabsContent>
+
+        <TabsContent value="prep-studio" className="space-y-6">
+          <PrepStudioTab />
+        </TabsContent>
+
+        <TabsContent value="owner-control" className="space-y-6">
+          <OwnerControlTab />
+        </TabsContent>
+
+        <TabsContent value="countdown" className="space-y-6">
+          <CountdownTab />
+        </TabsContent>
+
+        <TabsContent value="newsletter" className="space-y-6">
+          <NewsletterTab />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
