@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Shield, AlertTriangle, CheckCircle2, Lock, Eye, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { useState } from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import TrustComplianceTab from '@/components/admin/security-family/TrustComplianceTab';
 
 export default function SecurityCentre() {
   const [scanning, setScanning] = useState(false);
@@ -65,6 +67,13 @@ export default function SecurityCentre() {
         </Button>
       </div>
 
+      <Tabs defaultValue="overview" className="w-full">
+        <TabsList className="h-auto flex-wrap justify-start gap-1">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="trust-compliance">Trust Centre &amp; Compliance</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-6 mt-4">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-4 flex items-center gap-3">
@@ -135,6 +144,12 @@ export default function SecurityCentre() {
           </div>
         </div>
       )}
+        </TabsContent>
+
+        <TabsContent value="trust-compliance" className="space-y-6 mt-4">
+          <TrustComplianceTab />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

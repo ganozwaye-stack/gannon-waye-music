@@ -1,5 +1,8 @@
 import { AlertTriangle, CheckCircle2, Shield } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import BlueprintStatusTab from '@/components/admin/status-family/BlueprintStatusTab';
+import OpsControlsTab from '@/components/admin/status-family/OpsControlsTab';
 import { PLATFORM_CONSTRAINTS } from '@/lib/platformConstraints';
 
 export default function OperationalStatus() {
@@ -10,6 +13,14 @@ export default function OperationalStatus() {
         <p className="font-body text-sm text-muted-foreground mt-1">Infrastructure constraints & safety limits</p>
       </div>
 
+      <Tabs defaultValue="health" className="w-full">
+        <TabsList className="h-auto flex-wrap justify-start gap-1">
+          <TabsTrigger value="health">Health</TabsTrigger>
+          <TabsTrigger value="blueprint-status">System Blueprint &amp; Audit Reports</TabsTrigger>
+          <TabsTrigger value="ops-controls">Website &amp; Autonomous Ops Controls</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="health" className="space-y-6 mt-4">
       <div className="bg-primary/20 border border-primary/30 rounded-2xl p-6">
         <div className="flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-primary flex-shrink-0 mt-1" />
@@ -75,6 +86,16 @@ export default function OperationalStatus() {
           </p>
         </CardContent>
       </Card>
+        </TabsContent>
+
+        <TabsContent value="blueprint-status" className="space-y-6 mt-4">
+          <BlueprintStatusTab />
+        </TabsContent>
+
+        <TabsContent value="ops-controls" className="space-y-6 mt-4">
+          <OpsControlsTab />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

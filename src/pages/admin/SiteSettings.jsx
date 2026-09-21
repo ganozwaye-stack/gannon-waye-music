@@ -9,6 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Upload, Save, Trash2 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import BusinessProfileTab from '@/components/admin/settings-family/BusinessProfileTab';
 
 export default function SiteSettings() {
   const { toast } = useToast();
@@ -55,6 +57,13 @@ export default function SiteSettings() {
         </Button>
       </div>
 
+      <Tabs defaultValue="site-social" className="w-full">
+        <TabsList className="h-auto flex-wrap justify-start gap-1 mb-6">
+          <TabsTrigger value="site-social">Site Settings &amp; Social Links</TabsTrigger>
+          <TabsTrigger value="business-profile">Business Profile &amp; Legal Details</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="site-social" className="space-y-6">
       <div className="space-y-6 max-w-2xl">
         <Card className="bg-card border-border/40">
           <CardHeader><CardTitle className="font-display text-lg">Profile</CardTitle></CardHeader>
@@ -151,6 +160,12 @@ export default function SiteSettings() {
            </CardContent>
          </Card>
         </div>
+        </TabsContent>
+
+        <TabsContent value="business-profile" className="space-y-6">
+         <BusinessProfileTab />
+        </TabsContent>
+        </Tabs>
         </div>
         );
         }
