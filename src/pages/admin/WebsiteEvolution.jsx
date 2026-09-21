@@ -88,7 +88,7 @@ const EVOLUTION_ITEMS = [
     priority: 'in_progress',
     status: 'in_progress',
     description: 'All admin cards, metrics, tabs, and rows are clickable and lead to source data. Dead-end dashboards eliminated.',
-    route: '/admin/site-function-audit',
+    route: '/admin/qa-command-centre',
     impact: 'Every number traces to its source — no dead-end metrics',
   },
   {

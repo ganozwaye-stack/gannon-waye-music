@@ -1,5 +1,5 @@
-import LinkIntegrityAudit from '@/pages/admin/LinkIntegrityAudit';
-import VoiceInputTestPage from '@/pages/admin/VoiceInputTestPage';
+import LinkIntegrityAudit from '@/components/admin/qa-family/LinkIntegrityAudit';
+import VoiceInputTestPage from '@/components/admin/qa-family/VoiceInputTestPage';
 
 // Link Integrity & Voice Input Tester: the full Link Integrity Audit (live
 // URL validator for social handles and redirects) plus the Voice Input Test

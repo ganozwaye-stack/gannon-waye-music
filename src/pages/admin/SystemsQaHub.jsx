@@ -90,7 +90,7 @@ export default function SystemsQaHub() {
                   <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Last Playwright Run</p>
                   <p className="text-sm font-semibold text-white mt-1">2 hours ago (All 24 passes)</p>
                 </div>
-                <Button variant="outline" className="w-full text-xs border-border/40 flex items-center justify-center gap-1.5" onClick={() => window.location.href = '/admin/playwright-test-centre'}>
+                <Button variant="outline" className="w-full text-xs border-border/40 flex items-center justify-center gap-1.5" onClick={() => window.location.href = '/admin/qa-command-centre'}>
                   <PlayCircle className="w-4 h-4 text-primary" /> Run Playwright Tests
                 </Button>
               </CardContent>
@@ -223,7 +223,7 @@ export default function SystemsQaHub() {
               { title: 'QA Command Centre', desc: 'Inspect current automated test status logs.', link: '/admin/qa-command-centre' },
               { title: 'Stripe Live Report', desc: 'Track daily payments and checkout events.', link: '/admin/stripe-live-report' },
               { title: 'Webhook Health Monitor', desc: 'Detailed log analyzer of API delivery events.', link: '/admin/financials' },
-              { title: 'Audit Log Registry', desc: 'Chronological record of admin settings changes.', link: '/admin/audit-log' },
+              { title: 'Audit Log Registry', desc: 'Chronological record of admin settings changes.', link: '/admin/qa-command-centre' },
               { title: 'Developer Handoff Guide', desc: 'Restoration guide and project configuration specs.', link: '/admin/developer-handoff' }
             ].map(item => (
               <Card key={item.title} className="hover:border-primary/40 transition-colors cursor-pointer" onClick={() => window.location.href = item.link}>

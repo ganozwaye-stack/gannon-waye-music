@@ -1,5 +1,5 @@
-import ResearchHub from '@/pages/admin/ResearchHub';
-import ResearchGrid from '@/pages/admin/ResearchGrid';
+import ResearchHub from '@/components/admin/ideas-family/ResearchHub';
+import ResearchGrid from '@/components/admin/ideas-family/ResearchGrid';
 
 // Research Hub & Live Scan Grid: the full Research Hub (AgentRegistry,
 // ApprovalQueue, CreatorGapInsight, KnowledgeVault and ViralOpportunity

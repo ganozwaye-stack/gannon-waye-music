@@ -17,7 +17,7 @@ const TOOL_PLAN = [
       'Base44 remains live app/backend — do not replace',
       'Export codebase manifest + handoff packs (done — download below)',
       'Connect GitHub if Base44 GitHub sync is supported (check dashboard)',
-      'Generate Playwright test pack — download from /admin/playwright-test-centre',
+      'Generate Playwright test pack — download from /admin/qa-command-centre',
       'Download Cursor handoff pack — do not pay yet',
       'Download Warp handoff pack — start on Warp Free',
       'Run Playwright externally — no payment needed',
@@ -331,7 +331,7 @@ grep -r "whsec_" ./src    # should return 0 results
 ## EXPORT RESULTS
 After tests run, export:
 npx playwright show-report
-# Download HTML report and upload to /admin/playwright-test-centre notes
+# Download HTML report and upload to /admin/qa-command-centre notes
 `,
   },
   {
@@ -507,7 +507,7 @@ Cost: Free
 Login required: No
 Source files: tests/public-routes.spec.js
 Expected output: All public routes return 200
-Status: PENDING — download from /admin/playwright-test-centre
+Status: PENDING — download from /admin/qa-command-centre
 
 ## TASK 4: Run admin route test
 Tool: Playwright (external)
@@ -653,7 +653,7 @@ export default function ExternalEngineeringCommand() {
         </div>
         <div className="flex gap-2 flex-wrap">
           <Link to="/admin/agent-trust-hub"><Button variant="outline" size="sm"><Shield className="w-3 h-3 mr-1" />Trust Hub</Button></Link>
-          <Link to="/admin/playwright-test-centre"><Button variant="outline" size="sm"><Play className="w-3 h-3 mr-1" />Playwright</Button></Link>
+          <Link to="/admin/qa-command-centre"><Button variant="outline" size="sm"><Play className="w-3 h-3 mr-1" />Playwright</Button></Link>
           <Button size="sm" onClick={downloadAll}><Download className="w-3 h-3 mr-1" />Download All Packs</Button>
         </div>
       </div>
@@ -665,7 +665,7 @@ export default function ExternalEngineeringCommand() {
           {[
             '1. Go to Base44 Dashboard → Settings → Check for GitHub Sync option',
             '2. If GitHub Sync available: connect and create private repo. If not: use manual export pack (download below).',
-            '3. Download Playwright test pack from /admin/playwright-test-centre',
+            '3. Download Playwright test pack from /admin/qa-command-centre',
             '4. Run: npm install -D @playwright/test && npx playwright install chromium',
             '5. Set ADMIN_SESSION_COOKIE in .env.local and run: npx playwright test',
             '6. Only after repo + tests exist: consider Cursor Pro (~$20/month)',
@@ -707,7 +707,7 @@ export default function ExternalEngineeringCommand() {
 
           {/* Quick Links */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <Link to="/admin/playwright-test-centre">
+            <Link to="/admin/qa-command-centre">
               <Card className="hover:border-primary/40 cursor-pointer transition-colors">
                 <CardContent className="p-3 text-center"><Play className="w-5 h-5 text-primary mx-auto mb-1" /><p className="text-xs font-semibold">Playwright Tests</p></CardContent>
               </Card>

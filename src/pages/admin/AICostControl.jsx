@@ -13,7 +13,7 @@ import { useToast } from '@/components/ui/use-toast';
 const TOOL_BUDGET = [
   { name: 'Base44', cost: 'Included in subscription', status: 'active', canPay: true, approved: true, note: 'Core platform — keep active' },
   { name: 'GitHub (private repo)', cost: 'Free', status: 'ready', canPay: true, approved: true, note: 'Create repo: gannonwaye-business-os (private). Warp + Cursor both connected to GitHub.' },
-  { name: 'Playwright', cost: 'Free', status: 'ready', canPay: true, approved: true, note: 'INSTALLED locally. Firefox + WebKit confirmed. Download test pack from /admin/playwright-test-centre.' },
+  { name: 'Playwright', cost: 'Free', status: 'ready', canPay: true, approved: true, note: 'INSTALLED locally. Firefox + WebKit confirmed. Download test pack from /admin/qa-command-centre.' },
   { name: 'Warp Free', cost: 'Free tier', status: 'recommended', canPay: true, approved: true, note: 'INSTALLED + GitHub signed in. Primary local test runner. Use before any cloud agent.' },
   { name: 'Cursor (local)', cost: 'Free tier', status: 'recommended', canPay: true, approved: true, note: 'INSTALLED + GitHub connected. Use for manual repo editing after source export.' },
   { name: 'Cursor Cloud Agents API', cost: 'Usage-based (varies)', status: 'blocked', canPay: false, approved: false, note: 'BLOCKED UNTIL BUDGET APPROVED. API available. Must complete: repo + secrets excluded + Playwright pass + budget cap + Gannon approval. See /admin/cursor-cloud-agent-command.' },

@@ -318,7 +318,7 @@ export default function PlaywrightTestCentre() {
           subject: `Playwright Store QA Failed`,
           summary: `Tests failed: ${data.failed_tests || 'unknown'}. Errors: ${data.console_errors || 'none captured'}`,
           payload_json: JSON.stringify({ run_url: data.run_url, failed_tests: data.failed_tests, errors: data.console_errors }),
-          linked_route: '/admin/playwright-test-centre',
+          linked_route: '/admin/qa-command-centre',
           status: 'new',
           requires_approval: false,
           risk_level: 'high',
@@ -408,7 +408,7 @@ export default function PlaywrightTestCentre() {
             </p>
             <div className="flex gap-2 mt-2 flex-wrap">
               <CopyButton text={FAST_CMD} label="Copy Fast Store Test" />
-              <Link to="/admin/autonomous-repair-loop"><Button size="sm" variant="outline" className="gap-1.5 text-xs border-red-500/30 text-red-300"><Zap className="w-3 h-3" />Open Repair Loop</Button></Link>
+              <Link to="/admin/qa-command-centre"><Button size="sm" variant="outline" className="gap-1.5 text-xs border-red-500/30 text-red-300"><Zap className="w-3 h-3" />Open Repair Loop</Button></Link>
             </div>
           </div>
         </div>
@@ -569,7 +569,7 @@ export default function PlaywrightTestCentre() {
             <CardHeader className="pb-2"><CardTitle className="text-sm">Step 3 — After Run: Ingest Result</CardTitle></CardHeader>
             <CardContent>
               <p className="text-xs text-muted-foreground mb-3">After a GitHub Actions run completes, paste the results into the Repair Loop tab to create repair tasks automatically.</p>
-              <Link to="/admin/autonomous-repair-loop">
+              <Link to="/admin/qa-command-centre">
                 <Button size="sm" className="gap-1.5">
                   <Zap className="w-3 h-3" />Open Repair Loop
                 </Button>
@@ -659,7 +659,7 @@ export default function PlaywrightTestCentre() {
           )}
 
           <div className="flex flex-wrap gap-2 pt-2">
-            <Link to="/admin/autonomous-repair-loop"><Button size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" />Autonomous Repair Loop</Button></Link>
+            <Link to="/admin/qa-command-centre"><Button size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" />Autonomous Repair Loop</Button></Link>
             <Link to="/admin/site-health"><Button size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" />System Health Issues</Button></Link>
             <Link to="/admin/business-attention-centre"><Button size="sm" variant="outline" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" />Business Attention Centre</Button></Link>
           </div>

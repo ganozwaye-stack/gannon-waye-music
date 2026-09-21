@@ -23,7 +23,7 @@ const GUIDE_STEPS = [
     title: 'Research Intelligence',
     duration: '45 sec',
     instruction: 'Go to Research Grid. Click a Live Intelligence Scan button. Click one result card to show full detail.',
-    navPath: '/admin/research-grid',
+    navPath: '/admin/ideas-engine',
     navLabel: 'Open Research Grid',
   },
   {
@@ -63,7 +63,7 @@ const GUIDE_STEPS = [
     title: 'Knowledge Vault',
     duration: '20 sec',
     instruction: 'Show search and category filter. Click one vault record to show full detail.',
-    navPath: '/admin/knowledge-vault',
+    navPath: '/admin/ideas-engine',
     navLabel: 'Open Knowledge Vault',
   },
   {

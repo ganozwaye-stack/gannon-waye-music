@@ -19,7 +19,7 @@ const SCREEN_RECORDING_STEPS = [
   {
     section: 'PART 2 — Research Intelligence (45 seconds)',
     steps: [
-      'Navigate to Research Grid (/admin/research-grid)',
+      'Navigate to Research Grid (/admin/ideas-engine)',
       'Click one of the Live Intelligence Scan topic buttons — let it run',
       'While it loads, scroll down to show the knowledge vault entries',
       'Click one research card to show the full detail modal (title, summary, content, actions)',
@@ -66,7 +66,7 @@ const SCREEN_RECORDING_STEPS = [
   {
     section: 'PART 7 — Knowledge Vault (20 seconds)',
     steps: [
-      'Navigate to Knowledge Vault (/admin/knowledge-vault)',
+      'Navigate to Knowledge Vault (/admin/ideas-engine)',
       'Show the search + category filter',
       'Click a vault record to show full detail view',
     ],

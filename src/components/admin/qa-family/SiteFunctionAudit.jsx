@@ -16,10 +16,8 @@ const AUDIT_DATA = [
       { page: 'Dashboard', route: '/admin', status: 'Working', issues: 1, notes: 'Stat cards link to source pages. Pending order rows clickable via link to /admin/orders.' },
       { page: 'Notifications / BAC', route: '/admin/notifications', status: 'Working', issues: 0, notes: 'Tabs, rows, summary cards, mark-read, source chain all working. Severity badge filter added.' },
       { page: 'Executive Feed', route: '/admin/executive-feed', status: 'Partial', issues: 2, notes: 'Trigger brief button works. Intelligence cards need source chain links.' },
-      { page: 'Audit Log', route: '/admin/audit-log', status: 'Partial', issues: 1, notes: 'Filter and search work. Row detail view needs upgrade.' },
       { page: 'Command Centre', route: '/admin/command-centre', status: 'Working', issues: 0, notes: 'Navigation hub — links all work.' },
       { page: 'Go-Live Checklist', route: '/admin/go-live', status: 'Working', issues: 0, notes: 'Checklist items toggle correctly.' },
-      { page: 'Growth Engine', route: '/admin/growth-engine', status: 'Partial', issues: 2, notes: 'Opportunity cards need detail modal. Status/platform badges need filter.' },
       { page: 'Risk Alerts', route: '/admin/risk-alerts', status: 'Partial', issues: 1, notes: 'Row detail view needs full source chain.' },
       { page: 'Site Health', route: '/admin/site-health', status: 'Partial', issues: 1, notes: 'Health check trigger works. Item detail needs upgrade.' },
     ],
@@ -72,11 +70,8 @@ const AUDIT_DATA = [
   {
     section: 'Intelligence',
     pages: [
-      { page: 'Knowledge Vault', route: '/admin/knowledge-vault', status: 'Working', issues: 0, notes: 'Records clickable, CRUD, search, A-Z filter all working.' },
-      { page: 'Research Grid', route: '/admin/research-grid', status: 'Working', issues: 0, notes: 'Cards clickable, live scan, save-to-vault, approval create all working.' },
       { page: 'Autonomous Ops', route: '/admin/autonomous-ops', status: 'Working', issues: 1, notes: 'Loop triggers and pending approvals work. Loop card source chain pending.' },
       { page: 'Ideas Engine', route: '/admin/ideas-engine', status: 'Partial', issues: 1, notes: 'Ideas display. Row detail modal needed.' },
-      { page: 'Research Hub', route: '/admin/research-hub', status: 'Working', issues: 0, notes: 'Hub navigation links working.' },
       { page: 'Operation Registry', route: '/admin/operation-registry', status: 'Fixed', issues: 0, notes: 'Full page+operation catalogue. Every entry clickable with detail modal.' },
     ],
   },
@@ -112,7 +107,6 @@ const AUDIT_DATA = [
     pages: [
       { page: 'Site Settings', route: '/admin/settings', status: 'Working', issues: 0, notes: 'All settings save correctly.' },
       { page: 'Blueprint', route: '/admin/blueprint', status: 'Working', issues: 0, notes: 'Blueprint view and copy working.' },
-      { page: 'Blueprint Builder', route: '/admin/blueprint-builder', status: 'Working', issues: 0, notes: 'Builder drag-and-drop working.' },
       { page: 'Client Onboarding', route: '/admin/client-onboarding', status: 'Working', issues: 0, notes: 'Onboarding flow working.' },
       { page: 'Merch Designs', route: '/admin/merch-designs', status: 'Working', issues: 0, notes: 'Design CRUD working.' },
       { page: 'Merch Platforms', route: '/admin/merch-platforms', status: 'Working', issues: 0, notes: 'Platform links and config working.' },

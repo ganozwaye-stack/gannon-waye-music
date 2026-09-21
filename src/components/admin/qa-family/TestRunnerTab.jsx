@@ -1,5 +1,5 @@
-import PlaywrightTestCentre from '@/pages/admin/PlaywrightTestCentre';
-import AutonomousRepairLoop from '@/pages/admin/AutonomousRepairLoop';
+import PlaywrightTestCentre from '@/components/admin/qa-family/PlaywrightTestCentre';
+import AutonomousRepairLoop from '@/components/admin/qa-family/AutonomousRepairLoop';
 
 // Playwright Test Runner & Autonomous Repair Loops: the full Playwright Test
 // Centre (QA_SUITES config, GitHub Actions runner status) plus the Autonomous

@@ -394,7 +394,7 @@ export default function AutonomousRepairLoop() {
         title: `Local Playwright: ${failed} failing, ${passed} passing`,
         summary: (f.failedTests || f.errorStack || '').slice(0, 300),
         source: 'playwright_local_ingestor', requires_action: true,
-        linked_route: '/admin/autonomous-repair-loop', is_read: false,
+        linked_route: '/admin/qa-command-centre', is_read: false,
       });
     }
     setLocalResult({ passed, failed, skipped: parseInt(f.skipped) || 0 });
@@ -419,7 +419,7 @@ export default function AutonomousRepairLoop() {
         title: `GitHub Actions ${f.workflowStatus}: ${failed} failing (branch: ${f.branch})`,
         summary: `${passed} passed · ${failed} failed · ${f.skipped} skipped · ${(f.failedTests || '').slice(0, 200)}`,
         source: 'github_actions_ingestor', requires_action: true,
-        linked_route: '/admin/autonomous-repair-loop', is_read: false,
+        linked_route: '/admin/qa-command-centre', is_read: false,
       });
     }
     setGhResult({ passed, failed, status: f.workflowStatus, branch: f.branch, runUrl: f.runUrl });

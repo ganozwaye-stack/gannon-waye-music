@@ -63,7 +63,7 @@ export default function SetupPlaywrightFlow({ onComplete, onBlocked }) {
 
       <StepBlock number={1} title="Understand the Setup" status="done" why="Playwright runs a real browser externally. The app cannot simulate it internally.">
         <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3 text-sm text-blue-300 space-y-1">
-          <p>✅ Test pack is already built at <strong>/admin/playwright-test-centre</strong></p>
+          <p>✅ Test pack is already built at <strong>/admin/qa-command-centre</strong></p>
           <p>✅ Tests run against gannonwaye.com from your machine</p>
           <p>⚠️ ADMIN_SESSION_COOKIE is stored in local <code>.env.local</code> only — never share it</p>
           <p>⚠️ Do NOT paste your admin cookie into this app</p>

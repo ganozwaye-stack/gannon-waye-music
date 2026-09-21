@@ -66,10 +66,10 @@ const SECTIONS = [
     icon: Play,
     iconColor: 'text-orange-400',
     items: [
-      { label: 'Playwright test pack built', status: 'Complete', detail: 'Available at /admin/playwright-test-centre — download and run against gannonwaye.com' },
+      { label: 'Playwright test pack built', status: 'Complete', detail: 'Available at /admin/qa-command-centre — download and run against gannonwaye.com' },
       { label: 'All public routes catalogued', status: 'Complete', detail: '20 public routes documented in QA Command Centre' },
       { label: 'All admin routes catalogued', status: 'Complete', detail: '100+ admin routes documented' },
-      { label: 'Browser QA actually run', status: 'Built but untested', detail: 'NOT RUN. Must be executed from an external terminal against gannonwaye.com. Go to /admin/playwright-test-centre to download the test pack.' },
+      { label: 'Browser QA actually run', status: 'Built but untested', detail: 'NOT RUN. Must be executed from an external terminal against gannonwaye.com. Go to /admin/qa-command-centre to download the test pack.' },
       { label: 'Mobile layout verified', status: 'Built but untested', detail: 'Requires real device or browser mobile simulation' },
       { label: 'All buttons/forms/modals confirmed clickable', status: 'Built but untested', detail: 'Requires browser run — cannot be confirmed from code alone' },
     ],

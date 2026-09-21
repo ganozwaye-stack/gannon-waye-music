@@ -1,5 +1,5 @@
-import SiteFunctionAudit from '@/pages/admin/SiteFunctionAudit';
-import ClickAudit from '@/pages/admin/ClickAudit';
+import SiteFunctionAudit from '@/components/admin/qa-family/SiteFunctionAudit';
+import ClickAudit from '@/components/admin/qa-family/ClickAudit';
 
 // Site Function & Click Audit: the full Site Function Audit and Click Audit
 // (AUDIT_DATA and ROUTE_AUDIT configs, the 247 mapped route counters —

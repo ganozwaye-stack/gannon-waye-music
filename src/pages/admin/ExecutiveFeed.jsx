@@ -152,7 +152,7 @@ export default function ExecutiveFeed() {
                 {item.summary && <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{item.summary}</p>}
               </div>
             ))}
-            <Link to="/admin/knowledge-vault" className="text-xs text-primary flex items-center gap-1 pt-1">Open vault <ArrowRight className="w-3 h-3" /></Link>
+            <Link to="/admin/ideas-engine" className="text-xs text-primary flex items-center gap-1 pt-1">Open vault <ArrowRight className="w-3 h-3" /></Link>
           </CardContent>
         </Card>
 
@@ -164,7 +164,7 @@ export default function ExecutiveFeed() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {[
             { label: 'Ideas Engine', path: '/admin/ideas-engine', icon: Lightbulb },
-            { label: 'Research Hub', path: '/admin/research-hub', icon: Eye },
+            { label: 'Research Hub', path: '/admin/ideas-engine', icon: Eye },
             { label: 'Ecommerce Intel', path: '/admin/ecommerce-intelligence', icon: ShoppingBag },
             { label: 'Trend Monitor', path: '/admin/trend-monitor', icon: TrendingUp },
             { label: 'Approval Queue', path: '/admin/dashboard', icon: CheckCircle2 },

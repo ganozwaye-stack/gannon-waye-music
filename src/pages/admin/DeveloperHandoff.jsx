@@ -83,7 +83,7 @@ Key admin routes:
 /admin/social-schedule-queue → TikTok admin
 /admin/social-platform-parity → Social platform tracker
 /admin/qa-command-centre → QA & testing
-/admin/playwright-test-centre → Test packs
+/admin/qa-command-centre → Test packs
 /admin/developer-handoff → This page`,
   },
   {
@@ -401,7 +401,7 @@ Fix, audit, and improve the Gannon Waye Business OS without breaking live functi
 
 ## Test Requirements
 - Run internal checks via /admin/qa-command-centre
-- Download and run Playwright pack from /admin/playwright-test-centre
+- Download and run Playwright pack from /admin/qa-command-centre
 
 ## Report Format
 List each file changed, what changed, and why.
@@ -544,7 +544,7 @@ npx playwright install chromium
 export ADMIN_SESSION_COOKIE=<your_admin_cookie>
 
 ## Test Files to Run
-Download from /admin/playwright-test-centre:
+Download from /admin/qa-command-centre:
 - tests/routes.spec.ts
 - tests/navigation.spec.ts
 - tests/clickability.spec.ts
@@ -607,7 +607,7 @@ export default function DeveloperHandoff() {
         </div>
         <div className="flex gap-2 flex-wrap">
           <Link to="/admin/agent-trust-hub"><Button variant="outline" size="sm"><Shield className="w-3 h-3 mr-1" />Agent Trust Hub</Button></Link>
-          <Link to="/admin/playwright-test-centre"><Button variant="outline" size="sm"><FileText className="w-3 h-3 mr-1" />Test Centre</Button></Link>
+          <Link to="/admin/qa-command-centre"><Button variant="outline" size="sm"><FileText className="w-3 h-3 mr-1" />Test Centre</Button></Link>
           <Button variant="outline" size="sm" onClick={() => SECTIONS.forEach(s => downloadFile(`handoff/${s.id}.md`, s.content))}>
             <Download className="w-3 h-3 mr-1" />Download All Docs
           </Button>
@@ -648,7 +648,7 @@ export default function DeveloperHandoff() {
           <div className="pt-2 space-y-1">
             <p className="text-xs text-muted-foreground px-2 font-semibold">Quick Links</p>
             <Link to="/admin/qa-command-centre"><Button variant="ghost" size="sm" className="w-full justify-start text-xs">QA Command Centre</Button></Link>
-            <Link to="/admin/playwright-test-centre"><Button variant="ghost" size="sm" className="w-full justify-start text-xs">Playwright Tests</Button></Link>
+            <Link to="/admin/qa-command-centre"><Button variant="ghost" size="sm" className="w-full justify-start text-xs">Playwright Tests</Button></Link>
             <Link to="/admin/social-platform-parity"><Button variant="ghost" size="sm" className="w-full justify-start text-xs">Social Parity</Button></Link>
             <Link to="/admin/social-schedule-queue"><Button variant="ghost" size="sm" className="w-full justify-start text-xs">TikTok Review</Button></Link>
           </div>

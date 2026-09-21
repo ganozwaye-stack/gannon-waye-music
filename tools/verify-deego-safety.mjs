@@ -85,7 +85,7 @@ function assertHeldAgentCards() {
 
 function assertHeldScannerPages() {
   const checks = [
-    ['src/pages/admin/GrowthEngine.jsx', '<Button disabled variant="outline"', 'Growth Engine'],
+    ['src/components/admin/ideas-family/GrowthEngine.jsx', '<Button disabled variant="outline"', 'Growth Engine'],
     ['src/pages/admin/IntelligenceToIncome.jsx', '<Button variant="outline" disabled>', 'Intelligence to Income'],
   ];
   for (const [path, disabledButton, label] of checks) {
@@ -182,7 +182,7 @@ const required = [
   ['DISASTER_RECOVERY.md', 'npm run deploy'],
   ['src/components/admin/agent-workbench/AgentRevenueStatus.jsx', 'const SAFETY_HOLD_ACTIVE = true;'],
   ['src/components/admin/agent-workbench/AgentRevenueStatus.jsx', 'disabled={isRunning || agent.disabled}'],
-  ['src/pages/admin/GrowthEngine.jsx', 'Safety hold active'],
+  ['src/components/admin/ideas-family/GrowthEngine.jsx', 'Safety hold active'],
   ['src/pages/admin/IntelligenceToIncome.jsx', 'Safety hold active'],
   ['base44/functions/agentProposalScanner/entry.ts', 'Ecommerce scan requires Gannon owner sign-in.'],
   ['base44/functions/agentProposalScanner/entry.ts', "body?.mode !== 'manual_internal_review'"],
@@ -221,7 +221,7 @@ const forbidden = [
   ['base44/functions/autonomousTrendEngine/entry.ts', 'asServiceRole'],
   ['base44/functions/autonomousTrendEngine/entry.ts', 'Core.InvokeLLM'],
   ['base44/functions/autonomousTrendEngine/entry.ts', '.entities.'],
-  ['src/pages/admin/GrowthEngine.jsx', "functions.invoke('growthOpportunityScanner'"],
+  ['src/components/admin/ideas-family/GrowthEngine.jsx', "functions.invoke('growthOpportunityScanner'"],
   ['src/pages/admin/IntelligenceToIncome.jsx', "functions.invoke('growthOpportunityScanner'"],
   ['src/components/admin/release-studio/NewReleaseStudio.jsx', 'Go live automatically at midnight on release day'],
   ['src/components/admin/release-studio/NewReleaseStudio.jsx', 'synced to Too Lost, and scheduled to go live'],

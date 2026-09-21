@@ -307,7 +307,7 @@ export default function ChatGPTCodeReviewExport() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
           { label: 'Code Audit Export', to: '/admin/code-audit-export' },
-          { label: 'Playwright Test Centre', to: '/admin/playwright-test-centre' },
+          { label: 'Playwright Test Centre', to: '/admin/qa-command-centre' },
           { label: 'Developer Handoff', to: '/admin/developer-handoff' },
           { label: 'QA Command Centre', to: '/admin/qa-command-centre' },
         ].map(l => (

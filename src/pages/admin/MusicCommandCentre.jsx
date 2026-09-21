@@ -32,7 +32,7 @@ const AGENTS = [
   { name: 'Revenue Orchestrator', icon: DollarSign, color: 'text-emerald-400', desc: 'Daily money opportunities', path: '/admin/financials' },
   { name: 'Merch Sales Agent', icon: Star, color: 'text-orange-400', desc: 'Flash sales, bundles, stock', path: '/admin/merch' },
   { name: 'Social Intelligence', icon: TrendingUp, color: 'text-blue-400', desc: 'Viral trends & creator gaps', path: '/admin/social-schedule-queue' },
-  { name: 'Growth Engine', icon: Radio, color: 'text-purple-400', desc: 'Audience & playlist growth', path: '/admin/growth-engine' },
+  { name: 'Growth Engine', icon: Radio, color: 'text-purple-400', desc: 'Audience & playlist growth', path: '/admin/ideas-engine' },
   { name: 'Content Automate', icon: Share2, color: 'text-cyan-400', desc: 'Social post automation', path: '/admin/content-studio' },
   { name: 'Release Sprint', icon: Calendar, color: 'text-primary', desc: '10-day Metricool content engine', path: '/admin/release-sprint' },
 ];
@@ -202,7 +202,7 @@ export default function MusicCommandCentre() {
                 <Badge variant="outline" className="text-xs shrink-0 ml-2">{opp.status}</Badge>
               </div>
             ))}
-            <Link to="/admin/growth-engine">
+            <Link to="/admin/ideas-engine">
               <Button variant="ghost" size="sm" className="w-full text-xs">View all opportunities →</Button>
             </Link>
           </CardContent>

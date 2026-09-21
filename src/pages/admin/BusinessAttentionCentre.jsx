@@ -19,7 +19,7 @@ const ACTION_TASKS = [
     label: 'Run Playwright retest — store + cart',
     detail: 'PRIMARY: Run this in Warp from your test folder. Paste results into Repair Loop.',
     priority: 'critical', cmd: 'npx playwright test tests/store-load.spec.js tests/cart.spec.js --headed',
-    link: '/admin/autonomous-repair-loop', linkLabel: 'Repair Loop',
+    link: '/admin/qa-command-centre', linkLabel: 'Repair Loop',
     actions: ['Run', 'Paste Results'],
   },
   {
@@ -34,7 +34,7 @@ const ACTION_TASKS = [
     label: 'Paste Playwright results into Repair Loop',
     detail: 'After running tests → paste full output into Repair Loop → auto-creates fix tasks.',
     priority: 'critical',
-    link: '/admin/autonomous-repair-loop', linkLabel: 'Open Repair Loop',
+    link: '/admin/qa-command-centre', linkLabel: 'Open Repair Loop',
     actions: ['Open', 'Upload'],
   },
   {
@@ -42,7 +42,7 @@ const ACTION_TASKS = [
     label: 'Download cart.spec.js from Repair Loop',
     detail: 'Cart spec is built. Download it, place in /tests folder, run it.',
     priority: 'critical',
-    link: '/admin/autonomous-repair-loop', linkLabel: 'Repair Loop → cart.spec.js',
+    link: '/admin/qa-command-centre', linkLabel: 'Repair Loop → cart.spec.js',
     actions: ['Download', 'Test'],
   },
   // ── GITHUB ACTIONS ──
@@ -59,7 +59,7 @@ const ACTION_TASKS = [
     label: 'Download GitHub Actions workflow file',
     detail: 'Download playwright-store-tests.yml → place at .github/workflows/ in your repo.',
     priority: 'critical',
-    link: '/admin/autonomous-repair-loop', linkLabel: 'Download Workflow',
+    link: '/admin/qa-command-centre', linkLabel: 'Download Workflow',
     actions: ['Download', 'Open'],
   },
   {
@@ -74,7 +74,7 @@ const ACTION_TASKS = [
     label: 'Ingest GitHub Actions result',
     detail: 'After Actions run → paste URL, status, counts into Repair Loop → auto-creates fix tasks.',
     priority: 'high',
-    link: '/admin/autonomous-repair-loop', linkLabel: 'GitHub Actions Results Tab',
+    link: '/admin/qa-command-centre', linkLabel: 'GitHub Actions Results Tab',
     actions: ['Open', 'Upload'],
   },
   // ── STRIPE / CHECKOUT ──
@@ -231,8 +231,8 @@ export default function BusinessAttentionCentre() {
           <p className="text-sm text-muted-foreground mt-1">Click-only. No chat. Each task has direct action buttons.</p>
         </div>
         <div className="flex gap-2 flex-wrap">
-          <Link to="/admin/autonomous-repair-loop"><Button variant="outline" size="sm"><RefreshCw className="w-3 h-3 mr-1" />Repair Loop</Button></Link>
-          <Link to="/admin/playwright-test-centre"><Button variant="outline" size="sm"><Play className="w-3 h-3 mr-1" />Playwright</Button></Link>
+          <Link to="/admin/qa-command-centre"><Button variant="outline" size="sm"><RefreshCw className="w-3 h-3 mr-1" />Repair Loop</Button></Link>
+          <Link to="/admin/qa-command-centre"><Button variant="outline" size="sm"><Play className="w-3 h-3 mr-1" />Playwright</Button></Link>
         </div>
       </div>
 
@@ -340,7 +340,7 @@ export default function BusinessAttentionCentre() {
                           }
                           if (act === 'Download') {
                             return (
-                              <Link key={act} to={action.link || '/admin/autonomous-repair-loop'}>
+                              <Link key={act} to={action.link || '/admin/qa-command-centre'}>
                                 <Button variant="outline" size="sm" className="h-7 text-xs"><Download className="w-3 h-3 mr-1" />Download</Button>
                               </Link>
                             );

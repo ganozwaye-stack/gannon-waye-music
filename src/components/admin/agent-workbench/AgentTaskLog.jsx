@@ -16,8 +16,8 @@ const BADGE_STYLES = {
 };
 
 const SOURCE_ROUTES = {
-  KnowledgeVault: '/admin/knowledge-vault',
-  ResearchGrid: '/admin/research-grid',
+  KnowledgeVault: '/admin/ideas-engine',
+  ResearchGrid: '/admin/ideas-engine',
   ApprovalQueue: '/admin/dashboard',
   Notifications: '/admin/notifications',
   AgentRegistry: '/admin/agent-workbench',

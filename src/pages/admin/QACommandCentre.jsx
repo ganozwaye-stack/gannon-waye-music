@@ -55,7 +55,6 @@ const ROUTES_TO_TEST = [
   // Admin — Agents/Intelligence
   { route: '/admin/agent-capability-matrix', label: 'Agent Capability Matrix', category: 'admin', loginRequired: true },
   { route: '/admin/agent-tool-registry', label: 'Agent Tool Registry', category: 'admin', loginRequired: true },
-  { route: '/admin/knowledge-vault', label: 'Knowledge Vault', category: 'admin', loginRequired: true },
   { route: '/admin/notifications', label: 'Business Attention Centre', category: 'admin', loginRequired: true },
   // Admin — Social/TikTok
   { route: '/admin/social-schedule-queue', label: 'TikTok Platform Review', category: 'admin', loginRequired: true },
@@ -73,9 +72,7 @@ const ROUTES_TO_TEST = [
   { route: '/admin/payment-diagnostics', label: 'Payment Diagnostics', category: 'admin', loginRequired: true },
   // Admin — QA/Dev
   { route: '/admin/qa-command-centre', label: 'QA Command Centre', category: 'admin', loginRequired: true },
-  { route: '/admin/playwright-test-centre', label: 'Playwright Test Centre', category: 'admin', loginRequired: true },
   { route: '/admin/developer-handoff', label: 'Developer Handoff', category: 'admin', loginRequired: true },
-  { route: '/admin/site-function-audit', label: 'Site Function Audit', category: 'admin', loginRequired: true },
   { route: '/admin/operation-registry', label: 'Operation Registry', category: 'admin', loginRequired: true },
   // Admin — Coaching (private)
   { route: '/admin/coaching-command', label: 'Coaching Command (admin only)', category: 'admin', loginRequired: true },
@@ -254,7 +251,6 @@ const FINAL_REPORT = {
     {
       title: '🔜 WHAT NEEDS TESTING NEXT',
       items: [
-        '1. Download Playwright test pack from /admin/playwright-test-centre',
         '2. Get ADMIN_SESSION_COOKIE from gannonwaye.com DevTools',
         '3. Run: npx playwright test (all suites)',
         '4. Fix any failed tests',
@@ -301,7 +297,6 @@ export default function QACommandCentre() {
       issue_title: `External Playwright QA required — ${ROUTES_TO_TEST.length} routes catalogued`,
       severity: 'warning',
       detected_by: 'QACommandCentre',
-      recommended_fix: 'Run Playwright test suite against https://gannonwaye.com using the test pack at /admin/playwright-test-centre',
       status: 'open',
       requires_approval: false,
       risk_type: 'data',

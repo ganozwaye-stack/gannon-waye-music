@@ -56,7 +56,7 @@ const EXTERNAL_TEST_STATUS = [
   // Admin routes
   { category: 'Admin Routes', item: '/admin', label: 'Dashboard', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/qa-command-centre', label: 'QA Command Centre', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
-  { category: 'Admin Routes', item: '/admin/playwright-test-centre', label: 'Playwright Test Centre', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
+  { category: 'Admin Routes', item: '/admin/qa-command-centre', label: 'Playwright Test Centre', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/developer-handoff', label: 'Developer Handoff', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/agent-tool-registry', label: 'Agent Tool Registry', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/social-platform-parity', label: 'Social Platform Parity', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
@@ -152,9 +152,9 @@ const CONFIRMED_FAILURES = [
     area: 'External QA Not Run',
     issue: 'Zero Playwright tests have been executed against gannonwaye.com',
     impact: 'Cannot confirm any public route, button, modal, tab, or form works in real browser',
-    fix: 'Download pack from /admin/playwright-test-centre. Run: npx playwright test. Set ADMIN_SESSION_COOKIE in .env',
-    file: 'pages/admin/PlaywrightTestCentre.jsx',
-    route: '/admin/playwright-test-centre',
+    fix: 'Download pack from /admin/qa-command-centre. Run: npx playwright test. Set ADMIN_SESSION_COOKIE in .env',
+    file: 'components/admin/qa-family/PlaywrightTestCentre.jsx',
+    route: '/admin/qa-command-centre',
     confirmed: true,
   },
   {
@@ -223,7 +223,7 @@ const MANUAL_STEPS = [
   { priority: 1, action: 'Rotate TIKTOK_CLIENT_SECRET immediately', where: 'developer.tiktok.com → App → Keys → Regenerate', then: 'Update in Base44 Secrets dashboard' },
   { priority: 2, action: 'Add 3 shipping rules (cd, merch, vinyl)', where: 'gannonwaye.com/admin/shipping-rates', then: 'Approve Approval Queue items already waiting' },
   { priority: 3, action: 'Get ADMIN_SESSION_COOKIE', where: 'Chrome DevTools → Application → Cookies → gannonwaye.com', then: 'Store as ADMIN_SESSION_COOKIE=<value> in local .env file (never commit)' },
-  { priority: 4, action: 'Download Playwright test pack', where: '/admin/playwright-test-centre → Download All Test Files', then: 'Run: npm install -D @playwright/test && npx playwright install chromium' },
+  { priority: 4, action: 'Download Playwright test pack', where: '/admin/qa-command-centre → Download All Test Files', then: 'Run: npm install -D @playwright/test && npx playwright install chromium' },
   { priority: 5, action: 'Run Playwright tests', where: 'Terminal in project folder', then: 'npx playwright test — view report: npx playwright show-report' },
   { priority: 6, action: 'Test TikTok OAuth live', where: 'gannonwaye.com/admin/social-schedule-queue (admin session)', then: 'Click Connect TikTok → confirm /tiktok-callback receives code → confirm connected status shows' },
   { priority: 7, action: 'Fix Stripe key mismatch BEFORE any checkout test', where: 'Base44 Secrets dashboard', then: 'Option A (testing): set both STRIPE_SECRET_KEY=sk_test_... and STRIPE_PUBLISHABLE_KEY=pk_test_... then use test card 4242 4242 4242 4242. Option B (production): set both to live keys, then use a real approved low-value purchase only — never a test card.' },
@@ -249,7 +249,7 @@ const CODEX_FIX_LIST = `# Tasks for Codex / Cursor / Claude Code
 ## PRIORITY 2 — EXTERNAL TESTS NEEDED
 
 ### 2a. Run Playwright test suite
-- Download from /admin/playwright-test-centre
+- Download from /admin/qa-command-centre
 - Set ADMIN_SESSION_COOKIE in .env (never commit to git)
 - Command: ADMIN_SESSION_COOKIE=<value> npx playwright test
 - Fix any failing routes, then re-run
@@ -398,7 +398,7 @@ export default function QAFailureReport() {
             <p className="font-bold text-red-200 text-base">External Playwright has NOT been run against gannonwaye.com</p>
             <p className="text-red-100/80 mt-1">No route, button, card, tab, modal, or form can be marked "passed" without real browser confirmation. The tests are ready and downloadable — they just need a human to run them.</p>
             <div className="flex gap-2 mt-3 flex-wrap">
-              <Link to="/admin/playwright-test-centre"><Button size="sm" className="bg-red-500 hover:bg-red-600 text-white"><Download className="w-3 h-3 mr-1" />Download Playwright Pack</Button></Link>
+              <Link to="/admin/qa-command-centre"><Button size="sm" className="bg-red-500 hover:bg-red-600 text-white"><Download className="w-3 h-3 mr-1" />Download Playwright Pack</Button></Link>
               <a href="https://gannonwaye.com/store" target="_blank" rel="noopener noreferrer"><Button variant="outline" size="sm"><ExternalLink className="w-3 h-3 mr-1" />Open Store Live</Button></a>
               <a href="https://gannonwaye.com/admin" target="_blank" rel="noopener noreferrer"><Button variant="outline" size="sm"><ExternalLink className="w-3 h-3 mr-1" />Open Admin Live</Button></a>
             </div>

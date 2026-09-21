@@ -20,7 +20,7 @@ const TYPE_CONFIG = {
   automation_failed: { icon: Zap, color: 'text-red-400', route: '/admin/systems-qa' },
   email_failed: { icon: Mail, color: 'text-red-400', route: '/admin/dashboard' },
   payment_warning: { icon: AlertTriangle, color: 'text-red-400', route: '/admin/payment-diagnostics' },
-  growth_spike: { icon: TrendingUp, color: 'text-green-400', route: '/admin/growth-engine' },
+  growth_spike: { icon: TrendingUp, color: 'text-green-400', route: '/admin/ideas-engine' },
   system: { icon: Hash, color: 'text-muted-foreground', route: '/admin/site-health' },
   like: { icon: Star, color: 'text-pink-400', route: '/admin/fans' },
 };

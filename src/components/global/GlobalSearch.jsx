@@ -179,7 +179,7 @@ export default function GlobalSearch({ onClose }) {
       promo_code: `/admin/financials`,
       booking: `/admin`, // Bookings managed from dashboard initially
       media: `/admin/fan-media`,
-      audit: `/admin/audit-log`,
+      audit: `/admin/qa-command-centre`,
     };
     
     navigate(routes[result.type] || '/admin');

@@ -26,10 +26,10 @@ export default function LegalDashboard() {
   const legalApprovals = approvals.filter(a => a.risk_type?.includes('legal'));
 
   const QUICK_ACTIONS = [
-    { label: 'Add Legal Document', icon: FileText, link: '/admin/knowledge-vault' },
+    { label: 'Add Legal Document', icon: FileText, link: '/admin/ideas-engine' },
     { label: 'View Risk Alerts', icon: AlertTriangle, link: '/admin/risk-alerts' },
     { label: 'Approval Queue', icon: Clock, link: '/admin/dashboard' },
-    { label: 'Knowledge Vault', icon: Shield, link: '/admin/knowledge-vault' },
+    { label: 'Knowledge Vault', icon: Shield, link: '/admin/ideas-engine' },
   ];
 
   return (
@@ -88,7 +88,7 @@ export default function LegalDashboard() {
         <div className="text-center py-12 border border-dashed border-border rounded-lg">
           <Scale className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
           <p className="text-muted-foreground text-sm">No legal documents yet. Add them to the Knowledge Vault with category "legal" or "evidence".</p>
-          <Link to="/admin/knowledge-vault">
+          <Link to="/admin/ideas-engine">
             <Button className="mt-3 gradient-gold-button">Open Knowledge Vault</Button>
           </Link>
         </div>

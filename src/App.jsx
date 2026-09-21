@@ -85,22 +85,18 @@ import SiteHealthDashboard from '@/pages/admin/SiteHealthDashboard';
 import GiftProgressAdmin from '@/pages/admin/GiftProgressAdmin';
 import BirthdayDiscounts from '@/pages/admin/BirthdayDiscounts';
 import CharityTracking from '@/pages/admin/CharityTracking';
-import AuditLog from '@/pages/admin/AuditLog';
 import OperationalStatus from '@/pages/admin/OperationalStatus';
 import OrderStatus from '@/pages/OrderStatus';
 import CommandCentre from '@/pages/admin/CommandCentre';
-import KnowledgeVaultPage from '@/pages/admin/KnowledgeVault';
 import RiskAlertsPage from '@/pages/admin/RiskAlerts';
 import LegalDashboard from '@/pages/admin/LegalDashboard';
 import WealthDashboard from '@/pages/admin/WealthDashboard';
-import ResearchHub from '@/pages/admin/ResearchHub';
 import SecurityCentre from '@/pages/admin/SecurityCentre';
 import TrendMonitor from '@/pages/admin/TrendMonitor';
 import WebsiteOps from '@/pages/admin/WebsiteOps';
 import ExecutiveFeed from '@/pages/admin/ExecutiveFeed';
 import IdeasEngine from '@/pages/admin/IdeasEngine';
 import EcommerceIntelligence from '@/pages/admin/EcommerceIntelligence';
-import BlueprintBuilder from '@/pages/admin/BlueprintBuilder';
 import Distributors from '@/pages/admin/Distributors';
 import LaunchPacketStudio from '@/pages/admin/LaunchPacketStudio';
 import SelfHealing from '@/pages/admin/SelfHealing';
@@ -108,10 +104,8 @@ import CreatorInsights from '@/pages/admin/CreatorInsights';
 import ApiSetup from '@/pages/admin/ApiSetup';
 import GoLiveChecklist from '@/pages/admin/GoLiveChecklist';
 import EcommerceCommand from '@/pages/admin/EcommerceCommand';
-import ResearchGrid from '@/pages/admin/ResearchGrid';
 import AutonomousOps from '@/pages/admin/AutonomousOps';
 import StripeLiveReport from '@/pages/admin/StripeLiveReport';
-import GrowthEngine from '@/pages/admin/GrowthEngine';
 import Notifications from '@/pages/admin/Notifications';
 import ShippingRates from '@/pages/admin/ShippingRates';
 import TikTokAppReview from '@/pages/admin/TikTokAppReview';
@@ -127,7 +121,6 @@ import TooLostCallback from '@/pages/TooLostCallback.jsx';
 import TikTokRecordingStudio from '@/pages/admin/TikTokRecordingStudio';
 import MerchFeedbackAdmin from '@/pages/admin/MerchFeedbackAdmin';
 import OperationRegistry from '@/pages/admin/OperationRegistry';
-import SiteFunctionAudit from '@/pages/admin/SiteFunctionAudit';
 import PaymentDiagnostics from '@/pages/admin/PaymentDiagnosticsNew';
 import IntegrationCompletionCentre from '@/pages/admin/IntegrationCompletionCentre';
 import SocialDistributionReadiness from '@/pages/admin/SocialDistributionReadiness';
@@ -157,13 +150,10 @@ import SocialReviewReadiness from '@/pages/admin/SocialReviewReadiness';
 import SocialContentReadiness from '@/pages/admin/SocialContentReadiness';
 import SocialAnalyticsCommand from '@/pages/admin/SocialAnalyticsCommand';
 import QACommandCentre from '@/pages/admin/QACommandCentre';
-import PlaywrightTestCentre from '@/pages/admin/PlaywrightTestCentre';
 import DeveloperHandoff from '@/pages/admin/DeveloperHandoff';
 import AgentToolRegistry from '@/pages/admin/AgentToolRegistry';
 import CodeAuditExport from '@/pages/admin/CodeAuditExport';
-import ChatGPTCodeReviewExport from '@/pages/admin/ChatGPTCodeReviewExport';
 import QAFailureReport from '@/pages/admin/QAFailureReport';
-import VoiceInputTestPage from '@/pages/admin/VoiceInputTestPage';
 import AICostControl from '@/pages/admin/AICostControl';
 import ReleasePromoCommand from '@/pages/admin/ReleasePromoCommand';
 import ContentQualityReview from '@/pages/admin/ContentQualityReview';
@@ -188,7 +178,6 @@ import AgentTrustHub from '@/pages/admin/AgentTrustHub';
 import ExternalEngineeringCommand from '@/pages/admin/ExternalEngineeringCommand';
 import PromoDiscountCompliance from '@/pages/admin/PromoDiscountCompliance';
 import CursorCloudAgentCommand from '@/pages/admin/CursorCloudAgentCommand';
-import AutonomousRepairLoop from '@/pages/admin/AutonomousRepairLoop';
 import ContentCommand from '@/pages/admin/ContentCommand';
 import AgentMessageBus from '@/pages/admin/AgentMessageBus';
 import CodeAuditCommand from '@/pages/admin/CodeAuditCommand';
@@ -196,7 +185,6 @@ import StrategicExecutionPlan from '@/pages/admin/StrategicExecutionPlan';
 import MerchVisualLab from '@/pages/admin/MerchVisualLab';
 import BusinessProfileSettingsPage from '@/pages/admin/BusinessProfileSettings';
 import MasterBlueprint from '@/pages/admin/MasterBlueprint';
-import LinkIntegrityAudit from '@/pages/admin/LinkIntegrityAudit';
 import IntegrationActionCentre from '@/pages/admin/IntegrationActionCentre';
 import AnnouncementStudio from '@/pages/admin/AnnouncementStudio';
 import UpcomingMusic from '@/pages/UpcomingMusic';
@@ -221,7 +209,6 @@ import SystemsQaHub from '@/pages/admin/SystemsQaHub';
 import PrintFulfilment from '@/pages/admin/PrintFulfilment';
 import Memorial from '@/pages/Memorial';
 import PriorityCommander from '@/pages/admin/PriorityCommander';
-import ClickAudit from '@/pages/admin/ClickAudit';
 import ReleasesRedirect from '@/pages/Releases';
 import About from '@/pages/About';
 import DomesticViolenceSupport from '@/pages/DomesticViolenceSupport';
@@ -497,21 +484,17 @@ const AuthenticatedApp = () => {
         <Route path="/admin/gift-progress" element={<GiftProgressAdmin />} />
         <Route path="/admin/birthdays" element={<BirthdayDiscounts />} />
         <Route path="/admin/charity-tracking" element={<CharityTracking />} />
-        <Route path="/admin/audit-log" element={<AuditLog />} />
         <Route path="/admin/operational-status" element={<OperationalStatus />} />
         <Route path="/admin/command-centre" element={<CommandCentre />} />
-        <Route path="/admin/knowledge-vault" element={<KnowledgeVaultPage />} />
         <Route path="/admin/risk-alerts" element={<RiskAlertsPage />} />
         <Route path="/admin/legal-dashboard" element={<LegalDashboard />} />
         <Route path="/admin/wealth-dashboard" element={<WealthDashboard />} />
-        <Route path="/admin/research-hub" element={<ResearchHub />} />
         <Route path="/admin/security-centre" element={<SecurityCentre />} />
         <Route path="/admin/trend-monitor" element={<TrendMonitor />} />
         <Route path="/admin/website-ops" element={<WebsiteOps />} />
         <Route path="/admin/executive-feed" element={<ExecutiveFeed />} />
         <Route path="/admin/ideas-engine" element={<IdeasEngine />} />
         <Route path="/admin/ecommerce-intelligence" element={<EcommerceIntelligence />} />
-        <Route path="/admin/blueprint-builder" element={<BlueprintBuilder />} />
         <Route path="/admin/distributors" element={<Distributors />} />
         <Route path="/admin/launch-packet-studio" element={<LaunchPacketStudio />} />
         <Route path="/admin/self-healing" element={<SelfHealing />} />
@@ -520,10 +503,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/integration-action-centre" element={<IntegrationActionCentre />} />
         <Route path="/admin/go-live" element={<GoLiveChecklist />} />
         <Route path="/admin/ecommerce-command" element={<EcommerceCommand />} />
-        <Route path="/admin/research-grid" element={<ResearchGrid />} />
         <Route path="/admin/autonomous-ops" element={<AutonomousOps />} />
         <Route path="/admin/stripe-live-report" element={<StripeLiveReport />} />
-        <Route path="/admin/growth-engine" element={<GrowthEngine />} />
         <Route path="/admin/notifications" element={<Notifications />} />
         <Route path="/admin/shipping-rates" element={<ShippingRates />} />
         <Route path="/admin/tiktok-review" element={<TikTokAppReview />} />
@@ -536,7 +517,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/tiktok-recording-studio" element={<TikTokRecordingStudio />} />
         <Route path="/admin/merch-feedback" element={<MerchFeedbackAdmin />} />
         <Route path="/admin/operation-registry" element={<OperationRegistry />} />
-        <Route path="/admin/site-function-audit" element={<SiteFunctionAudit />} />
         <Route path="/admin/payment-diagnostics" element={<PaymentDiagnostics />} />
         <Route path="/admin/integration-completion-centre" element={<IntegrationCompletionCentre />} />
         <Route path="/admin/social-distribution-readiness" element={<SocialDistributionReadiness />} />
@@ -569,13 +549,10 @@ const AuthenticatedApp = () => {
         <Route path="/admin/social-content-readiness" element={<SocialContentReadiness />} />
         <Route path="/admin/social-analytics-command" element={<SocialAnalyticsCommand />} />
         <Route path="/admin/qa-command-centre" element={<QACommandCentre />} />
-        <Route path="/admin/playwright-test-centre" element={<PlaywrightTestCentre />} />
         <Route path="/admin/developer-handoff" element={<DeveloperHandoff />} />
         <Route path="/admin/agent-tool-registry" element={<AgentToolRegistry />} />
         <Route path="/admin/code-audit-export" element={<CodeAuditExport />} />
-        <Route path="/admin/chatgpt-code-review-export" element={<ChatGPTCodeReviewExport />} />
         <Route path="/admin/qa-failure-report" element={<QAFailureReport />} />
-        <Route path="/admin/voice-input-test" element={<VoiceInputTestPage />} />
         <Route path="/admin/ai-cost-control" element={<AICostControl />} />
         <Route path="/admin/release-promo-command" element={<ReleasePromoCommand />} />
 
@@ -603,7 +580,6 @@ const AuthenticatedApp = () => {
         <Route path="/admin/norton-safe-web-guide" element={<PromoDiscountCompliance />} />
         <Route path="/admin/promo-discount-compliance" element={<PromoDiscountCompliance />} />
         <Route path="/admin/cursor-cloud-agent-command" element={<CursorCloudAgentCommand />} />
-        <Route path="/admin/autonomous-repair-loop" element={<AutonomousRepairLoop />} />
         <Route path="/admin/content-command" element={<ContentCommand />} />
         <Route path="/admin/agent-message-bus" element={<AgentMessageBus />} />
         <Route path="/admin/code-audit-command" element={<CodeAuditCommand />} />
@@ -611,13 +587,11 @@ const AuthenticatedApp = () => {
         <Route path="/admin/merch-visual-lab" element={<MerchVisualLab />} />
         <Route path="/admin/business-profile-settings" element={<BusinessProfileSettingsPage />} />
         <Route path="/admin/settings/business-details" element={<BusinessProfileSettingsPage />} />
-        <Route path="/admin/link-integrity-audit" element={<LinkIntegrityAudit />} />
         {/* Training Centre merged into the Education Hub, which itself merged into
             /admin/dashboard (creative-ux tab) on 21 Sep 2026. */}
         <Route path="/admin/training-centre" element={<Navigate to="/admin/dashboard" replace />} />
         <Route path="/admin/announcement-studio" element={<AnnouncementStudio />} />
         <Route path="/admin/master-blueprint" element={<MasterBlueprint />} />
-        <Route path="/admin/click-audit" element={<ClickAudit />} />
         <Route path="/admin/priority-commander" element={<PriorityCommander />} />
         <Route path="/admin/site-upgrade-audit" element={<SiteUpgradeAudit />} />
         <Route path="/admin/base44-exit-plan" element={<Base44ExitPlan />} />

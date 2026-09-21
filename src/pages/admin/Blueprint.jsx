@@ -34,7 +34,7 @@ const PAGES = [
   { label: 'Financial Dashboard', path: '/admin/financials', admin: true },
   { label: 'Site Settings', path: '/admin/settings', admin: true },
   { label: 'Site Health', path: '/admin/site-health', admin: true },
-  { label: 'Audit Log', path: '/admin/audit-log', admin: true },
+  { label: 'Audit Log', path: '/admin/qa-command-centre', admin: true },
   { label: 'Mastering Queue', path: '/admin/content-studio', admin: true },
   { label: 'Gift Claims', path: '/admin/gift-claims', admin: true },
   { label: 'Gift Progress', path: '/admin/gift-progress', admin: true },

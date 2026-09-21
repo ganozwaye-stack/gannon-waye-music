@@ -165,7 +165,7 @@ function ResearchDetailModal({ item, onClose, onSaveToVault, onCreateApproval: c
             <Button size="sm" variant="outline" className="gap-1 text-xs" onClick={() => { createApproval(item); onClose(); }}>
               <Plus className="w-3 h-3" /> Create Approval Item
             </Button>
-            <Link to="/admin/knowledge-vault" onClick={onClose}>
+            <Link to="/admin/ideas-engine" onClick={onClose}>
               <Button size="sm" variant="outline" className="gap-1 text-xs">
                 <BookOpen className="w-3 h-3" /> Knowledge Vault
               </Button>

@@ -383,7 +383,7 @@ const ROUTE_MAP = {
   automation_failed: '/admin/agent-workbench',
   email_failed: '/admin/dashboard',
   payment_warning: '/admin/financials',
-  growth_spike: '/admin/growth-engine',
+  growth_spike: '/admin/ideas-engine',
   system: '/admin/site-health',
   like: '/admin/fans',
 };

@@ -130,7 +130,7 @@ export default function CursorCloudAgentCommand() {
         </div>
         <div className="flex gap-2">
           <Link to="/admin/ai-tool-budget-control"><Button variant="outline" size="sm"><Lock className="w-3 h-3 mr-1" />Budget</Button></Link>
-          <Link to="/admin/playwright-test-centre"><Button variant="outline" size="sm"><Play className="w-3 h-3 mr-1" />Tests</Button></Link>
+          <Link to="/admin/qa-command-centre"><Button variant="outline" size="sm"><Play className="w-3 h-3 mr-1" />Tests</Button></Link>
         </div>
       </div>
 

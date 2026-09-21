@@ -19,7 +19,7 @@ const AGENT_IQ_MAP = [
 ];
 
 const ROADMAP_ITEMS = [
-  { area: 'Research Depth', current: 'Rotating 15 topics every 4h', next: 'Add competitor scanning + product scouting loops', priority: 'high', related_agents: ['AutonomousResearchAgent', 'TrendEngine'], link: '/admin/research-grid' },
+  { area: 'Research Depth', current: 'Rotating 15 topics every 4h', next: 'Add competitor scanning + product scouting loops', priority: 'high', related_agents: ['AutonomousResearchAgent', 'TrendEngine'], link: '/admin/ideas-engine' },
   { area: 'Memory Persistence', current: 'KnowledgeVault + AgentLearningRecord', next: 'Cross-reference learning between agents', priority: 'medium', related_agents: ['Orchestrator'], link: '/admin/agent-workbench' },
   { area: 'Opportunity Detection', current: 'Ideas Engine + Trend Monitor', next: 'Automated scoring + escalation to ApprovalQueue', priority: 'high', related_agents: ['TrendEngine', 'Orchestrator'], link: '/admin/ideas-engine' },
   { area: 'Self Improvement', current: 'Manual learning records', next: 'Auto-compare approved vs rejected outputs', priority: 'medium', related_agents: ['Orchestrator'], link: '/admin/agent-workbench' },
@@ -71,7 +71,7 @@ function LearningDetailModal({ record, onClose }) {
           </div>
           <div className="flex gap-2">
             <Link to="/admin/agent-workbench" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><BookOpen className="w-3 h-3" />All Learning Records</Button></Link>
-            <Link to="/admin/knowledge-vault" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Knowledge Vault</Button></Link>
+            <Link to="/admin/ideas-engine" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Knowledge Vault</Button></Link>
           </div>
         </div>
       </DialogContent>
@@ -135,7 +135,7 @@ function ActivityDetailModal({ log, onClose }) {
           <div className="flex gap-2 pt-1 flex-wrap">
             <Link to="/admin/agent-workbench" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Activity className="w-3 h-3" />Full Task Log</Button></Link>
             <Link to="/admin/agent-workbench" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><BookOpen className="w-3 h-3" />Learning Records</Button></Link>
-            <Link to="/admin/knowledge-vault" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Knowledge Vault</Button></Link>
+            <Link to="/admin/ideas-engine" onClick={onClose}><Button size="sm" variant="outline" className="gap-1 text-xs"><Brain className="w-3 h-3" />Knowledge Vault</Button></Link>
           </div>
           <p className="text-xs text-muted-foreground italic border-t border-border pt-2">Source chain: Agent Task Log → Agent Learning Records → Knowledge Vault → Ideas Engine</p>
         </div>
@@ -226,7 +226,7 @@ export default function AgentIntelligence() {
       {/* Clickable Stat Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: 'Knowledge Entries', value: totalKnowledge, icon: BookOpen, color: 'text-cyan-400', bg: 'bg-cyan-500/10', link: '/admin/knowledge-vault' },
+          { label: 'Knowledge Entries', value: totalKnowledge, icon: BookOpen, color: 'text-cyan-400', bg: 'bg-cyan-500/10', link: '/admin/ideas-engine' },
           { label: 'Agent Actions Today', value: todayLogs.length, icon: Zap, color: 'text-primary', bg: 'bg-primary/10', link: '/admin/agent-workbench' },
           { label: 'Total Ideas Generated', value: totalIdeas, icon: Star, color: 'text-green-400', bg: 'bg-green-500/10', link: '/admin/ideas-engine' },
           { label: 'Learning Records', value: learnings.length, icon: Brain, color: 'text-purple-400', bg: 'bg-purple-500/10', link: '/admin/agent-workbench' },
@@ -358,9 +358,9 @@ export default function AgentIntelligence() {
       </Card>
 
       <div className="flex gap-3 flex-wrap">
-        <Link to="/admin/research-grid"><Button variant="outline" className="gap-2 text-xs"><TrendingUp className="w-3 h-3" />Research Grid</Button></Link>
+        <Link to="/admin/ideas-engine"><Button variant="outline" className="gap-2 text-xs"><TrendingUp className="w-3 h-3" />Research Grid</Button></Link>
         <Link to="/admin/autonomous-ops"><Button variant="outline" className="gap-2 text-xs"><Zap className="w-3 h-3" />Autonomous Ops</Button></Link>
-        <Link to="/admin/knowledge-vault"><Button variant="outline" className="gap-2 text-xs"><BookOpen className="w-3 h-3" />Knowledge Vault</Button></Link>
+        <Link to="/admin/ideas-engine"><Button variant="outline" className="gap-2 text-xs"><BookOpen className="w-3 h-3" />Knowledge Vault</Button></Link>
         <Link to="/admin/agent-workbench"><Button variant="outline" className="gap-2 text-xs"><Brain className="w-3 h-3" />Agent Learning</Button></Link>
       </div>
 

@@ -17,7 +17,7 @@ const ENGINES = [
   { to: '/admin/financials', icon: Zap, label: 'Revenue Actions', desc: 'Agent proposals awaiting approval', color: 'text-primary', key: 'proposals' },
   { to: '/admin/dashboard', icon: CheckCircle2, label: 'Approval Queue', desc: 'All items requiring your decision', color: 'text-green-400', key: 'approvals' },
   { to: '/admin/business-attention-centre', icon: AlertTriangle, label: 'Business Attention Centre', desc: 'Critical alerts and actions', color: 'text-red-400', key: 'alerts' },
-  { to: '/admin/growth-engine', icon: TrendingUp, label: 'Growth Engine', desc: 'TikTok, social, and audience growth', color: 'text-blue-400', key: 'growth' },
+  { to: '/admin/ideas-engine', icon: TrendingUp, label: 'Growth Engine', desc: 'TikTok, social, and audience growth', color: 'text-blue-400', key: 'growth' },
   { to: '/admin/fan-conversion-engine', icon: Users, label: 'Fan Conversion', desc: 'Turn fans into buyers and supporters', color: 'text-purple-400', key: 'fans' },
   { to: '/admin/offer-engine', icon: Star, label: 'Offer Engine', desc: 'Bundles, promos, and limited-time offers', color: 'text-primary', key: 'offers' },
   { to: '/admin/content-studio', icon: Music, label: 'Content to Cash', desc: 'TikTok and social content → revenue', color: 'text-cyan-400', key: 'content' },
@@ -253,7 +253,7 @@ export default function IntelligenceToIncome() {
             {opportunities.slice(0, 8).map(o => (
               <OpportunityCard key={o.id} opp={o} onClick={() => setSelectedOpp(o)} />
             ))}
-            {opportunities.length > 8 && <Link to="/admin/growth-engine"><Button variant="outline" size="sm" className="w-full">View all {opportunities.length} opportunities</Button></Link>}
+            {opportunities.length > 8 && <Link to="/admin/ideas-engine"><Button variant="outline" size="sm" className="w-full">View all {opportunities.length} opportunities</Button></Link>}
           </CardContent>
         </Card>
       )}

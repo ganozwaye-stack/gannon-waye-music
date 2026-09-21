@@ -1,4 +1,4 @@
-import GrowthEngine from '@/pages/admin/GrowthEngine';
+import GrowthEngine from '@/components/admin/ideas-family/GrowthEngine';
 
 // Ideas & Growth Opportunities: the full Growth Engine screen (GrowthOpportunity
 // and RevenueOpportunity entities, PLATFORM_COLORS and COMP_COLORS configs,

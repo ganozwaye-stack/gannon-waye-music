@@ -141,9 +141,9 @@ export default function SystemsApprovals() {
           ))}
         </SectionCard>
 
-        <SectionCard title="Audit Log (Recent)" count={auditLogs.length} actionLabel="Full log" actionPath="/admin/audit-log">
+        <SectionCard title="Audit Log (Recent)" count={auditLogs.length} actionLabel="Full log" actionPath="/admin/qa-command-centre">
           {auditLogs.length === 0 ? <EmptyState message="No audit entries." /> : auditLogs.slice(0, 10).map(a => (
-            <RowItem key={a.id} title={a.action || a.event_type || 'Event'} subtitle={a.description || a.user_email || ''} status={a.severity || 'info'} statusLevel="grey" path="/admin/audit-log" />
+            <RowItem key={a.id} title={a.action || a.event_type || 'Event'} subtitle={a.description || a.user_email || ''} status={a.severity || 'info'} statusLevel="grey" path="/admin/qa-command-centre" />
           ))}
         </SectionCard>
       </div>

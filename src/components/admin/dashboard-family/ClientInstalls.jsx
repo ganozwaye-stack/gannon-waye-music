@@ -58,7 +58,7 @@ export default function ClientInstalls() {
           <p className="text-muted-foreground text-sm mt-1 font-body">Blueprint installation tracker — private pipeline</p>
         </div>
         <div className="flex gap-2">
-          <Link to="/admin/blueprint-builder"><Button variant="outline">View Packages</Button></Link>
+          <Link to="/admin/ideas-engine"><Button variant="outline">View Packages</Button></Link>
           <Button onClick={() => setShowForm(true)} className="gradient-gold-button border-0"><Plus className="w-4 h-4 mr-1" />Add Client</Button>
         </div>
       </div>

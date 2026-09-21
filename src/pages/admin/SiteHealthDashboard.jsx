@@ -161,7 +161,7 @@ export default function SiteHealthDashboard() {
         });
         setAiResult({ title: 'AI SEO Improvements', summary: res.summary, fixes: res.fixes });
       } else if (action === 'links') {
-        navigate('/admin/link-integrity-audit');
+        navigate('/admin/qa-command-centre');
         setAiLoading(null);
         return;
       } else if (action === 'images') {

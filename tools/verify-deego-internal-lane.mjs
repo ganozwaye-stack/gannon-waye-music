@@ -143,7 +143,7 @@ requireSnippet('src/components/admin/dashboard/DeegoRecommendations.jsx', 'no wo
 requireSnippet('src/pages/admin/AgentMessageBus.jsx', 'Internal Agent Message Ledger');
 requireSnippet('src/pages/admin/AgentToolRegistry.jsx', 'This page is not an executor or policy-enforcement layer.');
 forbid('src/pages/admin/AgentToolRegistry.jsx', /Safe to Auto-run|→ Execute →/, 'false tool-execution claim');
-requireSnippet('src/pages/admin/ResearchGrid.jsx', 'Legacy automatic research is held.');
+requireSnippet('src/components/admin/ideas-family/ResearchGrid.jsx', 'Legacy automatic research is held.');
 
 if (failures.length > 0) {
   console.error('Deego internal-lane check failed:');

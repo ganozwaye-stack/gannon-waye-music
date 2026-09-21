@@ -191,7 +191,7 @@ export default function OpenAICommandCentre() {
             <CardHeader className="pb-2"><CardTitle className="text-sm">System Status</CardTitle></CardHeader>
             <CardContent className="space-y-2">
               {[
-                ['Store repair', 'FAILED — NEEDS FIX', 'red', '/admin/autonomous-repair-loop'],
+                ['Store repair', 'FAILED — NEEDS FIX', 'red', '/admin/qa-command-centre'],
                 ['AI Message Bus', `${messages.length} messages`, 'green', '/admin/agent-workbench'],
                 ['Content Command', 'BUILT BUT UNTESTED', 'amber', '/admin/content-command'],
                 ['Metricool', 'BLOCKED BY PROFILE/ACCOUNT ID', 'orange', '/admin/metricool-command'],
