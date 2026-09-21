@@ -78,7 +78,7 @@ function assertHeldAgentCard(dashboard, agentName, label) {
 }
 
 function assertHeldAgentCards() {
-  const dashboard = read('src/pages/admin/AgentRevenueStatus.jsx');
+  const dashboard = read('src/components/admin/agent-workbench/AgentRevenueStatus.jsx');
   assertHeldAgentCard(dashboard, 'GrowthOpportunityScanner', 'Growth Opportunity');
   assertHeldAgentCard(dashboard, 'ExecutiveMorningBrief', 'Executive Brief');
 }
@@ -173,15 +173,15 @@ const required = [
 
   ['base44/workflows/Hourly System Alert Check.jsonc', '"mode": "legacy_hold"'],
   ['src/pages/admin/FinalSystemStatus.jsx', 'Paused pending owner test'],
-  ['src/pages/admin/AgentRevenueStatus.jsx', "invokeArgs: { mode: 'admin_supervisor' }"],
+  ['src/components/admin/agent-workbench/AgentRevenueStatus.jsx', "invokeArgs: { mode: 'admin_supervisor' }"],
   ['src/pages/admin/NewReleaseStudio.jsx', 'Create a private release draft and blank review shells.'],
   ['src/pages/admin/NewReleaseStudio.jsx', 'auto_publish_on_release_date: false'],
   ['src/pages/admin/NewReleaseStudio.jsx', 'private_draft_acknowledged: privateDraftAcknowledged'],
   ['base44/entities/Release.jsonc', 'New Release Studio never authorises automatic publication'],
   ['base44/entities/Release.jsonc', 'There is no automatic distributor sync'],
   ['DISASTER_RECOVERY.md', 'npm run deploy'],
-  ['src/pages/admin/AgentRevenueStatus.jsx', 'const SAFETY_HOLD_ACTIVE = true;'],
-  ['src/pages/admin/AgentRevenueStatus.jsx', 'disabled={isRunning || agent.disabled}'],
+  ['src/components/admin/agent-workbench/AgentRevenueStatus.jsx', 'const SAFETY_HOLD_ACTIVE = true;'],
+  ['src/components/admin/agent-workbench/AgentRevenueStatus.jsx', 'disabled={isRunning || agent.disabled}'],
   ['src/pages/admin/GrowthEngine.jsx', 'Safety hold active'],
   ['src/pages/admin/IntelligenceToIncome.jsx', 'Safety hold active'],
   ['base44/functions/agentProposalScanner/entry.ts', 'Ecommerce scan requires Gannon owner sign-in.'],
@@ -194,7 +194,7 @@ const required = [
 
 const forbidden = [
   ['src/pages/admin/FinalSystemStatus.jsx', 'agentProposalScanner, growthOpportunityScanner, agentIntelligenceLoop all running daily'],
-  ['src/pages/admin/AgentRevenueStatus.jsx', "purpose: 'Researches topics, saves insights to KnowledgeVault'"],
+  ['src/components/admin/agent-workbench/AgentRevenueStatus.jsx', "purpose: 'Researches topics, saves insights to KnowledgeVault'"],
   ['base44/functions/executiveMorningBrief/entry.ts', 'createClientFromRequest'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'asServiceRole'],
   ['base44/functions/executiveMorningBrief/entry.ts', 'Core.InvokeLLM'],

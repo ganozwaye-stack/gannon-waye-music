@@ -109,9 +109,9 @@ requireSnippet('base44/entities/AgentTaskLog.jsonc', '"default": false');
 requireSnippet('base44/entities/AgentTaskLog.jsonc', '"create": {');
 requireSnippet('base44/entities/AgentTaskLog.jsonc', '"role": "admin"');
 
-requireSnippet('src/pages/admin/AgentRegistry.jsx', 'This registry is descriptive only.');
+requireSnippet('src/components/admin/agent-workbench/AgentRegistry.jsx', 'This registry is descriptive only.');
 forbid(
-  'src/pages/admin/AgentRegistry.jsx',
+  'src/components/admin/agent-workbench/AgentRegistry.jsx',
   /base44\.entities\.AgentTaskLog\.create|All sub-systems online and verified|Activate Agent|Run Now|Fully safe to automate|Allowed to auto-run/,
   'unverified agent execution or activation control',
 );
@@ -133,12 +133,12 @@ forbid('src/components/admin/DeegoSupervisorDesk.jsx', /getWhatsAppConnectURL|Op
 
 requireSnippet('src/pages/admin/AgentWorkbench.jsx', 'Held — no verified executor');
 forbid('src/pages/admin/AgentWorkbench.jsx', /base44\.functions\.invoke|Run Now|Auto-runs/, 'legacy runner control');
-requireSnippet('src/pages/admin/AgentIntelligence.jsx', 'Legacy automated runners are held.');
-forbid('src/pages/admin/AgentIntelligence.jsx', /base44\.functions\.invoke\('autonomousResearch'|base44\.functions\.invoke\('autonomousTrendEngine'/, 'legacy research runner control');
-requireSnippet('src/pages/admin/ContentDashboard.jsx', 'Legacy research and trend runners are held');
-forbid('src/pages/admin/ContentDashboard.jsx', /base44\.functions\.invoke\('autonomousResearch'|base44\.functions\.invoke\('autonomousTrendEngine'/, 'legacy dashboard runner control');
-requireSnippet('src/pages/admin/OrchestratorChat.jsx', 'Deego is planning-only:');
-forbid('src/pages/admin/OrchestratorChat.jsx', /Start \/execution mode|Run daily_money_radar/, 'false Deego execution prompt');
+requireSnippet('src/components/admin/agent-workbench/AgentIntelligence.jsx', 'Legacy automated runners are held.');
+forbid('src/components/admin/agent-workbench/AgentIntelligence.jsx', /base44\.functions\.invoke\('autonomousResearch'|base44\.functions\.invoke\('autonomousTrendEngine'/, 'legacy research runner control');
+requireSnippet('src/components/admin/content-studio/monetization/ContentDashboardPanel.jsx', 'Legacy research and trend runners are held');
+forbid('src/components/admin/content-studio/monetization/ContentDashboardPanel.jsx', /base44\.functions\.invoke\('autonomousResearch'|base44\.functions\.invoke\('autonomousTrendEngine'/, 'legacy dashboard runner control');
+requireSnippet('src/components/admin/agent-workbench/OrchestratorChat.jsx', 'Deego is planning-only:');
+forbid('src/components/admin/agent-workbench/OrchestratorChat.jsx', /Start \/execution mode|Run daily_money_radar/, 'false Deego execution prompt');
 requireSnippet('src/components/admin/dashboard/DeegoRecommendations.jsx', 'no work has started or been sent.');
 requireSnippet('src/pages/admin/AgentMessageBus.jsx', 'Internal Agent Message Ledger');
 requireSnippet('src/pages/admin/AgentToolRegistry.jsx', 'This page is not an executor or policy-enforcement layer.');

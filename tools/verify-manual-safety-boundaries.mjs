@@ -139,8 +139,8 @@ requireSnippet('src/components/admin/ReleasePackReport.jsx', 'Automatic launch-p
 requireSnippet('src/pages/admin/AutonomousOps.jsx', 'Safety hold active');
 forbid('src/pages/admin/AutonomousOps.jsx', /base44\.functions\.invoke|ApprovalQueue\.update|updateApproval/, 'legacy automation execution or approval mutation');
 
-requireSnippet('src/pages/admin/ContentAutomate.jsx', 'Safety hold active');
-forbid('src/pages/admin/ContentAutomate.jsx', /base44\.functions\.invoke|handleRunAutomation|Run Generator/, 'legacy content-generator execution');
+requireSnippet('src/components/admin/content-studio/monetization/ContentAutomatePanel.jsx', 'Safety hold active');
+forbid('src/components/admin/content-studio/monetization/ContentAutomatePanel.jsx', /base44\.functions\.invoke|handleRunAutomation|Run Generator/, 'legacy content-generator execution');
 
 requireSnippet('base44/functions/deegoTelegram/entry.ts', 'approvalMatchesDraft');
 requireSnippet('base44/functions/deegoTelegram/entry.ts', "config.send_enabled !== true");
