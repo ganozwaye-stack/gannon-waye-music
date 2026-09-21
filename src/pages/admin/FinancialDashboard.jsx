@@ -8,13 +8,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import ExecutiveFinancialSummary from '@/components/admin/ExecutiveFinancialSummary';
+import RevenueCommandTab from '@/components/admin/financials/RevenueCommandTab';
+import DiscountsPromosTab from '@/components/admin/financials/DiscountsPromosTab';
+import StripeWebhooksTab from '@/components/admin/financials/StripeWebhooksTab';
+import LandedCostTab from '@/components/admin/financials/LandedCostTab';
 
 const GST_RATE = 0.1;
 
 function MetricCard({ icon: Icon, label, value, subtext, color = 'primary', onClick, linkTo }) {
   const CardComponent = linkTo ? Link : 'div';
   const props = linkTo ? { to: linkTo, className: 'cursor-pointer hover:border-primary/40 transition-colors' } : { onClick, className: onClick ? 'cursor-pointer hover:border-primary/40 transition-colors' : '' };
-  
+
   return (
     <CardComponent {...props}>
       <div className="bg-card border border-border/40 rounded-2xl p-5 relative group">
@@ -66,7 +70,7 @@ export default function FinancialDashboard() {
         if (product) {
           const itemPrice = item.price || product.sale_price || product.price;
           const itemCost = product.cost_price || (product.sale_price || product.price || 0) * 0.4;
-          
+
           merchRevenue += itemPrice * (item.quantity || 1);
           productCosts[item.product_id] = (productCosts[item.product_id] || 0) + itemCost * (item.quantity || 1);
           merchUnits += (item.quantity || 1);
@@ -95,14 +99,14 @@ export default function FinancialDashboard() {
 
   const productMetrics = useMemo(() => {
     const breakdown = {};
-    
+
     for (const order of orders) {
       for (const item of (order.items || [])) {
         const product = products.find(p => p.id === item.product_id);
         if (product) {
           const itemPrice = item.price || product.sale_price || product.price;
           const itemCost = product.cost_price || (product.sale_price || product.price || 0) * 0.4;
-          
+
           if (!breakdown[item.product_id]) {
             breakdown[item.product_id] = { name: product.name, units: 0, revenue: 0, cost: 0, salePrice: product.sale_price || product.price || 0 };
           }
@@ -120,6 +124,16 @@ export default function FinancialDashboard() {
 
   return (
     <div className="space-y-8">
+      <Tabs defaultValue="overview" className="w-full space-y-6">
+        <TabsList className="h-auto flex-wrap justify-start gap-1">
+          <TabsTrigger value="overview">Overview</TabsTrigger>
+          <TabsTrigger value="revenue-command">Revenue Command &amp; Proposals</TabsTrigger>
+          <TabsTrigger value="discounts-promos">Promo Codes &amp; Discount Guard</TabsTrigger>
+          <TabsTrigger value="stripe-webhooks">Stripe Intelligence &amp; Webhook Health</TabsTrigger>
+          <TabsTrigger value="landed-cost">Landed Cost Calculator</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview" className="space-y-8">
       {/* Header with Actions */}
       <div className="flex items-center justify-between flex-wrap gap-4">
         <div>
@@ -187,32 +201,32 @@ export default function FinancialDashboard() {
         animate={{ opacity: 1, y: 0 }}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
       >
-        <MetricCard 
-          icon={DollarSign} 
-          label="Merch Revenue" 
-          value={`$${metrics.merchRevenue.toFixed(2)}`} 
+        <MetricCard
+          icon={DollarSign}
+          label="Merch Revenue"
+          value={`$${metrics.merchRevenue.toFixed(2)}`}
           subtext={`${metrics.merchUnits} units sold`}
           linkTo="/admin/orders"
         />
-        <MetricCard 
-          icon={TrendingDown} 
-          label="Cost of Goods" 
-          value={`$${metrics.totalMerchCost.toFixed(2)}`} 
+        <MetricCard
+          icon={TrendingDown}
+          label="Cost of Goods"
+          value={`$${metrics.totalMerchCost.toFixed(2)}`}
           subtext="Production + sourcing"
           color="destructive"
           linkTo="/admin/merch-financials"
         />
-        <MetricCard 
-          icon={TrendingUp} 
-          label="Gross Profit" 
-          value={`$${metrics.merchGross.toFixed(2)}`} 
+        <MetricCard
+          icon={TrendingUp}
+          label="Gross Profit"
+          value={`$${metrics.merchGross.toFixed(2)}`}
           subtext={`${metrics.merchMarginPercent}% margin`}
           linkTo="/admin/financials"
         />
-        <MetricCard 
-          icon={DollarSign} 
-          label="GST Collected" 
-          value={`$${metrics.totalGST.toFixed(2)}`} 
+        <MetricCard
+          icon={DollarSign}
+          label="GST Collected"
+          value={`$${metrics.totalGST.toFixed(2)}`}
           subtext="To remit to ATO"
           linkTo="/admin/financials"
         />
@@ -244,7 +258,7 @@ export default function FinancialDashboard() {
                 </div>
                 <div>
                   <p className="font-display text-sm text-foreground">Enter Product Costs</p>
-                  <p className="font-body text-xs text-muted-foreground">Set cost prices & margins</p>
+                  <p className="font-body text-xs text-muted-foreground">Set cost prices &amp; margins</p>
                 </div>
               </div>
             </CardContent>
@@ -259,7 +273,7 @@ export default function FinancialDashboard() {
                 </div>
                 <div>
                   <p className="font-display text-sm text-foreground">Manage Orders</p>
-                  <p className="font-body text-xs text-muted-foreground">Process & track</p>
+                  <p className="font-body text-xs text-muted-foreground">Process &amp; track</p>
                 </div>
               </div>
             </CardContent>
@@ -405,6 +419,24 @@ export default function FinancialDashboard() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+      </Tabs>
+        </TabsContent>
+
+        <TabsContent value="revenue-command" className="space-y-6">
+          <RevenueCommandTab />
+        </TabsContent>
+
+        <TabsContent value="discounts-promos" className="space-y-6">
+          <DiscountsPromosTab />
+        </TabsContent>
+
+        <TabsContent value="stripe-webhooks" className="space-y-6">
+          <StripeWebhooksTab />
+        </TabsContent>
+
+        <TabsContent value="landed-cost" className="space-y-6">
+          <LandedCostTab />
         </TabsContent>
       </Tabs>
     </div>
