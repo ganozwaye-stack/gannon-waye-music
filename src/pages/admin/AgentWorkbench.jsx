@@ -10,6 +10,12 @@ import {
   Eye, TrendingUp, Shield, Star, BarChart2,
   Calendar, Layers, Users, Lock, ChevronRight
 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import OrchestratorTab from '@/components/admin/agent-workbench/OrchestratorTab';
+import RegistryTab from '@/components/admin/agent-workbench/RegistryTab';
+import TaskLogsTab from '@/components/admin/agent-workbench/TaskLogsTab';
+import LearningMemoryTab from '@/components/admin/agent-workbench/LearningMemoryTab';
+import TrainingTab from '@/components/admin/agent-workbench/TrainingTab';
 
 const AGENTS = [
   {
@@ -164,6 +170,18 @@ export default function AgentWorkbench() {
         <p className="text-muted-foreground text-sm mt-1">Registry catalogue · historical records · approval context</p>
       </div>
 
+      <Tabs defaultValue="workbench" className="w-full space-y-4">
+        <TabsList className="h-auto flex-wrap justify-start gap-1">
+          <TabsTrigger value="workbench">Workbench</TabsTrigger>
+          <TabsTrigger value="orchestrator">Chat &amp; Orchestrator</TabsTrigger>
+          <TabsTrigger value="registry">Registry &amp; Revenue</TabsTrigger>
+          <TabsTrigger value="task-logs">Task Logs</TabsTrigger>
+          <TabsTrigger value="learning-memory">Learning &amp; Memory</TabsTrigger>
+          <TabsTrigger value="training-credentials">Training &amp; Credentials</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="workbench" className="space-y-6">
+
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
@@ -270,6 +288,29 @@ export default function AgentWorkbench() {
         <Link to="/admin/daily-post-engine"><Button variant="outline" size="sm">Daily Post Engine</Button></Link>
         <Link to="/admin/agent-learning"><Button variant="outline" size="sm">Agent Learning</Button></Link>
       </div>
+
+        </TabsContent>
+
+        <TabsContent value="orchestrator" className="space-y-6">
+          <OrchestratorTab />
+        </TabsContent>
+
+        <TabsContent value="registry" className="space-y-6">
+          <RegistryTab />
+        </TabsContent>
+
+        <TabsContent value="task-logs" className="space-y-6">
+          <TaskLogsTab />
+        </TabsContent>
+
+        <TabsContent value="learning-memory" className="space-y-6">
+          <LearningMemoryTab />
+        </TabsContent>
+
+        <TabsContent value="training-credentials" className="space-y-6">
+          <TrainingTab />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

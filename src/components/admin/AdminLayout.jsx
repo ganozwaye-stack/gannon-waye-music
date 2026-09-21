@@ -4,7 +4,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, ShoppingBag, Package, Globe, LogOut,
   Mail, Palette, Heart, DollarSign, Activity, Calendar, Search, Command,
-  ChevronRight, Menu, X, Zap, Shield, Eye, Megaphone, Bell, Lock,
+  ChevronRight, Menu, X, Zap, Shield, Eye, Megaphone, Bell,
   GraduationCap, AlertTriangle, Terminal,
   Film, MessageSquare, Sun, CheckCircle2, ListTodo
 } from 'lucide-react';
@@ -70,9 +70,6 @@ const NAV_SECTIONS = [
       { label: 'Master Handover Timeline', path: '/admin/master-handover', icon: ListTodo },
       { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
       { label: 'Release Email Studio', path: '/admin/release-email-studio', icon: Mail },
-      // Required by tools/verify-release-control-desk.mjs — the owner must always
-      // have a nav route to the Go Live desk. Do not remove this entry.
-      { label: 'Release Control Desk', path: '/admin/release-control', icon: Lock, ownerOnly: true },
     ]
   },
   {

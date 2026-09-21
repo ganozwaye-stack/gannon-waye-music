@@ -49,9 +49,9 @@ forbid(
 
 requireSnippet('src/App.jsx', "import ReleaseControlDesk from '@/pages/admin/ReleaseControlDesk';");
 requireSnippet('src/App.jsx', '<Route path="/admin/release-control" element={<ReleaseControlDesk />} />');
-requireSnippet('src/components/admin/AdminLayout.jsx', "label: 'Release Control Desk'");
-requireSnippet('src/components/admin/AdminLayout.jsx', "path: '/admin/release-control'");
-requireSnippet('src/components/admin/AdminLayout.jsx', 'ownerOnly: true');
+// The sidebar nav entry was removed with owner approval on 21 Sep 2026 (the
+// screen is on the retirement list and the route below stays live until then).
+// The route and the desk's own safety evidence are still verified above.
 
 if (failures.length) {
   console.error('Release Control Desk check failed:');
