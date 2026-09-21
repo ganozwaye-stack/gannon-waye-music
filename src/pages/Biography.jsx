@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Music, Heart, Mic, Headphones, Quote, BookOpen, Star } from 'lucide-react';
 import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
+import GoldenEmbers from '@/components/three/GoldenEmbers';
 
 // Gannon, side profile, looking up into the light through the clouds. The hero.
 const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
@@ -41,7 +42,7 @@ export default function Biography() {
     <div className="min-h-screen pb-20">
 
       {/* Hero — Gannon in the clouds, looking up into the light */}
-      <section className="relative overflow-hidden min-h-[32vh] sm:min-h-[38vh] flex items-end">
+      <section className="relative overflow-hidden min-h-screen flex items-end">
         <img
           src={HERO_PORTRAIT}
           alt="Gannon Waye, looking up into the light"
@@ -55,8 +56,12 @@ export default function Biography() {
           className="absolute inset-0"
           style={{ background: 'radial-gradient(85% 60% at 50% 35%, transparent 0%, rgba(8,8,14,0.55) 100%)' }}
         />
+        {/* Faint rising embers over the portrait */}
+        <div className="absolute inset-0 opacity-40 pointer-events-none">
+          <GoldenEmbers density={0.5} intensity={0.45} />
+        </div>
 
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 md:px-8 pt-20 pb-6 text-center">
+        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 md:px-8 pt-20 pb-12 md:pb-16 text-center">
           <motion.p
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
