@@ -230,7 +230,7 @@ export default function Notifications() {
   const SUMMARY_CARDS = [
     { key: 'unread', label: 'Unread', value: counts.unread, color: 'text-red-400', bg: 'bg-red-500/10', border: counts.unread > 0 ? 'border-red-500/30 hover:border-red-500/60' : 'border-border hover:border-primary/40', urgent: counts.unread > 0 },
     { key: 'needs-action', label: 'Needs Action', value: counts['needs-action'], color: 'text-primary', bg: 'bg-primary/10', border: counts['needs-action'] > 0 ? 'border-primary/30 hover:border-primary/60' : 'border-border hover:border-primary/40', urgent: counts['needs-action'] > 0 },
-    { key: 'needs-approval', label: 'Approval Waiting', value: proposals.length, color: 'text-orange-400', bg: 'bg-orange-500/10', border: proposals.length > 0 ? 'border-orange-500/30 hover:border-orange-500/60' : 'border-border hover:border-primary/40', urgent: proposals.length > 0, link: '/admin/revenue-actions' },
+    { key: 'needs-approval', label: 'Approval Waiting', value: proposals.length, color: 'text-orange-400', bg: 'bg-orange-500/10', border: proposals.length > 0 ? 'border-orange-500/30 hover:border-orange-500/60' : 'border-border hover:border-primary/40', urgent: proposals.length > 0, link: '/admin/financials' },
     { key: 'critical', label: 'Critical', value: counts.critical, color: 'text-red-500', bg: 'bg-red-700/10', border: counts.critical > 0 ? 'border-red-700/40 hover:border-red-500/60' : 'border-border hover:border-primary/40', urgent: counts.critical > 0 },
     { key: 'all', label: 'Total', value: counts.all, color: 'text-muted-foreground', bg: 'bg-muted', border: 'border-border hover:border-primary/40' },
   ];
@@ -305,7 +305,7 @@ export default function Notifications() {
             <p className="font-semibold text-sm text-primary">{proposals.length} Agent Proposal{proposals.length > 1 ? 's' : ''} Awaiting Approval</p>
             <p className="text-xs text-muted-foreground">Agents have prepared ready-to-publish revenue actions. Your approval is required before anything goes live.</p>
           </div>
-          <Link to="/admin/revenue-actions">
+          <Link to="/admin/financials">
             <Button size="sm" className="bg-primary/20 text-primary hover:bg-primary/30 border border-primary/30 gap-1 text-xs shrink-0">
               <Eye className="w-3 h-3" />Review Proposals
             </Button>
@@ -382,7 +382,7 @@ const ROUTE_MAP = {
   high_value_supporter: '/admin/supporters',
   automation_failed: '/admin/agent-workbench',
   email_failed: '/admin/subscribers',
-  payment_warning: '/admin/stripe-command-centre',
+  payment_warning: '/admin/financials',
   growth_spike: '/admin/growth-engine',
   system: '/admin/site-health',
   like: '/admin/fans',

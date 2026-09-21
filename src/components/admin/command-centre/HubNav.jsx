@@ -11,7 +11,7 @@ const GROUPS = [
   {
     category: 'Owner release machine',
     items: [
-      { label: 'New Release Studio', path: '/admin/new-release-studio', icon: Sparkles, desc: 'Create a private release draft' },
+      { label: 'New Release Studio', path: '/admin/release-email-studio', icon: Sparkles, desc: 'Create a private release draft' },
       { label: 'One Press Launch Packet', path: '/admin/launch-packet-studio', icon: Rocket, desc: 'Draft the whole packet in one press' },
       { label: 'Hero Design Studio', path: '/admin/hero-design-studio', icon: Palette, desc: 'Design the home hero' },
       { label: 'Store Hotspot Editor', path: '/admin/merch-visual-lab', icon: Crosshair, desc: 'Zone the locked boutique photo' },

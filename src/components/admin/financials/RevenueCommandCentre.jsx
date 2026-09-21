@@ -177,7 +177,7 @@ function OppDetailModal({ opp, onClose, onSendToApproval, onUpdateStatus }) {
             <Button variant="ghost" size="sm" onClick={() => handleStatus('archived')} disabled={acting} className="text-xs text-muted-foreground">
               Snooze
             </Button>
-            <Link to="/admin/revenue-actions">
+            <Link to="/admin/financials">
               <Button variant="outline" className="gap-1 text-xs"><Eye className="w-3 h-3" />Revenue Actions</Button>
             </Link>
           </div>
@@ -256,7 +256,7 @@ export default function RevenueCommandCentre() {
         source: opp.source_agent || 'RevenueAgent',
         requires_action: true,
         linked_entity: 'AgentActionProposal',
-        linked_route: '/admin/revenue-actions',
+        linked_route: '/admin/financials',
         is_read: false,
       });
       qc.invalidateQueries({ queryKey: ['revenue_opportunities'] });
@@ -300,7 +300,7 @@ export default function RevenueCommandCentre() {
           <Button variant="outline" size="sm" onClick={() => refetch()} className="gap-1 text-xs">
             <RefreshCw className="w-3 h-3" />Refresh
           </Button>
-          <Link to="/admin/revenue-actions">
+          <Link to="/admin/financials">
             <Button size="sm" className="gap-1 text-xs"><Zap className="w-3 h-3" />Revenue Actions</Button>
           </Link>
         </div>

@@ -406,8 +406,8 @@ export default function PaymentDiagnosticsNew() {
             <Button variant="outline" size="sm" className="gap-1"><Webhook className="w-3 h-3" />Stripe Webhooks</Button>
           </a>
           <Link to="/admin/orders"><Button variant="outline" size="sm" className="gap-1"><Package className="w-3 h-3" />All Orders</Button></Link>
-          <Link to="/admin/webhook-health"><Button variant="outline" size="sm" className="gap-1"><Webhook className="w-3 h-3" />Webhook Health</Button></Link>
-          <Link to="/admin/stripe-command-centre"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Stripe Command Centre</Button></Link>
+          <Link to="/admin/financials"><Button variant="outline" size="sm" className="gap-1"><Webhook className="w-3 h-3" />Webhook Health</Button></Link>
+          <Link to="/admin/financials"><Button variant="outline" size="sm" className="gap-1"><ExternalLink className="w-3 h-3" />Stripe Command Centre</Button></Link>
         </CardContent>
       </Card>
 

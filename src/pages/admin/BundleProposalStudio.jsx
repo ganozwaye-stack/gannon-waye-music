@@ -263,7 +263,7 @@ export default function BundleProposalStudio() {
         source: 'BundleProposalStudio',
         requires_action: true,
         linked_entity: 'AgentActionProposal',
-        linked_route: '/admin/revenue-actions',
+        linked_route: '/admin/financials',
       });
       toast.success('Bundle submitted for approval — check Revenue Actions');
       qc.invalidateQueries({ queryKey: ['bundle-proposals'] });
@@ -332,7 +332,7 @@ export default function BundleProposalStudio() {
                     <p className="font-semibold text-sm">{p.title}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{p.estimated_revenue_impact}</p>
                   </div>
-                  <Link to="/admin/revenue-actions">
+                  <Link to="/admin/financials">
                     <Button size="sm" variant="outline" className="text-xs gap-1"><Eye className="w-3 h-3" />Review</Button>
                   </Link>
                 </div>

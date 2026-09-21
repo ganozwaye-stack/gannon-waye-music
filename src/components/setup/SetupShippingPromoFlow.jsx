@@ -124,7 +124,7 @@ export default function SetupShippingPromoFlow({ onComplete, onBlocked }) {
             );
           })}
         </div>
-        <Button variant="outline" size="sm" className="mt-3 gap-2" onClick={() => window.open('/admin/promo-code-audit', '_blank')}>
+        <Button variant="outline" size="sm" className="mt-3 gap-2" onClick={() => window.open('/admin/financials', '_blank')}>
           <ExternalLink className="w-3 h-3" /> Open Full Promo Code Audit
         </Button>
       </StepBlock>

@@ -232,7 +232,7 @@ export default function Distributors() {
         <CardContent className="p-4">
           <p className="text-sm font-medium text-primary mb-2">One-button releases</p>
           <p className="text-xs text-muted-foreground mb-3">Upload a new song once and save its name, release date, artwork and lyrics to your admin. Too Lost delivery remains behind your final approval.</p>
-          <Link to="/admin/new-release-studio">
+          <Link to="/admin/release-email-studio">
             <Button size="sm" className="text-xs"><Rocket className="w-3 h-3 mr-1" />Open New Release Studio</Button>
           </Link>
         </CardContent>

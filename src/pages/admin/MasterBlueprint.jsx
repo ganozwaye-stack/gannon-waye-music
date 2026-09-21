@@ -126,19 +126,19 @@ const ADMIN_ROUTES = [
   { label: 'Agent Registry',           path: '/admin/agent-workbench',          status: 'ok' },
   { label: 'Knowledge Vault',          path: '/admin/knowledge-vault',         status: 'ok' },
   { label: 'Risk Alerts',              path: '/admin/risk-alerts',             status: 'ok' },
-  { label: 'Stripe Command Centre',    path: '/admin/stripe-command-centre',   status: 'ok' },
-  { label: 'Webhook Health',           path: '/admin/webhook-health',          status: 'ok' },
+  { label: 'Stripe Command Centre',    path: '/admin/financials',   status: 'ok' },
+  { label: 'Webhook Health',           path: '/admin/financials',          status: 'ok' },
   { label: 'Payment Diagnostics',      path: '/admin/payment-diagnostics',     status: 'ok' },
   { label: 'Site Health',              path: '/admin/site-health',             status: 'ok' },
   { label: 'QA Command Centre',        path: '/admin/qa-command-centre',       status: 'ok' },
   { label: 'Playwright Test Centre',   path: '/admin/playwright-test-centre',  status: 'ok' },
   { label: 'Notifications',           path: '/admin/notifications',            status: 'ok' },
-  { label: 'Promo Codes',             path: '/admin/promo-codes',              status: 'ok' },
+  { label: 'Promo Codes',             path: '/admin/financials',              status: 'ok' },
   { label: 'Shipping Rates',          path: '/admin/shipping-rates',           status: 'ok' },
   { label: 'Supporters',              path: '/admin/supporters',               status: 'ok' },
   { label: 'Subscribers',             path: '/admin/subscribers',              status: 'ok' },
   { label: 'Financial Dashboard',     path: '/admin/financials',               status: 'ok' },
-  { label: 'Landed Cost Calculator',  path: '/admin/landed-cost-calculator',   status: 'ok' },
+  { label: 'Landed Cost Calculator',  path: '/admin/financials',   status: 'ok' },
   { label: 'Procurement Command',     path: '/admin/procurement-command',      status: 'ok' },
   { label: 'Audit Log',               path: '/admin/audit-log',                status: 'ok' },
   // Missing / not yet built
@@ -494,12 +494,12 @@ export default function MasterBlueprint() {
       {/* Commerce & Stripe */}
       <Section title="🛒 Commerce / Stripe / Orders" icon={ShoppingCart}>
         <RouteRow label="Stripe Live Key" status="review" note="Confirm Stripe Dashboard is in LIVE mode (not test mode)" />
-        <RouteRow label="Stripe Webhook" path="/admin/webhook-health" status="ok" note="Webhook connected — monitor for signature failures" />
+        <RouteRow label="Stripe Webhook" path="/admin/financials" status="ok" note="Webhook connected — monitor for signature failures" />
         <RouteRow label="Order Management" path="/admin/orders" status="ok" />
         <RouteRow label="Payment Diagnostics" path="/admin/payment-diagnostics" status="ok" />
         <RouteRow label="Duplicate Order Guard" status="ok" note="Idempotency enforced — Thea Elsworth duplicate handled" />
         <RouteRow label="Stripe Support Email" status="review" note="Update in Stripe Dashboard → Settings → Business → Support email. Do not use ganozwaye@gmail.com." />
-        <RouteRow label="Promo Codes" path="/admin/promo-codes" status="ok" />
+        <RouteRow label="Promo Codes" path="/admin/financials" status="ok" />
         <RouteRow label="Shipping Rates" path="/admin/shipping-rates" status="ok" />
       </Section>
 
@@ -557,7 +557,7 @@ export default function MasterBlueprint() {
               { label: 'Merch Visual Lab',     path: '/admin/merch-visual-lab' },
               { label: 'Campaign Images',      path: '/admin/content-studio' },
               { label: 'Orders',               path: '/admin/orders' },
-              { label: 'Stripe Command',       path: '/admin/stripe-command-centre' },
+              { label: 'Stripe Command',       path: '/admin/financials' },
               { label: 'Metricool',            path: '/admin/metricool-command' },
               { label: 'Business Details',     path: '/admin/settings/business-details' },
               { label: 'Notifications',        path: '/admin/notifications' },

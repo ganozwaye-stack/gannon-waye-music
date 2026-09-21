@@ -68,7 +68,7 @@ export default function TooLostCallback() {
               <Link to="/admin/distributors" className="gradient-gold-button rounded-full px-5 py-2 font-body text-xs tracking-wider uppercase">
                 Return to Distributor Hub
               </Link>
-              <Link to="/admin/new-release-studio" className="border border-border/50 rounded-full px-5 py-2 font-body text-xs tracking-wider uppercase text-muted-foreground">
+              <Link to="/admin/release-email-studio" className="border border-border/50 rounded-full px-5 py-2 font-body text-xs tracking-wider uppercase text-muted-foreground">
                 Open New Release Studio
               </Link>
             </div>

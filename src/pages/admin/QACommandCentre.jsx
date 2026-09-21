@@ -49,7 +49,6 @@ const ROUTES_TO_TEST = [
   { route: '/admin/bundle-proposal-studio', label: 'Bundle Proposal Studio', category: 'admin', loginRequired: true },
   { route: '/admin/website-evolution', label: 'Website Evolution', category: 'admin', loginRequired: true },
   { route: '/admin/todays-money-moves', label: "Today's Money Moves", category: 'admin', loginRequired: true },
-  { route: '/admin/revenue-actions', label: 'Revenue Actions', category: 'admin', loginRequired: true },
   { route: '/admin/intelligence-to-income', label: 'Intelligence to Income', category: 'admin', loginRequired: true },
   { route: '/admin/weekly-money-report', label: 'Weekly Money Report', category: 'admin', loginRequired: true },
   { route: '/admin/fan-conversion-engine', label: 'Fan Conversion Engine', category: 'admin', loginRequired: true },
@@ -72,11 +71,8 @@ const ROUTES_TO_TEST = [
   { route: '/admin/artist-business-setup', label: 'Artist Business Setup', category: 'admin', loginRequired: true },
   { route: '/admin/sync-licensing-command', label: 'Sync Licensing Command', category: 'admin', loginRequired: true },
   { route: '/admin/music-command', label: 'Music Command', category: 'admin', loginRequired: true },
-  { route: '/admin/releases', label: 'Releases', category: 'admin', loginRequired: true },
   // Admin — Payments
   { route: '/admin/payment-diagnostics', label: 'Payment Diagnostics', category: 'admin', loginRequired: true },
-  { route: '/admin/stripe-command-centre', label: 'Stripe Command Centre', category: 'admin', loginRequired: true },
-  { route: '/admin/webhook-health', label: 'Webhook Health', category: 'admin', loginRequired: true },
   // Admin — QA/Dev
   { route: '/admin/qa-command-centre', label: 'QA Command Centre', category: 'admin', loginRequired: true },
   { route: '/admin/playwright-test-centre', label: 'Playwright Test Centre', category: 'admin', loginRequired: true },

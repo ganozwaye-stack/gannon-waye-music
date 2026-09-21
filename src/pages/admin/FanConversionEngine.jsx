@@ -7,7 +7,7 @@ import { ArrowLeft, Users, Heart, Mail, ChevronRight } from 'lucide-react';
 
 const CONVERSION_LADDER = [
   { stage: 1, label: 'Unknown Visitor', desc: 'Arrives from TikTok, Spotify, or search', action: 'Capture email with lead magnet or signup form', route: '/admin/subscribers', color: 'text-muted-foreground' },
-  { stage: 2, label: 'Email Subscriber', desc: 'Has joined the mailing list', action: 'Welcome sequence + community invitation', route: '/admin/newsletter', color: 'text-blue-400' },
+  { stage: 2, label: 'Email Subscriber', desc: 'Has joined the mailing list', action: 'Welcome sequence + community invitation', route: '/admin/release-email-studio', color: 'text-blue-400' },
   { stage: 3, label: 'Community Member', desc: 'Engaged with posts, left a comment', action: 'Personal reply from Gannon + featured in community', route: '/admin/fans', color: 'text-cyan-400' },
   { stage: 4, label: 'First-Time Buyer', desc: 'Purchased one merch item', action: 'Thank-you note + introduce supporter tiers', route: '/admin/orders', color: 'text-green-400' },
   { stage: 5, label: 'Repeat Buyer', desc: 'Purchased 2+ items', action: 'VIP early access + bundle offer', route: '/admin/orders', color: 'text-primary' },
@@ -108,7 +108,7 @@ export default function FanConversionEngine() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
         {[
-          { to: '/admin/newsletter', icon: Mail, label: 'Newsletter', desc: 'Email campaigns and sequences' },
+          { to: '/admin/release-email-studio', icon: Mail, label: 'Newsletter', desc: 'Email campaigns and sequences' },
           { to: '/admin/fans', icon: Users, label: 'Fan Management', desc: 'Fan profiles and engagement' },
           { to: '/admin/supporters', icon: Heart, label: 'Supporters', desc: 'Backers and contributors' },
         ].map(({ to, icon: Icon, label, desc }) => (

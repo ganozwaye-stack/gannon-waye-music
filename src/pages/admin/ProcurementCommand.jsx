@@ -187,7 +187,7 @@ export default function ProcurementCommand() {
       <div className="flex flex-wrap gap-2">
         {[
           { label: 'Purchase Orders', path: '/admin/purchase-orders', icon: ShoppingCart },
-          { label: 'Landed Cost Calculator', path: '/admin/landed-cost-calculator', icon: Calculator },
+          { label: 'Landed Cost Calculator', path: '/admin/financials', icon: Calculator },
           { label: 'Stock Flow', path: '/admin/stock-flow-dashboard', icon: BarChart3 },
           { label: 'Supplier Products', path: '/admin/supplier-products', icon: Package },
           { label: 'Inventory Batches', path: '/admin/inventory-batches', icon: Boxes },

@@ -105,7 +105,7 @@ export default function WeeklyMoneyReport() {
           <CardHeader><CardTitle className="text-base">Top Actions This Week</CardTitle></CardHeader>
           <CardContent className="space-y-2">
             {[
-              { label: 'Review pending agent proposals', route: '/admin/revenue-actions', urgent: true },
+              { label: 'Review pending agent proposals', route: '/admin/financials', urgent: true },
               { label: 'Check payment diagnostics', route: '/admin/payment-diagnostics', urgent: false },
               { label: 'Review unread notifications', route: '/admin/notifications', urgent: false },
               { label: 'Approve/reject approval queue items', route: '/admin/approval-queue', urgent: false },

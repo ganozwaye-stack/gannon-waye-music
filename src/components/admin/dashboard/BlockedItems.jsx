@@ -12,7 +12,7 @@ const BLOCKED_ROUTES = [
   { match: /approval/i, path: '/admin/approval-queue' },
   { match: /sku|sourcing|procurement|supplier/i, path: '/admin/procurement-command' },
   { match: /function|deployment|deploy/i, path: '/admin/operation-registry' },
-  { match: /release/i, path: '/admin/releases' },
+  { match: /release/i, path: '/admin/release-email-studio' },
   { match: /merch|product|store|shop/i, path: '/admin/merch' },
   { match: /social|content|post/i, path: '/admin/content-studio' },
 ];

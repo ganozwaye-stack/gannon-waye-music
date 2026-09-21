@@ -286,7 +286,7 @@ export default function MusicFanHub() {
         {/* ─── TAB: RELEASES ─────────────────────────────────────────── */}
         <TabsContent value="releases" className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Card className="hover:border-primary/40 transition-colors cursor-pointer" onClick={() => window.location.href = '/admin/releases'}>
+            <Card className="hover:border-primary/40 transition-colors cursor-pointer" onClick={() => window.location.href = '/admin/release-email-studio'}>
               <CardHeader>
                 <CardTitle className="text-sm font-semibold text-white flex items-center justify-between">
                   Track Catalogue <Music className="w-4 h-4 text-primary" />
@@ -327,7 +327,7 @@ export default function MusicFanHub() {
               <CardDescription className="text-xs">Quick portal to send updates, release details, or merchandise offers directly to subscribers.</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/newsletter'}>
+              <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/release-email-studio'}>
                 <Mail className="w-4 h-4 mr-2 text-purple-400" /> Send a New Email Newsletter Campaign
               </Button>
               <Button variant="outline" className="w-full text-xs text-left justify-start border-border/40" onClick={() => window.location.href = '/admin/reveal-newsletter'}>

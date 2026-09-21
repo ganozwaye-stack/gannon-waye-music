@@ -102,7 +102,7 @@ export default function TodayView() {
   const releaseItems = releases
     .filter(r => r.status !== 'released' && r.status !== 'idea')
     .slice(0, 5)
-    .map(r => ({ title: r.title, subtitle: r.release_date ? `Due: ${new Date(r.release_date).toLocaleDateString('en-AU')}` : r.status, status: r.status, level: r.status === 'mastering' || r.status === 'recording' ? 'orange' : 'grey', path: '/admin/releases' }));
+    .map(r => ({ title: r.title, subtitle: r.release_date ? `Due: ${new Date(r.release_date).toLocaleDateString('en-AU')}` : r.status, status: r.status, level: r.status === 'mastering' || r.status === 'recording' ? 'orange' : 'grey', path: '/admin/release-email-studio' }));
 
   // ── Content ready for review ──
   const contentItems = contentPosts.slice(0, 5).map(c => ({ title: c.title || 'Untitled post', subtitle: c.platform || c.content_type || 'Content', status: 'Review', level: 'orange', path: '/admin/content-studio' }));
@@ -127,7 +127,7 @@ export default function TodayView() {
         <KpiCard icon={Shield} label="Pending Approvals" value={approvals.count} sublabel={`${approvals.fromApprovalQueue} queue + ${approvals.fromApprovalQueueItems} items`} path="/admin/approval-queue" tooltip={approvals.formula} level={approvals.count > 0 ? 'orange' : 'green'} />
         <KpiCard icon={DollarSign} label="Verified Revenue" value={`$${revenue.total.toLocaleString('en-AU')}`} sublabel={`${revenue.count} paid orders`} path="/admin/orders" tooltip={revenue.formula} level="green" />
         <KpiCard icon={AlertTriangle} label="Payment Exceptions" value={paymentExcs.count} sublabel="Needs resolution" path="/admin/payment-diagnostics" tooltip={paymentExcs.formula} level={paymentExcs.count > 0 ? 'red' : 'green'} />
-        <KpiCard icon={Star} label="Active Releases" value={releases.length} sublabel={`${releases.filter(r => r.status !== 'released').length} in progress`} path="/admin/releases" level="grey" />
+        <KpiCard icon={Star} label="Active Releases" value={releases.length} sublabel={`${releases.filter(r => r.status !== 'released').length} in progress`} path="/admin/release-email-studio" level="grey" />
       </div>
 
       {/* ── Do Now + Waiting ── */}
@@ -145,7 +145,7 @@ export default function TodayView() {
         <SectionCard title="Money & Customer Exceptions" count={moneyItems.length} actionLabel="Orders" actionPath="/admin/orders">
           {moneyItems.length === 0 ? <EmptyState message="No payment exceptions." icon={CheckCircle2} /> : moneyItems.map((item, i) => <RowItem key={i} {...item} />)}
         </SectionCard>
-        <SectionCard title="Release & Campaign Deadlines" count={releaseItems.length} actionLabel="All releases" actionPath="/admin/releases">
+        <SectionCard title="Release & Campaign Deadlines" count={releaseItems.length} actionLabel="All releases" actionPath="/admin/release-email-studio">
           {releaseItems.length === 0 ? <EmptyState message="No active release campaigns." /> : releaseItems.map((item, i) => <RowItem key={i} {...item} />)}
         </SectionCard>
       </div>

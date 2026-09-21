@@ -114,7 +114,7 @@ const ACTIONS = [
     category: 'Payments',
     title: 'Confirm Stripe is in LIVE mode (not test mode)',
     detail: 'Verify in Stripe Dashboard → Developers → toggle to Live mode. Also confirm support email in Stripe Settings → Business is NOT ganozwaye@gmail.com.',
-    link: '/admin/stripe-command-centre',
+    link: '/admin/financials',
     linkLabel: 'Stripe Command Centre',
     status: 'open',
     blocker: true,

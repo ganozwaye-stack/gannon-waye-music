@@ -97,9 +97,9 @@ export default function SiteHealthDashboard() {
     } else if (name.includes('gmail') || name.includes('sheets') || name.includes('connector')) {
       navigate('/admin/api-setup');
     } else if (name.includes('stripe') || name.includes('stripe configuration')) {
-      navigate('/admin/stripe-command-centre');
+      navigate('/admin/financials');
     } else if (name.includes('webhook') || name.includes('webhooks')) {
-      navigate('/admin/webhook-health');
+      navigate('/admin/financials');
     }
   };
 

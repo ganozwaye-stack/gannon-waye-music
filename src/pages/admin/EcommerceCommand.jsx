@@ -149,7 +149,7 @@ export default function EcommerceCommand() {
         {[
           { label: 'Product Insights', path: '/admin/product-insights' },
           { label: 'Merch Financials', path: '/admin/merch-financials' },
-          { label: 'Promo Codes', path: '/admin/promo-codes' },
+          { label: 'Promo Codes', path: '/admin/financials' },
           { label: 'Orders & Shipping', path: '/admin/orders' },
         ].map(l => (
           <Link key={l.path} to={l.path}>

@@ -119,7 +119,7 @@ export default function ReleasePackReport({ result }) {
         <Link to="/admin/hero-design-studio" className="font-body text-xs tracking-wider uppercase border border-primary/40 text-primary rounded-full px-3 py-1.5 hover:bg-primary/10">Open Hero Design Studio</Link>
         <Link to="/admin/content-studio" className="font-body text-xs tracking-wider uppercase border border-primary/40 text-primary rounded-full px-3 py-1.5 hover:bg-primary/10">Open Content Studio</Link>
         <Link to="/admin/release-email-studio" className="font-body text-xs tracking-wider uppercase border border-primary/40 text-primary rounded-full px-3 py-1.5 hover:bg-primary/10">Open Email Studio</Link>
-        <Link to="/admin/releases" className="font-body text-xs tracking-wider uppercase border border-primary/40 text-primary rounded-full px-3 py-1.5 hover:bg-primary/10">Open Releases</Link>
+        <Link to="/admin/release-email-studio" className="font-body text-xs tracking-wider uppercase border border-primary/40 text-primary rounded-full px-3 py-1.5 hover:bg-primary/10">Open Releases</Link>
         <Link to="/admin/launch-packet-studio" className="font-body text-xs tracking-wider uppercase border border-primary/40 text-primary rounded-full px-3 py-1.5 hover:bg-primary/10">One Press Launch Packet</Link>
       </div>
 

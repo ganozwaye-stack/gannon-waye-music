@@ -120,7 +120,7 @@ export default function SystemsQaHub() {
                   <Button onClick={triggerWebhookDiagnostic} disabled={testingWebhooks} className="flex-1 gradient-gold-button border-0">
                     {testingWebhooks ? <><RefreshCw className="w-4 h-4 animate-spin mr-1" /> Testing...</> : 'Send Test Webhook Event'}
                   </Button>
-                  <Button variant="outline" className="border-border/40" onClick={() => window.location.href = '/admin/stripe-command-centre'}>Stripe Command</Button>
+                  <Button variant="outline" className="border-border/40" onClick={() => window.location.href = '/admin/financials'}>Stripe Command</Button>
                 </div>
               </div>
 
@@ -222,7 +222,7 @@ export default function SystemsQaHub() {
               { title: 'Site Health Dashboard', desc: 'Read comprehensive database diagnostic reports.', link: '/admin/site-health' },
               { title: 'QA Command Centre', desc: 'Inspect current automated test status logs.', link: '/admin/qa-command-centre' },
               { title: 'Stripe Live Report', desc: 'Track daily payments and checkout events.', link: '/admin/stripe-live-report' },
-              { title: 'Webhook Health Monitor', desc: 'Detailed log analyzer of API delivery events.', link: '/admin/webhook-health' },
+              { title: 'Webhook Health Monitor', desc: 'Detailed log analyzer of API delivery events.', link: '/admin/financials' },
               { title: 'Audit Log Registry', desc: 'Chronological record of admin settings changes.', link: '/admin/audit-log' },
               { title: 'Developer Handoff Guide', desc: 'Restoration guide and project configuration specs.', link: '/admin/developer-handoff' }
             ].map(item => (

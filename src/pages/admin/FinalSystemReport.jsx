@@ -80,7 +80,7 @@ const TABLE = [
 const HUMAN_ACTIONS_REQUIRED = [
   { priority: 'critical', item: 'Upload real poster artwork for Lyric Wall Poster', link: '/admin/merch' },
   { priority: 'critical', item: 'Connect Gmail for order receipt emails', link: '/admin/api-setup' },
-  { priority: 'critical', item: 'Confirm Stripe is in LIVE mode', link: '/admin/stripe-command-centre' },
+  { priority: 'critical', item: 'Confirm Stripe is in LIVE mode', link: '/admin/financials' },
   { priority: 'high', item: 'Order sample prints from Printful and Gelato', link: '/admin/print-fulfilment' },
   { priority: 'high', item: 'Connect Slack for weekly order notifications', link: '/admin/api-setup' },
   { priority: 'high', item: 'Set public business email in Business Details settings', link: '/admin/settings/business-details' },

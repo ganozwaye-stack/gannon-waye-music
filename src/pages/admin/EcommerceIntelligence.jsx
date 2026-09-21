@@ -133,7 +133,7 @@ export default function EcommerceIntelligence() {
             {[
               { label: 'Products Active', link: '/admin/merch' },
               { label: 'Orders', link: '/admin/orders' },
-              { label: 'Promo Codes', link: '/admin/promo-codes' },
+              { label: 'Promo Codes', link: '/admin/financials' },
               { label: 'Product Insights', link: '/admin/product-insights' },
             ].map(item => (
               <a key={item.label} href={item.link} className="border border-border rounded-lg p-3 hover:border-primary/40 transition-colors">

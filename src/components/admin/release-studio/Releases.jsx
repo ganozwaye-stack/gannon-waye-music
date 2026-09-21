@@ -41,7 +41,7 @@ export default function Releases() {
           </p>
         </div>
         <Button asChild className="gap-2 rounded-full font-body text-sm">
-          <a href="/admin/new-release-studio">Create private release draft</a>
+          <a href="/admin/release-email-studio">Create private release draft</a>
         </Button>
       </div>
 

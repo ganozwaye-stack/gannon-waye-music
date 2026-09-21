@@ -16,7 +16,7 @@ const TODAY_MOVES = [
     action: 'Review pending bundle proposals in Revenue Actions',
     why: 'Agent-prepared bundle proposals are awaiting approval. Each approved bundle can generate $40-90 net profit per order.',
     effort: 'low', potential: 'high',
-    route: '/admin/revenue-actions',
+    route: '/admin/financials',
     icon: Package,
     color: 'text-green-400',
     bg: 'bg-green-500/10',

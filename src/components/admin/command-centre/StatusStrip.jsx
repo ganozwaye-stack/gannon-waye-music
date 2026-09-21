@@ -51,7 +51,7 @@ export default function StatusStrip() {
     },
     {
       icon: Music, color: 'text-emerald-400', bg: 'bg-emerald-500/10',
-      label: 'Private releases', value: releases.length, link: '/admin/releases',
+      label: 'Private releases', value: releases.length, link: '/admin/release-email-studio',
     },
   ];
 

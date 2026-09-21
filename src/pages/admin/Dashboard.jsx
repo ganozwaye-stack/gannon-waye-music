@@ -196,9 +196,9 @@ export default function Dashboard() {
         </p>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           <DashTile to="/admin/integration-action-centre" label="Social Integrations" value="Check" sub="TikTok / IG / Meta" icon={Globe} color="blue" />
-          <DashTile to="/admin/stripe-command-centre" label="Stripe Status" value="Active" sub="Live payments" icon={CreditCard} color="green" />
+          <DashTile to="/admin/financials" label="Stripe Status" value="Active" sub="Live payments" icon={CreditCard} color="green" />
           <DashTile to="/admin/metricool-command" label="Metricool" value="Sync" sub="Social scheduler" icon={Radio} color="blue" />
-          <DashTile to="/admin/webhook-health" label="Webhooks" value={systemIssues.filter(i => i.system_area === 'integrations').length > 0 ? 'Issues' : 'OK'} sub="Stripe / system hooks" icon={Zap} color={systemIssues.filter(i => i.system_area === 'integrations').length > 0 ? 'yellow' : 'green'} />
+          <DashTile to="/admin/financials" label="Webhooks" value={systemIssues.filter(i => i.system_area === 'integrations').length > 0 ? 'Issues' : 'OK'} sub="Stripe / system hooks" icon={Zap} color={systemIssues.filter(i => i.system_area === 'integrations').length > 0 ? 'yellow' : 'green'} />
           <DashTile to="/admin/self-healing" label="Agent Tasks" value={systemIssues.length} sub="Auto-healing queue" icon={Bot} color="muted" />
         </div>
       </div>
@@ -269,7 +269,7 @@ export default function Dashboard() {
               <Flame className="w-4 h-4 text-red-500" />
               <span className="text-sm font-semibold text-foreground">Release Countdown</span>
             </div>
-            <Link to="/admin/releases" className="block hover:opacity-80 transition-opacity">
+            <Link to="/admin/release-email-studio" className="block hover:opacity-80 transition-opacity">
               <p className="text-2xl font-bold font-mono text-foreground">{timeLeft}</p>
               <p className="text-[10px] text-muted-foreground mt-0.5">THANKYOU — June 5, 2026</p>
             </Link>
@@ -323,11 +323,11 @@ export default function Dashboard() {
               <span className="text-sm font-semibold text-foreground">Live Status</span>
             </div>
             <div className="space-y-2 text-xs">
-              <Link to="/admin/stripe-command-centre" className="flex items-center justify-between hover:opacity-80 transition-opacity">
+              <Link to="/admin/financials" className="flex items-center justify-between hover:opacity-80 transition-opacity">
                 <span className="text-muted-foreground">Stripe</span>
                 <Badge className="bg-green-500/10 text-green-400 text-[10px]">Active</Badge>
               </Link>
-              <Link to="/admin/webhook-health" className="flex items-center justify-between hover:opacity-80 transition-opacity">
+              <Link to="/admin/financials" className="flex items-center justify-between hover:opacity-80 transition-opacity">
                 <span className="text-muted-foreground">Webhooks</span>
                 <Badge className="bg-green-500/10 text-green-400 text-[10px]">Listening</Badge>
               </Link>

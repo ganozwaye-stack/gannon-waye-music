@@ -62,7 +62,7 @@ const EXTERNAL_TEST_STATUS = [
   { category: 'Admin Routes', item: '/admin/social-platform-parity', label: 'Social Platform Parity', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/social-schedule-queue', label: 'TikTok Platform Review (admin)', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/tiktok-recording-studio', label: 'TikTok Recording Studio', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
-  { category: 'Admin Routes', item: '/admin/revenue-actions', label: 'Revenue Actions', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
+  { category: 'Admin Routes', item: '/admin/financials', label: 'Revenue Actions', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/bundle-proposal-studio', label: 'Bundle Proposal Studio', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/order-profit-intelligence', label: 'Order Profit Intelligence', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/intelligence-to-income', label: 'Intelligence to Income', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
@@ -77,8 +77,8 @@ const EXTERNAL_TEST_STATUS = [
   { category: 'Admin Routes', item: '/admin/sync-licensing-command', label: 'Sync Licensing Command', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/coaching-command', label: 'Coaching Command', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/payment-diagnostics', label: 'Payment Diagnostics', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
-  { category: 'Admin Routes', item: '/admin/stripe-command-centre', label: 'Stripe Command Centre', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
-  { category: 'Admin Routes', item: '/admin/webhook-health', label: 'Webhook Health', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
+  { category: 'Admin Routes', item: '/admin/financials', label: 'Stripe Command Centre', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
+  { category: 'Admin Routes', item: '/admin/financials', label: 'Webhook Health', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/approval-queue', label: 'Approval Queue', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   { category: 'Admin Routes', item: '/admin/notifications', label: 'Business Attention Centre', status: 'not_run', blocker: 'ADMIN_SESSION_COOKIE required' },
   // Coaching lock
@@ -134,7 +134,7 @@ const CONFIRMED_FAILURES = [
     impact: 'Checkout is in an undefined state — secret key processes live charges but the frontend is using test mode. Real money could be charged with no proper flow. Do not test checkout until this is resolved.',
     fix: 'Go to Base44 Secrets dashboard. Either: (A) set both keys to live mode for production, or (B) set both to test mode for safe testing. Never mix modes.',
     file: 'Base44 Secrets → STRIPE_SECRET_KEY + STRIPE_PUBLISHABLE_KEY',
-    route: '/admin/stripe-command-centre',
+    route: '/admin/financials',
     confirmed: true,
   },
   {

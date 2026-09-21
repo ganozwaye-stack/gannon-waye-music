@@ -23,7 +23,7 @@ const INCOME_STREAMS = [
   { name: 'Music Production Sessions', status: 'pipeline', monthly_est: '$200-1,000 per session', category: 'Music', route: '/admin/sync-licensing-command', maturity: 'pipeline' },
   { name: 'Merchandise Licensing', status: 'idea', monthly_est: 'Unknown', category: 'Commerce', route: '/admin/merch', maturity: 'idea' },
   { name: 'Partnership / Brand Deals', status: 'idea', monthly_est: '$500-10,000 per deal', category: 'Business', route: '/admin/marketing-centre', maturity: 'idea' },
-  { name: 'Affiliate / Referral Income', status: 'idea', monthly_est: '$50-500', category: 'Commerce', route: '/admin/revenue-actions', maturity: 'idea' },
+  { name: 'Affiliate / Referral Income', status: 'idea', monthly_est: '$50-500', category: 'Commerce', route: '/admin/financials', maturity: 'idea' },
 ];
 
 const ASSET_VALUATIONS = [

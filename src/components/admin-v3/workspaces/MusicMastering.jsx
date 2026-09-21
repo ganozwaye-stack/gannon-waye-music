@@ -61,7 +61,7 @@ export default function MusicMastering() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* ── Release List ── */}
         <div className="lg:col-span-1">
-          <SectionCard title="Releases" actionLabel="Manage" actionPath="/admin/releases">
+          <SectionCard title="Releases" actionLabel="Manage" actionPath="/admin/release-email-studio">
             {isLoading ? <LoadingState /> : releases.length === 0 ? <EmptyState message="No releases found." /> : releases.map(r => {
               const readiness = calcReleaseReadiness(r, actionPlans);
               return (
@@ -81,7 +81,7 @@ export default function MusicMastering() {
         {/* ── Release Detail ── */}
         <div className="lg:col-span-2">
           {selectedRelease ? (
-            <SectionCard title={selectedRelease.title} actionLabel="Open full page" actionPath="/admin/releases">
+            <SectionCard title={selectedRelease.title} actionLabel="Open full page" actionPath="/admin/release-email-studio">
               <div className="p-4 space-y-4">
                 <div className="flex items-start gap-4">
                   {selectedRelease.artwork_url && (

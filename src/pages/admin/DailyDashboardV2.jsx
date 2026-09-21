@@ -16,7 +16,7 @@ const QUICK_LINKS = [
   { label: 'Lyrics Archive', path: '/admin/content-studio', icon: FileText },
   { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: Megaphone },
   { label: 'Merch Management', path: '/admin/merch', icon: ShoppingBag },
-  { label: 'Music Releases', path: '/admin/releases', icon: Music },
+  { label: 'Music Releases', path: '/admin/release-email-studio', icon: Music },
   { label: 'Orders', path: '/admin/orders', icon: ShoppingBag },
   { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
   { label: 'Release Sprint', path: '/admin/release-sprint', icon: Star },
@@ -159,7 +159,7 @@ export default function DailyDashboardV2() {
           <KpiCard icon={DollarSign} label="Revenue" value={`$${revenue.toLocaleString('en-AU')}`} sublabel="Verified paid orders" path="/admin/orders" />
           <KpiCard icon={Shield} label="Approvals" value={approvals.length} sublabel="Waiting for you" path="/admin/approval-queue" />
           <KpiCard icon={Film} label="Content" value={pipeline.length} sublabel="Draft assets prepared" path="/admin/content-studio" />
-          <KpiCard icon={Star} label="Release" value={`${releaseReady}%`} sublabel="Campaign readiness" path="/admin/releases" />
+          <KpiCard icon={Star} label="Release" value={`${releaseReady}%`} sublabel="Campaign readiness" path="/admin/release-email-studio" />
         </div>
       </div>
 
@@ -211,12 +211,12 @@ export default function DailyDashboardV2() {
       {/* ── Releases + Content Pipeline ── */}
       <div className="px-6 lg:px-10 pb-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <SectionCard title="Recent Releases" actionLabel="All releases" actionPath="/admin/releases">
+          <SectionCard title="Recent Releases" actionLabel="All releases" actionPath="/admin/release-email-studio">
             {releases.slice(0, 5).map((r) => {
               const color = r.status === 'released' ? 'green' : r.status === 'mastering' || r.status === 'recording' ? 'orange' : 'grey';
               const s = STATUS_STYLES[color];
               return (
-                <Link key={r.id} to="/admin/releases" className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-secondary/30 transition-colors">
+                <Link key={r.id} to="/admin/release-email-studio" className="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-secondary/30 transition-colors">
                   <Circle className={`w-2 h-2 ${s.dot} fill-current shrink-0`} />
                   <span className="font-body text-sm text-foreground/80 flex-1 truncate">{r.title}</span>
                   <span className={`font-body text-[10px] tracking-wide capitalize ${s.text}`}>{r.status?.replace('_', ' ')}</span>

@@ -110,21 +110,21 @@ for (const path of ownerScopedReportSyncs) {
   );
 }
 
-requireSnippet('src/pages/admin/Releases.jsx', 'legacy register is read-only');
-requireSnippet('src/pages/admin/Releases.jsx', 'hasFullPublicReleaseGate');
+requireSnippet('src/components/admin/release-studio/Releases.jsx', 'legacy register is read-only');
+requireSnippet('src/components/admin/release-studio/Releases.jsx', 'hasFullPublicReleaseGate');
 requireSnippet('base44/entities/Release.jsonc', '"create": false');
 requireSnippet('base44/entities/Release.jsonc', '"update": false');
 requireSnippet('base44/entities/Release.jsonc', '"delete": false');
 requireSnippet('base44/entities/Release.jsonc', '"data.public_release_approved_by": "ganozwaye@gmail.com"');
 requireSnippet('base44/entities/Release.jsonc', '"data.public_release_approved_at": {');
-forbid('src/pages/admin/Releases.jsx', /base44\.entities\.Release\.(?:create|update|updateMany|delete)\s*\(/, 'direct Release mutation');
-forbid('src/pages/admin/Releases.jsx', /promoteMutation|publishSingleMutation|Published \(visible on site\)/, 'legacy public-release control');
+forbid('src/components/admin/release-studio/Releases.jsx', /base44\.entities\.Release\.(?:create|update|updateMany|delete)\s*\(/, 'direct Release mutation');
+forbid('src/components/admin/release-studio/Releases.jsx', /promoteMutation|publishSingleMutation|Published \(visible on site\)/, 'legacy public-release control');
 
-requireSnippet('src/pages/admin/NewReleaseStudio.jsx', 'private_draft_acknowledged');
-requireSnippet('src/pages/admin/NewReleaseStudio.jsx', 'only a private release record and blank review shells');
-requireSnippet('src/pages/admin/NewReleaseStudio.jsx', 'Automatic launch-packet generation is held');
-forbid('src/pages/admin/NewReleaseStudio.jsx', /generateReleaseLaunchPacket/, 'automatic launch-packet invocation');
-forbid('src/pages/admin/NewReleaseStudio.jsx', /AI-quota|costAcknowledged/, 'obsolete automatic-draft acknowledgement');
+requireSnippet('src/components/admin/release-studio/NewReleaseStudio.jsx', 'private_draft_acknowledged');
+requireSnippet('src/components/admin/release-studio/NewReleaseStudio.jsx', 'only a private release record and blank review shells');
+requireSnippet('src/components/admin/release-studio/NewReleaseStudio.jsx', 'Automatic launch-packet generation is held');
+forbid('src/components/admin/release-studio/NewReleaseStudio.jsx', /generateReleaseLaunchPacket/, 'automatic launch-packet invocation');
+forbid('src/components/admin/release-studio/NewReleaseStudio.jsx', /AI-quota|costAcknowledged/, 'obsolete automatic-draft acknowledgement');
 requireSnippet('base44/functions/submitNewRelease/entry.ts', 'private_draft_acknowledged');
 requireSnippet('base44/functions/submitNewRelease/entry.ts', "external_actions: 'held'");
 requireSnippet('base44/functions/submitNewRelease/entry.ts', 'auto_publish_on_release_date: false');
@@ -163,8 +163,8 @@ requireSnippet('base44/shared/tooLostAuth.ts', 'pending_oauth_requested_by');
 forbid('base44/shared/tooLostAuth.ts', /refreshTooLostTokens|getValidTooLostAccessToken|refresh_token/, 'automatic refresh-token handling');
 requireSnippet('src/pages/admin/TunecoreIntegration.jsx', 'Importer held for release safety');
 forbid('src/pages/admin/TunecoreIntegration.jsx', /base44\.functions\.invoke|apiKey|password|account-api/, 'browser-side distributor credential or importer invocation');
-requireSnippet('src/pages/admin/ReleasePrepStudio.jsx', 'Release records are read-only here.');
-forbid('src/pages/admin/ReleasePrepStudio.jsx', /base44\.entities\.Release\.(?:create|update|updateMany|delete)\s*\(/, 'direct Release mutation from the release-prep screen');
+requireSnippet('src/components/admin/release-studio/ReleasePrepStudio.jsx', 'Release records are read-only here.');
+forbid('src/components/admin/release-studio/ReleasePrepStudio.jsx', /base44\.entities\.Release\.(?:create|update|updateMany|delete)\s*\(/, 'direct Release mutation from the release-prep screen');
 requireSnippet('src/pages/admin/Distributors.jsx', 'refetchOnWindowFocus: false');
 requireSnippet('src/pages/admin/Distributors.jsx', 'Status is read-only.');
 forbid('src/pages/admin/Distributors.jsx', /refetchInterval|checks the connection every 30 seconds|renews the login automatically|Status refreshes automatically every 30 seconds/, 'background distributor polling or automatic renewal');

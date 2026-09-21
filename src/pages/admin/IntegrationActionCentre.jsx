@@ -241,7 +241,7 @@ export default function IntegrationActionCentre() {
           </div>
           <div className="flex gap-2 mt-4 flex-wrap">
             <Link to="/admin/api-setup"><Button size="sm" variant="outline" className="text-xs gap-1"><Zap className="w-3 h-3" />API Setup Dashboard</Button></Link>
-            <Link to="/admin/stripe-command-centre"><Button size="sm" variant="outline" className="text-xs">Stripe Command Centre</Button></Link>
+            <Link to="/admin/financials"><Button size="sm" variant="outline" className="text-xs">Stripe Command Centre</Button></Link>
             <Link to="/admin/site-health"><Button size="sm" variant="outline" className="text-xs">Run Site Health Check</Button></Link>
           </div>
         </CardContent>

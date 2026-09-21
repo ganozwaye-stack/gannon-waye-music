@@ -85,7 +85,7 @@ export default function WebhookHealthNew() {
   return (
     <div className="space-y-6 pb-10">
       <div className="flex items-center gap-3">
-        <Link to="/admin/stripe-command-centre"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4" /></Button></Link>
+        <Link to="/admin/financials"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4" /></Button></Link>
         <div>
           <h1 className="text-3xl font-display font-bold gradient-gold-text">Webhook Health</h1>
           <p className="text-muted-foreground text-sm mt-1">Stripe Intelligence Router monitoring</p>

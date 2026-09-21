@@ -107,7 +107,7 @@ export default function WarRoomPanel() {
                 <p className="text-xl font-bold text-primary mt-1">{isLoadingContent ? '…' : scheduledPosts.length} queued</p>
                 <p className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1">Schedule Queue <ArrowRight className="w-3 h-3" /></p>
               </Link>
-              <Link to="/admin/releases" className="block p-3 bg-secondary/30 rounded-xl border border-border/40 hover:border-primary/40 transition-colors">
+              <Link to="/admin/release-email-studio" className="block p-3 bg-secondary/30 rounded-xl border border-border/40 hover:border-primary/40 transition-colors">
                 <p className="text-[10px] uppercase tracking-widest text-muted-foreground">Release Pipeline</p>
                 <p className="text-xl font-bold text-primary mt-1">{isLoadingReleases ? '…' : releases.length} releases</p>
                 <p className="text-[10px] text-muted-foreground mt-1 flex items-center gap-1">Manage Releases <ArrowRight className="w-3 h-3" /></p>
@@ -168,10 +168,10 @@ export default function WarRoomPanel() {
           </CardHeader>
           <CardContent className="space-y-2">
             {[
-              { label: 'New Release Studio', desc: 'Submit a new release in one press', path: '/admin/new-release-studio' },
+              { label: 'New Release Studio', desc: 'Submit a new release in one press', path: '/admin/release-email-studio' },
               { label: 'Release Email Studio', desc: 'Approve the waiting fan email', path: '/admin/release-email-studio' },
               { label: 'Release Promo Command', desc: 'Run the 6-day promo campaign', path: '/admin/release-promo-command' },
-              { label: 'Releases', desc: 'Approve and publish releases', path: '/admin/releases' },
+              { label: 'Releases', desc: 'Approve and publish releases', path: '/admin/release-email-studio' },
             ].map(item => (
               <Link
                 key={item.path}

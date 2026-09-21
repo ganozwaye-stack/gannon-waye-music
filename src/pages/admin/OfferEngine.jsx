@@ -122,7 +122,7 @@ export default function OfferEngine() {
         <Link to="/admin/bundle-proposal-studio">
           <Button variant="outline" className="gap-2 text-sm"><Package className="w-4 h-4" />Bundle Studio</Button>
         </Link>
-        <Link to="/admin/promo-codes">
+        <Link to="/admin/financials">
           <Button variant="outline" className="gap-2 text-sm"><Tag className="w-4 h-4" />Promo Codes</Button>
         </Link>
       </div>
@@ -177,7 +177,7 @@ export default function OfferEngine() {
             </div>
           ) : (
             pending.map(p => (
-              <Link key={p.id} to="/admin/revenue-actions">
+              <Link key={p.id} to="/admin/financials">
                 <div className="border border-primary/30 bg-primary/3 rounded-xl p-4 hover:border-primary/50 transition-all group">
                   <div className="flex items-start justify-between gap-3">
                     <div>
@@ -214,7 +214,7 @@ export default function OfferEngine() {
 
         <TabsContent value="history" className="mt-4 space-y-2">
           {proposals.map(p => (
-            <Link key={p.id} to="/admin/revenue-actions">
+            <Link key={p.id} to="/admin/financials">
               <div className="border border-border rounded-xl p-3 hover:border-primary/30 hover:bg-secondary/10 transition-all flex items-center gap-3 group">
                 <Badge className={`text-xs shrink-0 ${p.status === 'published' ? 'bg-green-500/20 text-green-400' : p.status === 'pending_approval' ? 'bg-primary/20 text-primary' : p.status === 'rejected' ? 'bg-red-500/20 text-red-400' : 'bg-secondary text-secondary-foreground'}`}>
                   {p.status?.replace(/_/g,' ')}

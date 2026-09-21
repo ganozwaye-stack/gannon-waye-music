@@ -14,7 +14,7 @@ import {
 import { format } from 'date-fns';
 
 const ENGINES = [
-  { to: '/admin/revenue-actions', icon: Zap, label: 'Revenue Actions', desc: 'Agent proposals awaiting approval', color: 'text-primary', key: 'proposals' },
+  { to: '/admin/financials', icon: Zap, label: 'Revenue Actions', desc: 'Agent proposals awaiting approval', color: 'text-primary', key: 'proposals' },
   { to: '/admin/approval-queue', icon: CheckCircle2, label: 'Approval Queue', desc: 'All items requiring your decision', color: 'text-green-400', key: 'approvals' },
   { to: '/admin/business-attention-centre', icon: AlertTriangle, label: 'Business Attention Centre', desc: 'Critical alerts and actions', color: 'text-red-400', key: 'alerts' },
   { to: '/admin/growth-engine', icon: TrendingUp, label: 'Growth Engine', desc: 'TikTok, social, and audience growth', color: 'text-blue-400', key: 'growth' },
@@ -41,8 +41,8 @@ const INCOME_SOURCES = [
   { label: 'Supporter Contributions', value: 'Back This + SupportContribution', route: '/admin/supporters', color: 'text-blue-400' },
   { label: 'Bookings / Sessions', value: 'BookingEnquiry', route: '/admin/content-studio', color: 'text-purple-400' },
   { label: 'Mastering Projects', value: 'MasteringProject', route: '/admin/content-studio', color: 'text-primary' },
-  { label: 'Bundle Offers', value: 'BundleOffer', route: '/admin/revenue-actions', color: 'text-orange-400' },
-  { label: 'Promo Codes (Cost)', value: 'PromoCode usage', route: '/admin/promo-codes', color: 'text-red-400' },
+  { label: 'Bundle Offers', value: 'BundleOffer', route: '/admin/financials', color: 'text-orange-400' },
+  { label: 'Promo Codes (Cost)', value: 'PromoCode usage', route: '/admin/financials', color: 'text-red-400' },
   { label: 'Email Subscribers', value: 'EmailSubscriber', route: '/admin/subscribers', color: 'text-cyan-400' },
   { label: 'Digital Products (Future)', value: 'TBD — pending product setup', route: null, color: 'text-muted-foreground' },
   { label: 'Coaching (Staged)', value: 'LOCKED — not live', route: '/admin/coaching-command', color: 'text-muted-foreground' },
@@ -153,7 +153,7 @@ export default function IntelligenceToIncome() {
 
       {/* Live KPIs */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <Link to="/admin/revenue-actions">
+        <Link to="/admin/financials">
           <Card className="hover:border-primary/40 cursor-pointer">
             <CardContent className="p-4">
               <p className="text-2xl font-bold text-primary">{proposals.length}</p>
@@ -263,9 +263,9 @@ export default function IntelligenceToIncome() {
         <CardHeader><CardTitle className="text-base text-primary">What Can Make Money Fastest</CardTitle></CardHeader>
         <CardContent className="space-y-3 text-sm">
           {[
-            { rank: 1, action: 'Approve pending bundle offer proposals', where: 'Revenue Actions', route: '/admin/revenue-actions', speed: 'Today', income: 'Direct sales' },
+            { rank: 1, action: 'Approve pending bundle offer proposals', where: 'Revenue Actions', route: '/admin/financials', speed: 'Today', income: 'Direct sales' },
             { rank: 2, action: 'Upload TikTok draft → creator publishes → viral discovery', where: 'TikTok Platform Review', route: '/tiktok-platform-review', speed: 'This week', income: 'Store traffic + sales' },
-            { rank: 3, action: 'Activate a limited-time merch offer for email list', where: 'Newsletter', route: '/admin/newsletter', speed: 'This week', income: 'Existing list conversion' },
+            { rank: 3, action: 'Activate a limited-time merch offer for email list', where: 'Newsletter', route: '/admin/release-email-studio', speed: 'This week', income: 'Existing list conversion' },
             { rank: 4, action: 'Fix abandoned checkout recovery email', where: 'Payment Diagnostics', route: '/admin/payment-diagnostics', speed: 'This week', income: 'Recover lost carts' },
             { rank: 5, action: 'Pitch current single for sync/playlist placement', where: 'Sync Licensing', route: '/admin/sync-licensing-command', speed: 'This month', income: 'Licensing fees' },
           ].map(item => (

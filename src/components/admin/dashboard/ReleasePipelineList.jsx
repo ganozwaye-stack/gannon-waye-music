@@ -48,7 +48,7 @@ export default function ReleasePipelineList() {
           <Disc3 className="w-4 h-4 text-primary" />
           <h3 className="font-display text-base text-foreground">Pending Releases</h3>
         </div>
-        <Link to="/admin/releases" className="font-body text-[11px] text-primary hover:underline inline-flex items-center gap-1">
+        <Link to="/admin/release-email-studio" className="font-body text-[11px] text-primary hover:underline inline-flex items-center gap-1">
           All releases <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
@@ -66,7 +66,7 @@ export default function ReleasePipelineList() {
             return (
               <Link
                 key={r.id}
-                to="/admin/releases"
+                to="/admin/release-email-studio"
                 className="block rounded-xl bg-secondary/20 border border-border/30 p-3 hover:border-primary/30 transition-colors"
               >
                 <div className="flex items-center justify-between gap-3">

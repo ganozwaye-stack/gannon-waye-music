@@ -45,18 +45,18 @@ export default function BusinessProcessCommand() {
 
   const commandLinks = [
     { label: 'Procurement Command', path: '/admin/procurement-command', icon: ShoppingCart, desc: 'Alibaba · Purchase Orders · Landed Cost' },
-    { label: 'Landed Cost Calculator', path: '/admin/landed-cost-calculator', icon: DollarSign, desc: 'Calculate per-unit costs' },
+    { label: 'Landed Cost Calculator', path: '/admin/financials', icon: DollarSign, desc: 'Calculate per-unit costs' },
     { label: 'Stock Flow Dashboard', path: '/admin/stock-flow-dashboard', icon: Boxes, desc: 'Inventory · Ordered · Available · Sold' },
     { label: 'Purchase Orders', path: '/admin/purchase-orders', icon: Package, desc: 'All POs · Tracking · Status' },
     { label: 'Orders', path: '/admin/orders', icon: ShoppingCart, desc: 'Customer orders · Fulfillment' },
     { label: 'Merch Management', path: '/admin/merch', icon: Package, desc: 'Products · Prices · Stock' },
     { label: 'Merch Financials', path: '/admin/merch-financials', icon: BarChart3, desc: 'Profit · Margins · Revenue' },
-    { label: 'Stripe Command Centre', path: '/admin/stripe-command-centre', icon: Shield, desc: 'Payments · Webhooks' },
+    { label: 'Stripe Command Centre', path: '/admin/financials', icon: Shield, desc: 'Payments · Webhooks' },
     { label: 'Approval Queue', path: '/admin/approval-queue', icon: CheckCircle2, desc: 'Pending approvals' },
     { label: 'Business Attention Centre', path: '/admin/business-attention-centre', icon: AlertTriangle, desc: 'All blockers' },
-    { label: 'Discount Guard', path: '/admin/discount-guard', icon: Shield, desc: 'Promo code rules' },
+    { label: 'Discount Guard', path: '/admin/financials', icon: Shield, desc: 'Promo code rules' },
     { label: 'Shipping Rates', path: '/admin/shipping-rates', icon: Truck, desc: 'Postage rules' },
-    { label: 'Promo Code Audit', path: '/admin/promo-code-audit', icon: Zap, desc: 'Code audit' },
+    { label: 'Promo Code Audit', path: '/admin/financials', icon: Zap, desc: 'Code audit' },
     { label: 'Agent Workbench', path: '/admin/agent-workbench', icon: Zap, desc: 'Run agents' },
     { label: 'Executive Feed', path: '/admin/executive-feed', icon: TrendingUp, desc: 'Daily summary' },
   ];

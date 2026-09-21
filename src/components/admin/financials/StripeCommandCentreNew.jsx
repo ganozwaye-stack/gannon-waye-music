@@ -326,7 +326,7 @@ export default function StripeCommandCentreNew() {
             <CardHeader><CardTitle className="text-sm">Quick Links</CardTitle></CardHeader>
             <CardContent className="flex flex-wrap gap-2">
               <Link to="/admin/payment-diagnostics"><Button variant="outline" size="sm" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" />Payment Diagnostics</Button></Link>
-              <Link to="/admin/webhook-health"><Button variant="outline" size="sm" className="gap-1.5 text-xs"><Webhook className="w-3 h-3" />Webhook Health</Button></Link>
+              <Link to="/admin/financials"><Button variant="outline" size="sm" className="gap-1.5 text-xs"><Webhook className="w-3 h-3" />Webhook Health</Button></Link>
               <Link to="/admin/notifications"><Button variant="outline" size="sm" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" />Notifications</Button></Link>
               <a href="https://dashboard.stripe.com/webhooks" target="_blank" rel="noopener noreferrer">
                 <Button variant="outline" size="sm" className="gap-1.5 text-xs"><ExternalLink className="w-3 h-3" />Stripe Webhooks</Button>

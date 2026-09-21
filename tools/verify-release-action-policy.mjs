@@ -99,11 +99,11 @@ requireText(
   'Private draft creation no longer records external actions as held.',
 );
 requireText(
-  'src/pages/admin/NewReleaseStudio.jsx',
+  'src/components/admin/release-studio/NewReleaseStudio.jsx',
   'Automatic launch-packet generation is held',
   'New Release Studio no longer explains the automatic launch-packet safety hold.',
 );
-if (/generateReleaseLaunchPacket/.test(read('src/pages/admin/NewReleaseStudio.jsx'))) {
+if (/generateReleaseLaunchPacket/.test(read('src/components/admin/release-studio/NewReleaseStudio.jsx'))) {
   failures.push('New Release Studio still invokes the automatic launch-packet generator.');
 }
 
