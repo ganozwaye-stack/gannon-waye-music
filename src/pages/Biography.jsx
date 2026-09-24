@@ -3,12 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Music, Heart, Mic, Headphones, Quote, BookOpen, Star } from 'lucide-react';
 import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
-import GoldenEmbers from '@/components/three/GoldenEmbers';
-
-// Gannon, side profile, looking up into the light through the clouds. The hero.
-const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
-// Primary Gannon headshot, gold halo on navy
-const PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/94d50ca39_77B69334-B27B-44A8-9C21-F7216216A118.png';
+import BiographyHero from '@/components/public/BiographyHero';
 
 const CHAPTERS = [
   { year: 'Adelaide', title: 'No lessons, still singing', text: 'Gannon was raised in low socioeconomic conditions where formal music lessons were out of reach. No amount of asking, tears or begging changed that, so he built a voice wherever music was available, leading school choirs and learning by doing.' },
@@ -41,95 +36,14 @@ export default function Biography() {
   return (
     <div className="min-h-screen pb-20">
 
-      {/* Hero — Gannon in the clouds, looking up into the light */}
-      <section className="relative overflow-hidden min-h-screen flex items-start">
-        <img
-          src={HERO_PORTRAIT}
-          alt="Gannon Waye, looking up into the light"
-          className="absolute inset-0 w-full h-full object-cover object-center sm:object-[60%_center]"
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(180deg, rgba(8,8,14,0.45) 0%, rgba(8,8,14,0.25) 30%, rgba(8,8,14,0.85) 88%, hsl(var(--background)) 100%)' }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: 'radial-gradient(85% 60% at 50% 35%, transparent 0%, rgba(8,8,14,0.55) 100%)' }}
-        />
-        {/* Faint rising embers over the portrait */}
-        <div className="absolute inset-0 opacity-40 pointer-events-none">
-          <GoldenEmbers density={0.5} intensity={0.45} />
-        </div>
-
-        <div className="relative z-10 w-full max-w-6xl mx-auto px-4 md:px-8 pt-24 md:pt-28 pb-6 text-center">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4"
-            style={{ textShadow: '0 1px 6px rgba(0,0,0,0.6)' }}
-          >
-            The Artist
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            className="font-display text-5xl md:text-7xl gradient-gold-text"
-          >
-            Biography
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="font-body text-sm text-foreground/85 max-w-md mx-auto mt-4"
-            style={{ textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}
-          >
-            Singer. Songwriter. Storyteller. Melbourne, Australia.
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.32 }}
-            className="font-body text-sm md:text-base text-foreground/70 max-w-xl mx-auto mt-5 leading-relaxed"
-            style={{ textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}
-          >
-            A life shaped by grief and grace, told in honesty and melody, written to remind anyone listening that they are not alone here.
-          </motion.p>
-        </div>
-      </section>
+      {/* Full-screen hero: portrait behind the bio text, left aligned */}
+      <BiographyHero />
 
       <div className="max-w-6xl mx-auto px-4 md:px-8 pt-2">
 
-        {/* Portrait + intro, the write-up in two columns */}
-        <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 md:gap-10 mb-12 items-start">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="relative mx-auto md:mx-0 w-full max-w-[280px]">
-            <div className="aspect-square rounded-2xl overflow-hidden border border-primary/20">
-              <img src={PORTRAIT} alt="Gannon Waye" className="w-full h-full object-cover object-top" />
-            </div>
-            <div className="absolute inset-0 rounded-2xl pointer-events-none" style={{ boxShadow: 'inset 0 0 60px rgba(0,0,0,0.3)' }} />
-          </motion.div>
-          <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="flex flex-col justify-center">
-            <h2 className="font-display text-3xl gradient-gold-text mb-1">Gannon Waye</h2>
-            <p className="font-body text-sm gradient-gold-text tracking-widest uppercase mb-6">Independent Artist · Songwriter</p>
-            <div className="md:columns-2 md:gap-8 font-body text-sm text-foreground/70 leading-relaxed [&>p]:mb-4 [&>p]:break-inside-avoid">
-              <p>
-                Gannon Waye is an independent Australian singer songwriter whose contemporary pop work turns lived experience into connection. Born in Adelaide and now based in Melbourne, he was raised in low socioeconomic conditions where formal music lessons were never possible. He built his craft by leading school choirs, singing in church, serving as a worship minister and taking every stage that would let him learn.
-              </p>
-              <p>
-                His public catalogue begins with <em className="text-foreground/90">Thankyou</em>, produced by Spike Leo and mastered by Nicholas Di Lorenzo at Panorama, followed by <em className="text-foreground/90">Without You Here</em>, produced by Will Henderson. The songs open the world of <em className="text-foreground/90">I'm Still Here</em>, a fifteen song project shaped by family violence, abusive relationships, addiction, PTSD, grief and the decision to keep standing.
-              </p>
-              <p>
-                The purpose is not fame for its own sake. It is to reach people searching for a voice or a song that can say what they cannot yet say, and to remind them that being knocked down does not have to be the end of the story.
-              </p>
-            </div>
-          </motion.div>
-        </div>
-
         {/* Pull quote */}
-        <div className="bg-card border border-border/40 rounded-2xl p-8 md:p-10 mb-16 text-center">
-          <Quote className="w-8 h-8 text-primary/30 mx-auto mb-4" />
+        <div className="bg-card border border-border/40 rounded-2xl p-8 md:p-10 mt-10 mb-16 text-left">
+          <Quote className="w-8 h-8 text-primary/30 mb-4" />
           <p className="font-display italic text-lg md:text-xl text-foreground/80 leading-relaxed">
             "I don't write songs to be heard. I write songs because if I don't, the feeling stays. And some feelings are too heavy to carry alone."
           </p>
@@ -142,7 +56,7 @@ export default function Biography() {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-center mb-8"
+            className="text-left mb-8"
           >
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">Strength & Hope</p>
             <h2 className="font-display text-2xl md:text-3xl gradient-gold-text">Defining Moments</h2>
@@ -230,7 +144,7 @@ export default function Biography() {
 
         {/* Journey chapters */}
         <div className="mb-16">
-          <h2 className="font-display text-2xl md:text-3xl text-foreground mb-8 text-center">The Journey</h2>
+          <h2 className="font-display text-2xl md:text-3xl text-foreground mb-8 text-left">The Journey</h2>
           <div className="space-y-6">
             {CHAPTERS.map((item, i) => (
               <motion.div
@@ -258,7 +172,7 @@ export default function Biography() {
 
         {/* Values */}
         <div className="mb-16">
-          <h2 className="font-display text-2xl md:text-3xl text-foreground mb-8 text-center">What the Music Stands For</h2>
+          <h2 className="font-display text-2xl md:text-3xl text-foreground mb-8 text-left">What the Music Stands For</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {VALUES.map((v, i) => {
               const Icon = v.icon;
@@ -285,8 +199,8 @@ export default function Biography() {
         </div>
 
         {/* CTA */}
-        <div className="text-center">
-          <div className="flex flex-wrap justify-center gap-3">
+        <div className="text-left">
+          <div className="flex flex-wrap justify-start gap-3">
             <Link to="/music">
               <Button className="rounded-full font-body text-xs tracking-wider uppercase gradient-gold-button border-0">
                 Listen to the Music

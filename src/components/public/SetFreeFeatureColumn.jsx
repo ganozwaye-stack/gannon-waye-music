@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink } from 'lucide-react';
+import { MERCH_DROP_AT } from '@/config/merchDrop';
 
 // Set Free feature column: direct links to the major platforms, socials
 // (from Site Settings) and the store's new merch drop. Left aligned.
 const ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e2c44c509_image.png';
-const MERCH_DROP_AT = new Date('2026-09-25T17:00:00+10:00').getTime();
+
 const PLATFORMS = [
   { label: 'Spotify', url: 'https://open.spotify.com/track/6TzrIFIkFu5HNyZGM4RmqG' },
   { label: 'Apple Music', url: 'https://music.apple.com/au/album/set-free/6810393345?i=6810393349' },

@@ -17,6 +17,7 @@ import PressKitHomeSection from '@/components/public/PressKitHomeSection';
 import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
 import SetFreeSpaceHero from '@/components/public/setfree-hero/SetFreeSpaceHero';
 import HomeWelcomeSection from '@/components/public/HomeWelcomeSection';
+import BehindTheScenes from '@/components/public/BehindTheScenes';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
@@ -57,6 +58,9 @@ export default function Home() {
 
       {/* This Is Me: the video series behind the music, launched 17 September 2026 */}
       <ThisIsMeFeature />
+
+      {/* Behind the scenes: studio photos from the recording sessions */}
+      <BehindTheScenes />
 
       {/* Featured merchandise display: the Thank You collection */}
       <FeaturedMerchShowcase />

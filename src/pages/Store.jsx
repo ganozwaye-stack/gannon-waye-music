@@ -14,6 +14,7 @@ import AdminEditButton from '@/components/store/AdminEditButton';
 import LockedStorefrontHero from '@/components/store/LockedStorefrontHero';
 import { fetchLiveStoreProducts } from '@/lib/liveStoreProducts';
 import UpcomingMerchVote from '@/components/public/UpcomingMerchVote';
+import MerchDropCountdown from '@/components/store/MerchDropCountdown';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -390,7 +391,8 @@ export default function Store() {
 
       <div className="max-w-6xl mx-auto px-4 md:px-8 pt-12">
 
-        {/* Cart button handled globally by CartButton component in Navbar — no duplicate needed */}
+        {/* Countdown to the 5pm AEST merch drop */}
+        <MerchDropCountdown />
 
         {/* Page header */}
         <motion.div

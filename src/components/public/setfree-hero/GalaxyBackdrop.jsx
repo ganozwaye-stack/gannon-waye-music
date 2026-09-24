@@ -1,29 +1,25 @@
 import { motion } from 'framer-motion';
 
-// The owner's Set Free galaxy wallpaper (Hero Design library). The file is a
-// 9:16 plate inside a white border with the title baked in beneath, so this
-// box frames the galaxy area only and cover-fills the hero. The slow breathing
-// zoom always keeps the box larger than the hero, so no edge can ever show.
-const GALAXY = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/dc8cc71b7_GALAXYBACKDROP_TITLE_NAME.png';
+// The owner's Set Free galaxy, pre-cropped to the galaxy area only (no border
+// or baked title) and saved as a 1080x1920 JPEG: 120 KB instead of the 3.5 MB
+// original, so it paints straight away. The slow breathing zoom keeps the
+// plate larger than the hero, so no edge can ever show.
+export const GALAXY = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/f2bfe0dc2_SetFree_galaxy_1080.jpg';
 
 export default function GalaxyBackdrop() {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ containerType: 'size' }} aria-hidden>
-      <motion.div
-        className="absolute left-1/2 top-1/2 overflow-hidden"
-        style={{ width: 'max(100cqw, 56.25cqh)', aspectRatio: '9 / 16', x: '-50%', y: '-50%' }}
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden>
+      <motion.img
+        src={GALAXY}
+        alt=""
+        draggable="false"
+        fetchpriority="high"
+        loading="eager"
+        className="absolute inset-0 w-full h-full max-w-none object-cover select-none"
         initial={{ scale: 1.1 }}
         animate={{ scale: [1.1, 1.18, 1.1], rotate: [0, 1.2, 0] }}
         transition={{ duration: 70, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <img
-          src={GALAXY}
-          alt=""
-          draggable="false"
-          className="select-none"
-          style={{ position: 'absolute', width: '116.5%', maxWidth: 'none', height: 'auto', left: '-8%', top: '-2.66%' }}
-        />
-      </motion.div>
+      />
     </div>
   );
 }

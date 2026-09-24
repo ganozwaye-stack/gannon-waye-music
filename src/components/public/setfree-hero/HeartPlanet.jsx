@@ -1,65 +1,62 @@
-import { useEffect } from 'react';
-import { animate, motion, useMotionValue } from 'framer-motion';
+import { motion } from 'framer-motion';
 import HeartFlames from './HeartFlames';
-import OrbitRing3D from './OrbitRing3D';
 
-// The official Set Free heart (never regenerated or edited, only masked for
-// display) floating like a planet: real campfire footage and live flames burn
-// around it, the orbit ring passes behind and in front, and it tilts in 3D.
-// Web-sized copy (1000px, 175 KB) of the official 3500px artwork, same image
-// scaled down only, so the hero heart appears straight away.
-const HEART_ART = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5008be4ec_SetFreeHeart_web1000.jpg';
-const FIRE_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6eb4180010f794/8e23b3544_Ambient_Hero_Loop.mp4';
+// The official Set Free heart with its white background removed pixel by pixel
+// (flames kept as soft transparent glow, nothing regenerated), sitting INSIDE
+// the official gold orbit ring. The ring is split along its long axis: the
+// back half sits behind the heart in 3D space, the front half passes in front,
+// and the whole stack tilts and sways in real perspective.
+export const HEART_ART = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/07efd5c33_SetFree_heart_760.png';
+const RING_ART = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/01c177fdb_SetFree_ring_900.png';
+const RING_BACK = 'polygon(0% 0%, 100% 0%, 100% 26%, 0% 84%)';
+const RING_FRONT = 'polygon(0% 84%, 100% 26%, 100% 100%, 0% 100%)';
 
-const HEART_MASK = 'radial-gradient(ellipse 52% 50% at 50% 47%, black 68%, transparent 100%), linear-gradient(to bottom, black 72%, transparent 80%)';
+function RingHalf({ clip, z }) {
+  return (
+    <div className="absolute pointer-events-none" style={{ left: '-30%', top: '10%', width: '160%', transform: `translateZ(${z}px)` }}>
+      <motion.img
+        src={RING_ART}
+        alt=""
+        aria-hidden
+        draggable="false"
+        className="w-full h-auto max-w-none select-none"
+        style={{ clipPath: clip, WebkitClipPath: clip }}
+        animate={{ rotate: [-3, 3, -3], filter: ['brightness(1)', 'brightness(1.35)', 'brightness(1)'] }}
+        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+      />
+    </div>
+  );
+}
 
 export default function HeartPlanet({ rotateX, rotateY }) {
-  const progress = useMotionValue(0);
-  useEffect(() => {
-    const controls = animate(progress, Math.PI * 2, { duration: 16, repeat: Infinity, ease: 'linear' });
-    return () => controls.stop();
-  }, [progress]);
-
   return (
     <motion.div
-      style={{ rotateX, rotateY, transformPerspective: 1200 }}
+      style={{ rotateX, rotateY, transformPerspective: 1200, transformStyle: 'preserve-3d' }}
       className="relative aspect-square w-[min(84vw,50svh,560px)]"
     >
       <motion.div
         className="absolute inset-0"
-        animate={{ y: [0, -16, 0], rotate: [-1.2, 1.2, -1.2] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+        style={{ transformStyle: 'preserve-3d' }}
+        animate={{ y: [0, -14, 0], rotateY: [-10, 10, -10], rotateZ: [-1, 1, -1] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       >
         <div className="absolute -inset-[18%] rounded-full pointer-events-none"
-             style={{ background: 'radial-gradient(circle, rgba(255,120,40,0.32) 0%, rgba(200,40,20,0.16) 38%, rgba(0,0,0,0) 68%)' }} />
-        <OrbitRing3D progress={progress} half="back" />
-        <video
-          src={FIRE_VIDEO} autoPlay loop muted playsInline aria-hidden
-          className="absolute -inset-[12%] w-[124%] h-[124%] max-w-none object-cover pointer-events-none"
-          style={{
-            opacity: 0.7, mixBlendMode: 'screen',
-            maskImage: 'radial-gradient(circle closest-side, transparent 38%, black 62%, transparent 100%)',
-            WebkitMaskImage: 'radial-gradient(circle closest-side, transparent 38%, black 62%, transparent 100%)',
-          }}
-        />
-        <div className="absolute -inset-[25%]"><HeartFlames /></div>
+             style={{ background: 'radial-gradient(circle, rgba(255,120,40,0.30) 0%, rgba(200,40,20,0.14) 38%, rgba(0,0,0,0) 68%)', transform: 'translateZ(-80px)' }} />
+        <RingHalf clip={RING_BACK} z={-40} />
+        <div className="absolute -inset-[25%]" style={{ transform: 'translateZ(-10px)' }}><HeartFlames /></div>
         <motion.img
           src={HEART_ART}
           alt="Set Free by Gannon Waye, a cracked gold heart on fire in space"
           draggable="false"
           fetchpriority="high"
           loading="eager"
-          className="absolute inset-0 w-full h-full object-cover select-none"
-          style={{
-            mixBlendMode: 'screen',
-            maskImage: HEART_MASK, WebkitMaskImage: HEART_MASK,
-            maskComposite: 'intersect', WebkitMaskComposite: 'source-in',
-          }}
-          animate={{ filter: ['brightness(1) saturate(1.05)', 'brightness(1.14) saturate(1.2)', 'brightness(0.98) saturate(1.05)', 'brightness(1.1) saturate(1.15)', 'brightness(1) saturate(1.05)'] }}
+          decoding="async"
+          className="absolute inset-0 w-full h-full object-contain select-none"
+          style={{ transform: 'translateZ(0px)' }}
+          animate={{ filter: ['drop-shadow(0 0 18px rgba(255,90,30,0.35)) brightness(1)', 'drop-shadow(0 0 32px rgba(255,120,40,0.55)) brightness(1.12)', 'drop-shadow(0 0 18px rgba(255,90,30,0.35)) brightness(1)'] }}
           transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
         />
-        <div className="absolute -inset-[25%]"><HeartFlames rate={70} alpha={0.4} /></div>
-        <OrbitRing3D progress={progress} half="front" />
+        <RingHalf clip={RING_FRONT} z={40} />
       </motion.div>
     </motion.div>
   );
