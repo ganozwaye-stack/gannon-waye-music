@@ -175,6 +175,32 @@ export default function ReleaseDetail() {
           <ArrowLeft className="w-4 h-4" /> Music
         </Link>
 
+        {/* Song title: large and top centre (owner request, 25 Sep 2026) */}
+        <header className="text-center mb-10 md:mb-12">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="font-body text-[10px] md:text-xs tracking-[0.4em] uppercase gradient-gold-glow mb-4"
+          >
+            {release.type || 'release'}
+          </motion.p>
+          <motion.h1
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="font-body font-semibold text-5xl sm:text-6xl md:text-8xl uppercase tracking-[0.12em] leading-[1.05] gradient-gold-text break-words"
+            style={{ filter: 'drop-shadow(0 0 24px rgba(212,175,55,0.35))' }}
+          >
+            {release.title}
+          </motion.h1>
+          {release.version_label && (
+            <p className="font-body text-xs md:text-sm tracking-[0.3em] uppercase text-muted-foreground mt-4">
+              {release.version_label}
+            </p>
+          )}
+        </header>
+
         <div className="grid md:grid-cols-[minmax(0,360px)_1fr] gap-9 items-start">
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
@@ -197,29 +223,8 @@ export default function ReleaseDetail() {
           </motion.div>
 
           <div className="rounded-2xl border border-border/30 px-6 py-6 backdrop-blur-[2px]" style={GLASS_PANEL}>
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3"
-            >
-              {release.type || 'release'}
-            </motion.p>
-            <motion.h1
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="font-body text-3xl md:text-5xl uppercase tracking-[0.18em] gradient-gold-text"
-            >
-              {release.title}
-            </motion.h1>
-            {release.version_label && (
-              <p className="font-body text-sm tracking-[0.2em] uppercase text-muted-foreground mt-2">
-                {release.version_label}
-              </p>
-            )}
             {release.release_date && (
-              <p className="font-body text-xs text-muted-foreground mt-4">
+              <p className="font-body text-xs text-muted-foreground">
                 Released {new Date(release.release_date).toLocaleDateString('en-AU', {
                   day: 'numeric',
                   month: 'long',
