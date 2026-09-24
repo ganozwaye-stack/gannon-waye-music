@@ -11,7 +11,6 @@ import StoreWorldTeaser from '@/components/public/StoreWorldTeaser';
 import FeaturedMerchShowcase from '@/components/public/FeaturedMerchShowcase';
 import UpcomingMerchVote from '@/components/public/UpcomingMerchVote';
 import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
-import SetFreeCountdown from '@/components/public/SetFreeCountdown';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import GoldenEmbers from '@/components/three/GoldenEmbers';
@@ -188,8 +187,8 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.4, delay: 0.8 }}
               className="mt-6">
-              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3 text-center md:text-left">Current Release</p>
-              <HeroWelcomeBanner release={previousRelease} releaseLink={previousLink} badgeLabel="Current release" />
+              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3 text-center md:text-left">Previous Release</p>
+              <HeroWelcomeBanner release={previousRelease} releaseLink={previousLink} badgeLabel="Previous release" />
               {previousRelease?.title === 'Without You Here' && (
                 <div className="-mt-3 text-center md:text-left">
                   <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase gradient-gold-text hover:opacity-80 transition-opacity">
@@ -202,23 +201,24 @@ export default function Home() {
           </motion.div>
 
           {/* RIGHT (narrow): the Set Free new release feature, countdown running down its left side */}
-          <div className="md:col-span-2 w-full max-w-sm mx-auto md:mx-0 md:ml-auto flex flex-col h-full md:pb-20">
-          <div className="rounded-2xl border border-border/25 px-4 py-4 backdrop-blur-[2px] flex gap-4"
-               style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.5) 0%, rgba(8,8,14,0.32) 60%, rgba(8,8,14,0.18) 100%)', boxShadow: '0 8px 28px rgba(0,0,0,0.28)' }}>
-            {/* Countdown to the Set Free release, a narrow strip down the left */}
-            <div className="shrink-0 border-r border-border/25 pr-4">
-              <SetFreeCountdown vertical />
-            </div>
-
-            <div className="flex-1 min-w-0 text-center">
+          {/* Release day (25 Sep 2026): Set Free is out now, shown first on mobile */}
+          <div className="order-first md:order-none md:col-span-2 w-full max-w-sm mx-auto md:mx-0 md:ml-auto flex flex-col h-full md:pb-20">
+          <div className="rounded-2xl border border-primary/40 px-5 py-5 backdrop-blur-[2px]"
+               style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.55) 0%, rgba(8,8,14,0.35) 60%, rgba(8,8,14,0.2) 100%)', boxShadow: '0 0 28px rgba(212,175,55,0.18), 0 8px 28px rgba(0,0,0,0.28)' }}>
+            <div className="min-w-0 text-center">
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.6, delay: 0.4 }}
               className="mb-4">
-              <p className="font-body text-sm tracking-[0.4em] uppercase gradient-gold-text leading-relaxed">New Release</p>
-              <p className="font-body text-[10px] tracking-[0.35em] uppercase text-foreground/70 mt-1">Coming</p>
-              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-text mt-0.5">September 25</p>
+              <p className="font-body text-sm tracking-[0.4em] uppercase gradient-gold-text leading-relaxed">New Single</p>
+              <p className="inline-flex items-center gap-2 font-body text-[10px] tracking-[0.35em] uppercase text-foreground/85 mt-1">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                </span>
+                Out Now
+              </p>
             </motion.div>
 
             {/* Cover artwork: the existing official Set Free artwork, unchanged */}
@@ -232,7 +232,7 @@ export default function Home() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
-                className="block mx-auto rounded-full overflow-hidden border-2 border-primary/40 hover:border-primary/70 transition-colors aspect-square max-w-[120px]"
+                className="block mx-auto rounded-full overflow-hidden border-2 border-primary/40 hover:border-primary/70 transition-colors aspect-square max-w-[150px]"
                 style={{ boxShadow: '0 0 24px rgba(212,175,55,0.35), 0 6px 18px rgba(0,0,0,0.45)' }}>
                 <img src={SET_FREE_ART} alt="Set Free, Gannon Waye" className="w-full h-full object-cover" />
               </a>
@@ -251,7 +251,7 @@ export default function Home() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1.4, delay: 1.15 }}
               className="font-body text-[10px] tracking-[0.18em] uppercase text-muted-foreground mb-3">
-              Gannon Waye, out {SET_FREE_DATE}
+              Gannon Waye · Released {SET_FREE_DATE}
             </motion.p>
 
             <motion.p
@@ -274,9 +274,9 @@ export default function Home() {
               href={SET_FREE_PRESAVE}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
-              className="inline-flex items-center justify-center px-3 py-2 text-[9px] tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
-              Presave
+              onClick={() => trackEvent('stream_click', { source: 'hero_release_day', release: 'Set Free' })}
+              className="inline-flex items-center justify-center gap-1 px-3 py-2 text-[9px] tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
+              <Play className="w-3 h-3" /> Listen Now
             </a>
             <Link to="/store">
               <Button variant="outline" className="px-3 py-2 h-auto text-[9px] tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
