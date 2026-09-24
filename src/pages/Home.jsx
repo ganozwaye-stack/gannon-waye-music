@@ -1,8 +1,7 @@
-import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import SocialLinks from '@/components/public/SocialLinks';
@@ -13,30 +12,17 @@ import UpcomingMerchVote from '@/components/public/UpcomingMerchVote';
 import FirstVisitOnboarding from '@/components/public/FirstVisitOnboarding';
 import ThankYouProjectCTA from '@/components/public/ThankYouProjectCTA';
 import HomeEmailSignup from '@/components/public/HomeEmailSignup';
-import GoldenEmbers from '@/components/three/GoldenEmbers';
 import TiltCard from '@/components/public/TiltCard';
-import HeroWelcomeBanner from '@/components/public/HeroWelcomeBanner';
 import PressKitHomeSection from '@/components/public/PressKitHomeSection';
 import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
-import { trackEvent } from '@/lib/analytics';
+import SetFreeSpaceHero from '@/components/public/setfree-hero/SetFreeSpaceHero';
+import HomeWelcomeSection from '@/components/public/HomeWelcomeSection';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
-// Hero imagery supplied by Gannon, August 2026. Do not reassign these.
-const HERO_IMAGE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/cb360d5ee_image.png';
-const WYH_STENCIL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b82279641_without-you-here-stencil-outline-only-transparent-tight-2026-08-03.png';
-const HERO_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6eb4180010f794/8e23b3544_Ambient_Hero_Loop.mp4';
-const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
-const WYH_ANGEL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3df8d7b0d_image.png';
-
-// Set Free, released 25 September 2026. The Release record was approved and
-// published through the Release Control Desk on release day. The featured block
-// carries the owner-approved copy directly. Artwork is the existing official
-// Set Free artwork from that record, used unchanged.
-const SET_FREE_ART = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e2c44c509_image.png';
-// Direct listening link (Spotify track). The TooLost smart link lives on the Release record.
-const SET_FREE_LISTEN = 'https://open.spotify.com/track/6TzrIFIkFu5HNyZGM4RmqG';
-const SET_FREE_DATE = '25 September 2026';
+// Release day, 25 September 2026: Set Free is the whole hero (galaxy, heart
+// planet on fire, 3D orbit ring). The welcome write-up and Without You Here
+// sit directly beneath it.
 
 // Cover art comes from each release's artwork_url in the database, the single source of truth.
 // Do not hardcode per-song cover overrides here (that caused mis-assigned artwork in the past).
@@ -56,254 +42,15 @@ export default function Home() {
 
   const site = settings[0] || {};
   const releases = releaseCandidates.filter(isPublicRelease);
-  // Set Free takes the featured slot; Without You Here moves into the previous
-  // release position and the hero banner plus memorial touches follow it there.
   const previousRelease = releases.find((release) => release.title === 'Without You Here') || releases[0] || null;
   const previousLink = previousRelease?.id ? `/release/${previousRelease.id}` : '/music';
   const approvedAlbum = releases.find((release) => release.type === 'album') || null;
 
-  // 3D immersive parallax: layers drift at different rates as the hero scrolls away.
-  const heroRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
-  const yContent = useTransform(scrollYProgress, [0, 1], [0, -140]);
-  const yStencil = useTransform(scrollYProgress, [0, 1], [0, -70]);
-  const scaleEmbers = useTransform(scrollYProgress, [0, 1], [1, 1.2]);
-  const opacityHero = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
-
   return (
     <div className="min-h-screen relative">
-      {/* HERO: two columns. Left: artwork + single info. Right: welcome write-up, with the stencil as a backdrop. */}
-      <section ref={heroRef} className="relative min-h-[100svh] overflow-hidden" style={{ perspective: '1200px' }}>
-        {/* Ambient base glow (face photo removed; fire embers carry the hero) */}
-        <div className="absolute inset-0 z-0" style={{ background: 'radial-gradient(120% 80% at 50% 18%, rgba(212,175,55,0.10), rgba(8,8,14,0) 60%)' }} />
-        
+      <SetFreeSpaceHero />
 
-        {/* Ambient fire / campfire hero loop, restored */}
-        <video
-          src={HERO_VIDEO}
-          autoPlay
-          loop
-          muted
-          playsInline
-          aria-hidden
-          className="absolute inset-0 z-[1] w-full h-full object-cover opacity-25 pointer-events-none" />
-
-        {/* Mum, the angel in the Without You Here artwork. Faint, far left, behind everything — her presence at the fire. Slow, almost-imperceptible drift. */}
-        {previousRelease?.title === 'Without You Here' && (
-          <motion.img
-            src={WYH_ANGEL}
-            alt=""
-            aria-hidden
-            className="absolute z-[2] pointer-events-none select-none w-[40%] max-w-[440px] aspect-square object-cover rounded-full"
-            style={{
-              left: '-4%',
-              top: '24%',
-              opacity: 0.4,
-              maskImage: 'radial-gradient(circle, black 52%, transparent 76%)',
-              WebkitMaskImage: 'radial-gradient(circle, black 52%, transparent 76%)',
-              filter: 'drop-shadow(0 0 50px rgba(212,175,55,0.18))',
-            }}
-            animate={{ x: [0, -10, 8, 0], y: [0, 8, -6, 0], scale: [1, 1.02, 1.01, 1] }}
-            transition={{ duration: 34, repeat: Infinity, ease: 'easeInOut' }}
-          />
-        )}
-
-        {/* Gannon, side profile looking up. Right-aligned to the edge, behind everything, standing at the fire. Slow cinematic drift — barely moving, but moving. */}
-        <motion.img
-          src={HERO_PORTRAIT}
-          alt="Gannon Waye"
-          aria-hidden
-          className="absolute z-[2] pointer-events-none select-none inset-0 w-full h-full object-cover"
-          style={{
-            opacity: 0.5,
-            objectPosition: 'right center',
-            maskImage: 'linear-gradient(to right, transparent 0%, black 26%, black 100%)',
-            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 26%, black 100%)',
-            filter: 'drop-shadow(0 0 40px rgba(212,175,55,0.22))'
-          }}
-          animate={{ x: [0, -8, 6, 0], y: [0, -8, 6, 0], scale: [1, 1.02, 1, 1] }}
-          transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut' }} />
-
-        {/* Without You Here artwork now lives as a circular medallion in the left single box */}
-        
-
-        {/* "Without You Here" stencil, stretched out as a background design staple on the right */}
-        {previousRelease?.title === 'Without You Here' && (
-          <motion.img
-            src={WYH_STENCIL}
-            alt=""
-            aria-hidden
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 0.3, x: 0 }}
-            transition={{ duration: 1.8, delay: 0.5 }}
-            className="absolute z-[2] pointer-events-none select-none w-[95%] max-w-[62rem]"
-            style={{ right: '-4%', top: '2%', filter: 'drop-shadow(0 0 34px rgba(212,175,55,0.45))', y: yStencil }}
-          />
-        )}
-        
-
-        {/* Subtle vignette for depth, plus page-blend fades top & bottom */}
-        <div className="absolute inset-0 z-[3] pointer-events-none" style={{ background: 'radial-gradient(130% 90% at 50% 40%, rgba(8,8,14,0) 40%, rgba(8,8,14,0.65) 100%)' }} />
-        <div className="absolute bottom-0 left-0 right-0 h-40 z-[3] pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
-        <div className="absolute top-0 left-0 right-0 h-16 z-[3] pointer-events-none" style={{ background: 'linear-gradient(to bottom, hsl(var(--background)) 0%, transparent 100%)' }} />
-
-        {/* Golden embers, the fire of the hero */}
-        <motion.div className="absolute inset-0 z-[4] pointer-events-none" style={{ scale: scaleEmbers }}>
-          <GoldenEmbers />
-        </motion.div>
-
-        {/* Two-column content: artwork + single info on the left, welcome write-up on the right */}
-        <motion.div style={{ y: yContent, opacity: opacityHero }} className="relative z-10 min-h-[92svh] flex flex-col px-6 md:px-16 lg:px-24 pt-10 md:pt-14 pb-12">
-          {/* Top-center wordmark */}
-          <motion.h1
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.6, delay: 0.2 }}
-            className="text-center font-body text-4xl md:text-6xl tracking-[0.18em] uppercase gradient-gold-text mb-8 md:mb-10">
-            Gannon Waye
-          </motion.h1>
-
-          <div className="grid md:grid-cols-5 gap-8 items-stretch flex-1">
-          {/* LEFT (wide): welcome write-up on top, then the current release, then the CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.6, delay: 0.4 }}
-            className="md:col-span-3 w-full flex flex-col h-full">
-            <div className="relative rounded-2xl border border-border/30 px-6 py-5 backdrop-blur-[2px]"
-                 style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.5) 0%, rgba(8,8,14,0.32) 60%, rgba(8,8,14,0.18) 100%)', boxShadow: '0 8px 28px rgba(0,0,0,0.28)' }}>
-            <motion.p
-              initial={{ opacity: 0, letterSpacing: '0.8em' }}
-              animate={{ opacity: 1, letterSpacing: '0.45em' }}
-              transition={{ duration: 1.4, delay: 0.4 }}
-              className="font-body uppercase gradient-gold-text text-base my-2 px-1">WELCOME</motion.p>
-            <p className="font-body text-sm md:text-[15px] text-foreground/85 leading-relaxed" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>I'm an Adelaide-born singer-songwriter now based in Melbourne. I grew up without access to formal music lessons, so I found my voice through school choirs, church, worship ministry, drag performance and every stage that would have me. After family violence, abusive relationships, addiction, PTSD and losing Mum, I returned to music with a purpose. I'm Still Here is not a search for fame. It is for anyone who needs a song to say what they cannot yet say. This is independent, heart-first art. You are not alone here.
-
-            </p>
-            </div>
-
-            {/* Current release: Without You Here, beneath the welcome */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.4, delay: 0.8 }}
-              className="mt-6">
-              <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-3 text-center md:text-left">Previous Release</p>
-              <HeroWelcomeBanner release={previousRelease} releaseLink={previousLink} badgeLabel="Previous release" />
-              {previousRelease?.title === 'Without You Here' && (
-                <div className="-mt-3 text-center md:text-left">
-                  <Link to="/remember-mum" className="inline-flex items-center gap-1 font-body text-xs tracking-wider uppercase gradient-gold-text hover:opacity-80 transition-opacity">
-                    Read Mum's story <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              )}
-            </motion.div>
-
-          </motion.div>
-
-          {/* RIGHT (narrow): the Set Free new release feature, countdown running down its left side */}
-          {/* Release day (25 Sep 2026): Set Free is out now, shown first on mobile */}
-          <div className="order-first md:order-none md:col-span-2 w-full max-w-sm mx-auto md:mx-0 md:ml-auto flex flex-col h-full md:pb-20">
-          <div className="rounded-2xl border border-primary/40 px-5 py-5 backdrop-blur-[2px]"
-               style={{ background: 'linear-gradient(135deg, rgba(8,8,14,0.55) 0%, rgba(8,8,14,0.35) 60%, rgba(8,8,14,0.2) 100%)', boxShadow: '0 0 28px rgba(212,175,55,0.18), 0 8px 28px rgba(0,0,0,0.28)' }}>
-            <div className="min-w-0 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, delay: 0.4 }}
-              className="mb-4">
-              <p className="font-body text-sm tracking-[0.4em] uppercase gradient-gold-text leading-relaxed">New Single</p>
-              <p className="inline-flex items-center gap-2 font-body text-[10px] tracking-[0.35em] uppercase text-foreground/85 mt-1">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                </span>
-                Out Now
-              </p>
-            </motion.div>
-
-            {/* Cover artwork: the existing official Set Free artwork, unchanged */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.6, delay: 0.6 }}
-              className="mb-4">
-              <a
-                href={SET_FREE_LISTEN}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => trackEvent('stream_click', { source: 'hero_release_day_art', release: 'Set Free' })}
-                className="block mx-auto rounded-full overflow-hidden border-2 border-primary/40 hover:border-primary/70 transition-colors aspect-square max-w-[150px]"
-                style={{ boxShadow: '0 0 24px rgba(212,175,55,0.35), 0 6px 18px rgba(0,0,0,0.45)' }}>
-                <img src={SET_FREE_ART} alt="Set Free, Gannon Waye" className="w-full h-full object-cover" />
-              </a>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.0 }}
-              className="font-body text-xl uppercase tracking-[0.22em] gradient-gold-text mb-1">
-              Set Free
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.4, delay: 1.15 }}
-              className="font-body text-[10px] tracking-[0.18em] uppercase text-muted-foreground mb-3">
-              Gannon Waye · Released {SET_FREE_DATE}
-            </motion.p>
-
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.6, delay: 1.3 }}
-              className="font-body text-xs text-foreground/85 leading-relaxed italic" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>
-              The moment a boundary becomes non negotiable. Set Free is a pop single about reclaiming your voice, protecting your peace and choosing what happens next.
-            </motion.p>
-            </div>
-          </div>
-
-          {/* CTAs: one neat line beneath the new release column */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.4, delay: 1.6 }}
-            className="flex items-center justify-center gap-1.5 mt-4 flex-nowrap">
-            <a
-              href={SET_FREE_LISTEN}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => trackEvent('stream_click', { source: 'hero_release_day', release: 'Set Free' })}
-              className="inline-flex items-center justify-center gap-1 px-3 py-2 text-[9px] tracking-wider uppercase font-body rounded-full gradient-gold-button border-0 whitespace-nowrap">
-              <Play className="w-3 h-3" /> Listen Now
-            </a>
-            <Link to="/store">
-              <Button variant="outline" className="px-3 py-2 h-auto text-[9px] tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
-                Carry the Message
-              </Button>
-            </Link>
-            <Link to="/contact">
-              <Button variant="outline" className="px-3 py-2 h-auto text-[9px] tracking-wider uppercase font-body rounded-full border-primary/40 text-primary hover:bg-primary/10 whitespace-nowrap">
-                Work with Me
-              </Button>
-            </Link>
-          </motion.div>
-          </div>
-          </div>
-        </motion.div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 2 }}
-          className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 pointer-events-none">
-          <span className="font-body text-[9px] tracking-[0.35em] uppercase text-muted-foreground">Scroll</span>
-          <span className="block w-px h-10 bg-gradient-to-b from-primary/70 to-transparent" />
-        </motion.div>
-      </section>
+      <HomeWelcomeSection previousRelease={previousRelease} previousLink={previousLink} />
 
       {/* Welcome prompt: appears the first time a visitor reaches this point */}
       <FirstVisitOnboarding />
