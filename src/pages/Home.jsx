@@ -50,7 +50,7 @@ export default function Home() {
     <div className="min-h-screen relative">
       <SetFreeSpaceHero />
 
-      <HomeWelcomeSection previousRelease={previousRelease} previousLink={previousLink} />
+      <HomeWelcomeSection previousRelease={previousRelease} previousLink={previousLink} settings={site} />
 
       {/* Welcome prompt: appears the first time a visitor reaches this point */}
       <FirstVisitOnboarding />
@@ -69,7 +69,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-10">
+            className="text-left mb-10">
             
             <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">About</p>
             <h2 className="font-body text-3xl md:text-5xl gradient-gold-text text-[hsl(var(--foreground))]">The Story</h2>
@@ -96,10 +96,10 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="w-52 flex flex-col items-center gap-1">
+              className="w-52 flex flex-col items-start gap-1">
               
               <div className="w-0.5 h-6 bg-gradient-to-b from-primary to-primary/30" />
-              <div className="font-display text-base gradient-gold-glow leading-7 italic text-center space-y-0">
+              <div className="font-display text-base gradient-gold-glow leading-7 italic text-left space-y-0">
                 <p>I didn't truly love myself</p>
                 <p>until I was 33.</p>
                 <p>Before that, I woke up</p>
@@ -122,7 +122,7 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="font-body text-foreground/70 leading-relaxed text-sm text-right space-y-4 pt-8">
+              className="font-body text-foreground/70 leading-relaxed text-sm text-left space-y-4 pt-8">
               
               <p>My journey has not been simple. Childhood was shaped by family violence, an abusive father and a mother who struggled to regulate overwhelming emotion. In adulthood I survived abusive relationships, coercive control, addiction, PTSD and the loss of Mum. Each time life knocked me down, music gave me a way to stand again.</p>
               <p>The stages kept coming: I twice reached the grand final of Adelaide's Search for a Star, reached the Top 100 of Australian Idol, performed as a drag artist and opened Feast Festival in 2012. But the purpose is not trophies or fame. It is finding the voice I was denied and using it to reach someone else.</p>
@@ -132,13 +132,13 @@ export default function Home() {
 
           {/* Mobile fallback, stacked, full story */}
           <div className="md:hidden space-y-6">
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left">
               I was born and raised in Adelaide and now call Melbourne home. We did not have the money for formal music lessons, no matter how often I asked, cried or begged, but that never weakened the drive. I learned by taking every chance available: leading school choirs, singing in church and eventually serving as a worship minister.
             </p>
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left">
               I think deeply, feel deeply, and notice what others often miss. I'm obsessed with travel and culture. I care about people's wellbeing, sometimes more than they even realise about themselves. That perspective finds its way into everything I write.
             </p>
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center italic">
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left italic">
               I've been misunderstood and mislabelled more times than I can count. But I've learned that being misunderstood doesn't mean you're wrong. It often means you're seeing something others aren't ready for yet.
             </p>
             <div className="border-l-2 border-primary pl-4 font-display text-sm gradient-gold-glow italic leading-7">
@@ -154,13 +154,13 @@ export default function Home() {
               <p>I didn't want to be</p>
               <p>anyone else.</p>
             </div>
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left">
               My journey has not been simple. Childhood was shaped by family violence, an abusive father and a mother who struggled to regulate overwhelming emotion. In adulthood I survived abusive relationships, coercive control, addiction, PTSD and the loss of Mum. Each time life knocked me down, music gave me a way to stand again.
             </p>
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left">
               The stages kept coming: I twice reached the grand final of Adelaide's Search for a Star, reached the Top 100 of Australian Idol, performed as a drag artist and opened Feast Festival in 2012. But the purpose is not trophies or fame. It is finding the voice I was denied and using it to reach someone else.
             </p>
-            <p className="font-body text-foreground/70 leading-relaxed text-sm text-center">
+            <p className="font-body text-foreground/70 leading-relaxed text-sm text-left">
               I'm Still Here brings that purpose together. It is for the person searching for a song that can say what they cannot yet say, and for anyone who needs proof that being knocked down is not the end of the story.
             </p>
           </div>
@@ -170,9 +170,9 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-12 flex justify-center">
+            className="mt-12 flex justify-start">
             
-            <SocialLinks settings={site} className="justify-center" />
+            <SocialLinks settings={site} className="justify-start" />
           </motion.div>
         </div>
       </section>
@@ -187,7 +187,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12">
+            className="text-left mb-12">
             
               <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Latest</p>
               <h2 className="font-body text-3xl md:text-5xl gradient-gold-text">Music</h2>
@@ -195,8 +195,8 @@ export default function Home() {
 
             {/* Album, featured at top center */}
             {approvedAlbum &&
-          <div className="mb-8 max-w-2xl mx-auto">
-                <div className="relative overflow-hidden rounded-2xl p-8 md:p-10 text-center"
+          <div className="mb-8 max-w-2xl">
+                <div className="relative overflow-hidden rounded-2xl p-8 md:p-10 text-left"
             style={{
               background: 'linear-gradient(135deg, rgba(212,175,55,0.12) 0%, rgba(245,208,110,0.06) 50%, rgba(212,175,55,0.12) 100%)',
               border: '2px solid rgba(245,208,110,0.35)',
@@ -205,7 +205,7 @@ export default function Home() {
                   <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Current Album</p>
                   <h3 className="font-body text-3xl md:text-4xl gradient-gold-text mb-2">{approvedAlbum.title}</h3>
                   <p className="font-body text-sm text-muted-foreground">{approvedAlbum.description}</p>
-                  <div className="flex items-center justify-center gap-2 mt-4">
+                  <div className="flex items-center justify-start gap-2 mt-4">
                     <span className="relative flex h-2 w-2">
                       <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                       <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
@@ -216,7 +216,7 @@ export default function Home() {
               </div>
           }
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 max-w-xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5 max-w-xl">
               {/* Without You Here now shows from the published releases list below, no longer a Coming Soon card */}
               {releases.slice(0, 2).map((release) =>
             <TiltCard key={release.id} max={6} className="rounded-2xl">
@@ -255,7 +255,7 @@ export default function Home() {
                 </TiltCard>
             )}
             </div>
-            <div className="text-center mt-10">
+            <div className="text-left mt-10">
               <Link to="/music">
                 <Button className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase gradient-gold-button border-0">
                   View All Music <ArrowRight className="w-4 h-4 ml-2" />

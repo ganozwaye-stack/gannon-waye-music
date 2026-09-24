@@ -30,7 +30,7 @@ export default function SetFreeSpaceHero() {
     <section
       aria-label="Set Free, the new single, out now"
       onPointerMove={onMove}
-      className="relative -mt-16 min-h-[100svh] overflow-hidden flex items-center justify-center px-5 pt-20 pb-28 md:pb-20"
+      className="relative -mt-16 min-h-[100svh] overflow-hidden flex items-center justify-start px-5 md:px-10 pt-20 pb-28 md:pb-20"
       style={{ background: '#05060b' }}
     >
       <GalaxyBackdrop />
@@ -40,7 +40,12 @@ export default function SetFreeSpaceHero() {
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(5,6,11,0) 45%, rgba(5,6,11,0.75) 100%)' }} />
       <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
-      <div className="relative z-10 flex flex-col items-center text-center">
+      <div className="relative z-10 w-full max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-4 md:gap-10">
+        <motion.div className="order-1 md:order-2 flex justify-start md:justify-end" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, ease: 'easeOut' }}>
+          <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
+        </motion.div>
+
+        <div className="order-2 md:order-1 flex flex-col items-start text-left">
         <motion.p
           initial={{ opacity: 0, letterSpacing: '0.8em' }}
           animate={{ opacity: 1, letterSpacing: '0.45em' }}
@@ -54,15 +59,11 @@ export default function SetFreeSpaceHero() {
           New Single · Out Now
         </motion.p>
 
-        <motion.div initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, ease: 'easeOut' }}>
-          <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
-        </motion.div>
-
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.4, delay: 0.6 }}
-          className="-mt-8 md:-mt-14 font-body text-5xl sm:text-6xl md:text-7xl tracking-[0.16em] uppercase gradient-gold-glow"
+          className="mt-3 font-body text-5xl sm:text-6xl md:text-7xl tracking-[0.16em] uppercase gradient-gold-glow"
         >
           Set Free
         </motion.h1>
@@ -81,7 +82,7 @@ export default function SetFreeSpaceHero() {
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 1.3 }}
-          className="flex flex-wrap items-center justify-center gap-2 mt-5"
+          className="flex flex-wrap items-center justify-start gap-2 mt-5"
         >
           <a
             href={SET_FREE_LISTEN}
@@ -103,6 +104,7 @@ export default function SetFreeSpaceHero() {
             </Button>
           </Link>
         </motion.div>
+        </div>
       </div>
     </section>
   );

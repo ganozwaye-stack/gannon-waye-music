@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import SiteSearch from '@/components/public/SiteSearch';
 import MagneticButton from '@/components/public/MagneticButton';
 import { FEATURE_FLAGS } from '@/lib/platformConfig';
+import NavDropdown from '@/components/public/NavDropdown';
 
 
 const PORTRAIT_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
@@ -14,7 +15,13 @@ const PORTRAIT_URL = 'https://media.base44.com/images/public/69eb7905ca6eb418001
 const NAV_LINKS = [
 { label: 'Home', path: '/' },
 { label: 'Biography', path: '/biography' },
-{ label: 'Music', path: '/music' },
+{ label: 'Music', path: '/music', children: [
+  { label: 'All Music', path: '/music' },
+  { label: 'Lyrics', path: '/lyrics' },
+  { label: 'Lyric Library', path: '/lyric-library' },
+  { label: 'Upcoming Music', path: '/upcoming-music' },
+  { label: 'Discover Music', path: '/discover' },
+  { label: 'Videos', path: '/videos' }] },
 { label: 'Store', path: '/store' },
 ...(FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED ? [{ label: 'Coaching', path: '/coaching', soon: true }] : []),
 { label: 'Press', path: '/press' },
@@ -23,9 +30,6 @@ const NAV_LINKS = [
 
 const MORE_LINKS = [
 { label: 'My Story', path: '/this-is-my-life' },
-{ label: 'Videos', path: '/videos' },
-{ label: 'Lyric Library', path: '/lyric-library' },
-{ label: 'Discover Music', path: '/discover' },
 { label: 'Fan Reminders', path: '/fan-reminders' },
 { label: 'FAQ', path: '/faq' },
 { label: 'Orders', path: '/orders' },
@@ -62,8 +66,9 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-2.5 flex-nowrap whitespace-nowrap absolute left-1/2 -translate-x-1/2">
+        <div className="hidden md:flex items-center gap-2.5 flex-nowrap whitespace-nowrap ml-6 mr-auto">
           {NAV_LINKS.map((link) => {
+            if (link.children) return <NavDropdown key={link.label} label={link.label} links={link.children} />;
             const active = location.pathname === link.path;
             const isHighlighted = link.highlight || link.path === '/store';
             const isBoutique = link.boutique;
@@ -190,7 +195,19 @@ export default function Navbar() {
           className="md:hidden border-t border-border/60 bg-background/97 backdrop-blur-xl max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain">
           
             <div className="px-6 py-4 flex flex-col gap-1">
-              {NAV_LINKS.map((link) =>
+              {NAV_LINKS.map((link) => link.children ?
+            <div key={link.label} className="py-2.5 border-b border-border/20">
+                  <p className="font-body text-sm tracking-widest uppercase text-foreground/80 font-medium mb-1">{link.label}</p>
+                  {link.children.map((child) =>
+              <Link
+                key={child.path}
+                to={child.path}
+                onClick={() => setOpen(false)}
+                className={`block pl-4 py-1.5 font-body text-xs tracking-widest uppercase ${location.pathname === child.path ? 'text-primary' : 'text-foreground/65 hover:text-foreground'}`}>
+                      {child.label}
+                    </Link>
+              )}
+                </div> :
             <Link
               key={link.path}
               to={link.path}
