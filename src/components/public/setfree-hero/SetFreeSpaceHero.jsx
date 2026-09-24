@@ -54,7 +54,7 @@ export default function SetFreeSpaceHero() {
           New Single · Out Now
         </motion.p>
 
-        <motion.div initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.8, ease: 'easeOut' }}>
+        <motion.div initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, ease: 'easeOut' }}>
           <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
         </motion.div>
 

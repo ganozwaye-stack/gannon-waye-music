@@ -6,7 +6,9 @@ import OrbitRing3D from './OrbitRing3D';
 // The official Set Free heart (never regenerated or edited, only masked for
 // display) floating like a planet: real campfire footage and live flames burn
 // around it, the orbit ring passes behind and in front, and it tilts in 3D.
-const HEART_ART = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/63b521cc9_ArtworkSETFREEGANNONWAYE.jpg';
+// Web-sized copy (1000px, 175 KB) of the official 3500px artwork, same image
+// scaled down only, so the hero heart appears straight away.
+const HEART_ART = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/5008be4ec_SetFreeHeart_web1000.jpg';
 const FIRE_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6eb4180010f794/8e23b3544_Ambient_Hero_Loop.mp4';
 
 const HEART_MASK = 'radial-gradient(ellipse 52% 50% at 50% 47%, black 68%, transparent 100%), linear-gradient(to bottom, black 72%, transparent 80%)';
@@ -45,6 +47,8 @@ export default function HeartPlanet({ rotateX, rotateY }) {
           src={HEART_ART}
           alt="Set Free by Gannon Waye, a cracked gold heart on fire in space"
           draggable="false"
+          fetchpriority="high"
+          loading="eager"
           className="absolute inset-0 w-full h-full object-cover select-none"
           style={{
             mixBlendMode: 'screen',
