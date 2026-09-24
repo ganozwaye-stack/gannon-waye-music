@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 // The site-wide release ticker, permanently fixed to the bottom of the screen
 // on desktop. Mobile keeps its bottom tab bar instead of this strip.
 const ITEMS = [
-  'Set Free, out 25 September 2026',
+  'Set Free, out now',
   'Join the community and follow the story',
   'Independent, heart-first music from Gannon Waye',
 ];

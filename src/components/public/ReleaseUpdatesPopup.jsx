@@ -110,7 +110,7 @@ export default function ReleaseUpdatesPopup() {
                   Stay updated on new releases?
                 </h2>
                 <p className="font-body text-sm text-muted-foreground leading-relaxed mb-6">
-                  Be the first to hear about new music, including Set Free, out 25 September.
+                  Be the first to hear about new music. Set Free is out now.
                 </p>
                 <form onSubmit={submit} className="flex flex-col sm:flex-row gap-2.5">
                   <input

@@ -29,12 +29,13 @@ const HERO_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6eb4180010f
 const HERO_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
 const WYH_ANGEL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/3df8d7b0d_image.png';
 
-// Set Free, the next single, out 25 September 2026. The Release record is still
-// behind the public approval gates (deliberately untouched), so the featured block
+// Set Free, released 25 September 2026. The Release record was approved and
+// published through the Release Control Desk on release day. The featured block
 // carries the owner-approved copy directly. Artwork is the existing official
 // Set Free artwork from that record, used unchanged.
 const SET_FREE_ART = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e2c44c509_image.png';
-const SET_FREE_PRESAVE = 'https://too.fm/setfree_gannonwaye';
+// Direct listening link (Spotify track). The TooLost smart link lives on the Release record.
+const SET_FREE_LISTEN = 'https://open.spotify.com/track/6TzrIFIkFu5HNyZGM4RmqG';
 const SET_FREE_DATE = '25 September 2026';
 
 // Cover art comes from each release's artwork_url in the database, the single source of truth.
@@ -228,10 +229,10 @@ export default function Home() {
               transition={{ duration: 1.6, delay: 0.6 }}
               className="mb-4">
               <a
-                href={SET_FREE_PRESAVE}
+                href={SET_FREE_LISTEN}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackEvent('presave_click', { source: 'hero_next_release', release: 'Set Free' })}
+                onClick={() => trackEvent('stream_click', { source: 'hero_release_day_art', release: 'Set Free' })}
                 className="block mx-auto rounded-full overflow-hidden border-2 border-primary/40 hover:border-primary/70 transition-colors aspect-square max-w-[150px]"
                 style={{ boxShadow: '0 0 24px rgba(212,175,55,0.35), 0 6px 18px rgba(0,0,0,0.45)' }}>
                 <img src={SET_FREE_ART} alt="Set Free, Gannon Waye" className="w-full h-full object-cover" />
@@ -271,7 +272,7 @@ export default function Home() {
             transition={{ duration: 1.4, delay: 1.6 }}
             className="flex items-center justify-center gap-1.5 mt-4 flex-nowrap">
             <a
-              href={SET_FREE_PRESAVE}
+              href={SET_FREE_LISTEN}
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent('stream_click', { source: 'hero_release_day', release: 'Set Free' })}

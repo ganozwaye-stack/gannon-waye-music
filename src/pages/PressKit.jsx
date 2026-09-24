@@ -96,12 +96,12 @@ export default function PressKit() {
             </p>
           ) : (
             <div className="grid sm:grid-cols-2 gap-4">
-              {/* Set Free, the next single, out 25 September 2026. Its Release record
-                  is still behind the public approval gates, so the press details are
-                  carried here directly. Sits above the public catalogue. */}
+              {/* Set Free, released 25 September 2026. Its Release record is now public,
+                  so it is shown once here (with the approved press copy) and left out
+                  of the catalogue list below to avoid a duplicate card. */}
               <article className="rounded-2xl border border-primary/35 bg-background/30 p-5">
                 <p className="font-body text-[10px] tracking-[0.25em] uppercase text-primary">
-                  Single · Out 25 September 2026
+                  Single · Released 25 September 2026
                 </p>
                 <h3 className="font-display text-2xl text-foreground mt-1">Set Free</h3>
                 <p className="font-body text-xs text-muted-foreground mt-1">
@@ -111,12 +111,12 @@ export default function PressKit() {
                   Set Free captures the moment a boundary becomes non negotiable, built on the line "I'm not the one you're breaking anymore." It moves towards peace, freedom and reclaiming your voice.
                 </p>
                 <a
-                  href="https://too.fm/setfree_gannonwaye"
+                  href="https://open.spotify.com/track/6TzrIFIkFu5HNyZGM4RmqG"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-full gradient-gold-button border-0 px-5 py-2.5 mt-4 font-body text-xs tracking-wider uppercase"
                 >
-                  Presave Set Free
+                  Listen to Set Free
                 </a>
               </article>
               {releases.length === 0 && (
@@ -124,7 +124,7 @@ export default function PressKit() {
                   No release is currently approved for public press use. Please contact Gannon for private review material.
                 </p>
               )}
-              {releases.map((release) => (
+              {releases.filter((release) => release.title !== 'Set Free').map((release) => (
                 <PressReleaseCard key={release.id} release={release} />
               ))}
             </div>
