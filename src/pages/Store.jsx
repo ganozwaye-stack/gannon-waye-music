@@ -13,6 +13,7 @@ import CartDrawer from '@/components/store/CartDrawer';
 import AdminEditButton from '@/components/store/AdminEditButton';
 import LockedStorefrontHero from '@/components/store/LockedStorefrontHero';
 import { fetchLiveStoreProducts } from '@/lib/liveStoreProducts';
+import UpcomingMerchVote from '@/components/public/UpcomingMerchVote';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -461,6 +462,8 @@ export default function Store() {
           </>
         )}
 
+
+        <div className="mt-10 -mx-4 md:-mx-6"><UpcomingMerchVote /></div>
 
         <p className="text-center font-body text-xs text-muted-foreground/40 mt-10 tracking-wide">
           Independent music, merchandise, and community support.

@@ -92,7 +92,9 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
         // top pad. The live-measured nav bottom cancels that pad out exactly, so
         // the top edge of the photo meets the menu's bottom border with zero gap
         // (symmetrical with the screen edge), on desktop and mobile alike.
-        marginTop: `calc(${navBottom ?? 62}px - 4rem)`,
+        // Owner-directed (25 September 2026): drop the artwork a little below the
+        // menu so the neon signage at the top of the shopfront is fully revealed.
+        marginTop: `calc(${navBottom ?? 62}px - 4rem + 1.5rem)`,
         // Owner-directed (10 September 2026): show the ENTIRE original
         // photograph — no cover-crop. The v1 photo already contains the
         // GANNON WAYE neon signage at the top, the full shopfront on both
