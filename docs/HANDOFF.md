@@ -153,6 +153,14 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-09-25 · ChatGPT via Base44 connector · Carry The Message owner artwork directions
+
+Did:      Saved docs/CARRY_MESSAGE_HANDOFF_2026_09_25.md on feature/carry-message-handoff-20260925. Consolidated all 20 source references, the owner's placement/edit directions, supplier evidence and the private website preparation brief. This is a documentation handover, not completed design work or a dispatched supplier order.
+Found:    The source board identifies the blue heart as 13. Owner says 02 is the inside neck label, 12 is general gratitude rather than necessarily the track, and 08 is the same design family as 06. DropSHIRT documents manual customer delivery and separately charged extra prints/label rebranding. Prodigi lists AU calendar fulfilment but its page conflicts between 2026 prose and 2027 SKU labels. Relevant primary URLs and the exact source filename map are in the handover.
+Left:     No original images attached or transferred; no background edits or print exports made; no supplier orders, pricing changes, live product writes or website deployment. Entity schema access returned upstream_forbidden. Production readiness remains open. Bracelets are deferred. The unchanged boutique world remains locked. Review the current branch and do not merge without owner approval.
+For:      Base44 or the implementing designer to recover exact originals, complete 09/14 separation and 15/16 composite first, and return supplier matched proofs and quotes. Do not reassign this sprint to Claude while he is on the film clip. No worker execution or completion is implied by this log entry.
+
+
 ### 2026-09-17 · Base44 · music queue player, home hero, CI repair
 
 Did:      Added a song queue to the shared player (`src/lib/playerStore.js`: playQueue, addToQueue, next, prev, playAt, removeAt) and rebuilt `GlobalPlayerDock.jsx` as a music player with previous/next, a queue list and an inline lyrics panel for the current song. New `SpotifyEmbed.jsx` uses Spotify's IFrame API so the queue advances when a track ends (falls back to a plain embed if the API script is blocked). Music page gained Play all, Play and Queue buttons. Removed the bottom centre `SocialProofTicker` popup and the now unused `LyricsOverlay`. Home hero rearranged: welcome write up wide on the left top, Without You Here beneath it, Set Free narrow on the right with the countdown running vertically down its left side (`SetFreeCountdown` gained a `vertical` prop). CI: Playwright now runs from the repo root on the Chromium projects only, TruffleHog checks out full history without a base ref, store/security jobs set LIVE=1, and the missing `security.spec.js` and `coaching-private-lock.spec.js` were written (14 tests, all pass locally).
