@@ -139,6 +139,9 @@ function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
   const cfg = PRODUCT_CONFIG[product.id];
   const badge = PRODUCT_BADGES[product.id];
   const isCd = product.category === 'cd';
+  // Items added in the last 14 days get a bold New Drop badge so the newest
+  // designs stand out the moment they go live.
+  const isNew = product.created_date && (Date.now() - new Date(product.created_date).getTime() < 14 * 86400000);
   const galleryImages = product.images_array?.length > 0 ? product.images_array.filter(Boolean) : null;
   const allImages = galleryImages || (product.image_url ? [product.image_url] : []);
   const singleImage = product.image_url;
@@ -185,7 +188,7 @@ function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
         id={`store-product-${product.id}`}
         data-testid="product-card"
         data-product-id={product.id}
-        className="group rounded-2xl border border-border/30 hover:border-primary/30 bg-card/40 overflow-hidden backdrop-blur-sm transition-all duration-300"
+        className="group rounded-2xl border-2 border-primary/20 hover:border-primary/60 bg-card/50 overflow-hidden backdrop-blur-sm transition-all duration-300 shadow-[0_10px_30px_rgba(0,0,0,0.35)]"
       >
         {/* Image — click to open detail modal */}
         <div className="relative cursor-pointer" onClick={() => setDetailOpen(true)}>
@@ -213,6 +216,10 @@ function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
               <span className="font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 bg-red-500/15 text-red-400 border-red-500/30">
                 Sold Out
               </span>
+            ) : isNew ? (
+              <span className="font-body text-[9px] tracking-[0.15em] uppercase font-semibold border rounded-full px-2 py-0.5 bg-primary text-primary-foreground border-primary shadow-[0_0_12px_rgba(212,175,55,0.5)]">
+                New Drop
+              </span>
             ) : badge ? (
               <span className={`font-body text-[9px] tracking-[0.15em] uppercase border rounded-full px-2 py-0.5 ${badge.color}`}>
                 {badge.label}
@@ -231,7 +238,7 @@ function ProductCard({ product, completeSetProduct, onCheckout, onViewCart }) {
             <p data-testid="product-title" className="font-display text-sm text-foreground leading-snug">{product.name}</p>
             <AdminEditButton href={`/admin/merch-designs`} label="Edit" className="shrink-0" />
           </div>
-          <p data-testid="product-price" className="font-body text-sm gradient-gold-glow font-medium">${price} AUD</p>
+          <p data-testid="product-price" className="font-body text-lg font-bold gradient-gold-glow">${price} AUD</p>
           {cfg?.sub && (
             <p className="font-body text-[10px] text-muted-foreground/60 mt-1 leading-relaxed">{cfg.sub}</p>
           )}
@@ -398,7 +405,7 @@ export default function Store() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-6"
+          className="text-left mb-6"
         >
           <p className="font-body text-[10px] tracking-[0.32em] uppercase text-primary/70 mb-3">Available now</p>
           <h1 className="font-display text-3xl md:text-4xl text-foreground mb-5">Shop the collection</h1>
@@ -434,12 +441,11 @@ export default function Store() {
         {cdProducts.length > 0 && (
           <>
             <div className="flex items-center gap-4 mt-12 mb-6">
-              <div className="flex-1 h-px bg-border/40" />
-              <span className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Music</span>
+              <span className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Music</span>
               <div className="flex-1 h-px bg-border/40" />
             </div>
-            <div className="flex justify-center">
-              <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full max-w-2xl">
+            <div className="flex justify-start">
+              <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
                 {cdProducts.map(product => (
                    <ProductCard key={product.id} product={product} completeSetProduct={COMPLETE_SET_SOURCE_IDS.has(product.id) ? completeSetProduct : null} onCheckout={() => navigate('/store/cart-details')} onViewCart={() => setCartOpen(true)} />
                  ))}
@@ -452,8 +458,7 @@ export default function Store() {
         {merchProducts.length > 0 && (
           <>
             <div className="flex items-center gap-4 mt-14 mb-6">
-              <div className="flex-1 h-px bg-border/40" />
-              <span className="font-body text-[10px] tracking-[0.3em] uppercase text-muted-foreground/50">Merch</span>
+              <span className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text">Merch</span>
               <div className="flex-1 h-px bg-border/40" />
             </div>
             <div data-testid="product-grid" className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -467,7 +472,7 @@ export default function Store() {
 
         <div className="mt-10 -mx-4 md:-mx-6"><UpcomingMerchVote /></div>
 
-        <p className="text-center font-body text-xs text-muted-foreground/40 mt-10 tracking-wide">
+        <p className="text-left font-body text-xs text-muted-foreground/40 mt-10 tracking-wide">
           Independent music, merchandise, and community support.
         </p>
       </div>

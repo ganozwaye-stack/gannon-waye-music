@@ -321,6 +321,9 @@ const AuthenticatedApp = () => {
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/store/checkout-cancel" element={<Navigate to="/checkout-cancel" replace />} />
         <Route path="/presave" element={<PreSave />} />
+        {/* Clean, promotable URL for the current single (Set Free). Points at
+            the current single feature page, which follows is_current_single. */}
+        <Route path="/set-free" element={<Navigate to="/current-single" replace />} />
         <Route path="/release/:id" element={<ReleaseDetail />} />
         <Route path="/store/product/:slug" element={<Navigate to="/store" replace />} />
         <Route path="/releases" element={<ReleasesRedirect />} />

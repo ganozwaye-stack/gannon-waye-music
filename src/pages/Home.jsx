@@ -18,6 +18,7 @@ import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
 import SetFreeSpaceHero from '@/components/public/setfree-hero/SetFreeSpaceHero';
 import HomeWelcomeSection from '@/components/public/HomeWelcomeSection';
 import BehindTheScenes from '@/components/public/BehindTheScenes';
+import HomeActivityFeed from '@/components/public/HomeActivityFeed';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
@@ -61,6 +62,9 @@ export default function Home() {
 
       {/* Behind the scenes: studio photos from the recording sessions */}
       <BehindTheScenes />
+
+      {/* Dynamic feed of Gannon's recent activity and posts */}
+      <HomeActivityFeed />
 
       {/* Featured merchandise display: the Thank You collection */}
       <FeaturedMerchShowcase />
