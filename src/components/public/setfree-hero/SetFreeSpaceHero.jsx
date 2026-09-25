@@ -40,6 +40,19 @@ export default function SetFreeSpaceHero() {
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(5,6,11,0) 45%, rgba(5,6,11,0.75) 100%)' }} />
       <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
+      {/* The official GW circle monogram, top of the homepage. Breathing glow,
+          never regenerated: the approved logo asset exactly as uploaded. */}
+      <motion.img
+        src="https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6e6f577bf_GW.png"
+        alt="Gannon Waye Music"
+        draggable="false"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1 }}
+        className="absolute top-24 md:top-28 left-5 md:left-10 z-20 w-12 h-12 md:w-16 md:h-16 object-contain pointer-events-none select-none"
+        style={{ filter: 'drop-shadow(0 0 10px rgba(212,175,55,0.45))' }}
+      />
+
       <div className="relative z-10 w-full max-w-6xl mx-auto grid md:grid-cols-2 items-center gap-4 md:gap-10">
         <motion.div className="order-1 md:order-2 flex justify-start md:justify-end" initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, ease: 'easeOut' }}>
           <HeartPlanet rotateX={rotateX} rotateY={rotateY} />

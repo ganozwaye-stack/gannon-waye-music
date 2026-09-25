@@ -19,7 +19,7 @@ export default function MerchDropCountdown() {
     return (
       <div className="rounded-2xl border border-primary/40 bg-primary/10 px-5 py-5 mb-10 text-left flex items-center gap-3">
         <Sparkles className="w-6 h-6 text-primary flex-shrink-0" />
-        <p className="font-body text-lg md:text-2xl uppercase tracking-wider gradient-gold-glow">The new merch has dropped · Shop it below</p>
+        <p className="font-body text-lg md:text-2xl uppercase tracking-wider gradient-gold-glow">The Set Free merch has dropped · Shop it below</p>
       </div>
     );
   }
@@ -33,7 +33,7 @@ export default function MerchDropCountdown() {
 
   return (
     <div className="rounded-2xl border border-primary/40 px-5 py-6 md:px-8 md:py-8 mb-10 text-left" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.14), rgba(8,8,14,0.85))', perspective: 900 }}>
-      <p className="font-body text-[11px] tracking-[0.35em] uppercase text-primary mb-2">New merch drops today · 5pm AEST</p>
+      <p className="font-body text-[11px] tracking-[0.35em] uppercase text-primary mb-2">The Set Free merch drop · today 5pm AEST</p>
       <h2 className="font-body text-2xl md:text-4xl uppercase tracking-wider gradient-gold-text mb-5">Don't miss the drop</h2>
       <div className="flex justify-start gap-3 md:gap-5">
         {units.map((u) => (

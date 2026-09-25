@@ -15,6 +15,7 @@ import LockedStorefrontHero from '@/components/store/LockedStorefrontHero';
 import { fetchLiveStoreProducts } from '@/lib/liveStoreProducts';
 import UpcomingMerchVote from '@/components/public/UpcomingMerchVote';
 import MerchDropCountdown from '@/components/store/MerchDropCountdown';
+import SetFreeStoreBanner from '@/components/store/SetFreeStoreBanner';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -398,14 +399,18 @@ export default function Store() {
 
       <div className="max-w-6xl mx-auto px-4 md:px-8 pt-12">
 
+        {/* Set Free promo banner, under the boutique world, before the products */}
+        <SetFreeStoreBanner />
+
         {/* Countdown to the 5pm AEST merch drop */}
         <MerchDropCountdown />
 
         {/* Page header */}
         <motion.div
+          id="store-products"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-left mb-6"
+          className="text-left mb-6 scroll-mt-24"
         >
           <p className="font-body text-[10px] tracking-[0.32em] uppercase text-primary/70 mb-3">Available now</p>
           <h1 className="font-display text-3xl md:text-4xl text-foreground mb-5">Shop the collection</h1>
