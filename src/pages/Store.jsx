@@ -16,6 +16,8 @@ import { fetchLiveStoreProducts } from '@/lib/liveStoreProducts';
 import UpcomingMerchVote from '@/components/public/UpcomingMerchVote';
 import MerchDropCountdown from '@/components/store/MerchDropCountdown';
 import SetFreeStoreBanner from '@/components/store/SetFreeStoreBanner';
+import StoreCrashed from '@/components/store/StoreCrashed';
+import { STORE_CRASHED } from '@/config/storeStatus';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -392,6 +394,10 @@ export default function Store() {
         ? worldProduct.images_array.filter(Boolean)
         : worldProduct.image_url ? [worldProduct.image_url] : [])
     : [];
+
+  // Emergency crash state. While the storefront switch is tripped, the page
+  // renders the raw failure screen instead of the locked boutique store.
+  if (STORE_CRASHED) return <StoreCrashed />;
 
   return (
     <div data-testid="store-page" className={`min-h-screen pb-24 ${hasItems ? 'pb-36' : ''}`}>
