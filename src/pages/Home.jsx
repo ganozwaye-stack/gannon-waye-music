@@ -16,15 +16,14 @@ import TiltCard from '@/components/public/TiltCard';
 import PressKitHomeSection from '@/components/public/PressKitHomeSection';
 import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
 import SetFreeSpaceHero from '@/components/public/setfree-hero/SetFreeSpaceHero';
-import HomeWelcomeSection from '@/components/public/HomeWelcomeSection';
 import BehindTheScenes from '@/components/public/BehindTheScenes';
 import HomeActivityFeed from '@/components/public/HomeActivityFeed';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
 // Release day, 25 September 2026: Set Free is the whole hero (galaxy, heart
-// planet on fire, 3D orbit ring). The welcome write-up and Without You Here
-// sit directly beneath it.
+// planet on fire, 3D orbit ring). The welcome greeting, Set Free box and
+// previous release all sit up high inside the hero, stacked on the right.
 
 // Cover art comes from each release's artwork_url in the database, the single source of truth.
 // Do not hardcode per-song cover overrides here (that caused mis-assigned artwork in the past).
@@ -50,9 +49,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
-      <SetFreeSpaceHero />
-
-      <HomeWelcomeSection previousRelease={previousRelease} previousLink={previousLink} settings={site} />
+      <SetFreeSpaceHero previousRelease={previousRelease} previousLink={previousLink} settings={site} />
 
       {/* Welcome prompt: appears the first time a visitor reaches this point */}
       <FirstVisitOnboarding />
