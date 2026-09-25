@@ -31,13 +31,13 @@ function RingHalf({ clip, z }) {
 export default function HeartPlanet({ rotateX, rotateY }) {
   return (
     <motion.div
-      style={{ rotateX, rotateY, transformPerspective: 1200, transformStyle: 'preserve-3d' }}
+      style={{ rotateX, rotateY, transformPerspective: 900, transformStyle: 'preserve-3d' }}
       className="relative aspect-square w-[min(84vw,50svh,560px)]"
     >
       <motion.div
         className="absolute inset-0"
         style={{ transformStyle: 'preserve-3d' }}
-        animate={{ y: [0, -14, 0], rotateY: [-10, 10, -10], rotateZ: [-1, 1, -1] }}
+        animate={{ y: [0, -16, 0], rotateX: [7, 13, 7], rotateY: [-10, 10, -10], rotateZ: [-1, 1, -1] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       >
         <div className="absolute -inset-[18%] rounded-full pointer-events-none"
@@ -53,7 +53,7 @@ export default function HeartPlanet({ rotateX, rotateY }) {
           decoding="async"
           className="absolute inset-0 w-full h-full object-contain select-none"
           style={{ transform: 'translateZ(0px)' }}
-          animate={{ filter: ['drop-shadow(0 0 18px rgba(255,90,30,0.35)) brightness(1)', 'drop-shadow(0 0 32px rgba(255,120,40,0.55)) brightness(1.12)', 'drop-shadow(0 0 18px rgba(255,90,30,0.35)) brightness(1)'] }}
+          animate={{ filter: ['drop-shadow(0 0 26px rgba(255,90,30,0.45)) brightness(1)', 'drop-shadow(0 0 44px rgba(255,120,40,0.65)) brightness(1.14)', 'drop-shadow(0 0 26px rgba(255,90,30,0.45)) brightness(1)'] }}
           transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
         />
         <RingHalf clip={RING_FRONT} z={40} />

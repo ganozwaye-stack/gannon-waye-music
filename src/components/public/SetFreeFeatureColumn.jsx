@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom';
-import { ArrowRight, ExternalLink } from 'lucide-react';
-import { MERCH_DROP_AT } from '@/config/merchDrop';
+import { ExternalLink } from 'lucide-react';
 
-// Set Free feature column: direct links to the major platforms, socials
-// (from Site Settings) and the store's new merch drop. Left aligned.
+// Set Free feature column: direct links to the major platforms and socials
+// (from Site Settings). The merch drop now lives in the hero's full-width
+// bottom banner. Left aligned.
 const ARTWORK = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e2c44c509_image.png';
 
 const PLATFORMS = [
@@ -31,7 +30,6 @@ function Pills({ title, items }) {
 }
 
 export default function SetFreeFeatureColumn({ settings = {} }) {
-  const dropped = Date.now() >= MERCH_DROP_AT;
   const socials = Object.entries(SOCIALS).filter(([k]) => settings[k]).map(([k, label]) => ({ label, url: settings[k] }));
 
   return (
@@ -46,13 +44,6 @@ export default function SetFreeFeatureColumn({ settings = {} }) {
       </div>
       <Pills title="Listen" items={PLATFORMS} />
       <Pills title="Follow" items={socials} />
-      <Link to="/store" className="mt-5 flex items-center justify-between gap-3 rounded-xl gradient-gold-button px-4 py-3">
-        <span className="text-left">
-          <span className="block font-body text-[10px] tracking-[0.25em] uppercase opacity-80">{dropped ? 'Just dropped' : 'Today · 5pm AEST'}</span>
-          <span className="block font-body text-sm font-semibold tracking-wider uppercase">{dropped ? 'New merch out now' : 'New merch drops 5pm today'}</span>
-        </span>
-        <ArrowRight className="w-4 h-4 flex-shrink-0" />
-      </Link>
     </div>
   );
 }

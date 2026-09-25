@@ -59,14 +59,14 @@ export default function Navbar() {
         <Link
           to="/"
           aria-label="Gannon Waye · Home"
-          className="flex items-center gap-2.5 hover:opacity-90 transition-all duration-200">
+          className="flex flex-1 items-center gap-2.5 hover:opacity-90 transition-all duration-200">
           
           <img src={PORTRAIT_URL} alt="" className="w-8 h-8 md:w-9 md:h-9 rounded-full border border-primary/60 object-cover object-top flex-shrink-0" />
           <span className="hidden sm:inline font-display text-sm tracking-[0.18em] uppercase gradient-gold-text">Gannon Waye</span>
         </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center gap-2.5 flex-nowrap whitespace-nowrap ml-6 mr-auto">
+        <div className="hidden md:flex items-center gap-2.5 flex-nowrap whitespace-nowrap">
           {NAV_LINKS.map((link) => {
             if (link.children) return <NavDropdown key={link.label} label={link.label} links={link.children} />;
             const active = location.pathname === link.path;
@@ -144,7 +144,7 @@ export default function Navbar() {
         </div>
 
         {/* Search + Mobile toggle */}
-        <div className="flex items-center gap-2">
+        <div className="flex flex-1 items-center justify-end gap-2">
           <Link
             to="/back-this"
             aria-label="Support the project"
