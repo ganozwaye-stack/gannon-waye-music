@@ -8,27 +8,23 @@ import GalaxyBackdrop from './GalaxyBackdrop';
 import GalaxyAtmosphere from './GalaxyAtmosphere';
 import SpaceField from './SpaceField';
 import DriftingMoons from './DriftingMoons';
-import DistantHeartPlanets from './DistantHeartPlanets';
 import HeartPlanet from './HeartPlanet';
 import MerchDropBanner from './MerchDropBanner';
 import HomeHeroWelcomeStack from '@/components/public/HomeHeroWelcomeStack';
 
 // Release day, 25 September 2026: Set Free is the whole home hero.
 // Owner-directed layout (25 September 2026): the GWM wordmark sits
-// top-centre above the moon, the fire heart planet is in the middle with the
-// GW circle at moon size so its ring goes around the moon, the welcome box
-// and Set Free box sit high on the right, the previous release tucks under
-// the Set Free release on the left, and the merch drop runs the full width
-// of the page as a banner along the bottom. Everything up to Without You
-// Here fits on the first screen. House style: no em dashes.
+// top-centre above the moon, the fire heart planet is in the middle, the
+// welcome box and Set Free box sit high on the right, the previous release
+// tucks under the Set Free release on the left, and the merch drop runs the
+// full width of the page as a banner along the bottom. Everything up to
+// Without You Here fits on the first screen. House style: no em dashes.
 const SET_FREE_LISTEN = 'https://open.spotify.com/track/6TzrIFIkFu5HNyZGM4RmqG';
 // Owner-supplied brand art, 25 September 2026. The GWM wordmark and the
 // SET FREE fire title are supplied on pure black, so mix-blend-screen drops
 // the black background and keeps only the artwork over the galaxy.
 const GWM_LOGO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a733b567_GWMGannonWayemusic.jpg';
 const SET_FREE_TITLE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6b0d132c4_SETFREEFIRE.jpg';
-// The approved GW circle monogram, shown at moon size so its ring circles the moon.
-const GW_CIRCLE = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/6e6f577bf_GW.png';
 
 export default function SetFreeSpaceHero({ previousRelease, previousLink, settings }) {
   const mx = useMotionValue(0);
@@ -53,7 +49,6 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
       <GalaxyAtmosphere />
       <SpaceField />
       <DriftingMoons />
-      <DistantHeartPlanets />
       <div className="absolute inset-0 opacity-60 pointer-events-none"><GoldenEmbers density={0.5} /></div>
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(5,6,11,0) 45%, rgba(5,6,11,0.75) 100%)' }} />
       <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
@@ -179,13 +174,6 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
             className="relative"
           >
             <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
-            <img
-              src={GW_CIRCLE}
-              alt=""
-              draggable="false"
-              className="absolute inset-0 w-full h-full object-contain pointer-events-none select-none"
-              style={{ filter: 'drop-shadow(0 0 14px rgba(212,175,55,0.45))' }}
-            />
           </motion.div>
         </div>
 
