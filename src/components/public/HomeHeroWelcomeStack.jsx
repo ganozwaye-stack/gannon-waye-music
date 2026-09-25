@@ -38,7 +38,10 @@ export default function HomeHeroWelcomeStack({ settings = {} }) {
           <h2 className="font-display text-3xl md:text-4xl gradient-gold-text">I'm Gannon Waye</h2>
           <p className="font-body text-[10px] tracking-[0.3em] uppercase text-foreground/50 mt-1.5 mb-4">Singer · Songwriter · Melbourne</p>
           <p className="font-body text-sm md:text-[15px] text-foreground/90 leading-relaxed">
-            Independent, heart-first art made after everything life threw at it. You are not alone here.
+            Independent, heart-first art made after everything life threw at it. I write the songs that say what you cannot say yet, and I built this space for anyone who still needs proof that being knocked down is not the end of the story. You are not alone here.
+          </p>
+          <p className="font-body text-sm md:text-[15px] text-foreground/90 leading-relaxed mt-3">
+            Today the new single, Set Free, is out in the world: a song about reclaiming your voice, protecting your peace and choosing what happens next. Stay a while, wander the boutique, leave me a message. Whatever brought you here, you are safe and you are welcome.
           </p>
           <div className="mt-5 flex flex-wrap gap-2.5">
             <Link

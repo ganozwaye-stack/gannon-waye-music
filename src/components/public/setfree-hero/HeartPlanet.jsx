@@ -32,7 +32,7 @@ export default function HeartPlanet({ rotateX, rotateY }) {
   return (
     <motion.div
       style={{ rotateX, rotateY, transformPerspective: 900, transformStyle: 'preserve-3d' }}
-      className="relative aspect-square w-[min(84vw,50svh,560px)]"
+      className="relative aspect-square w-[min(72vw,36svh,390px)]"
     >
       <motion.div
         className="absolute inset-0"
@@ -40,8 +40,8 @@ export default function HeartPlanet({ rotateX, rotateY }) {
         animate={{ y: [0, -16, 0], rotateX: [7, 13, 7], rotateY: [-10, 10, -10], rotateZ: [-1, 1, -1] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       >
-        <div className="absolute -inset-[18%] rounded-full pointer-events-none"
-             style={{ background: 'radial-gradient(circle, rgba(255,120,40,0.30) 0%, rgba(200,40,20,0.14) 38%, rgba(0,0,0,0) 68%)', transform: 'translateZ(-80px)' }} />
+        <div className="absolute -inset-[16%] rounded-full pointer-events-none"
+             style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.20) 0%, rgba(169,132,44,0.10) 38%, rgba(0,0,0,0) 68%)', transform: 'translateZ(-80px)' }} />
         <RingHalf clip={RING_BACK} z={-40} />
         <div className="absolute -inset-[25%]" style={{ transform: 'translateZ(-10px)' }}><HeartFlames /></div>
         <motion.img
@@ -53,7 +53,7 @@ export default function HeartPlanet({ rotateX, rotateY }) {
           decoding="async"
           className="absolute inset-0 w-full h-full object-contain select-none"
           style={{ transform: 'translateZ(0px)' }}
-          animate={{ filter: ['drop-shadow(0 0 26px rgba(255,90,30,0.45)) brightness(1)', 'drop-shadow(0 0 44px rgba(255,120,40,0.65)) brightness(1.14)', 'drop-shadow(0 0 26px rgba(255,90,30,0.45)) brightness(1)'] }}
+          animate={{ filter: ['drop-shadow(0 0 26px rgba(212,175,55,0.40)) brightness(1)', 'drop-shadow(0 0 44px rgba(245,208,110,0.55)) brightness(1.08)', 'drop-shadow(0 0 26px rgba(212,175,55,0.40)) brightness(1)'] }}
           transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
         />
         <RingHalf clip={RING_FRONT} z={40} />

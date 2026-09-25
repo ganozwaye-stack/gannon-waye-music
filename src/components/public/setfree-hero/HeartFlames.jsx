@@ -17,14 +17,14 @@ const makeSprite = (rgb) => {
   return c;
 };
 
-export default function HeartFlames({ rate = 300, alpha = 0.7 }) {
+export default function HeartFlames({ rate = 300, alpha = 0.55 }) {
   const ref = useRef(null);
 
   useEffect(() => {
     const canvas = ref.current;
     const ctx = canvas.getContext('2d');
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const sprites = [makeSprite('255,238,180'), makeSprite('255,150,40'), makeSprite('210,45,20')];
+    const sprites = [makeSprite('255,238,180'), makeSprite('245,208,110'), makeSprite('201,144,40')];
     let size = 0, W = 0, o = 0, k = 0, s = 1, raf;
     let parts = [];
 
