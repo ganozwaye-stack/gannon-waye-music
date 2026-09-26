@@ -7,6 +7,7 @@ import { Zap, Send, Plus, MessageSquare, Brain, BookOpen } from 'lucide-react';
 import { Textarea } from '@/components/ui/textarea';
 import VoiceButton from '@/components/ui/VoiceButton';
 import ReactMarkdown from 'react-markdown';
+import { createChatSender } from '@/lib/deegoChatSession';
 
 const AGENTS = [
   { name: 'orchestrator', label: 'Master Orchestrator', icon: Zap, color: 'text-violet-400', bg: 'bg-violet-500/10', desc: 'Routes tasks · Knows your brand & goals · Enforces Do-Not-Spend rule' },
@@ -22,10 +23,25 @@ export default function OrchestratorChat() {
   const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState('deego_master_ai');
+  const [chatError, setChatError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [policyCount, setPolicyCount] = useState(0);
+  const [deliveryBlocked, setDeliveryBlocked] = useState(false);
+  const [deliveryReviewed, setDeliveryReviewed] = useState(false);
+  const senderRef = useRef(null);
+  if (!senderRef.current) senderRef.current = createChatSender(base44);
+  const loadRequestRef = useRef(0);
+  const mountedRef = useRef(true);
+  const sendLockRef = useRef(false);
   const bottomRef = useRef(null);
   const activeConvRef = useRef(null);
 
   const agentConfig = AGENTS.find(a => a.name === selectedAgent) || AGENTS[0];
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; loadRequestRef.current++; };
+  }, []);
 
   useEffect(() => {
     loadConversations(selectedAgent);
@@ -37,7 +53,10 @@ export default function OrchestratorChat() {
 
   useEffect(() => {
     if (!activeConv?.id) return;
-    const unsub = base44.agents.subscribeToConversation(activeConv.id, data => setMessages(data.messages || []));
+    const conversationId = activeConv.id;
+    const unsub = base44.agents.subscribeToConversation(conversationId, data => {
+      if (mountedRef.current && activeConvRef.current?.id === conversationId) setMessages(data.messages || []);
+    });
     return unsub;
   }, [activeConv?.id]);
 
@@ -46,43 +65,107 @@ export default function OrchestratorChat() {
   }, [messages]);
 
   const loadConversations = async (agentName) => {
+    const request = ++loadRequestRef.current;
+    activeConvRef.current = null;
     setActiveConv(null);
     setMessages([]);
-    const convs = await base44.agents.listConversations({ agent_name: agentName }).catch(() => []);
-    setConversations(convs || []);
+    setConversations([]);
+    setPolicyCount(0);
+    setLoading(true);
+    try {
+      const convs = await base44.agents.listConversations({ agent_name: agentName });
+      if (!Array.isArray(convs)) throw new Error('invalid_conversations');
+      if (mountedRef.current && request === loadRequestRef.current) setConversations(convs);
+    } catch {
+      if (mountedRef.current && request === loadRequestRef.current) setChatError('Conversations could not be loaded. No conversation was deleted.');
+    } finally {
+      if (mountedRef.current && request === loadRequestRef.current) setLoading(false);
+    }
+  };
+
+  const acceptConversation = (conv) => {
+    if (!mountedRef.current) return;
+    setConversations(prev => prev.some(item => item.id === conv.id) ? prev : [conv, ...prev]);
+    activeConvRef.current = conv;
+    setActiveConv(conv);
+    setMessages(conv.messages || []);
   };
 
   const startNew = async () => {
-    const conv = await base44.agents.createConversation({
-      agent_name: selectedAgent,
-      metadata: { name: `${agentConfig.label} · ${new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}` }
-    });
-    setConversations(prev => [conv, ...prev]);
-    setActiveConv(conv);
-    activeConvRef.current = conv;
-    setMessages([]);
-    return conv;
+    if (sendLockRef.current || loading || deliveryBlocked) return;
+    setLoading(true);
+    setChatError('');
+    const request = ++loadRequestRef.current;
+    try {
+      const conv = await base44.agents.createConversation({
+        agent_name: selectedAgent,
+        metadata: { name: `${agentConfig.label} · ${new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}` },
+      });
+      if (!conv?.id || conv.agent_name !== selectedAgent) throw new Error('invalid_conversation');
+      if (mountedRef.current && request === loadRequestRef.current) acceptConversation(conv);
+    } catch {
+      if (mountedRef.current && request === loadRequestRef.current) setChatError('Conversation creation could not be confirmed. Refresh the list before creating another.');
+    } finally {
+      if (mountedRef.current && request === loadRequestRef.current) setLoading(false);
+    }
   };
 
   const selectConv = async (conv) => {
-    setActiveConv(conv);
-    const full = await base44.agents.getConversation(conv.id).catch(() => conv);
-    setMessages(full.messages || []);
+    if (sendLockRef.current || loading) return;
+    const request = ++loadRequestRef.current;
+    activeConvRef.current = null;
+    setActiveConv(null);
+    setMessages([]);
+    setLoading(true);
+    setDeliveryReviewed(false);
+    try {
+      const full = await base44.agents.getConversation(conv.id);
+      if (full?.id !== conv.id || full.agent_name !== selectedAgent) throw new Error('invalid_conversation');
+      if (mountedRef.current && request === loadRequestRef.current) {
+        acceptConversation(full);
+        setDeliveryReviewed(true);
+        if (!deliveryBlocked) setChatError('');
+      }
+    } catch {
+      if (mountedRef.current && request === loadRequestRef.current) setChatError('That conversation could not be opened. Your draft is unchanged.');
+    } finally {
+      if (mountedRef.current && request === loadRequestRef.current) setLoading(false);
+    }
   };
 
   const send = async () => {
-    if (!input.trim() || sending) return;
+    if (!input.trim() || sendLockRef.current || loading || deliveryBlocked) return;
+    sendLockRef.current = true;
     setSending(true);
-    const msg = input.trim();
-    setInput('');
-
-    let conv = activeConvRef.current;
-    if (!conv) {
-      conv = await startNew();
+    setChatError('');
+    setPolicyCount(0);
+    const submittedInput = input;
+    const request = loadRequestRef.current;
+    try {
+      const result = await senderRef.current.send({
+        agentName: selectedAgent,
+        conversation: activeConvRef.current,
+        content: submittedInput.trim(),
+        metadata: { name: `${agentConfig.label} · ${new Date().toLocaleTimeString('en-AU', { hour: '2-digit', minute: '2-digit' })}` },
+        onCreated: acceptConversation,
+        isCurrent: () => mountedRef.current && request === loadRequestRef.current,
+      });
+      if (mountedRef.current && request === loadRequestRef.current) {
+        setInput(current => current === submittedInput ? '' : current);
+        setPolicyCount(result.policyCount);
+      }
+    } catch (error) {
+      if (mountedRef.current) {
+        setChatError(error.name === 'ChatSessionError' ? error.message : 'Message submission failed. Your draft is unchanged.');
+        if (error.code === 'delivery_unconfirmed') {
+          setDeliveryBlocked(true);
+          setDeliveryReviewed(false);
+        }
+      }
+    } finally {
+      sendLockRef.current = false;
+      if (mountedRef.current) setSending(false);
     }
-
-    await base44.agents.addMessage(conv, { role: 'user', content: msg });
-    setSending(false);
   };
 
   const PROMPTS = {
@@ -100,7 +183,7 @@ export default function OrchestratorChat() {
           {/* Agent Selector */}
           <div>
             <p className="text-xs text-muted-foreground mb-1 font-semibold uppercase tracking-wider">Select Agent</p>
-            <Select value={selectedAgent} onValueChange={setSelectedAgent}>
+            <Select value={selectedAgent} onValueChange={setSelectedAgent} disabled={sending || loading || deliveryBlocked}>
               <SelectTrigger className="text-xs h-8">
                 <SelectValue />
               </SelectTrigger>
@@ -116,16 +199,17 @@ export default function OrchestratorChat() {
               </SelectContent>
             </Select>
           </div>
-          <Button size="sm" className="w-full gradient-gold-button" onClick={startNew}>
+          <Button size="sm" className="w-full gradient-gold-button" onClick={startNew} disabled={sending || loading || deliveryBlocked}>
             <Plus className="w-3 h-3 mr-1" /> New Conversation
           </Button>
+          <Button size="sm" variant="outline" onClick={() => loadConversations(selectedAgent)} disabled={sending || loading}>Refresh conversations</Button>
         </div>
         <div className="flex-1 overflow-y-auto p-2 space-y-1">
           {conversations.length === 0 && (
             <p className="text-xs text-muted-foreground text-center py-4">No conversations yet</p>
           )}
           {conversations.map(c => (
-            <button key={c.id} onClick={() => selectConv(c)}
+            <button key={c.id} onClick={() => selectConv(c)} disabled={sending || loading}
               className={`w-full text-left px-3 py-2 rounded-lg text-xs transition-colors ${activeConv?.id === c.id ? 'bg-primary/10 text-primary' : 'text-muted-foreground hover:bg-secondary'}`}>
               <MessageSquare className="w-3 h-3 inline mr-1" />
               {c.metadata?.name || 'Session'}
@@ -147,7 +231,7 @@ export default function OrchestratorChat() {
         </div>
         {selectedAgent === 'deego_master_ai' && (
           <p className="border-b border-border px-4 py-2 text-xs text-muted-foreground">
-            Deego is planning-only: this chat does not start work, alter records, transfer tasks to another chat, or act externally.
+            Deego is planning-only: no task executor or cross-chat relay is started here. His configured tools may prepare internal drafts and approval items. External actions require separate exact approval and a verified execution path.
           </p>
         )}
 
@@ -197,6 +281,13 @@ export default function OrchestratorChat() {
 
         {/* Input */}
         <div className="border-t border-border p-4">
+          {chatError && <p role="alert" className="text-sm text-muted-foreground mb-2">{chatError}</p>}
+          {deliveryBlocked && <Button size="sm" variant="outline" className="mb-2" disabled={!deliveryReviewed || loading} onClick={() => {
+            senderRef.current.acknowledgeDeliveryReview();
+            setDeliveryBlocked(false);
+            setChatError('');
+          }}>I have checked the conversation</Button>}
+          {policyCount > 0 && <p role="status" className="text-xs text-muted-foreground mb-2">{policyCount} saved owner rule records loaded for the submitted message. This is not a task completion receipt.</p>}
           <div className="flex gap-2 items-end">
             <div className="relative flex-1">
               <Textarea
@@ -204,7 +295,7 @@ export default function OrchestratorChat() {
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => {
-                  if (e.key === 'Enter' && !e.shiftKey) {
+                  if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
                     e.preventDefault();
                     send();
                   }
@@ -216,7 +307,7 @@ export default function OrchestratorChat() {
                 <VoiceButton value={input} onChange={setInput} size="sm" />
               </div>
             </div>
-            <Button onClick={send} disabled={sending || !input.trim()} className="gradient-gold-button shrink-0 h-[52px] px-4">
+            <Button onClick={send} disabled={sending || loading || deliveryBlocked || !input.trim()} className="gradient-gold-button shrink-0 h-[52px] px-4">
               <Send className="w-4 h-4" />
             </Button>
           </div>
