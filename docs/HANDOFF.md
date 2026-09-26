@@ -1,6 +1,14 @@
 # Cross-agent handoff
 
-Protocol lives in `AGENTS.md` §8. Read this before starting. Append to `## Log` before finishing.
+Protocol lives in `AGENTS.md` §8. Read this before starting. Append to `## Log
+
+### 2026-09-26 · ChatGPT · Music activity evidence monitor
+Did: Added MusicActivity, MusicEvidenceSummary, MusicEvidenceDetail, MusicEvidenceSources, the read-only useMusicEvidence hook, source links, MusicEvidence schema, protected routes, sidebar entry and Dashboard summary. Changes at 2a58b6b4. No collector or scheduled alerts were enabled.
+Found: Direct official HTTP reads at 2026-09-26T00:28Z show all three songs on Unearthed; Set Free Artist Pick; every track playedOn=[]. Apple returned 100/100 playlist songs with no Gannon Waye match; Spotify embed returned 100 with no match but no verified total. Latest 10 timestamped records per ABC station had no artist match; this is NOT complete historical coverage. Source URLs are in src/lib/musicMonitorSources.js. Build and all prebuild safety checks passed; storefront lock passed. Public /assets/index-DWA51fl4.js still does not contain /admin/music-activity.
+Found: Base44 write_file/edit_file unexpectedly reset to and auto-committed/synced main despite the feature branch created before edits. Stopped native file writes once detected. No explicit git push main or production deploy was run. All collector file writes returned tool safety-status blocks and were not installed.
+Left: NOT LIVE. Requires review of the committed UI, production deployment approval, authenticated collector, scheduled refresh, event persistence, notification delivery and read acknowledgement. Validate source parsers, provider permissions, polling/backfill windows, failure/stale states and duplicate suppression before enabling alerts. Private Spotify/Apple/YouTube/Too Lost reports are not connected. Never treat Artist Pick, a profile listing, review, blank field, stale page or incomplete playlist as airplay evidence. Do not promise per-stream or worldwide use alerts. No fake/test event was written to production.
+For: Gannon and Deego engineering review. Review baseline-to-2a58b6b4 before any production deploy. Future code edits must use an isolated GitHub branch workflow rather than native Base44 file auto-sync.
+` before finishing.
 Seeded 24 Aug 2026 by Claude (Cowork session).
 
 ---
