@@ -1,0 +1,107 @@
+{
+  "name": "MusicEvidence",
+  "type": "object",
+  "properties": {
+    "record_type": {
+      "type": "string",
+      "enum": [
+        "source",
+        "event"
+      ]
+    },
+    "source_key": {
+      "type": "string"
+    },
+    "source_name": {
+      "type": "string"
+    },
+    "source_url": {
+      "type": "string"
+    },
+    "event_key": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "profile",
+        "radio",
+        "playlist",
+        "usage",
+        "private"
+      ]
+    },
+    "track_title": {
+      "type": "string"
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "checked_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "last_success_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "occurred_at": {
+      "type": "string"
+    },
+    "detected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "ok",
+        "partial",
+        "stale",
+        "error",
+        "not_connected"
+      ]
+    },
+    "coverage_note": {
+      "type": "string"
+    },
+    "evidence_summary": {
+      "type": "string"
+    },
+    "rows_checked": {
+      "type": "number"
+    },
+    "coverage_complete": {
+      "type": "boolean",
+      "default": false
+    },
+    "snapshot": {
+      "type": "object"
+    },
+    "is_baseline": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_read": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "record_type",
+    "source_key",
+    "source_url",
+    "kind"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": false,
+    "update": false,
+    "delete": false
+  }
+}
