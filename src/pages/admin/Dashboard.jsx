@@ -19,6 +19,7 @@ import CrmFanTab from '@/components/admin/dashboard-family/CrmFanTab';
 import ProductionSupplyTab from '@/components/admin/dashboard-family/ProductionSupplyTab';
 import CreativeUxTab from '@/components/admin/dashboard-family/CreativeUxTab';
 import InstallsIndexTab from '@/components/admin/dashboard-family/InstallsIndexTab';
+import MusicEvidenceSummary from '@/components/admin/MusicEvidenceSummary';
 
 // Tile component
 function DashTile({ to, label, value, sub, icon: Icon, color = 'gold', urgent = false, onClick }) {
@@ -123,6 +124,7 @@ export default function Dashboard() {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
+          <MusicEvidenceSummary />
 
       {/* ── GMAIL WARNING BANNER — persistent until Gmail is connected ── */}
       <div className="flex items-center gap-3 px-4 py-3 rounded-xl border-2 border-primary/50 bg-primary/8">
