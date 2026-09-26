@@ -66,6 +66,7 @@ const NAV_SECTIONS = [
   {
     title: 'Music and Releases',
     items: [
+      { label: 'Music activity', path: '/admin/music-activity', icon: Activity },
       { label: 'Hero Design Studio', path: '/admin/hero-design-studio', icon: Palette },
       { label: 'Master Handover Timeline', path: '/admin/master-handover', icon: ListTodo },
       { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
