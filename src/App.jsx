@@ -100,6 +100,8 @@ import GoLiveChecklist from '@/pages/admin/GoLiveChecklist';
 import EcommerceCommand from '@/pages/admin/EcommerceCommand';
 import StripeLiveReport from '@/pages/admin/StripeLiveReport';
 import Notifications from '@/pages/admin/Notifications';
+import MusicActivity from '@/pages/admin/MusicActivity';
+import MusicEvidenceDetail from '@/components/admin/MusicEvidenceDetail';
 import TikTokAppReview from '@/pages/admin/TikTokAppReview';
 import MusicCommandCentre from '@/pages/admin/MusicCommandCentre';
 import GanozMixBridge from '@/pages/admin/GanozMixBridge';
@@ -485,6 +487,8 @@ const AuthenticatedApp = () => {
         <Route path="/admin/ecommerce-command" element={<EcommerceCommand />} />
         <Route path="/admin/stripe-live-report" element={<StripeLiveReport />} />
         <Route path="/admin/notifications" element={<Notifications />} />
+        <Route path="/admin/music-activity" element={<MusicActivity />} />
+        <Route path="/admin/music-activity/event/:eventId" element={<MusicEvidenceDetail />} />
         <Route path="/admin/tiktok-review" element={<TikTokAppReview />} />
         <Route path="/admin/music-command" element={<MusicCommandCentre />} />
         <Route path="/admin/ganozmix" element={<GanozMixBridge />} />
