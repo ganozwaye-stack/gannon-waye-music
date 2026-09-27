@@ -17,7 +17,7 @@ const makeSprite = (rgb) => {
   return c;
 };
 
-export default function HeartFlames({ rate = 300, alpha = 0.55 }) {
+export default function HeartFlames({ rate = 520, alpha = 0.8 }) {
   const ref = useRef(null);
 
   useEffect(() => {

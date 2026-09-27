@@ -1,0 +1,46 @@
+import { motion } from 'framer-motion';
+
+// Electric charge for the orbit ring: two bright sparks ride the ring's own
+// diagonal (the same line its clip halves split along), one lapping in
+// front of the heart and one behind, each flickering like live current.
+const SPARK_BG = 'radial-gradient(circle, #FFFFFF 0%, #F5D06E 45%, rgba(212,175,55,0) 100%)';
+const SPARK_GLOW = '0 0 6px rgba(255,255,255,0.95), 0 0 14px rgba(245,208,110,0.8), 0 0 28px rgba(212,175,55,0.5)';
+
+function Spark({ front }) {
+  // Ring geometry: the ring plate spans -30% to 130% of the heart width and
+  // its visible line runs from plate (-30%, 49%) up to (130%, 22%).
+  const path = front
+    ? { left: ['-30%', '130%'], top: ['49%', '22%'] }
+    : { left: ['130%', '-30%'], top: ['22%', '49%'] };
+  const lap = front ? 6.5 : 10;
+  return (
+    <motion.div
+      aria-hidden
+      className="absolute pointer-events-none rounded-full"
+      style={{
+        width: 7,
+        height: 7,
+        marginLeft: -3.5,
+        marginTop: -3.5,
+        background: SPARK_BG,
+        boxShadow: SPARK_GLOW,
+        transform: `translateZ(${front ? 45 : -45}px)`,
+      }}
+      animate={{ ...path, opacity: front ? [1, 0.35, 1, 0.75, 1] : [0.7, 0.2, 0.7] }}
+      transition={{
+        left: { duration: lap, repeat: Infinity, ease: 'linear' },
+        top: { duration: lap, repeat: Infinity, ease: 'linear' },
+        opacity: { duration: 1.1, repeat: Infinity, ease: 'easeInOut' },
+      }}
+    />
+  );
+}
+
+export default function RingSparks() {
+  return (
+    <>
+      <Spark front />
+      <Spark front={false} />
+    </>
+  );
+}

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import HeartFlames from './HeartFlames';
+import RingSparks from './RingSparks';
 
 // The official Set Free heart with its white background removed pixel by pixel
 // (flames kept as soft transparent glow, nothing regenerated), sitting INSIDE
@@ -21,8 +22,8 @@ function RingHalf({ clip, z }) {
         draggable="false"
         className="w-full h-auto max-w-none select-none"
         style={{ clipPath: clip, WebkitClipPath: clip }}
-        animate={{ rotate: [-3, 3, -3], filter: ['brightness(1)', 'brightness(1.35)', 'brightness(1)'] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
+        animate={{ rotate: [-3, 3, -3], filter: ['brightness(1)', 'brightness(1.4)', 'brightness(1.05)', 'brightness(1.55)', 'brightness(1)'] }}
+        transition={{ rotate: { duration: 9, repeat: Infinity, ease: 'easeInOut' }, filter: { duration: 2.2, repeat: Infinity, ease: 'easeInOut' } }}
       />
     </div>
   );
@@ -32,17 +33,18 @@ export default function HeartPlanet({ rotateX, rotateY }) {
   return (
     <motion.div
       style={{ rotateX, rotateY, transformPerspective: 900, transformStyle: 'preserve-3d' }}
-      className="relative aspect-square w-[min(72vw,36svh,390px)]"
+      className="relative aspect-square w-[min(80vw,42svh,460px)]"
     >
       <motion.div
         className="absolute inset-0"
         style={{ transformStyle: 'preserve-3d' }}
-        animate={{ y: [0, -16, 0], rotateX: [7, 13, 7], rotateY: [-10, 10, -10], rotateZ: [-1, 1, -1] }}
+        animate={{ y: [0, -16, 0], rotateX: [7, 13, 7], rotateY: [-10, 10, -10], rotateZ: [-1, 1, -1], scale: [1, 1.02, 1] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
       >
         <div className="absolute -inset-[16%] rounded-full pointer-events-none"
-             style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.20) 0%, rgba(169,132,44,0.10) 38%, rgba(0,0,0,0) 68%)', transform: 'translateZ(-80px)' }} />
+             style={{ background: 'radial-gradient(circle, rgba(245,196,110,0.24) 0%, rgba(169,132,44,0.12) 38%, rgba(0,0,0,0) 68%)', transform: 'translateZ(-80px)' }} />
         <RingHalf clip={RING_BACK} z={-40} />
+        <RingSparks />
         <div className="absolute -inset-[25%]" style={{ transform: 'translateZ(-10px)' }}><HeartFlames /></div>
         <motion.img
           src={HEART_ART}

@@ -12,13 +12,11 @@ import HeartPlanet from './HeartPlanet';
 import MerchDropBanner from './MerchDropBanner';
 import HomeHeroWelcomeStack from '@/components/public/HomeHeroWelcomeStack';
 
-// Evening rebuild, release day (25 September 2026): one calm, premium first
-// screen. The SET FREE fire title is the page statement, top centre and
-// large. The heart planet drifts deeper into the galaxy, smaller and toned
-// back to its gold design (the red face was the fire overlays, now gold),
-// and the GWM wordmark is enlarged and clamped across the front of the
-// heart at 75% opacity as the feature piece. Copy stretches wider and the
-// welcome says more. House style: no em dashes.
+// 27 September 2026 rebuild from the owner's approved references: the heart
+// planet is the anchor, top centre and large, warm and cinematic like his
+// Veo memorial reference, with the orbit ring electrified and the fire
+// fierier. SET FREE is the feature column on the left of the row beneath it
+// and the welcome holds the right side. House style: no em dashes.
 const SET_FREE_LISTEN = 'https://open.spotify.com/track/6TzrIFIkFu5HNyZGM4RmqG';
 // Owner-supplied brand art, 25 September 2026. The GWM wordmark and the
 // SET FREE fire title are supplied on pure black, so mix-blend-screen drops
@@ -53,53 +51,73 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(5,6,11,0) 45%, rgba(5,6,11,0.75) 100%)' }} />
       <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto">
-        {/* Page statement: SET FREE, top centre, the first thing every eye lands on */}
-        <div className="flex flex-col items-center text-center">
-          <motion.p
-            initial={{ opacity: 0, letterSpacing: '0.8em' }}
-            animate={{ opacity: 1, letterSpacing: '0.45em' }}
-            transition={{ duration: 1.2 }}
-            className="inline-flex items-center gap-2 font-body text-[10px] md:text-xs uppercase gradient-gold-text"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
-            </span>
-            New Single · Out Now
-          </motion.p>
-          <div className="mt-3 w-[min(82vw,540px)] drop-shadow-[0_0_28px_rgba(212,175,55,0.35)]">
+      <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center">
+        {/* The heart world: top centre, the anchor the whole screen orbits.
+            The GWM wordmark stays clamped across its front at 75% opacity. */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.9, ease: 'easeOut' }}
+          className="relative"
+        >
+          <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
+          <div className="absolute left-1/2 top-[47%] -translate-x-1/2 -translate-y-1/2 w-[170%]">
             <motion.img
-              src={SET_FREE_TITLE}
-              alt="Set Free, Gannon Waye"
+              src={GWM_LOGO}
+              alt="Gannon Waye Music"
               draggable="false"
-              fetchpriority="high"
-              className="w-full h-auto object-contain"
-              style={{ mixBlendMode: 'screen' }}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1, filter: ['brightness(1)', 'brightness(1.12)', 'brightness(1)'] }}
-              transition={{ opacity: { duration: 1 }, scale: { duration: 1 }, filter: { duration: 3, repeat: Infinity, ease: 'easeInOut' } }}
+              initial={{ opacity: 0, scale: 0.94 }}
+              animate={{ opacity: 0.75, scale: 1 }}
+              transition={{ duration: 1.1, delay: 0.4, ease: 'easeOut' }}
+              className="w-full h-auto object-contain pointer-events-none select-none"
+              style={{ mixBlendMode: 'screen', filter: 'drop-shadow(0 0 20px rgba(212,175,55,0.35))' }}
             />
           </div>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.4 }}
-            className="font-body text-[10px] md:text-xs tracking-[0.3em] uppercase text-foreground/70 mt-3"
-          >
-            Gannon Waye · Released 25 September 2026
-          </motion.p>
-        </div>
+        </motion.div>
 
-        {/* The screen: story on the left, the heart world centre, the welcome on the right */}
-        <div className="mt-10 lg:mt-12 grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-start gap-10 lg:gap-14">
-          {/* Left: the Set Free story, with the previous release tucked under it */}
-          <div className="order-1 flex flex-col items-start text-left max-w-md">
+        {/* Beneath the heart: SET FREE featured to one side, the welcome on the other */}
+        <div className="mt-8 lg:mt-12 w-full max-w-6xl grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] items-start gap-10 lg:gap-16">
+          {/* SET FREE feature, left side */}
+          <div className="order-1 flex flex-col items-start text-left">
+            <motion.p
+              initial={{ opacity: 0, letterSpacing: '0.8em' }}
+              animate={{ opacity: 1, letterSpacing: '0.45em' }}
+              transition={{ duration: 1.2 }}
+              className="inline-flex items-center gap-2 font-body text-[10px] md:text-xs uppercase gradient-gold-text"
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
+              </span>
+              New Single · Out Now
+            </motion.p>
+            <div className="mt-3 w-[min(78vw,440px)] drop-shadow-[0_0_28px_rgba(212,175,55,0.35)]">
+              <motion.img
+                src={SET_FREE_TITLE}
+                alt="Set Free, Gannon Waye"
+                draggable="false"
+                fetchpriority="high"
+                className="w-full h-auto object-contain"
+                style={{ mixBlendMode: 'screen' }}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1, filter: ['brightness(1)', 'brightness(1.12)', 'brightness(1)'] }}
+                transition={{ opacity: { duration: 1 }, scale: { duration: 1 }, filter: { duration: 3, repeat: Infinity, ease: 'easeInOut' } }}
+              />
+            </div>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.4 }}
+              className="font-body text-[10px] md:text-xs tracking-[0.3em] uppercase text-foreground/70 mt-3"
+            >
+              Gannon Waye · Released 25 September 2026
+            </motion.p>
+
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5 }}
-              className="font-body text-sm md:text-[15px] text-foreground/85 leading-relaxed italic"
+              className="font-body text-sm md:text-[15px] text-foreground/85 leading-relaxed italic mt-4 max-w-md"
               style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}
             >
               A pop single about reclaiming your voice, protecting your peace and choosing what happens next. Written from the inside of everything I survived, and sung for anyone still finding their way out.
@@ -165,33 +183,8 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
             )}
           </div>
 
-          {/* Centre: the heart world, deeper in the galaxy, with the enlarged
-              GWM wordmark clamped across its front at 75% opacity */}
-          <div className="order-2 flex justify-center lg:pt-2">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.88 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, ease: 'easeOut', delay: 0.25 }}
-              className="relative"
-            >
-              <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
-              <div className="absolute left-1/2 top-[47%] -translate-x-1/2 -translate-y-1/2 w-[170%]">
-                <motion.img
-                  src={GWM_LOGO}
-                  alt="Gannon Waye Music"
-                  draggable="false"
-                  initial={{ opacity: 0, scale: 0.94 }}
-                  animate={{ opacity: 0.75, scale: 1 }}
-                  transition={{ duration: 1.1, delay: 0.5, ease: 'easeOut' }}
-                  className="w-full h-auto object-contain pointer-events-none select-none"
-                  style={{ mixBlendMode: 'screen', filter: 'drop-shadow(0 0 20px rgba(212,175,55,0.35))' }}
-                />
-              </div>
-            </motion.div>
-          </div>
-
           {/* Right: the welcome, stretched out and saying more */}
-          <div className="order-3">
+          <div className="order-2">
             <HomeHeroWelcomeStack settings={settings} />
           </div>
         </div>
