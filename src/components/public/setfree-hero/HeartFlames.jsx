@@ -24,7 +24,7 @@ export default function HeartFlames({ rate = 520, alpha = 0.8 }) {
     const canvas = ref.current;
     const ctx = canvas.getContext('2d');
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const sprites = [makeSprite('255,238,180'), makeSprite('245,208,110'), makeSprite('201,144,40')];
+    const sprites = [makeSprite('242,208,179'), makeSprite('212,180,153'), makeSprite('166,139,117')];
     let size = 0, W = 0, o = 0, k = 0, s = 1, raf;
     let parts = [];
 

@@ -41,14 +41,14 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
       aria-label="Set Free, the new single, out now"
       onPointerMove={onMove}
       className="relative -mt-16 min-h-[100svh] overflow-hidden px-5 md:px-10 pt-24 md:pt-28 pb-24"
-      style={{ background: '#05060b' }}
+      style={{ background: '#211b17' }}
     >
       <GalaxyBackdrop />
       <GalaxyAtmosphere />
       <SpaceField />
       <DriftingMoons />
       <div className="absolute inset-0 opacity-40 pointer-events-none"><GoldenEmbers density={0.35} /></div>
-      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(5,6,11,0) 45%, rgba(5,6,11,0.75) 100%)' }} />
+      <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(33,27,23,0) 45%, rgba(33,27,23,0.75) 100%)' }} />
       <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center">

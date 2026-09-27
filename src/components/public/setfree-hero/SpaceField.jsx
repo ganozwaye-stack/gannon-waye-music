@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react';
 // Twinkling stars, drifting coloured space dust and the odd shooting star,
 // drawn on one canvas over the galaxy wallpaper.
 const rand = (a, b) => a + Math.random() * (b - a);
-const DUST_COLOURS = ['120,170,255', '255,90,70', '240,200,110'];
+const DUST_COLOURS = ['230,194,191', '212,180,153', '240,200,110'];
 
 export default function SpaceField() {
   const ref = useRef(null);

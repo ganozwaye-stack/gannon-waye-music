@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 // Electric charge for the orbit ring: two bright sparks ride the ring's own
 // diagonal (the same line its clip halves split along), one lapping in
 // front of the heart and one behind, each flickering like live current.
-const SPARK_BG = 'radial-gradient(circle, #FFFFFF 0%, #F5D06E 45%, rgba(212,175,55,0) 100%)';
-const SPARK_GLOW = '0 0 6px rgba(255,255,255,0.95), 0 0 14px rgba(245,208,110,0.8), 0 0 28px rgba(212,175,55,0.5)';
+const SPARK_BG = 'radial-gradient(circle, #FFFFFF 0%, #F2D0B3 45%, rgba(230,194,191,0) 100%)';
+const SPARK_GLOW = '0 0 6px rgba(255,255,255,0.95), 0 0 14px rgba(242,208,179,0.8), 0 0 28px rgba(230,194,191,0.5)';
 
 function Spark({ front }) {
   // Ring geometry: the ring plate spans -30% to 130% of the heart width and
