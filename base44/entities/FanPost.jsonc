@@ -16,7 +16,8 @@
       "enum": [
         "message",
         "review",
-        "photo"
+        "photo",
+        "tribute"
       ],
       "default": "message"
     },

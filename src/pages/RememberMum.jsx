@@ -7,6 +7,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Heart, ImagePlus, CheckCircle2, Loader2, ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import GoldDust from '@/components/mums-garden/GoldDust';
+import { CandleGarden } from '@/components/mum/EnhancedCandle';
+import LovedOneTributeSection from '@/components/mum/LovedOneTributeSection';
 
 const MUM_PORTRAIT = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/dc8919b4b_IMG_5624.png';
 const COVER_IMG = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/b7806166d_generated_image.png';
@@ -105,6 +108,7 @@ export default function RememberMum() {
       <div className="relative overflow-hidden">
         <div className="absolute inset-0">
           <img src={COVER_IMG} alt="" className="w-full h-full object-cover opacity-20" />
+          <GoldDust />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent 0%, #080706 100%)' }} />
         </div>
         <div className="relative max-w-2xl mx-auto px-6 pt-24 pb-12 text-center">
@@ -124,6 +128,17 @@ export default function RememberMum() {
             </p>
           </motion.div>
         </div>
+      </div>
+
+      {/* Candle garden — visitors light a candle for Sonia */}
+      <div className="relative max-w-xl mx-auto px-6 pb-14 text-center">
+        <p className="font-body text-[10px] tracking-[0.35em] uppercase mb-2" style={{ color: 'rgba(255,210,160,0.4)' }}>
+          Light a Candle
+        </p>
+        <p className="font-body text-xs mb-6" style={{ color: 'rgba(255,255,255,0.3)' }}>
+          Tap each candle to light it for Sonia.
+        </p>
+        <CandleGarden count={5} />
       </div>
 
       {/* Memory Form */}
@@ -214,6 +229,9 @@ export default function RememberMum() {
             </div>
           </div>
         )}
+
+        {/* Tribute wall — visitors honour their own loved ones */}
+        <LovedOneTributeSection />
 
         <div className="text-center mt-12">
           <Link to="/" className="inline-flex items-center gap-1.5 font-body text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>
