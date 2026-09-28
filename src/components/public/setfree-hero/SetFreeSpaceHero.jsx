@@ -18,10 +18,10 @@ import HomeHeroWelcomeStack from '@/components/public/HomeHeroWelcomeStack';
 // fierier. SET FREE is the feature column on the left of the row beneath it
 // and the welcome holds the right side. House style: no em dashes.
 const SET_FREE_LISTEN = 'https://open.spotify.com/track/6TzrIFIkFu5HNyZGM4RmqG';
-// Owner-supplied brand art, 25 September 2026. The GWM wordmark and the
-// SET FREE fire title are supplied on pure black, so mix-blend-screen drops
-// the black background and keeps only the artwork over the galaxy.
-const GWM_LOGO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a733b567_GWMGannonWayemusic.jpg';
+// Owner-supplied brand art, 25 September 2026. The SET FREE fire title is
+// supplied on pure black, so mix-blend-screen drops the black background
+// and keeps only the artwork over the galaxy. The GWM wordmark now lives
+// inside HeartPlanet, pulled back within the orbit ring.
 const SET_FREE_TITLE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6b0d132c4_SETFREEFIRE.jpg';
 
 export default function SetFreeSpaceHero({ previousRelease, previousLink, settings }) {
@@ -40,7 +40,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
     <section
       aria-label="Set Free, the new single, out now"
       onPointerMove={onMove}
-      className="relative -mt-16 min-h-[100svh] overflow-hidden px-5 md:px-10 pt-24 md:pt-28 pb-24"
+      className="relative -mt-16 min-h-[100svh] overflow-hidden px-5 md:px-10 pt-20 md:pt-24 pb-20"
       style={{ background: '#211b17' }}
     >
       <GalaxyBackdrop />
@@ -61,22 +61,10 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
           className="relative"
         >
           <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
-          <div className="absolute left-1/2 top-[47%] -translate-x-1/2 -translate-y-1/2 w-[170%]">
-            <motion.img
-              src={GWM_LOGO}
-              alt="Gannon Waye Music"
-              draggable="false"
-              initial={{ opacity: 0, scale: 0.94 }}
-              animate={{ opacity: 0.75, scale: 1 }}
-              transition={{ duration: 1.1, delay: 0.4, ease: 'easeOut' }}
-              className="w-full h-auto object-contain pointer-events-none select-none"
-              style={{ mixBlendMode: 'screen', filter: 'drop-shadow(0 0 20px rgba(212,175,55,0.35))' }}
-            />
-          </div>
         </motion.div>
 
         {/* Beneath the heart: SET FREE featured to one side, the welcome on the other */}
-        <div className="mt-8 lg:mt-12 w-full max-w-6xl grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] items-start gap-10 lg:gap-16">
+        <div className="mt-4 lg:mt-6 w-full max-w-6xl grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] items-start gap-8 lg:gap-12">
           {/* SET FREE feature, left side */}
           <div className="order-1 flex flex-col items-start text-left">
             <motion.p

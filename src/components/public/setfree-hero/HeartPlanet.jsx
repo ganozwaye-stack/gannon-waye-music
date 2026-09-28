@@ -9,6 +9,11 @@ import RingSparks from './RingSparks';
 // and the whole stack tilts and sways in real perspective.
 export const HEART_ART = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/07efd5c33_SetFree_heart_760.png';
 const RING_ART = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/01c177fdb_SetFree_ring_900.png';
+// Owner-supplied GWM wordmark on pure black; mix-blend-screen drops the black
+// and keeps the artwork. 28 September 2026: pulled back INSIDE the orbit ring,
+// scaled down, dimmed and softly glowing so it reads as sitting in space with
+// the heart instead of looming in front of the screen.
+const GWM_LOGO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a733b567_GWMGannonWayemusic.jpg';
 const RING_BACK = 'polygon(0% 0%, 100% 0%, 100% 26%, 0% 84%)';
 const RING_FRONT = 'polygon(0% 84%, 100% 26%, 100% 100%, 0% 100%)';
 
@@ -44,6 +49,19 @@ export default function HeartPlanet({ rotateX, rotateY }) {
         <div className="absolute -inset-[16%] rounded-full pointer-events-none"
              style={{ background: 'radial-gradient(circle, rgba(245,196,110,0.24) 0%, rgba(169,132,44,0.12) 38%, rgba(0,0,0,0) 68%)', transform: 'translateZ(-80px)' }} />
         <RingHalf clip={RING_BACK} z={-40} />
+        <div
+          className="absolute pointer-events-none"
+          style={{ left: '50%', top: '46%', width: '88%', transform: 'translate(-50%, -50%) translateZ(16px) scale(0.86)' }}
+        >
+          <img
+            src={GWM_LOGO}
+            alt="Gannon Waye Music"
+            aria-hidden
+            draggable="false"
+            className="w-full h-auto object-contain select-none"
+            style={{ mixBlendMode: 'screen', opacity: 0.62, filter: 'drop-shadow(0 0 10px rgba(212,175,55,0.18))' }}
+          />
+        </div>
         <RingSparks />
         <div className="absolute -inset-[25%]" style={{ transform: 'translateZ(-10px)' }}><HeartFlames /></div>
         <motion.img
