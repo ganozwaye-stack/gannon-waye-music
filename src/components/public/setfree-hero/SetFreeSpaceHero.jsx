@@ -64,7 +64,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
         </motion.div>
 
         {/* Beneath the heart: SET FREE featured to one side, the welcome on the other */}
-        <div className="mt-4 lg:mt-6 w-full max-w-6xl grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] items-start gap-8 lg:gap-12">
+        <div className="mt-1 lg:mt-2 w-full max-w-6xl grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] items-start gap-8 lg:gap-12">
           {/* SET FREE feature, left side */}
           <div className="order-1 flex flex-col items-start text-left">
             <motion.p
