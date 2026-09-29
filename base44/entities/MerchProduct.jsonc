@@ -59,6 +59,24 @@
         "type": "string"
       }
     },
+    "colors_available": {
+      "type": "array",
+      "description": "Colours available for this product at the micro-brand dropshipping supplier. Owner-recorded swatches shown on the Merch Visual Lab Sourcing Board.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "hex": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
     "stock_quantity": {
       "type": "number",
       "default": 0
