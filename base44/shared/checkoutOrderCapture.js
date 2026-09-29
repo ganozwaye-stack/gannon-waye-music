@@ -165,6 +165,67 @@ export async function requestOrderProcessing(base44, orderId, eventId, source = 
 }
 
 /**
+ * notifyOwnerOfNewOrder
+ *
+ * One newly captured paid order: an in-app admin notification (bell, badge,
+ * chime) plus a Slack push, so the owner can stay on top of shipping.
+ * Failure here never blocks order capture; the order fields record the
+ * notification outcome.
+ */
+export async function notifyOwnerOfNewOrder(base44, order) {
+  const items = Array.isArray(order.items) ? order.items : [];
+  const units = items.reduce((sum, item) => sum + numberOr(item.quantity, 1), 0);
+  const lines = items
+    .map(item => `${numberOr(item.quantity, 1)} x ${item.product_name}${item.size ? ` (size ${item.size})` : ''}`)
+    .join('\\n• ');
+  const total = numberOr(order.total_amount).toFixed(2);
+  const title = `New merch order: ${order.customer_name}`;
+  const summary = `$${total} · ${units} item${units === 1 ? '' : 's'} · ${order.customer_email}`;
+
+  let slackDelivered = false;
+  try {
+    const res = await base44.asServiceRole.functions.invoke('sendSlackAlert', {
+      title: 'New Merch Order',
+      urgency: 'high',
+      category: 'order',
+      message: `New paid merch order from *${order.customer_name}* — $${total}. Ready to ship.`,
+      fields: [
+        { label: 'Customer', value: `${order.customer_name}\\n${order.customer_email}` },
+        { label: 'Items', value: `• ${lines || 'See order'}` },
+        { label: 'Ship to', value: order.shipping_address || 'See order' },
+      ],
+      action_url: 'https://gannonwaye.base44.app/admin/merch-designs',
+    });
+    const body = res && res.data ? res.data : res;
+    slackDelivered = Boolean(body && body.success);
+  } catch {
+    slackDelivered = false;
+  }
+
+  try {
+    await base44.asServiceRole.entities.AdminNotification.create({
+      notification_type: 'order',
+      severity: 'high',
+      title,
+      summary,
+      source: 'store_checkout',
+      requires_action: true,
+      linked_entity: 'MerchOrder',
+      linked_id: order.id,
+      linked_route: '/admin/merch-designs',
+      delivered_slack: slackDelivered,
+    });
+  } catch {}
+
+  try {
+    await base44.asServiceRole.entities.MerchOrder.update(order.id, {
+      admin_notification_sent: true,
+      admin_notification_status: 'created',
+    });
+  } catch {}
+}
+
+/**
  * captureOrderFromSession
  *
  * Converts one paid, store-owned Stripe checkout session into a MerchOrder,
@@ -360,6 +421,9 @@ export async function captureOrderFromSession({
     });
     return { outcome: 'persistence_failed', stage: 'canonical_persist' };
   }
+
+  // Owner alert: every newly placed order rings the bell and pushes to Slack.
+  await notifyOwnerOfNewOrder(base44, order);
 
   const postProcessing = process
     ? await requestOrderProcessing(base44, order.id, event.id, processorSource)

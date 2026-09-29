@@ -40,33 +40,35 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
     <section
       aria-label="Set Free, the new single, out now"
       onPointerMove={onMove}
-      className="relative -mt-16 min-h-[100svh] overflow-hidden px-5 md:px-10 pt-20 md:pt-24 pb-20"
+      className="relative -mt-16 min-h-[100svh] overflow-hidden px-5 md:px-10 pt-16 md:pt-20 pb-16"
       style={{ background: '#211b17' }}
     >
       <GalaxyBackdrop />
       <GalaxyAtmosphere />
       <SpaceField />
       <DriftingMoons />
-      <div className="absolute inset-0 opacity-40 pointer-events-none"><GoldenEmbers density={0.35} /></div>
+      <div className="absolute inset-0 opacity-25 pointer-events-none"><GoldenEmbers density={0.25} /></div>
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(33,27,23,0) 45%, rgba(33,27,23,0.75) 100%)' }} />
       <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col items-center">
-        {/* The heart world: top centre, the anchor the whole screen orbits.
-            The GWM wordmark stays clamped across its front at 75% opacity. */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: 'easeOut' }}
-          className="relative"
-        >
-          <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
-        </motion.div>
+      <div className="relative z-10 w-full max-w-7xl mx-auto">
+        {/* One clean three column screen: SET FREE left, the heart world
+            small and distant in the centre, the narrow welcome level with
+            the ring on the right. Nothing stacked under anything else, so
+            the screen reads calm and professional. */}
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,0.85fr)] items-start justify-items-center lg:justify-items-start gap-6 lg:gap-10">
+          {/* The heart world: distant, like a moon, centred inside its ring */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, ease: 'easeOut' }}
+            className="order-1 lg:order-2 lg:pt-1"
+          >
+            <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
+          </motion.div>
 
-        {/* Beneath the heart: SET FREE featured to one side, the welcome on the other */}
-        <div className="mt-1 lg:mt-2 w-full max-w-6xl grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] items-start gap-8 lg:gap-12">
-          {/* SET FREE feature, left side */}
-          <div className="order-1 flex flex-col items-start text-left">
+          {/* SET FREE feature: left column on desktop, below the heart on mobile */}
+          <div className="order-2 lg:order-1 w-full flex flex-col items-start text-left">
             <motion.p
               initial={{ opacity: 0, letterSpacing: '0.8em' }}
               animate={{ opacity: 1, letterSpacing: '0.45em' }}
@@ -79,7 +81,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
               </span>
               New Single · Out Now
             </motion.p>
-            <div className="mt-3 w-[min(78vw,440px)] drop-shadow-[0_0_28px_rgba(212,175,55,0.35)]">
+            <div className="mt-2 w-[min(62vw,320px)] drop-shadow-[0_0_24px_rgba(212,175,55,0.35)]">
               <motion.img
                 src={SET_FREE_TITLE}
                 alt="Set Free, Gannon Waye"
@@ -171,8 +173,8 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
             )}
           </div>
 
-          {/* Right: the welcome, stretched out and saying more */}
-          <div className="order-2">
+          {/* Right: the narrow welcome, beginning up top level with the ring */}
+          <div className="order-3 w-full">
             <HomeHeroWelcomeStack settings={settings} />
           </div>
         </div>

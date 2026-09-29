@@ -36,7 +36,7 @@ export default function HeartPlanet({ rotateX, rotateY }) {
   return (
     <motion.div
       style={{ rotateX, rotateY, transformPerspective: 900, transformStyle: 'preserve-3d' }}
-      className="relative aspect-square w-[min(58vw,30svh,330px)]"
+      className="relative aspect-square w-[min(46vw,24svh,270px)]"
     >
       <motion.div
         className="absolute inset-0"
@@ -49,7 +49,7 @@ export default function HeartPlanet({ rotateX, rotateY }) {
         <WholeRing />
         <div
           className="absolute pointer-events-none"
-          style={{ left: '50%', top: '46%', width: '96%', transform: 'translate(-50%, -50%) translateZ(16px)' }}
+          style={{ left: '50%', top: '50%', width: '90%', transform: 'translate(-50%, -50%) translateZ(16px)' }}
         >
           <img
             src={GWM_LOGO}
