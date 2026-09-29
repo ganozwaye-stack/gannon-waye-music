@@ -51,12 +51,13 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
       <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(33,27,23,0) 45%, rgba(33,27,23,0.75) 100%)' }} />
       <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto">
-        {/* One clean three column screen: SET FREE left, the heart world
-            small and distant in the centre, the narrow welcome level with
-            the ring on the right. Nothing stacked under anything else, so
-            the screen reads calm and professional. */}
-        <div className="grid lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,0.85fr)] items-start justify-items-center lg:justify-items-start gap-6 lg:gap-10">
+      <div className="relative z-10 w-full max-w-7xl mx-auto flex min-h-[calc(100svh-9rem)] items-center">
+        {/* One clean three column screen, centred in the viewport so the
+            SET FREE feature and its buttons are always on the first screen
+            a visitor sees: SET FREE left, the heart world small and distant
+            in the centre, the narrow welcome level with the ring on the
+            right. House style: no em dashes. */}
+        <div className="grid w-full lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,0.85fr)] items-start justify-items-center lg:justify-items-start gap-6 lg:gap-10">
           {/* The heart world: distant, like a moon, centred inside its ring */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
