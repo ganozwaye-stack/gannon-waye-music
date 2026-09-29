@@ -239,3 +239,11 @@ Did: Fixed the reviewer's two reproduced malformed-row cases: non-string descrip
 Found: Reviewed both workflows, all 36 spec action scans and the complete four live-target spec files. Live tests stop at browser-local cart/details and read anonymous/coaching locks; they never submit a payment, order or product mutation. Broader suite targets localhost; entity CRUD and checkout creation are mocked. Direct webhook/recovery POSTs are intercepted by Vite. Fake success test references fail the verification path before capture.
 Left: Full CI/build/UI proof remains unverified. Draft PR may now be opened for review; deployment and live payment acceptance remain separate approval gates. No issue closed.
 For: Commerce reviewer and owner. Do not count source repair or CI configuration as end-to-end payment evidence.
+
+
+### 2026-09-29 · Codex parallel commerce lane · repair two CI gate blockers
+
+Did: Removed the repeated /admin/dashboard entry from security.spec.js without changing any unique route or assertion. Replaced nonexistent trufflesecurity/trufflehog-actions with official trufflesecurity/trufflehog at pinned v3.97.9 commit 4dd8831c5f12599465d4d45c3c447b4018a34c85; pinned scanner version 3.97.9, retained full checkout and verified-only result filter. No secret/permission changes and no disabled gate.
+Found: At PR40 head 96ca7fce, full build/prebuild gates and CodeQL passed. Playwright collection failed on the duplicate title; secret scan never ran because the action repository could not resolve. Official upstream README/action.yml confirms the replacement and --fail behavior.
+Left: Actual offline Playwright collection of repaired security/coaching specs returned 39 tests across three projects with no duplicate titles (available runtime 1.62.1; repo CI remains 1.60.0). This is collection evidence only. Full security test execution and the repaired secret scan still require CI results; no passing scan claimed. No merge/deploy.
+For: Review PR40 checks on the new commit; do not reuse earlier passing build as evidence for a later head.
