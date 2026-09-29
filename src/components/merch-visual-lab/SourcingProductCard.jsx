@@ -3,6 +3,7 @@ import { base44 } from '@/api/base44Client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Plus, X, ExternalLink, Loader2 } from 'lucide-react';
+import ColourVariantStrip from './ColourVariantStrip';
 
 // One live product on the Sourcing Board: its design, its numbers, and the
 // owner-recorded colour swatches available at the micro-brand dropshipper.
@@ -33,6 +34,10 @@ export default function SourcingProductCard({ product, supplierProduct }) {
 
   const removeColor = (idx) => {
     persistColors(colors.filter((_, i) => i !== idx));
+  };
+
+  const toggleApproved = (idx) => {
+    persistColors(colors.map((c, i) => (i === idx ? { ...c, approved: !c.approved } : c)));
   };
 
   const stock = product.stock_by_variant && Object.keys(product.stock_by_variant).length > 0
@@ -86,6 +91,12 @@ export default function SourcingProductCard({ product, supplierProduct }) {
           </div>
           {colors.length === 0 && (
             <p className="font-body text-[11px] text-muted-foreground mb-2">No colours recorded yet. Add the options your supplier offers below.</p>
+          )}
+          {colors.length > 0 && (
+            <div className="mb-3">
+              <p className="font-body text-[10px] text-muted-foreground mb-1.5">Branding applied in every colour. Approve the colourways you want on the storefront.</p>
+              <ColourVariantStrip image={image} name={product.name} colors={colors} onToggleApproved={toggleApproved} saving={saving} />
+            </div>
           )}
           <div className="flex flex-wrap gap-2 mb-2">
             {colors.map((c, i) => (

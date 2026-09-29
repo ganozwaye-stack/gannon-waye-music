@@ -61,7 +61,7 @@
     },
     "colors_available": {
       "type": "array",
-      "description": "Colours available for this product at the micro-brand dropshipping supplier. Owner-recorded swatches shown on the Merch Visual Lab Sourcing Board.",
+      "description": "Colours available for this product at the micro-brand dropshipping supplier. Owner-recorded swatches shown on the Merch Visual Lab Sourcing Board, with a per-colour approval flag so the owner can sign off the final storefront colourways.",
       "items": {
         "type": "object",
         "properties": {
@@ -70,6 +70,11 @@
           },
           "hex": {
             "type": "string"
+          },
+          "approved": {
+            "type": "boolean",
+            "default": false,
+            "description": "True once the owner has approved this colourway for the storefront."
           }
         },
         "required": [
