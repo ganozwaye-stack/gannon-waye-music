@@ -231,3 +231,11 @@ Did: Prepared issue #32 fix in src/lib/liveStoreProducts.js and src/lib/normaliz
 Found: At 40a254998355b4bffe560e8d155fb06acaf7c071, StoreWorldTeaser maps and SiteSearch filters the raw shared SDK response. Wrapped data/entities responses can therefore throw. The old issue requested fallback products; the later fail-closed catalogue rule overrides that: malformed/empty responses must remain empty. This fix preserves live/stage-one gates and source record prices/stock.
 Left: Full build/lint/typecheck and UI click-through not run in this connector-only partial workspace. Current checkout acceptance and shared bundle inventory remain open. Existing PR workflow targets the live public site, so no PR was opened without first reviewing those test side effects. No issue closed.
 For: Commerce reviewer to validate in full checkout, then open review PR and obtain production deployment approval. A local passing test is not a deployed checkout result.
+
+
+### 2026-09-29 · Codex parallel commerce lane · independent review and PR preflight
+
+Did: Fixed the reviewer's two reproduced malformed-row cases: non-string descriptions can no longer crash SiteSearch; missing/non-finite/non-positive prices can no longer become a formatted zero. Nine offline tests passed, independently rerun by the review agent. Numeric strings are rejected consistently with the existing createCheckoutSession finite-number contract.
+Found: Reviewed both workflows, all 36 spec action scans and the complete four live-target spec files. Live tests stop at browser-local cart/details and read anonymous/coaching locks; they never submit a payment, order or product mutation. Broader suite targets localhost; entity CRUD and checkout creation are mocked. Direct webhook/recovery POSTs are intercepted by Vite. Fake success test references fail the verification path before capture.
+Left: Full CI/build/UI proof remains unverified. Draft PR may now be opened for review; deployment and live payment acceptance remain separate approval gates. No issue closed.
+For: Commerce reviewer and owner. Do not count source repair or CI configuration as end-to-end payment evidence.

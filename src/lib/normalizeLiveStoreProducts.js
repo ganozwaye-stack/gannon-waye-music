@@ -14,6 +14,9 @@ export function normalizeLiveStoreProducts(response) {
     !Array.isArray(product) &&
     typeof product.id === 'string' && product.id.length > 0 &&
     typeof product.name === 'string' &&
+    (product.description == null || typeof product.description === 'string') &&
+    typeof product.sale_price === 'number' &&
+    Number.isFinite(product.sale_price) && product.sale_price > 0 &&
     product.is_active === true &&
     product.publication_status === 'live' &&
     product.is_stage_one_sale === true

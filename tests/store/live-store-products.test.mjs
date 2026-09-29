@@ -25,6 +25,19 @@ test('mixed envelopes exclude malformed, draft, inactive and unapproved-stage re
   assert.deepEqual(normalizeLiveStoreProducts({ data: [...invalid, live] }), [live]);
 });
 
+test('malformed description cannot crash the downstream site search', () => {
+  const rows = normalizeLiveStoreProducts([live, { ...live, description: 123 }]);
+  assert.deepEqual(rows, [live]);
+  assert.deepEqual(rows.filter(p => p.name?.toLowerCase().includes('mug') || p.description?.toLowerCase().includes('mug')), []);
+});
+
+test('unverified or non-positive prices never become a displayed zero-dollar product', () => {
+  for (const sale_price of [undefined, null, '', '98', 'invalid', NaN, Infinity, 0, -1]) {
+    assert.deepEqual(normalizeLiveStoreProducts([{ ...live, sale_price }]), []);
+  }
+  assert.equal(normalizeLiveStoreProducts([live])[0].sale_price, 98);
+});
+
 test('shared fetch normalizes all supported responses and keeps query gates and sort', async () => {
   const source = await readFile(new URL('../../src/lib/liveStoreProducts.js', import.meta.url), 'utf8');
   const executable = source.replace(/^import .*;\n/gm, '').replaceAll('export ', '');
