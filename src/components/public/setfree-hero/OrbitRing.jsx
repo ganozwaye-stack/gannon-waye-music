@@ -1,12 +1,16 @@
-// One whole, unbroken, tilted ellipse drawn as vector art, so it can never be
+// One whole, unbroken orbit ring drawn as vector art, so it can never be
 // cropped by an image edge and always shares its exact centre with the heart
-// and the GWM wordmark. It is sized to enclose the whole heart, with electric
-// current running around it and two sparks riding the band. Units are percent
-// of the heart plate width (the viewBox is 200 wide, centred on the plate).
+// and the GWM wordmark. It renders in two layers so it reads as a real orbit:
+// the full band sits behind the heart, and the near (lower) arc is drawn
+// again in front of it, so the heart sits inside the ring rather than on top
+// of it. Tilted back: a flatter ellipse with a gentler tilt. Units are
+// percent of the heart plate width (the viewBox is 200 wide, centred on the
+// plate).
 const RX = 84;
-const RY = 54;
-const TILT = -12;
+const RY = 42;
+const TILT = -8;
 const LOOP = `M ${-RX} 0 A ${RX} ${RY} 0 0 0 ${RX} 0 A ${RX} ${RY} 0 0 0 ${-RX} 0 Z`;
+const NEAR_ARC = `M ${-RX} 0 A ${RX} ${RY} 0 0 0 ${RX} 0`;
 
 function Spark({ dur, begin }) {
   return (
@@ -21,6 +25,7 @@ function Spark({ dur, begin }) {
   );
 }
 
+// The far layer: the whole band, dimmer where it passes behind the heart.
 export default function OrbitRing() {
   return (
     <svg
@@ -43,7 +48,7 @@ export default function OrbitRing() {
           <feGaussianBlur stdDeviation="1.8" />
         </filter>
       </defs>
-      <g transform={`rotate(${TILT})`}>
+      <g transform={`rotate(${TILT})`} opacity="0.8">
         <path d={LOOP} fill="none" stroke="rgba(242,208,179,0.45)" strokeWidth="5" filter="url(#gw-ring-blur)" />
         <path d={LOOP} fill="none" stroke="url(#gw-ring-grad)" strokeWidth="1.6" opacity="0.92" />
         <path d={LOOP} fill="none" stroke="#ffffff" strokeWidth="0.5" opacity="0.55" />
@@ -62,6 +67,36 @@ export default function OrbitRing() {
         </path>
         <Spark dur="8s" begin="0s" />
         <Spark dur="8s" begin="-4s" />
+      </g>
+    </svg>
+  );
+}
+
+// The near layer: just the lower arc, brighter, drawn in front of the heart
+// so the band visibly wraps around it.
+export function OrbitRingFront() {
+  return (
+    <svg
+      viewBox="-100 -70 200 140"
+      aria-hidden
+      focusable="false"
+      className="pointer-events-none absolute overflow-visible"
+      style={{ left: '-50%', top: '-20%', width: '200%', height: '140%', maxWidth: 'none' }}
+    >
+      <defs>
+        <linearGradient id="gw-ring-front-grad" gradientUnits="userSpaceOnUse" x1={-RX} y1="0" x2={RX} y2="0">
+          <stop offset="0" stopColor="#F2D0B3" />
+          <stop offset="0.5" stopColor="#FFF1D6" />
+          <stop offset="1" stopColor="#F2D0B3" />
+        </linearGradient>
+        <filter id="gw-ring-front-glow" x="-400%" y="-400%" width="900%" height="900%">
+          <feGaussianBlur stdDeviation="2.2" />
+        </filter>
+      </defs>
+      <g transform={`rotate(${TILT})`}>
+        <path d={NEAR_ARC} fill="none" stroke="rgba(242,208,179,0.55)" strokeWidth="5" filter="url(#gw-ring-front-glow)" />
+        <path d={NEAR_ARC} fill="none" stroke="url(#gw-ring-front-grad)" strokeWidth="1.8" />
+        <path d={NEAR_ARC} fill="none" stroke="#ffffff" strokeWidth="0.6" opacity="0.7" />
       </g>
     </svg>
   );

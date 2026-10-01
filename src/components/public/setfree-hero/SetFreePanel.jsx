@@ -10,6 +10,7 @@ import HeroGlassPanel, { HERO_BTN_PRIMARY, HERO_BTN_OUTLINE } from './HeroGlassP
 // House style: no em dashes.
 const SET_FREE_LISTEN = 'https://open.spotify.com/track/6TzrIFIkFu5HNyZGM4RmqG';
 const SET_FREE_TITLE = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/6b0d132c4_SETFREEFIRE.jpg';
+const SET_FREE_COVER = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/e2c44c509_image.png';
 
 export default function SetFreePanel() {
   return (
@@ -27,8 +28,18 @@ export default function SetFreePanel() {
         New Single · Out Now
       </motion.p>
 
+      <motion.img
+        src={SET_FREE_COVER}
+        alt="Set Free, single cover artwork"
+        draggable="false"
+        className="mt-4 h-24 w-24 shrink-0 rounded-xl border border-primary/35 object-cover shadow-[0_0_36px_rgba(212,175,55,0.28)] md:h-28 md:w-28"
+        initial={{ opacity: 0, scale: 0.94 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.15 }}
+      />
+
       <motion.div
-        className="mt-3 w-[min(80%,300px)]"
+        className="mt-4 w-[min(80%,300px)]"
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1, filter: ['brightness(1)', 'brightness(1.12)', 'brightness(1)'] }}
         transition={{ opacity: { duration: 1 }, scale: { duration: 1 }, filter: { duration: 3, repeat: Infinity, ease: 'easeInOut' } }}

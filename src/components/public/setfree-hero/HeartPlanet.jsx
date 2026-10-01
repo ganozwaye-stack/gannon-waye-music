@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import HeartFlames from './HeartFlames';
-import OrbitRing from './OrbitRing';
+import OrbitRing, { OrbitRingFront } from './OrbitRing';
 
 // The Set Free heart, small and far away like the moon. The official heart
 // art (white background removed, flames kept as a soft glow) sits inside one
@@ -54,6 +54,7 @@ export default function HeartPlanet({ rotateX, rotateY }) {
             className="pointer-events-none absolute select-none"
             style={{ left: '50%', top: '50%', width: '72%', transform: 'translate(-50%, -50%)', filter: 'url(#gw-luma-alpha)', opacity: 0.85 }}
           />
+          <OrbitRingFront />
         </motion.div>
       </motion.div>
     </div>

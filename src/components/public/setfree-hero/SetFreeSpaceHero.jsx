@@ -41,7 +41,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
     <section
       aria-label="Set Free, the new single, out now"
       onPointerMove={onMove}
-      className="relative -mt-16 flex min-h-[100svh] flex-col justify-center overflow-hidden px-4 pb-28 pt-24 md:px-8"
+      className="relative -mt-16 flex min-h-[100svh] flex-col overflow-hidden px-4 pt-24 md:px-8"
       style={{ background: '#211b17' }}
     >
       <LumaAlphaFilter />
@@ -53,30 +53,32 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
       <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(33,27,23,0) 45%, rgba(33,27,23,0.75) 100%)' }} />
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-6xl grid-cols-1 items-stretch gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] xl:gap-8">
-        <motion.div
-          className="order-1 self-center md:col-span-2 xl:order-2 xl:col-span-1"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.9, ease: 'easeOut' }}
-        >
-          <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
-        </motion.div>
-
-        <motion.div className="order-2 xl:order-1" {...fade(0.3)}>
-          <SetFreePanel />
-        </motion.div>
-
-        <motion.div className="order-3" {...fade(0.45)}>
-          <HomeHeroWelcomeStack />
-        </motion.div>
-
-        {previousRelease && (
-          <motion.div className="order-4 col-span-full" {...fade(0.7)}>
-            <PreviousReleaseChip release={previousRelease} to={previousLink} />
+      <div className="relative z-10 flex flex-1 items-center">
+        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-stretch gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] xl:gap-8">
+          <motion.div
+            className="order-1 self-center md:col-span-2 xl:order-2 xl:col-span-1"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.9, ease: 'easeOut' }}
+          >
+            <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
           </motion.div>
-        )}
+
+          <motion.div className="order-2 md:min-h-[420px] xl:order-1 xl:min-h-[460px]" {...fade(0.3)}>
+            <SetFreePanel />
+          </motion.div>
+
+          <motion.div className="order-3 md:min-h-[420px] xl:min-h-[460px]" {...fade(0.45)}>
+            <HomeHeroWelcomeStack />
+          </motion.div>
+        </div>
       </div>
+
+      {previousRelease && (
+        <motion.div className="relative z-10 mx-auto w-full max-w-6xl pb-16" {...fade(0.7)}>
+          <PreviousReleaseChip release={previousRelease} to={previousLink} />
+        </motion.div>
+      )}
 
       <MerchDropBanner />
     </section>
