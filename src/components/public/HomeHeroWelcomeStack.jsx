@@ -1,68 +1,38 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import HeroGlassPanel, { HERO_BTN_PRIMARY, HERO_BTN_OUTLINE } from '@/components/public/setfree-hero/HeroGlassPanel';
 
-// The Gannon Waye welcome card: a landscape panel that fills the space beneath
-// the heart world on the home hero, its bottom flush with the bottom of the
-// Without You Here box. On wide screens the greeting sits to the left of the
-// welcome copy so the card reads as one calm landscape panel. Left aligned,
-// never centred. House style: no em dashes.
-export default function HomeHeroWelcomeStack({ settings = {} }) {
+// The Gannon Waye welcome card. It shares its glass panel with the SET FREE
+// card, so the two sit on the same top and bottom edges with their button
+// rows level. Left aligned, never centred. House style: no em dashes.
+export default function HomeHeroWelcomeStack() {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
 
   return (
-    <div className="w-full h-full text-left">
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 0.2 }}
-        className="relative min-h-full rounded-2xl border border-primary/25 bg-card/15 backdrop-blur-md px-5 py-5 md:px-7 md:py-6 overflow-hidden"
-      >
-        <motion.div
-          aria-hidden
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(115deg, rgba(212,175,55,0.10) 0%, transparent 55%, rgba(212,175,55,0.08) 100%)' }}
-          animate={{ opacity: [0.4, 0.85, 0.4] }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-        />
-        <div className="relative md:grid md:grid-cols-[minmax(0,auto)_minmax(0,1fr)] md:gap-8">
-          <div>
-            <div className="flex items-center gap-2.5 mb-2.5">
-              <motion.span
-                className="w-1.5 h-1.5 rounded-full bg-primary"
-                animate={{ scale: [1, 1.6, 1], opacity: [1, 0.5, 1] }}
-                transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-              />
-              <p className="font-body text-xs tracking-[0.25em] uppercase text-primary/80">{greeting}, and welcome</p>
-            </div>
-            <h2 className="font-display text-2xl md:text-3xl gradient-gold-text">I'm Gannon Waye</h2>
-            <p className="font-body text-[10px] tracking-[0.3em] uppercase text-foreground/50 mt-1.5">Singer · Songwriter · Melbourne</p>
-          </div>
-          <div className="mt-3 md:mt-0">
-            <p className="font-body text-[13px] md:text-sm text-foreground/90 leading-relaxed">
-              Independent, heart-first art made after everything life threw at it. I write the songs that say what you cannot say yet, and I built this space for anyone who still needs proof that being knocked down is not the end of the story. You are not alone here.
-            </p>
-            <p className="font-body text-[13px] md:text-sm text-foreground/90 leading-relaxed mt-3">
-              Today the new single, Set Free, is out in the world: a song about reclaiming your voice, protecting your peace and choosing what happens next. Stay a while, wander the boutique, leave me a message. Whatever brought you here, you are safe and you are welcome.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2.5">
-              <Link
-                to="/music"
-                className="inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 font-body text-[10px] tracking-wider uppercase gradient-gold-button border-0"
-              >
-                Hear the Music <ArrowRight className="w-3 h-3" />
-              </Link>
-              <Link
-                to="/biography"
-                className="inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 font-body text-[10px] tracking-wider uppercase border border-primary/40 text-primary hover:bg-primary/10 transition-colors"
-              >
-                My Story
-              </Link>
-            </div>
-          </div>
-        </div>
-      </motion.div>
-    </div>
+    <HeroGlassPanel>
+      <div className="flex items-center gap-2.5">
+        <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+        <p className="font-body text-[10px] uppercase tracking-[0.3em] text-primary/80 md:text-xs">{greeting}, and welcome</p>
+      </div>
+      <h2 className="mt-3 font-display text-2xl gradient-gold-text md:text-3xl">I'm Gannon Waye</h2>
+      <p className="mt-1.5 font-body text-[10px] uppercase tracking-[0.28em] text-foreground/50">Singer · Songwriter · Melbourne</p>
+
+      <p className="mt-4 font-body text-[13px] leading-relaxed text-foreground/90 md:text-sm">
+        Independent, heart-first art made after everything life threw at it. I write the songs that say what you cannot say yet, and I built this space for anyone who still needs proof that being knocked down is not the end of the story. You are not alone here.
+      </p>
+      <p className="mt-3 font-body text-[13px] leading-relaxed text-foreground/90 md:text-sm">
+        Stay a while, wander the boutique, leave me a message. Whatever brought you here, you are safe and you are welcome.
+      </p>
+
+      <div className="mt-auto flex flex-wrap gap-2 pt-5">
+        <Link to="/music" className={HERO_BTN_PRIMARY}>
+          Hear the Music <ArrowRight className="h-3 w-3" />
+        </Link>
+        <Link to="/biography" className={HERO_BTN_OUTLINE}>
+          My Story
+        </Link>
+      </div>
+    </HeroGlassPanel>
   );
 }

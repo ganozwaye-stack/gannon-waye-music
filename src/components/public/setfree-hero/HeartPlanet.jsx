@@ -1,80 +1,61 @@
 import { motion } from 'framer-motion';
 import HeartFlames from './HeartFlames';
-import RingSparks from './RingSparks';
+import OrbitRing from './OrbitRing';
 
-// The official Set Free heart with its white background removed pixel by pixel
-// (flames kept as soft transparent glow, nothing regenerated), sitting IN FRONT
-// of the official gold orbit ring. 29 September 2026 owner direction: the ring
-// is one whole, unbroken ellipse behind the heart (the old split halves cut the
-// ring on both sides and cropped it on the right), the GWM wordmark is sized to
-// the heart's inner border, and the whole heart plate is smaller so it reads
-// distant, like the moon.
+// The Set Free heart, small and far away like the moon. The official heart
+// art (white background removed, flames kept as a soft glow) sits inside one
+// whole electric ring, and the GWM wordmark is centred on the exact middle of
+// both, so heart, logo and ring are concentric. Plate size is the single
+// distance control. House style: no em dashes.
 export const HEART_ART = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/07efd5c33_SetFree_heart_760.png';
-const RING_ART = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/files/mp/public/69eb7905ca6eb4180010f794/01c177fdb_SetFree_ring_900.png';
-// Owner-supplied GWM wordmark on pure black; mix-blend-screen drops the black
-// and keeps the artwork. 29 September 2026: sized to match the heart's inner
-// border, sitting in space just in front of the heart, softly glowing.
 const GWM_LOGO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a733b567_GWMGannonWayemusic.jpg';
-
-function WholeRing() {
-  return (
-    <div className="absolute pointer-events-none" style={{ left: '-25%', top: '11%', width: '150%', transform: 'translateZ(-40px)' }}>
-      <motion.img
-        src={RING_ART}
-        alt=""
-        aria-hidden
-        draggable="false"
-        className="w-full h-auto max-w-none select-none"
-        animate={{ rotate: [-3, 3, -3], filter: ['brightness(1)', 'brightness(1.4)', 'brightness(1.05)', 'brightness(1.55)', 'brightness(1)'] }}
-        transition={{ rotate: { duration: 9, repeat: Infinity, ease: 'easeInOut' }, filter: { duration: 2.2, repeat: Infinity, ease: 'easeInOut' } }}
-      />
-    </div>
-  );
-}
+const PLATE = 'min(34vw, 22svh, 170px)';
 
 export default function HeartPlanet({ rotateX, rotateY }) {
   return (
-    <motion.div
-      style={{ rotateX, rotateY, transformPerspective: 900, transformStyle: 'preserve-3d' }}
-      className="relative aspect-square w-[min(46vw,24svh,270px)]"
+    <div
+      className="relative mx-auto flex items-center justify-center"
+      style={{ '--plate': PLATE, width: 'calc(var(--plate) * 1.8)', height: 'calc(var(--plate) * 1.4)' }}
     >
       <motion.div
-        className="absolute inset-0"
-        style={{ transformStyle: 'preserve-3d' }}
-        animate={{ y: [0, -16, 0], rotateX: [7, 13, 7], rotateY: [-10, 10, -10], rotateZ: [-1, 1, -1], scale: [1, 1.02, 1] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        className="relative aspect-square shrink-0"
+        style={{ width: 'var(--plate)', rotateX, rotateY, transformPerspective: 900 }}
       >
-        <div className="absolute -inset-[16%] rounded-full pointer-events-none"
-             style={{ background: 'radial-gradient(circle, rgba(245,196,110,0.24) 0%, rgba(169,132,44,0.12) 38%, rgba(0,0,0,0) 68%)', transform: 'translateZ(-80px)' }} />
-        <WholeRing />
-        <div
-          className="absolute pointer-events-none"
-          style={{ left: '50%', top: '50%', width: '90%', transform: 'translate(-50%, -50%) translateZ(16px)' }}
+        <motion.div
+          className="absolute inset-0"
+          animate={{ y: [0, -7, 0] }}
+          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
         >
+          <div
+            aria-hidden
+            className="pointer-events-none absolute -inset-[30%] rounded-full"
+            style={{ background: 'radial-gradient(circle, rgba(245,196,110,0.18) 0%, rgba(169,132,44,0.08) 40%, rgba(0,0,0,0) 68%)' }}
+          />
+          <OrbitRing />
+          <div className="absolute -inset-[25%]">
+            <HeartFlames rate={380} alpha={0.65} />
+          </div>
+          <motion.img
+            src={HEART_ART}
+            alt="Set Free by Gannon Waye, a cracked gold heart on fire in space"
+            draggable="false"
+            fetchpriority="high"
+            loading="eager"
+            decoding="async"
+            className="absolute inset-0 h-full w-full select-none object-contain"
+            animate={{ filter: ['drop-shadow(0 0 12px rgba(212,175,55,0.32)) saturate(0.92)', 'drop-shadow(0 0 20px rgba(245,208,110,0.45)) saturate(0.92)', 'drop-shadow(0 0 12px rgba(212,175,55,0.32)) saturate(0.92)'] }}
+            transition={{ duration: 2.8, repeat: Infinity, ease: 'easeInOut' }}
+          />
           <img
             src={GWM_LOGO}
             alt="Gannon Waye Music"
             aria-hidden
             draggable="false"
-            className="w-full h-auto object-contain select-none"
-            style={{ mixBlendMode: 'screen', opacity: 0.62, filter: 'drop-shadow(0 0 10px rgba(212,175,55,0.18))' }}
+            className="pointer-events-none absolute select-none"
+            style={{ left: '50%', top: '50%', width: '72%', transform: 'translate(-50%, -50%)', filter: 'url(#gw-luma-alpha)', opacity: 0.85 }}
           />
-        </div>
-        <RingSparks />
-        <div className="absolute -inset-[25%]" style={{ transform: 'translateZ(-10px)' }}><HeartFlames /></div>
-        <motion.img
-          src={HEART_ART}
-          alt="Set Free by Gannon Waye, a cracked gold heart on fire in space"
-          draggable="false"
-          fetchpriority="high"
-          loading="eager"
-          decoding="async"
-          className="absolute inset-0 w-full h-full object-contain select-none"
-          style={{ transform: 'translateZ(0px)' }}
-          animate={{ filter: ['drop-shadow(0 0 26px rgba(212,175,55,0.40)) brightness(1)', 'drop-shadow(0 0 44px rgba(245,208,110,0.55)) brightness(1.08)', 'drop-shadow(0 0 26px rgba(212,175,55,0.40)) brightness(1)'] }}
-          transition={{ duration: 2.6, repeat: Infinity, ease: 'easeInOut' }}
-        />
+        </motion.div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
