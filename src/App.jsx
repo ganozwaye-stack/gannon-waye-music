@@ -306,6 +306,7 @@ const AuthenticatedApp = () => {
         <Route path="/upcoming-music" element={<UpcomingMusic />} />
         <Route path="/carry-the-message" element={<CarryTheMessage />} />
         <Route path="/remember-mum" element={<RememberMum />} />
+        <Route path="/memorial" element={<Memorial />} />
         {/* Mum's Garden and Sonia's Garden were archived and locked at the owner's
             request on 16 September 2026. These redirects keep old links safe. Do not
             restore the pages unless the owner explicitly asks to unlock and make

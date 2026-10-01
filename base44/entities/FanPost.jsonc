@@ -11,6 +11,10 @@
     "content": {
       "type": "string"
     },
+    "image_url": {
+      "type": "string",
+      "description": "Optional photo attached to the tribute, shown on the memorial tribute wall once approved"
+    },
     "type": {
       "type": "string",
       "enum": [

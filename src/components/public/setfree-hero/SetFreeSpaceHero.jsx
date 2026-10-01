@@ -52,21 +52,27 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
       <div className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto flex min-h-[calc(100svh-9rem)] items-center">
-        {/* One clean three column screen, centred in the viewport so the
-            SET FREE feature and its buttons are always on the first screen
-            a visitor sees: SET FREE left, the heart world small and distant
-            in the centre, the narrow welcome level with the ring on the
-            right. House style: no em dashes. */}
-        <div className="grid w-full lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,0.85fr)] items-start justify-items-center lg:justify-items-start gap-6 lg:gap-10">
-          {/* The heart world: distant, like a moon, centred inside its ring */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: 'easeOut' }}
-            className="order-1 lg:order-2 lg:pt-1"
-          >
-            <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
-          </motion.div>
+        {/* Two clean columns, centred in the viewport so the SET FREE feature
+            and its buttons are always on the first screen a visitor sees:
+            SET FREE on the left, the heart world beneath the MORE menu on the
+            right at the same level as the SET FREE text, and the landscape
+            welcome card filling the space beneath it, ending flush with the
+            bottom of the Without You Here box. House style: no em dashes. */}
+        <div className="grid w-full lg:grid-cols-[minmax(0,1fr)_minmax(0,0.95fr)] items-stretch gap-6 lg:gap-10">
+          {/* Heart world: distant, like a moon, centred beneath the MORE menu */}
+          <div className="order-1 lg:order-2 w-full flex flex-col items-center">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.9, ease: 'easeOut' }}
+              className="pt-1"
+            >
+              <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
+            </motion.div>
+            <div className="w-full flex-1 mt-4 lg:-mt-14 min-h-0">
+              <HomeHeroWelcomeStack settings={settings} />
+            </div>
+          </div>
 
           {/* SET FREE feature: left column on desktop, below the heart on mobile */}
           <div className="order-2 lg:order-1 w-full flex flex-col items-start text-left">
@@ -142,7 +148,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.9 }}
-                className="mt-6 w-full max-w-xs"
+                className="mt-auto pt-6 w-full max-w-xs"
               >
                 <p className="font-body text-[9px] tracking-[0.35em] uppercase gradient-gold-glow mb-2">Previous Release</p>
                 <Link
@@ -174,10 +180,6 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
             )}
           </div>
 
-          {/* Right: the narrow welcome, beginning up top level with the ring */}
-          <div className="order-3 w-full">
-            <HomeHeroWelcomeStack settings={settings} />
-          </div>
         </div>
       </div>
 
