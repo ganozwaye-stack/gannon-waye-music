@@ -223,3 +223,27 @@ Did:      Added a fail closed merchandise lifecycle to `MerchProduct`, restricte
 Found:    The public store could display invented fallback stock and legacy prices whenever its data request was empty. Checkout accepted client supplied item data when a product lookup failed. Thanking You Kindly had a missing unsigned visitor route stop, six products with zero publication ready, five listings with none active, six product opportunities with none fully supplier verified, and an eBay token expired on 28 August 2026 despite the setup record saying connected.
 Left:     No merchandise is live. Gannon must confirm stock or approve an Australian print provider, direct supplier pages, image matches, landed cost, shipping cost, retail floor, product copy and the exact listing. The owner must reconnect eBay. TikTok Shop needs seller account and API eligibility confirmation. Run the required live Stripe checkout verification from the previous entry before calling payments complete.
 For:      The owner for supplier evidence, stock confirmation, eBay OAuth consent, TikTok seller access and exact listing approval. The next agent must keep Thanking You Kindly private and never restore the fallback catalogue.
+
+
+### 2026-09-29 · Codex parallel commerce lane · SDK merchandise response normalization
+
+Did: Prepared issue #32 fix in src/lib/liveStoreProducts.js and src/lib/normalizeLiveStoreProducts.js; added tests/store/live-store-products.test.mjs. Seven offline Node regression tests pass. No deployment, payment request, product mutation or main update.
+Found: At 40a254998355b4bffe560e8d155fb06acaf7c071, StoreWorldTeaser maps and SiteSearch filters the raw shared SDK response. Wrapped data/entities responses can therefore throw. The old issue requested fallback products; the later fail-closed catalogue rule overrides that: malformed/empty responses must remain empty. This fix preserves live/stage-one gates and source record prices/stock.
+Left: Full build/lint/typecheck and UI click-through not run in this connector-only partial workspace. Current checkout acceptance and shared bundle inventory remain open. Existing PR workflow targets the live public site, so no PR was opened without first reviewing those test side effects. No issue closed.
+For: Commerce reviewer to validate in full checkout, then open review PR and obtain production deployment approval. A local passing test is not a deployed checkout result.
+
+
+### 2026-09-29 · Codex parallel commerce lane · independent review and PR preflight
+
+Did: Fixed the reviewer's two reproduced malformed-row cases: non-string descriptions can no longer crash SiteSearch; missing/non-finite/non-positive prices can no longer become a formatted zero. Nine offline tests passed, independently rerun by the review agent. Numeric strings are rejected consistently with the existing createCheckoutSession finite-number contract.
+Found: Reviewed both workflows, all 36 spec action scans and the complete four live-target spec files. Live tests stop at browser-local cart/details and read anonymous/coaching locks; they never submit a payment, order or product mutation. Broader suite targets localhost; entity CRUD and checkout creation are mocked. Direct webhook/recovery POSTs are intercepted by Vite. Fake success test references fail the verification path before capture.
+Left: Full CI/build/UI proof remains unverified. Draft PR may now be opened for review; deployment and live payment acceptance remain separate approval gates. No issue closed.
+For: Commerce reviewer and owner. Do not count source repair or CI configuration as end-to-end payment evidence.
+
+
+### 2026-09-29 · Codex parallel commerce lane · repair two CI gate blockers
+
+Did: Removed the repeated /admin/dashboard entry from security.spec.js without changing any unique route or assertion. Replaced nonexistent trufflesecurity/trufflehog-actions with official trufflesecurity/trufflehog at pinned v3.97.9 commit 4dd8831c5f12599465d4d45c3c447b4018a34c85; pinned scanner version 3.97.9, retained full checkout and verified-only result filter. No secret/permission changes and no disabled gate.
+Found: At PR40 head 96ca7fce, full build/prebuild gates and CodeQL passed. Playwright collection failed on the duplicate title; secret scan never ran because the action repository could not resolve. Official upstream README/action.yml confirms the replacement and --fail behavior.
+Left: Actual offline Playwright collection of repaired security/coaching specs returned 39 tests across three projects with no duplicate titles (available runtime 1.62.1; repo CI remains 1.60.0). This is collection evidence only. Full security test execution and the repaired secret scan still require CI results; no passing scan claimed. No merge/deploy.
+For: Review PR40 checks on the new commit; do not reuse earlier passing build as evidence for a later head.
