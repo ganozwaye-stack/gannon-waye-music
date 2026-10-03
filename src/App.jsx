@@ -319,10 +319,10 @@ const AuthenticatedApp = () => {
             on this site. Redirected, not left to the catch-all. */}
         <Route path="/mum" element={<Navigate to="/" replace />} />
         <Route path="/mums" element={<Navigate to="/" replace />} />
+        {/* Single payment success page. The old aliases (/store/checkout-success,
+            /payment-success, /order-success) were removed on 3 October 2026 and
+            now fall through to the 404. Do not re-add them. */}
         <Route path="/checkout-success" element={<CheckoutSuccess />} />
-        <Route path="/store/checkout-success" element={<Navigate to="/checkout-success" replace />} />
-        <Route path="/payment-success" element={<Navigate to="/checkout-success" replace />} />
-        <Route path="/order-success" element={<Navigate to="/checkout-success" replace />} />
         <Route path="/checkout-cancel" element={<CheckoutCancel />} />
         <Route path="/store/checkout-cancel" element={<Navigate to="/checkout-cancel" replace />} />
         <Route path="/presave" element={<PreSave />} />

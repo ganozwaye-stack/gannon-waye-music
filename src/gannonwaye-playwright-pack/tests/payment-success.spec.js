@@ -13,22 +13,19 @@ test.describe('Payment Success & Cancel Routes', () => {
     await expect(page.locator('[data-testid="checkout-success-page"]')).toBeVisible();
   });
 
-  test('/store/checkout-success returns 200 and shows page', async ({ page }) => {
-    const response = await page.goto(`${BASE_URL}/store/checkout-success`);
-    expect(response?.status()).not.toBe(404);
-    await expect(page.locator('[data-testid="checkout-success-page"]')).toBeVisible();
-  });
-
-  test('/payment-success returns 200 and shows page', async ({ page }) => {
-    const response = await page.goto(`${BASE_URL}/payment-success`);
-    expect(response?.status()).not.toBe(404);
-    await expect(page.locator('[data-testid="checkout-success-page"]')).toBeVisible();
-  });
-
-  test('/order-success returns 200 and shows page', async ({ page }) => {
-    const response = await page.goto(`${BASE_URL}/order-success`);
-    expect(response?.status()).not.toBe(404);
-    await expect(page.locator('[data-testid="checkout-success-page"]')).toBeVisible();
+  // The old alias routes (/store/checkout-success, /payment-success,
+  // /order-success) were removed on 3 October 2026. /checkout-success is now
+  // the only payment success page and the aliases must fall through to 404.
+  test('old success aliases return 404', async ({ page }) => {
+    for (const route of ['/store/checkout-success', '/payment-success', '/order-success']) {
+      await page.goto(`${BASE_URL}${route}`);
+      const content = await page.content();
+      const notFound =
+        content.toLowerCase().includes('page not found') ||
+        content.toLowerCase().includes('could not be found') ||
+        content.toLowerCase().includes('404');
+      expect(notFound, `${route} should no longer resolve to the success page`).toBe(true);
+    }
   });
 
   test('/checkout-cancel returns 200 and shows cancel page', async ({ page }) => {
@@ -81,9 +78,6 @@ test.describe('Payment Success & Cancel Routes', () => {
   test('no 404 page shown on any success/cancel route', async ({ page }) => {
     const routes = [
       '/checkout-success',
-      '/store/checkout-success',
-      '/payment-success',
-      '/order-success',
       '/checkout-cancel',
       '/store/checkout-cancel',
     ];

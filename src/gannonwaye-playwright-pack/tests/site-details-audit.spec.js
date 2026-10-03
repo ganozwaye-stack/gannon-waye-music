@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:5173';
 
-const PUBLIC_PAGES = ['/', '/store', '/contact', '/music', '/store/checkout-success'];
+const PUBLIC_PAGES = ['/', '/store', '/contact', '/music', '/checkout-success'];
 
 test.describe('Site Details Audit — Public pages must not expose wrong emails', () => {
 
