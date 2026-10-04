@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ShoppingBag } from 'lucide-react';
 import { MERCH_DROP_AT } from '@/config/merchDrop';
+import { STORE_CRASHED } from '@/config/storeStatus';
 
 // Full-width banner along the bottom of the home hero: the Set Free merch
 // drop, stretched the whole length of the page as the owner directed.
@@ -14,6 +15,9 @@ export default function MerchDropBanner() {
     const t = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(t);
   }, []);
+
+  // The owner holds the storefront until both merchandise releases are ready.
+  if (STORE_CRASHED) return null;
 
   const diff = MERCH_DROP_AT - now;
   const dropped = diff <= 0;
