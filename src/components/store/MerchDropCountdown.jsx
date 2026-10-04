@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { MERCH_DROP_AT } from '@/config/merchDrop';
+import { STORE_CRASHED } from '@/config/storeStatus';
 
 // Big, clear countdown to the 5pm AEST merch drop. Left aligned, 3D flip-in digits.
 const pad = (n) => String(n).padStart(2, '0');
@@ -12,6 +13,9 @@ export default function MerchDropCountdown() {
     const t = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(t);
   }, []);
+
+  // The owner holds the storefront until both merchandise releases are ready.
+  if (STORE_CRASHED) return null;
 
   const diff = MERCH_DROP_AT - now;
 
