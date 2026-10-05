@@ -2,6 +2,13 @@
 
 Protocol lives in `AGENTS.md` §8. Read this before starting. Append to `## Log
 
+### 2026-10-05 · Codex · TikTok and Facebook LIVE hub
+
+Did:      Created the isolated feature branch `feature/live-stream-hub`. Restored the public `/live` route, added a public LIVE status and player page, added TikTok and Facebook destination buttons, expanded the existing Content Studio livestream control to accept Facebook player URLs, and added practical TikTok LIVE Studio and Facebook Live Producer setup guidance for screen sharing, microphone audio and system audio. Added a public route regression test.
+Found:    The site already had livestream fields and an admin control, but `src/App.jsx` explicitly redirected `/live` to the home page. The existing TikTok OAuth code supports login and draft content posting, not TikTok LIVE broadcasting. TikTok LIVE eligibility, LIVE Studio access and stream keys remain controlled by TikTok.
+Left:     Nothing is merged, deployed or broadcasting. The live setting remains disabled and offline. No secrets, account permissions, music rights or business settings were changed. Review the draft pull request and CI before any merge. A public player URL must be saved as Scheduled first, then changed to Live only when the actual broadcast begins.
+For:      Gannon to review and approve or reject the pull request. Merge and deployment require separate approval. TikTok LIVE Studio access and Facebook Live Producer authorization remain manual platform steps.
+
 ### 2026-09-26 · ChatGPT · Music activity evidence monitor
 Did: Added MusicActivity, MusicEvidenceSummary, MusicEvidenceDetail, MusicEvidenceSources, the read-only useMusicEvidence hook, source links, MusicEvidence schema, protected routes, sidebar entry and Dashboard summary. Changes at 2a58b6b4. No collector or scheduled alerts were enabled.
 Found: Direct official HTTP reads at 2026-09-26T00:28Z show all three songs on Unearthed; Set Free Artist Pick; every track playedOn=[]. Apple returned 100/100 playlist songs with no Gannon Waye match; Spotify embed returned 100 with no match but no verified total. Latest 10 timestamped records per ABC station had no artist match; this is NOT complete historical coverage. Source URLs are in src/lib/musicMonitorSources.js. Build and all prebuild safety checks passed; storefront lock passed. Public /assets/index-DWA51fl4.js still does not contain /admin/music-activity.
