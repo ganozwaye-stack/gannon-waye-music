@@ -6,20 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { Radio, Save, ExternalLink, AlertTriangle, CheckCircle2 } from 'lucide-react';
-
-// Lifted from src/pages/admin/LivestreamCommand.jsx — the /live page controls with
-// the HTTPS-only ALLOWED_EMBED_HOSTS safety rule, plus the TikTok manual notice.
-const ALLOWED_EMBED_HOSTS = ['youtube.com', 'youtu.be', 'vimeo.com', 'streamyard.com', 'restream.io', 'facebook.com'];
+import { ALLOWED_EMBED_HOSTS, safeEmbedUrl, safePublicUrl } from '@/lib/liveUrls';
 
 function isSafeEmbedUrl(url) {
-  if (!url) return true; // empty is ok
-  try {
-    const u = new URL(url);
-    if (u.protocol !== 'https:') return false;
-    return ALLOWED_EMBED_HOSTS.some(h => u.hostname === h || u.hostname.endsWith('.' + h));
-  } catch {
-    return false;
-  }
+  return !url || Boolean(safeEmbedUrl(url));
 }
 
 const STATUS_OPTIONS = [
@@ -33,7 +23,7 @@ export default function LivestreamPanel() {
   const { toast } = useToast();
   const qc = useQueryClient();
 
-  const { data: settingsArr, isLoading } = useQuery({
+  const { data: settingsArr, isLoading, isError, refetch } = useQuery({
     queryKey: ['site-settings-livestream'],
     queryFn: () => base44.entities.SiteSettings.list(),
   });
@@ -44,20 +34,21 @@ export default function LivestreamPanel() {
 
   // Initialize form when settings load
   useEffect(() => {
-    if (settings && !form) {
+    if (!isLoading && !isError && !form) {
+      const current = settings || {};
       setForm({
-        live_stream_enabled: settings.live_stream_enabled || false,
-        live_stream_status: settings.live_stream_status || 'offline',
-        live_stream_provider: settings.live_stream_provider || '',
-        live_stream_title: settings.live_stream_title || '',
-        live_stream_scheduled_at: settings.live_stream_scheduled_at || '',
-        live_stream_embed_url: settings.live_stream_embed_url || '',
-        live_stream_chat_url: settings.live_stream_chat_url || '',
-        live_stream_tiktok_url: settings.live_stream_tiktok_url || '',
-        live_stream_instagram_url: settings.live_stream_instagram_url || '',
+        live_stream_enabled: current.live_stream_enabled || false,
+        live_stream_status: current.live_stream_status || 'offline',
+        live_stream_provider: current.live_stream_provider || '',
+        live_stream_title: current.live_stream_title || '',
+        live_stream_scheduled_at: current.live_stream_scheduled_at || '',
+        live_stream_embed_url: current.live_stream_embed_url || '',
+        live_stream_chat_url: current.live_stream_chat_url || '',
+        live_stream_tiktok_url: current.live_stream_tiktok_url || '',
+        live_stream_instagram_url: current.live_stream_instagram_url || '',
       });
     }
-  }, [settings, form]);
+  }, [settings, form, isLoading, isError]);
 
   const saveMutation = useMutation({
     mutationFn: async (data) => {
@@ -69,6 +60,7 @@ export default function LivestreamPanel() {
     },
     onSuccess: async () => {
       qc.invalidateQueries({ queryKey: ['site-settings-livestream'] });
+      qc.invalidateQueries({ queryKey: ['public-livestream-settings'] });
       // Create admin notification
       await base44.entities.AdminNotification.create({
         notification_type: 'system',
@@ -80,6 +72,7 @@ export default function LivestreamPanel() {
       });
       toast({ title: 'Livestream settings saved ✓' });
     },
+    onError: () => toast({ title: 'Livestream settings could not be saved. Please try again.', variant: 'destructive' }),
   });
 
   const handleSave = () => {
@@ -91,10 +84,18 @@ export default function LivestreamPanel() {
       toast({ title: 'Invalid chat URL — must be HTTPS from an allowed provider', variant: 'destructive' });
       return;
     }
+    if (form?.live_stream_tiktok_url && !safePublicUrl(form.live_stream_tiktok_url, ['tiktok.com'])) {
+      toast({ title: 'Use a public HTTPS TikTok link.', variant: 'destructive' });
+      return;
+    }
     saveMutation.mutate(form);
   };
 
   const update = (key, value) => setForm(f => ({ ...f, [key]: value }));
+
+  if (isError) {
+    return <div role="alert">Livestream settings could not be loaded. <button type="button" onClick={() => refetch()} className="underline">Try again</button></div>;
+  }
 
   if (isLoading || !form) {
     return <div className="flex items-center justify-center h-64"><div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" /></div>;

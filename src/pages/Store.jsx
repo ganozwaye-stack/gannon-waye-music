@@ -502,7 +502,7 @@ export default function Store() {
       {hasItems && (
         <div
           data-testid="store-sticky-checkout"
-          className="fixed bottom-0 left-0 right-0 z-40 bg-card/95 backdrop-blur-md border-t border-primary/30 px-4 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] flex items-center justify-between gap-4 shadow-2xl"
+          className="fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] md:bottom-10 left-0 right-0 z-50 bg-card/95 backdrop-blur-md border-t border-primary/30 px-4 py-3 flex items-center justify-between gap-4 shadow-2xl"
         >
           <div className="flex items-center gap-3">
             <ShoppingCart className="w-5 h-5 text-primary shrink-0" />

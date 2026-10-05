@@ -1,20 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
 import { CalendarDays, ExternalLink, Radio, Video } from 'lucide-react';
-
-const ALLOWED_PLAYER_HOSTS = ['youtube.com', 'youtu.be', 'vimeo.com', 'streamyard.com', 'restream.io', 'facebook.com'];
-
-function safePublicUrl(value, allowedHosts = null) {
-  if (!value) return '';
-  try {
-    const url = new URL(value);
-    if (url.protocol !== 'https:') return '';
-    if (allowedHosts && !allowedHosts.some(host => url.hostname === host || url.hostname.endsWith('.' + host))) return '';
-    return url.toString();
-  } catch {
-    return '';
-  }
-}
+import { safePublicUrl, safeEmbedUrl } from '@/lib/liveUrls';
 
 function formattedSchedule(value) {
   if (!value) return '';
@@ -28,36 +15,48 @@ function formattedSchedule(value) {
 }
 
 export default function Live() {
-  const { data: settingsArr = [], isLoading } = useQuery({
+  const { data: settingsArr = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['public-livestream-settings'],
     queryFn: () => base44.entities.SiteSettings.list(),
+    refetchInterval: 15_000,
+    refetchOnWindowFocus: true,
   });
 
-  const settings = settingsArr[0] || {};
+  const settings = Array.isArray(settingsArr) ? settingsArr[0] || {} : {};
   const enabled = settings.live_stream_enabled === true;
   const status = settings.live_stream_status || 'offline';
   const isLive = enabled && status === 'live';
   const isScheduled = enabled && status === 'scheduled';
-  const playerUrl = isLive ? safePublicUrl(settings.live_stream_embed_url, ALLOWED_PLAYER_HOSTS) : '';
-  const chatUrl = isLive ? safePublicUrl(settings.live_stream_chat_url, ALLOWED_PLAYER_HOSTS) : '';
-  const tiktokUrl = safePublicUrl(settings.live_stream_tiktok_url || settings.tiktok_url);
-  const facebookUrl = safePublicUrl(settings.facebook_url);
-  const title = settings.live_stream_title || 'Gannon Waye Live';
-  const schedule = formattedSchedule(settings.live_stream_scheduled_at);
+  const playerUrl = isLive ? safeEmbedUrl(settings.live_stream_embed_url) : '';
+  const chatUrl = isLive ? safeEmbedUrl(settings.live_stream_chat_url) : '';
+  const tiktokUrl = safePublicUrl(enabled && settings.live_stream_tiktok_url || settings.tiktok_url, ['tiktok.com']);
+  const facebookUrl = safePublicUrl(settings.facebook_url, ['facebook.com']);
+  const title = enabled && settings.live_stream_title || 'Gannon Waye Live';
+  const schedule = enabled ? formattedSchedule(settings.live_stream_scheduled_at) : '';
 
   if (isLoading) {
     return (
-      <main className="min-h-[70vh] flex items-center justify-center px-4">
+      <section data-testid="live-hub" className="min-h-[70vh] flex items-center justify-center px-4">
         <div className="text-center" role="status" aria-live="polite">
           <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto" />
           <p className="font-body text-xs text-muted-foreground mt-4 tracking-widest uppercase">Loading LIVE</p>
         </div>
-      </main>
+      </section>
+    );
+  }
+
+  if (isError) {
+    return (
+      <section data-testid="live-hub" className="min-h-[70vh] px-4 py-16 text-center">
+        <h1 className="font-display text-3xl">Gannon Waye Live</h1>
+        <p role="alert" className="mt-4">LIVE status is temporarily unavailable. Please try again.</p>
+        <button type="button" onClick={() => refetch()} className="mt-4 underline">Try again</button>
+      </section>
     );
   }
 
   return (
-    <main className="min-h-[75vh] px-4 md:px-6 py-14">
+    <section data-testid="live-hub" className="min-h-[75vh] px-4 md:px-6 py-14">
       <div className="max-w-6xl mx-auto space-y-8">
         <header className="text-center space-y-3">
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-2">
@@ -67,7 +66,7 @@ export default function Live() {
             </span>
           </div>
           <h1 className="font-display text-3xl md:text-5xl font-bold gradient-gold-text">{title}</h1>
-          {settings.live_stream_provider && (
+          {enabled && settings.live_stream_provider && (
             <p className="font-body text-sm text-muted-foreground">Broadcast via {settings.live_stream_provider}</p>
           )}
           {schedule && (
@@ -159,6 +158,6 @@ export default function Live() {
           Recorded music may be interrupted by platform copyright systems. Live sessions remain subject to TikTok and Facebook music rules.
         </p>
       </div>
-    </main>
+    </section>
   );
 }

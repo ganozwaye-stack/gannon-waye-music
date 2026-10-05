@@ -2,6 +2,13 @@
 
 Protocol lives in `AGENTS.md` §8. Read this before starting. Append to `## Log
 
+### 2026-10-06 · Codex · PR 41 CI baseline and release blockers
+
+Did: Compared every failed PR check with current main using both runs and job logs. Prepared exact CI, stale selector, checkout layering and livestream fixes plus a separate candidate hub regression job. Detailed evidence is in docs/PR41-CI-REVIEW.md. A second specialist independently cross-checked the hub and deployment impact.
+Found: Main ef7b2a78 and original PR 208bb1ee have identical duplicate-title and missing scanner failures; production store checks both report the same 12 failed/48 passed. Store tests target deployed production, not PR source. Original hub additionally exposed disabled broadcast metadata, never refreshed waiting viewers, nested main, and accepted Facebook dashboard URLs. STORE_CRASHED=true in both main and PR would close the store if this frontend were deployed; production tests saw products instead.
+Left: No merge, deploy, live setting change or broadcast. Preserve storeStatus.js until the owner's intended store state is resolved. Local browser install returned an invalid archive; candidate GitHub runtime checks are required. The local Base44 CLI requires an authenticated session before deployment.
+For: Gannon to resolve the deliberate storefront switch; Codex to finish runtime gates and controlled release after that decision. Do not mark any broadcast or commerce path operational from a build alone.
+
 ### 2026-10-05 · Codex · TikTok and Facebook LIVE hub
 
 Did:      Created the isolated feature branch `feature/live-stream-hub`. Restored the public `/live` route, added a public LIVE status and player page, added TikTok and Facebook destination buttons, expanded the existing Content Studio livestream control to accept Facebook player URLs, and added practical TikTok LIVE Studio and Facebook Live Producer setup guidance for screen sharing, microphone audio and system audio. Added a public route regression test.
