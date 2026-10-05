@@ -55,6 +55,7 @@ import CheckoutSuccess from '@/pages/CheckoutSuccess';
 import CheckoutCancel from '@/pages/CheckoutCancel';
 import PreSave from '@/pages/PreSave';
 import ReleaseDetail from '@/pages/ReleaseDetail';
+import Live from '@/pages/Live';
 
 // Admin pages
 import AdminLayout from '@/components/admin/AdminLayout';
@@ -280,6 +281,7 @@ const AuthenticatedApp = () => {
         <Route path="/store/cart-details" element={STORE_CRASHED ? <StoreCrashed /> : <StoreCartDetails />} />
         <Route path="/store/checkout" element={STORE_CRASHED ? <StoreCrashed /> : <StoreCheckout />} />
         <Route path="/videos" element={<Videos />} />
+        <Route path="/live" element={<Live />} />
         <Route path="/email-preferences" element={<EmailPreferences />} />
         <Route path="/orders" element={<OrderHistory />} />
         <Route path="/back-this" element={<Navigate to="/store" replace />} />
@@ -397,7 +399,6 @@ const AuthenticatedApp = () => {
       <Route path="/tiktok-callback" element={<TikTokCallback />} />
       <Route path="/toolost-callback" element={<TooLostCallback />} />
       <Route path="/gift-checklist" element={<GiftChecklistPage />} />
-      <Route path="/live" element={<Navigate to="/" replace />} />
 
       {/* Admin routes */}
       <Route element={<AdminLayout />}>
