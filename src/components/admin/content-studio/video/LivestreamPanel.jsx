@@ -61,6 +61,7 @@ export default function LivestreamPanel() {
     onSuccess: async () => {
       qc.invalidateQueries({ queryKey: ['site-settings-livestream'] });
       qc.invalidateQueries({ queryKey: ['public-livestream-settings'] });
+      toast({ title: 'Livestream settings saved ✓' });
       // Create admin notification
       await base44.entities.AdminNotification.create({
         notification_type: 'system',
@@ -69,8 +70,9 @@ export default function LivestreamPanel() {
         summary: `Status: ${form?.live_stream_status} | Enabled: ${form?.live_stream_enabled}`,
         source: 'LivestreamCommand',
         requires_action: false,
+      }).catch(() => {
+        toast({ title: 'Settings saved. The admin notification could not be recorded.' });
       });
-      toast({ title: 'Livestream settings saved ✓' });
     },
     onError: () => toast({ title: 'Livestream settings could not be saved. Please try again.', variant: 'destructive' }),
   });
