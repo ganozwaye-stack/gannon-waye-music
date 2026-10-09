@@ -1,0 +1,36 @@
+{
+  "name": "JournalPurchase",
+  "type": "object",
+  "description": "Backend-only index of server-verified journal purchases. References support recovery; every download still verifies Stripe. No file URIs or PDF interiors.",
+  "properties": {
+    "buyer_user_id": {
+      "type": "string"
+    },
+    "stripe_session_id": {
+      "type": "string"
+    },
+    "catalogue_version": {
+      "type": "string"
+    },
+    "offer_id": {
+      "type": "string"
+    },
+    "verified_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "buyer_user_id",
+    "stripe_session_id",
+    "catalogue_version",
+    "offer_id",
+    "verified_at"
+  ],
+  "rls": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false
+  }
+}
