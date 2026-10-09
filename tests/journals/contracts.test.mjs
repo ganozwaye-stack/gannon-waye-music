@@ -24,7 +24,7 @@ await build({entryPoints:[entry],outfile:path.join(temp,'handler.mjs'),bundle:tr
     b.onResolve({filter:/^npm:/},args=>({path:args.path,namespace:'contract'}));
     b.onLoad({filter:/.*/,namespace:'contract'},args=>({contents:args.path.includes('stripe')
       ? 'export default class Stripe { constructor(){this.checkout={sessions:{list:async()=>({data:[],has_more:false}),create:async()=>{globalThis.__GW_JOURNAL_CONTRACT__.stripeCalls++;throw Error("private/test-uri sk_test_DO_NOT_DISCLOSE");}}};} }'
-      : 'export function createClientFromRequest(){return {asServiceRole:{entities:{JournalPurchase:{filter:async()=>[],upsert:async()=>({})},JournalCheckoutAttempt:{filter:async()=>[],upsert:async()=>({})}}},auth:{me:async()=>{globalThis.__GW_JOURNAL_CONTRACT__.authCalls++;return globalThis.__GW_JOURNAL_CONTRACT__.user;}}};}',
+      : 'export function createClientFromRequest(){return {asServiceRole:{entities:{JournalPurchase:{filter:async()=>[],upsert:globalThis.__GW_JOURNAL_CONTRACT__.disableUpsert?undefined:async()=>({})},JournalCheckoutAttempt:{filter:async()=>[],upsert:globalThis.__GW_JOURNAL_CONTRACT__.disableUpsert?undefined:async()=>({})}}},auth:{me:async()=>{globalThis.__GW_JOURNAL_CONTRACT__.authCalls++;return globalThis.__GW_JOURNAL_CONTRACT__.user;}}};}',
       loader:'js'}));
   }}]});
 const {handleJournalRequest}=await import('file://'+path.join(temp,'handler.mjs'));
@@ -81,6 +81,12 @@ test('adapter errors return only safe code and no private payload',async()=>{
   assert.equal(response.status,503);assert.deepEqual(await response.json(),{error:'journals_unavailable'});
   assert.equal(response.headers.get('cache-control'),'private, no-store');
   assert.equal(state.stripeCalls,1); // Stub only; no network/Stripe request.
+});
+test('unsupported persistence adapter blocks checkout before Stripe creation',async()=>{
+ const state=fixture();state.disableUpsert=true;
+ const response=await handleJournalRequest(request({offer_id:'book-0',expected_total_cents:990}),'checkout');
+ assert.equal(response.status,503);assert.deepEqual(await response.json(),{error:'purchase_recovery_unavailable'});
+ assert.equal(state.stripeCalls,0);
 });
 test.after(async()=>{
   globalThis.Deno=originalDeno;delete globalThis.__GW_JOURNAL_CONTRACT__;
