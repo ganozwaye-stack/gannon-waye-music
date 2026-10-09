@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import JournalShelf from '@/components/coaching/JournalShelf';
 import CoachingGiftSet from '@/components/coaching/CoachingGiftSet';
@@ -8,6 +9,18 @@ import CoachingGiftSet from '@/components/coaching/CoachingGiftSet';
 const PORTRAIT_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
 
 export default function Coaching() {
+  const [params,setParams]=useSearchParams();
+  const location=useLocation(),viewRef=useRef(null);
+  const requested=params.get('view');
+  const view=requested==='journals'||requested==='coaching'?requested:
+    params.has('journal')||location.hash==='#journals'?'journals':null;
+  const choose=next=>setParams(previous=>{
+    const query=new URLSearchParams(previous);
+    query.delete('journal');
+    if(next)query.set('view',next);else query.delete('view');
+    return query;
+  });
+  useEffect(()=>{if(view)viewRef.current?.scrollIntoView({block:'start',behavior:'smooth'});},[view]);
   return (
     <div className="min-h-screen pb-20" data-testid="coaching-page">
       <section className="max-w-6xl mx-auto px-5 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
@@ -17,11 +30,16 @@ export default function Coaching() {
           <p className="font-body text-lg text-foreground/80 leading-relaxed mb-6" data-testid="coaching-approved-intro">I’ve always felt drawn to helping people find clarity, understand challenges, and build confidence to move forward. In personal training, I realised it was forty percent muscle, sixty percent mental.</p>
           <p className="font-body text-lg text-foreground/80 leading-relaxed mb-6" data-testid="coaching-approved-story">That experience, plus my studies and lived experience, shapes my coaching today. Even with seven years of learning, I was caught in abuse. That’s why I say openly: understanding doesn’t make you immune, and none of that means you’re weak. Writing and music helped me find words and strength; the journals grew from that.</p>
           <p className="font-body text-lg text-foreground/80 leading-relaxed mb-8" data-testid="coaching-approved-ending">Wherever you are in your journey, you’re welcome to start here. Explore the journals and choose one that speaks to you, or get in touch about one-on-one coaching so we can talk about what you’d like to work towards. You don’t need to have it all figured out. Let’s start with what matters to you.</p>
-          <Actions />
+          <Actions onExplore={()=>choose('journals')} onEnquire={()=>choose('coaching')} />
         </div>
         <img src={PORTRAIT_URL} alt="Gannon Waye" className="w-full max-w-md mx-auto rounded-3xl object-cover object-top border border-primary/30" />
       </section>
 
+      {view && <div ref={viewRef} className="scroll-mt-24">
+        <div className="max-w-6xl mx-auto px-5 mb-4">
+          <Button variant="outline" onClick={()=>choose(null)}>Back to the choices</Button>
+        </div>
+      {view==='journals' && <>
       <section id="journals" aria-labelledby="journals-title" className="max-w-6xl mx-auto px-5 py-16 scroll-mt-24">
         <div className="rounded-3xl bg-card/60 border border-primary/25 p-7 md:p-10">
           <h2 id="journals-title" className="font-display text-3xl mb-4">Explore the Journals</h2>
@@ -32,24 +50,26 @@ export default function Coaching() {
       </section>
 
       <CoachingGiftSet />
+      </>}
 
-      <section id="one-on-one" aria-labelledby="coaching-enquiry-title" className="max-w-3xl mx-auto px-5 pb-16">
+
+      {view==='coaching' && <section id="one-on-one" aria-labelledby="coaching-enquiry-title" className="max-w-3xl mx-auto px-5 pb-16">
         <h2 id="coaching-enquiry-title" className="font-display text-3xl mb-4">One-on-one coaching</h2>
         <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">If you would like to work together, get in touch about what you would like to work towards. Sessions are A$99 for 45 minutes. The initial consultation is a paid, two-way conversation to understand your enquiry, your goals and whether we are the right fit. You can ask me questions too. Online appointment booking is being prepared; availability will be confirmed before you are asked to pay.</p>
         <p className="font-body text-base text-foreground/80 leading-relaxed mb-6">There is no obligation after the consultation. If we both choose to continue, you pay for session two and session three is complimentary. The consultation counts as the first paid session. This is a one-time introductory offer; normal full pricing applies from session four onwards. The first three appointments total A$198. A ten-session package is A$850 for ten total 45-minute appointments, including the introductory third-session benefit; it does not add an eleventh appointment.</p>
         <p className="font-body text-base text-foreground/80 leading-relaxed mb-6">If you would like support that includes clearly scoped work between sessions, we can discuss a tailored package and agree the scope and fee upfront.</p>
         <Link to="/contact"><Button variant="outline" className="rounded-full">Enquire about Coaching</Button></Link>
-      </section>
-
+      </section>}
+      </div>}
     </div>
   );
 }
 
-function Actions() {
+function Actions({onExplore,onEnquire}) {
   return (
     <div className="flex flex-col sm:flex-row gap-3">
-      <a href="#journals"><Button className="gradient-gold-button border-0 rounded-full">Explore the Journals</Button></a>
-      <Link to="/contact"><Button variant="outline" className="rounded-full">Enquire about Coaching</Button></Link>
+      <Button onClick={onExplore} className="gradient-gold-button border-0 rounded-full">Explore the Journals</Button>
+      <Button onClick={onEnquire} variant="outline" className="rounded-full">Enquire about Coaching</Button>
     </div>
   );
 }
