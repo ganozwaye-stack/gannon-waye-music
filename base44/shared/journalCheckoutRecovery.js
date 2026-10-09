@@ -125,3 +125,11 @@ export async function confirmJournalReturn({user,sessionId,store,stripe,resolveC
   catalogue_version:catalogue.approvedVersion,offer_id:offer.id,verified_at:new Date(now).toISOString()});
  return {status:'paid',sessionId,bookIds:offer.bookIds};
 }
+
+export async function cancelJournalCheckout(args){
+ const state=await confirmJournalReturn(args);
+ if(state.status!=='pending')return state;
+ const result=await args.stripe.checkout.sessions.expire(args.sessionId);
+ if(result?.id!==args.sessionId||result.status!=='expired')fail('checkout_cancellation_unavailable');
+ return {status:'expired'};
+}
