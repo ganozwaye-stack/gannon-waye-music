@@ -55,8 +55,7 @@ export default function JournalShelf() {
               <Button data-testid="journal-close" variant="outline" onClick={() => selectBook(null)}>Close</Button>
             </div>
             <JournalPurchasePanel key={selected.id} book={selected} />
-            <div aria-hidden="true" className="hidden">
-            </div>
+
           </>}
         </DialogContent>
       </Dialog>
