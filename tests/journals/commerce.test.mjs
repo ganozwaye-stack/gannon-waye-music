@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { JOURNAL_POLICY, JOURNAL_ABN, journalCheckoutParams, fulfilJournalDownload } from '../../base44/shared/journalCommerce.js';
+import { JOURNAL_POLICY, JOURNAL_APP_ID, JOURNAL_ABN, journalCheckoutParams, fulfilJournalDownload } from '../../base44/shared/journalCommerce.js';
 const pdf = new TextEncoder().encode('%PDF-1.7\nfixture');
 const digest = createHash('sha256').update(pdf).digest('hex');
 const catalogue = { enabled: true, bundleEnabled: true, approvedVersion: 'approved-test-v1', bundleId: 'six-journals', bundlePriceCents: 4900,
@@ -14,7 +14,7 @@ function fixture(offerId = 'journal-0') {
     session: { id: 'cs_test_abcdefghijklmnop', livemode: false, mode: 'payment', currency: 'aud',
       status: 'complete', payment_status: 'paid', amount_total: amount, amount_subtotal: amount,
       customer_details: { email: user.email }, payment_intent: 'pi_fixture',
-      metadata: { checkout_policy: JOURNAL_POLICY, abn: JOURNAL_ABN,
+      metadata: { checkout_policy: JOURNAL_POLICY, app_id: JOURNAL_APP_ID, abn: JOURNAL_ABN,
         buyer_user_id: user.id, offer_id: offerId, catalogue_version: catalogue.approvedVersion } },
     paymentIntent: { id: 'pi_fixture', status: 'succeeded', livemode: false, currency: 'aud',
       amount_received: amount, latest_charge: { paid: true, status: 'succeeded',
