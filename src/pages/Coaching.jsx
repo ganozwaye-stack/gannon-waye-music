@@ -14,25 +14,12 @@ export default function Coaching() {
         <div>
           <p className="font-body text-xs tracking-widest uppercase text-primary mb-4">Coaching with Gannon Waye</p>
           <h1 className="font-display text-4xl md:text-6xl mb-6">Start with what matters to you.</h1>
-          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-8">A place to find words, explore what you are facing and take a step towards the confidence and clarity you want to build.</p>
+          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-6" data-testid="coaching-approved-intro">I’ve always felt drawn to helping people find clarity, understand challenges, and build confidence to move forward. In personal training, I realised it was forty percent muscle, sixty percent mental. That experience, plus my studies and lived experience, shapes my coaching today. Even with seven years of learning, I was caught in abuse. That’s why I say openly: understanding doesn’t make you immune, and none of that means you’re weak. Writing and music helped me find words and strength; the journals grew from that.</p>
+          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-8" data-testid="coaching-approved-ending">Wherever you are in your journey, you’re welcome to start here. Explore the journals and choose one that speaks to you, or get in touch about one-on-one coaching so we can talk about what you’d like to work towards. You don’t need to have it all figured out. Let’s start with what matters to you.</p>
           <Actions />
         </div>
         <img src={PORTRAIT_URL} alt="Gannon Waye" className="w-full max-w-md mx-auto rounded-3xl object-cover object-top border border-primary/30" />
       </section>
-
-      <article className="max-w-3xl mx-auto px-5 space-y-7 font-body text-base md:text-lg leading-relaxed text-foreground/80">
-        <h2 className="font-display text-3xl text-foreground">Why this work matters to me</h2>
-        <p>I have always been drawn to helping people find clarity, understand the challenges in front of them and develop confidence in themselves. I care about the moment someone begins to see a possibility they could not see before, and about supporting them as they work towards it.</p>
-        <p>That was one of the parts I loved most about personal training. My clients achieved goals they had set themselves, and sometimes did things they had not thought possible. The work was physical, but so much of what I was supporting was confidence, belief and wellbeing.</p>
-        <p>I think of that experience as “40% muscle and 60% mental”. That is my personal reflection on the work, rather than a scientific statistic. It describes how much it mattered to help someone trust themselves, recognise their progress and keep going when things felt difficult.</p>
-        <p>Over the past seven years, I have invested in education and personal development, including psychology. I wanted to understand more about people, the challenges we face and the ways we can support ourselves and each other.</p>
-        <p>Even with that knowledge, I found myself in an abusive relationship. Knowing about something does not make you immune to it. Being abused does not mean you are unintelligent or weak. I want to say that plainly, because shame can make it harder to find words for what has happened.</p>
-        <p>My own recovery is ongoing. I am not sharing this from a place where everything is finished or fixed. Music and writing helped me find words when I struggled to explain what I was carrying. They helped me find strength, and gave me somewhere to begin.</p>
-        <p>The journals grew out of that writing and reflection. They share concepts and leave space for you to reflect, notice what matters to you and find your own words. You can take your time with them and make that space your own.</p>
-        <p>My one-on-one coaching builds on my personal training experience, education and lived experience. It is a chance for us to talk about the challenges you are facing, what you would like to work towards and the confidence you want to develop. We begin with you and what matters in your life.</p>
-        <p>I want to pay forward the gifts I’ve been given. To bless more people with this gift that I have. For me, that means making something useful available to others, whether it’s a journal that helps you find a clearer question or a conversation where we work on skills and goals that matter to you. You can bring your own beliefs, experiences and way of seeing the world.</p>
-        <p className="text-sm text-muted-foreground">I am not a psychologist or registered clinician. Coaching is personal support and reflection, and does not replace mental health care.</p>
-      </article>
 
       <section id="journals" aria-labelledby="journals-title" className="max-w-6xl mx-auto px-5 py-16 scroll-mt-24">
         <div className="rounded-3xl bg-card/60 border border-primary/25 p-7 md:p-10">
@@ -53,10 +40,6 @@ export default function Coaching() {
         <Link to="/contact"><Button variant="outline" className="rounded-full">Enquire about Coaching</Button></Link>
       </section>
 
-      <section className="max-w-3xl mx-auto px-5 text-center">
-        <p className="font-body text-lg leading-relaxed text-foreground/80 mb-8">Wherever you are in your journey, you’re welcome to start here. Explore the journals and choose one that speaks to you, or get in touch about one-on-one coaching so we can talk about what you’d like to work towards. You don’t need to have it all figured out. Let’s start with what matters to you.</p>
-        <Actions />
-      </section>
     </div>
   );
 }
