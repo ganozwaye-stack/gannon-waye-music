@@ -29,7 +29,7 @@ test('browser Back closes preview and a different book reopens without stale con
 test('held page never sends payment or private-download requests', async ({ page }) => {
   const requests = [];
   page.on('request', request => {
-    if (/journal.*(checkout|download|purchase)/i.test(request.url())) requests.push(request.url());
+    if (/\/functions\/(createJournalCheckout|downloadJournal|getJournalPurchases)(?:[/?]|$)/i.test(request.url()) || /checkout\.stripe\.com/i.test(request.url())) requests.push(request.url());
   });
   await page.goto(origin + '/coaching');
   await page.getByTestId('journal-cover-' + PUBLIC_JOURNALS[0].id).click();
