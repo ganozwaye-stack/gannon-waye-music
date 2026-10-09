@@ -1,7 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { PUBLIC_JOURNALS, JOURNAL_PURCHASES_ENABLED } from '@/lib/publicJournalCatalogue';
+import { PUBLIC_JOURNALS } from '@/lib/publicJournalCatalogue';
+import JournalPurchasePanel from './JournalPurchasePanel';
 
 export default function JournalShelf() {
   const [params, setParams] = useSearchParams();
@@ -52,7 +53,9 @@ export default function JournalShelf() {
               Full journal access follows verified payment. Online purchasing is being prepared.</p>
             <div className="flex gap-3">
               <Button data-testid="journal-close" variant="outline" onClick={() => selectBook(null)}>Close</Button>
-              <Button disabled={!JOURNAL_PURCHASES_ENABLED || !selected.releaseApproved}>Purchase</Button>
+            </div>
+            <JournalPurchasePanel key={selected.id} book={selected} />
+            <div aria-hidden="true" className="hidden">
             </div>
           </>}
         </DialogContent>
