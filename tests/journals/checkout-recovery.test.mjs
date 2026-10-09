@@ -90,3 +90,13 @@ test('unpaid return has no purchase entitlement or paid record',async()=>{
  assert.equal((await confirmJournalReturn({...f.args,sessionId:first.session_id})).status,'pending');
  assert.equal(f.purchases.length,0);
 });
+
+test('return resolves the purchased edition even when current catalogue advances',async()=>{
+ const f=fixture(),first=await start(f);f.pay(first.session_id);
+ const result=await confirmJournalReturn({...f.args,catalogue:{...catalogue,approvedVersion:'v2'},sessionId:first.session_id});
+ assert.equal(result.status,'paid');assert.equal(f.purchases[0].catalogue_version,'v1');
+});
+test('unknown purchased edition blocks recovery and another checkout',async()=>{
+ const f=fixture(),first=await start(f);f.sessions.get(first.session_id).metadata.catalogue_version='unknown';
+ await assert.rejects(start(f),/Unknown edition/);assert.equal(f.creates(),1);
+});
