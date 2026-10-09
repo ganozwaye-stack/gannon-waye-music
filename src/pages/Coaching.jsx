@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import JournalShelf from '@/components/coaching/JournalShelf';
 
 // Reuse the portrait already approved and displayed in the site's public navigation.
 // Never include journal interiors, PDF URLs or unverified sample questions here.
@@ -35,8 +36,9 @@ export default function Coaching() {
       <section id="journals" aria-labelledby="journals-title" className="max-w-6xl mx-auto px-5 py-16 scroll-mt-24">
         <div className="rounded-3xl bg-card/60 border border-primary/25 p-7 md:p-10">
           <h2 id="journals-title" className="font-display text-3xl mb-4">Explore the Journals</h2>
-          <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">The six journals are A$9.90 each, or A$49 for the six-book bundle. You can purchase them directly, without a coaching call, registration for coaching or approval from me. One-on-one coaching is optional and separate.</p>
-          <p className="font-body text-sm text-muted-foreground leading-relaxed">The cover display and a question from each journal are being prepared. Full interiors are reserved for purchasers. Writing together is still in development and is not included in the six-book bundle.</p>
+          <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">The six journals are A$9.90 each, or A$49 for the six-book bundle. You do not need a coaching call, registration for coaching or approval from me to purchase or read a journal. One-on-one coaching is optional and separate.</p>
+          <JournalShelf />
+          <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">Writing together is still in development and is not included in the six-book bundle.</p>
         </div>
       </section>
 
