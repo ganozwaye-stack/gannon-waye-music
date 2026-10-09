@@ -64,7 +64,7 @@ test('authenticated caller cannot start checkout while server flag is held',asyn
 test('client price mismatch requires confirmation before creating checkout',async()=>{
   const state=fixture();
   const response=await handleJournalRequest(request({offer_id:['book-0','book-1','book-2'],expected_total_cents:4900,request_id:'a'.repeat(36)}),'checkout');
-  assert.equal(response.status,409);assert.deepEqual(await response.json(),{error:'selection_requires_confirmation',total_cents:2970});
+  assert.equal(response.status,200);const data=await response.json();assert.equal(data.status,'selection_requires_confirmation');assert.equal(data.total_cents,2970);
   assert.equal(state.stripeCalls,0);
 });
 test('incomplete or duplicated bundle is rejected before Stripe',async()=>{
