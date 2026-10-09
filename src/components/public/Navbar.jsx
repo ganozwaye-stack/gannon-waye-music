@@ -23,7 +23,7 @@ const NAV_LINKS = [
   { label: 'Discover Music', path: '/discover' },
   { label: 'Videos', path: '/videos' }] },
 { label: 'Store', path: '/store' },
-...(FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED ? [{ label: 'Coaching', path: '/coaching', soon: true }] : []),
+{ label: 'Coaching', path: '/coaching' },
 { label: 'Press', path: '/press' },
 { label: 'Contact', path: '/contact' }];
 
