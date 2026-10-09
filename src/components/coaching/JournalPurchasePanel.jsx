@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,6 @@ export default function JournalPurchasePanel({ book }) {
   const [ownership, setOwnership] = useState({ status: 'held', ownedBookIds: [], purchases: [] });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const requestId = useRef(null);
   useEffect(() => {
     if (!JOURNAL_PURCHASES_ENABLED) return undefined;
     let active = true;
@@ -34,17 +33,16 @@ export default function JournalPurchasePanel({ book }) {
     quote.bookIds.length > 0 && quote.bookIds.every(id => PUBLIC_JOURNALS.find(item => item.id === id)?.releaseApproved);
   const existing = ownership.purchases.find(purchase => purchase.bookIds?.includes(book.id));
   const toggle = (id, checked) => {
-    setBundle(false); requestId.current = null;
+    setBundle(false);
     setSelectedIds(previous => checked ? [...new Set([...previous, id])] : previous.filter(item => item !== id));
   };
   const purchase = async () => {
     if (!mayPurchase || busy) return;
     setBusy(true); setError('');
     try {
-      requestId.current ||= crypto.randomUUID();
       const response = await base44.functions.invoke('createJournalCheckout', {
         offer_id: quote.bookIds, bundle_requested: quote.bundle,
-        expected_total_cents: quote.totalCents, request_id: requestId.current
+        expected_total_cents: quote.totalCents
       });
       const data = response?.data || {};
       if(data.status==='already_owned'){
@@ -88,15 +86,15 @@ export default function JournalPurchasePanel({ book }) {
         <legend className="text-sm font-semibold mb-2">Other journals you can choose to add</legend>
         {PUBLIC_JOURNALS.filter(item => item.id !== book.id).map(item => (
           <label key={item.id} className="flex gap-3 items-start text-sm">
-            <input type="checkbox" checked={selectedIds.includes(item.id)} onChange={event => toggle(item.id, event.target.checked)} />
+            <input type="checkbox" disabled={busy} checked={selectedIds.includes(item.id)} onChange={event => toggle(item.id, event.target.checked)} />
             <span>{item.title} · A$9.90{ownership.ownedBookIds.includes(item.id) ? ' · Already purchased' : ''}</span>
           </label>
         ))}
       </fieldset>
       <label className="flex gap-3 items-start text-sm">
-        <input type="checkbox" disabled={!JOURNAL_BUNDLE_COUNT_CONFIRMED || ownership.ownedBookIds.length > 0} checked={quote.bundle}
+        <input type="checkbox" disabled={busy || !JOURNAL_BUNDLE_COUNT_CONFIRMED || ownership.ownedBookIds.length > 0} checked={quote.bundle}
           onChange={event => {
-            setBundle(event.target.checked); requestId.current = null;
+            setBundle(event.target.checked);
             setSelectedIds(event.target.checked ? PUBLIC_JOURNALS.map(item => item.id) : [book.id]);
           }} />
         <span>Choose the whole six-journal bundle · A$49</span>
