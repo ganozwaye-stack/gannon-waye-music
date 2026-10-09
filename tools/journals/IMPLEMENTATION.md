@@ -41,9 +41,10 @@ Only entitled PDF bytes are proxied, with no-store and an approved integrity has
 A server-side signed URL exists briefly but is never sent to the browser.
 
 Retain immutable catalogue snapshots for prior sold versions; do not silently replace
-or drop a paid version when releasing new evidence/files. The current prototype accepts
-one supplied snapshot. A production registry must resolve a session's version from the
-server's retained approved snapshots before enabling multiple versions.
+or drop a paid version when releasing new evidence/files. The staged adapter resolves purchased versions from server-only
+JOURNAL_PRIVATE_CATALOGUE_VERSIONS plus the current JOURNAL_PRIVATE_CATALOGUE.
+Unknown or unavailable editions fail closed. All snapshots still need verified private
+file URIs/hashes; never delete an edition already sold.
 
 ## Checks before enabling sales
 1. Privately import the original PDFs; verify unchanged hashes.
@@ -95,7 +96,8 @@ confidentiality or authenticated client CRUD denial; those runtime checks remain
 base44/entities/JournalPurchase.jsonc mirrors the schema for durable source review.
 No approval rejection occurred.
 Records remain references only; Stripe is reverified for access.
-Durable pending-session recovery and active handlers still require implementation/testing.
+Staged source now implements durable pending-session recovery and handler wiring;
+actual deployment, persistence and authenticated integration remain held.
 
 ## Library transfer limitation
 prepare_materialize returned six available transfers with expected PDF versions, no
@@ -147,9 +149,11 @@ Total: 49 static/policy/mock-contract checks passed, plus 12 held-page browser c
    Empty anonymous HTTP 200/list results are not populated-row isolation evidence.
 4. Test private object and signing access with anonymous/unpaid/unrelated accounts.
    Keep URIs/signing server-only and full PDFs out of public entities/source/responses.
-5. Finish active backend integration: purchase recovery, pending-session persistence,
-   duplicate checkout prevention across devices, prior-edition registry and purchase
-   return route. Staged handler comment explicitly identifies unwired recovery guards.
+5. Source wiring is complete in the staged handler/entrypoints and purchase-return
+   route. Before activation, create and verify the restricted JournalCheckoutAttempt
+   candidate schema; confirm runtime service-role filter/upsert support, complete Stripe
+   pagination and immutable edition registry. Deploy only in parent-coordinated test
+   context and keep commerce/public/persistence activation flags held until proven.
 6. Run actual Stripe TEST checkout/cancellation/retry/refund/dispute flows and authenticated
    purchased-file download. No real charges. Confirm amounts and identity/version binding.
 7. Confirm author release, all security/payment tests and parent-coordinated activation
