@@ -32,6 +32,16 @@ export default function JournalPurchaseReturn(){
   }catch{setMessage('Access could not be confirmed. Please try again; do not buy another copy.');}
   finally{setBusy(false);}
  };
+ const cancel=async()=>{
+  if(!JOURNAL_PURCHASES_ENABLED||state.status!=='pending'||busy)return;
+  setBusy(true);setMessage('');
+  try{
+   const response=await base44.functions.invoke('cancelJournalCheckout',{session_id:sessionId});
+   if(!['expired','paid','confirming'].includes(response?.data?.status))throw Error('Unavailable');
+   setState(response.data);
+  }catch{setMessage('Cancellation could not be confirmed. Please check this checkout before starting another payment.');}
+  finally{setBusy(false);}
+ };
  const resume=()=>{
   try{const url=new URL(state.checkoutUrl);if(url.protocol==='https:'&&url.hostname==='checkout.stripe.com'&&!url.username&&!url.password)window.location.assign(url.href);}
   catch{setMessage('Checkout is unavailable. Please check again before paying.');}
@@ -43,7 +53,7 @@ export default function JournalPurchaseReturn(){
    {state.status==='paid'&&<><p className="mb-5">Your payment has been verified. Choose a purchased journal to download.</p>
     <ul className="space-y-4">{state.bookIds.map(id=><li key={id} className="flex flex-wrap gap-4 items-center">
      <span>{PUBLIC_JOURNALS.find(b=>b.id===id)?.title}</span><Button disabled={busy} onClick={()=>download(id)}>Download journal</Button></li>)}</ul></>}
-   {state.status==='pending'&&<><p>Your checkout is still unpaid.</p><Button disabled={busy} onClick={resume}>Resume this checkout</Button></>}
+   {state.status==='pending'&&<><p>Your checkout is still unpaid.</p><div className="flex flex-wrap gap-4 my-4"><Button disabled={busy} onClick={resume}>Resume this checkout</Button><Button variant="outline" disabled={busy} onClick={cancel}>Cancel this unpaid checkout</Button></div></>}
    {state.status==='confirming'&&<p>Payment confirmation is pending. Please check again before starting another checkout.</p>}
    {state.status==='expired'&&<p>This checkout has expired. Check your existing purchases before choosing another checkout.</p>}
    {state.status==='invalid'&&<p>This purchase reference is invalid.</p>}
