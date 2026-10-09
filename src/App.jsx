@@ -206,6 +206,7 @@ import MusicOpportunityBulletin from '@/pages/admin/MusicOpportunityBulletin';
 import MerchContentBriefs from '@/pages/admin/MerchContentBriefs';
 import PricingMarginCalculator from '@/pages/admin/PricingMarginCalculator';
 import Coaching from '@/pages/Coaching';
+import JournalPurchaseReturn from '@/pages/JournalPurchaseReturn';
 import CoachingSelfWorthReset from '@/pages/CoachingSelfWorthReset';
 import CoachingBoundaries from '@/pages/CoachingBoundaries';
 import CoachingCreativeConfidence from '@/pages/CoachingCreativeConfidence';
@@ -350,6 +351,7 @@ const AuthenticatedApp = () => {
         <Route path="/portrait-gallery" element={<Navigate to="/gallery" replace />} />
         {/* Owner-approved story page. Legacy programmes, intake and resources remain held. */}
         <Route path="/coaching" element={<Coaching />} />
+        <Route path="/journals/purchase" element={<JournalPurchaseReturn />} />
         <Route path="/coaching/workbooks" element={<Navigate to="/coaching#journals" replace />} />
         <Route path="/coaching/*" element={<Navigate to="/contact" replace />} />
 
