@@ -67,7 +67,8 @@ export async function startJournalCheckout({user,catalogue,selectedIds,bundleReq
  if(pending)return {status:pending.bookIds.length===plan.bookIds.length&&pending.bookIds.every(id=>plan.bookIds.includes(id))&&
    pending.totalCents===plan.totalCents?'pending_checkout':'pending_selection_conflict',
    pending,checkout_url:pending.checkoutUrl};
- // Same buyer/edition/offer always selects the same server key, regardless of browser nonce.
+ // One buyer-wide generation selects the same server key, regardless of browser
+ // nonce or selection. Different concurrent payloads must fail Stripe idempotency.
  // After a confirmed expired session, both concurrent callers derive the same successor.
  const fingerprint=await sha256(new TextEncoder().encode(JSON.stringify([JOURNAL_POLICY,buyer.id,buyer.email,catalogue.approvedVersion,plan.offerId,plan.totalCents])));
  const predecessors=[...new Set([...state.attempts,...state.purchases.map(p=>({stripe_session_id:p.sessionId}))]
@@ -111,6 +112,7 @@ export async function confirmJournalReturn({user,sessionId,store,stripe,resolveC
  if(session?.id!==sessionId)fail('purchase_not_found',404);
  const catalogue=await resolveCatalogue(session.metadata?.catalogue_version);
  const offer=sessionOffer({session,user,catalogue,liveMode});
+ if(session.status==='open'&&session.payment_status==='unpaid'&&Number.isFinite(session.expires_at)&&session.expires_at*1000<=now)return {status:'expired'};
  if(session.status==='open'&&session.payment_status==='unpaid')return {status:'pending',
    sessionId,bookIds:offer.bookIds,checkoutUrl:checkoutURL(session.url)};
  if(session.status==='expired')return {status:'expired'};
