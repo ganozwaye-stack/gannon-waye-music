@@ -1,5 +1,6 @@
 // Backend-only journal commerce policy. Do not import this module into public UI.
 export const JOURNAL_POLICY = 'gw_paid_journals_v1';
+export const JOURNAL_APP_ID = '69eb7905ca6eb4180010f794';
 export const JOURNAL_ABN = '22931809349';
 export class JournalAccessError extends Error {
   constructor(code, status = 403) { super(code); this.code = code; this.status = status; }
@@ -73,7 +74,7 @@ export function journalCheckoutParams({ catalogue, offerId, user, origin, reques
         })),
       success_url: origin + '/journals/purchase?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: origin + '/coaching#journals',
-      metadata: { checkout_policy: JOURNAL_POLICY, abn: JOURNAL_ABN,
+      metadata: { checkout_policy: JOURNAL_POLICY, app_id: JOURNAL_APP_ID, abn: JOURNAL_ABN,
         buyer_user_id: buyer.id, offer_id: offer.id, catalogue_version: catalogue.approvedVersion },
       automatic_tax: { enabled: false },
     },
@@ -87,7 +88,7 @@ export function verifyJournalPayment({ catalogue, user, session, paymentIntent, 
   const meta = session?.metadata || {};
   if (typeof liveMode !== 'boolean' || session?.livemode !== liveMode ||
       session?.mode !== 'payment' || session?.currency !== 'aud' ||
-      meta.checkout_policy !== JOURNAL_POLICY || meta.abn !== JOURNAL_ABN ||
+      meta.checkout_policy !== JOURNAL_POLICY || meta.app_id !== JOURNAL_APP_ID || meta.abn !== JOURNAL_ABN ||
       meta.buyer_user_id !== buyer.id || meta.catalogue_version !== catalogue.approvedVersion ||
       email(session.customer_details?.email || session.customer_email) !== buyer.email) deny('purchase_not_found', 404);
   const offer = journalOffer(catalogue, meta.offer_id);
@@ -112,6 +113,7 @@ export async function fulfilJournalDownload({ catalogue, user, sessionId, bookId
   validateJournalCatalogue(catalogue);
   if (!/^cs_(?:test|live)_[A-Za-z0-9]{16,200}$/.test(sessionId || '')) deny('invalid_reference', 400);
   const session = await retrieveSession(sessionId);
+  if (session?.id !== sessionId) deny('purchase_not_found', 404);
   const intentId = typeof session?.payment_intent === 'string' ? session.payment_intent : session?.payment_intent?.id;
   if (!/^pi_[A-Za-z0-9]+$/.test(intentId || '')) deny('purchase_not_found', 404);
   const paymentIntent = await retrievePaymentIntent(intentId);
