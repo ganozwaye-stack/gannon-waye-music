@@ -67,7 +67,7 @@ Do not broaden it or remove unrelated permissions silently.
 ## Coaching configuration
 Confirmed: A$99 per 45-minute session; paid two-way initial consultation, no obligation
 after session one. Once only, session two paid and session three complimentary;
-first three total A$198, normal full rate from session four. Package checkout is disabled.
+first three total A$198, normal full rate from session four. Approved ten-total 45-minute appointments cost A$850 including the introduction, with no extra eleventh appointment or stacking. Package checkout stays disabled until booking is configured and tested. Tailored between-session work requires an agreed scope and fee upfront; no extra fee or specialist service is configured.
 Calendar account, actual availability, buffers, cancellation terms and booking locking
 remain pending. Reservation must be atomic and expire on failed/cancelled payment;
 confirmation only follows server-verified payment. Do not offer invented slots.
