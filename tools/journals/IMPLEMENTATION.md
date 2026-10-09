@@ -118,6 +118,45 @@ gw-coaching-bundle-viewport.svg. The required local metadata helper could not ex
 because Windows exec-server still returned helper_unknown_error/setup refresh errors.
 Library storage succeeded; host-local xattr persistence is unverified.
 
+## Additional isolation investigation and handler contracts
+The sandbox has no configured real E2E/test user credentials, browser storage states,
+or BASE44_SERVICE_ROLE_KEY/BASE44_SERVICE_TOKEN/BASE44_API_KEY. Existing browser
+admin tests use mock-admin-token, which cannot prove Base44 authentication or RLS.
+Connected tools expose create/query/update entities but no record-delete action;
+no service-role seed/delete context is available in the sandbox. No synthetic purchase
+rows were created because deterministic cleanup could not be ensured.
+Eight additional tests in tests/journals/contracts.test.mjs passed: deny-all schema,
+source/candidate equality, adapter POST-only/authentication checks, server held flag,
+price-confirmation guard, invalid bundles and safe error responses. The adapter is
+bundled and executed with SDK/Stripe stubs; these are contracts, not live access tests.
+Total: 49 static/policy/mock-contract checks passed, plus 12 held-page browser checks.
+
+## Launch checklist (still blocked)
+1. Resolve supported asset handoff; verify all six exact cover pixels, private PDFs and
+   immutable hashes. Library correct-consumer HTTP 403 retries have stopped.
+2. Obtain author decision for Healthy Boundaries and People-Pleasing exact current
+   content and bounded production cleanup; retain both release holds and bundle hold
+   until resolved. Parent reports no rewrite defects found across 47 reviewed pages;
+   publication-review notes are author/editorial holds, not established legal rules.
+   Choosing Yourself also carries author-review wording; do not silently approve it.
+   Interiors are printable/annotatable PDFs, not interactive fillable forms.
+3. Provide two real standard-user test sessions and a supported service-role seed/delete
+   path for an isolated harmless sentinel row. Prove anonymous, owning-user and
+   unrelated-user direct CRUD cannot access/change the populated index; verify backend
+   recovery returns only the caller's Stripe-verified purchases, then delete the sentinel.
+   Empty anonymous HTTP 200/list results are not populated-row isolation evidence.
+4. Test private object and signing access with anonymous/unpaid/unrelated accounts.
+   Keep URIs/signing server-only and full PDFs out of public entities/source/responses.
+5. Finish active backend integration: purchase recovery, pending-session persistence,
+   duplicate checkout prevention across devices, prior-edition registry and purchase
+   return route. Staged handler comment explicitly identifies unwired recovery guards.
+6. Run actual Stripe TEST checkout/cancellation/retry/refund/dispute flows and authenticated
+   purchased-file download. No real charges. Confirm amounts and identity/version binding.
+7. Confirm author release, all security/payment tests and parent-coordinated activation
+   before enabling sales. No page publication occurs in parallel with parent's editor work.
+8. Coaching booking needs selected calendar, real availability/timezone/buffers, booking
+   locking and cancellation/package terms before appointment payments become active.
+
 ## Publication
 Coaching story/navigation source is saved. Only this approved honest page is public-route
 eligible. Legacy intake/programme/resource routes remain held. A checkpoint is not a
