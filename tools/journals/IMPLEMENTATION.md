@@ -72,6 +72,35 @@ Calendar account, actual availability, buffers, cancellation terms and booking l
 remain pending. Reservation must be atomic and expire on failed/cancelled payment;
 confirmation only follows server-verified payment. Do not offer invented slots.
 
+## Browser verification (2026-10-09)
+All 12 root-config coaching-journals.spec.js browser checks passed across desktop,
+Pixel 5 and tablet: six modal selections/one genuine question, Close and Back/reopen,
+disabled Purchase/no journal API or Stripe requests, three titles A$29.70, explicit
+six-title bundle A$49, unique basket entries and reset on reopening. Chromium and
+Debian dependencies were extracted under /tmp, without system package installation.
+41 pure commerce/recovery/basket tests pass. These are held-page/source checks,
+not actual paid-account, Stripe/storage integration or live publication proof.
+
+## Private recovery index (staged; approval pending)
+Candidate: tools/journals/purchase-index.schema.candidate.jsonc. Proposed new GW
+JournalPurchase schema stores buyer_user_id, stripe_session_id, catalogue_version,
+offer_id and verified_at. All client CRUD rules are false. Existing service-role backend
+access would be used. No existing RLS/user role/OAuth/storage grant would be broadened.
+No create_entity_schema call or approval rejection occurred. Before mutation, list
+schemas and validate deny-all rules. Held per parent instruction concerning security
+changes. Records remain references only; Stripe is reverified for access.
+Durable pending-session recovery and active handlers still require implementation/testing.
+
+## Library transfer limitation
+prepare_materialize returned six available transfers with expected PDF versions, no
+warnings/unavailable items and no workspace_path. Destination hint was the Windows
+workspace coaching-journal-assets directory. Actual consumer was the remote Linux
+/tmp/gw-coaching-journals-20261009 directory because Windows execution failed.
+The unchanged current official helper exists there and ran, but its HTTP GET returned
+403, including an immediate fresh-transfer retry and a separate cover-only attempt.
+Cause is unknown; no evidence proves expiry or account authorization denial.
+No raw download bypass occurred and no PDF bytes were imported.
+
 ## Publication
 Coaching story/navigation source is saved. Only this approved honest page is public-route
 eligible. Legacy intake/programme/resource routes remain held. A checkpoint is not a
