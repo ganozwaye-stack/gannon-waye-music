@@ -29,10 +29,18 @@ export async function handleJournalRequest(req, action) {
     const body = await req.json().catch(() => ({}));
     const { catalogue, stripe, liveMode } = configuration();
     if (action === 'checkout') {
+      if (body.bundle_requested === true && (!Array.isArray(body.offer_id) ||
+          body.offer_id.length !== 6 || new Set(body.offer_id).size !== 6 ||
+          !catalogue.books.every(book => body.offer_id.includes(book.id)))) {
+        return json({ error: 'invalid_selection' }, 400);
+      }
       const { params, idempotencyKey } = journalCheckoutParams({
-        catalogue, offerId: body.offer_id, user,
+        catalogue, offerId: body.bundle_requested === true ? catalogue.bundleId : body.offer_id, user,
         origin: 'https://gannonwaye.com', requestId: body.request_id
       });
+      const expected = params.line_items.reduce((sum, item) => sum + item.price_data.unit_amount * item.quantity, 0);
+      if (body.expected_total_cents !== expected) return json({ error: 'selection_requires_confirmation', total_cents: expected }, 409);
+      // Recovery/index checks must be wired before this candidate is activated.
       const session = await stripe.checkout.sessions.create(params, { idempotencyKey });
       if (!session.url || !session.url.startsWith('https://checkout.stripe.com/')) {
         return json({ error: 'checkout_unavailable' }, 503);
