@@ -51,7 +51,7 @@ export default function JournalShelf() {
             <p className="font-body text-sm text-muted-foreground">You do not need a coaching call or coaching registration to purchase.
               Full journal access follows verified payment. Online purchasing is being prepared.</p>
             <div className="flex gap-3">
-              <Button variant="outline" onClick={() => selectBook(null)}>Close</Button>
+              <Button data-testid="journal-close" variant="outline" onClick={() => selectBook(null)}>Close</Button>
               <Button disabled={!JOURNAL_PURCHASES_ENABLED || !selected.releaseApproved}>Purchase</Button>
             </div>
           </>}
