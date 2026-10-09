@@ -47,6 +47,16 @@ export default function JournalPurchasePanel({ book }) {
         expected_total_cents: quote.totalCents, request_id: requestId.current
       });
       const data = response?.data || {};
+      if(data.status==='already_owned'){
+        setOwnership(previous=>({...previous,...data,status:'ready'}));return;
+      }
+      if(data.status==='selection_requires_confirmation'){
+        setError('Your existing purchases changed this selection. Close and reopen the journal to review the updated total.');return;
+      }
+      if(data.status==='pending_selection_conflict'){
+        setError('You already have an unpaid checkout for a different selection. Review that checkout before paying again.');
+        setOwnership(previous=>({...previous,pending:[data.pending]}));return;
+      }
       if (!data.checkout_url) throw new Error('Please refresh your purchase selection before paying.');
       const url = new URL(data.checkout_url);
       if (url.protocol !== 'https:' || url.hostname !== 'checkout.stripe.com') throw new Error('Checkout unavailable');
@@ -101,6 +111,8 @@ export default function JournalPurchasePanel({ book }) {
       {!JOURNAL_PURCHASES_ENABLED && <p className="text-sm text-muted-foreground">Online purchasing is being prepared.</p>}
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
       {ownership.status === 'unavailable' && <Link to="/login" className="text-sm text-primary underline">Sign in to check your purchases</Link>}
+      {ownership.pending?.map(pending=><Link key={pending.sessionId} className="block text-sm text-primary underline"
+        to={'/journals/purchase?session_id='+encodeURIComponent(pending.sessionId)}>Review your unpaid journal checkout</Link>)}
       {existing && <Button onClick={access} disabled={busy}>Access your purchased journal</Button>}
       <Button onClick={purchase} disabled={!mayPurchase || busy}>{busy ? 'Please wait…' : 'Purchase'}</Button>
       <p className="text-xs text-muted-foreground">
