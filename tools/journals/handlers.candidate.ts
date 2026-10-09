@@ -11,6 +11,9 @@ const sha256 = async bytes => Array.from(new Uint8Array(await crypto.subtle.dige
 function persistence(base44) {
  if (Deno.env.get('JOURNAL_PERSISTENCE_READY') !== 'true') throw new JournalAccessError('journals_not_ready',503);
  const entities=base44.asServiceRole.entities;
+ for(const name of ['JournalPurchase','JournalCheckoutAttempt']){
+  if(typeof entities[name]?.filter!=='function'||typeof entities[name]?.upsert!=='function')throw new JournalAccessError('purchase_recovery_unavailable',503);
+ }
  const save=(entity,row)=>{if(typeof entity?.upsert!=='function')throw new JournalAccessError('purchase_recovery_unavailable',503);return entity.upsert([row],{key:['buyer_user_id','stripe_session_id']});};
  return {listPurchases:id=>entities.JournalPurchase.filter({buyer_user_id:id},'-created_date',101),
    listAttempts:id=>entities.JournalCheckoutAttempt.filter({buyer_user_id:id},'-created_date',101),
