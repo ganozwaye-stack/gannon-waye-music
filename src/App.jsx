@@ -348,20 +348,10 @@ const AuthenticatedApp = () => {
         <Route path="/supporters" element={<Navigate to="/store" replace />} />
         <Route path="/impact" element={<Navigate to="/support/domestic-violence" replace />} />
         <Route path="/portrait-gallery" element={<Navigate to="/gallery" replace />} />
-        {/* Coaching stays private until the single launch flag is explicitly enabled. */}
-        {FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED ? (
-          <>
-            <Route path="/coaching" element={<Coaching />} />
-            <Route path="/coaching/self-worth-reset" element={<CoachingSelfWorthReset />} />
-            <Route path="/coaching/boundaries" element={<CoachingBoundaries />} />
-            <Route path="/coaching/creative-confidence" element={<CoachingCreativeConfidence />} />
-            <Route path="/coaching/workbooks" element={<CoachingWorkbooks />} />
-            <Route path="/coaching/intake" element={<CoachingIntakePage />} />
-            <Route path="/coaching/client-resources" element={<CoachingClientResources />} />
-          </>
-        ) : (
-          <Route path="/coaching/*" element={<Navigate to="/contact" replace />} />
-        )}
+        {/* Owner-approved story page. Legacy programmes, intake and resources remain held. */}
+        <Route path="/coaching" element={<Coaching />} />
+        <Route path="/coaching/workbooks" element={<Navigate to="/coaching#journals" replace />} />
+        <Route path="/coaching/*" element={<Navigate to="/contact" replace />} />
 
         {/* Systems services and case studies stay private until pricing and proof are approved. */}
         <Route path="/systems-manager" element={<Navigate to="/contact" replace />} />
