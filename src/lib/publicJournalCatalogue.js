@@ -65,4 +65,4 @@ export const PUBLIC_JOURNALS = [
   }
 ];
 export const JOURNAL_PURCHASES_ENABLED = false;
-export const JOURNAL_BUNDLE_COUNT_CONFIRMED = false;
+export const JOURNAL_BUNDLE_COUNT_CONFIRMED = true;
