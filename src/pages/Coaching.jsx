@@ -39,7 +39,7 @@ export default function Coaching() {
           <h2 id="journals-title" className="font-display text-3xl mb-4">Explore the Journals</h2>
           <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">The six journals are A$9.90 each, or A$49 for the six-book bundle. You do not need a coaching call, registration for coaching or approval from me to purchase or read a journal. One-on-one coaching is optional and separate.</p>
           <JournalShelf />
-          <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">Writing together is still in development and is not included in the six-book bundle.</p>
+          <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">Reflective writing together is still in development and is not included in the six-book bundle.</p>
         </div>
       </section>
 
