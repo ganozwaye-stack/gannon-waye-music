@@ -7,14 +7,17 @@ export async function restoreJournalOwnership({ user, references, resolveCatalog
   const buyer = requireJournalBuyer(user);
   if (!Array.isArray(references) || references.length > 100) throw new JournalAccessError('purchase_recovery_unavailable', 503);
   const results = new Map();
+  const seen = new Set();
   for (const ref of references) {
     if (ref.buyer_user_id !== buyer.id) continue;
-    if (results.has(ref.stripe_session_id)) continue;
+    if (seen.has(ref.stripe_session_id)) continue;
+    seen.add(ref.stripe_session_id);
     if (!/^cs_(?:test|live)_[A-Za-z0-9]{16,200}$/.test(ref.stripe_session_id || '')) {
       throw new JournalAccessError('purchase_recovery_unavailable', 503);
     }
     // An API failure is not treated as "no purchases", which could charge someone twice.
     const session = await retrieveSession(ref.stripe_session_id);
+    if (session?.id !== ref.stripe_session_id) throw new JournalAccessError('purchase_recovery_unavailable', 503);
     const catalogue = await resolveCatalogue(session?.metadata?.catalogue_version);
     const intentId = typeof session?.payment_intent === 'string' ? session.payment_intent : session?.payment_intent?.id;
     if (!intentId) throw new JournalAccessError('purchase_recovery_unavailable', 503);
@@ -34,6 +37,9 @@ export async function restoreJournalOwnership({ user, references, resolveCatalog
 }
 export function planJournalPurchase({ catalogue, selectedIds, verifiedOwnedIds, bundleRequested = false }) {
   requireArray(selectedIds);
+  if (selectedIds.length === 0 || selectedIds.some(id => !catalogue?.books?.some(book => book.id === id))) {
+    throw new JournalAccessError('invalid_selection', 400);
+  }
   requireArray(verifiedOwnedIds);
   if (new Set(selectedIds).size !== selectedIds.length) throw new JournalAccessError('invalid_selection', 400);
   const owned = new Set(verifiedOwnedIds);
