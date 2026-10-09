@@ -4,12 +4,12 @@ import { createHash } from 'node:crypto';
 import { JOURNAL_POLICY, JOURNAL_ABN, journalCheckoutParams, fulfilJournalDownload } from '../../base44/shared/journalCommerce.js';
 const pdf = new TextEncoder().encode('%PDF-1.7\nfixture');
 const digest = createHash('sha256').update(pdf).digest('hex');
-const catalogue = { enabled: true, approvedVersion: 'approved-test-v1', bundleId: 'six-journals', bundlePriceCents: 4900,
+const catalogue = { enabled: true, bundleEnabled: true, approvedVersion: 'approved-test-v1', bundleId: 'six-journals', bundlePriceCents: 4900,
   books: Array.from({ length: 6 }, (_, i) => ({ id: 'journal-' + i, title: 'Test journal ' + i,
-    priceCents: 990, fileUri: 'private/test/' + i + '.pdf', sha256: digest })) };
+    priceCents: 990, releaseApproved: true, fileUri: 'private/test/' + i + '.pdf', sha256: digest })) };
 const user = { id: 'buyer-1', email: 'buyer@example.com' };
 function fixture(offerId = 'journal-0') {
-  const amount = offerId === 'six-journals' ? 4900 : 990;
+  const amount = offerId === 'six-journals' ? 4900 : offerId.startsWith('journals:') ? 990 * offerId.slice(9).split(',').length : 990;
   return {
     session: { id: 'cs_test_abcdefghijklmnop', livemode: false, mode: 'payment', currency: 'aud',
       status: 'complete', payment_status: 'paid', amount_total: amount, amount_subtotal: amount,
@@ -82,3 +82,32 @@ test('damaged or replaced PDF fails its approved integrity hash', async () => {
   const d = await download({ bytes: new TextEncoder().encode('%PDF-changed') });
   await assert.rejects(d.promise, /journal_file_unavailable/);
 });
+test('selected three journals make one itemized payment for A$29.70', () => {
+  const checkout = journalCheckoutParams({ catalogue, offerId: ['journal-4','journal-0','journal-2'],
+    user, origin: 'https://gannonwaye.com', requestId: 'fixture-request-123456' });
+  assert.equal(checkout.params.line_items.length, 3);
+  assert.equal(checkout.params.line_items.reduce((n, row) => n + row.price_data.unit_amount, 0), 2970);
+  assert.equal(checkout.params.metadata.offer_id, 'journals:journal-0,journal-2,journal-4');
+});
+test('selected subset permits only those titles', async () => {
+  const f = fixture('journals:journal-0,journal-2,journal-4');
+  const paid = await download({ f, bookId: 'journal-2' }); await paid.promise;
+  const unpaid = await download({ f, bookId: 'journal-1' });
+  await assert.rejects(unpaid.promise, /journal_not_purchased/); assert.equal(unpaid.fileReads(), 0);
+});
+test('duplicate digital titles cannot be charged twice', () => {
+  assert.throws(() => journalCheckoutParams({ catalogue, offerId: ['journal-0','journal-0'],
+    user, origin: 'https://gannonwaye.com', requestId: 'fixture-request-123456' }), /invalid_selection/);
+});
+test('draft edition blocks selected purchase and whole set', () => {
+  const held = { ...catalogue, books: catalogue.books.map((book, i) => ({ ...book, releaseApproved: i !== 1 })) };
+  const args = { catalogue: held, user, origin: 'https://gannonwaye.com', requestId: 'fixture-request-123456' };
+  assert.throws(() => journalCheckoutParams({ ...args, offerId: ['journal-0','journal-1'] }), /journal_not_ready/);
+  assert.throws(() => journalCheckoutParams({ ...args, offerId: 'six-journals' }), /bundle_not_ready/);
+  assert.equal(journalCheckoutParams({ ...args, offerId: 'journal-0' }).params.line_items[0].price_data.unit_amount, 990);
+});
+test('whole-set count hold prevents bundle activation', () => {
+  assert.throws(() => journalCheckoutParams({ catalogue: { ...catalogue, bundleEnabled: false },
+    offerId: 'six-journals', user, origin: 'https://gannonwaye.com', requestId: 'fixture-request-123456' }), /bundle_not_ready/);
+});
+
