@@ -6,6 +6,17 @@ import {
   JournalAccessError, journalCheckoutParams, fulfilJournalDownload,
   validateJournalCatalogue, requireJournalBuyer
 } from '../../base44/shared/journalCommerce.js';
+import { journalAccountState, startJournalCheckout, confirmJournalReturn } from '../../base44/shared/journalCheckoutRecovery.js';
+const sha256 = async bytes => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), n => n.toString(16).padStart(2, '0')).join('');
+function persistence(base44) {
+ if (Deno.env.get('JOURNAL_PERSISTENCE_READY') !== 'true') throw new JournalAccessError('journals_not_ready',503);
+ const entities=base44.asServiceRole.entities;
+ const save=(entity,row)=>{if(typeof entity?.upsert!=='function')throw new JournalAccessError('purchase_recovery_unavailable',503);return entity.upsert([row],{key:['buyer_user_id','stripe_session_id']});};
+ return {listPurchases:id=>entities.JournalPurchase.filter({buyer_user_id:id},'-created_date',101),
+   listAttempts:id=>entities.JournalCheckoutAttempt.filter({buyer_user_id:id},'-created_date',101),
+   savePurchase:row=>save(entities.JournalPurchase,row),saveAttempt:row=>save(entities.JournalCheckoutAttempt,row)};
+}
+
 
 const json = (body, status = 200) => Response.json(body, {
   status, headers: { 'Cache-Control': 'private, no-store', Pragma: 'no-cache' }
@@ -17,7 +28,25 @@ function configuration() {
   validateJournalCatalogue(catalogue);
   const key = Deno.env.get('STRIPE_SECRET_KEY') || '';
   if (!key.startsWith('sk_live_') && !key.startsWith('sk_test_')) throw new JournalAccessError('journals_not_ready', 503);
-  return { catalogue, stripe: new Stripe(key), liveMode: key.startsWith('sk_live_') };
+  const snapshots=JSON.parse(Deno.env.get('JOURNAL_PRIVATE_CATALOGUE_VERSIONS')||'{}');
+  snapshots[catalogue.approvedVersion]=catalogue;
+  const resolveCatalogue=async version=>{const snapshot=snapshots[version];validateJournalCatalogue(snapshot);return snapshot;};
+  const stripe=new Stripe(key);
+  // Complete paginated account listing is filtered only on the server. An incomplete
+  // scan fails closed; no other customer's records are returned to clients.
+  stripe.findJournalSessions=async ({buyerId})=>{
+    const results=[];let after;
+    for(let page=0;page<100;page++){
+      const batch=await stripe.checkout.sessions.list({limit:100,...(after?{starting_after:after}:{})});
+      if(!Array.isArray(batch.data))throw new JournalAccessError('purchase_recovery_unavailable',503);
+      for(const session of batch.data)if(session.metadata?.buyer_user_id===buyerId&&
+        session.metadata?.checkout_policy==='gw_paid_journals_v1'&&session.metadata?.app_id==='69eb7905ca6eb4180010f794')results.push(session);
+      if(!batch.has_more)return results;
+      after=batch.data.at(-1)?.id;if(!after)break;
+    }
+    throw new JournalAccessError('purchase_recovery_unavailable',503);
+  };
+  return { catalogue, stripe, resolveCatalogue, liveMode:key.startsWith('sk_live_') };
 }
 export async function handleJournalRequest(req, action) {
   if (req.method !== 'POST') return json({ error: 'method_not_allowed' }, 405);
@@ -27,29 +56,24 @@ export async function handleJournalRequest(req, action) {
     try { user = await base44.auth.me(); } catch { throw new JournalAccessError('sign_in_required', 401); }
     requireJournalBuyer(user);
     const body = await req.json().catch(() => ({}));
-    const { catalogue, stripe, liveMode } = configuration();
-    if (action === 'checkout') {
-      if (body.bundle_requested === true && (!Array.isArray(body.offer_id) ||
-          body.offer_id.length !== 6 || new Set(body.offer_id).size !== 6 ||
-          !catalogue.books.every(book => body.offer_id.includes(book.id)))) {
-        return json({ error: 'invalid_selection' }, 400);
-      }
-      const { params, idempotencyKey } = journalCheckoutParams({
-        catalogue, offerId: body.bundle_requested === true ? catalogue.bundleId : body.offer_id, user,
-        origin: 'https://gannonwaye.com', requestId: body.request_id
-      });
-      const expected = params.line_items.reduce((sum, item) => sum + item.price_data.unit_amount * item.quantity, 0);
-      if (body.expected_total_cents !== expected) return json({ error: 'selection_requires_confirmation', total_cents: expected }, 409);
-      // Recovery/index checks must be wired before this candidate is activated.
-      const session = await stripe.checkout.sessions.create(params, { idempotencyKey });
-      if (!session.url || !session.url.startsWith('https://checkout.stripe.com/')) {
-        return json({ error: 'checkout_unavailable' }, 503);
-      }
-      return json({ checkout_url: session.url });
+    const { catalogue, stripe, resolveCatalogue, liveMode } = configuration();
+    const store=persistence(base44);
+    if(action==='purchases'){
+      const state=await journalAccountState({user,store,stripe,resolveCatalogue,liveMode});
+      return json({purchases:state.purchases,ownedBookIds:state.ownedBookIds,pending:state.pending});
+    }
+    if(action==='confirm')return json(await confirmJournalReturn({user,sessionId:body.session_id,store,stripe,resolveCatalogue,liveMode}));
+    if(action==='checkout'){
+      const selectedIds=Array.isArray(body.offer_id)?body.offer_id:[body.offer_id];
+      const result=await startJournalCheckout({user,catalogue,selectedIds,bundleRequested:body.bundle_requested===true,
+        expectedTotalCents:body.expected_total_cents,store,stripe,resolveCatalogue,liveMode,sha256});
+      return json(result);
     }
     if (action !== 'download') return json({ error: 'not_found' }, 404);
+    const sourceSession=await stripe.checkout.sessions.retrieve(body.session_id);
+    const downloadCatalogue=await resolveCatalogue(sourceSession?.metadata?.catalogue_version);
     const download = await fulfilJournalDownload({
-      catalogue, user, sessionId: body.session_id, bookId: body.book_id, liveMode,
+      catalogue:downloadCatalogue, user, sessionId: body.session_id, bookId: body.book_id, liveMode,
       retrieveSession: id => stripe.checkout.sessions.retrieve(id),
       retrievePaymentIntent: id => stripe.paymentIntents.retrieve(id, { expand: ['latest_charge'] }),
       readPrivateFile: async fileUri => {
