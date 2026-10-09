@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import JournalShelf from '@/components/coaching/JournalShelf';
+import CoachingGiftSet from '@/components/coaching/CoachingGiftSet';
 
 // Reuse the portrait already approved and displayed in the site's public navigation.
 // Never include journal interiors, PDF URLs or unverified sample questions here.
@@ -29,7 +30,7 @@ export default function Coaching() {
         <p>My own recovery is ongoing. I am not sharing this from a place where everything is finished or fixed. Music and writing helped me find words when I struggled to explain what I was carrying. They helped me find strength, and gave me somewhere to begin.</p>
         <p>The journals grew out of that writing and reflection. They share concepts and leave space for you to reflect, notice what matters to you and find your own words. You can take your time with them and make that space your own.</p>
         <p>My one-on-one coaching builds on my personal training experience, education and lived experience. It is a chance for us to talk about the challenges you are facing, what you would like to work towards and the confidence you want to develop. We begin with you and what matters in your life.</p>
-        <p>My faith and my desire to pay it forward are part of why I want to do this work. I want to put what I have learned towards helping someone else find a place to start.</p>
+        <p>I want to pay forward the gifts I’ve been given. To bless more people with this gift that I have. For me, that means making something useful available to others, whether it’s a journal that helps you find a clearer question or a conversation where we work on skills and goals that matter to you. You can bring your own beliefs, experiences and way of seeing the world.</p>
         <p className="text-sm text-muted-foreground">I am not a psychologist or registered clinician. Coaching is personal support and reflection, and does not replace mental health care.</p>
       </article>
 
@@ -41,6 +42,8 @@ export default function Coaching() {
           <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">Writing together is still in development and is not included in the six-book bundle.</p>
         </div>
       </section>
+
+      <CoachingGiftSet />
 
       <section id="one-on-one" aria-labelledby="coaching-enquiry-title" className="max-w-3xl mx-auto px-5 pb-16">
         <h2 id="coaching-enquiry-title" className="font-display text-3xl mb-4">One-on-one coaching</h2>
