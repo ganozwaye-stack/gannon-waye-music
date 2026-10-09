@@ -89,8 +89,11 @@ access would be used. No existing RLS/user role/OAuth/storage grant would be bro
 Parent confirmed this exact restricted creation is within the authorized purchase
 implementation. list_entity_schemas returned no existing JournalPurchase; the supported
 create_entity_schema tool created it. Read-back verified all four CRUD rules false.
-An administrative read returned zero records. base44/entities/JournalPurchase.jsonc
-mirrors the created schema for durable source review. No approval rejection occurred.
+An administrative read returned zero records. An anonymous SDK-path GET returned
+HTTP 200 with an empty list. With no test records this cannot prove populated-row
+confidentiality or authenticated client CRUD denial; those runtime checks remain open.
+base44/entities/JournalPurchase.jsonc mirrors the schema for durable source review.
+No approval rejection occurred.
 Records remain references only; Stripe is reverified for access.
 Durable pending-session recovery and active handlers still require implementation/testing.
 
@@ -107,8 +110,13 @@ filenames and Library IDs. All six expected versions were available; the unchang
 current official helper again returned HTTP 403 on the first PDF. Retries have stopped.
 Cause is unknown; no evidence proves expiry or account authorization denial.
 No raw download bypass occurred and no PDF bytes were imported.
-The viewport screenshot was displayed in the conversation, but Library's direct local
-upload could not find its remote path. No Library image was created or claimed.
+The viewport screenshot was displayed in the conversation. A direct upload of its
+remote path failed; a host-local SVG wrapper embedding the unchanged captured JPEG
+was then created through native apply_patch. Library create succeeded as image/svg+xml,
+65004 bytes: libfile_447f880a1ef08191a1d1d43cdf7bedba, version 0,
+gw-coaching-bundle-viewport.svg. The required local metadata helper could not execute
+because Windows exec-server still returned helper_unknown_error/setup refresh errors.
+Library storage succeeded; host-local xattr persistence is unverified.
 
 ## Publication
 Coaching story/navigation source is saved. Only this approved honest page is public-route
