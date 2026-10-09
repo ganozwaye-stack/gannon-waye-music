@@ -81,14 +81,17 @@ Debian dependencies were extracted under /tmp, without system package installati
 41 pure commerce/recovery/basket tests pass. These are held-page/source checks,
 not actual paid-account, Stripe/storage integration or live publication proof.
 
-## Private recovery index (staged; approval pending)
+## Private recovery index (created; sales still held)
 Candidate: tools/journals/purchase-index.schema.candidate.jsonc. Proposed new GW
 JournalPurchase schema stores buyer_user_id, stripe_session_id, catalogue_version,
 offer_id and verified_at. All client CRUD rules are false. Existing service-role backend
 access would be used. No existing RLS/user role/OAuth/storage grant would be broadened.
-No create_entity_schema call or approval rejection occurred. Before mutation, list
-schemas and validate deny-all rules. Held per parent instruction concerning security
-changes. Records remain references only; Stripe is reverified for access.
+Parent confirmed this exact restricted creation is within the authorized purchase
+implementation. list_entity_schemas returned no existing JournalPurchase; the supported
+create_entity_schema tool created it. Read-back verified all four CRUD rules false.
+An administrative read returned zero records. base44/entities/JournalPurchase.jsonc
+mirrors the created schema for durable source review. No approval rejection occurred.
+Records remain references only; Stripe is reverified for access.
 Durable pending-session recovery and active handlers still require implementation/testing.
 
 ## Library transfer limitation
@@ -98,8 +101,14 @@ workspace coaching-journal-assets directory. Actual consumer was the remote Linu
 /tmp/gw-coaching-journals-20261009 directory because Windows execution failed.
 The unchanged current official helper exists there and ran, but its HTTP GET returned
 403, including an immediate fresh-transfer retry and a separate cover-only attempt.
+A final bounded resolved-reference retry explicitly prepared the consumer-local Linux
+destination /tmp/gw-coaching-journals-20261009/assets using exact returned file IDs,
+filenames and Library IDs. All six expected versions were available; the unchanged
+current official helper again returned HTTP 403 on the first PDF. Retries have stopped.
 Cause is unknown; no evidence proves expiry or account authorization denial.
 No raw download bypass occurred and no PDF bytes were imported.
+The viewport screenshot was displayed in the conversation, but Library's direct local
+upload could not find its remote path. No Library image was created or claimed.
 
 ## Publication
 Coaching story/navigation source is saved. Only this approved honest page is public-route
