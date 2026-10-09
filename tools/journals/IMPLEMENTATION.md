@@ -74,12 +74,14 @@ remain pending. Reservation must be atomic and expire on failed/cancelled paymen
 confirmation only follows server-verified payment. Do not offer invented slots.
 
 ## Browser verification (2026-10-09)
-All 12 root-config coaching-journals.spec.js browser checks passed across desktop,
+All 15 root-config coaching-journals.spec.js browser checks passed across desktop,
 Pixel 5 and tablet: six modal selections/one genuine question, Close and Back/reopen,
 disabled Purchase/no journal API or Stripe requests, three titles A$29.70, explicit
-six-title bundle A$49, unique basket entries and reset on reopening. Chromium and
+six-title bundle A$49, unique basket entries, reset on reopening and the held purchase
+return route with no backend/payment requests. The affected return checks passed again
+after cancellation UI was added. Chromium and
 Debian dependencies were extracted under /tmp, without system package installation.
-41 pure commerce/recovery/basket tests pass. These are held-page/source checks,
+66 policy/static/mock-contract tests pass. These are held-page/source checks,
 not actual paid-account, Stripe/storage integration or live publication proof.
 
 ## Private recovery index (created; sales still held)
@@ -127,11 +129,41 @@ admin tests use mock-admin-token, which cannot prove Base44 authentication or RL
 Connected tools expose create/query/update entities but no record-delete action;
 no service-role seed/delete context is available in the sandbox. No synthetic purchase
 rows were created because deterministic cleanup could not be ensured.
-Eight additional tests in tests/journals/contracts.test.mjs passed: deny-all schema,
+Nine adapter/static tests in tests/journals/contracts.test.mjs passed: deny-all schema,
 source/candidate equality, adapter POST-only/authentication checks, server held flag,
-price-confirmation guard, invalid bundles and safe error responses. The adapter is
+price-confirmation guard, invalid bundles, safe errors and unavailable persistence.
+All five staged actions reject anonymous callers. The adapter is
 bundled and executed with SDK/Stripe stubs; these are contracts, not live access tests.
-Total: 49 static/policy/mock-contract checks passed, plus 12 held-page browser checks.
+Total: 66 static/policy/mock-contract checks passed, plus 15 held-page browser checks.
+The latest app build and all existing prebuild checks passed across 277 declared routes.
+
+## Completed reversible source integration
+- base44/shared/journalCheckoutRecovery.js: verified ownership recovery, paid return,
+  pending-session reference persistence, resume/cancel, old-edition resolution and
+  server-derived idempotency. One open checkout per buyer; differing concurrent
+  selections use the same generation key and must fail rather than charge twice.
+- A lost pending-record write is recovered via complete paginated Stripe session
+  discovery. Outage/incomplete discovery fails closed. Account scan is bounded at
+  100 pages; per-buyer reference collections above 100 fail closed pending pagination
+  improvements. No mock result is represented as actual Stripe behavior proof.
+- tools/journals/handlers.candidate.ts wires checkout, purchases, confirmation,
+  cancellation and PDF delivery with existing service-role entity filter/upsert.
+  Persistence support is checked before any Stripe creation.
+- src/pages/JournalPurchaseReturn.jsx and /journals/purchase now handle verified paid
+  access, pending confirmation, resumption, cancellation, expiry and sign-in recovery.
+  The public sales gate remains false; no requests occur while held.
+- Sixteen checkout-recovery tests exercise concurrency, another device, lost writes,
+  expiry, ownership, refunds, wrong buyer, retained editions and cancellation.
+- tools/journals/checkout-attempt.schema.candidate.jsonc stages JournalCheckoutAttempt
+  with all client CRUD false. This schema was NOT created/deployed; no rows were added.
+- tools/journals/function-entrypoints stages five endpoint wrappers. Run
+  node tools/journals/build-candidates.mjs to generate five self-contained review
+  candidates under /tmp/gw-journal-function-candidates. These builds passed.
+  Do not relocate raw wrappers with broken relative imports; use reviewed bundles.
+  No file was placed under base44/functions and no deployment occurred.
+- Keep JOURNAL_COMMERCE_ENABLED, JOURNAL_PERSISTENCE_READY and the public purchase gate
+  held until actual storage/RLS/account/Stripe tests pass. Private manifests and Stripe
+  keys remain server-only; none were configured, exposed or used for real charges.
 
 ## Launch checklist (still blocked)
 1. Resolve supported asset handoff; verify all six exact cover pixels, private PDFs and
