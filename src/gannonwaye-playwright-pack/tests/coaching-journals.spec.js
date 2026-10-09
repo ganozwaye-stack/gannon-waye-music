@@ -57,3 +57,13 @@ test('three chosen books total A$29.70, explicit six bundle A$49, no duplicate t
   await expect(page.getByTestId('journal-selection-total')).toHaveText('Total: A$9.90');
   await expect(page.getByTestId('journal-preview-modal').getByRole('heading', { name: PUBLIC_JOURNALS[1].title, exact: true })).toBeVisible();
 });
+
+test('purchase return stays held without confirmation or private download requests',async({page})=>{
+ const requests=[];
+ page.on('request',request=>{if(/\/functions\/(confirmJournalPurchase|downloadJournal|getJournalPurchases|createJournalCheckout)(?:[/?]|$)/i.test(request.url()))requests.push(request.url());});
+ await page.goto(origin+'/journals/purchase?session_id=cs_test_abcdefghijklmnop');
+ await expect(page.getByTestId('journal-purchase-return')).toBeVisible();
+ await expect(page.getByText('Online purchasing is being prepared. No payment is accepted by this page.')).toBeVisible();
+ await expect(page.getByRole('button',{name:'Download journal',exact:true})).toHaveCount(0);
+ expect(requests).toEqual([]);
+});
