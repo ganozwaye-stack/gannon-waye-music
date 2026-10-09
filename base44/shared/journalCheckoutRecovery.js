@@ -56,37 +56,42 @@ export async function journalAccountState({user,store,stripe,resolveCatalogue,li
  return {purchases,pending,ownedBookIds:[...new Set(purchases.flatMap(p=>p.bookIds))].sort(),attempts};
 }
 export async function startJournalCheckout({user,catalogue,selectedIds,bundleRequested=false,expectedTotalCents,
- store,stripe,resolveCatalogue,liveMode,sha256,now=Date.now()}){
+ store,stripe,resolveCatalogue,liveMode,sha256,now=Date.now(),recoveryPass=0}){
  const buyer=requireJournalBuyer(user);
  const state=await journalAccountState({user,store,stripe,resolveCatalogue,liveMode,now});
  const plan=planJournalPurchase({catalogue,selectedIds,verifiedOwnedIds:state.ownedBookIds,bundleRequested});
  if(plan.status==='already_owned')return {status:'already_owned',ownedBookIds:state.ownedBookIds,purchases:state.purchases};
  if(plan.status!=='ready'||expectedTotalCents!==plan.totalCents)return {status:'selection_requires_confirmation',
    bookIds:plan.bookIds,alreadyOwned:plan.alreadyOwned,total_cents:plan.totalCents};
- const pending=state.pending.find(p=>p.bookIds.some(id=>plan.bookIds.includes(id)));
+ const pending=state.pending[0]; // One open checkout per buyer, including different selections.
  if(pending)return {status:pending.bookIds.length===plan.bookIds.length&&pending.bookIds.every(id=>plan.bookIds.includes(id))&&
    pending.totalCents===plan.totalCents?'pending_checkout':'pending_selection_conflict',
    pending,checkout_url:pending.checkoutUrl};
  // Same buyer/edition/offer always selects the same server key, regardless of browser nonce.
  // After a confirmed expired session, both concurrent callers derive the same successor.
  const fingerprint=await sha256(new TextEncoder().encode(JSON.stringify([JOURNAL_POLICY,buyer.id,buyer.email,catalogue.approvedVersion,plan.offerId,plan.totalCents])));
- const predecessors=state.attempts.filter(a=>a.fingerprint===fingerprint)
-   .map(a=>a.stripe_session_id).sort();
+ const predecessors=[...new Set([...state.attempts,...state.purchases.map(p=>({stripe_session_id:p.sessionId}))]
+   .map(a=>a.stripe_session_id))].sort();
  const generation=await sha256(new TextEncoder().encode(JSON.stringify(predecessors)));
- const requestId=fingerprint.slice(0,32)+generation.slice(0,32);
+ const buyerKey=await sha256(new TextEncoder().encode(JSON.stringify([JOURNAL_POLICY,buyer.id,buyer.email])));
+ const requestId=buyerKey.slice(0,32)+generation.slice(0,32);
  const checkout=journalCheckoutParams({catalogue,offerId:plan.offerId,user,origin:'https://gannonwaye.com',requestId});
  // Stripe has a bounded idempotency window; its complete paginated search is also required
  // before creation so a lost index write or old retry does not silently create another charge.
- const discovered=await stripe.findJournalSessions({buyerId:buyer.id,fingerprint});
+ const discovered=await stripe.findJournalSessions({buyerId:buyer.id});
  if(!Array.isArray(discovered)||discovered.length>100)fail('purchase_recovery_unavailable');
  for(const session of discovered){
   if(!validSession(session?.id))fail('purchase_recovery_unavailable');
+  const snapshot=await resolveCatalogue(session.metadata?.catalogue_version);
+  const discoveredOffer=sessionOffer({session,user,catalogue:snapshot,liveMode});
   await store.saveAttempt({buyer_user_id:buyer.id,stripe_session_id:session.id,
-    catalogue_version:catalogue.approvedVersion,offer_id:plan.offerId,fingerprint,
+    catalogue_version:snapshot.approvedVersion,offer_id:discoveredOffer.id,
+    fingerprint:session.metadata?.checkout_fingerprint||'legacy-recovered',
     recorded_at:new Date(now).toISOString()});
  }
  if(discovered.some(s=>!state.attempts.some(a=>a.stripe_session_id===s.id))){
-   return startJournalCheckout({user,catalogue,selectedIds,bundleRequested,expectedTotalCents,store,stripe,resolveCatalogue,liveMode,sha256,now});
+   if(recoveryPass>=1)fail('purchase_recovery_unavailable');
+   return startJournalCheckout({user,catalogue,selectedIds,bundleRequested,expectedTotalCents,store,stripe,resolveCatalogue,liveMode,sha256,now,recoveryPass:recoveryPass+1});
  }
  const params={...checkout.params,metadata:{...checkout.params.metadata,checkout_fingerprint:fingerprint}};
  const session=await stripe.checkout.sessions.create(params,{idempotencyKey:JOURNAL_POLICY+':'+requestId});
