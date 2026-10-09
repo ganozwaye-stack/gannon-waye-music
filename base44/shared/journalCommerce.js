@@ -30,12 +30,32 @@ export function requireJournalBuyer(user) {
 }
 export function journalOffer(catalogue, offerId) {
   validateJournalCatalogue(catalogue);
-  const book = catalogue.books.find(item => item.id === offerId);
-  if (book) return { id: book.id, title: book.title, priceCents: 990, bookIds: [book.id] };
-  if (offerId === catalogue.bundleId) return {
-    id: catalogue.bundleId, title: 'Six-journal bundle', priceCents: 4900,
-    bookIds: catalogue.books.map(item => item.id)
+  const single = catalogue.books.find(item => item.id === offerId);
+  const select = ids => {
+    if (!Array.isArray(ids) || ids.length < 1 || ids.length > 6 ||
+        new Set(ids).size !== ids.length || ids.some(id => typeof id !== 'string')) deny('invalid_selection', 400);
+    const canonical = [...ids].sort();
+    const books = canonical.map(id => catalogue.books.find(book => book.id === id));
+    if (books.some(book => !book)) deny('journal_not_found', 404);
+    if (books.some(book => book.releaseApproved !== true)) deny('journal_not_ready', 503);
+    return { id: 'journals:' + canonical.join(','), title: books.map(book => book.title).join(' + '),
+      priceCents: 990 * books.length, bookIds: canonical, bundle: false };
   };
+  if (Array.isArray(offerId)) return select(offerId);
+  if (typeof offerId === 'string' && offerId.startsWith('journals:')) {
+    const selection = select(offerId.slice(9).split(','));
+    if (selection.id !== offerId) deny('invalid_selection', 400);
+    return selection;
+  }
+  if (single) {
+    if (single.releaseApproved !== true) deny('journal_not_ready', 503);
+    return { id: single.id, title: single.title, priceCents: 990, bookIds: [single.id], bundle: false };
+  }
+  if (offerId === catalogue.bundleId) {
+    if (catalogue.bundleEnabled !== true || catalogue.books.some(book => book.releaseApproved !== true)) deny('bundle_not_ready', 503);
+    return { id: catalogue.bundleId, title: 'Six-journal bundle', priceCents: 4900,
+      bookIds: catalogue.books.map(item => item.id), bundle: true };
+  }
   return deny('journal_not_found', 404);
 }
 export function journalCheckoutParams({ catalogue, offerId, user, origin, requestId }) {
@@ -46,8 +66,11 @@ export function journalCheckoutParams({ catalogue, offerId, user, origin, reques
   return {
     params: {
       mode: 'payment', customer_email: buyer.email,
-      line_items: [{ price_data: { currency: 'aud', unit_amount: offer.priceCents,
-        product_data: { name: offer.title } }, quantity: 1 }],
+      line_items: offer.bundle ? [{ price_data: { currency: 'aud', unit_amount: 4900,
+        product_data: { name: offer.title } }, quantity: 1 }] : offer.bookIds.map(id => ({
+          price_data: { currency: 'aud', unit_amount: 990,
+            product_data: { name: catalogue.books.find(book => book.id === id).title } }, quantity: 1
+        })),
       success_url: origin + '/journals/purchase?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: origin + '/coaching#journals',
       metadata: { checkout_policy: JOURNAL_POLICY, abn: JOURNAL_ABN,
