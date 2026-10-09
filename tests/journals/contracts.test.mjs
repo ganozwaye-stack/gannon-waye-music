@@ -23,8 +23,8 @@ await build({entryPoints:[entry],outfile:path.join(temp,'handler.mjs'),bundle:tr
   plugins:[{name:'isolated-contract-dependencies',setup(b){
     b.onResolve({filter:/^npm:/},args=>({path:args.path,namespace:'contract'}));
     b.onLoad({filter:/.*/,namespace:'contract'},args=>({contents:args.path.includes('stripe')
-      ? 'export default class Stripe { constructor(){this.checkout={sessions:{create:async()=>{globalThis.__GW_JOURNAL_CONTRACT__.stripeCalls++;throw Error("private/test-uri sk_test_DO_NOT_DISCLOSE");}}};} }'
-      : 'export function createClientFromRequest(){return {auth:{me:async()=>{globalThis.__GW_JOURNAL_CONTRACT__.authCalls++;return globalThis.__GW_JOURNAL_CONTRACT__.user;}}};}',
+      ? 'export default class Stripe { constructor(){this.checkout={sessions:{list:async()=>({data:[],has_more:false}),create:async()=>{globalThis.__GW_JOURNAL_CONTRACT__.stripeCalls++;throw Error("private/test-uri sk_test_DO_NOT_DISCLOSE");}}};} }'
+      : 'export function createClientFromRequest(){return {asServiceRole:{entities:{JournalPurchase:{filter:async()=>[],upsert:async()=>({})},JournalCheckoutAttempt:{filter:async()=>[],upsert:async()=>({})}}},auth:{me:async()=>{globalThis.__GW_JOURNAL_CONTRACT__.authCalls++;return globalThis.__GW_JOURNAL_CONTRACT__.user;}}};}',
       loader:'js'}));
   }}]});
 const {handleJournalRequest}=await import('file://'+path.join(temp,'handler.mjs'));
@@ -35,7 +35,7 @@ function fixture({enabled=true,user={id:'contract-buyer',email:'buyer@example.in
   const catalogue={enabled:true,approvedVersion:'contract-v1',bundleEnabled:true,bundleId:'all-six',bundlePriceCents:4900,
     books:Array.from({length:6},(_,i)=>({id:'book-'+i,title:'Book '+i,priceCents:990,fileUri:'private/contract/book-'+i,
       sha256:'a'.repeat(64),releaseApproved:true}))};
-  const env={JOURNAL_COMMERCE_ENABLED:enabled?'true':undefined,
+  const env={JOURNAL_PERSISTENCE_READY:'true',JOURNAL_COMMERCE_ENABLED:enabled?'true':undefined,
     JOURNAL_PRIVATE_CATALOGUE:JSON.stringify(catalogue),STRIPE_SECRET_KEY:'sk_test_contract_only'};
   globalThis.Deno={env:{get:key=>env[key]}};
   return state;
