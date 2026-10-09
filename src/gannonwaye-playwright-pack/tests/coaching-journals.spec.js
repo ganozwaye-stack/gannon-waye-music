@@ -60,7 +60,7 @@ test('three chosen books total A$29.70, explicit six bundle A$49, no duplicate t
 
 test('purchase return stays held without confirmation or private download requests',async({page})=>{
  const requests=[];
- page.on('request',request=>{if(/\/functions\/(confirmJournalPurchase|downloadJournal|getJournalPurchases|createJournalCheckout)(?:[/?]|$)/i.test(request.url()))requests.push(request.url());});
+ page.on('request',request=>{if(/\/functions\/(confirmJournalPurchase|downloadJournal|getJournalPurchases|createJournalCheckout|cancelJournalCheckout)(?:[/?]|$)/i.test(request.url()))requests.push(request.url());});
  await page.goto(origin+'/journals/purchase?session_id=cs_test_abcdefghijklmnop');
  await expect(page.getByTestId('journal-purchase-return')).toBeVisible();
  await expect(page.getByText('Online purchasing is being prepared. No payment is accepted by this page.')).toBeVisible();
