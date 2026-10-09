@@ -6,7 +6,7 @@ import {
   JournalAccessError, journalCheckoutParams, fulfilJournalDownload,
   validateJournalCatalogue, requireJournalBuyer
 } from '../../base44/shared/journalCommerce.js';
-import { journalAccountState, startJournalCheckout, confirmJournalReturn } from '../../base44/shared/journalCheckoutRecovery.js';
+import { journalAccountState, startJournalCheckout, confirmJournalReturn, cancelJournalCheckout } from '../../base44/shared/journalCheckoutRecovery.js';
 const sha256 = async bytes => Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes)), n => n.toString(16).padStart(2, '0')).join('');
 function persistence(base44) {
  if (Deno.env.get('JOURNAL_PERSISTENCE_READY') !== 'true') throw new JournalAccessError('journals_not_ready',503);
@@ -63,6 +63,7 @@ export async function handleJournalRequest(req, action) {
       return json({purchases:state.purchases,ownedBookIds:state.ownedBookIds,pending:state.pending});
     }
     if(action==='confirm')return json(await confirmJournalReturn({user,sessionId:body.session_id,store,stripe,resolveCatalogue,liveMode}));
+    if(action==='expire')return json(await cancelJournalCheckout({user,sessionId:body.session_id,store,stripe,resolveCatalogue,liveMode}));
     if(action==='checkout'){
       const selectedIds=Array.isArray(body.offer_id)?body.offer_id:[body.offer_id];
       const result=await startJournalCheckout({user,catalogue,selectedIds,bundleRequested:body.bundle_requested===true,
