@@ -42,7 +42,7 @@ export default function Coaching() {
 
       <section id="one-on-one" aria-labelledby="coaching-enquiry-title" className="max-w-3xl mx-auto px-5 pb-16">
         <h2 id="coaching-enquiry-title" className="font-display text-3xl mb-4">One-on-one coaching</h2>
-        <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">If you would like to work together, get in touch about what you would like to work towards. Online appointment booking is being prepared. Session details and availability will be confirmed before you are asked to pay.</p>
+        <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">If you would like to work together, get in touch about what you would like to work towards. The initial consultation is a paid 45-minute conversation to understand your enquiry, your goals and whether we are the right fit. Online appointment booking is being prepared; the price and availability will be confirmed before you are asked to pay.</p>
         <Link to="/contact"><Button variant="outline" className="rounded-full">Enquire about Coaching</Button></Link>
       </section>
 
