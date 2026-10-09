@@ -15,6 +15,13 @@ test('deployed schema source matches the reviewed restricted candidate',async()=
   assert.deepEqual(schema,candidate);
 });
 
+test('pending checkout index source matches reviewed schema with all client CRUD denied',async()=>{
+ const actual=JSON.parse(await readFile(new URL('../../base44/entities/JournalCheckoutAttempt.jsonc',import.meta.url),'utf8'));
+ const candidate=JSON.parse(await readFile(new URL('../../tools/journals/checkout-attempt.schema.candidate.jsonc',import.meta.url),'utf8'));
+ assert.deepEqual(actual,candidate);assert.deepEqual(actual.rls,{create:false,read:false,update:false,delete:false});
+ assert.deepEqual(Object.keys(actual.properties).sort(),['buyer_user_id','catalogue_version','fingerprint','offer_id','recorded_at','stripe_session_id']);
+});
+
 // Contract tests execute the staged adapter with dependency stubs.
 // They do NOT exercise Base44 RLS, real accounts, Stripe or private object storage.
 const temp=await mkdtemp(path.join(os.tmpdir(),'gw-journal-contract-'));
