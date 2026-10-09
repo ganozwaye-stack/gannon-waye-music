@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-import {journalAccountState,startJournalCheckout,confirmJournalReturn} from '../../base44/shared/journalCheckoutRecovery.js';
+import {journalAccountState,startJournalCheckout,confirmJournalReturn,cancelJournalCheckout} from '../../base44/shared/journalCheckoutRecovery.js';
 import {JOURNAL_POLICY,JOURNAL_APP_ID,JOURNAL_ABN} from '../../base44/shared/journalCommerce.js';
 const user={id:'contract-buyer',email:'buyer@example.invalid'},now=1800000000000;
 const catalogue={enabled:true,approvedVersion:'v1',bundleEnabled:true,bundleId:'all-six',bundlePriceCents:4900,
@@ -14,6 +14,7 @@ function fixture(){
   savePurchase:async row=>save(purchases,row),saveAttempt:async row=>{if(saveFailure){saveFailure=false;throw Error('Persistence unavailable');}save(attempts,row);}};
  const stripe={findJournalSessions:async()=>[...sessions.values()],
   checkout:{sessions:{retrieve:async id=>{if(!sessions.has(id))throw Error('Stripe unavailable');return sessions.get(id);},
+   expire:async id=>{const session=sessions.get(id);if(session?.status!=='open')throw Error('Not open');session.status='expired';return session;},
    create:async(params,{idempotencyKey})=>{
     const serial=JSON.stringify(params);
     if(keys.has(idempotencyKey)){
