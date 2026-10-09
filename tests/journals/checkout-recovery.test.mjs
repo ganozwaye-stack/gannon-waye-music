@@ -101,3 +101,16 @@ test('unknown purchased edition blocks recovery and another checkout',async()=>{
  const f=fixture(),first=await start(f);f.sessions.get(first.session_id).metadata.catalogue_version='unknown';
  await assert.rejects(start(f),/Unknown edition/);assert.equal(f.creates(),1);
 });
+
+test('only a verified unpaid checkout can be cancelled before a new selection',async()=>{
+ const f=fixture(),first=await start(f);
+ assert.equal((await cancelJournalCheckout({...f.args,sessionId:first.session_id})).status,'expired');
+ const next=await start(f,['book-1']);assert.equal(next.status,'checkout');assert.equal(f.creates(),2);
+});
+test('another account cannot cancel a session and a paid session is never expired',async()=>{
+ const f=fixture(),first=await start(f);
+ await assert.rejects(cancelJournalCheckout({...f.args,user:{id:'other',email:'other@example.invalid'},sessionId:first.session_id}),/purchase_not_found/);
+ assert.equal(f.sessions.get(first.session_id).status,'open');f.pay(first.session_id);
+ assert.equal((await cancelJournalCheckout({...f.args,sessionId:first.session_id})).status,'paid');
+ assert.equal(f.sessions.get(first.session_id).status,'complete');
+});
