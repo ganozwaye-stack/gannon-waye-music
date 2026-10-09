@@ -84,7 +84,7 @@ export default function JournalPurchasePanel({ book }) {
         ))}
       </fieldset>
       <label className="flex gap-3 items-start text-sm">
-        <input type="checkbox" disabled={!JOURNAL_BUNDLE_COUNT_CONFIRMED} checked={bundle}
+        <input type="checkbox" disabled={!JOURNAL_BUNDLE_COUNT_CONFIRMED || ownership.ownedBookIds.length > 0} checked={quote.bundle}
           onChange={event => {
             setBundle(event.target.checked); requestId.current = null;
             setSelectedIds(event.target.checked ? PUBLIC_JOURNALS.map(item => item.id) : [book.id]);
