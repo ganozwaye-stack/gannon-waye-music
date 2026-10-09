@@ -1,200 +1,64 @@
-import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import CoachingHero from '@/components/coaching/CoachingHero';
-import CoachingComingSoonSection from '@/components/public/CoachingComingSoonSection';
-import CoachingOfferCard from '@/components/coaching/CoachingOfferCard';
-import CoachingSignatureLine from '@/components/coaching/CoachingSignatureLine';
-import CoachingDisclaimer from '@/components/coaching/CoachingDisclaimer';
 
-const OFFERS = [
-  {
-    icon: '🌱',
-    title: 'Self Worth Reset',
-    hook: 'What if the problem was never that you were not enough?',
-    description: 'A focused session for people who have spent too long questioning their worth, apologising for their needs, or staying small to keep the peace.',
-    ctaLabel: 'Book a Session',
-    ctaLink: '/coaching/self-worth-reset',
-    delay: 0,
-  },
-  {
-    icon: '🛡️',
-    title: 'Boundaries & Self Respect',
-    hook: 'Respect is earned. Not a game you make me play.',
-    description: 'A practical mentoring pathway for people learning to stop over-explaining, over-giving, and abandoning themselves to manage someone else\'s comfort.',
-    ctaLabel: 'Learn More',
-    ctaLink: '/coaching/boundaries',
-    delay: 0.1,
-  },
-  {
-    icon: '🎤',
-    title: 'Creative Confidence',
-    hook: 'What if the voice you have been hiding is the thing someone else needs to hear?',
-    description: 'Support for artists, creators, singers, writers, and people rebuilding their confidence through expression, purpose, and story.',
-    ctaLabel: 'Learn More',
-    ctaLink: '/coaching/creative-confidence',
-    delay: 0.2,
-  },
-];
-
-const WHY_ITEMS = [
-  { label: 'Survivor led', detail: 'Gannon speaks from lived experience — not a textbook.' },
-  { label: 'Emotionally honest', detail: 'No toxic positivity. No bypassing. Just real, grounded support.' },
-  { label: 'Practical and actionable', detail: 'You will leave sessions with clarity, not just feelings.' },
-  { label: 'Safe and boundaried', detail: 'A space where your story is not shame — it is evidence you survived.' },
-  { label: 'Rooted in purpose', detail: 'Connected to the THANKYOU movement and the music behind it.' },
-];
+// Reuse the portrait already approved and displayed in the site's public navigation.
+// Never include journal interiors, PDF URLs or unverified sample questions here.
+const PORTRAIT_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
 
 export default function Coaching() {
   return (
-    <div className="min-h-screen">
-      <CoachingComingSoonSection />
-      <CoachingHero
-        badge="Gannon Waye Coaching"
-        hook="Are you ready to stop begging for basic respect and start rebuilding the life you were made for?"
-        subhook="Life coaching and mindset mentoring for self worth, boundaries, creative confidence, and rebuilding after painful chapters."
-        primaryCTA="Book a Clarity Session"
-        primaryLink="/coaching/intake"
-        secondaryCTA="Download the Free Workbook"
-        secondaryLink="/coaching/workbooks"
-      />
-
-      {/* Signature line */}
-      <section className="py-10 px-4">
-        <CoachingSignatureLine line="Respect is earned. Not a game you make me play." size="lg" />
+    <div className="min-h-screen pb-20" data-testid="coaching-page">
+      <section className="max-w-6xl mx-auto px-5 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <p className="font-body text-xs tracking-widest uppercase text-primary mb-4">Coaching with Gannon Waye</p>
+          <h1 className="font-display text-4xl md:text-6xl mb-6">Start with what matters to you.</h1>
+          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-8">A place to find words, explore what you are facing and take a step towards the confidence and clarity you want to build.</p>
+          <Actions />
+        </div>
+        <img src={PORTRAIT_URL} alt="Gannon Waye" className="w-full max-w-md mx-auto rounded-3xl object-cover object-top border border-primary/30" />
       </section>
 
-      {/* Three offers */}
-      <section className="py-16 px-4 md:px-6">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-12"
-          >
-            <p className="font-body text-[9px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Where would you like to start?</p>
-            <h2 className="font-display text-3xl md:text-4xl text-foreground italic">Choose your pathway</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {OFFERS.map(o => <CoachingOfferCard key={o.title} {...o} />)}
-          </div>
+      <article className="max-w-3xl mx-auto px-5 space-y-7 font-body text-base md:text-lg leading-relaxed text-foreground/80">
+        <h2 className="font-display text-3xl text-foreground">Why this work matters to me</h2>
+        <p>I have always been drawn to helping people find clarity, understand the challenges in front of them and develop confidence in themselves. I care about the moment someone begins to see a possibility they could not see before, and about supporting them as they work towards it.</p>
+        <p>That was one of the parts I loved most about personal training. My clients achieved goals they had set themselves, and sometimes did things they had not thought possible. The work was physical, but so much of what I was supporting was confidence, belief and wellbeing.</p>
+        <p>I think of that experience as “40% muscle and 60% mental”. That is my personal reflection on the work, rather than a scientific statistic. It describes how much it mattered to help someone trust themselves, recognise their progress and keep going when things felt difficult.</p>
+        <p>Over the past seven years, I have invested in education and personal development, including psychology. I wanted to understand more about people, the challenges we face and the ways we can support ourselves and each other.</p>
+        <p>Even with that knowledge, I found myself in an abusive relationship. Knowing about something does not make you immune to it. Being abused does not mean you are unintelligent or weak. I want to say that plainly, because shame can make it harder to find words for what has happened.</p>
+        <p>My own recovery is ongoing. I am not sharing this from a place where everything is finished or fixed. Music and writing helped me find words when I struggled to explain what I was carrying. They helped me find strength, and gave me somewhere to begin.</p>
+        <p>The journals grew out of that writing and reflection. They share concepts and leave space for you to reflect, notice what matters to you and find your own words. You can take your time with them and make that space your own.</p>
+        <p>My one-on-one coaching builds on my personal training experience, education and lived experience. It is a chance for us to talk about the challenges you are facing, what you would like to work towards and the confidence you want to develop. We begin with you and what matters in your life.</p>
+        <p>My faith and my desire to pay it forward are part of why I want to do this work. I want to put what I have learned towards helping someone else find a place to start.</p>
+        <p className="text-sm text-muted-foreground">I am not a psychologist or registered clinician. Coaching is personal support and reflection, and does not replace mental health care.</p>
+      </article>
+
+      <section id="journals" aria-labelledby="journals-title" className="max-w-6xl mx-auto px-5 py-16 scroll-mt-24">
+        <div className="rounded-3xl bg-card/60 border border-primary/25 p-7 md:p-10">
+          <h2 id="journals-title" className="font-display text-3xl mb-4">Explore the Journals</h2>
+          <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">The six journals are A$9.90 each, or A$49 for the six-book bundle. You can purchase them directly, without a coaching call, registration for coaching or approval from me. One-on-one coaching is optional and separate.</p>
+          <p className="font-body text-sm text-muted-foreground leading-relaxed">The cover display and a question from each journal are being prepared. Full interiors are reserved for purchasers. Writing together is still in development and is not included in the six-book bundle.</p>
         </div>
       </section>
 
-      {/* Why work with Gannon */}
-      <section className="py-16 px-4 md:px-6 bg-card/20">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-10"
-          >
-            <p className="font-body text-[9px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Why this work</p>
-            <h2 className="font-display text-3xl text-foreground italic">Why work with Gannon?</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {WHY_ITEMS.map((item, i) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.07 }}
-                className="flex gap-3 p-4 bg-card/40 border border-border/30 rounded-xl"
-              >
-                <span className="text-primary mt-0.5">✦</span>
-                <div>
-                  <p className="font-body text-sm font-semibold text-foreground">{item.label}</p>
-                  <p className="font-body text-xs text-muted-foreground mt-0.5">{item.detail}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+      <section id="one-on-one" aria-labelledby="coaching-enquiry-title" className="max-w-3xl mx-auto px-5 pb-16">
+        <h2 id="coaching-enquiry-title" className="font-display text-3xl mb-4">One-on-one coaching</h2>
+        <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">If you would like to work together, get in touch about what you would like to work towards. Online appointment booking is being prepared. Session details and availability will be confirmed before you are asked to pay.</p>
+        <Link to="/contact"><Button variant="outline" className="rounded-full">Enquire about Coaching</Button></Link>
       </section>
 
-      {/* This is for you if */}
-      <section className="py-16 px-4 md:px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <p className="font-body text-[9px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Is this for you?</p>
-            <h2 className="font-display text-3xl text-foreground italic mb-8">This is for you if…</h2>
-          </motion.div>
-          <div className="space-y-3 text-left max-w-xl mx-auto">
-            {[
-              'You are tired of apologising for having needs',
-              'You have spent years shrinking yourself to keep the peace',
-              'You have just come out of something painful and need help finding your footing',
-              'You know what you want but keep talking yourself out of it',
-              'You are a creative person who has lost their voice or confidence',
-              'You are ready to stop waiting for someone else to validate your worth',
-              'You want practical support, not just someone to talk at',
-            ].map((line, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -10 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="flex items-start gap-3"
-              >
-                <span className="text-primary text-sm mt-0.5 shrink-0">→</span>
-                <p className="font-body text-sm text-foreground/80">{line}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+      <section className="max-w-3xl mx-auto px-5 text-center">
+        <p className="font-body text-lg leading-relaxed text-foreground/80 mb-8">Wherever you are in your journey, you’re welcome to start here. Explore the journals and choose one that speaks to you, or get in touch about one-on-one coaching so we can talk about what you’d like to work towards. You don’t need to have it all figured out. Let’s start with what matters to you.</p>
+        <Actions />
       </section>
+    </div>
+  );
+}
 
-      {/* Quote */}
-      <section className="py-12 px-4">
-        <CoachingSignatureLine line="You are not too broken to rebuild." />
-      </section>
-
-      {/* CTA block */}
-      <section className="py-16 px-4 bg-card/30">
-        <div className="max-w-2xl mx-auto text-center space-y-5">
-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            <h2 className="font-display text-3xl text-foreground italic mb-4">Ready to start?</h2>
-            <p className="font-body text-sm text-muted-foreground mb-8">Book a clarity session or download the free Self Respect Reset Workbook to start right now.</p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Link to="/coaching/intake">
-                <Button className="gradient-gold-button border-0 rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase">
-                  Book a Clarity Session
-                </Button>
-              </Link>
-              <Link to="/coaching/workbooks">
-                <Button variant="outline" className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase border-foreground/20">
-                  Free Workbooks
-                </Button>
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Workbooks teaser */}
-      <section className="py-10 px-4 md:px-6">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-card/40 border border-primary/20 rounded-2xl p-8 text-center">
-            <p className="font-body text-[9px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Free resources</p>
-            <h3 className="font-display text-2xl text-foreground italic mb-2">Start with the workbooks</h3>
-            <p className="font-body text-sm text-muted-foreground mb-6">Six reflection and action workbooks — some free, some paid. All built around the same core work Gannon does in sessions.</p>
-            <Link to="/coaching/workbooks">
-              <Button variant="outline" className="rounded-full px-6 py-4 font-body text-xs tracking-widest uppercase border-primary/30 text-primary hover:bg-primary/10">
-                View Workbook Library →
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Disclaimer */}
-      <section className="py-10 px-4">
-        <CoachingDisclaimer />
-      </section>
+function Actions() {
+  return (
+    <div className="flex flex-col sm:flex-row gap-3">
+      <a href="#journals"><Button className="gradient-gold-button border-0 rounded-full">Explore the Journals</Button></a>
+      <Link to="/contact"><Button variant="outline" className="rounded-full">Enquire about Coaching</Button></Link>
     </div>
   );
 }
