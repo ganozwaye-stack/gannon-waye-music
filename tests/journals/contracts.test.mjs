@@ -49,7 +49,7 @@ test('adapter rejects non-POST before authentication or Stripe',async()=>{
 });
 test('anonymous checkout and download fail before Stripe',async()=>{
   const state=fixture({user:null});
-  for(const action of ['checkout','download']){
+  for(const action of ['checkout','download','purchases','confirm','expire']){
     const response=await handleJournalRequest(request({}),action);
     assert.equal(response.status,401);assert.deepEqual(await response.json(),{error:'sign_in_required'});
   }
