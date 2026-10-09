@@ -81,7 +81,7 @@ six-title bundle A$49, unique basket entries, reset on reopening and the held pu
 return route with no backend/payment requests. The affected return checks passed again
 after cancellation UI was added. Chromium and
 Debian dependencies were extracted under /tmp, without system package installation.
-66 policy/static/mock-contract tests pass. These are held-page/source checks,
+67 policy/static/mock-contract tests pass. These are held-page/source checks,
 not actual paid-account, Stripe/storage integration or live publication proof.
 
 ## Private recovery index (created; sales still held)
@@ -129,12 +129,12 @@ admin tests use mock-admin-token, which cannot prove Base44 authentication or RL
 Connected tools expose create/query/update entities but no record-delete action;
 no service-role seed/delete context is available in the sandbox. No synthetic purchase
 rows were created because deterministic cleanup could not be ensured.
-Nine adapter/static tests in tests/journals/contracts.test.mjs passed: deny-all schema,
+Ten adapter/static tests in tests/journals/contracts.test.mjs passed: deny-all schema,
 source/candidate equality, adapter POST-only/authentication checks, server held flag,
 price-confirmation guard, invalid bundles, safe errors and unavailable persistence.
 All five staged actions reject anonymous callers. The adapter is
 bundled and executed with SDK/Stripe stubs; these are contracts, not live access tests.
-Total: 66 static/policy/mock-contract checks passed, plus 15 held-page browser checks.
+Total: 67 static/policy/mock-contract checks passed, plus 15 held-page browser checks.
 The latest app build and all existing prebuild checks passed across 277 declared routes.
 
 ## Completed reversible source integration
@@ -154,8 +154,11 @@ The latest app build and all existing prebuild checks passed across 277 declared
   The public sales gate remains false; no requests occur while held.
 - Sixteen checkout-recovery tests exercise concurrency, another device, lost writes,
   expiry, ownership, refunds, wrong buyer, retained editions and cancellation.
-- tools/journals/checkout-attempt.schema.candidate.jsonc stages JournalCheckoutAttempt
-  with all client CRUD false. This schema was NOT created/deployed; no rows were added.
+- JournalCheckoutAttempt was confirmed absent, then created through the supported
+  entity-schema action using the exact reviewed candidate. Read-back confirmed all
+  client CRUD false and an administrative query returned zero records. The schema is
+  mirrored in base44/entities/JournalCheckoutAttempt.jsonc. No rows, credentials or
+  expanded grants were added. Populated-record/authenticated isolation is still unproven.
 - tools/journals/function-entrypoints stages five endpoint wrappers. Run
   node tools/journals/build-candidates.mjs to generate five self-contained review
   candidates under /tmp/gw-journal-function-candidates. These builds passed.
@@ -182,8 +185,8 @@ The latest app build and all existing prebuild checks passed across 277 declared
 4. Test private object and signing access with anonymous/unpaid/unrelated accounts.
    Keep URIs/signing server-only and full PDFs out of public entities/source/responses.
 5. Source wiring is complete in the staged handler/entrypoints and purchase-return
-   route. Before activation, create and verify the restricted JournalCheckoutAttempt
-   candidate schema; confirm runtime service-role filter/upsert support, complete Stripe
+   route. Both restricted reference schemas now exist with deny-all read-back verified.
+   Before activation, confirm runtime service-role filter/upsert support, complete Stripe
    pagination and immutable edition registry. Deploy only in parent-coordinated test
    context and keep commerce/public/persistence activation flags held until proven.
 6. Run actual Stripe TEST checkout/cancellation/retry/refund/dispute flows and authenticated
@@ -192,6 +195,20 @@ The latest app build and all existing prebuild checks passed across 277 declared
    before enabling sales. No page publication occurs in parallel with parent's editor work.
 8. Coaching booking needs selected calendar, real availability/timezone/buffers, booking
    locking and cancellation/package terms before appointment payments become active.
+
+## Consolidated remaining handoff
+User decisions: exact author release/production cleanup of held draft editions; for paid
+coaching, calendar selection, real availability/timezone/buffers and cancellation/package
+terms. Approved prices and six-book bundle count do not need reconfirmation.
+Technical dependencies: supported verified cover/PDF handoff (Library 403 retries stopped);
+two non-admin test sessions and safe seed/delete runtime for populated-row CRUD and
+private-file/signing isolation; existing Stripe TEST runtime plus service-role filter/upsert
+validation and actual checkout/recovery/download tests; then parent-coordinated backend
+deployment, public activation and canonical-site publication. No functions were deployed,
+no real charges/cancellations occurred and all sales gates remain held.
+Existing physical-store emergency hold and unverified TYK/GW inventory linkage remain
+separate blockers to physical gift-set ordering. No stock/SKU or store switch was changed.
+No failed transfer or editor-login retry is scheduled.
 
 ## Publication
 Coaching story/navigation source is saved. Only this approved honest page is public-route
