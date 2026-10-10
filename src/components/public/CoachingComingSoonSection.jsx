@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { base44 } from '@/api/base44Client';
 import { trackEvent } from '@/lib/analytics';
+import { Link } from 'react-router-dom';
 
 const QUOTE = 'Respect is earned. Not a game you make me play.';
 
@@ -118,31 +119,8 @@ export default function CoachingComingSoonSection() {
 
           {/* Register interest */}
           <div className="p-6 md:p-10">
-            {done ? (
-              <div className="flex items-center gap-3 justify-center text-center">
-                <span className="flex items-center justify-center w-9 h-9 rounded-full bg-primary/15 border border-primary/40 text-primary shrink-0">
-                  <Check className="w-4 h-4" />
-                </span>
-                <p className="font-body text-sm text-foreground/80">
-                  Thank you, {name.split(' ')[0] || 'friend'}. Your interest is registered. Gannon will be in touch when coaching opens.
-                </p>
-              </div>
-            ) : (
-              <form onSubmit={submit} className="max-w-2xl mx-auto">
-                <p className="font-body text-[10px] tracking-[0.3em] uppercase gradient-gold-text mb-3 text-center">Register your interest now</p>
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" className="bg-background/60 border-primary/30 rounded-full" />
-                  <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email" className="bg-background/60 border-primary/30 rounded-full" />
-                  <Button type="submit" disabled={submitting} className="gradient-gold-button border-0 rounded-full px-6 py-2.5 font-body text-xs tracking-wider uppercase whitespace-nowrap">
-                    {submitting ? 'Sending…' : <>Register Interest <ArrowRight className="w-3.5 h-3.5" /></>}
-                  </Button>
-                </div>
-                {error && <p className="font-body text-xs text-destructive mt-2 text-center">{error}</p>}
-                <p className="font-body text-[10px] text-muted-foreground mt-2 text-center">
-                  Coaching is not therapy or crisis support. We will only contact you about coaching.
-                </p>
-              </form>
-            )}
+            <Link to="/coaching?view=coaching" className="inline-flex rounded-full bg-[#F5D06E] text-primary-foreground px-6 py-3 font-body font-semibold">Register your interest</Link>
+            <p className="font-body text-xs text-muted-foreground mt-3">Explore coaching and the private registration form. Journal purchases are separate.</p>
           </div>
         </motion.div>
       </div>
