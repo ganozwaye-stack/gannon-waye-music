@@ -1,135 +1,44 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { CheckCircle } from 'lucide-react';
-import CoachingDisclaimer from './CoachingDisclaimer';
+import { validateInterest } from '@/lib/coachingInterestPolicy';
 
-export default function CoachingIntakeForm({ offerInterest = '', onSuccess }) {
-  const [form, setForm] = useState({
-    full_name: '',
-    email: '',
-    phone: '',
-    offer_interest: offerInterest,
-    goal: '',
-    current_challenge: '',
-    support_wanted: '',
-    preferred_format: 'no_preference',
-    understands_coaching_not_therapy: false,
-    crisis_aware: false,
-    consent_to_contact: false,
-  });
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState('');
-
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!form.understands_coaching_not_therapy || !form.consent_to_contact || !form.crisis_aware) {
-      setError('Please confirm all three checkboxes before submitting.');
-      return;
-    }
-    setLoading(true);
-    setError('');
-    await base44.entities.CoachingIntake.create(form);
-    // Also create a lead record
-    await base44.entities.CoachingLead.create({
-      full_name: form.full_name,
-      email: form.email,
-      goal: form.goal,
-      current_challenge: form.current_challenge,
-      support_wanted: form.support_wanted,
-      understands_coaching_not_therapy: form.understands_coaching_not_therapy,
-      consent_to_contact: form.consent_to_contact,
-      source_offer: offerInterest,
-      source_page: window.location.pathname,
-    });
-    setLoading(false);
-    setSubmitted(true);
-    onSuccess?.();
-  };
-
-  if (submitted) {
-    return (
-      <div className="text-center py-12 space-y-4">
-        <CheckCircle className="w-12 h-12 text-primary mx-auto" />
-        <h3 className="font-display text-2xl text-foreground italic">Thank you for reaching out.</h3>
-        <p className="font-body text-sm text-muted-foreground max-w-md mx-auto">
-          Your intake form has been received. Gannon will review it personally and be in touch within 2 business days.
-        </p>
-        <p className="font-body text-xs text-muted-foreground italic">Still here. And so are you.</p>
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="space-y-5 max-w-xl mx-auto">
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="space-y-1.5">
-          <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">Full Name *</Label>
-          <Input value={form.full_name} onChange={e => set('full_name', e.target.value)} placeholder="Your name" required className="bg-card/50 border-border/60" />
-        </div>
-        <div className="space-y-1.5">
-          <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">Email *</Label>
-          <Input type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="your@email.com" required className="bg-card/50 border-border/60" />
-        </div>
-      </div>
-
-      <div className="space-y-1.5">
-        <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">Phone (optional)</Label>
-        <Input value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+61 4xx xxx xxx" className="bg-card/50 border-border/60" />
-      </div>
-
-      <div className="space-y-1.5">
-        <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">What is your main goal? *</Label>
-        <Textarea value={form.goal} onChange={e => set('goal', e.target.value)} placeholder="What are you hoping to work toward?" required className="bg-card/50 border-border/60 min-h-[80px]" />
-      </div>
-
-      <div className="space-y-1.5">
-        <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">What's your current challenge? *</Label>
-        <Textarea value={form.current_challenge} onChange={e => set('current_challenge', e.target.value)} placeholder="What's been hardest lately?" required className="bg-card/50 border-border/60 min-h-[80px]" />
-      </div>
-
-      <div className="space-y-1.5">
-        <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">What would you like support with?</Label>
-        <Textarea value={form.support_wanted} onChange={e => set('support_wanted', e.target.value)} placeholder="Self worth, boundaries, creative confidence, rebuilding after a painful chapter..." className="bg-card/50 border-border/60 min-h-[80px]" />
-      </div>
-
-      <div className="space-y-1.5">
-        <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">Preferred format</Label>
-        <select value={form.preferred_format} onChange={e => set('preferred_format', e.target.value)} className="w-full bg-card/50 border border-border/60 rounded-md px-3 py-2 text-sm text-foreground">
-          <option value="no_preference">No preference</option>
-          <option value="zoom">Zoom</option>
-          <option value="phone">Phone</option>
-          <option value="in_person">In person (Melbourne)</option>
-        </select>
-      </div>
-
-      <div className="bg-secondary/40 border border-border/40 rounded-xl p-4 space-y-3">
-        <p className="font-body text-xs text-muted-foreground font-semibold uppercase tracking-widest">Before you submit</p>
-        {[
-          { key: 'understands_coaching_not_therapy', label: 'I understand this is life coaching and mindset mentoring — not therapy, counselling, or crisis support.' },
-          { key: 'crisis_aware', label: 'I understand that if I am in immediate danger or crisis, I should contact emergency services (000) or Lifeline (13 11 14).' },
-          { key: 'consent_to_contact', label: 'I consent to Gannon Waye contacting me about my enquiry.' },
-        ].map(({ key, label }) => (
-          <label key={key} className="flex items-start gap-3 cursor-pointer">
-            <input type="checkbox" checked={form[key]} onChange={e => set(key, e.target.checked)} className="mt-0.5 w-4 h-4 accent-primary shrink-0" />
-            <span className="font-body text-xs text-foreground/70 leading-relaxed">{label}</span>
-          </label>
-        ))}
-      </div>
-
-      {error && <p className="font-body text-xs text-destructive">{error}</p>}
-
-      <Button type="submit" disabled={loading} className="w-full gradient-gold-button border-0 rounded-full py-5 font-body text-sm tracking-wider uppercase">
-        {loading ? 'Sending…' : 'Submit Intake Form'}
-      </Button>
-
-      <CoachingDisclaimer minimal />
-    </form>
-  );
+export default function CoachingIntakeForm({ onSuccess }) {
+ const [form,setForm]=useState({first_name:'',last_name:'',date_of_birth:'',phone:'',email:'',support_wanted:'',consent_to_contact:false,website:''});
+ const [busy,setBusy]=useState(false),[receipt,setReceipt]=useState(''),[error,setError]=useState('');
+ const inFlight=useRef(false),submissionId=useRef(null);
+ const set=(key,value)=>setForm(previous=>({...previous,[key]:value}));
+ const submit=async event=>{
+   event.preventDefault();
+   if(inFlight.current||receipt) return;
+   submissionId.current ||= crypto.randomUUID();
+   const payload={...form,submission_id:submissionId.current};
+   try { validateInterest(payload); } catch(err) {setError(err.message);return;}
+   inFlight.current=true;setBusy(true);setError('');
+   try {
+     const result=await base44.functions.invoke('submitCoachingInterest',payload);
+     const data=result?.data;
+     if(data?.saved!==true||data.receipt!==submissionId.current) throw new Error('Unable to confirm saved receipt');
+     setReceipt(data.receipt);setForm({first_name:'',last_name:'',date_of_birth:'',phone:'',email:'',support_wanted:'',consent_to_contact:false,website:''});
+     onSuccess?.();
+   } catch {setError('Your submission has not been confirmed. Registration is being prepared; please try again when it opens.');}
+   finally {inFlight.current=false;setBusy(false);}
+ };
+ if(receipt) return <div role="status" className="font-body py-8 space-y-3" data-testid="coaching-interest-success"><h3 className="text-xl font-bold text-[#F5D06E]">Thank you for reaching out.</h3><p>Your interest has been saved for Gannon to review. This is not an appointment booking or a payment.</p><p className="text-sm">Receipt: {receipt}</p></div>;
+ return <form onSubmit={submit} className="font-body space-y-5 max-w-xl" data-testid="coaching-interest-form">
+   <p className="text-sm text-foreground/80">Gannon will use your name, date of birth and contact details to review your interest and follow up with you. Your short message helps him understand what support you are looking for. These details stay in the private owner inbox and are not included in website analytics.</p>
+   <p className="text-sm text-[#F5D06E]">Registration is being prepared. Submissions open after the private intake checks are complete.</p>
+   <div className="grid sm:grid-cols-2 gap-4">
+    {[['first_name','First name','text','given-name',80],['last_name','Last name','text','family-name',80],['date_of_birth','Date of birth','date','bday',10],['phone','Mobile number','tel','tel',30],['email','Email address','email','email',254]].map(([key,label,type,autoComplete,maxLength])=><div key={key} className="space-y-2"><Label htmlFor={'interest-'+key}>{label} *</Label><Input id={'interest-'+key} name={key} type={type} autoComplete={autoComplete} required maxLength={maxLength} max={type==='date'?new Date().toISOString().slice(0,10):undefined} value={form[key]} onChange={event=>set(key,event.target.value)} /></div>)}
+   </div>
+   <div className="space-y-2"><Label htmlFor="interest-support">What brings you here, and what would you like support with? *</Label><Textarea id="interest-support" name="support_wanted" required maxLength={1000} rows={4} value={form.support_wanted} onChange={event=>set('support_wanted',event.target.value)} /><p className="text-xs text-muted-foreground">A short message is enough. Please leave out detailed health information or journal answers.</p></div>
+   <div className="hidden" aria-hidden="true"><label htmlFor="interest-website">Leave this blank</label><input id="interest-website" name="website" tabIndex={-1} autoComplete="off" value={form.website} onChange={event=>set('website',event.target.value)} /></div>
+   <label className="flex items-start gap-3 text-sm"><input type="checkbox" required checked={form.consent_to_contact} onChange={event=>set('consent_to_contact',event.target.checked)} className="mt-1" />Gannon may contact me about my interest.</label>
+   <p className="text-sm">Registering interest does not commit you to a call. You can explore and purchase journals independently when journal purchasing opens.</p>
+   {error&&<p role="alert" className="text-sm text-red-300">{error}</p>}
+   <Button type="submit" disabled={busy} className="bg-[#F5D06E] text-primary-foreground rounded-full min-h-12 px-7">{busy?'Saving…':'Register your interest'}</Button>
+ </form>;
 }
