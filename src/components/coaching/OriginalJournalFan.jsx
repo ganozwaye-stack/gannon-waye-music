@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { PUBLIC_JOURNALS } from '@/lib/publicJournalCatalogue';
+import './OriginalJournalFan.css';
 
 // Original advert composition, cropped to its fan region. CSS rasterization
 // differs from Pillow; source PNGs remain unchanged and interiors stay private.
@@ -22,15 +23,16 @@ export default function OriginalJournalFan() {
   return (
     <figure ref={ref} className="relative w-full max-w-xl mx-auto mb-8" style={{ aspectRatio: '1080 / 660' }} data-testid="coaching-original-fan" aria-label="The six Gannon Waye journals">
       <div className="absolute left-0 top-0" style={{ width: 1080, height: 660, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
-        {covers.map(([title, x, y, width, angle]) => {
+        <div className="coaching-display-base" aria-hidden="true" data-testid="coaching-display-base" />
+        {covers.map(([title, x, y, width, angle], index) => {
           const journal = PUBLIC_JOURNALS.find(item => item.title === title);
-          return <img key={title} src={journal.coverImageUrl} alt={title} width="1042" height="1474" decoding="async"
-            className="absolute" data-testid="coaching-fan-cover" style={{
+          return <div key={title} className="coaching-journal-rim" style={{
               left: x, top: y - 800, width, height: width * 1474 / 1042,
-              transform: `translate(-50%, -50%) rotate(${angle}deg)`,
-              border: '2px solid rgb(191, 156, 92)', boxSizing: 'content-box',
-              boxShadow: '6px 16px 18px rgba(0, 0, 0, 0.5686274509803921)',
-            }} />;
+              transform: `translate(-50%, -50%) rotate(${angle}deg)`, zIndex: index + 1,
+            }}>
+              <img src={journal.coverImageUrl} alt={title} width="1042" height="1474" decoding="async" data-testid="coaching-fan-cover" />
+              <span className="coaching-edge-glint" aria-hidden="true" />
+            </div>;
         })}
       </div>
     </figure>
