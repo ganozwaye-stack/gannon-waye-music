@@ -161,6 +161,13 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-10-10 · Codex desktop delegate · Golden Key membership preview element
+
+Did: Added the original unedited 172x172 GKlogo.png at public/images/golden-key/GKlogo.png, rendered 48x48 beside the clear caption Lifetime Member, Golden Key International Honour Society in the Coaching education section. Exact revised story and all purchase holds remain unchanged.
+Found: Original 7159-byte logo retrieved through authorized Drive access from 1yaZvf9RaqPV5cAUTd3DrihVJvEru462I and its pixels inspected. Parent verifier confirmed the LifetimeMembership certificate at Drive 1I_CSyAkcWXEizffNmVRsQxrQcVLHD-GK. Gannon explicitly requested the element and stated permission to use it; independent written logo-use permission was not located. No accreditation, certification, partnership or endorsement claim added.
+Left: Unpublished preview only. Written permission evidence remains a release-review note, not a blocker to the owner-authorized preview. Exact fan image still awaits accessible original advert bytes. Website analytics and source-attribution work are the next authorized scope after preview delivery.
+For: Parent thread for review and analytics handoff; no publication or paid service activation authorized.
+
 ### 2026-10-10 · Codex desktop delegate · Agreed revised Coaching story
 
 Did: Replaced only the seven Coaching introduction paragraphs with the exact consolidated text approved by Gannon through the parent thread. Updated exact-copy assertions and responsive captures; retained the sunlit wallpaper, gradient, Poppins 700 heading, compact columns, journal/coaching choices, prices and all purchase holds.
