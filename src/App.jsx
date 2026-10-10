@@ -9,20 +9,15 @@ import EmbedTimer from '@/pages/EmbedTimer';
 import { initializeEventSystem } from '@/lib/eventAutomation';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { posthog } from '@/lib/posthog';
+import WebsiteAnalyticsTracker from '@/components/global/WebsiteAnalyticsTracker';
 import ScrollToTop from '@/components/global/ScrollToTop';
 import { FEATURE_FLAGS } from '@/lib/platformConfig';
 
 // Initialize event-driven automation system
 initializeEventSystem();
 
-function PostHogPageTracker() {
-  const location = useLocation();
-  useEffect(() => {
-    posthog.capture('$pageview', { $current_url: window.location.href });
-  }, [location.pathname]);
-  return null;
-}
+// Reuse the existing page-tracker position with sanitized first-party events.
+const PostHogPageTracker = WebsiteAnalyticsTracker;
 
 // Public pages
 import Home from '@/pages/Home';
