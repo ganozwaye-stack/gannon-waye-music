@@ -18,7 +18,7 @@
     },
     "support_wanted": {
       "type": "string",
-      "maxLength": 2000
+      "maxLength": 1000
     },
     "understands_coaching_not_therapy": {
       "type": "boolean",
@@ -55,6 +55,38 @@
     },
     "assigned_to": {
       "type": "string"
+    },
+    "first_name": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "last_name": {
+      "type": "string",
+      "maxLength": 80
+    },
+    "phone": {
+      "type": "string",
+      "maxLength": 30
+    },
+    "date_of_birth": {
+      "type": "string",
+      "format": "date"
+    },
+    "submission_id": {
+      "type": "string",
+      "maxLength": 36
+    },
+    "contact_fingerprint": {
+      "type": "string",
+      "maxLength": 64
+    },
+    "duplicate_submission": {
+      "type": "boolean",
+      "default": false
+    },
+    "analytics_excluded": {
+      "type": "boolean",
+      "default": false
     }
   },
   "required": [
@@ -62,21 +94,79 @@
     "email"
   ],
   "rls": {
-    "create": {},
-    "read": {
+    "create": {
       "user_condition": {
         "role": "admin"
       }
+    },
+    "read": {
+      "$and": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      ]
     },
     "update": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$and": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      ]
     },
     "delete": {
-      "user_condition": {
-        "role": "admin"
-      }
+      "$and": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "$or": [
+            {
+              "user_condition": {
+                "email": "ganozwaye@gmail.com"
+              }
+            },
+            {
+              "user_condition": {
+                "email": "gannonwayemusic@gmail.com"
+              }
+            }
+          ]
+        }
+      ]
     }
   }
 }
