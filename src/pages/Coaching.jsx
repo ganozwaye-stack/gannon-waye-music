@@ -4,9 +4,10 @@ import { Button } from '@/components/ui/button';
 import JournalShelf from '@/components/coaching/JournalShelf';
 import CoachingGiftSet from '@/components/coaching/CoachingGiftSet';
 
-// Reuse the portrait already approved and displayed in the site's public navigation.
+// Reuse the existing window-light portrait selected by Gannon from
+// Building Resilience and Healthy Boundaries; preserve the source pixels.
 // Never include journal interiors, PDF URLs or unverified sample questions here.
-const PORTRAIT_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
+const PORTRAIT_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/94d50ca39_77B69334-B27B-44A8-9C21-F7216216A118.png';
 
 export default function Coaching() {
   const [params, setParams] = useSearchParams();
@@ -24,15 +25,15 @@ export default function Coaching() {
   return (
     <div className="min-h-screen pb-20" data-testid="coaching-page">
       <section className="max-w-6xl mx-auto px-5 py-10 md:py-14" data-testid="coaching-editorial-intro">
-        <header className="grid md:grid-cols-[1fr_280px] gap-6 items-center mb-6 border-b border-primary/30 pb-6">
+        <header className="grid md:grid-cols-[1fr_360px] gap-6 items-center mb-6 border-b border-primary/30 pb-6">
         <div>
           <p className="font-body text-xs tracking-widest uppercase text-primary mb-4">Coaching with Gannon Waye</p>
           <h1 className="font-display text-4xl md:text-5xl gradient-gold-text leading-tight">Start with what matters to you.</h1>
         </div>
-        <img src={PORTRAIT_URL} alt="Gannon Waye" className="hidden md:block w-full h-64 object-contain border border-primary/30" />
+        <img src={PORTRAIT_URL} alt="Gannon Waye" className="w-full h-64 md:h-80 object-contain border border-primary/30" />
         </header>
         {/* Follow Home’s Story treatment: gold rules, left-aligned prose and editorial columns.
-            Asset replacement remains pending exact advert and verified newer-photo identification. */}
+            The exact fanned-journal advert remains pending accessible source bytes. */}
         <div className="md:columns-2 md:gap-8 md:[column-rule:1px_solid_hsl(var(--primary)/0.2)]">
           <p className="font-body text-lg text-foreground/80 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-intro">I’ve always felt drawn to helping people find clarity, understand the challenges they’re facing, and build the confidence to move forward. When I worked as a personal trainer, I realised how much that work went beyond fitness. For me, it felt like forty percent muscle and sixty percent mental. I saw clients grow in self-belief, reach their goals, and achieve things they hadn’t thought possible.</p>
           <p className="font-body text-lg text-foreground/80 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-story">Coaching has a lot in common with that: listening, recognising someone’s strengths, helping them take steps towards what matters. I’ve invested seven years in education and my own development, including studying psychology. And even with that knowledge, I became caught in an abusive relationship. That’s part of why I speak openly about manipulation, control, and domestic abuse. Understanding these things doesn’t make you immune to experiencing them. If you’ve ever wondered how you ended up there, it doesn’t mean you’re unintelligent or weak.</p>
