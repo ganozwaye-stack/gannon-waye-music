@@ -51,4 +51,21 @@ const receiptSchema=JSON.parse(fs.readFileSync('staging/coaching-interest/entiti
 assert.deepEqual(receiptSchema.rls.read,{user_condition:{role:'admin'}});
 assert.ok(!JSON.stringify(receiptSchema).includes('unique'),'no schema uniqueness claim');
 console.log('SOURCE GAP: staged receipt read policy is admin-wide; owner-only acceptance is not proven. No policy modified.');
+
+// Open only the in-memory fixture flags. Invalid {} bodies cannot create leads.
+env={COACHING_INTEREST_OPEN:'true',COACHING_MINOR_INTAKE_POLICY_APPROVED:'true',COACHING_ABUSE_HASH_SECRET:'mock-fixture-only'};
+sdkCalls=0;
+const forwardedRequest=value=>new Request('http://localhost/readiness',{method:'POST',headers:{'x-forwarded-for':value},body:'{}'});
+for(let i=0;i<5;i++) assert.equal((await handler(forwardedRequest('mock-peer-A'))).status,400);
+assert.equal((await handler(forwardedRequest('mock-peer-A'))).status,429);
+assert.equal((await handler(forwardedRequest('mock-peer-B'))).status,400);
+assert.equal(sdkCalls,6);
+console.log('BLOCKER REPRODUCED IN MOCK: changing untrusted forwarded header bypasses the per-fingerprint burst cap.');
+const firstReplica=handler;
+await import('data:text/javascript;base64,'+Buffer.from(code+'\n// independent process fixture').toString('base64'));
+for(let i=0;i<5;i++) assert.equal((await handler(forwardedRequest('mock-peer-A'))).status,400);
+assert.equal((await handler(forwardedRequest('mock-peer-A'))).status,429);
+assert.notEqual(firstReplica,handler);
+console.log('BLOCKER REPRODUCED IN MOCK: separate process admits another five attempts; shared ingress limit still required.');
+
 globalThis.fetch=originalFetch;
