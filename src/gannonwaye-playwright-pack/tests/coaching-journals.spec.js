@@ -78,16 +78,21 @@ test('landing offers two separate choices and the agreed revised story and wallp
  await expect(introduction).toHaveCount(7);
  await expect(introduction).toHaveText(paragraphs);
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
- const ending=await page.getByTestId('coaching-approved-ending').boundingBox();
+ const firstParagraph=await page.getByTestId('coaching-approved-intro').boundingBox();
  const choices=await page.getByRole('button',{name:'Explore the Journals',exact:true}).boundingBox();
- expect(choices.y).toBeGreaterThanOrEqual(ending.y+ending.height);
+ expect(choices.y+choices.height).toBeLessThanOrEqual(firstParagraph.y);
  for(const name of ['Explore the Journals','Enquire about Coaching']) {
   const box=await page.getByRole('button',{name,exact:true}).boundingBox();
   expect(box.height).toBeGreaterThanOrEqual(44);
  }
  await expect(page.getByRole('heading',{level:1})).toHaveText('Start with what matters to youCoaching with Gannon Waye');
- const headingStyle=await page.getByRole('heading',{level:1}).evaluate(el=>({font:getComputedStyle(el).fontFamily,weight:getComputedStyle(el).fontWeight,color:getComputedStyle(el).color}));
- expect(headingStyle.color).toBe('rgb(245, 208, 110)');
+ const headingStyle=await page.getByRole('heading',{level:1}).evaluate(el=>({font:getComputedStyle(el).fontFamily,weight:getComputedStyle(el).fontWeight,color:getComputedStyle(el).color,gold:getComputedStyle(el).backgroundImage,align:getComputedStyle(el).textAlign}));
+ const menuGold=await page.getByRole('link',{name:'Gannon Waye · Home',exact:true}).locator('.gradient-gold-text').evaluate(el=>getComputedStyle(el).backgroundImage);
+ expect(headingStyle.gold).toBe(menuGold);
+ expect(headingStyle.align).toBe('center');
+ const rules=await page.locator('[data-testid="coaching-top-rule"],[data-testid="coaching-bottom-rule"]').evaluateAll(nodes=>nodes.map(el=>getComputedStyle(el).backgroundImage));
+ expect(rules[0]).toBe(rules[1]);
+ expect(rules[0]).toBe(menuGold);
  expect(headingStyle.font).toContain('Poppins');
  expect(headingStyle.weight).toBe('700');
  const loadedHeadingFont=await page.evaluate(async()=>{const faces=await document.fonts.load('700 48px Poppins');return faces.length>0&&faces.every(face=>face.status==='loaded');});
@@ -108,7 +113,7 @@ test('landing offers two separate choices and the agreed revised story and wallp
  const type=await introduction.first().evaluate(element=>getComputedStyle(element).fontSize);
  expect(parseFloat(type)).toBeGreaterThanOrEqual(18);
  await page.evaluate(()=>{for(const el of document.querySelectorAll('body *'))if(getComputedStyle(el).position==='fixed')el.setAttribute('data-review-fixed','');});
- const reviewStyle=await page.addStyleTag({content:'[data-review-fixed],[data-review-fixed] *,[class~="fixed"],[class~="fixed"] *,[style*="position: fixed"],[style*="position: fixed"] *{visibility:hidden!important;opacity:0!important}'});
+ const reviewStyle=await page.addStyleTag({content:'[data-review-fixed],[data-review-fixed] *,[class~="fixed"],[class~="fixed"] *,[style*="position: fixed"],[style*="position: fixed"] *{display:none!important}'});
  await page.getByTestId('coaching-editorial-intro').screenshot({path:require('path').join(require('os').tmpdir(),'gw-coaching-editorial-'+test.info().project.name+'.jpg'),type:'jpeg',quality:55});
  await reviewStyle.evaluate(element=>element.remove());
  await expect(page.getByTestId('journal-shelf')).toHaveCount(0);

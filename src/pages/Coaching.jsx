@@ -34,15 +34,17 @@ export default function Coaching() {
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(8,8,14,0.12) 0%, rgba(8,8,14,0.38) 28rem, hsl(var(--background)) 42rem)' }} />
         </div>
         <div className="max-w-6xl mx-auto px-5">
-        <header className="min-h-48 md:min-h-56 flex items-center mb-6 border-b border-[#F5D06E]/40 pb-6">
-        <div className="max-w-4xl">
-          <div className="w-16 h-1 bg-[#F5D06E] mb-5" aria-hidden="true" />
-          {/* Exact Primary Gold from the existing Brand Kit; Poppins follows Gannon’s later instruction. */}
-          <h1 className="font-body font-bold text-4xl md:text-5xl text-[#F5D06E] leading-tight tracking-tight">
-            <span className="block">Start with what matters to you</span>
-            <span className="block text-2xl md:text-3xl mt-3 tracking-normal">Coaching with Gannon Waye</span>
-          </h1>
-        </div>
+        <header className="flex flex-col items-center text-center mb-8" data-testid="coaching-hero-title">
+          <div className="max-w-4xl w-full mx-auto">
+            <div className="w-16 h-1 gradient-gold-button mx-auto mb-5" aria-hidden="true" data-testid="coaching-top-rule" />
+            {/* Reuse the exact gradient shared by Navbar's Gannon Waye brand and FanChatWidget. */}
+            <h1 className="font-body font-bold text-4xl md:text-5xl gradient-gold-text leading-tight tracking-tight text-center">
+              <span className="block">Start with what matters to you</span>
+              <span className="block text-2xl md:text-3xl mt-3 tracking-normal">Coaching with Gannon Waye</span>
+            </h1>
+            <div className="w-16 h-1 gradient-gold-button mx-auto mt-5 mb-5" aria-hidden="true" data-testid="coaching-bottom-rule" />
+            <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />
+          </div>
         </header>
         {/* Follow Home’s Story treatment: gold rules, left-aligned prose and editorial columns.
             The exact fanned-journal advert remains pending accessible source bytes. */}
@@ -58,9 +60,6 @@ export default function Coaching() {
           <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-support">My coaching brings together that education and lived experience. Through life coaching and mindset mentorship, I listen, help you recognise your strengths and work with you on practical steps towards what matters to you. Honesty, integrity and transparency guide how I work. Shame has no place in healing.</p>
           <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-purpose">I find purpose and joy in helping others move towards their future. I share my journey because I want it to benefit others, beyond my own life. I believe God can use it for something greater than myself.</p>
           <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-ending">If you’re looking for support, explore my journals or learn more about coaching.</p>
-        </div>
-        <div className="mt-4 pt-5 border-t border-[#F5D06E]/40">
-          <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />
         </div>
         </div>
       </section>
@@ -97,9 +96,9 @@ export default function Coaching() {
 
 function Actions({ onExplore, onEnquire }) {
   return (
-    <div className="flex flex-col sm:flex-row gap-3">
-      <Button onClick={onExplore} className="bg-[#F5D06E] text-primary-foreground hover:bg-[#F5D06E]/90 border-0 rounded-full min-h-12 px-7 font-semibold shadow-lg shadow-black/20">Explore the Journals</Button>
-      <Button onClick={onEnquire} variant="outline" className="rounded-full min-h-12 px-7 font-semibold border-[#F5D06E]/70 text-[#F5D06E] bg-background/60 hover:bg-[#F5D06E]/10 hover:text-[#F5D06E]">Enquire about Coaching</Button>
+    <div className="flex flex-col sm:flex-row justify-center gap-3">
+      <Button onClick={onExplore} className="gradient-gold-button text-primary-foreground border-0 rounded-full min-h-12 px-7 font-semibold shadow-lg shadow-black/20">Explore the Journals</Button>
+      <Button onClick={onEnquire} variant="outline" className="rounded-full min-h-12 px-7 font-semibold border-primary/70 text-primary bg-background/60 hover:bg-primary/10 hover:text-primary">Enquire about Coaching</Button>
     </div>);
 
 }
