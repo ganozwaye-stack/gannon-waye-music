@@ -161,6 +161,16 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-10-10 — Coaching gold hierarchy and compact polish (unpublished)
+
+- Owner wording now appears as two Poppins 700 lines: Start with what matters to you / Coaching with Gannon Waye. Exact Primary Gold #F5D06E comes from src/pages/admin/BrandKit.jsx; scoped classes avoid changing global theme tokens.
+- Higher body contrast, restrained gold rules, small 48px Golden Key membership element and stronger two choices; exact seven approved paragraphs and selected portrait pixels retained. No animation added or purchasing enabled.
+- Full Coaching suite: 18 checks passed across Chromium desktop/phone/tablet. Six Safari checks could not launch because isolated WebKit is absent; no Safari claim. Build command returned zero; safety guards passed.
+- Bounded read-only Downloads/Documents/Pictures and relevant media/upload folders search found duplicate membership PDFs plus a 1730x2541 scanned certificate review PNG, not a better standalone logo. No Bachelor of Psychological Studies folder found in searched scope. Clean 172px existing logo retained at 48px.
+- Same Library preview PDF refreshed for review. Exact fanned-journal source remains blocked; no substitute generated and no transfer retry.
+- Route QA: current /coaching choices lead to journals or coaching details/contact, not the new interest intake. Existing CoachingIntakeForm writes two records directly; old home interest form has only name/email. New required first/last name, DOB, mobile, email and short support text, server validation, saved receipt and private owner-only control remain next authorized implementation. Do not claim reel registration CTA ready live. Under-18 intake handling is an unresolved owner policy; purchases stay independent.
+- Analytics remains read-only discovery; no deployment, live forms, payments or public release.
+
 ### 2026-10-10 · Codex desktop delegate · Golden Key membership preview element
 
 Did: Added the original unedited 172x172 GKlogo.png at public/images/golden-key/GKlogo.png, rendered 48x48 beside the clear caption Lifetime Member, Golden Key International Honour Society in the Coaching education section. Exact revised story and all purchase holds remain unchanged.
