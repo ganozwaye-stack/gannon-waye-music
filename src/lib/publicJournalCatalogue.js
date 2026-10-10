@@ -11,7 +11,7 @@ export const PUBLIC_JOURNALS = [
     "samplePageReference": 21,
     "approvedVersion": "2",
     "releaseApproved": false,
-    "coverImageUrl": null
+    "coverImageUrl": "/images/coaching/original-advert/cover_0.png"
   },
   {
     "id": "knowing-your-worth",
@@ -21,7 +21,7 @@ export const PUBLIC_JOURNALS = [
     "samplePageReference": 5,
     "approvedVersion": "4",
     "releaseApproved": false,
-    "coverImageUrl": null
+    "coverImageUrl": "/images/coaching/original-advert/cover_2.png"
   },
   {
     "id": "healthy-boundaries",
@@ -31,7 +31,7 @@ export const PUBLIC_JOURNALS = [
     "samplePageReference": 6,
     "approvedVersion": "4",
     "releaseApproved": false,
-    "coverImageUrl": null
+    "coverImageUrl": "/images/coaching/original-advert/cover_3.png"
   },
   {
     "id": "working-with-people-pleasing",
@@ -41,7 +41,7 @@ export const PUBLIC_JOURNALS = [
     "samplePageReference": 6,
     "approvedVersion": "3",
     "releaseApproved": false,
-    "coverImageUrl": null
+    "coverImageUrl": "/images/coaching/original-advert/cover_1.png"
   },
   {
     "id": "building-resilience",
@@ -51,7 +51,7 @@ export const PUBLIC_JOURNALS = [
     "samplePageReference": 6,
     "approvedVersion": "3",
     "releaseApproved": false,
-    "coverImageUrl": null
+    "coverImageUrl": "/images/coaching/original-advert/cover_5.png"
   },
   {
     "id": "healing-after-toxic-relationships",
@@ -61,7 +61,7 @@ export const PUBLIC_JOURNALS = [
     "samplePageReference": 18,
     "approvedVersion": "3",
     "releaseApproved": false,
-    "coverImageUrl": null
+    "coverImageUrl": "/images/coaching/original-advert/cover_4.png"
   }
 ];
 export const JOURNAL_PURCHASES_ENABLED = false;

@@ -1,0 +1,141 @@
+{
+  "package": "Gannon Waye - Original Journal Covers",
+  "purpose": "Exact existing artwork for the website journal fan. Verify file hashes before reuse.",
+  "asset_handling": "Original PNG bytes, without resizing, cropping, retouching or regeneration.",
+  "covers": [
+    {
+      "filename": "cover_0.png",
+      "title": "Choosing Yourself",
+      "width_px": 1042,
+      "height_px": 1474,
+      "size_bytes": 667862,
+      "sha256": "b3a22d3c69a075ec837158fa19479d35e61b96d6119c134974c4fc7b47420150"
+    },
+    {
+      "filename": "cover_1.png",
+      "title": "Working with People-Pleasing",
+      "width_px": 1042,
+      "height_px": 1474,
+      "size_bytes": 385052,
+      "sha256": "6530ab4f18a4a3bb7bb7740222e9b7d6d27de9a6df8c93420befa4958b8b1474"
+    },
+    {
+      "filename": "cover_2.png",
+      "title": "Knowing Your Worth",
+      "width_px": 1042,
+      "height_px": 1474,
+      "size_bytes": 390435,
+      "sha256": "bf1773a050cea56a8d283c96cbe9d3b05a84b6b894b01708dbb53d0a7be57c7b"
+    },
+    {
+      "filename": "cover_3.png",
+      "title": "Healthy Boundaries",
+      "width_px": 1042,
+      "height_px": 1474,
+      "size_bytes": 377077,
+      "sha256": "37c9e6b4f73ea685aec060dc554b6c3470022ded34e2eb5fbb919cf0c0ab23ec"
+    },
+    {
+      "filename": "cover_4.png",
+      "title": "Healing After Toxic Relationships",
+      "width_px": 1042,
+      "height_px": 1474,
+      "size_bytes": 600555,
+      "sha256": "4695159de0b643934a19c1d01f3c17cfddfa1e4351e741bd261217848210ed28"
+    },
+    {
+      "filename": "cover_5.png",
+      "title": "Building Resilience",
+      "width_px": 1042,
+      "height_px": 1474,
+      "size_bytes": 387166,
+      "sha256": "1203757ce286a9d126b7b4904d450b1a6cbf470d666527662e9a59944001e9fd"
+    }
+  ],
+  "reference": {
+    "filename": "encoded_v2_15.0.png",
+    "description": "Existing rendered advert frame at 15 seconds, supplied unchanged for fan-composition verification.",
+    "width_px": 1080,
+    "height_px": 1920,
+    "size_bytes": 944084,
+    "sha256": "2ae586852f697dad7e19afe0084eeec3887d0802d7ea504052a39e3b6ab58115"
+  },
+  "fan_composition": {
+    "canvas_width_px": 1080,
+    "canvas_height_px": 1920,
+    "source": "render_story_ad.py: scene(), fan layout; render_ad_v1.py: card_image() and place_card()",
+    "layer_order": "back to front",
+    "positions": [
+      {
+        "filename": "cover_4.png",
+        "center_x_px": 265,
+        "center_y_at_15s_px": 1093,
+        "cover_width_px": 305,
+        "rotation_pillow_ccw_deg": 23,
+        "rotation_css_clockwise_deg": -23
+      },
+      {
+        "filename": "cover_2.png",
+        "center_x_px": 349,
+        "center_y_at_15s_px": 1104,
+        "cover_width_px": 317,
+        "rotation_pillow_ccw_deg": 14,
+        "rotation_css_clockwise_deg": -14
+      },
+      {
+        "filename": "cover_5.png",
+        "center_x_px": 821,
+        "center_y_at_15s_px": 1093,
+        "cover_width_px": 305,
+        "rotation_pillow_ccw_deg": -23,
+        "rotation_css_clockwise_deg": 23
+      },
+      {
+        "filename": "cover_3.png",
+        "center_x_px": 731,
+        "center_y_at_15s_px": 1104,
+        "cover_width_px": 317,
+        "rotation_pillow_ccw_deg": -14,
+        "rotation_css_clockwise_deg": 14
+      },
+      {
+        "filename": "cover_1.png",
+        "center_x_px": 459,
+        "center_y_at_15s_px": 1134,
+        "cover_width_px": 340,
+        "rotation_pillow_ccw_deg": 5,
+        "rotation_css_clockwise_deg": -5
+      },
+      {
+        "filename": "cover_0.png",
+        "center_x_px": 608,
+        "center_y_at_15s_px": 1134,
+        "cover_width_px": 340,
+        "rotation_pillow_ccw_deg": -5,
+        "rotation_css_clockwise_deg": 5
+      }
+    ],
+    "cover_sizing": "Keep entire image and original aspect ratio.",
+    "gold_border": {
+      "rgb": [
+        191,
+        156,
+        92
+      ],
+      "width_px": 2
+    },
+    "shadow": {
+      "offset_x_px": 6,
+      "offset_y_px": 16,
+      "gaussian_blur_px": 18,
+      "color_rgb": [
+        0,
+        0,
+        0
+      ],
+      "opacity_dark_scene": 0.5686274509803921,
+      "opacity_light_scene": 0.37254901960784315
+    },
+    "pixel_matching_note": "CSS may reproduce layout closely but browser rasterization and blur can differ from the original Pillow render."
+  }
+}

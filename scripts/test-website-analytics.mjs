@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {transform} from 'esbuild';
 import fs from 'node:fs';
 import {pathToFileURL} from 'node:url';
 import {sanitizeEvent,sanitizeSource,landingSource,attributionMetadata,orderAttribution,summarizeWebsite} from '../src/lib/websiteAnalyticsPolicy.js';
@@ -31,7 +32,7 @@ let handler,actor=null,reads=0;
 globalThis.createClientFromRequest=()=>({auth:{me:async()=>actor},entities:{WebsiteEvent:{list:async()=>{reads++;return[];}},CoachingLead:{list:async()=>[]}},asServiceRole:{entities:{MerchOrder:{list:async()=>[]}}}});
 globalThis.Deno={serve:fn=>handler=fn,env:{get:()=>undefined}};
 let source=fs.readFileSync('staging/website-analytics/functions/websiteOwnerStats/entry.ts','utf8').replace(/^import .*createClientFromRequest.*\n/m,'').replace("'./policy.js'",JSON.stringify(pathToFileURL(process.cwd()+'/src/lib/websiteAnalyticsPolicy.js').href)).replace("'./ownerPolicy.js'",JSON.stringify(pathToFileURL(process.cwd()+'/src/lib/coachingInterestPolicy.js').href));
-await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+await import('data:text/javascript;base64,'+Buffer.from((await transform(source,{loader:'ts',format:'esm'})).code).toString('base64'));
 const request=body=>new Request('http://localhost/stats',{method:'POST',body:JSON.stringify(body)});
 assert.equal((await handler(request({start:'2026-10-01',end:'2026-10-10'}))).status,403);
 actor={role:'admin',email:'another@example.invalid'};assert.equal((await handler(request({}))).status,403);assert.equal(reads,0);
