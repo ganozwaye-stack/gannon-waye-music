@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {pathToFileURL} from 'node:url';
+import {transform} from 'esbuild';
+import {validateInterest,saveInterest,isWebsiteOwner} from '../src/lib/coachingInterestPolicy.js';
+const input={first_name:'Test',last_name:'Person',date_of_birth:'2000-02-29',phone:'+61 400 123 456',email:'test@example.invalid',support_wanted:'I would like to explore journals and coaching.',consent_to_contact:true,website:'',submission_id:'00000000-0000-4000-8000-000000000001'};
+const now=new Date('2026-10-10T12:00:00Z');
+assert.equal(validateInterest(input,now).full_name,'Test Person');
+for(const change of [{date_of_birth:'2026-10-11'},{date_of_birth:'2001-02-29'},{email:'bad'},{phone:'123'},{first_name:' '},{support_wanted:'x'.repeat(1001)},{consent_to_contact:false},{website:'spam'}]) assert.throws(()=>validateInterest({...input,...change},now));
+assert.equal(validateInterest({...input,date_of_birth:'2015-01-01'},now).date_of_birth,'2015-01-01'); // validation is not an age-admission policy
+const rows=[];
+const entity={filter:async query=>rows.filter(row=>Object.entries(query).every(([key,value])=>row[key]===value)),create:async data=>{const row={...data,id:'lead-'+rows.length,created_date:now.toISOString()};rows.push(row);return row;},update:async(id,data)=>Object.assign(rows.find(row=>row.id===id),data),list:async()=>rows};
+const deps={now,hashEmail:async()=> 'a'.repeat(64)};
+const first=await saveInterest({CoachingLead:entity},input,deps);
+assert.equal(first.saved,true);assert.equal(first.receipt,input.submission_id);
+assert.equal((await saveInterest({CoachingLead:entity},input,deps)).duplicate,true);assert.equal(rows.length,1);
+await assert.rejects(saveInterest({CoachingLead:{...entity,create:async()=>({})}},{...input,submission_id:'00000000-0000-4000-8000-000000000002'},deps));
+for(let n=2;n<=3;n++) await saveInterest({CoachingLead:entity},{...input,submission_id:'00000000-0000-4000-8000-00000000000'+n},deps);
+await assert.rejects(saveInterest({CoachingLead:entity},{...input,submission_id:'00000000-0000-4000-8000-000000000004'},deps),/wait/);
+assert.equal(isWebsiteOwner({role:'admin',email:'other@example.invalid'}),false);
+assert.equal(isWebsiteOwner({role:'user',email:'ganozwaye@gmail.com'}),false);
+let handler,actor=null;
+globalThis.createClientFromRequest=()=>({auth:{me:async()=>actor},entities:{CoachingLead:entity}});
+globalThis.Deno={serve:fn=>{handler=fn;}};
+let source=fs.readFileSync('staging/coaching-interest/functions/coachingOwnerInbox/entry.ts','utf8').replace(/^import .*createClientFromRequest.*\n/m,'').replace("'./policy.js'",JSON.stringify(pathToFileURL(process.cwd()+'/src/lib/coachingInterestPolicy.js').href));
+await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
+const request=()=>new Request('http://localhost/private',{method:'POST',body:'{}'});
+assert.equal((await handler(request())).status,403);actor={role:'admin',email:'other@example.invalid'};assert.equal((await handler(request())).status,403);
+actor={role:'admin',email:'ganozwaye@gmail.com'};assert.equal((await handler(request())).status,200);
+const schema=JSON.parse(fs.readFileSync('base44/entities/CoachingLead.jsonc','utf8'));
+function allows(rule,user) {if(typeof rule==='boolean')return rule;if(rule.$and)return rule.$and.every(r=>allows(r,user));if(rule.$or)return rule.$or.some(r=>allows(r,user));if(rule.user_condition)return Object.entries(rule.user_condition).every(([key,value])=>user?.[key]===value);return false;}
+for(const user of [null,{role:'user',email:'test@example.invalid'},{role:'admin',email:'other@example.invalid'}])assert.equal(allows(schema.rls.read,user),false);
+assert.equal(allows(schema.rls.create,null),false);
+assert.equal(allows(schema.rls.read,actor),true);
+let submitHandler,env={};
+globalThis.Deno={serve:fn=>{submitHandler=fn;},env:{get:key=>env[key]}};
+source=fs.readFileSync('staging/coaching-interest/functions/submitCoachingInterest/entry.ts','utf8').replace(/^import .*createClientFromRequest.*\n/m,'').replace("'./policy.js'",JSON.stringify(pathToFileURL(process.cwd()+'/src/lib/coachingInterestPolicy.js').href));
+const compiled=await transform(source,{loader:'ts',format:'esm'});
+await import('data:text/javascript;base64,'+Buffer.from(compiled.code).toString('base64'));
+assert.equal((await submitHandler(request())).status,503);
+env={COACHING_INTEREST_OPEN:'true'};assert.equal((await submitHandler(request())).status,503);
+env.COACHING_MINOR_INTAKE_POLICY='pending';assert.equal((await submitHandler(request())).status,503); // secret still required
+assert.equal(fs.readFileSync('src/lib/coachingInterestPolicy.js','utf8'),fs.readFileSync('staging/coaching-interest/functions/submitCoachingInterest/policy.js','utf8'));
+console.log('Coaching interest policy, saved receipt, retries, limits, owner denial, staged RLS and closed endpoint checks passed. No live calls.');
