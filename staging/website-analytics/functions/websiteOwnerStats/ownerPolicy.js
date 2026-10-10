@@ -22,21 +22,28 @@ export function validateInterest(input, now = new Date()) {
   return {first_name,last_name,full_name:first_name+' '+last_name,email,phone,date_of_birth,support_wanted,consent_to_contact:true,submission_id:input.submission_id,source_page:'/coaching',source_offer:'coaching_interest',status:'new'};
 }
 export async function saveInterest(entities, input, {now = new Date(),hashEmail,excludeTraffic=false} = {}) {
-  const lead=validateInterest(input,now);
-  const fingerprint=await hashEmail(lead.email);
-  const previous=await entities.CoachingLead.filter({submission_id:lead.submission_id},'created_date',2);
-  if(previous.length) {
-    if(previous[0].contact_fingerprint!==fingerprint) throw new Error('Please refresh the form and try again.');
-    return {saved:true,receipt:previous[0].submission_id,duplicate:true};
-  }
-  const recent=await entities.CoachingLead.filter({contact_fingerprint:fingerprint},'-created_date',4);
-  if(recent.filter(row=>new Date(row.created_date).getTime()>now.getTime()-86400000).length>=3) throw new Error('Please wait before submitting again.');
-  const created=await entities.CoachingLead.create({...lead,contact_fingerprint:fingerprint,analytics_excluded:Boolean(excludeTraffic)});
-  if(!created?.id) throw new Error('The submission could not be confirmed. Please retry.');
-  // Deterministic post-create reconciliation: retries share one receipt. Entity
-  // storage has no documented unique constraint/transaction; deployment must test concurrency.
-  const peers=await entities.CoachingLead.filter({submission_id:lead.submission_id},'created_date',20);
-  const canonical=peers.slice().sort((a,b)=>String(a.created_date).localeCompare(String(b.created_date))||String(a.id).localeCompare(String(b.id)))[0]||created;
-  for(const row of peers) if(row.id!==canonical.id) await entities.CoachingLead.update(row.id,{status:'archived',duplicate_submission:true});
-  return {saved:true,receipt:lead.submission_id,duplicate:canonical.id!==created.id};
+ const lead=validateInterest(input,now),fingerprint=await hashEmail(lead.email),ledger=entities.CoachingSubmissionReceipt;
+ const existing=await ledger.filter({submission_id:lead.submission_id},'created_date',20);
+ if(existing.length) {
+  const previous=existing.slice().sort((a,b)=>String(a.created_date).localeCompare(String(b.created_date))||String(a.id).localeCompare(String(b.id)))[0];
+  if(previous.contact_fingerprint!==fingerprint)throw new Error('Please refresh the form and try again.');
+  if(previous.completed===true)return {saved:true,receipt:lead.submission_id,duplicate:true};
+  // A pending/ambiguous save is not retried as a fresh lead. Owner reconciliation
+  // can confirm an existing saved record without making a second submission.
+  throw new Error('Your submission is awaiting confirmation. Please try again later.');
+ }
+ const recent=await ledger.filter({contact_fingerprint:fingerprint},'-created_date',4);
+ if(recent.filter(row=>new Date(row.created_date).getTime()>now.getTime()-86400000).length>=3)throw new Error('Please wait before submitting again.');
+ const reservation=await ledger.create({submission_id:lead.submission_id,contact_fingerprint:fingerprint,completed:false});
+ if(!reservation?.id)throw new Error('The submission could not be confirmed. Please retry.');
+ const peers=await ledger.filter({submission_id:lead.submission_id},'created_date',20);
+ const canonical=peers.slice().sort((a,b)=>String(a.created_date).localeCompare(String(b.created_date))||String(a.id).localeCompare(String(b.id)))[0]||reservation;
+ if(canonical.id!==reservation.id) {
+  if(canonical.completed===true)return {saved:true,receipt:lead.submission_id,duplicate:true};
+  throw new Error('Your submission is awaiting confirmation. Please try again later.');
+ }
+ const created=await entities.CoachingLead.create({...lead,analytics_excluded:Boolean(excludeTraffic)});
+ if(!created?.id)throw new Error('The submission could not be confirmed. Please retry.');
+ await ledger.update(reservation.id,{completed:true,lead_id:created.id});
+ return {saved:true,receipt:lead.submission_id,duplicate:false};
 }
