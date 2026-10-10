@@ -10,17 +10,19 @@ for(const change of [{date_of_birth:'2026-10-11'},{date_of_birth:'2001-02-29'},{
 assert.equal(validateInterest({...input,date_of_birth:'2015-01-01'},now).date_of_birth,'2015-01-01'); // validation is not an age-admission policy
 const rows=[];
 const entity={filter:async query=>rows.filter(row=>Object.entries(query).every(([key,value])=>row[key]===value)),create:async data=>{const row={...data,id:'lead-'+rows.length,created_date:now.toISOString()};rows.push(row);return row;},update:async(id,data)=>Object.assign(rows.find(row=>row.id===id),data),list:async()=>rows};
+const receipts=[];const ledger={filter:async query=>receipts.filter(row=>Object.entries(query).every(([key,value])=>row[key]===value)),create:async data=>{const row={...data,id:'receipt-'+receipts.length,created_date:now.toISOString()};receipts.push(row);return row;},update:async(id,data)=>Object.assign(receipts.find(row=>row.id===id),data)};
 const deps={now,hashEmail:async()=> 'a'.repeat(64)};
-const first=await saveInterest({CoachingLead:entity},input,deps);
+const first=await saveInterest({CoachingLead:entity,CoachingSubmissionReceipt:ledger},input,deps);
 assert.equal(first.saved,true);assert.equal(first.receipt,input.submission_id);
-assert.equal((await saveInterest({CoachingLead:entity},input,deps)).duplicate,true);assert.equal(rows.length,1);
-await assert.rejects(saveInterest({CoachingLead:{...entity,create:async()=>({})}},{...input,submission_id:'00000000-0000-4000-8000-000000000002'},deps));
-for(let n=2;n<=3;n++) await saveInterest({CoachingLead:entity},{...input,submission_id:'00000000-0000-4000-8000-00000000000'+n},deps);
-await assert.rejects(saveInterest({CoachingLead:entity},{...input,submission_id:'00000000-0000-4000-8000-000000000004'},deps),/wait/);
+assert.equal((await saveInterest({CoachingLead:entity,CoachingSubmissionReceipt:ledger},input,deps)).duplicate,true);assert.equal(rows.length,1);
+const leadCount=rows.length;await assert.rejects(saveInterest({CoachingLead:entity,CoachingSubmissionReceipt:ledger},{...input,submission_id:'00000000-0000-4000-8000-000000000002'},deps));assert.equal(rows.length,leadCount);
+await assert.rejects(saveInterest({CoachingSubmissionReceipt:ledger,CoachingLead:{...entity,create:async()=>({})}},{...input,submission_id:'00000000-0000-4000-8000-000000000002'},deps));
+for(let n=3;n<=3;n++) await saveInterest({CoachingLead:entity,CoachingSubmissionReceipt:ledger},{...input,submission_id:'00000000-0000-4000-8000-00000000000'+n},deps);
+await assert.rejects(saveInterest({CoachingLead:entity,CoachingSubmissionReceipt:ledger},{...input,submission_id:'00000000-0000-4000-8000-000000000004'},deps),/wait/);
 assert.equal(isWebsiteOwner({role:'admin',email:'other@example.invalid'}),false);
 assert.equal(isWebsiteOwner({role:'user',email:'ganozwaye@gmail.com'}),false);
 let handler,actor=null;
-globalThis.createClientFromRequest=()=>({auth:{me:async()=>actor},entities:{CoachingLead:entity}});
+globalThis.createClientFromRequest=()=>({auth:{me:async()=>actor},entities:{CoachingLead:entity,CoachingSubmissionReceipt:ledger}});
 globalThis.Deno={serve:fn=>{handler=fn;}};
 let source=fs.readFileSync('staging/coaching-interest/functions/coachingOwnerInbox/entry.ts','utf8').replace(/^import .*createClientFromRequest.*\n/m,'').replace("'./policy.js'",JSON.stringify(pathToFileURL(process.cwd()+'/src/lib/coachingInterestPolicy.js').href));
 await import('data:text/javascript;base64,'+Buffer.from(source).toString('base64'));
