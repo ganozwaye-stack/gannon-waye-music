@@ -25,38 +25,6 @@ const PILLARS = [
 // condensed hero quote with the why/tools/direction detail and a register
 // interest form that saves leads to the CoachingLead entity.
 export default function CoachingComingSoonSection() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [submitting, setSubmitting] = useState(false);
-  const [done, setDone] = useState(false);
-  const [error, setError] = useState('');
-
-  const submit = async (e) => {
-    e.preventDefault();
-    if (!name.trim() || !email.trim()) {
-      setError('Please add your name and email.');
-      return;
-    }
-    setSubmitting(true);
-    setError('');
-    try {
-      await base44.entities.CoachingLead.create({
-        full_name: name.trim(),
-        email: email.trim(),
-        source_page: 'home',
-        source_offer: 'coaching_coming_soon',
-        status: 'new',
-        understands_coaching_not_therapy: true,
-        consent_to_contact: true
-      });
-      trackEvent('coaching_interest_registered', { source: 'home_coming_soon' });
-      setDone(true);
-    } catch (err) {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   return (
     <section className="px-4 md:px-6 pt-10 pb-12 md:pt-12 md:pb-16">
