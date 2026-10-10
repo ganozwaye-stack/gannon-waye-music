@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import WebsiteAggregateStats from '@/components/admin/WebsiteAggregateStats';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -149,6 +150,7 @@ export default function SocialAnalyticsCommand() {
 
   return (
     <div className="space-y-6 pb-10">
+      <WebsiteAggregateStats />
       <div className="flex items-start justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-3">
           <Link to="/admin/social-platform-parity"><Button variant="ghost" size="sm"><ArrowLeft className="w-4 h-4" /></Button></Link>
