@@ -58,6 +58,7 @@ export default function Coaching() {
 <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-training">I know what it’s like to need support, and I know what it’s like to not find it. And I still had to survive. At 28, I used drugs for the first time. I rang Mum straight away and asked for help. Over the next two years, I went to rehab twice before finding recovery. I returned to church, attended Narcotics Anonymous and took on roles helping others. My healing isn’t complete, but I’m determined to keep going.</p>
 <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-story">It wasn’t until I became a personal trainer that I realised how much the work went beyond fitness. Exercise could offer clarity and a sense of healing, but often our conversations reached beyond the gym. I found myself encouraging clients, lifting them up and helping them build confidence to take on challenges in their everyday lives. It was motivation for life, and supporting that growth brought me so much joy.</p>
           </div>
+          <OriginalJournalFan className="coaching-central-fan" />
           <div className="coaching-story-column coaching-story-right" data-testid="coaching-story-right">
             <div className="coaching-story-exclusion coaching-story-exclusion-right" aria-hidden="true" />
 <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-recovery">I studied mental health at TAFE, completed my Diploma of Counselling in 2020 and began university in 2021. I now hold a Bachelor of Psychological Studies. Along the way, I earned high distinctions and was invited to join Golden Key. Seven years of education and personal development, including further learning in mental health, have deepened what I bring to supporting others.</p>
@@ -65,7 +66,6 @@ export default function Coaching() {
 <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-purpose">I find purpose and joy in helping others move towards their future. I share my journey because I want it to benefit others, beyond my own life. I believe God can use it for something greater than myself.</p>
 <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-ending">If you’re looking for support, explore my journals or learn more about coaching.</p>
           </div>
-          <OriginalJournalFan className="coaching-central-fan" />
         </div>
         </div>
       </section>

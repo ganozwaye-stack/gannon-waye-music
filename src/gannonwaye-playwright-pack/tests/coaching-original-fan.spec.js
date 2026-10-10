@@ -58,8 +58,8 @@ test('newspaper story follows the central fan contour and reports column balance
     });
     return {viewport:innerWidth,lines,cards};
   });
-  expect(education.y).toBeLessThan(stage.y);
   if(geometry.viewport>=1024){
+    expect(education.y).toBeLessThan(stage.y);
     expect(Math.abs(stage.x+stage.width/2-(article.x+article.width/2))).toBeLessThan(1);
     const center=article.x+article.width/2,left=geometry.lines.filter(r=>(r.left+r.right)/2<center),right=geometry.lines.filter(r=>(r.left+r.right)/2>=center);
     const overlaps=(line,polygon)=>{
@@ -82,8 +82,9 @@ test('newspaper story follows the central fan contour and reports column balance
     geometry.bottomDifference=Math.abs(Math.max(...left.map(r=>r.bottom))-Math.max(...right.map(r=>r.bottom)));
     expect(Number.isFinite(geometry.bottomDifference)).toBe(true);
   }else{
-    const ending=await page.getByTestId('coaching-approved-ending').boundingBox();
-    expect(ending.y+ending.height).toBeLessThanOrEqual(stage.y+1);
+    const before=await page.getByTestId('coaching-approved-story').boundingBox();
+    expect(before.y+before.height).toBeLessThanOrEqual(stage.y+1);
+    expect(education.y).toBeGreaterThanOrEqual(stage.y+stage.height);
   }
   require('fs').writeFileSync(require('path').join(require('os').tmpdir(),'gw-coaching-service-layout-'+testInfo.project.name+'.json'),JSON.stringify({article,stage,...geometry}));
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
