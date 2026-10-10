@@ -54,6 +54,7 @@ async function loadRule(base44, region, productType, quantity) {
   return (rules || []).find(rule => ruleSupportsQuantity(rule, quantity)) || null;
 }
 
+/** @param {{base44: any, destination?: string, items?: Array<{category: string, quantity: number}>, cartSubtotalCents?: number, freeShippingOverride?: boolean}} options */
 export async function calculateShippingQuote({
   base44,
   destination = 'australia',

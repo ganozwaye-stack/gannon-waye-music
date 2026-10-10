@@ -13,7 +13,7 @@ const ALLOWED_ORIGINS = new Set([
   'https://gannonwaye.base44.app',
 ]);
 
-async function ensureSingleOpenDiagnostic(base44, issueSummary, extra = {}) {
+async function ensureSingleOpenDiagnostic(base44: ReturnType<typeof createClientFromRequest>, issueSummary: string, extra: Record<string, unknown> = {}) {
   try {
     const existing = await base44.asServiceRole.entities.PaymentDiagnostic.filter({
       issue_summary: issueSummary,
@@ -32,12 +32,12 @@ async function ensureSingleOpenDiagnostic(base44, issueSummary, extra = {}) {
   }
 }
 
-function safeOrigin(req) {
+function safeOrigin(req: Request) {
   const origin = req.headers.get('origin') || '';
   return ALLOWED_ORIGINS.has(origin) ? origin : 'https://gannonwaye.com';
 }
 
-function parseCartItems(raw) {
+function parseCartItems(raw: unknown) {
   if (!raw) return [];
   try {
     const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;
@@ -47,7 +47,7 @@ function parseCartItems(raw) {
   }
 }
 
-function aggregateRequestedItems(items) {
+function aggregateRequestedItems(items: Array<Record<string, unknown>>) {
   const aggregated = new Map();
   for (const item of items) {
     const productId = String(item?.product_id || '').trim();
@@ -65,6 +65,7 @@ function aggregateRequestedItems(items) {
 }
 
 Deno.serve(async (req) => {
+  if (Deno.env.get('CHECKOUT_DRAFT_OPEN') !== 'true') return Response.json({ error: 'Checkout draft is closed.', external_actions_performed: false }, { status: 503 });
   let base44;
   try {
     base44 = createClientFromRequest(req);
@@ -183,7 +184,7 @@ Deno.serve(async (req) => {
         }
       }
 
-      if (issues.length > 0) {
+      if (issues.length > 0 || !product) {
         return Response.json({
           error: 'Checkout blocked because a cart item is not ready.',
           product_id: requested.product_id,
@@ -330,7 +331,7 @@ Deno.serve(async (req) => {
     });
   } catch (error) {
     if (base44) {
-      await ensureSingleOpenDiagnostic(base44, `Checkout session creation failed: ${String(error?.message || error).slice(0, 300)}`, {
+      await ensureSingleOpenDiagnostic(base44, `Checkout session creation failed: ${String(error instanceof Error ? error.message : error).slice(0, 300)}`, {
         diagnostic_type: 'session_creation_failure',
         severity: 'high',
         admin_message: 'No successful checkout response was returned. Confirm the Stripe session list before assuming a customer was charged.',
@@ -342,7 +343,7 @@ Deno.serve(async (req) => {
       error: 'Checkout could not be prepared.',
       friendly_message: 'Checkout could not be prepared. You have not been charged. Please try again or contact support.',
       external_actions_performed: false,
-      details: String(error?.message || error),
+      details: String(error instanceof Error ? error.message : error),
     }, { status: 500 });
   }
 });
