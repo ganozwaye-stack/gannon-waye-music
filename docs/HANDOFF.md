@@ -161,6 +161,13 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-10-10 original cover fan and independent verification
+Six original PNGs, reference and metadata hashes verified against SHA256SUMS. ZIP SHA256 7c0bcfa6b14bda05e2aaa224ac0288d540ffad0a6d10445637a42dbd455504af; Library libfile_41f5536eabf88191a7f74490306d4eb4. Windows DNS blocked download; unchanged official helper succeeded in canonical remote project. Public catalogue uses original cover bytes, static fan follows supplied geometry; reference and desktop/phone pixels inspected. Advert version 2 and interiors untouched.
+36 Chromium desktop/phone/tablet checks passed (2.9m), covering fan decode/containment, exact approved story/style, journals/navigation/basket/release/payment holds, intake receipts/failures/validation, telemetry stripping/test exclusion. Two Node policy suites passed with mocks. Four staged intake/aggregate endpoints pass Deno type checking. Exact pinned checkout packages resolved; staged checkout still has 15 strict typing errors and payment capture call-site packaging remains pending.
+Actual existing role metadata: two owner admins, one other user. CoachingLead owner RLS metadata present; receipt/events and four endpoints absent from hosted app. Anonymous valid nonexistent-ID SDK read returns zero, not an existing-record denial proof. Real multi-replica uniqueness and abuse/ingress trust unverified; limiter process-local. Under-18 decision pending. Production intake/analytics closed; no real leads/events/payments/emails or deployment.
+Read-only calendar audit: 158 rows; 7 public (6 releases/1 gig), queried only ID/flags/types. Actual schema allows public is_public rows. Existing sync copies description/location/calendar links and classifies gig/release keywords public. TourTracker requests full public rows, displays title/location/link. Absence of historical sensitive text not proven. Future coaching must remain outside this sync; no integration added.
+Automatic approval rejected broad security-policy-copy edits; no rejected edits applied. Read-only hashes proved existing copies identical. Confined TS/harness fixes accepted without security/account permission changes.
+
 
 ### 2026-10-10 — Final Coaching typography, private interest draft and aggregate analytics (unpublished)
 
