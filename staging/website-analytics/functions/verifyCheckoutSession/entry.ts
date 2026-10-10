@@ -7,7 +7,7 @@ import {
 
 const SESSION_ID_PATTERN = /^cs_(?:test|live)_[A-Za-z0-9]{16,200}$/;
 
-function json(body, status = 200) {
+function json(body: Record<string, unknown>, status = 200) {
   return Response.json(body, {
     status,
     headers: {

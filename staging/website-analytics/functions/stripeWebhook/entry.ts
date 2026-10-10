@@ -57,7 +57,7 @@ Deno.serve(async (req) => {
       event = JSON.parse(rawBody);
     }
   } catch (error) {
-    await createDiagnostic(base44, `stripeWebhook signature or payload verification failed: ${String(error?.message || error).slice(0, 240)}`, {
+    await createDiagnostic(base44, `stripeWebhook signature or payload verification failed: ${String(error instanceof Error ? error.message : error).slice(0, 240)}`, {
       diagnostic_type: 'webhook_signature_failure',
       severity: 'critical',
       admin_message: 'The webhook was rejected before any order or payment record was created.',
@@ -131,7 +131,7 @@ Deno.serve(async (req) => {
       received: true,
       duplicate: true,
       order_id: capture.order.id,
-      post_processing: capture.postProcessing.success ? 'complete_or_queued' : 'needs_attention',
+      post_processing: capture.postProcessing?.success ? 'complete_or_queued' : 'needs_attention',
     });
   }
 
@@ -152,7 +152,7 @@ Deno.serve(async (req) => {
       received: true,
       order_id: capture.order.id,
       stripe_event_id: event.id,
-      post_processing: capture.postProcessing.success ? 'complete_or_queued' : 'needs_attention',
+      post_processing: capture.postProcessing?.success ? 'complete_or_queued' : 'needs_attention',
     });
   }
 
