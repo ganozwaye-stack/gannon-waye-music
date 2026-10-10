@@ -85,7 +85,9 @@ test('landing offers two separate choices and the agreed revised story and wallp
   const box=await page.getByRole('button',{name,exact:true}).boundingBox();
   expect(box.height).toBeGreaterThanOrEqual(44);
  }
- const headingStyle=await page.getByRole('heading',{level:1}).evaluate(el=>({font:getComputedStyle(el).fontFamily,weight:getComputedStyle(el).fontWeight}));
+ await expect(page.getByRole('heading',{level:1})).toHaveText('Start with what matters to youCoaching with Gannon Waye');
+ const headingStyle=await page.getByRole('heading',{level:1}).evaluate(el=>({font:getComputedStyle(el).fontFamily,weight:getComputedStyle(el).fontWeight,color:getComputedStyle(el).color}));
+ expect(headingStyle.color).toBe('rgb(245, 208, 110)');
  expect(headingStyle.font).toContain('Poppins');
  expect(headingStyle.weight).toBe('700');
  const loadedHeadingFont=await page.evaluate(async()=>{const faces=await document.fonts.load('700 48px Poppins');return faces.length>0&&faces.every(face=>face.status==='loaded');});
