@@ -114,6 +114,11 @@ test('landing offers two separate choices and the agreed revised story and wallp
  const logoBox=await logo.boundingBox();
  expect(logoBox.width).toBe(48);
  expect(logoBox.height).toBe(48);
+ const nameBox=await page.getByTestId('coaching-name').boundingBox(),badgeBox=await membership.boundingBox(),dividerBox=await page.getByTestId('coaching-bottom-rule').boundingBox();
+ expect(nameBox.y+nameBox.height).toBeLessThan(badgeBox.y);
+ expect(badgeBox.y+badgeBox.height).toBeLessThan(dividerBox.y);
+ expect(await page.getByTestId('coaching-hero-title').getByTestId('coaching-golden-key-membership').count()).toBe(1);
+
  const type=await introduction.first().evaluate(element=>getComputedStyle(element).fontSize);
  expect(parseFloat(type)).toBeGreaterThanOrEqual(18);
  await page.evaluate(()=>{for(const el of document.querySelectorAll('body *'))if(getComputedStyle(el).position==='fixed')el.setAttribute('data-review-fixed','');});

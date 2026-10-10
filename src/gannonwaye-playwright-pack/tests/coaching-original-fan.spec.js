@@ -19,7 +19,7 @@ test('original fan decodes six full covers and fits within the story', async ({ 
   expect(choice.y + choice.height).toBeLessThan(stage.y);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.addStyleTag({content:'[class*="fixed"] { display:none !important; }'});
-  await page.screenshot({path:require('path').join(require('os').tmpdir(), 'gw-coaching-metallic-service-'+testInfo.project.name+'.jpg'),fullPage:true,type:'jpeg',quality:55});
+  await page.screenshot({path:require('path').join(require('os').tmpdir(), 'gw-coaching-approved-display-'+testInfo.project.name+'.jpg'),fullPage:true,type:'jpeg',quality:55});
 });
 
 test('metallic display keeps cover pixels unfiltered and stays still with reduced motion', async ({ page }) => {
@@ -86,6 +86,6 @@ test('newspaper story follows the central fan contour and reports column balance
     expect(before.y+before.height).toBeLessThanOrEqual(stage.y+1);
     expect(education.y).toBeGreaterThanOrEqual(stage.y+stage.height);
   }
-  require('fs').writeFileSync(require('path').join(require('os').tmpdir(),'gw-coaching-service-layout-'+testInfo.project.name+'.json'),JSON.stringify({article,stage,...geometry}));
+  require('fs').writeFileSync(require('path').join(require('os').tmpdir(),'gw-coaching-approved-layout-'+testInfo.project.name+'.json'),JSON.stringify({article,stage,...geometry}));
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
