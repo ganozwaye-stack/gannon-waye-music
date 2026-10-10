@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.53';
-import { isWebsiteOwner } from '../../../src/lib/coachingInterestPolicy.js';
+import { isWebsiteOwner } from './policy.js';
 Deno.serve(async req=>{
  const base44=createClientFromRequest(req),user=await base44.auth.me().catch(()=>null);
  if(!isWebsiteOwner(user)) return Response.json({error:'Owner access required'},{status:403});

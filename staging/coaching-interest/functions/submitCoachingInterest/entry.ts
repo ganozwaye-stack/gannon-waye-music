@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.53';
-import { saveInterest } from '../../../src/lib/coachingInterestPolicy.js';
+import { saveInterest } from './policy.js';
 const attempts=new Map<string,{count:number,start:number}>();
 Deno.serve(async req => {
  if(req.method!=='POST') return Response.json({error:'POST required'},{status:405});
