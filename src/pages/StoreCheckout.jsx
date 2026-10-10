@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useCartStore } from '@/lib/cartStore';
 import { base44 } from '@/api/base44Client';
+import { getRecordedAttribution } from '@/lib/analytics';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -117,6 +118,7 @@ export default function StoreCheckout() {
     try {
       const response = await Promise.race([
         base44.functions.invoke('createCheckoutSession', {
+          attribution: getRecordedAttribution(),
           customerEmail: details.email,
           customerName: details.full_name,
           metadata: {
