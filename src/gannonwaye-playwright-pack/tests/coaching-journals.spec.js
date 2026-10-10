@@ -95,6 +95,14 @@ test('landing offers two separate choices and the agreed revised story and wallp
  await expect(wallpaper).toHaveAttribute('src',/94d50ca39_77B69334/);
  await expect(wallpaper).toHaveAttribute('alt','');
  await expect(page.getByTestId('coaching-hero-overlay')).toBeVisible();
+ const membership=page.getByTestId('coaching-golden-key-membership');
+ await expect(membership.locator('figcaption')).toHaveText('Lifetime Member, Golden Key International Honour Society');
+ const logo=membership.locator('img');
+ const dimensions=await logo.evaluate(async image=>{await image.decode();return [image.naturalWidth,image.naturalHeight];});
+ expect(dimensions).toEqual([172,172]);
+ const logoBox=await logo.boundingBox();
+ expect(logoBox.width).toBe(48);
+ expect(logoBox.height).toBe(48);
  const type=await introduction.first().evaluate(element=>getComputedStyle(element).fontSize);
  expect(parseFloat(type)).toBeGreaterThanOrEqual(18);
  await page.evaluate(()=>{for(const el of document.querySelectorAll('body *'))if(getComputedStyle(el).position==='fixed')el.setAttribute('data-review-fixed','');});
