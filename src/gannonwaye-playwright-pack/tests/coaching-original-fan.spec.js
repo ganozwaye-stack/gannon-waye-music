@@ -21,3 +21,21 @@ test('original fan decodes six full covers and fits before the story', async ({ 
   await page.addStyleTag({content:'[class*="fixed"] { display:none !important; }'});
   await page.screenshot({path:require('path').join(require('os').tmpdir(), 'gw-coaching-original-fan-'+testInfo.project.name+'.jpg'),fullPage:true,type:'jpeg',quality:55});
 });
+
+test('metallic display keeps cover pixels unfiltered and stays still with reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/coaching');
+  const fan=page.getByTestId('coaching-original-fan');
+  await expect(fan.getByTestId('coaching-display-base')).toBeVisible();
+  await expect(fan.locator('.coaching-journal-rim')).toHaveCount(6);
+  await expect(fan.locator('.coaching-edge-glint')).toHaveCount(6);
+  const properties=await fan.locator('img').evaluateAll(images=>images.map(image=>{
+    const style=getComputedStyle(image),rim=getComputedStyle(image.parentElement);
+    return {filter:style.filter,opacity:style.opacity,background:rim.backgroundImage,shadow:rim.boxShadow,animation:rim.animationName};
+  }));
+  for(const p of properties){
+    expect(p.filter).toBe('none');expect(p.opacity).toBe('1');
+    expect(p.background).toContain('linear-gradient');expect(p.shadow).not.toBe('none');expect(p.animation).toBe('none');
+  }
+  expect(await fan.evaluate(element=>element.getAnimations({subtree:true}).length)).toBe(0);
+});
