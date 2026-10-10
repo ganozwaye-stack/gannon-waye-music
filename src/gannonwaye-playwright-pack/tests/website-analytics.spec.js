@@ -9,6 +9,7 @@ test('public page and CTA telemetry strips personal query values and intake deta
  const recorded=await page.evaluate(()=>({events:window.__safeEvents,source:sessionStorage.getItem('gw_recorded_source')}));
  expect(JSON.stringify(recorded)).not.toContain('PRIVATE');
  expect(recorded.events.filter(e=>e.event==='coaching_cta')).toHaveLength(1);
+ const viewed=recorded.events.filter(e=>e.event==='page_view');expect(viewed).toHaveLength(2);
  expect(JSON.parse(recorded.source).first).toEqual({source:'instagram',medium:'',campaign:'journal_october'});
  expect(JSON.parse(recorded.source).last.source).toBe('instagram');
 });

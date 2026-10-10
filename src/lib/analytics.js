@@ -34,7 +34,13 @@ export function trackEvent(eventName,properties={},deduplicationKey='') {
  if(!deduplicationKey&&now-(recent.get(throttleKey)||0)<500)return;
  recent.set(throttleKey,now);
  const event=sanitizeEvent({event_id:crypto.randomUUID(),event_name:name,page,target,...getRecordedAttribution()});
- if(!event)return; // unknown/free-text events and properties are not forwarded
+ if(!event){
+  if(['release_updates_popup_signup','coaching_interest_registered'].includes(eventName)){
+   try{base44.analytics.track({eventName,properties:{page}});}catch{}
+   try{if(typeof window.gtag==='function')window.gtag('event',eventName,{page});}catch{}
+  }
+  return; // unknown/free-text events and properties are not forwarded
+ }
  // Reuse existing providers; never pass intake, journal, contact or full URL data.
  try{base44.analytics.track({eventName:name,properties:{page,target:event.target}});}catch{}
  try{if(typeof window.gtag==='function')window.gtag('event',name,{page,target:event.target});}catch{}

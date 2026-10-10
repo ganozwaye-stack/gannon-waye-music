@@ -8,6 +8,7 @@ test('required private interest form saves only after a matching receipt and pre
  await page.route('**/functions/submitCoachingInterest',async route=>{calls++;payload=route.request().postDataJSON();await new Promise(resolve=>setTimeout(resolve,150));await route.fulfill({json:{saved:true,receipt:payload.submission_id}});});
  await page.goto('/coaching?view=coaching');
  await expect(page.getByTestId('coaching-interest-form')).toBeVisible();
+ await page.getByTestId('coaching-interest-form').screenshot({path:'/tmp/gw-interest-preview-'+test.info().project.name+'.jpg',type:'jpeg',quality:55});
  await fill(page);
  await page.getByRole('button',{name:'Register your interest',exact:true}).dblclick();
  await expect(page.getByTestId('coaching-interest-success')).toBeVisible();

@@ -18,7 +18,7 @@ export default function WebsiteAnalyticsTracker() {
    if(!event.isTrusted)return;
    const element=event.target.closest?.('a,button');if(!element)return;
    const label=element.textContent.trim().toLowerCase();
-   let destination='';try{const url=new URL(element.href||'',window.location.href);if(url.origin===window.location.origin)destination=url.pathname;}catch{}
+   let destination='';if(element.tagName==='A')try{const url=new URL(element.href);if(url.origin===window.location.origin)destination=url.pathname;}catch{}
    if(label==='work with me'||['/bookings','/booking','/work-with-me','/press-kit'].includes(destination))trackEvent('work_cta',{target:'work'});
    else if(label==='contact me'||destination==='/contact')trackEvent('contact_cta',{target:'contact'});
    else if(['enquire about coaching','register your interest'].includes(label)||destination==='/coaching')trackEvent('coaching_cta',{target:'coaching'});
