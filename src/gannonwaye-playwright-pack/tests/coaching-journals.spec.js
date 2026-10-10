@@ -98,7 +98,7 @@ test('landing offers two separate choices and approved wording with the requeste
  const type=await introduction.first().evaluate(element=>getComputedStyle(element).fontSize);
  expect(parseFloat(type)).toBeGreaterThanOrEqual(18);
  await page.evaluate(()=>{for(const el of document.querySelectorAll('body *'))if(getComputedStyle(el).position==='fixed')el.setAttribute('data-review-fixed','');});
- const reviewStyle=await page.addStyleTag({content:'[data-review-fixed],[data-review-fixed] *,[class~="fixed"],[class~="fixed"] *,[style*="position: fixed"],[style*="position: fixed"] *{visibility:hidden!important}'});
+ const reviewStyle=await page.addStyleTag({content:'[data-review-fixed],[data-review-fixed] *,[class~="fixed"],[class~="fixed"] *,[style*="position: fixed"],[style*="position: fixed"] *{visibility:hidden!important;opacity:0!important}'});
  await page.getByTestId('coaching-editorial-intro').screenshot({path:require('path').join(require('os').tmpdir(),'gw-coaching-editorial-'+test.info().project.name+'.jpg'),type:'jpeg',quality:55});
  await reviewStyle.evaluate(element=>element.remove());
  await expect(page.getByTestId('journal-shelf')).toHaveCount(0);
