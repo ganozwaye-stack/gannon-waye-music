@@ -114,10 +114,12 @@ test('landing offers two separate choices and the agreed revised story and wallp
  const logoBox=await logo.boundingBox();
  expect(logoBox.width).toBe(48);
  expect(logoBox.height).toBe(48);
- const nameBox=await page.getByTestId('coaching-name').boundingBox(),badgeBox=await membership.boundingBox(),dividerBox=await page.getByTestId('coaching-bottom-rule').boundingBox();
- expect(nameBox.y+nameBox.height).toBeLessThan(badgeBox.y);
- expect(badgeBox.y+badgeBox.height).toBeLessThan(dividerBox.y);
- expect(await page.getByTestId('coaching-hero-title').getByTestId('coaching-golden-key-membership').count()).toBe(1);
+ const badgeBox=await membership.boundingBox();
+ const leftBox=await page.getByTestId('coaching-story-left').boundingBox(),rightBox=await page.getByTestId('coaching-story-right').boundingBox();
+ expect(badgeBox.y).toBeGreaterThanOrEqual(Math.max(leftBox.y+leftBox.height,rightBox.y+rightBox.height));
+ expect(Math.abs(badgeBox.x-leftBox.x)).toBeLessThan(1);
+ expect(await page.getByTestId('coaching-hero-title').getByTestId('coaching-golden-key-membership').count()).toBe(0);
+ expect(await page.getByTestId('coaching-story-newspaper').getByTestId('coaching-golden-key-membership').count()).toBe(1);
 
  const type=await introduction.first().evaluate(element=>getComputedStyle(element).fontSize);
  expect(parseFloat(type)).toBeGreaterThanOrEqual(18);
