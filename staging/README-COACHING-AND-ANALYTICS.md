@@ -4,7 +4,7 @@ Canonical app: 69eb7905ca6eb4180010f794. No publication, backend activation, liv
 
 ## What is implemented
 
-/coaching retains the exact seven approved paragraphs and selected portrait. The latest owner instruction centers the two-line Poppins title (500-weight main line; 400-weight, modestly smaller subtitle), reuses the exact Navbar/FanChatWidget gold gradient, adds matching short dividers and places both choices before the story. No substitute fan artwork or cover images has been produced.
+/coaching retains the exact seven approved paragraphs and selected portrait. The latest owner instruction centers the two-line Poppins title (uppercase 500-weight gold main line; 400-weight, modestly smaller body-colour subtitle), reuses the exact Navbar/FanChatWidget gold gradient, adds matching short dividers and places both choices before the story. No substitute fan artwork or cover images has been produced.
 
 /coaching -> Enquire about Coaching reveals the short interest form. Required: first name (80), last name (80), date of birth (valid calendar date, not future), mobile (8–15 digits, max30), email (254) and the free-text support message (1000). Consent to contact is explicit. No appointment or payment is promised. Journals remain independent.
 

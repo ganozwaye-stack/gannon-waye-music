@@ -85,7 +85,7 @@ test('landing offers two separate choices and the agreed revised story and wallp
   const box=await page.getByRole('button',{name,exact:true}).boundingBox();
   expect(box.height).toBeGreaterThanOrEqual(44);
  }
- await expect(page.getByRole('heading',{level:1})).toHaveText('Start with what matters to youCoaching with Gannon Waye');
+ await expect(page.getByRole('heading',{level:1})).toHaveText('START WITH WHAT MATTERS TO YOUCoaching with Gannon Waye');
  const headingStyle=await page.getByRole('heading',{level:1}).evaluate(el=>({font:getComputedStyle(el).fontFamily,weight:getComputedStyle(el).fontWeight,color:getComputedStyle(el).color,gold:getComputedStyle(el).backgroundImage,align:getComputedStyle(el).textAlign}));
  const menuGold=await page.getByRole('link',{name:'Gannon Waye · Home',exact:true}).locator('.gradient-gold-text').evaluate(el=>getComputedStyle(el).backgroundImage);
  expect(headingStyle.gold).toBe(menuGold);
@@ -95,7 +95,8 @@ test('landing offers two separate choices and the agreed revised story and wallp
  expect(rules[0]).toBe(menuGold);
  expect(headingStyle.font).toContain('Poppins');
  expect(headingStyle.weight).toBe('500');
- const subtitle=await page.getByRole('heading',{level:1}).locator('span').nth(1).evaluate(el=>({weight:getComputedStyle(el).fontWeight,size:parseFloat(getComputedStyle(el).fontSize)}));
+ const subtitle=await page.getByRole('heading',{level:1}).locator('span').nth(1).evaluate(el=>({weight:getComputedStyle(el).fontWeight,size:parseFloat(getComputedStyle(el).fontSize),color:getComputedStyle(el).color}));
+ expect(subtitle.color).toBe(await page.getByTestId('coaching-approved-intro').evaluate(el=>getComputedStyle(el).color));
  expect(subtitle.weight).toBe('400');expect(subtitle.size).toBeLessThanOrEqual(24);
  const loadedHeadingFont=await page.evaluate(async()=>{const faces=await document.fonts.load('500 48px Poppins');return faces.length>0&&faces.every(face=>face.status==='loaded');});
  expect(loadedHeadingFont).toBe(true);
