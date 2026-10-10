@@ -161,6 +161,13 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-10-10 · Codex desktop delegate · Coaching wallpaper and approved copy
+
+Did: Changed src/pages/Coaching.jsx to use Gannon's selected window-light journal portrait as static hero wallpaper with directional dark overlay and bottom fade, based on src/pages/ReleaseDetail.jsx Thankyou treatment. Replaced the new heading with Poppins 700. Added only the owner's requested paragraph break after move forward; all remaining approved wording, prices, choices and purchase holds preserved. Extended coaching-journals.spec.js with exact seven-paragraph text, loaded Poppins 700, wallpaper asset and tap-target checks.
+Found: The 3 October additional owner brand rules specify Poppins 400 body / 700 headings, superseding the older serif heading rule for this scope. Existing website PNG 94d50ca39_77B69334-B27B-44A8-9C21-F7216216A118.png is byte-identical to Drive source 1ftd0pb96wXeZcxXsXTsYf8oUcYy_rkRw, SHA-256 6cd8eb71e81f094e86b5c5278f385491314cab06857fef41df57b9d39358e5ae. Exact source pixels inspected; no new portrait generated or uploaded. Full Coaching suite passed 18 checks across desktop, phone and tablet.
+Left: Exact fanned-journal advert still pending accessible source bytes. Supported desktop Library materialization and one bounded retry failed; no existing original found in readable Downloads/workspace or relevant ZIP inventories. Source video Library libfile_4849c68cb85c81919a99d827dc0d8353 version 1. No publication, deployment, payment activation or asset substitution.
+For: Parent thread for preview review and source-video placement; continue with the exact original MP4 once accessible locally.
+
 ### 2026-09-25 · ChatGPT via Base44 connector · Carry The Message owner artwork directions
 
 Did:      Saved docs/CARRY_MESSAGE_HANDOFF_2026_09_25.md on feature/carry-message-handoff-20260925. Consolidated all 20 source references, the owner's placement/edit directions, supplier evidence and the private website preparation brief. This is a documentation handover, not completed design work or a dispatched supplier order.
