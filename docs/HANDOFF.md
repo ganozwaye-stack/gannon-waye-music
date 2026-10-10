@@ -161,6 +161,12 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-10-10 · Codex · Next 9 am coaching launch readiness
+Did: Added scripts/test-coaching-launch-readiness.mjs and docs/COACHING_LAUNCH_READINESS_2026-10-10.md. No design/backend-policy/flag changes; prior Golden Key checkpoint and checkout type fixes retained.
+Found: New no-network harness passes four closed/incomplete config checks before SDK. Stale peer fixture permits two leads; spoofed forwarded header and separate handler bypass per-process burst cap. Receipt source RLS admin-wide, owner-only not proven. Latest instruction specifies separate optional FREE 15-minute clarity call plus PAID A$99/45-minute consultation; older admin 30-minute discovery-call copy is superseded, no configured free booking found.
+Left: Owner under-18 decision, verified existing scheduling destination/availability, isolated hosted synthetic-record owner/non-owner/anonymous/service tests, reviewed receipt policy, atomic uniqueness and shared ingress limits. No production data read or new login/credential/permission/paid transaction/publication; report includes exact dependencies and conditional next-9am forecast, not scheduled delivery.
+For: Parent briefing and Gannon decisions; engineering after approved isolated acceptance environment exists.
+
 ### 2026-10-10 · Codex · Golden Key bottom-left supersedes top placement
 Moved the existing membership figure below BOTH article columns in the Coaching newspaper container, grid row 2 column 1; phone follows all seven paragraphs. Actual desktop pixels inspected: badge left edge matches article at x128, below both prose columns. Desktop/phone/tablet membership geometry assertions passed. Service title, original six covers, metallic CSS, central contour, portrait and unchanged seven paragraphs retained. Education redistribution held at user request; column bottom difference previously 70.5px.
 Existing circular logo choices found in original Drive sheet 11aURldvfxYMwV6tYeVKirKYBE95Kd2P0 / Library libfile_4bb2c3a7711c8191a0a64431739c07a9: 1 tree/head, 2 R/sun, 3 mountain/path. No selection/approval evidence, none inserted. Original sheet hash 7417f9db180dbdf468252e7c63bc9cfee599bbb3fadaf305574d3d7913af28df.
