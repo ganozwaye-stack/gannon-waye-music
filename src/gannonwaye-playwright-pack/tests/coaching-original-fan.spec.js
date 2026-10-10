@@ -39,3 +39,28 @@ test('metallic display keeps cover pixels unfiltered and stays still with reduce
   }
   expect(await fan.evaluate(element=>element.getAnimations({subtree:true}).length)).toBe(0);
 });
+
+test('newspaper story wraps on desktop and flows around the display on phone', async ({ page }) => {
+  await page.goto('/coaching');
+  const story=page.getByTestId('coaching-story-newspaper'),fan=page.getByTestId('coaching-original-fan');
+  await expect(story.locator('[data-testid^="coaching-approved-"]')).toHaveCount(7);
+  const fanBox=await fan.boundingBox();
+  const training=await page.getByTestId('coaching-approved-story').boundingBox();
+  expect(training.y+training.height).toBeLessThan(fanBox.y+1);
+  const flow=await fan.evaluate(element=>({float:getComputedStyle(element).float,viewport:innerWidth}));
+  const education=page.getByTestId('coaching-approved-recovery');
+  if(flow.viewport>=768){
+    expect(flow.float).toBe('right');
+    const firstLine=await education.evaluate(element=>{
+      const range=document.createRange();range.setStart(element.firstChild,0);range.setEnd(element.firstChild,30);
+      return Array.from(range.getClientRects()).map(r=>({left:r.left,right:r.right,top:r.top}));
+    });
+    expect(firstLine[0].right).toBeLessThan(fanBox.x-16);
+    expect(firstLine[0].top).toBeLessThan(fanBox.y+fanBox.height);
+  }else{
+    expect(flow.float).toBe('none');
+    const educationBox=await education.boundingBox();
+    expect(educationBox.y).toBeGreaterThanOrEqual(fanBox.y+fanBox.height);
+  }
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});
