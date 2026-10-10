@@ -44,6 +44,6 @@ Safari is not verified: isolated WebKit is absent. Full Coaching purchase/naviga
 
 ## Fan and visual review
 
-PUBLIC_JOURNALS currently has six null coverImageUrl values. No verified approved cover set was found in source/public assets. The supplied fan layout parameters can be applied as faithful CSS once genuine matching cover bytes are available; no asset transfer bypass or old-cover substitution occurred.
+The six original advert PNGs are now hash-verified and available in public/images/coaching/original-advert. PUBLIC_JOURNALS uses those unchanged bytes; OriginalJournalFan follows the supplied composition. Provenance: docs/COACHING_ORIGINAL_COVER_PROVENANCE.json.
 
 Current photo is preserved but remains subdued beneath the approved scrim. The latest centered title/top choices improve hierarchy. Any further portrait prominence or early fan insertion needs the actual approved asset set and bounded visual review; no rewriting of the agreed story is implied.
