@@ -32,7 +32,7 @@ for(let option=1;option<=5;option++)test('homepage concept '+option+' has verifi
   // Fixed site overlays would be captured halfway through a tall element image.
   // Hide them only for this review capture, then restore their exact inline styles.
   await page.evaluate(()=>{window.previewFixed=Array.from(document.querySelectorAll('*')).filter(el=>getComputedStyle(el).position==='fixed').map(el=>[el,el.style.visibility]);for(const [el] of window.previewFixed)el.style.visibility='hidden';});
-  await opening.screenshot({path:'/tmp/gw-home-concept-'+option+'.jpg',type:'jpeg',quality:50});
+  await opening.screenshot({path:require('node:path').join(require('node:os').tmpdir(),'gw-home-concept-'+option+'.jpg'),type:'jpeg',quality:50});
   await page.evaluate(()=>{for(const [el,value] of window.previewFixed)el.style.visibility=value;delete window.previewFixed;});
  }
  await opening.getByRole('link',{name:'Explore the Journals',exact:true}).click();
