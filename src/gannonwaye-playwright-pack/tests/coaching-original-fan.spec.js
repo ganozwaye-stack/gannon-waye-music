@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-test('original fan decodes six full covers and fits before the story', async ({ page }, testInfo) => {
+test('original fan decodes six full covers and fits within the story', async ({ page }, testInfo) => {
   await page.goto('/coaching');
   const fan = page.getByTestId('coaching-original-fan');
   await expect(fan).toBeVisible();
@@ -14,7 +14,7 @@ test('original fan decodes six full covers and fits before the story', async ({ 
     expect(box.bottom).toBeLessThanOrEqual(stage.y + stage.height + 1);
   }
   const intro = await page.getByTestId('coaching-approved-intro').boundingBox();
-  expect(stage.y + stage.height).toBeLessThan(intro.y);
+  expect(intro.y + intro.height).toBeLessThan(stage.y);
   const choice = await page.getByRole('button', {name:'Explore the Journals',exact:true}).boundingBox();
   expect(choice.y + choice.height).toBeLessThan(stage.y);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);

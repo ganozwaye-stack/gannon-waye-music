@@ -12,7 +12,7 @@ const covers = [
   ['Working with People-Pleasing', 459, 1134, 340, -5],
   ['Choosing Yourself', 608, 1134, 340, 5],
 ];
-export default function OriginalJournalFan() {
+export default function OriginalJournalFan({ className = '' }) {
   const ref = useRef(null);
   const [scale, setScale] = useState(0);
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function OriginalJournalFan() {
     return () => observer.disconnect();
   }, []);
   return (
-    <figure ref={ref} className="relative w-full max-w-xl mx-auto mb-8" style={{ aspectRatio: '1080 / 660' }} data-testid="coaching-original-fan" aria-label="The six Gannon Waye journals">
+    <figure ref={ref} className={`relative w-full max-w-xl mx-auto mb-8 ${className}`} style={{ aspectRatio: '1080 / 660' }} data-testid="coaching-original-fan" aria-label="The six Gannon Waye journals">
       <div className="absolute left-0 top-0" style={{ width: 1080, height: 660, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
         <div className="coaching-display-base" aria-hidden="true" data-testid="coaching-display-base" />
         {covers.map(([title, x, y, width, angle], index) => {
