@@ -1,7 +1,7 @@
 import { base44 } from '@/api/base44Client';
 import { publicPage,landingSource,sanitizeAttribution,sanitizeEvent } from './websiteAnalyticsPolicy';
 const completed=new Set(),recent=new Map();
-let excludeTraffic=false;
+let excludeTraffic=false, capturedInitialReferrer=false;
 export function setAnalyticsTrafficExcluded(value) {excludeTraffic=Boolean(value);}
 export function getRecordedAttribution() {
  if(typeof window==='undefined')return sanitizeAttribution();
@@ -9,6 +9,9 @@ export function getRecordedAttribution() {
 }
 export function recordLandingSource() {
  if(typeof window==='undefined'||excludeTraffic||!publicPage(location.pathname))return;
+ const hasCampaign=new URLSearchParams(location.search).has('utm_source');
+ if(capturedInitialReferrer&&!hasCampaign)return;
+ capturedInitialReferrer=true;
  const source=landingSource(location.href,document.referrer);
  if(!source)return;
  try {
