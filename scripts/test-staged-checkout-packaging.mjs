@@ -7,7 +7,7 @@ let handler, sdkCalls=0, stripeCalls=0;
 const env=new Map();
 globalThis.Deno={serve:fn=>handler=fn,env:{get:name=>env.get(name)}};
 globalThis.__draftSDK=()=>{sdkCalls++;return {};};
-globalThis.__draftStripe=class {constructor(){stripeCalls++;}};
+globalThis.__draftStripe=class {constructor(){stripeCalls++;this.checkout={sessions:{retrieve:async()=>globalThis.__mockSession}};}};
 const originalFetch=globalThis.fetch;
 globalThis.fetch=async()=>{throw new Error('Real network is forbidden in this mock harness');};
 const request=(method='POST',body={})=>new Request('http://localhost/draft',{method,...(method==='GET'?{}:{body:JSON.stringify(body)})});
@@ -23,12 +23,28 @@ for(const name of ['createCheckoutSession','stripeWebhook','verifyCheckoutSessio
  const response=await handler(request());
  assert.equal(response.status,503);
  assert.equal(sdkCalls,0);assert.equal(stripeCalls,0);
+ if(name==='stripeWebhook'){
+  env.set('VERIFIED_ORDER_CAPTURE_OPEN','true');env.set('STRIPE_SECRET_KEY','sk_live_mock_only');env.set('STRIPE_WEBHOOK_SECRET','whsec_mock_only');
+  assert.equal((await handler(request())).status,400);
+  assert.equal(sdkCalls,1);assert.equal(stripeCalls,1);
+  env.clear();sdkCalls=0;stripeCalls=0;
+ }
  if(name==='verifyCheckoutSession'){
   env.set('VERIFIED_ORDER_CAPTURE_OPEN','true');
   assert.equal((await handler(request('GET'))).status,405);
   assert.equal((await handler(request('POST',{session_id:'invalid'}))).status,400);
   assert.equal(sdkCalls,0);assert.equal(stripeCalls,0);
-  env.delete('VERIFIED_ORDER_CAPTURE_OPEN');
+  env.set('STRIPE_SECRET_KEY','sk_test_mock_only');
+  const owned={id:'cs_test_ABCDEFGHIJKLMNOP',mode:'payment',currency:'aud',amount_total:9900,status:'complete',payment_status:'paid',metadata:{checkout_policy:'stage_one_owned_stock_v1',abn:'22931809349'}};
+  for(const changes of [{currency:'usd'},{mode:'subscription'},{metadata:{checkout_policy:'foreign_store',abn:'22931809349'}},{metadata:{checkout_policy:'stage_one_owned_stock_v1',abn:'other'}}]){
+   globalThis.__mockSession={...owned,...changes};
+   assert.equal((await handler(request('POST',{session_id:owned.id}))).status,404);
+  }
+  globalThis.__mockSession={...owned,payment_status:'unpaid'};
+  const unpaid=await handler(request('POST',{session_id:owned.id}));
+  assert.equal(unpaid.status,200);assert.equal((await unpaid.json()).order_recorded,false);
+  assert.equal(sdkCalls,0);assert.equal(stripeCalls,5);
+  env.clear();stripeCalls=0;
  }
 }
 const shared=fs.readFileSync('staging/website-analytics/shared/checkoutOrderCapture.js');
@@ -61,4 +77,4 @@ assert.equal(calls.filter(name=>name==='sendSlackAlert').length,1);
 const incomplete=await captureOrderFromSession({base44,session:{...session,id:'cs_incomplete',metadata:{}},event:{id:'evt_incomplete'},process:false});
 assert.equal(incomplete.outcome,'incomplete_metadata');assert.equal(rows.MerchOrder.length,1);
 globalThis.fetch=originalFetch;
-console.log('Three isolated function bundles compile; default closed gates precede SDK/Stripe; invalid verification references are rejected. Mock paid capture preserves sanitized first/last attribution, canonical records, duplicate retry and incomplete metadata handling. All entity/notification/processor actions are in-memory mocks; no live payment or messages.');
+console.log('Three isolated function bundles compile; default closed gates precede SDK/Stripe; missing live webhook signatures, invalid references, foreign-store and unpaid sessions are rejected before capture. Mock paid capture preserves sanitized first/last attribution, canonical records, duplicate retry and incomplete metadata handling. All entity/notification/processor actions are in-memory mocks; no live payment or messages.');
