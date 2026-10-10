@@ -30,7 +30,7 @@ export default function Coaching() {
         {/* Thankyou ReleaseDetail uses an atmospheric portrait, directional mask
             and dark vignette. Keep this selected photo static and naturally framed. */}
         <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
-          <img src={PORTRAIT_URL} alt="" data-testid="coaching-hero-wallpaper" className="absolute right-0 top-0 w-[55%] h-[42rem] md:h-full object-cover object-top" />
+          <img src={PORTRAIT_URL} alt="" data-testid="coaching-hero-wallpaper" className="absolute right-0 top-0 w-[55%] md:w-[40%] h-[42rem] md:h-auto object-cover object-top" />
           <div data-testid="coaching-hero-overlay" className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(8,8,14,0.9) 0%, rgba(8,8,14,0.78) 45%, rgba(8,8,14,0.62) 100%)' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(8,8,14,0.12) 0%, rgba(8,8,14,0.38) 28rem, hsl(var(--background)) 42rem)' }} />
         </div>
