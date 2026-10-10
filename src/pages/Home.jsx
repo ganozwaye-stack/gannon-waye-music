@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
@@ -15,18 +15,24 @@ import HomeEmailSignup from '@/components/public/HomeEmailSignup';
 import TiltCard from '@/components/public/TiltCard';
 import PressKitHomeSection from '@/components/public/PressKitHomeSection';
 import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
+import SetFreeSpaceHero from '@/components/public/setfree-hero/SetFreeSpaceHero';
 import HomeOpening from '@/components/public/HomeOpening';
 import BehindTheScenes from '@/components/public/BehindTheScenes';
 import HomeActivityFeed from '@/components/public/HomeActivityFeed';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
-// Lead with the approved current release, then the welcome and coaching choices.
+// Release day, 25 September 2026: Set Free is the whole hero (galaxy, heart
+// planet on fire, 3D orbit ring). The welcome greeting, Set Free box and
+// previous release all sit up high inside the hero, stacked on the right.
 
 // Cover art comes from each release's artwork_url in the database, the single source of truth.
 // Do not hardcode per-song cover overrides here (that caused mis-assigned artwork in the past).
 
 export default function Home() {
+  const [previewParams] = useSearchParams();
+  const requestedPreview = previewParams.get('home-preview');
+  const previewOption = /^[1-5]$/.test(requestedPreview || '') ? Number(requestedPreview) : null;
   const { data: settings } = useQuery({
     queryKey: ['siteSettings'],
     queryFn: () => base44.entities.SiteSettings.list(),
@@ -42,11 +48,14 @@ export default function Home() {
   const site = settings[0] || {};
   const releases = releaseCandidates.filter(isPublicRelease);
   const featuredRelease = releases.find((release) => release.title === 'Set Free') || null;
+  const previousRelease = releases.find((release) => release.title === 'Without You Here') || releases[0] || null;
+  const previousLink = previousRelease?.id ? `/release/${previousRelease.id}` : '/music';
+
   const approvedAlbum = releases.find((release) => release.type === 'album') || null;
 
   return (
     <div className="min-h-screen relative">
-      <HomeOpening release={featuredRelease} />
+      {previewOption ? <HomeOpening release={featuredRelease} option={previewOption} /> : <SetFreeSpaceHero previousRelease={previousRelease} previousLink={previousLink} settings={site} />}
 
       {/* Welcome prompt: appears the first time a visitor reaches this point */}
       <FirstVisitOnboarding />
