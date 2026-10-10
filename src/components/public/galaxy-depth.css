@@ -1,0 +1,15 @@
+.gw-depth-wallpaper{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;background:#080c16}
+.gw-depth-wallpaper-image{width:100%;height:100%;object-fit:cover;object-position:center 58%;opacity:.82}
+.gw-depth-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,9,18,.9),rgba(6,9,18,.32) 65%,rgba(6,9,18,.08)),linear-gradient(0deg,rgba(9,10,17,.76),transparent 45%)}
+.gw-depth-stage{position:relative;isolation:isolate;width:100%;aspect-ratio:1.1;min-width:0;perspective:1000px;contain:layout style}
+.gw-depth-planet-plane{position:absolute;inset:0;z-index:2;transform-style:preserve-3d}
+.gw-depth-float{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transform-style:preserve-3d}
+.gw-depth-heart{position:relative;width:74%;height:84%;object-fit:contain;z-index:2;user-select:none}
+.gw-depth-orbit{position:absolute;left:4%;top:27%;width:92%;height:42%;border:2px solid rgba(245,205,126,.8);border-radius:50%;transform:rotate(-17deg);pointer-events:none}
+.gw-depth-orbit-back{z-index:1;border-bottom-color:transparent}
+.gw-depth-orbit-front{z-index:3;border-top-color:transparent;border-left-color:transparent;border-right-color:transparent}
+.gw-distant-orbit{position:absolute;left:4%;top:8%;width:78%;height:27%;border:1px solid rgba(143,184,244,.22);border-radius:50%;transform:rotate(16deg);z-index:0}
+.gw-depth-satellite{position:absolute;left:4%;top:40%;width:7px;height:7px;border-radius:50%;background:#f5cd7e;box-shadow:0 0 12px #d5a550;z-index:4;offset-path:ellipse(46% 21% at 50% 48%);offset-rotate:0deg;animation:gw-planet-orbit 36s linear infinite}
+@keyframes gw-planet-orbit{from{offset-distance:0%}to{offset-distance:100%}}
+@media(max-width:767px){.gw-depth-stage{max-width:430px;margin:auto}.gw-depth-shade{background:linear-gradient(0deg,rgba(9,10,17,.8),rgba(6,9,18,.28) 60%,rgba(6,9,18,.72))}.gw-depth-satellite{animation-duration:48s}.gw-depth-wallpaper-image{object-position:50% 52%}}
+@media(prefers-reduced-motion:reduce){.gw-depth-wallpaper-image,.gw-depth-float,.gw-depth-planet-plane{transform:none!important}.gw-depth-satellite{animation:none!important}}
