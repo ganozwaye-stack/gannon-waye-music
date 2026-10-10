@@ -38,9 +38,9 @@ export default function Coaching() {
           <div className="max-w-4xl w-full mx-auto">
             <div className="w-16 h-1 gradient-gold-button mx-auto mb-5" aria-hidden="true" data-testid="coaching-top-rule" />
             {/* Reuse the exact gradient shared by Navbar's Gannon Waye brand and FanChatWidget. */}
-            <h1 className="font-body font-bold text-4xl md:text-5xl gradient-gold-text leading-tight tracking-tight text-center">
+            <h1 className="font-body font-medium text-4xl md:text-5xl gradient-gold-text leading-tight tracking-tight text-center">
               <span className="block">Start with what matters to you</span>
-              <span className="block text-2xl md:text-3xl mt-3 tracking-normal">Coaching with Gannon Waye</span>
+              <span className="block font-normal text-xl md:text-2xl mt-3 tracking-normal">Coaching with Gannon Waye</span>
             </h1>
             <div className="w-16 h-1 gradient-gold-button mx-auto mt-5 mb-5" aria-hidden="true" data-testid="coaching-bottom-rule" />
             <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />

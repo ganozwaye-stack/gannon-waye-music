@@ -94,8 +94,10 @@ test('landing offers two separate choices and the agreed revised story and wallp
  expect(rules[0]).toBe(rules[1]);
  expect(rules[0]).toBe(menuGold);
  expect(headingStyle.font).toContain('Poppins');
- expect(headingStyle.weight).toBe('700');
- const loadedHeadingFont=await page.evaluate(async()=>{const faces=await document.fonts.load('700 48px Poppins');return faces.length>0&&faces.every(face=>face.status==='loaded');});
+ expect(headingStyle.weight).toBe('500');
+ const subtitle=await page.getByRole('heading',{level:1}).locator('span').nth(1).evaluate(el=>({weight:getComputedStyle(el).fontWeight,size:parseFloat(getComputedStyle(el).fontSize)}));
+ expect(subtitle.weight).toBe('400');expect(subtitle.size).toBeLessThanOrEqual(24);
+ const loadedHeadingFont=await page.evaluate(async()=>{const faces=await document.fonts.load('500 48px Poppins');return faces.length>0&&faces.every(face=>face.status==='loaded');});
  expect(loadedHeadingFont).toBe(true);
  const wallpaper=page.getByTestId('coaching-hero-wallpaper');
  await wallpaper.evaluate(image=>image.decode());

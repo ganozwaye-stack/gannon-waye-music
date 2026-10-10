@@ -10,7 +10,7 @@ test('required private interest form saves only after a matching receipt and pre
  await expect(page.getByTestId('coaching-interest-form')).toBeVisible();
  await page.evaluate(()=>{for(const el of document.querySelectorAll('body *'))if(['fixed','sticky'].includes(getComputedStyle(el).position))el.setAttribute('data-review-fixed','');});
  const reviewStyle=await page.addStyleTag({content:'[data-review-fixed]{display:none!important}'});
- await page.getByTestId('coaching-interest-form').screenshot({path:'/tmp/gw-interest-preview-'+test.info().project.name+'.jpg',type:'jpeg',quality:55});
+ await page.getByTestId('coaching-interest-form').screenshot({path:require('path').join(require('os').tmpdir(),'gw-interest-preview-'+test.info().project.name+'.jpg'),type:'jpeg',quality:55});
  await reviewStyle.evaluate(el=>el.remove());
  await page.evaluate(()=>document.querySelectorAll('[data-review-fixed]').forEach(el=>el.removeAttribute('data-review-fixed')));
  await fill(page);
