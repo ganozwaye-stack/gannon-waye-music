@@ -32,7 +32,8 @@ import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 export default function Home() {
   const [previewParams] = useSearchParams();
   const requestedPreview = previewParams.get('home-preview');
-  const previewOption = /^[1-5]$/.test(requestedPreview || '') ? Number(requestedPreview) : null;
+  const depthPreview = requestedPreview === 'galaxy';
+  const previewOption = depthPreview ? 1 : /^[1-5]$/.test(requestedPreview || '') ? Number(requestedPreview) : null;
   const { data: settings } = useQuery({
     queryKey: ['siteSettings'],
     queryFn: () => base44.entities.SiteSettings.list(),
@@ -55,7 +56,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative">
-      {previewOption ? <HomeOpening release={featuredRelease} option={previewOption} /> : <SetFreeSpaceHero previousRelease={previousRelease} previousLink={previousLink} settings={site} />}
+      {previewOption ? <HomeOpening release={featuredRelease} option={previewOption} depthPreview={depthPreview} /> : <SetFreeSpaceHero previousRelease={previousRelease} previousLink={previousLink} settings={site} />}
 
       {/* Welcome prompt: appears the first time a visitor reaches this point */}
       <FirstVisitOnboarding />
