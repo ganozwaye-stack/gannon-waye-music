@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import JournalShelf from '@/components/coaching/JournalShelf';
 import CoachingGiftSet from '@/components/coaching/CoachingGiftSet';

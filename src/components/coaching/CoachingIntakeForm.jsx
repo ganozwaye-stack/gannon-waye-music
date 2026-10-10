@@ -10,10 +10,12 @@ export default function CoachingIntakeForm({ onSuccess }) {
  const [form,setForm]=useState({first_name:'',last_name:'',date_of_birth:'',phone:'',email:'',support_wanted:'',consent_to_contact:false,website:''});
  const [busy,setBusy]=useState(false),[receipt,setReceipt]=useState(''),[error,setError]=useState('');
  const inFlight=useRef(false),submissionId=useRef(null);
+ const registrationOpen=import.meta.env.DEV||import.meta.env.VITE_COACHING_INTEREST_ENABLED==='true';
  const set=(key,value)=>setForm(previous=>({...previous,[key]:value}));
  const submit=async event=>{
    event.preventDefault();
    if(inFlight.current||receipt) return;
+   if(!registrationOpen){setError('Registration is being prepared. No details have been submitted.');return;}
    submissionId.current ||= crypto.randomUUID();
    const payload={...form,submission_id:submissionId.current};
    try { validateInterest(payload); } catch(err) {setError(err.message);return;}
@@ -39,6 +41,6 @@ export default function CoachingIntakeForm({ onSuccess }) {
    <label className="flex items-start gap-3 text-sm"><input type="checkbox" required checked={form.consent_to_contact} onChange={event=>set('consent_to_contact',event.target.checked)} className="mt-1" />Gannon may contact me about my interest.</label>
    <p className="text-sm">Registering interest does not commit you to a call. You can explore and purchase journals independently when journal purchasing opens.</p>
    {error&&<p role="alert" className="text-sm text-red-300">{error}</p>}
-   <Button type="submit" disabled={busy} className="bg-[#F5D06E] text-primary-foreground rounded-full min-h-12 px-7">{busy?'Saving…':'Register your interest'}</Button>
+   <Button type="submit" disabled={busy||!registrationOpen} className="bg-[#F5D06E] text-primary-foreground rounded-full min-h-12 px-7">{busy?'Saving…':'Register your interest'}</Button>
  </form>;
 }

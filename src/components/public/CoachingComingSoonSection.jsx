@@ -1,10 +1,5 @@
-import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Compass, Wrench, Heart, FileText, ArrowRight, Check } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { base44 } from '@/api/base44Client';
-import { trackEvent } from '@/lib/analytics';
+import { Compass, Wrench, Heart, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const QUOTE = 'Respect is earned. Not a game you make me play.';
