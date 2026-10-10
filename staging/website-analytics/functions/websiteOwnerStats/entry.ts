@@ -8,7 +8,7 @@ Deno.serve(async req=>{
  const body=await req.json().catch(()=>({}));
  const start=Date.parse(String(body.start||'')+'T00:00:00Z'),endDay=Date.parse(String(body.end||'')+'T00:00:00Z'),end=endDay+86400000;
  if(!Number.isFinite(start)||!Number.isFinite(end)||end<=start||end-start>366*86400000)return Response.json({error:'Choose a valid date range of up to one year.'},{status:400});
- async function read(entity,fields){const rows=[];let limited=false;for(let skip=0;skip<20000;skip+=500){const page=await entity.list('-created_date',500,skip,fields);rows.push(...page);if(page.length<500)return {rows,limited:false};}return {rows,limited:true};}
+ async function read(entity: {list: (...args: any[]) => Promise<any[]>},fields: string[]){const rows=[];let limited=false;for(let skip=0;skip<20000;skip+=500){const page=await entity.list('-created_date',500,skip,fields);rows.push(...page);if(page.length<500)return {rows,limited:false};}return {rows,limited:true};}
  // Field projection excludes all contact details, DOB and support text.
  const [events,leads,orders]=await Promise.all([
  read(base44.entities.WebsiteEvent,['event_id','event_name','created_date','created_by','is_sample','analytics_excluded']),
