@@ -20,11 +20,12 @@ export default function CoachingLeadsTab() {
 
   const { data: leads = [] } = useQuery({
     queryKey: ['coaching-leads'],
-    queryFn: () => base44.entities.CoachingLead.list('-created_date'),
+    queryFn: async () => {const result=await base44.functions.invoke('coachingOwnerInbox',{});return result.data.leads;},
+    retry: false,
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, data }) => base44.entities.CoachingLead.update(id, data),
+    mutationFn: ({ id, data }) => base44.functions.invoke('coachingOwnerInbox',{action:'update',id,status:data.status}),
     onSuccess: () => qc.invalidateQueries({ queryKey: ['coaching-leads'] }),
   });
 
@@ -64,6 +65,8 @@ export default function CoachingLeadsTab() {
                 <div>
                   <p className="font-body text-sm font-semibold text-foreground">{lead.full_name}</p>
                   <p className="font-body text-xs text-muted-foreground">{lead.email}</p>
+                  {lead.phone && <p className="font-body text-xs text-muted-foreground">{lead.phone}</p>}
+                  {lead.date_of_birth && <p className="font-body text-xs text-muted-foreground">Date of birth: {lead.date_of_birth}</p>}
                   {lead.source_offer && <p className="font-body text-[10px] text-primary/60 mt-0.5">{lead.source_offer}</p>}
                 </div>
                 <div className="flex items-center gap-2">
@@ -82,6 +85,7 @@ export default function CoachingLeadsTab() {
                   </Select>
                 </div>
               </div>
+              {lead.support_wanted && <p className="font-body text-sm text-foreground/90">{lead.support_wanted}</p>}
               {lead.goal && (
                 <div>
                   <p className="font-body text-[9px] uppercase tracking-widest text-muted-foreground/50 mb-0.5">Goal</p>
