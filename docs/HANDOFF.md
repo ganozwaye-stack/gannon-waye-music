@@ -161,6 +161,11 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-10-10 · Codex · Golden Key bottom-left supersedes top placement
+Moved the existing membership figure below BOTH article columns in the Coaching newspaper container, grid row 2 column 1; phone follows all seven paragraphs. Actual desktop pixels inspected: badge left edge matches article at x128, below both prose columns. Desktop/phone/tablet membership geometry assertions passed. Service title, original six covers, metallic CSS, central contour, portrait and unchanged seven paragraphs retained. Education redistribution held at user request; column bottom difference previously 70.5px.
+Existing circular logo choices found in original Drive sheet 11aURldvfxYMwV6tYeVKirKYBE95Kd2P0 / Library libfile_4bb2c3a7711c8191a0a64431739c07a9: 1 tree/head, 2 R/sun, 3 mountain/path. No selection/approval evidence, none inserted. Original sheet hash 7417f9db180dbdf468252e7c63bc9cfee599bbb3fadaf305574d3d7913af28df.
+Unpublished preview app 69eb7905ca6eb4180010f794, /coaching. Intake, analytics, staged checkout/capture remain closed. Public anonymous denial against actual existing private records, replica uniqueness/abuse, under-18 policy remain unresolved; no live leads/payments/publication. This log supersedes earlier Golden Key top-placement instructions.
+
 ### 2026-10-10 staged checkout follow-up
 Fixed all 15 createCheckoutSession strict Deno typing errors with confined annotations, explicit product narrowing, unknown-error handling and shipping input JSDoc. Two new isolated staged capture packages contain their local unchanged shared pipeline/analytics copies; live base44/functions and base44/shared remain unchanged. Three packages pass Deno 2.9.6 checks with pinned SDK 0.8.30 and Stripe 14.21.0. Esbuild independently bundles each function without parent-directory imports.
 CHECKOUT_DRAFT_OPEN and VERIFIED_ORDER_CAPTURE_OPEN default closed before SDK/Stripe. No flags configured, deployment or activation. Mock harness passes missing live webhook signature, invalid reference, foreign-store currency/mode/policy/ABN, unpaid session, sanitized first/last attribution, canonical records, duplicate retry and incomplete metadata tests. All storage/processor/notification actions in-memory; deployed role/concurrency/replica tests remain unverified.
