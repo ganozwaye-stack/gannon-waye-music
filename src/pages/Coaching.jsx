@@ -33,28 +33,32 @@ export default function Coaching() {
           <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(8,8,14,0.12) 0%, rgba(8,8,14,0.38) 28rem, hsl(var(--background)) 42rem)' }} />
         </div>
         <div className="max-w-6xl mx-auto px-5">
-        <header className="min-h-48 md:min-h-56 flex items-center mb-6 border-b border-primary/30 pb-6">
-        <div>
-          <p className="font-body text-xs tracking-widest uppercase text-primary mb-4">Coaching with Gannon Waye</p>
-          <h1 className="font-body font-bold text-4xl md:text-5xl text-primary leading-tight max-w-3xl">Start with what matters to you.</h1>
+        <header className="min-h-48 md:min-h-56 flex items-center mb-6 border-b border-[#F5D06E]/40 pb-6">
+        <div className="max-w-4xl">
+          <div className="w-16 h-1 bg-[#F5D06E] mb-5" aria-hidden="true" />
+          {/* Exact Primary Gold from the existing Brand Kit; Poppins follows Gannon’s later instruction. */}
+          <h1 className="font-body font-bold text-4xl md:text-5xl text-[#F5D06E] leading-tight tracking-tight">
+            <span className="block">Start with what matters to you</span>
+            <span className="block text-2xl md:text-3xl mt-3 tracking-normal">Coaching with Gannon Waye</span>
+          </h1>
         </div>
         </header>
         {/* Follow Home’s Story treatment: gold rules, left-aligned prose and editorial columns.
             The exact fanned-journal advert remains pending accessible source bytes. */}
         <div className="md:columns-2 md:gap-8 md:[column-rule:1px_solid_hsl(var(--primary)/0.2)]">
-          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-intro">If there’s one thing my life has shown me, it’s my sheer determination and drive to succeed.</p>
-          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-training">I know what it’s like to need support, and I know what it’s like to not find it. And I still had to survive. At 28, I used drugs for the first time. I rang Mum straight away and asked for help. Over the next two years, I went to rehab twice before finding recovery. I returned to church, attended Narcotics Anonymous and took on roles helping others. My healing isn’t complete, but I’m determined to keep going.</p>
-          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-story">It wasn’t until I became a personal trainer that I realised how much the work went beyond fitness. Exercise could offer clarity and a sense of healing, but often our conversations reached beyond the gym. I found myself encouraging clients, lifting them up and helping them build confidence to take on challenges in their everyday lives. It was motivation for life, and supporting that growth brought me so much joy.</p>
-          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-recovery">I studied mental health at TAFE, completed my Diploma of Counselling in 2020 and began university in 2021. I now hold a Bachelor of Psychological Studies. Along the way, I earned high distinctions and was invited to join Golden Key. Seven years of education and personal development, including further learning in mental health, have deepened what I bring to supporting others.</p>
-          <figure className="flex items-center gap-3 mb-4 break-inside-avoid" data-testid="coaching-golden-key-membership">
+          <p className="font-body text-lg text-foreground leading-relaxed mb-5 break-inside-avoid text-left border-l-2 border-[#F5D06E] pl-4" data-testid="coaching-approved-intro">If there’s one thing my life has shown me, it’s my sheer determination and drive to succeed.</p>
+          <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-training">I know what it’s like to need support, and I know what it’s like to not find it. And I still had to survive. At 28, I used drugs for the first time. I rang Mum straight away and asked for help. Over the next two years, I went to rehab twice before finding recovery. I returned to church, attended Narcotics Anonymous and took on roles helping others. My healing isn’t complete, but I’m determined to keep going.</p>
+          <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-story">It wasn’t until I became a personal trainer that I realised how much the work went beyond fitness. Exercise could offer clarity and a sense of healing, but often our conversations reached beyond the gym. I found myself encouraging clients, lifting them up and helping them build confidence to take on challenges in their everyday lives. It was motivation for life, and supporting that growth brought me so much joy.</p>
+          <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-recovery">I studied mental health at TAFE, completed my Diploma of Counselling in 2020 and began university in 2021. I now hold a Bachelor of Psychological Studies. Along the way, I earned high distinctions and was invited to join Golden Key. Seven years of education and personal development, including further learning in mental health, have deepened what I bring to supporting others.</p>
+          <figure className="flex items-center gap-3 mb-5 break-inside-avoid border border-[#F5D06E]/25 bg-background/50 rounded-xl p-3" data-testid="coaching-golden-key-membership">
             <img src="/images/golden-key/GKlogo.png" alt="Golden Key International Honour Society logo" className="w-12 h-12 shrink-0" width="48" height="48" />
             <figcaption className="font-body text-sm text-foreground/80 max-w-xs">Lifetime Member, Golden Key International Honour Society</figcaption>
           </figure>
-          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-support">My coaching brings together that education and lived experience. Through life coaching and mindset mentorship, I listen, help you recognise your strengths and work with you on practical steps towards what matters to you. Honesty, integrity and transparency guide how I work. Shame has no place in healing.</p>
-          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-purpose">I find purpose and joy in helping others move towards their future. I share my journey because I want it to benefit others, beyond my own life. I believe God can use it for something greater than myself.</p>
-          <p className="font-body text-lg text-foreground/80 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-ending">If you’re looking for support, explore my journals or learn more about coaching.</p>
+          <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-support">My coaching brings together that education and lived experience. Through life coaching and mindset mentorship, I listen, help you recognise your strengths and work with you on practical steps towards what matters to you. Honesty, integrity and transparency guide how I work. Shame has no place in healing.</p>
+          <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-purpose">I find purpose and joy in helping others move towards their future. I share my journey because I want it to benefit others, beyond my own life. I believe God can use it for something greater than myself.</p>
+          <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-ending">If you’re looking for support, explore my journals or learn more about coaching.</p>
         </div>
-        <div className="mt-4 pt-5 border-t border-primary/30">
+        <div className="mt-4 pt-5 border-t border-[#F5D06E]/40">
           <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />
         </div>
         </div>
@@ -93,8 +97,8 @@ export default function Coaching() {
 function Actions({ onExplore, onEnquire }) {
   return (
     <div className="flex flex-col sm:flex-row gap-3">
-      <Button onClick={onExplore} className="gradient-gold-button border-0 rounded-full min-h-11 px-6">Explore the Journals</Button>
-      <Button onClick={onEnquire} variant="outline" className="rounded-full min-h-11 px-6">Enquire about Coaching</Button>
+      <Button onClick={onExplore} className="bg-[#F5D06E] text-primary-foreground hover:bg-[#F5D06E]/90 border-0 rounded-full min-h-12 px-7 font-semibold shadow-lg shadow-black/20">Explore the Journals</Button>
+      <Button onClick={onEnquire} variant="outline" className="rounded-full min-h-12 px-7 font-semibold border-[#F5D06E]/70 text-[#F5D06E] bg-background/60 hover:bg-[#F5D06E]/10 hover:text-[#F5D06E]">Enquire about Coaching</Button>
     </div>);
 
 }
