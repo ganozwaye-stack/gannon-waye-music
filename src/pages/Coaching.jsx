@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import OriginalJournalFan from '@/components/coaching/OriginalJournalFan';
 import JournalShelf from '@/components/coaching/JournalShelf';
 import CoachingGiftSet from '@/components/coaching/CoachingGiftSet';
 import CoachingIntakeForm from '@/components/coaching/CoachingIntakeForm';
@@ -46,8 +47,8 @@ export default function Coaching() {
             <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />
           </div>
         </header>
-        {/* Follow Home’s Story treatment: gold rules, left-aligned prose and editorial columns.
-            The exact fanned-journal advert remains pending accessible source bytes. */}
+        <OriginalJournalFan />
+        {/* Preserve the approved story and editorial columns. */}
         <div className="md:columns-2 md:gap-8 md:[column-rule:1px_solid_hsl(var(--primary)/0.2)]">
           <p className="font-body text-lg text-foreground leading-relaxed mb-5 break-inside-avoid text-left border-l-2 border-[#F5D06E] pl-4" data-testid="coaching-approved-intro">If there’s one thing my life has shown me, it’s my sheer determination and drive to succeed.</p>
           <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-training">I know what it’s like to need support, and I know what it’s like to not find it. And I still had to survive. At 28, I used drugs for the first time. I rang Mum straight away and asked for help. Over the next two years, I went to rehab twice before finding recovery. I returned to church, attended Narcotics Anonymous and took on roles helping others. My healing isn’t complete, but I’m determined to keep going.</p>
