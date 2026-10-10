@@ -89,7 +89,7 @@ test('landing offers two separate choices and exactly the approved full introduc
  expect(parseFloat(type)).toBeGreaterThanOrEqual(18);
  await page.evaluate(()=>{for(const el of document.querySelectorAll('body *'))if(getComputedStyle(el).position==='fixed')el.setAttribute('data-review-fixed','');});
  await page.addStyleTag({content:'[data-review-fixed],[data-review-fixed] *{visibility:hidden!important}'});
- await page.getByTestId('coaching-editorial-intro').screenshot({path:require('path').join(require('os').tmpdir(),'gw-coaching-editorial-'+test.info().project.name+'.jpg'),type:'jpeg',quality:88});
+ await page.getByTestId('coaching-editorial-intro').screenshot({path:require('path').join(require('os').tmpdir(),'gw-coaching-editorial-'+test.info().project.name+'.jpg'),type:'jpeg',quality:55});
  await expect(page.getByTestId('journal-shelf')).toHaveCount(0);
  await expect(page.getByRole('heading',{name:'One-on-one coaching',exact:true})).toHaveCount(0);
  await page.getByRole('button',{name:'Enquire about Coaching',exact:true}).click();
