@@ -3,6 +3,7 @@ import { ArrowRight, ExternalLink } from 'lucide-react';
 import LumaAlphaFilter from '@/components/public/setfree-hero/LumaAlphaFilter';
 import { isPublicRelease } from '@/lib/publicRelease';
 import { GalaxyDepthBackdrop, GalaxyDepthPlanet } from './GalaxyDepthPreview';
+import GoldEditorialDepth from './GoldEditorialDepth';
 
 const GWM_LOGO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a733b567_GWMGannonWayemusic.jpg';
 const PRIMARY = 'inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-body text-sm gradient-gold-button';
@@ -23,6 +24,7 @@ export default function HomeOpening({ release, option = 1, depthPreview = false 
     { label: 'Apple Music', url: publicHttps(featured.apple_music_link) },
     { label: 'All platforms', url: publicHttps(featured.other_links?.find(link => link.platform === 'All platforms')?.url) },
   ].filter(link => link.url) : [];
+  if (depthPreview || option === 1) return <GoldEditorialDepth featured={featured} links={links} />;
   return (
     <div data-testid="home-opening" data-option={option} className={welcomeFirst ? 'flex flex-col' : magazine ? 'grid md:grid-cols-2' : ''}>
       <p className="px-5 pt-6 font-body text-xs uppercase tracking-[.2em] text-primary md:col-span-2">{depthPreview ? 'Galaxy depth study · Evolution of concept 1 · Preview for review' : 'Homepage concept '+option+' · '+names[option-1]}</p>
