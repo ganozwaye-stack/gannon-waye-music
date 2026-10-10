@@ -2,6 +2,20 @@
 
 Protocol lives in `AGENTS.md` §8. Read this before starting. Append to `## Log
 
+### 2026-10-06 · Codex · PR 41 CI baseline and release blockers
+
+Did: Compared every failed PR check with current main using both runs and job logs. Prepared exact CI, stale selector, checkout layering and livestream fixes plus a separate candidate hub regression job. Detailed evidence is in docs/PR41-CI-REVIEW.md. A second specialist independently cross-checked the hub and deployment impact.
+Found: Main ef7b2a78 and original PR 208bb1ee have identical duplicate-title and missing scanner failures; production store checks both report the same 12 failed/48 passed. Store tests target deployed production, not PR source. Original hub additionally exposed disabled broadcast metadata, never refreshed waiting viewers, nested main, and accepted Facebook dashboard URLs. STORE_CRASHED=true in both main and PR would close the store if this frontend were deployed; production tests saw products instead.
+Left: No merge, deploy, live setting change or broadcast. Preserve storeStatus.js until the owner's intended store state is resolved. Local browser install returned an invalid archive; candidate GitHub runtime checks are required. The local Base44 CLI requires an authenticated session before deployment.
+For: Gannon to resolve the deliberate storefront switch; Codex to finish runtime gates and controlled release after that decision. Do not mark any broadcast or commerce path operational from a build alone.
+
+### 2026-10-05 · Codex · TikTok and Facebook LIVE hub
+
+Did:      Created the isolated feature branch `feature/live-stream-hub`. Restored the public `/live` route, added a public LIVE status and player page, added TikTok and Facebook destination buttons, expanded the existing Content Studio livestream control to accept Facebook player URLs, and added practical TikTok LIVE Studio and Facebook Live Producer setup guidance for screen sharing, microphone audio and system audio. Added a public route regression test.
+Found:    The site already had livestream fields and an admin control, but `src/App.jsx` explicitly redirected `/live` to the home page. The existing TikTok OAuth code supports login and draft content posting, not TikTok LIVE broadcasting. TikTok LIVE eligibility, LIVE Studio access and stream keys remain controlled by TikTok.
+Left:     Nothing is merged, deployed or broadcasting. The live setting remains disabled and offline. No secrets, account permissions, music rights or business settings were changed. Review the draft pull request and CI before any merge. A public player URL must be saved as Scheduled first, then changed to Live only when the actual broadcast begins.
+For:      Gannon to review and approve or reject the pull request. Merge and deployment require separate approval. TikTok LIVE Studio access and Facebook Live Producer authorization remain manual platform steps.
+
 ### 2026-09-26 · ChatGPT · Music activity evidence monitor
 Did: Added MusicActivity, MusicEvidenceSummary, MusicEvidenceDetail, MusicEvidenceSources, the read-only useMusicEvidence hook, source links, MusicEvidence schema, protected routes, sidebar entry and Dashboard summary. Changes at 2a58b6b4. No collector or scheduled alerts were enabled.
 Found: Direct official HTTP reads at 2026-09-26T00:28Z show all three songs on Unearthed; Set Free Artist Pick; every track playedOn=[]. Apple returned 100/100 playlist songs with no Gannon Waye match; Spotify embed returned 100 with no match but no verified total. Latest 10 timestamped records per ABC station had no artist match; this is NOT complete historical coverage. Source URLs are in src/lib/musicMonitorSources.js. Build and all prebuild safety checks passed; storefront lock passed. Public /assets/index-DWA51fl4.js still does not contain /admin/music-activity.

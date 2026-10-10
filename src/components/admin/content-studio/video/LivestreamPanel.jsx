@@ -6,20 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/components/ui/use-toast';
 import { Radio, Save, ExternalLink, AlertTriangle, CheckCircle2 } from 'lucide-react';
-
-// Lifted from src/pages/admin/LivestreamCommand.jsx — the /live page controls with
-// the HTTPS-only ALLOWED_EMBED_HOSTS safety rule, plus the TikTok manual notice.
-const ALLOWED_EMBED_HOSTS = ['youtube.com', 'youtu.be', 'vimeo.com', 'streamyard.com', 'restream.io'];
+import { ALLOWED_EMBED_HOSTS, safeEmbedUrl, safePublicUrl } from '@/lib/liveUrls';
 
 function isSafeEmbedUrl(url) {
-  if (!url) return true; // empty is ok
-  try {
-    const u = new URL(url);
-    if (u.protocol !== 'https:') return false;
-    return ALLOWED_EMBED_HOSTS.some(h => u.hostname === h || u.hostname.endsWith('.' + h));
-  } catch {
-    return false;
-  }
+  return !url || Boolean(safeEmbedUrl(url));
 }
 
 const STATUS_OPTIONS = [
@@ -33,7 +23,7 @@ export default function LivestreamPanel() {
   const { toast } = useToast();
   const qc = useQueryClient();
 
-  const { data: settingsArr, isLoading } = useQuery({
+  const { data: settingsArr, isLoading, isError, refetch } = useQuery({
     queryKey: ['site-settings-livestream'],
     queryFn: () => base44.entities.SiteSettings.list(),
   });
@@ -44,20 +34,21 @@ export default function LivestreamPanel() {
 
   // Initialize form when settings load
   useEffect(() => {
-    if (settings && !form) {
+    if (!isLoading && !isError && !form) {
+      const current = settings || {};
       setForm({
-        live_stream_enabled: settings.live_stream_enabled || false,
-        live_stream_status: settings.live_stream_status || 'offline',
-        live_stream_provider: settings.live_stream_provider || '',
-        live_stream_title: settings.live_stream_title || '',
-        live_stream_scheduled_at: settings.live_stream_scheduled_at || '',
-        live_stream_embed_url: settings.live_stream_embed_url || '',
-        live_stream_chat_url: settings.live_stream_chat_url || '',
-        live_stream_tiktok_url: settings.live_stream_tiktok_url || '',
-        live_stream_instagram_url: settings.live_stream_instagram_url || '',
+        live_stream_enabled: current.live_stream_enabled || false,
+        live_stream_status: current.live_stream_status || 'offline',
+        live_stream_provider: current.live_stream_provider || '',
+        live_stream_title: current.live_stream_title || '',
+        live_stream_scheduled_at: current.live_stream_scheduled_at || '',
+        live_stream_embed_url: current.live_stream_embed_url || '',
+        live_stream_chat_url: current.live_stream_chat_url || '',
+        live_stream_tiktok_url: current.live_stream_tiktok_url || '',
+        live_stream_instagram_url: current.live_stream_instagram_url || '',
       });
     }
-  }, [settings, form]);
+  }, [settings, form, isLoading, isError]);
 
   const saveMutation = useMutation({
     mutationFn: async (data) => {
@@ -69,6 +60,8 @@ export default function LivestreamPanel() {
     },
     onSuccess: async () => {
       qc.invalidateQueries({ queryKey: ['site-settings-livestream'] });
+      qc.invalidateQueries({ queryKey: ['public-livestream-settings'] });
+      toast({ title: 'Livestream settings saved ✓' });
       // Create admin notification
       await base44.entities.AdminNotification.create({
         notification_type: 'system',
@@ -77,24 +70,34 @@ export default function LivestreamPanel() {
         summary: `Status: ${form?.live_stream_status} | Enabled: ${form?.live_stream_enabled}`,
         source: 'LivestreamCommand',
         requires_action: false,
+      }).catch(() => {
+        toast({ title: 'Settings saved. The admin notification could not be recorded.' });
       });
-      toast({ title: 'Livestream settings saved ✓' });
     },
+    onError: () => toast({ title: 'Livestream settings could not be saved. Please try again.', variant: 'destructive' }),
   });
 
   const handleSave = () => {
     if (form?.live_stream_embed_url && !isSafeEmbedUrl(form.live_stream_embed_url)) {
-      toast({ title: 'Invalid embed URL — must be HTTPS from YouTube, Vimeo, or StreamYard', variant: 'destructive' });
+      toast({ title: 'Invalid embed URL. Use a public HTTPS player from YouTube, Facebook, Vimeo, StreamYard, or Restream.', variant: 'destructive' });
       return;
     }
     if (form?.live_stream_chat_url && !isSafeEmbedUrl(form.live_stream_chat_url)) {
       toast({ title: 'Invalid chat URL — must be HTTPS from an allowed provider', variant: 'destructive' });
       return;
     }
+    if (form?.live_stream_tiktok_url && !safePublicUrl(form.live_stream_tiktok_url, ['tiktok.com'])) {
+      toast({ title: 'Use a public HTTPS TikTok link.', variant: 'destructive' });
+      return;
+    }
     saveMutation.mutate(form);
   };
 
   const update = (key, value) => setForm(f => ({ ...f, [key]: value }));
+
+  if (isError) {
+    return <div role="alert">Livestream settings could not be loaded. <button type="button" onClick={() => refetch()} className="underline">Try again</button></div>;
+  }
 
   if (isLoading || !form) {
     return <div className="flex items-center justify-center h-64"><div className="w-6 h-6 border-2 border-primary/30 border-t-primary rounded-full animate-spin" /></div>;
@@ -163,7 +166,7 @@ export default function LivestreamPanel() {
                 type="text"
                 value={form.live_stream_provider}
                 onChange={e => update('live_stream_provider', e.target.value)}
-                placeholder="YouTube, Vimeo, StreamYard…"
+                placeholder="YouTube, Facebook, Vimeo, StreamYard…"
                 className="w-full bg-secondary/50 border border-border/40 rounded-lg px-3 py-2 font-body text-sm text-foreground focus:outline-none focus:border-primary/40"
               />
             </div>
@@ -221,7 +224,7 @@ export default function LivestreamPanel() {
                 </p>
               )}
               <p className="font-body text-[10px] text-muted-foreground/50 mt-1">
-                YouTube: Share → Embed → copy src="…" URL only
+                YouTube: Share → Embed → copy the src URL. Facebook: use the public Facebook video plugin URL, never the Live Producer dashboard URL.
               </p>
             </div>
 
@@ -295,15 +298,50 @@ export default function LivestreamPanel() {
         {saveMutation.isPending ? 'Saving…' : 'Save Livestream Settings'}
       </Button>
 
-      {/* TikTok manual action notice */}
+      {/* Platform setup guide */}
       <Card className="border-primary/20 bg-primary/5">
-        <CardContent className="pt-4 pb-4">
-          <p className="font-body text-sm text-primary font-semibold mb-1">⚠ TikTok Live — Manual Action Required</p>
-          <p className="font-body text-xs text-muted-foreground leading-relaxed">
-            TikTok Live streaming cannot be configured by agents. Gannon must go live directly from the TikTok app.
-            To embed a TikTok live stream here, copy the YouTube/Restream re-broadcast URL if you are simulcasting.
-            Agents cannot control TikTok OAuth pages or TikTok Live sessions.
-          </p>
+        <CardContent className="pt-5 pb-5 space-y-4">
+          <div>
+            <p className="font-body text-sm text-primary font-semibold mb-1">TikTok and Facebook LIVE setup</p>
+            <p className="font-body text-xs text-muted-foreground leading-relaxed">
+              Your website can display a public player and link viewers to each platform. It cannot grant TikTok LIVE eligibility,
+              start a broadcast, or receive TikTok stream keys. Those controls remain inside TikTok LIVE Studio and Facebook Live Producer.
+            </p>
+          </div>
+
+          <ol className="font-body text-xs text-muted-foreground leading-relaxed list-decimal pl-5 space-y-1.5">
+            <li>Open TikTok LIVE Studio on the Windows computer and select a portrait scene.</li>
+            <li>Add Camera, Window Capture or Full Screen Capture, then enable microphone and system audio in the mixer.</li>
+            <li>Open Facebook Live Producer in a separate browser tab and choose Screen Share, or connect approved streaming software.</li>
+            <li>Use headphones, test both audio meters, and keep the music below the microphone.</li>
+            <li>Paste only the public player URL above. Save as Scheduled first. Change the status to Live only when the broadcast has started.</li>
+          </ol>
+
+          <div className="flex flex-wrap gap-2">
+            <a href="https://www.tiktok.com/studio/download?download_source=creator_hub" target="_blank" rel="noopener noreferrer">
+              <Button type="button" size="sm" variant="outline" className="gap-1.5">
+                <ExternalLink className="w-3.5 h-3.5" /> TikTok LIVE Studio
+              </Button>
+            </a>
+            <a href="https://www.facebook.com/live/producer" target="_blank" rel="noopener noreferrer">
+              <Button type="button" size="sm" variant="outline" className="gap-1.5">
+                <ExternalLink className="w-3.5 h-3.5" /> Facebook Live Producer
+              </Button>
+            </a>
+            <a href="/live" target="_blank" rel="noopener noreferrer">
+              <Button type="button" size="sm" variant="outline" className="gap-1.5">
+                <ExternalLink className="w-3.5 h-3.5" /> Preview public LIVE page
+              </Button>
+            </a>
+          </div>
+
+          <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
+            <p className="font-body text-xs text-amber-300 font-semibold">Music rights check</p>
+            <p className="font-body text-[11px] text-muted-foreground mt-1 leading-relaxed">
+              A distributor fingerprint can mute your own recording even when you own it. Test privately where the platform allows,
+              keep proof of ownership available, and do not paste stream keys or account dashboard links into this page.
+            </p>
+          </div>
         </CardContent>
       </Card>
     </div>
