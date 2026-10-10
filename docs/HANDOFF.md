@@ -161,6 +161,13 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+### 2026-10-10 · Codex desktop delegate · Agreed revised Coaching story
+
+Did: Replaced only the seven Coaching introduction paragraphs with the exact consolidated text approved by Gannon through the parent thread. Updated exact-copy assertions and responsive captures; retained the sunlit wallpaper, gradient, Poppins 700 heading, compact columns, journal/coaching choices, prices and all purchase holds.
+Found: Desktop, phone and tablet landing checks passed against every supplied paragraph, loaded Poppins 700, wallpaper decode, no horizontal overflow, 18px body text, 44px choices and separate navigation. The prior full copy remains recoverable at checkpoint 6aca02f86e8a28cd75028bea, commit d1e2765111ef0882c1e5eb0bc7536ecf225dc662.
+Left: Golden Key badge remains pending official asset and permission verification. Exact fan advert remains pending accessible original MP4. No withdrawn sister comparisons, percentage claims or universal clinical promises added. No publication, deployment, payment or release activation.
+For: Parent thread and Gannon to review the same Library preview item; continue asset work only when sources are verified and available.
+
 ### 2026-10-10 · Codex desktop delegate · Coaching wallpaper and approved copy
 
 Did: Changed src/pages/Coaching.jsx to use Gannon's selected window-light journal portrait as static hero wallpaper with directional dark overlay and bottom fade, based on src/pages/ReleaseDetail.jsx Thankyou treatment. Replaced the new heading with Poppins 700. Added only the owner's requested paragraph break after move forward; all remaining approved wording, prices, choices and purchase holds preserved. Extended coaching-journals.spec.js with exact seven-paragraph text, loaded Poppins 700, wallpaper asset and tap-target checks.
