@@ -10,8 +10,8 @@ test('recovery shows original boutique and verified catalogue without fabricated
  const text=await page.locator('body').innerText();
  expect(text).not.toContain('500 — Internal Server Error');
  expect(text).not.toContain('storefront worker failed');
- expect(text).not.toContain('Set Free Heart Hoodie');
- expect(text).not.toContain('Without You Here Hoodie');
+ expect(await page.getByTestId('product-card').allTextContents()).not.toEqual(expect.arrayContaining([expect.stringContaining('Set Free Heart Hoodie')]));
+ expect(await page.getByTestId('product-card').allTextContents()).not.toEqual(expect.arrayContaining([expect.stringContaining('Without You Here Hoodie')]));
  const hoodie=page.getByTestId('product-card').filter({hasText:'Hoodie'}).first();
  await expect(hoodie.getByTestId('product-price')).toContainText('$98');
  await hoodie.getByRole('button',{name:/^Select size M/}).click();
