@@ -1,5 +1,5 @@
-// Storefront emergency switch. While true, every public storefront route
-// (store, cart, cart details, checkout) renders the crash screen instead of
-// the real store. No products load, no orders can be placed. Flip to false
-// to bring the store back exactly as it was, with no other code changes.
-export const STORE_CRASHED = true;
+// Catalogue recovery is independent of payment activation.
+// Verified live product, stock, price and storefront-art gates stay intact.
+export const STORE_CRASHED = false;
+// Retain the existing hold on transactional routes until recovery is reviewed.
+export const STORE_CHECKOUT_HELD = true;

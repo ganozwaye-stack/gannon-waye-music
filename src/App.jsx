@@ -24,7 +24,7 @@ import Home from '@/pages/Home';
 import Music from '@/pages/Music';
 import Store from '@/pages/Store';
 import StoreCrashed from '@/components/store/StoreCrashed';
-import { STORE_CRASHED } from '@/config/storeStatus';
+import { STORE_CRASHED, STORE_CHECKOUT_HELD } from '@/config/storeStatus';
 import StoreCheckout from '@/pages/StoreCheckout';
 import StoreCartDetails from '@/pages/StoreCartDetails';
 import StoreCartPage from '@/pages/StoreCartPage.jsx';
@@ -271,10 +271,10 @@ const AuthenticatedApp = () => {
         <Route path="/store" element={<Store />} />
         <Route path="/store/all" element={<Navigate to="/store" replace />} />
         <Route path="/store-world" element={<Navigate to="/store" replace />} />
-        <Route path="/store/cart" element={STORE_CRASHED ? <StoreCrashed /> : <StoreCartPage />} />
+        <Route path="/store/cart" element={STORE_CRASHED || STORE_CHECKOUT_HELD ? <StoreCrashed /> : <StoreCartPage />} />
         <Route path="/store/customer-details" element={<Navigate to="/store/cart-details" replace />} />
-        <Route path="/store/cart-details" element={STORE_CRASHED ? <StoreCrashed /> : <StoreCartDetails />} />
-        <Route path="/store/checkout" element={STORE_CRASHED ? <StoreCrashed /> : <StoreCheckout />} />
+        <Route path="/store/cart-details" element={STORE_CRASHED || STORE_CHECKOUT_HELD ? <StoreCrashed /> : <StoreCartDetails />} />
+        <Route path="/store/checkout" element={STORE_CRASHED || STORE_CHECKOUT_HELD ? <StoreCrashed /> : <StoreCheckout />} />
         <Route path="/videos" element={<Videos />} />
         <Route path="/email-preferences" element={<EmailPreferences />} />
         <Route path="/orders" element={<OrderHistory />} />

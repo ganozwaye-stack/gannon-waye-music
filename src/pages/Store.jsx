@@ -17,7 +17,7 @@ import UpcomingMerchVote from '@/components/public/UpcomingMerchVote';
 import MerchDropCountdown from '@/components/store/MerchDropCountdown';
 import SetFreeStoreBanner from '@/components/store/SetFreeStoreBanner';
 import StoreCrashed from '@/components/store/StoreCrashed';
-import { STORE_CRASHED } from '@/config/storeStatus';
+import { STORE_CRASHED, STORE_CHECKOUT_HELD } from '@/config/storeStatus';
 
 // Badge config per product id — only show special labels, stock status handled dynamically
 const PRODUCT_BADGES = {
@@ -404,6 +404,8 @@ export default function Store() {
       <LockedStorefrontHero products={products} onOpenProduct={setWorldProduct} />
 
       <div className="max-w-6xl mx-auto px-4 md:px-8 pt-12">
+        {STORE_CHECKOUT_HELD && <p role="status" data-testid="store-checkout-notice" className="font-body text-sm text-primary border border-primary/30 rounded-xl p-4 mb-6">The collection is available to browse. Checkout is temporarily unavailable while payment checks are completed.</p>}
+
 
         {/* Set Free promo banner, under the boutique world, before the products */}
         <SetFreeStoreBanner />
