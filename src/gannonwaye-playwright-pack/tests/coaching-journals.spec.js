@@ -81,6 +81,15 @@ test('landing offers two separate choices and exactly the approved full introduc
  const ending=await page.getByTestId('coaching-approved-ending').boundingBox();
  const choices=await page.getByRole('button',{name:'Explore the Journals',exact:true}).boundingBox();
  expect(choices.y).toBeGreaterThanOrEqual(ending.y+ending.height);
+ for(const name of ['Explore the Journals','Enquire about Coaching']) {
+  const box=await page.getByRole('button',{name,exact:true}).boundingBox();
+  expect(box.height).toBeGreaterThanOrEqual(44);
+ }
+ const type=await introduction.first().evaluate(element=>getComputedStyle(element).fontSize);
+ expect(parseFloat(type)).toBeGreaterThanOrEqual(18);
+ await page.evaluate(()=>{for(const el of document.querySelectorAll('body *'))if(getComputedStyle(el).position==='fixed')el.setAttribute('data-review-fixed','');});
+ await page.addStyleTag({content:'[data-review-fixed],[data-review-fixed] *{visibility:hidden!important}'});
+ await page.getByTestId('coaching-editorial-intro').screenshot({path:require('path').join(require('os').tmpdir(),'gw-coaching-editorial-'+test.info().project.name+'.jpg'),type:'jpeg',quality:88});
  await expect(page.getByTestId('journal-shelf')).toHaveCount(0);
  await expect(page.getByRole('heading',{name:'One-on-one coaching',exact:true})).toHaveCount(0);
  await page.getByRole('button',{name:'Enquire about Coaching',exact:true}).click();
