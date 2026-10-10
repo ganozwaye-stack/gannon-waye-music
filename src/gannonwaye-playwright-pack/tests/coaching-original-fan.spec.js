@@ -1,0 +1,23 @@
+const { test, expect } = require('@playwright/test');
+test('original fan decodes six full covers and fits before the story', async ({ page }, testInfo) => {
+  await page.goto('/coaching');
+  const fan = page.getByTestId('coaching-original-fan');
+  await expect(fan).toBeVisible();
+  await expect(fan.getByTestId('coaching-fan-cover')).toHaveCount(6);
+  await expect.poll(() => fan.locator('img').evaluateAll(images => images.every(image => image.complete && image.naturalWidth === 1042 && image.naturalHeight === 1474))).toBe(true);
+  const boxes = await fan.locator('img').evaluateAll(images => images.map(image => {const r = image.getBoundingClientRect(); return {left:r.left,right:r.right,top:r.top,bottom:r.bottom};}));
+  const stage = await fan.boundingBox();
+  for (const box of boxes) {
+    expect(box.left).toBeGreaterThanOrEqual(stage.x - 1);
+    expect(box.right).toBeLessThanOrEqual(stage.x + stage.width + 1);
+    expect(box.top).toBeGreaterThanOrEqual(stage.y - 1);
+    expect(box.bottom).toBeLessThanOrEqual(stage.y + stage.height + 1);
+  }
+  const intro = await page.getByTestId('coaching-approved-intro').boundingBox();
+  expect(stage.y + stage.height).toBeLessThan(intro.y);
+  const choice = await page.getByRole('button', {name:'Explore the Journals',exact:true}).boundingBox();
+  expect(choice.y + choice.height).toBeLessThan(stage.y);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.addStyleTag({content:'[class*="fixed"] { display:none !important; }'});
+  await page.screenshot({path:require('path').join(require('os').tmpdir(), 'gw-coaching-original-fan-'+testInfo.project.name+'.jpg'),fullPage:true,type:'jpeg',quality:55});
+});
