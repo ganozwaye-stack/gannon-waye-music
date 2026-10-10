@@ -88,6 +88,8 @@ test('landing offers two separate choices and approved wording with the requeste
  const headingStyle=await page.getByRole('heading',{level:1}).evaluate(el=>({font:getComputedStyle(el).fontFamily,weight:getComputedStyle(el).fontWeight}));
  expect(headingStyle.font).toContain('Poppins');
  expect(headingStyle.weight).toBe('700');
+ const loadedHeadingFont=await page.evaluate(async()=>{const faces=await document.fonts.load('700 48px Poppins');return faces.length>0&&faces.every(face=>face.status==='loaded');});
+ expect(loadedHeadingFont).toBe(true);
  const wallpaper=page.getByTestId('coaching-hero-wallpaper');
  await wallpaper.evaluate(image=>image.decode());
  await expect(wallpaper).toHaveAttribute('src',/94d50ca39_77B69334/);
@@ -96,8 +98,9 @@ test('landing offers two separate choices and approved wording with the requeste
  const type=await introduction.first().evaluate(element=>getComputedStyle(element).fontSize);
  expect(parseFloat(type)).toBeGreaterThanOrEqual(18);
  await page.evaluate(()=>{for(const el of document.querySelectorAll('body *'))if(getComputedStyle(el).position==='fixed')el.setAttribute('data-review-fixed','');});
- await page.addStyleTag({content:'[data-review-fixed],[data-review-fixed] *{visibility:hidden!important}'});
+ const reviewStyle=await page.addStyleTag({content:'[data-review-fixed],[data-review-fixed] *,[class~="fixed"],[class~="fixed"] *,[style*="position: fixed"],[style*="position: fixed"] *{visibility:hidden!important}'});
  await page.getByTestId('coaching-editorial-intro').screenshot({path:require('path').join(require('os').tmpdir(),'gw-coaching-editorial-'+test.info().project.name+'.jpg'),type:'jpeg',quality:55});
+ await reviewStyle.evaluate(element=>element.remove());
  await expect(page.getByTestId('journal-shelf')).toHaveCount(0);
  await expect(page.getByRole('heading',{name:'One-on-one coaching',exact:true})).toHaveCount(0);
  await page.getByRole('button',{name:'Enquire about Coaching',exact:true}).click();
