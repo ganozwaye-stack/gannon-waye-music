@@ -24,8 +24,13 @@ for(let option=1;option<=5;option++)test('homepage concept '+option+' has verifi
  await expect(opening.getByRole('link',{name:'Listen on Spotify',exact:true})).toHaveAttribute('href',fixture.spotify_link);
  await expect(opening.getByRole('link',{name:'Apple Music',exact:true})).toHaveAttribute('href',fixture.apple_music_link);
  await expect(opening.getByRole('link',{name:'All platforms',exact:true})).toHaveAttribute('href',fixture.other_links.find(x=>x.platform==='All platforms').url);
- await expect(page.getByTestId('home-release-cover')).toHaveAttribute('src',fixture.artwork_url);
- await expect.poll(()=>page.getByTestId('home-release-cover').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+ if(option===1){
+  await expect(page.getByTestId('galaxy-depth-heart')).toBeVisible();
+  await expect.poll(()=>page.getByTestId('galaxy-depth-heart').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+ }else{
+  await expect(page.getByTestId('home-release-cover')).toHaveAttribute('src',fixture.artwork_url);
+  await expect.poll(()=>page.getByTestId('home-release-cover').evaluate(img=>img.complete&&img.naturalWidth>0)).toBe(true);
+ }
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
  await expect(opening).not.toContainText(/pre.?save/i);
  if(testInfo.project.name==='chromium'){
