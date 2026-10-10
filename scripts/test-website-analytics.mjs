@@ -16,11 +16,12 @@ assert.equal(landingSource('https://gannonwaye.com/?utm_source=instagram&utm_cam
 const metadata=attributionMetadata(clean);assert.equal(Object.keys(metadata).length,6);
 assert.equal(orderAttribution(metadata).last.source,'tiktok');assert.equal(orderAttribution({}).first.source,'unknown');
 const date='2026-10-10T12:00:00Z',start=Date.parse('2026-10-10'),end=start+86400000;
-const base={created_date:date,stripe_event_id:'evt_verified',checkout_policy:'stage_one_owned_stock_v1',payment_status:'paid',status:'confirmed',financial_status:'captured',total_amount:99,attribution:clean};
+const base={created_date:date,stripe_event_id:'evt_verified',checkout_policy:'stage_one_owned_stock_v1',payment_status:'paid',payment_verified:true,status:'confirmed',financial_status:'captured',total_amount:99,attribution:clean};
 const orders=[{...base,stripe_session_id:'cs_1'},{...base,stripe_session_id:'cs_1'},{...base,stripe_session_id:'cs_2',payment_status:'refunded'},{...base,stripe_session_id:'cs_3',payment_status:'partially_refunded',refunded_amount:40},{...base,stripe_session_id:'cs_4',payment_status:'partially_refunded'},{...base,stripe_session_id:'cs_owner',excluded_from_revenue:true},{...base,stripe_session_id:'cs_void',financial_status:'duplicate_void'},{...base,stripe_session_id:'cs_unpaid',payment_status:'unpaid'},{...base,stripe_session_id:'cs_unverified',stripe_event_id:''}];
 const events=[{...clean,created_date:date},{...clean,created_date:date},{...clean,event_id:'test',created_date:date,analytics_excluded:true}];
 const leads=[{id:'one',submission_id:'receipt1',created_date:date},{id:'two',submission_id:'receipt1',created_date:date},{id:'admin',created_date:date,created_by:'ganozwaye@gmail.com'},{id:'sample',created_date:date,is_sample:true}];
 const report=summarizeWebsite(events,leads,orders,start,end);
+assert.equal(summarizeWebsite([],[],orders.map(row=>({...row,payment_verified:false})),start,end).attribution.first&&Object.keys(summarizeWebsite([],[],orders.map(row=>({...row,payment_verified:false})),start,end).attribution.first).length,0);
 assert.equal(report.counts.page_view,1);assert.equal(report.coaching_interests_saved,1);
 assert.equal(report.attribution.first['instagram / journal_october'].orders,4);
 assert.equal(report.attribution.last['tiktok / launch'].revenue,158);assert.equal(report.refund_amount_unknown,1);

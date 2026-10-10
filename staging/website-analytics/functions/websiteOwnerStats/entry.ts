@@ -13,7 +13,7 @@ Deno.serve(async req=>{
  const [events,leads,orders]=await Promise.all([
  read(base44.entities.WebsiteEvent,['event_id','event_name','created_date','created_by','is_sample','analytics_excluded']),
  read(base44.entities.CoachingLead,['id','submission_id','created_date','created_by','is_sample','analytics_excluded','duplicate_submission']),
- read(base44.asServiceRole.entities.MerchOrder,['stripe_session_id','stripe_event_id','created_date','created_by','checkout_policy','status','financial_status','payment_status','total_amount','refunded_amount','attribution','is_sample','analytics_excluded','excluded_from_revenue'])
+ read(base44.asServiceRole.entities.MerchOrder,['stripe_session_id','stripe_event_id','created_date','created_by','checkout_policy','status','financial_status','payment_status','payment_verified','total_amount','refunded_amount','attribution','is_sample','analytics_excluded','excluded_from_revenue'])
  ]);
  return Response.json({...summarizeWebsite(events.rows,leads.rows,orders.rows,start,end),limited:events.limited||leads.limited||orders.limited,timezone:'UTC',capture_enabled:Deno.env.get('WEBSITE_ANALYTICS_OPEN')==='true'});
  }catch{return Response.json({error:'Owner aggregate statistics are being prepared'},{status:503});}

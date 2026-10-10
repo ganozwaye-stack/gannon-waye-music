@@ -285,6 +285,11 @@
       "type": "number",
       "minimum": 0,
       "description": "Verified refunded amount in AUD; do not infer missing partial refund amounts."
+    },
+    "payment_verified": {
+      "type": "boolean",
+      "default": false,
+      "description": "Set only by server capture after verified paid Stripe validation."
     }
   },
   "required": [
@@ -292,7 +297,11 @@
     "customer_email"
   ],
   "rls": {
-    "create": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
     "read": {
       "$or": [
         {

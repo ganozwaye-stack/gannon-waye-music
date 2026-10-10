@@ -341,6 +341,7 @@ export async function captureOrderFromSession({
       stripe_session_id: session.id,
       stripe_payment_intent: typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id || '',
       payment_status: 'paid',
+      payment_verified: true,
       attribution: orderAttribution(metadata),
       status: totalMismatch ? 'needs_admin_review' : 'confirmed',
       financial_status: totalMismatch ? 'captured_total_mismatch_review' : 'captured',

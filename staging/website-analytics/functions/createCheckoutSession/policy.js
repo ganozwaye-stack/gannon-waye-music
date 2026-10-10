@@ -4,9 +4,10 @@ export function publicPage(path) {
  if(path==='/')return 'home';
  if(/^\/coaching(?:\/|$)/.test(path))return 'coaching';
  if(path==='/contact')return 'contact';
- if(/^\/(booking|work-with-me)(?:\/|$)/.test(path))return 'work';
- if(/^\/store(?:\/|$)/.test(path))return 'store';
- if(/^\/(music|releases?|listen)(?:\/|$)/.test(path))return 'music';
+ if(/^\/(bookings?|work-with-me|press|press-kit)(?:\/|$)/.test(path))return 'work';
+ if(/^\/store(?:\/|$)/.test(path)||['/checkout-success','/checkout-cancel','/journals/purchase'].includes(path))return 'store';
+ if(/^\/(music|releases?|listen|videos|current-single|presave|lyrics|lyric-library|upcoming-music|this-is-my-life|discover)(?:\/|$)/.test(path))return 'music';
+ if(['/about','/biography','/gallery','/faq','/privacy-policy','/terms-of-service','/remember-mum','/memorial','/carry-the-message','/fan-guide','/summary','/founding-supporter','/support/domestic-violence'].includes(path))return 'site';
  return null;
 }
 const sources=new Set(['direct','unknown','google','bing','facebook','instagram','tiktok','youtube','spotify','apple_music','email','newsletter','paid_social','social','referral','organic','cpc']);
@@ -40,7 +41,7 @@ export function orderAttribution(metadata={}) {
  return sanitizeAttribution({first:{source:metadata.gw_first_source,medium:metadata.gw_first_medium,campaign:metadata.gw_first_campaign},last:{source:metadata.gw_last_source,medium:metadata.gw_last_medium,campaign:metadata.gw_last_campaign}});
 }
 export function sanitizeEvent(input) {
- if(!WEBSITE_EVENTS.includes(input?.event_name)||!['home','coaching','contact','work','store','music'].includes(input.page)||!/^[a-f0-9-]{36}$/.test(input.event_id||''))return null;
+ if(!WEBSITE_EVENTS.includes(input?.event_name)||!['home','coaching','contact','work','store','music','site'].includes(input.page)||!/^[a-f0-9-]{36}$/.test(input.event_id||''))return null;
  return {event_id:input.event_id,event_name:input.event_name,page:input.page,target:['work','contact','coaching','spotify','apple_music','youtube','music'].includes(input.target)?input.target:'',...sanitizeAttribution(input)};
 }
 export function excluded(row) {return row.is_sample===true||row.analytics_excluded===true||row.excluded_from_revenue===true||row.duplicate_submission===true||['ganozwaye@gmail.com','gannonwayemusic@gmail.com'].includes(String(row.created_by||'').toLowerCase());}
@@ -51,7 +52,7 @@ export function summarizeWebsite(events,leads,orders,start,end) {
  for(const row of leads)if(inside(row)&&!excluded(row)&&!seenLeads.has(row.submission_id||row.id))seenLeads.add(row.submission_id||row.id);
  let refundUnknown=0;
  for(const row of orders) {
-  if(!inside(row)||excluded(row)||row.status==='duplicate'||row.status==='needs_admin_review'||row.financial_status==='duplicate_void'||!row.stripe_session_id||!row.stripe_event_id||row.checkout_policy!=='stage_one_owned_stock_v1'||!['paid','refunded','partially_refunded'].includes(row.payment_status)||seenOrders.has(row.stripe_session_id))continue;
+  if(!inside(row)||excluded(row)||row.payment_verified!==true||row.status==='duplicate'||row.status==='needs_admin_review'||row.financial_status==='duplicate_void'||!row.stripe_session_id||!row.stripe_event_id||row.checkout_policy!=='stage_one_owned_stock_v1'||!['paid','refunded','partially_refunded'].includes(row.payment_status)||seenOrders.has(row.stripe_session_id))continue;
   seenOrders.add(row.stripe_session_id);
   const total=Number(row.total_amount);
   if(!Number.isFinite(total)||total<0)continue;
