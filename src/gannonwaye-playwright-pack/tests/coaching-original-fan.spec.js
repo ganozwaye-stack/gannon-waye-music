@@ -19,7 +19,7 @@ test('original fan decodes six full covers and fits within the story', async ({ 
   expect(choice.y + choice.height).toBeLessThan(stage.y);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.addStyleTag({content:'[class*="fixed"] { display:none !important; }'});
-  await page.screenshot({path:require('path').join(require('os').tmpdir(), 'gw-coaching-original-fan-'+testInfo.project.name+'.jpg'),fullPage:true,type:'jpeg',quality:55});
+  await page.screenshot({path:require('path').join(require('os').tmpdir(), 'gw-coaching-metallic-central-'+testInfo.project.name+'.jpg'),fullPage:true,type:'jpeg',quality:55});
 });
 
 test('metallic display keeps cover pixels unfiltered and stays still with reduced motion', async ({ page }) => {
@@ -40,27 +40,35 @@ test('metallic display keeps cover pixels unfiltered and stays still with reduce
   expect(await fan.evaluate(element=>element.getAnimations({subtree:true}).length)).toBe(0);
 });
 
-test('newspaper story wraps on desktop and flows around the display on phone', async ({ page }) => {
+test('newspaper story renders two symmetric columns around a central display with linear phone order', async ({ page }, testInfo) => {
   await page.goto('/coaching');
+  await page.evaluate(()=>document.fonts.ready);
   const story=page.getByTestId('coaching-story-newspaper'),fan=page.getByTestId('coaching-original-fan');
   await expect(story.locator('[data-testid^="coaching-approved-"]')).toHaveCount(7);
-  const fanBox=await fan.boundingBox();
-  const training=await page.getByTestId('coaching-approved-story').boundingBox();
-  expect(training.y+training.height).toBeLessThan(fanBox.y+1);
-  const flow=await fan.evaluate(element=>({float:getComputedStyle(element).float,viewport:innerWidth}));
-  const education=page.getByTestId('coaching-approved-recovery');
-  if(flow.viewport>=768){
-    expect(flow.float).toBe('right');
-    const firstLine=await education.evaluate(element=>{
-      const range=document.createRange();range.setStart(element.firstChild,0);range.setEnd(element.firstChild,30);
-      return Array.from(range.getClientRects()).map(r=>({left:r.left,right:r.right,top:r.top}));
+  const stage=await fan.boundingBox(), article=await story.boundingBox();
+  const geometry=await story.evaluate(element=>{
+    const lines=column=>Array.from(element.querySelectorAll(column+' p')).flatMap(p=>{
+      const range=document.createRange();range.selectNodeContents(p);
+      return Array.from(range.getClientRects()).map(r=>({left:r.left,right:r.right,top:r.top,bottom:r.bottom}));
     });
-    expect(firstLine[0].right).toBeLessThan(fanBox.x-16);
-    expect(firstLine[0].top).toBeLessThan(fanBox.y+fanBox.height);
+    return {viewport:innerWidth,left:lines('.coaching-story-left'),right:lines('.coaching-story-right'),columns:getComputedStyle(element).gridTemplateColumns};
+  });
+  if(geometry.viewport>=1024){
+    expect(Math.abs(stage.x+stage.width/2-(article.x+article.width/2))).toBeLessThan(1);
+    const leftColumn=await page.getByTestId('coaching-story-left').boundingBox(),rightColumn=await page.getByTestId('coaching-story-right').boundingBox();
+    expect(Math.abs(leftColumn.y-rightColumn.y)).toBeLessThan(1);
+    const middle=rows=>rows.filter(r=>r.top>=stage.y+stage.height*.35&&r.bottom<=stage.y+stage.height*.75);
+    expect(middle(geometry.left).length).toBeGreaterThan(0);expect(middle(geometry.right).length).toBeGreaterThan(0);
+    for(const line of middle(geometry.left))expect(line.right).toBeLessThan(stage.x-8);
+    for(const line of middle(geometry.right))expect(line.left).toBeGreaterThan(stage.x+stage.width+8);
+    const below=rows=>rows.filter(r=>r.top>stage.y+stage.height+64);
+    expect(below(geometry.left).some(r=>r.right>stage.x+50)).toBe(true);
+    expect(below(geometry.right).some(r=>r.left<stage.x+stage.width-50)).toBe(true);
   }else{
-    expect(flow.float).toBe('none');
-    const educationBox=await education.boundingBox();
-    expect(educationBox.y).toBeGreaterThanOrEqual(fanBox.y+fanBox.height);
+    const before=await page.getByTestId('coaching-approved-story').boundingBox(),after=await page.getByTestId('coaching-approved-recovery').boundingBox();
+    expect(before.y+before.height).toBeLessThanOrEqual(stage.y+1);
+    expect(after.y).toBeGreaterThanOrEqual(stage.y+stage.height);
   }
+  require('fs').writeFileSync(require('path').join(require('os').tmpdir(),'gw-coaching-central-layout-'+testInfo.project.name+'.json'),JSON.stringify({article,stage,...geometry}));
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
 });
