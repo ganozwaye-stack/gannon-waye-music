@@ -25,11 +25,13 @@ Deno.serve(async req => {
    if(attempt.count>5) return Response.json({error:'Please wait before submitting again.'},{status:429});
    const base44=createClientFromRequest(req);
    const actor=await base44.auth.me().catch(()=>null);
-   const receipt=await saveInterest(base44.asServiceRole.entities,body,{hashEmail:hash,excludeTraffic:actor?.role==='admin'});
+   const options={hashEmail:hash,excludeTraffic:actor?.role==='admin'};
+   const receipt=await saveInterest(base44.asServiceRole.entities,body,options);
    return Response.json(receipt);
  } catch(error) {
    // Never log input, DOB, email, phone or sensitive support text.
    const safe=new Set(['Please check the required fields and their lengths.','Please enter a valid email address.','Please enter a valid mobile number.','Please enter a valid date of birth that is not in the future.','Please confirm that Gannon may contact you about your interest.','Please refresh the form and try again.','Please wait before submitting again.']);
-   return Response.json({error:safe.has(error?.message)?error.message:'We could not confirm your submission. Please try again.'},{status:400});
+   const message=error instanceof Error?error.message:'';
+   return Response.json({error:safe.has(message)?message:'We could not confirm your submission. Please try again.'},{status:400});
  }
 });
