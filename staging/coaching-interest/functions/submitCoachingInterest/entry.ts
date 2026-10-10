@@ -5,7 +5,7 @@ Deno.serve(async req => {
  if(req.method!=='POST') return Response.json({error:'POST required'},{status:405});
  // Closed by default. Owner must resolve minors policy and approve deployment
  // before opening intake; do not invent an age-admission rule.
- if(Deno.env.get('COACHING_INTEREST_OPEN')!=='true' || !Deno.env.get('COACHING_MINOR_INTAKE_POLICY')) return Response.json({error:'Registration is being prepared. No details have been saved.'},{status:503});
+ if(Deno.env.get('COACHING_INTEREST_OPEN')!=='true' || Deno.env.get('COACHING_MINOR_INTAKE_POLICY_APPROVED')!=='true') return Response.json({error:'Registration is being prepared. No details have been saved.'},{status:503});
  try {
    if(Number(req.headers.get('content-length')||0)>8192) return Response.json({error:'Submission too large'},{status:413});
    const raw=await req.text();
@@ -24,7 +24,8 @@ Deno.serve(async req => {
    for(const [id,value] of attempts) if(now-value.start>60000) attempts.delete(id);
    if(attempt.count>5) return Response.json({error:'Please wait before submitting again.'},{status:429});
    const base44=createClientFromRequest(req);
-   const receipt=await saveInterest(base44.asServiceRole.entities,body,{hashEmail:hash});
+   const actor=await base44.auth.me().catch(()=>null);
+   const receipt=await saveInterest(base44.asServiceRole.entities,body,{hashEmail:hash,excludeTraffic:actor?.role==='admin'});
    return Response.json(receipt);
  } catch(error) {
    // Never log input, DOB, email, phone or sensitive support text.

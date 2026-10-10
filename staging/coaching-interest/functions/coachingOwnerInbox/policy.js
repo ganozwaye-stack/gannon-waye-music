@@ -21,7 +21,7 @@ export function validateInterest(input, now = new Date()) {
   if (!/^[a-f0-9-]{36}$/.test(String(input.submission_id||''))) fail('Please refresh the form and try again.');
   return {first_name,last_name,full_name:first_name+' '+last_name,email,phone,date_of_birth,support_wanted,consent_to_contact:true,submission_id:input.submission_id,source_page:'/coaching',source_offer:'coaching_interest',status:'new'};
 }
-export async function saveInterest(entities, input, {now = new Date(),hashEmail} = {}) {
+export async function saveInterest(entities, input, {now = new Date(),hashEmail,excludeTraffic=false} = {}) {
   const lead=validateInterest(input,now);
   const fingerprint=await hashEmail(lead.email);
   const previous=await entities.CoachingLead.filter({submission_id:lead.submission_id},'created_date',2);
@@ -31,7 +31,7 @@ export async function saveInterest(entities, input, {now = new Date(),hashEmail}
   }
   const recent=await entities.CoachingLead.filter({contact_fingerprint:fingerprint},'-created_date',4);
   if(recent.filter(row=>new Date(row.created_date).getTime()>now.getTime()-86400000).length>=3) throw new Error('Please wait before submitting again.');
-  const created=await entities.CoachingLead.create({...lead,contact_fingerprint:fingerprint});
+  const created=await entities.CoachingLead.create({...lead,contact_fingerprint:fingerprint,analytics_excluded:Boolean(excludeTraffic)});
   if(!created?.id) throw new Error('The submission could not be confirmed. Please retry.');
   // Deterministic post-create reconciliation: retries share one receipt. Entity
   // storage has no documented unique constraint/transaction; deployment must test concurrency.

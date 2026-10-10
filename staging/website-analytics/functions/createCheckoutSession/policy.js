@@ -51,7 +51,7 @@ export function summarizeWebsite(events,leads,orders,start,end) {
  for(const row of leads)if(inside(row)&&!excluded(row)&&!seenLeads.has(row.submission_id||row.id))seenLeads.add(row.submission_id||row.id);
  let refundUnknown=0;
  for(const row of orders) {
-  if(!inside(row)||excluded(row)||row.status==='duplicate'||row.financial_status==='duplicate_void'||!row.stripe_session_id||!row.stripe_event_id||row.checkout_policy!=='stage_one_owned_stock_v1'||!['paid','refunded','partially_refunded'].includes(row.payment_status)||seenOrders.has(row.stripe_session_id))continue;
+  if(!inside(row)||excluded(row)||row.status==='duplicate'||row.status==='needs_admin_review'||row.financial_status==='duplicate_void'||!row.stripe_session_id||!row.stripe_event_id||row.checkout_policy!=='stage_one_owned_stock_v1'||!['paid','refunded','partially_refunded'].includes(row.payment_status)||seenOrders.has(row.stripe_session_id))continue;
   seenOrders.add(row.stripe_session_id);
   const total=Number(row.total_amount);
   if(!Number.isFinite(total)||total<0)continue;

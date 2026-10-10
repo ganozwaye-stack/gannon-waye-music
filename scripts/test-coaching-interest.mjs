@@ -39,6 +39,6 @@ const compiled=await transform(source,{loader:'ts',format:'esm'});
 await import('data:text/javascript;base64,'+Buffer.from(compiled.code).toString('base64'));
 assert.equal((await submitHandler(request())).status,503);
 env={COACHING_INTEREST_OPEN:'true'};assert.equal((await submitHandler(request())).status,503);
-env.COACHING_MINOR_INTAKE_POLICY='pending';assert.equal((await submitHandler(request())).status,503); // secret still required
+env.COACHING_MINOR_INTAKE_POLICY_APPROVED='false';assert.equal((await submitHandler(request())).status,503); // secret still required
 assert.equal(fs.readFileSync('src/lib/coachingInterestPolicy.js','utf8'),fs.readFileSync('staging/coaching-interest/functions/submitCoachingInterest/policy.js','utf8'));
 console.log('Coaching interest policy, saved receipt, retries, limits, owner denial, staged RLS and closed endpoint checks passed. No live calls.');
