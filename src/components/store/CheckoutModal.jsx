@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { base44 } from '@/api/base44Client';
+import { getRecordedAttribution } from '@/lib/analytics';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -103,6 +104,7 @@ export default function CheckoutModal({ product, onClose }) {
     try {
       const res = await Promise.race([
         base44.functions.invoke('createCheckoutSession', {
+          attribution: getRecordedAttribution(),
           customerEmail: form.customer_email || undefined,
           customerName: form.customer_name,
           productName: product.name,
