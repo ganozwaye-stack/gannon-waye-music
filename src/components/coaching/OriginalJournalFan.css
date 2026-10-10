@@ -1,0 +1,69 @@
+/* Static metallic light catches: no flashing, sweeps or animated sparkle. */
+.coaching-journal-rim {
+  position: absolute;
+  border: 3px solid transparent;
+  box-sizing: content-box;
+  background: linear-gradient(#141419, #141419) padding-box,
+    linear-gradient(135deg, #98702c 0%, #f4d98d 12%, #fff8da 17%, #ba8735 25%, #e7c46a 44%, #fff6cd 51%, #a87825 60%, #edce7c 80%, #fff4c9 86%, #916b2d 100%) border-box;
+  box-shadow: 1px 0 0 #f9df95, 4px 5px 0 #755622, 8px 18px 22px rgba(0,0,0,.65), 0 0 10px rgba(229,190,90,.09);
+}
+.coaching-journal-rim img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.coaching-edge-glint {
+  position: absolute;
+  top: -8px;
+  left: 16px;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+}
+.coaching-edge-glint::before,
+.coaching-edge-glint::after {
+  content: '';
+  position: absolute;
+  background: linear-gradient(transparent, rgba(255,250,219,.95), transparent);
+  filter: drop-shadow(0 0 3px rgba(255,223,140,.45));
+}
+.coaching-edge-glint::before { left: 6px; width: 2px; height: 14px; }
+.coaching-edge-glint::after { top: 6px; width: 14px; height: 2px; transform: rotate(0deg); background: linear-gradient(90deg, transparent, rgba(255,250,219,.95), transparent); }
+.coaching-display-base {
+  position: absolute;
+  left: 55px;
+  top: 553px;
+  width: 970px;
+  height: 75px;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(211,168,68,.12), transparent 65%);
+  box-shadow: 0 20px 25px rgba(0,0,0,.48);
+}
+.coaching-display-base::before {
+  content: '';
+  position: absolute;
+  inset: 24px 0 0;
+  border-radius: 0 0 50% 50%;
+  background: linear-gradient(180deg, #29241d, #141419 58%, #090b0f);
+  border-bottom: 2px solid rgba(180,141,55,.45);
+}
+.coaching-display-base::after {
+  content: '';
+  position: absolute;
+  inset: 0 0 21px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 50% 32%, #373125, #1d1c1c 55%, #101218);
+  border: 2px solid rgba(231,201,122,.65);
+  box-shadow: inset 0 2px 0 rgba(255,237,187,.22), 0 1px 8px rgba(233,191,92,.08);
+}
+/* Explicitly preserve a motionless display when reduced motion is requested. */
+@media (prefers-reduced-motion: reduce) {
+  .coaching-journal-rim, .coaching-edge-glint, .coaching-display-base,
+  .coaching-edge-glint::before, .coaching-edge-glint::after,
+  .coaching-display-base::before, .coaching-display-base::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
