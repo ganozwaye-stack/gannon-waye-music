@@ -19,6 +19,11 @@ await assert.rejects(saveInterest({CoachingSubmissionReceipt:ledger,CoachingLead
 const leadCount=rows.length;await assert.rejects(saveInterest({CoachingLead:entity,CoachingSubmissionReceipt:ledger},{...input,submission_id:'00000000-0000-4000-8000-000000000002'},deps));assert.equal(rows.length,leadCount);
 for(let n=3;n<=3;n++) await saveInterest({CoachingLead:entity,CoachingSubmissionReceipt:ledger},{...input,submission_id:'00000000-0000-4000-8000-00000000000'+n},deps);
 await assert.rejects(saveInterest({CoachingLead:entity,CoachingSubmissionReceipt:ledger},{...input,submission_id:'00000000-0000-4000-8000-000000000004'},deps),/wait/);
+const concurrentLeads=[],concurrentReceipts=[];
+const memory=rows=>({filter:async query=>rows.filter(row=>Object.entries(query).every(([key,value])=>row[key]===value)),create:async data=>{const row={...data,id:String(rows.length),created_date:now.toISOString()};rows.push(row);return row;},update:async(id,data)=>Object.assign(rows.find(row=>row.id===id),data)});
+const concurrentEntities={CoachingLead:memory(concurrentLeads),CoachingSubmissionReceipt:memory(concurrentReceipts)};
+await Promise.allSettled([saveInterest(concurrentEntities,input,deps),saveInterest(concurrentEntities,input,deps)]);
+assert.equal(concurrentLeads.length,1);assert.equal((await saveInterest(concurrentEntities,input,deps)).duplicate,true);
 assert.equal(isWebsiteOwner({role:'admin',email:'other@example.invalid'}),false);
 assert.equal(isWebsiteOwner({role:'user',email:'ganozwaye@gmail.com'}),false);
 let handler,actor=null;

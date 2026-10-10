@@ -9,9 +9,10 @@ export default function WebsiteAnalyticsTracker() {
   const marked=new URLSearchParams(location.search).get('analytics_test')==='1';
   setAnalyticsTrafficExcluded(isLoadingAuth||marked||user?.role==='admin');
   if(isLoadingAuth||marked||user?.role==='admin'||!publicPage(location.pathname))return;
-  const navigation=location.key||location.pathname;
+  recordLandingSource();
+  const navigation=location.pathname;
   if(last.current===navigation)return;last.current=navigation;
-  recordLandingSource();trackEvent('page_view');
+  trackEvent('page_view');
  },[location.key,location.pathname,location.search,user?.role,isLoadingAuth]);
  useEffect(()=>{
   const click=event=>{
