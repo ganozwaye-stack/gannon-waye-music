@@ -45,7 +45,7 @@ const entities=new Proxy({}, {get:(_,name)=>({
  update:async(id,data)=>{const row=(rows[name]||[]).find(row=>row.id===id);Object.assign(row,data);return row;},
 })});
 const base44={asServiceRole:{entities,functions:{invoke:async(name)=>{calls.push(name);return {data:{success:true}};}}}};
-const session={id:'cs_test_fake',currency:'aud',amount_total:9900,customer_details:{email:'fake@example.invalid',name:'Mock Buyer'},metadata:{customer_name:'Mock Buyer',checkout_policy:'stage_one_owned_stock_v1',items:JSON.stringify([{product_id:'fake',product_name:'Mock item',price:99,quantity:1,category:'digital'}]),attribution_first_source:'instagram',attribution_first_medium:'social',attribution_first_campaign:'journals',attribution_last_source:'tiktok',attribution_last_medium:'social',attribution_last_campaign:'launch',email:'IGNORED_PRIVATE'}};
+const session={id:'cs_test_fake',currency:'aud',amount_total:9900,customer_details:{email:'fake@example.invalid',name:'Mock Buyer'},metadata:{customer_name:'Mock Buyer',checkout_policy:'stage_one_owned_stock_v1',items:JSON.stringify([{product_id:'fake',product_name:'Mock item',price:99,quantity:1,category:'digital'}]),gw_first_source:'instagram',gw_first_medium:'social',gw_first_campaign:'journals',gw_last_source:'tiktok',gw_last_medium:'social',gw_last_campaign:'launch',email:'IGNORED_PRIVATE'}};
 const first=await captureOrderFromSession({base44,session,event:{id:'evt_fake',type:'checkout.session.completed'},process:false});
 assert.equal(first.outcome,'created');
 assert.equal(rows.MerchOrder.length,1);
