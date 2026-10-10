@@ -4,6 +4,7 @@ test.beforeAll(async () => { ({ PUBLIC_JOURNALS } = await import('../../lib/publ
 const origin = process.env.BASE_URL || 'http://localhost:5173';
 test('each preview stays selected consistently and contains only one genuine question', async ({ page }) => {
   await page.goto(origin + '/coaching');
+  await page.getByRole('button', {name:'Explore the Journals',exact:true}).click();
   for (const book of PUBLIC_JOURNALS) {
     await page.getByTestId('journal-cover-' + book.id).click();
     const dialog = page.getByTestId('journal-preview-modal');
@@ -19,6 +20,7 @@ test('each preview stays selected consistently and contains only one genuine que
 });
 test('browser Back closes preview and a different book reopens without stale content', async ({ page }) => {
   await page.goto(origin + '/coaching');
+  await page.getByRole('button', {name:'Explore the Journals',exact:true}).click();
   await page.getByTestId('journal-cover-' + PUBLIC_JOURNALS[0].id).click();
   await expect(page.getByTestId('journal-preview-modal')).toBeVisible();
   await page.goBack();
@@ -32,12 +34,14 @@ test('held page never sends payment or private-download requests', async ({ page
     if (/\/functions\/(createJournalCheckout|downloadJournal|getJournalPurchases)(?:[/?]|$)/i.test(request.url()) || /checkout\.stripe\.com/i.test(request.url())) requests.push(request.url());
   });
   await page.goto(origin + '/coaching');
+  await page.getByRole('button', {name:'Explore the Journals',exact:true}).click();
   await page.getByTestId('journal-cover-' + PUBLIC_JOURNALS[0].id).click();
   await expect(page.getByRole('button', { name: 'Purchase', exact: true })).toBeDisabled();
   expect(requests).toEqual([]);
 });
 test('three chosen books total A$29.70, explicit six bundle A$49, no duplicate titles and reopen resets', async ({ page }) => {
   await page.goto(origin + '/coaching');
+  await page.getByRole('button', {name:'Explore the Journals',exact:true}).click();
   await page.getByTestId('journal-cover-' + PUBLIC_JOURNALS[0].id).click();
   const dialog = page.getByTestId('journal-preview-modal');
   const total = dialog.getByTestId('journal-selection-total');
@@ -66,4 +70,22 @@ test('purchase return stays held without confirmation or private download reques
  await expect(page.getByText('Online purchasing is being prepared. No payment is accepted by this page.')).toBeVisible();
  await expect(page.getByRole('button',{name:'Download journal',exact:true})).toHaveCount(0);
  expect(requests).toEqual([]);
+});
+test('landing offers two separate choices and exactly the approved three paragraphs',async({page})=>{
+ await page.goto(origin+'/coaching');
+ const paragraphs=["I’ve always felt drawn to helping people find clarity, understand challenges, and build confidence to move forward. In personal training, I realised it was forty percent muscle, sixty percent mental.","That experience, plus my studies and lived experience, shapes my coaching today. Even with seven years of learning, I was caught in abuse. That’s why I say openly: understanding doesn’t make you immune, and none of that means you’re weak. Writing and music helped me find words and strength; the journals grew from that.","Wherever you are in your journey, you’re welcome to start here. Explore the journals and choose one that speaks to you, or get in touch about one-on-one coaching so we can talk about what you’d like to work towards. You don’t need to have it all figured out. Let’s start with what matters to you."];
+ for(const [i,id] of ['coaching-approved-intro','coaching-approved-story','coaching-approved-ending'].entries())
+   await expect(page.getByTestId(id)).toHaveText(paragraphs[i]);
+ await expect(page.getByTestId('journal-shelf')).toHaveCount(0);
+ await expect(page.getByRole('heading',{name:'One-on-one coaching',exact:true})).toHaveCount(0);
+ await page.getByRole('button',{name:'Enquire about Coaching',exact:true}).click();
+ await expect(page.getByRole('heading',{name:'One-on-one coaching',exact:true})).toBeVisible();
+ await expect(page.getByTestId('journal-shelf')).toHaveCount(0);
+ await page.goBack();
+ await expect(page.getByRole('heading',{name:'One-on-one coaching',exact:true})).toHaveCount(0);
+ await page.getByRole('button',{name:'Explore the Journals',exact:true}).click();
+ await expect(page.getByTestId('journal-shelf')).toBeVisible();
+ await expect(page.getByRole('heading',{name:'One-on-one coaching',exact:true})).toHaveCount(0);
+ await page.getByRole('button',{name:'Back to the choices',exact:true}).click();
+ await expect(page.getByTestId('journal-shelf')).toHaveCount(0);
 });
