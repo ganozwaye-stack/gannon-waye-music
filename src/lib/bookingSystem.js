@@ -4,6 +4,7 @@
  */
 
 import { base44 } from '@/api/base44Client';
+import { trackEvent } from '@/lib/analytics';
 
 const BOOKING_TYPES = [
   'live_performance',
@@ -85,20 +86,12 @@ export const createBookingEnquiry = async (data) => {
     // Park confirmation/admin follow-up internally. Booking capture is real; outbound messages require approval.
     await base44.functions.invoke('notifyAdminBookingEnquiry', { enquiry, source: 'public_booking_form' });
     
-    // Update analytics
-    await base44.analytics.track({
-      eventName: 'booking_enquiry_created',
-      properties: {
-        enquiry_id: enquiry.id,
-        booking_type: data.booking_type,
-        location: data.location,
-        referral_source: data.referral_source,
-      },
-    });
+    // Counter only: no enquiry ID, contact details, location or message forwarded.
+    trackEvent('booking_enquiry_saved', {target:'work'}, 'booking:'+enquiry.id);
     
     return { success: true, enquiry };
   } catch (error) {
-    console.error('Booking enquiry creation failed:', error);
+    console.error('Booking enquiry creation failed');
     return { success: false, error: error.message };
   }
 };
