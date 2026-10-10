@@ -42,10 +42,7 @@ export default function Coaching() {
             <p className="font-body font-medium text-base md:text-lg gradient-gold-text uppercase tracking-wide mb-4 leading-relaxed" data-testid="coaching-service-promise">START WITH WHAT MATTERS TO YOU</p>
             <h1 className="font-body font-medium text-4xl md:text-5xl gradient-gold-text leading-tight tracking-tight text-center">RESILIENCE COACHING</h1>
             <p className="font-body font-normal text-xl md:text-2xl text-foreground mt-4 tracking-normal" data-testid="coaching-name">Coaching with Gannon Waye</p>
-<figure className="inline-flex items-center gap-3 mt-6 mx-auto text-left" data-testid="coaching-golden-key-membership">
-            <img src="/images/golden-key/GKlogo.png" alt="Golden Key International Honour Society logo" className="w-12 h-12 shrink-0" width="48" height="48" />
-            <figcaption className="font-body text-sm text-foreground/80 max-w-xs">Lifetime Member, Golden Key International Honour Society</figcaption>
-          </figure>
+
             <div className="w-16 h-1 gradient-gold-button mx-auto mt-6 mb-6" aria-hidden="true" data-testid="coaching-bottom-rule" />
             <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />
           </div>
@@ -66,6 +63,10 @@ export default function Coaching() {
 <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-purpose">I find purpose and joy in helping others move towards their future. I share my journey because I want it to benefit others, beyond my own life. I believe God can use it for something greater than myself.</p>
 <p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-ending">If you’re looking for support, explore my journals or learn more about coaching.</p>
           </div>
+          <figure className="coaching-membership-footer flex items-center gap-3 mt-6 text-left" data-testid="coaching-golden-key-membership">
+            <img src="/images/golden-key/GKlogo.png" alt="Golden Key International Honour Society logo" className="w-12 h-12 shrink-0" width="48" height="48" />
+            <figcaption className="font-body text-sm text-foreground/80 max-w-xs">Lifetime Member, Golden Key International Honour Society</figcaption>
+          </figure>
         </div>
         </div>
       </section>

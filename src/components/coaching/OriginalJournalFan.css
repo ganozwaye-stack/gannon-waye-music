@@ -83,3 +83,6 @@
 }
 
 /* The symmetric contours follow the rotated original cover hull and display ellipse. */
+
+/* Membership sits below both article columns, aligned with their left edge. */
+.coaching-membership-footer { grid-column: 1; grid-row: 2; justify-self: start; }
