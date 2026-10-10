@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { trackEvent } from '@/lib/analytics';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { Mail, Instagram, ExternalLink, Music } from 'lucide-react';
@@ -15,6 +16,7 @@ export default function ContactGannon() {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const submissionBusy = useRef(false), submissionKey = useRef(null);
 
   const { data: bizSettings = [] } = useQuery({
     queryKey: ['BusinessProfileSettings'],
@@ -53,10 +55,13 @@ export default function ContactGannon() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (submissionBusy.current || submitted) return;
     if (!form.name || !form.email || !form.message) {
       toast({ title: 'Please fill in all fields', variant: 'destructive' });
       return;
     }
+    submissionBusy.current = true;
+    submissionKey.current ||= crypto.randomUUID();
     setLoading(true);
     try {
       await base44.integrations.Core.SendEmail({
@@ -65,10 +70,12 @@ export default function ContactGannon() {
         body: `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`,
       });
       setSubmitted(true);
+      trackEvent('contact_enquiry_sent', {target:'contact'}, 'contact:'+submissionKey.current);
     } catch {
       toast({ title: 'Message could not be sent', description: 'Please try again or use the direct email link.', variant: 'destructive' });
     } finally {
       setLoading(false);
+      submissionBusy.current = false;
     }
   };
 
