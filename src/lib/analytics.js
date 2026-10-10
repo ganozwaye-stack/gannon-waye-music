@@ -1,7 +1,7 @@
 import { base44 } from '@/api/base44Client';
 import { publicPage,landingSource,sanitizeAttribution,sanitizeEvent } from './websiteAnalyticsPolicy';
 const completed=new Set(),recent=new Map();
-let excludeTraffic=false, capturedInitialReferrer=false;
+let excludeTraffic=true, capturedInitialReferrer=false;
 export function setAnalyticsTrafficExcluded(value) {excludeTraffic=Boolean(value);}
 export function getRecordedAttribution() {
  if(typeof window==='undefined')return sanitizeAttribution();
@@ -30,7 +30,7 @@ export function trackEvent(eventName,properties={},deduplicationKey='') {
  const aliases={stream_click:'music_outbound',booking_enquiry_created:'booking_enquiry_saved'};
  const name=aliases[eventName]||eventName;
  const target=properties.target||'';
- const throttleKey=name+':'+page+':'+target,now=Date.now();
+ const throttleKey=name+':'+page,now=Date.now();
  if(!deduplicationKey&&now-(recent.get(throttleKey)||0)<500)return;
  recent.set(throttleKey,now);
  const event=sanitizeEvent({event_id:crypto.randomUUID(),event_name:name,page,target,...getRecordedAttribution()});

@@ -7,7 +7,7 @@ export default function WebsiteAnalyticsTracker() {
  const location=useLocation(),last=useRef(''),{user,isLoadingAuth}=useAuth();
  useEffect(()=>{
   const marked=new URLSearchParams(location.search).get('analytics_test')==='1';
-  setAnalyticsTrafficExcluded(marked||user?.role==='admin');
+  setAnalyticsTrafficExcluded(isLoadingAuth||marked||user?.role==='admin');
   if(isLoadingAuth||marked||user?.role==='admin'||!publicPage(location.pathname))return;
   const navigation=location.key||location.pathname;
   if(last.current===navigation)return;last.current=navigation;

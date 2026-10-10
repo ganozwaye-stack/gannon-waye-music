@@ -18,7 +18,7 @@ export default function CoachingLeadsTab() {
   const qc = useQueryClient();
   const [filterStatus, setFilterStatus] = useState('all');
 
-  const { data: leads = [] } = useQuery({
+  const { data: leads = [], error } = useQuery({
     queryKey: ['coaching-leads'],
     queryFn: async () => {const result=await base44.functions.invoke('coachingOwnerInbox',{});return result.data.leads;},
     retry: false,
@@ -34,6 +34,7 @@ export default function CoachingLeadsTab() {
 
   return (
     <div className="space-y-6 pb-10">
+      {error && <p role="alert" className="font-body text-sm">The private owner inbox is being prepared or owner access is unavailable.</p>}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 className="font-display text-xl text-foreground">Leads &amp; Pipeline</h2>
