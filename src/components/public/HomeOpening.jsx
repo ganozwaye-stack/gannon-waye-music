@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ExternalLink } from 'lucide-react';
 import LumaAlphaFilter from '@/components/public/setfree-hero/LumaAlphaFilter';
 import { isPublicRelease } from '@/lib/publicRelease';
+import { GalaxyDepthBackdrop, GalaxyDepthPlanet } from './GalaxyDepthPreview';
 
 const GWM_LOGO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a733b567_GWMGannonWayemusic.jpg';
 const PRIMARY = 'inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 font-body text-sm gradient-gold-button';
@@ -10,7 +11,7 @@ function publicHttps(value) {
   try { const url = new URL(value); return url.protocol === 'https:' ? url.href : null; } catch { return null; }
 }
 
-export default function HomeOpening({ release, option = 1 }) {
+export default function HomeOpening({ release, option = 1, depthPreview = false }) {
   const centred = option === 2;
   const magazine = option === 3;
   const bold = option === 4;
@@ -24,10 +25,11 @@ export default function HomeOpening({ release, option = 1 }) {
   ].filter(link => link.url) : [];
   return (
     <div data-testid="home-opening" data-option={option} className={welcomeFirst ? 'flex flex-col' : magazine ? 'grid md:grid-cols-2' : ''}>
-      <p className="px-5 pt-6 font-body text-xs uppercase tracking-[.2em] text-primary md:col-span-2">Homepage concept {option} · {names[option-1]}</p>
+      <p className="px-5 pt-6 font-body text-xs uppercase tracking-[.2em] text-primary md:col-span-2">{depthPreview ? 'Galaxy depth study · Evolution of concept 1 · Preview for review' : 'Homepage concept '+option+' · '+names[option-1]}</p>
       <LumaAlphaFilter />
       <section aria-labelledby="home-release-title" className={'relative overflow-hidden border-b border-primary/20 px-5 py-12 md:px-8 md:py-20 md:col-span-2 '+(welcomeFirst ? 'order-2' : '')} style={{background:bold ? 'linear-gradient(135deg,#351b24,#0f0d16)' :'radial-gradient(ellipse at 85% 20%,rgba(177,128,44,.16),transparent 60%),hsl(var(--background))'}}>
-        <div className="mx-auto max-w-6xl">
+        {depthPreview && <GalaxyDepthBackdrop />}
+        <div className="mx-auto max-w-6xl relative z-10">
           <img src={GWM_LOGO} alt="Gannon Waye Music" className={'mb-10 h-auto w-52 max-w-full md:w-64 '+(centred ? 'mx-auto' : '')} style={{filter:'url(#gw-luma-alpha)'}} />
           <div className={centred ? 'flex flex-col items-center text-center gap-8' : bold ? 'grid items-center gap-10 md:grid-cols-[1fr_1.4fr] md:gap-16' : magazine ? 'grid items-center gap-10 md:grid-cols-[1.4fr_1fr] md:gap-10' : 'grid items-center gap-10 md:grid-cols-2 md:gap-16'}>
             <div className={'min-w-0 '+(centred ? 'max-w-2xl order-2' : bold ? 'md:order-2' : '')}>
@@ -40,7 +42,7 @@ export default function HomeOpening({ release, option = 1 }) {
                 <Link to={featured ? '/release/'+featured.id : '/music'} className={OUTLINE}>{featured ? 'Behind the song' : 'Explore the music'}<ArrowRight className="h-4 w-4" /></Link>
               </div>
             </div>
-            {featured?.artwork_url && <img data-testid="home-release-cover" src={featured.artwork_url} alt={featured.title+' cover artwork'} fetchPriority="high" className={'w-full mx-auto border border-primary/30 shadow-2xl '+(centred ? 'max-w-sm order-1 rounded-lg' : bold ? 'max-w-lg md:order-1 rounded-none' : magazine ? 'max-w-lg rounded-none' : 'max-w-lg rounded-3xl')} />}
+            {depthPreview && featured ? <GalaxyDepthPlanet /> : featured?.artwork_url && <img data-testid="home-release-cover" src={featured.artwork_url} alt={featured.title+' cover artwork'} fetchPriority="high" className={'w-full mx-auto border border-primary/30 shadow-2xl '+(centred ? 'max-w-sm order-1 rounded-lg' : bold ? 'max-w-lg md:order-1 rounded-none' : magazine ? 'max-w-lg rounded-none' : 'max-w-lg rounded-3xl')} />}
           </div>
         </div>
       </section>
