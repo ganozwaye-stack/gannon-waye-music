@@ -83,8 +83,3 @@
 }
 
 /* The symmetric contours follow the rotated original cover hull and display ellipse. */
-.coaching-story-balanced { margin-top: 0; }
-@media (min-width: 1024px) {
-  .coaching-story-balanced { columns: 2; column-gap: 32px; column-fill: balance; }
-  .coaching-story-balanced p { break-inside: auto; orphans: 2; widows: 2; }
-}
