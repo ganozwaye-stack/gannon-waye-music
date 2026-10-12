@@ -2,6 +2,7 @@ const {test,expect}=require('@playwright/test');
 test('native queue exposes drafts and never invents posting receipts or mutates a status',async({page})=>{
  let writes=0;
  await page.route('**/api/**',route=>{
+  if(new URL(route.request().url()).pathname.startsWith('/src/'))return route.continue();
   if(route.request().method()!=='GET'){writes++;return route.abort();}
   if(route.request().url().includes('/entities/ContentCalendarPost'))return route.fulfill({json:[
    {id:'draft-fixture',platform:'tiktok',status:'draft',caption:'Native caption',hashtags:'#music',media_status:'not_started'},
