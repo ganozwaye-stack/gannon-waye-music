@@ -14,7 +14,7 @@ Private adapter calls SDK Core.CreateFileSignedUrl only after payment checks, us
 
 Staged catalogue validation permits one approved original with five held entries lacking private assets. It does not invent file locations for unreleased editions. Six-book bundle remains disabled until every exact edition is released.
 
-Run: node scripts/test-staged-journal-adapters.mjs. Five entrypoint default-closed glue fixtures and HTTP/storage/index/provider fixture tests pass. No actual book interiors, keys, sessions or network requests used. Deno native dependency checking is separately recorded in the handoff; a fixture pass is not native provider/deployment proof.
+Run: node scripts/test-staged-journal-adapters.mjs. Five entrypoint default-closed glue fixtures and HTTP/storage/index/provider fixture tests pass. No actual book interiors, keys, sessions or network requests used. Native Deno checks passed for all five entries using cached pinned packages. A fixture/native check is not provider or deployment proof.
 
 ## Exact remaining configuration/verification
 
