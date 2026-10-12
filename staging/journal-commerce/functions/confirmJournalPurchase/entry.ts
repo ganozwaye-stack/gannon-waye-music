@@ -3,7 +3,7 @@ import Stripe from 'npm:stripe@14.21.0';
 import {createJournalHttpHandler} from './journalHttp.js';
 import {RELEASE_CONFIG} from './releaseConfig.js';
 import {JournalAccessError} from './journalCommerce.js';
-const sha256=async bytes=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),byte=>byte.toString(16).padStart(2,'0')).join('');
+const sha256=async (bytes: BufferSource)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),byte=>byte.toString(16).padStart(2,'0')).join('');
 const createStripe=()=>{
  if(!RELEASE_CONFIG.stripeKeyEnv)throw new JournalAccessError('payment_binding_not_configured',503);
  const key=Deno.env.get(RELEASE_CONFIG.stripeKeyEnv);if(!key)throw new JournalAccessError('payment_binding_not_configured',503);
