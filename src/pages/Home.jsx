@@ -19,6 +19,7 @@ import SetFreeSpaceHero from '@/components/public/setfree-hero/SetFreeSpaceHero'
 import HomeOpening from '@/components/public/HomeOpening';
 import BehindTheScenes from '@/components/public/BehindTheScenes';
 import HomeActivityFeed from '@/components/public/HomeActivityFeed';
+import GannonWayeGroupFeature from '@/components/public/GannonWayeGroupFeature';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
@@ -57,6 +58,8 @@ export default function Home() {
   return (
     <div className="min-h-screen relative">
       {previewOption ? <HomeOpening release={featuredRelease} option={previewOption} depthPreview={depthPreview} /> : <SetFreeSpaceHero previousRelease={previousRelease} previousLink={previousLink} settings={site} />}
+
+      <GannonWayeGroupFeature />
 
       {/* Welcome prompt: appears the first time a visitor reaches this point */}
       <FirstVisitOnboarding />

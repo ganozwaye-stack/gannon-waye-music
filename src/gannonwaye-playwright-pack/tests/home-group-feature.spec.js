@@ -1,0 +1,23 @@
+const {test,expect}=require('@playwright/test');
+test('homepage Group feature keeps music and leads to coaching and held journal previews',async({page},info)=>{
+ await page.route('**/functions/**',route=>route.abort());
+ await page.goto('/',{waitUntil:'domcontentloaded'});
+ const feature=page.getByTestId('gannon-waye-group-feature');
+ await expect(feature.getByRole('heading',{name:'Gannon Waye Group',exact:true})).toBeVisible();
+ await expect(feature).toContainText('Life coaching and mindset mentorship');
+ await expect(feature.getByTestId('group-music-link')).toHaveAttribute('href','/music');
+ await feature.scrollIntoViewIfNeeded();
+ expect(await feature.evaluate(el=>el.getBoundingClientRect().right<=innerWidth && el.getBoundingClientRect().left>=0)).toBe(true);
+ await page.addStyleTag({content:'[class*="fixed"]{display:none!important}'});
+ await feature.screenshot({path:require('os').tmpdir()+'/gw-group-feature-'+info.project.name+'.jpg',type:'jpeg',quality:70});
+ await feature.getByTestId('group-coaching-link').click();
+ await expect(page).toHaveURL(/\/coaching\?view=coaching$/);
+ await expect(page.getByTestId('paid-consultation-offer')).toBeVisible();
+ await page.goto('/',{waitUntil:'domcontentloaded'});
+ await page.getByTestId('group-journals-link').click();
+ await expect(page).toHaveURL(/\/coaching\?view=journals$/);
+ await expect(page.getByTestId('journal-shelf')).toBeVisible();
+ await expect(page.locator('[data-testid^="journal-cover-"]')).toHaveCount(6);
+ await page.getByTestId('journal-cover-choosing-yourself').click();
+ await expect(page.getByTestId('journal-preview-modal').getByRole('button',{name:'Purchase',exact:true})).toBeDisabled();
+});
