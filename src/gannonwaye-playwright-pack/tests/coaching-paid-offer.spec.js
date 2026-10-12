@@ -30,3 +30,20 @@ test('home contact route exposes coaching and footer accurately describes paused
  await expect(footer.getByRole('link',{name:'View update-list status'})).toHaveAttribute('href','/#updates');
  await expect(footer.getByRole('link',{name:'Join the Update List'})).toHaveCount(0);
 });
+
+test('paid offer and held original books remain independent choices',async({page})=>{
+ let paymentCalls=0;
+ await page.route('**/functions/**',route=>{paymentCalls++;return route.abort();});
+ await page.goto('/coaching?view=coaching',{waitUntil:'domcontentloaded'});
+ await page.getByRole('button',{name:'Back to the choices',exact:true}).click();
+ await page.getByRole('button',{name:'Explore the Journals',exact:true}).click();
+ await expect(page.getByTestId('journal-shelf')).toBeVisible();
+ await expect(page.locator('[data-testid^="journal-cover-"]')).toHaveCount(6);
+ await page.getByTestId('journal-cover-choosing-yourself').click();
+ const modal=page.getByTestId('journal-preview-modal');
+ await expect(modal.getByTestId('journal-sample-question')).toHaveCount(1);
+ await expect(modal.getByRole('button',{name:'Purchase',exact:true})).toBeDisabled();
+ await expect(modal).toContainText('Online purchasing is being prepared');
+ await expect(modal.getByRole('button',{name:'Access your purchased journal'})).toHaveCount(0);
+ expect(paymentCalls).toBe(0);
+});
