@@ -5,6 +5,7 @@ import {resolve,dirname} from 'node:path';
 import {createJournalHttpHandler,createJournalStripe,readBoundedBytes} from '../staging/journal-commerce/functions/downloadJournal/journalHttp.js';
 import {JOURNAL_POLICY,JOURNAL_APP_ID,JOURNAL_ABN} from '../staging/journal-commerce/functions/downloadJournal/journalCommerce.js';
 const root=resolve('staging/journal-commerce/functions');
+const bundleHashes=new Map();
 const actions=['createJournalCheckout','getJournalPurchases','confirmJournalPurchase','cancelJournalCheckout','downloadJournal'];
 for(const action of actions){
  const dir=resolve(root,action),entry=await readFile(resolve(dir,'entry.ts'),'utf8');
@@ -13,6 +14,7 @@ for(const action of actions){
  for(const filename of await readdir(dir)){
   if(!/\.(js|ts)$/.test(filename))continue;
   const source=await readFile(resolve(dir,filename),'utf8');
+  if(filename!=='entry.ts'){const digest=createHash('sha256').update(source).digest('hex');if(bundleHashes.has(filename))assert.equal(digest,bundleHashes.get(filename));else bundleHashes.set(filename,digest);}
   for(const match of source.matchAll(/from\s+['"]([^'"]+)['"]/g)){
    const target=match[1];if(target.startsWith('npm:')){assert.match(target,/^npm:(?:@base44\/sdk@0\.8\.30|stripe@14\.21\.0)$/);continue;}
    const full=resolve(dirname(resolve(dir,filename)),target);assert.ok(full.startsWith(dir+'/'));await readFile(full);
