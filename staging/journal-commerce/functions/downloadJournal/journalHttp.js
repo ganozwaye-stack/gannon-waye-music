@@ -56,7 +56,7 @@ export async function verifyJournalPrices({stripe,catalogue,params,liveMode,sha2
  }
 }
 export function createJournalStripe(stripe,liveMode,{catalogue,sha256}={}){
- const checkout={sessions:{...stripe.checkout.sessions,create:async(params,options)=>{
+ const checkout={sessions:{retrieve:(...args)=>stripe.checkout.sessions.retrieve(...args),list:(...args)=>stripe.checkout.sessions.list(...args),expire:(...args)=>stripe.checkout.sessions.expire(...args),create:async(params,options)=>{
   await verifyJournalPrices({stripe,catalogue,params,liveMode,sha256});
   return stripe.checkout.sessions.create(params,options);
  }}};
