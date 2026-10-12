@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {runInNewContext} from 'node:vm';
 import {createHash} from 'node:crypto';
 import {readFile,readdir} from 'node:fs/promises';
 import {resolve,dirname} from 'node:path';
@@ -25,6 +26,9 @@ for(const action of actions){
  const {createJournalHttpHandler:factory}=await import('../staging/journal-commerce/functions/'+action+'/journalHttp.js');
  let touched=0;const closed=factory(action,{release:RELEASE_CONFIG,createRequestClient:()=>{touched++;throw Error('must not initialize')}});
  assert.equal((await closed(new Request('https://example.invalid',{method:'POST',body:'{}'}))).status,503);assert.equal(touched,0);
+ let captured;const {JournalAccessError}=await import('../staging/journal-commerce/functions/'+action+'/journalCommerce.js');
+ runInNewContext(entry.replace(/^import .*;$/gm,''),{createJournalHttpHandler:factory,RELEASE_CONFIG,JournalAccessError,createClientFromRequest:()=>{touched++;throw Error('SDK forbidden');},Stripe:class {constructor(){touched++;throw Error('Stripe forbidden');}},Deno:{env:{get:()=>{touched++;throw Error('Env forbidden');}},serve:handler=>{captured=handler;}},crypto,fetch:()=>{touched++;throw Error('Network forbidden');}});
+ assert.equal((await captured(new Request('https://example.invalid',{method:'POST',body:'{}'}))).status,503);assert.equal(touched,0);
 }
 const pdf=new TextEncoder().encode('%PDF-synthetic fixture only');
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
