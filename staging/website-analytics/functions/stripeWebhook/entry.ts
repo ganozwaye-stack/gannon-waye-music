@@ -25,7 +25,6 @@ Deno.serve(async (req) => {
   const base44 = createClientFromRequest(req);
   const secretKey = String(Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
   const webhookSecret = String(Deno.env.get('STRIPE_WEBHOOK_SECRET') || '').trim();
-  const isLiveMode = secretKey.startsWith('sk_live_');
 
   if (!secretKey.startsWith('sk_')) {
     return Response.json({ error: 'Stripe is not configured.' }, { status: 500 });
@@ -43,19 +42,11 @@ Deno.serve(async (req) => {
   let event;
 
   try {
-    if (isLiveMode) {
-      if (!webhookSecret) {
-        return Response.json({ error: 'Live webhook signing secret is not configured.' }, { status: 500 });
-      }
-      if (!signature) {
-        return Response.json({ error: 'Missing Stripe signature.' }, { status: 400 });
-      }
-      event = await stripe.webhooks.constructEventAsync(rawBody, signature, webhookSecret);
-    } else if (webhookSecret && signature) {
-      event = await stripe.webhooks.constructEventAsync(rawBody, signature, webhookSecret);
-    } else {
-      event = JSON.parse(rawBody);
-    }
+    // Verification applies to test and live mode; an unsigned body is never
+    // proof of payment, even in an isolated test environment.
+    if (!webhookSecret) return Response.json({ error: 'Webhook verification is not configured.' }, { status: 503 });
+    if (!signature) return Response.json({ error: 'Missing Stripe signature.' }, { status: 400 });
+    event = await stripe.webhooks.constructEventAsync(rawBody, signature, webhookSecret);
   } catch (error) {
     await createDiagnostic(base44, `stripeWebhook signature or payload verification failed: ${String(error instanceof Error ? error.message : error).slice(0, 240)}`, {
       diagnostic_type: 'webhook_signature_failure',
@@ -67,7 +58,7 @@ Deno.serve(async (req) => {
     return Response.json({ error: 'Webhook verification failed.' }, { status: 400 });
   }
 
-  if (event.type !== 'checkout.session.completed') {
+  if (!['checkout.session.completed', 'checkout.session.async_payment_succeeded'].includes(event.type)) {
     return Response.json({
       received: true,
       stripe_event_id: event.id,
