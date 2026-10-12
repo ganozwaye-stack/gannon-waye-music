@@ -70,11 +70,9 @@ export function journalCheckoutParams({ catalogue, offerId, user, origin, reques
   return {
     params: {
       mode: 'payment', customer_email: buyer.email,
-      line_items: offer.bundle ? [{ price_data: { currency: 'aud', unit_amount: 4900,
-        product_data: { name: offer.title } }, quantity: 1 }] : offer.bookIds.map(id => ({
-          price_data: { currency: 'aud', unit_amount: 990,
-            product_data: { name: catalogue.books.find(book => book.id === id).title } }, quantity: 1
-        })),
+      currency: 'aud',
+      line_items: offer.bundle ? [{ price: catalogue.bundleStripePriceId, quantity: 1 }] :
+        offer.bookIds.map(id => ({ price: catalogue.books.find(book => book.id === id).stripePriceId, quantity: 1 })),
       success_url: origin + '/journals/purchase?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: origin + '/coaching#journals',
       metadata: { checkout_policy: JOURNAL_POLICY, app_id: JOURNAL_APP_ID, abn: JOURNAL_ABN,

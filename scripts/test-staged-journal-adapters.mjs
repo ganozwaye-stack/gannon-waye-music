@@ -33,7 +33,7 @@ for(const action of actions){
 const pdf=new TextEncoder().encode('%PDF-synthetic fixture only');
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const buyer={id:'fixture-buyer',email:'buyer@example.invalid'};
-const books=Array.from({length:6},(_,i)=>({id:'fixture-book-'+i,title:'Fixture '+i,priceCents:990,releaseApproved:i===0,...(i===0?{fileUri:'private/fixture/approved-original.pdf',sha256:hash(pdf)}:{})}));
+const books=Array.from({length:6},(_,i)=>({id:'fixture-book-'+i,title:'Fixture '+i,priceCents:990,releaseApproved:i===0,...(i===0?{fileUri:'private/fixture/approved-original.pdf',sha256:hash(pdf),stripePriceId:'price_fixturebook0'}:{})}));
 const catalogue={enabled:true,approvedVersion:'fixture-original-34-pages',books,bundleId:'fixture-bundle',bundlePriceCents:4900,bundleEnabled:false};
 const release={enabled:true,liveMode:false,currentCatalogue:catalogue,catalogues:{[catalogue.approvedVersion]:catalogue},privateDownloadHosts:['private-fixture.example.invalid']};
 function fixture(){
@@ -45,9 +45,10 @@ function fixture(){
   create:async row=>{const saved={...row,id:'fixture-row-'+rows[entity].length};rows[entity].push(saved);return saved},
   update:async(id,row)=>{Object.assign(rows[entity].find(r=>r.id===id),row);return row}
  }])),integrations:{Core:{CreateFileSignedUrl:async args=>{calls.sign++;assert.equal(args.file_uri,books[0].fileUri);assert.equal(args.expires_in,60);return {signed_url:'https://private-fixture.example.invalid/temporary-fixture'};}}}}};
- const stripe={checkout:{sessions:{retrieve:async()=>session,list:async()=>({data:[],has_more:false}),create:async(params,opts)=>{calls.create++;assert.equal(params.metadata.buyer_user_id,buyer.id);assert.equal(params.line_items[0].price_data.unit_amount,990);assert.ok(opts.idempotencyKey);Object.assign(session,{status:'open',payment_status:'unpaid',metadata:params.metadata});return session;},expire:async()=>{calls.expire++;session.status='expired';return session;}}},paymentIntents:{retrieve:async()=>intent}};
+ const price={id:'price_fixturebook0',active:true,livemode:false,currency:'aud',type:'one_time',billing_scheme:'per_unit',unit_amount:990,recurring:null,custom_unit_amount:null,transform_quantity:null,product:{id:'prod_fixture',active:true,metadata:{app_id:JOURNAL_APP_ID,journal_policy:JOURNAL_POLICY,journal_book_id:books[0].id,journal_asset_sha256:hash(pdf)}}};
+ const stripe={prices:{retrieve:async(id,options)=>{assert.equal(id,price.id);assert.deepEqual(options,{expand:['product']});return price;}},checkout:{sessions:{retrieve:async()=>session,list:async()=>({data:[],has_more:false}),create:async(params,opts)=>{calls.create++;assert.equal(params.metadata.buyer_user_id,buyer.id);assert.equal(params.line_items[0].price,'price_fixturebook0');assert.ok(!params.line_items[0].price_data);assert.ok(opts.idempotencyKey);Object.assign(session,{status:'open',payment_status:'unpaid',metadata:params.metadata});return session;},expire:async()=>{calls.expire++;session.status='expired';return session;}}},paymentIntents:{retrieve:async()=>intent}};
  const deps={release,createRequestClient:()=>client,createStripe:()=>{calls.stripe++;return stripe;},sha256:async bytes=>hash(bytes),fetchImpl:async(url,options)=>{calls.fetch++;assert.equal(options.redirect,'error');return new Response(pdf);}};
- return {calls,rows,session,intent,client,stripe,deps};
+ return {calls,rows,session,intent,client,stripe,deps,price};
 }
 function req(body={},headers={}){
  return new Request('https://function.example.invalid',{method:'POST',headers:{Authorization:'Bearer fixture-only','Content-Type':'application/json',...headers},body:JSON.stringify(body)});
@@ -79,5 +80,6 @@ f=fixture();response=await run('confirmJournalPurchase',f,{session_id:f.session.
 f=fixture();f.session.status='open';f.session.payment_status='unpaid';response=await run('cancelJournalCheckout',f,{session_id:f.session.id});assert.equal((await response.json()).status,'expired');assert.equal(f.calls.expire,1);
 f=fixture();f.stripe.checkout.sessions.list=async()=>({data:[],has_more:true});response=await run('createJournalCheckout',f,{offer_id:[books[0].id],expected_total_cents:990});assert.equal(response.status,503);assert.equal(f.calls.create,0);
 f=fixture();f.client.asServiceRole.entities.JournalPurchase.filter=async()=>{throw Error('Index offline');};response=await run('getJournalPurchases',f,{});assert.equal(response.status,503);
+for(const change of [f=>{f.price.unit_amount=1},f=>{f.price.livemode=true},f=>{f.price.active=false},f=>{f.price.product.metadata.journal_asset_sha256='0'.repeat(64)},f=>{f.price.currency='usd'},f=>{f.price.type='recurring'}]){f=fixture();change(f);response=await run('createJournalCheckout',f,{offer_id:[books[0].id],expected_total_cents:990});assert.equal(response.status,503);assert.equal(f.calls.create,0);}
 let pages=0;const scan=createJournalStripe({checkout:{sessions:{list:async()=>{pages++;return {data:[{id:'fixture-page-'+pages,metadata:{}}],has_more:true};}}}},false);await assert.rejects(scan.findJournalSessions({buyerId:buyer.id}));assert.equal(pages,50);
 console.log('PASS: five standalone default-closed bundles; one approved original/5 held; authenticated exact-edition PDF HTTP delivery; buyer/payment/refund/mode/body/host/size gates; no signed URL leakage; checkout pending reuse; paid cancellation safe; complete pagination and unavailable index fail closed. Synthetic only, zero external calls.');

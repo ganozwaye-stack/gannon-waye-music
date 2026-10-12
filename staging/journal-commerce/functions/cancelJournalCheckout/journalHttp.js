@@ -1,4 +1,4 @@
-import {JournalAccessError,requireJournalBuyer,validateJournalCatalogue,fulfilJournalDownload,JOURNAL_POLICY,JOURNAL_APP_ID} from './journalCommerce.js';
+import {JournalAccessError,requireJournalBuyer,validateJournalCatalogue,fulfilJournalDownload,JOURNAL_POLICY,JOURNAL_APP_ID,journalOffer} from './journalCommerce.js';
 import {journalAccountState,startJournalCheckout,confirmJournalReturn,cancelJournalCheckout} from './journalCheckoutRecovery.js';
 const fail=(code,status=503)=>{throw new JournalAccessError(code,status);};
 const MAX_PDF_BYTES=25*1024*1024;
@@ -34,8 +34,33 @@ export function createJournalStore(client){
  }
  return {listPurchases:id=>list('JournalPurchase',id),listAttempts:id=>list('JournalCheckoutAttempt',id),savePurchase:row=>save('JournalPurchase',row),saveAttempt:row=>save('JournalCheckoutAttempt',row)};
 }
-export function createJournalStripe(stripe,liveMode){
- return {checkout:stripe.checkout,paymentIntents:stripe.paymentIntents,
+export async function verifyJournalPrices({stripe,catalogue,params,liveMode,sha256}){
+ const offer=journalOffer(catalogue,params.metadata?.offer_id);
+ const expected=offer.bundle?[{id:catalogue.bundleStripePriceId,cents:4900,bundle:true}]:
+  offer.bookIds.map(id=>({id:catalogue.books.find(book=>book.id===id).stripePriceId,cents:990,book:catalogue.books.find(book=>book.id===id)}));
+ if(!Array.isArray(params.line_items)||params.line_items.length!==expected.length)fail('journal_price_unavailable');
+ for(let i=0;i<expected.length;i++){
+  const item=params.line_items[i],binding=expected[i];
+  if(item.quantity!==1||item.price!==binding.id||item.price_data||!/^price_[A-Za-z0-9]+$/.test(binding.id||''))fail('journal_price_unavailable');
+  const price=await stripe.prices.retrieve(binding.id,{expand:['product']});
+  const product=price?.product,m=product?.metadata||{};
+  if(price?.id!==binding.id||price.active!==true||price.livemode!==liveMode||price.currency!=='aud'||
+   price.type!=='one_time'||price.billing_scheme!=='per_unit'||price.unit_amount!==binding.cents||
+   price.recurring||price.custom_unit_amount||price.transform_quantity||
+   !product||typeof product!=='object'||product.active!==true||product.deleted===true||
+   m.app_id!==JOURNAL_APP_ID||m.journal_policy!==JOURNAL_POLICY)fail('journal_price_unavailable');
+  if(binding.bundle){
+   const digest=await sha256(new TextEncoder().encode(JSON.stringify([...offer.bookIds].sort().map(id=>[id,catalogue.books.find(book=>book.id===id).sha256]))));
+   if(m.journal_bundle_id!==catalogue.bundleId||m.journal_asset_set_sha256!==digest)fail('journal_price_unavailable');
+  }else if(m.journal_book_id!==binding.book.id||m.journal_asset_sha256!==binding.book.sha256)fail('journal_price_unavailable');
+ }
+}
+export function createJournalStripe(stripe,liveMode,{catalogue,sha256}={}){
+ const checkout={sessions:{...stripe.checkout.sessions,create:async(params,options)=>{
+  await verifyJournalPrices({stripe,catalogue,params,liveMode,sha256});
+  return stripe.checkout.sessions.create(params,options);
+ }}};
+ return {checkout,paymentIntents:stripe.paymentIntents,
   async findJournalSessions({buyerId}){
    if(typeof buyerId!=='string'||!buyerId)fail('purchase_recovery_unavailable');
    const found=[];let cursor;
@@ -70,7 +95,7 @@ export function createJournalHttpHandler(action,deps){
    const catalogue=release.currentCatalogue;validateJournalCatalogue(catalogue);
    if(typeof release.liveMode!=='boolean')fail('payment_mode_not_configured');
    const resolveCatalogue=async version=>{const snapshot=release.catalogues?.[version];if(!snapshot)fail('catalogue_unavailable');validateJournalCatalogue(snapshot);return snapshot;};
-   const stripe=createJournalStripe(deps.createStripe(),release.liveMode),store=createJournalStore(client);
+   const stripe=createJournalStripe(deps.createStripe(),release.liveMode,{catalogue,sha256:deps.sha256}),store=createJournalStore(client);
    const common={user,store,stripe,resolveCatalogue,liveMode:release.liveMode};
    let result;
    if(action==='createJournalCheckout')result=await startJournalCheckout({...common,catalogue,selectedIds:body.offer_id,bundleRequested:body.bundle_requested===true,expectedTotalCents:body.expected_total_cents,sha256:deps.sha256});
