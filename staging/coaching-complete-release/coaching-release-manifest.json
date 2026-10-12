@@ -1,0 +1,55 @@
+{
+  "baseline": "61b2d851273c88712b3c91ef6bdbd4f38a7284e9",
+  "source": [
+    "src/App.jsx",
+    "src/components/coaching/CoachingGiftSet.jsx",
+    "src/components/coaching/CoachingIntakeForm.jsx",
+    "src/components/coaching/JournalPurchasePanel.jsx",
+    "src/components/coaching/JournalShelf.jsx",
+    "src/components/coaching/OriginalJournalFan.css",
+    "src/components/coaching/OriginalJournalFan.jsx",
+    "src/components/coaching/PaidConsultationOffer.jsx",
+    "src/components/public/Footer.jsx",
+    "src/components/public/GannonWayeGroupFeature.jsx",
+    "src/components/public/HomeEmailSignup.jsx",
+    "src/config/emailSignup.js",
+    "src/lib/coachingInterestPolicy.js",
+    "src/lib/coachingOffer.js",
+    "src/lib/journalBasket.js",
+    "src/lib/publicJournalCatalogue.js",
+    "src/pages/Coaching.jsx",
+    "src/pages/ContactGannon.jsx",
+    "src/pages/Home.jsx"
+  ],
+  "assets": [
+    "public/images/coaching/original-advert/cover_0.png",
+    "public/images/coaching/original-advert/cover_1.png",
+    "public/images/coaching/original-advert/cover_2.png",
+    "public/images/coaching/original-advert/cover_3.png",
+    "public/images/coaching/original-advert/cover_4.png",
+    "public/images/coaching/original-advert/cover_5.png",
+    "public/images/golden-key/GKlogo.png"
+  ],
+  "tests": [
+    "src/gannonwaye-playwright-pack/tests/coaching-paid-offer.spec.js",
+    "src/gannonwaye-playwright-pack/tests/home-group-feature.spec.js",
+    "src/gannonwaye-playwright-pack/tests/coaching-interest-hold.spec.js",
+    "src/gannonwaye-playwright-pack/tests/coaching-private-lock.spec.js"
+  ],
+  "support": [
+    "scripts/verify-coaching-complete-boundary.mjs",
+    "coaching-release-manifest.json",
+    "COACHING_COMPLETE_REVIEW.md"
+  ],
+  "assetSha256": {
+    "public/images/coaching/original-advert/cover_0.png": "b3a22d3c69a075ec837158fa19479d35e61b96d6119c134974c4fc7b47420150",
+    "public/images/coaching/original-advert/cover_1.png": "6530ab4f18a4a3bb7bb7740222e9b7d6d27de9a6df8c93420befa4958b8b1474",
+    "public/images/coaching/original-advert/cover_2.png": "bf1773a050cea56a8d283c96cbe9d3b05a84b6b894b01708dbb53d0a7be57c7b",
+    "public/images/coaching/original-advert/cover_3.png": "37c9e6b4f73ea685aec060dc554b6c3470022ded34e2eb5fbb919cf0c0ab23ec",
+    "public/images/coaching/original-advert/cover_4.png": "4695159de0b643934a19c1d01f3c17cfddfa1e4351e741bd261217848210ed28",
+    "public/images/coaching/original-advert/cover_5.png": "1203757ce286a9d126b7b4904d450b1a6cbf470d666527662e9a59944001e9fd",
+    "public/images/golden-key/GKlogo.png": "5af15b6b8fa3599b57e6c0bab0ad0896cd14352fde27c3f332d7ba13ac383045"
+  },
+  "production_mapping": "UNVERIFIED",
+  "public_media_only": true
+}

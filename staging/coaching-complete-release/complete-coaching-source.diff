@@ -1,0 +1,1451 @@
+diff --git a/COACHING_COMPLETE_REVIEW.md b/COACHING_COMPLETE_REVIEW.md
+new file mode 100644
+index 00000000..7cc26648
+--- /dev/null
++++ b/COACHING_COMPLETE_REVIEW.md
+@@ -0,0 +1,34 @@
++# Complete coaching frontend patch
++
++Known baseline: 61b2d851273c88712b3c91ef6bdbd4f38a7284e9
++This is a tested review patch on that exact historical commit. It is NOT a verified production baseline. Do not publish it against an unknown deployed revision.
++
++## Result
++
++Gannon Waye Group appears below the baseline's original music hero. The public /coaching story now renders the seven approved paragraphs, original six-cover fan, Golden Key mark, held journal previews and A$99/45-minute availability enquiry. Contact provides the specific enquiry composer; homepage/footer accurately describe paused email signup. Existing A$198 three appointments and A$850 ten total are retained.
++
++Only the exact public story and workbook-preview routes are opened. Legacy programmes, intake/resources and old coaching aliases still redirect to Contact. The private registration form remains hard-closed in every build; direct requestSubmit cannot send. Journal price selection is local preview only with Purchase disabled and no ownership/checkout/download endpoint calls. No paid interiors, purchase return page or unproved backend integration is included.
++
++## Scope and validation
++
++19 source files, seven existing public PNG assets, four targeted specs and three review/verification support files. Full list and asset hashes are in coaching-release-manifest.json. Every other tracked baseline path is unchanged. Hero components, store, API/auth implementation, analytics, platform flags, backend, dependencies, index.html and workflows are byte-preserved.
++
++Production build and required prebuild gates passed. 27 distinct browser cases passed on desktop Chromium, phone and tablet, using the isolated production build: nine paid-offer/contact/held-book cases, three homepage cases, three forced-submit registration hold cases and twelve route/admin/signup/preview security cases. First run passed24 and three route cases had an ambiguous page/footer heading locator; the locator was scoped to level1 and those three passed on rerun. No application change was needed for that correction. Logs are packaged; no browser screenshots uploaded or included.
++
++The scope/asset/hold/mailto-injection boundary checker passed. No live provider, account, order, payment, email, registration or broadcast was exercised. Safari and the full inherited baseline suite were not run; the inherited security spec has a pre-existing duplicate test title, left unchanged outside this focused patch.
++
++## Reproduce
++
++1. Use an isolated checkout of baseline61b2d851273c88712b3c91ef6bdbd4f38a7284e9.
++2. Run git apply --check complete-coaching-release.patch, then git apply --index complete-coaching-release.patch.
++3. Run npm ci --ignore-scripts --no-audit --no-fund and node scripts/verify-coaching-complete-boundary.mjs.
++4. Run npm run build and serve the built output locally. Install the existing locked Playwright browser if needed.
++5. Point BASE_URL to that local preview, set LIVE=1 and PRODUCTION_HOLD=1, and run the four manifest specs on chromium, mobile-chrome and tablet-chrome.
++
++LIVE=1 here skips starting Vite and points tests to the explicitly supplied local BASE_URL; it never means a public broadcast or live payment. Keep preview API mutations blocked as in the specs.
++
++## Hard release blocker
++
++Existing public bundle index-DWA51fl4.js cannot be mapped to a source commit via the exposed metadata. Three historical rebuilds did not byte-match under reproduced settings. Obtain the actual published source/version-to-commit mapping plus its public build settings, then rebase this complete narrow patch and run the same checks before requesting publication approval. Do not substitute all current draft files or publish mixed HEAD.
++
++The approved original Knowing Your Worth version4/34pages and its hash remain local and unchanged. This patch neither uploads nor activates it. The current held catalogue is preview copy, not proof that the later review manuscripts are approved for sale.
+diff --git a/coaching-release-manifest.json b/coaching-release-manifest.json
+new file mode 100644
+index 00000000..8161e734
+--- /dev/null
++++ b/coaching-release-manifest.json
+@@ -0,0 +1,55 @@
++{
++  "baseline": "61b2d851273c88712b3c91ef6bdbd4f38a7284e9",
++  "source": [
++    "src/App.jsx",
++    "src/components/coaching/CoachingGiftSet.jsx",
++    "src/components/coaching/CoachingIntakeForm.jsx",
++    "src/components/coaching/JournalPurchasePanel.jsx",
++    "src/components/coaching/JournalShelf.jsx",
++    "src/components/coaching/OriginalJournalFan.css",
++    "src/components/coaching/OriginalJournalFan.jsx",
++    "src/components/coaching/PaidConsultationOffer.jsx",
++    "src/components/public/Footer.jsx",
++    "src/components/public/GannonWayeGroupFeature.jsx",
++    "src/components/public/HomeEmailSignup.jsx",
++    "src/config/emailSignup.js",
++    "src/lib/coachingInterestPolicy.js",
++    "src/lib/coachingOffer.js",
++    "src/lib/journalBasket.js",
++    "src/lib/publicJournalCatalogue.js",
++    "src/pages/Coaching.jsx",
++    "src/pages/ContactGannon.jsx",
++    "src/pages/Home.jsx"
++  ],
++  "assets": [
++    "public/images/coaching/original-advert/cover_0.png",
++    "public/images/coaching/original-advert/cover_1.png",
++    "public/images/coaching/original-advert/cover_2.png",
++    "public/images/coaching/original-advert/cover_3.png",
++    "public/images/coaching/original-advert/cover_4.png",
++    "public/images/coaching/original-advert/cover_5.png",
++    "public/images/golden-key/GKlogo.png"
++  ],
++  "tests": [
++    "src/gannonwaye-playwright-pack/tests/coaching-paid-offer.spec.js",
++    "src/gannonwaye-playwright-pack/tests/home-group-feature.spec.js",
++    "src/gannonwaye-playwright-pack/tests/coaching-interest-hold.spec.js",
++    "src/gannonwaye-playwright-pack/tests/coaching-private-lock.spec.js"
++  ],
++  "support": [
++    "scripts/verify-coaching-complete-boundary.mjs",
++    "coaching-release-manifest.json",
++    "COACHING_COMPLETE_REVIEW.md"
++  ],
++  "assetSha256": {
++    "public/images/coaching/original-advert/cover_0.png": "b3a22d3c69a075ec837158fa19479d35e61b96d6119c134974c4fc7b47420150",
++    "public/images/coaching/original-advert/cover_1.png": "6530ab4f18a4a3bb7bb7740222e9b7d6d27de9a6df8c93420befa4958b8b1474",
++    "public/images/coaching/original-advert/cover_2.png": "bf1773a050cea56a8d283c96cbe9d3b05a84b6b894b01708dbb53d0a7be57c7b",
++    "public/images/coaching/original-advert/cover_3.png": "37c9e6b4f73ea685aec060dc554b6c3470022ded34e2eb5fbb919cf0c0ab23ec",
++    "public/images/coaching/original-advert/cover_4.png": "4695159de0b643934a19c1d01f3c17cfddfa1e4351e741bd261217848210ed28",
++    "public/images/coaching/original-advert/cover_5.png": "1203757ce286a9d126b7b4904d450b1a6cbf470d666527662e9a59944001e9fd",
++    "public/images/golden-key/GKlogo.png": "5af15b6b8fa3599b57e6c0bab0ad0896cd14352fde27c3f332d7ba13ac383045"
++  },
++  "production_mapping": "UNVERIFIED",
++  "public_media_only": true
++}
+\ No newline at end of file
+diff --git a/scripts/verify-coaching-complete-boundary.mjs b/scripts/verify-coaching-complete-boundary.mjs
+new file mode 100644
+index 00000000..e3d0fa85
+--- /dev/null
++++ b/scripts/verify-coaching-complete-boundary.mjs
+@@ -0,0 +1,28 @@
++import assert from 'node:assert/strict';
++import {readFileSync} from 'node:fs';
++import {execFileSync} from 'node:child_process';
++import {createHash} from 'node:crypto';
++const manifest=JSON.parse(readFileSync('coaching-release-manifest.json','utf8'));
++const allowed=[...manifest.source,...manifest.assets,...manifest.tests,...manifest.support].sort();
++const changed=execFileSync('git',['diff','--name-only',manifest.baseline],{encoding:'utf8'}).trim().split('\n').filter(Boolean).sort();
++assert.deepEqual(changed,allowed,'Every changed/new tracked file must be explicitly listed');
++execFileSync('git',['diff','--exit-code',manifest.baseline,'--','base44','package.json','package-lock.json','index.html','.github','src/api','src/lib/analytics.js','src/lib/platformConfig.js','src/pages/Store.jsx','src/components/public/setfree-hero']);
++for(const path of manifest.assets){
++ assert.ok(path.endsWith('.png'));
++ const bytes=readFileSync(path);
++ assert.deepEqual([...bytes.subarray(0,8)],[137,80,78,71,13,10,26,10]);
++ assert.equal(createHash('sha256').update(bytes).digest('hex'),manifest.assetSha256[path]);
++}
++const {PUBLIC_JOURNALS,JOURNAL_PURCHASES_ENABLED}=await import('../src/lib/publicJournalCatalogue.js');
++assert.equal(PUBLIC_JOURNALS.length,6);assert.equal(JOURNAL_PURCHASES_ENABLED,false);assert.ok(PUBLIC_JOURNALS.every(book=>book.releaseApproved===false));
++const panel=readFileSync('src/components/coaching/JournalPurchasePanel.jsx','utf8');
++assert.ok(!panel.includes('functions.')&&!panel.includes('@/api/'));
++assert.ok(readFileSync('src/components/coaching/CoachingIntakeForm.jsx','utf8').includes('const registrationOpen=false;'));
++const {DOUBLE_OPT_IN_ENABLED}=await import('../src/config/emailSignup.js');assert.equal(DOUBLE_OPT_IN_ENABLED,false);
++const {consultationEmailHref}=await import('../src/lib/coachingOffer.js');
++assert.equal(consultationEmailHref('owner@example.invalid?injected=yes'),null);
++assert.equal(consultationEmailHref('owner@example.invalid\r\nBcc: other@example.invalid'),null);
++const email=decodeURIComponent(consultationEmailHref('owner@example.invalid'));
++assert.ok(email.includes('A$99, 45-minute paid initial consultation'));
++assert.ok(!/date.of.birth|diagnos|medical/.test(email));
++console.log('PASS: exact declared patch scope; baseline hero/store/backend/API/analytics/flags/dependencies/workflows unchanged; original PNG hashes preserved; no book payment/download callbacks; registration/signup/release holds; email composer injection rejected.');
+diff --git a/src/App.jsx b/src/App.jsx
+index 4220af60..42396bfd 100644
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -343,20 +343,10 @@ const AuthenticatedApp = () => {
+         <Route path="/supporters" element={<Navigate to="/store" replace />} />
+         <Route path="/impact" element={<Navigate to="/support/domestic-violence" replace />} />
+         <Route path="/portrait-gallery" element={<Navigate to="/gallery" replace />} />
+-        {/* Coaching stays private until the single launch flag is explicitly enabled. */}
+-        {FEATURE_FLAGS.COACHING_PUBLIC_LAUNCH_ENABLED ? (
+-          <>
+-            <Route path="/coaching" element={<Coaching />} />
+-            <Route path="/coaching/self-worth-reset" element={<CoachingSelfWorthReset />} />
+-            <Route path="/coaching/boundaries" element={<CoachingBoundaries />} />
+-            <Route path="/coaching/creative-confidence" element={<CoachingCreativeConfidence />} />
+-            <Route path="/coaching/workbooks" element={<CoachingWorkbooks />} />
+-            <Route path="/coaching/intake" element={<CoachingIntakePage />} />
+-            <Route path="/coaching/client-resources" element={<CoachingClientResources />} />
+-          </>
+-        ) : (
+-          <Route path="/coaching/*" element={<Navigate to="/contact" replace />} />
+-        )}
++        {/* Approved public story and held journal previews; legacy programmes remain private. */}
++        <Route path="/coaching" element={<Coaching />} />
++        <Route path="/coaching/workbooks" element={<Navigate to="/coaching#journals" replace />} />
++        <Route path="/coaching/*" element={<Navigate to="/contact" replace />} />
+ 
+         {/* Systems services and case studies stay private until pricing and proof are approved. */}
+         <Route path="/systems-manager" element={<Navigate to="/contact" replace />} />
+diff --git a/src/components/coaching/CoachingGiftSet.jsx b/src/components/coaching/CoachingGiftSet.jsx
+new file mode 100644
+index 00000000..a3d89dfb
+--- /dev/null
++++ b/src/components/coaching/CoachingGiftSet.jsx
+@@ -0,0 +1,38 @@
++import { useQuery } from '@tanstack/react-query';
++import { Link } from 'react-router-dom';
++import { base44 } from '@/api/base44Client';
++
++// Reuse the store's existing record. No local stock, duplicated SKU or assumed TYK sync.
++const GIFT_SET_PRODUCT_ID = '69fbd261b760426cede1b7a3';
++
++export default function CoachingGiftSet() {
++  const { data: product, isLoading, isError } = useQuery({
++    queryKey: ['coaching-existing-gift-set', GIFT_SET_PRODUCT_ID],
++    queryFn: async () => {
++      const records = await base44.entities.MerchProduct.filter({ id: GIFT_SET_PRODUCT_ID });
++      return records.find(item => item.id === GIFT_SET_PRODUCT_ID && item.is_active === true &&
++        item.publication_status === 'live' && item.is_stage_one_sale === true) || null;
++    },
++  });
++  if (isLoading || isError || !product) return null;
++  return (
++    <section className="max-w-6xl mx-auto px-5 pb-16" aria-labelledby="coaching-gift-set-title">
++      <div className="grid md:grid-cols-2 gap-8 rounded-3xl border border-border/40 bg-card/50 p-7 items-center">
++        {product.image_url && <img src={product.image_url} alt={product.name}
++          loading="lazy" className="w-full rounded-2xl object-contain" />}
++        <div>
++          <p className="font-body text-xs uppercase tracking-widest text-primary mb-3">Physical journal gift set</p>
++          <h2 id="coaching-gift-set-title" className="font-display text-3xl mb-4">{product.name}</h2>
++          <p className="font-body text-base leading-relaxed text-foreground/80 mb-4">{product.description}</p>
++          {Number.isFinite(product.sale_price) && <p className="font-body text-lg text-primary mb-4">
++            A$ {product.sale_price.toFixed(2)}
++          </p>}
++          <p className="font-body text-sm text-muted-foreground mb-5">
++            This physical gift set is separate from the six digital reflection journals.
++          </p>
++          <Link className="font-body text-sm text-primary underline" to="/store">View the gift set in the store</Link>
++        </div>
++      </div>
++    </section>
++  );
++}
+diff --git a/src/components/coaching/CoachingIntakeForm.jsx b/src/components/coaching/CoachingIntakeForm.jsx
+index a47f3155..69274f44 100644
+--- a/src/components/coaching/CoachingIntakeForm.jsx
++++ b/src/components/coaching/CoachingIntakeForm.jsx
+@@ -1,135 +1,47 @@
+-import { useState } from 'react';
++import { useRef, useState } from 'react';
+ import { base44 } from '@/api/base44Client';
+ import { Button } from '@/components/ui/button';
+ import { Input } from '@/components/ui/input';
+ import { Textarea } from '@/components/ui/textarea';
+ import { Label } from '@/components/ui/label';
+-import { CheckCircle } from 'lucide-react';
+-import CoachingDisclaimer from './CoachingDisclaimer';
+-
+-export default function CoachingIntakeForm({ offerInterest = '', onSuccess }) {
+-  const [form, setForm] = useState({
+-    full_name: '',
+-    email: '',
+-    phone: '',
+-    offer_interest: offerInterest,
+-    goal: '',
+-    current_challenge: '',
+-    support_wanted: '',
+-    preferred_format: 'no_preference',
+-    understands_coaching_not_therapy: false,
+-    crisis_aware: false,
+-    consent_to_contact: false,
+-  });
+-  const [loading, setLoading] = useState(false);
+-  const [submitted, setSubmitted] = useState(false);
+-  const [error, setError] = useState('');
+-
+-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+-
+-  const handleSubmit = async (e) => {
+-    e.preventDefault();
+-    if (!form.understands_coaching_not_therapy || !form.consent_to_contact || !form.crisis_aware) {
+-      setError('Please confirm all three checkboxes before submitting.');
+-      return;
+-    }
+-    setLoading(true);
+-    setError('');
+-    await base44.entities.CoachingIntake.create(form);
+-    // Also create a lead record
+-    await base44.entities.CoachingLead.create({
+-      full_name: form.full_name,
+-      email: form.email,
+-      goal: form.goal,
+-      current_challenge: form.current_challenge,
+-      support_wanted: form.support_wanted,
+-      understands_coaching_not_therapy: form.understands_coaching_not_therapy,
+-      consent_to_contact: form.consent_to_contact,
+-      source_offer: offerInterest,
+-      source_page: window.location.pathname,
+-    });
+-    setLoading(false);
+-    setSubmitted(true);
+-    onSuccess?.();
+-  };
+-
+-  if (submitted) {
+-    return (
+-      <div className="text-center py-12 space-y-4">
+-        <CheckCircle className="w-12 h-12 text-primary mx-auto" />
+-        <h3 className="font-display text-2xl text-foreground italic">Thank you for reaching out.</h3>
+-        <p className="font-body text-sm text-muted-foreground max-w-md mx-auto">
+-          Your intake form has been received. Gannon will review it personally and be in touch within 2 business days.
+-        </p>
+-        <p className="font-body text-xs text-muted-foreground italic">Still here. And so are you.</p>
+-      </div>
+-    );
+-  }
+-
+-  return (
+-    <form onSubmit={handleSubmit} className="space-y-5 max-w-xl mx-auto">
+-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+-        <div className="space-y-1.5">
+-          <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">Full Name *</Label>
+-          <Input value={form.full_name} onChange={e => set('full_name', e.target.value)} placeholder="Your name" required className="bg-card/50 border-border/60" />
+-        </div>
+-        <div className="space-y-1.5">
+-          <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">Email *</Label>
+-          <Input type="email" value={form.email} onChange={e => set('email', e.target.value)} placeholder="your@email.com" required className="bg-card/50 border-border/60" />
+-        </div>
+-      </div>
+-
+-      <div className="space-y-1.5">
+-        <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">Phone (optional)</Label>
+-        <Input value={form.phone} onChange={e => set('phone', e.target.value)} placeholder="+61 4xx xxx xxx" className="bg-card/50 border-border/60" />
+-      </div>
+-
+-      <div className="space-y-1.5">
+-        <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">What is your main goal? *</Label>
+-        <Textarea value={form.goal} onChange={e => set('goal', e.target.value)} placeholder="What are you hoping to work toward?" required className="bg-card/50 border-border/60 min-h-[80px]" />
+-      </div>
+-
+-      <div className="space-y-1.5">
+-        <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">What's your current challenge? *</Label>
+-        <Textarea value={form.current_challenge} onChange={e => set('current_challenge', e.target.value)} placeholder="What's been hardest lately?" required className="bg-card/50 border-border/60 min-h-[80px]" />
+-      </div>
+-
+-      <div className="space-y-1.5">
+-        <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">What would you like support with?</Label>
+-        <Textarea value={form.support_wanted} onChange={e => set('support_wanted', e.target.value)} placeholder="Self worth, boundaries, creative confidence, rebuilding after a painful chapter..." className="bg-card/50 border-border/60 min-h-[80px]" />
+-      </div>
+-
+-      <div className="space-y-1.5">
+-        <Label className="font-body text-xs uppercase tracking-widest text-muted-foreground">Preferred format</Label>
+-        <select value={form.preferred_format} onChange={e => set('preferred_format', e.target.value)} className="w-full bg-card/50 border border-border/60 rounded-md px-3 py-2 text-sm text-foreground">
+-          <option value="no_preference">No preference</option>
+-          <option value="zoom">Zoom</option>
+-          <option value="phone">Phone</option>
+-          <option value="in_person">In person (Melbourne)</option>
+-        </select>
+-      </div>
+-
+-      <div className="bg-secondary/40 border border-border/40 rounded-xl p-4 space-y-3">
+-        <p className="font-body text-xs text-muted-foreground font-semibold uppercase tracking-widest">Before you submit</p>
+-        {[
+-          { key: 'understands_coaching_not_therapy', label: 'I understand this is life coaching and mindset mentoring — not therapy, counselling, or crisis support.' },
+-          { key: 'crisis_aware', label: 'I understand that if I am in immediate danger or crisis, I should contact emergency services (000) or Lifeline (13 11 14).' },
+-          { key: 'consent_to_contact', label: 'I consent to Gannon Waye contacting me about my enquiry.' },
+-        ].map(({ key, label }) => (
+-          <label key={key} className="flex items-start gap-3 cursor-pointer">
+-            <input type="checkbox" checked={form[key]} onChange={e => set(key, e.target.checked)} className="mt-0.5 w-4 h-4 accent-primary shrink-0" />
+-            <span className="font-body text-xs text-foreground/70 leading-relaxed">{label}</span>
+-          </label>
+-        ))}
+-      </div>
+-
+-      {error && <p className="font-body text-xs text-destructive">{error}</p>}
+-
+-      <Button type="submit" disabled={loading} className="w-full gradient-gold-button border-0 rounded-full py-5 font-body text-sm tracking-wider uppercase">
+-        {loading ? 'Sending…' : 'Submit Intake Form'}
+-      </Button>
+-
+-      <CoachingDisclaimer minimal />
+-    </form>
+-  );
+-}
+\ No newline at end of file
++import { validateInterest } from '@/lib/coachingInterestPolicy';
++
++export default function CoachingIntakeForm({ onSuccess }) {
++ const [form,setForm]=useState({first_name:'',last_name:'',date_of_birth:'',phone:'',email:'',support_wanted:'',consent_to_contact:false,website:''});
++ const [busy,setBusy]=useState(false),[receipt,setReceipt]=useState(''),[error,setError]=useState('');
++ const inFlight=useRef(false),submissionId=useRef(null);
++ // This frontend-only release keeps private registration closed in every build.
++ const registrationOpen=false;
++ const set=(key,value)=>setForm(previous=>({...previous,[key]:value}));
++ const submit=async event=>{
++   event.preventDefault();
++   if(inFlight.current||receipt) return;
++   if(!registrationOpen){setError('Registration is being prepared. No details have been submitted.');return;}
++   submissionId.current ||= crypto.randomUUID();
++   const payload={...form,submission_id:submissionId.current};
++   try { validateInterest(payload); } catch(err) {setError(err.message);return;}
++   inFlight.current=true;setBusy(true);setError('');
++   try {
++     const result=await base44.functions.invoke('submitCoachingInterest',payload);
++     const data=result?.data;
++     if(data?.saved!==true||data.receipt!==submissionId.current) throw new Error('Unable to confirm saved receipt');
++     setReceipt(data.receipt);setForm({first_name:'',last_name:'',date_of_birth:'',phone:'',email:'',support_wanted:'',consent_to_contact:false,website:''});
++     onSuccess?.();
++   } catch {setError('Your submission has not been confirmed. Registration is being prepared; please try again when it opens.');}
++   finally {inFlight.current=false;setBusy(false);}
++ };
++ if(receipt) return <div role="status" className="font-body py-8 space-y-3" data-testid="coaching-interest-success"><h3 className="text-xl font-bold text-[#F5D06E]">Thank you for reaching out.</h3><p>Your interest has been saved for Gannon to review. This is not an appointment booking or a payment.</p><p className="text-sm">Receipt: {receipt}</p></div>;
++ return <form onSubmit={submit} className="font-body space-y-5 max-w-xl" data-testid="coaching-interest-form">
++   <p className="text-sm text-foreground/80">Gannon will use your name, date of birth and contact details to review your interest and follow up with you. Your short message helps him understand what support you are looking for. These details stay in the private owner inbox and are not included in website analytics.</p>
++   <p className="text-sm text-[#F5D06E]">Registration is being prepared. Submissions open after the private intake checks are complete.</p>
++   <div className="grid sm:grid-cols-2 gap-4">
++    {[['first_name','First name','text','given-name',80],['last_name','Last name','text','family-name',80],['date_of_birth','Date of birth','date','bday',10],['phone','Mobile number','tel','tel',30],['email','Email address','email','email',254]].map(([key,label,type,autoComplete,maxLength])=><div key={key} className="space-y-2"><Label htmlFor={'interest-'+key}>{label} *</Label><Input id={'interest-'+key} name={key} type={type} autoComplete={autoComplete} required maxLength={maxLength} max={type==='date'?new Date().toISOString().slice(0,10):undefined} value={form[key]} onChange={event=>set(key,event.target.value)} /></div>)}
++   </div>
++   <div className="space-y-2"><Label htmlFor="interest-support">What brings you here, and what would you like support with? *</Label><Textarea id="interest-support" name="support_wanted" required maxLength={1000} rows={4} value={form.support_wanted} onChange={event=>set('support_wanted',event.target.value)} /><p className="text-xs text-muted-foreground">A short message is enough. Please leave out detailed health information or journal answers.</p></div>
++   <div className="hidden" aria-hidden="true"><label htmlFor="interest-website">Leave this blank</label><input id="interest-website" name="website" tabIndex={-1} autoComplete="off" value={form.website} onChange={event=>set('website',event.target.value)} /></div>
++   <label className="flex items-start gap-3 text-sm"><input type="checkbox" required checked={form.consent_to_contact} onChange={event=>set('consent_to_contact',event.target.checked)} className="mt-1" />Gannon may contact me about my interest.</label>
++   <p className="text-sm">Registering interest does not commit you to a call. You can explore and purchase journals independently when journal purchasing opens.</p>
++   {error&&<p role="alert" className="text-sm text-red-300">{error}</p>}
++   <Button type="submit" disabled={busy||!registrationOpen} className="bg-[#F5D06E] text-primary-foreground rounded-full min-h-12 px-7">{busy?'Saving…':'Register your interest'}</Button>
++ </form>;
++}
+diff --git a/src/components/coaching/JournalPurchasePanel.jsx b/src/components/coaching/JournalPurchasePanel.jsx
+new file mode 100644
+index 00000000..be3b4847
+--- /dev/null
++++ b/src/components/coaching/JournalPurchasePanel.jsx
+@@ -0,0 +1,21 @@
++import {useState} from 'react';
++import {Button} from '@/components/ui/button';
++import {PUBLIC_JOURNALS} from '@/lib/publicJournalCatalogue';
++import {journalBasketQuote} from '@/lib/journalBasket';
++
++// Preview-only release: no ownership lookup, checkout or download endpoint calls.
++export default function JournalPurchasePanel({book}) {
++ const [selectedIds,setSelectedIds]=useState([book.id]),[bundle,setBundle]=useState(false);
++ const quote=journalBasketQuote({books:PUBLIC_JOURNALS,selectedIds,ownedIds:[],bundle});
++ return <div className="font-body space-y-4" data-testid="journal-purchase-panel">
++  <fieldset className="space-y-2"><legend className="text-sm font-semibold mb-2">Other journals you can choose to add</legend>
++   {PUBLIC_JOURNALS.filter(item=>item.id!==book.id).map(item=><label key={item.id} className="flex gap-3 items-start text-sm">
++    <input type="checkbox" checked={selectedIds.includes(item.id)} onChange={event=>{setBundle(false);setSelectedIds(previous=>event.target.checked?[...new Set([...previous,item.id])]:previous.filter(id=>id!==item.id));}} />
++    <span>{item.title} · A$9.90</span></label>)}
++  </fieldset>
++  <label className="flex gap-3 items-start text-sm"><input type="checkbox" checked={quote.bundle} onChange={event=>{setBundle(event.target.checked);setSelectedIds(event.target.checked?PUBLIC_JOURNALS.map(item=>item.id):[book.id]);}} /><span>Choose the whole six-journal bundle · A$49</span></label>
++  <p className="font-semibold" data-testid="journal-selection-total">Total: A${(quote.totalCents/100).toFixed(2)}</p>
++  <p className="text-sm text-muted-foreground">Online purchasing is being prepared. This preview accepts no payment and grants no paid journal access.</p>
++  <Button disabled>Purchase</Button>
++ </div>;
++}
+diff --git a/src/components/coaching/JournalShelf.jsx b/src/components/coaching/JournalShelf.jsx
+new file mode 100644
+index 00000000..3aa66704
+--- /dev/null
++++ b/src/components/coaching/JournalShelf.jsx
+@@ -0,0 +1,65 @@
++import { useSearchParams } from 'react-router-dom';
++import { Button } from '@/components/ui/button';
++import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
++import { PUBLIC_JOURNALS } from '@/lib/publicJournalCatalogue';
++import JournalPurchasePanel from './JournalPurchasePanel';
++
++export default function JournalShelf() {
++  const [params, setParams] = useSearchParams();
++  const selected = PUBLIC_JOURNALS.find(book => book.id === params.get('journal')) || null;
++  const selectBook = id => setParams(previous => {
++    const next = new URLSearchParams(previous);
++    if (id) next.set('journal', id); else next.delete('journal');
++    return next;
++  }, { replace: !id });
++  const ready = PUBLIC_JOURNALS.length === 6 && PUBLIC_JOURNALS.every(book =>
++    book.title && book.description && book.sampleQuestion && book.samplePageReference);
++  if (!ready) return <p className="font-body text-sm text-muted-foreground">Journal previews are being prepared.</p>;
++  return (
++    <>
++      <p className="font-body text-sm text-muted-foreground">
++        Choose a journal to explore its purpose and one question. Full interiors are reserved for purchasers.
++        Online purchasing is being prepared.
++      </p>
++      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8" data-testid="journal-shelf">
++        {PUBLIC_JOURNALS.map(book => (
++          <button key={book.id} type="button" onClick={() => selectBook(book.id)}
++            data-testid={'journal-cover-' + book.id}
++            className="text-left rounded-2xl border border-border/40 bg-background/40 p-5 hover:border-primary/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
++            {book.coverImageUrl ? <img src={book.coverImageUrl} alt={book.title + ' cover'}
++              loading="lazy" className="w-full aspect-[2/3] object-contain mb-5" /> :
++              <p className="font-body text-xs text-muted-foreground mb-4">Cover display being prepared</p>}
++            <h3 className="font-display text-2xl mb-2">{book.title}</h3>
++            <p className="font-body text-sm text-primary mb-3">A$9.90</p>
++            <p className="font-body text-sm text-foreground/80 leading-relaxed">{book.description}</p>
++            <span className="inline-block mt-4 font-body text-sm text-primary">Explore this journal</span>
++          </button>
++        ))}
++      </div>
++      <Dialog open={!!selected} onOpenChange={open => { if (!open) selectBook(null); }}>
++        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto" data-testid="journal-preview-modal">
++          {selected && <>
++            <DialogHeader>
++              <DialogTitle className="font-display text-3xl">{selected.title}</DialogTitle>
++              <DialogDescription>Journal preview · A$9.90 · One question from the journal</DialogDescription>
++            </DialogHeader>
++            {selected.coverImageUrl && <img src={selected.coverImageUrl} alt={selected.title + ' cover'}
++              className="w-full max-w-xs mx-auto aspect-[2/3] object-contain" />}
++            <p className="font-body text-base leading-relaxed">{selected.description}</p>
++            <blockquote className="border border-primary/30 bg-primary/5 rounded-xl p-5">
++              <p className="font-body text-base leading-relaxed" data-testid="journal-sample-question">{selected.sampleQuestion}</p>
++            </blockquote>
++            <p className="font-body text-sm text-muted-foreground">You do not need a coaching call or coaching registration to purchase.
++              Full journal access follows verified payment. Online purchasing is being prepared.</p>
++            <div className="flex gap-3">
++              <Button data-testid="journal-close" variant="outline" onClick={() => selectBook(null)}>Close</Button>
++            </div>
++            <JournalPurchasePanel key={selected.id} book={selected} />
++
++          </>}
++        </DialogContent>
++      </Dialog>
++    </>
++  );
++}
++
+diff --git a/src/components/coaching/OriginalJournalFan.css b/src/components/coaching/OriginalJournalFan.css
+new file mode 100644
+index 00000000..84d68a07
+--- /dev/null
++++ b/src/components/coaching/OriginalJournalFan.css
+@@ -0,0 +1,88 @@
++/* Static metallic light catches: no flashing, sweeps or animated sparkle. */
++.coaching-journal-rim {
++  position: absolute;
++  border: 3px solid transparent;
++  box-sizing: content-box;
++  background: linear-gradient(#141419, #141419) padding-box,
++    linear-gradient(135deg, #98702c 0%, #f4d98d 12%, #fff8da 17%, #ba8735 25%, #e7c46a 44%, #fff6cd 51%, #a87825 60%, #edce7c 80%, #fff4c9 86%, #916b2d 100%) border-box;
++  box-shadow: 1px 0 0 #f9df95, 4px 5px 0 #755622, 8px 18px 22px rgba(0,0,0,.65), 0 0 10px rgba(229,190,90,.09);
++}
++.coaching-journal-rim img {
++  display: block;
++  width: 100%;
++  height: 100%;
++  object-fit: contain;
++}
++.coaching-edge-glint {
++  position: absolute;
++  top: -8px;
++  left: 16px;
++  width: 14px;
++  height: 14px;
++  pointer-events: none;
++}
++.coaching-edge-glint::before,
++.coaching-edge-glint::after {
++  content: '';
++  position: absolute;
++  background: linear-gradient(transparent, rgba(255,250,219,.95), transparent);
++  filter: drop-shadow(0 0 3px rgba(255,223,140,.45));
++}
++.coaching-edge-glint::before { left: 6px; width: 2px; height: 14px; }
++.coaching-edge-glint::after { top: 6px; width: 14px; height: 2px; transform: rotate(0deg); background: linear-gradient(90deg, transparent, rgba(255,250,219,.95), transparent); }
++.coaching-display-base {
++  position: absolute;
++  left: 55px;
++  top: 553px;
++  width: 970px;
++  height: 75px;
++  pointer-events: none;
++  border-radius: 50%;
++  background: radial-gradient(ellipse, rgba(211,168,68,.12), transparent 65%);
++  box-shadow: 0 20px 25px rgba(0,0,0,.48);
++}
++.coaching-display-base::before {
++  content: '';
++  position: absolute;
++  inset: 24px 0 0;
++  border-radius: 0 0 50% 50%;
++  background: linear-gradient(180deg, #29241d, #141419 58%, #090b0f);
++  border-bottom: 2px solid rgba(180,141,55,.45);
++}
++.coaching-display-base::after {
++  content: '';
++  position: absolute;
++  inset: 0 0 21px;
++  border-radius: 50%;
++  background: radial-gradient(ellipse at 50% 32%, #373125, #1d1c1c 55%, #101218);
++  border: 2px solid rgba(231,201,122,.65);
++  box-shadow: inset 0 2px 0 rgba(255,237,187,.22), 0 1px 8px rgba(233,191,92,.08);
++}
++/* Explicitly preserve a motionless display when reduced motion is requested. */
++@media (prefers-reduced-motion: reduce) {
++  .coaching-journal-rim, .coaching-edge-glint, .coaching-display-base,
++  .coaching-edge-glint::before, .coaching-edge-glint::after,
++  .coaching-display-base::before, .coaching-display-base::after {
++    animation: none !important;
++    transition: none !important;
++  }
++}
++
++/* Symmetric newspaper exclusion; DOM order stays paragraphs 1–3, fan, 4–7. */
++.coaching-newspaper { position: relative; max-width: 64rem; margin: 0 auto; }
++.coaching-story-column { display: flow-root; min-width: 0; }
++.coaching-story-exclusion { display: none; }
++@media (min-width: 1024px) {
++  .coaching-newspaper { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 32px; }
++  .coaching-story-left { grid-column: 1; grid-row: 1; }
++  .coaching-story-right { grid-column: 2; grid-row: 1; }
++  .coaching-newspaper .coaching-central-fan { position: absolute; left: 50%; top: 240px; width: 480px; max-width: 48%; margin: 0; transform: translateX(-50%); z-index: 1; }
++  .coaching-story-exclusion { display: block; width: min(240px, 50%); height: 600px; pointer-events: none; shape-margin: 10px; }
++  .coaching-story-exclusion-left { float: right; shape-outside: polygon(6.741% 51.290%, 59.755% 42.289%, 100.000% 42.289%, 100.000% 86.519%, 90.612% 86.503%, 81.326% 86.458%, 72.246% 86.383%, 63.469% 86.278%, 55.093% 86.146%, 47.208% 85.988%, 39.902% 85.805%, 33.255% 85.599%, 27.338% 85.373%, 22.218% 85.130%, 17.950% 84.871%, 14.581% 84.599%, 12.148% 84.318%, 10.677% 84.031%, 10.185% 83.741%); }
++  .coaching-story-exclusion-right { float: left; shape-outside: polygon(93.259% 51.290%, 40.245% 42.289%, 0.000% 42.289%, 0.000% 86.519%, 9.388% 86.503%, 18.674% 86.458%, 27.754% 86.383%, 36.531% 86.278%, 44.907% 86.146%, 52.792% 85.988%, 60.098% 85.805%, 66.745% 85.599%, 72.662% 85.373%, 77.782% 85.130%, 82.050% 84.871%, 85.419% 84.599%, 87.852% 84.318%, 89.323% 84.031%, 89.815% 83.741%); }
++}
++
++/* The symmetric contours follow the rotated original cover hull and display ellipse. */
++
++/* Membership sits below both article columns, aligned with their left edge. */
++.coaching-membership-footer { grid-column: 1; grid-row: 2; justify-self: start; }
+diff --git a/src/components/coaching/OriginalJournalFan.jsx b/src/components/coaching/OriginalJournalFan.jsx
+new file mode 100644
+index 00000000..cb82b560
+--- /dev/null
++++ b/src/components/coaching/OriginalJournalFan.jsx
+@@ -0,0 +1,40 @@
++import { useEffect, useRef, useState } from 'react';
++import { PUBLIC_JOURNALS } from '@/lib/publicJournalCatalogue';
++import './OriginalJournalFan.css';
++
++// Original advert composition, cropped to its fan region. CSS rasterization
++// differs from Pillow; source PNGs remain unchanged and interiors stay private.
++const covers = [
++  ['Healing After Toxic Relationships', 265, 1093, 305, -23],
++  ['Knowing Your Worth', 349, 1104, 317, -14],
++  ['Building Resilience', 821, 1093, 305, 23],
++  ['Healthy Boundaries', 731, 1104, 317, 14],
++  ['Working with People-Pleasing', 459, 1134, 340, -5],
++  ['Choosing Yourself', 608, 1134, 340, 5],
++];
++export default function OriginalJournalFan({ className = '' }) {
++  const ref = useRef(null);
++  const [scale, setScale] = useState(0);
++  useEffect(() => {
++    const observer = new ResizeObserver(([entry]) => setScale(entry.contentRect.width / 1080));
++    observer.observe(ref.current);
++    return () => observer.disconnect();
++  }, []);
++  return (
++    <figure ref={ref} className={`relative w-full max-w-xl mx-auto mb-8 ${className}`} style={{ aspectRatio: '1080 / 660' }} data-testid="coaching-original-fan" aria-label="The six Gannon Waye journals">
++      <div className="absolute left-0 top-0" style={{ width: 1080, height: 660, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
++        <div className="coaching-display-base" aria-hidden="true" data-testid="coaching-display-base" />
++        {covers.map(([title, x, y, width, angle], index) => {
++          const journal = PUBLIC_JOURNALS.find(item => item.title === title);
++          return <div key={title} className="coaching-journal-rim" style={{
++              left: x, top: y - 800, width, height: width * 1474 / 1042,
++              transform: `translate(-50%, -50%) rotate(${angle}deg)`, zIndex: index + 1,
++            }}>
++              <img src={journal.coverImageUrl} alt={title} width="1042" height="1474" decoding="async" data-testid="coaching-fan-cover" />
++              <span className="coaching-edge-glint" aria-hidden="true" />
++            </div>;
++        })}
++      </div>
++    </figure>
++  );
++}
+diff --git a/src/components/coaching/PaidConsultationOffer.jsx b/src/components/coaching/PaidConsultationOffer.jsx
+new file mode 100644
+index 00000000..f16c1512
+--- /dev/null
++++ b/src/components/coaching/PaidConsultationOffer.jsx
+@@ -0,0 +1,17 @@
++import {Link} from 'react-router-dom';
++import {PAID_INITIAL_CONSULTATION as offer} from '@/lib/coachingOffer';
++export default function PaidConsultationOffer(){
++ return <section aria-labelledby="paid-consultation-title" data-testid="paid-consultation-offer" className="font-body rounded-2xl border border-primary/30 bg-card/50 p-6 md:p-8 mb-7">
++  <p className="text-sm uppercase tracking-wide text-primary mb-2">One-on-one coaching</p>
++  <h3 id="paid-consultation-title" className="text-2xl font-medium mb-3">{offer.title}</h3>
++  <p className="text-3xl gradient-gold-text font-medium mb-3">A$99 <span className="text-lg text-foreground">/ 45 minutes</span></p>
++  <p className="text-base leading-relaxed mb-4">A two-way conversation about your goals, what you would like support with and whether working together feels right. Life coaching and mindset mentoring focus on strengths and practical steps; coaching does not diagnose or treat mental health conditions.</p>
++  <ol className="list-decimal pl-5 space-y-2 text-sm text-foreground/80 mb-5">
++   <li>Ask Gannon about availability.</li>
++   <li>Agree the time, session format and payment and cancellation details.</li>
++   <li>Pay only after your appointment details are confirmed. Gannon confirms how you will attend the session.</li>
++  </ol>
++  <Link to={offer.contactPath} data-testid="coaching-request-availability" className="inline-flex items-center rounded-full min-h-12 px-6 gradient-gold-button text-primary-foreground font-semibold">Request availability</Link>
++  <p className="text-sm text-muted-foreground mt-3">An enquiry is not a confirmed booking. Online booking and payment are being prepared.</p>
++ </section>;
++}
+diff --git a/src/components/public/Footer.jsx b/src/components/public/Footer.jsx
+index 5576d39d..b010a639 100644
+--- a/src/components/public/Footer.jsx
++++ b/src/components/public/Footer.jsx
+@@ -1,3 +1,4 @@
++import {DOUBLE_OPT_IN_ENABLED} from '@/config/emailSignup';
+ import { Link } from 'react-router-dom';
+ import { base44 } from '@/api/base44Client';
+ import { useQuery } from '@tanstack/react-query';
+@@ -66,12 +67,12 @@ export default function Footer() {
+           <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Stay connected</p>
+           <h3 className="font-display text-xl text-foreground mb-4">Music and merchandise updates</h3>
+ 
+-          <p className="font-body text-sm text-muted-foreground mb-4">One clear signup form, with explicit consent, is available on the home page.</p>
++          <p className="font-body text-sm text-muted-foreground mb-4">{DOUBLE_OPT_IN_ENABLED ? 'One clear signup form, with explicit consent, is available on the home page.' : 'Email signup is temporarily paused. Visit the home page for the current update-list status.'}</p>
+           <Link
+             to="/#updates"
+             className="inline-flex items-center justify-center rounded-full border border-primary/50 px-6 py-2.5 font-body text-sm tracking-wider uppercase gradient-gold-text hover:bg-primary/10 transition-colors"
+           >
+-            Join the Update List
++            {DOUBLE_OPT_IN_ENABLED ? 'Join the Update List' : 'View update-list status'}
+           </Link>
+         </div>
+ 
+diff --git a/src/components/public/GannonWayeGroupFeature.jsx b/src/components/public/GannonWayeGroupFeature.jsx
+new file mode 100644
+index 00000000..40aeddad
+--- /dev/null
++++ b/src/components/public/GannonWayeGroupFeature.jsx
+@@ -0,0 +1,21 @@
++import { Link } from 'react-router-dom';
++
++export default function GannonWayeGroupFeature() {
++  return (
++    <section aria-labelledby="gannon-waye-group-heading" data-testid="gannon-waye-group-feature" className="relative px-4 py-10 md:px-6 md:py-14">
++      <div className="mx-auto max-w-6xl border-y border-primary/30 py-8 md:grid md:grid-cols-[1.2fr_1fr] md:gap-12">
++        <div className="min-w-0">
++          <p className="font-body text-xs uppercase tracking-[0.2em] text-foreground/60">Music · Coaching · Journals</p>
++          <h2 id="gannon-waye-group-heading" className="mt-3 font-body text-3xl font-medium gradient-gold-text md:text-5xl">Gannon Waye Group</h2>
++          <h3 className="mt-4 font-body text-xl text-foreground">Life coaching and mindset mentorship</h3>
++          <p className="mt-4 max-w-xl font-body leading-relaxed text-foreground/75">Explore one-on-one coaching with Gannon, reflective journals, and the music that shares his story. Coaching offers space to reflect on your goals, self-worth and next steps.</p>
++        </div>
++        <nav aria-label="Explore Gannon Waye Group" className="mt-7 flex min-w-0 flex-col gap-3 md:mt-0 md:justify-center">
++          <Link to="/coaching?view=coaching" data-testid="group-coaching-link" className="rounded-lg border border-primary/60 bg-primary/10 px-5 py-4 font-body text-foreground transition-colors hover:bg-primary/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Explore one-on-one coaching <span className="mt-1 block text-sm text-foreground/70">A$99 · 45-minute initial consultation</span></Link>
++          <Link to="/coaching?view=journals" data-testid="group-journals-link" className="rounded-lg border border-primary/30 px-5 py-3 font-body text-foreground transition-colors hover:bg-primary/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">Explore journal previews</Link>
++          <Link to="/music" data-testid="group-music-link" className="px-5 py-2 font-body text-primary underline underline-offset-4">Discover Gannon's music</Link>
++        </nav>
++      </div>
++    </section>
++  );
++}
+diff --git a/src/components/public/HomeEmailSignup.jsx b/src/components/public/HomeEmailSignup.jsx
+index d53d88ec..30a1205f 100644
+--- a/src/components/public/HomeEmailSignup.jsx
++++ b/src/components/public/HomeEmailSignup.jsx
+@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
+ import { Input } from '@/components/ui/input';
+ import { ArrowUpRight, CheckCircle2, Instagram, Mail } from 'lucide-react';
+ 
+-const DOUBLE_OPT_IN_ENABLED = false;
++import {DOUBLE_OPT_IN_ENABLED} from '@/config/emailSignup';
+ 
+ // The approved ambient brand loop, kept very low here so the copy stays readable.
+ const AMBIENT_VIDEO =
+diff --git a/src/config/emailSignup.js b/src/config/emailSignup.js
+new file mode 100644
+index 00000000..7c9e5862
+--- /dev/null
++++ b/src/config/emailSignup.js
+@@ -0,0 +1,2 @@
++// Existing signup hold, shared so public CTAs describe the same state.
++export const DOUBLE_OPT_IN_ENABLED = false;
+diff --git a/src/gannonwaye-playwright-pack/tests/coaching-interest-hold.spec.js b/src/gannonwaye-playwright-pack/tests/coaching-interest-hold.spec.js
+new file mode 100644
+index 00000000..7b64c26d
+--- /dev/null
++++ b/src/gannonwaye-playwright-pack/tests/coaching-interest-hold.spec.js
+@@ -0,0 +1,13 @@
++const {test,expect}=require('@playwright/test');
++test('production intake hold blocks both button and direct form submission',async({page})=>{
++ test.skip(process.env.PRODUCTION_HOLD!=='1','Run against an isolated local production build');
++ let requests=0;await page.route('**/functions/submitCoachingInterest',route=>{requests++;return route.fulfill({json:{saved:true}});});
++ await page.goto('/coaching?view=coaching');
++ const form=page.getByTestId('coaching-interest-form');
++ for(const [label,value]of [['First name','Test'],['Last name','Person'],['Date of birth','2000-02-29'],['Mobile number','+61 400 123 456'],['Email address','test@example.invalid'],['What brings you here, and what would you like support with?','Private preview only.']])await page.getByLabel(label+' *',{exact:true}).fill(value);
++ await page.getByLabel('Gannon may contact me about my interest.').check();
++ await expect(form.getByRole('button',{name:'Register your interest',exact:true})).toBeDisabled();
++ await form.evaluate(node=>node.requestSubmit());
++ await expect(page.getByRole('alert')).toHaveText('Registration is being prepared. No details have been submitted.');
++ expect(requests).toBe(0);await expect(page.getByTestId('coaching-interest-success')).toHaveCount(0);
++});
+diff --git a/src/gannonwaye-playwright-pack/tests/coaching-paid-offer.spec.js b/src/gannonwaye-playwright-pack/tests/coaching-paid-offer.spec.js
+new file mode 100644
+index 00000000..3c5d69c0
+--- /dev/null
++++ b/src/gannonwaye-playwright-pack/tests/coaching-paid-offer.spec.js
+@@ -0,0 +1,47 @@
++const {test,expect}=require('@playwright/test');
++test('paid offer reaches specific availability enquiry without booking or charging',async({page},info)=>{
++ let writes=0;
++ await page.route('**/functions/**',route=>{if(route.request().method()!=='GET'){writes++;return route.abort();}return route.continue();});
++ await page.goto('/coaching?view=coaching',{waitUntil:'domcontentloaded'});
++ const card=page.getByTestId('paid-consultation-offer');
++ await expect(card).toContainText('A$99');await expect(card).toContainText('45 minutes');
++ await expect(card).toContainText('An enquiry is not a confirmed booking');
++ await expect(page.getByText(/first three appointments total A\$198/)).toBeVisible();
++ await expect(page.getByText(/ten-session package is A\$850/)).toBeVisible();
++ expect(await card.innerText()).not.toContain('free');
++ await page.getByTestId('coaching-request-availability').click();
++ await expect(page).toHaveURL(/\/contact\?topic=coaching$/);
++ await expect(page.getByTestId('coaching-contact-request')).toBeVisible();
++ const href=await page.getByTestId('coaching-email-link').getAttribute('href');
++ expect(href).toMatch(/^mailto:gannonwayemusic@gmail.com\?/);
++ expect(decodeURIComponent(href)).toContain('A$99, 45-minute paid initial consultation');
++ expect(decodeURIComponent(href)).not.toMatch(/date.of.birth|diagnos|medical/);
++ await expect(page.getByText('Opening your email app does not send a message or reserve an appointment.',{exact:false})).toBeVisible();
++ expect(writes).toBe(0);
++ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
++});
++test('home contact route exposes coaching and footer accurately describes paused signup',async({page})=>{
++ await page.goto('/contact',{waitUntil:'domcontentloaded'});
++ await expect(page.getByTestId('contact-coaching-offer')).toHaveAttribute('href','/coaching?view=coaching');
++ const footer=page.locator('footer');
++ await expect(footer).toContainText('Email signup is temporarily paused.');
++ await expect(footer.getByRole('link',{name:'View update-list status'})).toHaveAttribute('href','/#updates');
++ await expect(footer.getByRole('link',{name:'Join the Update List'})).toHaveCount(0);
++});
++
++test('paid offer and held original books remain independent choices',async({page})=>{
++ let paymentCalls=0;
++ await page.route('**/functions/**',route=>{paymentCalls++;return route.abort();});
++ await page.goto('/coaching?view=coaching',{waitUntil:'domcontentloaded'});
++ await page.getByRole('button',{name:'Back to the choices',exact:true}).click();
++ await page.getByRole('button',{name:'Explore the Journals',exact:true}).click();
++ await expect(page.getByTestId('journal-shelf')).toBeVisible();
++ await expect(page.locator('[data-testid^="journal-cover-"]')).toHaveCount(6);
++ await page.getByTestId('journal-cover-choosing-yourself').click();
++ const modal=page.getByTestId('journal-preview-modal');
++ await expect(modal.getByTestId('journal-sample-question')).toHaveCount(1);
++ await expect(modal.getByRole('button',{name:'Purchase',exact:true})).toBeDisabled();
++ await expect(modal).toContainText('Online purchasing is being prepared');
++ await expect(modal.getByRole('button',{name:'Access your purchased journal'})).toHaveCount(0);
++ expect(paymentCalls).toBe(0);
++});
+diff --git a/src/gannonwaye-playwright-pack/tests/coaching-private-lock.spec.js b/src/gannonwaye-playwright-pack/tests/coaching-private-lock.spec.js
+index dfbc1a3a..43ce391d 100644
+--- a/src/gannonwaye-playwright-pack/tests/coaching-private-lock.spec.js
++++ b/src/gannonwaye-playwright-pack/tests/coaching-private-lock.spec.js
+@@ -1,34 +1,49 @@
+-// tests/coaching-private-lock.spec.js
+-// Coaching stays private until COACHING_PUBLIC_LAUNCH_ENABLED is deliberately
+-// switched on. Every coaching route must redirect a visitor to /contact.
+-
+-import { test, expect } from '@playwright/test';
+-
+-const BASE_URL = globalThis.process?.env?.BASE_URL || 'http://localhost:5173';
+-
+-const COACHING_ROUTES = [
+-  '/coaching',
+-  '/coaching/workbooks',
+-  '/coaching/intake',
+-  '/coaching/client-resources',
+-  '/coaching-programs',
+-  '/mindset-coaching',
+-  '/life-coaching',
+-  '/book-coaching',
+-];
+-
+-test.describe('Coaching routes stay private', () => {
+-  for (const route of COACHING_ROUTES) {
+-    test(`${route} redirects to /contact`, async ({ page }) => {
+-      await page.goto(`${BASE_URL}${route}`);
+-      await page.waitForLoadState('load');
+-      await expect.poll(() => new URL(page.url()).pathname, { timeout: 15_000 }).toBe('/contact');
+-    });
+-  }
+-
+-  test('public navigation does not advertise coaching', async ({ page }) => {
+-    await page.goto(`${BASE_URL}/`);
+-    await page.waitForLoadState('load');
+-    await expect(page.locator('nav a[href^="/coaching"]')).toHaveCount(0);
+-  });
+-});
+\ No newline at end of file
++const {test,expect}=require('@playwright/test');
++test.beforeEach(async({page})=>{
++ await page.route('**/api/**',route=>route.request().method()==='GET'?route.continue():route.abort());
++});
++test('public story and workbook previews are reachable while legacy programmes and resources stay private',async({page})=>{
++ await page.goto('/coaching',{waitUntil:'domcontentloaded'});
++ await expect(page.getByTestId('coaching-story-newspaper')).toBeVisible();
++ await expect(page.locator('[data-testid^="coaching-approved-"]')).toHaveCount(7);
++ await expect(page.getByTestId('coaching-fan-cover')).toHaveCount(6);
++ await expect.poll(()=>page.getByTestId('coaching-fan-cover').evaluateAll(images=>images.every(image=>image.complete&&image.naturalWidth>0))).toBe(true);
++ await page.goto('/coaching/workbooks',{waitUntil:'domcontentloaded'});
++ await expect(page).toHaveURL(/\/coaching#journals$/);
++ await expect(page.getByTestId('journal-shelf')).toBeVisible();
++ for(const path of ['/coaching/self-worth-reset','/coaching/boundaries','/coaching/creative-confidence','/coaching/intake','/coaching/client-resources','/coaching-programs','/book-coaching']){
++  await page.goto(path,{waitUntil:'domcontentloaded'});
++  await expect(page).toHaveURL(/\/contact$/);
++  await expect(page.getByRole('heading',{name:'Contact',exact:true,level:1})).toBeVisible();
++ }
++});
++test('anonymous visitors never receive the admin console',async({page})=>{
++ await page.route('**/login**',route=>route.fulfill({contentType:'text/html',body:'<h1>Sign in</h1>'}));
++ for(const path of ['/admin/dashboard','/admin/coaching-hub']){
++  await page.goto(path,{waitUntil:'domcontentloaded'});
++  await expect.poll(async()=>!new URL(page.url()).pathname.startsWith('/admin')||(await page.getByText('Access Restricted',{exact:true}).count())>0).toBe(true);
++  await expect(page.locator('a[href="/admin/dashboard"]')).toHaveCount(0);
++ }
++});
++test('homepage and footer agree signup is paused and expose no signup submission form',async({page})=>{
++ await page.goto('/#updates',{waitUntil:'domcontentloaded'});
++ const updates=page.locator('#updates');
++ await expect(updates).toContainText('Email signup is temporarily paused');
++ await expect(updates.locator('form')).toHaveCount(0);
++ await expect(page.locator('footer')).toContainText('Email signup is temporarily paused.');
++ await expect(page.locator('footer').getByRole('link',{name:'View update-list status'})).toHaveAttribute('href','/#updates');
++});
++test('held journal selection remains preview only with preserved prices and no private download link',async({page})=>{
++ let bookCalls=0;
++ await page.route('**/functions/*Journal*',route=>{bookCalls++;return route.abort();});
++ await page.goto('/coaching?view=journals',{waitUntil:'domcontentloaded'});
++ await page.getByTestId('journal-cover-choosing-yourself').click();
++ const modal=page.getByTestId('journal-preview-modal');
++ await expect(modal.getByTestId('journal-selection-total')).toHaveText('Total: A$9.90');
++ await modal.getByLabel('Choose the whole six-journal bundle · A$49',{exact:true}).check();
++ await expect(modal.getByTestId('journal-selection-total')).toHaveText('Total: A$49.00');
++ await expect(modal.getByRole('button',{name:'Purchase',exact:true})).toBeDisabled();
++ await expect(modal.getByTestId('journal-sample-question')).toHaveCount(1);
++ await expect(modal.locator('a[href*=".pdf"]')).toHaveCount(0);
++ expect(bookCalls).toBe(0);
++});
+diff --git a/src/gannonwaye-playwright-pack/tests/home-group-feature.spec.js b/src/gannonwaye-playwright-pack/tests/home-group-feature.spec.js
+new file mode 100644
+index 00000000..b14172ba
+--- /dev/null
++++ b/src/gannonwaye-playwright-pack/tests/home-group-feature.spec.js
+@@ -0,0 +1,21 @@
++const {test,expect}=require('@playwright/test');
++test('homepage Group feature keeps music and leads to coaching and held journal previews',async({page},info)=>{
++ await page.route('**/functions/**',route=>route.abort());
++ await page.goto('/',{waitUntil:'domcontentloaded'});
++ const feature=page.getByTestId('gannon-waye-group-feature');
++ await expect(feature.getByRole('heading',{name:'Gannon Waye Group',exact:true})).toBeVisible();
++ await expect(feature).toContainText('Life coaching and mindset mentorship');
++ await expect(feature.getByTestId('group-music-link')).toHaveAttribute('href','/music');
++ await feature.scrollIntoViewIfNeeded();
++ expect(await feature.evaluate(el=>el.getBoundingClientRect().right<=innerWidth && el.getBoundingClientRect().left>=0)).toBe(true);
++ await feature.getByTestId('group-coaching-link').click();
++ await expect(page).toHaveURL(/\/coaching\?view=coaching$/);
++ await expect(page.getByTestId('paid-consultation-offer')).toBeVisible();
++ await page.goto('/',{waitUntil:'domcontentloaded'});
++ await page.getByTestId('group-journals-link').click();
++ await expect(page).toHaveURL(/\/coaching\?view=journals$/);
++ await expect(page.getByTestId('journal-shelf')).toBeVisible();
++ await expect(page.locator('[data-testid^="journal-cover-"]')).toHaveCount(6);
++ await page.getByTestId('journal-cover-choosing-yourself').click();
++ await expect(page.getByTestId('journal-preview-modal').getByRole('button',{name:'Purchase',exact:true})).toBeDisabled();
++});
+diff --git a/src/lib/coachingInterestPolicy.js b/src/lib/coachingInterestPolicy.js
+new file mode 100644
+index 00000000..4aa8a58c
+--- /dev/null
++++ b/src/lib/coachingInterestPolicy.js
+@@ -0,0 +1,49 @@
++export const OWNER_EMAILS = ['ganozwaye@gmail.com','gannonwayemusic@gmail.com'];
++export function isWebsiteOwner(user) { return user?.role === 'admin' && OWNER_EMAILS.includes(String(user.email || '').trim().toLowerCase()); }
++export function validateInterest(input, now = new Date()) {
++  const fail = message => { throw new Error(message); };
++  const text = (key,max) => {
++    const value = typeof input[key] === 'string' ? input[key].trim() : '';
++    if (!value || value.length > max || /[\x00-\x08\x0b\x0c\x0e-\x1f]/.test(value)) fail('Please check the required fields and their lengths.');
++    return value;
++  };
++  const first_name=text('first_name',80),last_name=text('last_name',80);
++  const email=text('email',254).toLowerCase();
++  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) fail('Please enter a valid email address.');
++  const phone=text('phone',30);
++  if (!/^\+?[0-9 ()-]+$/.test(phone) || phone.replace(/\D/g,'').length < 8 || phone.replace(/\D/g,'').length > 15) fail('Please enter a valid mobile number.');
++  const date_of_birth=text('date_of_birth',10);
++  const dob=new Date(date_of_birth+'T00:00:00Z'),today=now.toISOString().slice(0,10);
++  if (!/^\d{4}-\d{2}-\d{2}$/.test(date_of_birth) || !Number.isFinite(dob.getTime()) || dob.toISOString().slice(0,10)!==date_of_birth || date_of_birth>today) fail('Please enter a valid date of birth that is not in the future.');
++  const support_wanted=text('support_wanted',1000);
++  if (input.consent_to_contact!==true) fail('Please confirm that Gannon may contact you about your interest.');
++  if (input.website) fail('Unable to accept this submission.');
++  if (!/^[a-f0-9-]{36}$/.test(String(input.submission_id||''))) fail('Please refresh the form and try again.');
++  return {first_name,last_name,full_name:first_name+' '+last_name,email,phone,date_of_birth,support_wanted,consent_to_contact:true,submission_id:input.submission_id,source_page:'/coaching',source_offer:'coaching_interest',status:'new'};
++}
++export async function saveInterest(entities, input, {now = new Date(),hashEmail,excludeTraffic=false} = {}) {
++ const lead=validateInterest(input,now),fingerprint=await hashEmail(lead.email),ledger=entities.CoachingSubmissionReceipt;
++ const existing=await ledger.filter({submission_id:lead.submission_id},'created_date',20);
++ if(existing.length) {
++  const previous=existing.slice().sort((a,b)=>String(a.created_date).localeCompare(String(b.created_date))||String(a.id).localeCompare(String(b.id)))[0];
++  if(previous.contact_fingerprint!==fingerprint)throw new Error('Please refresh the form and try again.');
++  if(previous.completed===true)return {saved:true,receipt:lead.submission_id,duplicate:true};
++  // A pending/ambiguous save is not retried as a fresh lead. Owner reconciliation
++  // can confirm an existing saved record without making a second submission.
++  throw new Error('Your submission is awaiting confirmation. Please try again later.');
++ }
++ const recent=await ledger.filter({contact_fingerprint:fingerprint},'-created_date',4);
++ if(recent.filter(row=>new Date(row.created_date).getTime()>now.getTime()-86400000).length>=3)throw new Error('Please wait before submitting again.');
++ const reservation=await ledger.create({submission_id:lead.submission_id,contact_fingerprint:fingerprint,completed:false});
++ if(!reservation?.id)throw new Error('The submission could not be confirmed. Please retry.');
++ const peers=await ledger.filter({submission_id:lead.submission_id},'created_date',20);
++ const canonical=peers.slice().sort((a,b)=>String(a.created_date).localeCompare(String(b.created_date))||String(a.id).localeCompare(String(b.id)))[0]||reservation;
++ if(canonical.id!==reservation.id) {
++  if(canonical.completed===true)return {saved:true,receipt:lead.submission_id,duplicate:true};
++  throw new Error('Your submission is awaiting confirmation. Please try again later.');
++ }
++ const created=await entities.CoachingLead.create({...lead,analytics_excluded:Boolean(excludeTraffic)});
++ if(!created?.id)throw new Error('The submission could not be confirmed. Please retry.');
++ await ledger.update(reservation.id,{completed:true,lead_id:created.id});
++ return {saved:true,receipt:lead.submission_id,duplicate:false};
++}
+diff --git a/src/lib/coachingOffer.js b/src/lib/coachingOffer.js
+new file mode 100644
+index 00000000..15f9da9d
+--- /dev/null
++++ b/src/lib/coachingOffer.js
+@@ -0,0 +1,13 @@
++// Owner-approved offer; separate from the optional, inactive free clarity call.
++export const PAID_INITIAL_CONSULTATION = Object.freeze({
++ id:'paid-initial-consultation', title:'Paid initial consultation',
++ amountCents:9900,currency:'aud',durationMinutes:45,
++ introductoryThreeCents:19800,tenSessionPackageCents:85000,
++ contactPath:'/contact?topic=coaching'
++});
++export function consultationEmailHref(email){
++ if(typeof email!=='string'||! /^[^\s@?&#]+@[^\s@?&#]+\.[^\s@?&#]+$/.test(email)) return null;
++ const subject='Paid initial consultation | A$99 | 45 minutes';
++ const body="Hi Gannon,\n\nI'd like to ask about availability for the A$99, 45-minute paid initial consultation. Please let me know available times, the session format and the payment and cancellation details before I decide.\n\nThank you.";
++ return 'mailto:'+email+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
++}
+diff --git a/src/lib/journalBasket.js b/src/lib/journalBasket.js
+new file mode 100644
+index 00000000..0aa1e8ca
+--- /dev/null
++++ b/src/lib/journalBasket.js
+@@ -0,0 +1,13 @@
++export const JOURNAL_UNIT_CENTS = 990;
++export const JOURNAL_BUNDLE_CENTS = 4900;
++export function journalBasketQuote({ books, selectedIds, ownedIds = [], bundle = false }) {
++  const known = new Set(books.map(book => book.id));
++  if (!Array.isArray(selectedIds) || selectedIds.some(id => !known.has(id))) throw new Error('Invalid journal selection');
++  const unique = [...new Set(selectedIds)];
++  const owned = new Set(ownedIds);
++  const alreadyOwned = unique.filter(id => owned.has(id));
++  const bookIds = unique.filter(id => !owned.has(id));
++  const wholeSet = bundle && unique.length === books.length && books.length === 6 && alreadyOwned.length === 0;
++  return { bookIds, alreadyOwned, bundle: wholeSet,
++    totalCents: bookIds.length === 0 ? 0 : wholeSet ? JOURNAL_BUNDLE_CENTS : JOURNAL_UNIT_CENTS * bookIds.length };
++}
+diff --git a/src/lib/publicJournalCatalogue.js b/src/lib/publicJournalCatalogue.js
+new file mode 100644
+index 00000000..68ea769c
+--- /dev/null
++++ b/src/lib/publicJournalCatalogue.js
+@@ -0,0 +1,68 @@
++// Public preview only. Populate exclusively from the approved asset/copy handoff.
++// Never place PDF contents, private file URIs, download URLs or signed URLs here.
++// Expected fields: id, title, coverImageUrl, origin, purpose, readerBenefits,
++// sampleQuestion, samplePageReference, approvedVersion.
++export const PUBLIC_JOURNALS = [
++  {
++    "id": "choosing-yourself",
++    "title": "Choosing Yourself",
++    "description": "A journal shaped by the ideas and songs behind Choosing Yourself, with space to reflect on grief, relationships, boundaries and your own voice. The pages invite you to name what matters in an ordinary situation and consider a manageable next step, with room to pause, leave questions unanswered and seek support.",
++    "sampleQuestion": "What is one quality, preference, interest or part of your identity you want to give more room?",
++    "samplePageReference": 21,
++    "approvedVersion": "2",
++    "releaseApproved": false,
++    "coverImageUrl": "/images/coaching/original-advert/cover_0.png"
++  },
++  {
++    "id": "knowing-your-worth",
++    "title": "Knowing Your Worth",
++    "description": "For the times you question your worth or find yourself measuring it through approval, achievement or being useful. These pages explore the rules you carry, the way you speak to yourself and the place your needs deserve in everyday choices, with practical questions and small actions to consider at your own pace.",
++    "sampleQuestion": "In your chosen situation, what do you expect yourself to do before you feel acceptable?",
++    "samplePageReference": 5,
++    "approvedVersion": "4",
++    "releaseApproved": false,
++    "coverImageUrl": "/images/coaching/original-advert/cover_2.png"
++  },
++  {
++    "id": "healthy-boundaries",
++    "title": "Healthy Boundaries",
++    "description": "A place to think about what you can offer, what you need and where a limit might belong. Through everyday situations, the journal explores values, responsibilities, guilt, time to pause and words that fit, while taking practical constraints seriously. You can reflect privately before deciding whether any action is right for you.",
++    "sampleQuestion": "What do you need, and what tells you that this need deserves attention?",
++    "samplePageReference": 6,
++    "approvedVersion": "4",
++    "releaseApproved": false,
++    "coverImageUrl": "/images/coaching/original-advert/cover_3.png"
++  },
++  {
++    "id": "working-with-people-pleasing",
++    "title": "Working with People-Pleasing",
++    "description": "For moments when you agree before checking your own needs. This journal offers room to notice the pattern, pause and consider what you genuinely want and can offer. A thoughtful yes, a smaller offer or time to think may fit; the aim is to explore your choices without turning kindness into a fault.",
++    "sampleQuestion": "What need or limit would you like to include if a similar situation comes up?",
++    "samplePageReference": 6,
++    "approvedVersion": "3",
++    "releaseApproved": false,
++    "coverImageUrl": "/images/coaching/original-advert/cover_1.png"
++  },
++  {
++    "id": "building-resilience",
++    "title": "Building Resilience",
++    "description": "A working journal for difficult seasons, grounded in the week you are actually having. Explore your capacity, the difference between facts and interpretations, sources of support and plans that can change. The pages make room for realistic adjustments and manageable next steps, without asking you to prove your strength or find a benefit in everything.",
++    "sampleQuestion": "Where does your current plan assume more time or energy than you have?",
++    "samplePageReference": 6,
++    "approvedVersion": "3",
++    "releaseApproved": false,
++    "coverImageUrl": "/images/coaching/original-advert/cover_5.png"
++  },
++  {
++    "id": "healing-after-toxic-relationships",
++    "title": "Healing After Toxic Relationships",
++    "description": "Space to notice how a harmful relationship affects ordinary life and give your needs clearer words. The journal explores responsibility, mixed feelings, support, trust in small decisions and the parts of life you want to rebuild. You can use it whether contact has ended or continues, without recounting your hardest experiences or following a timetable for healing.",
++    "sampleQuestion": "What would you want a support person to understand about your pace?",
++    "samplePageReference": 18,
++    "approvedVersion": "3",
++    "releaseApproved": false,
++    "coverImageUrl": "/images/coaching/original-advert/cover_4.png"
++  }
++];
++export const JOURNAL_PURCHASES_ENABLED = false;
++export const JOURNAL_BUNDLE_COUNT_CONFIRMED = true;
+diff --git a/src/pages/Coaching.jsx b/src/pages/Coaching.jsx
+index 98d70a97..6f04cb55 100644
+--- a/src/pages/Coaching.jsx
++++ b/src/pages/Coaching.jsx
+@@ -1,200 +1,113 @@
+-import { motion } from 'framer-motion';
+-import { Link } from 'react-router-dom';
++import { useEffect, useRef } from 'react';
++import { useLocation, useSearchParams } from 'react-router-dom';
+ import { Button } from '@/components/ui/button';
+-import CoachingHero from '@/components/coaching/CoachingHero';
+-import CoachingComingSoonSection from '@/components/public/CoachingComingSoonSection';
+-import CoachingOfferCard from '@/components/coaching/CoachingOfferCard';
+-import CoachingSignatureLine from '@/components/coaching/CoachingSignatureLine';
+-import CoachingDisclaimer from '@/components/coaching/CoachingDisclaimer';
++import OriginalJournalFan from '@/components/coaching/OriginalJournalFan';
++import JournalShelf from '@/components/coaching/JournalShelf';
++import CoachingGiftSet from '@/components/coaching/CoachingGiftSet';
++import CoachingIntakeForm from '@/components/coaching/CoachingIntakeForm';
++import PaidConsultationOffer from '@/components/coaching/PaidConsultationOffer';
+ 
+-const OFFERS = [
+-  {
+-    icon: '🌱',
+-    title: 'Self Worth Reset',
+-    hook: 'What if the problem was never that you were not enough?',
+-    description: 'A focused session for people who have spent too long questioning their worth, apologising for their needs, or staying small to keep the peace.',
+-    ctaLabel: 'Book a Session',
+-    ctaLink: '/coaching/self-worth-reset',
+-    delay: 0,
+-  },
+-  {
+-    icon: '🛡️',
+-    title: 'Boundaries & Self Respect',
+-    hook: 'Respect is earned. Not a game you make me play.',
+-    description: 'A practical mentoring pathway for people learning to stop over-explaining, over-giving, and abandoning themselves to manage someone else\'s comfort.',
+-    ctaLabel: 'Learn More',
+-    ctaLink: '/coaching/boundaries',
+-    delay: 0.1,
+-  },
+-  {
+-    icon: '🎤',
+-    title: 'Creative Confidence',
+-    hook: 'What if the voice you have been hiding is the thing someone else needs to hear?',
+-    description: 'Support for artists, creators, singers, writers, and people rebuilding their confidence through expression, purpose, and story.',
+-    ctaLabel: 'Learn More',
+-    ctaLink: '/coaching/creative-confidence',
+-    delay: 0.2,
+-  },
+-];
+-
+-const WHY_ITEMS = [
+-  { label: 'Survivor led', detail: 'Gannon speaks from lived experience — not a textbook.' },
+-  { label: 'Emotionally honest', detail: 'No toxic positivity. No bypassing. Just real, grounded support.' },
+-  { label: 'Practical and actionable', detail: 'You will leave sessions with clarity, not just feelings.' },
+-  { label: 'Safe and boundaried', detail: 'A space where your story is not shame — it is evidence you survived.' },
+-  { label: 'Rooted in purpose', detail: 'Connected to the THANKYOU movement and the music behind it.' },
+-];
++// Reuse the existing window-light portrait selected by Gannon from
++// Building Resilience and Healthy Boundaries; preserve the source pixels.
++// Never include journal interiors, PDF URLs or unverified sample questions here.
++const PORTRAIT_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/94d50ca39_77B69334-B27B-44A8-9C21-F7216216A118.png';
+ 
+ export default function Coaching() {
++  const [params, setParams] = useSearchParams();
++  const location = useLocation(),viewRef = useRef(null);
++  const requested = params.get('view');
++  const view = requested === 'journals' || requested === 'coaching' ? requested :
++  params.has('journal') || location.hash === '#journals' ? 'journals' : null;
++  const choose = (next) => setParams((previous) => {
++    const query = new URLSearchParams(previous);
++    query.delete('journal');
++    if (next) query.set('view', next);else query.delete('view');
++    return query;
++  });
++  useEffect(() => {if (view) viewRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' });}, [view]);
+   return (
+-    <div className="min-h-screen">
+-      <CoachingComingSoonSection />
+-      <CoachingHero
+-        badge="Gannon Waye Coaching"
+-        hook="Are you ready to stop begging for basic respect and start rebuilding the life you were made for?"
+-        subhook="Life coaching and mindset mentoring for self worth, boundaries, creative confidence, and rebuilding after painful chapters."
+-        primaryCTA="Book a Clarity Session"
+-        primaryLink="/coaching/intake"
+-        secondaryCTA="Download the Free Workbook"
+-        secondaryLink="/coaching/workbooks"
+-      />
+-
+-      {/* Signature line */}
+-      <section className="py-10 px-4">
+-        <CoachingSignatureLine line="Respect is earned. Not a game you make me play." size="lg" />
+-      </section>
+-
+-      {/* Three offers */}
+-      <section className="py-16 px-4 md:px-6">
+-        <div className="max-w-6xl mx-auto">
+-          <motion.div
+-            initial={{ opacity: 0, y: 16 }}
+-            whileInView={{ opacity: 1, y: 0 }}
+-            viewport={{ once: true }}
+-            className="text-center mb-12"
+-          >
+-            <p className="font-body text-[9px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Where would you like to start?</p>
+-            <h2 className="font-display text-3xl md:text-4xl text-foreground italic">Choose your pathway</h2>
+-          </motion.div>
+-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+-            {OFFERS.map(o => <CoachingOfferCard key={o.title} {...o} />)}
+-          </div>
++    <div className="min-h-screen pb-20" data-testid="coaching-page">
++      <section className="relative isolate overflow-hidden py-10 md:py-14" data-testid="coaching-editorial-intro">
++        {/* Thankyou ReleaseDetail uses an atmospheric portrait, directional mask
++            and dark vignette. Keep this selected photo static and naturally framed. */}
++        <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
++          <img src={PORTRAIT_URL} alt="" data-testid="coaching-hero-wallpaper" className="absolute right-0 top-0 w-[55%] md:w-[40%] h-[42rem] md:h-auto object-cover object-top" />
++          <div data-testid="coaching-hero-overlay" className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(8,8,14,0.9) 0%, rgba(8,8,14,0.78) 45%, rgba(8,8,14,0.62) 100%)' }} />
++          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(8,8,14,0.12) 0%, rgba(8,8,14,0.38) 28rem, hsl(var(--background)) 42rem)' }} />
+         </div>
+-      </section>
++        <div className="max-w-6xl mx-auto px-5">
++        <header className="flex flex-col items-center text-center mb-10" data-testid="coaching-hero-title">
++          <div className="max-w-4xl w-full mx-auto">
++            <div className="w-16 h-1 gradient-gold-button mx-auto mb-6" aria-hidden="true" data-testid="coaching-top-rule" />
++            {/* Reuse the exact gradient shared by Navbar's Gannon Waye brand and FanChatWidget. */}
++            <p className="font-body font-medium text-base md:text-lg gradient-gold-text uppercase tracking-wide mb-4 leading-relaxed" data-testid="coaching-service-promise">START WITH WHAT MATTERS TO YOU</p>
++            <h1 className="font-body font-medium text-4xl md:text-5xl gradient-gold-text leading-tight tracking-tight text-center">RESILIENCE COACHING</h1>
++            <p className="font-body font-normal text-xl md:text-2xl text-foreground mt-4 tracking-normal" data-testid="coaching-name">Coaching with Gannon Waye</p>
+ 
+-      {/* Why work with Gannon */}
+-      <section className="py-16 px-4 md:px-6 bg-card/20">
+-        <div className="max-w-4xl mx-auto">
+-          <motion.div
+-            initial={{ opacity: 0, y: 16 }}
+-            whileInView={{ opacity: 1, y: 0 }}
+-            viewport={{ once: true }}
+-            className="text-center mb-10"
+-          >
+-            <p className="font-body text-[9px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Why this work</p>
+-            <h2 className="font-display text-3xl text-foreground italic">Why work with Gannon?</h2>
+-          </motion.div>
+-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+-            {WHY_ITEMS.map((item, i) => (
+-              <motion.div
+-                key={item.label}
+-                initial={{ opacity: 0, x: -10 }}
+-                whileInView={{ opacity: 1, x: 0 }}
+-                viewport={{ once: true }}
+-                transition={{ delay: i * 0.07 }}
+-                className="flex gap-3 p-4 bg-card/40 border border-border/30 rounded-xl"
+-              >
+-                <span className="text-primary mt-0.5">✦</span>
+-                <div>
+-                  <p className="font-body text-sm font-semibold text-foreground">{item.label}</p>
+-                  <p className="font-body text-xs text-muted-foreground mt-0.5">{item.detail}</p>
+-                </div>
+-              </motion.div>
+-            ))}
++            <div className="w-16 h-1 gradient-gold-button mx-auto mt-6 mb-6" aria-hidden="true" data-testid="coaching-bottom-rule" />
++            <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />
+           </div>
++        </header>
++        {/* Preserve the approved story and editorial columns. */}
++        <div className="coaching-newspaper" data-testid="coaching-story-newspaper">
++          <div className="coaching-story-column coaching-story-left" data-testid="coaching-story-left">
++            <div className="coaching-story-exclusion coaching-story-exclusion-left" aria-hidden="true" />
++<p className="font-body text-lg text-foreground leading-relaxed mb-5 break-inside-avoid text-left border-l-2 border-[#F5D06E] pl-4" data-testid="coaching-approved-intro">If there’s one thing my life has shown me, it’s my sheer determination and drive to succeed.</p>
++<p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-training">I know what it’s like to need support, and I know what it’s like to not find it. And I still had to survive. At 28, I used drugs for the first time. I rang Mum straight away and asked for help. Over the next two years, I went to rehab twice before finding recovery. I returned to church, attended Narcotics Anonymous and took on roles helping others. My healing isn’t complete, but I’m determined to keep going.</p>
++<p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-story">It wasn’t until I became a personal trainer that I realised how much the work went beyond fitness. Exercise could offer clarity and a sense of healing, but often our conversations reached beyond the gym. I found myself encouraging clients, lifting them up and helping them build confidence to take on challenges in their everyday lives. It was motivation for life, and supporting that growth brought me so much joy.</p>
++          </div>
++          <OriginalJournalFan className="coaching-central-fan" />
++          <div className="coaching-story-column coaching-story-right" data-testid="coaching-story-right">
++            <div className="coaching-story-exclusion coaching-story-exclusion-right" aria-hidden="true" />
++<p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-recovery">I studied mental health at TAFE, completed my Diploma of Counselling in 2020 and began university in 2021. I now hold a Bachelor of Psychological Studies. Along the way, I earned high distinctions and was invited to join Golden Key. Seven years of education and personal development, including further learning in mental health, have deepened what I bring to supporting others.</p>
++<p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-support">My coaching brings together that education and lived experience. Through life coaching and mindset mentorship, I listen, help you recognise your strengths and work with you on practical steps towards what matters to you. Honesty, integrity and transparency guide how I work. Shame has no place in healing.</p>
++<p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-purpose">I find purpose and joy in helping others move towards their future. I share my journey because I want it to benefit others, beyond my own life. I believe God can use it for something greater than myself.</p>
++<p className="font-body text-lg text-foreground/95 leading-relaxed mb-4 break-inside-avoid text-left" data-testid="coaching-approved-ending">If you’re looking for support, explore my journals or learn more about coaching.</p>
++          </div>
++          <figure className="coaching-membership-footer flex items-center gap-3 mt-6 text-left" data-testid="coaching-golden-key-membership">
++            <img src="/images/golden-key/GKlogo.png" alt="Golden Key International Honour Society logo" className="w-12 h-12 shrink-0" width="48" height="48" />
++            <figcaption className="font-body text-sm text-foreground/80 max-w-xs">Lifetime Member, Golden Key International Honour Society</figcaption>
++          </figure>
++        </div>
+         </div>
+       </section>
+ 
+-      {/* This is for you if */}
+-      <section className="py-16 px-4 md:px-6">
+-        <div className="max-w-3xl mx-auto text-center">
+-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+-            <p className="font-body text-[9px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Is this for you?</p>
+-            <h2 className="font-display text-3xl text-foreground italic mb-8">This is for you if…</h2>
+-          </motion.div>
+-          <div className="space-y-3 text-left max-w-xl mx-auto">
+-            {[
+-              'You are tired of apologising for having needs',
+-              'You have spent years shrinking yourself to keep the peace',
+-              'You have just come out of something painful and need help finding your footing',
+-              'You know what you want but keep talking yourself out of it',
+-              'You are a creative person who has lost their voice or confidence',
+-              'You are ready to stop waiting for someone else to validate your worth',
+-              'You want practical support, not just someone to talk at',
+-            ].map((line, i) => (
+-              <motion.div
+-                key={i}
+-                initial={{ opacity: 0, x: -10 }}
+-                whileInView={{ opacity: 1, x: 0 }}
+-                viewport={{ once: true }}
+-                transition={{ delay: i * 0.06 }}
+-                className="flex items-start gap-3"
+-              >
+-                <span className="text-primary text-sm mt-0.5 shrink-0">→</span>
+-                <p className="font-body text-sm text-foreground/80">{line}</p>
+-              </motion.div>
+-            ))}
+-          </div>
++      {view && <div ref={viewRef} className="scroll-mt-24">
++        <div className="max-w-6xl mx-auto px-5 mb-4">
++          <Button variant="outline" onClick={() => choose(null)}>Back to the choices</Button>
++        </div>
++      {view === 'journals' && <>
++      <section id="journals" aria-labelledby="journals-title" className="max-w-6xl mx-auto px-5 py-16 scroll-mt-24">
++        <div className="rounded-3xl bg-card/60 border border-primary/25 p-7 md:p-10">
++          <h2 id="journals-title" className="font-display text-3xl mb-4">Explore the Journals</h2>
++          <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">The six journals are A$9.90 each, or A$49 for the six-book bundle. You do not need a coaching call, registration for coaching or approval from me to purchase or read a journal. One-on-one coaching is optional and separate.</p>
++          <JournalShelf />
++          <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">Reflective writing together is still in development and is not included in the six-book bundle.</p>
+         </div>
+       </section>
+ 
+-      {/* Quote */}
+-      <section className="py-12 px-4">
+-        <CoachingSignatureLine line="You are not too broken to rebuild." />
+-      </section>
++      <CoachingGiftSet />
++      </>}
+ 
+-      {/* CTA block */}
+-      <section className="py-16 px-4 bg-card/30">
+-        <div className="max-w-2xl mx-auto text-center space-y-5">
+-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+-            <h2 className="font-display text-3xl text-foreground italic mb-4">Ready to start?</h2>
+-            <p className="font-body text-sm text-muted-foreground mb-8">Book a clarity session or download the free Self Respect Reset Workbook to start right now.</p>
+-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+-              <Link to="/coaching/intake">
+-                <Button className="gradient-gold-button border-0 rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase">
+-                  Book a Clarity Session
+-                </Button>
+-              </Link>
+-              <Link to="/coaching/workbooks">
+-                <Button variant="outline" className="rounded-full px-8 py-5 font-body text-sm tracking-wider uppercase border-foreground/20">
+-                  Free Workbooks
+-                </Button>
+-              </Link>
+-            </div>
+-          </motion.div>
+-        </div>
+-      </section>
+ 
+-      {/* Workbooks teaser */}
+-      <section className="py-10 px-4 md:px-6">
+-        <div className="max-w-4xl mx-auto">
+-          <div className="bg-card/40 border border-primary/20 rounded-2xl p-8 text-center">
+-            <p className="font-body text-[9px] tracking-[0.3em] uppercase gradient-gold-glow mb-3">Free resources</p>
+-            <h3 className="font-display text-2xl text-foreground italic mb-2">Start with the workbooks</h3>
+-            <p className="font-body text-sm text-muted-foreground mb-6">Six reflection and action workbooks — some free, some paid. All built around the same core work Gannon does in sessions.</p>
+-            <Link to="/coaching/workbooks">
+-              <Button variant="outline" className="rounded-full px-6 py-4 font-body text-xs tracking-widest uppercase border-primary/30 text-primary hover:bg-primary/10">
+-                View Workbook Library →
+-              </Button>
+-            </Link>
+-          </div>
+-        </div>
+-      </section>
++      {view === 'coaching' && <section id="one-on-one" aria-labelledby="coaching-enquiry-title" className="max-w-3xl mx-auto px-5 pb-16">
++        <h2 id="coaching-enquiry-title" className="font-display text-3xl mb-4">One-on-one coaching</h2>
++        <PaidConsultationOffer />
++        <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">If you would like to work together, get in touch about what you would like to work towards. Sessions are A$99 for 45 minutes. The initial consultation is a paid, two-way conversation to understand your enquiry, your goals and whether we are the right fit. You can ask me questions too. Online appointment booking is being prepared; availability will be confirmed before you are asked to pay.</p>
++        <p className="font-body text-base text-foreground/80 leading-relaxed mb-6">There is no obligation after the consultation. If we both choose to continue, you pay for session two and session three is complimentary. The consultation counts as the first paid session. This is a one-time introductory offer; normal full pricing applies from session four onwards. The first three appointments total A$198. A ten-session package is A$850 for ten total 45-minute appointments, including the introductory third-session benefit; it does not add an eleventh appointment.</p>
++        <p className="font-body text-base text-foreground/80 leading-relaxed mb-6">If you would like support that includes clearly scoped work between sessions, we can discuss a tailored package and agree the scope and fee upfront.</p>
++        <div className="border-t border-[#F5D06E]/30 pt-6"><h3 className="font-body text-2xl font-bold text-[#F5D06E] mb-4">Register your interest</h3><CoachingIntakeForm /></div>
++      </section>}
++      </div>}
++    </div>);
++
++}
++
++function Actions({ onExplore, onEnquire }) {
++  return (
++    <div className="flex flex-col sm:flex-row justify-center gap-3">
++      <Button onClick={onExplore} className="gradient-gold-button text-primary-foreground border-0 rounded-full min-h-12 px-7 font-semibold shadow-lg shadow-black/20">Explore the Journals</Button>
++      <Button onClick={onEnquire} variant="outline" className="rounded-full min-h-12 px-7 font-semibold border-primary/70 text-primary bg-background/60 hover:bg-primary/10 hover:text-primary">Enquire about Coaching</Button>
++    </div>);
+ 
+-      {/* Disclaimer */}
+-      <section className="py-10 px-4">
+-        <CoachingDisclaimer />
+-      </section>
+-    </div>
+-  );
+ }
+\ No newline at end of file
+diff --git a/src/pages/ContactGannon.jsx b/src/pages/ContactGannon.jsx
+index d32beb78..0b7d1a18 100644
+--- a/src/pages/ContactGannon.jsx
++++ b/src/pages/ContactGannon.jsx
+@@ -1,3 +1,5 @@
++import {Link, useSearchParams} from 'react-router-dom';
++import {consultationEmailHref} from '@/lib/coachingOffer';
+ import { useState } from 'react';
+ import { useQuery } from '@tanstack/react-query';
+ import { motion } from 'framer-motion';
+@@ -11,6 +13,8 @@ import { base44 } from '@/api/base44Client';
+ const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz';
+ 
+ export default function ContactGannon() {
++  const [contactParams]=useSearchParams();
++  const coachingRequest=contactParams.get('topic')==='coaching';
+   const { toast } = useToast();
+   const [form, setForm] = useState({ name: '', email: '', message: '' });
+   const [submitted, setSubmitted] = useState(false);
+@@ -85,10 +89,17 @@ export default function ContactGannon() {
+           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Get in Touch</p>
+           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-6">Contact</h1>
+           <p className="font-body text-foreground/60 max-w-lg mx-auto leading-relaxed">
+-            For press enquiries, management, collaborations, or general contact, use the details below.
++            For coaching availability, press enquiries, management, collaborations, or general contact, use the details below.
+           </p>
+         </motion.div>
+ 
++        {coachingRequest && <section data-testid="coaching-contact-request" className="font-body rounded-2xl border border-primary/30 bg-card/50 p-6 mb-8">
++          <h2 className="text-2xl gradient-gold-text mb-3">Ask about the paid initial consultation</h2>
++          <p className="mb-4">A$99 for 45 minutes. Ask Gannon about available times and the session format. Payment and cancellation details will be agreed before you pay.</p>
++          <p className="text-sm text-muted-foreground mb-4">A brief enquiry is enough; please leave out detailed health information. Opening your email app does not send a message or reserve an appointment.</p>
++          {consultationEmailHref(contactEmail) && <a data-testid="coaching-email-link" href={consultationEmailHref(contactEmail)} className="inline-flex items-center rounded-full min-h-12 px-6 gradient-gold-button text-primary-foreground font-semibold">Email Gannon about availability</a>}
++          <Link to="/coaching?view=coaching" className="block text-primary underline mt-4">Review the coaching offer</Link>
++        </section>}
+         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+ 
+           {/* Left: Direct contact + socials */}
+@@ -107,8 +118,9 @@ export default function ContactGannon() {
+                 <h2 className="font-display text-xl text-foreground">Email Direct</h2>
+               </div>
+               <p className="font-body text-sm text-muted-foreground mb-4 leading-relaxed">
+-                For press enquiries, management, collaborations, or general contact.
++                For coaching availability, press enquiries, management, collaborations, or general contact.
+               </p>
++              {!coachingRequest && <Link to="/coaching?view=coaching" data-testid="contact-coaching-offer" className="block text-primary underline mb-4">Explore the A$99, 45-minute coaching consultation</Link>}
+               <a
+                 href={`mailto:${contactEmail}`}
+                 className="inline-flex items-center gap-2 font-body text-sm text-primary hover:text-primary/80 transition-colors group"
+diff --git a/src/pages/Home.jsx b/src/pages/Home.jsx
+index 4b737d7c..08dcf41c 100644
+--- a/src/pages/Home.jsx
++++ b/src/pages/Home.jsx
+@@ -18,6 +18,7 @@ import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
+ import SetFreeSpaceHero from '@/components/public/setfree-hero/SetFreeSpaceHero';
+ import BehindTheScenes from '@/components/public/BehindTheScenes';
+ import HomeActivityFeed from '@/components/public/HomeActivityFeed';
++import GannonWayeGroupFeature from '@/components/public/GannonWayeGroupFeature';
+ import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
+ 
+ // House style: never use the em dash (—). Use commas, colons, or the middot (·) instead.
+@@ -51,6 +52,8 @@ export default function Home() {
+     <div className="min-h-screen relative">
+       <SetFreeSpaceHero previousRelease={previousRelease} previousLink={previousLink} settings={site} />
+ 
++      <GannonWayeGroupFeature />
++
+       {/* Welcome prompt: appears the first time a visitor reaches this point */}
+       <FirstVisitOnboarding />
+ 
