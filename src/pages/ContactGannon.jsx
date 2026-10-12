@@ -125,8 +125,9 @@ export default function ContactGannon() {
                 <h2 className="font-display text-xl text-foreground">Email Direct</h2>
               </div>
               <p className="font-body text-sm text-muted-foreground mb-4 leading-relaxed">
-                For press enquiries, management, collaborations, or general contact.
+                For coaching availability, press enquiries, management, collaborations, or general contact.
               </p>
+              {!coachingRequest && <Link to="/coaching?view=coaching" data-testid="contact-coaching-offer" className="block text-primary underline mb-4">Explore the A$99, 45-minute coaching consultation</Link>}
               <a
                 href={`mailto:${contactEmail}`}
                 className="inline-flex items-center gap-2 font-body text-sm text-primary hover:text-primary/80 transition-colors group"
