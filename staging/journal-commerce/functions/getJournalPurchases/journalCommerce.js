@@ -19,8 +19,11 @@ export function validateJournalCatalogue(catalogue) {
   for (const book of books) {
     if (!/^[a-z0-9][a-z0-9-]{1,79}$/.test(book.id || '') || ids.has(book.id)) deny('journals_not_ready', 503);
     ids.add(book.id);
-    if (!text(book.title) || !text(book.fileUri).startsWith('private/') ||
-        !/^[a-f0-9]{64}$/.test(book.sha256 || '') || book.priceCents !== 990) deny('journals_not_ready', 503);
+    if (!text(book.title) || book.priceCents !== 990 || typeof book.releaseApproved !== 'boolean') deny('journals_not_ready', 503);
+    // Held editions need no invented private-file configuration. Only the exact
+    // released edition may be purchased or downloaded; bundle still needs all six.
+    if (book.releaseApproved && (!text(book.fileUri).startsWith('private/') ||
+        !/^[a-f0-9]{64}$/.test(book.sha256 || ''))) deny('journals_not_ready', 503);
   }
   if (!text(catalogue.bundleId) || ids.has(catalogue.bundleId) || catalogue.bundlePriceCents !== 4900) deny('journals_not_ready', 503);
   return catalogue;
