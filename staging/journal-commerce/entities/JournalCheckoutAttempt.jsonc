@@ -1,0 +1,40 @@
+{
+  "name": "JournalCheckoutAttempt",
+  "type": "object",
+  "description": "Staged backend-only checkout references, not payment proof. No public file addresses.",
+  "properties": {
+    "buyer_user_id": {
+      "type": "string"
+    },
+    "stripe_session_id": {
+      "type": "string"
+    },
+    "catalogue_version": {
+      "type": "string"
+    },
+    "offer_id": {
+      "type": "string"
+    },
+    "fingerprint": {
+      "type": "string"
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "buyer_user_id",
+    "stripe_session_id",
+    "catalogue_version",
+    "offer_id",
+    "fingerprint",
+    "recorded_at"
+  ],
+  "rls": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false
+  }
+}
