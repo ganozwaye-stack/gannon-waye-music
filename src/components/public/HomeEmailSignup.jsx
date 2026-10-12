@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ArrowUpRight, CheckCircle2, Instagram, Mail } from 'lucide-react';
 
-const DOUBLE_OPT_IN_ENABLED = false;
+import {DOUBLE_OPT_IN_ENABLED} from '@/config/emailSignup';
 
 // The approved ambient brand loop, kept very low here so the copy stays readable.
 const AMBIENT_VIDEO =

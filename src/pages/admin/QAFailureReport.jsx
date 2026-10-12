@@ -105,7 +105,7 @@ const EXTERNAL_TEST_STATUS = [
   { category: 'Stripe / Checkout', item: 'Store opens', label: 'Products visible', status: 'not_run', blocker: 'Real browser test — safe to test (no payment required)' },
   { category: 'Stripe / Checkout', item: 'Cart works', label: 'Add to cart', status: 'not_run', blocker: 'Real browser test — safe to test (no payment required)' },
   { category: 'Stripe / Checkout', item: 'Checkout does not freeze', label: 'No hang on payment step', status: 'blocked', blocker: 'BLOCKED: Stripe key mismatch must be fixed first' },
-  { category: 'Stripe / Checkout', item: 'Stripe opens', label: 'Payment form appears', status: 'blocked', blocker: 'BLOCKED: Confirm Stripe mode. If test mode: use 4242 4242 4242 4242. If live mode: use approved $1 product only. If mismatch: fix keys first.' },
+  { category: 'Stripe / Checkout', item: 'Stripe opens', label: 'Payment form appears', status: 'blocked', blocker: 'The owner already completed two paid A$0.99 checks (1 and 10 July); both orders were manually recovered. Do not request another live payment. Remaining proof: verified automatic webhook/order capture and receipt in an approved isolated test-mode environment.' },
   { category: 'Stripe / Checkout', item: 'Payment success redirect', label: 'Returns to thank you', status: 'blocked', blocker: 'BLOCKED: Stripe mode mismatch must be resolved first' },
   { category: 'Stripe / Checkout', item: 'Order record created', label: 'MerchOrder entity written', status: 'blocked', blocker: 'BLOCKED: Stripe mode mismatch must be resolved first' },
   { category: 'Stripe / Checkout', item: 'Receipt email sent', label: 'Customer gets receipt', status: 'not_run', blocker: 'Test after Stripe mode fix' },

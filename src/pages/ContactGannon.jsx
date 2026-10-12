@@ -1,3 +1,5 @@
+import {Link, useSearchParams} from 'react-router-dom';
+import {consultationEmailHref} from '@/lib/coachingOffer';
 import { useRef, useState } from 'react';
 import { trackEvent } from '@/lib/analytics';
 import { useQuery } from '@tanstack/react-query';
@@ -12,6 +14,8 @@ import { base44 } from '@/api/base44Client';
 const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz';
 
 export default function ContactGannon() {
+  const [contactParams]=useSearchParams();
+  const coachingRequest=contactParams.get('topic')==='coaching';
   const { toast } = useToast();
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
@@ -92,11 +96,18 @@ export default function ContactGannon() {
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Get in Touch</p>
           <h1 className="font-display text-4xl md:text-6xl text-foreground mb-6">Contact</h1>
           <p className="font-body text-foreground/60 max-w-lg mx-auto leading-relaxed">
-            For press enquiries, management, collaborations, or general contact, use the details below.
+            For coaching availability, press enquiries, management, collaborations, or general contact, use the details below.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {coachingRequest && <section data-testid="coaching-contact-request" className="font-body rounded-2xl border border-primary/30 bg-card/50 p-6 mb-8">
+          <h2 className="text-2xl gradient-gold-text mb-3">Ask about the paid initial consultation</h2>
+          <p className="mb-4">A$99 for 45 minutes. Ask Gannon about available times and the session format. Payment and cancellation details will be agreed before you pay.</p>
+          <p className="text-sm text-muted-foreground mb-4">A brief enquiry is enough; please leave out detailed health information. Opening your email app does not send a message or reserve an appointment.</p>
+          {consultationEmailHref(contactEmail) && <a data-testid="coaching-email-link" href={consultationEmailHref(contactEmail)} className="inline-flex items-center rounded-full min-h-12 px-6 gradient-gold-button text-primary-foreground font-semibold">Email Gannon about availability</a>}
+          <Link to="/coaching?view=coaching" className="block text-primary underline mt-4">Review the coaching offer</Link>
+        </section>}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 
           {/* Left: Direct contact + socials */}
           <motion.div

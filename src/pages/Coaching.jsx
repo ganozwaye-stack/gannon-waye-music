@@ -5,6 +5,7 @@ import OriginalJournalFan from '@/components/coaching/OriginalJournalFan';
 import JournalShelf from '@/components/coaching/JournalShelf';
 import CoachingGiftSet from '@/components/coaching/CoachingGiftSet';
 import CoachingIntakeForm from '@/components/coaching/CoachingIntakeForm';
+import PaidConsultationOffer from '@/components/coaching/PaidConsultationOffer';
 
 // Reuse the existing window-light portrait selected by Gannon from
 // Building Resilience and Healthy Boundaries; preserve the source pixels.
@@ -91,6 +92,7 @@ export default function Coaching() {
 
       {view === 'coaching' && <section id="one-on-one" aria-labelledby="coaching-enquiry-title" className="max-w-3xl mx-auto px-5 pb-16">
         <h2 id="coaching-enquiry-title" className="font-display text-3xl mb-4">One-on-one coaching</h2>
+        <PaidConsultationOffer />
         <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">If you would like to work together, get in touch about what you would like to work towards. Sessions are A$99 for 45 minutes. The initial consultation is a paid, two-way conversation to understand your enquiry, your goals and whether we are the right fit. You can ask me questions too. Online appointment booking is being prepared; availability will be confirmed before you are asked to pay.</p>
         <p className="font-body text-base text-foreground/80 leading-relaxed mb-6">There is no obligation after the consultation. If we both choose to continue, you pay for session two and session three is complimentary. The consultation counts as the first paid session. This is a one-time introductory offer; normal full pricing applies from session four onwards. The first three appointments total A$198. A ten-session package is A$850 for ten total 45-minute appointments, including the introductory third-session benefit; it does not add an eleventh appointment.</p>
         <p className="font-body text-base text-foreground/80 leading-relaxed mb-6">If you would like support that includes clearly scoped work between sessions, we can discuss a tailored package and agree the scope and fee upfront.</p>

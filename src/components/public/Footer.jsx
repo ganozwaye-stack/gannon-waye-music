@@ -1,3 +1,4 @@
+import {DOUBLE_OPT_IN_ENABLED} from '@/config/emailSignup';
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
@@ -66,12 +67,12 @@ export default function Footer() {
           <p className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-2">Stay connected</p>
           <h3 className="font-display text-xl text-foreground mb-4">Music and merchandise updates</h3>
 
-          <p className="font-body text-sm text-muted-foreground mb-4">One clear signup form, with explicit consent, is available on the home page.</p>
+          <p className="font-body text-sm text-muted-foreground mb-4">{DOUBLE_OPT_IN_ENABLED ? 'One clear signup form, with explicit consent, is available on the home page.' : 'Email signup is temporarily paused. Visit the home page for the current update-list status.'}</p>
           <Link
             to="/#updates"
             className="inline-flex items-center justify-center rounded-full border border-primary/50 px-6 py-2.5 font-body text-sm tracking-wider uppercase gradient-gold-text hover:bg-primary/10 transition-colors"
           >
-            Join the Update List
+            {DOUBLE_OPT_IN_ENABLED ? 'Join the Update List' : 'View update-list status'}
           </Link>
         </div>
 
