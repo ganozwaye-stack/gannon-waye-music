@@ -10,7 +10,7 @@ New Gannon Waye Group feature sits immediately below the Home music hero. Life c
 
 Generic contact route exposes the offer; footer and homepage now share the disabled signup flag and accurately describe paused signup. QA Failure Report no longer requests another live owner $1 test.
 
-Changed files: src/lib/coachingOffer.js; src/components/coaching/PaidConsultationOffer.jsx; src/pages/Coaching.jsx; src/pages/ContactGannon.jsx; src/config/emailSignup.js; src/components/public/HomeEmailSignup.jsx; src/components/public/Footer.jsx; src/pages/admin/QAFailureReport.jsx; src/components/public/GannonWayeGroupFeature.jsx; src/pages/Home.jsx. Check git inventory for canonical Footer path if renamed.
+Changed files: src/lib/coachingOffer.js; src/components/coaching/PaidConsultationOffer.jsx; src/pages/Coaching.jsx; src/pages/ContactGannon.jsx; src/config/emailSignup.js; src/components/public/HomeEmailSignup.jsx; src/components/public/Footer.jsx; src/pages/admin/QAFailureReport.jsx; src/components/public/GannonWayeGroupFeature.jsx; src/pages/Home.jsx.
 
 ## Checks and actual published behaviour
 
@@ -28,7 +28,7 @@ Read-only TYK schema metadata did not establish Stripe session/order routing. GW
 
 ## Narrow book publication boundary
 
-Prices A$9.90 each/A$49 all six preserved. Current six review previews remain releaseHeld/purchasing disabled. Parent delivered review PDFs and is reconciling exact versions. Explicit approval of original 34-page Knowing Your Worth does not cover the different current candidate. Boundaries/People Pleasing retain author-review footers and release holds. New Choosing upload differs current review and keeper selection remains unresolved. No entire current set promoted or represented as legally cleared.
+Prices A$9.90 each/A$49 all six preserved. Current six review previews remain releaseApproved=false/purchasing disabled. Parent delivered review PDFs and is reconciling exact versions. Explicit approval of original 34-page Knowing Your Worth does not cover the different current candidate. Boundaries/People Pleasing retain author-review footers and release holds. New Choosing upload differs current review and keeper selection remains unresolved. No entire current set promoted or represented as legally cleared.
 
 Permission to publish genuinely approved eligible book listings remains valid. Current private delivery endpoint adapters/configured released catalogue were not found, though helper checks pass against synthetic PDF. This is a concrete delivery blocker. A whole-app deployment includes unrelated changes and is outside narrow listing authority. No paid interiors uploaded publicly or book sale activated.
 
@@ -40,7 +40,7 @@ Base44 Instagram connection active for @gann0nwaye with basic/content_publish sc
 
 Existing queue falsely marked scheduled/posted by database update only, hardcoded cancelled scheduler ready and hid drafts. Revised ScheduleQueueTab reads existing records, exposes draft/review statuses, copies native caption/hashtags/CTA and links requested three native platforms. No direct publication-status mutation; historical labels explicitly unverified. index.html public cancelled-provider tracker removed. Legacy backend functions and other tabs remain inventoried, untouched and not invoked. Full retirement/publisher is not complete.
 
-Social fixture test final result: pending final read. It exercises the actual component with cached synthetic records, filtering, missing receipts, preservation of other platforms, clipboard rejection and no calendar mutations. It is not an authenticated provider test.
+Social fixture test final result: 3 passed across desktop, phone and tablet (33.0s), exit0. It exercises the actual component with cached synthetic records, filtering, missing receipts, preservation of other platforms, clipboard rejection and no calendar mutations. It is not an authenticated provider test.
 
 Remaining: authenticated owner-only private original upload/preview, approval bound to exact media hash/account/caption/schedule, durable claims/jobs/provider IDs/receipts, reconciliation before retry; source-dated analytics; approved Drive write/private storage and Facebook Page authorization. Existing AssetLibraryPanel public upload is unsuitable for private originals. TikTok native/manual fallback; private own/team Direct Post utility is ineligible under its guidelines. No fake automatic promise.
 
