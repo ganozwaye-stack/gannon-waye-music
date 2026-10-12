@@ -16,3 +16,6 @@ IMPORTANT: base source is a verified draft baseline, not an independently establ
 Additional approval required: permission to publish this concrete homepage/coaching-enquiry/signup change after its production base is reconciled. It introduces enquiry only, not direct paid booking. No extra approval needed for this reversible review, screenshots, patch or isolated checks. Paid booking terms/availability are not prerequisites for publishing an accurately labelled availability enquiry; they are prerequisites for direct confirmed bookings/payment.
 
 Protected delivery is a separate staged package at staging/journal-commerce with its own closed adapters and tests. It is not included here.
+
+## Subsequent read-only reconciliation: NO GO as a production release
+The nine-file increment fails to apply to three reconstructed historical candidates and excludes the prerequisite 9 October public story route restoration and new coaching render dependencies. No reconstructed bundle byte-matches production under reproduced settings. Do not seek publication approval for this incomplete patch. Exact evidence and closed private-file dependencies: docs/PRODUCTION_BASE_RECONCILIATION_2026-10-12.md.
