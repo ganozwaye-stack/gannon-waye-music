@@ -30,6 +30,15 @@ test.describe('Public routes', () => {
     await expect(page.locator('body')).toBeVisible();
   });
 
+  test('live hub loads without redirecting home', async ({ page }) => {
+    await page.goto(`${BASE_URL}/live`);
+    await page.waitForLoadState('load');
+    await expect(page).toHaveURL(`${BASE_URL}/live`);
+    await expect(page.locator('main')).toHaveCount(1);
+    await expect(page.locator('main')).toBeVisible();
+    await expect(page.getByTestId('live-hub').getByRole('heading', { level: 1 })).toBeVisible();
+  });
+
   test('/tour redirects to home', async ({ page }) => {
     await page.goto(`${BASE_URL}/tour`);
     await page.waitForLoadState('load');
