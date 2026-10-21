@@ -18,12 +18,15 @@ export default function Coaching() {
   const requested = params.get('view');
   const view = requested === 'journals' || requested === 'coaching' ? requested :
   params.has('journal') || location.hash === '#journals' ? 'journals' : null;
-  const choose = (next) => setParams((previous) => {
-    const query = new URLSearchParams(previous);
-    query.delete('journal');
-    if (next) query.set('view', next);else query.delete('view');
-    return query;
-  });
+  const choose = (next) => {
+    setParams((previous) => {
+      const query = new URLSearchParams(previous);
+      query.delete('journal');
+      if (next) query.set('view', next);else query.delete('view');
+      return query;
+    });
+    if (next === view) viewRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  };
   useEffect(() => {if (view) viewRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' });}, [view]);
   return (
     <div className="min-h-screen pb-20" data-testid="coaching-page">
@@ -73,12 +76,12 @@ export default function Coaching() {
         </div>
       </section>
 
-      {view && <div ref={viewRef} className="scroll-mt-24">
-        <div className="max-w-6xl mx-auto px-5 mb-4">
-          <Button variant="outline" onClick={() => choose(null)}>Back to the choices</Button>
-        </div>
-      {view === 'journals' && <>
-      <section id="journals" aria-labelledby="journals-title" className="max-w-6xl mx-auto px-5 py-16 scroll-mt-24">
+      <div className="scroll-mt-24">
+        {view && <div className="max-w-6xl mx-auto px-5 mb-4">
+          <Button variant="outline" onClick={() => { choose(null); window.scrollTo({ top: 0, behavior: 'smooth' }); }}>Back to the choices</Button>
+        </div>}
+      <>
+      <section ref={view === 'coaching' ? null : viewRef} id="journals" aria-labelledby="journals-title" className="max-w-6xl mx-auto px-5 py-16 scroll-mt-24">
         <div className="rounded-3xl bg-card/60 border border-primary/25 p-7 md:p-10">
           <h2 id="journals-title" className="font-display text-3xl mb-4">Explore the Journals</h2>
           <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">Journal offer: A$9.90 each, or all six for A$45, saving A$14.40 over six separate purchases. Online purchasing and downloads are currently unavailable. Explore the journal descriptions and preview questions below. One-on-one coaching is optional and separate.</p>
@@ -88,10 +91,10 @@ export default function Coaching() {
       </section>
 
       <CoachingGiftSet />
-      </>}
+      </>
 
 
-      {view === 'coaching' && <section id="one-on-one" aria-labelledby="coaching-enquiry-title" className="max-w-3xl mx-auto px-5 pb-16">
+      {view === 'coaching' && <section ref={viewRef} id="one-on-one" aria-labelledby="coaching-enquiry-title" className="max-w-3xl mx-auto px-5 pb-16">
         <h2 id="coaching-enquiry-title" className="font-display text-3xl mb-4">One-on-one coaching</h2>
         <PaidConsultationOffer />
         <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">If you would like to work together, get in touch about what you would like to work towards. Sessions are A$99 for 45 minutes. The initial consultation is a paid, two-way conversation to understand your enquiry, your goals and whether we are the right fit. You can ask me questions too. Online appointment booking is being prepared; availability will be confirmed before you are asked to pay.</p>
@@ -99,7 +102,7 @@ export default function Coaching() {
         <p className="font-body text-base text-foreground/80 leading-relaxed mb-6">If you would like support that includes clearly scoped work between sessions, we can discuss a tailored package and agree the scope and fee upfront.</p>
         <div className="border-t border-[#F5D06E]/30 pt-6"><h3 className="font-body text-2xl font-bold text-[#F5D06E] mb-4">Register your interest</h3><CoachingIntakeForm /></div>
       </section>}
-      </div>}
+      </div>
     </div>);
 
 }
