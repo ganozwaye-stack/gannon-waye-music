@@ -36,7 +36,7 @@ export function createJournalStore(client){
 }
 export async function verifyJournalPrices({stripe,catalogue,params,liveMode,sha256}){
  const offer=journalOffer(catalogue,params.metadata?.offer_id);
- const expected=offer.bundle?[{id:catalogue.bundleStripePriceId,cents:4900,bundle:true}]:
+ const expected=offer.bundle?[{id:catalogue.bundleStripePriceId,cents:4500,bundle:true}]:
   offer.bookIds.map(id=>({id:catalogue.books.find(book=>book.id===id).stripePriceId,cents:990,book:catalogue.books.find(book=>book.id===id)}));
  if(!Array.isArray(params.line_items)||params.line_items.length!==expected.length)fail('journal_price_unavailable');
  for(let i=0;i<expected.length;i++){

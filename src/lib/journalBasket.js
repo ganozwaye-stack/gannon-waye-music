@@ -1,5 +1,5 @@
 export const JOURNAL_UNIT_CENTS = 990;
-export const JOURNAL_BUNDLE_CENTS = 4900;
+export const JOURNAL_BUNDLE_CENTS = 4500;
 export function journalBasketQuote({ books, selectedIds, ownedIds = [], bundle = false }) {
   const known = new Set(books.map(book => book.id));
   if (!Array.isArray(selectedIds) || selectedIds.some(id => !known.has(id))) throw new Error('Invalid journal selection');

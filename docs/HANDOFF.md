@@ -2,6 +2,12 @@
 
 Protocol lives in `AGENTS.md` §8. Read this before starting. Append to `## Log
 
+### 2026-10-21 · Codex replacement executor · Journal A$45 offer recovery
+Did: Prepared the exact A$9.90 single / six A$45 / A$14.40 savings correction on an isolated c809db1 snapshot and this review branch; active Base44 tree preserved. Existing protected-delivery suites, build/prebuild and storefront lock passed. Synthetic receipt: docs/JOURNAL_OFFER_TEST_RECEIPT_2026-10-21.json.
+Found: Canonical app/source match c809db1; Base44 response complete. Domains confirms gannonwaye.com Active. Compare with live code fails HTTP500, so deployed revision remains unresolved. Current PDFs remain author-review HOLD; no exact circle logo selection. Registration mock exposes duplicate/rate-limit weaknesses; payment/delivery remains unverified.
+Left: Honest informational /coaching landing page is now owner priority; publish after actual live-source reconciliation, independent of commerce completion. Detailed parent COPY/newer patch transfer, current cover/edition rebinding and logo choice remain. This branch must not enable commerce or claim verified live.
+For: Existing website executor and parent; report docs/JOURNAL_WEBSITE_RECOVERY_2026-10-21.md. No inaccessible task access, production deploy, provider transaction, new purchase or grant.
+
 ### 2026-09-26 · ChatGPT · Music activity evidence monitor
 Did: Added MusicActivity, MusicEvidenceSummary, MusicEvidenceDetail, MusicEvidenceSources, the read-only useMusicEvidence hook, source links, MusicEvidence schema, protected routes, sidebar entry and Dashboard summary. Changes at 2a58b6b4. No collector or scheduled alerts were enabled.
 Found: Direct official HTTP reads at 2026-09-26T00:28Z show all three songs on Unearthed; Set Free Artist Pick; every track playedOn=[]. Apple returned 100/100 playlist songs with no Gannon Waye match; Spotify embed returned 100 with no match but no verified total. Latest 10 timestamped records per ABC station had no artist match; this is NOT complete historical coverage. Source URLs are in src/lib/musicMonitorSources.js. Build and all prebuild safety checks passed; storefront lock passed. Public /assets/index-DWA51fl4.js still does not contain /admin/music-activity.

@@ -39,7 +39,7 @@ test('held page never sends payment or private-download requests', async ({ page
   await expect(page.getByRole('button', { name: 'Purchase', exact: true })).toBeDisabled();
   expect(requests).toEqual([]);
 });
-test('three chosen books total A$29.70, explicit six bundle A$49, no duplicate titles and reopen resets', async ({ page }) => {
+test('three chosen books total A$29.70, explicit six bundle A$45, no duplicate titles and reopen resets', async ({ page }) => {
   await page.goto(origin + '/coaching');
   await page.getByRole('button', {name:'Explore the Journals',exact:true}).click();
   await page.getByTestId('journal-cover-' + PUBLIC_JOURNALS[0].id).click();
@@ -50,8 +50,8 @@ test('three chosen books total A$29.70, explicit six bundle A$49, no duplicate t
   await dialog.getByRole('checkbox', { name: PUBLIC_JOURNALS[2].title + ' · A$9.90', exact: true }).check();
   await expect(total).toHaveText('Total: A$29.70');
   await expect(dialog.getByRole('list', { name: 'Selected journals' }).getByRole('listitem')).toHaveCount(3);
-  await dialog.getByRole('checkbox', { name: 'Choose the whole six-journal bundle · A$49', exact: true }).check();
-  await expect(total).toHaveText('Total: A$49.00');
+  await dialog.getByRole('checkbox', { name: 'Choose all six journals · A$45 (save A$14.40)', exact: true }).check();
+  await expect(total).toHaveText('Total: A$45.00');
   const titles = await dialog.getByRole('list', { name: 'Selected journals' }).getByRole('listitem').allTextContents();
   expect(titles).toHaveLength(6);
   expect(new Set(titles).size).toBe(6);

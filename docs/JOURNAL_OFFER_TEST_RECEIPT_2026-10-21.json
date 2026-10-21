@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-10-21T19:57:36.012Z",
+  "type": "synthetic-local-only",
+  "singleCents": 990,
+  "bundleCents": 4500,
+  "sixSinglesCents": 5940,
+  "savingCents": 1440,
+  "checks": 10,
+  "providerCalls": 0,
+  "paymentOrDeliveryReceipts": 0,
+  "oldA49PriceRejected": true
+}

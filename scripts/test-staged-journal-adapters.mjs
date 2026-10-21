@@ -34,7 +34,7 @@ const pdf=new TextEncoder().encode('%PDF-synthetic fixture only');
 const hash=bytes=>createHash('sha256').update(bytes).digest('hex');
 const buyer={id:'fixture-buyer',email:'buyer@example.invalid'};
 const books=Array.from({length:6},(_,i)=>({id:'fixture-book-'+i,title:'Fixture '+i,priceCents:990,releaseApproved:i===0,...(i===0?{fileUri:'private/fixture/approved-original.pdf',sha256:hash(pdf),stripePriceId:'price_fixturebook0'}:{})}));
-const catalogue={enabled:true,approvedVersion:'fixture-original-34-pages',books,bundleId:'fixture-bundle',bundlePriceCents:4900,bundleEnabled:false};
+const catalogue={enabled:true,approvedVersion:'fixture-original-34-pages',books,bundleId:'fixture-bundle',bundlePriceCents:4500,bundleEnabled:false};
 const release={enabled:true,liveMode:false,currentCatalogue:catalogue,catalogues:{[catalogue.approvedVersion]:catalogue},privateDownloadHosts:['private-fixture.example.invalid']};
 function fixture(){
  const calls={auth:0,stripe:0,create:0,expire:0,sign:0,fetch:0},rows={JournalPurchase:[],JournalCheckoutAttempt:[]};
@@ -51,7 +51,7 @@ function fixture(){
  return {calls,rows,session,intent,client,stripe,deps,price};
 }
 function req(body={},headers={}){
- return new Request('https://function.example.invalid',{method:'POST',headers:{Authorization:'Bearer fixture-only','Content-Type':'application/json',...headers},body:JSON.stringify(body)});
+ return new Request('https://function.example.invalid',{method:'POST',headers:{Authorization:'Bearer ******','Content-Type':'application/json',...headers},body:JSON.stringify(body)});
 }
 async function run(action,f,body,headers){return createJournalHttpHandler(action,f.deps)(req(body,headers));}
 let f=fixture(),response=await run('downloadJournal',f,{session_id:f.session.id,book_id:books[0].id,file_uri:'https://attacker.invalid'});

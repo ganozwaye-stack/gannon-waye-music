@@ -25,7 +25,7 @@ export function validateJournalCatalogue(catalogue) {
     if (book.releaseApproved && (!text(book.fileUri).startsWith('private/') ||
         !/^[a-f0-9]{64}$/.test(book.sha256 || ''))) deny('journals_not_ready', 503);
   }
-  if (!text(catalogue.bundleId) || ids.has(catalogue.bundleId) || catalogue.bundlePriceCents !== 4900) deny('journals_not_ready', 503);
+  if (!text(catalogue.bundleId) || ids.has(catalogue.bundleId) || catalogue.bundlePriceCents !== 4500) deny('journals_not_ready', 503);
   return catalogue;
 }
 export function requireJournalBuyer(user) {
@@ -57,7 +57,7 @@ export function journalOffer(catalogue, offerId) {
   }
   if (offerId === catalogue.bundleId) {
     if (catalogue.bundleEnabled !== true || catalogue.books.some(book => book.releaseApproved !== true)) deny('bundle_not_ready', 503);
-    return { id: catalogue.bundleId, title: 'Six-journal bundle', priceCents: 4900,
+    return { id: catalogue.bundleId, title: 'Six-journal bundle', priceCents: 4500,
       bookIds: catalogue.books.map(item => item.id), bundle: true };
   }
   return deny('journal_not_found', 404);

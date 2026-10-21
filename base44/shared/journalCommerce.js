@@ -22,7 +22,7 @@ export function validateJournalCatalogue(catalogue) {
     if (!text(book.title) || !text(book.fileUri).startsWith('private/') ||
         !/^[a-f0-9]{64}$/.test(book.sha256 || '') || book.priceCents !== 990) deny('journals_not_ready', 503);
   }
-  if (!text(catalogue.bundleId) || ids.has(catalogue.bundleId) || catalogue.bundlePriceCents !== 4900) deny('journals_not_ready', 503);
+  if (!text(catalogue.bundleId) || ids.has(catalogue.bundleId) || catalogue.bundlePriceCents !== 4500) deny('journals_not_ready', 503);
   return catalogue;
 }
 export function requireJournalBuyer(user) {
@@ -54,7 +54,7 @@ export function journalOffer(catalogue, offerId) {
   }
   if (offerId === catalogue.bundleId) {
     if (catalogue.bundleEnabled !== true || catalogue.books.some(book => book.releaseApproved !== true)) deny('bundle_not_ready', 503);
-    return { id: catalogue.bundleId, title: 'Six-journal bundle', priceCents: 4900,
+    return { id: catalogue.bundleId, title: 'Six-journal bundle', priceCents: 4500,
       bookIds: catalogue.books.map(item => item.id), bundle: true };
   }
   return deny('journal_not_found', 404);
@@ -67,7 +67,7 @@ export function journalCheckoutParams({ catalogue, offerId, user, origin, reques
   return {
     params: {
       mode: 'payment', customer_email: buyer.email,
-      line_items: offer.bundle ? [{ price_data: { currency: 'aud', unit_amount: 4900,
+      line_items: offer.bundle ? [{ price_data: { currency: 'aud', unit_amount: 4500,
         product_data: { name: offer.title } }, quantity: 1 }] : offer.bookIds.map(id => ({
           price_data: { currency: 'aud', unit_amount: 990,
             product_data: { name: catalogue.books.find(book => book.id === id).title } }, quantity: 1

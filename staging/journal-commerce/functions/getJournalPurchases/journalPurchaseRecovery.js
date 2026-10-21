@@ -46,7 +46,7 @@ export function planJournalPurchase({ catalogue, selectedIds, verifiedOwnedIds, 
   const alreadyOwned = selectedIds.filter(id => owned.has(id));
   const remaining = selectedIds.filter(id => !owned.has(id));
   if (remaining.length === 0) return { status: 'already_owned', bookIds: [], alreadyOwned, totalCents: 0 };
-  // The A$49 whole-set offer is distinct from subset pricing. No extra discount,
+  // The A$45 whole-set offer is distinct from subset pricing. No extra discount,
   // silent duplicate charge or invented collection-upgrade price is applied.
   const offer = bundleRequested && alreadyOwned.length === 0
     ? journalOffer(catalogue, catalogue.bundleId)
