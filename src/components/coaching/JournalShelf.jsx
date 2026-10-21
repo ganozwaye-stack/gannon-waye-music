@@ -21,18 +21,20 @@ export default function JournalShelf() {
         Choose a journal to explore its purpose and one question. Full interiors are reserved for purchasers.
         Online purchasing is being prepared.
       </p>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8" data-testid="journal-shelf">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr items-stretch gap-6 mt-8" data-testid="journal-shelf">
         {PUBLIC_JOURNALS.map(book => (
           <button key={book.id} type="button" onClick={() => selectBook(book.id)}
             data-testid={'journal-cover-' + book.id}
-            className="text-left rounded-2xl border border-border/40 bg-background/40 p-5 hover:border-primary/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
-            {book.coverImageUrl ? <img src={book.coverImageUrl} alt={book.title + ' cover'}
-              loading="lazy" className="w-full aspect-[2/3] object-contain mb-5" /> :
+            className="flex h-full min-w-0 flex-col text-left rounded-2xl border-2 border-[#F5D06E] bg-background/40 p-5 shadow-[0_0_16px_rgba(245,208,110,0.12)] transition-shadow hover:shadow-[0_0_22px_rgba(245,208,110,0.25)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F5D06E]">
+            {book.coverImageUrl ? <div className="w-full max-w-[17rem] mx-auto aspect-[1042/1474] shrink-0 mb-5 border-2 border-[#F5D06E] bg-[#141419] p-1 shadow-[0_0_12px_rgba(245,208,110,0.18)]">
+              <img src={book.coverImageUrl} alt={book.title + ' cover'}
+                loading="lazy" className="w-full h-full object-contain" />
+            </div> :
               <p className="font-body text-xs text-muted-foreground mb-4">Cover display being prepared</p>}
-            <h3 className="font-display text-2xl mb-2">{book.title}</h3>
+            <h3 className="font-display text-2xl leading-tight min-h-[3.75rem] mb-2">{book.title}</h3>
             <p className="font-body text-sm text-primary mb-3">A$9.90</p>
-            <p className="font-body text-sm text-foreground/80 leading-relaxed">{book.description}</p>
-            <span className="inline-block mt-4 font-body text-sm text-primary">Explore this journal</span>
+            <p className="flex-1 font-body text-sm text-foreground/80 leading-relaxed">{book.description}</p>
+            <span className="block mt-5 font-body text-sm text-[#F5D06E]">Explore this journal</span>
           </button>
         ))}
       </div>
@@ -44,7 +46,7 @@ export default function JournalShelf() {
               <DialogDescription>Journal preview · A$9.90 · One question from the journal</DialogDescription>
             </DialogHeader>
             {selected.coverImageUrl && <img src={selected.coverImageUrl} alt={selected.title + ' cover'}
-              className="w-full max-w-xs mx-auto aspect-[2/3] object-contain" />}
+              className="w-full max-w-xs mx-auto aspect-[1042/1474] object-contain border-2 border-[#F5D06E] bg-[#141419] p-1" />}
             <p className="font-body text-base leading-relaxed">{selected.description}</p>
             <blockquote className="border border-primary/30 bg-primary/5 rounded-xl p-5">
               <p className="font-body text-base leading-relaxed" data-testid="journal-sample-question">{selected.sampleQuestion}</p>
