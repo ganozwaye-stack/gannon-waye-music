@@ -10,7 +10,8 @@ export default function CoachingIntakeForm({ onSuccess }) {
  const [form,setForm]=useState({first_name:'',last_name:'',date_of_birth:'',phone:'',email:'',support_wanted:'',consent_to_contact:false,website:''});
  const [busy,setBusy]=useState(false),[receipt,setReceipt]=useState(''),[error,setError]=useState('');
  const inFlight=useRef(false),submissionId=useRef(null);
- const registrationOpen=import.meta.env.DEV||import.meta.env.VITE_COACHING_INTEREST_ENABLED==='true';
+ // Informational release only: no intake submission in any build.
+ const registrationOpen=false;
  const set=(key,value)=>setForm(previous=>({...previous,[key]:value}));
  const submit=async event=>{
    event.preventDefault();

@@ -46,6 +46,7 @@ export default function Coaching() {
 
             <div className="w-16 h-1 gradient-gold-button mx-auto mt-6 mb-6" aria-hidden="true" data-testid="coaching-bottom-rule" />
             <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />
+            <p className="font-body text-base text-foreground/80 leading-relaxed mt-5" data-testid="journal-landing-offer">Six journals: A$9.90 each or all six for A$45. Save A$14.40. Online purchasing and downloads are being prepared; explore the journal previews below.</p>
           </div>
         </header>
         {/* Preserve the approved story and editorial columns. */}
@@ -80,7 +81,7 @@ export default function Coaching() {
       <section id="journals" aria-labelledby="journals-title" className="max-w-6xl mx-auto px-5 py-16 scroll-mt-24">
         <div className="rounded-3xl bg-card/60 border border-primary/25 p-7 md:p-10">
           <h2 id="journals-title" className="font-display text-3xl mb-4">Explore the Journals</h2>
-          <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">The six journals are A$9.90 each, or A$49 for the six-book bundle. You do not need a coaching call, registration for coaching or approval from me to purchase or read a journal. One-on-one coaching is optional and separate.</p>
+          <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">Journal offer: A$9.90 each, or all six for A$45, saving A$14.40 over six separate purchases. Online purchasing and downloads are currently unavailable. Explore the journal descriptions and preview questions below. One-on-one coaching is optional and separate.</p>
           <JournalShelf />
           <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">Reflective writing together is still in development and is not included in the six-book bundle.</p>
         </div>

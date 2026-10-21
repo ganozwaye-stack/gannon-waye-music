@@ -97,7 +97,7 @@ export default function JournalPurchasePanel({ book }) {
             setBundle(event.target.checked);
             setSelectedIds(event.target.checked ? PUBLIC_JOURNALS.map(item => item.id) : [book.id]);
           }} />
-        <span>Choose the whole six-journal bundle · A$49</span>
+        <span>Choose all six journals · A$45 (save A$14.40)</span>
       </label>
       <ul className="text-sm space-y-1" aria-label="Selected journals">
         {selectedIds.map(id => {
