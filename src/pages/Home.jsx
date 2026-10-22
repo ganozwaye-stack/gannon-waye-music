@@ -62,7 +62,7 @@ export default function Home() {
         </>
       ) : <SetFreeSpaceHero previousRelease={previousRelease} previousLink={previousLink} settings={site} />}
       <FirstVisitOnboarding />
-      <main className="home-content mx-auto max-w-6xl px-4 md:px-6">
+      <div className="home-content mx-auto max-w-6xl px-4 md:px-6">
         <HomeActivityFeed />
         <ThisIsMeFeature compact />
         <HomeStory settings={site} />
@@ -167,7 +167,7 @@ export default function Home() {
           <SafeSpaceBanner />
         </div>
         <PressKitHomeSection />
-      </main>
+      </div>
     </div>
   );
 }

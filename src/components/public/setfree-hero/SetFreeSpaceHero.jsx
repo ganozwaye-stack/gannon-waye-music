@@ -34,7 +34,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
     <section
       aria-label="Set Free, the new single, out now"
       onPointerMove={onMove}
-      className="relative -mt-16 flex flex-col overflow-hidden px-4 pt-20 md:px-8"
+      className="relative -mt-16 flex flex-col overflow-hidden home-opening-screen px-4 pt-[4.5rem] md:px-8"
       style={{ background: '#211b17' }}
     >
       <LumaAlphaFilter />
@@ -46,21 +46,21 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
       <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(33,27,23,0) 45%, rgba(33,27,23,0.75) 100%)' }} />
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl">
+      <div className="relative z-10 mx-auto w-full max-w-none home-opening-frame">
         <div className="home-hero-grid home-hero-compact">
           <div className="home-hero-single">
+            <motion.div className="home-hero-release" {...fade(0.3)}>
+              <SetFreePanel />
+            </motion.div>
+          </div>
             <motion.div
               className="home-hero-heart"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.9, ease: 'easeOut' }}
             >
-              <HeartPlanet rotateX={rotateX} rotateY={rotateY} compact />
+              <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
             </motion.div>
-            <motion.div className="home-hero-release" {...fade(0.3)}>
-              <SetFreePanel />
-            </motion.div>
-          </div>
           <motion.div className="home-hero-services" {...fade(0.4)}>
             <GannonWayeGroupFeature />
           </motion.div>

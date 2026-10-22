@@ -8,7 +8,7 @@ export const HERO_BTN_OUTLINE =
 
 export default function HeroGlassPanel({ children }) {
   return (
-    <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-primary/25 bg-background/35 p-5 text-left backdrop-blur-md md:p-6">
+    <div className="relative flex h-full flex-col overflow-hidden rounded-2xl border border-primary/25 bg-background/15 p-5 text-left backdrop-blur-sm md:p-6">
       <div
         aria-hidden
         className="absolute inset-x-0 top-0 h-px"
