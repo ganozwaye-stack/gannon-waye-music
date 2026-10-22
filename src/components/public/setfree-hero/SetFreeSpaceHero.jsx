@@ -10,6 +10,8 @@ import PreviousReleaseChip from './PreviousReleaseChip';
 import LumaAlphaFilter from './LumaAlphaFilter';
 import GannonWayeGroupFeature from '@/components/public/GannonWayeGroupFeature';
 import HomeHeroWelcomeStack from '@/components/public/HomeHeroWelcomeStack';
+import HomeWelcomeConnections from '@/components/public/HomeWelcomeConnections';
+import MarqueeBar from '@/components/public/MarqueeBar';
 
 // One joined opening; the existing heart is a background layer beneath every panel.
 const fade = (delay) => ({
@@ -58,7 +60,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
       <div className="relative z-10 mx-auto w-full max-w-none home-opening-frame">
         <div className="home-hero-grid home-hero-compact">
           <motion.div className="home-hero-welcome" data-testid="home-welcome-panel" {...fade(0.2)}>
-            <HomeHeroWelcomeStack settings={settings} />
+            <HomeHeroWelcomeStack />
           </motion.div>
           <div className="home-hero-single">
             <motion.div className="home-hero-release" {...fade(0.3)}>
@@ -68,7 +70,10 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink, settin
           <motion.div className="home-hero-services" {...fade(0.4)}>
             <GannonWayeGroupFeature />
           </motion.div>
-
+          <motion.div className="home-hero-connections" {...fade(0.5)}>
+            <HomeWelcomeConnections settings={settings} />
+          </motion.div>
+          <div className="home-hero-ticker"><MarqueeBar inline /></div>
         </div>
       </div>
 
