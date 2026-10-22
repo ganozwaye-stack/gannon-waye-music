@@ -1,6 +1,6 @@
 /* Existing homepage foreground only. Galaxy artwork, scene and motion stay unchanged. */
-.home-opening-frame{display:flex;flex:1}
-.home-opening-screen{min-height:calc(100svh - 40px);padding-bottom:.5rem}
+.home-opening-frame{display:flex;flex:1;max-width:72rem;width:calc(100% - 1rem);margin-inline:auto}
+.home-opening-screen{min-height:calc(100svh - 40px);padding-bottom:.5rem;padding-inline:0!important}
 .home-planet-backdrop{position:absolute;left:34%;top:52%;width:0;height:0;display:flex;align-items:center;justify-content:center;z-index:1;pointer-events:none}
 .home-planet-backdrop>div{flex-shrink:0}
 .home-hero-grid{display:grid;width:100%;grid-template-columns:minmax(0,1fr);gap:.65rem;align-content:start}
@@ -15,7 +15,7 @@
 /* The same polished, static metal highlights as the existing journal edging. */
 .home-hero-welcome>div::after,.home-hero-release>div::after,.home-hero-services section>div::after,
 .home-activity::after,.home-store-companion::after,.home-community-row>div::after,.home-community-row>section>div>div::after{
- content:'';position:absolute;inset:0;border-radius:inherit;padding:2px;pointer-events:none;z-index:3;
+ content:'';position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:3;
  background:linear-gradient(135deg,#80591f 0%,#e5ba50 9%,#fff9da 15%,#fff3b2 18%,#a76f1f 26%,#eac65f 43%,#fffde8 49%,#e8c35a 54%,#94601b 65%,#efcc6a 78%,#fff6ce 86%,#a87825 100%);
  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
 }
@@ -121,4 +121,9 @@
  .home-welcome-connections{padding-top:.6rem;border-top:1px solid rgba(236,205,132,.2)}
  .home-journal-gallery{gap:.8rem}
 }
+
+/* Foreground edges share the navigation container; the existing scene stays full bleed. */
+.homepage-composition .home-content{max-width:72rem;width:calc(100% - 1rem);padding-inline:0}
+.home-hero-release>div{align-items:center;text-align:center}
+.home-hero-release>div>div:last-child{justify-content:center}
 
