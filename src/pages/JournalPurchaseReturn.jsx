@@ -21,7 +21,7 @@ export default function JournalPurchaseReturn(){
  };
  useEffect(()=>{refresh();},[sessionId]);
  const download=async id=>{
-  if(state.status!=='paid'||busy||!JOURNAL_PURCHASES_ENABLED)return;
+  if(state.status!=='paid'||state.fulfilmentType==='preorder'||busy||!JOURNAL_PURCHASES_ENABLED)return;
   setBusy(true);setMessage('');
   try{
    const response=await base44.functions.fetch('/downloadJournal',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -50,9 +50,9 @@ export default function JournalPurchaseReturn(){
   <h1 className="font-display text-4xl mb-6">Your journals</h1>
   {!JOURNAL_PURCHASES_ENABLED?<p>Online purchasing is being prepared. No payment is accepted by this page.</p>:<>
    {busy&&<p role="status">Checking your purchase…</p>}
-   {state.status==='paid'&&<><p className="mb-5">Your payment has been verified. Choose a purchased journal to download.</p>
-    <ul className="space-y-4">{state.bookIds.map(id=><li key={id} className="flex flex-wrap gap-4 items-center">
-     <span>{PUBLIC_JOURNALS.find(b=>b.id===id)?.title}</span><Button disabled={busy} onClick={()=>download(id)}>Download journal</Button></li>)}</ul></>}
+   {state.status==='paid'&&<><p className="mb-5">Your payment has been verified.</p>
+    {state.fulfilmentType==='preorder'?<div className="space-y-3"><p>Your paid preorder is recorded. The journals are awaiting release; no download is available yet.</p><p>Edition: {state.editionLabel}</p><p>Delivery by: {state.deliveryBy ? new Date(state.deliveryBy).toLocaleString('en-AU') : 'Contact Gannon to confirm your order commitment.'}</p><Link className="text-primary underline" to="/contact?topic=journal-preorder">Ask about your preorder or cancellation</Link></div>:<ul className="space-y-4">{state.bookIds.map(id=><li key={id} className="flex flex-wrap gap-4 items-center">
+     <span>{PUBLIC_JOURNALS.find(b=>b.id===id)?.title}</span><Button disabled={busy} onClick={()=>download(id)}>Download journal</Button></li>)}</ul>}</>}
    {state.status==='pending'&&<><p>Your checkout is still unpaid.</p><div className="flex flex-wrap gap-4 my-4"><Button disabled={busy} onClick={resume}>Resume this checkout</Button><Button variant="outline" disabled={busy} onClick={cancel}>Cancel this unpaid checkout</Button></div></>}
    {state.status==='confirming'&&<p>Payment confirmation is pending. Please check again before starting another checkout.</p>}
    {state.status==='expired'&&<p>This checkout has expired. Check your existing purchases before choosing another checkout.</p>}

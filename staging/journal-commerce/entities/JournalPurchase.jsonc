@@ -1,7 +1,7 @@
 {
   "name": "JournalPurchase",
   "type": "object",
-  "description": "Backend-only index of server-verified journal purchases. References support recovery; every download still verifies Stripe. No file URIs or PDF interiors.",
+  "description": "Backend-only server-verified paid journal order. Paid preorders await release and never grant access to held PDFs.",
   "properties": {
     "buyer_user_id": {
       "type": "string"
@@ -18,6 +18,48 @@
     "verified_at": {
       "type": "string",
       "format": "date-time"
+    },
+    "book_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "total_cents": {
+      "type": "integer"
+    },
+    "currency": {
+      "type": "string",
+      "enum": [
+        "aud"
+      ]
+    },
+    "stripe_payment_intent_id": {
+      "type": "string"
+    },
+    "fulfilment_type": {
+      "type": "string",
+      "enum": [
+        "released",
+        "preorder"
+      ]
+    },
+    "fulfilment_status": {
+      "type": "string",
+      "enum": [
+        "paid_release_verified",
+        "paid_pending_release"
+      ]
+    },
+    "delivery_by": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "edition_label": {
+      "type": "string"
+    },
+    "terms_version": {
+      "type": "string"
     }
   },
   "required": [

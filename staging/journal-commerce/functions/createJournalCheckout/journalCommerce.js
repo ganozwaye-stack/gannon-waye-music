@@ -1,3 +1,4 @@
+import {preorderContract} from './journalPreorderContract.js';
 // Backend-only journal commerce policy. Do not import this module into public UI.
 export const JOURNAL_POLICY = 'gw_paid_journals_v1';
 export const JOURNAL_APP_ID = '69eb7905ca6eb4180010f794';
@@ -13,6 +14,7 @@ const email = value => text(value).toLowerCase();
 // Empty/unapproved catalogues never create checkout sessions or expose files.
 export function validateJournalCatalogue(catalogue) {
   if (!catalogue || catalogue.enabled !== true || !text(catalogue.approvedVersion)) deny('journals_not_ready', 503);
+  preorderContract(catalogue);
   const books = catalogue.books;
   if (!Array.isArray(books) || books.length !== 6) deny('journals_not_ready', 503);
   const ids = new Set();
@@ -32,6 +34,9 @@ export function requireJournalBuyer(user) {
   if (!text(user?.id) || !email(user?.email)) deny('sign_in_required', 401);
   return { id: user.id, email: email(user.email) };
 }
+function journalSaleApproved(catalogue, book) {
+ return catalogue.fulfilmentType==='preorder' ? (preorderContract(catalogue)&&book.preorderApproved===true) : book.releaseApproved===true;
+}
 export function journalOffer(catalogue, offerId) {
   validateJournalCatalogue(catalogue);
   const single = catalogue.books.find(item => item.id === offerId);
@@ -41,7 +46,7 @@ export function journalOffer(catalogue, offerId) {
     const canonical = [...ids].sort();
     const books = canonical.map(id => catalogue.books.find(book => book.id === id));
     if (books.some(book => !book)) deny('journal_not_found', 404);
-    if (books.some(book => book.releaseApproved !== true)) deny('journal_not_ready', 503);
+    if (books.some(book => !journalSaleApproved(catalogue, book))) deny('journal_not_ready', 503);
     return { id: 'journals:' + canonical.join(','), title: books.map(book => book.title).join(' + '),
       priceCents: 990 * books.length, bookIds: canonical, bundle: false };
   };
@@ -52,11 +57,11 @@ export function journalOffer(catalogue, offerId) {
     return selection;
   }
   if (single) {
-    if (single.releaseApproved !== true) deny('journal_not_ready', 503);
+    if (!journalSaleApproved(catalogue, single)) deny('journal_not_ready', 503);
     return { id: single.id, title: single.title, priceCents: 990, bookIds: [single.id], bundle: false };
   }
   if (offerId === catalogue.bundleId) {
-    if (catalogue.bundleEnabled !== true || catalogue.books.some(book => book.releaseApproved !== true)) deny('bundle_not_ready', 503);
+    if (catalogue.bundleEnabled !== true || catalogue.books.some(book => !journalSaleApproved(catalogue, book))) deny('bundle_not_ready', 503);
     return { id: catalogue.bundleId, title: 'Six-journal bundle', priceCents: 4500,
       bookIds: catalogue.books.map(item => item.id), bundle: true };
   }
@@ -65,11 +70,17 @@ export function journalOffer(catalogue, offerId) {
 export function journalCheckoutParams({ catalogue, offerId, user, origin, requestId }) {
   const buyer = requireJournalBuyer(user);
   const offer = journalOffer(catalogue, offerId);
+  const contract=preorderContract(catalogue);
+  if(contract&&Date.parse(contract.deliveryBy)<=Date.now())deny('preorder_delivery_date_passed',503);
   if (origin !== 'https://gannonwaye.com') deny('invalid_checkout_origin', 400);
   if (!/^[a-zA-Z0-9_-]{16,80}$/.test(requestId || '')) deny('invalid_request_id', 400);
   return {
     params: {
       mode: 'payment', customer_email: buyer.email,
+      ...(contract?{name_collection:{individual:{enabled:true,optional:false}},
+        consent_collection:{terms_of_service:'required'},custom_text:{submit:{message:
+          'Paid preorder. '+contract.editionLabel+'. Delivery by '+contract.deliveryBy+'. '+contract.cancellationText+' '+contract.delayText}},
+        payment_intent_data:{metadata:{checkout_policy:JOURNAL_POLICY,buyer_user_id:buyer.id,catalogue_version:catalogue.approvedVersion}}}:{}),
       currency: 'aud',
       line_items: offer.bundle ? [{ price: catalogue.bundleStripePriceId, quantity: 1 }] :
         offer.bookIds.map(id => ({ price: catalogue.books.find(book => book.id === id).stripePriceId, quantity: 1 })),
@@ -112,6 +123,7 @@ export async function fulfilJournalDownload({ catalogue, user, sessionId, bookId
   retrieveSession, retrievePaymentIntent, readPrivateFile, sha256, liveMode }) {
   requireJournalBuyer(user);
   validateJournalCatalogue(catalogue);
+  if(catalogue.fulfilmentType==='preorder')deny('journal_delivery_pending',409);
   if (!/^cs_(?:test|live)_[A-Za-z0-9]{16,200}$/.test(sessionId || '')) deny('invalid_reference', 400);
   const session = await retrieveSession(sessionId);
   if (session?.id !== sessionId) deny('purchase_not_found', 404);

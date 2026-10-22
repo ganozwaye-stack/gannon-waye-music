@@ -106,13 +106,13 @@ export default function JournalPurchasePanel({ book }) {
         })}
       </ul>
       <p className="font-semibold" data-testid="journal-selection-total">Total: {'A$'}{(quote.totalCents / 100).toFixed(2)}</p>
-      {!JOURNAL_PURCHASES_ENABLED && <p className="text-sm text-muted-foreground">Online purchasing is being prepared.</p>}
+      {!JOURNAL_PURCHASES_ENABLED && <p className="text-sm text-muted-foreground">Paid preorders are being prepared. Your delivery date, final edition and cancellation terms will be shown before payment. No payment is accepted yet.</p>}
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
       {ownership.status === 'unavailable' && <Link to="/login" className="text-sm text-primary underline">Sign in to check your purchases</Link>}
       {ownership.pending?.map(pending=><Link key={pending.sessionId} className="block text-sm text-primary underline"
         to={'/journals/purchase?session_id='+encodeURIComponent(pending.sessionId)}>Review your unpaid journal checkout</Link>)}
       {existing && <Button onClick={access} disabled={busy}>Access your purchased journal</Button>}
-      <Button onClick={purchase} disabled={!mayPurchase || busy}>{busy ? 'Please wait…' : 'Purchase'}</Button>
+      <Button onClick={purchase} disabled={!mayPurchase || busy}>{busy ? 'Please wait…' : 'Pre-order now'}</Button>
       <p className="text-xs text-muted-foreground">
         {STORE_CRASHED ? 'Gannon Waye merchandise · online ordering currently unavailable' :
           <Link to="/store" className="underline">Gannon Waye merchandise</Link>}

@@ -17,7 +17,7 @@ for(const action of actions){
   const source=await readFile(resolve(dir,filename),'utf8');
   if(filename!=='entry.ts'){const digest=createHash('sha256').update(source).digest('hex');if(bundleHashes.has(filename))assert.equal(digest,bundleHashes.get(filename));else bundleHashes.set(filename,digest);}
   for(const match of source.matchAll(/from\s+['"]([^'"]+)['"]/g)){
-   const target=match[1];if(target.startsWith('npm:')){assert.match(target,/^npm:(?:@base44\/sdk@0\.8\.30|stripe@14\.21\.0)$/);continue;}
+   const target=match[1];if(target.startsWith('npm:')){assert.match(target,/^npm:(?:@base44\/sdk@0\.8\.30|stripe@22\.6\.0)$/);continue;}
    const full=resolve(dirname(resolve(dir,filename)),target);assert.ok(full.startsWith(dir+'/'));await readFile(full);
   }
  }
@@ -46,7 +46,7 @@ function fixture(){
   update:async(id,row)=>{Object.assign(rows[entity].find(r=>r.id===id),row);return row}
  }])),integrations:{Core:{CreateFileSignedUrl:async args=>{calls.sign++;assert.equal(args.file_uri,books[0].fileUri);assert.equal(args.expires_in,60);return {signed_url:'https://private-fixture.example.invalid/temporary-fixture'};}}}}};
  const price={id:'price_fixturebook0',active:true,livemode:false,currency:'aud',type:'one_time',billing_scheme:'per_unit',unit_amount:990,recurring:null,custom_unit_amount:null,transform_quantity:null,product:{id:'prod_fixture',active:true,metadata:{app_id:JOURNAL_APP_ID,journal_policy:JOURNAL_POLICY,journal_book_id:books[0].id,journal_asset_sha256:hash(pdf)}}};
- const stripe={prices:{retrieve:async(id,options)=>{assert.equal(id,price.id);assert.deepEqual(options,{expand:['product']});return price;}},checkout:{sessions:{retrieve:async()=>session,list:async()=>({data:[],has_more:false}),create:async(params,opts)=>{calls.create++;assert.equal(params.metadata.buyer_user_id,buyer.id);assert.equal(params.line_items[0].price,'price_fixturebook0');assert.ok(!params.line_items[0].price_data);assert.ok(opts.idempotencyKey);Object.assign(session,{status:'open',payment_status:'unpaid',metadata:params.metadata});return session;},expire:async()=>{calls.expire++;session.status='expired';return session;}}},paymentIntents:{retrieve:async()=>intent}};
+ const stripe={prices:{retrieve:async(id,options)=>{assert.equal(id,price.id);assert.deepEqual(options,{expand:['product']});return price;}},checkout:{sessions:{retrieve:async()=>session,listLineItems:async()=>({data:[{price:'price_fixturebook0',quantity:1}],has_more:false}),list:async()=>({data:[],has_more:false}),create:async(params,opts)=>{calls.create++;assert.equal(params.metadata.buyer_user_id,buyer.id);assert.equal(params.line_items[0].price,'price_fixturebook0');assert.ok(!params.line_items[0].price_data);assert.ok(opts.idempotencyKey);Object.assign(session,{status:'open',payment_status:'unpaid',metadata:params.metadata});return session;},expire:async()=>{calls.expire++;session.status='expired';return session;}}},paymentIntents:{retrieve:async()=>intent}};
  const deps={release,createRequestClient:()=>client,createStripe:()=>{calls.stripe++;return stripe;},sha256:async bytes=>hash(bytes),fetchImpl:async(url,options)=>{calls.fetch++;assert.equal(options.redirect,'error');return new Response(pdf);}};
  return {calls,rows,session,intent,client,stripe,deps,price};
 }
