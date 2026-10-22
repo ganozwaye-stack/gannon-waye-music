@@ -1,4 +1,3 @@
-import {persistVerifiedJournalOrder,preorderContract} from './journalPreorderContract.js';
 import { JournalAccessError, requireJournalBuyer, journalOffer, journalCheckoutParams, verifyJournalPayment, JOURNAL_POLICY, JOURNAL_APP_ID, JOURNAL_ABN } from './journalCommerce.js';
 import { planJournalPurchase } from './journalPurchaseRecovery.js';
 const fail=(code,status=503)=>{throw new JournalAccessError(code,status);};
@@ -41,7 +40,8 @@ export async function journalAccountState({user,store,stripe,resolveCatalogue,li
    const intent=await stripe.paymentIntents.retrieve(pi,{expand:['latest_charge']});
    try{verifyJournalPayment({catalogue,user,session,paymentIntent:intent,liveMode});}
    catch(error){if(error instanceof JournalAccessError&&error.code==='payment_not_eligible')continue;throw error;}
-   await persistVerifiedJournalOrder({store,buyer,session,catalogue,offer,now});
+   await store.savePurchase({buyer_user_id:buyer.id,stripe_session_id:session.id,
+     catalogue_version:catalogue.approvedVersion,offer_id:offer.id,verified_at:new Date(now).toISOString()});
    purchases.push({sessionId:session.id,bookIds:offer.bookIds,catalogueVersion:catalogue.approvedVersion});
   }else if(session.status==='open'&&session.payment_status==='unpaid'){
    if(!Number.isFinite(session.expires_at))fail('purchase_recovery_unavailable');
@@ -121,8 +121,9 @@ export async function confirmJournalReturn({user,sessionId,store,stripe,resolveC
  if(!/^pi_[A-Za-z0-9]+$/.test(pi||''))fail('purchase_not_found',404);
  const intent=await stripe.paymentIntents.retrieve(pi,{expand:['latest_charge']});
  verifyJournalPayment({catalogue,user,session,paymentIntent:intent,liveMode});
- const persisted=await persistVerifiedJournalOrder({store,buyer,session,catalogue,offer,now});
- return {status:'paid',sessionId,bookIds:offer.bookIds,...persisted};
+ await store.savePurchase({buyer_user_id:buyer.id,stripe_session_id:sessionId,
+  catalogue_version:catalogue.approvedVersion,offer_id:offer.id,verified_at:new Date(now).toISOString()});
+ return {status:'paid',sessionId,bookIds:offer.bookIds};
 }
 
 export async function cancelJournalCheckout(args){
