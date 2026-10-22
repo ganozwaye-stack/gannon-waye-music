@@ -13,7 +13,7 @@ const Separator = () => (
   <span className="mx-6 text-[10px] shrink-0" style={{ color: '#d4af37' }} aria-hidden>◆</span>
 );
 
-export default function MarqueeBar() {
+export default function MarqueeBar({ inline = false }) {
   const Row = ({ ariaHidden = false }) => (
     <div className="flex items-center shrink-0" aria-hidden={ariaHidden}>
       {ITEMS.map((item, i) => (
@@ -31,7 +31,7 @@ export default function MarqueeBar() {
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-40 hidden md:block overflow-hidden"
+      className={inline ? "relative w-full overflow-hidden rounded-lg" : "fixed bottom-0 left-0 right-0 z-40 hidden md:block overflow-hidden"}
       style={{
         background: 'rgba(26, 26, 21, 0.8)',
         backdropFilter: 'blur(6px)',
