@@ -134,7 +134,7 @@ function PausedActions() {
   );
 }
 
-export default function HomeEmailSignup() {
+export default function HomeEmailSignup({ compact = false }) {
   const [form, setForm] = useState({ name: '', email: '', consent_updates: false });
   const [done, setDone] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -142,6 +142,7 @@ export default function HomeEmailSignup() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!DOUBLE_OPT_IN_ENABLED) return;
     setError('');
 
     if (!form.name.trim()) {
@@ -185,47 +186,7 @@ export default function HomeEmailSignup() {
       ? "Receive occasional updates about new music, current merchandise, and Gannon's creative work."
       : 'Email signup is temporarily paused while confirmation and unsubscribe protections are connected. Follow Gannon on Instagram or get in touch directly in the meantime.';
 
-  return (
-    <section id="updates" className="relative overflow-hidden py-20 md:py-28">
-      <ImmersiveBackdrop />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-10 grid md:grid-cols-[1.15fr_1fr] gap-10 md:gap-14 items-start">
-        {/* LEFT: the message, left-aligned so the page breathes */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <EnvelopeBadge />
-          <p className="font-body text-xs tracking-[0.35em] uppercase gradient-gold-glow mb-3 text-left">Stay Connected</p>
-          <h2 className="font-display text-3xl md:text-5xl text-foreground leading-tight mb-5 text-left">{title}</h2>
-          <p className="font-body text-sm text-muted-foreground leading-relaxed max-w-lg text-left">{body}</p>
-
-          {!done && (
-            <ul className="mt-7 space-y-2.5">
-              {[
-                'First listen to every new release',
-                'Presave windows and release-day links',
-                'Merch drops and restocks from the boutique',
-              ].map((line) => (
-                <li key={line} className="flex items-center gap-2.5">
-                  <span className="w-1 h-1 rounded-full bg-primary shrink-0" style={{ boxShadow: '0 0 6px rgba(212,175,55,0.8)' }} />
-                  <span className="font-body text-xs text-foreground/70 tracking-wide">{line}</span>
-                </li>
-              ))}
-            </ul>
-          )}
-        </motion.div>
-
-        {/* RIGHT: where to go now, the form, or the confirmation */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.12 }}
-        >
-          {done ? (
+  const signupPanel = (done ? (
             <div
               className="rounded-2xl border border-primary/30 p-8 text-center"
               style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.10), rgba(8,8,14,0.5))' }}
@@ -294,7 +255,52 @@ export default function HomeEmailSignup() {
                 {loading ? 'Saving...' : 'Join the Update List'}
               </Button>
             </form>
+          ));
+
+  if (compact && !DOUBLE_OPT_IN_ENABLED) return <p className="home-signup-notice">Email signup is temporarily paused while confirmation and unsubscribe protections are connected.</p>;
+  if (compact) return <div className="home-signup-form">{signupPanel}</div>;
+
+  return (
+    <section id="updates" className="relative overflow-hidden py-20 md:py-28">
+      <ImmersiveBackdrop />
+
+      <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-10 grid md:grid-cols-[1.15fr_1fr] gap-10 md:gap-14 items-start">
+        {/* LEFT: the message, left-aligned so the page breathes */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <EnvelopeBadge />
+          <p className="font-body text-xs tracking-[0.35em] uppercase gradient-gold-glow mb-3 text-left">Stay Connected</p>
+          <h2 className="font-display text-3xl md:text-5xl text-foreground leading-tight mb-5 text-left">{title}</h2>
+          <p className="font-body text-sm text-muted-foreground leading-relaxed max-w-lg text-left">{body}</p>
+
+          {!done && (
+            <ul className="mt-7 space-y-2.5">
+              {[
+                'First listen to every new release',
+                'Presave windows and release-day links',
+                'Merch drops and restocks from the boutique',
+              ].map((line) => (
+                <li key={line} className="flex items-center gap-2.5">
+                  <span className="w-1 h-1 rounded-full bg-primary shrink-0" style={{ boxShadow: '0 0 6px rgba(212,175,55,0.8)' }} />
+                  <span className="font-body text-xs text-foreground/70 tracking-wide">{line}</span>
+                </li>
+              ))}
+            </ul>
           )}
+        </motion.div>
+
+        {/* RIGHT: where to go now, the form, or the confirmation */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.12 }}
+        >
+          {signupPanel}
         </motion.div>
       </div>
     </section>
