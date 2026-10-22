@@ -72,26 +72,20 @@
  .home-hero-compact .home-welcome-copy h2{font-size:1.25rem}
 }
 
-/* Owner refinement: full-screen composition, central heart and clearer glass. */
+/* Joined composition: no track, row or spacer is reserved for the planet. */
 .home-opening-frame{display:flex;flex:1}
+.home-planet-backdrop{position:absolute;inset:0;display:grid;place-items:center;z-index:1;pointer-events:none}
 .home-hero-grid{width:100%}
-.home-hero-compact>.home-hero-heart{grid-row:1;min-height:160px}
-.home-hero-compact>.home-hero-single{grid-row:2}
-.home-hero-compact>.home-hero-services{grid-row:3}
-.home-hero-compact>.home-hero-welcome{grid-row:4}
+.home-hero-compact{position:relative;grid-template-columns:minmax(0,1fr);gap:0;border:1px solid hsl(var(--primary)/.24);border-radius:1.25rem;overflow:hidden;background:hsl(var(--background)/.04)}
+.home-hero-compact>div{min-width:0}
+.home-hero-compact .home-hero-release>div,.home-hero-compact .home-hero-services section>div,.home-hero-compact .home-hero-welcome>div{border:0;border-radius:0;background:hsl(var(--background)/.06);backdrop-filter:none}
+.home-hero-compact>.home-hero-services,.home-hero-compact>.home-hero-welcome{border-top:1px solid hsl(var(--primary)/.18)}
+.home-hero-compact .home-welcome-copy,.home-hero-compact .home-hero-services p{ text-shadow:0 1px 4px rgba(0,0,0,.85)}
 @media(min-width:768px){
  .home-opening-screen{min-height:calc(100svh - 40px)}
- .home-hero-compact{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto 1fr auto}
- .home-hero-compact>.home-hero-heart{grid-column:1/-1;grid-row:1}
- .home-hero-compact>.home-hero-single{grid-column:1;grid-row:2;justify-content:stretch}
+ .home-hero-compact{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:1fr auto;align-items:stretch}
+ .home-hero-compact>.home-hero-single{grid-column:1;grid-row:1;justify-content:stretch}
  .home-hero-compact>.home-hero-single>.home-hero-release{height:100%}
- .home-hero-compact>.home-hero-services{grid-column:2;grid-row:2}
- .home-hero-compact>.home-hero-welcome{grid-column:1/-1;grid-row:3}
-}
-@media(min-width:1200px){
- .home-hero-compact{grid-template-columns:minmax(0,1fr) minmax(190px,22vw) minmax(0,1fr);grid-template-rows:1fr auto;align-items:stretch}
- .home-hero-compact>.home-hero-single{grid-column:1;grid-row:1}
- .home-hero-compact>.home-hero-heart{grid-column:2;grid-row:1;align-self:center}
- .home-hero-compact>.home-hero-services{grid-column:3;grid-row:1}
+ .home-hero-compact>.home-hero-services{grid-column:2;grid-row:1;border-top:0;border-left:1px solid hsl(var(--primary)/.18)}
  .home-hero-compact>.home-hero-welcome{grid-column:1/-1;grid-row:2}
 }

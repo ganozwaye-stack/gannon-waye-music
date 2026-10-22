@@ -11,7 +11,7 @@ import LumaAlphaFilter from './LumaAlphaFilter';
 import GannonWayeGroupFeature from '@/components/public/GannonWayeGroupFeature';
 import HomeHeroWelcomeStack from '@/components/public/HomeHeroWelcomeStack';
 
-// Existing artwork on a two-column opening: Set Free and heart beside welcome and journals.
+// One joined opening; the existing heart is a background layer beneath every panel.
 const fade = (delay) => ({
   initial: { opacity: 0, y: 14 },
   animate: { opacity: 1, y: 0 },
@@ -46,6 +46,15 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
       <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(33,27,23,0) 45%, rgba(33,27,23,0.75) 100%)' }} />
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
+      <motion.div
+        className="home-planet-backdrop"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.46 }}
+        transition={{ duration: 1.1 }}
+      >
+        <HeartPlanet rotateX={rotateX} rotateY={rotateY} backdrop />
+      </motion.div>
+
       <div className="relative z-10 mx-auto w-full max-w-none home-opening-frame">
         <div className="home-hero-grid home-hero-compact">
           <div className="home-hero-single">
@@ -53,14 +62,6 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
               <SetFreePanel />
             </motion.div>
           </div>
-            <motion.div
-              className="home-hero-heart"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.9, ease: 'easeOut' }}
-            >
-              <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
-            </motion.div>
           <motion.div className="home-hero-services" {...fade(0.4)}>
             <GannonWayeGroupFeature />
           </motion.div>
