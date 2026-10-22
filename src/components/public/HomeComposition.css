@@ -74,7 +74,7 @@
 
 /* Joined composition: no track, row or spacer is reserved for the planet. */
 .home-opening-frame{display:flex;flex:1}
-.home-planet-backdrop{position:absolute;inset:4.5rem 0 8rem;display:grid;place-items:center;z-index:1;pointer-events:none}
+.home-planet-backdrop{position:absolute;left:34%;top:52%;width:0;height:0;display:flex;align-items:center;justify-content:center;z-index:1;pointer-events:none}.home-planet-backdrop>div{flex-shrink:0}
 .home-hero-grid{width:100%}
 .home-hero-compact{position:relative;grid-template-columns:minmax(0,1fr);gap:0;border:1px solid hsl(var(--primary)/.24);border-radius:1.25rem;overflow:hidden;background:hsl(var(--background)/.04)}
 .home-hero-compact>div{min-width:0}
@@ -97,6 +97,6 @@
 .home-activity{padding:1rem}
 .homepage-composition .home-content>section:last-child>div>div:first-child{margin-bottom:1rem}
 @media(max-width:767px){
- .home-planet-backdrop{inset:10rem 0 auto;height:18rem}
+ .home-planet-backdrop{left:70%;top:20rem}
  .home-hero-compact .home-hero-release>div,.home-hero-compact .home-hero-services section>div,.home-hero-compact .home-hero-welcome>div{padding:1.1rem}
 }

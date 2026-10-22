@@ -50,7 +50,7 @@ export default function SetFreePanel() {
         I'm really proud to have released my third single, Set Free. Have a listen here. This pop single is about reclaiming your voice, protecting your peace and choosing what happens next, written from the depths of everything I survived.
       </p>
 
-      <div className="mt-auto flex flex-wrap gap-2 pt-3">
+      <div className="mt-3 flex flex-wrap gap-2 pt-2">
         <a
           href={SET_FREE_LISTEN}
           target="_blank"
