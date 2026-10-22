@@ -14,24 +14,24 @@ export default function BiographyHero() {
   const imgScale = useTransform(scrollY, [0, 800], [1.08, 1.18]);
 
   return (
-    <section className="relative -mt-16 w-full max-w-none min-h-[100svh] overflow-hidden flex items-end md:items-center">
+    <section className="relative -mt-16 w-full max-w-none min-h-[72svh] overflow-hidden flex items-end md:items-center">
       <motion.img
         src={HERO_PORTRAIT}
         alt="Gannon Waye, looking up into the light"
         fetchpriority="high"
-        style={{ y: imgY, scale: imgScale, opacity: 0.42 }}
-        className="absolute -inset-x-1 top-0 w-[calc(100%+0.5rem)] h-full max-w-none object-cover object-[65%_center]"
+        style={{ y: imgY, scale: imgScale, opacity: 0.42, transformOrigin: 'right center' }}
+        className="absolute inset-0 h-full w-full max-w-none object-cover object-right"
       />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(8,8,14,0.92) 0%, rgba(8,8,14,0.72) 45%, rgba(8,8,14,0.2) 100%)' }} />
       <div className="absolute inset-x-0 bottom-0 h-48" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
       <div className="absolute inset-0 opacity-40 pointer-events-none"><GoldenEmbers density={0.5} intensity={0.45} /></div>
 
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-5 md:px-10 pt-28 pb-16 text-left" style={{ perspective: 1000 }}>
-        <div className="max-w-xl">
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-5 md:px-10 pt-24 pb-10 text-left" style={{ perspective: 1000 }}>
+        <div className="max-w-[34rem]">
           <motion.p {...reveal(0)} className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">The Artist</motion.p>
-          <motion.h1 {...reveal(0.1)} className="font-display text-5xl md:text-7xl gradient-gold-text">Gannon Waye</motion.h1>
+          <motion.h1 {...reveal(0.1)} className="font-poppins font-bold text-3xl md:text-5xl gradient-gold-text">Gannon Waye</motion.h1>
           <motion.p {...reveal(0.2)} className="font-body text-sm tracking-widest uppercase text-foreground/85 mt-3">Singer · Songwriter · Storyteller · Melbourne</motion.p>
-          <motion.div {...reveal(0.32)} className="mt-6 space-y-4 font-body text-sm md:text-[15px] text-foreground/85 leading-relaxed" style={{ textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}>
+          <motion.div {...reveal(0.32)} className="mt-5 space-y-3 font-body text-[13px] md:text-sm text-foreground/85 leading-relaxed" style={{ textShadow: '0 1px 6px rgba(0,0,0,0.7)' }}>
             <p>
               Gannon Waye is an independent Australian singer songwriter whose contemporary pop work turns lived experience into connection. Born in Adelaide and now based in Melbourne, he was raised in low socioeconomic conditions where formal music lessons were never possible. He built his craft by leading school choirs, singing in church, serving as a worship minister and taking every stage that would let him learn.
             </p>
