@@ -18,7 +18,7 @@ const fade = (delay) => ({
   transition: { duration: 0.8, delay },
 });
 
-export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
+export default function SetFreeSpaceHero({ previousRelease, previousLink, settings = {} }) {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const rotateY = useSpring(useTransform(mx, (v) => v * 16), { stiffness: 60, damping: 16 });
@@ -32,7 +32,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
 
   return (
     <section
-      aria-label="Set Free, the new single, out now"
+      aria-label="Welcome to Gannon Waye"
       onPointerMove={onMove}
       className="relative -mt-16 flex flex-col overflow-hidden home-opening-screen px-4 pt-[4.5rem] md:px-8"
       style={{ background: '#211b17' }}
@@ -57,6 +57,9 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
 
       <div className="relative z-10 mx-auto w-full max-w-none home-opening-frame">
         <div className="home-hero-grid home-hero-compact">
+          <motion.div className="home-hero-welcome" data-testid="home-welcome-panel" {...fade(0.2)}>
+            <HomeHeroWelcomeStack settings={settings} />
+          </motion.div>
           <div className="home-hero-single">
             <motion.div className="home-hero-release" {...fade(0.3)}>
               <SetFreePanel />
@@ -65,9 +68,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
           <motion.div className="home-hero-services" {...fade(0.4)}>
             <GannonWayeGroupFeature />
           </motion.div>
-          <motion.div className="home-hero-welcome" data-testid="home-welcome-panel" {...fade(0.5)}>
-            <HomeHeroWelcomeStack />
-          </motion.div>
+
         </div>
       </div>
 
