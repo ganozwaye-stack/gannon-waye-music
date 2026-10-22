@@ -97,6 +97,6 @@
 .home-activity{padding:1rem}
 .homepage-composition .home-content>section:last-child>div>div:first-child{margin-bottom:1rem}
 @media(max-width:767px){
- .home-planet-backdrop{left:70%;top:20rem}
+ .home-planet-backdrop{left:70%;top:27rem}
  .home-hero-compact .home-hero-release>div,.home-hero-compact .home-hero-services section>div,.home-hero-compact .home-hero-welcome>div{padding:1.1rem}
 }
