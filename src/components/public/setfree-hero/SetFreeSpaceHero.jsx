@@ -48,11 +48,11 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
 
       <motion.div
         className="home-planet-backdrop"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.46 }}
-        transition={{ duration: 1.1 }}
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.9, ease: 'easeOut' }}
       >
-        <HeartPlanet rotateX={rotateX} rotateY={rotateY} backdrop />
+        <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
       </motion.div>
 
       <div className="relative z-10 mx-auto w-full max-w-none home-opening-frame">

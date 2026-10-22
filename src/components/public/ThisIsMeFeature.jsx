@@ -20,7 +20,7 @@ export default function ThisIsMeFeature({ compact = false }) {
     >
       <div className="max-w-6xl mx-auto rounded-2xl overflow-hidden border border-primary/30"
         style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08), rgba(8,8,14,0.9))' }}>
-        <div className="grid md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-center p-6 md:p-10">
+        <div className={compact ? "grid md:grid-cols-[auto_1fr_auto] gap-4 md:gap-6 items-center p-5 md:p-6" : "grid md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-center p-6 md:p-10"}>
           <img src={THIS_IS_ME_POSTERS[0].url} alt={THIS_IS_ME_POSTERS[0].alt}
             className="hidden md:block w-[170px] lg:w-[190px] aspect-[9/16] object-cover rounded-xl border border-primary/25"
             style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.45)' }} />
