@@ -47,7 +47,7 @@ export default function SetFreePanel() {
       </p>
 
       <p className="mt-4 font-body text-[13px] italic leading-relaxed text-foreground/85 md:text-sm" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
-        I'm really proud to have released my third single, Set Free. Have a listen here. This pop single is about reclaiming your voice, protecting your peace and choosing what happens next, written from the depths of everything I survived.
+        I'm really proud to have released my third single, Set Free. Written from the depths of everything I survived, this pop single is about reclaiming your voice, protecting your peace and choosing what happens next. Have a listen here.
       </p>
 
       <div className="mt-3 flex flex-wrap gap-2 pt-2">
