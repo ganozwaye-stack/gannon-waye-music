@@ -1,8 +1,7 @@
-import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Play } from 'lucide-react';
 import { trackEvent } from '@/lib/analytics';
-import HeroGlassPanel, { HERO_BTN_PRIMARY, HERO_BTN_OUTLINE } from './HeroGlassPanel';
+import HeroGlassPanel, { HERO_BTN_PRIMARY } from './HeroGlassPanel';
 
 // The SET FREE feature card: eyebrow, the owner's fire title art, the release
 // line, the story and the two actions, with the buttons anchored to the
@@ -28,7 +27,7 @@ export default function SetFreePanel() {
       </motion.p>
 
       <motion.div
-        className="mt-4 w-[min(80%,300px)]"
+        className="mt-2 w-[min(75%,240px)]"
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1, filter: ['brightness(1)', 'brightness(1.12)', 'brightness(1)'] }}
         transition={{ opacity: { duration: 1 }, scale: { duration: 1 }, filter: { duration: 3, repeat: Infinity, ease: 'easeInOut' } }}
@@ -48,10 +47,10 @@ export default function SetFreePanel() {
       </p>
 
       <p className="mt-4 font-body text-[13px] italic leading-relaxed text-foreground/85 md:text-sm" style={{ textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>
-        A pop single about reclaiming your voice, protecting your peace and choosing what happens next. Written from the inside of everything I survived, and sung for anyone still finding their way out.
+        I'm really proud to have released my third single, Set Free. Have a listen here. This pop single is about reclaiming your voice, protecting your peace and choosing what happens next, written from the depths of everything I survived.
       </p>
 
-      <div className="mt-auto flex flex-wrap gap-2 pt-5">
+      <div className="mt-auto flex flex-wrap gap-2 pt-3">
         <a
           href={SET_FREE_LISTEN}
           target="_blank"
@@ -61,9 +60,7 @@ export default function SetFreePanel() {
         >
           <Play className="h-3.5 w-3.5" /> Listen Now
         </a>
-        <Link to="/store" className={HERO_BTN_OUTLINE}>
-          Carry the Message
-        </Link>
+
       </div>
     </HeroGlassPanel>
   );

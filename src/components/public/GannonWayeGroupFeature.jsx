@@ -6,7 +6,7 @@ export default function GannonWayeGroupFeature() {
     <section aria-labelledby="resilience-wellbeing-heading" data-testid="gannon-waye-group-feature" className="h-full min-w-0">
       <HeroGlassPanel>
         <p className="font-body text-[10px] uppercase tracking-[0.2em] text-foreground/60">Music · Coaching · Journals</p>
-        <h2 id="resilience-wellbeing-heading" className="mt-2 font-display text-2xl gradient-gold-text md:text-3xl">Resilience Wellbeing</h2>
+        <h2 id="resilience-wellbeing-heading" className="mt-2 font-poppins font-bold text-2xl gradient-gold-text md:text-3xl">Resilience Wellbeing</h2>
         <h3 className="mt-2 font-body text-base text-foreground">Life Coaching and Mindset Mentorship</h3>
         <p className="mt-3 font-body text-sm leading-relaxed text-foreground/75">Explore one-on-one coaching with Gannon, reflective journals, and the music that shares his story. Coaching offers space to reflect on your goals, self-worth and next steps.</p>
         <nav aria-label="Explore Resilience Wellbeing" className="mt-auto flex min-w-0 flex-col gap-2 pt-4">

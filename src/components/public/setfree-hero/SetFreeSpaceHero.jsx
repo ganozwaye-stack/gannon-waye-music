@@ -8,7 +8,6 @@ import HeartPlanet from './HeartPlanet';
 import SetFreePanel from './SetFreePanel';
 import PreviousReleaseChip from './PreviousReleaseChip';
 import LumaAlphaFilter from './LumaAlphaFilter';
-import MerchDropBanner from './MerchDropBanner';
 import GannonWayeGroupFeature from '@/components/public/GannonWayeGroupFeature';
 import HomeHeroWelcomeStack from '@/components/public/HomeHeroWelcomeStack';
 
@@ -48,7 +47,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl">
-        <div className="home-hero-grid">
+        <div className="home-hero-grid home-hero-compact">
           <div className="home-hero-single">
             <motion.div
               className="home-hero-heart"
@@ -56,30 +55,27 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.9, ease: 'easeOut' }}
             >
-              <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
+              <HeartPlanet rotateX={rotateX} rotateY={rotateY} compact />
             </motion.div>
             <motion.div className="home-hero-release" {...fade(0.3)}>
               <SetFreePanel />
             </motion.div>
           </div>
-          <div className="home-hero-welcome-journals">
-            <motion.div data-testid="home-welcome-panel" {...fade(0.4)}>
-              <HomeHeroWelcomeStack />
-            </motion.div>
-            <motion.div {...fade(0.5)}>
-              <GannonWayeGroupFeature />
-            </motion.div>
-          </div>
+          <motion.div className="home-hero-services" {...fade(0.4)}>
+            <GannonWayeGroupFeature />
+          </motion.div>
+          <motion.div className="home-hero-welcome" data-testid="home-welcome-panel" {...fade(0.5)}>
+            <HomeHeroWelcomeStack />
+          </motion.div>
         </div>
       </div>
 
       {previousRelease && (
-        <motion.div className="relative z-10 mx-auto w-full max-w-6xl pb-20 pt-4" {...fade(0.7)}>
+        <motion.div className="relative z-10 mx-auto w-full max-w-6xl pb-5 pt-3" {...fade(0.7)}>
           <PreviousReleaseChip release={previousRelease} to={previousLink} />
         </motion.div>
       )}
 
-      <MerchDropBanner />
     </section>
   );
 }

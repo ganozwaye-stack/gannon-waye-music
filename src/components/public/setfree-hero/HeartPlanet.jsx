@@ -11,11 +11,11 @@ export const HEART_ART = 'https://base44.app/api/apps/69eb7905ca6eb4180010f794/f
 const GWM_LOGO = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/4a733b567_GWMGannonWayemusic.jpg';
 const PLATE = 'min(34vw, 22svh, 170px)';
 
-export default function HeartPlanet({ rotateX, rotateY }) {
+export default function HeartPlanet({ rotateX, rotateY, compact = false }) {
   return (
     <div
       className="relative mx-auto flex items-center justify-center"
-      style={{ '--plate': PLATE, width: 'calc(var(--plate) * 1.8)', height: 'calc(var(--plate) * 1.4)' }}
+      style={{ '--plate': compact ? 'min(30vw, 13svh, 94px)' : PLATE, width: 'calc(var(--plate) * 1.8)', height: 'calc(var(--plate) * 1.4)' }}
     >
       <motion.div
         className="relative aspect-square shrink-0"

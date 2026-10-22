@@ -84,6 +84,8 @@ export default function Home() {
             
               <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Latest</p>
               <h2 className="font-body text-3xl md:text-5xl gradient-gold-text">Music</h2>
+              <p className="font-body text-base md:text-lg text-foreground/85 mt-4">Thank you. Without you here, I’m set free. But will you even listen?</p>
+              <p className="font-body text-xs text-muted-foreground mt-2">“Will You Even Listen?” is an upcoming single.</p>
             </motion.div>
 
             {/* Album, featured at top center */}

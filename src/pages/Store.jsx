@@ -13,9 +13,6 @@ import CartDrawer from '@/components/store/CartDrawer';
 import AdminEditButton from '@/components/store/AdminEditButton';
 import LockedStorefrontHero from '@/components/store/LockedStorefrontHero';
 import { fetchLiveStoreProducts } from '@/lib/liveStoreProducts';
-import UpcomingMerchVote from '@/components/public/UpcomingMerchVote';
-import MerchDropCountdown from '@/components/store/MerchDropCountdown';
-import SetFreeStoreBanner from '@/components/store/SetFreeStoreBanner';
 import StoreCrashed from '@/components/store/StoreCrashed';
 import { STORE_CRASHED, STORE_CHECKOUT_HELD } from '@/config/storeStatus';
 
@@ -407,11 +404,6 @@ export default function Store() {
         {STORE_CHECKOUT_HELD && <p role="status" data-testid="store-checkout-notice" className="font-body text-sm text-primary border border-primary/30 rounded-xl p-4 mb-6">The collection is available to browse. Checkout is temporarily unavailable while payment checks are completed.</p>}
 
 
-        {/* Set Free promo banner, under the boutique world, before the products */}
-        <SetFreeStoreBanner />
-
-        {/* Countdown to the 5pm AEST merch drop */}
-        <MerchDropCountdown />
 
         {/* Page header */}
         <motion.div
@@ -483,7 +475,7 @@ export default function Store() {
         )}
 
 
-        <div className="mt-10 -mx-4 md:-mx-6"><UpcomingMerchVote /></div>
+
 
         <p className="text-left font-body text-xs text-muted-foreground/40 mt-10 tracking-wide">
           Independent music, merchandise, and community support.
