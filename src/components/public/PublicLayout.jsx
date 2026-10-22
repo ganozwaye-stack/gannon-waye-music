@@ -22,7 +22,7 @@ export default function PublicLayout() {
       </main>
       <Footer />
       <MobileBottomTabs />
-      <MarqueeBar />
+      {pathname !== '/' && <MarqueeBar />}
       <GlobalPlayerDock />
       <AmbientReleasePlayer />
       <ReleaseUpdatesPopup />
