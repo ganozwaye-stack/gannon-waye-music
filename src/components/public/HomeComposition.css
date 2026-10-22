@@ -127,3 +127,25 @@
 .home-hero-release>div{align-items:center;text-align:center}
 .home-hero-release>div>div:last-child{justify-content:center}
 
+/* Confirmed composition: one welcome/Set Free column, one larger coaching feature. */
+.homepage-composition .home-opening-frame{max-width:72rem;width:calc(100% - 1rem)}
+.home-hero-welcome>div{display:block}
+.home-hero-connections{min-width:0}
+.home-hero-connections>div{padding:.9rem 1.2rem;border:1px solid rgba(232,199,115,.25);background:rgba(8,8,14,.12);border-radius:1rem}
+.home-hero-connections .home-welcome-connections{padding:0;border:0}
+.home-hero-ticker{min-width:0}
+@media(min-width:768px){
+ .home-hero-compact>.home-hero-welcome{grid-column:1;grid-row:1}
+ .home-hero-compact>.home-hero-single{grid-column:1;grid-row:2}
+ .home-hero-compact>.home-hero-services{grid-column:2;grid-row:1/span 2}
+ .home-hero-compact>.home-hero-connections{grid-column:1/-1;grid-row:3}
+ .home-hero-compact>.home-hero-ticker{grid-column:1/-1;grid-row:4}
+ .home-hero-connections .home-welcome-connections{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.5fr);column-gap:1.2rem;align-items:start}
+ .home-hero-connections .home-welcome-connections>p:first-child,.home-hero-connections .home-website-signup,.home-hero-connections .home-signup-state{grid-column:1}
+ .home-hero-connections .home-social-links{grid-column:2;grid-row:1/span 3}
+ .home-social-links>p{margin-top:0}
+ .home-hero-services section>div{display:flex;flex-direction:column;align-items:stretch;gap:1rem}
+ .home-journal-gallery{flex:1;align-content:center}
+ .home-journal-cover{width:min(100%,8rem)}
+}
+
