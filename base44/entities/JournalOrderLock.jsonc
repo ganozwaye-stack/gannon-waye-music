@@ -1,0 +1,27 @@
+{
+  "name": "JournalOrderLock",
+  "type": "object",
+  "description": "One pre-provisioned known row for atomic journal order claims. No expiry or automated steal; uncertain writes require manual reconciliation.",
+  "properties": {
+    "locked": {
+      "type": "boolean",
+      "default": false
+    },
+    "owner": {
+      "type": "string"
+    },
+    "claimed_at": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "locked",
+    "owner"
+  ],
+  "rls": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "name": "JournalBuyerDetails",
+  "type": "object",
+  "description": "Authenticated verified-email journal buyer details and separate purchase/self-help acknowledgements. Never analytics or marketing consent.",
+  "properties": {
+    "buyer_user_id": {
+      "type": "string"
+    },
+    "verified_email": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "date_of_birth": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "terms_version": {
+      "type": "string"
+    },
+    "accepted_at": {
+      "type": "string"
+    },
+    "purchase_rules_accepted": {
+      "type": "boolean"
+    },
+    "self_help_acknowledged": {
+      "type": "boolean"
+    },
+    "catalogue_version": {
+      "type": "string"
+    },
+    "offer_id": {
+      "type": "string"
+    },
+    "item_plan_sha256": {
+      "type": "string"
+    },
+    "preorder_terms_version": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "buyer_user_id",
+    "verified_email",
+    "first_name",
+    "last_name",
+    "date_of_birth",
+    "phone",
+    "terms_version",
+    "accepted_at",
+    "purchase_rules_accepted",
+    "self_help_acknowledged"
+  ],
+  "rls": {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false
+  }
+}
