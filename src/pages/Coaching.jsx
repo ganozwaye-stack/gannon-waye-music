@@ -29,14 +29,14 @@ export default function Coaching() {
   };
   useEffect(() => {if (view) viewRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' });}, [view]);
   return (
-    <div className="min-h-screen pb-20" data-testid="coaching-page">
+    <div className="min-h-screen pb-20" data-testid="coaching-page" style={{ backgroundColor: '#302c2b' }}>
       <section className="relative isolate overflow-hidden py-10 md:py-14" data-testid="coaching-editorial-intro">
         {/* Thankyou ReleaseDetail uses an atmospheric portrait, directional mask
             and dark vignette. Keep this selected photo static and naturally framed. */}
         <div className="absolute inset-0 -z-10 pointer-events-none" aria-hidden="true">
-          <img src={PORTRAIT_URL} alt="" data-testid="coaching-hero-wallpaper" className="absolute right-0 top-0 w-[55%] md:w-[40%] h-[42rem] md:h-auto object-cover object-top" />
-          <div data-testid="coaching-hero-overlay" className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(8,8,14,0.9) 0%, rgba(8,8,14,0.78) 45%, rgba(8,8,14,0.62) 100%)' }} />
-          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(8,8,14,0.12) 0%, rgba(8,8,14,0.38) 28rem, hsl(var(--background)) 42rem)' }} />
+          <img src={PORTRAIT_URL} alt="" data-testid="coaching-hero-wallpaper" className="absolute right-0 top-0 w-[75%] md:w-[45%] h-[42rem] object-cover object-top" style={{ opacity: 0.65, maskImage: 'linear-gradient(90deg, transparent 0%, black 30%, black 100%)' }} />
+          <div data-testid="coaching-hero-overlay" className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(48,44,43,0.86) 0%, rgba(48,44,43,0.65) 45%, rgba(48,44,43,0.2) 100%)' }} />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(48,44,43,0) 0%, rgba(48,44,43,0.25) 28rem, #302c2b 42rem)' }} />
         </div>
         <div className="max-w-6xl mx-auto px-5">
         <header className="flex flex-col items-center text-center mb-10" data-testid="coaching-hero-title">
@@ -44,8 +44,9 @@ export default function Coaching() {
             <div className="w-16 h-1 gradient-gold-button mx-auto mb-6" aria-hidden="true" data-testid="coaching-top-rule" />
             {/* Reuse the exact gradient shared by Navbar's Gannon Waye brand and FanChatWidget. */}
             <p className="font-body font-medium text-base md:text-lg gradient-gold-text uppercase tracking-wide mb-4 leading-relaxed" data-testid="coaching-service-promise">START WITH WHAT MATTERS TO YOU</p>
-            <h1 className="font-body font-medium text-4xl md:text-5xl gradient-gold-text leading-tight tracking-tight text-center">RESILIENCE COACHING</h1>
-            <p className="font-body font-normal text-xl md:text-2xl text-foreground mt-4 tracking-normal" data-testid="coaching-name">Coaching with Gannon Waye</p>
+            <h1 className="font-poppins font-bold text-3xl md:text-5xl gradient-gold-text leading-tight tracking-tight text-center">Resilience Wellbeing</h1>
+            <p className="font-body font-medium text-lg md:text-2xl text-foreground mt-4 tracking-normal">Life Coaching and Mindset Mentorship</p>
+            <p className="font-body text-base text-foreground/80 mt-2" data-testid="coaching-name">Coaching with Gannon Waye</p>
 
             <div className="w-16 h-1 gradient-gold-button mx-auto mt-6 mb-6" aria-hidden="true" data-testid="coaching-bottom-rule" />
             <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />

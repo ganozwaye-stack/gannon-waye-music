@@ -86,3 +86,15 @@
 
 /* Membership sits below both article columns, aligned with their left edge. */
 .coaching-membership-footer { grid-column: 1; grid-row: 2; justify-self: start; }
+
+/* Polished gold follows the existing metallic fan rim, with static light catches. */
+.journal-display-tile,.journal-cover-frame{
+ border:3px solid transparent;
+ background:linear-gradient(#171719,#171719) padding-box,
+ linear-gradient(135deg,#80591f 0%,#e5ba50 9%,#fff9da 15%,#fff3b2 18%,#a76f1f 26%,#eac65f 43%,#fffde8 49%,#e8c35a 54%,#94601b 65%,#efcc6a 78%,#fff6ce 86%,#a87825 100%) border-box;
+ box-shadow:inset 0 1px 0 rgba(255,249,216,.65),inset 0 -1px 0 rgba(106,70,18,.8),0 2px 0 #6f4e21,0 10px 20px rgba(0,0,0,.4),0 0 16px rgba(245,208,110,.14);
+}
+.journal-display-tile{position:relative;transition:box-shadow .2s ease}
+.journal-display-tile:hover{box-shadow:inset 0 1px 0 #fff9da,inset 0 -1px 0 #79531c,0 2px 0 #6f4e21,0 12px 24px rgba(0,0,0,.45),0 0 22px rgba(245,208,110,.24)}
+.journal-display-tile::before{content:'';position:absolute;top:-2px;left:12%;right:30%;height:2px;background:linear-gradient(90deg,transparent,#fffde8 35%,#fce9a3 65%,transparent);pointer-events:none}
+.journal-cover-frame{border-width:3px;box-sizing:border-box}

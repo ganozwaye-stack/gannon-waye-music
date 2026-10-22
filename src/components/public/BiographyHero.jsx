@@ -14,13 +14,13 @@ export default function BiographyHero() {
   const imgScale = useTransform(scrollY, [0, 800], [1.08, 1.18]);
 
   return (
-    <section className="relative -mt-16 min-h-[100svh] overflow-hidden flex items-end md:items-center">
+    <section className="relative -mt-16 w-full max-w-none min-h-[100svh] overflow-hidden flex items-end md:items-center">
       <motion.img
         src={HERO_PORTRAIT}
         alt="Gannon Waye, looking up into the light"
         fetchpriority="high"
-        style={{ y: imgY, scale: imgScale }}
-        className="absolute inset-0 w-full h-full max-w-none object-cover object-[65%_center]"
+        style={{ y: imgY, scale: imgScale, opacity: 0.42 }}
+        className="absolute -inset-x-1 top-0 w-[calc(100%+0.5rem)] h-full max-w-none object-cover object-[65%_center]"
       />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(8,8,14,0.92) 0%, rgba(8,8,14,0.72) 45%, rgba(8,8,14,0.2) 100%)' }} />
       <div className="absolute inset-x-0 bottom-0 h-48" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />

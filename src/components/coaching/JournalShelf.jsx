@@ -25,13 +25,13 @@ export default function JournalShelf() {
         {PUBLIC_JOURNALS.map(book => (
           <button key={book.id} type="button" onClick={() => selectBook(book.id)}
             data-testid={'journal-cover-' + book.id}
-            className="flex h-full min-w-0 flex-col text-left rounded-2xl border-2 border-[#F5D06E] bg-background/40 p-5 shadow-[0_0_16px_rgba(245,208,110,0.12)] transition-shadow hover:shadow-[0_0_22px_rgba(245,208,110,0.25)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F5D06E]">
-            {book.coverImageUrl ? <div className="w-full max-w-[17rem] mx-auto aspect-[1042/1474] shrink-0 mb-5 border-2 border-[#F5D06E] bg-[#141419] p-1 shadow-[0_0_12px_rgba(245,208,110,0.18)]">
+            className="journal-display-tile flex h-full min-w-0 flex-col text-left rounded-2xl p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F5D06E]">
+            {book.coverImageUrl ? <div className="journal-cover-frame w-full max-w-[17rem] mx-auto aspect-[1042/1474] shrink-0 mb-5 p-1">
               <img src={book.coverImageUrl} alt={book.title + ' cover'}
                 loading="lazy" className="w-full h-full object-contain" />
             </div> :
               <p className="font-body text-xs text-muted-foreground mb-4">Cover display being prepared</p>}
-            <h3 className="font-display text-2xl leading-tight min-h-[3.75rem] mb-2">{book.title}</h3>
+            <h3 className="font-poppins font-bold text-2xl leading-tight min-h-[3.75rem] mb-2">{book.title}</h3>
             <p className="font-body text-sm text-primary mb-3">A$9.90</p>
             <p className="flex-1 font-body text-sm text-foreground/80 leading-relaxed">{book.description}</p>
             <span className="block mt-5 font-body text-sm text-[#F5D06E]">Explore this journal</span>
@@ -42,7 +42,7 @@ export default function JournalShelf() {
         <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto" data-testid="journal-preview-modal">
           {selected && <>
             <DialogHeader>
-              <DialogTitle className="font-display text-3xl">{selected.title}</DialogTitle>
+              <DialogTitle className="font-poppins font-bold text-3xl">{selected.title}</DialogTitle>
               <DialogDescription>Journal preview · A$9.90 · One question from the journal</DialogDescription>
             </DialogHeader>
             {selected.coverImageUrl && <img src={selected.coverImageUrl} alt={selected.title + ' cover'}
