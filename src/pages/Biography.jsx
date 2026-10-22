@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Music, Heart, Mic, Headphones, Quote, BookOpen, Star } from 'lucide-react';
+import { Music, Heart, Mic, Headphones, BookOpen, Star } from 'lucide-react';
 import ThisIsMeFeature from '@/components/public/ThisIsMeFeature';
 import BiographyHero from '@/components/public/BiographyHero';
 
@@ -41,14 +41,16 @@ export default function Biography() {
 
       <div className="max-w-6xl mx-auto px-4 md:px-8 pt-2">
 
-        {/* Pull quote */}
-        <div className="bg-card border border-border/40 rounded-2xl p-8 md:p-10 mt-10 mb-16 text-left">
-          <Quote className="w-8 h-8 text-primary/30 mb-4" />
-          <p className="font-display italic text-lg md:text-xl text-foreground/80 leading-relaxed">
-            "I don't write songs to be heard. I write songs because if I don't, the feeling stays. And some feelings are too heavy to carry alone."
-          </p>
-          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-text mt-6">Gannon Waye</p>
-        </div>
+        {/* Personal origin passage prepared from Gannon's account for this review. */}
+        <section aria-labelledby="lyrics-origin-heading" className="bg-card/35 border border-primary/25 rounded-2xl p-5 md:p-6 mt-6 mb-10 text-left">
+          <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary mb-2">Music and meaning</p>
+          <h2 id="lyrics-origin-heading" className="font-poppins font-bold text-xl md:text-2xl gradient-gold-text mb-3">Lyrics have always been part of me</h2>
+          <div className="max-w-3xl space-y-3 font-body text-sm text-foreground/85 leading-relaxed">
+            <p>In high school, I copied the lyrics of a Delta Goodrem song onto a page and gave it to my deputy principal. I was feeling pressured and wanted space and time to move at my own pace. She took me out of class so we could talk about how she could help.</p>
+            <p>Looking back, I’m realising how important that moment was. Lyrics were already a way for me to communicate how I felt.</p>
+            <p className="text-primary font-medium">Now I realise that lyrics have always helped me carry heavy feelings.</p>
+          </div>
+        </section>
 
         {/* Defining moments — strength & hope */}
         <div className="mb-16">
