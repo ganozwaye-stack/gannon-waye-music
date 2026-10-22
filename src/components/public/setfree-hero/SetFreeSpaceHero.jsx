@@ -34,7 +34,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
     <section
       aria-label="Set Free, the new single, out now"
       onPointerMove={onMove}
-      className="relative -mt-16 flex flex-col overflow-hidden px-4 pt-24 md:px-8"
+      className="relative -mt-16 flex flex-col overflow-hidden px-4 pt-20 md:px-8"
       style={{ background: '#211b17' }}
     >
       <LumaAlphaFilter />

@@ -18,7 +18,7 @@ export default function FeaturedMerchShowcase() {
           transition={{ duration: 0.6 }}
           className="text-center mb-5">
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">The Thank You Project</p>
-          <Link to="/store" aria-label="Shop the Thank You collection">
+          <Link to="/store" aria-label="Explore the Thank You collection">
             <h2 className="font-body text-3xl md:text-5xl gradient-gold-text hover:opacity-90 transition-opacity">The Thank You Collection</h2>
           </Link>
           <p className="font-body text-sm text-foreground/80 leading-relaxed mt-3 max-w-xl mx-auto">For all of your support. It’s been such an honour to gift you with this music.</p>
@@ -43,13 +43,10 @@ export default function FeaturedMerchShowcase() {
 
 
           <div className="p-5 text-center border-t border-primary/20">
-            <p className="font-body text-sm md:text-base text-foreground/85 max-w-xl mx-auto leading-relaxed mb-5" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>
-              The hoodie, the journals, the winter bundle. Every piece carries the message, and every order supports independent, heart-first art.
-            </p>
             <div className="flex flex-wrap items-center justify-center gap-3">
               <Link to="/store">
                 <Button className="rounded-full px-7 py-4 font-body text-xs tracking-wider uppercase gradient-gold-button border-0">
-                  Shop the Collection <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                  Explore the Collection <ArrowRight className="w-3.5 h-3.5 ml-1" />
                 </Button>
               </Link>
             </div>
