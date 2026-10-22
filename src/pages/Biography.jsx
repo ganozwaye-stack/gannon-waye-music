@@ -46,8 +46,8 @@ export default function Biography() {
           <p className="font-body text-[10px] tracking-[0.2em] uppercase text-primary mb-2">Music and meaning</p>
           <h2 id="lyrics-origin-heading" className="font-poppins font-bold text-xl md:text-2xl gradient-gold-text mb-3">Lyrics have always been part of me</h2>
           <div className="max-w-3xl space-y-3 font-body text-sm text-foreground/85 leading-relaxed">
-            <p>In high school, I copied the lyrics of a Delta Goodrem song onto a page and gave it to my deputy principal. I was feeling pressured and wanted space and time to move at my own pace. She took me out of class so we could talk about how she could help.</p>
-            <p>Looking back, I’m realising how important that moment was. Lyrics were already a way for me to communicate how I felt.</p>
+            <p>In high school, I copied lyrics onto a page and gave it to my deputy principal. It was my way of communicating how I felt and asking for space and time to move at my own pace. She took me out of class so we could talk about how she could help.</p>
+            <p>I didn’t realise the significance at the time, or how much lyrics would follow me through my life.</p>
             <p className="text-primary font-medium">Now I realise that lyrics have always helped me carry heavy feelings.</p>
           </div>
         </section>
