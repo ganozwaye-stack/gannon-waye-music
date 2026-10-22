@@ -1,11 +1,8 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Mail } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import HeroGlassPanel, { HERO_BTN_OUTLINE } from '@/components/public/setfree-hero/HeroGlassPanel';
-import HomeEmailSignup from '@/components/public/HomeEmailSignup';
-import HomeSocialLinks from '@/components/public/HomeSocialLinks';
-import { DOUBLE_OPT_IN_ENABLED } from '@/config/emailSignup';
 
-export default function HomeHeroWelcomeStack({ settings = {} }) {
+export default function HomeHeroWelcomeStack() {
   const hour = new Date().getHours();
   const greeting = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
   return (
@@ -17,15 +14,7 @@ export default function HomeHeroWelcomeStack({ settings = {} }) {
         <p>Have a good look around, enjoy your time here and make yourself at home.</p>
         <Link to="/biography" className={HERO_BTN_OUTLINE}>My story <ArrowRight className="h-3 w-3" /></Link>
       </div>
-      <div className="home-welcome-connections">
-        <p>If you’d like to stay in touch, please subscribe.</p>
-        <details className="home-website-signup">
-          <summary><Mail className="h-4 w-4" /> Subscribe for email updates <span aria-hidden="true">+</span></summary>
-          <HomeEmailSignup compact />
-        </details>
-        {!DOUBLE_OPT_IN_ENABLED && <p className="home-signup-state">Website email signup is currently paused.</p>}
-        <HomeSocialLinks settings={settings} />
-      </div>
+
     </HeroGlassPanel>
   );
 }
