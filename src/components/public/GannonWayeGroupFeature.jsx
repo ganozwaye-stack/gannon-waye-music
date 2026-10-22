@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import HeroGlassPanel from '@/components/public/setfree-hero/HeroGlassPanel';
-import { PUBLIC_JOURNALS } from '@/lib/publicJournalCatalogue';
+import OriginalJournalFan from '@/components/coaching/OriginalJournalFan';
 
 export default function GannonWayeGroupFeature() {
   return (
@@ -17,11 +17,8 @@ export default function GannonWayeGroupFeature() {
           </nav>
           <p className="home-feature-price">Journals A$9.90 each · All six A$45 <span>Purchasing and downloads are being prepared.</span></p>
         </div>
-        <div className="home-journal-gallery" aria-label="The six journal previews">
-          {PUBLIC_JOURNALS.map(book => <Link key={book.id} to={'/coaching?view=journals&journal=' + book.id} aria-label={'Preview ' + book.title}>
-            <div className="home-journal-cover"><img src={book.coverImageUrl} alt={book.title + ' cover'} loading="eager" /></div>
-            <span>{book.title}</span>
-          </Link>)}
+        <div className="home-journal-display">
+          <OriginalJournalFan spread="wide" className="home-journal-fan" />
         </div>
       </HeroGlassPanel>
     </section>
