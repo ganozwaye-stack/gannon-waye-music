@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // Featured merchandise display artwork and animation supplied by Gannon, September 2026.
@@ -9,18 +9,19 @@ const MERCH_DISPLAY_VIDEO = 'https://media.base44.com/videos/public/69eb7905ca6e
 
 export default function FeaturedMerchShowcase() {
   return (
-    <section aria-label="Featured merchandise" className="py-10 md:py-14 px-4 md:px-6">
+    <section aria-label="Featured merchandise" className="home-thankyou-feature">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8">
-          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-4">Featured Merchandise</p>
+          className="text-center mb-5">
+          <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow mb-3">The Thank You Project</p>
           <Link to="/store" aria-label="Shop the Thank You collection">
             <h2 className="font-body text-3xl md:text-5xl gradient-gold-text hover:opacity-90 transition-opacity">The Thank You Collection</h2>
           </Link>
+          <p className="font-body text-sm text-foreground/80 leading-relaxed mt-3 max-w-xl mx-auto">For all of your support. It’s been such an honour to gift you with this music.</p>
         </motion.div>
 
         <motion.div
@@ -38,11 +39,10 @@ export default function FeaturedMerchShowcase() {
             muted
             playsInline
             aria-hidden
-            className="w-full aspect-[4/3] sm:aspect-[16/10] md:aspect-[16/9] object-cover" />
+            className="w-full h-auto max-h-[360px] object-contain bg-black/30" />
 
-          <div aria-hidden className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(8,8,14,0.92) 0%, rgba(8,8,14,0.30) 48%, rgba(8,8,14,0.05) 100%)' }} />
 
-          <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 text-center">
+          <div className="p-5 text-center border-t border-primary/20">
             <p className="font-body text-sm md:text-base text-foreground/85 max-w-xl mx-auto leading-relaxed mb-5" style={{ textShadow: '0 1px 3px rgba(0,0,0,0.65)' }}>
               The hoodie, the journals, the winter bundle. Every piece carries the message, and every order supports independent, heart-first art.
             </p>
@@ -52,11 +52,6 @@ export default function FeaturedMerchShowcase() {
                   Shop the Collection <ArrowRight className="w-3.5 h-3.5 ml-1" />
                 </Button>
               </Link>
-              <a href="#upcoming-merch">
-                <Button variant="outline" className="rounded-full px-7 py-4 font-body text-xs tracking-wider uppercase border-primary/40 text-primary hover:bg-primary/10">
-                  Vote on what's next <ChevronDown className="w-3.5 h-3.5 ml-1" />
-                </Button>
-              </a>
             </div>
           </div>
         </motion.div>

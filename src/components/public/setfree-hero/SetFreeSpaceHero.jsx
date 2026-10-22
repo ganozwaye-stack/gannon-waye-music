@@ -9,16 +9,10 @@ import SetFreePanel from './SetFreePanel';
 import PreviousReleaseChip from './PreviousReleaseChip';
 import LumaAlphaFilter from './LumaAlphaFilter';
 import MerchDropBanner from './MerchDropBanner';
+import GannonWayeGroupFeature from '@/components/public/GannonWayeGroupFeature';
 import HomeHeroWelcomeStack from '@/components/public/HomeHeroWelcomeStack';
 
-// 1 October 2026 rebuild. One calm composition on one grid:
-//  - wide screens: SET FREE card, the distant heart moon, the welcome card,
-//    in a single row. The two cards share the same top and bottom edges and
-//    the moon is centred between them, so nothing crowds and everything sits
-//    on the first screen.
-//  - tablets: the moon on top, the two cards side by side beneath it.
-//  - phones: moon, SET FREE, welcome, each full width.
-// The previous release is a slim pill under the cards. House style: no em dashes.
+// Existing artwork on a two-column opening: Set Free and heart beside welcome and journals.
 const fade = (delay) => ({
   initial: { opacity: 0, y: 14 },
   animate: { opacity: 1, y: 0 },
@@ -41,7 +35,7 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
     <section
       aria-label="Set Free, the new single, out now"
       onPointerMove={onMove}
-      className="relative -mt-16 flex min-h-[100svh] flex-col overflow-hidden px-4 pt-24 md:px-8"
+      className="relative -mt-16 flex flex-col overflow-hidden px-4 pt-24 md:px-8"
       style={{ background: '#211b17' }}
     >
       <LumaAlphaFilter />
@@ -53,29 +47,34 @@ export default function SetFreeSpaceHero({ previousRelease, previousLink }) {
       <div className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(120% 90% at 50% 45%, rgba(33,27,23,0) 45%, rgba(33,27,23,0.75) 100%)' }} />
       <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-40" style={{ background: 'linear-gradient(to top, hsl(var(--background)) 0%, transparent 100%)' }} />
 
-      <div className="relative z-10 flex flex-1 items-center">
-        <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-stretch gap-5 md:grid-cols-2 md:gap-6 xl:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] xl:gap-8">
-          <motion.div
-            className="order-1 self-center md:col-span-2 xl:order-2 xl:col-span-1"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, ease: 'easeOut' }}
-          >
-            <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
-          </motion.div>
-
-          <motion.div className="order-2 md:min-h-[420px] xl:order-1 xl:min-h-[460px]" {...fade(0.3)}>
-            <SetFreePanel />
-          </motion.div>
-
-          <motion.div className="order-3 md:min-h-[420px] xl:min-h-[460px]" {...fade(0.45)}>
-            <HomeHeroWelcomeStack />
-          </motion.div>
+      <div className="relative z-10 mx-auto w-full max-w-6xl">
+        <div className="home-hero-grid">
+          <div className="home-hero-single">
+            <motion.div
+              className="home-hero-heart"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.9, ease: 'easeOut' }}
+            >
+              <HeartPlanet rotateX={rotateX} rotateY={rotateY} />
+            </motion.div>
+            <motion.div className="home-hero-release" {...fade(0.3)}>
+              <SetFreePanel />
+            </motion.div>
+          </div>
+          <div className="home-hero-welcome-journals">
+            <motion.div data-testid="home-welcome-panel" {...fade(0.4)}>
+              <HomeHeroWelcomeStack />
+            </motion.div>
+            <motion.div {...fade(0.5)}>
+              <GannonWayeGroupFeature />
+            </motion.div>
+          </div>
         </div>
       </div>
 
       {previousRelease && (
-        <motion.div className="relative z-10 mx-auto w-full max-w-6xl pb-16" {...fade(0.7)}>
+        <motion.div className="relative z-10 mx-auto w-full max-w-6xl pb-20 pt-4" {...fade(0.7)}>
           <PreviousReleaseChip release={previousRelease} to={previousLink} />
         </motion.div>
       )}

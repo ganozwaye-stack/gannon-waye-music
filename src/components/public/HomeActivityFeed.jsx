@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Play, Music, Camera, ShoppingBag, Activity } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { base44 } from '@/api/base44Client';
+import BehindTheScenes from './BehindTheScenes';
 import { PUBLIC_RELEASE_FILTER, isPublicRelease } from '@/lib/publicRelease';
 
 // A dynamic, live-updating feed of Gannon's recent activity: new music, new
@@ -81,7 +82,7 @@ export default function HomeActivityFeed() {
     .slice(0, 6);
 
   return (
-    <section className="py-10 md:py-14 px-4 md:px-6">
+    <section className="home-activity home-section" aria-label="Recent updates and behind the scenes">
       <div className="max-w-6xl mx-auto text-left">
         <div className="flex items-center gap-3 mb-3">
           <span className="relative flex h-2 w-2">
@@ -90,7 +91,7 @@ export default function HomeActivityFeed() {
           </span>
           <p className="font-body text-xs tracking-[0.3em] uppercase gradient-gold-glow">Live Updates</p>
         </div>
-        <h2 className="font-body text-3xl md:text-5xl gradient-gold-text mb-8">What I've Been Up To</h2>
+        <h2 className="font-body text-3xl md:text-5xl gradient-gold-text mb-5">What I've Been Up To</h2>
 
         {items.length === 0 ? (
           <div className="rounded-2xl border border-border/30 bg-card/40 p-6 flex items-start gap-3">
@@ -98,9 +99,9 @@ export default function HomeActivityFeed() {
             <p className="font-body text-sm text-foreground/75">Fresh news is on the way. Check back in a moment.</p>
           </div>
         ) : (
-          <div className="relative pl-2">
-            <div className="absolute left-[26px] top-2 bottom-2 w-px bg-gradient-to-b from-primary/50 via-border/40 to-transparent" />
-            <div className="space-y-3">
+          <div className="relative pl-2 home-update-list">
+            
+            <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
               {items.map((item, i) => {
                 const Icon = item.icon;
                 return (
@@ -119,7 +120,7 @@ export default function HomeActivityFeed() {
                         <Icon className="w-4 h-4 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-baseline gap-2">
+                        <div className="flex flex-wrap items-baseline gap-x-2">
                           <p className="font-body text-[10px] tracking-[0.25em] uppercase gradient-gold-text">{item.label}</p>
                           <p className="font-body text-[10px] text-muted-foreground/50">
                             {formatDistanceToNow(new Date(item.date), { addSuffix: true })}
@@ -135,6 +136,7 @@ export default function HomeActivityFeed() {
             </div>
           </div>
         )}
+        <BehindTheScenes compact />
       </div>
     </section>
   );

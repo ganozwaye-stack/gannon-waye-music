@@ -1,10 +1,10 @@
 const {test,expect}=require('@playwright/test');
-test('homepage Group feature keeps music and leads to coaching and held journal previews',async({page},info)=>{
+test('homepage resilience feature keeps music and leads to coaching and held journal previews',async({page},info)=>{
  await page.route('**/functions/**',route=>route.abort());
  await page.goto('/',{waitUntil:'domcontentloaded'});
  const feature=page.getByTestId('gannon-waye-group-feature');
- await expect(feature.getByRole('heading',{name:'Gannon Waye Group',exact:true})).toBeVisible();
- await expect(feature).toContainText('Life coaching and mindset mentorship');
+ await expect(feature.getByRole('heading',{name:'Resilience Wellbeing',exact:true})).toBeVisible();
+ await expect(feature).toContainText('Life Coaching and Mindset Mentorship');
  await expect(feature.getByTestId('group-music-link')).toHaveAttribute('href','/music');
  await feature.scrollIntoViewIfNeeded();
  expect(await feature.evaluate(el=>el.getBoundingClientRect().right<=innerWidth && el.getBoundingClientRect().left>=0)).toBe(true);
