@@ -19,7 +19,7 @@ export default function BiographyHero() {
         src={HERO_PORTRAIT}
         alt="Gannon Waye, looking up into the light"
         fetchpriority="high"
-        style={{ y: imgY, scale: imgScale, opacity: 0.42, transformOrigin: 'right center' }}
+        style={{ x: '11%', y: imgY, scale: imgScale, opacity: 0.42, transformOrigin: 'right center' }}
         className="absolute inset-0 h-full w-full max-w-none object-cover object-right"
       />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, rgba(8,8,14,0.92) 0%, rgba(8,8,14,0.72) 45%, rgba(8,8,14,0.2) 100%)' }} />
