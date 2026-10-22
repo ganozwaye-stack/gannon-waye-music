@@ -149,3 +149,7 @@
  .home-journal-cover{width:min(100%,8rem)}
 }
 
+.home-journal-display{min-width:0;width:100%;margin-block:auto}
+.home-journal-fan{max-width:none!important;margin-bottom:0!important}
+.home-resilience-intro{max-width:42rem}
+
