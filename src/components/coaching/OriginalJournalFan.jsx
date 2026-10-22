@@ -12,7 +12,17 @@ const covers = [
   ['Working with People-Pleasing', 459, 1134, 340, -5],
   ['Choosing Yourself', 608, 1134, 340, 5],
 ];
-export default function OriginalJournalFan({ className = '' }) {
+// A wider homepage arrangement uses the same genuine cover files and aspect ratios.
+const wideCovers = [
+  ['Healing After Toxic Relationships', 235, 1093, 280, -28],
+  ['Knowing Your Worth', 340, 1104, 290, -17],
+  ['Building Resilience', 845, 1093, 280, 28],
+  ['Healthy Boundaries', 740, 1104, 290, 17],
+  ['Working with People-Pleasing', 435, 1134, 310, -6],
+  ['Choosing Yourself', 645, 1134, 310, 6],
+];
+export default function OriginalJournalFan({ className = '', spread = 'original' }) {
+  const displayCovers = spread === 'wide' ? wideCovers : covers;
   const ref = useRef(null);
   const [scale, setScale] = useState(0);
   useEffect(() => {
@@ -24,7 +34,7 @@ export default function OriginalJournalFan({ className = '' }) {
     <figure ref={ref} className={`relative w-full max-w-xl mx-auto mb-8 ${className}`} style={{ aspectRatio: '1080 / 660' }} data-testid="coaching-original-fan" aria-label="The six Gannon Waye journals">
       <div className="absolute left-0 top-0" style={{ width: 1080, height: 660, transform: `scale(${scale})`, transformOrigin: 'top left' }}>
         <div className="coaching-display-base" aria-hidden="true" data-testid="coaching-display-base" />
-        {covers.map(([title, x, y, width, angle], index) => {
+        {displayCovers.map(([title, x, y, width, angle], index) => {
           const journal = PUBLIC_JOURNALS.find(item => item.title === title);
           return <div key={title} className="coaching-journal-rim" style={{
               left: x, top: y - 800, width, height: width * 1474 / 1042,
