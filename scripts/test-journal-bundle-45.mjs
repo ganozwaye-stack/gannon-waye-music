@@ -1,0 +1,35 @@
+import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
+import {journalBasketQuote} from '../src/lib/journalBasket.js';
+const sha256=b=>createHash('sha256').update(b).digest('hex');
+const actions=['createJournalCheckout','getJournalPurchases','confirmJournalPurchase','cancelJournalCheckout','downloadJournal'];
+for(const action of actions){
+ const root='../staging/journal-commerce/functions/'+action+'/';
+ const C=await import(root+'journalCommerce.js');
+ const {planJournalPurchase}=await import(root+'journalPurchaseRecovery.js');
+ const {verifyJournalPrices}=await import(root+'journalHttp.js');
+ const books=Array.from({length:6},(_,i)=>({id:'fixture-book-'+i,title:'Fixture '+i,priceCents:990,releaseApproved:true,fileUri:'private/fixture/'+i,sha256:sha256('fixture'+i),stripePriceId:'price_fixture'+i}));
+ const cat={enabled:true,approvedVersion:'synthetic-45-only',books,bundleId:'fixture-bundle',bundlePriceCents:4500,bundleEnabled:true,bundleStripePriceId:'price_fixturebundle'};
+ const ids=books.map(b=>b.id),user={id:'fixture',email:'fixture@example.invalid'};
+ assert.equal(C.journalOffer(cat,cat.bundleId).priceCents,4500);
+ assert.equal(journalBasketQuote({books,selectedIds:ids,bundle:true}).totalCents,4500);
+ assert.equal(planJournalPurchase({catalogue:cat,selectedIds:ids,verifiedOwnedIds:[],bundleRequested:true}).totalCents,4500);
+ assert.equal(planJournalPurchase({catalogue:cat,selectedIds:ids,verifiedOwnedIds:[ids[0]],bundleRequested:true}).totalCents,4950);
+ assert.equal(C.journalOffer(cat,ids).priceCents,5940);
+ assert.equal(C.journalOffer(cat,ids.slice(0,2)).priceCents,1980);
+ assert.equal(C.journalOffer(cat,ids[0]).priceCents,990);
+ assert.throws(()=>C.journalOffer({...cat,bundlePriceCents:4900},cat.bundleId));
+ assert.throws(()=>C.journalOffer({...cat,books:books.map((b,i)=>i?b:{...b,releaseApproved:false})},cat.bundleId));
+ const {params}=C.journalCheckoutParams({catalogue:cat,offerId:cat.bundleId,user,origin:'https://gannonwaye.com',requestId:'fixture_request_123456'});
+ assert.equal(params.allow_promotion_codes,undefined);assert.equal(params.discounts,undefined);
+ const assetHash=sha256(JSON.stringify([...ids].sort().map(id=>[id,books.find(b=>b.id===id).sha256])));
+ const price={id:cat.bundleStripePriceId,active:true,livemode:false,currency:'aud',type:'one_time',billing_scheme:'per_unit',unit_amount:4500,product:{active:true,metadata:{app_id:C.JOURNAL_APP_ID,journal_policy:C.JOURNAL_POLICY,journal_bundle_id:cat.bundleId,journal_asset_set_sha256:assetHash}}};
+ const args={catalogue:cat,params,liveMode:false,sha256,stripe:{prices:{retrieve:async()=>price}}};
+ await verifyJournalPrices(args);price.unit_amount=4900;await assert.rejects(verifyJournalPrices(args));price.unit_amount=4500;
+ const session={livemode:false,mode:'payment',currency:'aud',status:'complete',payment_status:'paid',amount_total:4500,amount_subtotal:4500,customer_email:user.email,metadata:params.metadata,payment_intent:'pi_fixture'};
+ const paymentIntent={id:'pi_fixture',status:'succeeded',currency:'aud',livemode:false,amount_received:4500,latest_charge:{paid:true,status:'succeeded',disputed:false,refunded:false,amount_refunded:0}};
+ C.verifyJournalPayment({catalogue:cat,user,session,paymentIntent,liveMode:false});
+ for(const total_details of [{amount_discount:4050},{amount_tax:1},{amount_shipping:1}])assert.throws(()=>C.verifyJournalPayment({catalogue:cat,user,session:{...session,total_details},paymentIntent,liveMode:false}));
+ assert.throws(()=>C.verifyJournalPayment({catalogue:cat,user,session:{...session,amount_total:4900,amount_subtotal:4900},paymentIntent,liveMode:false}));
+}
+console.log('PASS: all five bundles A$45 across UI/offer/purchase plan/provider/payment; A$49 rejected; unit/subset/no duplicate charge preserved; 90% coupon, tax and shipping rejected; held edition rejected. Synthetic only, no network.');

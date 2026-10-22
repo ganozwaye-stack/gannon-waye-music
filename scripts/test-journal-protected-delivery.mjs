@@ -6,7 +6,7 @@ assert.equal(PUBLIC_JOURNALS.length,6);assert.equal(JOURNAL_PURCHASES_ENABLED,fa
 assert.ok(PUBLIC_JOURNALS.every(book=>book.releaseApproved===false));
 const bytes=new TextEncoder().encode('%PDF-local fixture; no actual journal content');
 const sha256=b=>createHash('sha256').update(b).digest('hex');
-const catalogue={enabled:true,approvedVersion:'mock-only',bundleId:'mock-bundle',bundleEnabled:true,bundlePriceCents:4900,books:PUBLIC_JOURNALS.map(book=>({...book,fileUri:'private/mock/'+book.id,sha256:sha256(bytes),priceCents:990,releaseApproved:true}))};
+const catalogue={enabled:true,approvedVersion:'mock-only',bundleId:'mock-bundle',bundleEnabled:true,bundlePriceCents:4500,books:PUBLIC_JOURNALS.map(book=>({...book,fileUri:'private/mock/'+book.id,sha256:sha256(bytes),priceCents:990,releaseApproved:true}))};
 const user={id:'mock-user',email:'mock@example.invalid'},bookId=catalogue.books[0].id;
 const session={id:'cs_test_ABCDEFGHIJKLMNOP',livemode:false,mode:'payment',currency:'aud',status:'complete',payment_status:'paid',amount_total:990,amount_subtotal:990,payment_intent:'pi_mock',customer_email:user.email,metadata:{checkout_policy:JOURNAL_POLICY,app_id:JOURNAL_APP_ID,abn:JOURNAL_ABN,buyer_user_id:user.id,catalogue_version:catalogue.approvedVersion,offer_id:bookId}};
 const intent={id:'pi_mock',status:'succeeded',currency:'aud',livemode:false,amount_received:990,latest_charge:{paid:true,status:'succeeded',disputed:false,refunded:false,amount_refunded:0}};
