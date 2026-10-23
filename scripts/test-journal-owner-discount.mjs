@@ -7,7 +7,7 @@ import {startJournalCheckout} from '../staging/journal-commerce/functions/journa
 const code='NunY@69Ony@Son!@',hash=b=>createHash('sha256').update(b).digest('hex');
 function ownerFixture(){
  const f=fixture();f.buyer.id='6a73da328a15629ec5373c25';f.buyer.email='gannonwayemusic@gmail.com';
- f.books[0].id='building-resilience';f.price.product.id='prod_ownerfixture';
+ f.books[0].id='building-resilience';f.release.launchBookIds=[f.books[0].id];f.price.product.id='prod_ownerfixture';
  f.price.product.metadata.journal_book_id=f.books[0].id;
  Object.assign(f.session,{customer_email:f.buyer.email});
  Object.assign(f.session.metadata,{buyer_user_id:f.buyer.id,offer_id:f.books[0].id});
@@ -91,3 +91,21 @@ Deno.test('unaccepted owner quote cannot create checkout or bypass buyer acknowl
  assert.equal(r.status,400);assert.equal(f.calls.create,0);assert.equal(f.calls.email,0);
 });
 console.log('Synthetic owner-discount suite: no network, real checkout, order or customer email.');
+
+Deno.test('owner99 pending990 conflicts instead of returning a payable full-price checkout',async()=>{
+ const f=ownerFixture();f.session.status='open';f.session.payment_status='unpaid';
+ f.rows.JournalCheckoutAttempt.push({buyer_user_id:f.buyer.id,stripe_session_id:f.session.id});
+ const result=await startJournalCheckout({user:f.buyer,catalogue:f.catalogue,selectedIds:[f.books[0].id],ownerTestCode:code,expectedTotalCents:99,
+  store:f.store(),stripe:f.stripe,resolveCatalogue:async()=>f.catalogue,liveMode:false,sha256:hash,verifyDeliverables:async()=>{}});
+ assert.equal(result.status,'pending_selection_conflict');assert.equal(result.pending.totalCents,990);
+ assert.equal(f.rows.JournalPurchase.length,0);
+});
+Deno.test('owner99 paid exact private PDF entitlement survives; another buyer cannot download',async()=>{
+ const f=ownerFixture(),pdf=new TextEncoder().encode('%PDF-synthetic-owner-only');
+ f.books[0].sha256=hash(pdf);f.price.product.metadata.journal_asset_sha256=hash(pdf);f.actual.product.metadata.journal_asset_sha256=hash(pdf);
+ ownerPaid(f);
+ const {fulfilJournalDownload}=await import('../staging/journal-commerce/functions/journalStripeWebhook/journalCommerce.js');
+ const args={catalogue:f.catalogue,user:f.buyer,sessionId:f.session.id,bookId:f.books[0].id,retrieveSession:async()=>f.session,retrievePaymentIntent:async()=>f.intent,readPrivateFile:async()=>pdf,sha256:hash,liveMode:false};
+ assert.deepEqual((await fulfilJournalDownload(args)).bytes,pdf);
+ await assert.rejects(fulfilJournalDownload({...args,user:{id:'other',email:'other@example.invalid',is_verified:true}}));
+});
