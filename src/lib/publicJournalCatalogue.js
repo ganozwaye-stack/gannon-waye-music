@@ -2,7 +2,7 @@
 // Never place PDF contents, private file URIs, download URLs or signed URLs here.
 // Expected fields: id, title, coverImageUrl, origin, purpose, readerBenefits,
 // sampleQuestion, samplePageReference, approvedVersion.
-export const PUBLIC_JOURNALS = [
+const PREVIEW_JOURNALS = [
   {
     "id": "choosing-yourself",
     "title": "Choosing Yourself",
@@ -64,6 +64,7 @@ export const PUBLIC_JOURNALS = [
     "coverImageUrl": "/images/coaching/original-advert/cover_4.png"
   }
 ];
+export const PUBLIC_JOURNALS = ['building-resilience','healthy-boundaries',...PREVIEW_JOURNALS.filter(book=>!['building-resilience','healthy-boundaries'].includes(book.id)).map(book=>book.id)].map(id=>PREVIEW_JOURNALS.find(book=>book.id===id));
 export const JOURNAL_PURCHASES_ENABLED = true;
 export const JOURNAL_BUNDLE_COUNT_CONFIRMED = true;
 export const JOURNAL_BUNDLE_PURCHASES_ENABLED = false;

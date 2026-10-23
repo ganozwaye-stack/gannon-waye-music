@@ -22,13 +22,15 @@ export default function JournalShelf() {
         {JOURNAL_PURCHASES_ENABLED?' Building Resilience and Healthy Boundaries are available to purchase; other titles and the all-six bundle remain preview-only.':' Online purchasing is being prepared.'}
       </p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr items-stretch gap-6 mt-8" data-testid="journal-shelf">
-        {PUBLIC_JOURNALS.map(book => (
+        {PUBLIC_JOURNALS.map((book,index) => (
           <button key={book.id} type="button" onClick={() => selectBook(book.id)}
             data-testid={'journal-cover-' + book.id}
+            style={book.releaseApproved?{gridColumn:'span 2',padding:'1.25rem'}:{padding:'0.85rem'}}
+            data-availability={book.releaseApproved?'available':'upcoming'}
             className="journal-display-tile flex h-full min-w-0 flex-col text-left rounded-2xl p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F5D06E]">
             {book.coverImageUrl ? <div className="journal-cover-frame w-full max-w-[17rem] mx-auto aspect-[1042/1474] shrink-0 mb-5 p-1">
               <img src={book.coverImageUrl} alt={book.title + ' cover'}
-                loading="lazy" className="w-full h-full object-contain" />
+                loading="lazy" style={{maxHeight:book.releaseApproved?'20rem':'17rem',marginLeft:'auto',marginRight:'auto'}} className="w-full h-full object-contain" />
             </div> :
               <p className="font-body text-xs text-muted-foreground mb-4">Cover display being prepared</p>}
             <h3 className="font-poppins font-bold text-2xl leading-tight min-h-[3.75rem] mb-2">{book.title}</h3>
