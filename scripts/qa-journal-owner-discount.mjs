@@ -20,6 +20,7 @@ try{
      const body=req.postDataJSON();assert.equal(body.action,'quote_owner_test');assert.deepEqual(body.offer_id,['building-resilience']);assert.equal(body.owner_test_code,'NunY@69Ony@Son!@');
      return route.fulfill({json:{status:'owner_test_quote',total_cents:99,base_total_cents:990,percent:90}});
     }
+    if(path.endsWith('/entities/User/me'))return route.fulfill({status:signed?200:401,json:signed?{id:'fixture',email:'gannonwayemusic@gmail.com',is_verified:true,role:'user'}:{message:'Not authenticated'}});
     if(path.includes('/auth/')){
      if(path.endsWith('/register'))return route.fulfill({status:409,json:{message:'User already exists',code:'user_exists'}});
      if(path.endsWith('/login')){signed=true;return route.fulfill({json:{access_token:'SYNTHETIC_LOCAL_ONLY',token_type:'bearer',user:{id:'fixture',email:'gannonwayemusic@gmail.com',is_verified:true}}});}
