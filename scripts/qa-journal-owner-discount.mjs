@@ -65,6 +65,14 @@ try{
   assert.equal(errors.length,0,JSON.stringify(errors));
   assert.equal(requests.filter(x=>x.path.endsWith('/functions/createJournalCheckout')).length,1);
   receipts.push({viewport:size,inlineExistingAccountError:true,sameDialogSignIn:true,buyerFieldsOnlyAfterVerifiedLookup:true,selectedTitlePreserved:true,ownerQuote99:true,acknowledgementsInitiallyUnchecked:true,noCheckoutCreated:true,noPayment:true,noHorizontalOverflow:true,pageErrors:errors});
+  await page.getByTestId('journal-close').click();
+  const cards=await page.getByTestId('journal-shelf').locator(':scope > button').evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect(),im=node.querySelector('img').getBoundingClientRect();return {id:node.getAttribute('data-testid'),availability:node.getAttribute('data-availability'),x:r.x,y:r.y,width:r.width,height:r.height,imageHeight:im.height};}));
+  assert.deepEqual(cards.slice(0,2).map(c=>c.id),['journal-cover-building-resilience','journal-cover-healthy-boundaries']);
+  assert.ok(cards.slice(0,2).every(c=>c.availability==='available'));assert.ok(cards.slice(2).every(c=>c.availability==='upcoming'));
+  if(size.name==='desktop'){assert.equal(Math.round(cards[0].y),Math.round(cards[1].y));assert.ok(cards.slice(2).every(c=>Math.round(c.y)===Math.round(cards[2].y)));assert.ok(cards[2].y>cards[0].y);assert.ok(cards[0].imageHeight>cards[2].imageHeight);}
+  assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
+  await page.getByTestId('journal-shelf').scrollIntoViewIfNeeded();await page.screenshot({path:join(evidence,size.name+'-available-first-shelf.png'),fullPage:false});
+  receipts.at(-1).availableFirst=true;receipts.at(-1).responsiveShelf=cards;
   await context.close();
  }
  await writeFile(join(evidence,'visual-functional-fixture-receipt.json'),JSON.stringify({checkedAt:new Date().toISOString(),scope:'isolated synthetic browser fixtures, no actual sign-in, order or email',receipts},null,2));

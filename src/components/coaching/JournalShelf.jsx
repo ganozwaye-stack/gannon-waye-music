@@ -25,7 +25,7 @@ export default function JournalShelf() {
         {PUBLIC_JOURNALS.map((book,index) => (
           <button key={book.id} type="button" onClick={() => selectBook(book.id)}
             data-testid={'journal-cover-' + book.id}
-            style={book.releaseApproved?{gridColumn:'span 2',padding:'1.25rem'}:{padding:'0.85rem'}}
+            style={book.releaseApproved?{padding:'1.25rem'}:{padding:'0.85rem'}}
             data-availability={book.releaseApproved?'available':'upcoming'}
             className="journal-display-tile flex h-full min-w-0 flex-col text-left rounded-2xl p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#F5D06E]">
             {book.coverImageUrl ? <div className="journal-cover-frame w-full max-w-[17rem] mx-auto aspect-[1042/1474] shrink-0 mb-5 p-1">
