@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-23T04:33:25.868Z",
+  "checkedAt": "2026-10-23T04:49:14.638Z",
   "scope": "isolated synthetic browser fixtures, no actual sign-in, order or email",
   "receipts": [
     {
@@ -17,7 +17,64 @@
       "noCheckoutCreated": true,
       "noPayment": true,
       "noHorizontalOverflow": true,
-      "pageErrors": []
+      "pageErrors": [],
+      "availableFirst": true,
+      "responsiveShelf": [
+        {
+          "id": "journal-cover-building-resilience",
+          "availability": "available",
+          "x": 205,
+          "y": 495.25,
+          "width": 507,
+          "height": 628.5,
+          "imageHeight": 320
+        },
+        {
+          "id": "journal-cover-healthy-boundaries",
+          "availability": "available",
+          "x": 728,
+          "y": 495.25,
+          "width": 507,
+          "height": 628.5,
+          "imageHeight": 320
+        },
+        {
+          "id": "journal-cover-choosing-yourself",
+          "availability": "upcoming",
+          "x": 205,
+          "y": 1139.75,
+          "width": 245.5,
+          "height": 801.6875,
+          "imageHeight": 272
+        },
+        {
+          "id": "journal-cover-knowing-your-worth",
+          "availability": "upcoming",
+          "x": 466.5,
+          "y": 1139.75,
+          "width": 245.5,
+          "height": 801.6875,
+          "imageHeight": 272
+        },
+        {
+          "id": "journal-cover-working-with-people-pleasing",
+          "availability": "upcoming",
+          "x": 728,
+          "y": 1139.75,
+          "width": 245.5,
+          "height": 801.6875,
+          "imageHeight": 272
+        },
+        {
+          "id": "journal-cover-healing-after-toxic-relationships",
+          "availability": "upcoming",
+          "x": 989.5,
+          "y": 1139.75,
+          "width": 245.5,
+          "height": 801.6875,
+          "imageHeight": 272
+        }
+      ]
     },
     {
       "viewport": {
@@ -34,7 +91,64 @@
       "noCheckoutCreated": true,
       "noPayment": true,
       "noHorizontalOverflow": true,
-      "pageErrors": []
+      "pageErrors": [],
+      "availableFirst": true,
+      "responsiveShelf": [
+        {
+          "id": "journal-cover-building-resilience",
+          "availability": "available",
+          "x": 49,
+          "y": 1035.875,
+          "width": 292,
+          "height": 742.25,
+          "imageHeight": 320
+        },
+        {
+          "id": "journal-cover-healthy-boundaries",
+          "availability": "available",
+          "x": 49,
+          "y": 1794.125,
+          "width": 292,
+          "height": 742.25,
+          "imageHeight": 320
+        },
+        {
+          "id": "journal-cover-choosing-yourself",
+          "availability": "upcoming",
+          "x": 49,
+          "y": 2552.375,
+          "width": 292,
+          "height": 678.6875,
+          "imageHeight": 272
+        },
+        {
+          "id": "journal-cover-knowing-your-worth",
+          "availability": "upcoming",
+          "x": 49,
+          "y": 3247.0625,
+          "width": 292,
+          "height": 678.6875,
+          "imageHeight": 272
+        },
+        {
+          "id": "journal-cover-working-with-people-pleasing",
+          "availability": "upcoming",
+          "x": 49,
+          "y": 3941.75,
+          "width": 292,
+          "height": 687.9375,
+          "imageHeight": 272
+        },
+        {
+          "id": "journal-cover-healing-after-toxic-relationships",
+          "availability": "upcoming",
+          "x": 49,
+          "y": 4645.6875,
+          "width": 292,
+          "height": 733.4375,
+          "imageHeight": 272
+        }
+      ]
     }
   ]
 }
