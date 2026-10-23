@@ -76,5 +76,5 @@ try{
   await context.close();
  }
  await writeFile(join(evidence,'visual-functional-fixture-receipt.json'),JSON.stringify({checkedAt:new Date().toISOString(),scope:'isolated synthetic browser fixtures, no actual sign-in, order or email',receipts},null,2));
- console.log(JSON.stringify({status:'passed',views:receipts.length,evidence,screenshots:4,noRealAuthPaymentOrEmail:true}));
+ console.log(JSON.stringify({status:'passed',views:receipts.length,evidence,screenshots:6,noRealAuthPaymentOrEmail:true}));
 }finally{await browser.close();await new Promise(r=>server.close(r));}

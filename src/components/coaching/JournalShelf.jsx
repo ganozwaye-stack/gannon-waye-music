@@ -34,7 +34,7 @@ export default function JournalShelf() {
             </div> :
               <p className="font-body text-xs text-muted-foreground mb-4">Cover display being prepared</p>}
             <h3 className="font-poppins font-bold text-2xl leading-tight min-h-[3.75rem] mb-2">{book.title}</h3>
-            <p className="font-body text-sm text-primary mb-3">A$9.90</p>
+            <p className="font-body text-sm text-primary mb-3">A$9.90 · {book.releaseApproved?'Available now':'Upcoming · purchasing not open'}</p>
             <p className="flex-1 font-body text-sm text-foreground/80 leading-relaxed">{book.description}</p>
             <span className="block mt-5 font-body text-sm text-[#F5D06E]">Explore this journal</span>
           </button>
