@@ -1,0 +1,21 @@
+{
+  "checkedAt": "2026-10-23T01:24:51.516Z",
+  "canonicalAppId": "69eb7905ca6eb4180010f794",
+  "publishedUrl": "https://gannonwaye.com/coaching",
+  "publishedFrontendSource": "a2770095fb6234620a7d0856c7a48dd22e42b871",
+  "publishedBackendSource": "a65047cb95a240a699b622ce9c69fa70cf63d5ee",
+  "savedSourceBeforeThisReceipt": "94e81289b9ded70f4737c7fd71df188637851a9d",
+  "verifiedOwnerPurchases": 0,
+  "verifiedOwnerPendingCheckouts": 0,
+  "assistantPayments": 0,
+  "paidCustomerDeliveryVerified": false,
+  "nextRequiredAction": "Gannon personally signs in and buys a ready A$9.90 journal; then verify paid order, inbox receipt and exact entitled PDF access.",
+  "readyTitles": [
+    "building-resilience",
+    "healthy-boundaries"
+  ],
+  "otherFourAndBundleHeld": true,
+  "unreviewedVisualChangesPublished": false,
+  "publishedFrontendReplayPatch": "docs/JOURNAL_PUBLISHED_FRONTEND_a2770095.patch",
+  "publishedFrontendReplayPatchSha256": "a049eef4dea2148b90dbb1b07e28286b8503bc7621a68ce34a5e59df4d4fb542"
+}
