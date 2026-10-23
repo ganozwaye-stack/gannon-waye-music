@@ -45,7 +45,7 @@ try{
   await panel.getByLabel('Password',{exact:true}).fill('SyntheticFixtureOnly123!');
   await panel.getByRole('button',{name:'Create account',exact:true}).click();
   await panel.getByText('An account already exists for this email. Choose Sign in below to continue.',{exact:true}).waitFor();
-  await page.screenshot({path:join(evidence,size.name+'-inline-account.png'),fullPage:true});
+  await page.screenshot({path:join(evidence,size.name+'-inline-account.png'),fullPage:false});
   await panel.getByRole('button',{name:'Sign in',exact:true}).last().click();
   await panel.getByRole('button',{name:'Sign in',exact:true}).first().click();
   try{await panel.getByText('Step 2 · Enter your buyer details.',{exact:false}).waitFor({timeout:10000});}catch(error){console.log(JSON.stringify({requests,signed,panelText:await panel.innerText()}));throw error;}
@@ -61,7 +61,7 @@ try{
   await panel.getByRole('checkbox',{name:/I understand that these journals/}).check();
   assert.equal(await panel.getByRole('button',{name:'Buy selected journals',exact:true}).isEnabled(),true);
   assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth),false);
-  await page.screenshot({path:join(evidence,size.name+'-owner99-ready.png'),fullPage:true});
+  await page.screenshot({path:join(evidence,size.name+'-owner99-ready.png'),fullPage:false});
   assert.equal(errors.length,0,JSON.stringify(errors));
   assert.equal(requests.filter(x=>x.path.endsWith('/functions/createJournalCheckout')).length,1);
   receipts.push({viewport:size,inlineExistingAccountError:true,sameDialogSignIn:true,buyerFieldsOnlyAfterVerifiedLookup:true,selectedTitlePreserved:true,ownerQuote99:true,acknowledgementsInitiallyUnchecked:true,noCheckoutCreated:true,noPayment:true,noHorizontalOverflow:true,pageErrors:errors});
