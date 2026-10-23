@@ -1,0 +1,115 @@
+{
+  "sourceBase": "b420418737b7fea9905f01167b304da5050105b4",
+  "privateReadback": [
+    {
+      "bookId": "building-resilience",
+      "version": 11,
+      "bytes": 531226,
+      "sha256": "9f8eea15b0d5ccca2e70f4a9d9b550492ba034205af82dd5d4a1ed3c662b7ab6",
+      "host": "media.base44.com",
+      "checkedAt": "2026-10-22T23:40:41.969Z"
+    },
+    {
+      "bookId": "healthy-boundaries",
+      "version": 10,
+      "bytes": 448877,
+      "sha256": "2d5a05c79217cee7ddc978f91deae284703ef98250ab09bd042c98f3951bb53b",
+      "host": "media.base44.com",
+      "checkedAt": "2026-10-22T23:40:42.903Z"
+    }
+  ],
+  "stripeAccount": "acct_1TRr2YEMr9QX7GBL",
+  "pricesCheckedAt": "2026-10-22T23:52:07.541Z",
+  "prices": [
+    {
+      "bookId": "building-resilience",
+      "priceId": "price_1UTVmFEMr9QX7GBLhkz4bJ1x",
+      "unitAmount": 990,
+      "currency": "aud"
+    },
+    {
+      "bookId": "healthy-boundaries",
+      "priceId": "price_1UTVmGEMr9QX7GBLyJaKilb3",
+      "unitAmount": 990,
+      "currency": "aud"
+    }
+  ],
+  "orderLock": {
+    "checkedAt": "2026-10-22T23:52:43.192Z",
+    "id": "6adaa1cb842cbb5e966ad3db",
+    "contenders": 8,
+    "winners": 1,
+    "readbackVerified": true,
+    "unlocked": true
+  },
+  "ownerEmail": {
+    "checkedAt": "2026-10-22T23:53:46.380Z",
+    "reference": "gw_delivery_test_8520afc5-911d-4fd0-9a4c-43cdf4d75571",
+    "providerReceipt": {
+      "success": true
+    },
+    "inboxReceipt": {
+      "confirmedBy": "independent connected Gmail full MIME read",
+      "receivedAt": "2026-10-22T23:53:47Z",
+      "folder": "INBOX",
+      "spf": "pass",
+      "dkim": "pass",
+      "dmarc": "pass",
+      "receiptUrl": "https://mail.google.com/mail/u/?authuser=ganozwaye%40gmail.com#all/1a16608ffa40f1f1"
+    },
+    "attachment": false,
+    "purchase": false
+  },
+  "checkoutEnabled": false,
+  "customerPaymentPerformed": false,
+  "schemasInstalled": [
+    "JournalOrderLock",
+    "JournalBuyerDetails",
+    "JournalPurchase (expanded, existing RLS preserved)"
+  ],
+  "holds": [
+    "four other journals",
+    "bundle",
+    "unrelated merchandise",
+    "unreviewed visual changes"
+  ],
+  "productionReaderProbe": {
+    "checkedAt": "2026-10-23T00:06:57.949Z",
+    "mode": "manual, no redirects followed",
+    "exactBothPdfHashesVerified": true,
+    "checkoutEnabled": false,
+    "priorFailure": "redirect:error fetch TypeError before HTTP response; no access denial reported"
+  },
+  "productionReaderVerified": {
+    "checkedAt": "2026-10-23T00:18:46.562Z",
+    "bothExactPdfHashesVerified": true,
+    "deployedSource": "795813554d93576601e628e83338f0c2abbfd7cb",
+    "probeOnly": false
+  },
+  "nativeIdentityReadback": {
+    "checkedAt": "2026-10-23T00:25:23.478Z",
+    "idMatches": true,
+    "entityVerified": true,
+    "emailMatches": true,
+    "disabled": false
+  },
+  "preparedBackendConfigEnabled": true,
+  "frontendPublicationPending": true,
+  "activeBackend": {
+    "source": "a65047cb95a240a699b622ce9c69fa70cf63d5ee",
+    "functions": [
+      "stripeWebhook",
+      "getJournalPurchases",
+      "confirmJournalPurchase",
+      "cancelJournalCheckout",
+      "downloadJournal",
+      "createJournalCheckout"
+    ],
+    "nativeCliReceipts": "all six deployed; createJournalCheckout last",
+    "verifiedPostflightAt": "2026-10-23T01:01:12.499Z",
+    "verifiedNativeLookup": true,
+    "unacceptedCheckoutStatus": 400,
+    "paymentCreated": false
+  },
+  "backendEnabled": true
+}

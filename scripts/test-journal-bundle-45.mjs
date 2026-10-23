@@ -10,7 +10,7 @@ for(const action of actions){
  const {verifyJournalPrices}=await import(root+'journalHttp.js');
  const books=Array.from({length:6},(_,i)=>({id:'fixture-book-'+i,title:'Fixture '+i,priceCents:990,releaseApproved:true,fileUri:'private/fixture/'+i,sha256:sha256('fixture'+i),stripePriceId:'price_fixture'+i}));
  const cat={enabled:true,approvedVersion:'synthetic-45-only',books,bundleId:'fixture-bundle',bundlePriceCents:4500,bundleEnabled:true,bundleStripePriceId:'price_fixturebundle'};
- const ids=books.map(b=>b.id),user={id:'fixture',email:'fixture@example.invalid'};
+ const ids=books.map(b=>b.id),user={id:'fixture',email:'fixture@example.invalid',is_verified:true};
  assert.equal(C.journalOffer(cat,cat.bundleId).priceCents,4500);
  assert.equal(journalBasketQuote({books,selectedIds:ids,bundle:true}).totalCents,4500);
  assert.equal(planJournalPurchase({catalogue:cat,selectedIds:ids,verifiedOwnedIds:[],bundleRequested:true}).totalCents,4500);

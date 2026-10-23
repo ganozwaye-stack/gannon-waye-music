@@ -35,7 +35,9 @@ export default function JournalAccount(){
   </form>
   {message&&<p className="my-4" role="status">{message}</p>}
   <div className="flex flex-wrap gap-4 my-6">
-   <Button variant="outline" disabled={busy} onClick={()=>{setMode(mode==='register'?'login':'register');setMessage('');}}> {mode==='register'?'Already have an account? Sign in':'Create a journal account'}</Button>
+   <Button variant="outline" disabled={busy||mode==='login'} onClick={()=>{setMode('login');setMessage('');}}>Sign in</Button>
+   <Button variant="outline" disabled={busy||mode==='register'} onClick={()=>{setMode('register');setMessage('');}}>Create a journal account</Button>
+   <Button variant="outline" disabled={busy||mode==='verify'} onClick={()=>{setMode('verify');setPassword('');setCode('');setMessage('Enter your email and verification code, or request another code.');}}>Verify existing account</Button>
    {mode==='verify'&&<Button variant="outline" disabled={busy} onClick={resend}>Request another code</Button>}
   </div>
   <Link className="underline text-primary" to="/coaching#journals">Back to journals</Link>

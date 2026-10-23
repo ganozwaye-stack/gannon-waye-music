@@ -1,5 +1,5 @@
 import {createClientFromRequest} from 'npm:@base44/sdk@0.8.30';
-import Stripe from 'npm:stripe@14.21.0';
+import Stripe from 'npm:stripe@22.6.0';
 import {createJournalHttpHandler} from './journalHttp.js';
 import {RELEASE_CONFIG} from './releaseConfig.js';
 import {JournalAccessError} from './journalCommerce.js';
@@ -8,6 +8,6 @@ const createStripe=()=>{
  if(!RELEASE_CONFIG.stripeKeyEnv)throw new JournalAccessError('payment_binding_not_configured',503);
  const key=Deno.env.get(RELEASE_CONFIG.stripeKeyEnv);if(!key)throw new JournalAccessError('payment_binding_not_configured',503);
  if(RELEASE_CONFIG.liveMode?!key.startsWith('sk_live_'):!key.startsWith('sk_test_'))throw new JournalAccessError('payment_mode_not_configured',503);
- return new Stripe(key,{apiVersion:'2023-10-16'});
+ return new Stripe(key,{apiVersion:'2026-08-26.dahlia'});
 };
-Deno.serve(createJournalHttpHandler('getJournalPurchases',{release:RELEASE_CONFIG,createRequestClient:createClientFromRequest,createStripe,sha256,fetchImpl:fetch}));
+Deno.serve((req:Request)=>createJournalHttpHandler('getJournalPurchases',{release:RELEASE_CONFIG,createRequestClient:createClientFromRequest,createStripe,sha256,fetchImpl:fetch,sendJournalEmail:async(message:any)=>{const receipt=await createClientFromRequest(req).asServiceRole.integrations.Core.SendEmail(message);return {accepted:receipt?.accepted===true||receipt?.success===true};}})(req));

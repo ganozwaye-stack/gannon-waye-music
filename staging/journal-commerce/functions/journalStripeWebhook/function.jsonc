@@ -1,0 +1,4 @@
+{
+  "name": "journalStripeWebhook",
+  "entry": "entry.ts"
+}

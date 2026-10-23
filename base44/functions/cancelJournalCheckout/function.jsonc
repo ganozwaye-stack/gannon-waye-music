@@ -1,0 +1,4 @@
+{
+  "name": "cancelJournalCheckout",
+  "entry": "entry.ts"
+}

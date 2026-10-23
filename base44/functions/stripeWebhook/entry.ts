@@ -1,3 +1,4 @@
+import {isJournalEvent,journalWebhook} from './journalAdapter.ts';
 /**
  * Primary Stripe webhook for paid merchandise orders.
  *
@@ -18,9 +19,10 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.30';
 import {
   captureOrderFromSession,
   createDiagnostic,
-} from '../../shared/checkoutOrderCapture.js';
+} from './checkoutOrderCapture.js';
 
 Deno.serve(async (req) => {
+  const journalRequest=req.clone();
   const base44 = createClientFromRequest(req);
   const secretKey = String(Deno.env.get('STRIPE_SECRET_KEY') || '').trim();
   const webhookSecret = String(Deno.env.get('STRIPE_WEBHOOK_SECRET') || '').trim();
@@ -55,7 +57,7 @@ Deno.serve(async (req) => {
     } else {
       event = JSON.parse(rawBody);
     }
-  } catch (error) {
+  } catch (error: any) {
     await createDiagnostic(base44, `stripeWebhook signature or payload verification failed: ${String(error?.message || error).slice(0, 240)}`, {
       diagnostic_type: 'webhook_signature_failure',
       severity: 'critical',
@@ -65,6 +67,8 @@ Deno.serve(async (req) => {
     });
     return Response.json({ error: 'Webhook verification failed.' }, { status: 400 });
   }
+
+  if (isJournalEvent(event)) return journalWebhook(journalRequest);
 
   if (event.type !== 'checkout.session.completed') {
     return Response.json({
@@ -130,7 +134,7 @@ Deno.serve(async (req) => {
       received: true,
       duplicate: true,
       order_id: capture.order.id,
-      post_processing: capture.postProcessing.success ? 'complete_or_queued' : 'needs_attention',
+      post_processing: capture.postProcessing!.success ? 'complete_or_queued' : 'needs_attention',
     });
   }
 
@@ -151,7 +155,7 @@ Deno.serve(async (req) => {
       received: true,
       order_id: capture.order.id,
       stripe_event_id: event.id,
-      post_processing: capture.postProcessing.success ? 'complete_or_queued' : 'needs_attention',
+      post_processing: capture.postProcessing!.success ? 'complete_or_queued' : 'needs_attention',
     });
   }
 

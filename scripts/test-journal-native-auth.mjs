@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {readFile} from 'node:fs/promises';
+import {runInNewContext} from 'node:vm';
+const source=(await readFile(new URL('../src/api/base44Client.js',import.meta.url),'utf8')).replace(/^import .*;$/gm,'').replace('export const base44 =','const base44 =')+'\nglobalThis.testClient=base44;';
+let current=null,calls=0;
+const sdk={auth:{me:async()=>{calls++;return current;},loginViaEmailPassword:async()=>{current={id:'fixture-buyer',email:'buyer@example.invalid',is_verified:true};}},functions:{},entities:{}};
+const context={createClient:()=>sdk,appParams:{appId:'fixture-app',token:undefined},window:{location:{hostname:'gannonwaye.com'}},localStorage:{getItem:()=>null}};
+runInNewContext(source,context);
+assert.equal(await context.testClient.auth.me(),null);assert.equal(calls,1);
+await context.testClient.auth.loginViaEmailPassword('buyer@example.invalid','fixture-only');
+assert.equal((await context.testClient.auth.me()).is_verified,true);assert.equal(calls,2);
+current={...current,is_verified:false};assert.equal((await context.testClient.auth.me()).is_verified,false);assert.equal(calls,3);
+console.log('PASS native auth: anonymous boot retains SDK me(); later login and verification state remain fresh. Synthetic, no network or credentials.');

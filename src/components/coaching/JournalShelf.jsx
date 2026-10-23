@@ -39,7 +39,7 @@ export default function JournalShelf() {
         ))}
       </div>
       <Dialog open={!!selected} onOpenChange={open => { if (!open) selectBook(null); }}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto" data-testid="journal-preview-modal">
+        <DialogContent overlayStyle={{zIndex:200}} style={{zIndex:201}} className="max-w-2xl max-h-[85vh] overflow-y-auto" data-testid="journal-preview-modal">
           {selected && <>
             <DialogHeader>
               <DialogTitle className="font-poppins font-bold text-3xl">{selected.title}</DialogTitle>

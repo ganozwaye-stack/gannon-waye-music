@@ -1,3 +1,4 @@
+import {isJournalPrivateUri} from './journalPrivateUri.js';
 // Backend-only journal commerce policy. Do not import this module into public UI.
 export const JOURNAL_POLICY = 'gw_paid_journals_v1';
 export const JOURNAL_APP_ID = '69eb7905ca6eb4180010f794';
@@ -19,7 +20,7 @@ export function validateJournalCatalogue(catalogue) {
   for (const book of books) {
     if (!/^[a-z0-9][a-z0-9-]{1,79}$/.test(book.id || '') || ids.has(book.id)) deny('journals_not_ready', 503);
     ids.add(book.id);
-    if (!text(book.title) || !text(book.fileUri).startsWith('private/') ||
+    if (!text(book.title) || !isJournalPrivateUri(book.fileUri) ||
         !/^[a-f0-9]{64}$/.test(book.sha256 || '') || book.priceCents !== 990) deny('journals_not_ready', 503);
   }
   if (!text(catalogue.bundleId) || ids.has(catalogue.bundleId) || catalogue.bundlePriceCents !== 4500) deny('journals_not_ready', 503);

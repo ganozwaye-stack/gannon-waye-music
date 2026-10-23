@@ -1,0 +1,2 @@
+export const JOURNAL_DELIVERY_TERMS_VERSION="gw_journal_mixed_delivery_v2_20261022";
+export const JOURNAL_DELIVERY_NOTICE="Digital journals are delivered by email after payment. Once delivered, we do not offer change-of-mind refunds. For further information about your consumer rights, visit the ACCC at https://www.accc.gov.au/consumers/buying-products-and-services/consumer-rights-and-guarantees.";

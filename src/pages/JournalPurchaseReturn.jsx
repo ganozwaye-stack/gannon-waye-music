@@ -45,7 +45,7 @@ export default function JournalPurchaseReturn(){
   finally{setBusy(false);}
  };
  const resume=()=>{
-  try{const url=new URL(state.checkoutUrl);if(url.protocol==='https:'&&url.hostname==='checkout.stripe.com'&&!url.username&&!url.password)window.location.assign(url.href);}
+  try{const url=new URL(state.checkoutUrl);if(url.protocol!=='https:'||url.hostname!=='checkout.stripe.com'||url.username||url.password||url.port)throw Error('Invalid checkout URL');window.location.assign(url.href);}
   catch{setMessage('Checkout is unavailable. Please check again before paying.');}
  };
  return <main className="container mx-auto px-6 py-16 max-w-3xl font-body" data-testid="journal-purchase-return">

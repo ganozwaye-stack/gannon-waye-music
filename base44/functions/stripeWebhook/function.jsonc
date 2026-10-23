@@ -1,4 +1,1 @@
-{
-  "name": "stripeWebhook",
-  "entry": "entry.ts"
-}
+{"name": "stripeWebhook", "entry": "entry.ts"}
