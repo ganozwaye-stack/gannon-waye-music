@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
 import {PUBLIC_JOURNALS,JOURNAL_PURCHASES_ENABLED} from '../src/lib/publicJournalCatalogue.js';
 import {fulfilJournalDownload,journalOffer,journalCheckoutParams,JOURNAL_POLICY,JOURNAL_APP_ID,JOURNAL_ABN} from '../base44/shared/journalCommerce.js';
-assert.equal(PUBLIC_JOURNALS.length,6);assert.equal(JOURNAL_PURCHASES_ENABLED,false);
+assert.equal(PUBLIC_JOURNALS.length,6);assert.equal(JOURNAL_PURCHASES_ENABLED,true);
 assert.deepEqual(PUBLIC_JOURNALS.filter(book=>book.releaseApproved).map(book=>book.id).sort(),['building-resilience','healthy-boundaries']);
 const bytes=new TextEncoder().encode('%PDF-local fixture; no actual journal content');
 const sha256=b=>createHash('sha256').update(b).digest('hex');

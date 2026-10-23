@@ -60,7 +60,7 @@
     "attachment": false,
     "purchase": false
   },
-  "checkoutEnabled": false,
+  "checkoutEnabled": true,
   "customerPaymentPerformed": false,
   "schemasInstalled": [
     "JournalOrderLock",
@@ -94,7 +94,7 @@
     "disabled": false
   },
   "preparedBackendConfigEnabled": true,
-  "frontendPublicationPending": true,
+  "frontendPublicationPending": false,
   "activeBackend": {
     "source": "a65047cb95a240a699b622ce9c69fa70cf63d5ee",
     "functions": [
@@ -111,5 +111,22 @@
     "unacceptedCheckoutStatus": 400,
     "paymentCreated": false
   },
-  "backendEnabled": true
+  "backendEnabled": true,
+  "publishedFrontend": {
+    "source": "a2770095fb6234620a7d0856c7a48dd22e42b871",
+    "matchedPublishedBaseline": "d3ee87a336337a40dffc44f76561a53d6fafa843",
+    "publicUrl": "https://gannonwaye.com/coaching",
+    "checkedAt": "2026-10-23T01:19:09.358Z",
+    "mainBundle": "assets/index-DEFp_MgR.js",
+    "mainBundleSha256": "d0894b787fd2ee978e50ae47a8d3cbad8670c29e3b254cacd5235e0b8fbb6a6f",
+    "publishedAssetsVerified": 4,
+    "desktop": "1440x1000 passed",
+    "mobile": "390x844 passed",
+    "homeAndSignInPassed": true,
+    "anonymousLookupStatus": 401,
+    "actualCustomerPaymentPerformed": false,
+    "paidCustomerDeliveryVerified": false,
+    "pendingVisualFilesExcludedAndPreserved": 27
+  },
+  "canonicalActiveFunctionFilesMatchDeployment": 93
 }

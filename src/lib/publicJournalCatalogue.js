@@ -64,6 +64,6 @@ export const PUBLIC_JOURNALS = [
     "coverImageUrl": "/images/coaching/original-advert/cover_4.png"
   }
 ];
-export const JOURNAL_PURCHASES_ENABLED = false;
+export const JOURNAL_PURCHASES_ENABLED = true;
 export const JOURNAL_BUNDLE_COUNT_CONFIRMED = true;
 export const JOURNAL_BUNDLE_PURCHASES_ENABLED = false;
