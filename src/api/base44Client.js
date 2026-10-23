@@ -250,6 +250,4 @@ if (isLocal || token === 'mock-admin-token') {
       return new Proxy(target[entityName], createDummyHandler(entityName));
     },
   });
-} else if (!token) {
-  base44.auth.me = async () => null;
 }

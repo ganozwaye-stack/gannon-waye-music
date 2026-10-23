@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
+import {assertJournalPurchaseState} from '@/lib/journalPurchaseState';
 import { PUBLIC_JOURNALS, JOURNAL_PURCHASES_ENABLED } from '@/lib/publicJournalCatalogue';
 export default function JournalPurchaseReturn(){
  const [params]=useSearchParams(),sessionId=params.get('session_id');
@@ -14,14 +15,14 @@ export default function JournalPurchaseReturn(){
    const response=await base44.functions.invoke('confirmJournalPurchase',{session_id:sessionId});
    const data=response?.data;
    if(!['paid','pending','confirming','expired'].includes(data?.status))throw Error('Unavailable');
-   if(data.status==='paid'&&(!Array.isArray(data.bookIds)||data.bookIds.some(id=>!PUBLIC_JOURNALS.some(b=>b.id===id))))throw Error('Unavailable');
+   assertJournalPurchaseState(data);
    setState(data);
   }catch{setState({status:'unavailable'});setMessage('We could not confirm this payment. Sign in to the purchasing account and check again before buying the same journal.');}
   finally{setBusy(false);}
  };
  useEffect(()=>{refresh();},[sessionId]);
  const download=async id=>{
-  if(state.status!=='paid'||busy||!JOURNAL_PURCHASES_ENABLED)return;
+  if(state.status!=='paid'||!(state.downloadableBookIds||(state.fulfilmentType==='released'?state.bookIds:[])).includes(id)||busy||!JOURNAL_PURCHASES_ENABLED)return;
   setBusy(true);setMessage('');
   try{
    const response=await base44.functions.fetch('/downloadJournal',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -38,6 +39,7 @@ export default function JournalPurchaseReturn(){
   try{
    const response=await base44.functions.invoke('cancelJournalCheckout',{session_id:sessionId});
    if(!['expired','paid','confirming'].includes(response?.data?.status))throw Error('Unavailable');
+   assertJournalPurchaseState(response.data);
    setState(response.data);
   }catch{setMessage('Cancellation could not be confirmed. Please check this checkout before starting another payment.');}
   finally{setBusy(false);}
@@ -50,9 +52,10 @@ export default function JournalPurchaseReturn(){
   <h1 className="font-display text-4xl mb-6">Your journals</h1>
   {!JOURNAL_PURCHASES_ENABLED?<p>Online purchasing is being prepared. No payment is accepted by this page.</p>:<>
    {busy&&<p role="status">Checking your purchase…</p>}
-   {state.status==='paid'&&<><p className="mb-5">Your payment has been verified. Choose a purchased journal to download.</p>
+   {state.status==='paid'&&<><p className="mb-3">Your payment has been verified.</p><p className="mb-5">Order reference: {state.orderId}</p>
     <ul className="space-y-4">{state.bookIds.map(id=><li key={id} className="flex flex-wrap gap-4 items-center">
-     <span>{PUBLIC_JOURNALS.find(b=>b.id===id)?.title}</span><Button disabled={busy} onClick={()=>download(id)}>Download journal</Button></li>)}</ul></>}
+     <span>{PUBLIC_JOURNALS.find(b=>b.id===id)?.title}</span>{(state.downloadableBookIds||(state.fulfilmentType==='released'?state.bookIds:[])).includes(id)?<Button disabled={busy} onClick={()=>download(id)}>Download journal</Button>:<span className="text-sm">Preorder · {state.items?.find(p=>p.bookId===id)?.releaseLabel||'Awaiting the approved release'}</span>}</li>)}</ul>
+    <p className="mt-5">{state.deliveryStatus==='email_accepted'?'Your journal access email has been accepted for sending.':'Your order is recorded. Email confirmation is awaiting confirmation. Download controls appear only beside journals that have been released.'}</p></>}
    {state.status==='pending'&&<><p>Your checkout is still unpaid.</p><div className="flex flex-wrap gap-4 my-4"><Button disabled={busy} onClick={resume}>Resume this checkout</Button><Button variant="outline" disabled={busy} onClick={cancel}>Cancel this unpaid checkout</Button></div></>}
    {state.status==='confirming'&&<p>Payment confirmation is pending. Please check again before starting another checkout.</p>}
    {state.status==='expired'&&<p>This checkout has expired. Check your existing purchases before choosing another checkout.</p>}

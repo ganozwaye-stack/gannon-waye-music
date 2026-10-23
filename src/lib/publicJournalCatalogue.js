@@ -29,8 +29,8 @@ export const PUBLIC_JOURNALS = [
     "description": "A place to think about what you can offer, what you need and where a limit might belong. Through everyday situations, the journal explores values, responsibilities, guilt, time to pause and words that fit, while taking practical constraints seriously. You can reflect privately before deciding whether any action is right for you.",
     "sampleQuestion": "What do you need, and what tells you that this need deserves attention?",
     "samplePageReference": 6,
-    "approvedVersion": "4",
-    "releaseApproved": false,
+    "approvedVersion": "10",
+    "releaseApproved": true,
     "coverImageUrl": "/images/coaching/original-advert/cover_3.png"
   },
   {
@@ -49,8 +49,8 @@ export const PUBLIC_JOURNALS = [
     "description": "A working journal for difficult seasons, grounded in the week you are actually having. Explore your capacity, the difference between facts and interpretations, sources of support and plans that can change. The pages make room for realistic adjustments and manageable next steps, without asking you to prove your strength or find a benefit in everything.",
     "sampleQuestion": "Where does your current plan assume more time or energy than you have?",
     "samplePageReference": 6,
-    "approvedVersion": "3",
-    "releaseApproved": false,
+    "approvedVersion": "11",
+    "releaseApproved": true,
     "coverImageUrl": "/images/coaching/original-advert/cover_5.png"
   },
   {
@@ -66,3 +66,4 @@ export const PUBLIC_JOURNALS = [
 ];
 export const JOURNAL_PURCHASES_ENABLED = false;
 export const JOURNAL_BUNDLE_COUNT_CONFIRMED = true;
+export const JOURNAL_BUNDLE_PURCHASES_ENABLED = false;

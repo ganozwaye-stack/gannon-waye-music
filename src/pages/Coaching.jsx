@@ -1,3 +1,4 @@
+import {JOURNAL_PURCHASES_ENABLED} from '@/lib/publicJournalCatalogue';
 import { useEffect, useRef } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -50,7 +51,7 @@ export default function Coaching() {
 
             <div className="w-16 h-1 gradient-gold-button mx-auto mt-6 mb-6" aria-hidden="true" data-testid="coaching-bottom-rule" />
             <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />
-            <p className="font-body text-base text-foreground/80 leading-relaxed mt-5" data-testid="journal-landing-offer">Six journals: A$9.90 each or all six for A$45. Save A$14.40. Online purchasing and downloads are being prepared; explore the journal previews below.</p>
+            <p className="font-body text-base text-foreground/80 leading-relaxed mt-5" data-testid="journal-landing-offer">{JOURNAL_PURCHASES_ENABLED?'Building Resilience and Healthy Boundaries are available at A$9.90 each, with protected PDF access by email after payment. The other four journals and all-six bundle are preview-only for now.':'Six journals: A$9.90 each or all six for A$45. Save A$14.40. Online purchasing and downloads are being prepared; explore the journal previews below.'}</p>
           </div>
         </header>
         {/* Preserve the approved story and editorial columns. */}
@@ -85,7 +86,7 @@ export default function Coaching() {
       <section ref={view === 'coaching' ? null : viewRef} id="journals" aria-labelledby="journals-title" className="max-w-6xl mx-auto px-5 py-16 scroll-mt-24">
         <div className="rounded-3xl bg-card/60 border border-primary/25 p-7 md:p-10">
           <h2 id="journals-title" className="font-display text-3xl mb-4">Explore the Journals</h2>
-          <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">Journal offer: A$9.90 each, or all six for A$45, saving A$14.40 over six separate purchases. Online purchasing and downloads are currently unavailable. Explore the journal descriptions and preview questions below. One-on-one coaching is optional and separate.</p>
+          <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">{JOURNAL_PURCHASES_ENABLED?'Building Resilience and Healthy Boundaries are available to purchase at A$9.90 each. The other four journals and A$45 all-six bundle remain preview-only. One-on-one coaching is optional and separate.':'Journal offer: A$9.90 each, or all six for A$45, saving A$14.40 over six separate purchases. Online purchasing and downloads are currently unavailable. Explore the journal descriptions and preview questions below. One-on-one coaching is optional and separate.'}</p>
           <JournalShelf />
           <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">Reflective writing together is still in development and is not included in the six-book bundle.</p>
         </div>

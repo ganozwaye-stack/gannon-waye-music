@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { PUBLIC_JOURNALS } from '@/lib/publicJournalCatalogue';
+import { PUBLIC_JOURNALS, JOURNAL_PURCHASES_ENABLED } from '@/lib/publicJournalCatalogue';
 import JournalPurchasePanel from './JournalPurchasePanel';
 
 export default function JournalShelf() {
@@ -19,7 +19,7 @@ export default function JournalShelf() {
     <>
       <p className="font-body text-sm text-muted-foreground">
         Choose a journal to explore its purpose and one question. Full interiors are reserved for purchasers.
-        Online purchasing is being prepared.
+        {JOURNAL_PURCHASES_ENABLED?' Building Resilience and Healthy Boundaries are available to purchase; other titles and the all-six bundle remain preview-only.':' Online purchasing is being prepared.'}
       </p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 auto-rows-fr items-stretch gap-6 mt-8" data-testid="journal-shelf">
         {PUBLIC_JOURNALS.map(book => (
@@ -52,7 +52,7 @@ export default function JournalShelf() {
               <p className="font-body text-base leading-relaxed" data-testid="journal-sample-question">{selected.sampleQuestion}</p>
             </blockquote>
             <p className="font-body text-sm text-muted-foreground">You do not need a coaching call or coaching registration to purchase.
-              Full journal access follows verified payment. Online purchasing is being prepared.</p>
+              {JOURNAL_PURCHASES_ENABLED&&selected.releaseApproved?'Full journal access follows verified payment.':'Purchasing for this preview is not yet open.'}</p>
             <div className="flex gap-3">
               <Button data-testid="journal-close" variant="outline" onClick={() => selectBook(null)}>Close</Button>
             </div>
