@@ -1,0 +1,123 @@
+{
+  "checkedAt": "2026-10-23T04:58:19.630Z",
+  "appId": "69eb7905ca6eb4180010f794",
+  "publicationStatus": "FRONTEND PUBLICATION BLOCKED AFTER TWO UNEXECUTED SITE ATTEMPTS",
+  "liveFrontendSource": "a2770095fb6234620a7d0856c7a48dd22e42b871",
+  "liveBackendSource": "a65047cb95a240a699b622ce9c69fa70cf63d5ee",
+  "preparedFrontendSource": "3c56b61aea2c6743af9a72562b948bd949f65abc",
+  "preparedBackendSource": "93e25440acdfb743d3c480150c4e229876684f35",
+  "preparedBackendFiles": 18,
+  "nativeBackendPackage": "C:/Users/ganno/AppData/Local/Temp/journal_website_recovery_20261021/journal-owner-discount-93e25440",
+  "normalSinglePriceCents": 990,
+  "ownerSinglePriceCents": 99,
+  "ownerOnly": {
+    "appNativeUserId": "6a73da328a15629ec5373c25",
+    "email": "gannonwayemusic@gmail.com",
+    "isVerified": true,
+    "promoId": "6a16abb0198d4c5d294edc12",
+    "restriction": "Exact authenticated native user ID and verified email; exact active server PromoCode; one released BR or HB only. No public or Stripe-entered promotion code."
+  },
+  "tests": {
+    "syntheticPaymentOrderEmailAndDiscount": {
+      "passed": 111,
+      "failed": 0,
+      "realNetworkPaymentOrEmail": false
+    },
+    "scopedAcceptanceBuild": "passed including9supervisor checks and release guards",
+    "browserFixtureViews": [
+      "desktop1440x1000",
+      "mobile390x844"
+    ],
+    "browserFixtureResult": "Passed inline existing-account recovery, same-dialog login, selected title preservation, verified field gate, 99cent quote, unchecked acknowledgements, no horizontal overflow or page errors; no real login/payment/email",
+    "screenshotDirectory": "docs/journal-owner-discount-review-20261023",
+    "cssSha256Unchanged": "51ab2c64f7cba1d70af6b75ce7c22c01082d9d222b9043c93e9d1e43807610a0"
+  },
+  "registration": {
+    "finding": "Existing native app User record already verified; both usual owner emails are present, only music account is discount eligible. No duplicate registration or force-verification performed.",
+    "actualFailedRegistrationCause": "UNKNOWN; original UI discarded native response and no auth-request logs were exposed.",
+    "musicMailboxCheck": "No matching recent Base44 verification email found including Spam/Trash. No resend/code consumption.",
+    "remainingUserStep": "Sign in privately with existing music account password; password/session unavailable to executor. No new registration needed."
+  },
+  "deploymentAttempt": {
+    "action": "Deploy confirmJournalPurchase,cancelJournalCheckout,downloadJournal,stripeWebhook,getJournalPurchases",
+    "result": "Automatic approval review rejected before process execution. No live mutation, no deployment process pending.",
+    "reason": "Live payment/recovery/delivery/webhook deployment changes production behaviour; explicit approval for this exact production deployment required.",
+    "nextApproval": "Approve scoped production deployment of tested owner-only90% journal pricing across six existing journal/webhook functions and site-only inline journal account/discount UI. No other pending visual, backend, credentials, security or customer-Slack changes."
+  },
+  "holds": {
+    "otherFourAndBundle": true,
+    "unreviewedVisualChanges": true,
+    "assistantCharges": 0,
+    "newOrdersOrEmails": 0
+  },
+  "frontendChangedFiles": [
+    "src/components/coaching/JournalPurchasePanel.jsx",
+    "src/pages/JournalAccount.jsx",
+    "src/components/coaching/JournalShelf.jsx",
+    "src/lib/publicJournalCatalogue.js"
+  ],
+  "storyChangesIncluded": false,
+  "backendStatus": {
+    "namedDeployReceipts": "5 unchanged; then createJournalCheckout1 unchanged",
+    "deployedSourceReadback": {
+      "handler": "getJournalPurchases",
+      "journalCommerceSha256": "1d5270c79f7b57eb545e4663308e9a6104da9330309079062391da62e2ea5340",
+      "journalHttpSha256": "0352e48c543179f4f9e28b032d8bc98cfb7071a5cd9b4caaefa626493deac85d",
+      "journalCheckoutRecoverySha256": "6caf3e5feb8a5d20bf1ebdd98ec8f9dfd1fe19529240a7b441c48116cf3a99bc",
+      "matchedPreparedPackage": true
+    },
+    "liveQuoteIneligibleCheck": {
+      "authenticatedEmail": "ganozwaye@gmail.com",
+      "isVerified": true,
+      "httpStatus": 403,
+      "error": "owner_discount_not_eligible",
+      "createdCheckout": false,
+      "createdOrder": false,
+      "sentEmail": false
+    },
+    "liveMusicSessionQuote": "NOT EXERCISED; owner must sign in privately. No impersonation."
+  },
+  "preparedFrontendArtifact": {
+    "path": "C:/Users/ganno/AppData/Local/Temp/journal_website_recovery_20261021/journal-owner-inline-3c56b61a",
+    "fileCount": 33,
+    "allFileHashesVerified": true,
+    "deltaZipSha256": "ca584bb64083451c6fb9a33dc32b96dd90274317cff32bd8cee7d6cf03e6ab6b",
+    "sourceCommit": "3c56b61aea2c6743af9a72562b948bd949f65abc",
+    "changedPublicPaths": [
+      "assets/index-C0AaYK3R.js",
+      "assets/index.es-C5ANutoa.js",
+      "index.html"
+    ]
+  },
+  "availableFirstLayout": {
+    "readyTitles": [
+      "building-resilience",
+      "healthy-boundaries"
+    ],
+    "desktop": "Two slightly larger available cards first, four smaller upcoming cards in one row underneath",
+    "mobile": "Readable full-width stack",
+    "upcomingPurchasesAndBundleHeld": true,
+    "desktopMobileFixtureQa": "passed"
+  },
+  "latestTests": {
+    "syntheticPassed": 111,
+    "syntheticFailed": 0,
+    "scopedBuildAndGuardsPassed": true,
+    "desktopMobileFixtureViewsPassed": 2,
+    "screenshots": 6,
+    "noRealAuthPaymentOrderEmail": true
+  },
+  "latestApprovalEvidence": {
+    "user": "Awesome. Yeah, that's fine. So, that means that I can now purchase",
+    "prompt": "The checkout fixes are ready: account creation on the purchase screen and your email-restricted discount. May I put that live now? Your story won't be published.",
+    "laterUser": "Yes, you can, yes, but please ... put the two that are available at the top ... other four underneath"
+  },
+  "sitePublicationBlock": {
+    "attempts": 2,
+    "processExecution": false,
+    "liveSiteUpdated": false,
+    "reviewReason": "Although scope checks passed, this still publicly deploys an owner-only90%discount and checkout changes without trusted user-authored approval for that exact pricing behavior; deployment is an external commitment.",
+    "noFurtherRetries": true,
+    "smallestNextStep": "Gannon directly confirms publication of this exact owner-only90% journal discount and inline account changes in this task."
+  }
+}
