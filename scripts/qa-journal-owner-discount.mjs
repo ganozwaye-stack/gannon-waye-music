@@ -45,7 +45,7 @@ try{
   await page.screenshot({path:join(evidence,size.name+'-inline-account.png'),fullPage:true});
   await panel.getByRole('button',{name:'Sign in',exact:true}).last().click();
   await panel.getByRole('button',{name:'Sign in',exact:true}).first().click();
-  await panel.getByText('Step 2 · Enter your buyer details.',{exact:false}).waitFor({timeout:10000});
+  try{await panel.getByText('Step 2 · Enter your buyer details.',{exact:false}).waitFor({timeout:10000});}catch(error){console.log(JSON.stringify({requests,signed,panelText:await panel.innerText()}));throw error;}
   await panel.getByLabel('First name',{exact:true}).fill('Synthetic');
   await panel.getByLabel('Last name',{exact:true}).fill('Fixture');
   await panel.getByLabel('Date of birth',{exact:true}).fill('1990-01-01');
