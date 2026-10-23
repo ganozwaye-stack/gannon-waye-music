@@ -1,0 +1,34 @@
+{
+  "recordedAt": "2026-10-23T05:22:46.508Z",
+  "reference": "gw_delivery_test_8520afc5-911d-4fd0-9a4c-43cdf4d75571",
+  "evidenceType": "User supplied the received technical delivery-test body",
+  "userConfirmedTechnicalEmailReceipt": true,
+  "bodyFacts": {
+    "technicalDeliveryTest": true,
+    "noPurchase": true,
+    "noPayment": true,
+    "noPrivatePdfAttached": true,
+    "noAccessGranted": true,
+    "protectedAccountLink": "https://gannonwaye.com/journals/account"
+  },
+  "previousIndependentInboxEvidence": {
+    "receivedAt": "2026-10-22T23:53:47Z",
+    "recipient": "ganozwaye@gmail.com",
+    "spf": "pass",
+    "dkim": "pass",
+    "dmarc": "pass",
+    "receiptUrl": "https://mail.google.com/mail/u/?authuser=ganozwaye%40gmail.com#all/1a16608ffa40f1f1"
+  },
+  "acceptanceLimits": {
+    "publicationApproval": false,
+    "paidPurchaseVerified": false,
+    "paidPdfFulfilmentVerified": false,
+    "authenticatedSessionVerified": false
+  },
+  "actionsThisUpdate": {
+    "newEmailSent": false,
+    "newCheckoutCreated": false,
+    "paymentSubmitted": false,
+    "deploymentRetried": false
+  }
+}
