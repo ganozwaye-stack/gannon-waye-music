@@ -1,0 +1,23 @@
+{
+  "appId": "69eb7905ca6eb4180010f794",
+  "publishedUrl": "https://gannonwaye.com/coaching",
+  "publishedFrontendSource": "a2770095fb6234620a7d0856c7a48dd22e42b871",
+  "publishedBackendSource": "a65047cb95a240a699b622ce9c69fa70cf63d5ee",
+  "frontendBaseline": "d3ee87a336337a40dffc44f76561a53d6fafa843",
+  "patchSha256": "a049eef4dea2148b90dbb1b07e28286b8503bc7621a68ce34a5e59df4d4fb542",
+  "patchBytes": 35220,
+  "patchPath": "docs/JOURNAL_PUBLISHED_FRONTEND_a2770095.patch",
+  "savedVisualFilesStillPending": 27,
+  "readyTitles": [
+    "building-resilience",
+    "healthy-boundaries"
+  ],
+  "eachPriceCents": 990,
+  "bundlePurchasingEnabled": false,
+  "otherFourPurchasingEnabled": false,
+  "customerPaidDeliveryVerified": false,
+  "remainingAcceptance": "Gannon performs own A$9.90 transaction; verify durable paid order, inbox receipt and entitled exact PDF access. No assistant charge.",
+  "publicationBoundary": "Site-only checkout build was published. Main also contains 27 held visual changes; do not full Publish them without review.",
+  "rollback": "Exact old public33-file build saved on connected laptop in task Temp public-rollback-before-a2770095; original webhook entry/helper saved before deploy.",
+  "canonicalWriterTask": "01a16002-459b-702f-875e-0b64a7b390f9"
+}

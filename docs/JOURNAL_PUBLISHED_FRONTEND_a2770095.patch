@@ -1,0 +1,437 @@
+diff --git a/src/App.jsx b/src/App.jsx
+index 2e67122f..479a269f 100644
+--- a/src/App.jsx
++++ b/src/App.jsx
+@@ -202,6 +202,7 @@ import MerchContentBriefs from '@/pages/admin/MerchContentBriefs';
+ import PricingMarginCalculator from '@/pages/admin/PricingMarginCalculator';
+ import Coaching from '@/pages/Coaching';
+ import JournalPurchaseReturn from '@/pages/JournalPurchaseReturn';
++import JournalAccount from '@/pages/JournalAccount';
+ import CoachingSelfWorthReset from '@/pages/CoachingSelfWorthReset';
+ import CoachingBoundaries from '@/pages/CoachingBoundaries';
+ import CoachingCreativeConfidence from '@/pages/CoachingCreativeConfidence';
+@@ -347,6 +348,7 @@ const AuthenticatedApp = () => {
+         {/* Owner-approved story page. Legacy programmes, intake and resources remain held. */}
+         <Route path="/coaching" element={<Coaching />} />
+         <Route path="/journals/purchase" element={<JournalPurchaseReturn />} />
++        <Route path="/journals/account" element={<JournalAccount />} />
+         <Route path="/coaching/workbooks" element={<Navigate to="/coaching#journals" replace />} />
+         <Route path="/coaching/*" element={<Navigate to="/contact" replace />} />
+ 
+diff --git a/src/api/base44Client.js b/src/api/base44Client.js
+index f8c4a59f..9fe046cb 100644
+--- a/src/api/base44Client.js
++++ b/src/api/base44Client.js
+@@ -250,6 +250,4 @@ if (isLocal || token === 'mock-admin-token') {
+       return new Proxy(target[entityName], createDummyHandler(entityName));
+     },
+   });
+-} else if (!token) {
+-  base44.auth.me = async () => null;
+ }
+diff --git a/src/components/coaching/JournalPurchasePanel.jsx b/src/components/coaching/JournalPurchasePanel.jsx
+index ab78881a..d3177937 100644
+--- a/src/components/coaching/JournalPurchasePanel.jsx
++++ b/src/components/coaching/JournalPurchasePanel.jsx
+@@ -1,8 +1,9 @@
++import {journalDeliveryLabel,JOURNAL_CHECKOUT_TERMS_VERSION} from '@/lib/journalOfferDisclosure';
+ import { useEffect, useState } from 'react';
+ import { Link } from 'react-router-dom';
+ import { base44 } from '@/api/base44Client';
+ import { Button } from '@/components/ui/button';
+-import { PUBLIC_JOURNALS, JOURNAL_PURCHASES_ENABLED, JOURNAL_BUNDLE_COUNT_CONFIRMED } from '@/lib/publicJournalCatalogue';
++import { PUBLIC_JOURNALS, JOURNAL_PURCHASES_ENABLED, JOURNAL_BUNDLE_COUNT_CONFIRMED, JOURNAL_BUNDLE_PURCHASES_ENABLED } from '@/lib/publicJournalCatalogue';
+ import { journalBasketQuote } from '@/lib/journalBasket';
+ import { STORE_CRASHED } from '@/config/storeStatus';
+ 
+@@ -12,8 +13,13 @@ export default function JournalPurchasePanel({ book }) {
+   const [ownership, setOwnership] = useState({ status: 'held', ownedBookIds: [], purchases: [] });
+   const [busy, setBusy] = useState(false);
+   const [error, setError] = useState('');
++  const [buyerDetails,setBuyerDetails]=useState({first_name:'',last_name:'',date_of_birth:'',phone:''});
++  const [purchaseRulesAccepted,setPurchaseRulesAccepted]=useState(false);
++  const [selfHelpAcknowledged,setSelfHelpAcknowledged]=useState(false);
++  const updateDetail=(name,value)=>setBuyerDetails(previous=>({...previous,[name]:value}));
++  const termsVersion=JOURNAL_CHECKOUT_TERMS_VERSION;
+   useEffect(() => {
+-    if (!JOURNAL_PURCHASES_ENABLED) return undefined;
++    if (!JOURNAL_PURCHASES_ENABLED || (!book.releaseApproved&&!book.preorderApproved)) return undefined;
+     let active = true;
+     setOwnership({ status: 'checking', ownedBookIds: [], purchases: [] });
+     base44.functions.invoke('getJournalPurchases', {}).then(response => {
+@@ -29,8 +35,10 @@ export default function JournalPurchasePanel({ book }) {
+     return () => { active = false; };
+   }, []);
+   const quote = journalBasketQuote({ books: PUBLIC_JOURNALS, selectedIds, ownedIds: ownership.ownedBookIds, bundle });
+-  const mayPurchase = JOURNAL_PURCHASES_ENABLED && ownership.status === 'ready' &&
+-    quote.bookIds.length > 0 && quote.bookIds.every(id => PUBLIC_JOURNALS.find(item => item.id === id)?.releaseApproved);
++  const detailsComplete=Object.values(buyerDetails).every(value=>value.trim())&&!!ownership.buyer?.email;
++  const includesPreorders=quote.bookIds.some(id=>!['building-resilience','healthy-boundaries'].includes(id));
++  const mayPurchase = (!includesPreorders||ownership.offerTerms?.preorder?.approved===true)&&ownership.offerTerms?.termsVersion===termsVersion&&detailsComplete&&purchaseRulesAccepted&&selfHelpAcknowledged&&JOURNAL_PURCHASES_ENABLED && ownership.status === 'ready' &&
++    quote.bookIds.length > 0 && quote.bookIds.every(id => {const item=PUBLIC_JOURNALS.find(item=>item.id===id);return item?.releaseApproved===true||item?.preorderApproved===true;});
+   const existing = ownership.purchases.find(purchase => purchase.bookIds?.includes(book.id));
+   const toggle = (id, checked) => {
+     setBundle(false);
+@@ -41,8 +49,10 @@ export default function JournalPurchasePanel({ book }) {
+     setBusy(true); setError('');
+     try {
+       const response = await base44.functions.invoke('createJournalCheckout', {
+-        offer_id: quote.bookIds, bundle_requested: quote.bundle,
+-        expected_total_cents: quote.totalCents
++        offer_id: quote.bookIds, bundle_requested: quote.bundle,catalogue_version:ownership.offerTerms?.catalogueVersion,
++        expected_total_cents: quote.totalCents,
++        buyer_details:{...buyerDetails,email:ownership.buyer?.email},
++        purchase_rules_accepted:purchaseRulesAccepted,self_help_acknowledged:selfHelpAcknowledged,terms_version:termsVersion
+       });
+       const data = response?.data || {};
+       if(data.status==='already_owned'){
+@@ -57,14 +67,14 @@ export default function JournalPurchasePanel({ book }) {
+       }
+       if (!data.checkout_url) throw new Error('Please refresh your purchase selection before paying.');
+       const url = new URL(data.checkout_url);
+-      if (url.protocol !== 'https:' || url.hostname !== 'checkout.stripe.com') throw new Error('Checkout unavailable');
++      if (url.protocol !== 'https:' || url.hostname !== 'checkout.stripe.com' || url.username || url.password || url.port) throw new Error('Checkout unavailable');
+       window.location.assign(url.href);
+     } catch {
+       setError('Checkout could not be started. You have not been charged by this page. Please check any existing payment before trying again.');
+     } finally { setBusy(false); }
+   };
+   const access = async () => {
+-    if (!JOURNAL_PURCHASES_ENABLED || !existing || busy) return;
++    if (!JOURNAL_PURCHASES_ENABLED || !existing?.downloadableBookIds?.includes(book.id) || busy) return;
+     setBusy(true); setError('');
+     try {
+       const response = await base44.functions.fetch('/downloadJournal', {
+@@ -80,39 +90,53 @@ export default function JournalPurchasePanel({ book }) {
+     } catch { setError('We could not confirm access right now. Please try again; do not purchase the same journal again.'); }
+     finally { setBusy(false); }
+   };
++  if(!book.releaseApproved&&!book.preorderApproved)return <p className="font-body text-sm leading-relaxed">This journal is available to preview. Purchasing for this title and the all-six bundle is not yet open.</p>;
+   return (
+     <div className="font-body space-y-4" data-testid="journal-purchase-panel">
++      <fieldset className="ph-no-capture grid gap-3 sm:grid-cols-2" disabled={busy||!JOURNAL_PURCHASES_ENABLED||ownership.status!=='ready'}>
++       <legend className="text-sm font-semibold mb-2">Required buyer details</legend>
++       <label className="text-sm">First name<input className="block w-full rounded border bg-background p-2 mt-1" required autoComplete="given-name" value={buyerDetails.first_name} onChange={e=>updateDetail('first_name',e.target.value)}/></label>
++       <label className="text-sm">Last name<input className="block w-full rounded border bg-background p-2 mt-1" required autoComplete="family-name" value={buyerDetails.last_name} onChange={e=>updateDetail('last_name',e.target.value)}/></label>
++       <label className="text-sm">Date of birth<input className="block w-full rounded border bg-background p-2 mt-1" required type="date" autoComplete="bday" max={new Date().toISOString().slice(0,10)} value={buyerDetails.date_of_birth} onChange={e=>updateDetail('date_of_birth',e.target.value)}/></label>
++       <label className="text-sm">Phone number<input className="block w-full rounded border bg-background p-2 mt-1" required type="tel" autoComplete="tel" value={buyerDetails.phone} onChange={e=>updateDetail('phone',e.target.value)}/></label>
++       <label className="text-sm sm:col-span-2">Verified email address<input className="block w-full rounded border bg-background p-2 mt-1" required type="email" readOnly value={ownership.buyer?.email||''}/></label>
++      </fieldset>
++      <Link className="block text-sm text-primary underline" to="/journals/account">Sign in or verify your journal account</Link>
+       <fieldset className="space-y-2">
+         <legend className="text-sm font-semibold mb-2">Other journals you can choose to add</legend>
+         {PUBLIC_JOURNALS.filter(item => item.id !== book.id).map(item => (
+           <label key={item.id} className="flex gap-3 items-start text-sm">
+-            <input type="checkbox" disabled={busy} checked={selectedIds.includes(item.id)} onChange={event => toggle(item.id, event.target.checked)} />
+-            <span>{item.title} · A$9.90{ownership.ownedBookIds.includes(item.id) ? ' · Already purchased' : ''}</span>
++            <input type="checkbox" disabled={busy||(!item.releaseApproved&&!item.preorderApproved)} checked={selectedIds.includes(item.id)} onChange={event => toggle(item.id, event.target.checked)} />
++            <span>{item.title} · A$9.90 · {journalDeliveryLabel(item.id)}{ownership.ownedBookIds.includes(item.id) ? ' · Already purchased' : ''}</span>
+           </label>
+         ))}
+       </fieldset>
+       <label className="flex gap-3 items-start text-sm">
+-        <input type="checkbox" disabled={busy || !JOURNAL_BUNDLE_COUNT_CONFIRMED || ownership.ownedBookIds.length > 0} checked={quote.bundle}
++        <input type="checkbox" disabled={busy || !JOURNAL_BUNDLE_PURCHASES_ENABLED || !JOURNAL_BUNDLE_COUNT_CONFIRMED || ownership.ownedBookIds.length > 0} checked={quote.bundle}
+           onChange={event => {
+             setBundle(event.target.checked);
+             setSelectedIds(event.target.checked ? PUBLIC_JOURNALS.map(item => item.id) : [book.id]);
+           }} />
+-        <span>Choose all six journals · A$45 (save A$14.40)</span>
++        <span>All six journals · A$45 (save A$14.40) · purchasing not open</span>
+       </label>
+       <ul className="text-sm space-y-1" aria-label="Selected journals">
+         {selectedIds.map(id => {
+           const item = PUBLIC_JOURNALS.find(entry => entry.id === id);
+-          return <li key={id}>{item.title} · {quote.alreadyOwned.includes(id) ? 'Already purchased' : quote.bundle ? 'Included in bundle' : 'A$9.90'}</li>;
++          return <li key={id}>{item.title} · {quote.alreadyOwned.includes(id) ? 'Already purchased' : quote.bundle ? 'Included in bundle' : 'A$9.90'} · {journalDeliveryLabel(id)}</li>;
+         })}
+       </ul>
+       <p className="font-semibold" data-testid="journal-selection-total">Total: {'A$'}{(quote.totalCents / 100).toFixed(2)}</p>
+       {!JOURNAL_PURCHASES_ENABLED && <p className="text-sm text-muted-foreground">Online purchasing is being prepared.</p>}
++      <p className="text-sm leading-relaxed text-foreground/90" id="journal-purchase-policy" data-testid="journal-delivery-notice">Digital journals are delivered by email after payment. Once delivered, we do not offer change-of-mind refunds. For further information about your consumer rights, visit the ACCC at <a className="underline text-primary" href="https://www.accc.gov.au/consumers/buying-products-and-services/consumer-rights-and-guarantees" target="_blank" rel="noopener noreferrer">https://www.accc.gov.au/consumers/buying-products-and-services/consumer-rights-and-guarantees</a>.</p>
++      {includesPreorders&&<p className="text-sm leading-relaxed">{ownership.offerTerms?.preorder?.approved===true?'Undelivered preorders: '+ownership.offerTerms.preorder.cancellationText:'Preorder purchasing remains unavailable while its cancellation terms are confirmed.'}</p>}
++      <label className="flex gap-3 items-start text-sm"><input type="checkbox" checked={purchaseRulesAccepted} disabled={busy} onChange={event=>setPurchaseRulesAccepted(event.target.checked)}/><span>I have read and agree to the <a className="underline text-primary" href="#journal-purchase-policy">purchase terms and refund policy</a>.</span></label>
++      <label className="flex gap-3 items-start text-sm"><input type="checkbox" checked={selfHelpAcknowledged} disabled={busy} onChange={event=>setSelfHelpAcknowledged(event.target.checked)}/><span>I understand that these journals provide educational self-help and reflection activities. They are not psychological therapy, medical advice or a substitute for care from a qualified health professional.</span></label>
+       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
+-      {ownership.status === 'unavailable' && <Link to="/login" className="text-sm text-primary underline">Sign in to check your purchases</Link>}
++      {ownership.status === 'unavailable' && <Link to="/journals/account" className="text-sm text-primary underline">Sign in to check your purchases</Link>}
+       {ownership.pending?.map(pending=><Link key={pending.sessionId} className="block text-sm text-primary underline"
+         to={'/journals/purchase?session_id='+encodeURIComponent(pending.sessionId)}>Review your unpaid journal checkout</Link>)}
+-      {existing && <Button onClick={access} disabled={busy}>Access your purchased journal</Button>}
+-      <Button onClick={purchase} disabled={!mayPurchase || busy}>{busy ? 'Please wait…' : 'Purchase'}</Button>
++      {existing?.downloadableBookIds?.includes(book.id) ? <Button onClick={access} disabled={busy}>Access your purchased journal</Button> : existing ? <p className="text-sm">Already purchased · {journalDeliveryLabel(book.id)}. Do not purchase another copy.</p> : null}
++      <Button onClick={purchase} disabled={!mayPurchase || busy}>{busy ? 'Please wait…' : 'Buy selected journals'}</Button>
+       <p className="text-xs text-muted-foreground">
+         {STORE_CRASHED ? 'Gannon Waye merchandise · online ordering currently unavailable' :
+           <Link to="/store" className="underline">Gannon Waye merchandise</Link>}
+diff --git a/src/components/coaching/JournalShelf.jsx b/src/components/coaching/JournalShelf.jsx
+index 3aa66704..e809edda 100644
+--- a/src/components/coaching/JournalShelf.jsx
++++ b/src/components/coaching/JournalShelf.jsx
+@@ -1,7 +1,7 @@
+ import { useSearchParams } from 'react-router-dom';
+ import { Button } from '@/components/ui/button';
+ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+-import { PUBLIC_JOURNALS } from '@/lib/publicJournalCatalogue';
++import { PUBLIC_JOURNALS, JOURNAL_PURCHASES_ENABLED } from '@/lib/publicJournalCatalogue';
+ import JournalPurchasePanel from './JournalPurchasePanel';
+ 
+ export default function JournalShelf() {
+@@ -19,7 +19,7 @@ export default function JournalShelf() {
+     <>
+       <p className="font-body text-sm text-muted-foreground">
+         Choose a journal to explore its purpose and one question. Full interiors are reserved for purchasers.
+-        Online purchasing is being prepared.
++        {JOURNAL_PURCHASES_ENABLED ? 'Building Resilience and Healthy Boundaries are available for A$9.90 each, with email access after payment. The other four journals and the all-six bundle remain preview-only.' : 'Online purchasing is being prepared.'}
+       </p>
+       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8" data-testid="journal-shelf">
+         {PUBLIC_JOURNALS.map(book => (
+@@ -37,7 +37,7 @@ export default function JournalShelf() {
+         ))}
+       </div>
+       <Dialog open={!!selected} onOpenChange={open => { if (!open) selectBook(null); }}>
+-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto" data-testid="journal-preview-modal">
++        <DialogContent overlayStyle={{zIndex:200}} style={{zIndex:201}} className="max-w-2xl max-h-[85vh] overflow-y-auto" data-testid="journal-preview-modal">
+           {selected && <>
+             <DialogHeader>
+               <DialogTitle className="font-display text-3xl">{selected.title}</DialogTitle>
+@@ -50,7 +50,7 @@ export default function JournalShelf() {
+               <p className="font-body text-base leading-relaxed" data-testid="journal-sample-question">{selected.sampleQuestion}</p>
+             </blockquote>
+             <p className="font-body text-sm text-muted-foreground">You do not need a coaching call or coaching registration to purchase.
+-              Full journal access follows verified payment. Online purchasing is being prepared.</p>
++              {JOURNAL_PURCHASES_ENABLED && selected.releaseApproved ? 'Email access follows verified payment.' : 'Purchasing for this title is not open yet.'}</p>
+             <div className="flex gap-3">
+               <Button data-testid="journal-close" variant="outline" onClick={() => selectBook(null)}>Close</Button>
+             </div>
+diff --git a/src/components/ui/dialog.jsx b/src/components/ui/dialog.jsx
+index 0d7981be..ded25495 100644
+--- a/src/components/ui/dialog.jsx
++++ b/src/components/ui/dialog.jsx
+@@ -25,9 +25,9 @@ const DialogOverlay = React.forwardRef(({ className, ...props }, ref) => (
+ ))
+ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
+ 
+-const DialogContent = React.forwardRef(({ className, children, ...props }, ref) => (
++const DialogContent = React.forwardRef(({ className, children, overlayStyle, ...props }, ref) => (
+   <DialogPortal>
+-    <DialogOverlay />
++    <DialogOverlay style={overlayStyle} />
+     <DialogPrimitive.Content
+       ref={ref}
+       className={cn(
+diff --git a/src/lib/journalOfferDisclosure.js b/src/lib/journalOfferDisclosure.js
+new file mode 100644
+index 00000000..839e063d
+--- /dev/null
++++ b/src/lib/journalOfferDisclosure.js
+@@ -0,0 +1,10 @@
++import {PUBLIC_JOURNALS} from './publicJournalCatalogue.js';
++// Approved commercial presentation. These labels do not open purchase/release gates.
++export const IMMEDIATE_JOURNAL_IDS=['building-resilience','healthy-boundaries'];
++export const JOURNAL_PREORDER_DATE='2026-11-02';
++export const JOURNAL_PREORDER_LABEL='Monday 2 November 2026 (Melbourne)';
++export const JOURNAL_CHECKOUT_TERMS_VERSION='gw_journal_mixed_delivery_v2_20261022';
++export function journalDeliveryLabel(id){
++ const book=PUBLIC_JOURNALS.find(book=>book.id===id);
++ return book?.releaseApproved===true?'Email delivery after payment':book?.preorderApproved===true?'Preorder · '+JOURNAL_PREORDER_LABEL:'Preview only · purchasing not open';
++}
+diff --git a/src/lib/journalPurchaseState.js b/src/lib/journalPurchaseState.js
+new file mode 100644
+index 00000000..ff82a075
+--- /dev/null
++++ b/src/lib/journalPurchaseState.js
+@@ -0,0 +1,25 @@
++import {PUBLIC_JOURNALS} from './publicJournalCatalogue.js';
++export function assertJournalPurchaseState(data){
++ if(data?.status!=='paid')return;
++ const known=id=>PUBLIC_JOURNALS.some(b=>b.id===id);
++ if(!data.orderId||!Array.isArray(data.bookIds)||data.bookIds.length<1||new Set(data.bookIds).size!==data.bookIds.length||
++  data.bookIds.some(id=>!known(id)))throw Error('Unverified paid order');
++ if(!data.items){
++  if(data.fulfilmentType!=='released'||data.downloadReady!==true)throw Error('Unverified paid order');
++  return;
++ }
++ if(!['released','mixed','preorder'].includes(data.fulfilmentType)||!Array.isArray(data.items)||
++  data.items.length!==data.bookIds.length||new Set(data.items.map(p=>p.bookId)).size!==data.bookIds.length||
++  data.items.some(p=>!data.bookIds.includes(p.bookId)||!['released','preorder'].includes(p.fulfilmentType)||
++   (p.fulfilmentType==='preorder'&&(!/^\d{4}-\d{2}-\d{2}$/.test(p.releaseDate||'')||p.timeZone!=='Australia/Melbourne'))))
++  throw Error('Unverified item plan');
++ const ids=data.downloadableBookIds;
++ if(!Array.isArray(ids)||new Set(ids).size!==ids.length||ids.some(id=>!data.bookIds.includes(id))||
++  data.downloadReady!==(ids.length>0))throw Error('Unverified download entitlement');
++ if(ids.some(id=>data.items.find(p=>p.bookId===id).fulfilmentType!=='released'&&
++  !data.releasedItems?.some(p=>p.bookId===id&&/^[a-f0-9]{64}$/.test(p.sha256||'')&&p.editionVersion)))
++  throw Error('Unverified final edition');
++ const immediate=data.items.filter(p=>p.fulfilmentType==='released').length;
++ if(data.fulfilmentType!==(immediate===data.items.length?'released':immediate?'mixed':'preorder'))
++  throw Error('Unverified fulfilment type');
++}
+diff --git a/src/lib/publicJournalCatalogue.js b/src/lib/publicJournalCatalogue.js
+index 68ea769c..8c575246 100644
+--- a/src/lib/publicJournalCatalogue.js
++++ b/src/lib/publicJournalCatalogue.js
+@@ -29,8 +29,8 @@ export const PUBLIC_JOURNALS = [
+     "description": "A place to think about what you can offer, what you need and where a limit might belong. Through everyday situations, the journal explores values, responsibilities, guilt, time to pause and words that fit, while taking practical constraints seriously. You can reflect privately before deciding whether any action is right for you.",
+     "sampleQuestion": "What do you need, and what tells you that this need deserves attention?",
+     "samplePageReference": 6,
+-    "approvedVersion": "4",
+-    "releaseApproved": false,
++    "approvedVersion": "10",
++    "releaseApproved": true,
+     "coverImageUrl": "/images/coaching/original-advert/cover_3.png"
+   },
+   {
+@@ -49,8 +49,8 @@ export const PUBLIC_JOURNALS = [
+     "description": "A working journal for difficult seasons, grounded in the week you are actually having. Explore your capacity, the difference between facts and interpretations, sources of support and plans that can change. The pages make room for realistic adjustments and manageable next steps, without asking you to prove your strength or find a benefit in everything.",
+     "sampleQuestion": "Where does your current plan assume more time or energy than you have?",
+     "samplePageReference": 6,
+-    "approvedVersion": "3",
+-    "releaseApproved": false,
++    "approvedVersion": "11",
++    "releaseApproved": true,
+     "coverImageUrl": "/images/coaching/original-advert/cover_5.png"
+   },
+   {
+@@ -64,5 +64,6 @@ export const PUBLIC_JOURNALS = [
+     "coverImageUrl": "/images/coaching/original-advert/cover_4.png"
+   }
+ ];
+-export const JOURNAL_PURCHASES_ENABLED = false;
++export const JOURNAL_PURCHASES_ENABLED = true;
+ export const JOURNAL_BUNDLE_COUNT_CONFIRMED = true;
++export const JOURNAL_BUNDLE_PURCHASES_ENABLED = false;
+diff --git a/src/pages/Coaching.jsx b/src/pages/Coaching.jsx
+index 9ff82c40..bcbf5f19 100644
+--- a/src/pages/Coaching.jsx
++++ b/src/pages/Coaching.jsx
+@@ -1,3 +1,4 @@
++import {JOURNAL_PURCHASES_ENABLED} from '@/lib/publicJournalCatalogue';
+ import { useEffect, useRef } from 'react';
+ import { useLocation, useSearchParams } from 'react-router-dom';
+ import { Button } from '@/components/ui/button';
+@@ -46,7 +47,7 @@ export default function Coaching() {
+ 
+             <div className="w-16 h-1 gradient-gold-button mx-auto mt-6 mb-6" aria-hidden="true" data-testid="coaching-bottom-rule" />
+             <Actions onExplore={() => choose('journals')} onEnquire={() => choose('coaching')} />
+-            <p className="font-body text-base text-foreground/80 leading-relaxed mt-5" data-testid="journal-landing-offer">Six journals: A$9.90 each or all six for A$45. Save A$14.40. Online purchasing and downloads are being prepared; explore the journal previews below.</p>
++            <p className="font-body text-base text-foreground/80 leading-relaxed mt-5" data-testid="journal-landing-offer">{JOURNAL_PURCHASES_ENABLED ? 'Building Resilience and Healthy Boundaries: A$9.90 each, with email access after payment. Purchasing for the other four journals and the A$45 all-six bundle is not yet open.' : 'Six journals: A$9.90 each or all six for A$45. Save A$14.40. Online purchasing and downloads are being prepared; explore the journal previews below.'}</p>
+           </div>
+         </header>
+         {/* Preserve the approved story and editorial columns. */}
+@@ -81,7 +82,7 @@ export default function Coaching() {
+       <section id="journals" aria-labelledby="journals-title" className="max-w-6xl mx-auto px-5 py-16 scroll-mt-24">
+         <div className="rounded-3xl bg-card/60 border border-primary/25 p-7 md:p-10">
+           <h2 id="journals-title" className="font-display text-3xl mb-4">Explore the Journals</h2>
+-          <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">Journal offer: A$9.90 each, or all six for A$45, saving A$14.40 over six separate purchases. Online purchasing and downloads are currently unavailable. Explore the journal descriptions and preview questions below. One-on-one coaching is optional and separate.</p>
++          <p className="font-body text-base text-foreground/80 leading-relaxed mb-4">{JOURNAL_PURCHASES_ENABLED ? 'Building Resilience and Healthy Boundaries are available for A$9.90 each, with email access after payment. Explore the other four previews; purchasing for those titles and the A$45 all-six bundle is not open. One-on-one coaching is optional and separate.' : 'Journal offer: A$9.90 each, or all six for A$45, saving A$14.40 over six separate purchases. Online purchasing and downloads are currently unavailable. Explore the journal descriptions and preview questions below. One-on-one coaching is optional and separate.'}</p>
+           <JournalShelf />
+           <p className="font-body text-sm text-muted-foreground leading-relaxed mt-5">Reflective writing together is still in development and is not included in the six-book bundle.</p>
+         </div>
+diff --git a/src/pages/JournalAccount.jsx b/src/pages/JournalAccount.jsx
+new file mode 100644
+index 00000000..e8e01091
+--- /dev/null
++++ b/src/pages/JournalAccount.jsx
+@@ -0,0 +1,45 @@
++import {useState} from 'react';
++import {Link} from 'react-router-dom';
++import {base44} from '@/api/base44Client';
++import {Button} from '@/components/ui/button';
++export default function JournalAccount(){
++ const [mode,setMode]=useState('login'),[email,setEmail]=useState(''),[password,setPassword]=useState(''),[code,setCode]=useState('');
++ const [busy,setBusy]=useState(false),[message,setMessage]=useState('');
++ const finish=async()=>{
++  const user=await base44.auth.me();
++  if(user?.is_verified!==true){setMode('verify');setMessage('Verify your email with the code from Base44 before purchasing.');return;}
++  setPassword('');window.location.assign('/coaching#journals');
++ };
++ const submit=async event=>{
++  event.preventDefault();if(busy)return;setBusy(true);setMessage('');
++  try{
++   if(mode==='register'){await base44.auth.register({email:email.trim().toLowerCase(),password});setMode('verify');setMessage('Enter the verification code sent to your email.');}
++   else if(mode==='verify'){await base44.auth.verifyOtp({email:email.trim().toLowerCase(),otpCode:code.trim()});setCode('');if(password){await base44.auth.loginViaEmailPassword(email.trim().toLowerCase(),password);await finish();}else{setMode('login');setMessage('Email verified. Sign in to continue.');}}
++   else{await base44.auth.loginViaEmailPassword(email.trim().toLowerCase(),password);await finish();}
++  }catch{setMessage('This step could not be completed. Check your details or request a new verification code.');}
++  finally{setBusy(false);}
++ };
++ const resend=async()=>{
++  if(busy||!email.trim())return;setBusy(true);
++  try{await base44.auth.resendOtp(email.trim().toLowerCase());setMessage('A new verification code has been requested.');}
++  catch{setMessage('The code could not be requested. Please try again later.');}finally{setBusy(false);}
++ };
++ return <main className="ph-no-capture container mx-auto max-w-xl px-6 py-16 font-body">
++  <h1 className="text-3xl font-bold mb-4">Your journal account</h1>
++  <p className="mb-6">Use your own email address. Base44 verifies ownership with an emailed code before journal purchases.</p>
++  <form className="space-y-4" onSubmit={submit}>
++   <label className="block">Email address<input className="block w-full rounded border bg-background p-3 mt-1" type="email" autoComplete="email" required value={email} onChange={e=>setEmail(e.target.value)} disabled={busy}/></label>
++   {mode==='verify'?<label className="block">Email verification code<input className="block w-full rounded border bg-background p-3 mt-1" required inputMode="numeric" autoComplete="one-time-code" pattern="[0-9]{6}" maxLength={6} value={code} onChange={e=>setCode(e.target.value)} disabled={busy}/></label>:
++    <label className="block">Password<input className="block w-full rounded border bg-background p-3 mt-1" type="password" autoComplete={mode==='register'?'new-password':'current-password'} required value={password} onChange={e=>setPassword(e.target.value)} disabled={busy}/></label>}
++   <Button type="submit" disabled={busy}>{busy?'Please wait…':mode==='verify'?'Verify email':mode==='register'?'Create account':'Sign in'}</Button>
++  </form>
++  {message&&<p className="my-4" role="status">{message}</p>}
++  <div className="flex flex-wrap gap-4 my-6">
++   <Button variant="outline" disabled={busy||mode==='login'} onClick={()=>{setMode('login');setMessage('');}}>Sign in</Button>
++   <Button variant="outline" disabled={busy||mode==='register'} onClick={()=>{setMode('register');setMessage('');}}>Create a journal account</Button>
++   <Button variant="outline" disabled={busy||mode==='verify'} onClick={()=>{setMode('verify');setPassword('');setCode('');setMessage('Enter your email and verification code, or request another code.');}}>Verify existing account</Button>
++   {mode==='verify'&&<Button variant="outline" disabled={busy} onClick={resend}>Request another code</Button>}
++  </div>
++  <Link className="underline text-primary" to="/coaching#journals">Back to journals</Link>
++ </main>;
++}
+diff --git a/src/pages/JournalPurchaseReturn.jsx b/src/pages/JournalPurchaseReturn.jsx
+index 750fde0c..709627f9 100644
+--- a/src/pages/JournalPurchaseReturn.jsx
++++ b/src/pages/JournalPurchaseReturn.jsx
+@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
+ import { Link, useSearchParams } from 'react-router-dom';
+ import { base44 } from '@/api/base44Client';
+ import { Button } from '@/components/ui/button';
++import {assertJournalPurchaseState} from '@/lib/journalPurchaseState';
+ import { PUBLIC_JOURNALS, JOURNAL_PURCHASES_ENABLED } from '@/lib/publicJournalCatalogue';
+ export default function JournalPurchaseReturn(){
+  const [params]=useSearchParams(),sessionId=params.get('session_id');
+@@ -14,14 +15,14 @@ export default function JournalPurchaseReturn(){
+    const response=await base44.functions.invoke('confirmJournalPurchase',{session_id:sessionId});
+    const data=response?.data;
+    if(!['paid','pending','confirming','expired'].includes(data?.status))throw Error('Unavailable');
+-   if(data.status==='paid'&&(!Array.isArray(data.bookIds)||data.bookIds.some(id=>!PUBLIC_JOURNALS.some(b=>b.id===id))))throw Error('Unavailable');
++   assertJournalPurchaseState(data);
+    setState(data);
+   }catch{setState({status:'unavailable'});setMessage('We could not confirm this payment. Sign in to the purchasing account and check again before buying the same journal.');}
+   finally{setBusy(false);}
+  };
+  useEffect(()=>{refresh();},[sessionId]);
+  const download=async id=>{
+-  if(state.status!=='paid'||busy||!JOURNAL_PURCHASES_ENABLED)return;
++  if(state.status!=='paid'||!(state.downloadableBookIds||(state.fulfilmentType==='released'?state.bookIds:[])).includes(id)||busy||!JOURNAL_PURCHASES_ENABLED)return;
+   setBusy(true);setMessage('');
+   try{
+    const response=await base44.functions.fetch('/downloadJournal',{method:'POST',headers:{'Content-Type':'application/json'},
+@@ -38,21 +39,23 @@ export default function JournalPurchaseReturn(){
+   try{
+    const response=await base44.functions.invoke('cancelJournalCheckout',{session_id:sessionId});
+    if(!['expired','paid','confirming'].includes(response?.data?.status))throw Error('Unavailable');
++   assertJournalPurchaseState(response.data);
+    setState(response.data);
+   }catch{setMessage('Cancellation could not be confirmed. Please check this checkout before starting another payment.');}
+   finally{setBusy(false);}
+  };
+  const resume=()=>{
+-  try{const url=new URL(state.checkoutUrl);if(url.protocol==='https:'&&url.hostname==='checkout.stripe.com'&&!url.username&&!url.password)window.location.assign(url.href);}
++  try{const url=new URL(state.checkoutUrl);if(url.protocol!=='https:'||url.hostname!=='checkout.stripe.com'||url.username||url.password||url.port)throw Error('Invalid checkout URL');window.location.assign(url.href);}
+   catch{setMessage('Checkout is unavailable. Please check again before paying.');}
+  };
+  return <main className="container mx-auto px-6 py-16 max-w-3xl font-body" data-testid="journal-purchase-return">
+   <h1 className="font-display text-4xl mb-6">Your journals</h1>
+   {!JOURNAL_PURCHASES_ENABLED?<p>Online purchasing is being prepared. No payment is accepted by this page.</p>:<>
+    {busy&&<p role="status">Checking your purchase…</p>}
+-   {state.status==='paid'&&<><p className="mb-5">Your payment has been verified. Choose a purchased journal to download.</p>
++   {state.status==='paid'&&<><p className="mb-3">Your payment has been verified.</p><p className="mb-5">Order reference: {state.orderId}</p>
+     <ul className="space-y-4">{state.bookIds.map(id=><li key={id} className="flex flex-wrap gap-4 items-center">
+-     <span>{PUBLIC_JOURNALS.find(b=>b.id===id)?.title}</span><Button disabled={busy} onClick={()=>download(id)}>Download journal</Button></li>)}</ul></>}
++     <span>{PUBLIC_JOURNALS.find(b=>b.id===id)?.title}</span>{(state.downloadableBookIds||(state.fulfilmentType==='released'?state.bookIds:[])).includes(id)?<Button disabled={busy} onClick={()=>download(id)}>Download journal</Button>:<span className="text-sm">Preorder · {state.items?.find(p=>p.bookId===id)?.releaseLabel||'Awaiting the approved release'}</span>}</li>)}</ul>
++    <p className="mt-5">{state.deliveryStatus==='email_accepted'?'Your journal access email has been accepted for sending.':'Your order is recorded. Email confirmation is awaiting confirmation. Download controls appear only beside journals that have been released.'}</p></>}
+    {state.status==='pending'&&<><p>Your checkout is still unpaid.</p><div className="flex flex-wrap gap-4 my-4"><Button disabled={busy} onClick={resume}>Resume this checkout</Button><Button variant="outline" disabled={busy} onClick={cancel}>Cancel this unpaid checkout</Button></div></>}
+    {state.status==='confirming'&&<p>Payment confirmation is pending. Please check again before starting another checkout.</p>}
+    {state.status==='expired'&&<p>This checkout has expired. Check your existing purchases before choosing another checkout.</p>}
