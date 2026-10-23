@@ -1,6 +1,6 @@
 import {assertJournalCheckoutTiming} from './journalFulfilment.js';
 import {persistVerifiedJournalOrder} from './journalOrderRecord.js';
-import { JournalAccessError, requireJournalBuyer, journalOffer, journalCheckoutParams, verifyJournalPayment, JOURNAL_POLICY, JOURNAL_APP_ID, JOURNAL_ABN } from './journalCommerce.js';
+import { JournalAccessError, requireJournalBuyer, journalOffer, journalPricedOffer, journalCheckoutParams, verifyJournalPayment, JOURNAL_POLICY, JOURNAL_APP_ID, JOURNAL_ABN } from './journalCommerce.js';
 import { planJournalPurchase } from './journalPurchaseRecovery.js';
 const fail=(code,status=503)=>{throw new JournalAccessError(code,status);};
 const validSession=id=>/^cs_(?:test|live)_[A-Za-z0-9]{16,200}$/.test(id||'');
@@ -10,7 +10,7 @@ function sessionOffer({session,user,catalogue,liveMode}){
     m.checkout_policy!==JOURNAL_POLICY||m.app_id!==JOURNAL_APP_ID||m.abn!==JOURNAL_ABN||
     m.buyer_user_id!==buyer.id||m.catalogue_version!==catalogue.approvedVersion||
     String(session.customer_details?.email||session.customer_email||'').toLowerCase()!==buyer.email)fail('purchase_not_found',404);
-  const offer=journalOffer(catalogue,m.offer_id);
+  const offer=journalPricedOffer({catalogue,user,offerId:m.offer_id,metadata:m});
   if(session.amount_total!==offer.priceCents||session.amount_subtotal!==offer.priceCents||
     (session.total_details?.amount_discount||0)!==0||(session.total_details?.amount_tax||0)!==0||
     (session.total_details?.amount_shipping||0)!==0)fail('payment_amount_mismatch',403);
@@ -57,12 +57,13 @@ export async function journalAccountState({user,store,stripe,resolveCatalogue,li
  }
  return {purchases,pending,ownedBookIds:[...new Set(purchases.flatMap(p=>p.bookIds))].sort(),attempts};
 }
-export async function startJournalCheckout({user,catalogue,selectedIds,bundleRequested=false,expectedTotalCents,
+export async function startJournalCheckout({user,catalogue,selectedIds,bundleRequested=false,expectedTotalCents,ownerTestCode,
  store,stripe,resolveCatalogue,liveMode,sha256,verifyDeliverables,verifyAcknowledgements,acknowledgement,now=Date.now(),recoveryPass=0}){
  const buyer=requireJournalBuyer(user);
  const state=await journalAccountState({user,store,stripe,resolveCatalogue,liveMode,verifyAcknowledgements,now});
  const plan=planJournalPurchase({catalogue,selectedIds,verifiedOwnedIds:state.ownedBookIds,bundleRequested});
  if(plan.status==='already_owned')return {status:'already_owned',ownedBookIds:state.ownedBookIds,purchases:state.purchases};
+ if(plan.status==='ready'&&ownerTestCode)plan.totalCents=journalPricedOffer({catalogue,user,offerId:plan.offerId,ownerTestCode}).priceCents;
  if(plan.status!=='ready'||expectedTotalCents!==plan.totalCents)return {status:'selection_requires_confirmation',
    bookIds:plan.bookIds,alreadyOwned:plan.alreadyOwned,total_cents:plan.totalCents};
  if(typeof verifyDeliverables!=='function')fail('delivery_preflight_not_configured');
@@ -81,7 +82,7 @@ export async function startJournalCheckout({user,catalogue,selectedIds,bundleReq
  const generation=await sha256(new TextEncoder().encode(JSON.stringify(predecessors)));
  const buyerKey=await sha256(new TextEncoder().encode(JSON.stringify([JOURNAL_POLICY,buyer.id,buyer.email])));
  const requestId=buyerKey.slice(0,32)+generation.slice(0,32);
- const checkout=journalCheckoutParams({catalogue,offerId:plan.offerId,user,origin:'https://gannonwaye.com',requestId,acknowledgement});
+ const checkout=journalCheckoutParams({catalogue,offerId:plan.offerId,user,origin:'https://gannonwaye.com',requestId,acknowledgement,ownerTestCode});
  // Stripe has a bounded idempotency window; its complete paginated search is also required
  // before creation so a lost index write or old retry does not silently create another charge.
  const discovered=await stripe.findJournalSessions({buyerId:buyer.id});
@@ -97,7 +98,7 @@ export async function startJournalCheckout({user,catalogue,selectedIds,bundleReq
  }
  if(discovered.some(s=>!state.attempts.some(a=>a.stripe_session_id===s.id))){
    if(recoveryPass>=1)fail('purchase_recovery_unavailable');
-   return startJournalCheckout({user,catalogue,selectedIds,bundleRequested,expectedTotalCents,store,stripe,resolveCatalogue,liveMode,sha256,verifyDeliverables,verifyAcknowledgements,acknowledgement,now,recoveryPass:recoveryPass+1});
+   return startJournalCheckout({user,catalogue,selectedIds,bundleRequested,expectedTotalCents,ownerTestCode,store,stripe,resolveCatalogue,liveMode,sha256,verifyDeliverables,verifyAcknowledgements,acknowledgement,now,recoveryPass:recoveryPass+1});
  }
  const params={...checkout.params,metadata:{...checkout.params.metadata,checkout_fingerprint:fingerprint}};
  const session=await stripe.checkout.sessions.create(params,{idempotencyKey:JOURNAL_POLICY+':'+requestId});

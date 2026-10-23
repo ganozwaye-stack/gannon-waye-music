@@ -68,8 +68,33 @@ export function journalOffer(catalogue, offerId) {
   }
   return deny('journal_not_found', 404);
 }
-export function journalCheckoutParams({ catalogue, offerId, user, origin, requestId, acknowledgement }) {
-  const buyer=requireJournalBuyer(user),offer=journalOffer(catalogue,offerId);
+export const OWNER_JOURNAL_TEST_POLICY='gw_owner_journal_test_90_v1';
+const OWNER_JOURNAL_TEST_PROMO='6a16abb0198d4c5d294edc12';
+const OWNER_JOURNAL_TEST_CODE='NunY@69Ony@Son!@';
+export function ownerJournalTestEligible(user){
+ return user?.id==='6a73da328a15629ec5373c25'&&email(user?.email)==='gannonwayemusic@gmail.com'&&
+  user.is_verified===true&&user.disabled!==true&&user.is_service!==true&&(!user.app_id||user.app_id===JOURNAL_APP_ID);
+}
+export function ownerJournalTestMetadata(meta){
+ const marked=meta?.owner_test_discount!==undefined||meta?.owner_test_promo_id!==undefined;
+ if(!marked)return false;
+ if(meta.owner_test_discount!==OWNER_JOURNAL_TEST_POLICY||meta.owner_test_promo_id!==OWNER_JOURNAL_TEST_PROMO||
+  meta.buyer_user_id!=='6a73da328a15629ec5373c25')deny('owner_discount_not_eligible',403);
+ return true;
+}
+export function journalPricedOffer({catalogue,user,offerId,ownerTestCode,metadata}){
+ requireJournalBuyer(user);
+ const offer=journalOffer(catalogue,offerId);
+ const selected=metadata?ownerJournalTestMetadata(metadata):Boolean(ownerTestCode);
+ if(!selected)return offer;
+ if(!ownerJournalTestEligible(user)||(!metadata&&ownerTestCode!==OWNER_JOURNAL_TEST_CODE)||
+  offer.bundle||offer.bookIds.length!==1||offer.priceCents!==990||
+  !['building-resilience','healthy-boundaries'].includes(offer.bookIds[0])||
+  catalogue.books.find(b=>b.id===offer.bookIds[0])?.releaseApproved!==true)deny('owner_discount_not_eligible',403);
+ return {...offer,priceCents:99,basePriceCents:990,ownerTestDiscount:true};
+}
+export function journalCheckoutParams({ catalogue, offerId, user, origin, requestId, acknowledgement,ownerTestCode }) {
+  const buyer=requireJournalBuyer(user),offer=journalPricedOffer({catalogue,user,offerId,ownerTestCode});
   const items=journalItemPlans(catalogue,offer.bookIds),pending=items.filter(p=>p.fulfilmentType==='preorder');
   const contract=pending.length?journalPreorderTerms(catalogue):null;
   if(contract&&Date.parse(contract.deliveryBy)<Date.now()+30*60*1000)deny('preorder_delivery_date_passed',503);
@@ -77,14 +102,14 @@ export function journalCheckoutParams({ catalogue, offerId, user, origin, reques
   if(origin!=='https://gannonwaye.com')deny('invalid_checkout_origin',400);
   if(!/^[a-zA-Z0-9_-]{16,80}$/.test(requestId||''))deny('invalid_request_id',400);
   return {params:{mode:'payment',payment_method_types:['card'],customer_email:buyer.email,currency:'aud',
-   payment_intent_data:{metadata:{checkout_policy:JOURNAL_POLICY,app_id:JOURNAL_APP_ID,buyer_user_id:buyer.id,catalogue_version:catalogue.approvedVersion}},
+   payment_intent_data:{metadata:{...(offer.ownerTestDiscount?{owner_test_discount:OWNER_JOURNAL_TEST_POLICY,owner_test_promo_id:OWNER_JOURNAL_TEST_PROMO}:{}),checkout_policy:JOURNAL_POLICY,app_id:JOURNAL_APP_ID,buyer_user_id:buyer.id,catalogue_version:catalogue.approvedVersion}},
    ...(contract?{expires_at:Math.floor(Math.min(Date.parse(contract.deliveryBy),Date.now()+24*60*60*1000)/1000)}:{}),
    line_items:offer.bundle?[{price:catalogue.bundleStripePriceId,quantity:1}]:
     offer.bookIds.map(id=>({price:catalogue.books.find(b=>b.id===id).stripePriceId,quantity:1})),
    success_url:origin+'/journals/purchase?session_id={CHECKOUT_SESSION_ID}',
    cancel_url:origin+'/coaching#journals',
    custom_text:{submit:{message:contract?disclosure+'. '+JOURNAL_DELIVERY_NOTICE+' Undelivered preorders: '+contract.cancellationText:JOURNAL_DELIVERY_NOTICE}},
-   metadata:{checkout_policy:JOURNAL_POLICY,app_id:JOURNAL_APP_ID,abn:JOURNAL_ABN,
+   metadata:{...(offer.ownerTestDiscount?{owner_test_discount:OWNER_JOURNAL_TEST_POLICY,owner_test_promo_id:OWNER_JOURNAL_TEST_PROMO}:{}),checkout_policy:JOURNAL_POLICY,app_id:JOURNAL_APP_ID,abn:JOURNAL_ABN,
     buyer_user_id:buyer.id,offer_id:offer.id,catalogue_version:catalogue.approvedVersion,delivery_terms_version:JOURNAL_DELIVERY_TERMS_VERSION,
     ...(contract?{preorder_terms_version:contract.termsVersion}:{}),
     ...(acknowledgement?{buyer_details_id:acknowledgement.id,terms_accepted_at:acknowledgement.acceptedAt,buyer_acceptance_sha256:acknowledgement.item_plan_sha256}:{})},
@@ -114,7 +139,7 @@ export function verifyJournalPayment({ catalogue, user, session, paymentIntent, 
       meta.checkout_policy !== JOURNAL_POLICY || meta.app_id !== JOURNAL_APP_ID || meta.abn !== JOURNAL_ABN ||
       meta.buyer_user_id !== buyer.id || meta.catalogue_version !== catalogue.approvedVersion ||
       email(session.customer_details?.email || session.customer_email) !== buyer.email) deny('purchase_not_found', 404);
-  const offer = journalOffer(catalogue, meta.offer_id);
+  const offer = journalPricedOffer({catalogue,user,offerId:meta.offer_id,metadata:meta});
   if(journalItemPlans(catalogue,offer.bookIds).some(p=>p.fulfilmentType==='preorder')&&
    meta.preorder_terms_version!==journalPreorderTerms(catalogue).termsVersion)deny('preorder_terms_mismatch',403);
   if (session.status !== 'complete' || session.payment_status !== 'paid') deny('payment_not_complete');
