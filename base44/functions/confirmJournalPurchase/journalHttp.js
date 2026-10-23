@@ -159,6 +159,18 @@ export function createJournalHttpHandler(action,deps){
     if(!Array.isArray(release.launchBookIds)||!requested.length||
      requested.some(id=>!release.launchBookIds.includes(id)))fail('journal_not_ready');
     if(catalogue.deliveryTermsVersion!==JOURNAL_DELIVERY_TERMS_VERSION)fail('delivery_terms_not_configured');
+    if(body.owner_test_code){
+     if(!ownerJournalTestEligible(user))fail('owner_discount_not_eligible',403);
+     const promo=await client.asServiceRole.entities.PromoCode.get('6a16abb0198d4c5d294edc12');
+     const expires=promo?.expires_at?Date.parse(promo.expires_at):null;
+     if(promo?.id!=='6a16abb0198d4c5d294edc12'||promo.is_active!==true||promo.discount_percent!==90||
+      promo.requires_approval!==true||promo.code!==body.owner_test_code||
+      !Array.isArray(promo.approved_emails)||promo.approved_emails.length!==1||
+      promo.approved_emails[0]?.trim().toLowerCase()!=='gannonwayemusic@gmail.com'||
+      expires!==null&&(!Number.isFinite(expires)||expires<=Date.now())||
+      promo.max_uses!==null&&promo.max_uses!==undefined&&(!Number.isFinite(promo.max_uses)||!Number.isFinite(promo.times_used)||promo.times_used>=promo.max_uses))
+       fail('owner_discount_not_eligible',403);
+    }
     if(body.action==='quote_owner_test'){
      const offer=journalPricedOffer({catalogue,user,offerId:body.offer_id,ownerTestCode:body.owner_test_code});
      if(!offer.ownerTestDiscount)fail('owner_discount_not_eligible',403);

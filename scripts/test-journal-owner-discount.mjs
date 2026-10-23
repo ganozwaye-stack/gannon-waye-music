@@ -13,6 +13,8 @@ function ownerFixture(){
  Object.assign(f.session.metadata,{buyer_user_id:f.buyer.id,offer_id:f.books[0].id});
  Object.assign(f.rows.JournalBuyerDetails[0],{buyer_user_id:f.buyer.id,verified_email:f.buyer.email});
  f.refreshAcceptance();
+ f.ownerPromo={id:'6a16abb0198d4c5d294edc12',code,discount_percent:90,is_active:true,requires_approval:true,approved_emails:[f.buyer.email]};
+ f.api.PromoCode={get:async()=>f.ownerPromo};
  const actual={...structuredClone(f.price),id:'price_owneractual99',unit_amount:99};
  f.stripe.prices.retrieve=async id=>id===actual.id?actual:f.price;
  return Object.assign(f,{actual});
@@ -108,4 +110,17 @@ Deno.test('owner99 paid exact private PDF entitlement survives; another buyer ca
  const args={catalogue:f.catalogue,user:f.buyer,sessionId:f.session.id,bookId:f.books[0].id,retrieveSession:async()=>f.session,retrievePaymentIntent:async()=>f.intent,readPrivateFile:async()=>pdf,sha256:hash,liveMode:false};
  assert.deepEqual((await fulfilJournalDownload(args)).bytes,pdf);
  await assert.rejects(fulfilJournalDownload({...args,user:{id:'other',email:'other@example.invalid',is_verified:true}}));
+});
+
+for(const [name,change] of [
+ ['inactive code',p=>{p.is_active=false;}],
+ ['unapproved email',p=>{p.approved_emails=['other@example.invalid'];}],
+ ['expanded whitelist',p=>{p.approved_emails.push('other@example.invalid');}],
+ ['expired code',p=>{p.expires_at='2020-01-01T00:00:00Z';}],
+ ['exhausted code',p=>{p.max_uses=1;p.times_used=1;}],
+ ['changed percent',p=>{p.discount_percent=100;}]
+])Deno.test(name+' blocks new owner test quote',async()=>{
+ const f=ownerFixture();change(f.ownerPromo);
+ const r=await http(f,'createJournalCheckout',{action:'quote_owner_test',offer_id:[f.books[0].id],owner_test_code:code});
+ assert.equal(r.status,403);assert.equal(f.calls.create,0);
 });
