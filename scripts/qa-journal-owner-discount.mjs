@@ -37,7 +37,7 @@ try{
   });
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.goto(base.replace('127.0.0.1','journal-review.invalid')+'/coaching?view=journals&journal=building-resilience',{waitUntil:'domcontentloaded'});
-  const panel=page.getByTestId('journal-purchase-panel');await panel.waitFor({timeout:30000});
+  const panel=page.getByTestId('journal-purchase-panel');try{await panel.waitFor({timeout:8000});}catch(e){console.log(JSON.stringify({url:page.url(),title:await page.title(),body:(await page.locator('body').innerText()).slice(0,2000),errors,requests}));throw e;}
   await panel.getByRole('heading',{name:'Sign in or create your journal account'}).waitFor();
   assert.equal(await panel.getByText('First name',{exact:true}).count(),0);
   await panel.getByRole('button',{name:'Create a journal account',exact:true}).click();
