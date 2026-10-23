@@ -13,6 +13,7 @@ try{
   const context=await browser.newContext({viewport:{width:size.width,height:size.height}});let signed=false;const requests=[];
   await context.route('**/*',async route=>{
    const req=route.request(),url=new URL(req.url());
+   if(url.pathname.includes('/files/mp/public/'))return route.continue();
    if(/\/api\/apps\//.test(url.pathname)){
     const path=url.pathname;requests.push({method:req.method(),path});
     if(path.endsWith('/functions/getJournalPurchases'))return route.fulfill({status:signed?200:401,json:signed?{purchases:[],pending:[],ownedBookIds:[],buyer:{email:'gannonwayemusic@gmail.com',verified:true,ownerTestEligible:true},offerTerms:{catalogueVersion:'gw_br11_hb10_singles_20261022',termsVersion:'gw_journal_mixed_delivery_v2_20261022'}}:{error:'sign_in_required'}});
@@ -29,12 +30,13 @@ try{
     }
     return route.fulfill({json:path.includes('/entities/')?[]:{}});
    }
+   if(url.hostname==='journal-review.invalid')return route.fulfill({response:await route.fetch({url:base+url.pathname+url.search})});
    if(url.hostname==='127.0.0.1')return route.continue();
    if(req.resourceType()==='image'||req.resourceType()==='font'||req.resourceType()==='stylesheet')return route.continue();
    return route.abort();
   });
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base+'/coaching?view=journals&journal=building-resilience',{waitUntil:'domcontentloaded'});
+  await page.goto(base.replace('127.0.0.1','journal-review.invalid')+'/coaching?view=journals&journal=building-resilience',{waitUntil:'domcontentloaded'});
   const panel=page.getByTestId('journal-purchase-panel');await panel.waitFor({timeout:30000});
   await panel.getByRole('heading',{name:'Sign in or create your journal account'}).waitFor();
   assert.equal(await panel.getByText('First name',{exact:true}).count(),0);
