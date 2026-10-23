@@ -30,13 +30,13 @@ try{
     }
     return route.fulfill({json:path.includes('/entities/')?[]:{}});
    }
-   if(url.hostname==='journal-review.invalid')return route.fulfill({response:await route.fetch({url:base+url.pathname+url.search})});
+   if(url.hostname==='127.0.0.2')return route.fulfill({response:await route.fetch({url:base+url.pathname+url.search})});
    if(url.hostname==='127.0.0.1')return route.continue();
    if(req.resourceType()==='image'||req.resourceType()==='font'||req.resourceType()==='stylesheet')return route.continue();
    return route.abort();
   });
   const page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto(base.replace('127.0.0.1','journal-review.invalid')+'/coaching?view=journals&journal=building-resilience',{waitUntil:'domcontentloaded'});
+  await page.goto(base.replace('127.0.0.1','127.0.0.2')+'/coaching?view=journals&journal=building-resilience',{waitUntil:'domcontentloaded'});
   const panel=page.getByTestId('journal-purchase-panel');try{await panel.waitFor({timeout:8000});}catch(e){console.log(JSON.stringify({url:page.url(),title:await page.title(),body:(await page.locator('body').innerText()).slice(0,2000),errors,requests}));throw e;}
   await panel.getByRole('heading',{name:'Sign in or create your journal account'}).waitFor();
   assert.equal(await panel.getByText('First name',{exact:true}).count(),0);

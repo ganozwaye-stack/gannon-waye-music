@@ -1,0 +1,40 @@
+{
+  "checkedAt": "2026-10-23T04:31:57.402Z",
+  "scope": "isolated synthetic browser fixtures, no actual sign-in, order or email",
+  "receipts": [
+    {
+      "viewport": {
+        "name": "desktop",
+        "width": 1440,
+        "height": 1000
+      },
+      "inlineExistingAccountError": true,
+      "sameDialogSignIn": true,
+      "buyerFieldsOnlyAfterVerifiedLookup": true,
+      "selectedTitlePreserved": true,
+      "ownerQuote99": true,
+      "acknowledgementsInitiallyUnchecked": true,
+      "noCheckoutCreated": true,
+      "noPayment": true,
+      "noHorizontalOverflow": true,
+      "pageErrors": []
+    },
+    {
+      "viewport": {
+        "name": "mobile",
+        "width": 390,
+        "height": 844
+      },
+      "inlineExistingAccountError": true,
+      "sameDialogSignIn": true,
+      "buyerFieldsOnlyAfterVerifiedLookup": true,
+      "selectedTitlePreserved": true,
+      "ownerQuote99": true,
+      "acknowledgementsInitiallyUnchecked": true,
+      "noCheckoutCreated": true,
+      "noPayment": true,
+      "noHorizontalOverflow": true,
+      "pageErrors": []
+    }
+  ]
+}
