@@ -48,22 +48,18 @@ export const AuthProvider = ({ children }) => {
       window.location.hostname === '127.0.0.1'
     );
       
-    if (isLocal) {
+    // Only the explicit mock token short-circuits. Real localhost/preview
+    // sessions fall through to the live SDK auth check below so a real
+    // session or token is evaluated exactly as it is in production.
+    if (isLocal && appParams.token === 'mock-admin-token') {
       setAppPublicSettings({ id: appParams.appId, public_settings: {} });
-      
-      const currentToken = appParams.token || (typeof window !== 'undefined' ? localStorage.getItem('base44_access_token') : null);
-      if (currentToken === 'mock-admin-token') {
-        setUser({
-          id: 'mock-admin-id',
-          email: 'admin@gannonwaye.com',
-          role: 'admin',
-          full_name: 'Gannon Admin',
-        });
-        setIsAuthenticated(true);
-      } else {
-        setUser(null);
-        setIsAuthenticated(false);
-      }
+      setUser({
+        id: 'mock-admin-id',
+        email: 'admin@gannonwaye.com',
+        role: 'admin',
+        full_name: 'Gannon Admin',
+      });
+      setIsAuthenticated(true);
       
       setIsLoadingAuth(false);
       setIsLoadingPublicSettings(false);

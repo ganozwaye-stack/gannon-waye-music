@@ -12,10 +12,6 @@ export const base44 = createClient({
   appBaseUrl,
 });
 
-const isLocal = typeof window !== 'undefined' && (
-  window.location.hostname === 'localhost' ||
-  window.location.hostname === '127.0.0.1'
-);
 
 function simpleFilter(records, query) {
   if (!query || typeof query !== 'object' || Array.isArray(query)) return [...records];
@@ -28,7 +24,9 @@ function simpleFilter(records, query) {
   }));
 }
 
-if (isLocal || token === 'mock-admin-token') {
+// Mock SDK overrides are explicit opt-in test mode only. On localhost/preview
+// sessions with a real token, the live @base44/sdk authentication stays active.
+if (token === 'mock-admin-token') {
   base44.auth.me = async () => {
     const currentToken = appParams.token || (typeof window !== 'undefined' ? localStorage.getItem('base44_access_token') : null);
     if (currentToken === 'mock-admin-token') {

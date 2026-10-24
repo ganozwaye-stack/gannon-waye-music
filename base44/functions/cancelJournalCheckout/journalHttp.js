@@ -108,7 +108,7 @@ export function createJournalStripe(stripe,liveMode,{catalogue,sha256,resolveCat
   const prices=await verifyJournalPrices({stripe,catalogue,params,liveMode,sha256,requireActive:true});
   if(ownerJournalTestMetadata(params.metadata)){
    const productId=prices[0]?.product?.id;
-   if(params.customer_email!=='gannonwayemusic@gmail.com'||!/^prod_[A-Za-z0-9]+$/.test(productId||''))fail('owner_discount_not_eligible',403);
+   if(params.customer_email!=='ganoz01@icloud.com'||!/^prod_[A-Za-z0-9]+$/.test(productId||''))fail('owner_discount_not_eligible',403);
    params={...params,line_items:[{price_data:{currency:'aud',unit_amount:99,product:productId},quantity:1}]};
   }
   return stripe.checkout.sessions.create(params,options);
@@ -166,7 +166,7 @@ export function createJournalHttpHandler(action,deps){
      if(promo?.id!=='6a16abb0198d4c5d294edc12'||promo.is_active!==true||promo.discount_percent!==90||
       promo.requires_approval!==true||promo.code!==body.owner_test_code||
       !Array.isArray(promo.approved_emails)||promo.approved_emails.length!==1||
-      promo.approved_emails[0]?.trim().toLowerCase()!=='gannonwayemusic@gmail.com'||
+      promo.approved_emails[0]?.trim().toLowerCase()!=='ganoz01@icloud.com'||
       expires!==null&&(!Number.isFinite(expires)||expires<=Date.now())||
       promo.max_uses!==null&&promo.max_uses!==undefined&&(!Number.isFinite(promo.max_uses)||!Number.isFinite(promo.times_used)||promo.times_used>=promo.max_uses))
        fail('owner_discount_not_eligible',403);

@@ -71,15 +71,17 @@ export function journalOffer(catalogue, offerId) {
 export const OWNER_JOURNAL_TEST_POLICY='gw_owner_journal_test_90_v1';
 const OWNER_JOURNAL_TEST_PROMO='6a16abb0198d4c5d294edc12';
 const OWNER_JOURNAL_TEST_CODE='NunY@69Ony@Son!@';
+// Owner-only 90% test discount: the exact owner email with a verified account,
+// server-side only and never public. journalPricedOffer re-checks eligibility
+// against the real authenticated user, so no other account can claim it.
 export function ownerJournalTestEligible(user){
- return user?.id==='6a73da328a15629ec5373c25'&&email(user?.email)==='gannonwayemusic@gmail.com'&&
-  user.is_verified===true&&user.disabled!==true&&user.is_service!==true&&(!user.app_id||user.app_id===JOURNAL_APP_ID);
+ return email(user?.email)==='ganoz01@icloud.com'&&user?.is_verified===true&&
+  user.disabled!==true&&user.is_service!==true&&(!user.app_id||user.app_id===JOURNAL_APP_ID);
 }
 export function ownerJournalTestMetadata(meta){
  const marked=meta?.owner_test_discount!==undefined||meta?.owner_test_promo_id!==undefined;
  if(!marked)return false;
- if(meta.owner_test_discount!==OWNER_JOURNAL_TEST_POLICY||meta.owner_test_promo_id!==OWNER_JOURNAL_TEST_PROMO||
-  meta.buyer_user_id!=='6a73da328a15629ec5373c25')deny('owner_discount_not_eligible',403);
+ if(meta.owner_test_discount!==OWNER_JOURNAL_TEST_POLICY||meta.owner_test_promo_id!==OWNER_JOURNAL_TEST_PROMO)deny('owner_discount_not_eligible',403);
  return true;
 }
 export function journalPricedOffer({catalogue,user,offerId,ownerTestCode,metadata}){
