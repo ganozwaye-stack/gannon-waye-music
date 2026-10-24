@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const { test, expect } = require('@playwright/test');
 let PUBLIC_JOURNALS;
 test.beforeAll(async () => { ({ PUBLIC_JOURNALS } = await import('../../lib/publicJournalCatalogue.js')); });

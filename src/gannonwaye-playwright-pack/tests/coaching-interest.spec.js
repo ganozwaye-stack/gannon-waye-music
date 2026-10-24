@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const {test,expect}=require('@playwright/test');
 async function fill(page) {
  for(const [label,value] of [['First name','Test'],['Last name','Person'],['Date of birth','2000-02-29'],['Mobile number','+61 400 123 456'],['Email address','test@example.invalid'],['What brings you here, and what would you like support with?','I would like to explore journals and coaching.']]) await page.getByLabel(label+' *',{exact:true}).fill(value);

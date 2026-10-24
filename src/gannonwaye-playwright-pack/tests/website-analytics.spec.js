@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const {test,expect}=require('@playwright/test');
 test('public page and CTA telemetry strips personal query values and intake details',async({page})=>{
  const events=[];

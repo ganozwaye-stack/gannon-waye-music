@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const {test,expect}=require('@playwright/test');
 test('homepage resilience feature keeps music and leads to coaching and held journal previews',async({page},info)=>{
  await page.route('**/functions/**',route=>route.abort());

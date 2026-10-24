@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const { test, expect } = require('@playwright/test');
 test('original fan decodes six full covers and fits within the story', async ({ page }, testInfo) => {
   await page.goto('/coaching');

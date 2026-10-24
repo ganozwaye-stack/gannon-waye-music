@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const {test,expect}=require('@playwright/test');
 test('production intake hold blocks both button and direct form submission',async({page})=>{
  test.skip(process.env.PRODUCTION_HOLD!=='1','Run against an isolated local production build');

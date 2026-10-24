@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const {test,expect}=require('@playwright/test');
 test('native queue exposes drafts and never invents posting receipts or mutates a status',async({page})=>{
  let writes=0;

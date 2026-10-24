@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const {test,expect}=require('@playwright/test');
 test('recovery shows original boutique and verified catalogue without fabricated failure',async({page},info)=>{
  let paymentRequests=0;

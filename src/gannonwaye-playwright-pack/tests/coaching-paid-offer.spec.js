@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const {test,expect}=require('@playwright/test');
 test('paid offer reaches specific availability enquiry without booking or charging',async({page},info)=>{
  let writes=0;
