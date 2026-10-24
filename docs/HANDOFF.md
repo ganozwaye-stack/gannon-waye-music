@@ -161,6 +161,8 @@ Was: 34 items, 30 `needs_approval`, oldest 54 days, nothing ever approved. Now: 
 
 ## Log
 
+Follow-up verification in the same session: Original Windows scoped package recovered through the connected Desktop Commander device. All 33 dist files match SOURCE_MANIFEST.json byte sizes and SHA-256 hashes; actual file count 33, failures 0, source 3c56b61aea2c6743af9a72562b948bd949f65abc. This resolves the earlier package-access gap above without rebuilding or publishing. Direct GET https://gannonwaye.com/coaching still references /assets/index-DEFp_MgR.js, confirming the older documented frontend is public and the prepared index-C0AaYK3R.js release is not live. Scope approval and actual owner acceptance remain outstanding.
+
 ### 2026-10-24 · Codex via ChatGPT Work · Resume journal checkout from current release evidence
 
 Did: Read the live Stripe customer list with full pagination (8 records; customer existence is not payment evidence), recovered the existing journal checkout rollout/review files, and verified GitHub main at 79800c3b69092816444915f2352a3e910377d69a. No application code, customer records, Stripe configuration, payment, email or deployment changed. This entry is staged on a separate review branch only.
