@@ -1,0 +1,78 @@
+{
+  "name": "SocialStudioEvent",
+  "type": "object",
+  "description": "Unified activity log and inbox for the admin-only Social Studio: Instagram comments pulled from the connected account, plus publish attempts, successes and failures. Deduplicated by external_id. Admin only.",
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "comment",
+        "message",
+        "publish_attempt",
+        "publish_success",
+        "publish_failure",
+        "system"
+      ],
+      "default": "comment"
+    },
+    "platform": {
+      "type": "string",
+      "default": "instagram"
+    },
+    "author_name": {
+      "type": "string"
+    },
+    "content": {
+      "type": "string",
+      "description": "Comment text or activity description"
+    },
+    "external_id": {
+      "type": "string",
+      "description": "Provider id used to deduplicate on every sync"
+    },
+    "permalink": {
+      "type": "string"
+    },
+    "occurred_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "related_post_id": {
+      "type": "string",
+      "description": "SocialStudioPost this activity relates to, for publish events"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "read"
+      ],
+      "default": "new"
+    }
+  },
+  "required": [
+    "event_type"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "description": "Owner approved active. Publishes approved Social Studio posts whose scheduled time has arrived, through the connected Instagram Business connector. A post is marked published only after Instagram confirms the publish call.",
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "social_studio_publisher",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "publish_due_posts": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "socialStudioPublish",
+            "args": {
+              "action": "run"
+            }
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Publish due posts",
+            "description": "Approved posts past their scheduled time go live on Instagram"
+          }
+        }
+      }
+    ]
+  },
+  "name": "Social Studio Publisher (15min)",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "interval",
+      "cron_expression": null,
+      "one_time_date": null,
+      "timezone": "UTC",
+      "interval_value": 15,
+      "interval_unit": "minutes",
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  }
+}

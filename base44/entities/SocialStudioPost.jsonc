@@ -1,0 +1,143 @@
+{
+  "name": "SocialStudioPost",
+  "type": "object",
+  "description": "One planned social post in the admin-only Social Studio: platforms, post type, media, caption, hashtags, schedule, approval gate and per-platform publish results. Admin only.",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Internal working title for the post"
+    },
+    "platforms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Platform keys selected for this post, e.g. ['instagram']"
+    },
+    "post_type": {
+      "type": "string",
+      "enum": [
+        "post",
+        "reel",
+        "video",
+        "story",
+        "text"
+      ],
+      "default": "post",
+      "description": "post = image feed post, reel = short-form, video = longer video, story, text"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "hashtags": {
+      "type": "string",
+      "description": "Hashtags, space separated, appended to the caption on publish"
+    },
+    "media_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Public media URLs (first item is what Instagram fetches)"
+    },
+    "scheduled_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Planned publish time. Only approved posts are picked up by the publisher."
+    },
+    "approval_status": {
+      "type": "string",
+      "enum": [
+        "pending_approval",
+        "approved",
+        "rejected"
+      ],
+      "default": "pending_approval",
+      "description": "Content approval gate. Publishing and scheduling require approved."
+    },
+    "approval_note": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "ready",
+        "scheduled",
+        "processing",
+        "published",
+        "failed"
+      ],
+      "default": "draft"
+    },
+    "publish_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "description": "published | failed | processing | skipped"
+          },
+          "provider_ref": {
+            "type": "string",
+            "description": "Provider media or container id confirming the publish"
+          },
+          "permalink": {
+            "type": "string"
+          },
+          "error": {
+            "type": "string"
+          },
+          "note": {
+            "type": "string"
+          },
+          "attempted_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "platform",
+          "status"
+        ]
+      },
+      "description": "Per-platform publish outcome. A post is only ever 'published' when the provider confirmed it."
+    },
+    "template_id": {
+      "type": "string",
+      "description": "Template this post was created from, if any"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

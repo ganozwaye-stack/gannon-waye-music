@@ -1,0 +1,78 @@
+{
+  "name": "SocialStudioTemplate",
+  "type": "object",
+  "description": "A reusable release or promo post template in the admin-only Social Studio. Using a template creates a fresh draft post, never overwrites a scheduled one. Admin only.",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "release",
+        "promo",
+        "memorial",
+        "community",
+        "other"
+      ],
+      "default": "release"
+    },
+    "description": {
+      "type": "string"
+    },
+    "platforms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "post_type": {
+      "type": "string",
+      "enum": [
+        "post",
+        "reel",
+        "video",
+        "story",
+        "text"
+      ],
+      "default": "post"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "hashtags": {
+      "type": "string"
+    },
+    "media_urls": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -222,6 +222,7 @@ import ContentStudio from '@/pages/admin/ContentStudio';
 import ManyChatDrafts from '@/pages/admin/ManyChatDrafts';
 import CommunicationsHub from '@/pages/admin/CommunicationsHub';
 import MerchVotes from '@/pages/admin/MerchVotes';
+import SocialStudio from '@/pages/admin/SocialStudio';
 import Login from '@/pages/Login';
 
 const AUTH_REQUIRED_PATH_PREFIXES = ['/admin', '/fan-profile', '/orders', '/mum', '/without-you-here'];
@@ -590,6 +591,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/manychat-drafts" element={<ManyChatDrafts />} />
         <Route path="/admin/communications-hub" element={<CommunicationsHub />} />
         <Route path="/admin/merch-votes" element={<MerchVotes />} />
+        <Route path="/admin/social-studio" element={<SocialStudio />} />
       </Route>
 
       <Route path="*" element={<PageNotFound />} />

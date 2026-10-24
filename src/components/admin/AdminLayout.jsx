@@ -6,7 +6,7 @@ import {
   Mail, Palette, Heart, DollarSign, Activity, Calendar, Search, Command,
   ChevronRight, Menu, X, Zap, Shield, Eye, Megaphone, Bell,
   GraduationCap, AlertTriangle, Terminal,
-  Film, MessageSquare, Sun, CheckCircle2, ListTodo
+  Film, MessageSquare, Sun, CheckCircle2, ListTodo, Share2
 } from 'lucide-react';
 import { base44 } from '@/api/base44Client';
 import { Badge } from '@/components/ui/badge';
@@ -61,6 +61,7 @@ const NAV_SECTIONS = [
       { label: 'Daily Post Engine', path: '/admin/daily-post-engine', icon: Zap },
       { label: 'ManyChat Drafts', path: '/admin/manychat-drafts', icon: MessageSquare },
       { label: 'Social Schedule Queue', path: '/admin/social-schedule-queue', icon: Calendar },
+      { label: 'Social Studio', path: '/admin/social-studio', icon: Share2 },
     ]
   },
   {

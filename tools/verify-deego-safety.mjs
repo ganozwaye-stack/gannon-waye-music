@@ -35,6 +35,11 @@ function listFiles(relativeDir) {
 // the approval date. Each must state that approval in its own description.
 const OWNER_APPROVED_ACTIVE_WORKFLOWS = new Set([
   'base44/workflows/Deego Report → Master Spreadsheet.jsonc',
+  // Social Studio publisher: approved by the owner on 24 October 2026 for the
+  // admin-only Social Studio. Publishes approved, scheduled posts to Instagram
+  // through the authorized connector, and never marks a post published without
+  // provider confirmation.
+  'base44/workflows/Social Studio Publisher (15min).jsonc',
 ]);
 
 function assertAutomationSafetyHold() {
