@@ -200,8 +200,13 @@ export function createJournalHttpHandler(action,deps){
    }else fail('unknown_action',404);
    if(result?.status==='paid'&&release.emailDeliveryVerified===true){
     const snapshot=await resolveCatalogue((await stripe.checkout.sessions.retrieve(result.sessionId)).metadata.catalogue_version);
-    const delivery=await deliverJournalEmail({api:client.asServiceRole.entities,orderId:result.orderId,buyer:requireJournalBuyer(user),
-     catalogue:snapshot,sendEmail:deps.sendJournalEmail});
+    // The paid entitlement is already verified here. An email transport or
+    // record failure is delivery pending review, never a payment failure;
+    // a paid order must never be reported as an unconfirmed payment.
+    let delivery;
+    try{delivery=await deliverJournalEmail({api:client.asServiceRole.entities,orderId:result.orderId,buyer:requireJournalBuyer(user),
+     catalogue:snapshot,sendEmail:deps.sendJournalEmail});}
+    catch(error){delivery={deliveryStatus:'review_required',delivery_error:error instanceof JournalAccessError?error.code:'email_transport_unavailable'};}
     result={...result,...delivery};
    }
    return Response.json(result,{headers:secureHeaders});

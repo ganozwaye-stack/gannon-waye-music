@@ -6,7 +6,11 @@ export async function persistVerifiedJournalOrder({store,buyer,session,catalogue
   offer_id:offer.id,book_ids:[...offer.bookIds].sort(),total_cents:offer.priceCents,currency:'aud',
   stripe_payment_intent_id:intentId,verified_at:new Date(now).toISOString(),
   fulfilment_type:summary.fulfilmentType,fulfilment_status:summary.fulfilmentStatus,item_plan:items,
-  ...(summary.fulfilmentType!=='released'?{preorder_terms_snapshot:journalPreorderTerms(catalogue)}:{}),
+  // Base44 returns an absent optional object as null on readback. A released
+  // row must construct the field as null explicitly, or the null-vs-undefined
+  // readback equality fails and leaves the durable order lock held. Preorder
+  // and mixed rows keep the strict immutable object snapshot.
+  preorder_terms_snapshot:summary.fulfilmentType!=='released'?journalPreorderTerms(catalogue):null,
   asset_hashes:Object.fromEntries(items.filter(p=>p.fulfilmentType==='released').map(p=>[p.bookId,p.sha256])),
   delivery_terms_version:catalogue.deliveryTermsVersion,buyer_details_id:session.metadata?.buyer_details_id,terms_accepted_at:session.metadata?.terms_accepted_at,delivery_status:'pending',release_delivery_revision:0,release_delivery:{}};
  await store.savePurchase(record);
