@@ -8,6 +8,8 @@ import SiteSearch from '@/components/public/SiteSearch';
 import MagneticButton from '@/components/public/MagneticButton';
 import { FEATURE_FLAGS } from '@/lib/platformConfig';
 import NavDropdown from '@/components/public/NavDropdown';
+import NavbarFollow from '@/components/public/NavbarFollow';
+import OfficialSocialLinks from '@/components/public/OfficialSocialLinks';
 
 
 const PORTRAIT_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
@@ -145,6 +147,7 @@ export default function Navbar() {
 
         {/* Search + Mobile toggle */}
         <div className="flex flex-1 items-center justify-end gap-2">
+          <NavbarFollow />
           <Link
             to="/back-this"
             aria-label="Support the project"
@@ -232,6 +235,8 @@ export default function Navbar() {
                   {link.label}
                 </Link>
             )}
+              <p className="font-body text-[9px] tracking-[0.25em] uppercase text-muted-foreground/40 mt-3 mb-1">Follow Gannon Waye</p>
+              <OfficialSocialLinks settings={{}} className="justify-start" />
             </div>
           </motion.div>
         }

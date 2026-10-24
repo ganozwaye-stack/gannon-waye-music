@@ -4,14 +4,16 @@ import { useRef, useState } from 'react';
 import { trackEvent } from '@/lib/analytics';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
-import { Mail, Instagram, ExternalLink, Music } from 'lucide-react';
+import { Mail, ExternalLink } from 'lucide-react';
+import BrandIcon from '@/components/public/BrandIcon';
+import { resolveOfficialLinks } from '@/config/officialLinks';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import VoiceTextarea from '@/components/ui/VoiceTextarea';
 import { useToast } from '@/components/ui/use-toast';
 import { base44 } from '@/api/base44Client';
 
-const SPOTIFY_ARTIST_URL = 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz';
+
 
 export default function ContactGannon() {
   const [contactParams]=useSearchParams();
@@ -29,33 +31,15 @@ export default function ContactGannon() {
 
   const settings = bizSettings[0] || {};
   const contactEmail = settings.public_contact_email || 'gannonwayemusic@gmail.com';
-  const instagramUrl = settings.instagram_url || 'https://www.instagram.com/gann0nwaye';
-  const tiktokUrl = settings.tiktok_url || 'https://www.tiktok.com/@gann0nwaye';
-  const spotifyUrl = settings.spotify_artist_url || SPOTIFY_ARTIST_URL;
-
-  const socialLinks = [
-    {
-      label: 'Instagram',
-      handle: '@gann0nwaye',
-      url: instagramUrl,
-      icon: Instagram,
-      desc: 'Behind the scenes, music moments & more',
-    },
-    {
-      label: 'TikTok',
-      handle: '@gann0nwaye',
-      url: tiktokUrl,
-      icon: Music,
-      desc: 'Short-form stories, music & community',
-    },
-    {
-      label: 'Spotify',
-      handle: 'Gannon Waye',
-      url: spotifyUrl,
-      icon: Music,
-      desc: 'Stream & follow on Spotify',
-    },
-  ];
+  // Every official destination from Gannon's verified Linktree hub, with any
+  // admin-recorded override from Business Profile Settings taking precedence.
+  const socialLinks = resolveOfficialLinks(settings).map(link => ({
+    key: link.key,
+    label: link.label,
+    handle: link.handle,
+    url: link.url,
+    desc: link.desc,
+  }));
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -141,19 +125,18 @@ export default function ContactGannon() {
             <div className="bg-card border border-primary/20 rounded-2xl p-6 hover:border-primary/40 transition-colors">
               <h2 className="font-display text-xl text-foreground mb-4">Follow the Journey</h2>
               <div className="space-y-3">
-                {socialLinks.map(s => {
-                  const Icon = s.icon;
-                  return (
+                {socialLinks.map(s => (
                     <a
                       key={s.label}
                       href={s.url}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`${s.label}: ${s.desc}`}
                       className="flex items-center justify-between group p-3 rounded-xl bg-secondary/30 border border-border/30 hover:bg-secondary/60 hover:border-primary/30 transition-all"
                     >
                       <div className="flex items-center gap-3">
                         <div className="w-7 h-7 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-                          <Icon className="w-3.5 h-3.5 text-primary" />
+                          <BrandIcon brand={s.key} className="w-3.5 h-3.5 text-primary" />
                         </div>
                         <div>
                           <p className="font-body text-sm text-foreground">{s.label}</p>
@@ -162,8 +145,7 @@ export default function ContactGannon() {
                       </div>
                       <ExternalLink className="w-3.5 h-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
                     </a>
-                  );
-                })}
+                ))}
               </div>
             </div>
           </motion.div>

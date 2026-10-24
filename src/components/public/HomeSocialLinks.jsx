@@ -7,6 +7,17 @@ const NETWORKS = [
   ['apple_music_url', 'Apple Music', 'apple'],
 ];
 
+// Verified official URLs (source: https://linktr.ee/gann0nwaye) so these links
+// never render empty when a Business Profile Settings field is unset.
+const OFFICIAL_FALLBACKS = {
+  youtube_url: 'https://www.youtube.com/@gannonwayeofficial',
+  instagram_url: 'https://www.instagram.com/gann0nwaye',
+  facebook_url: 'https://www.facebook.com/gann0nwaye',
+  tiktok_url: 'https://www.tiktok.com/@gann0nwaye',
+  spotify_url: 'https://open.spotify.com/artist/1tu7INPvRAcRihgaEvBVAz',
+  apple_music_url: 'https://music.apple.com/au/artist/gannon-waye/6771583117',
+};
+
 function NetworkLogo({ network }) {
   if (network === 'youtube') return <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="5" fill="#ff0033" /><path d="m10 8 6 4-6 4Z" fill="white" /></svg>;
   if (network === 'instagram') return <svg viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="home-instagram" x1="0" y1="1" x2="1" y2="0"><stop stopColor="#ffcd57" /><stop offset=".48" stopColor="#e1306c" /><stop offset="1" stopColor="#833ab4" /></linearGradient></defs><rect x="1" y="1" width="22" height="22" rx="6" fill="url(#home-instagram)" /><rect x="5" y="5" width="14" height="14" rx="4" fill="none" stroke="white" strokeWidth="1.7" /><circle cx="12" cy="12" r="3.3" fill="none" stroke="white" strokeWidth="1.7" /><circle cx="16.8" cy="7.3" r="1" fill="white" /></svg>;
@@ -17,13 +28,14 @@ function NetworkLogo({ network }) {
 }
 
 export default function HomeSocialLinks({ settings = {} }) {
-  const links = NETWORKS.filter(([key]) => {
-    try { return new URL(settings[key]).protocol === 'https:'; } catch { return false; }
-  });
+  const links = NETWORKS.map(([key, label, network]) => [key, label, network, settings[key] || OFFICIAL_FALLBACKS[key]])
+    .filter(([, , , url]) => {
+      try { return new URL(url).protocol === 'https:'; } catch { return false; }
+    });
   if (!links.length) return null;
   return <nav className="home-social-links" aria-label="Keep in touch with Gannon">
     <p>We can also keep in touch on</p>
-    <div>{links.map(([key, label, network]) => <a key={key} href={settings[key]} target="_blank" rel="noopener noreferrer" aria-label={label}>
+    <div>{links.map(([key, label, network, url]) => <a key={key} href={url} target="_blank" rel="noopener noreferrer" aria-label={`Gannon Waye on ${label}`}>
       <NetworkLogo network={network} /><span>{label}</span>
     </a>)}</div>
   </nav>;

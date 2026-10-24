@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { base44 } from '@/api/base44Client';
 import { useQuery } from '@tanstack/react-query';
+import OfficialSocialLinks from '@/components/public/OfficialSocialLinks';
 
 export default function Footer() {
   const { data: bizSettings = [] } = useQuery({
@@ -9,9 +10,6 @@ export default function Footer() {
   });
 
   const contactEmail = bizSettings[0]?.public_support_email || 'gannonwayemusic@gmail.com';
-  const instagramUrl = bizSettings[0]?.instagram_url || 'https://www.instagram.com/gann0nwaye';
-  const tiktokUrl = bizSettings[0]?.tiktok_url || 'https://www.tiktok.com/@gann0nwaye';
-  const youtubeUrl = bizSettings[0]?.youtube_url || 'https://www.youtube.com/@gannonwayeofficial';
 
   return (
     <footer className="border-t border-border/40 bg-background">
@@ -54,11 +52,7 @@ export default function Footer() {
             </div>
 
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mt-4 mb-3">Social</h4>
-            <div className="flex flex-col gap-2">
-              <a href={instagramUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Instagram @gann0nwaye</a>
-              <a href={tiktokUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">TikTok @gann0nwaye</a>
-              <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">YouTube @gannonwayeofficial</a>
-            </div>
+            <OfficialSocialLinks settings={bizSettings[0] || {}} variant="rows" />
           </div>
         </div>
 
