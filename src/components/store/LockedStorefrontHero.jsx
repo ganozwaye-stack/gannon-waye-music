@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { base44 } from '@/api/base44Client';
-import { STOREFRONT_ART_LOCK } from '@/config/storefrontArtLock';
+import { STOREFRONT_ART_LOCK, BOUTIQUE_HERO_IMAGE } from '@/config/storefrontArtLock';
 import WorldHotspot from '@/components/store/WorldHotspot';
 import ExpressInterestModal from '@/components/store/ExpressInterestModal';
 import { formatAudPrice } from '@/lib/liveStoreProducts';
@@ -12,6 +12,10 @@ import { formatAudPrice } from '@/lib/liveStoreProducts';
 // underneath them. A hotspot only ever renders on top of the ONE locked
 // artwork below (src/config/storefrontArtLock.js) — every record is filtered
 // to that exact lock_id, and never resolved against any other image.
+//
+// v6 (owner-directed, 26 October 2026): the hero shows Gannon Waye Music
+// merchandise only — no Thanking You Kindly brand items, no tribute pieces and
+// no TYK campaign posters. This is the standing brand-separation rule.
 
 export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
   const { data: hotspots } = useQuery({
@@ -64,7 +68,7 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
     })
     .filter(Boolean);
 
-  // Owner-directed (10 September 2026): the artwork's top edge must sit flush
+  // Owner-directed (10 September 2026): the hero's top edge must sit flush
   // against the bottom border of the floating menu bar — no black strip between
   // them. The menu is fixed with a responsive height, so its bottom edge is
   // measured live on mount and on resize.
@@ -84,61 +88,98 @@ export default function LockedStorefrontHero({ products = [], onOpenProduct }) {
     <section
       data-testid="locked-storefront-world"
       data-storefront-lock-id={STOREFRONT_ART_LOCK.lockId}
-      aria-label="Permanent Gannon Waye boutique world"
+      aria-label="Gannon Waye Music official merchandise"
       style={{
         position: 'relative',
         width: '100%',
         // The menu floats over the page and PublicLayout gives main a pt-16 (4rem)
-        // top pad. The live-measured nav bottom cancels that pad out exactly, so
-        // the top edge of the photo meets the menu's bottom border with zero gap
-        // (symmetrical with the screen edge), on desktop and mobile alike.
-        // Owner-directed (25 September 2026): drop the artwork a little below the
-        // menu so the neon signage at the top of the shopfront is fully revealed.
-        marginTop: `calc(${navBottom ?? 62}px - 4rem + 1.5rem)`,
-        // Owner-directed (10 September 2026): show the ENTIRE original
-        // photograph — no cover-crop. The v1 photo already contains the
-        // GANNON WAYE neon signage at the top, the full shopfront on both
-        // sides, and the CD displays at the bottom; the previous 68vh
-        // cover-crop was cutting all three off. The section hugs the image
-        // at its natural aspect ratio so nothing is ever cropped again.
+        // top pad, so the live-measured nav bottom cancels that pad out exactly
+        // and the hero meets the menu's bottom border with no gap.
+        marginTop: `calc(${navBottom ?? 62}px - 4rem)`,
+        background: 'linear-gradient(180deg, #0d0d0d 0%, #0a0a0a 100%)',
+        borderBottom: '1px solid rgba(212, 175, 55, 0.22)',
         overflow: 'hidden',
-        background: '#0a0a0a',
       }}
     >
-      <img
-        data-testid="locked-storefront-world-image"
-        data-storefront-lock-id={STOREFRONT_ART_LOCK.lockId}
-        data-storefront-image-sha256={STOREFRONT_ART_LOCK.imageSha256}
-        src={STOREFRONT_ART_LOCK.imageUrl}
-        alt="Gannon Waye Boutique, official merchandise store"
-        draggable="false"
+      <div
         style={{
           position: 'relative',
-          display: 'block',
-          width: '100%',
-          height: 'auto',
-          userSelect: 'none',
-          pointerEvents: 'none',
+          maxWidth: '72rem',
+          margin: '0 auto',
+          padding: '2rem 1rem 2.25rem',
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'center',
+          gap: '2rem',
         }}
-      />
+      >
+        {/* The one locked piece of artwork. Hotspot zones are positioned against
+            this exact image box, which is also what the owner records them on in
+            /admin/merch-visual-lab. */}
+        <div
+          style={{
+            position: 'relative',
+            flex: '1 1 320px',
+            minWidth: '260px',
+            maxWidth: '520px',
+            margin: '0 auto',
+            borderRadius: '1rem',
+            overflow: 'hidden',
+            border: '1px solid rgba(212, 175, 55, 0.28)',
+            background: 'radial-gradient(ellipse at 50% 32%, rgba(212,175,55,0.16) 0%, rgba(10,10,10,0) 62%), #0d0d0d',
+            boxShadow: '0 0 60px rgba(212, 175, 55, 0.10)',
+          }}
+        >
+          <img
+            data-testid="locked-storefront-world-image"
+            data-storefront-lock-id={STOREFRONT_ART_LOCK.lockId}
+            data-storefront-image-sha256={STOREFRONT_ART_LOCK.imageSha256}
+            src={BOUTIQUE_HERO_IMAGE}
+            alt={STOREFRONT_ART_LOCK.imageAlt}
+            draggable="false"
+            style={{
+              position: 'relative',
+              display: 'block',
+              width: '100%',
+              height: 'auto',
+              maxHeight: '60vh',
+              objectFit: 'contain',
+              userSelect: 'none',
+              pointerEvents: 'none',
+            }}
+          />
 
-      {/* No text overlay — the artwork carries the GANNON WAYE gold neon
-          sign baked into the top of the image itself. Nothing may be
-          layered over the artwork. */}
+          {resolvedHotspots.map((hotspot) => (
+            <WorldHotspot
+              key={hotspot.id}
+              zone={hotspot.zone}
+              testId={hotspot.product ? 'world-hoodie-hotspot' : 'world-interest-hotspot'}
+              label={hotspot.label}
+              onClick={() =>
+                hotspot.product
+                  ? onOpenProduct?.(hotspot.product)
+                  : setInterestItem(hotspot.interest)
+              }
+            />
+          ))}
+        </div>
 
-      {resolvedHotspots.map((hotspot) => (
-        <WorldHotspot
-          key={hotspot.id}
-          zone={hotspot.zone}
-          testId={hotspot.product ? 'world-hoodie-hotspot' : 'world-interest-hotspot'}
-          label={hotspot.label}
-          onClick={() =>
-            hotspot.product
-              ? onOpenProduct?.(hotspot.product)
-              : setInterestItem(hotspot.interest)
-          }
-        />
-      ))}
+        {/* Brand copy. Sits beside the artwork, never over it. */}
+        <div style={{ flex: '1 1 260px', minWidth: '240px' }}>
+          <p className="font-body text-[10px] tracking-[0.32em] uppercase text-primary/70 mb-3">
+            Official merchandise
+          </p>
+          <h2 className="font-display text-4xl md:text-5xl gradient-gold-text leading-tight mb-3">
+            Gannon Waye
+          </h2>
+          <p className="font-body text-xs tracking-[0.3em] uppercase text-primary/80 mb-4">
+            Carry the message
+          </p>
+          <p className="font-body text-sm text-muted-foreground max-w-sm leading-relaxed">
+            Independent, heart-first music, and merchandise that carries the message. Every piece in the store below is verified, in stock and ready to ship.
+          </p>
+        </div>
+      </div>
 
       {interestItem && (
         <ExpressInterestModal item={interestItem} onClose={() => setInterestItem(null)} />

@@ -2,10 +2,11 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const root = process.cwd();
-// v5 — the owner-supplied externally redesigned boutique world (11 September 2026).
-// Exact checksum verified against the owner supplied v5 image bytes.
-const expectedUrl = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/31a17f0b8_image.png';
-const expectedSha256 = '13cc396dc5f8d3c968d13bb66a7d3a66c48a9219357d2dae4e3187c866b280e7';
+// v6 — the owner's Gannon Waye Music product photography (26 October 2026), swapped
+// in by the owner's own instruction to remove Thanking You Kindly brand items from
+// the store hero. Exact checksum verified against the owner supplied image bytes.
+const expectedUrl = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/23e54b3e2_hoodie-premium-studio-back-hero-4x5.png';
+const expectedSha256 = '7db85b25773fbc1ea297df60d5050745ebd7c805ca1a8dc1576ff2695084647f';
 
 function read(relativePath) {
   return fs.readFileSync(path.join(root, relativePath), 'utf8');
