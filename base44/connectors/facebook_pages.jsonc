@@ -3,6 +3,7 @@
   "scopes": [
     "pages_show_list",
     "pages_read_engagement",
-    "read_insights"
+    "read_insights",
+    "pages_manage_posts"
   ]
 }
