@@ -1,0 +1,92 @@
+{
+  "name": "SocialPost",
+  "type": "object",
+  "description": "The single approved source of truth for daily Instagram publishing. A post may only go out once an owner has fully written and approved this record; the publisher never writes copy itself. After a successful publish the same record is stamped with posted_at, the Instagram media id and the permalink so every live post is traceable. Admin only.",
+  "properties": {
+    "caption": {
+      "type": "string",
+      "description": "The exact approved caption. Published verbatim."
+    },
+    "call_to_action": {
+      "type": "string",
+      "description": "The approved call to action (e.g. Listen now, Shop the store). Required before publishing."
+    },
+    "hashtags": {
+      "type": "string",
+      "description": "Approved space separated hashtags, appended to the caption on publish."
+    },
+    "media_url": {
+      "type": "string",
+      "description": "Public image or video URL Instagram fetches. Required before publishing."
+    },
+    "media_type": {
+      "type": "string",
+      "enum": [
+        "image",
+        "reel",
+        "story"
+      ],
+      "default": "image",
+      "description": "How the media is published to Instagram."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "rejected",
+        "posted"
+      ],
+      "enumColors": [
+        "gray",
+        "green",
+        "red",
+        "blue"
+      ],
+      "default": "draft",
+      "description": "Only an approved record may be published. The publisher sets posted after Instagram confirms."
+    },
+    "posted_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Write-back timestamp of the confirmed publish."
+    },
+    "instagram_media_id": {
+      "type": "string",
+      "description": "Write-back Instagram media id returned by media_publish."
+    },
+    "permalink": {
+      "type": "string",
+      "description": "Write-back Instagram permalink of the live post."
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "required": [
+    "caption"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
