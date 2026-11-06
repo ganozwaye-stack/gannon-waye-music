@@ -59,7 +59,6 @@
     "base44/functions/tiktokOAuth/entry.ts",
     "base44/functions/openaiAgent/entry.ts",
     "base44/functions/onNewOrderAutomation/entry.ts",
-    "base44/functions/sendOrderReceipt/entry.ts",
     "base44/functions/fulfilOrderAndNotify/entry.ts",
     "base44/functions/createHeygenPhotoAvatar/entry.ts",
     "base44/functions/opusClipCreateProject/entry.ts",
