@@ -1,5 +1,6 @@
 // Catalogue recovery is independent of payment activation.
 // Verified live product, stock, price and storefront-art gates stay intact.
 export const STORE_CRASHED = false;
-// Retain the existing hold on transactional routes until recovery is reviewed.
-export const STORE_CHECKOUT_HELD = true;
+// Checkout is live. Live Stripe secret and publishable keys are both configured
+// and verified, so the existing checkout path is open again.
+export const STORE_CHECKOUT_HELD = false;
