@@ -3,10 +3,10 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
-// This Is Me: The Prelude. Series launched 17 September 2026. Owner-supplied artwork.
+// This Is Me. Series launched 17 September 2026. Owner-supplied artwork.
 export const THIS_IS_ME_POSTERS = [
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/402f7bee7_F2917245-9524-4AD7-ADB8-10D7A8A10E56.png', alt: 'This Is Me, The Prelude. I kept showing up. I needed recovery too.' },
-  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d59ff4434_FEB48EC5-02F5-44D3-9B6B-3CE91EE19B20.png', alt: 'This Is Me, The Prelude. The songs are only part of the story.' },
+  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/402f7bee7_F2917245-9524-4AD7-ADB8-10D7A8A10E56.png', alt: 'This Is Me series poster. I kept showing up. I needed recovery too.' },
+  { url: 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/d59ff4434_FEB48EC5-02F5-44D3-9B6B-3CE91EE19B20.png', alt: 'This Is Me series poster. The songs are only part of the story.' },
 ];
 
 export default function ThisIsMeFeature({ compact = false }) {
@@ -25,13 +25,13 @@ export default function ThisIsMeFeature({ compact = false }) {
             className="hidden md:block w-[170px] lg:w-[190px] aspect-[9/16] object-cover rounded-xl border border-primary/25"
             style={{ boxShadow: '0 10px 30px rgba(0,0,0,0.45)' }} />
           <div className="text-center">
-            <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-2">New series · The Prelude</p>
+            <p className="font-body text-[10px] tracking-[0.35em] uppercase gradient-gold-glow mb-2">Video series</p>
             <h2 className="font-body text-3xl md:text-5xl uppercase tracking-[0.18em] gradient-gold-text mb-3">This Is Me</h2>
             <p className="font-body text-sm md:text-base text-foreground/75 leading-relaxed max-w-xl mx-auto">
-              The songs are only part of the story. This Is Me is the video series behind the music: the years of showing up, the recovery that was needed too, and everything that led to Set Free.
+              This Is Me. A series of short, honest reflections. New episodes weekly.
             </p>
             <div className="flex flex-wrap justify-center gap-3 mt-6">
-              <a href="https://www.youtube.com/@gannonwaye" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.youtube.com/@gannonwayeofficial" target="_blank" rel="noopener noreferrer">
                 <Button className="rounded-full gradient-gold-button border-0 font-body text-xs tracking-wider uppercase">
                   Follow the series on YouTube <ArrowRight className="w-3.5 h-3.5 ml-2" />
                 </Button>
