@@ -18,9 +18,10 @@
  * 2. The paid order and the canonical Stripe event are stored before the
  *    caller reports success.
  * 3. GST is recorded as zero while the business is not GST registered.
- * 4. Inventory and customer communication are delegated to the idempotent
- *    order processor (onNewOrderAutomation).
+ * 4. Owned stock for the exact purchased variant is decremented once per order,
+ *    here in the pipeline, so capture does not depend on a separate processor.
  */
+import { adjustOrderInventory } from '../../shared/orderInventoryAdjustment.js';
 
 export function parseJsonArray(value) {
   try {
@@ -143,25 +144,22 @@ export async function persistIdempotence(base44, sessionId, eventId, orderId) {
 }
 
 export async function requestOrderProcessing(base44, orderId, eventId, source = 'stripeWebhook') {
-  try {
-    const response = await base44.asServiceRole.functions.invoke('onNewOrderAutomation', {
-      orderId,
-      stripeEventId: eventId,
-      source,
-    });
-    return { success: true, response };
-  } catch (error) {
-    await createDiagnostic(base44, `Paid order ${orderId} needs post-payment processing`, {
-      diagnostic_type: 'order_creation_failure',
-      severity: 'critical',
-      order_id: orderId,
-      stripe_event_id: eventId,
-      admin_message: `The paid order was stored, but stock or receipt processing did not complete: ${String(error?.message || error).slice(0, 500)}`,
-      recommended_fix: 'Open the paid order, run the idempotent order processor, and confirm stock adjusted exactly once before fulfilment.',
-      source_chain: `${source} -> onNewOrderAutomation failed`,
-    });
-    return { success: false, error: String(error?.message || error) };
-  }
+  // Stock is decremented here because the downstream processor that used to do
+  // it (onNewOrderAutomation) is on a safety hold and performs no work. The
+  // order's inventory_adjusted flag keeps it to exactly one decrement per order.
+  const inventory = await adjustOrderInventory(base44, orderId);
+  if (inventory.success) return { success: true, inventory };
+
+  await createDiagnostic(base44, `Paid order ${orderId} needs stock adjustment`, {
+    diagnostic_type: 'order_creation_failure',
+    severity: 'critical',
+    order_id: orderId,
+    stripe_event_id: eventId,
+    admin_message: `The paid order was stored, but its stock was not adjusted: ${String(inventory.error).slice(0, 500)}`,
+    recommended_fix: 'Open the paid order, decrement the purchased variant stock by the ordered quantity, then set inventory_adjusted. Do not charge the customer again.',
+    source_chain: `${source} -> inventory adjustment failed`,
+  });
+  return { success: false, error: inventory.error };
 }
 
 /**
