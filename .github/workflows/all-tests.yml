@@ -9,10 +9,40 @@ on:
   workflow_dispatch:
 
 jobs:
+  live-hub:
+    name: Candidate Live Hub Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      VITE_BASE44_APP_ID: '69eb7905ca6eb4180010f794'
+      VITE_BASE44_APP_BASE_URL: 'https://gannonwaye.base44.app'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - run: node --test tests/live/*.test.mjs
+      - run: npx playwright install --with-deps chromium
+      - name: Test candidate hub on desktop, phone and tablet
+        run: npx playwright test live-hub.spec.js --project=chromium --project=mobile-chrome --project=tablet-chrome --reporter=github,html
+        env:
+          BASE_URL: http://localhost:5173
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: candidate-live-hub-report
+          path: playwright-report/
+          retention-days: 14
+
   build-and-test:
     name: Build & Playwright Tests
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      VITE_BASE44_APP_ID: '69eb7905ca6eb4180010f794'
+      VITE_BASE44_APP_BASE_URL: 'https://gannonwaye.base44.app'
 
     steps:
       - name: Checkout Repository
@@ -61,9 +91,10 @@ jobs:
           fetch-depth: 0
 
       - name: TruffleHog OSS Secret Scan
-        uses: trufflesecurity/trufflehog-actions@main
+        uses: trufflesecurity/trufflehog@6f3c981e7b77f235fd2702dd74af25fc4b72bf11 # v3.96.0
         with:
           path: ./
+          version: '3.96.0'
           extra_args: --only-verified
 
   codeql-scan:
