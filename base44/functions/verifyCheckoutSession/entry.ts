@@ -91,11 +91,11 @@ Deno.serve(async (req) => {
     const orderRecorded = capture.outcome === 'created' || capture.outcome === 'duplicate';
 
     if (capture.outcome === 'created') {
-      // The paid order and canonical records are already stored. Finish stock,
-      // receipt and notification work in the background so this response
-      // returns fast; requestOrderProcessing records a critical diagnostic on
-      // failure so nothing is lost silently.
-      requestOrderProcessing(base44, capture.order.id, syntheticEvent.id, 'verifyCheckoutSession');
+      // The paid order and canonical records are already stored. Await stock
+      // decrement and signed receipt dispatch before returning so the isolate
+      // does not terminate mid-flight; requestOrderProcessing records a
+      // critical diagnostic on failure so nothing is lost silently.
+      await requestOrderProcessing(base44, capture.order.id, syntheticEvent.id, 'verifyCheckoutSession');
     }
     // Capture failures (incomplete metadata, create failed, persistence
     // failed) already recorded a critical PaymentDiagnostic through the shared
