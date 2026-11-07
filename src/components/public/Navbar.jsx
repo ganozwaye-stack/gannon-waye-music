@@ -15,7 +15,7 @@ import OfficialSocialLinks from '@/components/public/OfficialSocialLinks';
 const PORTRAIT_URL = 'https://media.base44.com/images/public/69eb7905ca6eb4180010f794/637f52efd_image.png';
 
 const NAV_LINKS = [
-{ label: 'Home', path: '/' },
+{ label: 'Home', path: '/home' },
 { label: 'Biography', path: '/biography' },
 { label: 'Music', path: '/music', children: [
   { label: 'All Music', path: '/music' },

@@ -71,6 +71,7 @@ const NAV_SECTIONS = [
       { label: 'Hero Design Studio', path: '/admin/hero-design-studio', icon: Palette },
       { label: 'Master Handover Timeline', path: '/admin/master-handover', icon: ListTodo },
       { label: 'Press Kit', path: '/admin/press-kit', icon: Megaphone },
+      { label: 'Release Review', path: '/admin/release-review', icon: CheckCircle2 },
       { label: 'Release Email Studio', path: '/admin/release-email-studio', icon: Mail },
     ]
   },

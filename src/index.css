@@ -208,6 +208,45 @@
   }
 }
 
+/* ── Group landing page (the root): charcoal, gold, cream ── */
+.group-site {
+  --group-ink: #0d0f12;
+  --group-ink-soft: #13161b;
+  --group-cream: #f8f3e8;
+  --group-gold: #f5d06e;
+  --group-gold-dim: rgba(245, 208, 110, 0.26);
+  --group-muted: #a89f8c;
+  --group-line: #23262c;
+  font-family: 'Poppins', sans-serif;
+}
+
+.group-site .group-display {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: -0.01em;
+}
+
+@keyframes groupGrainDrift {
+  0% { transform: translate3d(0, 0, 0); }
+  25% { transform: translate3d(-2%, 1%, 0); }
+  50% { transform: translate3d(1%, -2%, 0); }
+  75% { transform: translate3d(-1%, 2%, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes groupDoorPulse {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.75; }
+}
+
+.group-grain {
+  animation: groupGrainDrift 9s steps(5) infinite;
+}
+
+.group-doorway-glow {
+  background: radial-gradient(75% 62% at 50% 100%, rgba(245, 208, 110, 0.20), transparent 72%);
+  animation: groupDoorPulse 7s ease-in-out infinite;
+}
+
 /* Hero Canvas Studio orbit sparks: one full lap, any duration. */
 @keyframes heroOrbitSpin {
   from { transform: rotate(0deg); }

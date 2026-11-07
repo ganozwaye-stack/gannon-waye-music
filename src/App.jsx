@@ -19,6 +19,9 @@ initializeEventSystem();
 // Reuse the existing page-tracker position with sanitized first-party events.
 const PostHogPageTracker = WebsiteAnalyticsTracker;
 
+// Group landing page (root): three doors only
+import GroupLanding from '@/pages/GroupLanding';
+
 // Public pages
 import Home from '@/pages/Home';
 import Music from '@/pages/Music';
@@ -57,6 +60,7 @@ import Dashboard from '@/pages/admin/Dashboard';
 import DailyDashboardV2 from '@/pages/admin/DailyDashboardV2';
 import HeroDesignStudio from '@/pages/admin/HeroDesignStudio';
 import ReleaseControlDesk from '@/pages/admin/ReleaseControlDesk';
+import ReleaseReview from '@/pages/admin/ReleaseReview';
 import FanManagement from '@/pages/admin/FanManagement';
 import SiteSettings from '@/pages/admin/SiteSettings';
 import MerchPlatforms from '@/pages/admin/MerchPlatforms';
@@ -266,9 +270,14 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route path="/login" element={<Login />} />
 
+      {/* Group landing page at the root. Three doors only: Gannon Waye Music,
+          Coaching and Journals, Wavefront. Thanking You Kindly is a separate
+          ecommerce operation and is deliberately absent from this page. */}
+      <Route path="/" element={<GroupLanding />} />
+
       {/* Public routes */}
       <Route element={<PublicLayout />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/music" element={<Music />} />
         <Route path="/store" element={<Store />} />
         <Route path="/store/all" element={<Navigate to="/store" replace />} />
@@ -440,6 +449,7 @@ const AuthenticatedApp = () => {
         <Route path="/admin/mission-control" element={<Navigate to="/admin/command-centre" replace />} />
         <Route path="/admin/hero-design-studio" element={<HeroDesignStudio />} />
         <Route path="/admin/release-control" element={<ReleaseControlDesk />} />
+        <Route path="/admin/release-review" element={<ReleaseReview />} />
         <Route path="/admin/fans" element={<FanManagement />} />
         <Route path="/admin/settings" element={<SiteSettings />} />
         <Route path="/admin/merch-platforms" element={<MerchPlatforms />} />

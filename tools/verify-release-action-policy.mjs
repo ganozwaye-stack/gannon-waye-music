@@ -68,6 +68,10 @@ if (policy) {
   requirePolicyRequirements(policy, 'syncDeegoReportsToSheets', 'owner_scoped_report_sync', [
     'admin_only_user_calls', 'deego_owner_report_only',
   ]);
+  requirePolicyRequirements(policy, 'saveReleaseReview', 'owner_private_review_edits', [
+    'exact_owner', 'private_unapproved_record_only', 'evidence_frozen_after_approval',
+    'exact_snapshot_compare_and_set', 'no_publication_or_delivery',
+  ]);
 
   const held = policy.held_entrypoints;
   if (!Array.isArray(held) || held.length === 0) {
@@ -175,6 +179,23 @@ requireText(
   'read_only: true',
   'Distributor status is no longer explicitly read-only.',
 );
+
+const reviewSave = read('base44/functions/saveReleaseReview/entry.ts');
+for (const needle of [
+  'OWNER_EMAILS.has',
+  'is_published === true',
+  'publishing_safe === true',
+  "['pending', 'revoked'].includes(approvalState)",
+  'updated_date: release.updated_date',
+  'Number(result?.updated) !== 1',
+]) {
+  if (!reviewSave.includes(needle)) {
+    failures.push(`Private review saving is missing required fail-closed guard: ${needle}`);
+  }
+}
+if (/integrations\.|fetch\(|functions\.invoke|SendEmail|is_published\s*:|publishing_safe\s*:/.test(reviewSave)) {
+  failures.push('Private review saving must not publish, deliver or perform external actions.');
+}
 
 if (failures.length > 0) {
   console.error('Release action policy check failed:');

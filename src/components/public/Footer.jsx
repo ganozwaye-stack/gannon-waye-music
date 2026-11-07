@@ -29,7 +29,7 @@ export default function Footer() {
           <div>
             <h4 className="font-body text-xs tracking-widest uppercase text-muted-foreground mb-3">Navigate</h4>
             <div className="flex flex-col gap-2">
-              <Link to="/" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Home</Link>
+              <Link to="/home" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Home</Link>
               <Link to="/biography" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Biography</Link>
               <Link to="/music" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Music</Link>
               <Link to="/lyrics" className="font-body text-sm text-foreground/70 hover:text-primary transition-colors">Lyrics</Link>

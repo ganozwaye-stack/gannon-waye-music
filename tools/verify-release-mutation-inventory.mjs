@@ -4,6 +4,7 @@ import { resolve, relative } from 'node:path';
 const ROOT = resolve('.');
 const failures = [];
 const allowedFunctionMutators = new Set([
+  'base44/functions/saveReleaseReview/entry.ts',
   'base44/functions/submitNewRelease/entry.ts',
   'base44/functions/publishSingleWorkflow/entry.ts',
   'base44/functions/sendReleaseEmailDraft/entry.ts',
@@ -50,7 +51,7 @@ if (!existsSync(policyPath)) {
 } else {
   try {
     const policy = JSON.parse(readFileSync(policyPath, 'utf8'));
-    for (const controlled of ['submitNewRelease', 'publishSingleWorkflow', 'sendReleaseEmailDraft']) {
+    for (const controlled of ['submitNewRelease', 'publishSingleWorkflow', 'sendReleaseEmailDraft', 'saveReleaseReview']) {
       if (!policy.controlled_functions?.[controlled]) {
         failures.push(`Release mutation workflow ${controlled} is missing from the release action policy.`);
       }

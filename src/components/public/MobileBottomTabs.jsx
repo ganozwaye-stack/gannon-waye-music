@@ -3,7 +3,7 @@ import { Home, Music, ShoppingBag, FileText, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const NAV_ITEMS = [
-  { path: '/', label: 'Home', icon: Home },
+  { path: '/home', label: 'Home', icon: Home },
   { path: '/music', label: 'Music', icon: Music },
   { path: '/store', label: 'Store', icon: ShoppingBag },
   { path: '/lyrics', label: 'Lyrics', icon: FileText },

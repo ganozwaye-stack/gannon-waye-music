@@ -1,0 +1,53 @@
+{
+  "name": "ReleaseReviewSheet",
+  "type": "object",
+  "description": "The owner's identifiers and listening copy for one release, used by the one-click Release Review page. Held separately from the Release record so the publication gates on Release stay untouched. Admin only.",
+  "properties": {
+    "release_id": {
+      "type": "string",
+      "description": "The Release record this sheet belongs to"
+    },
+    "isrc_code": {
+      "type": "string",
+      "description": "ISRC recorded for the recording"
+    },
+    "upc_code": {
+      "type": "string",
+      "description": "UPC / EAN recorded for the release"
+    },
+    "audio_preview_url": {
+      "type": "string",
+      "description": "HTTPS URL of the audio used for the review listen"
+    },
+    "review_notes": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Private notes the owner keeps while reviewing"
+    }
+  },
+  "required": [
+    "release_id"
+  ],
+  "rls": {
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

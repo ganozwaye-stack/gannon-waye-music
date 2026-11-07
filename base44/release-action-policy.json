@@ -2,6 +2,16 @@
   "version": 1,
   "default_release_policy": "held",
   "controlled_functions": {
+    "saveReleaseReview": {
+      "mode": "owner_private_review_edits",
+      "required": [
+        "exact_owner",
+        "private_unapproved_record_only",
+        "evidence_frozen_after_approval",
+        "exact_snapshot_compare_and_set",
+        "no_publication_or_delivery"
+      ]
+    },
     "submitNewRelease": {
       "mode": "private_draft_only",
       "required": ["exact_owner", "private_draft_acknowledgement", "external_actions_held"]
