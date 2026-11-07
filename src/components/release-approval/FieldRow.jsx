@@ -1,24 +1,29 @@
 import React from 'react';
-import { displayValue, hasValue } from '@/components/release-approval/approvalFields';
+import { formatValue, isSet } from '@/components/release-approval/approvalFields';
 
-// One labelled value. A field the record does not hold reads NOT BUILT, never
-// blank, and never as a pass.
+// One labelled value. A field the record does not hold reads NOT SET, never
+// blank space.
 export default function FieldRow({ label, value, long = false }) {
-  const built = hasValue(value);
   return (
     <div className="flex flex-col gap-1 border-t border-border/40 py-2 first:border-t-0 first:pt-0">
       <span className="font-body text-[0.58rem] uppercase tracking-[0.22em] text-muted-foreground">
         {label}
       </span>
-      <span
-        className={
-          built
-            ? `font-body text-sm text-foreground ${long ? 'max-h-48 overflow-y-auto whitespace-pre-wrap leading-relaxed' : 'break-words'}`
-            : 'font-body text-xs tracking-[0.18em] text-amber-400'
-        }
-      >
-        {displayValue(value)}
-      </span>
+      {isSet(value) ? (
+        <span
+          className={
+            long
+              ? 'max-h-48 overflow-y-auto whitespace-pre-wrap break-words font-body text-sm leading-relaxed text-foreground'
+              : 'break-words font-body text-sm text-foreground'
+          }
+        >
+          {formatValue(value)}
+        </span>
+      ) : (
+        <span className="inline-flex w-fit rounded border border-border/70 bg-secondary/60 px-2 py-0.5 font-body text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground">
+          NOT SET
+        </span>
+      )}
     </div>
   );
 }

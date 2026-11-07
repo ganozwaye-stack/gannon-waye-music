@@ -1,32 +1,33 @@
 import React from 'react';
-import { AlertTriangle } from 'lucide-react';
-import { artworkWarning, hasValue } from '@/components/release-approval/approvalFields';
+import { isHeroImage, isSet } from '@/components/release-approval/approvalFields';
 
+// The artwork field, as a thumbnail. A site hero image is called out, never
+// presented as a cover.
 export default function ArtworkPreview({ url }) {
-  const warning = artworkWarning(url);
+  const hero = isHeroImage(url);
+
   return (
-    <div className="flex flex-wrap items-start gap-4">
-      <div className="h-44 w-44 shrink-0 overflow-hidden rounded-md border border-border bg-secondary">
-        {hasValue(url) ? (
-          <img src={String(url)} alt="Release artwork" className="h-full w-full object-cover" />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center font-body text-[0.6rem] uppercase tracking-[0.22em] text-muted-foreground">
-            No artwork
-          </div>
-        )}
-      </div>
-      <div className="min-w-[12rem] flex-1">
-        <p className="font-body text-[0.58rem] uppercase tracking-[0.22em] text-muted-foreground">artwork_url</p>
-        <p className="mt-1 break-all font-body text-xs text-foreground/80">{hasValue(url) ? String(url) : 'NOT BUILT'}</p>
-        {warning ? (
-          <p className="mt-3 inline-flex items-start gap-2 rounded-md border border-amber-500/50 bg-amber-500/10 px-3 py-2 font-body text-xs leading-relaxed text-amber-300">
-            <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
-            {warning}
-          </p>
-        ) : (
-          <p className="mt-3 font-body text-xs text-emerald-400">Square cover image.</p>
-        )}
-      </div>
+    <div className="space-y-2">
+      {isSet(url) ? (
+        <img
+          src={url}
+          alt="Release artwork"
+          className="h-40 w-40 rounded-md border border-border/60 object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <div className="flex h-40 w-40 items-center justify-center rounded-md border border-dashed border-border/70 bg-secondary/40">
+          <span className="rounded border border-border/70 bg-secondary/60 px-2 py-0.5 font-body text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground">
+            NOT SET
+          </span>
+        </div>
+      )}
+      <p className="break-all font-body text-xs text-muted-foreground">{isSet(url) ? url : 'artwork_url'}</p>
+      {hero ? (
+        <p className="rounded-md border border-amber-500/50 bg-amber-500/10 px-3 py-2 font-body text-xs leading-relaxed text-amber-300">
+          This is the site hero image, not a cover
+        </p>
+      ) : null}
     </div>
   );
 }
