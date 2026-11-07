@@ -19,6 +19,7 @@
  *    caller reports success.
  * 3. GST is recorded as zero while the business is not GST registered.
  * 4. Owned stock for the exact purchased variant is decremented once per order,
+ *    and a signed internal trigger invokes sendOrderReceipt once per order,
  *    here in the pipeline, so capture does not depend on a separate processor.
  */
 import { adjustOrderInventory } from './orderInventoryAdjustment.js';
@@ -143,23 +144,120 @@ export async function persistIdempotence(base44, sessionId, eventId, orderId) {
   });
 }
 
+export function isOrderProcessed(order) {
+  return Boolean(order?.inventory_adjusted && (order?.receipt_sent || order?.receipt_sent_at));
+}
+
+function readReceiptTriggerSecret() {
+  try {
+    if (typeof Deno !== 'undefined' && typeof Deno.env?.get === 'function') {
+      return String(Deno.env.get('RECEIPT_TRIGGER_SECRET') || '').trim();
+    }
+  } catch {}
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      return String(process.env.RECEIPT_TRIGGER_SECRET || '').trim();
+    }
+  } catch {}
+  return '';
+}
+
+export async function signReceiptTrigger(secret, orderId, timestamp) {
+  const payload = `${orderId}.${timestamp}`;
+  const key = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign'],
+  );
+  const digest = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(payload));
+  return Array.from(new Uint8Array(digest)).map(byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+export async function triggerOrderReceipt(base44, orderId, eventId, source = 'stripeWebhook') {
+  try {
+    const order = await base44.asServiceRole.entities.MerchOrder.get(orderId).catch(() => null);
+    if (order && (order.receipt_sent_at || order.receipt_sent === true)) {
+      return { success: true, skipped: true, reason: 'already sent' };
+    }
+
+    const secret = readReceiptTriggerSecret();
+    if (!secret) {
+      await createDiagnostic(base44, `Paid order ${orderId} needs customer receipt`, {
+        diagnostic_type: 'order_creation_failure',
+        severity: 'critical',
+        order_id: orderId,
+        stripe_event_id: eventId,
+        admin_message: 'The paid order and stock decrement succeeded, but RECEIPT_TRIGGER_SECRET is not configured for sendOrderReceipt.',
+        recommended_fix: 'Configure RECEIPT_TRIGGER_SECRET in the Base44 environment and trigger sendOrderReceipt for this paid order. Do not charge the customer again.',
+        source_chain: `${source} -> sendOrderReceipt secret missing`,
+      });
+      return { success: false, error: 'RECEIPT_TRIGGER_SECRET is not configured' };
+    }
+
+    const timestamp = Math.floor(Date.now() / 1000);
+    const signature = await signReceiptTrigger(secret, orderId, timestamp);
+    const res = await base44.asServiceRole.functions.invoke('sendOrderReceipt', {
+      order_id: orderId,
+      timestamp,
+      signature,
+    });
+    const body = res && res.data ? res.data : res;
+    if (body && (body.sent === true || body.skipped === true)) {
+      return { success: true, ...body };
+    }
+
+    const reason = String(body?.error || body?.reason || 'Receipt sending did not complete');
+    await createDiagnostic(base44, `Paid order ${orderId} needs customer receipt`, {
+      diagnostic_type: 'order_creation_failure',
+      severity: 'critical',
+      order_id: orderId,
+      stripe_event_id: eventId,
+      admin_message: `The paid order and stock decrement succeeded, but sendOrderReceipt did not complete: ${reason.slice(0, 500)}`,
+      recommended_fix: 'Verify Gmail connector status and RECEIPT_TRIGGER_SECRET, then trigger sendOrderReceipt for this paid order. Do not charge the customer again.',
+      source_chain: `${source} -> sendOrderReceipt failed`,
+    });
+    return { success: false, error: reason, receipt: body };
+  } catch (error) {
+    const message = String(error?.message || error);
+    await createDiagnostic(base44, `Paid order ${orderId} needs customer receipt`, {
+      diagnostic_type: 'order_creation_failure',
+      severity: 'critical',
+      order_id: orderId,
+      stripe_event_id: eventId,
+      admin_message: `The paid order and stock decrement succeeded, but invoking sendOrderReceipt threw an error: ${message.slice(0, 500)}`,
+      recommended_fix: 'Verify Gmail connector status and RECEIPT_TRIGGER_SECRET, then trigger sendOrderReceipt for this paid order. Do not charge the customer again.',
+      source_chain: `${source} -> sendOrderReceipt exception`,
+    });
+    return { success: false, error: message };
+  }
+}
+
 export async function requestOrderProcessing(base44, orderId, eventId, source = 'stripeWebhook') {
   // Stock is decremented here because the downstream processor that used to do
   // it (onNewOrderAutomation) is on a safety hold and performs no work. The
   // order's inventory_adjusted flag keeps it to exactly one decrement per order.
   const inventory = await adjustOrderInventory(base44, orderId);
-  if (inventory.success) return { success: true, inventory };
+  if (!inventory.success) {
+    await createDiagnostic(base44, `Paid order ${orderId} needs stock adjustment`, {
+      diagnostic_type: 'order_creation_failure',
+      severity: 'critical',
+      order_id: orderId,
+      stripe_event_id: eventId,
+      admin_message: `The paid order was stored, but its stock was not adjusted: ${String(inventory.error).slice(0, 500)}`,
+      recommended_fix: 'Open the paid order, decrement the purchased variant stock by the ordered quantity, then set inventory_adjusted. Do not charge the customer again.',
+      source_chain: `${source} -> inventory adjustment failed`,
+    });
+    return { success: false, error: inventory.error };
+  }
 
-  await createDiagnostic(base44, `Paid order ${orderId} needs stock adjustment`, {
-    diagnostic_type: 'order_creation_failure',
-    severity: 'critical',
-    order_id: orderId,
-    stripe_event_id: eventId,
-    admin_message: `The paid order was stored, but its stock was not adjusted: ${String(inventory.error).slice(0, 500)}`,
-    recommended_fix: 'Open the paid order, decrement the purchased variant stock by the ordered quantity, then set inventory_adjusted. Do not charge the customer again.',
-    source_chain: `${source} -> inventory adjustment failed`,
-  });
-  return { success: false, error: inventory.error };
+  const receipt = await triggerOrderReceipt(base44, orderId, eventId, source);
+  if (!receipt.success) {
+    return { success: false, inventory, receipt, error: receipt.error };
+  }
+
+  return { success: true, inventory, receipt };
 }
 
 /**
@@ -292,7 +390,7 @@ export async function captureOrderFromSession({
       }
     }
 
-    const postProcessing = existingOrder.inventory_adjusted
+    const postProcessing = isOrderProcessed(existingOrder)
       ? { success: true, skipped: true }
       : await requestOrderProcessing(base44, existingOrder.id, event.id, processorSource);
 
@@ -397,7 +495,7 @@ export async function captureOrderFromSession({
         });
       } catch {}
     }
-    const postProcessing = keep.inventory_adjusted
+    const postProcessing = isOrderProcessed(keep)
       ? { success: true, skipped: true }
       : await requestOrderProcessing(base44, keep.id, event.id, processorSource);
     return { outcome: 'duplicate', order: keep, postProcessing };
