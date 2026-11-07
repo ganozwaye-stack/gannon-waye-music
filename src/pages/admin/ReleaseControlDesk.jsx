@@ -21,6 +21,8 @@ import {
   ShieldCheck,
   XCircle,
 } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import ReleaseReviewApprovalPanel from '@/components/release-control-review/ReleaseReviewApprovalPanel';
 
 const OWNER_EMAILS = new Set([
   'ganozwaye@gmail.com',
@@ -429,6 +431,13 @@ export default function ReleaseControlDesk() {
         </CardContent>
       </Card>
 
+      <Tabs defaultValue="desk" className="space-y-4">
+        <TabsList>
+          <TabsTrigger value="desk">Control Desk</TabsTrigger>
+          <TabsTrigger value="review">Release Review &amp; Approval</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="desk" className="space-y-6">
       <Card>
         <CardContent className="space-y-5 p-5">
           <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
@@ -649,6 +658,12 @@ export default function ReleaseControlDesk() {
           </CardContent>
         </Card>
       )}
+        </TabsContent>
+
+        <TabsContent value="review" className="space-y-6">
+          <ReleaseReviewApprovalPanel />
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
